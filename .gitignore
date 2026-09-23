@@ -1,0 +1,45 @@
+# Secrets
+.env
+.env.*
+*.pem
+*.key
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# Build / runtime
+build/
+dist/
+artifacts/
+runtime/
+tmp/
+logs/
+*.log
+
+# Large engine/data bytes
+*.exe
+*.bin
+*.nnue
+*.zip
+*.7z
+*.tar
+*.tar.gz
+*.tbw
+*.tbz
+*.rtbw
+*.rtbz
+
+# Tablebases / bulk corpora
+tablebases/
+syzygy/
+data/raw/
+*.pgn
+
+# OS/editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
