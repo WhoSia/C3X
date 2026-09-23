@@ -184,9 +184,10 @@ def patch_search_cpp(sf):
         t,
         'void Search::Worker::start_searching() {\n\n    accumulatorStack.reset();',
         'void Search::Worker::start_searching() {\n\n'
-        '    const C3XTTReadMode c3xMode = options["C3X_TTReadMode"] == "MASKED"\n'
+        '    const std::string c3xModeOption = std::string(options["C3X_TTReadMode"]);\n'
+        '    const C3XTTReadMode c3xMode = c3xModeOption == "MASKED"\n'
         '                                      ? C3XTTReadMode::MASKED\n'
-        '                                  : options["C3X_TTReadMode"] == "SHAM"\n'
+        '                                  : c3xModeOption == "SHAM"\n'
         '                                      ? C3XTTReadMode::SHAM\n'
         '                                      : C3XTTReadMode::NATIVE;\n'
         '    c3xTt.reset(c3xMode, int(options["C3X_Telemetry"]) != 0);\n\n'
