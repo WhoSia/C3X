@@ -27,7 +27,7 @@ def main():
     out = transact(args.binary, [("uci", "uciok"), ("isready", "readyok")])
     text = "\n".join(out)
     required = [
-        "option name C3X_TTReadMode type combo default NATIVE var SHAM var MASKED",
+        "option name C3X_TTReadMode type string default NATIVE",
         "option name C3X_Telemetry type check default false",
         "uciok",
         "readyok",
