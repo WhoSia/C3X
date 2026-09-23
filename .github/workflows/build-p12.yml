@@ -42,8 +42,56 @@ jobs:
         run: |
           python3 tools/materialize_p12.py --stockfish stockfish --target "${{ matrix.target }}"
           mkdir -p out
+          # Include the newly created header in the unified patch without staging it.
+          git -C stockfish add -N src/c3x_ttread.h
           git -C stockfish diff -- src > "out/stockfish-${{ matrix.target }}.patch"
           test -s "out/stockfish-${{ matrix.target }}.patch"
+          grep -q '^diff --git a/src/c3x_ttread.h b/src/c3x_ttread.h
+      - name: Build patched engine
+        run: |
+          make -C stockfish/src clean
+          make -C stockfish/src -j2 build ARCH=x86-64
+          cp stockfish/src/stockfish "out/c3x-stockfish-${{ matrix.target }}"
+          sha256sum "out/c3x-stockfish-${{ matrix.target }}" | tee "out/binary-sha256.txt"
+
+      - name: Patch packet round-trip
+        run: |
+          git -C stockfish reset --hard HEAD
+          git -C stockfish clean -fd
+          git -C stockfish apply --check "../out/stockfish-${{ matrix.target }}.patch"
+          git -C stockfish apply "../out/stockfish-${{ matrix.target }}.patch"
+          test -f stockfish/src/c3x_ttread.h
+          make -C stockfish/src clean
+          make -C stockfish/src -j2 build ARCH=x86-64
+          cmp stockfish/src/stockfish "out/c3x-stockfish-${{ matrix.target }}"
+          echo PATCH_PACKET_ROUNDTRIP_PASS
+
+      - name: UCI smoke
+        run: python3 harness/uci_smoke.py "out/c3x-stockfish-${{ matrix.target }}"
+
+      - name: Native/Sham identity
+        shell: bash
+        run: |
+          set -o pipefail
+          python3 harness/native_sham_identity.py \
+            --baseline /tmp/stockfish-clean \
+            --patched "out/c3x-stockfish-${{ matrix.target }}" \
+            --nodes 30000 | tee "out/native-sham-identity.txt"
+
+      - name: Touched-source manifest
+        run: |
+          (
+            cd stockfish
+            sha256sum src/c3x_ttread.h src/search.h src/search.cpp src/engine.cpp
+          ) | tee "out/source-sha256.txt"
+          git -C stockfish status --short | tee "out/git-status.txt"
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: c3x-p12-${{ matrix.target }}
+          path: out/
+          retention-days: 14
+ "out/stockfish-${{ matrix.target }}.patch"
           sha256sum "out/stockfish-${{ matrix.target }}.patch" | tee "out/patch-sha256.txt"
           git -C stockfish diff --check
 
