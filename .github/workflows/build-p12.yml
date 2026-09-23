@@ -58,8 +58,13 @@ jobs:
         run: python3 harness/uci_smoke.py "out/c3x-stockfish-${{ matrix.target }}"
 
       - name: Native/Sham identity
+        shell: bash
         run: |
-          python3 harness/native_sham_identity.py             --baseline /tmp/stockfish-clean             --patched "out/c3x-stockfish-${{ matrix.target }}"             --nodes 30000 | tee "out/native-sham-identity.txt"
+          set -o pipefail
+          python3 harness/native_sham_identity.py \
+            --baseline /tmp/stockfish-clean \
+            --patched "out/c3x-stockfish-${{ matrix.target }}" \
+            --nodes 30000 | tee "out/native-sham-identity.txt"
 
       - name: Touched-source manifest
         run: |
