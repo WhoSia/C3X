@@ -2,8 +2,15 @@
   "schema": "c3x-p12-rc1-v1",
   "name": "C3X Engine RC1 — G9.4 TT-Read Instrumented Stockfish",
   "scientific_stage": "C3X 0.7.0-G9.4-P12",
-  "targets": ["frozen_20260810", "stockfish_19"],
-  "modes": ["NATIVE", "SHAM", "MASKED"],
+  "targets": [
+    "frozen_20260810",
+    "stockfish_19"
+  ],
+  "modes": [
+    "NATIVE",
+    "SHAM",
+    "MASKED"
+  ],
   "release_gate": [
     "exact_upstream_identity",
     "materializer_success",
@@ -14,5 +21,6 @@
     "telemetry_v1",
     "source_and_binary_hash_manifest"
   ],
-  "masked_science_authorized": false
+  "masked_science_authorized": false,
+  "byte_root_commit": "fca0687a51ce858d2878b3385ec6a3f0d533e666"
 }
