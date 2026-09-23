@@ -232,12 +232,12 @@ def patch_search_cpp(sf):
     eval_main += '        if (!is_valid(unadjustedStaticEval))'
     t = replace_nth(t, eval_anchor, eval_main, 0, "main eval use")
 
-    eval_q = '        unadjustedStaticEval = ttData.eval;\n\n'
-    eval_q += '            if (c3xTt.telemetry && is_valid(unadjustedStaticEval))\n'
-    eval_q += '                ++c3xTt.stats.useQsearchEval;\n\n'
-    eval_q += '            if (!is_valid(unadjustedStaticEval))'
     q_old = '            unadjustedStaticEval = ttData.eval;\n\n            if (!is_valid(unadjustedStaticEval))'
-    t = replace_once(t, q_old, '            ' + eval_q, "qsearch eval use")
+    q_new = '            unadjustedStaticEval = ttData.eval;\n'
+    q_new += '            if (c3xTt.telemetry && is_valid(unadjustedStaticEval))\n'
+    q_new += '                ++c3xTt.stats.useQsearchEval;\n\n'
+    q_new += '            if (!is_valid(unadjustedStaticEval))'
+    t = replace_once(t, q_old, q_new, "qsearch eval use")
 
     main_value_old = '''        if (is_valid(ttData.value)
             && (ttData.bound & (ttData.value > eval ? BOUND_LOWER : BOUND_UPPER)))
@@ -289,10 +289,10 @@ def patch_search_cpp(sf):
     if q_return_pos < 0:
         raise RuntimeError("qsearch cutoff return not found")
     t = t[:q_return_pos] + '''    {
-            if (c3xTt.telemetry)
-                ++c3xTt.stats.useQsearchCutoff;
-            return ttData.value;
-        }''' + t[q_return_pos + len(q_return):]
+        if (c3xTt.telemetry)
+            ++c3xTt.stats.useQsearchCutoff;
+        return ttData.value;
+    }''' + t[q_return_pos + len(q_return):]
 
     telemetry_anchor = '    // When playing in \'nodes as time\' mode, subtract the searched nodes from'
     if telemetry_anchor not in t:
