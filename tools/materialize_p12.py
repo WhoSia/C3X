@@ -262,15 +262,13 @@ def patch_search_cpp(sf):
             }'''
     t = replace_once(t, q_value_old, q_value_new, "qsearch value use")
 
-    cutoff_open_old = '''    {
-        // If ttMove is quiet, update move sorting heuristics on TT hit'''
-    cutoff_open_new = '''    {
+    cutoff_guard_old = '''        && (cutNode == (ttData.value >= beta) || depth > 4))
+    {'''
+    cutoff_guard_new = '''        && (cutNode == (ttData.value >= beta) || depth > 4))
+    {
         if (c3xTt.telemetry)
-            ++c3xTt.stats.useMainCutoffGate;
-
-        // If ttMove is quiet, update move sorting heuristics on TT hit'''
-    # This anchor occurs at the main TT-cutoff block exactly once in both targets.
-    t = replace_once(t, cutoff_open_old, cutoff_open_new, "main cutoff gate")
+            ++c3xTt.stats.useMainCutoffGate;'''
+    t = replace_once(t, cutoff_guard_old, cutoff_guard_new, "main cutoff gate")
 
     succ_use_old = '''                // Check that the ttValue after the tt move would also trigger a cutoff
                 if (!is_valid(ttDataNext.value))'''
