@@ -1,0 +1,118 @@
+{
+  "schema": "c3x-g9.4-p12-rc1-receipt-v1",
+  "scientific_stage": "C3X 0.7.0-G9.4-P12",
+  "instrument_name": "C3X Engine RC1 — G9.4 TT-Read Instrumented Stockfish",
+  "verdict": "PASS-INSTRUMENT-RC1",
+  "tested_repo_commit": "7236d6576857404d29f6c0b410c3dbec63f49f15",
+  "github_actions": {
+    "workflow": "p12-dual-target-build",
+    "run_id": 35907950858,
+    "run_number": 12,
+    "conclusion": "success"
+  },
+  "scope": {
+    "masked_science_authorized": false,
+    "native_sham_identity_scope": "per-target fixed-node harness only",
+    "claim_ceiling": "instrument validity and TT semantic-path engagement; no chess-knowledge or representation claim"
+  },
+  "targets": {
+    "frozen_20260810": {
+      "upstream_commit": "5062aee519a1ba262d472d8ab139851ced56573e",
+      "clean_binary_sha256": "af2c4a2e5c916cc2754a232a8821639c3ae9a633ab308981a88c504ee3d61103",
+      "self_contained_patch_sha256": "df7c72ccf86eb77c838297429b41107854fca96e29cebe355dbeb3f446ad9fe7",
+      "patched_binary_sha256": "84f52946eaea3b86770be5ca45ebe42729c945a76533bd295418310e3b2fd099",
+      "patch_packet_roundtrip": "PASS",
+      "uci_smoke": "PASS",
+      "native_sham_identity": "PASS",
+      "fixed_node_semantic": {
+        "bestmove": "e3e4",
+        "ponder": "h7h6",
+        "depth": 11,
+        "seldepth": 15,
+        "score_cp": 13,
+        "wdl": [34, 953, 13],
+        "nodes": 30033,
+        "pv": "e3e4 h7h6"
+      },
+      "sham_engagement": {
+        "probes_main": 22707,
+        "raw_hits_main": 12989,
+        "probes_successor": 96,
+        "raw_hits_successor": 96,
+        "probes_qsearch": 9615,
+        "raw_hits_qsearch": 2019,
+        "semantic_uses": 18026,
+        "breadth": 3
+      },
+      "touched_source_sha256": {
+        "src/c3x_ttread.h": "7e2a97361373c136610368e7a53711b4cd00f34c7cbdc299cddea356a47e5d17",
+        "src/search.h": "89c52ac813c8870a2158d5a13deaea00c984b9d3c8bcdd14e991cd07fff30ef9",
+        "src/search.cpp": "3053872a174ad4b5f7f26be396c4171bbcb9c2893ea63fa127fa120d121e8fb3",
+        "src/engine.cpp": "4a90da215117857f7401d975720b06c30d3f4a3e8b4872add38ae80bb1479845"
+      },
+      "actions_artifact": {
+        "id": 10772670152,
+        "digest": "sha256:cbc601a00650ce647f3dfe0591db05002b970bd009084df2c492e8faa49fb5cb"
+      },
+      "drive_custody": {
+        "file_id": "1PXWYn3pq1cPNIsG1b7HxQM5FRrEC54er",
+        "file_name": "C3X_G9_4_P12_RC1_FINAL_frozen_20260810.zip"
+      }
+    },
+    "stockfish_19": {
+      "upstream_commit": "edb0d9db6731067ec50ce619ff372b463bc4dd5d",
+      "clean_binary_sha256": "518a9e072be059859b7fb779845b3a246587821982f2ade5d541be6e0cf6f1c9",
+      "self_contained_patch_sha256": "d66a220c2d50b3de8ad215ff7e4752e396de69d3143f1dd4a00e17a7d3e79bb9",
+      "patched_binary_sha256": "6e74024b9e730ffcc8b86caa066ebf8ebae7bc2218bcf9356879116458a76e9d",
+      "patch_packet_roundtrip": "PASS",
+      "uci_smoke": "PASS",
+      "native_sham_identity": "PASS",
+      "fixed_node_semantic": {
+        "bestmove": "d4c5",
+        "ponder": "a7a5",
+        "depth": 13,
+        "seldepth": 18,
+        "score_cp": 14,
+        "wdl": [32, 957, 11],
+        "nodes": 30009,
+        "pv": "d4c5 a7a5"
+      },
+      "sham_engagement": {
+        "probes_main": 22678,
+        "raw_hits_main": 12262,
+        "probes_successor": 101,
+        "raw_hits_successor": 101,
+        "probes_qsearch": 9252,
+        "raw_hits_qsearch": 2046,
+        "semantic_uses": 17701,
+        "breadth": 3
+      },
+      "touched_source_sha256": {
+        "src/c3x_ttread.h": "7e2a97361373c136610368e7a53711b4cd00f34c7cbdc299cddea356a47e5d17",
+        "src/search.h": "f106f8b1a6a5bf25c32bd704ba48939e11dac7ecaddd0bbecb3466e7fc4ab4dc",
+        "src/search.cpp": "1b16bba563d8ab7ed69b799bfb0ce99293d3b93fec9702415782b1fdb239c3e7",
+        "src/engine.cpp": "e6c6dcf7bf46101905e793a588863e44039a5c15e94d48a497f8a8bf15112dd1"
+      },
+      "actions_artifact": {
+        "id": 10772056758,
+        "digest": "sha256:400df9ce95c40659b73d9d4a58f8e7e5383edbdc6fd0fcba5b75361f63f53161"
+      },
+      "drive_custody": {
+        "file_id": "1jxSEBXNAq9S2ldzgUMwrnNtkp_caXD3i",
+        "file_name": "C3X_G9_4_P12_RC1_FINAL_stockfish_19.zip"
+      }
+    }
+  },
+  "ravel_repairs": [
+    "Rejected Stockfish combo construction because its default-token parser treated repeated 'var' tokens as duplicate options; RC1 uses a robust string UCI mode surface.",
+    "Separated search-semantic identity from UCI process-shutdown behavior in the identity harness.",
+    "Detected that plain git diff omitted the new untracked src/c3x_ttread.h; final CI uses intent-to-add and a patch-packet round-trip gate.",
+    "Rejected an invalid intermediate workflow edit and rewrote the workflow cleanly before final certification."
+  ],
+  "custody": {
+    "github": "source/materializer/harness/workflow/receipt",
+    "drive_folder_id": "10_70brToncFpbdXoISq5BudnP0dUu8uT",
+    "actions_artifacts": "transient build packets",
+    "superseded_run9_preserved": true
+  }
+}
