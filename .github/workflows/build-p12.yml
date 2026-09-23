@@ -1,0 +1,76 @@
+name: p12-dual-target-build
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - "tools/materialize_p12.py"
+      - "upstream/stockfish-lock.json"
+      - "harness/**"
+      - "c3x/**"
+      - "docs/P12_RUNBOOK.md"
+      - ".github/workflows/build-p12.yml"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - target: frozen_20260810
+            ref: 5062aee519a1ba262d472d8ab139851ced56573e
+          - target: stockfish_19
+            ref: edb0d9db6731067ec50ce619ff372b463bc4dd5d
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Clone exact Stockfish target
+        run: |
+          git clone https://github.com/official-stockfish/Stockfish.git stockfish
+          git -C stockfish checkout --detach "${{ matrix.ref }}"
+          test "$(git -C stockfish rev-parse HEAD)" = "${{ matrix.ref }}"
+
+      - name: Build clean baseline
+        run: |
+          make -C stockfish/src -j2 build ARCH=x86-64
+          cp stockfish/src/stockfish /tmp/stockfish-clean
+          sha256sum /tmp/stockfish-clean
+
+      - name: Materialize C3X P12
+        run: |
+          python3 tools/materialize_p12.py --stockfish stockfish --target "${{ matrix.target }}"
+          mkdir -p out
+          git -C stockfish diff -- src > "out/stockfish-${{ matrix.target }}.patch"
+          test -s "out/stockfish-${{ matrix.target }}.patch"
+          sha256sum "out/stockfish-${{ matrix.target }}.patch" | tee "out/patch-sha256.txt"
+          git -C stockfish diff --check
+
+      - name: Build patched engine
+        run: |
+          make -C stockfish/src clean
+          make -C stockfish/src -j2 build ARCH=x86-64
+          cp stockfish/src/stockfish "out/c3x-stockfish-${{ matrix.target }}"
+          sha256sum "out/c3x-stockfish-${{ matrix.target }}" | tee "out/binary-sha256.txt"
+
+      - name: UCI smoke
+        run: python3 harness/uci_smoke.py "out/c3x-stockfish-${{ matrix.target }}"
+
+      - name: Native/Sham identity
+        run: |
+          python3 harness/native_sham_identity.py             --baseline /tmp/stockfish-clean             --patched "out/c3x-stockfish-${{ matrix.target }}"             --nodes 30000 | tee "out/native-sham-identity.txt"
+
+      - name: Touched-source manifest
+        run: |
+          (
+            cd stockfish
+            sha256sum src/c3x_ttread.h src/search.h src/search.cpp src/engine.cpp
+          ) | tee "out/source-sha256.txt"
+          git -C stockfish status --short | tee "out/git-status.txt"
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: c3x-p12-${{ matrix.target }}
+          path: out/
+          retention-days: 14

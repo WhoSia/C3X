@@ -1,0 +1,34 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "C3X TT-read telemetry v1",
+  "type": "object",
+  "required": [
+    "mode",
+    "probes_main",
+    "raw_hits_main",
+    "probes_successor",
+    "raw_hits_successor",
+    "probes_qsearch",
+    "raw_hits_qsearch",
+    "semantic_uses",
+    "breadth"
+  ],
+  "properties": {
+    "mode": {"enum": ["NATIVE", "SHAM", "MASKED"]},
+    "probes_main": {"type": "integer", "minimum": 0},
+    "raw_hits_main": {"type": "integer", "minimum": 0},
+    "probes_successor": {"type": "integer", "minimum": 0},
+    "raw_hits_successor": {"type": "integer", "minimum": 0},
+    "probes_qsearch": {"type": "integer", "minimum": 0},
+    "raw_hits_qsearch": {"type": "integer", "minimum": 0},
+    "use_main_eval": {"type": "integer", "minimum": 0},
+    "use_main_value": {"type": "integer", "minimum": 0},
+    "use_main_cutoff_gate": {"type": "integer", "minimum": 0},
+    "use_successor_value": {"type": "integer", "minimum": 0},
+    "use_qsearch_eval": {"type": "integer", "minimum": 0},
+    "use_qsearch_value": {"type": "integer", "minimum": 0},
+    "use_qsearch_cutoff": {"type": "integer", "minimum": 0},
+    "semantic_uses": {"type": "integer", "minimum": 0},
+    "breadth": {"type": "integer", "minimum": 0, "maximum": 3}
+  }
+}

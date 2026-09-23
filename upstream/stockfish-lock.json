@@ -1,0 +1,25 @@
+{
+  "schema": "c3x-stockfish-lock-v1",
+  "targets": {
+    "frozen_20260810": {
+      "repo": "official-stockfish/Stockfish",
+      "ref": "5062aee519a1ba262d472d8ab139851ced56573e",
+      "commit": "5062aee519a1ba262d472d8ab139851ced56573e",
+      "blobs": {
+        "src/search.cpp": "bc9c6303eb9e996ae6f70c84df955d436fa04af9",
+        "src/search.h": "a64b1f34318fb45268013c72588093575865ada7",
+        "src/engine.cpp": "c4dac7611d8a9d1d5d9cee03e76f11f898271321"
+      }
+    },
+    "stockfish_19": {
+      "repo": "official-stockfish/Stockfish",
+      "ref": "sf_19",
+      "commit": "edb0d9db6731067ec50ce619ff372b463bc4dd5d",
+      "blobs": {
+        "src/search.cpp": "b7e6329ea778597578713948928c5ada25aa030f",
+        "src/search.h": "472e6ebc3816a1d457093ca5498cb19af4b316ab",
+        "src/engine.cpp": "3179efa4a6c5119bf0d07f42afe92e5b0a124ca1"
+      }
+    }
+  }
+}
