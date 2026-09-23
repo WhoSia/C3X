@@ -1,0 +1,49 @@
+name: repository-hygiene
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  hygiene:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Require governance files
+        shell: bash
+        run: |
+          test -f README.md
+          test -f GOVERNANCE.md
+          test -f docs/CUSTODY.md
+
+      - name: Reject large tracked files
+        shell: bash
+        run: |
+          bad="$(find . -type f -not -path './.git/*' -size +5M -print)"
+          if [ -n "$bad" ]; then
+            echo "Tracked files larger than 5 MiB are not allowed:"
+            echo "$bad"
+            exit 1
+          fi
+
+      - name: Reject forbidden binary/archive classes
+        shell: bash
+        run: |
+          bad="$(find . -type f -not -path './.git/*' \(             -name '*.zip' -o -name '*.7z' -o -name '*.exe' -o             -name '*.bin' -o -name '*.nnue' -o -name '*.rtbw' -o             -name '*.rtbz' \) -print)"
+          if [ -n "$bad" ]; then
+            echo "Large/runtime artifact class must not be committed:"
+            echo "$bad"
+            exit 1
+          fi
+
+      - name: Reject obvious secret / sealed-key filenames
+        shell: bash
+        run: |
+          bad="$(find . -type f -not -path './.git/*' | grep -Ei             '(^|/)(\.env($|\.)|.*SEALED[_-]?KEY.*|.*PRIVATE[_-]?SEALED.*|.*API[_-]?KEY.*)' || true)"
+          if [ -n "$bad" ]; then
+            echo "Potential secret or sealed-key material found:"
+            echo "$bad"
+            exit 1
+          fi
