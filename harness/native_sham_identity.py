@@ -32,8 +32,26 @@ def run(binary, mode=None, telemetry=False, nodes=30000):
         lines.append(line)
         if line.startswith("bestmove "):
             break
-    p.stdin.write("quit\n")
-    p.stdin.flush()
+    premature = p.poll()
+    if premature is not None:
+        rest = p.stdout.read()
+        if rest:
+            lines.extend(rest.splitlines())
+        raise RuntimeError(
+            f"engine exited before quit rc={premature}\\n" + "\\n".join(lines[-80:])
+        )
+
+    try:
+        p.stdin.write("quit\\n")
+        p.stdin.flush()
+    except BrokenPipeError:
+        p.wait(timeout=20)
+        rest = p.stdout.read()
+        if rest:
+            lines.extend(rest.splitlines())
+        raise RuntimeError(
+            f"broken pipe before orderly quit rc={p.returncode}\\n" + "\\n".join(lines[-80:])
+        )
     p.wait(timeout=20)
 
     best = next((x for x in reversed(lines) if x.startswith("bestmove ")), None)
