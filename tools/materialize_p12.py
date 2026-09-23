@@ -170,7 +170,7 @@ def patch_engine_cpp(sf):
         t,
         '    options.add("UCI_ShowWDL", Option(false));',
         '    options.add("UCI_ShowWDL", Option(false));\n\n'
-        '    options.add("C3X_TTReadMode", Option("NATIVE var SHAM var MASKED", "NATIVE"));\n'
+        '    options.add("C3X_TTReadMode", Option("NATIVE"));\n'
         '    options.add("C3X_Telemetry", Option(false));',
         "engine.cpp C3X options"
     )
