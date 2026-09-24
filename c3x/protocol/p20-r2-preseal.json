@@ -1,0 +1,81 @@
+{
+  "schema": "c3x-g9.4-p20-r2-preseal-v1",
+  "scientific_stage": "C3X 0.7.0-G9.4-P20-R2",
+  "status": "DORMANT_UNTIL_R1_DUAL_ADMISSION",
+  "outcomes_consulted": {
+    "berserk_r1": true,
+    "ethereal_r1": false,
+    "transport_selective_outcomes": false
+  },
+  "launch_condition": "A single canonical R1 run must admit both Berserk and Ethereal under the frozen PSM_READ contract. The already observed Berserk-only PASS cannot by itself authorize R2.",
+  "targets": {
+    "stockfish_19_bridge": {
+      "source_commit": "edb0d9db6731067ec50ce619ff372b463bc4dd5d",
+      "role": "same-world bridge from the P19 Stockfish lineage into the heterogeneous engine-family court"
+    },
+    "berserk": {
+      "source_commit": "32628515050b83805bab4afa1026dd2bcaa93f55",
+      "role": "heterogeneous admitted target"
+    },
+    "ethereal": {
+      "source_commit": "0e47e9b67f345c75eb965d9fb3e2493b6a11d09a",
+      "role": "heterogeneous admitted target"
+    }
+  },
+  "fresh_world_constitution": {
+    "generation_version": "c3x-p20-r2-stage-a-v1",
+    "generation_index_offset": 80000,
+    "p19_selected_cells_reused": false,
+    "worlds_per_vertex": 72,
+    "side_balance_per_vertex": {"WHITE": 36, "BLACK": 36},
+    "vertices": ["KQQvKQ","KQRvKQ","KQQvKR","KQRvKR","KRBvKB","KRNvKB","KRBvKN","KRNvKN"],
+    "authority": "same exact-world/Syzygy fine-value constitution as P19, but a disjoint deterministic generation namespace"
+  },
+  "pre_intervention_selection": {
+    "information_allowed": ["fresh-world constitution", "SHAM telemetry", "source-locked binary identity"],
+    "information_forbidden": ["MASK_MAIN outcomes", "MASK_QSEARCH outcomes", "MASK_MAIN_QSEARCH outcomes", "MASK_ALL outcomes"],
+    "joint_engagement": "Each committed cell must show positive MAIN and QSEARCH PSM_READ engagement on all three targets.",
+    "commitment": "12 cells per vertex, 6 WHITE + 6 BLACK, selected deterministically by the minimum cross-target minimum-site SHAM hit count and then candidate hash."
+  },
+  "runtime": {
+    "threads": 1,
+    "hash_mib_if_exposed": 64,
+    "nodes": 300000,
+    "fresh_process_each_arm": true,
+    "arms": {
+      "00": "SHAM",
+      "10": "MASK_MAIN",
+      "01": "MASK_QSEARCH",
+      "11": "MASK_MAIN_QSEARCH",
+      "ALL": "MASK_ALL"
+    }
+  },
+  "common_outcome_space": {
+    "primary": "exact-world joined move value (mover_wdl, mover_precise_dtz)",
+    "coarse": "mover_wdl",
+    "action": "bestmove",
+    "rule": "Do not infer WDL from engine centipawn scores."
+  },
+  "square_geometry": {
+    "HEAVY_HEAVY": {"00":"KQQvKQ","10":"KQRvKQ","01":"KQQvKR","11":"KQRvKR"},
+    "MINOR_MINOR": {"00":"KRBvKB","10":"KRNvKB","01":"KRBvKN","11":"KRNvKN"},
+    "per_vertex_vector": [
+      "Pr(fine change | MASK_MAIN)",
+      "Pr(fine change | MASK_QSEARCH)",
+      "Pr(fine change | MASK_MAIN_QSEARCH) - Pr(MAIN) - Pr(QSEARCH)"
+    ],
+    "square_curvature": "H = v11 - v10 - v01 + v00",
+    "literal_sequential_noncommutativity": "NOT_IDENTIFIED_BY_THIS_ENDPOINT_DESIGN"
+  },
+  "engine_family_naturality": {
+    "pairwise_same_world_test": "For each matched square and target pair, compare H vectors on exactly the same committed cells.",
+    "one_cell_resolution": "1/12 per vertex",
+    "strict_diagram_compatibility": "curvature class equal AND dominant coordinate/sign equal when CURVED AND L_inf(H_a-H_b) <= 1/12",
+    "replicated_cross_family_curvature": "At least two distinct engine families are CURVED on the same square with the same dominant coordinate and sign.",
+    "interpretation_ceiling": "Compatibility is evidence for relation-level transport under this PSM_READ intervention contract and resource/world scope, not representation identity or universal engine equivalence."
+  },
+  "secondary_lanes": {
+    "inanis": "No forced MAIN/QSEARCH square; topology-specific quotient/translation constitution remains separate.",
+    "lc0": "No intervention in R2; architecture-neutral ontology boundary remains separate."
+  }
+}
