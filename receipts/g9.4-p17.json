@@ -1,0 +1,101 @@
+{
+  "schema": "c3x-g9.4-p17-receipt-v1",
+  "scientific_stage": "C3X 0.7.0-G9.4-P17",
+  "title": "Dense Resource-Ladder Causal Phase Mapping, Bounded MAIN×QSearch Interaction-Window Replication, Critical-Scale Onset/Extinction & Cross-Version Phase-Boundary Transport",
+  "primary_verdict": "BOUNDED-INTERACTION-WINDOW-NOT-REPLICATED",
+  "tested_repo_commit": "106e0bc98a70e6a45f94d6d83531f8762b5920d6",
+  "github_actions": {
+    "workflow": "p17-dense-resource-window",
+    "run_id": 35973834978,
+    "run_number": 1,
+    "conclusion": "success"
+  },
+  "stage_a": {
+    "accepted_cells": 72,
+    "pool_sha256": "df569578252353ba95d06f66b81fbb99f53bd80f0f812870b35445a6a17740ff",
+    "stage_a_file_sha256": "a48ef193023e58683774829c5cc69100057bb7ac0ac9d2ba1443521b55268d05",
+    "artifact": {"id": 10797906246, "digest": "sha256:e5e1ed2cdf5842ed26922b9749714450e67c810db85148af926660bb08062665"}
+  },
+  "stage_b": {
+    "intervention_outcomes_consulted": false,
+    "all_regime_both_target_engaged": 63,
+    "committed_cells": 30,
+    "material_signatures": 8,
+    "sides_to_move": ["BLACK","WHITE"],
+    "authorization": "P17-WINDOW-READY",
+    "precommit_sha256": "7e7a3b078b3902564d3997e810bb82b694a83eb108e652b166758eabe98ca4cf",
+    "precommit_file_sha256": "565f461735d3e616a9a360ddb70886f95ac5596e004fad22fff70bc03a4601c1",
+    "binary_sha256": {
+      "frozen_20260810": "4cc22d7fc1943ab5d23142a868a101d45ca253f4c915d7fbbaccaa91a2aa0e5b",
+      "stockfish_19": "bb8487ab5de45a192d56502fdf33d3b74e5489f043528ea1240c68b7c7533425"
+    },
+    "artifact": {"id":10797893235,"digest":"sha256:05eabd050fa23e39d2d70570102564da21824d77cae735072377a5015da800a4"}
+  },
+  "resource_ladder": ["R125K","R200K","R300K","R450K","R700K"],
+  "phase_sequences": {
+    "frozen_20260810": ["MAIN-DOMINANT","MAIN-DOMINANT","MAIN-DOMINANT","MAIN-DOMINANT","MAIN-DOMINANT"],
+    "stockfish_19": ["MIXED","MAIN-DOMINANT","MAIN-DOMINANT","MAIN-DOMINANT","MAIN-DOMINANT"]
+  },
+  "interaction_sequences": {
+    "frozen_20260810": [-0.0666666667,-0.1,-0.1,-0.1333333333,-0.0666666667],
+    "stockfish_19": [-0.2333333333,-0.1333333333,-0.1333333333,-0.1666666667,-0.1]
+  },
+  "bounded_window": {
+    "frozen_20260810": {"replication_gate":false,"strict_bounded_window":false},
+    "stockfish_19": {"replication_gate":false,"strict_bounded_window":false},
+    "cross_version_boundary_transport": false
+  },
+  "regime_fine_action_counts": {
+    "frozen_20260810": {
+      "R125K":{"MAIN":[4,8],"QSEARCH":[1,6],"MAIN_QSEARCH":[3,7]},
+      "R200K":{"MAIN":[5,8],"QSEARCH":[3,5],"MAIN_QSEARCH":[5,9]},
+      "R300K":{"MAIN":[6,9],"QSEARCH":[3,5],"MAIN_QSEARCH":[6,11]},
+      "R450K":{"MAIN":[7,8],"QSEARCH":[3,6],"MAIN_QSEARCH":[6,10]},
+      "R700K":{"MAIN":[5,6],"QSEARCH":[3,5],"MAIN_QSEARCH":[6,10]}
+    },
+    "stockfish_19": {
+      "R125K":{"MAIN":[7,11],"QSEARCH":[3,6],"MAIN_QSEARCH":[3,8]},
+      "R200K":{"MAIN":[6,10],"QSEARCH":[2,4],"MAIN_QSEARCH":[4,8]},
+      "R300K":{"MAIN":[7,10],"QSEARCH":[2,3],"MAIN_QSEARCH":[5,7]},
+      "R450K":{"MAIN":[7,9],"QSEARCH":[5,5],"MAIN_QSEARCH":[7,11]},
+      "R700K":{"MAIN":[6,7],"QSEARCH":[4,5],"MAIN_QSEARCH":[7,10]}
+    }
+  },
+  "robust_wdl_changed_any_arm": false,
+  "result": {
+    "result_sha256": "4ec400cdc06c3f655e2dd18f96677730c25e297da0f19338ad1ef0233ec827cb",
+    "artifact_file_sha256": "9becf227bf642e2c8edee5eff78fe037a800028629dd81785fc8cbb6fb2f0b32",
+    "artifact": {"id":10798143716,"digest":"sha256:644441bac8d2581a7b613934cfd867c2627eba3aec25913a604d0929733d7270"}
+  },
+  "interpretation": {
+    "supported": [
+      "The P16 Stockfish-19 300k bounded antagonistic interaction-window hypothesis did not replicate on the fresh P17 tranche.",
+      "Frozen 2026-08-10 showed MAIN-DOMINANT fine-value causal structure at all five resource regimes.",
+      "Stockfish 19 showed MIXED at 125k and MAIN-DOMINANT at every regime from 200k through 700k.",
+      "Negative MAINxQSEARCH interaction components remain present but do not form the preregistered INTERACTION-DOMINANT bounded window.",
+      "Robust WDL remained invariant across every arm and regime."
+    ],
+    "not_supported": [
+      "A bounded critical-scale interaction window around 300k.",
+      "Cross-version phase-boundary transport.",
+      "An intrinsic 300k phase transition.",
+      "Representation identity, world-model identity, general-chess prevalence, or human-like cognition."
+    ],
+    "authority_ceiling": "BROAD-RESOURCE-MAIN-TT-READ-CAUSAL-DOMINANCE-OBSERVED / P16-BOUNDED-INTERACTION-WINDOW-NOT-REPLICATED@FRESH-DUAL-TARGET-EXACT-WORLD-SCOPE"
+  },
+  "custody": {
+    "drive_folder_id": "1F-qA_eApViAFDtlbUTeF6LArGNHpKEDd",
+    "drive_folder": "04_SEALED_RESULTS_COURTS/G9_4_P17",
+    "stage_a_file_id": "1Y7apScoqjaYk3DH2Da6WFoga4BAiWMDS",
+    "r125k_file_id": "1F_VUoXy8qJfR-ira60uGKX6cDaRpwFTW",
+    "r200k_file_id": "1n2PBdVdEr_knmqKF1NDD8hPlkqC_Push",
+    "r300k_file_id": "1YqSsr-yf5BCwqkc6eroRCngDG-NPBjjS",
+    "r450k_file_id": "1DVpclN4b18N2rEK5j5FG-0BIcftoDG5g",
+    "r700k_file_id": "1ts8GlGzIJecXDJMf_CQ8mkUwjr2P8vRr",
+    "bounded_window_result_file_id": "1IbUUtUxcot1i2yGT8bNCeGX6QCzetTNC",
+    "precommit_metadata_file_id": "1hdaENHDnbBU0q9eWayH6sJRzYN2EPK8G",
+    "frozen_binary_file_id": "1Ze3XNJ4QN__ITAVJS0mfKfK0omqHEwlv",
+    "stockfish_19_binary_file_id": "1QGLsG9VAQi3X8tHzM5TkxQVfQVa8zjro",
+    "custody_split_run_id": 35977289647
+  }
+}
