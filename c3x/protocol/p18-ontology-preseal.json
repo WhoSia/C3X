@@ -7,9 +7,9 @@
   "primary_science_state_at_ontology_seal": "Ontology/morphisms were sealed before any P18 intervention outcome. Original Run 35978871846 had reached Stage A/SHAM-only precommit work only and was superseded before discovery intervention because Stage-A side imbalance made the 4+4 per-family commit structurally impossible.",
   "ontology_file": "c3x/ontology/p18-material-ontology.json",
   "ontology_schema": "c3x-p18-material-ontology-v2",
-  "ontology_commit": "75b415ad91243b0e2420cfbe7632dafee9378212",
+  "ontology_commit": "083cbbfbfca9335ace20e59d8ab57dca7c33ea00",
   "ontology_adjudicator": "analysis/p18_ontology_transport.py",
-  "adjudicator_commit": "2681d04329b05700188f4a95a9e4d7d9f2c01f0b",
+  "adjudicator_commit": "dce1b29f4bb724e9cc4e30dbf824338d00fa31ba",
   "constitutive_layers": [
     "L0_material_structure"
   ],
@@ -43,5 +43,9 @@
     "ontology_changed": false,
     "primary_law_changed": false,
     "heldout_split_changed": false
-  }
+  },
+  "prospective_higher_order_tests": [
+    "commutative square: bishop-to-knight substitution x queen-role orientation duality",
+    "hierarchical causal-vector envelope using discovery centroid/max-deviation plus fixed one-cell (1/8) tolerance"
+  ]
 }
