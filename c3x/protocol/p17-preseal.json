@@ -1,0 +1,111 @@
+{
+  "schema": "c3x-g9.4-p17-preseal-v1",
+  "scientific_stage": "C3X 0.7.0-G9.4-P17",
+  "title": "Dense Resource-Ladder Causal Phase Mapping, Bounded MAIN×QSearch Interaction-Window Replication, Critical-Scale Onset/Extinction & Cross-Version Phase-Boundary Transport",
+  "parent": {
+    "p16_verdict": "RESOURCE-CONDITIONAL-TT-MEDIATION-STRUCTURE-OBSERVED / NO-PRESEALED-PHASE-TRANSITION@FRESH-DUAL-TARGET-EXACT-WORLD-SCOPE",
+    "p16_actions_run_id": 35969704501,
+    "p16_tested_commit": "be7c71b4fa52e3ee6d952820353b93c36da9af17",
+    "p16_confirmatory_cells_reusable": false,
+    "discovery_hypothesis_only": "SF19 showed NULL -> INTERACTION-DOMINANT -> NULL at 100k -> 300k -> 1M with negative MAINxQSEARCH component at 300k"
+  },
+  "fresh_world": {
+    "compiler_version": "c3x-p17-stage-a-v1",
+    "world_authority": "external Lichess Syzygy HTTP",
+    "root_halfmove_clock": 0,
+    "pawnless": true,
+    "max_pieces": 5,
+    "robust_categories_only": ["win", "draw", "loss"],
+    "require_precise_dtz_for_every_legal_move": true,
+    "history_safe_tau_depth": 4,
+    "target_pool_size": 72,
+    "freshness_rule": "P17-only material families absent from P13-P16 generators; generation-index offset 40000"
+  },
+  "p17_only_material_families": [
+    "KRRvKB","KRRvKN","KQRvKB","KQRvKN",
+    "KQBvKB","KQBvKN","KQNvKB","KQNvKN"
+  ],
+  "engine_targets": {
+    "frozen_20260810": {"upstream_commit": "5062aee519a1ba262d472d8ab139851ced56573e"},
+    "stockfish_19": {"upstream_commit": "edb0d9db6731067ec50ce619ff372b463bc4dd5d"}
+  },
+  "resource_ladder": {
+    "R125K": {"nodes": 125000, "H_min": 32, "U_min": 8},
+    "R200K": {"nodes": 200000, "H_min": 48, "U_min": 12},
+    "R300K": {"nodes": 300000, "H_min": 64, "U_min": 16},
+    "R450K": {"nodes": 450000, "H_min": 80, "U_min": 20},
+    "R700K": {"nodes": 700000, "H_min": 112, "U_min": 28}
+  },
+  "runtime_invariants": {
+    "threads": 1,
+    "hash_mib": 64,
+    "clear_hash_each_arm": true,
+    "engine_syzygy_probe_limit": 0
+  },
+  "instrument": {
+    "base": "P15 selective-mask semantics unchanged",
+    "primary_arms": {
+      "00": "SHAM",
+      "10": "MASK_MAIN",
+      "01": "MASK_QSEARCH",
+      "11": "MASK_MAIN_QSEARCH"
+    },
+    "secondary_anchor": "MASK_ALL"
+  },
+  "sham_gate": {
+    "eligible_only_if_all_five_regimes_pass_on_both_targets": true,
+    "require_each_site_raw_hit": true,
+    "require_each_site_semantic_use": true,
+    "breadth_required": 3
+  },
+  "tranche": {
+    "target_size": 30,
+    "minimum_size_for_intervention": 28,
+    "selection": "round-robin across material_signature x side_to_move; within stratum descending minimum site-use floor across all 5 regimes x 2 targets, then tau4, then candidate_sha256",
+    "require_both_sides_to_move": true,
+    "minimum_material_signatures": 6,
+    "intervention_outcomes_forbidden_until_precommit_artifact": true
+  },
+  "primary_outcomes": ["root_action_changed_vs_SHAM","fine_exact_value_changed_vs_SHAM"],
+  "exact_value": {
+    "coarse": "mover-relative robust WDL",
+    "fine": "[mover-relative robust WDL, mover-relative precise_dtz]"
+  },
+  "causal_field": {
+    "MAIN": "p_fine(MASK_MAIN)",
+    "QSEARCH": "p_fine(MASK_QSEARCH)",
+    "INTERACTION": "p_fine(MASK_MAIN_QSEARCH)-p_fine(MASK_MAIN)-p_fine(MASK_QSEARCH)",
+    "effect_floor_cells": 2,
+    "phase_labels": ["MAIN-DOMINANT","QSEARCH-DOMINANT","INTERACTION-DOMINANT","MIXED","NULL"],
+    "label_rule": "same absolute-component effect-floor and one-cell dominance-margin grammar as P16"
+  },
+  "bounded_window_test": {
+    "target_hypothesis": "negative antagonistic MAINxQSEARCH interaction occupies a bounded interior resource interval",
+    "interior_regimes": ["R200K","R300K","R450K"],
+    "flank_regimes": ["R125K","R700K"],
+    "replication_gate_per_target": [
+      "at least two adjacent interior regimes have INTERACTION-DOMINANT phase",
+      "the interaction component is negative at those regimes",
+      "at least one flank is NULL and neither flank is INTERACTION-DOMINANT",
+      "the most negative interaction component occurs in an interior regime"
+    ],
+    "strict_bounded_window": "both flanks are non-INTERACTION and at least two adjacent interior regimes are negative INTERACTION-DOMINANT",
+    "critical_scale_bracket": "first ladder interval entering INTERACTION-DOMINANT and first later interval exiting it",
+    "cross_version_boundary_transport": "both targets pass strict bounded-window gate and onset/exit brackets differ by at most one ladder interval",
+    "sf19_replication_primary": true,
+    "frozen_transport_secondary": true
+  },
+  "cell_level_diagnostics": {
+    "predeclared": true,
+    "metrics": ["per-arm fine-witness Jaccard across adjacent regimes","per-cell interaction-window occupancy count"],
+    "cannot_redefine_primary_window_gate": true
+  },
+  "forbidden_inferences": [
+    "post-outcome ladder tuning",
+    "post-outcome effect-floor tuning",
+    "TT is a chess-knowledge representation",
+    "world-model identity",
+    "human-like cognition",
+    "general-chess prevalence"
+  ]
+}
