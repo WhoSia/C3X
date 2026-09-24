@@ -1,0 +1,50 @@
+name: p19-sf18-lineage-preflight
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - "upstream/stockfish-lock.json"
+      - "tools/materialize_p12.py"
+      - "tools/materialize_p15.py"
+      - "harness/p19_engine_gate.py"
+      - ".github/workflows/p19-sf18-preflight.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  sf18_gate:
+    name: Stockfish 18 exact selective-instrument compatibility gate
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - name: Clone exact SF18
+        run: |
+          git clone https://github.com/official-stockfish/Stockfish.git sf18
+          git -C sf18 checkout --detach cb3d4ee9b47d0c5aae855b12379378ea1439675c
+          test "$(git -C sf18 rev-parse HEAD)" = "cb3d4ee9b47d0c5aae855b12379378ea1439675c"
+      - name: Build clean baseline
+        run: |
+          make -C sf18/src -j2 build ARCH=x86-64
+          cp sf18/src/stockfish /tmp/sf18-clean
+      - name: Materialize P15 selective instrument on SF18
+        run: python3 tools/materialize_p15.py --stockfish sf18 --target stockfish_18
+      - name: Build patched SF18
+        run: |
+          make -C sf18/src clean
+          make -C sf18/src -j2 build ARCH=x86-64
+          mkdir -p out
+          cp sf18/src/stockfish out/c3x-p19-sf18
+          sha256sum out/c3x-p19-sf18 | tee out/sf18-binary-sha256.txt
+      - name: Noninterference and mode-equivalence gates
+        run: |
+          python3 harness/uci_smoke.py out/c3x-p19-sf18 | tee out/sf18-uci-smoke.txt
+          python3 harness/native_sham_identity.py --baseline /tmp/sf18-clean --patched out/c3x-p19-sf18 --nodes 30000 | tee out/sf18-native-sham.txt
+          python3 harness/p19_engine_gate.py --binary stockfish_18=out/c3x-p19-sf18 --nodes 30000 --out out/sf18-engine-gate.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: p19-sf18-lineage-preflight
+          path: out/
+          retention-days: 30
