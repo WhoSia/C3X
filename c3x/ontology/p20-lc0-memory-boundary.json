@@ -1,0 +1,72 @@
+{
+  "schema": "c3x-g9.4-p20-lc0-memory-boundary-v1",
+  "scientific_stage": "C3X 0.7.0-G9.4-P20",
+  "source_commit": "1227b4c8c23375f4011831f4d7496d1551f85145",
+  "language": "C++",
+  "status": "ARCHITECTURE_NEUTRAL_BOUNDARY_CONSTITUTED_NO_INTERVENTION",
+  "channels": {
+    "neural_eval_cache": {
+      "implementation": "src/neural/memcache.cc",
+      "persistent_object": "HashKeyedCache<CachedValue>",
+      "key": "position hash from ComputeEvalPositionHash; locked source explicitly notes repetitions/history are currently ignored",
+      "payload": [
+        "q",
+        "d",
+        "m",
+        "policy p"
+      ],
+      "semantic_read": [
+        "MemCacheComputation::AddInput returns FETCHED_IMMEDIATELY on cache hit and copies cached q/d/m/p into the requested EvalResult",
+        "MemCache::GetCachedEvaluation returns cached q/d/m/p when the key/policy-shape check passes"
+      ],
+      "write": "After wrapped neural computation, ComputeBlocking inserts the newly computed CachedValue into the cache.",
+      "candidate_psm_channel": true
+    },
+    "search_tree_state": {
+      "implementations": [
+        "src/search/classic/node.h",
+        "src/search/dag_classic/node.h"
+      ],
+      "persistent_payload_examples": [
+        "visit count N",
+        "Q/WL",
+        "draw D",
+        "moves-left M",
+        "policy P",
+        "children/edges",
+        "terminal/bounds state"
+      ],
+      "semantic_role": "Search selection and backup consume accumulated node/edge statistics across playouts.",
+      "candidate_psm_channel": true,
+      "nonidentity": "Persistent tree/DAG state is not an alpha-beta transposition-table read merely because it persists and can encode transpositions."
+    }
+  },
+  "separation_principle": "NEURAL_EVAL_CACHE and SEARCH_TREE_STATE are distinct causal channels. P20 does not aggregate them into one intervention.",
+  "prohibited_shortcuts": [
+    "equate NN cache hit with Stockfish qsearch/main TT hit by name similarity",
+    "clear the entire tree and call that semantic-read removal without a sham/noninterference construction",
+    "disable neural caching and attribute all effects to persistent search memory without separating recomputation cost/timing from semantic reuse",
+    "intervene jointly on DAG identity, node statistics and NN cache and report one mechanism"
+  ],
+  "future_admission_paths": {
+    "neural_eval_cache_read": {
+      "preferred_intervention": "On a cache hit, force semantic miss/recompute while preserving the query, legal-move payload, underlying network, and cache write opportunity.",
+      "required_controls": [
+        "NATIVE/SHAM identical cache lookup path",
+        "MASK hit must be observationally equivalent to an independently implemented semantic-cache-bypass path",
+        "fixed network/backend/batch/resource regime",
+        "separate timing/recomputation effect from returned semantic payload"
+      ]
+    },
+    "tree_or_dag_state_read": {
+      "preferred_intervention": "Constitute a narrowly defined state-consumption operator such as selected use of prior N/Q/D/M/P or transposed-node reuse, rather than deleting the whole tree.",
+      "required_controls": [
+        "enumerate all downstream consumers of the selected state field",
+        "preserve tree topology when testing semantic payload removal unless topology itself is the declared variable",
+        "separate node identity/reuse from accumulated-statistic reuse",
+        "classic-tree and DAG implementations require independent admission before being pooled"
+      ]
+    }
+  },
+  "p20_authority": "LC0 ARCHITECTURE BOUNDARY ONLY / NO CAUSAL RESULT / NO CLAIM OF HOMOLOGY"
+}
