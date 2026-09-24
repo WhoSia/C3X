@@ -1,0 +1,147 @@
+name: p13-exact-world-first-masked
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - "c3x/protocol/p13-preseal.json"
+      - "compiler/exact_world/p13_compile.py"
+      - "harness/p13_tt_intervention.py"
+      - "tools/materialize_p12.py"
+      - "upstream/stockfish-lock.json"
+      - ".github/workflows/p13-exact-world.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  stage_a:
+    name: Stage A — outcome-blind exact world
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install deterministic chess state library
+        run: python3 -m pip install --disable-pip-version-check chess==1.11.2
+
+      - name: Compile external exact-world pool without Stockfish outcomes
+        run: |
+          mkdir -p out
+          python3 compiler/exact_world/p13_compile.py \
+            --out out/p13-stage-a.json \
+            --target-count 32 \
+            --max-generated 320
+          sha256sum out/p13-stage-a.json | tee out/p13-stage-a-file-sha256.txt
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: p13-stage-a-outcome-blind
+          path: out/
+          retention-days: 30
+
+  sham_commit:
+    name: Stage B — SHAM census and prospective commit
+    needs: stage_a
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: p13-stage-a-outcome-blind
+          path: stage-a
+
+      - name: Clone exact frozen Stockfish target
+        run: |
+          git clone https://github.com/official-stockfish/Stockfish.git stockfish
+          git -C stockfish checkout --detach 5062aee519a1ba262d472d8ab139851ced56573e
+          test "$(git -C stockfish rev-parse HEAD)" = "5062aee519a1ba262d472d8ab139851ced56573e"
+
+      - name: Build clean baseline
+        run: |
+          make -C stockfish/src -j2 build ARCH=x86-64
+          cp stockfish/src/stockfish /tmp/stockfish-clean
+
+      - name: Materialize frozen P12 RC1 semantics
+        run: python3 tools/materialize_p12.py --stockfish stockfish --target frozen_20260810
+
+      - name: Build exact P13 runtime binary
+        run: |
+          make -C stockfish/src clean
+          make -C stockfish/src -j2 build ARCH=x86-64
+          mkdir -p out
+          cp stockfish/src/stockfish out/c3x-stockfish-frozen_20260810
+          sha256sum out/c3x-stockfish-frozen_20260810 | tee out/binary-sha256.txt
+          (
+            cd stockfish
+            sha256sum src/c3x_ttread.h src/search.h src/search.cpp src/engine.cpp
+          ) | tee out/source-sha256.txt
+
+      - name: P12 noninterference regression before census
+        run: |
+          python3 harness/uci_smoke.py out/c3x-stockfish-frozen_20260810 | tee out/uci-smoke.txt
+          python3 harness/native_sham_identity.py \
+            --baseline /tmp/stockfish-clean \
+            --patched out/c3x-stockfish-frozen_20260810 \
+            --nodes 30000 | tee out/native-sham-preflight.txt
+
+      - name: SHAM-only engagement census and tranche commitment
+        run: |
+          python3 harness/p13_tt_intervention.py sham-commit \
+            --stage-a stage-a/p13-stage-a.json \
+            --binary out/c3x-stockfish-frozen_20260810 \
+            --nodes 300000 \
+            --out out/p13-sham-precommit.json
+          sha256sum out/p13-sham-precommit.json | tee out/p13-sham-precommit-file-sha256.txt
+
+      - name: Seal pre-MASKED artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: p13-sham-precommit-sealed
+          path: out/
+          retention-days: 30
+
+  masked:
+    name: Stage C — first MASKED causal intervention
+    needs: sham_commit
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: p13-sham-precommit-sealed
+          path: sealed
+
+      - name: Verify sealed precommit exists before opening MASKED
+        run: |
+          test -s sealed/p13-sham-precommit.json
+          test -s sealed/c3x-stockfish-frozen_20260810
+          chmod +x sealed/c3x-stockfish-frozen_20260810
+          python3 - <<'PY'
+          import json
+          p=json.load(open("sealed/p13-sham-precommit.json"))
+          assert p["masked_outcomes_consulted"] is False
+          assert p["authorization"] == "TARGET-INTERVENTION-READY"
+          print("PREMASKED_COMMIT_VERIFIED", p["precommit_sha256"])
+          PY
+
+      - name: Execute paired SHAM versus MASKED on committed cells only
+        run: |
+          mkdir -p result
+          python3 harness/p13_tt_intervention.py masked-run \
+            --precommit sealed/p13-sham-precommit.json \
+            --binary sealed/c3x-stockfish-frozen_20260810 \
+            --nodes 300000 \
+            --out result/p13-masked-result.json
+          sha256sum result/p13-masked-result.json | tee result/p13-masked-result-file-sha256.txt
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: p13-first-masked-result
+          path: result/
+          retention-days: 30
