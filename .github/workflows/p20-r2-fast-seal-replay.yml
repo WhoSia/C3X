@@ -1,0 +1,122 @@
+name: p20-r2-fast-seal-replay
+
+on:
+  push:
+    paths:
+      - ".github/workflows/p20-r2-fast-seal-replay.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  seal-replay:
+    name: Fast-lane seal-only replay and canonical selection identity
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download fast stage-A pool
+        uses: actions/download-artifact@v4
+        with:
+          name: p20-r2-fast-stage-a-pool
+          path: stage
+          repository: WhoSia/C3X
+          run-id: 36031839640
+          github-token: ${{ github.token }}
+
+      - name: Download eight completed fast SHAM censuses
+        uses: actions/download-artifact@v4
+        with:
+          pattern: p20-fast-census-*
+          path: census_raw
+          repository: WhoSia/C3X
+          run-id: 36031839640
+          github-token: ${{ github.token }}
+
+      - name: Normalize filenames only
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p census
+          count="$(find census_raw -type f -name 'p20-fast-census-*.json' | wc -l)"
+          test "$count" -eq 8
+          find census_raw -type f -name 'p20-fast-census-*.json' -print0 | while IFS= read -r -d '' src; do
+            base="$(basename "$src")"
+            dst="$(printf '%s' "$base" | sed 's/^p20-fast-census-/p20-census-/')"
+            cp -- "$src" "census/$dst"
+          done
+          test "$(find census -maxdepth 1 -type f -name 'p20-census-*.json' | wc -l)" -eq 8
+          echo "P20_FAST_SEAL_FILENAME_NORMALIZATION_PASS"
+
+      - name: Seal fast SHAM-only precommit
+        run: |
+          mkdir -p out
+          python3 harness/p20_transport.py seal \
+            --stage-a stage/p20-stage-a-pool.json \
+            --census-dir census \
+            --out out/p20-r2-fast-precommit.json
+
+      - name: Download canonical precommit for identity audit
+        uses: actions/download-artifact@v4
+        with:
+          name: p20-r2-precommit
+          path: canonical
+          repository: WhoSia/C3X
+          run-id: 36032107436
+          github-token: ${{ github.token }}
+
+      - name: Audit committed-cell identity and freeze replication receipt
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import json,os
+          from pathlib import Path
+
+          fp=Path("out/p20-r2-fast-precommit.json")
+          cp=Path("canonical/p20-r2-precommit.json")
+          f=json.loads(fp.read_text())
+          c=json.loads(cp.read_text())
+
+          def cells(x):
+              return sorted(
+                  (r["candidate"]["candidate_sha256"],
+                   r["candidate"]["material_seed_name"],
+                   r["candidate"]["side_to_move"],
+                   r["candidate"]["fen"])
+                  for r in x["committed_cells"]
+              )
+
+          same_cells=cells(f)==cells(c)
+          same_counts=f["counts"]==c["counts"]
+          assert len(f["committed_cells"])==96
+          assert same_cells, "FAST_ACCELERATOR_COMMITTED_CELL_MISMATCH"
+          assert same_counts, "FAST_ACCELERATOR_SELECTION_COUNT_MISMATCH"
+
+          receipt={
+            "schema":"c3x-p20-r2-fast-replication-closure-v1",
+            "scientific_stage":"C3X 0.7.0-G9.4-P20-R2",
+            "source_run_id":36031839640,
+            "seal_replay_run_id":int(os.environ["GITHUB_RUN_ID"]),
+            "selective_interventions_executed":False,
+            "authority":"ENGINEERING_REPLICATION_ONLY",
+            "tau4_semantics":"P19_FROZEN_EXACT",
+            "tau4_implementation":"P20_FAST_EXACT_SEMANTIC_V1",
+            "fast_precommit_sha256":f["precommit_sha256"],
+            "canonical_precommit_sha256":c["precommit_sha256"],
+            "committed_cell_identity_with_canonical":same_cells,
+            "selection_counts_identity_with_canonical":same_counts,
+            "committed_cells":len(f["committed_cells"]),
+            "automatic_stop":"SEALED_PRECOMMIT_NO_SELECTIVE_INTERVENTION"
+          }
+          Path("out/p20-r2-fast-replication-closure.json").write_text(json.dumps(receipt,indent=2,sort_keys=True)+"\n")
+          print("P20_FAST_REPLICATION_CLOSED",receipt["fast_precommit_sha256"],same_cells,same_counts)
+          PY
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: p20-r2-fast-replication-closure
+          path: out/
+          retention-days: 30
