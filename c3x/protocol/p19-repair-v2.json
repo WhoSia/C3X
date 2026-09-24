@@ -1,0 +1,35 @@
+{
+  "schema":"c3x-g9.4-p19-repair-v2",
+  "scientific_stage":"C3X 0.7.0-G9.4-P19",
+  "status":"PRE-INTERVENTION-SYMMETRIC-RESERVE-EXPANSION",
+  "failed_run":{
+    "run_id":36016655865,
+    "failure_stage":"Stage B SHAM-only census",
+    "failure_class":"SIDE-STRATIFIED-SHAM-ENGAGEMENT-RESERVE-SHORTFALL",
+    "observed":"KQQvKR had 19 all-three-engine engaged candidates in the 36-world reserve, but select_vertex could not form the frozen 6 WHITE + 6 BLACK tranche.",
+    "intervention_outcomes_materialized":false
+  },
+  "repair":{
+    "base_constitution":"288 worlds = 36 per vertex = 18 WHITE + 18 BLACK",
+    "supplement":"add 36 outcome-blind worlds per vertex from generation offset 70000, also 18 WHITE + 18 BLACK",
+    "combined_constitution":"576 worlds = 72 per vertex = 36 WHITE + 36 BLACK",
+    "symmetry":"identical reserve expansion for all eight vertices; no failed-family-only adaptation",
+    "execution":"build one sealed three-engine instrument pack, run SHAM census independently per vertex in parallel, merge census before unchanged prospective selection"
+  },
+  "unchanged":[
+    "matched material squares and morphisms",
+    "Stockfish 18 -> frozen_20260810 -> Stockfish 19 engine chronology",
+    "three-engine admission gate",
+    "SHAM H/U/B/site-use requirements",
+    "12 committed cells per vertex",
+    "6 WHITE + 6 BLACK committed cells per vertex",
+    "selection ranking by minimum three-engine site-use floor then tau4 then candidate hash",
+    "Threads=1, Hash=64 MiB, nodes=300000, Clear Hash each arm, engine Syzygy disabled",
+    "SHAM/MAIN/QSEARCH/MAIN+QSEARCH primary intervention arms and MASK_ALL anchor",
+    "fine exact-value outcome",
+    "curvature and equivariance thresholds",
+    "primary verdict grammar"
+  ],
+  "blindness":"No P19 selective intervention outcome exists before this repair. SHAM engagement observations may justify sample-supply expansion but cannot alter intervention thresholds, morphisms, engine membership or adjudication.",
+  "superseded_science_runs":[36004271599,36007924164,36007946168,36008143936,36011712553,36011718550,36011742410,36011810438,36012029589,36016655865]
+}
