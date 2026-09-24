@@ -1,0 +1,33 @@
+{
+  "schema": "c3x-g9.4-p21-run-lineage-v1",
+  "scientific_stage": "C3X 0.7.0-G9.4-P21",
+  "status": "PRE_SELECTIVE_EXECUTION",
+  "preseal_commits": [
+    "0bc6d0750910bb16af514790db58250bf307c89a",
+    "386699e7b76d2f21b6edaaf21d3673a8141aff93",
+    "ccae62b5d32c77754a17112f0156e7641f295d7b"
+  ],
+  "inanis_admission": {
+    "run_id": 36040871547,
+    "conclusion": "SUCCESS",
+    "receipt": "c3x/protocol/p21-r1-inanis-admission.json",
+    "authority": "CHANNEL_FACTORIZED_CAUSAL_ADMISSION",
+    "selective_transport_outcomes": false
+  },
+  "world_constitution": {
+    "run_id": 36041203061,
+    "authority": "OUTCOME_BLIND_WORLD_CONSTITUTION_ONLY",
+    "target_pools": [
+      "PAWNLESS_CORE 384",
+      "PAWN_CARRIER 384"
+    ]
+  },
+  "boundary_execution": {
+    "run_id": 36041727983,
+    "role": "CANONICAL_P21_CANDIDATE",
+    "state": "WAITING_FOR_OUTCOME_BLIND_WORLD_POOLS",
+    "selective_outcomes_observed_at_seal": false
+  },
+  "repair_rule": "Any engineering repair before the first valid selective intervention may inherit already sealed outcome-blind worlds/census/precommit only by pinned identity. After any selective outcome exists, no protocol/threshold/selection repair may be chosen based on scientific results.",
+  "language_policy": "IMPLEMENTATION_LANGUAGE_NONAUTHORITATIVE_NATIVE_FIRST"
+}
