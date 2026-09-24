@@ -1,0 +1,140 @@
+name: p14-fresh-world-transport
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - "c3x/protocol/p14-preseal.json"
+      - "compiler/exact_world/p14_compile.py"
+      - "harness/p14_transport.py"
+      - "tools/materialize_p12.py"
+      - "upstream/stockfish-lock.json"
+      - ".github/workflows/p14-transport.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  stage_a:
+    name: Stage A — fresh exact-world constitution
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install deterministic chess state library
+        run: python3 -m pip install --disable-pip-version-check chess==1.11.2
+      - name: Materialize P14-only exact worlds
+        run: |
+          mkdir -p out
+          python3 compiler/exact_world/p14_compile.py             --out out/p14-stage-a.json             --target-count 48             --max-generated 640
+          sha256sum out/p14-stage-a.json | tee out/p14-stage-a-file-sha256.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: p14-stage-a-fresh-worlds
+          path: out/
+          retention-days: 30
+
+  sham_precommit:
+    name: Stage B — dual-target SHAM predictor and precommit
+    needs: stage_a
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: p14-stage-a-fresh-worlds
+          path: stage-a
+
+      - name: Clone exact upstream targets
+        run: |
+          git clone https://github.com/official-stockfish/Stockfish.git sf-frozen
+          git -C sf-frozen checkout --detach 5062aee519a1ba262d472d8ab139851ced56573e
+          test "$(git -C sf-frozen rev-parse HEAD)" = "5062aee519a1ba262d472d8ab139851ced56573e"
+
+          git clone https://github.com/official-stockfish/Stockfish.git sf19
+          git -C sf19 checkout --detach edb0d9db6731067ec50ce619ff372b463bc4dd5d
+          test "$(git -C sf19 rev-parse HEAD)" = "edb0d9db6731067ec50ce619ff372b463bc4dd5d"
+
+      - name: Build clean baselines
+        run: |
+          make -C sf-frozen/src -j2 build ARCH=x86-64
+          cp sf-frozen/src/stockfish /tmp/sf-frozen-clean
+          make -C sf19/src -j2 build ARCH=x86-64
+          cp sf19/src/stockfish /tmp/sf19-clean
+
+      - name: Materialize exact P12 RC1 semantics on both targets
+        run: |
+          python3 tools/materialize_p12.py --stockfish sf-frozen --target frozen_20260810
+          python3 tools/materialize_p12.py --stockfish sf19 --target stockfish_19
+
+      - name: Build P14 runtime binaries
+        run: |
+          make -C sf-frozen/src clean
+          make -C sf-frozen/src -j2 build ARCH=x86-64
+          make -C sf19/src clean
+          make -C sf19/src -j2 build ARCH=x86-64
+          mkdir -p out
+          cp sf-frozen/src/stockfish out/c3x-frozen
+          cp sf19/src/stockfish out/c3x-sf19
+          sha256sum out/c3x-frozen out/c3x-sf19 | tee out/binary-sha256.txt
+
+      - name: Recheck P12 noninterference on both targets
+        run: |
+          python3 harness/uci_smoke.py out/c3x-frozen | tee out/frozen-uci-smoke.txt
+          python3 harness/native_sham_identity.py --baseline /tmp/sf-frozen-clean --patched out/c3x-frozen --nodes 30000 | tee out/frozen-native-sham.txt
+          python3 harness/uci_smoke.py out/c3x-sf19 | tee out/sf19-uci-smoke.txt
+          python3 harness/native_sham_identity.py --baseline /tmp/sf19-clean --patched out/c3x-sf19 --nodes 30000 | tee out/sf19-native-sham.txt
+
+      - name: SHAM-only dual-target census, predictor freeze, and score-stratified commit
+        run: |
+          python3 harness/p14_transport.py sham-commit             --stage-a stage-a/p14-stage-a.json             --binary frozen_20260810=out/c3x-frozen             --binary stockfish_19=out/c3x-sf19             --nodes 300000             --out out/p14-sham-precommit.json
+          sha256sum out/p14-sham-precommit.json | tee out/p14-sham-precommit-file-sha256.txt
+
+      - name: Seal pre-MASKED binaries and precommit
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: p14-sham-predictor-precommit-sealed
+          path: out/
+          retention-days: 30
+
+  masked:
+    name: Stage C — fresh MASKED transport adjudication
+    needs: sham_precommit
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: p14-sham-predictor-precommit-sealed
+          path: sealed
+
+      - name: Verify sealed predictor precommit and binary identity surface
+        run: |
+          test -s sealed/p14-sham-precommit.json
+          test -s sealed/c3x-frozen
+          test -s sealed/c3x-sf19
+          chmod +x sealed/c3x-frozen sealed/c3x-sf19
+          python3 - <<'PY'
+          import json
+          p=json.load(open("sealed/p14-sham-precommit.json"))
+          assert p["masked_outcomes_consulted"] is False
+          assert p["authorization"] == "TARGET-INTERVENTION-READY"
+          assert p["predictor"]["fit_to_p14_masked"] is False
+          assert set(p["counts"]["quintiles"]) == {"0","1","2","3","4"}
+          print("P14_PREMASKED_COMMIT_VERIFIED",p["precommit_sha256"])
+          PY
+
+      - name: Open MASKED only on committed fresh cells, both engine targets
+        run: |
+          mkdir -p result
+          python3 harness/p14_transport.py masked-run             --precommit sealed/p14-sham-precommit.json             --binary frozen_20260810=sealed/c3x-frozen             --binary stockfish_19=sealed/c3x-sf19             --nodes 300000             --out result/p14-masked-result.json
+          sha256sum result/p14-masked-result.json | tee result/p14-masked-result-file-sha256.txt
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: p14-fresh-masked-transport-result
+          path: result/
+          retention-days: 30
