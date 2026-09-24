@@ -1,0 +1,111 @@
+{
+  "schema": "c3x-g9.4-p13-receipt-v1",
+  "scientific_stage": "C3X 0.7.0-G9.4-P13",
+  "title": "Outcome-Blind Exact-World Tranche Materialization, History-Safe Transposition Eligibility, SHAM Engagement Precommitment & First MASKED TT-Read Causal Intervention",
+  "verdict": "TT-READ-PATH-DEPENDENT-ACTION / QUOTIENT-STABLE@ENGAGED-EXACT-WORLD-SCOPE",
+  "tested_repo_commit": "34d4dd520788a00de1a0ecfa43afc8abcbba2100",
+  "parent_instrument": {
+    "stage": "C3X 0.7.0-G9.4-P12",
+    "tested_implementation_commit": "7236d6576857404d29f6c0b410c3dbec63f49f15",
+    "binary_sha256": "84f52946eaea3b86770be5ca45ebe42729c945a76533bd295418310e3b2fd099",
+    "instrument_verdict": "PASS-INSTRUMENT-RC1"
+  },
+  "github_actions": {
+    "workflow": "p13-exact-world-first-masked",
+    "run_id": 35960423569,
+    "run_number": 3,
+    "conclusion": "success"
+  },
+  "stage_a": {
+    "stockfish_outcomes_consulted": false,
+    "accepted_cells": 32,
+    "pool_sha256": "3f9077c4d75b9379c0bafaad14d3331a5a9f5e3e784c75b90900d5e4f5e87d58",
+    "world_authority": "external Lichess Syzygy tablebase API; robust win/draw/loss categories only",
+    "history_safe_tau4": true,
+    "tau4_observed_range": [6745, 193470],
+    "artifact": {
+      "id": 10792450738,
+      "digest": "sha256:9e1e0a95cd3edce3fc8c7fa30a4112bc8cf4261b68520a1d104e3851c42e48a9"
+    },
+    "drive": {
+      "file_id": "19JpfkohvpkB96L0wkbilfDLRg2vJmnDg",
+      "file_name": "C3X_G9_4_P13_STAGE_A_OUTCOME_BLIND.zip"
+    }
+  },
+  "stage_b": {
+    "masked_outcomes_consulted": false,
+    "p12_noninterference_recheck": "PASS",
+    "engagement_gate": {"H_min": 64, "U_min": 16, "B_min": 2, "require_non_move_order": true},
+    "stage_a_cells": 32,
+    "engaged_cells": 32,
+    "committed_cells": 12,
+    "material_signatures": 7,
+    "sides_to_move": ["BLACK", "WHITE"],
+    "observed_H_range": [145324, 272448],
+    "observed_U_range": [155645, 354388],
+    "observed_B": 3,
+    "authorization": "TARGET-INTERVENTION-READY",
+    "precommit_sha256": "88a6f4da7550d6de3a8d899357eaf9303c228a2d4f45342a52888110e6da9011",
+    "precommit_file_sha256": "2fd95717728d0a5f3a1bf33844b2dff55e614981c83d533ea602b25c7d8d3a04",
+    "artifact": {
+      "id": 10792500966,
+      "digest": "sha256:452d7e0e1d013dee08e0cac65d2d596808da94c58288d958964d30831c21d466"
+    },
+    "drive": {
+      "file_id": "135jl5IUsrbt7pxOOW7gya7Vs5njF6M7a",
+      "file_name": "C3X_G9_4_P13_SHAM_PRECOMMIT_SEALED.zip"
+    }
+  },
+  "stage_c": {
+    "precommit_verified_before_masked": true,
+    "same_binary_sha256": "84f52946eaea3b86770be5ca45ebe42729c945a76533bd295418310e3b2fd099",
+    "runtime": {"threads": 1, "hash_mib": 64, "nodes": 300000, "clear_hash_each_arm": true, "syzygy_probe_limit": 0},
+    "cells": 12,
+    "action_changed": 4,
+    "score_changed": 10,
+    "quotient_changed": 0,
+    "world_degraded": 0,
+    "world_improved": 0,
+    "result_sha256": "c9cdd2f7ce0a4fca4fcaf3101d3e08fbc4c1007c8252dbab149c7db384594252",
+    "artifact": {
+      "id": 10792765255,
+      "digest": "sha256:9a7233325a1ce752447291e818e9efe2b60de76dab46a73ade8f5a6000880028"
+    },
+    "drive": {
+      "file_id": "1Vx3I5nOlLCgSurgUl8ONDAD2FHRehATC",
+      "file_name": "C3X_G9_4_P13_FIRST_MASKED_RESULT.zip"
+    },
+    "action_change_cells": [
+      {"candidate": "125afd54cbd3", "material": "WKQ_BKB", "side": "WHITE", "sham": "g8b3", "masked": "g8d5", "world_class": 2},
+      {"candidate": "6867f24d1d9d", "material": "WKQ_BKR", "side": "WHITE", "sham": "h5e5", "masked": "h5d1", "world_class": 2},
+      {"candidate": "309775c3f45c", "material": "WKRB_BKR", "side": "BLACK", "sham": "d1e2", "masked": "b6b8", "world_class": 0},
+      {"candidate": "435f5ff6558b", "material": "WKRR_BKR", "side": "WHITE", "sham": "a8a7", "masked": "h8e8", "world_class": 2}
+    ]
+  },
+  "interpretation": {
+    "supported": [
+      "Removing semantic TT-read availability changes root action choice on a prospectively committed subset of strongly TT-engaged exact micro-worlds.",
+      "The first committed tranche shows broad search-output sensitivity: 10 of 12 cells change the reported engine score.",
+      "The robust external win/draw/loss quotient remains invariant in all 12 cells; all four action changes stay within the same exact world class."
+    ],
+    "not_supported": [
+      "TT reads are necessary for preserving exact win/draw/loss correctness in this tranche.",
+      "TT is a chess-knowledge representation.",
+      "Stockfish has or lacks a world model.",
+      "The effect prevalence transports to general middlegame chess.",
+      "Human-like cognition or semantic understanding."
+    ],
+    "authority_ceiling": "TT-READ-PATH-DEPENDENT-ACTION / QUOTIENT-STABLE@ENGAGED-EXACT-WORLD-SCOPE"
+  },
+  "ravel_repairs": [
+    "Runs 1 and 2 were rejected before any MASKED execution because the external tablebase compiler expected an obsolete numeric WDL field; the current API exposes robust outcome through category strings. The repair normalized win/draw/loss categories without changing any scientific threshold or candidate-selection rule.",
+    "Before any valid world pool or MASKED execution, redundant threefold/fifty-move recomputation was removed from the depth-4 pawnless halfmove-zero tau4 traversal. Conservative-state repetition rejection and the frozen history-safety criterion were unchanged."
+  ],
+  "custody": {
+    "drive_folder_id": "1BAkPg5RBLLqDDU1P-Mrnm-tMzGuttfhY",
+    "drive_folder": "04_SEALED_RESULTS_COURTS/G9_4_P13",
+    "github": "protocol/compiler/harness/workflow/final receipt",
+    "actions": "transient execution artifacts",
+    "notion": "scientific authority and interpretation"
+  }
+}
