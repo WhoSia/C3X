@@ -1,0 +1,99 @@
+{
+  "schema": "c3x-g9.4-p15-preseal-v1",
+  "scientific_stage": "C3X 0.7.0-G9.4-P15",
+  "title": "Selective TT-Read Subpath Intervention, Main/Successor/QSearch Factorial Decomposition, Interaction-Specific Exact-Value Causality & Cross-Version Mechanism Localization",
+  "parent": {
+    "p14_verdict": "TT-READ-PATH-DEPENDENT-FINE-EXACT-VALUE@FRESH-DUAL-TARGET-EXACT-WORLD-SCOPE / PREDICTIVE-LAW-NOT-ESTABLISHED",
+    "p14_actions_run_id": 35962290786,
+    "p14_tested_commit": "c2e9ca7730ca3cf66ee47c283ab85e0300664baf",
+    "p14_confirmatory_cells_reusable": false
+  },
+  "fresh_world": {
+    "compiler_version": "c3x-p15-stage-a-v1",
+    "world_authority": "external Lichess Syzygy HTTP",
+    "root_halfmove_clock": 0,
+    "pawnless": true,
+    "max_pieces": 5,
+    "robust_categories_only": ["win", "draw", "loss"],
+    "require_precise_dtz_for_every_legal_move": true,
+    "history_safe_tau_depth": 4,
+    "target_pool_size": 40,
+    "freshness_rule": "P15-only five-piece material families absent from P13 and P14 generator families; generation-index offset 20000"
+  },
+  "p15_only_material_families": [
+    "KQvKBB", "KQvKNN", "KRRvKB", "KRRvKN",
+    "KRBvKB", "KRBvKN", "KRNvKB", "KRNvKN"
+  ],
+  "engine_targets": {
+    "frozen_20260810": {"upstream_commit": "5062aee519a1ba262d472d8ab139851ced56573e"},
+    "stockfish_19": {"upstream_commit": "edb0d9db6731067ec50ce619ff372b463bc4dd5d"}
+  },
+  "runtime": {
+    "threads": 1,
+    "hash_mib": 64,
+    "node_budget": 300000,
+    "clear_hash_each_arm": true,
+    "engine_syzygy_probe_limit": 0
+  },
+  "instrument": {
+    "base": "P12 RC1 semantics preserved; P15 adds site-selective masking only",
+    "arms": {
+      "000": "SHAM",
+      "100": "MASK_MAIN",
+      "010": "MASK_SUCCESSOR",
+      "001": "MASK_QSEARCH",
+      "110": "MASK_MAIN_SUCCESSOR",
+      "101": "MASK_MAIN_QSEARCH",
+      "011": "MASK_SUCCESSOR_QSEARCH",
+      "111": "MASK_ALL"
+    },
+    "sites": ["MAIN", "SUCCESSOR_VERIFY", "QSEARCH"],
+    "full_mask_equivalence_requirement": "MASK_ALL must reproduce P12 MASKED semantics under the same target/runtime"
+  },
+  "sham_gate": {
+    "per_target": true,
+    "H_min": 64,
+    "U_min": 16,
+    "B_min": 3,
+    "require_each_site_raw_hit": true,
+    "require_each_site_semantic_use": true,
+    "eligible_only_if_both_targets_pass": true
+  },
+  "tranche": {
+    "target_size": 24,
+    "minimum_size_for_factorial": 20,
+    "selection": "round-robin across material_signature x side_to_move; within stratum descending minimum-across-target per-site semantic-use floor, then tau4, then candidate_sha256",
+    "require_both_sides_to_move": true,
+    "minimum_material_signatures": 6,
+    "selective_mask_outcomes_forbidden_until_precommit_artifact": true
+  },
+  "estimands": {
+    "primary_binary": [
+      "root_action_changed_vs_SHAM",
+      "fine_exact_value_changed_vs_SHAM"
+    ],
+    "fine_exact_value": "[mover-relative robust WDL, mover-relative precise_dtz]",
+    "coarse_exact_value": "mover-relative robust WDL",
+    "factorial_decomposition": "Mobius contrasts of arm-level mean change indicators over the 2^3 intervention cube",
+    "contrast_order": [
+      "MAIN", "SUCCESSOR", "QSEARCH",
+      "MAINxSUCCESSOR", "MAINxQSEARCH", "SUCCESSORxQSEARCH",
+      "MAINxSUCCESSORxQSEARCH"
+    ],
+    "score_and_pv": "secondary process outputs only"
+  },
+  "localization_grammar": {
+    "single_subpath_localization": "same singleton site yields >=2 fine-value-change cells on both engine targets and its changed-cell set overlaps at least half of MASK_ALL fine-value witnesses on each target",
+    "interaction_localization": "no singleton qualifies, but the same pair/triple has positive Mobius fine-change contrast >=0.08 on both targets and combination fine-change rate >=0.10 on both targets",
+    "distributed_nonlocal": "fresh selective effects occur but neither cross-version singleton nor interaction localization gate is met",
+    "no_selective_effect": "no selective arm changes action or fine exact value on the committed tranche"
+  },
+  "forbidden_inferences": [
+    "TT is a chess-knowledge representation",
+    "Stockfish knows chess",
+    "world-model identity",
+    "human-like cognition",
+    "general-chess prevalence",
+    "a surviving localization rival is proven true merely because alternatives fail"
+  ]
+}
