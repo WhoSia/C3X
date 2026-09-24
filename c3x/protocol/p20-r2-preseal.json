@@ -111,5 +111,12 @@
   "secondary_lanes": {
     "inanis": "No forced MAIN/QSEARCH square; topology-specific quotient/translation constitution remains separate.",
     "lc0": "No intervention in R2; architecture-neutral ontology boundary remains separate."
+  },
+  "transport_binary_portability": {
+    "principle": "R1 causal admission binds the source-locked adapter contract, not a runner-specific machine-code artifact.",
+    "trigger": "The first R2 artifact-reuse attempt produced an Illegal instruction on Berserk before any SHAM census or selective transport outcome.",
+    "repair": "Rebuild Berserk and Ethereal from the same locked sources and admitted adapter patchers using portable non-native ISA flags, then rerun the full 3-FEN baseline=NATIVE=SHAM and MASK_ALL=semantic-removal admission gate on those exact transport binaries.",
+    "outcome_blind": true,
+    "binary_identity_rule": "The exact revalidated transport binary hashes are frozen into the R2 SHAM precommit and must be reused for all selective arms."
   }
 }
