@@ -1,0 +1,124 @@
+{
+  "schema":"c3x-g9.4-p18-receipt-v1",
+  "scientific_stage":"C3X 0.7.0-G9.4-P18",
+  "title":"Cross-Material Causal-Topology Transport, MAIN-Backbone Invariance, Material-Conditioned Interaction Heterogeneity & Hierarchical Mechanism Law Identification",
+  "canonical_science_run":{
+    "run_id":35981184074,
+    "run_number":3,
+    "head_sha":"54459ce78b8d9a147fa8d8dc4ff09c2b36560efa",
+    "conclusion":"success"
+  },
+  "lineage":{
+    "canonical_run_lineage_file":"c3x/protocol/p18-run-lineage.json",
+    "lineage_seal_commit":"c9441bca6ff50358a749c59d46e3541ed71a4a26",
+    "superseded_outcomes_forbidden":true,
+    "superseded_runs":[35978871846,35981108203]
+  },
+  "primary_verdict":"GLOBAL-MAIN-LAW-NOT-ESTABLISHED",
+  "stage_a":{
+    "accepted_cells":96,
+    "per_family_side_balance":{"WHITE":6,"BLACK":6},
+    "pool_sha256":"41e4f49a5924747af4951a0583a7bf891f728579e29dc276778306daf2366222",
+    "stage_a_file_sha256":"e85c88717428e96e490761ea43905f26857ee7cc9293eea14b2cd2957c6f45fb",
+    "artifact_id":10800468703
+  },
+  "stage_b":{
+    "committed_cells":64,
+    "cells_per_family":8,
+    "families":8,
+    "precommit_sha256":"daaa8dfb10e519132d21ab2a1302476b973a831ad2a41ac8d299d961e7c7a9f3",
+    "precommit_file_sha256":"99bf85f40cb39d0035037a2af270ae213e5d3dcbb300ac5ccc2f7cd551826373",
+    "binary_sha256":{
+      "frozen_20260810":"4cc22d7fc1943ab5d23142a868a101d45ca253f4c915d7fbbaccaa91a2aa0e5b",
+      "stockfish_19":"bb8487ab5de45a192d56502fdf33d3b74e5489f043528ea1240c68b7c7533425"
+    },
+    "artifact_id":10800828208
+  },
+  "discovery_law":{
+    "law_sha256":"81dde6a54877ec6e8cc02f8f0ccaad9322d40f8380e9632030e9c1470a915ed2",
+    "heldout_outcomes_consulted":false,
+    "sealed_predictions":{
+      "frozen_20260810":"NO-GLOBAL-LAW",
+      "stockfish_19":"NO-GLOBAL-LAW"
+    },
+    "discovery_pooled_phase":{
+      "frozen_20260810":"NULL",
+      "stockfish_19":"NULL"
+    },
+    "main_dominant_discovery_families":{
+      "frozen_20260810":0,
+      "stockfish_19":0
+    },
+    "artifact_id":10800717720
+  },
+  "primary_transport":{
+    "result_sha256":"f49198eecb04f76059c6ce0d10bab8b89cf10675295de24360e25ca97b921a2a",
+    "result_file_sha256":"893a82ae6fc5b2e8d3bc93d6efb70449487103f8ba5ffce74b6f7561335cee81",
+    "cross_version_global_law":false,
+    "robust_wdl_changed_any_arm":false,
+    "heldout_pooled_phase":{
+      "frozen_20260810":"NULL",
+      "stockfish_19":"NULL"
+    },
+    "material_heterogeneity_flag":{
+      "frozen_20260810":false,
+      "stockfish_19":false
+    },
+    "artifact_id":10800932136
+  },
+  "ontology_secondary":{
+    "ontology_schema":"c3x-p18-material-ontology-v2",
+    "ontology_file":"c3x/ontology/p18-material-ontology.json",
+    "ontology_preseal":"c3x/protocol/p18-ontology-preseal.json",
+    "secondary_only":true,
+    "layers":{
+      "L0":"constitutive material structure",
+      "L1":"exact-world context; non-constitutive",
+      "L2":"engine-process intervention outcome"
+    },
+    "cross_version_hierarchical_vector_envelope":true,
+    "cross_version_analog_phase_transport":true,
+    "cross_version_interaction_sign_transport":false,
+    "cross_version_orientation_duality":false,
+    "cross_version_commutative_square":false,
+    "per_target":{
+      "frozen_20260810":{
+        "discovery_centroid":[0.03125,0.03125,0.0],
+        "heldout_in_vector_envelope":"4/4",
+        "pooled_heldout_in_envelope":true,
+        "analog_phase_match":"3/3",
+        "interaction_sign_match":"1/3",
+        "orientation_duality_pass":false,
+        "commutative_square_pass":false,
+        "far_extrapolation_KBBvKN":{"phase":"NULL","vector":[0.0,0.0,0.0]}
+      },
+      "stockfish_19":{
+        "discovery_centroid":[0.03125,0.03125,-0.03125],
+        "heldout_in_vector_envelope":"4/4",
+        "pooled_heldout_in_envelope":true,
+        "analog_phase_match":"3/3",
+        "interaction_sign_match":"1/3",
+        "orientation_duality_pass":false,
+        "commutative_square_pass":false,
+        "far_extrapolation_KBBvKN":{"phase":"NULL","vector":[0.0,0.0,0.0]}
+      }
+    },
+    "interpretation":"Magnitude-envelope transport survives, but interaction-sign and orientation relations do not commute under the presealed material morphisms. This does not alter the primary GLOBAL-MAIN-LAW-NOT-ESTABLISHED verdict."
+  },
+  "authority_ceiling":"NO-GLOBAL-MAIN-PHASE-LAW@P18 / HIERARCHICAL-CAUSAL-VECTOR-ENVELOPE-TRANSPORT-WITH-RELATIONAL-NONCOMMUTATIVITY@FRESH-DUAL-TARGET-300K-EXACT-WORLD-SCOPE",
+  "forbidden_inferences":[
+    "general chess prevalence",
+    "TT representation identity",
+    "world-model identity",
+    "human-like cognition",
+    "post-outcome ontology regrouping",
+    "promotion of secondary ontology tests over the primary presealed verdict"
+  ],
+  "custody":{
+    "drive_folder":"04_SEALED_RESULTS_COURTS/G9_4_P18",
+    "drive_folder_id":"1vW9Hts5ea_htCKqjoES9UXb1YcGjmZpz",
+    "stage_a_file_id":"1qJXq5xcNAk0kKeOhQoIr0NNvDGQea7xv",
+    "discovery_law_file_id":"1CY8UQfA_Txwdy3ELjn6j02EBrI6Z3F2U",
+    "primary_result_file_id":"1b36p5IIKKl947ZIJfKv5yLqc1xahA6Ov"
+  }
+}
