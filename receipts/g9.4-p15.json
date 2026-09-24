@@ -1,0 +1,120 @@
+{
+  "schema": "c3x-g9.4-p15-receipt-v1",
+  "scientific_stage": "C3X 0.7.0-G9.4-P15",
+  "title": "Selective TT-Read Subpath Intervention, Main/Successor/QSearch Factorial Decomposition, Interaction-Specific Exact-Value Causality & Cross-Version Mechanism Localization",
+  "primary_verdict": "TT-READ-SUBPATH-DEPENDENT-FINE-EXACT-VALUE",
+  "localization_verdict": "SINGLE-SUBPATH-LOCALIZATION",
+  "localized_site": "MAIN",
+  "tested_repo_commit": "4ff0b86f06da5d17951982ae8db7a13a4b6d6795",
+  "github_actions": {
+    "workflow": "p15-selective-tt-factorial",
+    "run_id": 35966181981,
+    "run_number": 2,
+    "conclusion": "success"
+  },
+  "parent": {
+    "p14_run_id": 35962290786,
+    "p14_confirmatory_cells_reused": false
+  },
+  "instrument": {
+    "p12_semantics_preserved": true,
+    "full_mask_legacy_masked_equivalence": {
+      "frozen_20260810": "PASS",
+      "stockfish_19": "PASS"
+    },
+    "binary_sha256": {
+      "frozen_20260810": "4cc22d7fc1943ab5d23142a868a101d45ca253f4c915d7fbbaccaa91a2aa0e5b",
+      "stockfish_19": "bb8487ab5de45a192d56502fdf33d3b74e5489f043528ea1240c68b7c7533425"
+    }
+  },
+  "stage_a": {
+    "stockfish_outcomes_consulted": false,
+    "accepted_cells": 40,
+    "dual_target_engaged_cells": 39,
+    "pool_sha256": "52080b8488c77afa98835715e811dc0fa6ef4d3ae111d9fc842c9d7da6dee077",
+    "stage_a_file_sha256": "12018c7a2aa472ed817c23adf72225e771e17dee122721f2e4e5b366a196e393",
+    "material_signatures": 8,
+    "sides_to_move": ["BLACK", "WHITE"],
+    "artifact": {
+      "id": 10794720774,
+      "digest": "sha256:24faf74dd3d4a4c31e6cd2d8d93ec9419ad865ed1bed3faa27d6b6385caf614e"
+    }
+  },
+  "stage_b": {
+    "selective_mask_outcomes_consulted": false,
+    "committed_cells": 24,
+    "material_signatures": 8,
+    "sides_to_move": ["BLACK", "WHITE"],
+    "precommit_sha256": "f207c31748dfb00982bfba52a078fee7cbaa92cef26bf7e5a088191ba5211795",
+    "precommit_file_sha256": "d9ef984ee1916ca23f1509334f92f2d6261a3514262d1abd95d86181e6397e7b",
+    "authorization": "P15-FACTORIAL-READY",
+    "original_artifact": {
+      "id": 10793894767,
+      "digest": "sha256:53409ef1aa8685170b867abc0ff7e7a67d48889e8da20f585d07e72d0182909b"
+    }
+  },
+  "stage_c": {
+    "result_sha256": "e7c3f66b16749f788ae39f53fc9410f2e124716bd90b612f339770ccf3d21ebf",
+    "result_artifact": {
+      "id": 10795125360,
+      "digest": "sha256:fe6856f1cbd9612f15f5d0dfeb78f8eaa32851191fa0ba7eaf1523f34765e874"
+    },
+    "rates": {
+      "frozen_20260810": {
+        "MASK_MAIN": {"action_changed": 6, "fine_changed": 3, "coarse_changed": 0},
+        "MASK_SUCCESSOR": {"action_changed": 3, "fine_changed": 1, "coarse_changed": 0},
+        "MASK_QSEARCH": {"action_changed": 4, "fine_changed": 3, "coarse_changed": 0},
+        "MASK_MAIN_SUCCESSOR": {"action_changed": 6, "fine_changed": 3, "coarse_changed": 0},
+        "MASK_MAIN_QSEARCH": {"action_changed": 3, "fine_changed": 1, "coarse_changed": 0},
+        "MASK_SUCCESSOR_QSEARCH": {"action_changed": 2, "fine_changed": 1, "coarse_changed": 0},
+        "MASK_ALL": {"action_changed": 3, "fine_changed": 1, "coarse_changed": 0}
+      },
+      "stockfish_19": {
+        "MASK_MAIN": {"action_changed": 6, "fine_changed": 2, "coarse_changed": 0},
+        "MASK_SUCCESSOR": {"action_changed": 1, "fine_changed": 0, "coarse_changed": 0},
+        "MASK_QSEARCH": {"action_changed": 4, "fine_changed": 2, "coarse_changed": 0},
+        "MASK_MAIN_SUCCESSOR": {"action_changed": 6, "fine_changed": 2, "coarse_changed": 0},
+        "MASK_MAIN_QSEARCH": {"action_changed": 3, "fine_changed": 2, "coarse_changed": 0},
+        "MASK_SUCCESSOR_QSEARCH": {"action_changed": 4, "fine_changed": 3, "coarse_changed": 0},
+        "MASK_ALL": {"action_changed": 3, "fine_changed": 2, "coarse_changed": 0}
+      }
+    },
+    "main_singleton_gate": {
+      "frozen_20260810": {"fine_changed_cells": 3, "full_mask_overlap_fraction": 1.0},
+      "stockfish_19": {"fine_changed_cells": 2, "full_mask_overlap_fraction": 0.5},
+      "pass": true
+    },
+    "mobius_fine_main_effect": {
+      "frozen_20260810": 0.125,
+      "stockfish_19": 0.08333333333333333
+    },
+    "robust_wdl_changed_any_arm": false
+  },
+  "interpretation": {
+    "supported": [
+      "Selective MAIN-search TT-read masking independently produces fine exact-value changes on fresh prospectively committed worlds on both engine targets.",
+      "The preregistered singleton localization gate is met for MAIN: at least two fine-value witnesses on each engine and at least half of full-mask witnesses overlapped on each target.",
+      "QSEARCH masking also has nonzero action and fine-value effects, so MAIN is a localized causal interface rather than the sole TT-mediated interface.",
+      "Robust WDL remains invariant across every selective arm in this committed tranche."
+    ],
+    "not_supported": [
+      "MAIN is the unique or exclusive causal TT-read pathway.",
+      "The observed selective-arm rates estimate prevalence in ordinary chess.",
+      "TT is a chess-knowledge representation.",
+      "Stockfish has or lacks a world model.",
+      "Human-like cognition or semantic understanding."
+    ],
+    "authority_ceiling": "MAIN-TT-READ-SUBPATH-LOCALIZED-FINE-EXACT-VALUE-CAUSALITY@FRESH-DUAL-TARGET-EXACT-WORLD-SCOPE"
+  },
+  "custody": {
+    "drive_folder_id": "17QRy4acDnln8V47Y1JbWI4p6CoMCIqi-",
+    "drive_folder": "04_SEALED_RESULTS_COURTS/G9_4_P15",
+    "stage_a_file_id": "1UTcxlnDlrNWjV5t9aKQOMIV8qgZgFUDm",
+    "precommit_metadata_file_id": "1v0Al_Fi2kwr2U5frFTbLweVJuuXoFYID",
+    "frozen_binary_file_id": "1f71weD8QKVlp92Ype-x3GcImJED23tJ3",
+    "stockfish_19_binary_file_id": "1eQglosXbSFTGwl6Lp135ycXXV1cpQYww",
+    "factorial_result_file_id": "1Lug7og9iZXKDoX3l98NtgywSOCHHjm04",
+    "custody_split_run_id": 35967511181,
+    "original_149mb_precommit_artifact_preserved_in_actions": true
+  }
+}
