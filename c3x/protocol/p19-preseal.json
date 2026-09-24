@@ -1,0 +1,142 @@
+{
+  "schema": "c3x-g9.4-p19-preseal-v1",
+  "scientific_stage": "C3X 0.7.0-G9.4-P19",
+  "title": "Prospective Mechanism-Morphism Algebra, Matched Ontological Squares, Composition-Order Noncommutativity, Causal Functoriality & Relation-Level Transport Law Identification",
+  "parent": {
+    "p18_verdict": "GLOBAL-MAIN-LAW-NOT-ESTABLISHED",
+    "p18_authority": "HIERARCHICAL-CAUSAL-VECTOR-ENVELOPE-TRANSPORT-WITH-RELATIONAL-NONCOMMUTATIVITY",
+    "p18_confirmatory_cells_reusable": false
+  },
+  "explanandum_lock": {
+    "primary": "Do constitutive material morphisms induce context-independent causal-vector transformations, or does the engine exhibit reproducible mixed relation curvature?",
+    "correction": "Endpoint squares cannot identify literal sequential order noncommutativity because path sums telescope. P19 therefore tests causal functoriality / mixed curvature. NONCOMMUTATIVE may be promoted only by a future sequential intervention operator, not by endpoint curvature alone."
+  },
+  "fresh_world": {
+    "compiler_version": "c3x-p19-stage-a-v1",
+    "generation_index_offset": 60000,
+    "world_authority": "external Lichess Syzygy HTTP",
+    "pawnless": true,
+    "max_pieces": 5,
+    "root_halfmove_clock": 0,
+    "robust_categories_only": [
+      "win",
+      "draw",
+      "loss"
+    ],
+    "require_precise_dtz_for_every_legal_move": true,
+    "history_safe_tau_depth": 4,
+    "target_per_vertex": 18,
+    "side_balance_per_vertex": {
+      "WHITE": 9,
+      "BLACK": 9
+    },
+    "confirmatory_cells_from_p13_p18_forbidden": true
+  },
+  "squares": {
+    "HEAVY_HEAVY": {
+      "vertices": {
+        "10": "KQRvKQ",
+        "11": "KQRvKR",
+        "00": "KQQvKQ",
+        "01": "KQQvKR"
+      },
+      "alpha": "WHITE one-heavy-slot Q→R substitution",
+      "beta": "BLACK heavy Q→R substitution",
+      "novelty": "all four material-family labels absent from P13-P18 confirmatory families"
+    },
+    "MINOR_MINOR": {
+      "vertices": {
+        "10": "KRNvKB",
+        "11": "KRNvKN",
+        "00": "KRBvKB",
+        "01": "KRBvKN"
+      },
+      "alpha": "WHITE minor B→N substitution",
+      "beta": "BLACK minor B→N substitution",
+      "novelty": "family labels existed historically, but P19 uses generation-offset fresh exact worlds and no historical cells"
+    }
+  },
+  "engine_targets": {
+    "intended": [
+      "stockfish_18",
+      "frozen_20260810",
+      "stockfish_19"
+    ],
+    "chronology": [
+      "stockfish_18",
+      "frozen_20260810",
+      "stockfish_19"
+    ],
+    "admission": "target-specific instrument gate must PASS before SHAM census; failed targets are excluded before intervention outcomes and cannot support lineage claims",
+    "engine_ontology": "c3x/ontology/p19-engine-ontology.json"
+  },
+  "resource_anchor": {
+    "nodes": 300000,
+    "threads": 1,
+    "hash_mib": 64,
+    "clear_hash_each_arm": true,
+    "engine_syzygy_probe_limit": 0
+  },
+  "instrument": {
+    "base": "P15 selective semantic TT-read instrument",
+    "primary_arms": {
+      "10": "MASK_MAIN",
+      "11": "MASK_MAIN_QSEARCH",
+      "00": "SHAM",
+      "01": "MASK_QSEARCH"
+    },
+    "secondary_anchor": "MASK_ALL"
+  },
+  "sham_gate": {
+    "H_min": 64,
+    "U_min": 16,
+    "breadth_required": 3,
+    "require_each_site_raw_hit": true,
+    "require_each_site_semantic_use": true,
+    "eligible_on_every_admitted_engine": true
+  },
+  "tranche": {
+    "cells_per_vertex": 12,
+    "side_balance_per_vertex": {
+      "WHITE": 6,
+      "BLACK": 6
+    },
+    "total_cells": 96,
+    "selection": "within each vertex and side: descending minimum site-use floor across admitted engines, then tau4, then candidate_sha256",
+    "intervention_outcomes_forbidden_until_precommit": true
+  },
+  "causal_vector": {
+    "coordinates": {
+      "MAIN": "p_fine(MASK_MAIN)",
+      "QSEARCH": "p_fine(MASK_QSEARCH)",
+      "INTERACTION": "p_fine(MASK_MAIN_QSEARCH)-p_fine(MASK_MAIN)-p_fine(MASK_QSEARCH)"
+    },
+    "square_curvature": "H = v11 - v10 - v01 + v00",
+    "one_cell_resolution": "1 / committed_cells_per_vertex",
+    "flat_if": "L_inf(|H|) <= 1/n",
+    "curved_if": "L_inf(|H|) >= 2/n",
+    "otherwise": "BORDERLINE",
+    "replicated_curvature_if": "same square is CURVED on at least two admitted engine targets with the same dominant curvature coordinate and sign"
+  },
+  "relation_tests": {
+    "phase_parallel_edge_equivariance": "alpha edge phase-change relation must match across beta contexts, and beta edge relation across alpha contexts",
+    "interaction_sign_parallel_edge_equivariance": "same rule using sign of MAIN×QSEARCH interaction",
+    "engine_material_naturality": "curvature class plus dominant coordinate/sign should transport along admitted engine chronology",
+    "literal_composition_order_noncommutativity": "NOT_IDENTIFIABLE_FROM_ENDPOINT_SQUARES"
+  },
+  "primary_verdict_order": [
+    "REPLICATED-MATERIAL-RELATION-CURVATURE",
+    "ENGINE-CONDITIONED-RELATION-GEOMETRY",
+    "CAUSAL-FUNCTORIALITY-SUPPORTED",
+    "RELATION-LAW-INDETERMINATE"
+  ],
+  "forbidden_inferences": [
+    "literal sequential noncommutativity from endpoint curvature",
+    "post-outcome square rewiring",
+    "post-outcome engine inclusion/exclusion",
+    "TT representation identity",
+    "world-model identity",
+    "human-like cognition",
+    "general-chess prevalence"
+  ]
+}
