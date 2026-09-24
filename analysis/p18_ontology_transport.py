@@ -34,6 +34,29 @@ def sign(x):
 def relation(a,b):
     return [a,b]
 
+def causal_vector(x):
+    return [x["MAIN"],x["QSEARCH"],x["INTERACTION"]]
+
+def vector_envelope(discovery,heldout):
+    names=sorted(discovery)
+    dv=[causal_vector(discovery[n]) for n in names]
+    centroid=[sum(v[j] for v in dv)/len(dv) for j in range(3)]
+    radius=[max(abs(v[j]-centroid[j]) for v in dv) for j in range(3)]
+    tol=1/8
+    def check(v):
+        delta=[abs(v[j]-centroid[j]) for j in range(3)]
+        return {"vector":v,"abs_delta":delta,
+                "within":all(delta[j] <= radius[j]+tol+1e-12 for j in range(3))}
+    held_checks={n:check(causal_vector(heldout[n])) for n in sorted(heldout)}
+    hv=[causal_vector(heldout[n]) for n in sorted(heldout)]
+    pooled=[sum(v[j] for v in hv)/len(hv) for j in range(3)]
+    pooled_check=check(pooled)
+    matches=sum(x["within"] for x in held_checks.values())
+    return {"discovery_centroid":centroid,"discovery_max_abs_deviation":radius,
+            "one_cell_tolerance":tol,"heldout":held_checks,
+            "heldout_in_envelope_count":matches,"pooled_heldout":pooled_check,
+            "transport_pass":matches>=3 and pooled_check["within"]}
+
 def main():
     ap=argparse.ArgumentParser()
     ap.add_argument("--ontology",required=True)
@@ -92,8 +115,10 @@ def main():
         }
         commutative["pass"]=commutative["phase_change_commutes"] and commutative["interaction_sign_change_commutes"]
 
+        envelope=vector_envelope(d,h)
+
         out["targets"][t]={
-            "discovery":d,"heldout":h,"analog_pairs":pairs,
+            "discovery":d,"heldout":h,"hierarchical_vector_envelope":envelope,"analog_pairs":pairs,
             "analog_phase_transport_pass":phase_matches>=2,
             "bishop_to_knight_interaction_sign_transport_pass":sign_matches>=2,
             "analog_phase_match_count":phase_matches,
@@ -103,6 +128,7 @@ def main():
             "commutative_square":commutative,
             "far_extrapolation_KBBvKN":h["KBBvKN"]
         }
+    out["cross_version_hierarchical_vector_envelope"]=all(out["targets"][t]["hierarchical_vector_envelope"]["transport_pass"] for t in TARGETS)
     out["cross_version_analog_phase_transport"]=all(out["targets"][t]["analog_phase_transport_pass"] for t in TARGETS)
     out["cross_version_interaction_sign_transport"]=all(out["targets"][t]["bishop_to_knight_interaction_sign_transport_pass"] for t in TARGETS)
     out["cross_version_orientation_duality"]=all(out["targets"][t]["orientation_duality_pass"] for t in TARGETS)
