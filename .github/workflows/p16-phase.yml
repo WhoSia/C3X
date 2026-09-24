@@ -7,10 +7,6 @@ on:
       - "c3x/protocol/p16-preseal.json"
       - "compiler/exact_world/p16_compile.py"
       - "harness/p16_phase.py"
-      - "tools/materialize_p15.py"
-      - "tools/materialize_p12.py"
-      - "upstream/stockfish-lock.json"
-      - ".github/workflows/p16-phase.yml"
 
 permissions:
   contents: read
