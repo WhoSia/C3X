@@ -5,7 +5,7 @@ from pathlib import Path
 import chess
 
 API="https://tablebase.lichess.ovh/standard"
-VERSION="c3x-p19-stage-a-v1"
+VERSION="c3x-p19-stage-a-v2-fine-exact-split"
 OFFSET=60000
 
 VERTICES={
@@ -58,13 +58,16 @@ def world(b):
                       "zeroing":bool(x.get("zeroing",False))})
     if len(moves)<2: return None
     vals=[x["mover_wdl"] for x in moves]; best=max(vals)
-    if all(v==best for v in vals): return None
+    fine=Counter(f'{x["mover_wdl"]}:{x["mover_precise_dtz"]}' for x in moves)
+    if len(fine)<2: return None
     cnt=Counter(vals)
     return {"provider":"lichess-syzygy-http","endpoint":API,"query_url":url,
             "root_category":obj.get("category"),"root_wdl":c[obj["category"]],
             "root_precise_dtz":obj.get("precise_dtz"),
             "moves":sorted(moves,key=lambda z:z["uci"]),
             "world_pattern":{str(k):cnt[k] for k in sorted(cnt)},
+            "fine_value_pattern":dict(sorted(fine.items())),
+            "fine_value_distinct_count":len(fine),
             "optimal_count":sum(v==best for v in vals),
             "strictly_worse_count":sum(v<best for v in vals),
             "raw_response_sha256":raw}
@@ -109,10 +112,12 @@ def main():
     ap.add_argument("--out",required=True)
     ap.add_argument("--target-per-vertex",type=int,default=18)
     ap.add_argument("--max-generated-per-vertex",type=int,default=320)
+    ap.add_argument("--material",choices=tuple(VERTICES),help="Optional single-vertex material for parallel constitution")
     a=ap.parse_args()
     if a.target_per_vertex%2: raise SystemExit("target-per-vertex must be even")
     per_side=a.target_per_vertex//2; accepted=[]; audit={}
-    for material,(square,vertex,pieces) in VERTICES.items():
+    items=VERTICES.items() if a.material is None else [(a.material,VERTICES[a.material])]
+    for material,(square,vertex,pieces) in items:
         fam=[]; audited=0; world_pass=0; side_count={"WHITE":0,"BLACK":0}
         for i in range(a.max_generated_per_vertex):
             for side in (chess.WHITE,chess.BLACK):
@@ -141,6 +146,7 @@ def main():
     payload={"schema":"c3x-p19-stage-a-pool-v1","scientific_stage":"C3X 0.7.0-G9.4-P19",
              "compiler_version":VERSION,"stockfish_outcomes_consulted":False,
              "freshness":{"generation_index_offset":OFFSET,"historical_confirmatory_cells_reused":False},
+             "constitution":{"legal_move_fine_exact_value_distinct_min":2,"split_definition":"distinct (mover_wdl,mover_precise_dtz) tuples; robust-WDL split alone is not required"},
              "squares":{"HEAVY_HEAVY":{"00":"KQQvKQ","10":"KQRvKQ","01":"KQQvKR","11":"KQRvKR"},
                         "MINOR_MINOR":{"00":"KRBvKB","10":"KRNvKB","01":"KRBvKN","11":"KRNvKN"}},
              "world_authority":{"provider":"Lichess public Syzygy tablebase API","endpoint":API,
