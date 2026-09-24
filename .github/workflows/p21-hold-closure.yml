@@ -1,0 +1,63 @@
+name: p21-hold-closure
+
+on:
+  push:
+    paths:
+      - ".github/workflows/p21-hold-closure.yml"
+      - "analysis/p21_hold_closure.py"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  close:
+    name: P21 frozen-decision HOLD closure
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: p21-core-precommit
+          path: core
+          repository: WhoSia/C3X
+          run-id: 36041727983
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: p21-carrier-precommit
+          path: carrier
+          repository: WhoSia/C3X
+          run-id: 36041727983
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: p21-exposure-feasibility
+          path: diag
+          repository: WhoSia/C3X
+          run-id: 36043796288
+          github-token: ${{ github.token }}
+      - name: Verify no materialized selective result artifacts
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          names="$(gh api repos/WhoSia/C3X/actions/runs/36041727983/artifacts?per_page=100 --jq '.artifacts[].name')"
+          ! grep -q '^p21-core-vertex-' <<<"$names"
+          ! grep -q '^p21-carrier-vertex-' <<<"$names"
+          ! grep -q '^p21-core-result$' <<<"$names"
+          ! grep -q '^p21-carrier-result$' <<<"$names"
+          ! grep -q '^p21-final-result$' <<<"$names"
+          echo "P21_NO_MATERIALIZED_SELECTIVE_RESULT_PASS"
+      - name: Apply frozen decision tree
+        run: |
+          mkdir -p out
+          python3 analysis/p21_hold_closure.py             --preseal c3x/protocol/p21-preseal.json             --core-precommit core/p21-core-precommit.json             --carrier-precommit carrier/p21-carrier-precommit.json             --diagnostic diag/p21-exposure-feasibility.json             --out out/p21-final-hold.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: p21-final-hold
+          path: out/
+          retention-days: 30
