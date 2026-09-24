@@ -31,15 +31,29 @@
       "sham_precommit_materialized": false,
       "scientific_use": "NONE",
       "reason": "Triggered by preseal-v2 commit before the parallel Stage-A workflow repair existed; superseded without inspecting intervention outcomes."
+    },
+    {
+      "run_id": 36008143936,
+      "head_sha": "86c78cd7317c3cf4ca4d9aba194c3ac3be685784",
+      "failure_stage": "Stage B three-version SHAM census",
+      "failure_class": "STAGE-B-SHAM-ENGAGEMENT-RESERVE-SHORTFALL",
+      "observed_failure": "KQQvKR eligible=9 from an 18-world vertex reserve; the frozen confirmatory tranche requires 12 cells with 6 WHITE + 6 BLACK.",
+      "intervention_outcomes_materialized": false,
+      "sham_precommit_materialized": false,
+      "scientific_use": "NONE",
+      "instrument_gate": "PASS on stockfish_18, frozen_20260810 and stockfish_19 before the SHAM census failure"
     }
   ],
   "repair": {
     "compiler_version": "c3x-p19-stage-a-v2-fine-exact-split",
     "eligibility": "At least two distinct legal-move (mover_wdl,mover_precise_dtz) tuples; robust-WDL split is not required.",
     "execution": "Eight vertices are constituted independently and merged deterministically before the unchanged three-engine SHAM precommit.",
-    "scientific_rationale": "P19's declared fine exact-value outcome is [mover-relative robust WDL, mover-relative precise-DTZ]; the v1 WDL-only split was an accidental stronger filter and made asymmetric vertices structurally impossible."
+    "scientific_rationale": "P19's declared fine exact-value outcome is [mover-relative robust WDL, mover-relative precise-DTZ]; the v1 WDL-only split was an accidental stronger filter and made asymmetric vertices structurally impossible.",
+    "stage_a_reserve": "Symmetric 36-world reserve per vertex (18 WHITE + 18 BLACK) for all eight vertices; confirmatory commitment remains exactly 12 per vertex (6 + 6).",
+    "engagement_thresholds_changed": false,
+    "selection_rule_changed": false
   },
   "blindness_rule": "No P19 selective intervention outcome existed in the superseded run. Future P19 authority must come from a run using the repaired constitution and unchanged prospective relation tests.",
-  "canonical_candidate_rule": "Use the first P19 run whose head contains compiler v2 fine-exact split, deterministic p19_merge.py, and the 8-way Stage-A parallel workflow. Earlier runs remain scientifically inadmissible.",
+  "canonical_candidate_rule": "Use the first P19 run after the symmetric 36-world-per-vertex reserve repair whose Stage B produces the frozen 96-cell three-engine SHAM precommit. Runs 36004271599, 36007924164, 36007946168 and 36008143936 remain scientifically inadmissible; none produced selective intervention outcomes.",
   "parallel_workflow_commit": "b27fb5e54c950b983444cbd03fce0dbef3cfad8e"
 }
