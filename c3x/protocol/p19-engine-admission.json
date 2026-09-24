@@ -1,0 +1,39 @@
+{
+  "schema": "c3x-g9.4-p19-engine-admission-v1",
+  "scientific_stage": "C3X 0.7.0-G9.4-P19",
+  "status": "THREE-TARGET-ADMITTED",
+  "targets": [
+    "stockfish_18",
+    "frozen_20260810",
+    "stockfish_19"
+  ],
+  "chronology": [
+    "stockfish_18",
+    "frozen_20260810",
+    "stockfish_19"
+  ],
+  "outcomes_consulted": false,
+  "commits": {
+    "stockfish_18": "cb3d4ee9b47d0c5aae855b12379378ea1439675c",
+    "frozen_20260810": "5062aee519a1ba262d472d8ab139851ced56573e",
+    "stockfish_19": "edb0d9db6731067ec50ce619ff372b463bc4dd5d"
+  },
+  "sf18_gate": {
+    "verdict": "PASS",
+    "run_id": 36003198674,
+    "artifact_id": 10809960445,
+    "artifact_digest": "sha256:e94877f63752c26db8e6c734426e2be6456b14440e09cb1c32d6678d0c9a4f9d",
+    "binary_sha256": "cbf9f710c05ab129de7e725e2fd571ae23d7d0d2bca38d4cff0b24739257d297",
+    "uci_smoke": "PASS",
+    "native_sham_identity": "PASS",
+    "full_mask_equivalence": "PASS",
+    "port_repairs": [
+      "Worker-state anchor adapted to SF18 elapsed_time layout without changing state semantics",
+      "MAIN cutoff telemetry anchor adapted to SF18 depth>5 guard without changing semantic-use definition",
+      "canonical masked miss packet uses SF18 probe-native DEPTH_ENTRY_OFFSET rather than later DEPTH_NONE"
+    ]
+  },
+  "admission_rule": "All three targets have exact source identity; SF18 selective intervention passed clean baseline/NATIVE/SHAM noninterference and MASK_ALL=MASKED equivalence before any P19 intervention outcome.",
+  "heterogeneous_engines": "RESERVE_ONLY_UNDER_P19_ENGINE_ONTOLOGY",
+  "seal_sha256": "e597836107c4df3437be7f59b7eb41ea414689324311cdad2d0b8c53107a2c85"
+}
