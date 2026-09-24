@@ -43,7 +43,7 @@ jobs:
           python3 compiler/exact_world/p19_compile.py \
             --material ${{ matrix.family }} \
             --out out/p19-stage-a-${{ matrix.family }}.json \
-            --target-per-vertex 18 --max-generated-per-vertex 320
+            --target-per-vertex 36 --max-generated-per-vertex 520
       - uses: actions/upload-artifact@v4
         with:
           name: p19-stage-a-${{ matrix.family }}
@@ -51,7 +51,7 @@ jobs:
           retention-days: 30
 
   stage_a:
-    name: Stage A2 — deterministic 144-world square merge
+    name: Stage A2 — deterministic 288-world square merge
     needs: stage_a_vertex
     runs-on: ubuntu-latest
     steps:
