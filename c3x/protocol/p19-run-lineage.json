@@ -51,9 +51,32 @@
     "scientific_rationale": "P19's declared fine exact-value outcome is [mover-relative robust WDL, mover-relative precise-DTZ]; the v1 WDL-only split was an accidental stronger filter and made asymmetric vertices structurally impossible.",
     "stage_a_reserve": "Symmetric 36-world reserve per vertex (18 WHITE + 18 BLACK) for all eight vertices; confirmatory commitment remains exactly 12 per vertex (6 + 6).",
     "engagement_thresholds_changed": false,
-    "selection_rule_changed": false
+    "selection_rule_changed": false,
+    "final_symmetric_reserve_compiler_commit": "28cc5cd139c8eadbda2c815ec9550c09a9fd65b2",
+    "final_symmetric_reserve_workflow_commit": "cc5985decb9914297279d6b236d7412ca03c929d",
+    "heterogeneous_reserve_source_lock_commit": "391858a57cf0d345d6879a36abcd09f342746a6b"
   },
   "blindness_rule": "No P19 selective intervention outcome existed in the superseded run. Future P19 authority must come from a run using the repaired constitution and unchanged prospective relation tests.",
-  "canonical_candidate_rule": "Use the first P19 run after the symmetric 36-world-per-vertex reserve repair whose Stage B produces the frozen 96-cell three-engine SHAM precommit. Runs 36004271599, 36007924164, 36007946168 and 36008143936 remain scientifically inadmissible; none produced selective intervention outcomes.",
-  "parallel_workflow_commit": "b27fb5e54c950b983444cbd03fce0dbef3cfad8e"
+  "canonical_candidate_rule": "Use the first P19 run triggered after workflow commit cc5985decb9914297279d6b236d7412ca03c929d that materializes 36 fresh exact worlds per vertex (18 WHITE + 18 BLACK), then freezes exactly 12 SHAM-engaged cells per vertex (6 + 6) across all three admitted Stockfish lineage targets. All prior P19 runs are inadmissible and no prior run produced selective intervention outcomes.",
+  "parallel_workflow_commit": "b27fb5e54c950b983444cbd03fce0dbef3cfad8e",
+  "precanonical_runs_after_hold": [
+    {
+      "run_id": 36011712553,
+      "run_number": 5,
+      "status": "SUPERSEDED-BY-FINAL-WORKFLOW-REPAIR",
+      "reason": "Triggered after preseal reserve update but before compiler/workflow reserve repair was complete."
+    },
+    {
+      "run_id": 36011718550,
+      "run_number": 6,
+      "status": "SUPERSEDED-BY-FINAL-WORKFLOW-REPAIR",
+      "reason": "Triggered after lineage seal but before compiler/workflow reserve repair was complete."
+    },
+    {
+      "run_id": 36011742410,
+      "run_number": 7,
+      "status": "SUPERSEDED-BY-FINAL-WORKFLOW-REPAIR",
+      "reason": "Compiler default was 36 but workflow still explicitly requested 18 at this run head."
+    }
+  ]
 }
