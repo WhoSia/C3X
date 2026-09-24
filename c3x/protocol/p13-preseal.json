@@ -1,0 +1,83 @@
+{
+  "schema": "c3x-g9.4-p13-preseal-v1",
+  "scientific_stage": "C3X 0.7.0-G9.4-P13",
+  "parent_instrument": {
+    "stage": "C3X 0.7.0-G9.4-P12",
+    "tested_implementation_commit": "7236d6576857404d29f6c0b410c3dbec63f49f15",
+    "actions_run_id": 35907950858,
+    "verdict": "PASS-INSTRUMENT-RC1"
+  },
+  "primary_target": {
+    "name": "frozen_20260810",
+    "upstream_commit": "5062aee519a1ba262d472d8ab139851ced56573e",
+    "threads": 1,
+    "hash_mib": 64,
+    "node_budget": 300000,
+    "clear_hash_each_arm": true,
+    "engine_syzygy_probe_limit": 0
+  },
+  "stage_a": {
+    "world_authority": "external_syzygy_http",
+    "endpoint": "https://tablebase.lichess.ovh/standard",
+    "pawnless": true,
+    "max_pieces": 5,
+    "root_halfmove_clock": 0,
+    "castling": false,
+    "en_passant": false,
+    "robust_wdl_only": [-2, 0, 2],
+    "require_strict_root_world_split": true,
+    "tau_depth": 4,
+    "tau_require_distinct_paths": true,
+    "history_guard": "reject any enumerated path with repeated conservative state or claimable draw; duplicate endpoint key includes board, turn, castling, en-passant, halfmove clock",
+    "target_pool_size": 32,
+    "stockfish_outcomes_forbidden": true
+  },
+  "sham_gate": {
+    "H_min": 64,
+    "U_min": 16,
+    "B_min": 2,
+    "require_non_move_order_semantic_use": true,
+    "engine_side_tablebase_disabled": true
+  },
+  "tranche_commit": {
+    "target_size": 12,
+    "minimum_size_for_masked": 8,
+    "minimum_material_signatures": 3,
+    "require_both_sides_to_move": true,
+    "ranking_fields_only": [
+      "external_world_pattern",
+      "tau4",
+      "material_signature",
+      "side_to_move",
+      "legal_move_count",
+      "H",
+      "U",
+      "B",
+      "candidate_sha256"
+    ],
+    "selection_policy": "round-robin across material_signature x side_to_move strata; within stratum sort by descending tau4, B, U, H then candidate_sha256",
+    "masked_outcomes_forbidden_until_commit_artifact": true
+  },
+  "masked_estimand": {
+    "paired_modes": ["SHAM", "MASKED"],
+    "same_binary_required": true,
+    "primary_external_quotient": "mover-relative robust Syzygy WDL class of engine-selected root move",
+    "secondary_outputs": ["bestmove", "score", "wdl", "pv"],
+    "authority_ceiling": "TT-READ-PATH-DEPENDENT-QUOTIENT@ENGAGED-EXACT-WORLD-SCOPE"
+  },
+  "terminal_grammar": {
+    "world_failure": "WORLD-AUTHORITY-FAIL",
+    "engagement_scarcity": "TT-PATH-ENGAGEMENT-SCARCITY / RETURN-TO-COMPILER",
+    "commit_ready": "TARGET-INTERVENTION-READY",
+    "quotient_change": "TT-READ-PATH-DEPENDENT-QUOTIENT@ENGAGED-EXACT-WORLD-SCOPE",
+    "action_only_change": "TT-READ-PATH-DEPENDENT-ACTION / QUOTIENT-STABLE@ENGAGED-EXACT-WORLD-SCOPE",
+    "no_detected_effect": "NO-DETECTED-MASKED-EFFECT@COMMITTED-TRANCHE"
+  },
+  "forbidden_inferences": [
+    "Stockfish knows chess",
+    "TT is a chess representation",
+    "world-model identity",
+    "general-chess prevalence",
+    "human-like cognition"
+  ]
+}
