@@ -16,16 +16,27 @@
   },
   "world_constitution": {
     "run_id": 36041203061,
+    "conclusion": "SUCCESS",
     "authority": "OUTCOME_BLIND_WORLD_CONSTITUTION_ONLY",
-    "target_pools": [
-      "PAWNLESS_CORE 384",
-      "PAWN_CARRIER 384"
-    ]
+    "pools": {
+      "PAWNLESS_CORE": {
+        "worlds": 384,
+        "pool_sha256": "3a8381c23f7a03be99b9eeafe88c35b074d1063c833b0fa6e5e66ec47e53671e",
+        "artifact_id": 10827690561,
+        "artifact_digest": "sha256:6636d7696de48e2a06c2659aab552a7b39984dcc06c39bee9fbaeef148e819f0"
+      },
+      "PAWN_CARRIER": {
+        "worlds": 384,
+        "pool_sha256": "cf3afe5cef0d4fb9a95339f1b700b7c5b8466336154ba4a8d4adc5993a0dfd73",
+        "artifact_id": 10827206079,
+        "artifact_digest": "sha256:3e80b25be3c283e5bc27e6d5e5b7c8cf02d2793f3bdb31e31b413381bc6b4b2d"
+      }
+    }
   },
   "boundary_execution": {
     "run_id": 36041727983,
     "role": "CANONICAL_P21_CANDIDATE",
-    "state": "WAITING_FOR_OUTCOME_BLIND_WORLD_POOLS",
+    "state": "SHAM_CENSUS_AUTHORIZED_IN_PROGRESS",
     "selective_outcomes_observed_at_seal": false
   },
   "repair_rule": "Any engineering repair before the first valid selective intervention may inherit already sealed outcome-blind worlds/census/precommit only by pinned identity. After any selective outcome exists, no protocol/threshold/selection repair may be chosen based on scientific results.",
@@ -35,5 +46,11 @@
     "file": "c3x/ontology/p21-lc0-neural-cache-counterexample.json",
     "authority": "DESIGN_ONLY_NO_CAUSAL_AUTHORITY",
     "effect_on_primary_decision_tree": "NONE"
+  },
+  "engineering_reserve": {
+    "run_id": 36042415207,
+    "role": "SIDE_PARALLEL_HEAVY_CORE_BACKUP",
+    "scientific_authority": "NONE_AFTER_CANONICAL_CORE_POOL_COMPLETED",
+    "selective_outcomes": false
   }
 }
