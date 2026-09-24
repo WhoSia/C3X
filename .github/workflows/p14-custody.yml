@@ -1,0 +1,70 @@
+name: p14-custody-split
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - ".github/workflows/p14-custody.yml"
+
+permissions:
+  actions: read
+  contents: read
+
+jobs:
+  split:
+    name: Split sealed P14 precommit for long-term custody
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Download original sealed pre-MASKED artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: p14-sham-predictor-precommit-sealed
+          path: sealed
+          repository: WhoSia/C3X
+          run-id: 35962290786
+          github-token: ${{ github.token }}
+      - name: Verify canonical precommit and binaries
+        run: |
+          python3 - <<'PY'
+          import hashlib,json
+          p=json.load(open("sealed/p14-sham-precommit.json"))
+          assert p["precommit_sha256"]=="a9db2d616b50a6c9168eb44523678b8118609c52814c225290c394a8ff9f4b55"
+          assert p["masked_outcomes_consulted"] is False
+          assert p["authorization"]=="TARGET-INTERVENTION-READY"
+          def sha(path):
+              h=hashlib.sha256()
+              with open(path,"rb") as f:
+                  for c in iter(lambda:f.read(1<<20),b""):h.update(c)
+              return h.hexdigest()
+          assert sha("sealed/c3x-frozen")=="84f52946eaea3b86770be5ca45ebe42729c945a76533bd295418310e3b2fd099"
+          assert sha("sealed/c3x-sf19")=="6e74024b9e730ffcc8b86caa066ebf8ebae7bc2218bcf9356879116458a76e9d"
+          print("P14_CUSTODY_SPLIT_VERIFIED")
+          PY
+      - name: Materialize metadata packet
+        run: |
+          mkdir -p metadata
+          cp sealed/p14-sham-precommit.json metadata/
+          cp sealed/p14-sham-precommit-file-sha256.txt metadata/
+          cp sealed/binary-sha256.txt metadata/
+          cp sealed/frozen-uci-smoke.txt metadata/
+          cp sealed/frozen-native-sham.txt metadata/
+          cp sealed/sf19-uci-smoke.txt metadata/
+          cp sealed/sf19-native-sham.txt metadata/
+      - uses: actions/upload-artifact@v4
+        with:
+          name: p14-precommit-metadata-canonical
+          path: metadata/
+          retention-days: 30
+      - uses: actions/upload-artifact@v4
+        with:
+          name: p14-frozen-binary-canonical
+          path: sealed/c3x-frozen
+          retention-days: 30
+          compression-level: 6
+      - uses: actions/upload-artifact@v4
+        with:
+          name: p14-sf19-binary-canonical
+          path: sealed/c3x-sf19
+          retention-days: 30
+          compression-level: 6
