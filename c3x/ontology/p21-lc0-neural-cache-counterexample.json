@@ -1,0 +1,58 @@
+{
+  "schema": "c3x-p21-lc0-neural-cache-counterexample-design-v1",
+  "scientific_stage": "C3X 0.7.0-G9.4-P21",
+  "source_commit": "1227b4c8c23375f4011831f4d7496d1551f85145",
+  "language": "C++",
+  "status": "PROSPECTIVE_DESIGN_ONLY_NO_CAUSAL_AUTHORITY",
+  "selected_channel": "NEURAL_EVAL_CACHE",
+  "explicitly_excluded_channel": "SEARCH_TREE_STATE",
+  "reason": "P21 requires a single-channel architecture counterexample; pooling neural evaluation cache with persistent tree/DAG statistics would destroy intervention identity.",
+  "source_surface": {
+    "file": "src/neural/memcache.cc",
+    "cache_key": "ComputeEvalPositionHash(EvalPosition) -> current-position hash",
+    "cached_payload": [
+      "q",
+      "d",
+      "m",
+      "policy p",
+      "num_moves"
+    ],
+    "primary_semantic_read": "MemCacheComputation::AddInput: matching cache hit copies cached EvalResult into requested outputs and returns FETCHED_IMMEDIATELY instead of forwarding that input to the wrapped neural backend.",
+    "secondary_read_surface": "MemCache::GetCachedEvaluation",
+    "secondary_surface_rule": "Every callsite must be classified prospectively as decision-semantic or report/diagnostic before admission; no automatic exclusion merely because it is a different API."
+  },
+  "intervention_contract": {
+    "NATIVE": "unaltered memcache behavior",
+    "SHAM": "execute identical branch/counters but return native cached payload; must be semantically identical to NATIVE",
+    "MASK_NEURAL_CACHE_READ": "on an otherwise valid cache hit, suppress semantic reuse and forward the same EvalPosition to the wrapped backend; preserve later cache insertion/update opportunity",
+    "REMOVAL_EQUIVALENT": "independent fixed variant with the semantic read bypassed at source while preserving wrapped-backend computation and write opportunity",
+    "forbidden": [
+      "clear the entire cache as the intervention",
+      "disable or replace the neural network",
+      "reset or delete the search tree/DAG",
+      "change network weights/backend/batch settings between arms",
+      "treat reduced compute time as the causal outcome"
+    ]
+  },
+  "admission_requirements": [
+    "exact lc0 source lock",
+    "exact neural-network artifact SHA-256 lock",
+    "exact backend and backend-option lock",
+    "single-thread/search-concurrency lock sufficient for repeatability or separately measured concurrency semantics",
+    "complete semantic-read census for the selected cache channel",
+    "NATIVE=SHAM on frozen FEN pack under fixed visits/nodes and fresh tree",
+    "MASK_NEURAL_CACHE_READ = independent REMOVAL_EQUIVALENT on the same pack",
+    "positive native cache-hit and masked-hit engagement",
+    "fresh-tree policy prevents SEARCH_TREE_STATE from carrying information across arm repetitions"
+  ],
+  "future_counterexample_estimand": {
+    "primary": "exact-world bestmove value change under neural-eval-cache semantic-read removal",
+    "required_world_join": "same external Syzygy WDL+precise-DTZ move-value space as C3X exact-world lanes where legal",
+    "interpretation": "A matching relation-law sign would be evidence of transport across distinct memory architectures, not proof that TT and neural cache are homologous mechanisms."
+  },
+  "execution_hold": [
+    "no network artifact is locked in P21",
+    "no backend/runtime artifact is locked in P21",
+    "therefore no Lc0 causal run is authorized by this design"
+  ]
+}
