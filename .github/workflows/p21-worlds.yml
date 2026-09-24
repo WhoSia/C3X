@@ -1,0 +1,93 @@
+name: p21-dual-lane-world-constitution
+
+on:
+  push:
+    paths:
+      - ".github/workflows/p21-worlds.yml"
+      - "compiler/exact_world/p21_core_compile.py"
+      - "compiler/exact_world/p21_carrier_compile.py"
+      - "compiler/exact_world/p21_merge.py"
+      - "c3x/protocol/p21-preseal.json"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  core-world:
+    name: P21 core fresh worlds — ${{ matrix.family }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    strategy:
+      fail-fast: false
+      matrix:
+        family: [KQQvKQ, KQRvKQ, KQQvKR, KQRvKR, KRBvKB, KRNvKB, KRBvKN, KRNvKN]
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 -m pip install --disable-pip-version-check chess==1.11.2
+      - run: |
+          mkdir -p out
+          python3 compiler/exact_world/p21_core_compile.py             --material "${{ matrix.family }}"             --target-per-vertex 48             --max-generated-per-vertex 1200             --out "out/p21-core-${{ matrix.family }}.json"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: p21-core-${{ matrix.family }}
+          path: out/
+          retention-days: 30
+
+  carrier-world:
+    name: P21 pawn-carrier worlds — ${{ matrix.family }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    strategy:
+      fail-fast: false
+      matrix:
+        family: [KQQPvKQP, KQRPvKQP, KQQPvKRP, KQRPvKRP, KRBPvKBP, KRNPvKBP, KRBPvKNP, KRNPvKNP]
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 -m pip install --disable-pip-version-check chess==1.11.2
+      - run: |
+          mkdir -p out
+          python3 compiler/exact_world/p21_carrier_compile.py             --material "${{ matrix.family }}"             --target-per-vertex 48             --max-generated-per-vertex 1600             --out "out/p21-carrier-${{ matrix.family }}.json"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: p21-carrier-${{ matrix.family }}
+          path: out/
+          retention-days: 30
+
+  core-merge:
+    name: P21 seal 384-world pawnless core
+    needs: core-world
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: p21-core-*
+          path: parts
+      - run: |
+          mkdir -p out
+          python3 compiler/exact_world/p21_merge.py --lane core --parts parts --out out/p21-core-pool.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: p21-core-pool
+          path: out/
+          retention-days: 30
+
+  carrier-merge:
+    name: P21 seal 384-world pawn-carrier pool
+    needs: carrier-world
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: p21-carrier-*
+          path: parts
+      - run: |
+          mkdir -p out
+          python3 compiler/exact_world/p21_merge.py --lane carrier --parts parts --out out/p21-carrier-pool.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: p21-carrier-pool
+          path: out/
+          retention-days: 30
