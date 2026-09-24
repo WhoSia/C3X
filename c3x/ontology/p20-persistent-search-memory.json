@@ -27,5 +27,24 @@
     ],
     "p20_action": "CONSTITUTE_ONLY_NO_INTERVENTION"
   },
-  "nonidentity_principle": "Two engines may instantiate the same abstract PSM_READ variable without sharing data structures, language, replacement policy, search family or cache topology; equivalence is earned by the intervention contract, not by naming similarity."
+  "nonidentity_principle": "Two engines may instantiate the same abstract PSM_READ variable without sharing data structures, language, replacement policy, search family or cache topology; equivalence is earned by the intervention contract, not by naming similarity.",
+  "language_nonauthority_principle": {
+    "rule": "Implementation language is not an admission variable and cannot by itself support or defeat causal homology.",
+    "native_first": "Instrument each engine in its native implementation and build ecosystem unless a separately validated boundary adapter is required.",
+    "admissible_examples": [
+      "C",
+      "C++",
+      "Rust",
+      "Go",
+      "Zig",
+      "Java",
+      "other implementation languages"
+    ],
+    "forbidden_shortcuts": [
+      "require Python orchestration as part of the scientific construct",
+      "rewrite a native engine into a common language and treat the rewrite as the original causal system",
+      "infer mechanism equivalence from shared language, ABI, UCI support or data-structure names"
+    ],
+    "comparison_contract": "Cross-engine equivalence is earned by complete semantic mediation, NATIVE/SHAM noninterference, semantic-removal equivalence and prospective outcome-blind admission."
+  }
 }
