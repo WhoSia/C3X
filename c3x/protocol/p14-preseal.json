@@ -1,0 +1,102 @@
+{
+  "schema": "c3x-g9.4-p14-preseal-v1",
+  "scientific_stage": "C3X 0.7.0-G9.4-P14",
+  "title": "Fresh-World TT-Mediation Transport, Pre-MASKED Effect Prediction, Finer Exact-Value Quotient Constitution & Search-Path Multiplicity Rival Discrimination",
+  "parent": {
+    "p13_verdict": "TT-READ-PATH-DEPENDENT-ACTION / QUOTIENT-STABLE@ENGAGED-EXACT-WORLD-SCOPE",
+    "p13_actions_run_id": 35960423569,
+    "p13_tested_commit": "34d4dd520788a00de1a0ecfa43afc8abcbba2100",
+    "p13_confirmatory_cells_reusable": false
+  },
+  "fresh_world": {
+    "compiler_version": "c3x-p14-stage-a-v1",
+    "world_authority": "external Lichess Syzygy HTTP",
+    "root_halfmove_clock": 0,
+    "pawnless": true,
+    "max_pieces": 5,
+    "robust_categories_only": ["win", "draw", "loss"],
+    "require_precise_dtz_for_every_legal_move": true,
+    "history_safe_tau_depth": 4,
+    "target_pool_size": 48,
+    "freshness_rule": "material signatures must come only from P14-only material families absent from the P13 generator family list"
+  },
+  "p14_only_material_families": [
+    "KQBvKR", "KQNvKR", "KQRvKB", "KQRvKN",
+    "KRBvKQ", "KRNvKQ", "KBBvKR", "KNNvKR"
+  ],
+  "engine_targets": {
+    "frozen_20260810": {
+      "upstream_commit": "5062aee519a1ba262d472d8ab139851ced56573e"
+    },
+    "stockfish_19": {
+      "upstream_commit": "edb0d9db6731067ec50ce619ff372b463bc4dd5d"
+    }
+  },
+  "runtime": {
+    "threads": 1,
+    "hash_mib": 64,
+    "node_budget": 300000,
+    "clear_hash_each_arm": true,
+    "engine_syzygy_probe_limit": 0
+  },
+  "sham_gate": {
+    "per_target": true,
+    "H_min": 64,
+    "U_min": 16,
+    "B_min": 2,
+    "require_non_move_order_semantic_use": true,
+    "eligible_only_if_both_targets_pass": true
+  },
+  "predictor": {
+    "name": "P13-DERIVED-STRUCTURED-MEDIATION-SCORE-v1",
+    "masked_outcomes_forbidden_during_construction": true,
+    "features": [
+      "percentile_rank(log1p(tau4))",
+      "percentile_rank(mean_target_semantic_use_density_U_over_H)",
+      "percentile_rank(mean_target_qsearch_raw_hit_share)"
+    ],
+    "score": "sum of the three percentile ranks; higher predicts higher probability of MASKED root-action change",
+    "no_fitted_coefficients": true,
+    "null_rival": "action sensitivity is unstructured with respect to the pre-MASKED score"
+  },
+  "tranche": {
+    "target_size": 30,
+    "minimum_size_for_masked": 25,
+    "selection": "six cells from each of five predictor-score quintiles; within quintile round-robin across material_signature x side_to_move, then candidate_sha256",
+    "require_both_sides_to_move": true,
+    "minimum_material_signatures": 5,
+    "masked_outcomes_forbidden_until_precommit_artifact": true
+  },
+  "fine_exact_value": {
+    "primary_coarse_quotient": "mover-relative robust WDL class",
+    "finer_quotient": "[mover-relative robust WDL class, mover-relative precise_dtz]",
+    "move_precise_dtz_transform": "negative of successor-state precise_dtz returned by external tablebase",
+    "admit_only_if_precise_dtz_nonnull": true,
+    "interpretation": "DTZ50'' exact value under the external tablebase semantics; no post-outcome metric substitution"
+  },
+  "transport_adjudication": {
+    "primary_target": "frozen_20260810",
+    "primary_label": "MASKED changes root bestmove",
+    "primary_predictive_gate": {
+      "auc_min": 0.70,
+      "one_sided_permutation_p_max": 0.05,
+      "top_quintile_minus_bottom_quintile_rate_min": 0.20,
+      "permutations": 10000
+    },
+    "cross_version_transport": "apply the same frozen predictor and committed cells to stockfish_19 without refitting",
+    "rival_grammar": {
+      "structured_transport": "PREDICTIVE-TT-MEDIATION-TRANSPORT",
+      "fresh_effect_without_prediction": "FRESH-CAUSAL-EFFECT / PREDICTIVE-LAW-NOT-ESTABLISHED / PATH-MULTIPLICITY-RIVAL-SURVIVES",
+      "fine_quotient_change": "TT-READ-PATH-DEPENDENT-FINE-EXACT-VALUE",
+      "coarse_quotient_change": "TT-READ-PATH-DEPENDENT-ROBUST-WDL-QUOTIENT",
+      "no_fresh_effect": "NO-DETECTED-FRESH-MASKED-EFFECT"
+    }
+  },
+  "forbidden_inferences": [
+    "TT is a chess-knowledge representation",
+    "Stockfish knows chess",
+    "world-model identity",
+    "human-like cognition",
+    "general-chess prevalence from this selected exact-world family"
+  ]
+}
