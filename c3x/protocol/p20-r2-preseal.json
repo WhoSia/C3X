@@ -27,28 +27,52 @@
     "generation_index_offset": 80000,
     "p19_selected_cells_reused": false,
     "worlds_per_vertex": 72,
-    "side_balance_per_vertex": {"WHITE": 36, "BLACK": 36},
-    "vertices": ["KQQvKQ","KQRvKQ","KQQvKR","KQRvKR","KRBvKB","KRNvKB","KRBvKN","KRNvKN"],
+    "side_balance_per_vertex": {
+      "WHITE": 36,
+      "BLACK": 36
+    },
+    "vertices": [
+      "KQQvKQ",
+      "KQRvKQ",
+      "KQQvKR",
+      "KQRvKR",
+      "KRBvKB",
+      "KRNvKB",
+      "KRBvKN",
+      "KRNvKN"
+    ],
     "authority": "same exact-world/Syzygy fine-value constitution as P19, but a disjoint deterministic generation namespace"
   },
   "pre_intervention_selection": {
-    "information_allowed": ["fresh-world constitution", "SHAM telemetry", "source-locked binary identity"],
-    "information_forbidden": ["MASK_MAIN outcomes", "MASK_QSEARCH outcomes", "MASK_MAIN_QSEARCH outcomes", "MASK_ALL outcomes"],
+    "information_allowed": [
+      "fresh-world constitution",
+      "SHAM telemetry",
+      "source-locked binary identity"
+    ],
+    "information_forbidden": [
+      "MASK_MAIN outcomes",
+      "MASK_QSEARCH outcomes",
+      "MASK_MAIN_QSEARCH outcomes",
+      "MASK_ALL outcomes"
+    ],
     "joint_engagement": "Each committed cell must show positive MAIN and QSEARCH PSM_READ engagement on all three targets.",
     "commitment": "12 cells per vertex, 6 WHITE + 6 BLACK, selected deterministically by the minimum cross-target minimum-site SHAM hit count and then candidate hash."
   },
   "runtime": {
     "threads": 1,
     "hash_mib_if_exposed": 64,
-    "nodes": 300000,
     "fresh_process_each_arm": true,
     "arms": {
-      "00": "SHAM",
       "10": "MASK_MAIN",
-      "01": "MASK_QSEARCH",
       "11": "MASK_MAIN_QSEARCH",
+      "00": "SHAM",
+      "01": "MASK_QSEARCH",
       "ALL": "MASK_ALL"
-    }
+    },
+    "census_nodes": 80000,
+    "intervention_nodes": 300000,
+    "census_role": "SHAM-only engagement and deterministic selection; no selective intervention outcomes",
+    "intervention_role": "sealed committed cells only"
   },
   "common_outcome_space": {
     "primary": "exact-world joined move value (mover_wdl, mover_precise_dtz)",
@@ -57,8 +81,18 @@
     "rule": "Do not infer WDL from engine centipawn scores."
   },
   "square_geometry": {
-    "HEAVY_HEAVY": {"00":"KQQvKQ","10":"KQRvKQ","01":"KQQvKR","11":"KQRvKR"},
-    "MINOR_MINOR": {"00":"KRBvKB","10":"KRNvKB","01":"KRBvKN","11":"KRNvKN"},
+    "HEAVY_HEAVY": {
+      "10": "KQRvKQ",
+      "11": "KQRvKR",
+      "00": "KQQvKQ",
+      "01": "KQQvKR"
+    },
+    "MINOR_MINOR": {
+      "10": "KRNvKB",
+      "11": "KRNvKN",
+      "00": "KRBvKB",
+      "01": "KRBvKN"
+    },
     "per_vertex_vector": [
       "Pr(fine change | MASK_MAIN)",
       "Pr(fine change | MASK_QSEARCH)",
