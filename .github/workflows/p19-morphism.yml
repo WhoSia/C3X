@@ -1,0 +1,178 @@
+name: p19-mechanism-morphism-algebra
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - "c3x/protocol/p19-engine-admission.json"
+      - "c3x/protocol/p19-preseal.json"
+      - "c3x/ontology/p19-engine-ontology.json"
+      - "compiler/exact_world/p19_compile.py"
+      - "harness/p19_morphism.py"
+
+permissions:
+  contents: read
+
+jobs:
+  stage_a:
+    name: Stage A — P19 matched-square exact-world constitution
+    runs-on: ubuntu-latest
+    timeout-minutes: 100
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify engine admission seal exists
+        run: |
+          python3 - <<'PY'
+          import json
+          p=json.load(open("c3x/protocol/p19-engine-admission.json"))
+          assert p["status"]=="THREE-TARGET-ADMITTED"
+          assert p["targets"]==["stockfish_18","frozen_20260810","stockfish_19"]
+          assert p["sf18_gate"]["verdict"]=="PASS"
+          print("P19_ENGINE_ADMISSION_VERIFIED",p["seal_sha256"])
+          PY
+      - run: python3 -m pip install --disable-pip-version-check chess==1.11.2
+      - name: Materialize fresh matched ontological squares
+        run: |
+          mkdir -p out
+          python3 compiler/exact_world/p19_compile.py --out out/p19-stage-a.json --target-per-vertex 18 --max-generated-per-vertex 320
+          sha256sum out/p19-stage-a.json | tee out/p19-stage-a-file-sha256.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: p19-stage-a-fresh-squares
+          path: out/
+          retention-days: 30
+
+  precommit:
+    name: Stage B — three-version instrument gate and 96-cell SHAM precommit
+    needs: stage_a
+    runs-on: ubuntu-latest
+    timeout-minutes: 240
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: p19-stage-a-fresh-squares
+          path: stage-a
+      - name: Clone exact Stockfish lineage
+        run: |
+          git clone https://github.com/official-stockfish/Stockfish.git sf18
+          git -C sf18 checkout --detach cb3d4ee9b47d0c5aae855b12379378ea1439675c
+          git clone https://github.com/official-stockfish/Stockfish.git sf-frozen
+          git -C sf-frozen checkout --detach 5062aee519a1ba262d472d8ab139851ced56573e
+          git clone https://github.com/official-stockfish/Stockfish.git sf19
+          git -C sf19 checkout --detach edb0d9db6731067ec50ce619ff372b463bc4dd5d
+          test "$(git -C sf18 rev-parse HEAD)" = "cb3d4ee9b47d0c5aae855b12379378ea1439675c"
+          test "$(git -C sf-frozen rev-parse HEAD)" = "5062aee519a1ba262d472d8ab139851ced56573e"
+          test "$(git -C sf19 rev-parse HEAD)" = "edb0d9db6731067ec50ce619ff372b463bc4dd5d"
+      - name: Build clean lineage baselines
+        run: |
+          make -C sf18/src -j2 build ARCH=x86-64
+          cp sf18/src/stockfish /tmp/sf18-clean
+          make -C sf-frozen/src -j2 build ARCH=x86-64
+          cp sf-frozen/src/stockfish /tmp/sf-frozen-clean
+          make -C sf19/src -j2 build ARCH=x86-64
+          cp sf19/src/stockfish /tmp/sf19-clean
+      - name: Materialize same selective TT-read intervention
+        run: |
+          python3 tools/materialize_p15.py --stockfish sf18 --target stockfish_18
+          python3 tools/materialize_p15.py --stockfish sf-frozen --target frozen_20260810
+          python3 tools/materialize_p15.py --stockfish sf19 --target stockfish_19
+      - name: Build P19 lineage binaries
+        run: |
+          for d in sf18 sf-frozen sf19; do make -C "$d/src" clean; make -C "$d/src" -j2 build ARCH=x86-64; done
+          mkdir -p out
+          cp sf18/src/stockfish out/c3x-p19-sf18
+          cp sf-frozen/src/stockfish out/c3x-p19-frozen
+          cp sf19/src/stockfish out/c3x-p19-sf19
+          sha256sum out/c3x-p19-sf18 out/c3x-p19-frozen out/c3x-p19-sf19 | tee out/binary-sha256.txt
+      - name: Reprove noninterference and full-mask equivalence on all targets
+        run: |
+          python3 harness/uci_smoke.py out/c3x-p19-sf18 | tee out/sf18-uci-smoke.txt
+          python3 harness/native_sham_identity.py --baseline /tmp/sf18-clean --patched out/c3x-p19-sf18 --nodes 30000 | tee out/sf18-native-sham.txt
+          python3 harness/uci_smoke.py out/c3x-p19-frozen | tee out/frozen-uci-smoke.txt
+          python3 harness/native_sham_identity.py --baseline /tmp/sf-frozen-clean --patched out/c3x-p19-frozen --nodes 30000 | tee out/frozen-native-sham.txt
+          python3 harness/uci_smoke.py out/c3x-p19-sf19 | tee out/sf19-uci-smoke.txt
+          python3 harness/native_sham_identity.py --baseline /tmp/sf19-clean --patched out/c3x-p19-sf19 --nodes 30000 | tee out/sf19-native-sham.txt
+          python3 harness/p19_engine_gate.py \
+            --binary stockfish_18=out/c3x-p19-sf18 \
+            --binary frozen_20260810=out/c3x-p19-frozen \
+            --binary stockfish_19=out/c3x-p19-sf19 \
+            --nodes 30000 --out out/p19-engine-gate.json
+      - name: Three-version SHAM-only matched-square census
+        run: |
+          python3 harness/p19_morphism.py sham-commit \
+            --stage-a stage-a/p19-stage-a.json \
+            --binary stockfish_18=out/c3x-p19-sf18 \
+            --binary frozen_20260810=out/c3x-p19-frozen \
+            --binary stockfish_19=out/c3x-p19-sf19 \
+            --out out/p19-sham-precommit.json
+          sha256sum out/p19-sham-precommit.json | tee out/p19-sham-precommit-file-sha256.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: p19-three-version-precommit-sealed
+          path: out/
+          retention-days: 30
+
+  vertex:
+    name: Stage C — square vertex \${{ matrix.family }}
+    needs: precommit
+    strategy:
+      fail-fast: false
+      matrix:
+        family: [KQQvKQ, KQRvKQ, KQQvKR, KQRvKR, KRBvKB, KRNvKB, KRBvKN, KRNvKN]
+    runs-on: ubuntu-latest
+    timeout-minutes: 180
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: p19-three-version-precommit-sealed
+          path: sealed
+      - name: Execute prospectively committed vertex
+        run: |
+          chmod +x sealed/c3x-p19-sf18 sealed/c3x-p19-frozen sealed/c3x-p19-sf19
+          mkdir -p result
+          python3 harness/p19_morphism.py vertex-run \
+            --precommit sealed/p19-sham-precommit.json \
+            --binary stockfish_18=sealed/c3x-p19-sf18 \
+            --binary frozen_20260810=sealed/c3x-p19-frozen \
+            --binary stockfish_19=sealed/c3x-p19-sf19 \
+            --family \${{ matrix.family }} \
+            --out result/p19-\${{ matrix.family }}.json
+          sha256sum result/p19-\${{ matrix.family }}.json | tee result/p19-\${{ matrix.family }}-file-sha256.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: p19-vertex-\${{ matrix.family }}
+          path: result/
+          retention-days: 30
+
+  adjudicate:
+    name: Stage D — causal functoriality and lineage-geometry adjudication
+    needs: vertex
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: p19-vertex-*
+          path: vertices
+          merge-multiple: true
+      - name: Compute matched-square curvature and engine-material naturality
+        run: |
+          mkdir -p result
+          python3 harness/p19_morphism.py adjudicate \
+            --result KQQvKQ=vertices/p19-KQQvKQ.json \
+            --result KQRvKQ=vertices/p19-KQRvKQ.json \
+            --result KQQvKR=vertices/p19-KQQvKR.json \
+            --result KQRvKR=vertices/p19-KQRvKR.json \
+            --result KRBvKB=vertices/p19-KRBvKB.json \
+            --result KRNvKB=vertices/p19-KRNvKB.json \
+            --result KRBvKN=vertices/p19-KRBvKN.json \
+            --result KRNvKN=vertices/p19-KRNvKN.json \
+            --out result/p19-morphism-result.json
+          sha256sum result/p19-morphism-result.json | tee result/p19-morphism-result-file-sha256.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: p19-mechanism-morphism-result
+          path: result/
+          retention-days: 30
