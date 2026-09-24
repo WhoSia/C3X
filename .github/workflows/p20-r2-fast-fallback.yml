@@ -1,0 +1,241 @@
+name: p20-r2-fast-preselective-fallback
+
+on:
+  push:
+    paths:
+      - ".github/workflows/p20-r2-fast-fallback.yml"
+      - "compiler/exact_world/p20_compile_fast.py"
+      - "compiler/exact_world/p20_tau4_fast.py"
+      - "analysis/p20_tau4_equivalence.py"
+      - "analysis/p20_tau4_domain_certificate.py"
+      - "c3x/protocol/p20-r2-fast-fallback-preseal.json"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  equivalence:
+    name: R2 fast tau4 exact-semantics gate
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 -m pip install --disable-pip-version-check chess==1.11.2
+      - name: Frozen old-vs-fast full-return equivalence
+        run: |
+          mkdir -p out
+          python3 analysis/p20_tau4_equivalence.py | tee out/p20-tau4-equivalence.json
+          grep -q '"verdict": "PASS"' out/p20-tau4-equivalence.json
+      - name: P20 domain representation certificate
+        run: |
+          python3 analysis/p20_tau4_domain_certificate.py | tee out/p20-tau4-domain-certificate.json
+          grep -q '"verdict": "PASS"' out/p20-tau4-domain-certificate.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: p20-r2-fast-equivalence
+          path: out/
+          retention-days: 30
+
+  world:
+    name: R2 fast fresh exact worlds — \${{ matrix.family }}
+    needs: equivalence
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    strategy:
+      fail-fast: false
+      matrix:
+        family: [KQQvKQ, KQRvKQ, KQQvKR, KQRvKR, KRBvKB, KRNvKB, KRBvKN, KRNvKN]
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 -m pip install --disable-pip-version-check chess==1.11.2
+      - name: Constitute symmetric outcome-blind exact worlds with sealed fast tau4
+        run: |
+          mkdir -p out
+          python3 compiler/exact_world/p20_compile_fast.py \
+            --material "\${{ matrix.family }}" \
+            --target-per-vertex 72 \
+            --max-generated-per-vertex 1200 \
+            --out "out/p20-stage-a-\${{ matrix.family }}.json"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: p20-fast-stage-a-\${{ matrix.family }}
+          path: out/
+          retention-days: 30
+
+  merge-worlds:
+    name: R2 fast seal 576-world symmetric pool
+    needs: world
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: p20-fast-stage-a-*
+          path: parts
+      - name: Normalize artifact paths and merge
+        shell: bash
+        run: |
+          set -euo pipefail
+          find parts -type f -name 'p20-stage-a-*.json' -print
+          mkdir -p out
+          python3 compiler/exact_world/p20_merge.py \
+            --parts parts \
+            --out out/p20-stage-a-pool.json
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          x=json.loads(Path("out/p20-stage-a-pool.json").read_text())
+          assert len(x["candidates"])==576
+          assert x["stockfish_outcomes_consulted"] is False
+          assert x["cross_engine_transport_outcomes_consulted"] is False
+          assert x["constitution"]["tau4_semantics"]=="P19_FROZEN_EXACT"
+          assert x["constitution"]["tau4_implementation"]=="P20_FAST_EXACT_SEMANTIC_V1"
+          print("P20_FAST_576_POOL_PASS",x["pool_sha256"])
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: p20-r2-fast-stage-a-pool
+          path: out/
+          retention-days: 30
+
+  instrument:
+    name: R2 fast inherit and verify portable causal packet
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - name: Inherit portable-revalidated packet
+        uses: actions/download-artifact@v4
+        with:
+          name: p20-r2-instrument
+          path: out
+          repository: WhoSia/C3X
+          run-id: 36027604444
+          github-token: \${{ github.token }}
+      - name: Verify receipt, packet identity, and generic UCI
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import hashlib,json
+          from pathlib import Path
+          expected={
+            "berserk":"5e95346d204dfa88a61e1c7a539906079b4a72053e4afcaac151b2b44285cc1f",
+            "ethereal":"55d1fea3dd34c2478143c01cf802c60b2fc0e8253888051725a2d01062867a8d",
+            "stockfish_19":"bb8487ab5de45a192d56502fdf33d3b74e5489f043528ea1240c68b7c7533425"
+          }
+          receipt=json.loads(Path("out/packet/p20-r2-portable-binary-revalidation.json").read_text())
+          assert receipt["receipt_sha256"]=="f19ebf4996c210b3d51e8f27deedc6cab17ed8a0aeb5001717a8d0c6ad3cc66e"
+          assert receipt["admission_revalidation"]=={"berserk":"PASS","ethereal":"PASS"}
+          def sh(p):
+              h=hashlib.sha256()
+              with open(p,"rb") as f:
+                  for b in iter(lambda:f.read(1<<20),b""): h.update(b)
+              return h.hexdigest()
+          actual={
+            "berserk":sh("out/packet/c3x-p20-berserk"),
+            "ethereal":sh("out/packet/c3x-p20-ethereal"),
+            "stockfish_19":sh("out/packet/c3x-p20-sf19")
+          }
+          assert actual==expected,(actual,expected)
+          print("P20_FAST_PACKET_IDENTITY_PASS",receipt["receipt_sha256"])
+          PY
+          chmod +x out/packet/c3x-p20-*
+          for b in out/packet/c3x-p20-berserk out/packet/c3x-p20-ethereal out/packet/c3x-p20-sf19; do
+            log="$(mktemp)"
+            printf "%s\n" uci isready quit | timeout 20s "$b" > "$log" 2>&1
+            grep -Fxq "uciok" "$log"
+            grep -Fxq "readyok" "$log"
+          done
+      - uses: actions/upload-artifact@v4
+        with:
+          name: p20-r2-fast-instrument
+          path: out/
+          retention-days: 30
+
+  census:
+    name: R2 fast SHAM census — \${{ matrix.family }}
+    needs: [merge-worlds, instrument]
+    runs-on: ubuntu-latest
+    timeout-minutes: 150
+    strategy:
+      fail-fast: false
+      matrix:
+        family: [KQQvKQ, KQRvKQ, KQQvKR, KQRvKR, KRBvKB, KRNvKB, KRBvKN, KRNvKN]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: p20-r2-fast-stage-a-pool
+          path: stage
+      - uses: actions/download-artifact@v4
+        with:
+          name: p20-r2-fast-instrument
+          path: instrument
+      - name: SHAM-only joint engagement census
+        run: |
+          chmod +x instrument/packet/c3x-p20-*
+          mkdir -p out
+          python3 harness/p20_transport.py census \
+            --stage-a stage/p20-stage-a-pool.json \
+            --engine stockfish_19,stockfish_uci,instrument/packet/c3x-p20-sf19 \
+            --engine berserk,env,instrument/packet/c3x-p20-berserk \
+            --engine ethereal,env,instrument/packet/c3x-p20-ethereal \
+            --family "\${{ matrix.family }}" \
+            --out "out/p20-fast-census-\${{ matrix.family }}.json"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: p20-fast-census-\${{ matrix.family }}
+          path: out/
+          retention-days: 30
+
+  precommit:
+    name: R2 fast seal 96-cell SHAM-only precommit and stop
+    needs: census
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: p20-r2-fast-stage-a-pool
+          path: stage
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: p20-fast-census-*
+          path: census
+      - name: Seal committed cells without selective intervention
+        run: |
+          mkdir -p out
+          python3 harness/p20_transport.py seal \
+            --stage-a stage/p20-stage-a-pool.json \
+            --census-dir census \
+            --out out/p20-r2-fast-precommit.json
+          python3 - <<'PY'
+          import hashlib,json,os
+          from pathlib import Path
+          p=Path("out/p20-r2-fast-precommit.json")
+          x=json.loads(p.read_text())
+          raw=p.read_bytes()
+          receipt={
+            "schema":"c3x-p20-r2-fast-standby-receipt-v1",
+            "scientific_stage":"C3X 0.7.0-G9.4-P20-R2",
+            "run_id":int(os.environ["GITHUB_RUN_ID"]),
+            "head_sha":os.environ["GITHUB_SHA"],
+            "primary_candidate_run_id":36029009546,
+            "selective_interventions_executed":False,
+            "automatic_stop":"AFTER_96_CELL_SHAM_PRECOMMIT",
+            "fallback_activation_requires":"explicit later seal after primary terminates before any selective outcome",
+            "precommit_sha256":hashlib.sha256(raw).hexdigest(),
+            "status":"PRESELECTIVE_STANDBY"
+          }
+          Path("out/p20-r2-fast-standby-receipt.json").write_text(json.dumps(receipt,indent=2,sort_keys=True)+"\n")
+          print(json.dumps(receipt,indent=2,sort_keys=True))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: p20-r2-fast-precommit
+          path: out/
+          retention-days: 30
