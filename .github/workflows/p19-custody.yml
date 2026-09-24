@@ -1,0 +1,80 @@
+name: p19-custody-split
+
+on:
+  push:
+    paths:
+      - ".github/workflows/p19-custody.yml"
+  workflow_dispatch:
+
+permissions:
+  actions: read
+  contents: read
+
+jobs:
+  split:
+    name: Split sealed P19 three-version instrument pack for long-term custody
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Download canonical P19 instrument pack
+        uses: actions/download-artifact@v4
+        with:
+          name: p19-instrument-pack-v2
+          path: sealed
+          repository: WhoSia/C3X
+          run-id: 36018905031
+          github-token: ${{ github.token }}
+      - name: Verify canonical binaries
+        run: |
+          python3 - <<'PY'
+          import hashlib,json
+          expected={
+            "c3x-p19-sf18":"cbf9f710c05ab129de7e725e2fd571ae23d7d0d2bca38d4cff0b24739257d297",
+            "c3x-p19-frozen":"4cc22d7fc1943ab5d23142a868a101d45ca253f4c915d7fbbaccaa91a2aa0e5b",
+            "c3x-p19-sf19":"bb8487ab5de45a192d56502fdf33d3b74e5489f043528ea1240c68b7c7533425"
+          }
+          def sha(path):
+              h=hashlib.sha256()
+              with open(path,"rb") as f:
+                  for c in iter(lambda:f.read(1<<20),b""): h.update(c)
+              return h.hexdigest()
+          for name,want in expected.items():
+              got=sha("sealed/"+name)
+              assert got==want,(name,got,want)
+          gate=json.load(open("sealed/p19-engine-gate.json"))
+          print("P19_CUSTODY_SPLIT_VERIFIED",gate.get("verdict",gate.get("status","GATE_PRESENT")))
+          PY
+      - name: Materialize metadata packet
+        run: |
+          mkdir -p metadata
+          cp sealed/binary-sha256.txt metadata/
+          cp sealed/p19-engine-gate.json metadata/
+          cp sealed/sf18-uci-smoke.txt metadata/
+          cp sealed/sf18-native-sham.txt metadata/
+          cp sealed/frozen-uci-smoke.txt metadata/
+          cp sealed/frozen-native-sham.txt metadata/
+          cp sealed/sf19-uci-smoke.txt metadata/
+          cp sealed/sf19-native-sham.txt metadata/
+      - uses: actions/upload-artifact@v4
+        with:
+          name: p19-instrument-metadata-canonical
+          path: metadata/
+          retention-days: 30
+      - uses: actions/upload-artifact@v4
+        with:
+          name: p19-sf18-binary-canonical
+          path: sealed/c3x-p19-sf18
+          retention-days: 30
+          compression-level: 6
+      - uses: actions/upload-artifact@v4
+        with:
+          name: p19-frozen-binary-canonical
+          path: sealed/c3x-p19-frozen
+          retention-days: 30
+          compression-level: 6
+      - uses: actions/upload-artifact@v4
+        with:
+          name: p19-sf19-binary-canonical
+          path: sealed/c3x-p19-sf19
+          retention-days: 30
+          compression-level: 6
