@@ -7,10 +7,6 @@ on:
       - "c3x/protocol/p15-preseal.json"
       - "compiler/exact_world/p15_compile.py"
       - "harness/p15_factorial.py"
-      - "tools/materialize_p15.py"
-      - "tools/materialize_p12.py"
-      - "upstream/stockfish-lock.json"
-      - ".github/workflows/p15-factorial.yml"
 
 permissions:
   contents: read
