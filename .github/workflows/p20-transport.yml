@@ -62,9 +62,9 @@ jobs:
           retention-days: 30
 
   instrument:
-    name: R2 bind admitted heterogeneous binaries + SF19 bridge
+    name: R2 portable transport-binary revalidation + SF19 bridge
     runs-on: ubuntu-latest
-    timeout-minutes: 60
+    timeout-minutes: 90
     steps:
       - uses: actions/checkout@v4
 
@@ -77,7 +77,7 @@ jobs:
           run-id: 36026256576
           github-token: ${{ github.token }}
 
-      - name: Verify R1 authorization before R2
+      - name: Verify R1 causal-adapter authorization
         run: |
           python3 - <<'PY'
           import json
@@ -90,25 +90,96 @@ jobs:
           print("P20_R1_AUTHORIZATION_PASS",x["result_sha256"])
           PY
 
-      - name: Download admitted Berserk binary
-        uses: actions/download-artifact@v4
-        with:
-          name: p20-admission-berserk
-          path: r1/berserk
-          repository: WhoSia/C3X
-          run-id: 36026256576
-          github-token: ${{ github.token }}
+      - name: Clone exact Berserk source into portable revalidation triplet
+        run: |
+          git clone https://github.com/jhonnold/berserk.git ext/berserk-source
+          git -C ext/berserk-source checkout --detach 32628515050b83805bab4afa1026dd2bcaa93f55
+          test "$(git -C ext/berserk-source rev-parse HEAD)" = "32628515050b83805bab4afa1026dd2bcaa93f55"
+          cp -a ext/berserk-source ext/berserk-baseline
+          cp -a ext/berserk-source ext/berserk-instrument
+          cp -a ext/berserk-source ext/berserk-removal
+          mkdir -p out/revalidation/berserk
+          python3 tools/p20_patch_berserk.py \
+            --root ext/berserk-instrument \
+            --variant instrument \
+            --manifest out/revalidation/berserk/instrument-manifest.json
+          python3 tools/p20_patch_berserk.py \
+            --root ext/berserk-removal \
+            --variant removal \
+            --manifest out/revalidation/berserk/removal-manifest.json
 
-      - name: Download admitted Ethereal binary
-        uses: actions/download-artifact@v4
-        with:
-          name: p20-admission-ethereal
-          path: r1/ethereal
-          repository: WhoSia/C3X
-          run-id: 36026256576
-          github-token: ${{ github.token }}
+      - name: Build portable Berserk triplet without runner-native ISA promotion
+        shell: bash
+        run: |
+          set -eux
+          for d in baseline instrument removal; do
+            make -C "ext/berserk-$d/src" ARCH=x86-64 M64=-m64 build
+          done
+          cp ext/berserk-baseline/src/berserk out/revalidation/berserk/baseline
+          cp ext/berserk-instrument/src/berserk out/revalidation/berserk/instrument
+          cp ext/berserk-removal/src/berserk out/revalidation/berserk/removal
+          chmod +x out/revalidation/berserk/baseline out/revalidation/berserk/instrument out/revalidation/berserk/removal
+          sha256sum out/revalidation/berserk/baseline out/revalidation/berserk/instrument out/revalidation/berserk/removal \
+            | tee out/revalidation/berserk/binary-sha256.txt
 
-      - name: Rebuild source-locked SF19 bridge with admitted lineage instrument
+      - name: Revalidate portable Berserk causal admission
+        run: |
+          python3 harness/p20_engine_admission.py \
+            --engine berserk \
+            --baseline out/revalidation/berserk/baseline \
+            --instrument out/revalidation/berserk/instrument \
+            --removal out/revalidation/berserk/removal \
+            --instrument-manifest out/revalidation/berserk/instrument-manifest.json \
+            --removal-manifest out/revalidation/berserk/removal-manifest.json \
+            --nodes 80000 \
+            --out out/revalidation/berserk/admission.json
+
+      - name: Clone exact Ethereal source into portable revalidation triplet
+        run: |
+          git clone https://github.com/AndyGrant/Ethereal.git ext/ethereal-source
+          git -C ext/ethereal-source checkout --detach 0e47e9b67f345c75eb965d9fb3e2493b6a11d09a
+          test "$(git -C ext/ethereal-source rev-parse HEAD)" = "0e47e9b67f345c75eb965d9fb3e2493b6a11d09a"
+          cp -a ext/ethereal-source ext/ethereal-baseline
+          cp -a ext/ethereal-source ext/ethereal-instrument
+          cp -a ext/ethereal-source ext/ethereal-removal
+          mkdir -p out/revalidation/ethereal
+          python3 tools/p20_patch_ethereal.py \
+            --root ext/ethereal-instrument \
+            --variant instrument \
+            --manifest out/revalidation/ethereal/instrument-manifest.json
+          python3 tools/p20_patch_ethereal.py \
+            --root ext/ethereal-removal \
+            --variant removal \
+            --manifest out/revalidation/ethereal/removal-manifest.json
+
+      - name: Build portable Ethereal triplet without -march=native
+        shell: bash
+        run: |
+          set -eux
+          PORTABLE_CFLAGS='-O3 -std=gnu11 -Wall -Wextra -Wshadow -DNDEBUG -flto -DUSE_NNUE=0 -static'
+          for d in baseline instrument removal; do
+            make -C "ext/ethereal-$d/src" basic CFLAGS="$PORTABLE_CFLAGS"
+          done
+          cp ext/ethereal-baseline/src/Ethereal out/revalidation/ethereal/baseline
+          cp ext/ethereal-instrument/src/Ethereal out/revalidation/ethereal/instrument
+          cp ext/ethereal-removal/src/Ethereal out/revalidation/ethereal/removal
+          chmod +x out/revalidation/ethereal/baseline out/revalidation/ethereal/instrument out/revalidation/ethereal/removal
+          sha256sum out/revalidation/ethereal/baseline out/revalidation/ethereal/instrument out/revalidation/ethereal/removal \
+            | tee out/revalidation/ethereal/binary-sha256.txt
+
+      - name: Revalidate portable Ethereal causal admission
+        run: |
+          python3 harness/p20_engine_admission.py \
+            --engine ethereal \
+            --baseline out/revalidation/ethereal/baseline \
+            --instrument out/revalidation/ethereal/instrument \
+            --removal out/revalidation/ethereal/removal \
+            --instrument-manifest out/revalidation/ethereal/instrument-manifest.json \
+            --removal-manifest out/revalidation/ethereal/removal-manifest.json \
+            --nodes 80000 \
+            --out out/revalidation/ethereal/admission.json
+
+      - name: Rebuild source-locked SF19 bridge with P19 lineage instrument
         run: |
           git clone https://github.com/official-stockfish/Stockfish.git sf19
           git -C sf19 checkout --detach edb0d9db6731067ec50ce619ff372b463bc4dd5d
@@ -117,22 +188,60 @@ jobs:
           make -C sf19/src clean
           make -C sf19/src -j2 build ARCH=x86-64
 
-      - name: Materialize R2 binary packet
+      - name: Materialize revalidated R2 binary packet
         run: |
-          mkdir -p out
-          test -f r1/berserk/berserk-instrument
-          test -f r1/ethereal/ethereal-instrument
-          cp r1/berserk/berserk-instrument out/c3x-p20-berserk
-          cp r1/ethereal/ethereal-instrument out/c3x-p20-ethereal
-          cp sf19/src/stockfish out/c3x-p20-sf19
-          chmod +x out/c3x-p20-*
-          sha256sum out/c3x-p20-* | tee out/binary-sha256.txt
+          mkdir -p out/packet
+          cp out/revalidation/berserk/instrument out/packet/c3x-p20-berserk
+          cp out/revalidation/ethereal/instrument out/packet/c3x-p20-ethereal
+          cp sf19/src/stockfish out/packet/c3x-p20-sf19
+          chmod +x out/packet/c3x-p20-berserk out/packet/c3x-p20-ethereal out/packet/c3x-p20-sf19
+          sha256sum out/packet/c3x-p20-berserk out/packet/c3x-p20-ethereal out/packet/c3x-p20-sf19 | tee out/packet/binary-sha256.txt
+          python3 - <<'PY'
+          import hashlib,json
+          from pathlib import Path
+          def sh(p):
+              h=hashlib.sha256()
+              with open(p,"rb") as f:
+                  for b in iter(lambda:f.read(1<<20),b""): h.update(b)
+              return h.hexdigest()
+          b=json.loads(Path("out/revalidation/berserk/admission.json").read_text())
+          e=json.loads(Path("out/revalidation/ethereal/admission.json").read_text())
+          assert b["verdict"]=="PASS" and e["verdict"]=="PASS"
+          x={
+            "schema":"c3x-p20-r2-portable-binary-revalidation-v1",
+            "scientific_stage":"C3X 0.7.0-G9.4-P20-R2",
+            "r1_run_id":36026256576,
+            "transport_outcomes_consulted":False,
+            "reason":"R1 artifact binary hit runner-dependent illegal-instruction portability failure; causal source/adapter contract is unchanged.",
+            "build_policy":{
+              "berserk":"ARCH=x86-64 with M64=-m64; no -march=native and no forced POPCNT",
+              "ethereal":"generic C flags; no -march=native / USE_* SIMD feature promotion",
+              "stockfish_19":"source-locked P19 instrument, ARCH=x86-64"
+            },
+            "admission_revalidation":{
+              "berserk":b["verdict"],
+              "ethereal":e["verdict"]
+            },
+            "packet_sha256":{
+              "berserk":sh("out/packet/c3x-p20-berserk"),
+              "ethereal":sh("out/packet/c3x-p20-ethereal"),
+              "stockfish_19":sh("out/packet/c3x-p20-sf19")
+            }
+          }
+          payload=json.dumps(x,sort_keys=True,separators=(",",":")).encode()
+          x["receipt_sha256"]=hashlib.sha256(payload).hexdigest()
+          Path("out/packet/p20-r2-portable-binary-revalidation.json").write_text(
+              json.dumps(x,indent=2,sort_keys=True)+"\n"
+          )
+          print(json.dumps(x,indent=2,sort_keys=True))
+          PY
 
-      - name: Generic UCI smoke
+      - name: Generic UCI smoke on transport packet
+        shell: bash
         run: |
-          for b in out/c3x-p20-berserk out/c3x-p20-ethereal out/c3x-p20-sf19; do
+          for b in out/packet/c3x-p20-berserk out/packet/c3x-p20-ethereal out/packet/c3x-p20-sf19; do
             log="$(mktemp)"
-            printf "%s\\n" uci isready quit | timeout 20s "$b" > "$log" 2>&1
+            printf "%s\n" uci isready quit | timeout 20s "$b" > "$log" 2>&1
             grep -Fxq "uciok" "$log"
             grep -Fxq "readyok" "$log"
           done
