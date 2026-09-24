@@ -11,48 +11,50 @@ permissions:
   actions: read
 
 jobs:
-  world:
-    name: R2 fresh exact worlds — ${{ matrix.family }}
+  merge-worlds:
+    name: R2 inherit valid fresh-world constitution from superseded instrument run
     runs-on: ubuntu-latest
     timeout-minutes: 120
-    strategy:
-      fail-fast: false
-      matrix:
-        family: [KQQvKQ, KQRvKQ, KQQvKR, KQRvKR, KRBvKB, KRNvKB, KRBvKN, KRNvKN]
+    env:
+      GH_TOKEN: ${{ github.token }}
     steps:
       - uses: actions/checkout@v4
-      - run: python3 -m pip install --disable-pip-version-check chess==1.11.2
-      - name: Constitute disjoint outcome-blind exact worlds
-        run: |
-          mkdir -p out
-          python3 compiler/exact_world/p20_compile.py \
-            --material "${{ matrix.family }}" \
-            --target-per-vertex 72 \
-            --max-generated-per-vertex 1200 \
-            --out "out/p20-stage-a-${{ matrix.family }}.json"
-      - uses: actions/upload-artifact@v4
-        with:
-          name: p20-stage-a-${{ matrix.family }}
-          path: out/
-          retention-days: 30
 
-  merge-worlds:
-    name: R2 seal 576-world exact pool
-    needs: world
-    runs-on: ubuntu-latest
-    timeout-minutes: 20
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/download-artifact@v4
+      - name: Await all eight independent world artifacts from source run
+        shell: bash
+        run: |
+          set -euo pipefail
+          source_run=36026765136
+          for i in $(seq 1 90); do
+            n="$(gh api "repos/WhoSia/C3X/actions/runs/$source_run/artifacts?per_page=100" --jq '[.artifacts[] | select(.name | startswith("p20-stage-a-"))] | length')"
+            echo "P20_SOURCE_WORLD_ARTIFACTS $n/8"
+            if [ "$n" = "8" ]; then exit 0; fi
+            status="$(gh api "repos/WhoSia/C3X/actions/runs/$source_run" --jq '.status')"
+            if [ "$status" = "completed" ]; then
+              echo "source run completed before all eight world artifacts existed"
+              exit 1
+            fi
+            sleep 10
+          done
+          echo "source-world artifact acquisition timeout"
+          exit 1
+
+      - name: Download source-run world artifacts
+        uses: actions/download-artifact@v4
         with:
           pattern: p20-stage-a-*
           path: parts
-      - name: Merge and verify symmetric fresh pool
+          repository: WhoSia/C3X
+          run-id: 36026765136
+          github-token: ${{ github.token }}
+
+      - name: Merge and verify inherited symmetric fresh pool
         run: |
           mkdir -p out
           python3 compiler/exact_world/p20_merge.py \
             --parts parts \
             --out out/p20-stage-a-pool.json
+
       - uses: actions/upload-artifact@v4
         with:
           name: p20-stage-a-pool
@@ -118,8 +120,8 @@ jobs:
       - name: Materialize R2 binary packet
         run: |
           mkdir -p out
-          test -x r1/berserk/berserk-instrument
-          test -x r1/ethereal/ethereal-instrument
+          test -f r1/berserk/berserk-instrument
+          test -f r1/ethereal/ethereal-instrument
           cp r1/berserk/berserk-instrument out/c3x-p20-berserk
           cp r1/ethereal/ethereal-instrument out/c3x-p20-ethereal
           cp sf19/src/stockfish out/c3x-p20-sf19
