@@ -7,9 +7,6 @@ on:
       - "c3x/protocol/p13-preseal.json"
       - "compiler/exact_world/p13_compile.py"
       - "harness/p13_tt_intervention.py"
-      - "tools/materialize_p12.py"
-      - "upstream/stockfish-lock.json"
-      - ".github/workflows/p13-exact-world.yml"
 
 permissions:
   contents: read
