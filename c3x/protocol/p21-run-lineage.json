@@ -1,7 +1,7 @@
 {
   "schema": "c3x-g9.4-p21-run-lineage-v1",
   "scientific_stage": "C3X 0.7.0-G9.4-P21",
-  "status": "PRIMARY_HOLD_BEFORE_CORE_SELECTIVE_INTERVENTION",
+  "status": "P21_CLOSED_HOLD",
   "preseal_commits": [
     "0bc6d0750910bb16af514790db58250bf307c89a",
     "386699e7b76d2f21b6edaaf21d3673a8141aff93",
@@ -76,7 +76,21 @@
   },
   "post_hold_diagnostic": {
     "run_id": 36043796288,
-    "authority": "SHAM_ONLY_NONAUTHORITATIVE_DESIGN_DIAGNOSTIC",
-    "purpose": "Determine whether the frozen selector failed despite an exposure-balanced witness existing in the constituted pool; cannot reopen P21."
+    "conclusion": "SUCCESS",
+    "authority": "POST_HOLD_NONAUTHORITATIVE_DESIGN_DIAGNOSTIC",
+    "feasible_witness_found": true,
+    "start_max_smd": 2.2756527434023175,
+    "final_max_smd": 0.4889426356224521,
+    "swaps": 28,
+    "may_reopen_p21": false
+  },
+  "canonical_closure": {
+    "run_id": 36043989401,
+    "conclusion": "SUCCESS",
+    "head": "6ef731b1c48bad5bd606b7f828422ff27a353500",
+    "primary_verdict": "EXPOSURE_BALANCE_HOLD_NO_P21_CAUSAL_VERDICT",
+    "receipt_sha256": "9a6b219bd0724acbc0b4756b5ae368108dbe0b036b82083a2a4cb9d4c6fb2e83",
+    "final_receipt": "receipts/g9.4-p21.json",
+    "final_receipt_commit": "50ae8d09ea2284d377b1aa01ce557861693d4404"
   }
 }
