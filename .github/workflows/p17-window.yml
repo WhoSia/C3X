@@ -10,7 +10,7 @@ on:
       - "tools/materialize_p15.py"
       - "tools/materialize_p12.py"
       - "upstream/stockfish-lock.json"
-      - ".github/workflows/p17-phase.yml"
+      - ".github/workflows/p17-window.yml"
 
 permissions:
   contents: read
@@ -80,7 +80,7 @@ jobs:
           python3 harness/uci_smoke.py out/c3x-p17-sf19 | tee out/sf19-uci-smoke.txt
           python3 harness/native_sham_identity.py --baseline /tmp/sf19-clean --patched out/c3x-p17-sf19 --nodes 30000 | tee out/sf19-native-sham.txt
           python3 harness/p15_factorial.py preflight             --binary frozen_20260810=out/c3x-p17-frozen             --binary stockfish_19=out/c3x-p17-sf19             --nodes 30000 | tee out/full-mask-equivalence.txt
-      - name: SHAM-only census across 100k, 300k and 1M
+      - name: SHAM-only census across dense 125k–700k ladder
         run: |
           python3 harness/p17_window.py sham-commit             --stage-a stage-a/p17-stage-a.json             --binary frozen_20260810=out/c3x-p17-frozen             --binary stockfish_19=out/c3x-p17-sf19             --out out/p17-sham-precommit.json
           sha256sum out/p17-sham-precommit.json | tee out/p17-sham-precommit-file-sha256.txt
