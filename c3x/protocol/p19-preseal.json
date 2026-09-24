@@ -12,7 +12,7 @@
     "correction": "Endpoint squares cannot identify literal sequential order noncommutativity because path sums telescope. P19 therefore tests causal functoriality / mixed curvature. NONCOMMUTATIVE may be promoted only by a future sequential intervention operator, not by endpoint curvature alone."
   },
   "fresh_world": {
-    "compiler_version": "c3x-p19-stage-a-v1",
+    "compiler_version": "c3x-p19-stage-a-v2-fine-exact-split",
     "generation_index_offset": 60000,
     "world_authority": "external Lichess Syzygy HTTP",
     "pawnless": true,
@@ -24,6 +24,8 @@
       "loss"
     ],
     "require_precise_dtz_for_every_legal_move": true,
+    "legal_move_fine_exact_value_distinct_min": 2,
+    "fine_exact_split_definition": "At least two distinct mover-relative (robust WDL, precise-DTZ) tuples among legal moves; robust-WDL split alone is not required.",
     "history_safe_tau_depth": 4,
     "target_per_vertex": 18,
     "side_balance_per_vertex": {
@@ -129,6 +131,15 @@
     "ENGINE-CONDITIONED-RELATION-GEOMETRY",
     "CAUSAL-FUNCTORIALITY-SUPPORTED",
     "RELATION-LAW-INDETERMINATE"
+  ],
+  "preintervention_repairs": [
+    {
+      "superseded_run_id": 36004271599,
+      "failure_class": "STAGE-A-ROBUST-WDL-SPLIT-OVERCONSTRAINT",
+      "intervention_outcomes_materialized": false,
+      "repair": "Align Stage-A eligibility with the predeclared fine exact-value outcome by requiring distinct (mover_wdl,mover_precise_dtz) legal-move tuples instead of a robust-WDL split.",
+      "execution_repair": "Constitute vertices independently and deterministically merge them before the unchanged SHAM precommit."
+    }
   ],
   "forbidden_inferences": [
     "literal sequential noncommutativity from endpoint curvature",
