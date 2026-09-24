@@ -1,99 +1,412 @@
 {
-  "schema":"c3x-p18-material-ontology-v2",
-  "scientific_stage":"C3X 0.7.0-G9.4-P18",
-  "purpose":"Prospective constitutive ontology and morphism system for localizing cross-material transport success/failure without changing the primary discovery/held-out law.",
-  "sealed_before_any_p18_intervention_outcome":true,
-  "layers":{
-    "L0_material_structure":{
-      "status":"constitutive",
-      "coordinates":["macro_scaffold","queen_location","rook_count_vector","bishop_count_vector","knight_count_vector","slider_count_vector","leaper_count_vector","minor_substitution_slot","orientation"],
-      "rule":"Only piece-type/count/side relations define material-family identity. No engine or intervention outcome may alter these coordinates."
+  "schema": "c3x-p18-material-ontology-v2",
+  "scientific_stage": "C3X 0.7.0-G9.4-P18",
+  "purpose": "Prospective constitutive ontology and morphism system for localizing cross-material transport success/failure without changing the primary discovery/held-out law.",
+  "sealed_before_any_p18_intervention_outcome": true,
+  "layers": {
+    "L0_material_structure": {
+      "status": "constitutive",
+      "coordinates": [
+        "macro_scaffold",
+        "queen_location",
+        "rook_count_vector",
+        "bishop_count_vector",
+        "knight_count_vector",
+        "slider_count_vector",
+        "leaper_count_vector",
+        "minor_substitution_slot",
+        "orientation"
+      ],
+      "rule": "Only piece-type/count/side relations define material-family identity. No engine or intervention outcome may alter these coordinates."
     },
-    "L1_exact_world_context":{
-      "status":"contextual_not_constitutive",
-      "coordinates":["side_to_move","legal_move_count","external_syzygy_world_pattern","external_optimal_count","external_strictly_worse_count","tau4"],
-      "rule":"These coordinates may explain within-family variation but may not be used post hoc to regroup material families or redefine the discovery/held-out split."
+    "L1_exact_world_context": {
+      "status": "contextual_not_constitutive",
+      "coordinates": [
+        "side_to_move",
+        "legal_move_count",
+        "external_syzygy_world_pattern",
+        "external_optimal_count",
+        "external_strictly_worse_count",
+        "tau4"
+      ],
+      "rule": "These coordinates may explain within-family variation but may not be used post hoc to regroup material families or redefine the discovery/held-out split."
     },
-    "L2_engine_process":{
-      "status":"mechanism_outcome",
-      "coordinates":["p_fine_MAIN","p_fine_QSEARCH","mobius_MAINxQSEARCH","phase_label"],
-      "rule":"L2 is measured under intervention and therefore cannot define the ontology used to select, regroup or pair L0 families."
+    "L2_engine_process": {
+      "status": "mechanism_outcome",
+      "coordinates": [
+        "p_fine_MAIN",
+        "p_fine_QSEARCH",
+        "mobius_MAINxQSEARCH",
+        "phase_label"
+      ],
+      "rule": "L2 is measured under intervention and therefore cannot define the ontology used to select, regroup or pair L0 families."
     }
   },
-  "families":{
-    "KRRvKR":{"split":"DISCOVERY","macro_scaffold":"rook_pair_vs_rook","queen_location":"NONE","rook_count_vector":[2,1],"bishop_count_vector":[0,0],"knight_count_vector":[0,0],"slider_count_vector":[2,1],"leaper_count_vector":[0,0],"minor_substitution_slot":"NONE","orientation":"WHITE_COMPLEX_SIDE"},
-    "KRBvKR":{"split":"DISCOVERY","macro_scaffold":"rook_plus_minor_vs_rook","queen_location":"NONE","rook_count_vector":[1,1],"bishop_count_vector":[1,0],"knight_count_vector":[0,0],"slider_count_vector":[2,1],"leaper_count_vector":[0,0],"minor_substitution_slot":"WHITE_MINOR_BISHOP","orientation":"WHITE_COMPLEX_SIDE"},
-    "KQvKRB":{"split":"DISCOVERY","macro_scaffold":"queen_vs_rook_plus_minor","queen_location":"WHITE","rook_count_vector":[0,1],"bishop_count_vector":[0,1],"knight_count_vector":[0,0],"slider_count_vector":[1,2],"leaper_count_vector":[0,0],"minor_substitution_slot":"BLACK_MINOR_BISHOP","orientation":"WHITE_QUEEN_SIDE"},
-    "KRvKQB":{"split":"DISCOVERY","macro_scaffold":"rook_vs_queen_plus_minor","queen_location":"BLACK","rook_count_vector":[1,0],"bishop_count_vector":[0,1],"knight_count_vector":[0,0],"slider_count_vector":[1,2],"leaper_count_vector":[0,0],"minor_substitution_slot":"BLACK_MINOR_BISHOP","orientation":"BLACK_QUEEN_SIDE"},
-    "KRNvKR":{"split":"HELDOUT","macro_scaffold":"rook_plus_minor_vs_rook","queen_location":"NONE","rook_count_vector":[1,1],"bishop_count_vector":[0,0],"knight_count_vector":[1,0],"slider_count_vector":[1,1],"leaper_count_vector":[1,0],"minor_substitution_slot":"WHITE_MINOR_KNIGHT","orientation":"WHITE_COMPLEX_SIDE"},
-    "KBBvKN":{"split":"HELDOUT","macro_scaffold":"double_minor_vs_minor","queen_location":"NONE","rook_count_vector":[0,0],"bishop_count_vector":[2,0],"knight_count_vector":[0,1],"slider_count_vector":[2,0],"leaper_count_vector":[0,1],"minor_substitution_slot":"NON_ANALOG_EXTRAPOLATION","orientation":"WHITE_COMPLEX_SIDE"},
-    "KQvKRN":{"split":"HELDOUT","macro_scaffold":"queen_vs_rook_plus_minor","queen_location":"WHITE","rook_count_vector":[0,1],"bishop_count_vector":[0,0],"knight_count_vector":[0,1],"slider_count_vector":[1,1],"leaper_count_vector":[0,1],"minor_substitution_slot":"BLACK_MINOR_KNIGHT","orientation":"WHITE_QUEEN_SIDE"},
-    "KRvKQN":{"split":"HELDOUT","macro_scaffold":"rook_vs_queen_plus_minor","queen_location":"BLACK","rook_count_vector":[1,0],"bishop_count_vector":[0,0],"knight_count_vector":[0,1],"slider_count_vector":[1,1],"leaper_count_vector":[0,1],"minor_substitution_slot":"BLACK_MINOR_KNIGHT","orientation":"BLACK_QUEEN_SIDE"}
+  "families": {
+    "KRRvKR": {
+      "split": "DISCOVERY",
+      "macro_scaffold": "rook_pair_vs_rook",
+      "queen_location": "NONE",
+      "rook_count_vector": [
+        2,
+        1
+      ],
+      "bishop_count_vector": [
+        0,
+        0
+      ],
+      "knight_count_vector": [
+        0,
+        0
+      ],
+      "slider_count_vector": [
+        2,
+        1
+      ],
+      "leaper_count_vector": [
+        0,
+        0
+      ],
+      "minor_substitution_slot": "NONE",
+      "orientation": "WHITE_COMPLEX_SIDE"
+    },
+    "KRBvKR": {
+      "split": "DISCOVERY",
+      "macro_scaffold": "rook_plus_minor_vs_rook",
+      "queen_location": "NONE",
+      "rook_count_vector": [
+        1,
+        1
+      ],
+      "bishop_count_vector": [
+        1,
+        0
+      ],
+      "knight_count_vector": [
+        0,
+        0
+      ],
+      "slider_count_vector": [
+        2,
+        1
+      ],
+      "leaper_count_vector": [
+        0,
+        0
+      ],
+      "minor_substitution_slot": "WHITE_MINOR_BISHOP",
+      "orientation": "WHITE_COMPLEX_SIDE"
+    },
+    "KQvKRB": {
+      "split": "DISCOVERY",
+      "macro_scaffold": "queen_vs_rook_plus_minor",
+      "queen_location": "WHITE",
+      "rook_count_vector": [
+        0,
+        1
+      ],
+      "bishop_count_vector": [
+        0,
+        1
+      ],
+      "knight_count_vector": [
+        0,
+        0
+      ],
+      "slider_count_vector": [
+        1,
+        2
+      ],
+      "leaper_count_vector": [
+        0,
+        0
+      ],
+      "minor_substitution_slot": "BLACK_MINOR_BISHOP",
+      "orientation": "WHITE_QUEEN_SIDE"
+    },
+    "KRvKQB": {
+      "split": "DISCOVERY",
+      "macro_scaffold": "rook_vs_queen_plus_minor",
+      "queen_location": "BLACK",
+      "rook_count_vector": [
+        1,
+        0
+      ],
+      "bishop_count_vector": [
+        0,
+        1
+      ],
+      "knight_count_vector": [
+        0,
+        0
+      ],
+      "slider_count_vector": [
+        1,
+        2
+      ],
+      "leaper_count_vector": [
+        0,
+        0
+      ],
+      "minor_substitution_slot": "BLACK_MINOR_BISHOP",
+      "orientation": "BLACK_QUEEN_SIDE"
+    },
+    "KRNvKR": {
+      "split": "HELDOUT",
+      "macro_scaffold": "rook_plus_minor_vs_rook",
+      "queen_location": "NONE",
+      "rook_count_vector": [
+        1,
+        1
+      ],
+      "bishop_count_vector": [
+        0,
+        0
+      ],
+      "knight_count_vector": [
+        1,
+        0
+      ],
+      "slider_count_vector": [
+        1,
+        1
+      ],
+      "leaper_count_vector": [
+        1,
+        0
+      ],
+      "minor_substitution_slot": "WHITE_MINOR_KNIGHT",
+      "orientation": "WHITE_COMPLEX_SIDE"
+    },
+    "KBBvKN": {
+      "split": "HELDOUT",
+      "macro_scaffold": "double_minor_vs_minor",
+      "queen_location": "NONE",
+      "rook_count_vector": [
+        0,
+        0
+      ],
+      "bishop_count_vector": [
+        2,
+        0
+      ],
+      "knight_count_vector": [
+        0,
+        1
+      ],
+      "slider_count_vector": [
+        2,
+        0
+      ],
+      "leaper_count_vector": [
+        0,
+        1
+      ],
+      "minor_substitution_slot": "NON_ANALOG_EXTRAPOLATION",
+      "orientation": "WHITE_COMPLEX_SIDE"
+    },
+    "KQvKRN": {
+      "split": "HELDOUT",
+      "macro_scaffold": "queen_vs_rook_plus_minor",
+      "queen_location": "WHITE",
+      "rook_count_vector": [
+        0,
+        1
+      ],
+      "bishop_count_vector": [
+        0,
+        0
+      ],
+      "knight_count_vector": [
+        0,
+        1
+      ],
+      "slider_count_vector": [
+        1,
+        1
+      ],
+      "leaper_count_vector": [
+        0,
+        1
+      ],
+      "minor_substitution_slot": "BLACK_MINOR_KNIGHT",
+      "orientation": "WHITE_QUEEN_SIDE"
+    },
+    "KRvKQN": {
+      "split": "HELDOUT",
+      "macro_scaffold": "rook_vs_queen_plus_minor",
+      "queen_location": "BLACK",
+      "rook_count_vector": [
+        1,
+        0
+      ],
+      "bishop_count_vector": [
+        0,
+        0
+      ],
+      "knight_count_vector": [
+        0,
+        1
+      ],
+      "slider_count_vector": [
+        1,
+        1
+      ],
+      "leaper_count_vector": [
+        0,
+        1
+      ],
+      "minor_substitution_slot": "BLACK_MINOR_KNIGHT",
+      "orientation": "BLACK_QUEEN_SIDE"
+    }
   },
-  "constitutive_morphisms":{
-    "bishop_to_knight_substitution":[
-      {"source":"KRBvKR","target":"KRNvKR","preserves":["macro_scaffold","rook_count_vector","orientation"],"changes":["bishop_count_vector","knight_count_vector","slider_count_vector","leaper_count_vector","minor_substitution_slot"]},
-      {"source":"KQvKRB","target":"KQvKRN","preserves":["macro_scaffold","queen_location","rook_count_vector","orientation"],"changes":["bishop_count_vector","knight_count_vector","slider_count_vector","leaper_count_vector","minor_substitution_slot"]},
-      {"source":"KRvKQB","target":"KRvKQN","preserves":["macro_scaffold","queen_location","rook_count_vector","orientation"],"changes":["bishop_count_vector","knight_count_vector","slider_count_vector","leaper_count_vector","minor_substitution_slot"]}
+  "constitutive_morphisms": {
+    "bishop_to_knight_substitution": [
+      {
+        "source": "KRBvKR",
+        "target": "KRNvKR",
+        "preserves": [
+          "macro_scaffold",
+          "rook_count_vector",
+          "orientation"
+        ],
+        "changes": [
+          "bishop_count_vector",
+          "knight_count_vector",
+          "slider_count_vector",
+          "leaper_count_vector",
+          "minor_substitution_slot"
+        ]
+      },
+      {
+        "source": "KQvKRB",
+        "target": "KQvKRN",
+        "preserves": [
+          "macro_scaffold",
+          "queen_location",
+          "rook_count_vector",
+          "orientation"
+        ],
+        "changes": [
+          "bishop_count_vector",
+          "knight_count_vector",
+          "slider_count_vector",
+          "leaper_count_vector",
+          "minor_substitution_slot"
+        ]
+      },
+      {
+        "source": "KRvKQB",
+        "target": "KRvKQN",
+        "preserves": [
+          "macro_scaffold",
+          "queen_location",
+          "rook_count_vector",
+          "orientation"
+        ],
+        "changes": [
+          "bishop_count_vector",
+          "knight_count_vector",
+          "slider_count_vector",
+          "leaper_count_vector",
+          "minor_substitution_slot"
+        ]
+      }
     ],
-    "queen_role_orientation_duality":[
-      {"source":"KQvKRB","target":"KRvKQB","relation":"swap which side carries the queen-plus-minor complex while preserving the queen-vs-rook-plus-minor role contrast"},
-      {"source":"KQvKRN","target":"KRvKQN","relation":"same orientation duality after bishop-to-knight substitution"}
+    "queen_role_orientation_duality": [
+      {
+        "source": "KQvKRB",
+        "target": "KRvKQB",
+        "relation": "swap which side carries the queen-plus-minor complex while preserving the queen-vs-rook-plus-minor role contrast"
+      },
+      {
+        "source": "KQvKRN",
+        "target": "KRvKQN",
+        "relation": "same orientation duality after bishop-to-knight substitution"
+      }
     ]
   },
-  "commutative_square":{
-    "nodes":{"A":"KQvKRB","B":"KQvKRN","C":"KRvKQB","D":"KRvKQN"},
-    "horizontal_morphism":"bishop_to_knight_substitution",
-    "vertical_morphism":"queen_role_orientation_duality",
-    "prospective_test":"The qualitative causal-topology change induced by bishop-to-knight substitution should agree across the two orientation-dual sides. Equivalently, substitution then orientation-duality and orientation-duality then substitution should induce the same phase-change relation and the same interaction-sign-change relation.",
-    "phase_change_relation":"ordered pair (source_phase,target_phase)",
-    "interaction_sign_change_relation":"ordered pair (sign(source interaction),sign(target interaction))",
-    "pass_rule":"For each engine target, both paths yield identical phase-change relation and identical interaction-sign-change relation.",
-    "cross_version_pass_rule":"commutativity passes independently on both engine targets."
+  "commutative_square": {
+    "nodes": {
+      "A": "KQvKRB",
+      "B": "KQvKRN",
+      "C": "KRvKQB",
+      "D": "KRvKQN"
+    },
+    "horizontal_morphism": "bishop_to_knight_substitution",
+    "vertical_morphism": "queen_role_orientation_duality",
+    "prospective_test": "The qualitative causal-topology change induced by bishop-to-knight substitution should agree across the two orientation-dual sides. Equivalently, substitution then orientation-duality and orientation-duality then substitution should induce the same phase-change relation and the same interaction-sign-change relation.",
+    "phase_change_relation": "ordered pair (source_phase,target_phase)",
+    "interaction_sign_change_relation": "ordered pair (sign(source interaction),sign(target interaction))",
+    "pass_rule": "For each engine target, both paths yield identical phase-change relation and identical interaction-sign-change relation.",
+    "cross_version_pass_rule": "commutativity passes independently on both engine targets."
   },
-  "prospective_structural_analog_pairs":[
-    {"discovery":"KRBvKR","heldout":"KRNvKR","invariant_scaffold":"rook_plus_minor_vs_rook","changed_axis":"bishop_to_knight_on_white_minor_slot"},
-    {"discovery":"KQvKRB","heldout":"KQvKRN","invariant_scaffold":"queen_vs_rook_plus_minor","changed_axis":"bishop_to_knight_on_black_minor_slot"},
-    {"discovery":"KRvKQB","heldout":"KRvKQN","invariant_scaffold":"rook_vs_queen_plus_minor","changed_axis":"bishop_to_knight_on_black_minor_slot"}
+  "prospective_structural_analog_pairs": [
+    {
+      "discovery": "KRBvKR",
+      "heldout": "KRNvKR",
+      "invariant_scaffold": "rook_plus_minor_vs_rook",
+      "changed_axis": "bishop_to_knight_on_white_minor_slot"
+    },
+    {
+      "discovery": "KQvKRB",
+      "heldout": "KQvKRN",
+      "invariant_scaffold": "queen_vs_rook_plus_minor",
+      "changed_axis": "bishop_to_knight_on_black_minor_slot"
+    },
+    {
+      "discovery": "KRvKQB",
+      "heldout": "KRvKQN",
+      "invariant_scaffold": "rook_vs_queen_plus_minor",
+      "changed_axis": "bishop_to_knight_on_black_minor_slot"
+    }
   ],
-  "extrapolation_family":{
-    "heldout":"KBBvKN",
-    "role":"far-ontology stress test",
-    "rule":"Do not force-match this family to KRRvKR. Treat it as out-of-scaffold extrapolation rather than an analog substitution."
+  "extrapolation_family": {
+    "heldout": "KBBvKN",
+    "role": "far-ontology stress test",
+    "rule": "Do not force-match this family to KRRvKR. Treat it as out-of-scaffold extrapolation rather than an analog substitution."
   },
-  "prospective_secondary_tests":{
-    "analog_phase_transport":{
-      "prediction_rule":"For each structural analog pair, predict the held-out phase label to equal its discovery analog's sealed phase label independently for each engine target.",
-      "pass_rule":"At least 2 of 3 analog pairs match on a target.",
-      "cross_version_pass_rule":"analog-phase transport passes independently on both engine targets."
+  "prospective_secondary_tests": {
+    "analog_phase_transport": {
+      "prediction_rule": "For each structural analog pair, predict the held-out phase label to equal its discovery analog's sealed phase label independently for each engine target.",
+      "pass_rule": "At least 2 of 3 analog pairs match on a target.",
+      "cross_version_pass_rule": "analog-phase transport passes independently on both engine targets."
     },
-    "bishop_to_knight_axis":{
-      "prediction_rule":"For each analog pair, preserve the sign of the MAINxQSEARCH interaction component after bishop-to-knight substitution.",
-      "pass_rule":"At least 2 of 3 analog pairs preserve sign on a target.",
-      "interpretation":"This is a topology-axis test, not a claim that bishops and knights are causally equivalent."
+    "bishop_to_knight_axis": {
+      "prediction_rule": "For each analog pair, preserve the sign of the MAINxQSEARCH interaction component after bishop-to-knight substitution.",
+      "pass_rule": "At least 2 of 3 analog pairs preserve sign on a target.",
+      "interpretation": "This is a topology-axis test, not a claim that bishops and knights are causally equivalent."
     },
-    "orientation_duality":{
-      "prediction_rule":"Within the queen-vs-rook-plus-minor scaffold, orientation-dual family pairs should share phase label and interaction sign before substitution and should share them after substitution.",
-      "pass_rule":"Both discovery orientation pair and held-out orientation pair match in phase and interaction sign on a target."
+    "orientation_duality": {
+      "prediction_rule": "Within the queen-vs-rook-plus-minor scaffold, orientation-dual family pairs should share phase label and interaction sign before substitution and should share them after substitution.",
+      "pass_rule": "Both discovery orientation pair and held-out orientation pair match in phase and interaction sign on a target."
     },
-    "commutative_transport":{
-      "prediction_rule":"The bishop-to-knight causal-topology transformation must commute with queen-role orientation duality according to the predeclared commutative square.",
-      "pass_rule":"phase-change relation and interaction-sign-change relation are identical across the two horizontal substitution edges."
+    "commutative_transport": {
+      "prediction_rule": "The bishop-to-knight causal-topology transformation must commute with queen-role orientation duality according to the predeclared commutative square.",
+      "pass_rule": "phase-change relation and interaction-sign-change relation are identical across the two horizontal substitution edges."
     },
-    "far_extrapolation":{
-      "prediction_rule":"KBBvKN is evaluated only against the global discovery law; no nearest-family rescue is permitted after outcome reveal.",
-      "interpretation":"Failure here localizes extrapolation weakness but cannot by itself refute analog-substitution transport."
+    "far_extrapolation": {
+      "prediction_rule": "KBBvKN is evaluated only against the global discovery law; no nearest-family rescue is permitted after outcome reveal.",
+      "interpretation": "Failure here localizes extrapolation weakness but cannot by itself refute analog-substitution transport."
+    },
+    "hierarchical_vector_envelope": {
+      "vector": "[p_fine_MAIN,p_fine_QSEARCH,mobius_MAINxQSEARCH]",
+      "fit_rule": "For each engine target, compute the discovery-family coordinatewise centroid and the coordinatewise maximum absolute deviation from that centroid using only the four discovery families.",
+      "heldout_pass_rule": "A held-out family is in-envelope iff every coordinate differs from the discovery centroid by no more than discovery max-deviation on that coordinate plus exactly one family-cell resolution (1/8).",
+      "target_transport_pass_rule": "At least 3 of 4 held-out families are in-envelope and the pooled held-out causal vector is also within the same discovery envelope plus 1/8.",
+      "interpretation": "This tests transport of the quantitative causal-vector geometry rather than only the categorical phase label. The one-cell tolerance is fixed prospectively from the 8-cell family design."
     }
   },
-  "ontology_failure_localization_order":[
+  "ontology_failure_localization_order": [
     "global held-out law",
+    "hierarchical causal-vector envelope",
     "structural analog phase transport",
     "bishop-to-knight interaction-sign transport",
     "orientation-duality transport",
     "commutative-square transport",
     "far-ontology extrapolation"
   ],
-  "forbidden_post_outcome_moves":[
+  "forbidden_post_outcome_moves": [
     "regroup families by observed intervention effect",
     "invent a new nearest-neighbor pairing",
     "move KBBvKN out of the held-out set",
@@ -101,6 +414,7 @@
     "change analog pass thresholds",
     "collapse bishop and knight into one class after seeing outcomes",
     "change the commutative square after outcome reveal",
-    "reinterpret orientation duality using observed causal effects"
+    "reinterpret orientation duality using observed causal effects",
+    "change hierarchical-envelope tolerance or metric after outcome reveal"
   ]
 }
