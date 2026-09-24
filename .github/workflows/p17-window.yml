@@ -1,0 +1,156 @@
+name: p17-dense-resource-window
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - "c3x/protocol/p17-preseal.json"
+      - "compiler/exact_world/p17_compile.py"
+      - "harness/p17_window.py"
+      - "tools/materialize_p15.py"
+      - "tools/materialize_p12.py"
+      - "upstream/stockfish-lock.json"
+      - ".github/workflows/p17-phase.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  stage_a:
+    name: Stage A — P17 fresh exact-world constitution
+    runs-on: ubuntu-latest
+    timeout-minutes: 50
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 -m pip install --disable-pip-version-check chess==1.11.2
+      - name: Materialize P17-only exact worlds
+        run: |
+          mkdir -p out
+          python3 compiler/exact_world/p17_compile.py --out out/p17-stage-a.json --target-count 72 --max-generated 1200
+          sha256sum out/p17-stage-a.json | tee out/p17-stage-a-file-sha256.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: p17-stage-a-fresh-worlds
+          path: out/
+          retention-days: 30
+
+  precommit:
+    name: Stage B — six-surface SHAM census and phase precommit
+    needs: stage_a
+    runs-on: ubuntu-latest
+    timeout-minutes: 180
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: p17-stage-a-fresh-worlds
+          path: stage-a
+      - name: Clone exact upstream targets
+        run: |
+          git clone https://github.com/official-stockfish/Stockfish.git sf-frozen
+          git -C sf-frozen checkout --detach 5062aee519a1ba262d472d8ab139851ced56573e
+          git clone https://github.com/official-stockfish/Stockfish.git sf19
+          git -C sf19 checkout --detach edb0d9db6731067ec50ce619ff372b463bc4dd5d
+          test "$(git -C sf-frozen rev-parse HEAD)" = "5062aee519a1ba262d472d8ab139851ced56573e"
+          test "$(git -C sf19 rev-parse HEAD)" = "edb0d9db6731067ec50ce619ff372b463bc4dd5d"
+      - name: Build clean baselines
+        run: |
+          make -C sf-frozen/src -j2 build ARCH=x86-64
+          cp sf-frozen/src/stockfish /tmp/sf-frozen-clean
+          make -C sf19/src -j2 build ARCH=x86-64
+          cp sf19/src/stockfish /tmp/sf19-clean
+      - name: Materialize unchanged P15 selective instrument
+        run: |
+          python3 tools/materialize_p15.py --stockfish sf-frozen --target frozen_20260810
+          python3 tools/materialize_p15.py --stockfish sf19 --target stockfish_19
+      - name: Build P17 runtime binaries
+        run: |
+          make -C sf-frozen/src clean
+          make -C sf-frozen/src -j2 build ARCH=x86-64
+          make -C sf19/src clean
+          make -C sf19/src -j2 build ARCH=x86-64
+          mkdir -p out
+          cp sf-frozen/src/stockfish out/c3x-p17-frozen
+          cp sf19/src/stockfish out/c3x-p17-sf19
+          sha256sum out/c3x-p17-frozen out/c3x-p17-sf19 | tee out/binary-sha256.txt
+      - name: Recheck P12/P15 noninterference and full-mask identity
+        run: |
+          python3 harness/uci_smoke.py out/c3x-p17-frozen | tee out/frozen-uci-smoke.txt
+          python3 harness/native_sham_identity.py --baseline /tmp/sf-frozen-clean --patched out/c3x-p17-frozen --nodes 30000 | tee out/frozen-native-sham.txt
+          python3 harness/uci_smoke.py out/c3x-p17-sf19 | tee out/sf19-uci-smoke.txt
+          python3 harness/native_sham_identity.py --baseline /tmp/sf19-clean --patched out/c3x-p17-sf19 --nodes 30000 | tee out/sf19-native-sham.txt
+          python3 harness/p15_factorial.py preflight             --binary frozen_20260810=out/c3x-p17-frozen             --binary stockfish_19=out/c3x-p17-sf19             --nodes 30000 | tee out/full-mask-equivalence.txt
+      - name: SHAM-only census across 100k, 300k and 1M
+        run: |
+          python3 harness/p17_window.py sham-commit             --stage-a stage-a/p17-stage-a.json             --binary frozen_20260810=out/c3x-p17-frozen             --binary stockfish_19=out/c3x-p17-sf19             --out out/p17-sham-precommit.json
+          sha256sum out/p17-sham-precommit.json | tee out/p17-sham-precommit-file-sha256.txt
+      - name: Seal binaries and pre-intervention phase commit
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: p17-sham-phase-precommit-sealed
+          path: out/
+          retention-days: 30
+
+  regime:
+    name: Stage C — ${{ matrix.regime }} selective phase surface
+    needs: precommit
+    strategy:
+      fail-fast: false
+      matrix:
+        regime: [R125K, R200K, R300K, R450K, R700K]
+    runs-on: ubuntu-latest
+    timeout-minutes: 150
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: p17-sham-phase-precommit-sealed
+          path: sealed
+      - name: Verify sealed precommit
+        run: |
+          chmod +x sealed/c3x-p17-frozen sealed/c3x-p17-sf19
+          python3 - <<'PY'
+          import json
+          p=json.load(open("sealed/p17-sham-precommit.json"))
+          assert p["intervention_outcomes_consulted"] is False
+          assert p["authorization"]=="P17-WINDOW-READY"
+          assert p["counts"]["committed"] >= 28
+          print("P17_PHASE_PRECOMMIT_VERIFIED",p["precommit_sha256"])
+          PY
+      - name: Execute prospectively committed regime surface
+        run: |
+          mkdir -p result
+          python3 harness/p17_window.py regime-run             --precommit sealed/p17-sham-precommit.json             --binary frozen_20260810=sealed/c3x-p17-frozen             --binary stockfish_19=sealed/c3x-p17-sf19             --regime ${{ matrix.regime }}             --out result/p17-${{ matrix.regime }}.json
+          sha256sum result/p17-${{ matrix.regime }}.json | tee result/p17-${{ matrix.regime }}-file-sha256.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: p17-regime-${{ matrix.regime }}
+          path: result/
+          retention-days: 30
+
+  adjudicate:
+    name: Stage D — dynamic phase transport adjudication
+    needs: regime
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: p17-sham-phase-precommit-sealed
+          path: sealed
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: p17-regime-*
+          path: regimes
+          merge-multiple: true
+      - name: Aggregate frozen phase law
+        run: |
+          mkdir -p result
+          python3 harness/p17_window.py aggregate             --precommit sealed/p17-sham-precommit.json             --result R125K=regimes/p17-R125K.json             --result R200K=regimes/p17-R200K.json             --result R300K=regimes/p17-R300K.json             --result R450K=regimes/p17-R450K.json             --result R700K=regimes/p17-R700K.json             --out result/p17-window-result.json
+          sha256sum result/p17-phase-result.json | tee result/p17-window-result-file-sha256.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: p17-bounded-window-result
+          path: result/
+          retention-days: 30
