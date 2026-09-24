@@ -1,0 +1,45 @@
+{
+  "schema":"c3x-p19-heterogeneous-engine-source-lock-v1",
+  "scientific_stage":"C3X 0.7.0-G9.4-P19",
+  "status":"RESERVE-SOURCE-LOCK / NO-P19-PRIMARY-AUTHORITY",
+  "captured_on":"2026-09-24",
+  "purpose":"Freeze auditable source identities for future heterogeneous-engine admission without changing P19 membership or causal thresholds.",
+  "candidates":{
+    "berserk":{
+      "repo":"jhonnold/berserk",
+      "commit":"32628515050b83805bab4afa1026dd2bcaa93f55",
+      "commit_date":"2026-09-07T03:48:14Z",
+      "admission_priority":"HIGH",
+      "intended_role":"first non-Stockfish alpha-beta/PVS+TT semantic-mediation candidate"
+    },
+    "ethereal":{
+      "repo":"AndyGrant/Ethereal",
+      "commit":"0e47e9b67f345c75eb965d9fb3e2493b6a11d09a",
+      "commit_date":"2024-06-11T19:50:35Z",
+      "admission_priority":"HIGH",
+      "intended_role":"independent alpha-beta+TT semantic-mediation replication candidate"
+    },
+    "inanis":{
+      "repo":"Tearth/Inanis",
+      "commit":"7ef903e8f86f7dcaf4fd04aeecb22711190d2a6d",
+      "commit_date":"2025-02-01T12:22:22Z",
+      "admission_priority":"SECONDARY",
+      "intended_role":"language-independent Rust alpha-beta+TT transport candidate"
+    },
+    "lc0":{
+      "repo":"LeelaChessZero/lc0",
+      "commit":"1227b4c8c23375f4011831f4d7496d1551f85145",
+      "commit_date":"2026-09-19T09:18:40Z",
+      "admission_priority":"ARCHITECTURE-ABSTRACTION-REQUIRED",
+      "intended_role":"heterogeneous neural-tree-search reserve; not homologous to Stockfish TT-read masking"
+    }
+  },
+  "admission_boundary":[
+    "Source lock is not intervention admission.",
+    "UCI compatibility is not mechanism equivalence.",
+    "A TT/cache name is not enough to establish a shared causal variable.",
+    "Each candidate requires complete read-site mediation, semantic-use census, NATIVE/SHAM noninterference and full semantic-removal proof before cross-engine outcomes are admissible.",
+    "Lc0 requires a new architecture-neutral persistent-search-memory intervention before any comparison with alpha-beta/TT engines."
+  ],
+  "relationship_to_p19":"This file is reserve infrastructure only. It cannot alter P19 engine membership, matched squares, thresholds, predictions or verdict."
+}
