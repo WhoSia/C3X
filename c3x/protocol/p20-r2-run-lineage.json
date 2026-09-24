@@ -1,7 +1,7 @@
 {
   "schema": "c3x-g9.4-p20-r2-run-lineage-v1",
   "scientific_stage": "C3X 0.7.0-G9.4-P20-R2",
-  "status": "PRE_SELECTIVE_DUAL_LANE_SEAL",
+  "status": "CANONICAL_SELECTIVE_EXECUTION / FAST_LANE_REPLICATION_ONLY",
   "selective_intervention_outcomes_observed_at_seal": false,
   "runs": [
     {
@@ -142,24 +142,35 @@
     {
       "run_id": 36031794539,
       "head": "bbbdff94cffa81553543b68af42d577752a4ebdd",
-      "role": "CANONICAL_R2_CANDIDATE",
+      "role": "CANONICAL_R2_SELECTIVE_AUTHORIZED_IN_PROGRESS",
       "admission_condition": "inherit packet from run 36027604444 only after exact receipt+binary SHA validation and fresh generic UCI smoke",
       "world_condition": "inherit donor merged pool artifact ID 10822061010 only after pinned archive digest and full 576/72x8/36x2 constitution verification",
       "donor_pool_sha256": "1fc45b4fcb8db407cd95d937861d895348876332dd35a3093f8c45ff805d5291",
       "donor_artifact_digest": "sha256:bfaaa15ae76ea580d89beef2a70cad5e04a2fafec775f54c20fdfa36cde65a81",
-      "selective_authority_condition": "portable packet identity + pinned 576-world pool + 96-cell SHAM-only precommit must all succeed before selective arms"
+      "selective_authority_condition": "portable packet identity + pinned 576-world pool + 96-cell SHAM-only precommit must all succeed before selective arms",
+      "precommit_sha256": "822417fd87a87f0977e4337f09e12953ed673d35e0aa0a230070881baad0a051",
+      "precommit_counts": {
+        "stage_a": 576,
+        "committed": 96,
+        "note": "12 per material vertex; 6 WHITE + 6 BLACK"
+      },
+      "selective_gate_crossed": true
     },
     {
       "run_id": 36031839640,
       "head": "db42632cfe0732e4acf327c32b86fdbe337e6fad",
-      "role": "PRESELECTIVE_FAST_STANDBY_CANDIDATE",
-      "scientific_authority": "NO_SELECTIVE_OUTCOMES",
+      "role": "REPLICATION_ONLY_PRESELECTIVE_STANDBY",
+      "scientific_authority": "REPLICATION_ONLY",
       "purpose": "Re-run exact-semantic accelerated symmetric constitution with valid GitHub expressions; stop automatically after SHAM-only 96-cell precommit.",
-      "activation_rule": "Primary only under presealed fallback rule if canonical lineage terminates before any selective outcome; otherwise replication-only."
+      "activation_rule": "Primary only under presealed fallback rule if canonical lineage terminates before any selective outcome; otherwise replication-only.",
+      "primary_eligibility": false,
+      "primary_eligibility_lost_reason": "Canonical run 36031794539 successfully sealed the 96-cell SHAM-only precommit and began selective interventions.",
+      "automatic_stop": "AFTER_96_CELL_SHAM_PRECOMMIT_BEFORE_ANY_SELECTIVE_INTERVENTION"
     }
   ],
   "inheritance_rule": "A donor world artifact may be inherited only because exact-world constitution is engine-outcome-blind and independent of the failed instrument job. No engine observation from a superseded run may enter selection or adjudication.",
   "literal_noncommutativity_boundary": "Endpoint material squares remain insufficient to identify sequential operator noncommutativity.",
   "canonical_candidate_run_id": 36031794539,
-  "preselective_fast_standby_run_id": 36031839640
+  "preselective_fast_standby_run_id": 36031839640,
+  "primary_fallback_eligibility": "CLOSED"
 }
