@@ -245,19 +245,33 @@
   },
   "fast_replication_lane": {
     "run_id": 36031839640,
-    "authority": "REPLICATION_ONLY",
+    "authority": "ENGINEERING_REPLICATION_ONLY",
     "primary_override": false,
-    "automatic_stop": "AFTER_96_CELL_SHAM_PRECOMMIT_BEFORE_ANY_SELECTIVE_INTERVENTION",
+    "selective_interventions_executed": false,
     "tau4_semantics": "P19_FROZEN_EXACT",
+    "tau4_implementation": "P20_FAST_EXACT_SEMANTIC_V1",
     "tau4_equivalence": "PASS",
-    "domain_certificate": "PASS"
+    "domain_certificate": "PASS",
+    "world_constitution": "8/8 PASS / 576-WORLD MERGE PASS",
+    "sham_census": "8/8 PASS",
+    "original_precommit_assembly_failure": "FILENAME_PREFIX_ONLY / CENSUS_FILE_COUNT 0/8 / NO SELECTIVE PATH EXISTS",
+    "seal_only_replay_run_id": 36033961031,
+    "seal_only_replay_conclusion": "SUCCESS",
+    "fast_precommit_sha256": "fac66240a2c90fd8b70d3d45c604f39f50748bbf4def481a2b4e40f21c2004b6",
+    "canonical_precommit_sha256": "822417fd87a87f0977e4337f09e12953ed673d35e0aa0a230070881baad0a051",
+    "committed_cell_identity_with_canonical": true,
+    "selection_counts_identity_with_canonical": true,
+    "committed_cells": 96,
+    "closure_artifact_id": 10822654099,
+    "closure_artifact_digest": "sha256:1b0b890ac2c5e36581305424ddb6981b64a51d6b2153c84f3b8cf733a34c00e7",
+    "automatic_stop": "SEALED_PRECOMMIT_NO_SELECTIVE_INTERVENTION"
   },
   "authority_ceiling": "same fresh exact-world committed cells; source-locked and independently admitted heterogeneous PSM_READ targets; fixed 300k nodes; relation-level transport only",
   "drive_custody": {
     "folder_name": "G9_4_P20",
     "folder_id": "1dCMKrSBqJmEzwIpYOkWHO-Bxwx1KSNuh",
     "parent": "04_SEALED_RESULTS_COURTS",
-    "verified_file_count": 22,
+    "verified_file_count": 23,
     "verified_contents": [
       "p20-r2-result.zip",
       "p20-stage-a-pool.zip",
@@ -266,7 +280,8 @@
       "p20-admission-berserk.zip",
       "p20-admission-ethereal.zip",
       "8 x p20-vertex-*.zip",
-      "8 x p20-census-*.zip"
+      "8 x p20-census-*.zip",
+      "p20-r2-fast-replication-closure.zip"
     ],
     "portable_instrument_exception": {
       "github_artifact_id": 10823505817,
