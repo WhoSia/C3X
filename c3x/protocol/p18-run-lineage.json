@@ -1,0 +1,29 @@
+{
+  "schema":"c3x-g9.4-p18-run-lineage-v1",
+  "scientific_stage":"C3X 0.7.0-G9.4-P18",
+  "canonical_candidate_run":{
+    "run_id":35981184074,
+    "head_sha":"54459ce78b8d9a147fa8d8dc4ff09c2b36560efa",
+    "reason":"first run with aligned protocol-v2, balanced-side compiler-v2, and pre-intervention morphism ontology constitution"
+  },
+  "superseded_runs":[
+    {
+      "run_id":35978871846,
+      "head_sha":"2c4c97fa2de69dca9e0ea18ecad3bbabc933db68",
+      "reason":"Stage-A side-balance incompatibility discovered before intervention authority; KRRvKR had only 3 BLACK-to-move worlds in Stage A"
+    },
+    {
+      "run_id":35981108203,
+      "head_sha":"4312e7e0c727a43955b054dc6f3d3fe65a01c00c",
+      "reason":"balanced compiler present but protocol still declared compiler-v1 and lacked aligned ontology constitution"
+    }
+  ],
+  "blindness_rule":"Do not inspect or use any discovery/held-out intervention outcome from superseded runs. Their existence cannot update P18 laws, ontology, thresholds, or interpretation.",
+  "canonical_stage_a":{
+    "artifact_id":10800468703,
+    "compiler_version":"c3x-p18-stage-a-v2-balanced-side",
+    "pool_sha256":"41e4f49a5924747af4951a0583a7bf891f728579e29dc276778306daf2366222",
+    "accepted":96,
+    "per_family_side_balance":{"WHITE":6,"BLACK":6}
+  }
+}
