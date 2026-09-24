@@ -1,0 +1,266 @@
+name: p20-r2-cross-engine-naturality
+
+on:
+  push:
+    paths:
+      - ".github/workflows/p20-transport.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  world:
+    name: R2 fresh exact worlds — ${{ matrix.family }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    strategy:
+      fail-fast: false
+      matrix:
+        family: [KQQvKQ, KQRvKQ, KQQvKR, KQRvKR, KRBvKB, KRNvKB, KRBvKN, KRNvKN]
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 -m pip install --disable-pip-version-check chess==1.11.2
+      - name: Constitute disjoint outcome-blind exact worlds
+        run: |
+          mkdir -p out
+          python3 compiler/exact_world/p20_compile.py \
+            --material "${{ matrix.family }}" \
+            --target-per-vertex 72 \
+            --max-generated-per-vertex 1200 \
+            --out "out/p20-stage-a-${{ matrix.family }}.json"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: p20-stage-a-${{ matrix.family }}
+          path: out/
+          retention-days: 30
+
+  merge-worlds:
+    name: R2 seal 576-world exact pool
+    needs: world
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: p20-stage-a-*
+          path: parts
+      - name: Merge and verify symmetric fresh pool
+        run: |
+          mkdir -p out
+          python3 compiler/exact_world/p20_merge.py \
+            --parts parts \
+            --out out/p20-stage-a-pool.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: p20-stage-a-pool
+          path: out/
+          retention-days: 30
+
+  instrument:
+    name: R2 bind admitted heterogeneous binaries + SF19 bridge
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download canonical R1 authorization
+        uses: actions/download-artifact@v4
+        with:
+          name: p20-r1-admission-result
+          path: r1/result
+          repository: WhoSia/C3X
+          run-id: 36026256576
+          github-token: ${{ github.token }}
+
+      - name: Verify R1 authorization before R2
+        run: |
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          p=next(Path("r1/result").glob("p20-r1-admission-result.json"))
+          x=json.loads(p.read_text())
+          assert x["authorization"]=="P20-HETEROGENEOUS-ADMISSION-PASS", x
+          assert x["engines"]["berserk"]["verdict"]=="PASS"
+          assert x["engines"]["ethereal"]["verdict"]=="PASS"
+          print("P20_R1_AUTHORIZATION_PASS",x["result_sha256"])
+          PY
+
+      - name: Download admitted Berserk binary
+        uses: actions/download-artifact@v4
+        with:
+          name: p20-admission-berserk
+          path: r1/berserk
+          repository: WhoSia/C3X
+          run-id: 36026256576
+          github-token: ${{ github.token }}
+
+      - name: Download admitted Ethereal binary
+        uses: actions/download-artifact@v4
+        with:
+          name: p20-admission-ethereal
+          path: r1/ethereal
+          repository: WhoSia/C3X
+          run-id: 36026256576
+          github-token: ${{ github.token }}
+
+      - name: Rebuild source-locked SF19 bridge with admitted lineage instrument
+        run: |
+          git clone https://github.com/official-stockfish/Stockfish.git sf19
+          git -C sf19 checkout --detach edb0d9db6731067ec50ce619ff372b463bc4dd5d
+          test "$(git -C sf19 rev-parse HEAD)" = "edb0d9db6731067ec50ce619ff372b463bc4dd5d"
+          python3 tools/materialize_p15.py --stockfish sf19 --target stockfish_19
+          make -C sf19/src clean
+          make -C sf19/src -j2 build ARCH=x86-64
+
+      - name: Materialize R2 binary packet
+        run: |
+          mkdir -p out
+          test -x r1/berserk/berserk-instrument
+          test -x r1/ethereal/ethereal-instrument
+          cp r1/berserk/berserk-instrument out/c3x-p20-berserk
+          cp r1/ethereal/ethereal-instrument out/c3x-p20-ethereal
+          cp sf19/src/stockfish out/c3x-p20-sf19
+          chmod +x out/c3x-p20-*
+          sha256sum out/c3x-p20-* | tee out/binary-sha256.txt
+
+      - name: Generic UCI smoke
+        run: |
+          for b in out/c3x-p20-berserk out/c3x-p20-ethereal out/c3x-p20-sf19; do
+            log="$(mktemp)"
+            printf "%s\\n" uci isready quit | timeout 20s "$b" > "$log" 2>&1
+            grep -Fxq "uciok" "$log"
+            grep -Fxq "readyok" "$log"
+          done
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: p20-r2-instrument
+          path: out/
+          retention-days: 30
+
+  census:
+    name: R2 joint SHAM census — ${{ matrix.family }}
+    needs: [merge-worlds, instrument]
+    runs-on: ubuntu-latest
+    timeout-minutes: 150
+    strategy:
+      fail-fast: false
+      matrix:
+        family: [KQQvKQ, KQRvKQ, KQQvKR, KQRvKR, KRBvKB, KRNvKB, KRBvKN, KRNvKN]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: p20-stage-a-pool
+          path: stage
+      - uses: actions/download-artifact@v4
+        with:
+          name: p20-r2-instrument
+          path: instrument
+      - name: SHAM-only joint engagement census
+        run: |
+          chmod +x instrument/c3x-p20-*
+          mkdir -p out
+          python3 harness/p20_transport.py census \
+            --stage-a stage/p20-stage-a-pool.json \
+            --engine stockfish_19,stockfish_uci,instrument/c3x-p20-sf19 \
+            --engine berserk,env,instrument/c3x-p20-berserk \
+            --engine ethereal,env,instrument/c3x-p20-ethereal \
+            --family "${{ matrix.family }}" \
+            --out "out/p20-census-${{ matrix.family }}.json"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: p20-census-${{ matrix.family }}
+          path: out/
+          retention-days: 30
+
+  precommit:
+    name: R2 seal 96-cell same-world precommit
+    needs: census
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: p20-stage-a-pool
+          path: stage
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: p20-census-*
+          path: census
+      - name: Seal outcome-blind committed cells
+        run: |
+          mkdir -p out
+          python3 harness/p20_transport.py seal \
+            --stage-a stage/p20-stage-a-pool.json \
+            --census-dir census \
+            --out out/p20-r2-precommit.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: p20-r2-precommit
+          path: out/
+          retention-days: 30
+
+  vertex:
+    name: R2 selective interventions — ${{ matrix.family }}
+    needs: [precommit, instrument]
+    runs-on: ubuntu-latest
+    timeout-minutes: 180
+    strategy:
+      fail-fast: false
+      matrix:
+        family: [KQQvKQ, KQRvKQ, KQQvKR, KQRvKR, KRBvKB, KRNvKB, KRBvKN, KRNvKN]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: p20-r2-precommit
+          path: precommit
+      - uses: actions/download-artifact@v4
+        with:
+          name: p20-r2-instrument
+          path: instrument
+      - name: Execute sealed five-arm interventions
+        run: |
+          chmod +x instrument/c3x-p20-*
+          mkdir -p out
+          python3 harness/p20_transport.py vertex \
+            --precommit precommit/p20-r2-precommit.json \
+            --engine stockfish_19,stockfish_uci,instrument/c3x-p20-sf19 \
+            --engine berserk,env,instrument/c3x-p20-berserk \
+            --engine ethereal,env,instrument/c3x-p20-ethereal \
+            --family "${{ matrix.family }}" \
+            --out "out/p20-vertex-${{ matrix.family }}.json"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: p20-vertex-${{ matrix.family }}
+          path: out/
+          retention-days: 30
+
+  adjudicate:
+    name: R2 engine-family naturality adjudication
+    needs: vertex
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: p20-vertex-*
+          path: vertices
+      - name: Adjudicate same-world cross-engine relation geometry
+        run: |
+          mkdir -p out
+          python3 harness/p20_transport.py adjudicate \
+            --result-dir vertices \
+            --out out/p20-r2-result.json
+          sha256sum out/p20-r2-result.json | tee out/result-file-sha256.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: p20-r2-result
+          path: out/
+          retention-days: 30
