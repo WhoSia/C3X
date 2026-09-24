@@ -7,9 +7,6 @@ on:
       - "c3x/protocol/p14-preseal.json"
       - "compiler/exact_world/p14_compile.py"
       - "harness/p14_transport.py"
-      - "tools/materialize_p12.py"
-      - "upstream/stockfish-lock.json"
-      - ".github/workflows/p14-transport.yml"
 
 permissions:
   contents: read
