@@ -1,0 +1,108 @@
+{
+  "schema": "c3x-g9.4-p18-preseal-v1",
+  "scientific_stage": "C3X 0.7.0-G9.4-P18",
+  "title": "Cross-Material Causal-Topology Transport, MAIN-Backbone Invariance, Material-Conditioned Interaction Heterogeneity & Hierarchical Mechanism Law Identification",
+  "parent": {
+    "p17_verdict": "BROAD-RESOURCE-MAIN-TT-READ-CAUSAL-DOMINANCE-OBSERVED / P16-BOUNDED-INTERACTION-WINDOW-NOT-REPLICATED@FRESH-DUAL-TARGET-EXACT-WORLD-SCOPE",
+    "p17_actions_run_id": 35973834978,
+    "p17_confirmatory_cells_reusable": false,
+    "rivals": [
+      "R1_GLOBAL_MAIN_BACKBONE: a MAIN-dominant causal topology transports out of material family",
+      "R2_MATERIAL_CONDITIONED_TOPOLOGY: family identity materially changes which TT-read component dominates"
+    ]
+  },
+  "fresh_world": {
+    "compiler_version": "c3x-p18-stage-a-v1",
+    "world_authority": "external Lichess Syzygy HTTP",
+    "root_halfmove_clock": 0,
+    "pawnless": true,
+    "max_pieces": 5,
+    "robust_categories_only": ["win","draw","loss"],
+    "require_precise_dtz_for_every_legal_move": true,
+    "history_safe_tau_depth": 4,
+    "target_per_family": 12,
+    "generation_index_offset": 50000
+  },
+  "material_strata": {
+    "discovery": ["KRRvKR","KRBvKR","KQvKRB","KRvKQB"],
+    "heldout": ["KRNvKR","KBBvKN","KQvKRN","KRvKQN"],
+    "heldout_interventions_forbidden_until_law_seal": true
+  },
+  "engine_targets": {
+    "frozen_20260810": {"upstream_commit": "5062aee519a1ba262d472d8ab139851ced56573e"},
+    "stockfish_19": {"upstream_commit": "edb0d9db6731067ec50ce619ff372b463bc4dd5d"}
+  },
+  "resource_anchor": {
+    "nodes": 300000,
+    "reason": "freeze resource to identify material transport rather than reopen resource-phase search"
+  },
+  "runtime_invariants": {
+    "threads": 1,
+    "hash_mib": 64,
+    "clear_hash_each_arm": true,
+    "engine_syzygy_probe_limit": 0
+  },
+  "instrument": {
+    "base": "P15 selective-mask semantics unchanged",
+    "arms": {"00":"SHAM","10":"MASK_MAIN","01":"MASK_QSEARCH","11":"MASK_MAIN_QSEARCH"},
+    "secondary_anchor": "MASK_ALL"
+  },
+  "sham_gate": {
+    "H_min": 64,
+    "U_min": 16,
+    "breadth_required": 3,
+    "require_each_site_raw_hit": true,
+    "require_each_site_semantic_use": true,
+    "eligible_on_both_targets": true
+  },
+  "tranche": {
+    "cells_per_family": 8,
+    "total_cells": 64,
+    "minimum_cells_per_family": 6,
+    "selection": "within each material family, alternate side-to-move where available; descending minimum dual-target site-use floor, then tau4, then candidate_sha256",
+    "intervention_outcomes_forbidden_until_precommit_artifact": true
+  },
+  "causal_vector": {
+    "MAIN": "p_fine(MASK_MAIN)",
+    "QSEARCH": "p_fine(MASK_QSEARCH)",
+    "INTERACTION": "p_fine(MASK_MAIN_QSEARCH)-p_fine(MASK_MAIN)-p_fine(MASK_QSEARCH)",
+    "phase_rule": "same absolute-component effect-floor and one-cell dominance-margin grammar as P16/P17",
+    "effect_floor_cells": 2
+  },
+  "discovery_law": {
+    "fit_only_on_discovery_families": true,
+    "global_MAIN_candidate_if": [
+      "pooled discovery phase is MAIN-DOMINANT on target",
+      "at least 3 of 4 discovery families are MAIN-DOMINANT on target"
+    ],
+    "prediction_if_global_MAIN_candidate": "predict MAIN-DOMINANT for every held-out family on that target",
+    "otherwise_prediction": "predict NO-GLOBAL-LAW and do not retrofit family-specific predictions",
+    "seal_before_heldout_intervention": true
+  },
+  "heldout_transport": {
+    "per_target_pass_if": [
+      "target has sealed GLOBAL-MAIN prediction",
+      "at least 3 of 4 held-out families are MAIN-DOMINANT",
+      "pooled held-out phase is MAIN-DOMINANT"
+    ],
+    "cross_version_global_law_if": "held-out transport passes independently on both engine targets",
+    "heterogeneity_flag_if": [
+      "fewer than 3 of 4 held-out families match sealed phase prediction on either target",
+      "or held-out families span at least three distinct non-null phase labels on either target"
+    ]
+  },
+  "primary_outcomes": ["root_action_changed_vs_SHAM","fine_exact_value_changed_vs_SHAM"],
+  "exact_value": {
+    "coarse": "mover-relative robust WDL",
+    "fine": "[mover-relative robust WDL, mover-relative precise_dtz]"
+  },
+  "forbidden_inferences": [
+    "heldout outcome leakage into law fitting",
+    "post-outcome family regrouping",
+    "post-outcome effect-floor tuning",
+    "general-chess prevalence",
+    "TT representation identity",
+    "world-model identity",
+    "human-like cognition"
+  ]
+}
