@@ -1,0 +1,79 @@
+{
+  "schema": "c3x-g9.4-p20-inanis-topology-translation-v1",
+  "scientific_stage": "C3X 0.7.0-G9.4-P20",
+  "source_commit": "7ef903e8f86f7dcaf4fd04aeecb22711190d2a6d",
+  "language": "Rust",
+  "status": "CONSTITUTED_NO_CAUSAL_TRANSPORT_AUTHORITY",
+  "observation": {
+    "main_search": {
+      "direct_search_tt_read": {
+        "count": 1,
+        "site": "src/engine/search/runner.rs :: context.ttable.get(context.board.state.hash, ply)",
+        "semantic_consumers": [
+          "best/hash move",
+          "depth-conditioned cutoff",
+          "bound-conditioned return",
+          "null-move permission",
+          "internal iterative reduction via hash-move presence"
+        ]
+      },
+      "pawn_eval_cache_read": true
+    },
+    "qsearch": {
+      "direct_search_tt_read_count": 0,
+      "stand_pat": "context.board.evaluate(context.board.stm, &context.phtable, &mut context.stats)",
+      "persistent_eval_cache": {
+        "channel": "pawn-hash table (PHTable)",
+        "evidence": "src/evaluation/pawns.rs reuses phtable.get(board.state.pawn_hash) and stores pawn evaluation for later reuse"
+      }
+    }
+  },
+  "correction": "QSEARCH is not memory-free. It lacks the same direct search-TT channel but consumes a distinct persistent evaluation-cache channel.",
+  "topology_lattice": {
+    "axes": [
+      "search phase",
+      "persistent-memory channel"
+    ],
+    "phases": [
+      "MAIN",
+      "QSEARCH"
+    ],
+    "channels": [
+      "SEARCH_TT",
+      "PAWN_EVAL_CACHE"
+    ],
+    "occupied_cells": {
+      "MAIN×SEARCH_TT": "present",
+      "QSEARCH×SEARCH_TT": "structural zero at locked source",
+      "MAIN×PAWN_EVAL_CACHE": "present through evaluation calls",
+      "QSEARCH×PAWN_EVAL_CACHE": "present through stand-pat evaluation"
+    }
+  },
+  "transport_options": {
+    "search_tt_projection": {
+      "definition": "Project the Stockfish/Berserk/Ethereal phase×TT design onto the SEARCH_TT channel only.",
+      "inanis_coordinates": [
+        "MAIN×SEARCH_TT"
+      ],
+      "cost": "The qsearch coordinate disappears; P19/P20 2D MAIN/QSEARCH geometry cannot be transported as-is.",
+      "authority": "future one-coordinate causal comparison only after native Rust admission"
+    },
+    "channel_expanded_design": {
+      "definition": "Lift the intervention state space to phase×channel and separately admit SEARCH_TT and PAWN_EVAL_CACHE reads.",
+      "advantage": "Respects Inanis topology rather than imputing a nonexistent qsearch TT read.",
+      "cost": "Requires corresponding evaluation-cache channels to be constituted in comparison engines; not authorized in P20."
+    },
+    "forced_phase_homology": {
+      "definition": "Treat qsearch pawn-cache reads as equivalent to qsearch TT reads merely because both are persistent memory.",
+      "verdict": "FORBIDDEN_ONTOLOGY_COLLAPSE"
+    }
+  },
+  "future_native_rust_gate": [
+    "instrument context.ttable.get in MAIN without rewriting the engine out of Rust",
+    "independently instrument PHTable semantic reuse if the channel-expanded design is chosen",
+    "prove NATIVE/SHAM noninterference",
+    "prove semantic-removal equivalence per admitted channel",
+    "freeze whether the estimand is SEARCH_TT-only projection or phase×channel expansion before outcomes"
+  ],
+  "p20_authority": "TOPOLOGY_SPECIFIC_TRANSLATION_CONSTITUTED / NO INANIS INTERVENTION RESULT"
+}
