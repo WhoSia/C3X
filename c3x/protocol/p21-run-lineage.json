@@ -29,5 +29,11 @@
     "selective_outcomes_observed_at_seal": false
   },
   "repair_rule": "Any engineering repair before the first valid selective intervention may inherit already sealed outcome-blind worlds/census/precommit only by pinned identity. After any selective outcome exists, no protocol/threshold/selection repair may be chosen based on scientific results.",
-  "language_policy": "IMPLEMENTATION_LANGUAGE_NONAUTHORITATIVE_NATIVE_FIRST"
+  "language_policy": "IMPLEMENTATION_LANGUAGE_NONAUTHORITATIVE_NATIVE_FIRST",
+  "auxiliary_architecture_boundary": {
+    "lc0_design_commit": "6ee7bf967d160184a033d0cecb988dab50462ca3",
+    "file": "c3x/ontology/p21-lc0-neural-cache-counterexample.json",
+    "authority": "DESIGN_ONLY_NO_CAUSAL_AUTHORITY",
+    "effect_on_primary_decision_tree": "NONE"
+  }
 }
