@@ -1,0 +1,89 @@
+{
+  "schema": "c3x-g9.4-p20-preseal-v1",
+  "scientific_stage": "C3X 0.7.0-G9.4-P20",
+  "title": "Cross-Engine Persistent-Search-Memory Causal Constitution, Berserk/Ethereal Semantic-Mediation Admission, Stockfish-Lineage→Engine-Family Naturality, Inanis Topology-Specific Transport & Lc0 Architecture-Neutral Boundary",
+  "status": "PRESEALED_BEFORE_HETEROGENEOUS_INTERVENTION_OUTCOMES",
+  "inherited_p19": {
+    "receipt": "receipts/g9.4-p19.json",
+    "seal_commit": "687b88bb79a1f7625ae0baff607f0cec6d0a9672",
+    "primary_verdict": "ENGINE-CONDITIONED-RELATION-GEOMETRY",
+    "heterogeneous_engine_authority": "NONE_RESERVE_ONLY"
+  },
+  "language_policy": {
+    "rule": "PROGRAMMING_LANGUAGE_IS_NOT_AN_ADMISSION_VARIABLE",
+    "native_first": true,
+    "engine_core": {
+      "berserk": "C",
+      "ethereal": "C",
+      "inanis": "Rust",
+      "lc0": "C++"
+    },
+    "orchestration": "Any language may be used when it reduces implementation risk; Python is not privileged and must not replace native engine code merely for uniformity."
+  },
+  "source_locks": {
+    "berserk": "32628515050b83805bab4afa1026dd2bcaa93f55",
+    "ethereal": "0e47e9b67f345c75eb965d9fb3e2493b6a11d09a",
+    "inanis": "7ef903e8f86f7dcaf4fd04aeecb22711190d2a6d",
+    "lc0": "1227b4c8c23375f4011831f4d7496d1551f85145"
+  },
+  "causal_construct": {
+    "name": "persistent-search-memory semantic read",
+    "abbreviation": "PSM_READ",
+    "necessary_properties": [
+      "The stored state persists beyond the immediate local node computation.",
+      "The search later queries that state while deciding search control, move ordering, evaluation reuse, pruning or expansion.",
+      "The intervention removes or selectively suppresses the decision-semantic read while leaving the underlying position, legal moves and write opportunity otherwise intact.",
+      "NATIVE and SHAM paths are behaviorally noninterfering under deterministic single-thread fixed-node tests."
+    ],
+    "not_required": [
+      "same programming language",
+      "same transposition-table representation",
+      "same cache replacement policy",
+      "UCI identity",
+      "Stockfish ancestry"
+    ]
+  },
+  "r1_admission_gate": {
+    "targets": ["berserk", "ethereal"],
+    "scope": "recursive decision-semantic MAIN and QSEARCH TT reads; post-search ponder/report-only reads are excluded and must be enumerated",
+    "required": [
+      "exact source lock + native build + UCI smoke",
+      "exhaustive static read-site census in scoped search regions",
+      "complete adapter mediation of every scoped semantic read site",
+      "baseline == instrumented NATIVE == instrumented SHAM on a frozen multi-FEN deterministic pack",
+      "SHAM dynamic engagement at both MAIN and QSEARCH sites",
+      "MASK_ALL == independently materialized SEMANTIC_REMOVAL binary on the same frozen pack"
+    ],
+    "authorization_if_all_pass": "P20-HETEROGENEOUS-ADMISSION-PASS",
+    "otherwise": "P20-HETEROGENEOUS-ADMISSION-HOLD"
+  },
+  "r2_transport_precommit": {
+    "launch_condition": "both berserk and ethereal pass R1",
+    "worlds": "new outcome-blind exact worlds disjoint from P19 generation offsets and selected cells",
+    "generation_offset_floor": 80000,
+    "matched_squares": {
+      "HEAVY_HEAVY": {"00":"KQQvKQ","10":"KQRvKQ","01":"KQQvKR","11":"KQRvKR"},
+      "MINOR_MINOR": {"00":"KRBvKB","10":"KRNvKB","01":"KRBvKN","11":"KRNvKN"}
+    },
+    "intervention_axes": ["MAIN", "QSEARCH", "MAIN×QSEARCH"],
+    "selection_rule": "SHAM-only engagement census before any selective intervention outcome",
+    "literal_sequential_noncommutativity": "NOT_IDENTIFIABLE_FROM_ENDPOINT_SQUARES"
+  },
+  "secondary_lanes": {
+    "inanis": {
+      "authority": "TOPOLOGY_SPECIFIC_CONSTITUTION_ONLY_UNTIL_NEW_GATE",
+      "constraint": "Do not force a MAIN/QSEARCH 1:1 homology when the locked qsearch lacks the same direct TT-read topology.",
+      "question": "What quotient/translation preserves the intervention meaning when one search phase has no homologous direct persistent-memory read?"
+    },
+    "lc0": {
+      "authority": "ARCHITECTURE_NEUTRAL_ONTOLOGY_ONLY",
+      "constraint": "No Stockfish-style TT intervention in P20.",
+      "question": "Which persistent state in neural tree/DAG search and neural-evaluation caching satisfies a future PSM_READ intervention contract?"
+    }
+  },
+  "adjudication_limits": [
+    "Mixed curvature identifies endpoint interaction/functoriality failure, not A∘B != B∘A.",
+    "Cross-engine equivalence may be claimed only after independent admission of each engine-specific adapter.",
+    "WDL robustness is reported only when the engine exposes a directly observed compatible WDL field or exact-world joined move value; it is never inferred from centipawn score alone."
+  ]
+}
