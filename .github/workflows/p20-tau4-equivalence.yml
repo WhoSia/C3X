@@ -1,0 +1,27 @@
+name: p20-tau4-equivalence
+
+on:
+  push:
+    paths:
+      - ".github/workflows/p20-tau4-equivalence.yml"
+      - "compiler/exact_world/p20_tau4_fast.py"
+      - "analysis/p20_tau4_equivalence.py"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  equivalence:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 -m pip install --disable-pip-version-check chess==1.11.2
+      - name: Compare frozen P19 tau4 with dormant accelerator
+        run: python3 analysis/p20_tau4_equivalence.py | tee p20-tau4-equivalence.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: p20-tau4-equivalence
+          path: p20-tau4-equivalence.json
+          retention-days: 30
