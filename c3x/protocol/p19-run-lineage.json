@@ -1,23 +1,45 @@
 {
-  "schema":"c3x-g9.4-p19-run-lineage-v1",
-  "scientific_stage":"C3X 0.7.0-G9.4-P19",
-  "superseded_runs":[
+  "schema": "c3x-g9.4-p19-run-lineage-v1",
+  "scientific_stage": "C3X 0.7.0-G9.4-P19",
+  "superseded_runs": [
     {
-      "run_id":36004271599,
-      "head_sha":"8e38182ddb216273b9df7482650945007247852c",
-      "failure_stage":"Stage A exact-world constitution",
-      "failure_class":"STAGE-A-ROBUST-WDL-SPLIT-OVERCONSTRAINT",
-      "observed_failure":"KQQvKR reached WHITE 9/9 and BLACK 0/9 because the compiler required a robust-WDL legal-move split.",
-      "intervention_outcomes_materialized":false,
-      "sham_precommit_materialized":false,
-      "scientific_use":"NONE"
+      "run_id": 36004271599,
+      "head_sha": "8e38182ddb216273b9df7482650945007247852c",
+      "failure_stage": "Stage A exact-world constitution",
+      "failure_class": "STAGE-A-ROBUST-WDL-SPLIT-OVERCONSTRAINT",
+      "observed_failure": "KQQvKR reached WHITE 9/9 and BLACK 0/9 because the compiler required a robust-WDL legal-move split.",
+      "intervention_outcomes_materialized": false,
+      "sham_precommit_materialized": false,
+      "scientific_use": "NONE"
+    },
+    {
+      "run_id": 36007924164,
+      "head_sha": "1c317279d7b92dcce9572edcec428984b25fb253",
+      "failure_stage": "Stage A exact-world constitution",
+      "failure_class": "SERIAL-PRE-PARALLEL-REPAIR-LINEAGE",
+      "intervention_outcomes_materialized": false,
+      "sham_precommit_materialized": false,
+      "scientific_use": "NONE",
+      "reason": "Triggered by compiler-v2 commit before the parallel Stage-A workflow repair existed; superseded without inspecting intervention outcomes."
+    },
+    {
+      "run_id": 36007946168,
+      "head_sha": "bed88e2e894b20b1d814d4b1c9aad7bf34192e61",
+      "failure_stage": "Stage A exact-world constitution",
+      "failure_class": "SERIAL-PRE-PARALLEL-REPAIR-LINEAGE",
+      "intervention_outcomes_materialized": false,
+      "sham_precommit_materialized": false,
+      "scientific_use": "NONE",
+      "reason": "Triggered by preseal-v2 commit before the parallel Stage-A workflow repair existed; superseded without inspecting intervention outcomes."
     }
   ],
-  "repair":{
-    "compiler_version":"c3x-p19-stage-a-v2-fine-exact-split",
-    "eligibility":"At least two distinct legal-move (mover_wdl,mover_precise_dtz) tuples; robust-WDL split is not required.",
-    "execution":"Eight vertices are constituted independently and merged deterministically before the unchanged three-engine SHAM precommit.",
-    "scientific_rationale":"P19's declared fine exact-value outcome is [mover-relative robust WDL, mover-relative precise-DTZ]; the v1 WDL-only split was an accidental stronger filter and made asymmetric vertices structurally impossible."
+  "repair": {
+    "compiler_version": "c3x-p19-stage-a-v2-fine-exact-split",
+    "eligibility": "At least two distinct legal-move (mover_wdl,mover_precise_dtz) tuples; robust-WDL split is not required.",
+    "execution": "Eight vertices are constituted independently and merged deterministically before the unchanged three-engine SHAM precommit.",
+    "scientific_rationale": "P19's declared fine exact-value outcome is [mover-relative robust WDL, mover-relative precise-DTZ]; the v1 WDL-only split was an accidental stronger filter and made asymmetric vertices structurally impossible."
   },
-  "blindness_rule":"No P19 selective intervention outcome existed in the superseded run. Future P19 authority must come from a run using the repaired constitution and unchanged prospective relation tests."
+  "blindness_rule": "No P19 selective intervention outcome existed in the superseded run. Future P19 authority must come from a run using the repaired constitution and unchanged prospective relation tests.",
+  "canonical_candidate_rule": "Use the first P19 run whose head contains compiler v2 fine-exact split, deterministic p19_merge.py, and the 8-way Stage-A parallel workflow. Earlier runs remain scientifically inadmissible.",
+  "parallel_workflow_commit": "b27fb5e54c950b983444cbd03fce0dbef3cfad8e"
 }
