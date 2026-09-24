@@ -39,7 +39,7 @@ jobs:
           retention-days: 30
 
   world:
-    name: R2 fast fresh exact worlds — \${{ matrix.family }}
+    name: R2 fast fresh exact worlds — ${{ matrix.family }}
     needs: equivalence
     runs-on: ubuntu-latest
     timeout-minutes: 120
@@ -54,13 +54,13 @@ jobs:
         run: |
           mkdir -p out
           python3 compiler/exact_world/p20_compile_fast.py \
-            --material "\${{ matrix.family }}" \
+            --material "${{ matrix.family }}" \
             --target-per-vertex 72 \
             --max-generated-per-vertex 1200 \
-            --out "out/p20-stage-a-\${{ matrix.family }}.json"
+            --out "out/p20-stage-a-${{ matrix.family }}.json"
       - uses: actions/upload-artifact@v4
         with:
-          name: p20-fast-stage-a-\${{ matrix.family }}
+          name: p20-fast-stage-a-${{ matrix.family }}
           path: out/
           retention-days: 30
 
@@ -114,7 +114,7 @@ jobs:
           path: out
           repository: WhoSia/C3X
           run-id: 36027604444
-          github-token: \${{ github.token }}
+          github-token: ${{ github.token }}
       - name: Verify receipt, packet identity, and generic UCI
         shell: bash
         run: |
@@ -156,7 +156,7 @@ jobs:
           retention-days: 30
 
   census:
-    name: R2 fast SHAM census — \${{ matrix.family }}
+    name: R2 fast SHAM census — ${{ matrix.family }}
     needs: [merge-worlds, instrument]
     runs-on: ubuntu-latest
     timeout-minutes: 150
@@ -183,11 +183,11 @@ jobs:
             --engine stockfish_19,stockfish_uci,instrument/packet/c3x-p20-sf19 \
             --engine berserk,env,instrument/packet/c3x-p20-berserk \
             --engine ethereal,env,instrument/packet/c3x-p20-ethereal \
-            --family "\${{ matrix.family }}" \
-            --out "out/p20-fast-census-\${{ matrix.family }}.json"
+            --family "${{ matrix.family }}" \
+            --out "out/p20-fast-census-${{ matrix.family }}.json"
       - uses: actions/upload-artifact@v4
         with:
-          name: p20-fast-census-\${{ matrix.family }}
+          name: p20-fast-census-${{ matrix.family }}
           path: out/
           retention-days: 30
 
