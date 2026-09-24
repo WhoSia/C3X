@@ -1,0 +1,261 @@
+name: p19-canonical-symmetric-reserve-repair
+
+on:
+  push:
+    paths:
+      - ".github/workflows/p19-canonical-repair-v2.yml"
+  workflow_dispatch:
+
+permissions:
+  actions: read
+  contents: read
+
+jobs:
+  supplement:
+    name: Stage A3 — supplemental fresh vertex ${{ matrix.family }}
+    strategy:
+      fail-fast: false
+      matrix:
+        family: [KQQvKQ, KQRvKQ, KQQvKR, KQRvKR, KRBvKB, KRNvKB, KRBvKN, KRNvKN]
+    runs-on: ubuntu-latest
+    timeout-minutes: 75
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 -m pip install --disable-pip-version-check chess==1.11.2
+      - name: Materialize disjoint outcome-blind supplement
+        run: |
+          mkdir -p out
+          python3 compiler/exact_world/p19_supplement.py \
+            --material ${{ matrix.family }} \
+            --out out/p19-supp-${{ matrix.family }}.json \
+            --target-per-vertex 36 --max-generated-per-vertex 800
+      - uses: actions/upload-artifact@v4
+        with:
+          name: p19-supp-${{ matrix.family }}
+          path: out/
+          retention-days: 30
+
+  merge:
+    name: Stage A4 — merge canonical base plus symmetric supplement
+    needs: supplement
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Download sealed 288-world base constitution
+        uses: actions/download-artifact@v4
+        with:
+          name: p19-stage-a-fresh-squares-canonical-repair
+          path: base
+          repository: WhoSia/C3X
+          run-id: 36016655865
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: p19-supp-*
+          path: supplement
+          merge-multiple: true
+      - name: Merge to 576 outcome-blind worlds
+        run: |
+          mkdir -p out
+          python3 compiler/exact_world/p19_merge72.py \
+            --base base/p19-stage-a.json --supp-dir supplement --out out/p19-stage-a.json
+          sha256sum out/p19-stage-a.json | tee out/p19-stage-a-file-sha256.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: p19-stage-a-576-symmetric
+          path: out/
+          retention-days: 30
+
+  instrument:
+    name: Stage B0 — build and seal exact three-version instrument pack
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - name: Clone exact Stockfish lineage
+        run: |
+          git clone https://github.com/official-stockfish/Stockfish.git sf18
+          git -C sf18 checkout --detach cb3d4ee9b47d0c5aae855b12379378ea1439675c
+          git clone https://github.com/official-stockfish/Stockfish.git sf-frozen
+          git -C sf-frozen checkout --detach 5062aee519a1ba262d472d8ab139851ced56573e
+          git clone https://github.com/official-stockfish/Stockfish.git sf19
+          git -C sf19 checkout --detach edb0d9db6731067ec50ce619ff372b463bc4dd5d
+      - name: Build clean baselines
+        run: |
+          make -C sf18/src -j2 build ARCH=x86-64
+          cp sf18/src/stockfish /tmp/sf18-clean
+          make -C sf-frozen/src -j2 build ARCH=x86-64
+          cp sf-frozen/src/stockfish /tmp/sf-frozen-clean
+          make -C sf19/src -j2 build ARCH=x86-64
+          cp sf19/src/stockfish /tmp/sf19-clean
+      - name: Materialize unchanged selective intervention
+        run: |
+          python3 tools/materialize_p15.py --stockfish sf18 --target stockfish_18
+          python3 tools/materialize_p15.py --stockfish sf-frozen --target frozen_20260810
+          python3 tools/materialize_p15.py --stockfish sf19 --target stockfish_19
+      - name: Build sealed binaries
+        run: |
+          for d in sf18 sf-frozen sf19; do make -C "$d/src" clean; make -C "$d/src" -j2 build ARCH=x86-64; done
+          mkdir -p out
+          cp sf18/src/stockfish out/c3x-p19-sf18
+          cp sf-frozen/src/stockfish out/c3x-p19-frozen
+          cp sf19/src/stockfish out/c3x-p19-sf19
+          sha256sum out/c3x-p19-sf18 out/c3x-p19-frozen out/c3x-p19-sf19 | tee out/binary-sha256.txt
+      - name: Reprove instrument semantics
+        run: |
+          python3 harness/uci_smoke.py out/c3x-p19-sf18 | tee out/sf18-uci-smoke.txt
+          python3 harness/native_sham_identity.py --baseline /tmp/sf18-clean --patched out/c3x-p19-sf18 --nodes 30000 | tee out/sf18-native-sham.txt
+          python3 harness/uci_smoke.py out/c3x-p19-frozen | tee out/frozen-uci-smoke.txt
+          python3 harness/native_sham_identity.py --baseline /tmp/sf-frozen-clean --patched out/c3x-p19-frozen --nodes 30000 | tee out/frozen-native-sham.txt
+          python3 harness/uci_smoke.py out/c3x-p19-sf19 | tee out/sf19-uci-smoke.txt
+          python3 harness/native_sham_identity.py --baseline /tmp/sf19-clean --patched out/c3x-p19-sf19 --nodes 30000 | tee out/sf19-native-sham.txt
+          python3 harness/p19_engine_gate.py \
+            --binary stockfish_18=out/c3x-p19-sf18 \
+            --binary frozen_20260810=out/c3x-p19-frozen \
+            --binary stockfish_19=out/c3x-p19-sf19 \
+            --nodes 30000 --out out/p19-engine-gate.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: p19-instrument-pack-v2
+          path: out/
+          retention-days: 30
+
+  census:
+    name: Stage B1 — parallel SHAM census ${{ matrix.family }}
+    needs: [merge, instrument]
+    strategy:
+      fail-fast: false
+      matrix:
+        family: [KQQvKQ, KQRvKQ, KQQvKR, KQRvKR, KRBvKB, KRNvKB, KRBvKN, KRNvKN]
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: p19-stage-a-576-symmetric
+          path: stage-a
+      - uses: actions/download-artifact@v4
+        with:
+          name: p19-instrument-pack-v2
+          path: instrument
+      - name: Census one vertex without intervention
+        run: |
+          chmod +x instrument/c3x-p19-sf18 instrument/c3x-p19-frozen instrument/c3x-p19-sf19
+          mkdir -p out
+          python3 harness/p19_parallel_sham.py census \
+            --stage-a stage-a/p19-stage-a.json \
+            --binary stockfish_18=instrument/c3x-p19-sf18 \
+            --binary frozen_20260810=instrument/c3x-p19-frozen \
+            --binary stockfish_19=instrument/c3x-p19-sf19 \
+            --family ${{ matrix.family }} \
+            --out out/p19-census-${{ matrix.family }}.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: p19-census-${{ matrix.family }}
+          path: out/
+          retention-days: 30
+
+  precommit:
+    name: Stage B2 — seal unchanged 96-cell prospective precommit
+    needs: census
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: p19-stage-a-576-symmetric
+          path: stage-a
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: p19-census-*
+          path: census
+          merge-multiple: true
+      - name: Seal selection before intervention
+        run: |
+          mkdir -p out
+          python3 harness/p19_parallel_sham.py seal \
+            --stage-a stage-a/p19-stage-a.json \
+            --census KQQvKQ=census/p19-census-KQQvKQ.json \
+            --census KQRvKQ=census/p19-census-KQRvKQ.json \
+            --census KQQvKR=census/p19-census-KQQvKR.json \
+            --census KQRvKR=census/p19-census-KQRvKR.json \
+            --census KRBvKB=census/p19-census-KRBvKB.json \
+            --census KRNvKB=census/p19-census-KRNvKB.json \
+            --census KRBvKN=census/p19-census-KRBvKN.json \
+            --census KRNvKN=census/p19-census-KRNvKN.json \
+            --out out/p19-sham-precommit.json
+          sha256sum out/p19-sham-precommit.json | tee out/p19-sham-precommit-file-sha256.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: p19-precommit-v2-sealed
+          path: out/
+          retention-days: 30
+
+  vertex:
+    name: Stage C — square vertex ${{ matrix.family }}
+    needs: [precommit, instrument]
+    strategy:
+      fail-fast: false
+      matrix:
+        family: [KQQvKQ, KQRvKQ, KQQvKR, KQRvKR, KRBvKB, KRNvKB, KRBvKN, KRNvKN]
+    runs-on: ubuntu-latest
+    timeout-minutes: 180
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: p19-precommit-v2-sealed
+          path: sealed
+      - uses: actions/download-artifact@v4
+        with:
+          name: p19-instrument-pack-v2
+          path: instrument
+      - name: Execute prospectively committed vertex
+        run: |
+          chmod +x instrument/c3x-p19-sf18 instrument/c3x-p19-frozen instrument/c3x-p19-sf19
+          mkdir -p result
+          python3 harness/p19_morphism.py vertex-run \
+            --precommit sealed/p19-sham-precommit.json \
+            --binary stockfish_18=instrument/c3x-p19-sf18 \
+            --binary frozen_20260810=instrument/c3x-p19-frozen \
+            --binary stockfish_19=instrument/c3x-p19-sf19 \
+            --family ${{ matrix.family }} \
+            --out result/p19-${{ matrix.family }}.json
+          sha256sum result/p19-${{ matrix.family }}.json | tee result/p19-${{ matrix.family }}-file-sha256.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: p19-v2-vertex-${{ matrix.family }}
+          path: result/
+          retention-days: 30
+
+  adjudicate:
+    name: Stage D — causal functoriality and lineage-geometry adjudication
+    needs: vertex
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: p19-v2-vertex-*
+          path: vertices
+          merge-multiple: true
+      - name: Compute matched-square curvature and engine-material naturality
+        run: |
+          mkdir -p result
+          python3 harness/p19_morphism.py adjudicate \
+            --result KQQvKQ=vertices/p19-KQQvKQ.json \
+            --result KQRvKQ=vertices/p19-KQRvKQ.json \
+            --result KQQvKR=vertices/p19-KQQvKR.json \
+            --result KQRvKR=vertices/p19-KQRvKR.json \
+            --result KRBvKB=vertices/p19-KRBvKB.json \
+            --result KRNvKB=vertices/p19-KRNvKB.json \
+            --result KRBvKN=vertices/p19-KRBvKN.json \
+            --result KRNvKN=vertices/p19-KRNvKN.json \
+            --out result/p19-morphism-result.json
+          sha256sum result/p19-morphism-result.json | tee result/p19-morphism-result-file-sha256.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: p19-v2-mechanism-morphism-result
+          path: result/
+          retention-days: 30
