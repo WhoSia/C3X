@@ -1,0 +1,256 @@
+{
+  "schema": "c3x-g9.4-p20-final-receipt-v1",
+  "scientific_stage": "C3X 0.7.0-G9.4-P20",
+  "title": "Cross-Engine Persistent-Search-Memory Causal Constitution, Berserk/Ethereal Semantic-Mediation Admission, Stockfish-Lineage→Engine-Family Naturality, Inanis Topology-Specific Transport & Lc0 Architecture-Neutral Boundary",
+  "status": "CLOSED",
+  "language_policy": "IMPLEMENTATION_LANGUAGE_NONAUTHORITATIVE_NATIVE_FIRST",
+  "r1_admission": {
+    "run_id": 36026256576,
+    "authorization": "P20-HETEROGENEOUS-ADMISSION-PASS",
+    "berserk": {
+      "source_commit": "32628515050b83805bab4afa1026dd2bcaa93f55",
+      "verdict": "PASS",
+      "complete_scoped_mediation": true,
+      "scoped_reads": {
+        "MAIN": 1,
+        "QSEARCH": 1
+      },
+      "excluded": [
+        {
+          "kind": "POST_SEARCH_PONDER_REPORT",
+          "count": 1
+        }
+      ],
+      "dynamic_engagement": {
+        "hits_main": 78763,
+        "hits_qsearch": 31128,
+        "probes_main": 138993,
+        "probes_qsearch": 118836
+      }
+    },
+    "ethereal": {
+      "source_commit": "0e47e9b67f345c75eb965d9fb3e2493b6a11d09a",
+      "verdict": "PASS",
+      "complete_scoped_mediation": true,
+      "scoped_reads": {
+        "MAIN": 1,
+        "QSEARCH": 1
+      },
+      "excluded": [],
+      "dynamic_engagement": {
+        "hits_main": 76114,
+        "hits_qsearch": 16129,
+        "probes_main": 159224,
+        "probes_qsearch": 80015
+      }
+    }
+  },
+  "r2": {
+    "canonical_run_id": 36032107436,
+    "canonical_head": "e5d15f2bac0f989840c98b053a32bd0dfb31ccfe",
+    "conclusion": "SUCCESS",
+    "stage_a_pool": {
+      "worlds": 576,
+      "pool_sha256": "1fc45b4fcb8db407cd95d937861d895348876332dd35a3093f8c45ff805d5291",
+      "donor_run_id": 36026765136,
+      "donor_artifact_id": 10822061010,
+      "donor_artifact_digest": "sha256:bfaaa15ae76ea580d89beef2a70cad5e04a2fafec775f54c20fdfa36cde65a81"
+    },
+    "precommit": {
+      "cells": 96,
+      "precommit_sha256": "822417fd87a87f0977e4337f09e12953ed673d35e0aa0a230070881baad0a051",
+      "selection": "minimum cross-target MAIN/QSEARCH SHAM-hit floor, then candidate hash; 6 WHITE + 6 BLACK per material vertex",
+      "eligible_counts": {
+        "KQQvKQ": 71,
+        "KQQvKR": 70,
+        "KQRvKQ": 72,
+        "KQRvKR": 72,
+        "KRBvKB": 72,
+        "KRBvKN": 72,
+        "KRNvKB": 72,
+        "KRNvKN": 72
+      }
+    },
+    "result": {
+      "primary_verdict": "PARTIAL-CROSS-ENGINE-RELATION-LAW-TRANSPORT",
+      "result_sha256": "d36c0b980a8cf883a1ccefbe9eec9bd98684c3ab46afa97fbf35eaa47eee190b",
+      "result_artifact_id": 10822752296,
+      "result_artifact_digest": "sha256:106dbce74a862a307ed25acf9e4633a72b635c8c6d36f58dba1f3c28ad35f190",
+      "robust_wdl_changed_any_arm": false,
+      "literal_sequential_noncommutativity": "NOT_IDENTIFIED_BY_ENDPOINT_SQUARES",
+      "one_cell_resolution": 0.08333333333333333,
+      "curvatures": {
+        "stockfish_19": {
+          "HEAVY_HEAVY": {
+            "class": "CURVED",
+            "dominant_coordinate": "QSEARCH",
+            "dominant_sign": -1,
+            "linf": 0.16666666666666666,
+            "vector": {
+              "MAIN": -0.08333333333333333,
+              "QSEARCH": -0.16666666666666666,
+              "INTERACTION": 0
+            }
+          },
+          "MINOR_MINOR": {
+            "class": "CURVED",
+            "dominant_coordinate": "INTERACTION",
+            "dominant_sign": 1,
+            "linf": 0.5,
+            "vector": {
+              "MAIN": -0.16666666666666666,
+              "QSEARCH": -0.3333333333333333,
+              "INTERACTION": 0.5
+            }
+          }
+        },
+        "berserk": {
+          "HEAVY_HEAVY": {
+            "class": "CURVED",
+            "dominant_coordinate": "QSEARCH",
+            "dominant_sign": -1,
+            "linf": 0.3333333333333333,
+            "vector": {
+              "MAIN": 0,
+              "QSEARCH": -0.3333333333333333,
+              "INTERACTION": 0.25
+            }
+          },
+          "MINOR_MINOR": {
+            "class": "CURVED",
+            "dominant_coordinate": "MAIN",
+            "dominant_sign": -1,
+            "linf": 0.16666666666666666,
+            "vector": {
+              "MAIN": -0.16666666666666666,
+              "QSEARCH": 0.08333333333333333,
+              "INTERACTION": 0.16666666666666666
+            }
+          }
+        },
+        "ethereal": {
+          "HEAVY_HEAVY": {
+            "class": "CURVED",
+            "dominant_coordinate": "QSEARCH",
+            "dominant_sign": -1,
+            "linf": 0.25,
+            "vector": {
+              "MAIN": -0.16666666666666666,
+              "QSEARCH": -0.25,
+              "INTERACTION": 0.16666666666666666
+            }
+          },
+          "MINOR_MINOR": {
+            "class": "CURVED",
+            "dominant_coordinate": "MAIN",
+            "dominant_sign": 1,
+            "linf": 0.16666666666666666,
+            "vector": {
+              "MAIN": 0.16666666666666666,
+              "QSEARCH": 0.16666666666666666,
+              "INTERACTION": -0.16666666666666666
+            }
+          }
+        }
+      },
+      "replicated_relation_law": {
+        "HEAVY_HEAVY": {
+          "replicated": true,
+          "fingerprint": [
+            "CURVED",
+            "QSEARCH",
+            -1
+          ],
+          "targets": [
+            "stockfish_19",
+            "berserk",
+            "ethereal"
+          ]
+        },
+        "MINOR_MINOR": {
+          "replicated": false,
+          "fingerprints": {
+            "stockfish_19": [
+              "CURVED",
+              "INTERACTION",
+              1
+            ],
+            "berserk": [
+              "CURVED",
+              "MAIN",
+              -1
+            ],
+            "ethereal": [
+              "CURVED",
+              "MAIN",
+              1
+            ]
+          }
+        }
+      },
+      "pairwise_same_world_naturality": {
+        "stockfish_19_VS_berserk": {
+          "HEAVY_HEAVY": {
+            "compatible": false,
+            "linf_delta": 0.25
+          },
+          "MINOR_MINOR": {
+            "compatible": false,
+            "linf_delta": 0.4166666666666667
+          }
+        },
+        "stockfish_19_VS_ethereal": {
+          "HEAVY_HEAVY": {
+            "compatible": false,
+            "linf_delta": 0.16666666666666666
+          },
+          "MINOR_MINOR": {
+            "compatible": false,
+            "linf_delta": 0.6666666666666666
+          }
+        },
+        "berserk_VS_ethereal": {
+          "HEAVY_HEAVY": {
+            "compatible": false,
+            "linf_delta": 0.16666666666666666
+          },
+          "MINOR_MINOR": {
+            "compatible": false,
+            "linf_delta": 0.3333333333333333
+          }
+        }
+      }
+    }
+  },
+  "inanis": {
+    "source_commit": "7ef903e8f86f7dcaf4fd04aeecb22711190d2a6d",
+    "language": "Rust",
+    "authority": "TOPOLOGY_SPECIFIC_TRANSLATION_CONSTITUTED / NO INANIS INTERVENTION RESULT",
+    "topology": {
+      "MAIN×SEARCH_TT": "present",
+      "QSEARCH×SEARCH_TT": "structural zero",
+      "MAIN×PAWN_EVAL_CACHE": "present through evaluation",
+      "QSEARCH×PAWN_EVAL_CACHE": "present through stand-pat evaluation"
+    },
+    "forced_phase_homology": "FORBIDDEN_ONTOLOGY_COLLAPSE"
+  },
+  "lc0": {
+    "source_commit": "1227b4c8c23375f4011831f4d7496d1551f85145",
+    "language": "C++",
+    "authority": "ARCHITECTURE BOUNDARY ONLY / NO CAUSAL RESULT / NO CLAIM OF HOMOLOGY",
+    "distinct_candidate_channels": [
+      "NEURAL_EVAL_CACHE",
+      "SEARCH_TREE_STATE"
+    ]
+  },
+  "fast_replication_lane": {
+    "run_id": 36031839640,
+    "authority": "REPLICATION_ONLY",
+    "primary_override": false,
+    "automatic_stop": "AFTER_96_CELL_SHAM_PRECOMMIT_BEFORE_ANY_SELECTIVE_INTERVENTION",
+    "tau4_semantics": "P19_FROZEN_EXACT",
+    "tau4_equivalence": "PASS",
+    "domain_certificate": "PASS"
+  },
+  "authority_ceiling": "same fresh exact-world committed cells; source-locked and independently admitted heterogeneous PSM_READ targets; fixed 300k nodes; relation-level transport only"
+}
