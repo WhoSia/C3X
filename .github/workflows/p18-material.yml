@@ -1,0 +1,217 @@
+name: p18-cross-material-law
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - "c3x/protocol/p18-preseal.json"
+      - "compiler/exact_world/p18_compile.py"
+      - "harness/p18_material_transport.py"
+      - "tools/materialize_p15.py"
+      - "tools/materialize_p12.py"
+      - "upstream/stockfish-lock.json"
+      - ".github/workflows/p18-material.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  stage_a:
+    name: Stage A — P18 stratified fresh exact-world constitution
+    runs-on: ubuntu-latest
+    timeout-minutes: 70
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 -m pip install --disable-pip-version-check chess==1.11.2
+      - name: Materialize 8 fresh material strata
+        run: |
+          mkdir -p out
+          python3 compiler/exact_world/p18_compile.py --out out/p18-stage-a.json --target-per-family 12 --max-generated-per-family 220
+          sha256sum out/p18-stage-a.json | tee out/p18-stage-a-file-sha256.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: p18-stage-a-fresh-worlds
+          path: out/
+          retention-days: 30
+
+  precommit:
+    name: Stage B — dual-target SHAM census and 64-cell material precommit
+    needs: stage_a
+    runs-on: ubuntu-latest
+    timeout-minutes: 180
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: p18-stage-a-fresh-worlds
+          path: stage-a
+      - name: Clone exact upstream targets
+        run: |
+          git clone https://github.com/official-stockfish/Stockfish.git sf-frozen
+          git -C sf-frozen checkout --detach 5062aee519a1ba262d472d8ab139851ced56573e
+          git clone https://github.com/official-stockfish/Stockfish.git sf19
+          git -C sf19 checkout --detach edb0d9db6731067ec50ce619ff372b463bc4dd5d
+          test "$(git -C sf-frozen rev-parse HEAD)" = "5062aee519a1ba262d472d8ab139851ced56573e"
+          test "$(git -C sf19 rev-parse HEAD)" = "edb0d9db6731067ec50ce619ff372b463bc4dd5d"
+      - name: Build clean baselines
+        run: |
+          make -C sf-frozen/src -j2 build ARCH=x86-64
+          cp sf-frozen/src/stockfish /tmp/sf-frozen-clean
+          make -C sf19/src -j2 build ARCH=x86-64
+          cp sf19/src/stockfish /tmp/sf19-clean
+      - name: Materialize unchanged P15 selective instrument
+        run: |
+          python3 tools/materialize_p15.py --stockfish sf-frozen --target frozen_20260810
+          python3 tools/materialize_p15.py --stockfish sf19 --target stockfish_19
+      - name: Build P18 runtime binaries
+        run: |
+          make -C sf-frozen/src clean
+          make -C sf-frozen/src -j2 build ARCH=x86-64
+          make -C sf19/src clean
+          make -C sf19/src -j2 build ARCH=x86-64
+          mkdir -p out
+          cp sf-frozen/src/stockfish out/c3x-p18-frozen
+          cp sf19/src/stockfish out/c3x-p18-sf19
+          sha256sum out/c3x-p18-frozen out/c3x-p18-sf19 | tee out/binary-sha256.txt
+      - name: Recheck instrument semantics
+        run: |
+          python3 harness/uci_smoke.py out/c3x-p18-frozen | tee out/frozen-uci-smoke.txt
+          python3 harness/native_sham_identity.py --baseline /tmp/sf-frozen-clean --patched out/c3x-p18-frozen --nodes 30000 | tee out/frozen-native-sham.txt
+          python3 harness/uci_smoke.py out/c3x-p18-sf19 | tee out/sf19-uci-smoke.txt
+          python3 harness/native_sham_identity.py --baseline /tmp/sf19-clean --patched out/c3x-p18-sf19 --nodes 30000 | tee out/sf19-native-sham.txt
+          python3 harness/p15_factorial.py preflight             --binary frozen_20260810=out/c3x-p18-frozen             --binary stockfish_19=out/c3x-p18-sf19             --nodes 30000 | tee out/full-mask-equivalence.txt
+      - name: SHAM-only cross-material census
+        run: |
+          python3 harness/p18_material_transport.py sham-commit             --stage-a stage-a/p18-stage-a.json             --binary frozen_20260810=out/c3x-p18-frozen             --binary stockfish_19=out/c3x-p18-sf19             --out out/p18-sham-precommit.json
+          sha256sum out/p18-sham-precommit.json | tee out/p18-sham-precommit-file-sha256.txt
+      - name: Seal binaries and pre-intervention material commit
+        uses: actions/upload-artifact@v4
+        with:
+          name: p18-material-precommit-sealed
+          path: out/
+          retention-days: 30
+
+  discovery:
+    name: Stage C — discovery intervention ${{ matrix.family }}
+    needs: precommit
+    strategy:
+      fail-fast: false
+      matrix:
+        family: [KRRvKR, KRBvKR, KQvKRB, KRvKQB]
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: p18-material-precommit-sealed
+          path: sealed
+      - name: Execute discovery family only
+        run: |
+          chmod +x sealed/c3x-p18-frozen sealed/c3x-p18-sf19
+          mkdir -p result
+          python3 harness/p18_material_transport.py family-run             --precommit sealed/p18-sham-precommit.json             --binary frozen_20260810=sealed/c3x-p18-frozen             --binary stockfish_19=sealed/c3x-p18-sf19             --family ${{ matrix.family }} --split DISCOVERY             --out result/p18-discovery-${{ matrix.family }}.json
+          sha256sum result/p18-discovery-${{ matrix.family }}.json | tee result/p18-discovery-${{ matrix.family }}-sha256.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: p18-discovery-${{ matrix.family }}
+          path: result/
+          retention-days: 30
+
+  law:
+    name: Stage D — hierarchical discovery-law seal
+    needs: discovery
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: p18-material-precommit-sealed
+          path: sealed
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: p18-discovery-*
+          path: discovery
+          merge-multiple: true
+      - name: Fit only discovery families and seal held-out prediction
+        run: |
+          mkdir -p law
+          python3 harness/p18_material_transport.py seal-law             --precommit sealed/p18-sham-precommit.json             --result KRRvKR=discovery/p18-discovery-KRRvKR.json             --result KRBvKR=discovery/p18-discovery-KRBvKR.json             --result KQvKRB=discovery/p18-discovery-KQvKRB.json             --result KRvKQB=discovery/p18-discovery-KRvKQB.json             --out law/p18-law-seal.json
+          sha256sum law/p18-law-seal.json | tee law/p18-law-seal-file-sha256.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: p18-discovery-law-sealed
+          path: law/
+          retention-days: 30
+
+  heldout:
+    name: Stage E — held-out material intervention ${{ matrix.family }}
+    needs: law
+    strategy:
+      fail-fast: false
+      matrix:
+        family: [KRNvKR, KBBvKN, KQvKRN, KRvKQN]
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: p18-material-precommit-sealed
+          path: sealed
+      - uses: actions/download-artifact@v4
+        with:
+          name: p18-discovery-law-sealed
+          path: law
+      - name: Verify prediction seal before held-out intervention
+        run: |
+          python3 - <<'PY'
+          import json
+          p=json.load(open("sealed/p18-sham-precommit.json"))
+          l=json.load(open("law/p18-law-seal.json"))
+          assert l["law_sealed"] is True
+          assert l["heldout_outcomes_consulted"] is False
+          assert l["precommit_sha256"]==p["precommit_sha256"]
+          print("P18_HELDOUT_AUTHORIZED",l["law_sha256"])
+          PY
+      - name: Execute held-out family
+        run: |
+          chmod +x sealed/c3x-p18-frozen sealed/c3x-p18-sf19
+          mkdir -p result
+          python3 harness/p18_material_transport.py family-run             --precommit sealed/p18-sham-precommit.json             --law law/p18-law-seal.json             --binary frozen_20260810=sealed/c3x-p18-frozen             --binary stockfish_19=sealed/c3x-p18-sf19             --family ${{ matrix.family }} --split HELDOUT             --out result/p18-heldout-${{ matrix.family }}.json
+          sha256sum result/p18-heldout-${{ matrix.family }}.json | tee result/p18-heldout-${{ matrix.family }}-sha256.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: p18-heldout-${{ matrix.family }}
+          path: result/
+          retention-days: 30
+
+  adjudicate:
+    name: Stage F — out-of-family transport adjudication
+    needs: heldout
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: p18-material-precommit-sealed
+          path: sealed
+      - uses: actions/download-artifact@v4
+        with:
+          name: p18-discovery-law-sealed
+          path: law
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: p18-heldout-*
+          path: heldout
+          merge-multiple: true
+      - name: Adjudicate sealed predictions on untouched material families
+        run: |
+          mkdir -p result
+          python3 harness/p18_material_transport.py adjudicate             --precommit sealed/p18-sham-precommit.json             --law law/p18-law-seal.json             --result KRNvKR=heldout/p18-heldout-KRNvKR.json             --result KBBvKN=heldout/p18-heldout-KBBvKN.json             --result KQvKRN=heldout/p18-heldout-KQvKRN.json             --result KRvKQN=heldout/p18-heldout-KRvKQN.json             --out result/p18-transport-result.json
+          sha256sum result/p18-transport-result.json | tee result/p18-transport-result-file-sha256.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: p18-cross-material-transport-result
+          path: result/
+          retention-days: 30
