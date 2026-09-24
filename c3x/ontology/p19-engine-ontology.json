@@ -1,0 +1,87 @@
+{
+  "schema": "c3x-p19-engine-ontology-v1",
+  "scientific_stage": "C3X 0.7.0-G9.4-P19",
+  "purpose": "Prospective engine-family ontology separating same-semantic Stockfish lineage transport from heterogeneous-engine admissibility.",
+  "layers": {
+    "E0_interface": {
+      "status": "constitutive",
+      "coordinates": [
+        "protocol",
+        "source_availability",
+        "deterministic_resource_control"
+      ]
+    },
+    "E1_search_architecture": {
+      "status": "constitutive",
+      "coordinates": [
+        "search_family",
+        "persistent_search_memory",
+        "evaluation_family",
+        "quiescence_or_leaf_policy"
+      ]
+    },
+    "E2_intervention_semantics": {
+      "status": "must_be_proven_before_cross_engine_science",
+      "coordinates": [
+        "read_mediation_completeness",
+        "semantic_use_census",
+        "native_sham_noninterference",
+        "full_mask_equivalence"
+      ]
+    },
+    "E3_outcomes": {
+      "status": "post_intervention",
+      "coordinates": [
+        "root_action",
+        "fine_exact_value",
+        "causal_vector",
+        "relation_curvature"
+      ]
+    }
+  },
+  "stockfish_lineage": {
+    "chronology": [
+      {
+        "id": "stockfish_18",
+        "date": "2026-01-31",
+        "commit": "cb3d4ee9b47d0c5aae855b12379378ea1439675c"
+      },
+      {
+        "id": "frozen_20260810",
+        "date": "2026-08-10",
+        "commit": "5062aee519a1ba262d472d8ab139851ced56573e"
+      },
+      {
+        "id": "stockfish_19",
+        "date": "2026-09-05",
+        "commit": "edb0d9db6731067ec50ce619ff372b463bc4dd5d"
+      }
+    ],
+    "family": "alpha-beta/PVS + transposition-table + NNUE lineage",
+    "admission_rule": "A version enters P19 science only after byte-locked checkout, successful C3X semantic-read materialization, clean-vs-NATIVE/SHAM noninterference, telemetry completeness, and MASK_ALL=legacy MASKED equivalence."
+  },
+  "heterogeneous_reserve": {
+    "lc0": {
+      "family": "neural-network guided tree search / MCTS-style search",
+      "status": "RESERVE_NOT_INTERVENTION_EQUIVALENT",
+      "reason": "A Stockfish TT-read mask is not automatically the same causal operation on Lc0 search state or neural-cache/tree statistics.",
+      "future_admission_requires": [
+        "constitute an abstract persistent-search-memory read interface",
+        "prove complete mediation of the targeted read class",
+        "demonstrate NATIVE/SHAM noninterference",
+        "define semantic removal whose causal role is comparable rather than merely syntactically similar",
+        "retain external exact-world adjudication independent of engine internals"
+      ]
+    },
+    "external_alpha_beta_tt_engines": {
+      "status": "CANDIDATE_CLASS_NOT_YET_ADMITTED",
+      "rule": "Source availability and presence of a TT are insufficient. Each engine needs its own semantic-use census and intervention-equivalence proof before cross-engine comparison."
+    }
+  },
+  "anti_reification": [
+    "UCI compatibility does not imply mechanism equivalence.",
+    "A data structure named transposition table does not by itself define the same causal variable across engines.",
+    "Version chronology is an engine morphism axis only after intervention semantics are shown invariant enough for comparison.",
+    "Architecture class cannot be defined post hoc from P19 outcomes."
+  ]
+}
