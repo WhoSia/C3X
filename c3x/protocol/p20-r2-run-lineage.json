@@ -58,13 +58,31 @@
     {
       "run_id": 36028588231,
       "head": "e334227b6292a6926c83574de7aaef11e9659193",
+      "role": "ENGINEERING_SUPERSEDED_BEFORE_CENSUS",
+      "admission_condition": "inherit packet from run 36027604444 only after exact receipt+binary SHA validation and fresh generic UCI smoke",
+      "world_condition": "inherit only individually successful outcome-blind world artifacts from run 36026765136 and re-merge/verify all eight",
+      "selective_authority_condition": "portable packet identity + 576-world merge + 96-cell SHAM-only precommit must all succeed before selective arms",
+      "scientific_authority": "NONE",
+      "supersession_reason": "Artifact polling horizon was 15 minutes while donor world jobs are allowed 120 minutes; superseded prospectively before any SHAM census or selective outcome.",
+      "reusable": [],
+      "forbidden": [
+        "all SHAM-selection evidence",
+        "precommit",
+        "selective intervention result",
+        "scientific adjudication"
+      ]
+    },
+    {
+      "run_id": 36029009546,
+      "head": "4d734032e8f0957288da0b6e1270db6826fba512",
       "role": "CANONICAL_R2_CANDIDATE",
       "admission_condition": "inherit packet from run 36027604444 only after exact receipt+binary SHA validation and fresh generic UCI smoke",
       "world_condition": "inherit only individually successful outcome-blind world artifacts from run 36026765136 and re-merge/verify all eight",
+      "polling_horizon": "130 minutes, longer than the 120-minute donor-world job ceiling",
       "selective_authority_condition": "portable packet identity + 576-world merge + 96-cell SHAM-only precommit must all succeed before selective arms"
     }
   ],
   "inheritance_rule": "A donor world artifact may be inherited only because exact-world constitution is engine-outcome-blind and independent of the failed instrument job. No engine observation from a superseded run may enter selection or adjudication.",
   "literal_noncommutativity_boundary": "Endpoint material squares remain insufficient to identify sequential operator noncommutativity.",
-  "canonical_candidate_run_id": 36028588231
+  "canonical_candidate_run_id": 36029009546
 }
