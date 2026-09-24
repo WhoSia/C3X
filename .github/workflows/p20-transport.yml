@@ -217,7 +217,7 @@ jobs:
           path: instrument
       - name: Execute sealed five-arm interventions
         run: |
-          chmod +x instrument/c3x-p20-*
+          chmod +x instrument/packet/c3x-p20-*
           mkdir -p out
           python3 harness/p20_transport.py vertex \
             --precommit precommit/p20-r2-precommit.json \
