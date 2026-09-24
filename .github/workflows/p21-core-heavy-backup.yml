@@ -1,0 +1,56 @@
+name: p21-core-heavy-side-backup
+
+on:
+  push:
+    paths:
+      - ".github/workflows/p21-core-heavy-backup.yml"
+      - "compiler/exact_world/p21_core_side_compile.py"
+      - "compiler/exact_world/p21_core_side_merge.py"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  side:
+    name: P21 core heavy backup — ${{ matrix.family }} — ${{ matrix.side }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    strategy:
+      fail-fast: false
+      matrix:
+        family: [KQQvKQ, KQRvKQ]
+        side: [WHITE, BLACK]
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 -m pip install --disable-pip-version-check chess==1.11.2
+      - run: |
+          mkdir -p out
+          python3 compiler/exact_world/p21_core_side_compile.py             --material "${{ matrix.family }}"             --side "${{ matrix.side }}"             --target 24             --max-generated 1200             --out "out/p21-core-side-${{ matrix.family }}-${{ matrix.side }}.json"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: p21-core-side-${{ matrix.family }}-${{ matrix.side }}
+          path: out/
+          retention-days: 30
+
+  merge:
+    name: P21 core heavy backup merge — ${{ matrix.family }}
+    needs: side
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        family: [KQQvKQ, KQRvKQ]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: p21-core-side-${{ matrix.family }}-*
+          path: parts
+      - run: |
+          mkdir -p out
+          python3 compiler/exact_world/p21_core_side_merge.py             --parts parts             --material "${{ matrix.family }}"             --out "out/p21-core-${{ matrix.family }}.json"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: p21-core-heavy-backup-${{ matrix.family }}
+          path: out/
+          retention-days: 30
