@@ -65,8 +65,10 @@ jobs:
         run: |
           for b in out/${{ matrix.engine }}-baseline out/${{ matrix.engine }}-instrument out/${{ matrix.engine }}-removal; do
             log="$(mktemp)"
-            printf 'uci\nisready\nquit\n' | timeout 20s "$b" > "$log" 2>&1
-            grep -q '^uciok
+            printf "%s\\n" uci isready quit | timeout 20s "$b" > "$log" 2>&1
+            grep -Fxq "uciok" "$log"
+            grep -Fxq "readyok" "$log"
+          done
       - name: Execute falsifiable admission court
         shell: bash
         run: |
