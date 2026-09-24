@@ -184,7 +184,7 @@ def patch_engine_cpp(sf):
     )
     p.write_text(t)
 
-def patch_search_cpp(sf):
+def patch_search_cpp(sf, target):
     p = sf / "src/search.cpp"
     t = p.read_text()
 
@@ -271,10 +271,11 @@ def patch_search_cpp(sf):
             }'''
     t = replace_once(t, q_value_old, q_value_new, "qsearch value use")
 
-    cutoff_guard_old = '''        && (cutNode == (ttData.value >= beta) || depth > 4))
-    {'''
-    cutoff_guard_new = '''        && (cutNode == (ttData.value >= beta) || depth > 4))
-    {
+    cutoff_depth = 5 if target == "stockfish_18" else 4
+    cutoff_guard_old = f'''        && (cutNode == (ttData.value >= beta) || depth > {cutoff_depth}))
+    {{'''
+    cutoff_guard_new = f'''        && (cutNode == (ttData.value >= beta) || depth > {cutoff_depth}))
+    {{
         if (c3xTt.telemetry)
             ++c3xTt.stats.useMainCutoffGate;'''
     t = replace_once(t, cutoff_guard_old, cutoff_guard_new, "main cutoff gate")
@@ -346,7 +347,7 @@ def main():
     (sf / "src/c3x_ttread.h").write_text(HEADER)
     patch_search_h(sf, args.target)
     patch_engine_cpp(sf)
-    patch_search_cpp(sf)
+    patch_search_cpp(sf, args.target)
 
     print(f"materialized target={args.target} commit={LOCK['targets'][args.target]['commit']}")
     print(run(sf, "git", "diff", "--stat"))
