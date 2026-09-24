@@ -7,10 +7,6 @@ on:
       - "c3x/protocol/p17-preseal.json"
       - "compiler/exact_world/p17_compile.py"
       - "harness/p17_window.py"
-      - "tools/materialize_p15.py"
-      - "tools/materialize_p12.py"
-      - "upstream/stockfish-lock.json"
-      - ".github/workflows/p17-window.yml"
 
 permissions:
   contents: read
