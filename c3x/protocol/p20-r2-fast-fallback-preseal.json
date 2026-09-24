@@ -1,0 +1,38 @@
+{
+  "schema": "c3x-g9.4-p20-r2-fast-fallback-preseal-v1",
+  "scientific_stage": "C3X 0.7.0-G9.4-P20-R2",
+  "status": "PRESELECTIVE_FALLBACK_CONSTITUTED",
+  "language_policy": "LANGUAGE_NONAUTHORITATIVE_NATIVE_FIRST",
+  "reason": "The donor-compatible canonical candidate is bottlenecked by one outcome-blind exact-world family. A separately validated exact-semantic tau4 implementation may be used to constitute an independent symmetric fallback pool without consulting engine outcomes.",
+  "primary_candidate_run_id": 36029009546,
+  "primary_precedence_rule": "Run 36029009546 retains primary authority if it reaches selective intervention under its sealed gate. The accelerated lane may not replace it based on comparative scientific outcomes.",
+  "fallback_activation_rule": "The accelerated lane stops automatically after SHAM-only 96-cell precommit. Selective intervention requires a later explicit activation seal and is eligible for primary authority only if run 36029009546 terminates before any selective intervention outcome exists; otherwise it is replication-only.",
+  "compiler_policy": {
+    "namespace": "c3x-p20-r2-stage-a-v1",
+    "generation_offset": 80000,
+    "world_filter": "frozen P20 Lichess-Syzygy exact-value constitution",
+    "tau4_semantics": "P19_FROZEN_EXACT",
+    "tau4_implementation": "P20_FAST_EXACT_SEMANTIC_V1",
+    "activation_requires": [
+      "full-return old-vs-fast tau4 equivalence certificate PASS",
+      "bidirectional compact-key/state-key domain certificate PASS"
+    ],
+    "all_eight_families_use_same_implementation": true
+  },
+  "outcome_blindness": {
+    "engine_outcomes_consulted_for_fallback_design": false,
+    "runtime_bottleneck_observed": true,
+    "runtime_information_is_scientifically_nonselective": true,
+    "selective_intervention_outcomes_observed_at_preseal": false
+  },
+  "admission_inheritance": {
+    "portable_packet_run_id": 36027604444,
+    "portable_revalidation_receipt": "f19ebf4996c210b3d51e8f27deedc6cab17ed8a0aeb5001717a8d0c6ad3cc66e",
+    "packet_sha256": {
+      "berserk": "5e95346d204dfa88a61e1c7a539906079b4a72053e4afcaac151b2b44285cc1f",
+      "ethereal": "55d1fea3dd34c2478143c01cf802c60b2fc0e8253888051725a2d01062867a8d",
+      "stockfish_19": "bb8487ab5de45a192d56502fdf33d3b74e5489f043528ea1240c68b7c7533425"
+    }
+  },
+  "automatic_stop": "AFTER_96_CELL_SHAM_PRECOMMIT_BEFORE_ANY_SELECTIVE_INTERVENTION"
+}
