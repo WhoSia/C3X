@@ -146,7 +146,7 @@ def verify_checkout(sf, target):
     if (sf / "src/c3x_ttread.h").exists():
         raise RuntimeError("src/c3x_ttread.h already exists; refusing non-pristine materialization")
 
-def patch_search_h(sf):
+def patch_search_h(sf, target):
     p = sf / "src/search.h"
     t = p.read_text()
     t = replace_once(
@@ -155,12 +155,20 @@ def patch_search_h(sf):
         '#include "c3x_ttread.h"\n#include "history.h"\n#include "misc.h"',
         "search.h include"
     )
-    t = replace_once(
-        t,
-        '    TimePoint elapsed() const;\n\n    Value evaluate(const Position&);',
-        '    TimePoint elapsed() const;\n\n    C3XTTReadState c3xTt;\n\n    Value evaluate(const Position&);',
-        "search.h Worker state"
-    )
+    if target == "stockfish_18":
+        t = replace_once(
+            t,
+            '    TimePoint elapsed_time() const;\n\n    Value evaluate(const Position&);',
+            '    TimePoint elapsed_time() const;\n\n    C3XTTReadState c3xTt;\n\n    Value evaluate(const Position&);',
+            "search.h Worker state sf18"
+        )
+    else:
+        t = replace_once(
+            t,
+            '    TimePoint elapsed() const;\n\n    Value evaluate(const Position&);',
+            '    TimePoint elapsed() const;\n\n    C3XTTReadState c3xTt;\n\n    Value evaluate(const Position&);',
+            "search.h Worker state"
+        )
     p.write_text(t)
 
 def patch_engine_cpp(sf):
@@ -336,7 +344,7 @@ def main():
 
     verify_checkout(sf, args.target)
     (sf / "src/c3x_ttread.h").write_text(HEADER)
-    patch_search_h(sf)
+    patch_search_h(sf, args.target)
     patch_engine_cpp(sf)
     patch_search_cpp(sf)
 
