@@ -1,0 +1,110 @@
+{
+  "schema": "c3x-g9.4-p16-preseal-v1",
+  "scientific_stage": "C3X 0.7.0-G9.4-P16",
+  "title": "Search-Regime Conditional Mechanism Transport, MAIN–QSearch Causal Reassignment, Depth/Resource Phase Structure & Dynamic TT-Mediation Stability",
+  "parent": {
+    "p15_verdict": "MAIN-TT-READ-SUBPATH-LOCALIZED-FINE-EXACT-VALUE-CAUSALITY@FRESH-DUAL-TARGET-EXACT-WORLD-SCOPE",
+    "p15_actions_run_id": 35966181981,
+    "p15_tested_commit": "4ff0b86f06da5d17951982ae8db7a13a4b6d6795",
+    "p15_confirmatory_cells_reusable": false
+  },
+  "fresh_world": {
+    "compiler_version": "c3x-p16-stage-a-v1",
+    "world_authority": "external Lichess Syzygy HTTP",
+    "root_halfmove_clock": 0,
+    "pawnless": true,
+    "max_pieces": 5,
+    "robust_categories_only": ["win", "draw", "loss"],
+    "require_precise_dtz_for_every_legal_move": true,
+    "history_safe_tau_depth": 4,
+    "target_pool_size": 48,
+    "freshness_rule": "P16-only five-piece material families absent from P13/P14/P15 generator families; generation-index offset 30000"
+  },
+  "p16_only_material_families": [
+    "KBBvKB", "KBBvKQ", "KNNvKB", "KNNvKN",
+    "KNNvKQ", "KRRvKQ", "KQBvKQ", "KQNvKQ"
+  ],
+  "engine_targets": {
+    "frozen_20260810": {"upstream_commit": "5062aee519a1ba262d472d8ab139851ced56573e"},
+    "stockfish_19": {"upstream_commit": "edb0d9db6731067ec50ce619ff372b463bc4dd5d"}
+  },
+  "search_regimes": {
+    "R100K": {"nodes": 100000, "H_min": 32, "U_min": 8},
+    "R300K": {"nodes": 300000, "H_min": 64, "U_min": 16},
+    "R1M": {"nodes": 1000000, "H_min": 128, "U_min": 32}
+  },
+  "runtime_invariants": {
+    "threads": 1,
+    "hash_mib": 64,
+    "clear_hash_each_arm": true,
+    "engine_syzygy_probe_limit": 0
+  },
+  "instrument": {
+    "base": "P15 selective-mask semantics unchanged",
+    "phase_arms": {
+      "00": "SHAM",
+      "10": "MASK_MAIN",
+      "01": "MASK_QSEARCH",
+      "11": "MASK_MAIN_QSEARCH"
+    },
+    "secondary_anchor": "MASK_ALL",
+    "successor_masking": "not part of the primary P16 phase decomposition; MASK_ALL remains a secondary whole-TT anchor"
+  },
+  "sham_gate": {
+    "eligible_only_if_all_three_regimes_pass_on_both_targets": true,
+    "require_each_site_raw_hit": true,
+    "require_each_site_semantic_use": true,
+    "breadth_required": 3
+  },
+  "tranche": {
+    "target_size": 24,
+    "minimum_size_for_intervention": 20,
+    "selection": "round-robin across material_signature x side_to_move; within stratum descending minimum site-use floor across all 3 regimes x 2 targets, then tau4, then candidate_sha256",
+    "require_both_sides_to_move": true,
+    "minimum_material_signatures": 6,
+    "intervention_outcomes_forbidden_until_precommit_artifact": true
+  },
+  "primary_outcomes": [
+    "root_action_changed_vs_SHAM",
+    "fine_exact_value_changed_vs_SHAM"
+  ],
+  "exact_value": {
+    "coarse": "mover-relative robust WDL",
+    "fine": "[mover-relative robust WDL, mover-relative precise_dtz]"
+  },
+  "phase_adjudication": {
+    "components": {
+      "MAIN": "rate(MASK_MAIN)",
+      "QSEARCH": "rate(MASK_QSEARCH)",
+      "MAINxQSEARCH": "rate(MASK_MAIN_QSEARCH)-rate(MASK_MAIN)-rate(MASK_QSEARCH)"
+    },
+    "effect_floor": "2 committed cells / tranche size",
+    "dominance_margin": "1 committed cell / tranche size in absolute component magnitude",
+    "labels": [
+      "MAIN-DOMINANT",
+      "QSEARCH-DOMINANT",
+      "INTERACTION-DOMINANT",
+      "MIXED",
+      "NULL"
+    ],
+    "null_rule": "max absolute component < effect_floor",
+    "mixed_rule": "top two absolute components differ by less than dominance_margin",
+    "otherwise": "label by unique largest absolute component"
+  },
+  "dynamic_transport": {
+    "stable_localization": "same non-NULL phase label at R100K, R300K and R1M on both engine targets",
+    "cross_version_regime_concordance": "fraction of the three regimes with identical phase labels across engine targets",
+    "dynamic_reassignment": "at least one target changes non-NULL phase label across adjacent regimes",
+    "cross_version_dynamic_reassignment": "both targets exhibit a phase transition and at least one adjacent transition has the same ordered label pair",
+    "cell_surface": "preserve per-cell arm outcomes at every regime for post-sealed transition/Jaccard diagnostics; these diagnostics cannot redefine the primary phase labels"
+  },
+  "forbidden_inferences": [
+    "TT is a chess-knowledge representation",
+    "Stockfish knows chess",
+    "world-model identity",
+    "human-like cognition",
+    "general-chess prevalence",
+    "a phase label is an intrinsic timeless property of the engine",
+    "post-outcome threshold tuning"
+  ]
+}
