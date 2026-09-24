@@ -1,0 +1,96 @@
+{
+  "schema": "c3x-g9.4-p21-preseal-v1",
+  "scientific_stage": "C3X 0.7.0-G9.4-P21",
+  "title": "Relation-Conditioned Cross-Engine Transport Boundary, Replicated QSearch-Negative Law Mediation, Minor-Material Divergence Localization, Inanis Channel-Factorized Admission & Cross-Architecture Counterexample Design",
+  "parent": {
+    "stage": "C3X 0.7.0-G9.4-P20",
+    "verdict": "PARTIAL-CROSS-ENGINE-RELATION-LAW-TRANSPORT",
+    "canonical_result_sha256": "d36c0b980a8cf883a1ccefbe9eec9bd98684c3ab46afa97fbf35eaa47eee190b"
+  },
+  "scientific_question": "Why does HEAVY_HEAVY transport the CURVED/QSEARCH-negative fingerprint across Stockfish19, Berserk and Ethereal while MINOR_MINOR changes dominant coordinate/sign across the same admitted engine families?",
+  "language_policy": "IMPLEMENTATION_LANGUAGE_NONAUTHORITATIVE_NATIVE_FIRST",
+  "discovery_confirmation_split": {
+    "P20": "discovery of relation-conditioned transport boundary",
+    "P21": "prospective test of frozen mediation rivals on disjoint fresh worlds; no P20 outcome may alter P21 thresholds after this seal"
+  },
+  "frozen_rivals": {
+    "EXPOSURE_ONLY": {
+      "claim": "Cross-engine transport/nontransport is explained by pre-intervention persistent-memory engagement exposure alone.",
+      "test": "Select fresh cells using SHAM telemetry only, construct exposure-balanced strata, then test whether HEAVY_HEAVY vs MINOR_MINOR transport contrast survives.",
+      "defeat": "Transport contrast survives within the presealed exposure-balanced design."
+    },
+    "TT_QSEARCH_SEMANTIC": {
+      "claim": "HEAVY_HEAVY replication is specifically a qsearch transposition-table semantic-read law within admitted MAIN/QSEARCH-TT engines.",
+      "test": "Fresh Stockfish19/Berserk/Ethereal qsearch/main interventions under identical exact-world selection plus Inanis structural-zero counterexample.",
+      "support": "HEAVY_HEAVY QSEARCH-negative fingerprint prospectively replicates in the three TT-qsearch engines while Inanis cannot instantiate QSEARCH×SEARCH_TT by construction."
+    },
+    "BROADER_QSEARCH_PERSISTENT_MEMORY": {
+      "claim": "The transportable object is broader than TT: qsearch consumption of persistent semantic memory is sufficient.",
+      "test": "Native-Rust Inanis QSEARCH×PAWN_EVAL_CACHE is separately admitted, then tested on a seven-piece pawn-carrier lane where its payload is nontrivial.",
+      "support": "An independently admitted qsearch pawn-evaluation-cache intervention shows the presealed HEAVY_HEAVY negative qsearch-memory direction on pawn-carrier worlds.",
+      "defeat": "Channel is admitted and engaged but does not reproduce the direction."
+    },
+    "ENGINE_LOCAL_SEMANTIC_POLICY": {
+      "claim": "MINOR_MINOR divergence reflects engine-specific semantic use rather than mere hit exposure.",
+      "test": "After exposure-balanced selection and per-engine susceptibility normalization, dominant-coordinate/sign divergence remains.",
+      "support": "Divergence survives the frozen normalization/matching analysis."
+    }
+  },
+  "inanis": {
+    "source_commit": "7ef903e8f86f7dcaf4fd04aeecb22711190d2a6d",
+    "language": "Rust",
+    "native_only": true,
+    "occupied_phase_channel_cells": [
+      "MAIN×SEARCH_TT",
+      "MAIN×PAWN_EVAL_CACHE",
+      "QSEARCH×PAWN_EVAL_CACHE"
+    ],
+    "structural_zero": "QSEARCH×SEARCH_TT",
+    "admission_per_channel": [
+      "complete static mediation",
+      "NATIVE/SHAM semantic noninterference",
+      "instrumented-mask = independently fixed semantic-removal variant",
+      "positive probe/hit/masked-hit dynamic engagement"
+    ],
+    "no_forced_homology": true
+  },
+  "world_lanes": {
+    "PAWNLESS_CORE": {
+      "purpose": "direct P20 relation-boundary confirmation under disjoint fresh exact worlds",
+      "relation_squares": [
+        "HEAVY_HEAVY",
+        "MINOR_MINOR"
+      ],
+      "piece_limit": 5,
+      "exact_world": "Lichess Syzygy move-level WDL+precise-DTZ",
+      "fresh_generation_offset": 140000,
+      "P20_cells_reused": false
+    },
+    "PAWN_CARRIER": {
+      "purpose": "make Inanis PAWN_EVAL_CACHE semantic payload nontrivial while preserving the two material-relation squares",
+      "construction": "add exactly one WHITE pawn and one BLACK pawn to every core material vertex; total 7 pieces",
+      "relation_squares": [
+        "HEAVY_HEAVY",
+        "MINOR_MINOR"
+      ],
+      "exact_world": "Lichess Syzygy move-level WDL+precise-DTZ",
+      "fresh_generation_offset": 180000,
+      "P20_cells_reused": false,
+      "pawnless_cache_test_forbidden": true
+    }
+  },
+  "selection": {
+    "outcomes_available_at_selection": "SHAM telemetry + exact-world metadata only",
+    "selective_intervention_outcomes_consulted": false,
+    "side_balance": "equal WHITE/BLACK per material vertex",
+    "exposure_matching": "frozen before intervention; use cross-engine MAIN/QSEARCH hit-density features only in PAWNLESS_CORE",
+    "no_post_outcome_threshold_change": true
+  },
+  "authority_ceiling": [
+    "relation-conditioned transport within frozen engine/source/resource/world lanes",
+    "Inanis channel-specific causal authority only for channels independently admitted in P21",
+    "no claim that different persistent-memory channels are homologous merely because effect signs match",
+    "no literal sequential intervention-order noncommutativity without sequential operators",
+    "no Lc0 causal claim unless one channel is separately prospectively admitted"
+  ]
+}
