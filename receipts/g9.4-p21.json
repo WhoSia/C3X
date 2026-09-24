@@ -1,0 +1,136 @@
+{
+  "schema": "c3x-g9.4-p21-final-receipt-v1",
+  "scientific_stage": "C3X 0.7.0-G9.4-P21",
+  "title": "Relation-Conditioned Cross-Engine Transport Boundary, Replicated QSearch-Negative Law Mediation, Minor-Material Divergence Localization, Inanis Channel-Factorized Admission & Cross-Architecture Counterexample Design",
+  "status": "CLOSED_HOLD",
+  "primary_verdict": "EXPOSURE_BALANCE_HOLD_NO_P21_CAUSAL_VERDICT",
+  "canonical_closure": {
+    "run_id": 36043989401,
+    "conclusion": "SUCCESS",
+    "head": "6ef731b1c48bad5bd606b7f828422ff27a353500",
+    "receipt_sha256": "9a6b219bd0724acbc0b4756b5ae368108dbe0b036b82083a2a4cb9d4c6fb2e83",
+    "artifact_id": 10827517893,
+    "artifact_digest": "sha256:53e5d60bf7dd841ae40ff3ade3125c4ba2f9a49108bbe79fa9e0a374cbf0278b"
+  },
+  "parent_p20": {
+    "verdict": "PARTIAL-CROSS-ENGINE-RELATION-LAW-TRANSPORT",
+    "result_sha256": "d36c0b980a8cf883a1ccefbe9eec9bd98684c3ab46afa97fbf35eaa47eee190b",
+    "authority_change_in_p21": "NONE_FOR_RELATION_LAW_TRANSPORT"
+  },
+  "language_policy": "IMPLEMENTATION_LANGUAGE_NONAUTHORITATIVE_NATIVE_FIRST",
+  "inanis": {
+    "admission_run_id": 36040871547,
+    "source_commit": "7ef903e8f86f7dcaf4fd04aeecb22711190d2a6d",
+    "language": "Rust",
+    "verdict": "PASS",
+    "authority": "CHANNEL_FACTORIZED_CAUSAL_ADMISSION",
+    "channels": {
+      "MAIN×SEARCH_TT": {
+        "probes": 83213,
+        "hits": 24037
+      },
+      "MAIN×PAWN_EVAL_CACHE": {
+        "probes": 73332,
+        "hits": 69967
+      },
+      "QSEARCH×PAWN_EVAL_CACHE": {
+        "probes": 181414,
+        "hits": 158746
+      },
+      "QSEARCH×SEARCH_TT": "STRUCTURAL_ZERO"
+    },
+    "phase_tag_leakage": 0
+  },
+  "worlds": {
+    "run_id": 36041203061,
+    "conclusion": "SUCCESS",
+    "pawnless_core": {
+      "worlds": 384,
+      "pool_sha256": "3a8381c23f7a03be99b9eeafe88c35b074d1063c833b0fa6e5e66ec47e53671e",
+      "artifact_id": 10827690561,
+      "artifact_digest": "sha256:6636d7696de48e2a06c2659aab552a7b39984dcc06c39bee9fbaeef148e819f0"
+    },
+    "pawn_carrier": {
+      "worlds": 384,
+      "pool_sha256": "cf3afe5cef0d4fb9a95339f1b700b7c5b8466336154ba4a8d4adc5993a0dfd73",
+      "artifact_id": 10827206079,
+      "artifact_digest": "sha256:3e80b25be3c283e5bc27e6d5e5b7c8cf02d2793f3bdb31e31b413381bc6b4b2d"
+    }
+  },
+  "core_gate": {
+    "experiment_run_id": 36041727983,
+    "precommit_sha256": "2e143b561de457932f0fe91c2455112acdb4dc6aae8804874beae56586b7eb20",
+    "artifact_id": 10827331587,
+    "artifact_digest": "sha256:61918c51118670d923475372fb8ef9d3b5fa05011ba87f22ebdbef97757c1563",
+    "authorization": "P21-CORE-HOLD",
+    "threshold_abs_smd": 0.5,
+    "smd": {
+      "stockfish_19:LOG_MAIN": 2.2756527434023175,
+      "stockfish_19:LOG_Q": 0.2015849631200773,
+      "stockfish_19:Q_SHARE": 0.9450999372190033,
+      "berserk:LOG_MAIN": 0.9803198708575449,
+      "berserk:LOG_Q": 0.8160878059252692,
+      "berserk:Q_SHARE": 0.1742503447807155,
+      "ethereal:LOG_MAIN": 0.771347258032413,
+      "ethereal:LOG_Q": 1.3257840301867712,
+      "ethereal:Q_SHARE": 1.9713624859276628
+    },
+    "committed_cells": 96,
+    "core_selective_interventions": "ALL_SKIPPED",
+    "interpretation": "The prospectively frozen global-exposure-center selector failed the pre-intervention balance gate. Therefore no P21 core causal outcome was opened."
+  },
+  "post_hold_exposure_diagnostic": {
+    "run_id": 36043796288,
+    "conclusion": "SUCCESS",
+    "artifact_id": 10826974403,
+    "artifact_digest": "sha256:0819d30df59ce58bb992b92b5391600f17a9a35f3288d51e14dc1cacf4c8d7fd",
+    "authority": "POST_HOLD_NONAUTHORITATIVE_DESIGN_DIAGNOSTIC",
+    "selective_outcomes_consulted": false,
+    "steps": 28,
+    "start_max_smd": 2.2756527434023175,
+    "final_max_smd": 0.4889426356224521,
+    "feasible_witness_found": true,
+    "inanis_postselection_engagement_gate_pass": true,
+    "interpretation": "The constituted SHAM-only pool contains a quota-preserving exposure-balanced witness. P21 remains HOLD because this witness was discovered after the frozen selector failed; it localizes the failure to selection design rather than lack of common exposure support."
+  },
+  "carrier_lane": {
+    "precommit_sha256": "208117210668e5256a35f3016c891006844e0c341ed4a94f98da685fe36a685e",
+    "artifact_id": 10827112018,
+    "artifact_digest": "sha256:0315c5fc7b44b60c1128710376cc3c3dfec41ee44dd8e5ce21796ee2529cc49a",
+    "committed_cells": 96,
+    "precommit_authorization": "P21-CARRIER-INTERVENTION-AUTHORIZED",
+    "selective_execution": "PARTIAL_UNMATERIALIZED_FAILURE",
+    "scientific_authority": "NONE",
+    "failure": "Carrier vertex harness executed early in-memory searches then raised KeyError because arm() expected base['semantic'] although baseline_arm() stores semantics at base['receipt']['semantic']; no vertex result artifact was produced.",
+    "repair_within_p21": "FORBIDDEN_AFTER_PRIMARY_HOLD",
+    "successor_reuse_allowed": [
+      "world constitution",
+      "SHAM census",
+      "precommit structure as design evidence"
+    ],
+    "successor_reuse_forbidden": [
+      "partial in-memory selective outcomes",
+      "any unmaterialized carrier result"
+    ]
+  },
+  "lc0": {
+    "source_commit": "1227b4c8c23375f4011831f4d7496d1551f85145",
+    "language": "C++",
+    "selected_future_channel": "NEURAL_EVAL_CACHE",
+    "status": "SINGLE_CHANNEL_COUNTEREXAMPLE_DESIGN_ONLY",
+    "causal_authority": false,
+    "design_file": "c3x/ontology/p21-lc0-neural-cache-counterexample.json"
+  },
+  "engineering_reserve": {
+    "side_parallel_backup_run_id": 36042415207,
+    "authority": "NONE",
+    "reason": "Canonical 384-world core pool completed before any need for replacement."
+  },
+  "authority_ceiling": [
+    "P21 promotes native-Rust Inanis channel-factorized admission.",
+    "P21 does not update or defeat P20's relation-law transport result.",
+    "No P21 HEAVY-vs-MINOR causal mediation conclusion is authorized.",
+    "The post-HOLD feasible balance witness is design evidence only and cannot retroactively reselect P21."
+  ],
+  "successor_constraint": "Any successor must be a new mainline. It may preseal an explicit quota-preserving balance optimizer/matcher using SHAM telemetry and fresh selective outcomes, but may not relax P21's 0.50 gate or reuse post-HOLD P21 selection as confirmatory evidence."
+}
