@@ -1,0 +1,206 @@
+{
+  "schema": "c3x-g9.4-p19-receipt-v1",
+  "scientific_stage": "C3X 0.7.0-G9.4-P19",
+  "title": "Prospective Mechanism-Morphism Algebra, Matched Ontological Squares, Composition-Order Noncommutativity, Causal Functoriality & Relation-Level Transport Law Identification",
+  "primary_verdict": "ENGINE-CONDITIONED-RELATION-GEOMETRY",
+  "canonical_science_run": {
+    "run_id": 36018905031,
+    "run_number": 1,
+    "workflow": "p19-canonical-symmetric-reserve-repair",
+    "head_sha": "a3009ff3ce1cb86b83ac4d317510f7036a6eb0ec",
+    "conclusion": "success"
+  },
+  "lineage": {
+    "run_lineage_file": "c3x/protocol/p19-run-lineage.json",
+    "repair_v2_file": "c3x/protocol/p19-repair-v2.json",
+    "canonical_reason": "first P19 run after symmetric 576-world reserve repair to seal 96 cells and execute selective intervention outcomes",
+    "superseded_intervention_outcomes_used": false,
+    "precanonical_selective_intervention_outcomes_materialized": false
+  },
+  "stage_a": {
+    "outcome_blind": true,
+    "fresh_worlds": 576,
+    "vertices": 8,
+    "worlds_per_vertex": 72,
+    "side_balance_per_vertex": {"WHITE": 36, "BLACK": 36},
+    "pool_sha256": "49b5d43ec58b39ff4cf9de2e99ac67bb6cdd66058f4ade53e5ae85c5528d308d",
+    "file_sha256": "a40bf25196e7caa4ac2ecaa6b9b40c431bf7efd287e034e6ac5d78e457b21ecc",
+    "artifact": {
+      "id": 10817776280,
+      "digest": "sha256:38052bc814e7a47e6dfce2b18f9823fdb260cf268d9bebf9dea531cf51cac76d"
+    }
+  },
+  "stage_b": {
+    "intervention_outcomes_consulted": false,
+    "authorization": "P19-MORPHISM-READY",
+    "committed_cells": 96,
+    "cells_per_vertex": 12,
+    "committed_side_balance_total": {"WHITE": 48, "BLACK": 48},
+    "precommit_sha256": "c18ecbb2e9c2c8a6d0206d1d4d8025d50bcb9609b6d4b05dbab3bdebd934a261",
+    "file_sha256": "4d530d4856926e8ef594ac59f85073a63ee16ddbcf1969ff29fc8001ba831c46",
+    "eligible_by_vertex": {
+      "KQQvKQ": 50,
+      "KQRvKQ": 64,
+      "KQQvKR": 43,
+      "KQRvKR": 59,
+      "KRBvKB": 72,
+      "KRNvKB": 72,
+      "KRBvKN": 71,
+      "KRNvKN": 70
+    },
+    "binaries": {
+      "stockfish_18": "cbf9f710c05ab129de7e725e2fd571ae23d7d0d2bca38d4cff0b24739257d297",
+      "frozen_20260810": "4cc22d7fc1943ab5d23142a868a101d45ca253f4c915d7fbbaccaa91a2aa0e5b",
+      "stockfish_19": "bb8487ab5de45a192d56502fdf33d3b74e5489f043528ea1240c68b7c7533425"
+    },
+    "artifact": {
+      "id": 10817073805,
+      "digest": "sha256:a02d6aefc8c45cd5dd7078daf4374a1b0a239d24eb643bf0badbc7cfdf8f4aa1"
+    }
+  },
+  "matched_squares": {
+    "HEAVY_HEAVY": {
+      "vertices": {"00":"KQQvKQ","10":"KQRvKQ","01":"KQQvKR","11":"KQRvKR"},
+      "stockfish_18": {
+        "class":"FLAT",
+        "dominant_coordinate":"QSEARCH",
+        "dominant_sign":-1,
+        "linf":0.08333333333333336
+      },
+      "frozen_20260810": {
+        "class":"CURVED",
+        "dominant_coordinate":"INTERACTION",
+        "dominant_sign":-1,
+        "linf":0.16666666666666666
+      },
+      "stockfish_19": {
+        "class":"CURVED",
+        "dominant_coordinate":"INTERACTION",
+        "dominant_sign":1,
+        "linf":0.5
+      },
+      "replicated_material_relation_curvature": false
+    },
+    "MINOR_MINOR": {
+      "vertices": {"00":"KRBvKB","10":"KRNvKB","01":"KRBvKN","11":"KRNvKN"},
+      "stockfish_18": {
+        "class":"CURVED",
+        "dominant_coordinate":"MAIN",
+        "dominant_sign":1,
+        "linf":0.16666666666666669
+      },
+      "frozen_20260810": {
+        "class":"CURVED",
+        "dominant_coordinate":"QSEARCH",
+        "dominant_sign":1,
+        "linf":0.5833333333333335
+      },
+      "stockfish_19": {
+        "class":"CURVED",
+        "dominant_coordinate":"MAIN",
+        "dominant_sign":-1,
+        "linf":0.33333333333333337
+      },
+      "replicated_material_relation_curvature": false
+    }
+  },
+  "relation_tests": {
+    "parallel_edge_equivariance_pass_any_engine_square": false,
+    "engine_conditioned_relation_geometry": true,
+    "literal_sequential_noncommutativity": "NOT_IDENTIFIED_BY_ENDPOINT_SQUARES",
+    "robust_wdl_changed_any_arm": false
+  },
+  "engine_material_naturality": {
+    "stockfish_18_to_frozen_20260810": {
+      "HEAVY_HEAVY_class": ["FLAT","CURVED"],
+      "MINOR_MINOR_class": ["CURVED","CURVED"]
+    },
+    "frozen_20260810_to_stockfish_19": {
+      "HEAVY_HEAVY_class": ["CURVED","CURVED"],
+      "MINOR_MINOR_class": ["CURVED","CURVED"]
+    },
+    "summary": "curvature class and dominant coordinate/sign are not stable along the three-version lineage"
+  },
+  "stage_d": {
+    "result_sha256": "07ebe3fecf25081a46f4bdc4515fe8f2aba587d87e5b7c2e76c8aacbb251497e",
+    "file_sha256": "f112307645ac613ddcb91aaa87dc8f2f709a4d3f07704096a47e8b97e3b930fe",
+    "artifact": {
+      "id": 10817044078,
+      "digest": "sha256:8004e4bd284559d5bd2217675dff3f295ef25dc93c7b4be4541075e75e57300c"
+    }
+  },
+  "heterogeneous_engine_reserve": {
+    "authority": "NONE_RESERVE_ONLY",
+    "readiness_artifact_run": 36016163335,
+    "readiness_artifact_id": 10815045376,
+    "readiness_json_sha256": "5cd27bdb913d0b89eab5270cdd1c51b8f4eef9701181fcd172588a8bbc160407",
+    "engines": {
+      "berserk": {
+        "source_commit":"32628515050b83805bab4afa1026dd2bcaa93f55",
+        "build":"PASS",
+        "uci_smoke":"PASS",
+        "readiness":"STRUCTURALLY_CLOSE_MAIN_AND_QSEARCH",
+        "admission":"NOT_ADMITTED_STATIC_READINESS_ONLY"
+      },
+      "ethereal": {
+        "source_commit":"0e47e9b67f345c75eb965d9fb3e2493b6a11d09a",
+        "build":"PASS",
+        "uci_smoke":"PASS",
+        "readiness":"STRUCTURALLY_CLOSE_MAIN_AND_QSEARCH",
+        "admission":"NOT_ADMITTED_STATIC_READINESS_ONLY"
+      },
+      "inanis": {
+        "source_commit":"7ef903e8f86f7dcaf4fd04aeecb22711190d2a6d",
+        "build":"PASS",
+        "uci_smoke":"PASS",
+        "readiness":"PARTIAL_TOPOLOGY_MAIN_TT_QSEARCH_NOT_HOMOLOGOUS",
+        "admission":"NOT_ADMITTED_STATIC_READINESS_ONLY"
+      },
+      "lc0": {
+        "source_commit":"1227b4c8c23375f4011831f4d7496d1551f85145",
+        "readiness":"ARCHITECTURE_ABSTRACTION_REQUIRED",
+        "admission":"NOT_ADMITTED_NO_STOCKFISH_TT_HOMOLOGY"
+      }
+    }
+  },
+  "interpretation": {
+    "supported": [
+      "Matched material-relation curvature exists on fresh exact-world squares, but its fingerprint is engine-version-conditioned.",
+      "HEAVY_HEAVY changes from flat at Stockfish 18 to curved with opposite interaction signs at the frozen snapshot and Stockfish 19.",
+      "MINOR_MINOR is curved on all three lineage targets, but the dominant curvature coordinate/sign changes across versions.",
+      "Endpoint relation tests reject simple context-independent causal functoriality on every engine/square.",
+      "Robust WDL remains invariant across every selective arm."
+    ],
+    "not_supported": [
+      "A single engine-invariant material morphism law.",
+      "Replicated curvature with the same dominant coordinate and sign across at least two engine targets.",
+      "Literal sequential composition-order noncommutativity from endpoint squares.",
+      "Any heterogeneous-engine causal transport claim for Berserk, Ethereal, Inanis or Lc0.",
+      "TT representation identity, world-model identity, general-chess prevalence, or human-like cognition."
+    ],
+    "authority_ceiling": "ENGINE-CONDITIONED-MATERIAL-RELATION-CURVATURE@FRESH-THREE-VERSION-STOCKFISH-LINEAGE-300K-EXACT-WORLD-SCOPE"
+  },
+  "custody": {
+    "drive_folder": "04_SEALED_RESULTS_COURTS/G9_4_P19",
+    "drive_folder_id": "1cRDCOBqAlprT9vy1IQOixcxQ9tP_WwyE",
+    "stage_a_file_id": "1wgiadsPqjs3s8Kf7XPYBTOXrZ6mAi1eh",
+    "precommit_file_id": "1E5L_5aTcbiIgAHrutRHde1EHDJz4TA4T",
+    "morphism_result_file_id": "1jiBpLAu7ken7cXITxSqMNGnEieyLvmyA",
+    "heterogeneous_readiness_file_id": "1N5uvsaMvios-skJIGokxEZAVDniXLbp6",
+    "vertex_file_ids": {
+      "KRBvKB":"1kUs7eZUxNv9QS_OxtQbWDGcFtvNWlUPF",
+      "KRNvKN":"1dRyBCWeSCDugH523kkchZ4tuRMXiVy0a",
+      "KQRvKQ":"1LczGpX5b56C8l_2FneU-q1uq9zlzRcCq",
+      "KQQvKR":"1Nc2R68C2QIZuaxO9Rfb6aQ2gxKlF1b-b",
+      "KRNvKB":"1UytzY3f0wjejFYXb_CekSdCH1tjNgK55",
+      "KRBvKN":"1ELhNVTxiEJHVR1WokjaNrmLijOw2tE1R",
+      "KQQvKQ":"1l2pkHkig9dJN2HFMvt-7HgcXLUZtSfDN",
+      "KQRvKR":"1_EUQTXjT0GoFmSI_uUmliJxQQcDqFn8l"
+    },
+    "instrument_metadata_file_id":"1rf7Ob2WJTMavhhC6FmQBPtWQRyQ-nfwK",
+    "sf18_binary_file_id":"1bGSh1VWvBVIIYTqSPiWB4MHawz8OEp0r",
+    "frozen_binary_file_id":"1umsVPUA7OczqF4YdNxurmOLnhh_qo077",
+    "sf19_binary_file_id":"1x02kLvux_YZF5v_WsgIPs1rEHITpyuJx",
+    "custody_split_run_id":36023336711
+  }
+}
