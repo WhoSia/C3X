@@ -1,7 +1,7 @@
 {
   "schema": "c3x-g9.4-p20-r2-run-lineage-v1",
   "scientific_stage": "C3X 0.7.0-G9.4-P20-R2",
-  "status": "CANONICAL_SELECTIVE_EXECUTION / FAST_LANE_REPLICATION_ONLY",
+  "status": "CANONICAL_REEXECUTION_AFTER_PRE-ENGINE-VERTEX-PATH_REPAIR / FAST_LANE_REPLICATION_ONLY",
   "selective_intervention_outcomes_observed_at_seal": false,
   "runs": [
     {
@@ -142,7 +142,7 @@
     {
       "run_id": 36031794539,
       "head": "bbbdff94cffa81553543b68af42d577752a4ebdd",
-      "role": "CANONICAL_R2_SELECTIVE_AUTHORIZED_IN_PROGRESS",
+      "role": "PRECOMMIT_VALID / SELECTIVE_EXECUTION_SUPERSEDED_BEFORE_ENGINE_CALL",
       "admission_condition": "inherit packet from run 36027604444 only after exact receipt+binary SHA validation and fresh generic UCI smoke",
       "world_condition": "inherit donor merged pool artifact ID 10822061010 only after pinned archive digest and full 576/72x8/36x2 constitution verification",
       "donor_pool_sha256": "1fc45b4fcb8db407cd95d937861d895348876332dd35a3093f8c45ff805d5291",
@@ -154,7 +154,19 @@
         "committed": 96,
         "note": "12 per material vertex; 6 WHITE + 6 BLACK"
       },
-      "selective_gate_crossed": true
+      "selective_gate_crossed": true,
+      "scientific_authority": "PRECOMMIT_ONLY",
+      "failure": "All eight selective jobs failed at chmod instrument/c3x-p20-* before entering harness/p20_transport.py vertex; binaries reside under instrument/packet/.",
+      "selective_intervention_outcomes_observed": false,
+      "reusable": [
+        "pinned 576-world pool validation",
+        "8/8 SHAM census",
+        "96-cell precommit"
+      ],
+      "forbidden": [
+        "selective intervention result",
+        "cross-engine naturality adjudication"
+      ]
     },
     {
       "run_id": 36031839640,
@@ -166,11 +178,19 @@
       "primary_eligibility": false,
       "primary_eligibility_lost_reason": "Canonical run 36031794539 successfully sealed the 96-cell SHAM-only precommit and began selective interventions.",
       "automatic_stop": "AFTER_96_CELL_SHAM_PRECOMMIT_BEFORE_ANY_SELECTIVE_INTERVENTION"
+    },
+    {
+      "run_id": 36032107436,
+      "head": "e5d15f2bac0f989840c98b053a32bd0dfb31ccfe",
+      "role": "CANONICAL_R2_CANDIDATE",
+      "repair": "both census and vertex chmod paths now target instrument/packet/c3x-p20-*",
+      "selective_authority_condition": "fresh run must independently pass pinned pool, portable packet, 8/8 SHAM census, and 96-cell precommit before any intervention",
+      "prior_selective_outcomes_consulted": false
     }
   ],
   "inheritance_rule": "A donor world artifact may be inherited only because exact-world constitution is engine-outcome-blind and independent of the failed instrument job. No engine observation from a superseded run may enter selection or adjudication.",
   "literal_noncommutativity_boundary": "Endpoint material squares remain insufficient to identify sequential operator noncommutativity.",
-  "canonical_candidate_run_id": 36031794539,
+  "canonical_candidate_run_id": 36032107436,
   "preselective_fast_standby_run_id": 36031839640,
   "primary_fallback_eligibility": "CLOSED"
 }
