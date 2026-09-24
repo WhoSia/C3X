@@ -1,0 +1,82 @@
+name: p19-heterogeneous-engine-readiness
+
+on:
+  push:
+    paths:
+      - "analysis/p19_heterogeneous_readiness.py"
+      - ".github/workflows/p19-heterogeneous-readiness.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  readiness:
+    name: Reserve — source-locked heterogeneous engine build/read audit
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - name: Clone exact reserve sources
+        run: |
+          git clone https://github.com/jhonnold/berserk.git ext/berserk
+          git -C ext/berserk checkout --detach 32628515050b83805bab4afa1026dd2bcaa93f55
+          git clone https://github.com/AndyGrant/Ethereal.git ext/ethereal
+          git -C ext/ethereal checkout --detach 0e47e9b67f345c75eb965d9fb3e2493b6a11d09a
+          git clone https://github.com/Tearth/Inanis.git ext/inanis
+          git -C ext/inanis checkout --detach 7ef903e8f86f7dcaf4fd04aeecb22711190d2a6d
+          git clone https://github.com/LeelaChessZero/lc0.git ext/lc0
+          git -C ext/lc0 checkout --detach 1227b4c8c23375f4011831f4d7496d1551f85145
+      - name: Verify source locks
+        run: |
+          test "$(git -C ext/berserk rev-parse HEAD)" = "32628515050b83805bab4afa1026dd2bcaa93f55"
+          test "$(git -C ext/ethereal rev-parse HEAD)" = "0e47e9b67f345c75eb965d9fb3e2493b6a11d09a"
+          test "$(git -C ext/inanis rev-parse HEAD)" = "7ef903e8f86f7dcaf4fd04aeecb22711190d2a6d"
+          test "$(git -C ext/lc0 rev-parse HEAD)" = "1227b4c8c23375f4011831f4d7496d1551f85145"
+      - name: Build alpha-beta reserve engines
+        run: |
+          make -C ext/berserk/src ARCH=x86-64 build
+          make -C ext/ethereal/src basic
+          cargo build --manifest-path ext/inanis/Cargo.toml --release
+      - name: UCI smoke reserve engines
+        run: |
+          mkdir -p out
+          for spec in "berserk:ext/berserk/src/berserk" "ethereal:ext/ethereal/src/Ethereal" "inanis:ext/inanis/target/release/inanis"; do
+            name="${spec%%:*}"; bin="${spec#*:}"
+            chmod +x "$bin"
+            printf 'uci\nisready\nquit\n' | timeout 20s "$bin" > "out/${name}-uci.txt" 2>&1
+            grep -q 'uciok' "out/${name}-uci.txt"
+            grep -q 'readyok' "out/${name}-uci.txt"
+          done
+      - name: Seal build receipt
+        run: |
+          python3 - <<'PY'
+          import hashlib,json
+          from pathlib import Path
+          bins={
+            "berserk":"ext/berserk/src/berserk",
+            "ethereal":"ext/ethereal/src/Ethereal",
+            "inanis":"ext/inanis/target/release/inanis",
+          }
+          def sha(p):
+            h=hashlib.sha256()
+            with open(p,"rb") as f:
+              for c in iter(lambda:f.read(1<<20),b""): h.update(c)
+            return h.hexdigest()
+          o={"schema":"c3x-p19-heterogeneous-build-receipt-v1",
+             "primary_authority":"NONE_RESERVE_ONLY",
+             "build_status":{k:"PASS" for k in bins},
+             "uci_smoke":{k:"PASS" for k in bins},
+             "binary_sha256":{k:sha(v) for k,v in bins.items()},
+             "lc0":"SOURCE-LOCK-ONLY / ARCHITECTURE-ABSTRACTION-REQUIRED"}
+          Path("out/build-receipt.json").write_text(json.dumps(o,indent=2,sort_keys=True)+"\n")
+          PY
+      - name: Static semantic-read readiness audit
+        run: |
+          python3 analysis/p19_heterogeneous_readiness.py             --berserk ext/berserk             --ethereal ext/ethereal             --inanis ext/inanis             --lc0 ext/lc0             --build-receipt out/build-receipt.json             --out out/p19-heterogeneous-readiness.json
+          sha256sum out/p19-heterogeneous-readiness.json | tee out/p19-heterogeneous-readiness-sha256.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: p19-heterogeneous-engine-readiness
+          path: out/
+          retention-days: 30
