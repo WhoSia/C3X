@@ -109,7 +109,7 @@ def patch_search(sf):
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--stockfish", required=True)
-    ap.add_argument("--target", required=True, choices=["frozen_20260810", "stockfish_19"])
+    ap.add_argument("--target", required=True, choices=["frozen_20260810", "stockfish_18", "stockfish_19"])
     args = ap.parse_args()
     sf = pathlib.Path(args.stockfish).resolve()
     run_p12(sf, args.target)
