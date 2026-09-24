@@ -1,0 +1,71 @@
+name: p17-custody-split
+
+on:
+  push:
+    paths:
+      - ".github/workflows/p17-custody.yml"
+  workflow_dispatch:
+
+permissions:
+  actions: read
+  contents: read
+
+jobs:
+  split:
+    name: Split sealed P17 precommit for long-term custody
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Download original sealed P17 pre-intervention artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: p17-sham-phase-precommit-sealed
+          path: sealed
+          repository: WhoSia/C3X
+          run-id: 35973834978
+          github-token: ${{ github.token }}
+      - name: Verify canonical precommit and binaries
+        run: |
+          python3 - <<'PY'
+          import hashlib,json
+          p=json.load(open("sealed/p17-sham-precommit.json"))
+          assert p["precommit_sha256"]=="7e7a3b078b3902564d3997e810bb82b694a83eb108e652b166758eabe98ca4cf"
+          assert p["intervention_outcomes_consulted"] is False
+          assert p["authorization"]=="P17-WINDOW-READY"
+          def sha(path):
+              h=hashlib.sha256()
+              with open(path,"rb") as f:
+                  for c in iter(lambda:f.read(1<<20),b""): h.update(c)
+              return h.hexdigest()
+          assert sha("sealed/c3x-p17-frozen")=="4cc22d7fc1943ab5d23142a868a101d45ca253f4c915d7fbbaccaa91a2aa0e5b"
+          assert sha("sealed/c3x-p17-sf19")=="bb8487ab5de45a192d56502fdf33d3b74e5489f043528ea1240c68b7c7533425"
+          print("P17_CUSTODY_SPLIT_VERIFIED")
+          PY
+      - name: Materialize metadata packet
+        run: |
+          mkdir -p metadata
+          cp sealed/p17-sham-precommit.json metadata/
+          cp sealed/p17-sham-precommit-file-sha256.txt metadata/
+          cp sealed/binary-sha256.txt metadata/
+          cp sealed/frozen-uci-smoke.txt metadata/
+          cp sealed/frozen-native-sham.txt metadata/
+          cp sealed/sf19-uci-smoke.txt metadata/
+          cp sealed/sf19-native-sham.txt metadata/
+          cp sealed/full-mask-equivalence.txt metadata/
+      - uses: actions/upload-artifact@v4
+        with:
+          name: p17-precommit-metadata-canonical
+          path: metadata/
+          retention-days: 30
+      - uses: actions/upload-artifact@v4
+        with:
+          name: p17-frozen-binary-canonical
+          path: sealed/c3x-p17-frozen
+          retention-days: 30
+          compression-level: 6
+      - uses: actions/upload-artifact@v4
+        with:
+          name: p17-sf19-binary-canonical
+          path: sealed/c3x-p17-sf19
+          retention-days: 30
+          compression-level: 6
