@@ -1,0 +1,95 @@
+{
+  "schema":"c3x-p18-material-ontology-v1",
+  "scientific_stage":"C3X 0.7.0-G9.4-P18",
+  "purpose":"Prospective ontology for localizing cross-material transport success/failure without changing the primary discovery/held-out law.",
+  "sealed_before_any_p18_intervention_outcome":true,
+  "layers":{
+    "L0_material_structure":{
+      "status":"constitutive",
+      "coordinates":[
+        "macro_scaffold",
+        "queen_location",
+        "rook_count_vector",
+        "bishop_count_vector",
+        "knight_count_vector",
+        "slider_count_vector",
+        "leaper_count_vector",
+        "minor_substitution_slot",
+        "orientation"
+      ],
+      "rule":"Only piece-type/count/side relations define material-family identity. No engine or intervention outcome may alter these coordinates."
+    },
+    "L1_exact_world_context":{
+      "status":"contextual_not_constitutive",
+      "coordinates":[
+        "side_to_move",
+        "legal_move_count",
+        "external_syzygy_world_pattern",
+        "external_optimal_count",
+        "external_strictly_worse_count",
+        "tau4"
+      ],
+      "rule":"These coordinates may explain within-family variation but may not be used post hoc to regroup material families or redefine the discovery/held-out split."
+    },
+    "L2_engine_process":{
+      "status":"mechanism_outcome",
+      "coordinates":[
+        "p_fine_MAIN",
+        "p_fine_QSEARCH",
+        "mobius_MAINxQSEARCH",
+        "phase_label"
+      ],
+      "rule":"L2 is caused/measured under intervention and therefore cannot define the ontology used to select or regroup L0 families."
+    }
+  },
+  "families":{
+    "KRRvKR":{"split":"DISCOVERY","macro_scaffold":"rook_pair_vs_rook","queen_location":"NONE","rook_count_vector":[2,1],"bishop_count_vector":[0,0],"knight_count_vector":[0,0],"slider_count_vector":[2,1],"leaper_count_vector":[0,0],"minor_substitution_slot":"NONE","orientation":"WHITE_COMPLEX_SIDE"},
+    "KRBvKR":{"split":"DISCOVERY","macro_scaffold":"rook_plus_minor_vs_rook","queen_location":"NONE","rook_count_vector":[1,1],"bishop_count_vector":[1,0],"knight_count_vector":[0,0],"slider_count_vector":[2,1],"leaper_count_vector":[0,0],"minor_substitution_slot":"WHITE_MINOR_BISHOP","orientation":"WHITE_COMPLEX_SIDE"},
+    "KQvKRB":{"split":"DISCOVERY","macro_scaffold":"queen_vs_rook_plus_minor","queen_location":"WHITE","rook_count_vector":[0,1],"bishop_count_vector":[0,1],"knight_count_vector":[0,0],"slider_count_vector":[1,2],"leaper_count_vector":[0,0],"minor_substitution_slot":"BLACK_MINOR_BISHOP","orientation":"WHITE_QUEEN_SIDE"},
+    "KRvKQB":{"split":"DISCOVERY","macro_scaffold":"rook_vs_queen_plus_minor","queen_location":"BLACK","rook_count_vector":[1,0],"bishop_count_vector":[0,1],"knight_count_vector":[0,0],"slider_count_vector":[1,2],"leaper_count_vector":[0,0],"minor_substitution_slot":"BLACK_MINOR_BISHOP","orientation":"BLACK_QUEEN_SIDE"},
+    "KRNvKR":{"split":"HELDOUT","macro_scaffold":"rook_plus_minor_vs_rook","queen_location":"NONE","rook_count_vector":[1,1],"bishop_count_vector":[0,0],"knight_count_vector":[1,0],"slider_count_vector":[1,1],"leaper_count_vector":[1,0],"minor_substitution_slot":"WHITE_MINOR_KNIGHT","orientation":"WHITE_COMPLEX_SIDE"},
+    "KBBvKN":{"split":"HELDOUT","macro_scaffold":"double_minor_vs_minor","queen_location":"NONE","rook_count_vector":[0,0],"bishop_count_vector":[2,0],"knight_count_vector":[0,1],"slider_count_vector":[2,0],"leaper_count_vector":[0,1],"minor_substitution_slot":"NON_ANALOG_EXTRAPOLATION","orientation":"WHITE_COMPLEX_SIDE"},
+    "KQvKRN":{"split":"HELDOUT","macro_scaffold":"queen_vs_rook_plus_minor","queen_location":"WHITE","rook_count_vector":[0,1],"bishop_count_vector":[0,0],"knight_count_vector":[0,1],"slider_count_vector":[1,1],"leaper_count_vector":[0,1],"minor_substitution_slot":"BLACK_MINOR_KNIGHT","orientation":"WHITE_QUEEN_SIDE"},
+    "KRvKQN":{"split":"HELDOUT","macro_scaffold":"rook_vs_queen_plus_minor","queen_location":"BLACK","rook_count_vector":[1,0],"bishop_count_vector":[0,0],"knight_count_vector":[0,1],"slider_count_vector":[1,1],"leaper_count_vector":[0,1],"minor_substitution_slot":"BLACK_MINOR_KNIGHT","orientation":"BLACK_QUEEN_SIDE"}
+  },
+  "prospective_structural_analog_pairs":[
+    {"discovery":"KRBvKR","heldout":"KRNvKR","invariant_scaffold":"rook_plus_minor_vs_rook","changed_axis":"bishop_to_knight_on_white_minor_slot"},
+    {"discovery":"KQvKRB","heldout":"KQvKRN","invariant_scaffold":"queen_vs_rook_plus_minor","changed_axis":"bishop_to_knight_on_black_minor_slot"},
+    {"discovery":"KRvKQB","heldout":"KRvKQN","invariant_scaffold":"rook_vs_queen_plus_minor","changed_axis":"bishop_to_knight_on_black_minor_slot"}
+  ],
+  "extrapolation_family":{
+    "heldout":"KBBvKN",
+    "role":"far-ontology stress test",
+    "rule":"Do not force-match this family to KRRvKR. Treat it as out-of-scaffold extrapolation rather than an analog substitution."
+  },
+  "prospective_secondary_tests":{
+    "analog_phase_transport":{
+      "prediction_rule":"For each structural analog pair, predict the held-out phase label to equal its discovery analog's sealed phase label independently for each engine target.",
+      "pass_rule":"At least 2 of 3 analog pairs match on a target.",
+      "cross_version_pass_rule":"analog-phase transport passes independently on both engine targets."
+    },
+    "bishop_to_knight_axis":{
+      "prediction_rule":"For each analog pair, preserve the sign of the MAINxQSEARCH interaction component after bishop-to-knight substitution.",
+      "pass_rule":"At least 2 of 3 analog pairs preserve sign on a target.",
+      "interpretation":"This is a topology-axis test, not a claim that bishops and knights are causally equivalent."
+    },
+    "far_extrapolation":{
+      "prediction_rule":"KBBvKN is evaluated only against the global discovery law; no nearest-family rescue is permitted after outcome reveal.",
+      "interpretation":"Failure here localizes extrapolation weakness but cannot by itself refute analog-substitution transport."
+    }
+  },
+  "ontology_failure_localization_order":[
+    "global held-out law",
+    "structural analog phase transport",
+    "bishop-to-knight interaction-sign transport",
+    "far-ontology extrapolation"
+  ],
+  "forbidden_post_outcome_moves":[
+    "regroup families by observed intervention effect",
+    "invent a new nearest-neighbor pairing",
+    "move KBBvKN out of the held-out set",
+    "promote L1 world-context variables into constitutive family labels",
+    "change analog pass thresholds",
+    "collapse bishop and knight into one class after seeing outcomes"
+  ]
+}
