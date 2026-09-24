@@ -98,8 +98,11 @@ def patch_search(sf):
     else if (c3xModeOption == "MASK_ALL") c3xMode = C3XTTReadMode::MASK_ALL;
     else if (c3xModeOption == "MASKED") c3xMode = C3XTTReadMode::MASKED;"""
     t = replace_once(t, old, new, "mode parser")
-    t = replace_once(t, "if (c3xTt.masked() && ttHit)", "if (c3xTt.masked(C3XTTReadSite::MAIN) && ttHit)", "main mask")
-    t = replace_once(t, "if (c3xTt.masked() && ttHit)", "if (c3xTt.masked(C3XTTReadSite::QSEARCH) && ttHit)", "qsearch mask")
+    mask_anchor = "if (c3xTt.masked() && ttHit)"
+    if t.count(mask_anchor) != 2:
+        raise RuntimeError(f"main/qsearch masks: expected 2 anchors, found {t.count(mask_anchor)}")
+    t = t.replace(mask_anchor, "if (c3xTt.masked(C3XTTReadSite::MAIN) && ttHit)", 1)
+    t = t.replace(mask_anchor, "if (c3xTt.masked(C3XTTReadSite::QSEARCH) && ttHit)", 1)
     t = replace_once(t, "if (c3xTt.masked() && ttHitNext)", "if (c3xTt.masked(C3XTTReadSite::SUCCESSOR_VERIFY) && ttHitNext)", "successor mask")
     p.write_text(t)
 
