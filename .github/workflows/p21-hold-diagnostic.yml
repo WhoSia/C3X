@@ -1,0 +1,42 @@
+name: p21-post-hold-exposure-feasibility
+
+on:
+  push:
+    paths:
+      - ".github/workflows/p21-hold-diagnostic.yml"
+      - "analysis/p21_exposure_feasibility.py"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  diagnose:
+    name: P21 post-HOLD SHAM-only selector feasibility witness
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: p21-core-precommit
+          path: pre
+          repository: WhoSia/C3X
+          run-id: 36041727983
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: p21-core-census-*
+          path: census
+          repository: WhoSia/C3X
+          run-id: 36041727983
+          github-token: ${{ github.token }}
+      - run: |
+          mkdir -p out
+          python3 analysis/p21_exposure_feasibility.py             --precommit pre/p21-core-precommit.json             --census-dir census             --out out/p21-exposure-feasibility.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: p21-exposure-feasibility
+          path: out/
+          retention-days: 30
