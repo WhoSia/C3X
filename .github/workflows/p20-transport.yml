@@ -144,7 +144,7 @@ jobs:
           path: instrument
       - name: SHAM-only joint engagement census
         run: |
-          chmod +x instrument/c3x-p20-*
+          chmod +x instrument/packet/c3x-p20-*
           mkdir -p out
           python3 harness/p20_transport.py census \
             --stage-a stage/p20-stage-a-pool.json \
