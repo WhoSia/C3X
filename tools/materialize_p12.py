@@ -187,6 +187,7 @@ def patch_engine_cpp(sf):
 def patch_search_cpp(sf, target):
     p = sf / "src/search.cpp"
     t = p.read_text()
+    miss_depth = "DEPTH_ENTRY_OFFSET" if target == "stockfish_18" else "DEPTH_NONE"
 
     t = replace_once(
         t,
@@ -209,7 +210,7 @@ def patch_search_cpp(sf, target):
     main_probe += '    if (c3xTt.masked() && ttHit)\n'
     main_probe += '    {\n'
     main_probe += '        ttHit  = false;\n'
-    main_probe += '        ttData = TTData(Move::none(), VALUE_NONE, VALUE_NONE, DEPTH_NONE, BOUND_NONE, false);\n'
+    main_probe += f'        ttData = TTData(Move::none(), VALUE_NONE, VALUE_NONE, {miss_depth}, BOUND_NONE, false);\\n'
     main_probe += '    }'
     t = replace_nth(t, probe, main_probe, 0, "main TT probe")
 
@@ -218,7 +219,7 @@ def patch_search_cpp(sf, target):
     q_probe += '    if (c3xTt.masked() && ttHit)\n'
     q_probe += '    {\n'
     q_probe += '        ttHit  = false;\n'
-    q_probe += '        ttData = TTData(Move::none(), VALUE_NONE, VALUE_NONE, DEPTH_NONE, BOUND_NONE, false);\n'
+    q_probe += f'        ttData = TTData(Move::none(), VALUE_NONE, VALUE_NONE, {miss_depth}, BOUND_NONE, false);\\n'
     q_probe += '    }'
     t = replace_nth(t, probe, q_probe, 1, "qsearch TT probe")
 
@@ -228,7 +229,7 @@ def patch_search_cpp(sf, target):
     succ_new += '                if (c3xTt.masked() && ttHitNext)\n'
     succ_new += '                {\n'
     succ_new += '                    ttHitNext  = false;\n'
-    succ_new += '                    ttDataNext = TTData(Move::none(), VALUE_NONE, VALUE_NONE, DEPTH_NONE, BOUND_NONE, false);\n'
+    succ_new += f'                    ttDataNext = TTData(Move::none(), VALUE_NONE, VALUE_NONE, {miss_depth}, BOUND_NONE, false);\\n'
     succ_new += '                }'
     t = replace_once(t, succ, succ_new, "successor TT probe")
 
