@@ -1,7 +1,7 @@
 {
   "schema": "c3x-g9.4-p20-r2-run-lineage-v1",
   "scientific_stage": "C3X 0.7.0-G9.4-P20-R2",
-  "status": "PRE_SELECTIVE_REPAIR_LINEAGE_SEAL",
+  "status": "PRE_SELECTIVE_DUAL_LANE_SEAL",
   "selective_intervention_outcomes_observed_at_seal": false,
   "runs": [
     {
@@ -98,22 +98,68 @@
     {
       "run_id": 36031529905,
       "head": "3812e11ba00e6d573fefc5925d3ed74aff80084e",
-      "role": "PRESELECTIVE_FAST_STANDBY",
-      "scientific_authority": "NO_SELECTIVE_OUTCOMES",
+      "role": "FAST_STANDBY_ENGINEERING_SUPERSEDED",
+      "scientific_authority": "NONE",
       "purpose": "Independently reconstitute all eight families under exact-semantic accelerated tau4, then stop after SHAM-only 96-cell precommit.",
-      "activation_rule": "May become primary only under the separately presealed fallback rule; otherwise replication-only."
+      "activation_rule": "May become primary only under the separately presealed fallback rule; otherwise replication-only.",
+      "achievement": "tau4 old-vs-fast full-return equivalence PASS and domain representation certificate PASS",
+      "failure": "Workflow expressions were escaped literally, prefixing matrix values with backslashes; github-token was likewise escaped and caused Bad credentials. No valid world or engine outcome was produced.",
+      "observed_engine_values": false,
+      "selective_intervention_outcomes_observed": false,
+      "reusable": [
+        "tau4 equivalence certificate",
+        "tau4 domain certificate"
+      ],
+      "forbidden": [
+        "world constitution",
+        "SHAM census",
+        "precommit",
+        "selective intervention result"
+      ]
     },
     {
       "run_id": 36031624215,
       "head": "b4b485a800127a2ae4cdf5163430dd60e247a163",
-      "role": "CANONICAL_R2_CANDIDATE",
+      "role": "ENGINEERING_SUPERSEDED_BEFORE_CENSUS",
       "admission_condition": "inherit packet from run 36027604444 only after exact receipt+binary SHA validation and fresh generic UCI smoke",
       "world_condition": "inherit the already completed 576-world outcome-blind donor constitution and re-merge/verify all eight",
       "repair": "census chmod corrected from instrument/c3x-p20-* to instrument/packet/c3x-p20-* before any engine execution",
-      "selective_authority_condition": "portable packet identity + 576-world merge + 96-cell SHAM-only precommit must all succeed before selective arms"
+      "selective_authority_condition": "portable packet identity + 576-world merge + 96-cell SHAM-only precommit must all succeed before selective arms",
+      "scientific_authority": "NONE",
+      "failure": "Donor run now exposes eight part artifacts plus one merged pool artifact; the polling gate required an exact prefix count of 8 and therefore failed at 9 before download/census.",
+      "observed_engine_values": false,
+      "selective_intervention_outcomes_observed": false,
+      "reusable": [
+        "portable packet identity verification only"
+      ],
+      "forbidden": [
+        "SHAM census evidence",
+        "precommit",
+        "selective intervention result",
+        "scientific adjudication"
+      ]
+    },
+    {
+      "run_id": 36031794539,
+      "head": "bbbdff94cffa81553543b68af42d577752a4ebdd",
+      "role": "CANONICAL_R2_CANDIDATE",
+      "admission_condition": "inherit packet from run 36027604444 only after exact receipt+binary SHA validation and fresh generic UCI smoke",
+      "world_condition": "inherit donor merged pool artifact ID 10822061010 only after pinned archive digest and full 576/72x8/36x2 constitution verification",
+      "donor_pool_sha256": "1fc45b4fcb8db407cd95d937861d895348876332dd35a3093f8c45ff805d5291",
+      "donor_artifact_digest": "sha256:bfaaa15ae76ea580d89beef2a70cad5e04a2fafec775f54c20fdfa36cde65a81",
+      "selective_authority_condition": "portable packet identity + pinned 576-world pool + 96-cell SHAM-only precommit must all succeed before selective arms"
+    },
+    {
+      "run_id": 36031839640,
+      "head": "db42632cfe0732e4acf327c32b86fdbe337e6fad",
+      "role": "PRESELECTIVE_FAST_STANDBY_CANDIDATE",
+      "scientific_authority": "NO_SELECTIVE_OUTCOMES",
+      "purpose": "Re-run exact-semantic accelerated symmetric constitution with valid GitHub expressions; stop automatically after SHAM-only 96-cell precommit.",
+      "activation_rule": "Primary only under presealed fallback rule if canonical lineage terminates before any selective outcome; otherwise replication-only."
     }
   ],
   "inheritance_rule": "A donor world artifact may be inherited only because exact-world constitution is engine-outcome-blind and independent of the failed instrument job. No engine observation from a superseded run may enter selection or adjudication.",
   "literal_noncommutativity_boundary": "Endpoint material squares remain insufficient to identify sequential operator noncommutativity.",
-  "canonical_candidate_run_id": 36031624215
+  "canonical_candidate_run_id": 36031794539,
+  "preselective_fast_standby_run_id": 36031839640
 }
