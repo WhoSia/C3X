@@ -20,6 +20,16 @@
         "src/search.h": "472e6ebc3816a1d457093ca5498cb19af4b316ab",
         "src/engine.cpp": "3179efa4a6c5119bf0d07f42afe92e5b0a124ca1"
       }
+    },
+    "stockfish_18": {
+      "repo": "official-stockfish/Stockfish",
+      "ref": "sf_18",
+      "commit": "cb3d4ee9b47d0c5aae855b12379378ea1439675c",
+      "blobs": {
+        "src/search.cpp": "40ba2effadf29649bea5546d4c19ed8856bd6c2e",
+        "src/search.h": "202f7c8db2e6002353c4c691de9f6d8db4ee5957",
+        "src/engine.cpp": "dfd2099d1e503106464e641c20a728c617df3277"
+      }
     }
   }
 }
