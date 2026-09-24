@@ -1,7 +1,7 @@
 {
   "schema": "c3x-g9.4-p21-run-lineage-v1",
   "scientific_stage": "C3X 0.7.0-G9.4-P21",
-  "status": "PRE_SELECTIVE_EXECUTION",
+  "status": "PRIMARY_HOLD_BEFORE_CORE_SELECTIVE_INTERVENTION",
   "preseal_commits": [
     "0bc6d0750910bb16af514790db58250bf307c89a",
     "386699e7b76d2f21b6edaaf21d3673a8141aff93",
@@ -35,9 +35,30 @@
   },
   "boundary_execution": {
     "run_id": 36041727983,
-    "role": "CANONICAL_P21_CANDIDATE",
-    "state": "SHAM_CENSUS_AUTHORIZED_IN_PROGRESS",
-    "selective_outcomes_observed_at_seal": false
+    "role": "CANONICAL_P21_EXPERIMENT",
+    "core_precommit": {
+      "authorization": "P21-CORE-HOLD",
+      "precommit_sha256": "2e143b561de457932f0fe91c2455112acdb4dc6aae8804874beae56586b7eb20",
+      "artifact_id": 10827331587,
+      "artifact_digest": "sha256:61918c51118670d923475372fb8ef9d3b5fa05011ba87f22ebdbef97757c1563",
+      "exposure_balance_pass": false,
+      "max_smd": 2.2756527434023175,
+      "core_selective_jobs": "ALL_SKIPPED"
+    },
+    "primary_verdict_by_frozen_decision_tree": "EXPOSURE_BALANCE_HOLD_NO_P21_CAUSAL_VERDICT",
+    "carrier_precommit": {
+      "authorization": "P21-CARRIER-INTERVENTION-AUTHORIZED",
+      "precommit_sha256": "208117210668e5256a35f3016c891006844e0c341ed4a94f98da685fe36a685e",
+      "artifact_id": 10827112018,
+      "artifact_digest": "sha256:0315c5fc7b44b60c1128710376cc3c3dfec41ee44dd8e5ce21796ee2529cc49a"
+    },
+    "carrier_execution": {
+      "status": "PARTIAL_UNMATERIALIZED_SELECTIVE_EXECUTION_FAILURE",
+      "authority": "NONE",
+      "failure": "Harness arm() accessed base['semantic'] although baseline_arm() nests semantics under base['receipt']['semantic']; jobs executed at least a SHAM search and first P20-target MASK_MAIN search before KeyError, then emitted no vertex result artifact.",
+      "repair_in_p21": "FORBIDDEN_AFTER_PRIMARY_HOLD / NO SALVAGE",
+      "carrier_adjudication": "NOT_AUTHORIZED_FOR_P21_PRIMARY_OR_SECONDARY_CAUSAL CLAIM"
+    }
   },
   "repair_rule": "Any engineering repair before the first valid selective intervention may inherit already sealed outcome-blind worlds/census/precommit only by pinned identity. After any selective outcome exists, no protocol/threshold/selection repair may be chosen based on scientific results.",
   "language_policy": "IMPLEMENTATION_LANGUAGE_NONAUTHORITATIVE_NATIVE_FIRST",
@@ -52,5 +73,10 @@
     "role": "SIDE_PARALLEL_HEAVY_CORE_BACKUP",
     "scientific_authority": "NONE_AFTER_CANONICAL_CORE_POOL_COMPLETED",
     "selective_outcomes": false
+  },
+  "post_hold_diagnostic": {
+    "run_id": 36043796288,
+    "authority": "SHAM_ONLY_NONAUTHORITATIVE_DESIGN_DIAGNOSTIC",
+    "purpose": "Determine whether the frozen selector failed despite an exposure-balanced witness existing in the constituted pool; cannot reopen P21."
   }
 }
