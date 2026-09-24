@@ -126,7 +126,8 @@
     },
     "broader_qsearch_memory_support_rule": "On PAWN_CARRIER HEAVY_HEAVY, admitted Inanis QSEARCH×PAWN_EVAL_CACHE must classify NEGATIVE and at least two of the three admitted QSEARCH×SEARCH_TT targets must also classify NEGATIVE. Sign agreement alone does not establish channel homology.",
     "pawnless_inanis_negative_control": "On PAWNLESS_CORE, MASK_PAWN_Q should produce zero fine exact-world changes; any nonzero result blocks interpreting pawn-carrier PAWN_Q transport as semantic-payload evidence.",
-    "no_post_outcome_threshold_change": true
+    "no_post_outcome_threshold_change": true,
+    "core_inanis_postselection_gate": "After core exposure-balanced selection is frozen, every selected cell must show positive Inanis SHAM TT_MAIN hit and positive PAWN_Q hit; failure is a lane HOLD with no reselection."
   },
   "intervention_arms": {
     "p20_admitted_targets": [
@@ -149,6 +150,18 @@
       "MASK_PAWN_ALL",
       "MASK_TT_AND_PAWN_Q",
       "MASK_ALL"
+    ]
+  },
+  "final_decision_tree": {
+    "core_relation_boundary_replicated": "Exposure balance gate PASS AND all three P20-admitted engines are CURVED/QSEARCH/-1 on HEAVY_HEAVY AND MINOR_MINOR does not have one common CURVED dominant-coordinate/sign fingerprint across all three.",
+    "exposure_only_rival": "DEFEATED_WITHIN_BALANCED_SCOPE iff core_relation_boundary_replicated; otherwise NOT_DEFEATED.",
+    "broader_qsearch_memory": "SUPPORTED_WITHIN_CARRIER_SCOPE iff pawnless Inanis PAWN_Q negative control has zero fine changes AND PAWN_CARRIER HEAVY_HEAVY is NEGATIVE for Inanis QSEARCH×PAWN_EVAL_CACHE and for at least two of SF19/Berserk/Ethereal QSEARCH×SEARCH_TT.",
+    "primary_verdict_order": [
+      "If core exposure balance fails: EXPOSURE_BALANCE_HOLD_NO_P21_CAUSAL_VERDICT.",
+      "Else if core relation boundary fails: P20_RELATION_BOUNDARY_NOT_FRESHLY_REPLICATED.",
+      "Else if broader_qsearch_memory support rule passes: RELATION_BOUNDARY_REPLICATED_AND_BROADER_QSEARCH_MEMORY_TRANSPORT_SUPPORTED.",
+      "Else if at least two TT-qsearch targets are NEGATIVE on carrier but Inanis PAWN_Q is not NEGATIVE: RELATION_BOUNDARY_REPLICATED_TT_QSEARCH_SPECIFIC_WITHIN_TESTED_SCOPE.",
+      "Else: RELATION_BOUNDARY_REPLICATED_CROSS_ARCHITECTURE_CARRIER_CONTEXT_HOLD."
     ]
   }
 }
