@@ -1,0 +1,168 @@
+{
+  "schema": "c3x-g9.4-p16-receipt-v1",
+  "scientific_stage": "C3X 0.7.0-G9.4-P16",
+  "title": "Search-Regime Conditional Mechanism Transport, MAIN–QSearch Causal Reassignment, Depth/Resource Phase Structure & Dynamic TT-Mediation Stability",
+  "primary_verdict": "NO-DETECTED-PHASE-TRANSITION",
+  "secondary_findings": [
+    "P15 MAIN localization did not promote to a stable resource-invariant phase law",
+    "Stockfish 19 exhibited an isolated R300K INTERACTION-DOMINANT phase under the preregistered phase classifier",
+    "Frozen 2026-08-10 remained NULL at R100K, R300K and R1M",
+    "Robust WDL remained invariant across every intervention arm, regime and engine target",
+    "Fine-value witness identity was strongly regime-sensitive"
+  ],
+  "tested_repo_commit": "be7c71b4fa52e3ee6d952820353b93c36da9af17",
+  "github_actions": {
+    "workflow": "p16-dynamic-tt-phase",
+    "run_id": 35969704501,
+    "run_number": 1,
+    "conclusion": "success"
+  },
+  "parent": {
+    "p15_run_id": 35966181981,
+    "p15_confirmatory_cells_reused": false
+  },
+  "stage_a": {
+    "stockfish_outcomes_consulted": false,
+    "accepted_cells": 48,
+    "pool_sha256": "e761e21d50ca77d36d330392d40b8d72c91561e72d79d9a05c5533b84948edad",
+    "stage_a_file_sha256": "84cec4472a3cd88c2080ac5f66d0a6a45db856c890a7adb65160fd3da20d3e82",
+    "audit_counts": {
+      "generated_schedule": 800,
+      "legal_nonterminal_audited": 97,
+      "world_split_pass": 50,
+      "stage_a_accepted": 48
+    },
+    "artifact": {
+      "id": 10796152433,
+      "digest": "sha256:feb9e1eead9f393e8b0d22897944632508934863b8f6ac2d8c8969bb85a72ea3"
+    }
+  },
+  "stage_b": {
+    "intervention_outcomes_consulted": false,
+    "six_surface_engaged_cells": 48,
+    "committed_cells": 24,
+    "material_signatures": 6,
+    "sides_to_move": ["BLACK", "WHITE"],
+    "authorization": "P16-PHASE-READY",
+    "precommit_sha256": "d7e97fe089e9fb7cdee3a459e551b8f062a6d666599ebb7c77374d002d995f4a",
+    "precommit_file_sha256": "d96380841f91ddd18179255cdb17774e029aca6305d53c03617f840195d1578d",
+    "binary_sha256": {
+      "frozen_20260810": "4cc22d7fc1943ab5d23142a868a101d45ca253f4c915d7fbbaccaa91a2aa0e5b",
+      "stockfish_19": "bb8487ab5de45a192d56502fdf33d3b74e5489f043528ea1240c68b7c7533425"
+    },
+    "original_artifact": {
+      "id": 10796208439,
+      "digest": "sha256:3469453c96bbfc9b56d251361234d4c11e6935110a12ffcacf2da6f907618539"
+    }
+  },
+  "regime_results": {
+    "R100K": {
+      "file_sha256": "795eb7747b756c23b3225885e5f8e547b23a6ff9e5a8d146ececffbd58741413",
+      "artifact": {"id": 10796427480, "digest": "sha256:3ce92a8c4ac9c6a992b39214fb96081a25e215d7edf65ef68e21da86af6bfbe4"},
+      "frozen_20260810": {
+        "phase": "NULL",
+        "MAIN": {"action": 5, "fine": 0},
+        "QSEARCH": {"action": 5, "fine": 0},
+        "MAIN_QSEARCH": {"action": 9, "fine": 1},
+        "MASK_ALL": {"action": 9, "fine": 1}
+      },
+      "stockfish_19": {
+        "phase": "NULL",
+        "MAIN": {"action": 5, "fine": 0},
+        "QSEARCH": {"action": 5, "fine": 1},
+        "MAIN_QSEARCH": {"action": 7, "fine": 2},
+        "MASK_ALL": {"action": 7, "fine": 2}
+      }
+    },
+    "R300K": {
+      "file_sha256": "713efeb3a1a3fe5454da0eddf3f6d7e69f27ed0a3fa7f21a4ab2e7bdf0176cb4",
+      "artifact": {"id": 10795229923, "digest": "sha256:3e21dfb6d3b785887d304dae07f879665f314238449d0eddcdaaa5257984c5b9"},
+      "frozen_20260810": {
+        "phase": "NULL",
+        "MAIN": {"action": 6, "fine": 1},
+        "QSEARCH": {"action": 5, "fine": 0},
+        "MAIN_QSEARCH": {"action": 5, "fine": 1},
+        "MASK_ALL": {"action": 5, "fine": 1}
+      },
+      "stockfish_19": {
+        "phase": "INTERACTION-DOMINANT",
+        "MAIN": {"action": 7, "fine": 2},
+        "QSEARCH": {"action": 4, "fine": 2},
+        "MAIN_QSEARCH": {"action": 6, "fine": 1},
+        "MASK_ALL": {"action": 6, "fine": 1},
+        "fine_mobius_MAINxQSEARCH": -0.125
+      }
+    },
+    "R1M": {
+      "file_sha256": "283dd6e592dd21304685ce135f7c672b3d273c51a84f6f2d03682af089c84e21",
+      "artifact": {"id": 10796214960, "digest": "sha256:b4be0dca377acd64dee27e07d2fbb5b2c1294e6d1481610461a2276039779868"},
+      "frozen_20260810": {
+        "phase": "NULL",
+        "MAIN": {"action": 4, "fine": 1},
+        "QSEARCH": {"action": 3, "fine": 0},
+        "MAIN_QSEARCH": {"action": 4, "fine": 0},
+        "MASK_ALL": {"action": 4, "fine": 0}
+      },
+      "stockfish_19": {
+        "phase": "NULL",
+        "MAIN": {"action": 8, "fine": 1},
+        "QSEARCH": {"action": 4, "fine": 1},
+        "MAIN_QSEARCH": {"action": 8, "fine": 1},
+        "MASK_ALL": {"action": 8, "fine": 1}
+      }
+    }
+  },
+  "stage_d": {
+    "phase_sequences": {
+      "frozen_20260810": ["NULL", "NULL", "NULL"],
+      "stockfish_19": ["NULL", "INTERACTION-DOMINANT", "NULL"]
+    },
+    "cross_version_regime_concordance": 0.6666666666666666,
+    "stable_localization": false,
+    "cross_version_dynamic_reassignment": false,
+    "robust_wdl_changed_any_arm": false,
+    "result_sha256": "2d918ecda08c6ac16de394b03c193b38581e6cee9803033e2c3bf25bf74af8d0",
+    "result_file_sha256": "0d83ceba92e895fef655bf7d340e6c776715a985e30a3fcc0cf661529c3c58fc",
+    "artifact": {
+      "id": 10796528131,
+      "digest": "sha256:3b19c3e65d07d5e465a8affdcf9d47e08fbc9bbe775dfab0726a5b86dd6a94b8"
+    }
+  },
+  "cell_surface_diagnostics": {
+    "frozen_MAIN_fine_jaccard": {"R100K_R300K": 0.0, "R300K_R1M": 0.0},
+    "stockfish19_MAIN_fine_jaccard": {"R100K_R300K": 0.0, "R300K_R1M": 0.5},
+    "stockfish19_QSEARCH_fine_jaccard": {"R100K_R300K": 0.0, "R300K_R1M": 0.5},
+    "interpretation": "Fine-value witness identity is not stable across the resource ladder; these post-sealed diagnostics do not redefine the preregistered phase labels."
+  },
+  "interpretation": {
+    "supported": [
+      "P15 MAIN localization does not transport as a stable resource-invariant phase classification across the P16 fresh tranche.",
+      "Stockfish 19 shows a preregistered INTERACTION-DOMINANT fine-value phase specifically at R300K, surrounded by NULL classifications at R100K and R1M.",
+      "The R300K Stockfish 19 interaction is antagonistic: MAIN and QSEARCH each change fine value in 2/24 cells, while their combined mask changes 1/24, giving a Mobius interaction of -3/24.",
+      "Fine-value witness identity changes materially with resource regime.",
+      "Robust WDL is invariant across every P16 arm and regime."
+    ],
+    "not_supported": [
+      "A canonical dynamic phase transition under the P16 preregistered transition grammar.",
+      "Cross-version dynamic reassignment.",
+      "A stable timeless MAIN-localized mechanism.",
+      "The isolated Stockfish 19 R300K interaction window is a reproducible critical regime rather than a finite-sample fluctuation.",
+      "TT representation identity, a world-model claim, general-chess prevalence, or human-like cognition."
+    ],
+    "authority_ceiling": "RESOURCE-CONDITIONAL-TT-MEDIATION-STRUCTURE-OBSERVED / NO-PRESEALED-PHASE-TRANSITION@FRESH-DUAL-TARGET-EXACT-WORLD-SCOPE"
+  },
+  "custody": {
+    "drive_folder_id": "1cioGZulc4FxmrBHcEkVl8gzQwFypcJg2",
+    "drive_folder": "04_SEALED_RESULTS_COURTS/G9_4_P16",
+    "stage_a_file_id": "1KBv1AHUfqp06f9hJFNTiYkFxUc-4Llj0",
+    "r100k_file_id": "15yuLiXxFggmSNF8AbtJdqY-aPwuR62Wi",
+    "r300k_file_id": "1Y7h2BdnR4tD5CbKoBrPBigoibTxxCfYv",
+    "r1m_file_id": "1DvhkskGZqL871AsORFWQ8BAWWHLsFCrE",
+    "dynamic_result_file_id": "1rJjx12RwyFKt1nF1L6-XIFlnGRxgmQN-",
+    "precommit_metadata_file_id": "1tGaSUyQjdMKZw70fdGiq14g-Hak2sG_W",
+    "frozen_binary_file_id": "17aB2nohtZmkEM-b3BOVQ3R3R5_wM4k4X",
+    "stockfish_19_binary_file_id": "1uVGQfOQl1QMqohDsU682TpMkUakcr1CT",
+    "custody_split_run_id": 35972660701,
+    "original_149mb_precommit_artifact_preserved_in_actions": true
+  }
+}
