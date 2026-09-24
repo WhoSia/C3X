@@ -1,0 +1,154 @@
+name: p20-heterogeneous-psm-admission
+on:
+  push:
+    paths:
+      - ".github/workflows/p20-admission.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  admit:
+    name: R1 admission — ${{ matrix.engine }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - engine: berserk
+            repo: https://github.com/jhonnold/berserk.git
+            commit: 32628515050b83805bab4afa1026dd2bcaa93f55
+            patcher: tools/p20_patch_berserk.py
+            build: make -C SRC/src ARCH=x86-64 build
+            binary: src/berserk
+          - engine: ethereal
+            repo: https://github.com/AndyGrant/Ethereal.git
+            commit: 0e47e9b67f345c75eb965d9fb3e2493b6a11d09a
+            patcher: tools/p20_patch_ethereal.py
+            build: make -C SRC/src basic
+            binary: src/Ethereal
+    steps:
+      - uses: actions/checkout@v4
+      - name: Clone exact native source three ways
+        run: |
+          git clone "${{ matrix.repo }}" ext/source
+          git -C ext/source checkout --detach "${{ matrix.commit }}"
+          test "$(git -C ext/source rev-parse HEAD)" = "${{ matrix.commit }}"
+          cp -a ext/source ext/baseline
+          cp -a ext/source ext/instrument
+          cp -a ext/source ext/removal
+      - name: Materialize engine-native semantic-read adapters
+        run: |
+          mkdir -p out
+          python3 "${{ matrix.patcher }}" --root ext/instrument --variant instrument --manifest out/instrument-manifest.json
+          python3 "${{ matrix.patcher }}" --root ext/removal --variant removal --manifest out/removal-manifest.json
+      - name: Build clean, instrumented and semantic-removal binaries
+        shell: bash
+        run: |
+          set -eux
+          cmd='${{ matrix.build }}'
+          eval "${cmd/SRC/ext\/baseline}"
+          eval "${cmd/SRC/ext\/instrument}"
+          eval "${cmd/SRC/ext\/removal}"
+          cp "ext/baseline/${{ matrix.binary }}" "out/${{ matrix.engine }}-baseline"
+          cp "ext/instrument/${{ matrix.binary }}" "out/${{ matrix.engine }}-instrument"
+          cp "ext/removal/${{ matrix.binary }}" "out/${{ matrix.engine }}-removal"
+          chmod +x out/${{ matrix.engine }}-*
+          sha256sum out/${{ matrix.engine }}-* | tee out/binary-sha256.txt
+      - name: UCI smoke all three binaries
+        run: |
+          for b in out/${{ matrix.engine }}-baseline out/${{ matrix.engine }}-instrument out/${{ matrix.engine }}-removal; do
+            python3 harness/uci_smoke.py "$b"
+          done
+      - name: Execute falsifiable admission court
+        shell: bash
+        run: |
+          set +e
+          python3 harness/p20_engine_admission.py             --engine "${{ matrix.engine }}"             --baseline "out/${{ matrix.engine }}-baseline"             --instrument "out/${{ matrix.engine }}-instrument"             --removal "out/${{ matrix.engine }}-removal"             --instrument-manifest out/instrument-manifest.json             --removal-manifest out/removal-manifest.json             --nodes 80000             --out "out/p20-admission-${{ matrix.engine }}.json"
+          rc=$?
+          echo "$rc" > out/admission-process-exit-code.txt
+          test -f "out/p20-admission-${{ matrix.engine }}.json"
+          exit 0
+      - uses: actions/upload-artifact@v4
+        with:
+          name: p20-admission-${{ matrix.engine }}
+          path: out/
+          retention-days: 30
+
+  adjudicate:
+    name: R1 cross-engine admission adjudication + secondary-lane constitution
+    needs: admit
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: p20-admission-*
+          path: admission
+      - name: Re-lock Inanis and Lc0 secondary lanes without intervention
+        run: |
+          git clone https://github.com/Tearth/Inanis.git ext/inanis
+          git -C ext/inanis checkout --detach 7ef903e8f86f7dcaf4fd04aeecb22711190d2a6d
+          git clone https://github.com/LeelaChessZero/lc0.git ext/lc0
+          git -C ext/lc0 checkout --detach 1227b4c8c23375f4011831f4d7496d1551f85145
+          test "$(git -C ext/inanis rev-parse HEAD)" = "7ef903e8f86f7dcaf4fd04aeecb22711190d2a6d"
+          test "$(git -C ext/lc0 rev-parse HEAD)" = "1227b4c8c23375f4011831f4d7496d1551f85145"
+      - name: Adjudicate admission and topology boundaries
+        run: |
+          mkdir -p out
+          python3 - <<'PY'
+          import json,glob,hashlib
+          from pathlib import Path
+          rs={}
+          for p in glob.glob("admission/*/p20-admission-*.json"):
+              x=json.load(open(p));rs[x["engine"]]=x
+          if set(rs)!={"berserk","ethereal"}: raise SystemExit("ADMISSION_ARTIFACT_SET")
+          passed=all(x["verdict"]=="PASS" for x in rs.values())
+          main=Path("ext/inanis/src/engine/search/runner.rs").read_text(errors="replace")
+          q=Path("ext/inanis/src/engine/qsearch/runner.rs").read_text(errors="replace")
+          lc_mem=Path("ext/lc0/src/neural/memcache.cc").exists()
+          lc_classic=Path("ext/lc0/src/search/classic/search.cc").exists()
+          lc_dag=Path("ext/lc0/src/search/dag_classic/search.cc").exists()
+          out={
+            "schema":"c3x-p20-r1-admission-result-v1",
+            "scientific_stage":"C3X 0.7.0-G9.4-P20",
+            "primary_authority":"ADMISSION_ONLY_NO_CROSS_ENGINE_TRANSPORT_OUTCOMES",
+            "engines":{k:{
+              "verdict":v["verdict"],
+              "native_sham_noninterference":v["native_sham_noninterference"],
+              "semantic_removal_equivalence":v["semantic_removal_equivalence"],
+              "dynamic_engagement_pass":v["dynamic_engagement_pass"],
+              "dynamic_engagement":v["dynamic_engagement"],
+              "wdl_field_observed_any":v["wdl_field_observed_any"]
+            } for k,v in rs.items()},
+            "authorization":"P20-HETEROGENEOUS-ADMISSION-PASS" if passed else "P20-HETEROGENEOUS-ADMISSION-HOLD",
+            "inanis":{
+              "source_commit":"7ef903e8f86f7dcaf4fd04aeecb22711190d2a6d",
+              "main_direct_tt_reads":main.count("context.ttable.get("),
+              "qsearch_direct_tt_reads":q.count("context.ttable.get("),
+              "authority":"TOPOLOGY_SPECIFIC_TRANSLATION_REQUIRED",
+              "forced_main_qsearch_homology":False
+            },
+            "lc0":{
+              "source_commit":"1227b4c8c23375f4011831f4d7496d1551f85145",
+              "classic_search_present":lc_classic,
+              "dag_search_present":lc_dag,
+              "neural_memcache_present":lc_mem,
+              "authority":"ARCHITECTURE_NEUTRAL_ONTOLOGY_ONLY_NO_INTERVENTION"
+            },
+            "literal_sequential_noncommutativity":"NOT_TESTED_IN_R1"
+          }
+          s=json.dumps(out,sort_keys=True,separators=(",",":")).encode()
+          out["result_sha256"]=hashlib.sha256(s).hexdigest()
+          Path("out/p20-r1-admission-result.json").write_text(json.dumps(out,indent=2,sort_keys=True)+"\n")
+          print(json.dumps(out,indent=2,sort_keys=True))
+          PY
+          sha256sum out/p20-r1-admission-result.json | tee out/result-file-sha256.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: p20-r1-admission-result
+          path: out/
+          retention-days: 30
