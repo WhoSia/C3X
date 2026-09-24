@@ -1,5 +1,5 @@
 {
-  "schema": "c3x-g9.4-p18-preseal-v1",
+  "schema": "c3x-g9.4-p18-preseal-v2",
   "scientific_stage": "C3X 0.7.0-G9.4-P18",
   "title": "Cross-Material Causal-Topology Transport, MAIN-Backbone Invariance, Material-Conditioned Interaction Heterogeneity & Hierarchical Mechanism Law Identification",
   "parent": {
@@ -12,25 +12,48 @@
     ]
   },
   "fresh_world": {
-    "compiler_version": "c3x-p18-stage-a-v1",
+    "compiler_version": "c3x-p18-stage-a-v2-balanced-side",
     "world_authority": "external Lichess Syzygy HTTP",
     "root_halfmove_clock": 0,
     "pawnless": true,
     "max_pieces": 5,
-    "robust_categories_only": ["win","draw","loss"],
+    "robust_categories_only": [
+      "win",
+      "draw",
+      "loss"
+    ],
     "require_precise_dtz_for_every_legal_move": true,
     "history_safe_tau_depth": 4,
     "target_per_family": 12,
-    "generation_index_offset": 50000
+    "generation_index_offset": 50000,
+    "side_balance_per_family": {
+      "WHITE": 6,
+      "BLACK": 6,
+      "rule": "Stage A must constitutionally materialize exactly 6 WHITE-to-move and 6 BLACK-to-move exact worlds per material family before SHAM census."
+    }
   },
   "material_strata": {
-    "discovery": ["KRRvKR","KRBvKR","KQvKRB","KRvKQB"],
-    "heldout": ["KRNvKR","KBBvKN","KQvKRN","KRvKQN"],
+    "discovery": [
+      "KRRvKR",
+      "KRBvKR",
+      "KQvKRB",
+      "KRvKQB"
+    ],
+    "heldout": [
+      "KRNvKR",
+      "KBBvKN",
+      "KQvKRN",
+      "KRvKQN"
+    ],
     "heldout_interventions_forbidden_until_law_seal": true
   },
   "engine_targets": {
-    "frozen_20260810": {"upstream_commit": "5062aee519a1ba262d472d8ab139851ced56573e"},
-    "stockfish_19": {"upstream_commit": "edb0d9db6731067ec50ce619ff372b463bc4dd5d"}
+    "frozen_20260810": {
+      "upstream_commit": "5062aee519a1ba262d472d8ab139851ced56573e"
+    },
+    "stockfish_19": {
+      "upstream_commit": "edb0d9db6731067ec50ce619ff372b463bc4dd5d"
+    }
   },
   "resource_anchor": {
     "nodes": 300000,
@@ -44,7 +67,12 @@
   },
   "instrument": {
     "base": "P15 selective-mask semantics unchanged",
-    "arms": {"00":"SHAM","10":"MASK_MAIN","01":"MASK_QSEARCH","11":"MASK_MAIN_QSEARCH"},
+    "arms": {
+      "10": "MASK_MAIN",
+      "11": "MASK_MAIN_QSEARCH",
+      "00": "SHAM",
+      "01": "MASK_QSEARCH"
+    },
     "secondary_anchor": "MASK_ALL"
   },
   "sham_gate": {
@@ -59,7 +87,7 @@
     "cells_per_family": 8,
     "total_cells": 64,
     "minimum_cells_per_family": 6,
-    "selection": "within each material family, alternate side-to-move where available; descending minimum dual-target site-use floor, then tau4, then candidate_sha256",
+    "selection": "within each material family, Stage A provides exact 6/6 side balance; Stage B requires dual-target SHAM engagement and selects 4 WHITE + 4 BLACK by descending minimum dual-target site-use floor, then tau4, then candidate_sha256",
     "intervention_outcomes_forbidden_until_precommit_artifact": true
   },
   "causal_vector": {
@@ -91,7 +119,10 @@
       "or held-out families span at least three distinct non-null phase labels on either target"
     ]
   },
-  "primary_outcomes": ["root_action_changed_vs_SHAM","fine_exact_value_changed_vs_SHAM"],
+  "primary_outcomes": [
+    "root_action_changed_vs_SHAM",
+    "fine_exact_value_changed_vs_SHAM"
+  ],
   "exact_value": {
     "coarse": "mover-relative robust WDL",
     "fine": "[mover-relative robust WDL, mover-relative precise_dtz]"
@@ -103,6 +134,17 @@
     "general-chess prevalence",
     "TT representation identity",
     "world-model identity",
-    "human-like cognition"
-  ]
+    "human-like cognition",
+    "post-outcome ontology rewiring"
+  ],
+  "material_ontology": {
+    "schema": "c3x-p18-material-ontology-v2",
+    "preintervention_receipt": "c3x/protocol/p18-ontology-preseal.json",
+    "primary_relation": "secondary ontology localization only; ontology cannot alter primary discovery-law fitting or held-out predictions",
+    "constitutive_morphisms": [
+      "bishop_to_knight_substitution",
+      "queen_role_orientation_duality"
+    ],
+    "higher_order_test": "commutative square of substitution × orientation duality"
+  }
 }
