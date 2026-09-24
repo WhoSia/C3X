@@ -1,0 +1,60 @@
+{
+  "schema":"c3x-p19-heterogeneous-engine-reserve-v1",
+  "scientific_stage":"C3X 0.7.0-G9.4-P19",
+  "status":"RESERVE_ONLY_NO_P19_PRIMARY_AUTHORITY",
+  "purpose":"Prospective admission map for extending C3X beyond the Stockfish lineage without equating syntactically similar caches or UCI interfaces with the same causal variable.",
+  "abstract_intervention_target":{
+    "name":"persistent_search_memory_read_mediation",
+    "minimum_semantics":[
+      "a persistent search-state store survives across revisitations within one root search",
+      "reads can change search evaluation, bound use, cutoff eligibility, or move ordering",
+      "all semantically admitted reads can be mediated at source",
+      "NATIVE and SHAM are behaviorally identical under fixed resource control",
+      "FULL_MASK removes admitted semantic read availability while preserving writers and unrelated search state",
+      "external exact-world adjudication remains engine-independent"
+    ],
+    "forbidden_shortcuts":[
+      "UCI compatibility implies causal equivalence",
+      "having a structure named TT implies causal equivalence",
+      "same programming language implies causal equivalence",
+      "same alpha-beta label implies identical intervention semantics"
+    ]
+  },
+  "candidate_classes":{
+    "berserk":{
+      "repo":"jhonnold/berserk",
+      "language":"C",
+      "architecture":"negamax/PVS + quiescence + transposition table + NNUE",
+      "status":"HIGH_PRIORITY_ALPHA_BETA_TT_CANDIDATE",
+      "reason":"Search architecture exposes PVS, quiescence and TT semantics close enough to motivate an admission attempt, but read-site completeness and semantic role equivalence must be proved independently."
+    },
+    "ethereal":{
+      "repo":"AndyGrant/Ethereal",
+      "language":"C",
+      "architecture":"alpha-beta + neural evaluation + transposition table",
+      "status":"HIGH_PRIORITY_ALPHA_BETA_TT_CANDIDATE",
+      "reason":"Source-visible alpha-beta/TT lineage is suitable for a separate semantic-use census; current public repository history must be version-locked before any intervention."
+    },
+    "inanis":{
+      "repo":"Tearth/Inanis",
+      "language":"Rust",
+      "architecture":"negamax/alpha-beta + quiescence + transposition table",
+      "status":"SECONDARY_ALPHA_BETA_TT_CANDIDATE",
+      "reason":"Useful for language-independent transport because it is Rust-based while retaining an alpha-beta/TT family; admission still requires its own semantic mediation proof."
+    },
+    "lc0":{
+      "repo":"LeelaChessZero/lc0",
+      "language":"C++",
+      "architecture":"neural-network guided tree search / MCTS-style",
+      "status":"HETEROGENEOUS_ARCHITECTURE_RESERVE",
+      "reason":"Stockfish TT-read masking is not a homologous causal intervention on Lc0 tree statistics, neural cache, or search-state reuse. A new architecture-neutral persistent-search-memory variable must be constituted first."
+    }
+  },
+  "future_cross_engine_design":{
+    "phase_1":"Admit one non-Stockfish alpha-beta/TT engine only after byte/source lock, semantic read census, NATIVE/SHAM noninterference and FULL_MASK equivalence.",
+    "phase_2":"Run the same fresh exact-world matched-square design under the admitted abstract intervention and compare relation curvature, not raw telemetry counts.",
+    "phase_3":"Only after at least two independently admitted alpha-beta engines may C3X promote a cross-engine mechanism law.",
+    "phase_4":"Lc0-class engines require a separate abstraction proof and may join only at the level of a newly constituted persistent-search-memory causal variable."
+  },
+  "relationship_to_p19":"No candidate in this file can alter P19 engine membership, thresholds, squares, predictions, or verdict."
+}
