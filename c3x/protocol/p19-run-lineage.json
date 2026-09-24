@@ -1,0 +1,23 @@
+{
+  "schema":"c3x-g9.4-p19-run-lineage-v1",
+  "scientific_stage":"C3X 0.7.0-G9.4-P19",
+  "superseded_runs":[
+    {
+      "run_id":36004271599,
+      "head_sha":"8e38182ddb216273b9df7482650945007247852c",
+      "failure_stage":"Stage A exact-world constitution",
+      "failure_class":"STAGE-A-ROBUST-WDL-SPLIT-OVERCONSTRAINT",
+      "observed_failure":"KQQvKR reached WHITE 9/9 and BLACK 0/9 because the compiler required a robust-WDL legal-move split.",
+      "intervention_outcomes_materialized":false,
+      "sham_precommit_materialized":false,
+      "scientific_use":"NONE"
+    }
+  ],
+  "repair":{
+    "compiler_version":"c3x-p19-stage-a-v2-fine-exact-split",
+    "eligibility":"At least two distinct legal-move (mover_wdl,mover_precise_dtz) tuples; robust-WDL split is not required.",
+    "execution":"Eight vertices are constituted independently and merged deterministically before the unchanged three-engine SHAM precommit.",
+    "scientific_rationale":"P19's declared fine exact-value outcome is [mover-relative robust WDL, mover-relative precise-DTZ]; the v1 WDL-only split was an accidental stronger filter and made asymmetric vertices structurally impossible."
+  },
+  "blindness_rule":"No P19 selective intervention outcome existed in the superseded run. Future P19 authority must come from a run using the repaired constitution and unchanged prospective relation tests."
+}
