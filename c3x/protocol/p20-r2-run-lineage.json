@@ -1,7 +1,7 @@
 {
   "schema": "c3x-g9.4-p20-r2-run-lineage-v1",
   "scientific_stage": "C3X 0.7.0-G9.4-P20-R2",
-  "status": "PRE_SELECTIVE_OUTCOME_LINEAGE_SEAL",
+  "status": "PRE_SELECTIVE_REPAIR_LINEAGE_SEAL",
   "selective_intervention_outcomes_observed_at_seal": false,
   "runs": [
     {
@@ -75,14 +75,45 @@
     {
       "run_id": 36029009546,
       "head": "4d734032e8f0957288da0b6e1270db6826fba512",
-      "role": "CANONICAL_R2_CANDIDATE",
+      "role": "ENGINEERING_SUPERSEDED_BEFORE_ANY_ENGINE_OBSERVATION",
       "admission_condition": "inherit packet from run 36027604444 only after exact receipt+binary SHA validation and fresh generic UCI smoke",
       "world_condition": "inherit only individually successful outcome-blind world artifacts from run 36026765136 and re-merge/verify all eight",
       "polling_horizon": "130 minutes, longer than the 120-minute donor-world job ceiling",
+      "selective_authority_condition": "portable packet identity + 576-world merge + 96-cell SHAM-only precommit must all succeed before selective arms",
+      "scientific_authority": "NONE",
+      "failure": "All eight SHAM-census jobs failed at the pre-execution chmod line because the inherited artifact stores binaries under instrument/packet/ while the workflow attempted instrument/c3x-p20-*.",
+      "observed_engine_values": false,
+      "selective_intervention_outcomes_observed": false,
+      "reusable": [
+        "576-world outcome-blind pool identity via donor run",
+        "portable packet identity only"
+      ],
+      "forbidden": [
+        "SHAM census evidence",
+        "precommit",
+        "selective intervention result",
+        "scientific adjudication"
+      ]
+    },
+    {
+      "run_id": 36031529905,
+      "head": "3812e11ba00e6d573fefc5925d3ed74aff80084e",
+      "role": "PRESELECTIVE_FAST_STANDBY",
+      "scientific_authority": "NO_SELECTIVE_OUTCOMES",
+      "purpose": "Independently reconstitute all eight families under exact-semantic accelerated tau4, then stop after SHAM-only 96-cell precommit.",
+      "activation_rule": "May become primary only under the separately presealed fallback rule; otherwise replication-only."
+    },
+    {
+      "run_id": 36031624215,
+      "head": "b4b485a800127a2ae4cdf5163430dd60e247a163",
+      "role": "CANONICAL_R2_CANDIDATE",
+      "admission_condition": "inherit packet from run 36027604444 only after exact receipt+binary SHA validation and fresh generic UCI smoke",
+      "world_condition": "inherit the already completed 576-world outcome-blind donor constitution and re-merge/verify all eight",
+      "repair": "census chmod corrected from instrument/c3x-p20-* to instrument/packet/c3x-p20-* before any engine execution",
       "selective_authority_condition": "portable packet identity + 576-world merge + 96-cell SHAM-only precommit must all succeed before selective arms"
     }
   ],
   "inheritance_rule": "A donor world artifact may be inherited only because exact-world constitution is engine-outcome-blind and independent of the failed instrument job. No engine observation from a superseded run may enter selection or adjudication.",
   "literal_noncommutativity_boundary": "Endpoint material squares remain insufficient to identify sequential operator noncommutativity.",
-  "canonical_candidate_run_id": 36029009546
+  "canonical_candidate_run_id": 36031624215
 }
