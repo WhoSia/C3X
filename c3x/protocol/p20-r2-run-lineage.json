@@ -11,7 +11,7 @@
       "instrument_authority": "NONE",
       "failure": "Downloaded R1 artifact binaries lost executable permission; instrument job failed at packet materialization before SHAM census.",
       "reusable": [
-        "independent outcome-blind p20-stage-a-* world artifacts that individually completed SUCCESS"
+        "individually successful outcome-blind p20-stage-a-* world artifacts"
       ],
       "forbidden": [
         "instrument result",
@@ -26,7 +26,7 @@
       "head": "c1a1d825873c7b1b74eaf0e1d492e04ec9b27f67",
       "role": "ENGINEERING_SUPERSEDED",
       "scientific_authority": "NONE",
-      "failure": "Downloaded R1 Berserk machine-code artifact raised Illegal instruction on a different runner during generic UCI smoke; no SHAM census or selective intervention launched.",
+      "failure": "R1 Berserk machine-code artifact raised Illegal instruction during generic UCI smoke on another runner.",
       "reusable": [],
       "forbidden": [
         "all scientific outcomes"
@@ -35,12 +35,36 @@
     {
       "run_id": 36027604444,
       "head": "18792932ba9ba106acca8cf2bff0ee1ef3fffa9e",
+      "role": "PORTABLE_BINARY_DONOR_ONLY",
+      "scientific_authority": "NO_CENSUS_NO_SELECTIVE_OUTCOMES",
+      "achievement": "Source-locked portable Berserk/Ethereal triplets re-passed the full causal admission gate; SF19 bridge rebuilt; exact transport packet and hashes sealed.",
+      "packet": {
+        "berserk": "5e95346d204dfa88a61e1c7a539906079b4a72053e4afcaac151b2b44285cc1f",
+        "ethereal": "55d1fea3dd34c2478143c01cf802c60b2fc0e8253888051725a2d01062867a8d",
+        "stockfish_19": "bb8487ab5de45a192d56502fdf33d3b74e5489f043528ea1240c68b7c7533425",
+        "portable_revalidation_receipt": "f19ebf4996c210b3d51e8f27deedc6cab17ed8a0aeb5001717a8d0c6ad3cc66e"
+      },
+      "supersession_reason": "Downstream census/vertex jobs referenced the pre-portability root artifact path instead of packet/; bug discovered before world merge/census.",
+      "reusable": [
+        "portable-revalidated packet only"
+      ],
+      "forbidden": [
+        "SHAM census",
+        "precommit",
+        "selective intervention result",
+        "scientific adjudication"
+      ]
+    },
+    {
+      "run_id": 36028588231,
+      "head": "e334227b6292a6926c83574de7aaef11e9659193",
       "role": "CANONICAL_R2_CANDIDATE",
-      "admission_condition": "portable source-locked Berserk/Ethereal triplets must independently re-pass full causal admission before their exact transport binaries are sealed",
+      "admission_condition": "inherit packet from run 36027604444 only after exact receipt+binary SHA validation and fresh generic UCI smoke",
       "world_condition": "inherit only individually successful outcome-blind world artifacts from run 36026765136 and re-merge/verify all eight",
-      "selective_authority_condition": "both portable binary revalidation and 96-cell SHAM-only precommit must succeed first"
+      "selective_authority_condition": "portable packet identity + 576-world merge + 96-cell SHAM-only precommit must all succeed before selective arms"
     }
   ],
   "inheritance_rule": "A donor world artifact may be inherited only because exact-world constitution is engine-outcome-blind and independent of the failed instrument job. No engine observation from a superseded run may enter selection or adjudication.",
-  "literal_noncommutativity_boundary": "Endpoint material squares remain insufficient to identify sequential operator noncommutativity."
+  "literal_noncommutativity_boundary": "Endpoint material squares remain insufficient to identify sequential operator noncommutativity.",
+  "canonical_candidate_run_id": 36028588231
 }
