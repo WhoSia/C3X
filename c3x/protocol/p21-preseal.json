@@ -92,5 +92,63 @@
     "no claim that different persistent-memory channels are homologous merely because effect signs match",
     "no literal sequential intervention-order noncommutativity without sequential operators",
     "no Lc0 causal claim unless one channel is separately prospectively admitted"
-  ]
+  ],
+  "resource_and_selection_freeze": {
+    "census_nodes": 80000,
+    "selective_nodes": 300000,
+    "threads": 1,
+    "hash_mib_if_exposed": 64,
+    "fresh_process_each_arm": true,
+    "worlds_per_vertex_before_selection": 48,
+    "committed_per_vertex": 12,
+    "committed_per_side_per_vertex": 6,
+    "core_exposure_features": [
+      "log1p(SF19 MAIN hits)",
+      "log1p(SF19 QSEARCH hits)",
+      "SF19 QSEARCH hit share",
+      "log1p(Berserk MAIN hits)",
+      "log1p(Berserk QSEARCH hits)",
+      "Berserk QSEARCH hit share",
+      "log1p(Ethereal MAIN hits)",
+      "log1p(Ethereal QSEARCH hits)",
+      "Ethereal QSEARCH hit share"
+    ],
+    "core_selection_algorithm": "Among cells with positive MAIN and QSEARCH SHAM engagement on all three P20-admitted targets, standardize the nine frozen exposure features over all eligible cells; within each material vertex and side select the six smallest squared distances to the global zero/mean exposure point, tie by candidate_sha256.",
+    "core_balance_gate": "Before any core selective arm, pooled HEAVY_HEAVY vs pooled MINOR_MINOR absolute standardized mean difference must be <=0.50 for every frozen exposure feature. Otherwise EXPOSURE_BALANCE_HOLD and no core intervention.",
+    "carrier_eligibility": "Positive QSEARCH-TT SHAM hit on each of Stockfish19/Berserk/Ethereal and positive QSEARCH×PAWN_EVAL_CACHE SHAM hit on admitted Inanis.",
+    "carrier_selection_algorithm": "Within each carrier material vertex and side, select six eligible cells by candidate_sha256 only; heterogeneous channel hit magnitudes are not treated as commensurable.",
+    "carrier_scalar_curvature_classification": {
+      "resolution": "1/n where n=12 committed cells per vertex",
+      "NEGATIVE": "H <= -2/n",
+      "POSITIVE": "H >= 2/n",
+      "FLAT": "abs(H) <= 1/n",
+      "BORDERLINE": "otherwise"
+    },
+    "broader_qsearch_memory_support_rule": "On PAWN_CARRIER HEAVY_HEAVY, admitted Inanis QSEARCH×PAWN_EVAL_CACHE must classify NEGATIVE and at least two of the three admitted QSEARCH×SEARCH_TT targets must also classify NEGATIVE. Sign agreement alone does not establish channel homology.",
+    "pawnless_inanis_negative_control": "On PAWNLESS_CORE, MASK_PAWN_Q should produce zero fine exact-world changes; any nonzero result blocks interpreting pawn-carrier PAWN_Q transport as semantic-payload evidence.",
+    "no_post_outcome_threshold_change": true
+  },
+  "intervention_arms": {
+    "p20_admitted_targets": [
+      "SHAM",
+      "MASK_MAIN",
+      "MASK_QSEARCH",
+      "MASK_MAIN_QSEARCH",
+      "MASK_ALL"
+    ],
+    "inanis_core": [
+      "SHAM",
+      "MASK_TT_MAIN",
+      "MASK_PAWN_Q"
+    ],
+    "inanis_carrier": [
+      "SHAM",
+      "MASK_TT_MAIN",
+      "MASK_PAWN_MAIN",
+      "MASK_PAWN_Q",
+      "MASK_PAWN_ALL",
+      "MASK_TT_AND_PAWN_Q",
+      "MASK_ALL"
+    ]
+  }
 }
