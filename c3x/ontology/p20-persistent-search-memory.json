@@ -1,0 +1,31 @@
+{
+  "schema": "c3x-g9.4-p20-psm-ontology-v1",
+  "scientific_stage": "C3X 0.7.0-G9.4-P20",
+  "construct": "persistent-search-memory semantic read",
+  "levels": {
+    "representation": "engine-native storage object or persistent graph/tree/cache state",
+    "query": "engine-native lookup/read operation",
+    "semantic_payload": "information actually consumed by search control, move ordering, evaluation reuse, pruning or expansion",
+    "intervention": "remove/suppress the semantic payload at the admitted read boundary while preserving the surrounding search problem",
+    "outcome": "action/fine exact-world/coarse exact-world changes under fixed resource conditions"
+  },
+  "alpha_beta_family": {
+    "stockfish": "TT semantic reads already admitted in P13-P19 lineage",
+    "berserk": "candidate MAIN+QSEARCH TT read topology; requires P20 R1 causal admission",
+    "ethereal": "candidate MAIN+QSEARCH TT read topology; requires P20 R1 causal admission",
+    "inanis": "MAIN direct TT read present at source lock; qsearch direct TT-read homology absent at source lock; translation is partial, not missing data to be imputed"
+  },
+  "lc0_boundary": {
+    "search_state": "neural-guided tree/DAG state is persistent search memory but is not automatically homologous to alpha-beta TT payload",
+    "neural_eval_cache": "memcache returns cached neural evaluation/policy payload and is a distinct candidate persistent-memory channel",
+    "future_admission_requires": [
+      "choose one causal channel before outcome inspection",
+      "enumerate every semantic consumer of that channel",
+      "construct NATIVE/SHAM noninterference",
+      "construct semantic-removal equivalence",
+      "separate tree/DAG-state intervention from neural-evaluation-cache intervention unless a mediation theorem justifies aggregation"
+    ],
+    "p20_action": "CONSTITUTE_ONLY_NO_INTERVENTION"
+  },
+  "nonidentity_principle": "Two engines may instantiate the same abstract PSM_READ variable without sharing data structures, language, replacement policy, search family or cache topology; equivalence is earned by the intervention contract, not by naming similarity."
+}
