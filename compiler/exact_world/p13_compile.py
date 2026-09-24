@@ -94,20 +94,26 @@ def tb_query(fen, retries=5):
 
 def robust_world_receipt(board):
     obj, raw_sha, url = tb_query(board.fen())
-    root_wdl = obj.get("wdl")
-    if root_wdl not in (-2, 0, 2):
+    # Current Lichess tablebase API exposes robust WDL through category strings.
+    # Cursed-win / blessed-loss are intentionally excluded from the first tranche.
+    cat_to_wdl = {"win": 2, "draw": 0, "loss": -2}
+    root_category = obj.get("category")
+    if root_category not in cat_to_wdl:
         return None
+    root_wdl = cat_to_wdl[root_category]
 
     move_rows = []
     for item in obj.get("moves", []):
-        sw = item.get("wdl")
-        if sw not in (-2, 0, 2):
+        successor_category = item.get("category")
+        if successor_category not in cat_to_wdl:
             return None
-        mover_wdl = -int(sw)
+        sw = cat_to_wdl[successor_category]
+        mover_wdl = -sw
         move_rows.append({
             "uci": item["uci"],
             "mover_wdl": mover_wdl,
-            "successor_wdl_raw": int(sw),
+            "successor_wdl_raw": sw,
+            "successor_category": successor_category,
             "dtz": item.get("dtz"),
             "zeroing": bool(item.get("zeroing", False)),
         })
@@ -125,6 +131,7 @@ def robust_world_receipt(board):
         "endpoint": API,
         "query_url": url,
         "root_wdl": int(root_wdl),
+        "root_category": root_category,
         "moves": sorted(move_rows, key=lambda x: x["uci"]),
         "world_pattern": {str(k): counts[k] for k in sorted(counts)},
         "optimal_count": sum(v == best for v in vals),
