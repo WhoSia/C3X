@@ -27,10 +27,10 @@
     "legal_move_fine_exact_value_distinct_min": 2,
     "fine_exact_split_definition": "At least two distinct mover-relative (robust WDL, precise-DTZ) tuples among legal moves; robust-WDL split alone is not required.",
     "history_safe_tau_depth": 4,
-    "target_per_vertex": 18,
+    "target_per_vertex": 36,
     "side_balance_per_vertex": {
-      "WHITE": 9,
-      "BLACK": 9
+      "WHITE": 18,
+      "BLACK": 18
     },
     "confirmatory_cells_from_p13_p18_forbidden": true
   },
@@ -139,6 +139,13 @@
       "intervention_outcomes_materialized": false,
       "repair": "Align Stage-A eligibility with the predeclared fine exact-value outcome by requiring distinct (mover_wdl,mover_precise_dtz) legal-move tuples instead of a robust-WDL split.",
       "execution_repair": "Constitute vertices independently and deterministically merge them before the unchanged SHAM precommit."
+    },
+    {
+      "superseded_run_id": 36008143936,
+      "failure_class": "STAGE-B-SHAM-ENGAGEMENT-RESERVE-SHORTFALL",
+      "intervention_outcomes_materialized": false,
+      "observed_failure": "KQQvKR had only 9/18 all-three-engine SHAM-engaged candidates, insufficient for the frozen 6 WHITE + 6 BLACK / 12-cell vertex commitment.",
+      "repair": "Increase the outcome-blind Stage-A reserve symmetrically for every one of the eight vertices from 18 to 36 exact worlds (18 WHITE + 18 BLACK). Keep the 12-cell per-vertex confirmatory tranche, 6+6 side balance, SHAM engagement gate, engine set, selection ranking, intervention arms and all causal adjudication thresholds unchanged."
     }
   ],
   "forbidden_inferences": [
