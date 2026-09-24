@@ -5,7 +5,7 @@ from pathlib import Path
 import chess
 
 API="https://tablebase.lichess.ovh/standard"
-VERSION="c3x-p18-stage-a-v1"
+VERSION="c3x-p18-stage-a-v2-balanced-side"
 OFFSET=50000
 DISCOVERY={"KRRvKR","KRBvKR","KQvKRB","KRvKQB"}
 HELDOUT={"KRNvKR","KBBvKN","KQvKRN","KRvKQN"}
@@ -39,7 +39,7 @@ def query(fen,retries=5):
     url=API+"?"+urllib.parse.urlencode({"fen":fen}); last=None
     for i in range(retries):
         try:
-            req=urllib.request.Request(url,headers={"User-Agent":"C3X-P18/1.0 cross-material-transport"})
+            req=urllib.request.Request(url,headers={"User-Agent":"C3X-P18/1.1 balanced-side cross-material-transport"})
             with urllib.request.urlopen(req,timeout=30) as r: raw=r.read()
             return json.loads(raw),h(raw),url
         except Exception as e:
@@ -111,11 +111,16 @@ def main():
     ap.add_argument("--max-generated-per-family",type=int,default=220)
     a=ap.parse_args()
     accepted=[]; audit={}
+    if a.target_per_family % 2:
+        raise SystemExit("target-per-family must be even for balanced side constitution")
+    per_side=a.target_per_family//2
     for material,pieces in MATERIALS:
-        fam=[]; audited=0; world_pass=0
+        fam=[]; audited=0; world_pass=0; accepted_side={"WHITE":0,"BLACK":0}
         schedule=[(side,i) for i in range(a.max_generated_per_family) for side in (chess.WHITE,chess.BLACK)]
         for side,i in schedule:
-            if len(fam)>=a.target_per_family: break
+            side_name="WHITE" if side else "BLACK"
+            if all(accepted_side[s]>=per_side for s in ("WHITE","BLACK")): break
+            if accepted_side[side_name]>=per_side: continue
             b=candidate(material,pieces,side,i)
             if b is None: continue
             audited+=1
@@ -131,14 +136,14 @@ def main():
                "material_seed_name":material,
                "material_split":"DISCOVERY" if material in DISCOVERY else "HELDOUT",
                "material_signature":sig(b),
-               "side_to_move":"WHITE" if b.turn else "BLACK",
+               "side_to_move":side_name,
                "fen":b.fen(),"legal_move_count":b.legal_moves.count(),
                "world":w,"tau4":t}
-            x["candidate_sha256"]=h(canon(x)); fam.append(x); accepted.append(x)
-            print(f"STAGE_A_ACCEPT material={material} n={len(fam):02d}/{a.target_per_family} id={x['candidate_sha256'][:12]} turn={x['side_to_move']} tau4={t['tau4']}",flush=True)
-        audit[material]={"legal_nonterminal_audited":audited,"world_split_pass":world_pass,"accepted":len(fam)}
-        if len(fam)<a.target_per_family:
-            raise SystemExit(f"WORLD-AUTHORITY-FAIL {material} {len(fam)}/{a.target_per_family} audited={audited} world_pass={world_pass}")
+            x["candidate_sha256"]=h(canon(x)); fam.append(x); accepted.append(x); accepted_side[side_name]+=1
+            print(f"STAGE_A_ACCEPT material={material} n={len(fam):02d}/{a.target_per_family} side={side_name} side_n={accepted_side[side_name]}/{per_side} id={x['candidate_sha256'][:12]} tau4={t['tau4']}",flush=True)
+        audit[material]={"legal_nonterminal_audited":audited,"world_split_pass":world_pass,"accepted":len(fam),"accepted_by_side":accepted_side}
+        if len(fam)<a.target_per_family or any(accepted_side[s]<per_side for s in ("WHITE","BLACK")):
+            raise SystemExit(f"WORLD-AUTHORITY-FAIL {material} total={len(fam)}/{a.target_per_family} side={accepted_side} audited={audited} world_pass={world_pass}")
     payload={"schema":"c3x-p18-stage-a-pool-v1","scientific_stage":"C3X 0.7.0-G9.4-P18",
              "compiler_version":VERSION,"stockfish_outcomes_consulted":False,
              "freshness":{"generation_index_offset":OFFSET,"p18_material_families": [m for m,_ in MATERIALS]},
