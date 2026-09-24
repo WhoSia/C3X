@@ -11,6 +11,11 @@ on:
       - "compiler/exact_world/p19_merge.py"
       - "c3x/protocol/p19-run-lineage.json"
       - "harness/p19_morphism.py"
+      - ".github/workflows/p19-morphism.yml"
+
+concurrency:
+  group: p19-mechanism-morphism-algebra
+  cancel-in-progress: true
 
 permissions:
   contents: read
