@@ -12,48 +12,57 @@ permissions:
 
 jobs:
   merge-worlds:
-    name: R2 inherit valid fresh-world constitution from superseded instrument run
+    name: R2 inherit and verify sealed 576-world outcome-blind pool
     runs-on: ubuntu-latest
-    timeout-minutes: 120
+    timeout-minutes: 20
     env:
       GH_TOKEN: ${{ github.token }}
     steps:
       - uses: actions/checkout@v4
 
-      - name: Await all eight independent world artifacts from source run
+      - name: Verify donor merged-pool artifact identity before download
         shell: bash
         run: |
           set -euo pipefail
           source_run=36026765136
-          for i in $(seq 1 780); do
-            n="$(gh api "repos/WhoSia/C3X/actions/runs/$source_run/artifacts?per_page=100" --jq '[.artifacts[] | select(.name | startswith("p20-stage-a-"))] | length')"
-            echo "P20_SOURCE_WORLD_ARTIFACTS $n/8"
-            if [ "$n" = "8" ]; then exit 0; fi
-            status="$(gh api "repos/WhoSia/C3X/actions/runs/$source_run" --jq '.status')"
-            if [ "$status" = "completed" ]; then
-              echo "source run completed before all eight world artifacts existed"
-              exit 1
-            fi
-            sleep 10
-          done
-          echo "source-world artifact acquisition timeout after donor-compatible horizon"
-          exit 1
+          got="$(gh api "repos/WhoSia/C3X/actions/runs/$source_run/artifacts?per_page=100" --jq '.artifacts[] | select(.name=="p20-stage-a-pool") | [.id,.digest] | @tsv')"
+          test "$got" = $'10822061010\tsha256:bfaaa15ae76ea580d89beef2a70cad5e04a2fafec775f54c20fdfa36cde65a81'
+          echo "P20_DONOR_POOL_ARTIFACT_IDENTITY_PASS $got"
 
-      - name: Download source-run world artifacts
+      - name: Download sealed donor pool
         uses: actions/download-artifact@v4
         with:
-          pattern: p20-stage-a-*
-          path: parts
+          name: p20-stage-a-pool
+          path: out
           repository: WhoSia/C3X
           run-id: 36026765136
           github-token: ${{ github.token }}
 
-      - name: Merge and verify inherited symmetric fresh pool
+      - name: Verify donor pool scientific constitution
         run: |
-          mkdir -p out
-          python3 compiler/exact_world/p20_merge.py \
-            --parts parts \
-            --out out/p20-stage-a-pool.json
+          python3 - <<'PY'
+          import json
+          from collections import Counter
+          from pathlib import Path
+          p=Path("out/p20-stage-a-pool.json")
+          x=json.loads(p.read_text())
+          assert x["schema"]=="c3x-p20-r2-stage-a-pool-v1"
+          assert x["scientific_stage"]=="C3X 0.7.0-G9.4-P20-R2"
+          assert x["compiler_version"]=="c3x-p20-r2-stage-a-v1"
+          assert x["stockfish_outcomes_consulted"] is False
+          assert x["cross_engine_transport_outcomes_consulted"] is False
+          assert x["freshness"]["generation_index_offset"]==80000
+          assert x["pool_sha256"]=="1fc45b4fcb8db407cd95d937861d895348876332dd35a3093f8c45ff805d5291"
+          cs=x["candidates"]
+          assert len(cs)==576
+          by=Counter(c["material_seed_name"] for c in cs)
+          expected={"KQQvKQ","KQRvKQ","KQQvKR","KQRvKR","KRBvKB","KRNvKB","KRBvKN","KRNvKN"}
+          assert set(by)==expected and all(by[m]==72 for m in expected),by
+          for m in expected:
+              sides=Counter(c["side_to_move"] for c in cs if c["material_seed_name"]==m)
+              assert sides==Counter({"WHITE":36,"BLACK":36}),(m,sides)
+          print("P20_DONOR_POOL_CONSTITUTION_PASS",len(cs),x["pool_sha256"])
+          PY
 
       - uses: actions/upload-artifact@v4
         with:
