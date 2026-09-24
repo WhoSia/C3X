@@ -28,8 +28,9 @@ static void c3x_psm_emit(void){{printf("info string c3x_psm_v1 mode=%s probes_ma
 """
  t=one(t,"volatile int ANALYSISMODE; // Whether to make some changes for Analysis","volatile int ANALYSISMODE; // Whether to make some changes for Analysis"+h)
  old=f"    if ((ttHit = {tok})) {{"
- t=one(t,old,f'    ttHit = {tok};\n    c3x_psm_probe("MAIN",&ttHit,&ttMove,&ttValue,&ttEval,&ttDepth,&ttBound);\n    if (ttHit) {{')
- t=one(t,old,f'    ttHit = {tok};\n    c3x_psm_probe("QSEARCH",&ttHit,&ttMove,&ttValue,&ttEval,&ttDepth,&ttBound);\n    if (ttHit) {{')
+ if t.count(old)!=2: raise SystemExit(f"TT_SITE_ANCHOR_DRIFT {t.count(old)}")
+ t=t.replace(old,f'    ttHit = {tok};\\n    c3x_psm_probe("MAIN",&ttHit,&ttMove,&ttValue,&ttEval,&ttDepth,&ttBound);\\n    if (ttHit) {{',1)
+ t=one(t,old,f'    ttHit = {tok};\\n    c3x_psm_probe("QSEARCH",&ttHit,&ttMove,&ttValue,&ttEval,&ttDepth,&ttBound);\\n    if (ttHit) {{')
  x="""    // Report best move ( we should always have one )
     moveToString(best, str, board->chess960);"""
  y="""    // Report best move ( we should always have one )
