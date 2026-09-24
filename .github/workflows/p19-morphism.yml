@@ -8,16 +8,22 @@ on:
       - "c3x/protocol/p19-preseal.json"
       - "c3x/ontology/p19-engine-ontology.json"
       - "compiler/exact_world/p19_compile.py"
+      - "compiler/exact_world/p19_merge.py"
+      - "c3x/protocol/p19-run-lineage.json"
       - "harness/p19_morphism.py"
 
 permissions:
   contents: read
 
 jobs:
-  stage_a:
-    name: Stage A — P19 matched-square exact-world constitution
+  stage_a_vertex:
+    name: Stage A1 — P19 exact-world vertex ${{ matrix.family }}
+    strategy:
+      fail-fast: false
+      matrix:
+        family: [KQQvKQ, KQRvKQ, KQQvKR, KQRvKR, KRBvKB, KRNvKB, KRBvKN, KRNvKN]
     runs-on: ubuntu-latest
-    timeout-minutes: 100
+    timeout-minutes: 60
     steps:
       - uses: actions/checkout@v4
       - name: Verify engine admission seal exists
@@ -31,10 +37,34 @@ jobs:
           print("P19_ENGINE_ADMISSION_VERIFIED",p["seal_sha256"])
           PY
       - run: python3 -m pip install --disable-pip-version-check chess==1.11.2
-      - name: Materialize fresh matched ontological squares
+      - name: Materialize one fresh ontological-square vertex
         run: |
           mkdir -p out
-          python3 compiler/exact_world/p19_compile.py --out out/p19-stage-a.json --target-per-vertex 18 --max-generated-per-vertex 320
+          python3 compiler/exact_world/p19_compile.py \
+            --material ${{ matrix.family }} \
+            --out out/p19-stage-a-${{ matrix.family }}.json \
+            --target-per-vertex 18 --max-generated-per-vertex 320
+      - uses: actions/upload-artifact@v4
+        with:
+          name: p19-stage-a-${{ matrix.family }}
+          path: out/
+          retention-days: 30
+
+  stage_a:
+    name: Stage A2 — deterministic 144-world square merge
+    needs: stage_a_vertex
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: p19-stage-a-*
+          path: partials
+          merge-multiple: true
+      - name: Merge constitution without consulting engine outcomes
+        run: |
+          mkdir -p out
+          python3 compiler/exact_world/p19_merge.py --dir partials --out out/p19-stage-a.json
           sha256sum out/p19-stage-a.json | tee out/p19-stage-a-file-sha256.txt
       - uses: actions/upload-artifact@v4
         with:
@@ -114,7 +144,7 @@ jobs:
           retention-days: 30
 
   vertex:
-    name: Stage C — square vertex \${{ matrix.family }}
+    name: Stage C — square vertex ${{ matrix.family }}
     needs: precommit
     strategy:
       fail-fast: false
@@ -137,12 +167,12 @@ jobs:
             --binary stockfish_18=sealed/c3x-p19-sf18 \
             --binary frozen_20260810=sealed/c3x-p19-frozen \
             --binary stockfish_19=sealed/c3x-p19-sf19 \
-            --family \${{ matrix.family }} \
-            --out result/p19-\${{ matrix.family }}.json
-          sha256sum result/p19-\${{ matrix.family }}.json | tee result/p19-\${{ matrix.family }}-file-sha256.txt
+            --family ${{ matrix.family }} \
+            --out result/p19-${{ matrix.family }}.json
+          sha256sum result/p19-${{ matrix.family }}.json | tee result/p19-${{ matrix.family }}-file-sha256.txt
       - uses: actions/upload-artifact@v4
         with:
-          name: p19-vertex-\${{ matrix.family }}
+          name: p19-vertex-${{ matrix.family }}
           path: result/
           retention-days: 30
 
