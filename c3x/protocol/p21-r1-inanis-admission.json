@@ -1,0 +1,58 @@
+{
+  "schema": "c3x-g9.4-p21-r1-inanis-admission-v1",
+  "scientific_stage": "C3X 0.7.0-G9.4-P21",
+  "status": "CLOSED_PASS",
+  "run_id": 36040871547,
+  "source_commit": "7ef903e8f86f7dcaf4fd04aeecb22711190d2a6d",
+  "language": "Rust",
+  "native_rewrite": false,
+  "authority": "CHANNEL_FACTORIZED_CAUSAL_ADMISSION",
+  "channels": {
+    "MAIN×SEARCH_TT": {
+      "verdict": "PASS",
+      "sham_probes": 83213,
+      "sham_hits": 24037,
+      "native_sham_noninterference": "4/4",
+      "semantic_removal_equivalence": "4/4",
+      "masked_hit_engagement": "4/4"
+    },
+    "MAIN×PAWN_EVAL_CACHE": {
+      "verdict": "PASS",
+      "sham_probes": 73332,
+      "sham_hits": 69967,
+      "native_sham_noninterference": "4/4",
+      "semantic_removal_equivalence": "4/4",
+      "masked_hit_engagement": "4/4"
+    },
+    "QSEARCH×PAWN_EVAL_CACHE": {
+      "verdict": "PASS",
+      "sham_probes": 181414,
+      "sham_hits": 158746,
+      "native_sham_noninterference": "4/4",
+      "semantic_removal_equivalence": "4/4",
+      "masked_hit_engagement": "4/4"
+    },
+    "QSEARCH×SEARCH_TT": {
+      "verdict": "STRUCTURAL_ZERO",
+      "causal_intervention": "NOT_INSTANTIATED"
+    }
+  },
+  "phase_tag_leak_free": true,
+  "binary_sha256": {
+    "baseline": "fb7289295a62638b3a95f4b272d33b763e0e9d89b6b5f21cf251c87b0b1ae049",
+    "instrument": "593e44729640d78f44215aa4e7a7411e6f25a484586a1be709a34268594cf075",
+    "removal_pawn_main": "6c420b9b549c325a62589bd4bf370ac2137de27f58ec87d16a81b325d4c517ec",
+    "removal_pawn_q": "5baf582fe4f22723487dcfabac7c5383c89027ee8f9d415f445e70aced3b7abe",
+    "removal_tt_main": "a011e95f70f0108329311f1841bdd1aa4f26e0c484ca9e070dee5c5180e0a798"
+  },
+  "artifact": {
+    "id": 10825678898,
+    "digest": "sha256:4696fcdec6783f0be66720380b132abdd6496c7c93466fcdb58bcc3b75f80da2"
+  },
+  "interpretation": [
+    "Inanis is admitted natively in Rust; programming language supplied no scientific authority.",
+    "SEARCH_TT and PAWN_EVAL_CACHE remain distinct causal channels.",
+    "Absence of QSEARCH×SEARCH_TT is a structural zero, not missing evidence.",
+    "Admission authorizes future channel-specific interventions only; it does not establish transport to Stockfish/Berserk/Ethereal."
+  ]
+}
