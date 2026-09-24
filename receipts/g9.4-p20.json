@@ -252,5 +252,33 @@
     "tau4_equivalence": "PASS",
     "domain_certificate": "PASS"
   },
-  "authority_ceiling": "same fresh exact-world committed cells; source-locked and independently admitted heterogeneous PSM_READ targets; fixed 300k nodes; relation-level transport only"
+  "authority_ceiling": "same fresh exact-world committed cells; source-locked and independently admitted heterogeneous PSM_READ targets; fixed 300k nodes; relation-level transport only",
+  "drive_custody": {
+    "folder_name": "G9_4_P20",
+    "folder_id": "1dCMKrSBqJmEzwIpYOkWHO-Bxwx1KSNuh",
+    "parent": "04_SEALED_RESULTS_COURTS",
+    "verified_file_count": 22,
+    "verified_contents": [
+      "p20-r2-result.zip",
+      "p20-stage-a-pool.zip",
+      "p20-r2-precommit.zip",
+      "p20-r1-admission-result.zip",
+      "p20-admission-berserk.zip",
+      "p20-admission-ethereal.zip",
+      "8 x p20-vertex-*.zip",
+      "8 x p20-census-*.zip"
+    ],
+    "portable_instrument_exception": {
+      "github_artifact_id": 10823505817,
+      "github_artifact_digest": "sha256:1681411b4a7422e89dd27c90e7c8ccaf2360d23f25d3eac15bf515a128ac8ce6",
+      "size_bytes": 153654813,
+      "drive_copy": "NOT_COPIED_DUE_CONNECTOR_100_MIB_TRANSFER_LIMIT",
+      "canonical_custody": "GITHUB_ACTIONS_ARTIFACT"
+    }
+  },
+  "notion_custody": {
+    "p20_page_id": "3e5ef561cf92812f9184e2652ec71d6e",
+    "c3x_parent_page_id": "3c4ef561cf92817ab76bcab15e7d1faf",
+    "status": "P20_FINAL_STATE_WRITTEN"
+  }
 }
