@@ -1,0 +1,46 @@
+{
+  "schema": "c3x-g9.4-p20-r2-run-lineage-v1",
+  "scientific_stage": "C3X 0.7.0-G9.4-P20-R2",
+  "status": "PRE_SELECTIVE_OUTCOME_LINEAGE_SEAL",
+  "selective_intervention_outcomes_observed_at_seal": false,
+  "runs": [
+    {
+      "run_id": 36026765136,
+      "head": "fd147684d8fdac9fbd9367dccb154b83b2e6c046",
+      "role": "FRESH_WORLD_DONOR_ONLY",
+      "instrument_authority": "NONE",
+      "failure": "Downloaded R1 artifact binaries lost executable permission; instrument job failed at packet materialization before SHAM census.",
+      "reusable": [
+        "independent outcome-blind p20-stage-a-* world artifacts that individually completed SUCCESS"
+      ],
+      "forbidden": [
+        "instrument result",
+        "SHAM census",
+        "precommit",
+        "selective intervention result",
+        "scientific adjudication"
+      ]
+    },
+    {
+      "run_id": 36027068105,
+      "head": "c1a1d825873c7b1b74eaf0e1d492e04ec9b27f67",
+      "role": "ENGINEERING_SUPERSEDED",
+      "scientific_authority": "NONE",
+      "failure": "Downloaded R1 Berserk machine-code artifact raised Illegal instruction on a different runner during generic UCI smoke; no SHAM census or selective intervention launched.",
+      "reusable": [],
+      "forbidden": [
+        "all scientific outcomes"
+      ]
+    },
+    {
+      "run_id": 36027604444,
+      "head": "18792932ba9ba106acca8cf2bff0ee1ef3fffa9e",
+      "role": "CANONICAL_R2_CANDIDATE",
+      "admission_condition": "portable source-locked Berserk/Ethereal triplets must independently re-pass full causal admission before their exact transport binaries are sealed",
+      "world_condition": "inherit only individually successful outcome-blind world artifacts from run 36026765136 and re-merge/verify all eight",
+      "selective_authority_condition": "both portable binary revalidation and 96-cell SHAM-only precommit must succeed first"
+    }
+  ],
+  "inheritance_rule": "A donor world artifact may be inherited only because exact-world constitution is engine-outcome-blind and independent of the failed instrument job. No engine observation from a superseded run may enter selection or adjudication.",
+  "literal_noncommutativity_boundary": "Endpoint material squares remain insufficient to identify sequential operator noncommutativity."
+}
