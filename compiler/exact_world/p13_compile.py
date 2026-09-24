@@ -161,8 +161,12 @@ def tau4(board, max_paths=350000):
             b.push(mv)
             key = conservative_state_key(b)
             repeated = key in seen
-            claimable = b.can_claim_threefold_repetition() or b.can_claim_fifty_moves()
-            if repeated or claimable:
+            # Root halfmove clock is 0, the universe is pawnless, and depth is only 4.
+            # With repeated conservative states rejected here, neither a threefold
+            # claim nor a fifty-move claim can become newly available inside this
+            # path. Avoid python-chess's expensive claim search without weakening
+            # the frozen history-safety condition.
+            if repeated:
                 excluded_history += 1
                 b.pop()
                 continue
