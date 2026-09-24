@@ -1,7 +1,7 @@
 {
   "schema": "c3x-g9.4-p20-r2-run-lineage-v1",
   "scientific_stage": "C3X 0.7.0-G9.4-P20-R2",
-  "status": "CANONICAL_REEXECUTION_AFTER_PRE-ENGINE-VERTEX-PATH_REPAIR / FAST_LANE_REPLICATION_ONLY",
+  "status": "P20_R2_CANONICAL_CLOSED",
   "selective_intervention_outcomes_observed_at_seal": false,
   "runs": [
     {
@@ -182,15 +182,66 @@
     {
       "run_id": 36032107436,
       "head": "e5d15f2bac0f989840c98b053a32bd0dfb31ccfe",
-      "role": "CANONICAL_R2_CANDIDATE",
+      "role": "CANONICAL_R2_FINAL",
       "repair": "both census and vertex chmod paths now target instrument/packet/c3x-p20-*",
       "selective_authority_condition": "fresh run must independently pass pinned pool, portable packet, 8/8 SHAM census, and 96-cell precommit before any intervention",
-      "prior_selective_outcomes_consulted": false
+      "prior_selective_outcomes_consulted": false,
+      "conclusion": "SUCCESS",
+      "precommit_sha256": "822417fd87a87f0977e4337f09e12953ed673d35e0aa0a230070881baad0a051",
+      "result_sha256": "d36c0b980a8cf883a1ccefbe9eec9bd98684c3ab46afa97fbf35eaa47eee190b",
+      "result_artifact": {
+        "id": 10822752296,
+        "digest": "sha256:106dbce74a862a307ed25acf9e4633a72b635c8c6d36f58dba1f3c28ad35f190"
+      },
+      "primary_verdict": "PARTIAL-CROSS-ENGINE-RELATION-LAW-TRANSPORT",
+      "robust_wdl_changed_any_arm": false,
+      "heavy_heavy": {
+        "stockfish_19": [
+          "CURVED",
+          "QSEARCH",
+          -1
+        ],
+        "berserk": [
+          "CURVED",
+          "QSEARCH",
+          -1
+        ],
+        "ethereal": [
+          "CURVED",
+          "QSEARCH",
+          -1
+        ],
+        "replicated_cross_family": true
+      },
+      "minor_minor": {
+        "stockfish_19": [
+          "CURVED",
+          "INTERACTION",
+          1
+        ],
+        "berserk": [
+          "CURVED",
+          "MAIN",
+          -1
+        ],
+        "ethereal": [
+          "CURVED",
+          "MAIN",
+          1
+        ],
+        "replicated_cross_family": false
+      },
+      "literal_sequential_noncommutativity": "NOT_IDENTIFIED_BY_ENDPOINT_SQUARES",
+      "authority_ceiling": "same fresh exact-world committed cells; source-locked and independently admitted heterogeneous PSM_READ targets; fixed 300k nodes; relation-level transport only"
     }
   ],
   "inheritance_rule": "A donor world artifact may be inherited only because exact-world constitution is engine-outcome-blind and independent of the failed instrument job. No engine observation from a superseded run may enter selection or adjudication.",
   "literal_noncommutativity_boundary": "Endpoint material squares remain insufficient to identify sequential operator noncommutativity.",
   "canonical_candidate_run_id": 36032107436,
   "preselective_fast_standby_run_id": 36031839640,
-  "primary_fallback_eligibility": "CLOSED"
+  "primary_fallback_eligibility": "CLOSED",
+  "canonical_result_sha256": "d36c0b980a8cf883a1ccefbe9eec9bd98684c3ab46afa97fbf35eaa47eee190b",
+  "primary_verdict": "PARTIAL-CROSS-ENGINE-RELATION-LAW-TRANSPORT",
+  "selective_intervention_outcomes_observed_at_closure": true,
+  "fast_lane_authority": "REPLICATION_ONLY_NO_PRIMARY_OVERRIDE"
 }
