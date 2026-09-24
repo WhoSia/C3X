@@ -1,0 +1,326 @@
+name: p21-relation-boundary-and-cross-architecture
+
+on:
+  push:
+    paths:
+      - ".github/workflows/p21-boundary.yml"
+      - "harness/p21_boundary.py"
+      - "c3x/protocol/p21-preseal.json"
+      - "c3x/protocol/p21-r1-inanis-admission.json"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+env:
+  WORLD_RUN: 36041203061
+  INANIS_RUN: 36040871547
+  P20_RUN: 36032107436
+
+jobs:
+  instruments:
+    name: P21 pin admitted heterogeneous instrument packet
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: p20-r2-instrument
+          path: bundle/p20
+          repository: WhoSia/C3X
+          run-id: 36032107436
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: p21-inanis-channel-admission
+          path: bundle/inanis
+          repository: WhoSia/C3X
+          run-id: 36040871547
+          github-token: ${{ github.token }}
+      - name: Verify exact admitted binaries
+        shell: bash
+        run: |
+          set -euo pipefail
+          chmod +x bundle/p20/packet/c3x-p20-* bundle/inanis/inanis-*
+          test "$(sha256sum bundle/p20/packet/c3x-p20-sf19 | cut -d' ' -f1)" = "bb8487ab5de45a192d56502fdf33d3b74e5489f043528ea1240c68b7c7533425"
+          test "$(sha256sum bundle/p20/packet/c3x-p20-berserk | cut -d' ' -f1)" = "5e95346d204dfa88a61e1c7a539906079b4a72053e4afcaac151b2b44285cc1f"
+          test "$(sha256sum bundle/p20/packet/c3x-p20-ethereal | cut -d' ' -f1)" = "55d1fea3dd34c2478143c01cf802c60b2fc0e8253888051725a2d01062867a8d"
+          test "$(sha256sum bundle/inanis/inanis-instrument | cut -d' ' -f1)" = "593e44729640d78f44215aa4e7a7411e6f25a484586a1be709a34268594cf075"
+          for b in bundle/p20/packet/c3x-p20-sf19 bundle/p20/packet/c3x-p20-berserk bundle/p20/packet/c3x-p20-ethereal bundle/inanis/inanis-instrument; do
+            log="$(mktemp)"
+            printf "%s\n" uci isready quit | timeout 20s "$b" > "$log" 2>&1
+            grep -Fxq uciok "$log"; grep -Fxq readyok "$log"
+          done
+      - uses: actions/upload-artifact@v4
+        with:
+          name: p21-instrument-packet
+          path: bundle/
+          retention-days: 30
+
+  wait-worlds:
+    name: P21 wait for both sealed fresh-world pools
+    runs-on: ubuntu-latest
+    timeout-minutes: 140
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - name: Poll outcome-blind world constitution only
+        shell: bash
+        run: |
+          set -euo pipefail
+          for i in $(seq 1 280); do
+            names="$(gh api "repos/WhoSia/C3X/actions/runs/$WORLD_RUN/artifacts?per_page=100" --jq '.artifacts[].name' || true)"
+            if grep -Fxq p21-core-pool <<<"$names" && grep -Fxq p21-carrier-pool <<<"$names"; then
+              echo "P21_WORLD_POOLS_READY"
+              exit 0
+            fi
+            sleep 30
+          done
+          echo "P21_WORLD_POOL_TIMEOUT" >&2
+          exit 1
+
+  core-census:
+    name: P21 core SHAM exposure census — ${{ matrix.family }}
+    needs: [instruments, wait-worlds]
+    runs-on: ubuntu-latest
+    timeout-minutes: 180
+    strategy:
+      fail-fast: false
+      matrix:
+        family: [KQQvKQ, KQRvKQ, KQQvKR, KQRvKR, KRBvKB, KRNvKB, KRBvKN, KRNvKN]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: p21-core-pool
+          path: stage
+          repository: WhoSia/C3X
+          run-id: 36041203061
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: p21-instrument-packet
+          path: instrument
+      - run: |
+          chmod +x instrument/p20/packet/c3x-p20-* instrument/inanis/inanis-instrument
+          mkdir -p out
+          python3 harness/p21_boundary.py core-census             --stage-a stage/p21-core-pool.json             --engine stockfish_19,stockfish_uci,instrument/p20/packet/c3x-p20-sf19             --engine berserk,env,instrument/p20/packet/c3x-p20-berserk             --engine ethereal,env,instrument/p20/packet/c3x-p20-ethereal             --inanis instrument/inanis/inanis-instrument             --family "${{ matrix.family }}"             --out "out/p21-core-census-${{ matrix.family }}.json"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: p21-core-census-${{ matrix.family }}
+          path: out/
+          retention-days: 30
+
+  carrier-census:
+    name: P21 carrier SHAM q-memory census — ${{ matrix.family }}
+    needs: [instruments, wait-worlds]
+    runs-on: ubuntu-latest
+    timeout-minutes: 180
+    strategy:
+      fail-fast: false
+      matrix:
+        family: [KQQPvKQP, KQRPvKQP, KQQPvKRP, KQRPvKRP, KRBPvKBP, KRNPvKBP, KRBPvKNP, KRNPvKNP]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: p21-carrier-pool
+          path: stage
+          repository: WhoSia/C3X
+          run-id: 36041203061
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: p21-instrument-packet
+          path: instrument
+      - run: |
+          chmod +x instrument/p20/packet/c3x-p20-* instrument/inanis/inanis-instrument
+          mkdir -p out
+          python3 harness/p21_boundary.py carrier-census             --stage-a stage/p21-carrier-pool.json             --engine stockfish_19,stockfish_uci,instrument/p20/packet/c3x-p20-sf19             --engine berserk,env,instrument/p20/packet/c3x-p20-berserk             --engine ethereal,env,instrument/p20/packet/c3x-p20-ethereal             --inanis instrument/inanis/inanis-instrument             --family "${{ matrix.family }}"             --out "out/p21-carrier-census-${{ matrix.family }}.json"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: p21-carrier-census-${{ matrix.family }}
+          path: out/
+          retention-days: 30
+
+  core-seal:
+    name: P21 freeze exposure-balanced 96-cell core precommit
+    needs: core-census
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: p21-core-pool
+          path: stage
+          repository: WhoSia/C3X
+          run-id: 36041203061
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: p21-core-census-*
+          path: census
+      - run: |
+          mkdir -p out
+          python3 harness/p21_boundary.py core-seal             --stage-a stage/p21-core-pool.json             --census-dir census             --out out/p21-core-precommit.json
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: p21-core-precommit
+          path: out/
+          retention-days: 30
+
+  carrier-seal:
+    name: P21 freeze 96-cell carrier q-memory precommit
+    needs: carrier-census
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: p21-carrier-pool
+          path: stage
+          repository: WhoSia/C3X
+          run-id: 36041203061
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: p21-carrier-census-*
+          path: census
+      - run: |
+          mkdir -p out
+          python3 harness/p21_boundary.py carrier-seal             --stage-a stage/p21-carrier-pool.json             --census-dir census             --out out/p21-carrier-precommit.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: p21-carrier-precommit
+          path: out/
+          retention-days: 30
+
+  core-vertex:
+    name: P21 core selective boundary — ${{ matrix.family }}
+    needs: [core-seal, instruments]
+    runs-on: ubuntu-latest
+    timeout-minutes: 180
+    strategy:
+      fail-fast: false
+      matrix:
+        family: [KQQvKQ, KQRvKQ, KQQvKR, KQRvKR, KRBvKB, KRNvKB, KRBvKN, KRNvKN]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: p21-core-precommit
+          path: pre
+      - uses: actions/download-artifact@v4
+        with:
+          name: p21-instrument-packet
+          path: instrument
+      - run: |
+          chmod +x instrument/p20/packet/c3x-p20-* instrument/inanis/inanis-instrument
+          mkdir -p out
+          python3 harness/p21_boundary.py core-vertex             --precommit pre/p21-core-precommit.json             --engine stockfish_19,stockfish_uci,instrument/p20/packet/c3x-p20-sf19             --engine berserk,env,instrument/p20/packet/c3x-p20-berserk             --engine ethereal,env,instrument/p20/packet/c3x-p20-ethereal             --inanis instrument/inanis/inanis-instrument             --family "${{ matrix.family }}"             --out "out/p21-core-vertex-${{ matrix.family }}.json"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: p21-core-vertex-${{ matrix.family }}
+          path: out/
+          retention-days: 30
+
+  carrier-vertex:
+    name: P21 carrier selective cross-architecture — ${{ matrix.family }}
+    needs: [carrier-seal, instruments]
+    runs-on: ubuntu-latest
+    timeout-minutes: 180
+    strategy:
+      fail-fast: false
+      matrix:
+        family: [KQQPvKQP, KQRPvKQP, KQQPvKRP, KQRPvKRP, KRBPvKBP, KRNPvKBP, KRBPvKNP, KRNPvKNP]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: p21-carrier-precommit
+          path: pre
+      - uses: actions/download-artifact@v4
+        with:
+          name: p21-instrument-packet
+          path: instrument
+      - run: |
+          chmod +x instrument/p20/packet/c3x-p20-* instrument/inanis/inanis-instrument
+          mkdir -p out
+          python3 harness/p21_boundary.py carrier-vertex             --precommit pre/p21-carrier-precommit.json             --engine stockfish_19,stockfish_uci,instrument/p20/packet/c3x-p20-sf19             --engine berserk,env,instrument/p20/packet/c3x-p20-berserk             --engine ethereal,env,instrument/p20/packet/c3x-p20-ethereal             --inanis instrument/inanis/inanis-instrument             --family "${{ matrix.family }}"             --out "out/p21-carrier-vertex-${{ matrix.family }}.json"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: p21-carrier-vertex-${{ matrix.family }}
+          path: out/
+          retention-days: 30
+
+  core-adjudicate:
+    name: P21 adjudicate exposure-balanced relation boundary
+    needs: core-vertex
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: p21-core-precommit
+          path: pre
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: p21-core-vertex-*
+          path: results
+      - run: |
+          mkdir -p out
+          python3 harness/p21_boundary.py core-adjudicate             --precommit pre/p21-core-precommit.json             --result-dir results             --out out/p21-core-result.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: p21-core-result
+          path: out/
+          retention-days: 30
+
+  carrier-adjudicate:
+    name: P21 adjudicate carrier cross-architecture q-memory law
+    needs: carrier-vertex
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: p21-carrier-precommit
+          path: pre
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: p21-carrier-vertex-*
+          path: results
+      - run: |
+          mkdir -p out
+          python3 harness/p21_boundary.py carrier-adjudicate             --precommit pre/p21-carrier-precommit.json             --result-dir results             --out out/p21-carrier-result.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: p21-carrier-result
+          path: out/
+          retention-days: 30
+
+  synthesize:
+    name: P21 frozen-rival synthesis
+    needs: [core-adjudicate, carrier-adjudicate]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: p21-core-result
+          path: core
+      - uses: actions/download-artifact@v4
+        with:
+          name: p21-carrier-result
+          path: carrier
+      - run: |
+          mkdir -p out
+          python3 harness/p21_boundary.py synthesize             --core core/p21-core-result.json             --carrier carrier/p21-carrier-result.json             --out out/p21-final-result.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: p21-final-result
+          path: out/
+          retention-days: 30
