@@ -110,8 +110,8 @@ def sig(b):
 def main():
     ap=argparse.ArgumentParser()
     ap.add_argument("--out",required=True)
-    ap.add_argument("--target-per-vertex",type=int,default=18)
-    ap.add_argument("--max-generated-per-vertex",type=int,default=320)
+    ap.add_argument("--target-per-vertex",type=int,default=36)
+    ap.add_argument("--max-generated-per-vertex",type=int,default=520)
     ap.add_argument("--material",choices=tuple(VERTICES),help="Optional single-vertex material for parallel constitution")
     a=ap.parse_args()
     if a.target_per_vertex%2: raise SystemExit("target-per-vertex must be even")
