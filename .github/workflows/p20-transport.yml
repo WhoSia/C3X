@@ -25,7 +25,7 @@ jobs:
         run: |
           set -euo pipefail
           source_run=36026765136
-          for i in $(seq 1 90); do
+          for i in $(seq 1 780); do
             n="$(gh api "repos/WhoSia/C3X/actions/runs/$source_run/artifacts?per_page=100" --jq '[.artifacts[] | select(.name | startswith("p20-stage-a-"))] | length')"
             echo "P20_SOURCE_WORLD_ARTIFACTS $n/8"
             if [ "$n" = "8" ]; then exit 0; fi
@@ -36,7 +36,7 @@ jobs:
             fi
             sleep 10
           done
-          echo "source-world artifact acquisition timeout"
+          echo "source-world artifact acquisition timeout after donor-compatible horizon"
           exit 1
 
       - name: Download source-run world artifacts
