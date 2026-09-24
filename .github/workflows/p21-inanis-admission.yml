@@ -1,0 +1,70 @@
+name: p21-inanis-channel-admission
+
+on:
+  push:
+    paths:
+      - ".github/workflows/p21-inanis-admission.yml"
+      - "tools/p21_patch_inanis.py"
+      - "harness/p21_inanis_admission.py"
+      - "c3x/protocol/p21-preseal.json"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  admit:
+    name: Native-Rust Inanis phase-by-channel admission
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Lock exact Inanis source
+        run: |
+          git clone https://github.com/Tearth/Inanis.git ext/inanis
+          git -C ext/inanis checkout --detach 7ef903e8f86f7dcaf4fd04aeecb22711190d2a6d
+          test "$(git -C ext/inanis rev-parse HEAD)" = "7ef903e8f86f7dcaf4fd04aeecb22711190d2a6d"
+
+      - name: Build untouched baseline
+        run: |
+          mkdir -p out
+          cargo build --manifest-path ext/inanis/Cargo.toml --release --bin inanis
+          cp ext/inanis/target/release/inanis out/inanis-baseline
+          chmod +x out/inanis-baseline
+
+      - name: Build native-Rust instrument and independent fixed removals
+        shell: bash
+        run: |
+          set -euo pipefail
+          for variant in instrument removal_tt_main removal_pawn_main removal_pawn_q; do
+            git -C ext/inanis reset --hard 7ef903e8f86f7dcaf4fd04aeecb22711190d2a6d
+            git -C ext/inanis clean -fd src
+            python3 tools/p21_patch_inanis.py               --root ext/inanis               --variant "$variant"               --manifest "out/$variant-manifest.json"
+            cargo build --manifest-path ext/inanis/Cargo.toml --release --bin inanis
+            cp ext/inanis/target/release/inanis "out/inanis-$variant"
+            chmod +x "out/inanis-$variant"
+          done
+          sha256sum out/inanis-* | tee out/binary-sha256.txt
+
+      - name: UCI smoke all binaries
+        shell: bash
+        run: |
+          set -euo pipefail
+          for b in out/inanis-baseline out/inanis-instrument out/inanis-removal_tt_main out/inanis-removal_pawn_main out/inanis-removal_pawn_q; do
+            log="$(mktemp)"
+            printf "%s\n" uci isready quit | timeout 20s "$b" > "$log" 2>&1
+            grep -Fxq "uciok" "$log"
+            grep -Fxq "readyok" "$log"
+          done
+
+      - name: Execute channel-factorized causal admission
+        run: |
+          python3 harness/p21_inanis_admission.py             --baseline out/inanis-baseline             --instrument out/inanis-instrument             --removal-tt-main out/inanis-removal_tt_main             --removal-pawn-main out/inanis-removal_pawn_main             --removal-pawn-q out/inanis-removal_pawn_q             --instrument-manifest out/instrument-manifest.json             --nodes 100000             --out out/p21-inanis-admission.json
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: p21-inanis-channel-admission
+          path: out/
+          retention-days: 30
