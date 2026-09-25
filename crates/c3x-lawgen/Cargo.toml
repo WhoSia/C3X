@@ -14,6 +14,10 @@ path = "src/main.rs"
 name = "c3x-lawgen-v2"
 path = "src/bin/lawgen_v2.rs"
 
+[[bin]]
+name = "c3x-lawgen-v3"
+path = "src/bin/lawgen_v3.rs"
+
 [dependencies]
 serde = { version = "1", features = ["derive"] }
 serde_json = "1"
