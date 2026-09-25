@@ -1,0 +1,48 @@
+{
+  "schema": "c3x-p33-parent-support-v1",
+  "scientific_stage": "C3X 0.7.0-G9.4-P33",
+  "parent_stage": "C3X 0.7.0-G9.4-P32",
+  "parent_closure_commit": "39cb274a812cef2c4f9a72cbee113a67968bc6d1",
+  "parent_canonical_run": 36188807920,
+  "parent_verdict": "EVENT_LEVEL_CAUSAL_EXPLANATION_COMPILER_MATERIALIZED_WITH_MINIMAL_NECESSITY_AND_SUFFICIENCY",
+  "selection_rule": "Primary support is exactly the three P32 cases named prospectively in the P32 closure as baseline-address incompleteness witnesses under path divergence. Repeat controls are one deterministic-trace identity probe per engine family and may test the correspondence machinery but cannot replace primary support.",
+  "primary_cases": [
+    {
+      "case_id": "stockfish_19:f8cde3d6abb4:MOVE_ORDER+EVAL",
+      "engine": "stockfish_19",
+      "role": "ADDRESS_INCOMPLETENESS_PRIMARY"
+    },
+    {
+      "case_id": "ethereal:a8fd39b3864a:CUTOFF",
+      "engine": "ethereal",
+      "role": "ADDRESS_INCOMPLETENESS_PRIMARY"
+    },
+    {
+      "case_id": "ethereal:f8cde3d6abb4:MOVE_ORDER",
+      "engine": "ethereal",
+      "role": "ADDRESS_INCOMPLETENESS_PRIMARY"
+    }
+  ],
+  "repeat_controls": [
+    {
+      "case_id": "stockfish_19:ec55f57dd7e3:CUTOFF",
+      "engine": "stockfish_19",
+      "role": "TRACE_IDENTITY_REPEAT_CONTROL"
+    },
+    {
+      "case_id": "berserk:b27b7a24ddcd:EVAL",
+      "engine": "berserk",
+      "role": "TRACE_IDENTITY_REPEAT_CONTROL"
+    },
+    {
+      "case_id": "ethereal:c18e10bd6a3a:MOVE_ORDER",
+      "engine": "ethereal",
+      "role": "TRACE_IDENTITY_REPEAT_CONTROL"
+    }
+  ],
+  "primary_case_count": 3,
+  "repeat_control_count": 3,
+  "p32_outcomes_consulted_for_support_selection": true,
+  "p33_selective_outcomes_consulted": false,
+  "nonimplication": "Selection of P32 failure-boundary cases does not license tuning P33 correspondence, closure, replay budgets, or causal predicates to P33 outcomes."
+}
