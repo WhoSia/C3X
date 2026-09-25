@@ -1,0 +1,16 @@
+name: p22-design-repair-dispatch
+on:
+  push:
+    paths:
+      - "harness/p22_design.py"
+permissions:
+  actions: write
+  contents: read
+jobs:
+  dispatch:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Dispatch repaired P22 design against frozen fresh-world run
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh workflow run p22-design.yml --repo WhoSia/C3X -f world_run=36102375988
