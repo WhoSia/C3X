@@ -1,0 +1,97 @@
+{
+  "schema": "c3x-lawgen-spec-v2",
+  "scientific_stage": "C3X 0.7.0-G9.4-P26",
+  "title": "Budget-Indexed Causal Law Field, Cross-Budget State Correspondence, Descriptor Intervention Feasibility, Generator Schema Evolution & Architecture–Budget Product-Space Transport",
+  "parent_authority": {
+    "stage": "C3X 0.7.0-G9.4-P25",
+    "receipt": "c3x/receipts/p25-closure.json",
+    "verdict": "FRESH_ARCHITECTURE_INDEX_REPLICATED__FINE_ATLAS_BUDGET_NONINVARIANCE_MEASURED__TWO_COORDINATE_DESCRIPTOR_SEPARATION__NO_NONTRIVIAL_LAW_FAMILY_COMPRESSION"
+  },
+  "fresh_worlds": {
+    "lane": "PAWNLESS_CORE",
+    "generation_index_offset": 720000,
+    "families": ["KQQvKQ","KQRvKQ","KQQvKR","KQRvKR","KRBvKB","KRNvKB","KRBvKN","KRNvKN"],
+    "worlds_per_family": 48,
+    "worlds_per_side_per_family": 24,
+    "engine_outcomes_consulted": false
+  },
+  "axes": {
+    "architecture": ["stockfish_19","berserk","ethereal"],
+    "budget_nodes": [40000,80000,160000,300000],
+    "anchor_budget_nodes": 80000,
+    "state_levels": [2,4,8],
+    "interventions": ["SHAM","MASK_MAIN","MASK_QSEARCH","MASK_MAIN_QSEARCH","MASK_ALL"],
+    "squares": ["HEAVY_HEAVY","MINOR_MINOR"],
+    "response_fingerprint": ["curvature_class","dominant_coordinate","dominant_sign"]
+  },
+  "state_correspondence": {
+    "family": "finite_permutation_to_shared_anchor",
+    "fit_data": "SHAM telemetry only",
+    "capacity": "K8 label permutation only; no learned continuous map; no outcome optimization",
+    "anchor_budget_nodes": 80000,
+    "objective": "maximize exact cell overlap with the anchor K8 partition over the full 384-world census; lexicographic tie-break",
+    "composition": "all cross-budget maps factor through the 80k anchor, guaranteeing cycle consistency by construction",
+    "selection_after_alignment": "within each family×side×anchor-K8 state choose two of three cells by exhaustive outcome-blind support optimization across all mapped budgets",
+    "support_gate": "every selected family×side×budget×mapped-K8 state must have at least one cell before selective outcomes open"
+  },
+  "descriptor_authority": {
+    "observed_descriptors": ["indexing_family","probe_refreshes_age_on_hit","probe_returns_replacement_handle","eval_move_packed_together"],
+    "manipulable_descriptor_candidates": [
+      {
+        "name": "probe_refreshes_age_on_hit",
+        "status": "SOURCE_LOCAL_INTERVENTION_CANDIDATE",
+        "reason": "localized read-hit side effect can in principle be toggled without redefining the intervention target; requires engine-specific semantic-equivalence preflight before causal use"
+      },
+      {
+        "name": "indexing_family",
+        "status": "TOPOLOGY_CHANGING_CANDIDATE",
+        "reason": "changing the index function changes collision topology and occupancy; feasible only as a dedicated architecture intervention with matched hash geometry, not a local toggle"
+      },
+      {
+        "name": "probe_returns_replacement_handle",
+        "status": "API_SHAPE_NOT_YET_CAUSAL_COORDINATE",
+        "reason": "return-handle style is entangled with caller control flow and replacement semantics"
+      },
+      {
+        "name": "eval_move_packed_together",
+        "status": "LAYOUT_ENTANGLED_NOT_ADMITTED",
+        "reason": "storage-layout change can perturb atomicity, replacement and packing semantics simultaneously"
+      }
+    ],
+    "feasibility_is_not_effect_estimation": true
+  },
+  "product_space": {
+    "domain": "architecture × search_budget × mapped_state × intervention",
+    "codomain": "exact-world response fingerprint",
+    "target_object": "L(a,b,z_b,i)",
+    "architecture_index_removable_criterion": "for every budget, mapped state and square, all admitted architectures have identical fingerprints",
+    "budget_index_removable_criterion": "for every architecture, mapped state and square, fingerprints are identical across all frozen budgets",
+    "product_transport_criterion": "both architecture and budget indices removable under the frozen state correspondence",
+    "field_interaction_readout": "report architecture-specific budget trajectories of fingerprints; no post-hoc metric learning"
+  },
+  "prediction_authority": {
+    "held_out_engine_prediction": false,
+    "held_out_budget_extrapolation": false,
+    "descriptive_field_only": true,
+    "reason": "P26 identifies the tested product-space field and correspondence limits; predictive descriptor transport requires new held-out architecture authority"
+  },
+  "literature_constraints": [
+    {"source":"Sutter et al. 2025","role":"alignment capacity is part of the scientific hypothesis; unrestricted maps are forbidden"},
+    {"source":"Yao et al. 2025","role":"state identity is defined through explicit invariance/equivalence relations rather than causal vocabulary alone"},
+    {"source":"Grant et al. 2026","role":"intervention validity requires separating natural-state support from intervention-induced divergence"},
+    {"source":"Multi-Way Representation Alignment 2026","role":"cross-budget correspondences factor through a shared anchor universe rather than unconstrained pairwise maps"}
+  ],
+  "prospective_claims": [
+    {"id":"S","name":"cross_budget_state_correspondence","criterion":"report permutation overlap and cycle-consistent anchor-factorized maps at K8; no learned rescue"},
+    {"id":"A","name":"architecture_index_removability","criterion":"test exact fingerprint equality across architectures at every budget×mapped-state×square cell"},
+    {"id":"B","name":"budget_index_removability","criterion":"test exact fingerprint equality across budgets within every architecture×mapped-state×square cell"},
+    {"id":"P","name":"product_space_transport","criterion":"granted only if both A and B pass under the frozen correspondence"},
+    {"id":"D","name":"descriptor_intervention_feasibility","criterion":"classify source descriptors as local-manipulable, topology-changing, API-shape, or layout-entangled without estimating effects"}
+  ],
+  "claim_ceiling": [
+    "A finite permutation correspondence is deliberately low-capacity and may miss nonlinear relations; failure therefore localizes to this frozen correspondence family, not all possible maps.",
+    "Budget-index necessity over node controls does not imply the same field under time controls or different hardware.",
+    "Descriptor feasibility is a source-architecture audit, not a causal estimate of descriptor effects.",
+    "No selective outcome may change the correspondence family, anchor budget, support gate, engine set, intervention algebra, or budgets."
+  ]
+}
