@@ -1,0 +1,293 @@
+name: p27-manipulable-architecture-coordinate
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - "c3x/ontology/p27-lawgen-spec.json"
+      - "crates/c3x-lawgen/src/bin/lawgen_v3.rs"
+      - "crates/c3x-lawgen/Cargo.toml"
+      - "tools/p27_patch_age.py"
+      - "harness/p27_age_morphism.py"
+      - ".github/workflows/p27.yml"
+
+concurrency:
+  group: p27-manipulable-architecture-coordinate
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  actions: read
+
+env:
+  P26_RUN: "36153015935"
+
+jobs:
+  lawgen:
+    name: LawGen v3 outcome-blind constitution compile
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Compile typed P27 constitution
+        run: |
+          cargo run --release --manifest-path crates/c3x-lawgen/Cargo.toml --bin c3x-lawgen-v3 -- c3x/ontology/p27-lawgen-spec.json out/lawgen
+          sha256sum out/lawgen/* | sort | tee out/lawgen-sha256.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: p27-lawgen-preseal
+          path: out/
+          retention-days: 30
+
+  build:
+    name: Paired OFF/ON source materialization — ${{ matrix.engine }}
+    needs: lawgen
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - engine: stockfish_19
+            repo: https://github.com/official-stockfish/Stockfish.git
+            commit: edb0d9db6731067ec50ce619ff372b463bc4dd5d
+            protocol: stockfish_uci
+            native: off
+          - engine: berserk
+            repo: https://github.com/jhonnold/berserk.git
+            commit: 32628515050b83805bab4afa1026dd2bcaa93f55
+            protocol: env
+            native: off
+          - engine: ethereal
+            repo: https://github.com/AndyGrant/Ethereal.git
+            commit: 0e47e9b67f345c75eb965d9fb3e2493b6a11d09a
+            protocol: env
+            native: on
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: p26-canonical-precommit
+          path: parent
+          repository: WhoSia/C3X
+          run-id: ${{ env.P26_RUN }}
+          github-token: ${{ github.token }}
+      - name: Resolve exact P26 parent
+        run: |
+          P26="$(find parent -name p26-precommit.json -print -quit)"
+          test -n "$P26"
+          echo "P26=$P26" >> "$GITHUB_ENV"
+      - name: Clone exact source triplet
+        run: |
+          git clone "${{ matrix.repo }}" src-clean
+          git -C src-clean checkout --detach "${{ matrix.commit }}"
+          test "$(git -C src-clean rev-parse HEAD)" = "${{ matrix.commit }}"
+          cp -a src-clean src-off
+          cp -a src-clean src-on
+          mkdir -p out
+      - name: Materialize identical PSM instrumentation on OFF/ON variants
+        run: |
+          if [ "${{ matrix.engine }}" = stockfish_19 ]; then
+            python3 tools/materialize_p15.py --stockfish src-off --target stockfish_19
+            python3 tools/materialize_p15.py --stockfish src-on --target stockfish_19
+          elif [ "${{ matrix.engine }}" = berserk ]; then
+            python3 tools/p20_patch_berserk.py --root src-off --variant instrument --manifest out/psm-off.json
+            python3 tools/p20_patch_berserk.py --root src-on --variant instrument --manifest out/psm-on.json
+          else
+            python3 tools/p20_patch_ethereal.py --root src-off --variant instrument --manifest out/psm-off.json
+            python3 tools/p20_patch_ethereal.py --root src-on --variant instrument --manifest out/psm-on.json
+          fi
+      - name: Materialize exact age coordinate pair
+        run: |
+          python3 tools/p27_patch_age.py --root src-off --engine "${{ matrix.engine }}" --policy OFF --manifest "out/p27-manifest-${{ matrix.engine }}-off.json"
+          python3 tools/p27_patch_age.py --root src-on --engine "${{ matrix.engine }}" --policy ON --manifest "out/p27-manifest-${{ matrix.engine }}-on.json"
+      - name: Build clean and paired variants
+        run: |
+          set -eux
+          if [ "${{ matrix.engine }}" = stockfish_19 ]; then
+            make -C src-clean/src -j2 build ARCH=x86-64
+            cp src-clean/src/stockfish "out/c3x-p27-${{ matrix.engine }}-clean"
+            for p in off on; do make -C "src-$p/src" clean; make -C "src-$p/src" -j2 build ARCH=x86-64; cp "src-$p/src/stockfish" "out/c3x-p27-${{ matrix.engine }}-$p"; done
+          elif [ "${{ matrix.engine }}" = berserk ]; then
+            make -C src-clean/src ARCH=x86-64 build
+            cp src-clean/src/berserk "out/c3x-p27-${{ matrix.engine }}-clean"
+            for p in off on; do make -C "src-$p/src" clean || true; make -C "src-$p/src" ARCH=x86-64 build; cp "src-$p/src/berserk" "out/c3x-p27-${{ matrix.engine }}-$p"; done
+          else
+            make -C src-clean/src basic
+            cp src-clean/src/Ethereal "out/c3x-p27-${{ matrix.engine }}-clean"
+            for p in off on; do make -C "src-$p/src" clean || true; make -C "src-$p/src" basic; cp "src-$p/src/Ethereal" "out/c3x-p27-${{ matrix.engine }}-$p"; done
+          fi
+          chmod +x out/c3x-p27-${{ matrix.engine }}-*
+          sha256sum out/c3x-p27-${{ matrix.engine }}-* | sort | tee "out/p27-binary-sha256-${{ matrix.engine }}.txt"
+      - name: Native-policy off-target equivalence gate
+        run: |
+          python3 harness/p27_age_morphism.py identity             --engine "${{ matrix.engine }}"             --baseline "out/c3x-p27-${{ matrix.engine }}-clean"             --native "out/c3x-p27-${{ matrix.engine }}-${{ matrix.native }}"             --protocol "${{ matrix.protocol }}"             --parent "$P26"             --out "out/p27-identity-${{ matrix.engine }}.json"
+          python3 -c 'import json,sys; x=json.load(open(sys.argv[1])); assert x["verdict"]=="PASS"' "out/p27-identity-${{ matrix.engine }}.json"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: p27-build-${{ matrix.engine }}
+          path: out/
+          retention-days: 30
+
+  precommit:
+    name: Seal 128-cell history instrument before selective outcomes
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: p26-canonical-precommit
+          path: parent
+          repository: WhoSia/C3X
+          run-id: ${{ env.P26_RUN }}
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: p27-lawgen-preseal
+          path: lawgen
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: p27-build-*
+          path: builds
+      - name: Freeze support, histories, binary identities and topology hold
+        run: |
+          P26="$(find parent -name p26-precommit.json -print -quit)"
+          CONST="$(find lawgen -name constitution.json -print -quit)"
+          python3 harness/p27_age_morphism.py precommit --parent "$P26" --constitution "$CONST" --build-dir builds --out p27-precommit.json
+          sha256sum p27-precommit.json | tee p27-precommit-file-sha256.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: p27-precommit-sealed
+          path: |
+            p27-precommit.json
+            p27-precommit-file-sha256.txt
+          retention-days: 30
+
+  donor:
+    name: Donor selective — ${{ matrix.engine }} / ${{ matrix.family }}
+    needs: precommit
+    runs-on: ubuntu-latest
+    timeout-minutes: 240
+    strategy:
+      fail-fast: false
+      matrix:
+        engine: [stockfish_19, berserk]
+        family: [KQQvKQ, KQRvKQ, KQQvKR, KQRvKR, KRBvKB, KRNvKB, KRBvKN, KRNvKN]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: p27-precommit-sealed
+          path: pre
+      - uses: actions/download-artifact@v4
+        with:
+          name: p27-build-${{ matrix.engine }}
+          path: build
+      - name: Execute frozen history-conditioned OFF/ON vertex
+        run: |
+          chmod +x build/c3x-p27-${{ matrix.engine }}-off build/c3x-p27-${{ matrix.engine }}-on
+          mkdir -p out
+          python3 harness/p27_age_morphism.py vertex             --precommit pre/p27-precommit.json             --engine "${{ matrix.engine }}"             --off "build/c3x-p27-${{ matrix.engine }}-off"             --on "build/c3x-p27-${{ matrix.engine }}-on"             --family "${{ matrix.family }}"             --out "out/p27-${{ matrix.engine }}-${{ matrix.family }}.json"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: p27-donor-${{ matrix.engine }}-${{ matrix.family }}
+          path: out/
+          retention-days: 30
+
+  prediction:
+    name: Seal donor-consensus held-out prediction
+    needs: donor
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: p27-precommit-sealed
+          path: pre
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: p27-donor-*
+          path: donors
+          merge-multiple: true
+      - name: Freeze Ethereal prediction before any Ethereal selective outcome
+        run: |
+          python3 harness/p27_age_morphism.py predict --precommit pre/p27-precommit.json --results donors --out p27-heldout-prediction.json
+          sha256sum p27-heldout-prediction.json | tee p27-heldout-prediction-file-sha256.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: p27-heldout-prediction-sealed
+          path: |
+            p27-heldout-prediction.json
+            p27-heldout-prediction-file-sha256.txt
+          retention-days: 30
+
+  heldout:
+    name: Held-out Ethereal selective — ${{ matrix.family }}
+    needs: prediction
+    runs-on: ubuntu-latest
+    timeout-minutes: 240
+    strategy:
+      fail-fast: false
+      matrix:
+        family: [KQQvKQ, KQRvKQ, KQQvKR, KQRvKR, KRBvKB, KRNvKB, KRBvKN, KRNvKN]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: p27-precommit-sealed
+          path: pre
+      - uses: actions/download-artifact@v4
+        with:
+          name: p27-heldout-prediction-sealed
+          path: prediction
+      - uses: actions/download-artifact@v4
+        with:
+          name: p27-build-ethereal
+          path: build
+      - name: Verify prediction seal exists before held-out execution
+        run: test -s prediction/p27-heldout-prediction.json
+      - name: Execute held-out frozen vertex
+        run: |
+          chmod +x build/c3x-p27-ethereal-off build/c3x-p27-ethereal-on
+          mkdir -p out
+          python3 harness/p27_age_morphism.py vertex             --precommit pre/p27-precommit.json             --engine ethereal             --off build/c3x-p27-ethereal-off             --on build/c3x-p27-ethereal-on             --family "${{ matrix.family }}"             --out "out/p27-ethereal-${{ matrix.family }}.json"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: p27-heldout-ethereal-${{ matrix.family }}
+          path: out/
+          retention-days: 30
+
+  adjudicate:
+    name: Descriptor-to-causal-morphism adjudication
+    needs: heldout
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: p27-precommit-sealed
+          path: pre
+      - uses: actions/download-artifact@v4
+        with:
+          name: p27-heldout-prediction-sealed
+          path: prediction
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: p27-donor-*
+          path: all-results
+          merge-multiple: true
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: p27-heldout-ethereal-*
+          path: all-results
+          merge-multiple: true
+      - name: Adjudicate without changing frozen prediction rule
+        run: |
+          mkdir -p final
+          python3 harness/p27_age_morphism.py adjudicate             --precommit pre/p27-precommit.json             --prediction prediction/p27-heldout-prediction.json             --results all-results             --out final/p27-adjudication.json
+          sha256sum final/p27-adjudication.json | tee final/p27-adjudication-file-sha256.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: p27-final-adjudication
+          path: final/
+          retention-days: 30
