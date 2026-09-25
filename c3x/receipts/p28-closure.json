@@ -1,0 +1,25 @@
+{
+  "schema": "c3x-p28-closure-v1",
+  "scientific_stage": "C3X 0.7.0-G9.4-P28",
+  "status": "CLOSED",
+  "verdict": "ARCHITECTURE_CONDITIONING_PERSISTS_NO_UNIVERSAL_CONDITIONAL_MORPHISM",
+  "canonical_run": 36170673020,
+  "jobs_success": 40,
+  "jobs_total": 40,
+  "law_effects": {
+    "stockfish_19": "14/16",
+    "berserk": "11/16",
+    "ethereal": "0/16"
+  },
+  "ethereal_null": "UPSTREAM_MEDIATOR_NULL",
+  "conditional_morphism": {
+    "resolved": 0,
+    "total": 16,
+    "universal": false
+  },
+  "collision_graph": "HOLD_NO_FULL_KEY_TRACE",
+  "custody": {
+    "drive_folder": "G9_4_P28",
+    "notion_page": "P28 canonical Research OS page"
+  }
+}
