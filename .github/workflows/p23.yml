@@ -1,0 +1,128 @@
+name: p23-prospective-search-state-quotient-court
+on:
+  push:
+    paths:
+      - ".github/workflows/p23.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+env:
+  P22_WORLD_RUN: 36102375988
+  P22_DESIGN_RUN: 36126640625
+  INSTRUMENT_RUN: 36041727983
+jobs:
+  preseal:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: p22-core-balance-design
+          path: parent
+          repository: WhoSia/C3X
+          run-id: ${{ env.P22_DESIGN_RUN }}
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: p22-core-pool
+          path: stage
+          repository: WhoSia/C3X
+          run-id: ${{ env.P22_WORLD_RUN }}
+          github-token: ${{ github.token }}
+      - name: Exclude every P22-selected cell before any P23 outcome exists
+        run: python3 harness/p23_quotient.py filter --census parent/p22-core-census.tsv --p22-selected parent/p22-core-selected.txt --out p23-holdout.tsv
+      - name: Frozen Rust holdout balance selector
+        id: rust
+        continue-on-error: true
+        run: |
+          rustc -O matcher/p22_balance_matcher.rs -o p23_matcher
+          ./p23_matcher p23-holdout.tsv p23-selected.txt p23-rust.json
+      - name: Independent C++ balance certificate
+        id: cpp
+        continue-on-error: true
+        run: |
+          g++ -O2 -std=c++17 analysis/p22_balance_cert.cpp -o p23_cert
+          ./p23_cert p23-holdout.tsv p23-selected.txt p23-cpp.json
+      - name: Independent R balance audit
+        id: r
+        continue-on-error: true
+        run: Rscript analysis/p22_balance_audit.R p23-holdout.tsv p23-selected.txt p23-r.json
+      - name: Independent JavaScript cross-language seal
+        id: cross
+        continue-on-error: true
+        run: node scripts/p22_verify_seal.js c3x/protocol/p22-preseal.json p23-rust.json p23-cpp.json p23-r.json > p23-cross.json
+      - name: Seal outcome-blind P23 quotient precommit
+        if: ${{ steps.rust.outcome == 'success' && steps.cpp.outcome == 'success' && steps.r.outcome == 'success' && steps.cross.outcome == 'success' }}
+        run: |
+          python3 harness/p23_quotient.py preseal --holdout p23-holdout.tsv --selected p23-selected.txt --rust-report p23-rust.json --cpp-cert p23-cpp.json --r-audit p23-r.json --cross-seal p23-cross.json --pool stage/p22-core-pool.json --p22-precommit parent/p22-core-precommit.json --out p23-core-precommit.json
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: p23-quotient-precommit
+          path: |
+            p23-holdout.tsv
+            p23-selected.txt
+            p23-rust.json
+            p23-cpp.json
+            p23-r.json
+            p23-cross.json
+            p23-core-precommit.json
+          if-no-files-found: ignore
+          retention-days: 30
+      - name: Fail closed if prospective design did not authorize
+        if: ${{ steps.rust.outcome != 'success' || steps.cpp.outcome != 'success' || steps.r.outcome != 'success' || steps.cross.outcome != 'success' }}
+        run: exit 42
+  vertex:
+    needs: preseal
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    strategy:
+      fail-fast: false
+      matrix:
+        family: [KQQvKQ,KQRvKQ,KQQvKR,KQRvKR,KRBvKB,KRNvKB,KRBvKN,KRNvKN]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: p23-quotient-precommit
+          path: pre
+      - uses: actions/download-artifact@v4
+        with:
+          name: p21-instrument-packet
+          path: instrument
+          repository: WhoSia/C3X
+          run-id: ${{ env.INSTRUMENT_RUN }}
+          github-token: ${{ github.token }}
+      - name: Execute frozen selective interventions on fresh holdout cells
+        run: |
+          chmod +x instrument/p20/packet/c3x-p20-* instrument/inanis/inanis-instrument
+          mkdir -p out
+          python3 harness/p23_quotient.py vertex --precommit pre/p23-core-precommit.json --engine stockfish_19,stockfish_uci,instrument/p20/packet/c3x-p20-sf19 --engine berserk,env,instrument/p20/packet/c3x-p20-berserk --engine ethereal,env,instrument/p20/packet/c3x-p20-ethereal --inanis instrument/inanis/inanis-instrument --family "${{ matrix.family }}" --nodes 300000 --out "out/p23-core-${{ matrix.family }}.json"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: p23-vertex-${{ matrix.family }}
+          path: out/
+          retention-days: 30
+  adjudicate:
+    needs: vertex
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: p23-quotient-precommit
+          path: pre
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: p23-vertex-*
+          path: results
+      - name: Open outcomes only after quotient freeze and adjudicate
+        run: |
+          python3 harness/p23_quotient.py adjudicate --precommit pre/p23-core-precommit.json --results results --out p23-adjudication.json
+          cat p23-adjudication.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: p23-final
+          path: p23-adjudication.json
+          retention-days: 30
