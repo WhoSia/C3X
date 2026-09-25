@@ -92,5 +92,18 @@
     "receipt_sha256": "9a6b219bd0724acbc0b4756b5ae368108dbe0b036b82083a2a4cb9d4c6fb2e83",
     "final_receipt": "receipts/g9.4-p21.json",
     "final_receipt_commit": "50ae8d09ea2284d377b1aa01ce557861693d4404"
+  },
+  "custody_seal": {
+    "receipt_custody_commit": "8310da8a1379c4ca82cc770cc186ec36401bf2f7",
+    "google_drive_folder_id": "1YQEY2BEIkq7ywrFOGyO9eJYDYQUt6k9F",
+    "google_drive_verified_zip_count": 39,
+    "github_large_artifact_exception": {
+      "artifact_name": "p21-instrument-packet",
+      "artifact_id": 10826389978,
+      "size_bytes": 155261093,
+      "digest": "sha256:6f730b0ff173cfb66237406f591ac27b63306290de147fd1d30e4b8ddd4946f4"
+    },
+    "notion_page_id": "3e5ef561cf9281fb96accd138f587ea7",
+    "science_reopened": false
   }
 }
