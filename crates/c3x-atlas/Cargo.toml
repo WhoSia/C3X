@@ -1,0 +1,16 @@
+[package]
+name = "c3x-atlas"
+version = "0.1.0"
+edition = "2021"
+description = "Outcome-blind cross-architecture search-state atlas for C3X"
+license = "MIT"
+publish = false
+
+[[bin]]
+name = "c3x-atlas"
+path = "src/main.rs"
+
+[profile.release]
+lto = "thin"
+codegen-units = 1
+panic = "abort"
