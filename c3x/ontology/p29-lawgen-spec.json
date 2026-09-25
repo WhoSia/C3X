@@ -11,10 +11,10 @@
   },
   "fresh_support": {
     "source": "P26 canonical precommit",
-    "selection": "for each mapped K8 state, choose one side by sorted-state parity; within every family×chosen-side×state stratum choose the second candidate_sha256",
-    "worlds": 64,
+    "selection": "within every family×side×mapped-K8-state stratum choose the second candidate_sha256",
+    "worlds": 128,
     "law_cells": 16,
-    "p28_world_overlap": "forbidden by rank-2 selection",
+    "p28_world_overlap": "forbidden because P28 selected the first candidate in every identical stratum",
     "history": {
       "prime_nodes": 20000,
       "decoy_nodes": 20000,
@@ -56,7 +56,7 @@
       "A age-write event: search_seq,bucket,slot,requested_full_key,resident_full_key,value_changed"
     ],
     "graph_window": "measurement search only (search_seq=5)",
-    "graph_probe_worlds": "vertex 00 family in each of HEAVY_HEAVY and MINOR_MINOR, all 8 states = 16 worlds",
+    "graph_probe_worlds": "vertex 00 family in each of HEAVY_HEAVY and MINOR_MINOR, WHITE side only, all 8 states = 16 worlds",
     "validity_gate": "shadow_unknown_occupied must equal zero"
   },
   "causal_census": {
