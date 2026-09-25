@@ -1,0 +1,146 @@
+name: p22-selective-relation-transport
+on:
+  workflow_run:
+    workflows: ["p22-sham-balance-precommit"]
+    types: [completed]
+permissions:
+  contents: read
+  actions: read
+env:
+  DESIGN_RUN: ${{ github.event.workflow_run.id }}
+  INSTRUMENT_RUN: 36041727983
+jobs:
+  guard:
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "P22_SELECTIVE_AUTHORIZED_BY_DESIGN_RUN=$DESIGN_RUN"
+  core-vertex:
+    needs: guard
+    runs-on: ubuntu-latest
+    timeout-minutes: 180
+    strategy:
+      fail-fast: false
+      matrix:
+        family: [KQQvKQ,KQRvKQ,KQQvKR,KQRvKR,KRBvKB,KRNvKB,KRBvKN,KRNvKN]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: p22-core-balance-design
+          path: design
+          repository: WhoSia/C3X
+          run-id: ${{ env.DESIGN_RUN }}
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: p21-instrument-packet
+          path: instrument
+          repository: WhoSia/C3X
+          run-id: ${{ env.INSTRUMENT_RUN }}
+          github-token: ${{ github.token }}
+      - run: |
+          chmod +x instrument/p20/packet/c3x-p20-* instrument/inanis/inanis-instrument
+          mkdir -p out
+          python3 harness/p22_selective.py core-vertex --precommit design/p22-core-precommit.json --engine stockfish_19,stockfish_uci,instrument/p20/packet/c3x-p20-sf19 --engine berserk,env,instrument/p20/packet/c3x-p20-berserk --engine ethereal,env,instrument/p20/packet/c3x-p20-ethereal --inanis instrument/inanis/inanis-instrument --family "${{ matrix.family }}" --nodes 300000 --out "out/p22-core-vertex-${{ matrix.family }}.json"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: p22-core-vertex-${{ matrix.family }}
+          path: out/
+          retention-days: 30
+  carrier-vertex:
+    needs: guard
+    runs-on: ubuntu-latest
+    timeout-minutes: 180
+    strategy:
+      fail-fast: false
+      matrix:
+        family: [KQQPvKQP,KQRPvKQP,KQQPvKRP,KQRPvKRP,KRBPvKBP,KRNPvKBP,KRBPvKNP,KRNPvKNP]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: p22-carrier-balance-design
+          path: design
+          repository: WhoSia/C3X
+          run-id: ${{ env.DESIGN_RUN }}
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: p21-instrument-packet
+          path: instrument
+          repository: WhoSia/C3X
+          run-id: ${{ env.INSTRUMENT_RUN }}
+          github-token: ${{ github.token }}
+      - run: |
+          chmod +x instrument/p20/packet/c3x-p20-* instrument/inanis/inanis-instrument
+          mkdir -p out
+          python3 harness/p22_selective.py carrier-vertex --precommit design/p22-carrier-precommit.json --engine stockfish_19,stockfish_uci,instrument/p20/packet/c3x-p20-sf19 --engine berserk,env,instrument/p20/packet/c3x-p20-berserk --engine ethereal,env,instrument/p20/packet/c3x-p20-ethereal --inanis instrument/inanis/inanis-instrument --family "${{ matrix.family }}" --nodes 300000 --out "out/p22-carrier-vertex-${{ matrix.family }}.json"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: p22-carrier-vertex-${{ matrix.family }}
+          path: out/
+          retention-days: 30
+  core-adjudicate:
+    needs: core-vertex
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: p22-core-balance-design
+          path: design
+          repository: WhoSia/C3X
+          run-id: ${{ env.DESIGN_RUN }}
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: p22-core-vertex-*
+          path: results
+      - run: python3 harness/p22_selective.py core-adjudicate --precommit design/p22-core-precommit.json --results results --out p22-core-adjudication.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: p22-core-adjudication
+          path: p22-core-adjudication.json
+          retention-days: 30
+  carrier-adjudicate:
+    needs: carrier-vertex
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: p22-carrier-balance-design
+          path: design
+          repository: WhoSia/C3X
+          run-id: ${{ env.DESIGN_RUN }}
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: p22-carrier-vertex-*
+          path: results
+      - run: python3 harness/p22_selective.py carrier-adjudicate --precommit design/p22-carrier-precommit.json --results results --out p22-carrier-adjudication.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: p22-carrier-adjudication
+          path: p22-carrier-adjudication.json
+          retention-days: 30
+  synthesis:
+    needs: [core-adjudicate,carrier-adjudicate]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: p22-core-adjudication
+          path: core
+      - uses: actions/download-artifact@v4
+        with:
+          name: p22-carrier-adjudication
+          path: carrier
+      - run: python3 harness/p22_selective.py synthesize --core core/p22-core-adjudication.json --carrier carrier/p22-carrier-adjudication.json --out p22-synthesis.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: p22-synthesis
+          path: p22-synthesis.json
+          retention-days: 30
