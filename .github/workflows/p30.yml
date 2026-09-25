@@ -1,0 +1,356 @@
+name: p30-replacement-pressure-explanation
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - "c3x/ontology/p30-lawgen-spec.json"
+      - "crates/c3x-lawgen/src/bin/lawgen_v6.rs"
+      - "tools/p30_victim_stockfish.inc"
+      - "tools/p30_victim_berserk.inc"
+      - "tools/p30_victim_ethereal.inc"
+      - "tools/p30_patch_victim.py"
+      - "harness/p30_pressure_explanation.py"
+      - ".github/workflows/p30.yml"
+
+concurrency:
+  group: p30-replacement-pressure-explanation
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  actions: read
+
+env:
+  P26_RUN: "36153015935"
+  P29_RUN: "36176449111"
+
+jobs:
+  lawgen:
+    name: LawGen v6 explanation constitution
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Static syntax gate
+        run: |
+          python3 -m py_compile tools/p30_patch_victim.py harness/p30_pressure_explanation.py
+      - name: Compile prospective constitution
+        run: |
+          cargo run --release --manifest-path crates/c3x-lawgen/Cargo.toml --bin lawgen_v6 -- c3x/ontology/p30-lawgen-spec.json out/lawgen
+          sha256sum out/lawgen/* | sort > out/lawgen-sha256.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: p30-lawgen-preseal
+          path: out/
+          retention-days: 30
+
+  build:
+    name: Pressure witness pair — ${{ matrix.engine }}
+    needs: lawgen
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - engine: stockfish_19
+            repo: https://github.com/official-stockfish/Stockfish.git
+            commit: edb0d9db6731067ec50ce619ff372b463bc4dd5d
+            protocol: stockfish_uci
+            native: off
+            native_policy: OFF
+          - engine: berserk
+            repo: https://github.com/jhonnold/berserk.git
+            commit: 32628515050b83805bab4afa1026dd2bcaa93f55
+            protocol: env
+            native: off
+            native_policy: OFF
+          - engine: ethereal
+            repo: https://github.com/AndyGrant/Ethereal.git
+            commit: 0e47e9b67f345c75eb965d9fb3e2493b6a11d09a
+            protocol: env
+            native: on
+            native_policy: ON
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: p26-canonical-precommit
+          path: parent
+          repository: WhoSia/C3X
+          run-id: ${{ env.P26_RUN }}
+          github-token: ${{ github.token }}
+      - name: Resolve parent and exact source
+        run: |
+          P26="$(find parent -name p26-precommit.json -print -quit)"
+          test -n "$P26"
+          echo "P26=$P26" >> "$GITHUB_ENV"
+          git clone "${{ matrix.repo }}" src-clean
+          git -C src-clean checkout --detach "${{ matrix.commit }}"
+          test "$(git -C src-clean rev-parse HEAD)" = "${{ matrix.commit }}"
+          cp -a src-clean src-off
+          cp -a src-clean src-on
+          mkdir -p out
+      - name: Materialize PSM, age, full-key, victim witnesses
+        run: |
+          if [ "${{ matrix.engine }}" = stockfish_19 ]; then
+            python3 tools/materialize_p15.py --stockfish src-off --target stockfish_19
+            python3 tools/materialize_p15.py --stockfish src-on --target stockfish_19
+          elif [ "${{ matrix.engine }}" = berserk ]; then
+            python3 tools/p20_patch_berserk.py --root src-off --variant instrument --manifest out/psm-off.json
+            python3 tools/p20_patch_berserk.py --root src-on --variant instrument --manifest out/psm-on.json
+          else
+            python3 tools/p20_patch_ethereal.py --root src-off --variant instrument --manifest out/psm-off.json
+            python3 tools/p20_patch_ethereal.py --root src-on --variant instrument --manifest out/psm-on.json
+          fi
+          python3 tools/p27_patch_age.py --root src-off --engine "${{ matrix.engine }}" --policy OFF --manifest out/age-off.json
+          python3 tools/p27_patch_age.py --root src-on --engine "${{ matrix.engine }}" --policy ON --manifest out/age-on.json
+          python3 tools/p29_patch_tttrace.py --root src-off --engine "${{ matrix.engine }}" --policy OFF --manifest out/trace-off.json
+          python3 tools/p29_patch_tttrace.py --root src-on --engine "${{ matrix.engine }}" --policy ON --manifest out/trace-on.json
+          python3 tools/p30_patch_victim.py --root src-off --engine "${{ matrix.engine }}" --manifest out/victim-off.json
+          python3 tools/p30_patch_victim.py --root src-on --engine "${{ matrix.engine }}" --manifest out/victim-on.json
+      - name: Build clean and paired portable binaries
+        run: |
+          set -eux
+          if [ "${{ matrix.engine }}" = stockfish_19 ]; then
+            make -C src-clean/src -j2 build ARCH=x86-64
+            cp src-clean/src/stockfish out/c3x-p30-${{ matrix.engine }}-clean
+            for p in off on; do
+              make -C src-$p/src clean
+              make -C src-$p/src -j2 build ARCH=x86-64
+              cp src-$p/src/stockfish out/c3x-p30-${{ matrix.engine }}-$p
+            done
+          elif [ "${{ matrix.engine }}" = berserk ]; then
+            make -C src-clean/src ARCH=x86-64 build
+            cp src-clean/src/berserk out/c3x-p30-${{ matrix.engine }}-clean
+            for p in off on; do
+              make -C src-$p/src clean || true
+              make -C src-$p/src ARCH=x86-64 build
+              cp src-$p/src/berserk out/c3x-p30-${{ matrix.engine }}-$p
+            done
+          else
+            ECFLAGS="-O3 -std=gnu11 -Wall -Wextra -Wshadow -DNDEBUG -flto -DUSE_NNUE=0 -march=x86-64 -msse2"
+            make -C src-clean/src basic CFLAGS="$ECFLAGS"
+            cp src-clean/src/Ethereal out/c3x-p30-${{ matrix.engine }}-clean
+            for p in off on; do
+              make -C src-$p/src basic CFLAGS="$ECFLAGS"
+              cp src-$p/src/Ethereal out/c3x-p30-${{ matrix.engine }}-$p
+            done
+          fi
+          chmod +x out/c3x-p30-${{ matrix.engine }}-*
+          sha256sum out/c3x-p30-${{ matrix.engine }}-* | sort > out/p30-binary-sha256-${{ matrix.engine }}.txt
+      - name: Native semantics and observer transparency
+        run: |
+          python3 harness/p27_age_morphism.py identity             --engine "${{ matrix.engine }}"             --baseline "out/c3x-p30-${{ matrix.engine }}-clean"             --native "out/c3x-p30-${{ matrix.engine }}-${{ matrix.native }}"             --protocol "${{ matrix.protocol }}"             --parent "$P26"             --out "out/p30-native-identity-${{ matrix.engine }}.json"
+          python3 -c 'import json,sys;assert json.load(open(sys.argv[1]))["verdict"]=="PASS"' "out/p30-native-identity-${{ matrix.engine }}.json"
+          python3 harness/p29_trace_court.py identity             --engine "${{ matrix.engine }}"             --policy "${{ matrix.native_policy }}"             --binary "out/c3x-p30-${{ matrix.engine }}-${{ matrix.native }}"             --protocol "${{ matrix.protocol }}"             --parent "$P26"             --out "out/p30-identity-${{ matrix.engine }}.json"
+          python3 -c 'import json,sys;assert json.load(open(sys.argv[1]))["verdict"]=="PASS"' "out/p30-identity-${{ matrix.engine }}.json"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: p30-build-${{ matrix.engine }}
+          path: out/
+          retention-days: 30
+
+  precommit:
+    name: Seal P29-fixed support and P30 pressure contract
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: p29-precommit-sealed
+          path: parent
+          repository: WhoSia/C3X
+          run-id: ${{ env.P29_RUN }}
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with: {name: p30-lawgen-preseal, path: lawgen}
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: p30-build-*
+          path: builds
+      - name: Freeze pressure and heldout order
+        run: |
+          P29="$(find parent -name p29-precommit.json -print -quit)"
+          CONST="$(find lawgen -name constitution.json -print -quit)"
+          python3 harness/p30_pressure_explanation.py precommit             --parent "$P29" --constitution "$CONST" --build-dir builds --out p30-precommit.json
+          sha256sum p30-precommit.json > p30-precommit-file-sha256.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: p30-precommit-sealed
+          path: p30-precommit*
+          retention-days: 30
+
+  pressure:
+    name: Capacity dose + victim witness — ${{ matrix.engine }}
+    needs: precommit
+    runs-on: ubuntu-latest
+    timeout-minutes: 240
+    strategy:
+      fail-fast: false
+      matrix:
+        engine: [stockfish_19, berserk, ethereal]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with: {name: p30-precommit-sealed, path: pre}
+      - uses: actions/download-artifact@v4
+        with:
+          name: p30-build-${{ matrix.engine }}
+          path: build
+      - name: Execute 1/4/16/64 MiB pressure trace
+        run: |
+          chmod +x build/c3x-p30-${{ matrix.engine }}-off build/c3x-p30-${{ matrix.engine }}-on
+          mkdir -p out
+          python3 harness/p30_pressure_explanation.py pressure             --precommit pre/p30-precommit.json --engine "${{ matrix.engine }}"             --off build/c3x-p30-${{ matrix.engine }}-off             --on build/c3x-p30-${{ matrix.engine }}-on             --out "out/p30-pressure-${{ matrix.engine }}.json"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: p30-pressure-${{ matrix.engine }}
+          path: out/
+          retention-days: 30
+
+  donor_law:
+    name: Donor 1 MiB law — ${{ matrix.engine }} / ${{ matrix.family }}
+    needs: precommit
+    runs-on: ubuntu-latest
+    timeout-minutes: 240
+    strategy:
+      fail-fast: false
+      matrix:
+        engine: [stockfish_19, berserk]
+        family: [KQQvKQ, KQRvKQ, KQQvKR, KQRvKR, KRBvKB, KRNvKB, KRBvKN, KRNvKN]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with: {name: p30-precommit-sealed, path: pre}
+      - uses: actions/download-artifact@v4
+        with:
+          name: p30-build-${{ matrix.engine }}
+          path: build
+      - name: Execute donor 1 MiB law court
+        run: |
+          chmod +x build/c3x-p30-${{ matrix.engine }}-off build/c3x-p30-${{ matrix.engine }}-on
+          mkdir -p out
+          python3 harness/p30_pressure_explanation.py law             --precommit pre/p30-precommit.json             --engine "${{ matrix.engine }}" --family "${{ matrix.family }}"             --off build/c3x-p30-${{ matrix.engine }}-off             --on build/c3x-p30-${{ matrix.engine }}-on             --out "out/p30-law-${{ matrix.engine }}-${{ matrix.family }}.json"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: p30-donor-law-${{ matrix.engine }}-${{ matrix.family }}
+          path: out/
+          retention-days: 30
+
+  rule:
+    name: Seal pressure-slot mediator rule
+    needs: [pressure, donor_law]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with: {name: p30-precommit-sealed, path: pre}
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: p30-pressure-*
+          path: pressure
+          merge-multiple: true
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: p30-donor-law-*
+          path: law
+          merge-multiple: true
+      - run: |
+          python3 harness/p30_pressure_explanation.py rule             --precommit pre/p30-precommit.json --pressure pressure --law law             --out p30-donor-rule.json
+          sha256sum p30-donor-rule.json > p30-donor-rule-file-sha256.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: p30-donor-rule-sealed
+          path: p30-donor-rule*
+          retention-days: 30
+
+  prediction:
+    name: Seal Ethereal 1 MiB law prediction
+    needs: rule
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with: {name: p30-precommit-sealed, path: pre}
+      - uses: actions/download-artifact@v4
+        with: {name: p30-donor-rule-sealed, path: rule}
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: p30-pressure-*
+          path: pressure
+          merge-multiple: true
+      - run: |
+          python3 harness/p30_pressure_explanation.py predict             --precommit pre/p30-precommit.json             --rule rule/p30-donor-rule.json --pressure pressure             --out p30-heldout-prediction.json
+          sha256sum p30-heldout-prediction.json > p30-heldout-prediction-file-sha256.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: p30-heldout-prediction-sealed
+          path: p30-heldout-prediction*
+          retention-days: 30
+
+  heldout_law:
+    name: Held-out Ethereal 1 MiB law — ${{ matrix.family }}
+    needs: prediction
+    runs-on: ubuntu-latest
+    timeout-minutes: 240
+    strategy:
+      fail-fast: false
+      matrix:
+        family: [KQQvKQ, KQRvKQ, KQQvKR, KQRvKR, KRBvKB, KRNvKB, KRBvKN, KRNvKN]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with: {name: p30-precommit-sealed, path: pre}
+      - uses: actions/download-artifact@v4
+        with: {name: p30-heldout-prediction-sealed, path: prediction}
+      - uses: actions/download-artifact@v4
+        with: {name: p30-build-ethereal, path: build}
+      - name: Verify prediction seal then open Ethereal 1 MiB law
+        run: |
+          test -s prediction/p30-heldout-prediction.json
+          python3 -c 'import json; x=json.load(open("prediction/p30-heldout-prediction.json")); assert x["heldout_selective_consulted"] is False and x["target"]=="ethereal_1mib_law"'
+          chmod +x build/c3x-p30-ethereal-off build/c3x-p30-ethereal-on
+          mkdir -p out
+          python3 harness/p30_pressure_explanation.py law             --precommit pre/p30-precommit.json --engine ethereal --family "${{ matrix.family }}"             --off build/c3x-p30-ethereal-off --on build/c3x-p30-ethereal-on             --out "out/p30-law-ethereal-${{ matrix.family }}.json"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: p30-heldout-law-${{ matrix.family }}
+          path: out/
+          retention-days: 30
+
+  adjudicate:
+    name: Causal explanation certificate adjudication
+    needs: heldout_law
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with: {name: p30-precommit-sealed, path: pre}
+      - uses: actions/download-artifact@v4
+        with: {name: p30-heldout-prediction-sealed, path: prediction}
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: p30-pressure-*
+          path: pressure
+          merge-multiple: true
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: p30-donor-law-*
+          path: law
+          merge-multiple: true
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: p30-heldout-law-*
+          path: law
+          merge-multiple: true
+      - run: |
+          mkdir -p final
+          python3 harness/p30_pressure_explanation.py adjudicate             --precommit pre/p30-precommit.json             --prediction prediction/p30-heldout-prediction.json             --pressure pressure --law law             --out final/p30-adjudication.json
+          sha256sum final/p30-adjudication.json > final/p30-adjudication-file-sha256.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: p30-final-adjudication
+          path: final/
+          retention-days: 30
