@@ -1,7 +1,3 @@
-#include <cstdio>
-#include <cstdlib>
-#include <unordered_map>
-
 struct C3XTraceStats {
     unsigned long long probes=0, signatureHits=0, fullHits=0, signatureCollisions=0;
     unsigned long long emptySignatureMatches=0, shadowUnknown=0, crossHits=0;
