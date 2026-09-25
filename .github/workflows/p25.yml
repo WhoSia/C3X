@@ -1,0 +1,186 @@
+name: p25-architecture-law-family-generator-court
+on:
+  push:
+    paths:
+      - ".github/workflows/p25.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+env:
+  INSTRUMENT_RUN: 36041727983
+jobs:
+  lawgen:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - name: Test typed ontological compiler
+        run: cargo test --manifest-path crates/c3x-lawgen/Cargo.toml
+      - name: Compile P25 research constitution
+        run: cargo run --release --manifest-path crates/c3x-lawgen/Cargo.toml -- c3x/ontology/p25-lawgen-spec.json p25-lawgen
+      - name: Inspect generated ontology projection
+        run: |
+          cat p25-lawgen/claim-lattice.json
+          head -20 p25-lawgen/execution-matrix.tsv
+      - uses: actions/upload-artifact@v4
+        with:
+          name: p25-lawgen
+          path: p25-lawgen/
+          retention-days: 30
+  world:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    strategy:
+      fail-fast: false
+      matrix:
+        family: [KQQvKQ,KQRvKQ,KQQvKR,KQRvKR,KRBvKB,KRNvKB,KRBvKN,KRNvKN]
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 -m pip install --disable-pip-version-check chess==1.11.2
+      - name: Constitute P25 fresh exact worlds
+        run: |
+          mkdir -p out
+          python3 compiler/exact_world/p25_core_compile.py --material "${{ matrix.family }}" --target-per-vertex 48 --max-generated-per-vertex 1400 --out "out/p25-core-${{ matrix.family }}.json"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: p25-world-${{ matrix.family }}
+          path: out/
+          retention-days: 30
+  merge:
+    needs: world
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: p25-world-*
+          path: parts
+      - run: python3 compiler/exact_world/p25_merge.py --parts parts --out p25-core-pool.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: p25-core-pool
+          path: p25-core-pool.json
+          retention-days: 30
+  census:
+    needs: [merge,lawgen]
+    runs-on: ubuntu-latest
+    timeout-minutes: 180
+    strategy:
+      fail-fast: false
+      matrix:
+        family: [KQQvKQ,KQRvKQ,KQQvKR,KQRvKR,KRBvKB,KRNvKB,KRBvKN,KRNvKN]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: p25-core-pool
+          path: stage
+      - uses: actions/download-artifact@v4
+        with:
+          name: p21-instrument-packet
+          path: instrument
+          repository: WhoSia/C3X
+          run-id: ${{ env.INSTRUMENT_RUN }}
+          github-token: ${{ github.token }}
+      - name: Four-budget outcome-blind SHAM census
+        run: |
+          chmod +x instrument/p20/packet/c3x-p20-*
+          mkdir -p out
+          python3 harness/p25_law_family.py census --pool stage/p25-core-pool.json --engine stockfish_19,stockfish_uci,instrument/p20/packet/c3x-p20-sf19 --engine berserk,env,instrument/p20/packet/c3x-p20-berserk --engine ethereal,env,instrument/p20/packet/c3x-p20-ethereal --family "${{ matrix.family }}" --budgets 40000,80000,160000,300000 --out "out/p25-census-${{ matrix.family }}.json"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: p25-census-${{ matrix.family }}
+          path: out/
+          retention-days: 30
+  atlas:
+    needs: census
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: p25-census-*
+          path: census
+      - uses: actions/download-artifact@v4
+        with:
+          name: p25-core-pool
+          path: stage
+      - uses: actions/download-artifact@v4
+        with:
+          name: p25-lawgen
+          path: lawgen
+      - name: Test inherited deterministic atlas kernel
+        run: cargo test --manifest-path crates/c3x-atlas/Cargo.toml
+      - name: Materialize all frozen budget atlases
+        run: |
+          mkdir -p atlas
+          for b in 40000 80000 160000 300000; do
+            python3 harness/p25_law_family.py export --census-dir census --budget "$b" --out "atlas/p25-census-$b.tsv"
+            cargo run --release --manifest-path crates/c3x-atlas/Cargo.toml -- "atlas/p25-census-$b.tsv" "atlas/p25-atlas-$b.tsv" "atlas/p25-atlas-$b-receipt.json"
+          done
+      - name: Seal budget stability and P25 precommit
+        run: python3 harness/p25_law_family.py precommit --census-dir census --pool stage/p25-core-pool.json --constitution lawgen/constitution.json --atlas-dir atlas --out atlas/p25-precommit.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: p25-atlas-precommit
+          path: atlas/
+          retention-days: 30
+  vertex:
+    needs: atlas
+    runs-on: ubuntu-latest
+    timeout-minutes: 180
+    strategy:
+      fail-fast: false
+      matrix:
+        family: [KQQvKQ,KQRvKQ,KQQvKR,KQRvKR,KRBvKB,KRNvKB,KRBvKN,KRNvKN]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: p25-atlas-precommit
+          path: pre
+      - uses: actions/download-artifact@v4
+        with:
+          name: p21-instrument-packet
+          path: instrument
+          repository: WhoSia/C3X
+          run-id: ${{ env.INSTRUMENT_RUN }}
+          github-token: ${{ github.token }}
+      - name: Execute frozen intervention algebra on fresh P25 worlds
+        run: |
+          chmod +x instrument/p20/packet/c3x-p20-*
+          mkdir -p out
+          python3 harness/p25_law_family.py vertex --precommit pre/p25-precommit.json --engine stockfish_19,stockfish_uci,instrument/p20/packet/c3x-p20-sf19 --engine berserk,env,instrument/p20/packet/c3x-p20-berserk --engine ethereal,env,instrument/p20/packet/c3x-p20-ethereal --family "${{ matrix.family }}" --out "out/p25-core-${{ matrix.family }}.json"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: p25-vertex-${{ matrix.family }}
+          path: out/
+          retention-days: 30
+  adjudicate:
+    needs: vertex
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: p25-atlas-precommit
+          path: pre
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: p25-vertex-*
+          path: results
+      - name: Adjudicate replication, budget stability and descriptor morphisms
+        run: python3 harness/p25_law_family.py adjudicate --precommit pre/p25-precommit.json --results results --out p25-adjudication.json
+      - name: Independent JavaScript semantic verification
+        run: node tools/p25-verify.mjs pre/p25-precommit.json p25-adjudication.json p25-report.md
+      - run: cat p25-report.md
+      - uses: actions/upload-artifact@v4
+        with:
+          name: p25-final
+          path: |
+            p25-adjudication.json
+            p25-report.md
+          retention-days: 30
