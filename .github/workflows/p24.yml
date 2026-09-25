@@ -95,7 +95,7 @@ jobs:
           cargo test --manifest-path crates/c3x-atlas/Cargo.toml
           cargo build --release --manifest-path crates/c3x-atlas/Cargo.toml
       - name: Freeze empirical-copula atlas before interventions
-        run: target/release/c3x-atlas p24-census.tsv p24-atlas.tsv p24-atlas-receipt.json
+        run: cargo run --release --manifest-path crates/c3x-atlas/Cargo.toml -- p24-census.tsv p24-atlas.tsv p24-atlas-receipt.json
       - name: Materialize P24 precommit
         run: python3 harness/p24_atlas.py precommit --census-dir census --pool stage/p24-core-pool.json --atlas p24-atlas.tsv --atlas-receipt p24-atlas-receipt.json --out p24-core-precommit.json
       - uses: actions/upload-artifact@v4
