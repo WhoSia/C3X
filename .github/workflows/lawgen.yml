@@ -21,12 +21,12 @@ jobs:
       - name: Unit tests
         run: cargo test --manifest-path crates/c3x-lawgen/Cargo.toml
       - name: Compile current ontology
-        run: cargo run --release --manifest-path crates/c3x-lawgen/Cargo.toml -- c3x/ontology/p25-lawgen-spec.json generated/lawgen
+        run: cargo run --release --manifest-path crates/c3x-lawgen/Cargo.toml --bin c3x-lawgen -- c3x/ontology/p25-lawgen-spec.json generated/lawgen-v1\n          cargo run --release --manifest-path crates/c3x-lawgen/Cargo.toml --bin c3x-lawgen-v2 -- c3x/ontology/p26-lawgen-spec.json generated/lawgen-v2
       - name: Fresh-process parse and authority checks
         run: |
           python3 - <<'PY'
           import json,pathlib
-          root=pathlib.Path('generated/lawgen')
+          root=pathlib.Path('generated/lawgen-v1')
           c=json.loads((root/'constitution.json').read_text())
           l=json.loads((root/'claim-lattice.json').read_text())
           rows=(root/'execution-matrix.tsv').read_text().splitlines()
@@ -34,10 +34,10 @@ jobs:
           assert c['constitution']['execution_matrix_rows']==57
           assert l['constitution_sha256']==c['constitution_sha256']
           assert len(rows)==58
-          print('LAWGEN_FRESH_PROCESS_PASS',c['constitution_sha256'])
+          print('LAWGEN_V1_FRESH_PROCESS_PASS',c['constitution_sha256'])\n          p2=pathlib.Path('generated/lawgen-v2')\n          c2=json.loads((p2/'constitution.json').read_text())\n          l2=json.loads((p2/'claim-lattice.json').read_text())\n          f2=json.loads((p2/'product-field-contract.json').read_text())\n          assert c2['constitution']['schema']=='c3x-lawgen-constitution-v2'\n          assert c2['constitution']['selective_outcomes_consulted'] is False\n          assert c2['constitution_sha256']==l2['constitution_sha256']==f2['constitution_sha256']\n          print('LAWGEN_V2_FRESH_PROCESS_PASS',c2['constitution_sha256'])
           PY
       - uses: actions/upload-artifact@v4
         with:
           name: lawgen-current
-          path: generated/lawgen/
+          path: generated/
           retention-days: 14
