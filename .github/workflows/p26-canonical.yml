@@ -98,7 +98,7 @@ jobs:
         run: |
           chmod +x instrument/p20/packet/c3x-p20-*
           mkdir -p out
-          python3 harness/p26_parallel.py vertex-budget --precommit pre/p26-precommit.json --engine stockfish_19,stockfish_uci,instrument/p20/packet/c3x-p20-sf19 --engine berserk,env,instrument/p20/packet/c3x-p20-berserk --engine ethereal,env,instrument/p20/packet/c3x-p20-ethereal --family "${{ matrix.family }}" --budget "${{ matrix.budget }}" --out "out/p26-${{ matrix.family }}-${{ matrix.budget }}.json"
+          python3 harness/p26_parallel.py vertex-budget --precommit pre/atlas/p26-precommit.json --engine stockfish_19,stockfish_uci,instrument/p20/packet/c3x-p20-sf19 --engine berserk,env,instrument/p20/packet/c3x-p20-berserk --engine ethereal,env,instrument/p20/packet/c3x-p20-ethereal --family "${{ matrix.family }}" --budget "${{ matrix.budget }}" --out "out/p26-${{ matrix.family }}-${{ matrix.budget }}.json"
       - uses: actions/upload-artifact@v4
         with:
           name: p26-slice-${{ matrix.family }}-${{ matrix.budget }}
@@ -121,7 +121,7 @@ jobs:
       - name: Reconstruct full-family receipts and adjudicate frozen field
         run: |
           python3 harness/p26_parallel.py merge --results slices --out-dir merged
-          python3 harness/p26_product_field.py adjudicate --precommit pre/p26-precommit.json --results merged --out p26-adjudication.json
+          python3 harness/p26_product_field.py adjudicate --precommit pre/atlas/p26-precommit.json --results merged --out p26-adjudication.json
           node tools/p26-verify.mjs pre/p26-precommit.json p26-adjudication.json p26-report.md
           cat p26-report.md
       - uses: actions/upload-artifact@v4
