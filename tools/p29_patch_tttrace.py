@@ -25,6 +25,7 @@ def install_inc(root,name):
 def stockfish(root,policy):
  inc=install_inc(root,"p29_trace_stockfish.inc")
  p=root/"src"/"tt.cpp";t=p.read_text()
+ t=one(t,'#include <vector>\n','#include <vector>\n#include <cstdio>\n#include <unordered_map>\n',"SF_HEADERS")
  anchor='''    RelaxedAtomic<i16>  eval16;
 };
 '''
