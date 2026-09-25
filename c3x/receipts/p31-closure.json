@@ -1,0 +1,197 @@
+{
+  "schema": "c3x-p31-closure-v1",
+  "scientific_stage": "C3X 0.7.0-G9.4-P31",
+  "status": "CLOSED",
+  "title": "Prospective TT-Use Semantic Attribution Graph, Cutoff/Move-Ordering/Evaluation-Reuse Event Instrumentation, Root-Decision Provenance, Counterfactual Search-Path Certificates & Faithful Move-Level Chess-Engine Explanation Compiler",
+  "parent": {
+    "stage": "C3X 0.7.0-G9.4-P30",
+    "closure_commit": "ae3e745dccf15d7222d20d3f19ad0e71cfeaaee3",
+    "canonical_run": 36179305166,
+    "verdict": "ETHEREAL_AGE_REPLACEMENT_EDGE_REOPENED_UNDER_PRESSURE_MEDIATOR_NOT_UNIVERSALLY_SUFFICIENT"
+  },
+  "execution": {
+    "canonical_run": 36183969565,
+    "canonical_head_sha": "22e5d9fcfda73bd4c73ed9ed86aebd9021ea11cf",
+    "jobs_success": 18,
+    "jobs_total": 18,
+    "run_attempt": 1,
+    "invalid_attempts": [
+      {
+        "run_id": 36183616965,
+        "status": "FAILED_PRE_SCIENTIFIC_PRECOMMIT",
+        "reason": "C-engine exact-source semantic instrumentation anchors required locator repair"
+      },
+      {
+        "run_id": 36183842231,
+        "status": "CANCELLED_PRE_SCIENTIFIC_PRECOMMIT",
+        "reason": "superseded after discovering C ABI width mismatch in TT sequence witness"
+      },
+      {
+        "run_id": 36183961903,
+        "status": "CANCELLED_PRE_SCIENTIFIC_PRECOMMIT",
+        "reason": "intermediate ABI repair commit superseded by paired Stockfish/C declaration alignment"
+      }
+    ],
+    "scientific_contract_changes_after_preseal": [],
+    "note": "All repairs occurred before P31 scientific precommit and changed only source locators or observer ABI types. Support, semantic vocabulary, mask family, measurement-only timing, thresholds, compiler rules, and claim ceiling remained frozen."
+  },
+  "verdict": "FAITHFUL_TT_SEMANTIC_EXPLANATION_COMPILER_MATERIALIZED_WITH_ROOT_MOVE_DEPENDENCIES",
+  "instrument": {
+    "worlds": 16,
+    "engines": [
+      "stockfish_19",
+      "berserk",
+      "ethereal"
+    ],
+    "certificates": 48,
+    "hash_mib": 1,
+    "history": [
+      "target_prime_20k",
+      "decoy_1_20k",
+      "decoy_2_20k",
+      "decoy_3_20k",
+      "target_measurement_80k"
+    ],
+    "threads": 1,
+    "semantic_classes": [
+      "CUTOFF",
+      "MOVE_ORDER_SEED",
+      "EVAL_REUSE",
+      "TT_VALUE_AS_EVAL",
+      "PV_PROMOTION"
+    ],
+    "modes": [
+      "BASE",
+      "NO_CUTOFF",
+      "NO_MOVE",
+      "NO_EVAL",
+      "NO_CUTOFF_MOVE",
+      "NO_CUTOFF_EVAL",
+      "NO_MOVE_EVAL",
+      "NO_ALL"
+    ],
+    "intervention_timing": "measurement search only (search_seq=5)",
+    "native_age_policy": {
+      "stockfish_19": "OFF",
+      "berserk": "OFF",
+      "ethereal": "ON"
+    }
+  },
+  "adjudication": {
+    "root_move_dependence": {
+      "total_certificates": 48,
+      "single_class_dependence_certificates": 13,
+      "any_root_dependence_certificates": 14,
+      "pure_interaction_only_certificates": 1,
+      "stockfish_19": {
+        "single_class_certificates": 5,
+        "any_root_certificates": 6,
+        "class_counts": {
+          "CUTOFF": 3,
+          "MOVE_ORDER": 2,
+          "EVAL": 2
+        },
+        "compound_root_effect_certificates": 2,
+        "pure_interaction_only_certificates": 1
+      },
+      "berserk": {
+        "single_class_certificates": 5,
+        "any_root_certificates": 5,
+        "class_counts": {
+          "CUTOFF": 1,
+          "MOVE_ORDER": 4,
+          "EVAL": 2
+        },
+        "compound_root_effect_certificates": 0,
+        "pure_interaction_only_certificates": 0
+      },
+      "ethereal": {
+        "single_class_certificates": 3,
+        "any_root_certificates": 3,
+        "class_counts": {
+          "CUTOFF": 1,
+          "MOVE_ORDER": 2,
+          "EVAL": 0
+        },
+        "compound_root_effect_certificates": 0,
+        "pure_interaction_only_certificates": 0
+      }
+    },
+    "pv_dependence_certificates": {
+      "stockfish_19": 12,
+      "berserk": 14,
+      "ethereal": 13,
+      "total": 39
+    },
+    "score_dependence_certificates": {
+      "stockfish_19": 10,
+      "berserk": 10,
+      "ethereal": 11,
+      "total": 31
+    },
+    "search_path_dependence_certificates": {
+      "stockfish_19": 16,
+      "berserk": 16,
+      "ethereal": 16,
+      "total": 48
+    },
+    "baseline_event_totals": {
+      "CUTOFF": 659596,
+      "MOVE_ORDER_SEED": 565986,
+      "EVAL_REUSE": 1272469,
+      "TT_VALUE_AS_EVAL": 241046,
+      "PV_PROMOTION": 407166
+    },
+    "explanation_compiler": {
+      "certificate_count": 48,
+      "attribution_graph_nodes": 240,
+      "attribution_graph_edges": 286,
+      "unobserved_single_class_dependency_claims": 0,
+      "outputs": [
+        "p31-adjudication.json",
+        "p31-attribution-graph.json",
+        "p31-explanations.md"
+      ],
+      "semantics": "root-move, PV, score, search-path, and interaction claims are compiled separately"
+    }
+  },
+  "custody_hashes": {
+    "precommit": {
+      "receipt_sha256": "a8b09032af0fd3a675c2d8bcf46bfc35992dda91a02b04557731bccecb878d9c",
+      "file_sha256": "8580503609d68bff8ba98c98e2bc33908e1cbbfabd9c91f9391fabf0078277e5",
+      "artifact_id": 10886110635,
+      "artifact_digest": "sha256:8fb8cea48199b344835723984a273fb020090227d72b438d9ab5ad432bee6449"
+    },
+    "final": {
+      "receipt_sha256": "26cb3dec6295de0aa53d3dc979da20c690d575010b43b183fa6cfacede54b11b",
+      "adjudication_sha256": "ea612517544ed2b6d1a7637f394de67dbc9b31ab130b1c6670b52d7b806c3e67",
+      "attribution_graph_sha256": "e962bd87a96adf5b90485d3719f4aa8351229dd4faa9670b736844c5744e05f0",
+      "explanations_markdown_sha256": "f31120ed0d5a4f9f82f25a939bbbcc819dbd669dbb5bd262c19cb88acbdc7486",
+      "artifact_id": 10885716713,
+      "artifact_digest": "sha256:cc87cf7197008eb82fa6bb40426a7cbaac55f8f9eaf0d9b52add904d9d7a4f5a"
+    }
+  },
+  "custody": {
+    "drive_folder_id": "1SbaTBTL6VebzCTVrN0M3cYrYsRNc-PUN",
+    "drive_precommit_file_id": "1BztCt10xdDhNNd0q-fhu7uXnUd_SptH_",
+    "drive_final_file_id": "1uRm-kZ1qijp5qsUgCFouSktf3YIvKwRF",
+    "drive_raw_attribution_folder_id": "14hyjNfnfPNW6X2W7lnxkWPRSD3P85Jap",
+    "raw_attribution_shards": 12,
+    "notion_page_id": "3e6ef561-cf92-8130-a53d-e975462487b8"
+  },
+  "literature_anchor": {
+    "drive_id": "1i_i_cFFv6vqYHaBOgKK9AbuprPtj8v91",
+    "citation": "Geiger et al. (2025), Causal Abstraction: A Theoretical Foundation for Mechanistic Interpretability, JMLR 26",
+    "use": "separate low-level event observation from interventionally supported higher-level causal explanation"
+  },
+  "claim_ceiling": [
+    "P31 identifies semantic-class dependence under the frozen 1 MiB, 80k-node, single-thread warmed-TT replay; it is not game-theoretic necessity across all searches.",
+    "A single-class root-move effect establishes dependence on that semantic class under the frozen replay, not unique causation by a particular TT event.",
+    "Compound-only effects remain interaction claims and are not assigned to either constituent class alone.",
+    "Fixed-node-budget interventions alter the reached search tree, so path divergence is part of the intervention semantics.",
+    "Natural-language explanations are restricted to certificate-backed engine computation and do not infer human-like strategic intent.",
+    "The support is the inherited 16 pressure-probe worlds; no population-wide engine or chess-position prevalence claim is authorized."
+  ],
+  "successor_question": "Which individual full-key TT semantic-use events, rather than global semantic classes, form minimal sufficient/necessary sets for the root decision, and can event-targeted replay be compiled into a faithful chess-concept explanation without exceeding the causal certificate?",
+  "successor_proposal": "C3X 0.7.0-G9.4-P32 — Prospective Event-Targeted TT Causal Replay, Full-Key/Ply Semantic Intervention Addressing, Minimal Root-Move Sufficient Event Sets, Principal-Variation Counterfactual Reconstruction, Chess-Concept Grounding & Verified Natural-Language Explanation Synthesis"
+}
