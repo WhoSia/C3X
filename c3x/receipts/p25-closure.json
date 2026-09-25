@@ -1,0 +1,93 @@
+{
+  "schema": "c3x-g9.4-p25-closure-v1",
+  "scientific_stage": "C3X 0.7.0-G9.4-P25",
+  "title": "Architecture-Indexed Causal Law Replication, Search-Budget Atlas Stability, Law-Family Compression, Engine-Descriptor Morphisms & Minimal Architecture Coordinate Identification",
+  "status": "CLOSED",
+  "canonical_lineage": {
+    "fresh_world_budget_atlas_run": 36141322649,
+    "exact_prefix_receipt_repair_and_selective_run": 36143126755,
+    "lawgen_constitution_sha256": "1b51c7976f0aff175e6e62de74cc919f6feafa1ffba8e26df26b9c0584688865",
+    "fresh_world_pool_sha256": "36b2ece71d4f73f9ceea42f98b59bb9f38d3e15a659cc05f4782b3720cbe1246",
+    "roundtrip_stable_precommit_sha256": "f97204c0e0619edb6b9973229b90e0f93e4b70a96b333f9c3760a655134cad33",
+    "final_adjudication_sha256": "f0c6bbeb2605c08dcb47a2ba7c7894eba7c23d4df901b4ad49696096328893f5",
+    "final_artifact_digest": "sha256:4a3f63a070d9c4edfed55e43e444da87d23ae56138393f0dcecf95b4d994e65a"
+  },
+  "generator": {
+    "crate": "crates/c3x-lawgen",
+    "role": "typed ontological compiler from a frozen research specification to a constitution, execution matrix, and claim lattice",
+    "generated_execution_matrix_rows": 57,
+    "candidate_descriptor_coordinates": [
+      "indexing_family",
+      "probe_refreshes_age_on_hit",
+      "probe_returns_replacement_handle",
+      "eval_move_packed_together"
+    ],
+    "selective_outcomes_consulted_before_constitution": false,
+    "authority_rule": "The generator may expose underspecification and mechanically enforce the research constitution, but code execution does not itself grant scientific truth. Theory and implementation are co-evolving authorities with explicit non-implications."
+  },
+  "fresh_design": {
+    "worlds": 384,
+    "generation_offset": 620000,
+    "engines": ["stockfish_19", "berserk", "ethereal"],
+    "sham_search_budgets_nodes": [40000, 80000, 160000, 300000],
+    "canonical_atlas_nodes": 80000,
+    "selective_intervention_nodes": 300000,
+    "fresh_vs_p20_p21_p22_p23_p24": true
+  },
+  "budget_atlas": {
+    "interpretation": "The outcome-blind atlas is not a budget-invariant state identity at the fine quotient. Coarse K2 structure is substantially more stable than K8, while K8 changes materially as node budget increases.",
+    "pair_40000_80000": {"K2_agreement": 0.875, "K4_agreement": 0.7083333333333334, "K8_agreement": 0.4895833333333333, "K8_ARI": 0.20748968359506925},
+    "pair_80000_160000": {"K2_agreement": 0.890625, "K4_agreement": 0.75, "K8_agreement": 0.5651041666666666, "K8_ARI": 0.2741848457024654},
+    "pair_160000_300000": {"K2_agreement": 0.90625, "K4_agreement": 0.75, "K8_agreement": 0.53125, "K8_ARI": 0.24690046120398515},
+    "pair_40000_300000": {"K2_agreement": 0.8020833333333334, "K4_agreement": 0.578125, "K8_agreement": 0.3307291666666667, "K8_ARI": 0.10315217620736239},
+    "pair_80000_300000": {"K2_agreement": 0.8333333333333334, "K4_agreement": 0.6484375, "K8_agreement": 0.4401041666666667, "K8_ARI": 0.15860516136862549},
+    "claim_ceiling": "No threshold was prospectively declared for a stability pass/fail. These are descriptive measurements, but they defeat any unqualified claim that the P24/P25 K8 atlas is search-budget invariant."
+  },
+  "causal_replication": {
+    "architecture_index_replication": true,
+    "architecture_free_K8_states": 0,
+    "architecture_free_K8_state_total": 8,
+    "universal_strict_architecture_invariance": {"K1": false, "K2": false, "K4": false, "K8": false},
+    "universal_conditional_naturality": {"K1": false, "K2": false, "K4": false, "K8": false},
+    "strict_cells": {"K1": 0, "K2": 0, "K4": 0, "K8": 0},
+    "natural_cells": {"K1": 0, "K2": 0, "K4": 0, "K8": 0},
+    "distinct_K8_response_laws": {"stockfish_19": 8, "berserk": 8, "ethereal": 8},
+    "interpretation": "P24's architecture-index necessity replicated on a fresh exact-world population. The result is stronger than a single-state mismatch: at K8 every engine realizes eight distinct state-conditioned law signatures, yet no state is architecture-free across all three engines."
+  },
+  "descriptor_morphism": {
+    "observed_law_equivalence_partition": [["berserk"], ["ethereal"], ["stockfish_19"]],
+    "minimal_descriptor_cardinality": 2,
+    "one_coordinate_sufficient": false,
+    "minimal_sufficient_coordinate_sets": [
+      ["indexing_family", "eval_move_packed_together"],
+      ["probe_refreshes_age_on_hit", "eval_move_packed_together"],
+      ["probe_returns_replacement_handle", "eval_move_packed_together"]
+    ],
+    "nontrivial_law_family_compression": false,
+    "interpretation": "Two frozen source descriptors are sufficient to separate the three observed law signatures, but every sufficient two-coordinate map induces three singleton engine classes. P25 therefore identifies a finite-set descriptor factorization without earning nontrivial law-family compression.",
+    "identification_ceiling": "This is descriptive sufficiency on three admitted engines. It is not a causal estimate of any descriptor's effect and cannot identify a population-level minimal architecture coordinate."
+  },
+  "engineering_incidents": [
+    {
+      "run": 36141322649,
+      "type": "precommit receipt canonicalization mismatch",
+      "effect": "The in-memory atlas_receipts map used integer budget keys. Python sorted them numerically when hashing, but written JSON converted them to strings and later sorted them lexicographically. All vertex jobs stopped at P25_PRECOMMIT_HASH before any selective engine call."
+    },
+    {
+      "run": 36143126755,
+      "type": "exact-prefix round-trip-stable repair",
+      "effect": "The identical sealed world/census/atlas prefix was reloaded and re-sealed through JSON normalization. The repaired precommit survived a fresh parse, selective execution then completed, and JavaScript independently recomputed the scientific branch logic."
+    }
+  ],
+  "scientific_closure": "FRESH_ARCHITECTURE_INDEX_REPLICATED__FINE_ATLAS_BUDGET_NONINVARIANCE_MEASURED__TWO_COORDINATE_DESCRIPTOR_SEPARATION__NO_NONTRIVIAL_LAW_FAMILY_COMPRESSION",
+  "claim_ceiling": [
+    "Architecture identity remains an index for the observed law family; P25 does not prove that engine name is fundamental rather than a proxy for unmeasured mechanism coordinates.",
+    "The fine K8 atlas is budget-sensitive over the tested node range, so law statements indexed by its states are coordinate-and-budget constituted unless a later transport construction removes that dependence.",
+    "The two-coordinate descriptor result is finite-set separation, not causal identification of architecture features.",
+    "No learned or outcome-optimized alignment was introduced after outcomes."
+  ],
+  "next_stage": {
+    "version": "C3X 0.7.0-G9.4-P26",
+    "title": "Budget-Indexed Causal Law Field, Cross-Budget State Correspondence, Descriptor Intervention Feasibility, Generator Schema Evolution & Architecture–Budget Product-Space Transport"
+  }
+}
