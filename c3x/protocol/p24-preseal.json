@@ -1,0 +1,82 @@
+{
+  "schema": "c3x-g9.4-p24-preseal-v1",
+  "scientific_stage": "C3X 0.7.0-G9.4-P24",
+  "title": "Prospective Multivariate Search-State Atlas, Outcome-Blind Cross-Architecture Coordinate Alignment, Quotient-Refinement Ceiling, Intervention-Response Bisimulation & Architecture-Indexed Causal Law Constitution",
+  "inherits": {
+    "p23_verdict": "TRANSPORT_FAILURE_PERSISTS_AFTER_PREINTERVENTION_QUOTIENTING",
+    "p23_failure_localization": "MIXED_SEARCH_STATE_BY_ARCHITECTURE_FAILURE_GEOMETRY",
+    "p23_closure_commit": "cdaf8b2a4f2c275d567da1cb0bdf7c405393b47f"
+  },
+  "literature_design_constraints": {
+    "representation_similarity": "CCA/SVCCA/PWCCA/CKA/RSA motivate separating representational from functional agreement; P24 does not treat representational alignment as causal evidence.",
+    "multiway_alignment": "Multi-way alignment motivates a shared reference rather than pairwise maps; P24 uses an engine-symmetric empirical-copula universe rather than a learned pairwise map.",
+    "causal_abstraction": "Causal abstraction and interchange-intervention work motivate intervention-level faithfulness rather than observational similarity alone.",
+    "nonlinear_map_defeater": "The 2025 nonlinear-representation dilemma motivates a deliberately low-capacity, frozen alignment family; no outcome-trained nonlinear map is permitted.",
+    "state_dependent_models": "Combined causal-model work motivates input/state-conditioned laws while preserving a strength-vs-faithfulness distinction.",
+    "bisimulation": "Classical partition refinement and causal/state-abstraction work motivate a coarsest response-equivalence quotient rather than post-hoc narrative similarity.",
+    "chess_xai_boundary": "Existing chess interpretability work primarily probes concepts or controls neural-model information flow; P24 instead intervenes on persistent search-memory mechanisms in multiple classical engine architectures and adjudicates exact-world causal response transport."
+  },
+  "fresh_world": {
+    "namespace": "c3x-p24-core-v1",
+    "generation_index_offset": 520000,
+    "lane": "PAWNLESS_CORE",
+    "material_families": ["KQQvKQ","KQRvKQ","KQQvKR","KQRvKR","KRBvKB","KRNvKB","KRBvKN","KRNvKN"],
+    "worlds_per_family": 48,
+    "worlds_per_family_side": 24,
+    "total_worlds": 384,
+    "p20_p21_p22_p23_cell_reuse": false
+  },
+  "outcome_blind_atlas": {
+    "census_nodes": 80000,
+    "raw_engine_coordinates": ["MAIN_READS","QSEARCH_READS","Q_SHARE"],
+    "derived_engine_coordinates": ["TOTAL_READS=MAIN_READS+QSEARCH_READS","Q_SHARE"],
+    "alignment": "within each material-family x side stratum and each engine, convert TOTAL_READS and Q_SHARE to average-tie empirical-copula ranks; aggregate the three engines by coordinate-wise median",
+    "disagreement": "coordinate-wise max-minus-min rank spread; joint disagreement is the mean of TOTAL and Q_SHARE spreads",
+    "why_not_cca_or_gpa": "the observed engine telemetry has named mechanistic coordinates, tiny per-stratum support, and architecture-specific marginal scales; a rank-copula map is monotone-invariant, low-capacity, auditable, and cannot rotate named mechanisms into an outcome-fitted latent basis",
+    "nested_refinement": {
+      "K1": "all cells",
+      "K2": "within each 24-cell family-side stratum, balanced split by consensus Q_SHARE rank (12/12)",
+      "K4": "within each K2 block, balanced split by consensus TOTAL rank (6/6)",
+      "K8": "within each K4 block, balanced split by joint cross-architecture disagreement (3/3)",
+      "tie_break": "candidate SHA only",
+      "outcomes_used": false
+    },
+    "all_cells_promoted": true,
+    "post_outcome_relabeling": false
+  },
+  "interventions": {
+    "engines": ["stockfish_19","berserk","ethereal"],
+    "arms": ["SHAM","MASK_MAIN","MASK_QSEARCH","MASK_MAIN_QSEARCH","MASK_ALL"],
+    "inanis_negative_control": ["SHAM","MASK_TT_MAIN","MASK_PAWN_Q"],
+    "selective_nodes": 300000,
+    "primary_outcome": "fine exact-world value change inherited from P20-P23"
+  },
+  "quotient_refinement_court": {
+    "levels": [1,2,4,8],
+    "per_level_test": "for every atlas-state x ontological-square, compute the inherited P20 response fingerprint independently for each engine",
+    "strict_architecture_invariance": "all three full fingerprints equal in every state x square cell",
+    "strict_conditional_naturality": "all three engine pairs satisfy inherited P20 compatible() in every state x square cell",
+    "p20_relation_recovery": "HEAVY_HEAVY must be CURVED/QSEARCH/-1 in all three engines within a state; MINOR_MINOR must not collapse to the same common curved fingerprint",
+    "ceiling_rule": "If no K in {1,2,4,8} yields universal strict architecture invariance or universal conditional naturality, and K8 still contains architecture-splitting response classes, declare FROZEN_ATLAS_QUOTIENT_REFINEMENT_CEILING_REACHED. This ceiling is relative to the presealed rank-copula atlas family, intervention algebra, engine set, world family, and budgets; it is not a theorem over arbitrary representations."
+  },
+  "intervention_response_bisimulation": {
+    "state_nodes": "engine x K8 atlas state",
+    "observations": "ordered pair of HEAVY_HEAVY and MINOR_MINOR full response fingerprints",
+    "actions": ["MASK_MAIN","MASK_QSEARCH","MASK_MAIN_QSEARCH"],
+    "equivalence": "two nodes are response-bisimilar iff their complete predeclared observation signatures are identical; compute the coarsest exact partition",
+    "architecture_free_success": "for every K8 state, Stockfish 19, Berserk and Ethereal occupy one common response-equivalence block",
+    "architecture_index_necessity": "at least one K8 state is split by engine identity after outcome-blind state alignment"
+  },
+  "architecture_indexed_law": {
+    "form": "L_e : atlas_state x ontological_square -> response_fingerprint",
+    "constitute_if": "architecture-free bisimulation fails but each engine has a reproducible nonconstant state-indexed response law under the same frozen atlas",
+    "do_not_claim": ["universal engine ontology","all chess engines","cognitive state","human chess concept","arbitrary nonlinear alignment impossibility"]
+  },
+  "negative_controls_and_fail_closed": [
+    "Inanis PAWN_Q must produce zero fine-value changes.",
+    "Fresh-world cardinality, binary identity, atlas cardinality and nested 24/12/6/3 quotas must all pass before selective outcomes are opened.",
+    "No outcome-trained alignment, threshold, clustering, engine weighting, feature selection or state relabeling is permitted.",
+    "Any K8 family-side state must contain exactly three cells; otherwise abort.",
+    "WDL is secondary and cannot replace fine exact-world value."
+  ]
+}
