@@ -1,0 +1,110 @@
+{
+  "schema": "c3x-p29-closure-v1",
+  "scientific_stage": "C3X 0.7.0-G9.4-P29",
+  "status": "CLOSED",
+  "title": "Prospective Entry-Level TT State Trace, Full-Key Collision-Graph Materialization, Replacement-Event Causal Census, Ethereal Age-Write Engagement Localization & Mediator-Sufficiency Reconstitution",
+  "parent": {
+    "stage": "C3X 0.7.0-G9.4-P28",
+    "closure_commit": "9f7decbaf84029c86a3113a241be59b76fb257e9"
+  },
+  "execution": {
+    "canonical_run": 36176449111,
+    "head_sha": "33f2d6a73dfa0262fad810f050dda88cf6cdda8d",
+    "jobs_success": 40,
+    "jobs_total": 40,
+    "precommit_receipt_sha256": "008e15f6a51e67e68f23065a0c77d1ee59c6b05f2b92ea7d6f2b3f8bd60a3978",
+    "precommit_file_sha256": "9b4ecb7eacdbe68067af31559f0ae8877f83ff9e087f0d51fea932e29da47b65",
+    "precommit_artifact_digest": "sha256:0949055c241343954d76c383fd450057cb27ef1b28420ad353663b750666fc9f",
+    "donor_rule_receipt_sha256": "825f1ddc1a589e51d74732b1b320dc3942c6ee3a6e04f0415e626e9098028246",
+    "donor_rule_file_sha256": "3bbae94153154aac909aadecfdfb5cfe00f619b11c5248c96660c08fe4b02381",
+    "donor_rule_artifact_digest": "sha256:2f25109ca9792dd802c294b2313508ad2f6eae51ba05409d671388078673856c",
+    "prediction_receipt_sha256": "d630fc0c36678034e3ea8ac4327f71dec62ad1a32c06d33b70f650dd5f23d4a1",
+    "prediction_file_sha256": "7269a0d3e08d59a6b5b3d921044953883725b0afa91d444b268d36386eb0529c",
+    "prediction_artifact_digest": "sha256:5f0a65fc0b455e5857dcde5234097e09188948d15f0b24da45899d0a7f931864",
+    "final_receipt_sha256": "c2e4c0babee110cf8636f0e55b6df721ebc11ff32452464b07e68e1fa1d1a14f",
+    "final_file_sha256": "a98c0186a5fd496d6dda7fc96de3993d7eb12041484f9f5c3d2cb4023d3f47ec",
+    "final_artifact_digest": "sha256:f4c9c3dabce9443ccbf52f5826206762481da2a152240f7430a49dc12538ee30"
+  },
+  "verdict": "ENTRY_LEVEL_PATHWAY_LOCALIZED_BUT_MEDIATOR_NOT_UNIVERSALLY_SUFFICIENT",
+  "fresh_support": {
+    "worlds": 128,
+    "selection": "second candidate_sha256 per P26 family×side×mapped-state stratum",
+    "measurement_nodes": 80000
+  },
+  "law_effects": {
+    "stockfish_19": {
+      "changed": 10,
+      "total": 16
+    },
+    "berserk": {
+      "changed": 11,
+      "total": 16
+    },
+    "ethereal": {
+      "changed": 0,
+      "total": 16
+    }
+  },
+  "replacement_event_causal_census": {
+    "stockfish_19": {
+      "age_engaged": 16,
+      "replacement_shift": 10,
+      "prime_survival_shift": 16,
+      "full_hit_shift": 16,
+      "signature_collision_shift": 1
+    },
+    "berserk": {
+      "age_engaged": 16,
+      "replacement_shift": 8,
+      "prime_survival_shift": 16,
+      "full_hit_shift": 16,
+      "signature_collision_shift": 2
+    },
+    "ethereal": {
+      "age_engaged": 16,
+      "replacement_shift": 0,
+      "prime_survival_shift": 0,
+      "full_hit_shift": 0,
+      "signature_collision_shift": 0
+    }
+  },
+  "ethereal_pathway_localization": {
+    "verdict": "AGE_WRITE_ENGAGED_REPLACEMENT_CHANNEL_NULL",
+    "cells": 16
+  },
+  "conditional_morphism": {
+    "donor_rules_resolved": 0,
+    "heldout_resolved": 0,
+    "heldout_total": 16,
+    "universal": false
+  },
+  "collision_graph": {
+    "stockfish_19": {
+      "changed_graph_pairs": 2,
+      "total_pairs": 16
+    },
+    "berserk": {
+      "changed_graph_pairs": 2,
+      "total_pairs": 16
+    },
+    "ethereal": {
+      "changed_graph_pairs": 0,
+      "total_pairs": 16
+    },
+    "scope": "exact full-key replacement/signature-collision graph in measurement search only"
+  },
+  "custody": {
+    "drive_folder_id": "1lwVTB2kl97sAX4hlcEy4-vlFMMJ8kHZ0",
+    "drive_precommit_file_id": "1jWMfffhrs1_4aArmG3J_2bpA4aga0ij2",
+    "drive_donor_rule_file_id": "1poHEfsnmq0tXp4AzQFHGD8Kux5ZPpXPy",
+    "drive_prediction_file_id": "1PLqMlkTfUbUAerpOXFxHreMjiNotrLed",
+    "drive_final_file_id": "1FaQ0vGbrYVarCewgxXYumBQI6YBBHR6T",
+    "notion_page_id": "3e6ef561-cf92-810c-9a54-da1253966705"
+  },
+  "claim_ceiling": [
+    "Full-key shadow state is an instrumentation witness for the instrumented single-thread executions, not unobserved production executions.",
+    "Replacement edges identify physical-slot events but do not alone identify downstream search-value causality.",
+    "Mediator sufficiency failed only for the frozen five-coordinate signature.",
+    "No cross-budget transport claim is authorized."
+  ]
+}
