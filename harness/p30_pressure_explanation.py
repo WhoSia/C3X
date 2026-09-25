@@ -118,8 +118,9 @@ def trace_history_hash(path,protocol,cell,hash_mib,trace_path,graph=True):
   try:p.communicate(timeout=5)
   except subprocess.TimeoutExpired:p.kill();p.communicate()
  tt,g=p29.parse_trace(trace_path,5);victim=parse_victim(trace_path,5) if graph else None
- if not graph:Path(trace_path).unlink(missing_ok=True)
- return {"semantic":sem,"psm_telemetry":tel,"tt":tt,"graph":g if graph else None,"victim":victim}
+ raw_sha=sha_file(trace_path)
+ Path(trace_path).unlink(missing_ok=True)
+ return {"semantic":sem,"psm_telemetry":tel,"tt":tt,"graph":g if graph else None,"victim":victim,"raw_trace_sha256":raw_sha}
 
 def precommit(a):
  parent=p29.load_pre(a.parent);law=load_lawgen(a.constitution);b=Path(a.build_dir)
