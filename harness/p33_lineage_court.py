@@ -151,7 +151,7 @@ def case_run(a):
   return lin,new
 
  parent_lin,parent_new=observe(parent,"parent-seed-removal",allow_refine=False)
- closure_rounds=0;refinement_restarts=0;status=None;full=None;full_lin=None;rem_ids=[];keep_ids=[];rem_cert=False;keep_cert=False;rem_loo={};keep_loo={}
+ closure_rounds=0;refinement_restarts=0;status=None;full=None;full_lin=None;rem_ids=[];keep_ids=[];rem_cert=False;keep_cert=False;rem_loo={};keep_loo={};rem_res=None;keep_res=None
  productive=False;productive_detail={}
  try:
   while closure_rounds<MAX_ROUNDS:
@@ -210,9 +210,9 @@ def case_run(a):
   "universe":{"baseline_exact_addresses":len(base_ids),"closed_exact_addresses":len(universe),"branch_novel_exact_addresses":len(novel_ids),
    "branch_novel_lineage_classes":dict(counts),"first_seen":first_seen},
   "minimal_branch_novel_removal":{"status":"CERTIFIED" if rem_cert else "HOLD","address_ids":rem_ids,
-    "lineage_classes":{i:class_by_id.get(i,"UNCLASSIFIED") for i in rem_ids},"minimality":rem_loo},
+    "lineage_classes":{i:class_by_id.get(i,"UNCLASSIFIED") for i in rem_ids},"minimality":rem_loo,"semantic":sem(rem_res["semantic"]) if rem_res else None},
   "minimal_branch_novel_retaining":{"status":"CERTIFIED" if keep_cert else "HOLD","address_ids":keep_ids,
-    "lineage_classes":{i:class_by_id.get(i,"UNCLASSIFIED") for i in keep_ids},"minimality":keep_loo},
+    "lineage_classes":{i:class_by_id.get(i,"UNCLASSIFIED") for i in keep_ids},"minimality":keep_loo,"semantic":sem(keep_res["semantic"]) if keep_res else None},
   "productive_search_trace":productive_detail,"productive_search_trace_witness":productive,
   "closure_rounds":closure_rounds,"refinement_restarts":refinement_restarts,"replays_used":replay_count,
   "lineage_records":lineage_records,
