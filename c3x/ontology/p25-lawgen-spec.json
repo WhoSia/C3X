@@ -1,0 +1,138 @@
+{
+  "schema": "c3x-lawgen-spec-v1",
+  "scientific_stage": "C3X 0.7.0-G9.4-P25",
+  "title": "Architecture-Indexed Causal Law Replication, Search-Budget Atlas Stability, Law-Family Compression, Engine-Descriptor Morphisms & Minimal Architecture Coordinate Identification",
+  "parent_authority": {
+    "stage": "C3X 0.7.0-G9.4-P24",
+    "receipt": "c3x/receipts/p24-closure.json",
+    "verdict": "FROZEN_ATLAS_QUOTIENT_REFINEMENT_CEILING_REACHED__ARCHITECTURE_INDEXED_CAUSAL_LAW_CONSTITUTED"
+  },
+  "fresh_worlds": {
+    "lane": "PAWNLESS_CORE",
+    "generation_index_offset": 620000,
+    "families": ["KQQvKQ", "KQRvKQ", "KQQvKR", "KQRvKR", "KRBvKB", "KRNvKB", "KRBvKN", "KRNvKN"],
+    "worlds_per_family": 48,
+    "worlds_per_side_per_family": 24,
+    "engine_outcomes_consulted": false
+  },
+  "search_budget_axis": {
+    "sham_nodes": [40000, 80000, 160000, 300000],
+    "canonical_atlas_nodes": 80000,
+    "selective_intervention_nodes": 300000,
+    "atlas_levels": [1, 2, 4, 8],
+    "stability_metrics": ["coordinate_mean_absolute_drift", "K2_label_agreement", "K4_label_agreement", "K8_label_agreement", "K8_adjusted_rand_index"],
+    "selection_rule": "No budget may be selected after selective intervention outcomes are opened. P25 tests all frozen budgets; 80000 is the inherited P24 canonical budget."
+  },
+  "engines": [
+    {
+      "id": "stockfish_19",
+      "instrument_protocol": "stockfish_uci",
+      "instrument_binary_sha256": "bb8487ab5de45a192d56502fdf33d3b74e5489f043528ea1240c68b7c7533425",
+      "descriptor": {
+        "search_family": "alpha_beta_pvs",
+        "evaluation_family": "nnue",
+        "tt_bucket_entries": 3,
+        "tt_entry_bytes": 10,
+        "tt_bucket_bytes": 32,
+        "indexing_family": "multiply_high",
+        "probe_refreshes_age_on_hit": false,
+        "probe_returns_replacement_handle": true,
+        "eval_move_packed_together": false,
+        "qsearch_uses_shared_tt": true
+      }
+    },
+    {
+      "id": "berserk",
+      "instrument_protocol": "env",
+      "instrument_binary_sha256": "5e95346d204dfa88a61e1c7a539906079b4a72053e4afcaac151b2b44285cc1f",
+      "descriptor": {
+        "search_family": "alpha_beta_pvs",
+        "evaluation_family": "nnue",
+        "tt_bucket_entries": 3,
+        "tt_entry_bytes": 10,
+        "tt_bucket_bytes": 32,
+        "indexing_family": "multiply_high",
+        "probe_refreshes_age_on_hit": false,
+        "probe_returns_replacement_handle": true,
+        "eval_move_packed_together": true,
+        "qsearch_uses_shared_tt": true
+      }
+    },
+    {
+      "id": "ethereal",
+      "instrument_protocol": "env",
+      "instrument_binary_sha256": "55d1fea3dd34c2478143c01cf802c60b2fc0e8253888051725a2d01062867a8d",
+      "descriptor": {
+        "search_family": "alpha_beta_pvs",
+        "evaluation_family": "nnue",
+        "tt_bucket_entries": 3,
+        "tt_entry_bytes": 10,
+        "tt_bucket_bytes": 32,
+        "indexing_family": "low_bit_mask",
+        "probe_refreshes_age_on_hit": true,
+        "probe_returns_replacement_handle": false,
+        "eval_move_packed_together": false,
+        "qsearch_uses_shared_tt": true
+      }
+    }
+  ],
+  "descriptor_authority": {
+    "freeze_time": "pre_selective_outcome",
+    "candidate_coordinates": [
+      "indexing_family",
+      "probe_refreshes_age_on_hit",
+      "probe_returns_replacement_handle",
+      "eval_move_packed_together"
+    ],
+    "shared_coordinates_not_eligible_to_explain_between_engine_variation": [
+      "search_family",
+      "evaluation_family",
+      "tt_bucket_entries",
+      "tt_entry_bytes",
+      "tt_bucket_bytes",
+      "qsearch_uses_shared_tt"
+    ],
+    "minimality_rule": "Enumerate every subset of the frozen candidate coordinates in increasing cardinality. A subset earns descriptive sufficiency only if engines with identical descriptor vectors have identical full K8 law signatures. No post-outcome descriptor invention is allowed.",
+    "identification_ceiling": "With three heterogeneous engines, descriptor sufficiency is descriptive over the frozen engine set, not population-level causal identification of architecture features."
+  },
+  "atlas": {
+    "coordinates": ["Q_SHARE_CONSENSUS", "TOTAL_ACTIVITY_CONSENSUS", "CROSS_ARCHITECTURE_DISAGREEMENT"],
+    "alignment": "within-family-side average-tie empirical copula per engine; engine-symmetric median plus rank spread",
+    "partition": "balanced nested Q_SHARE -> TOTAL_ACTIVITY -> DISAGREEMENT",
+    "outcome_blind": true
+  },
+  "intervention_algebra": {
+    "shared_targets": ["MAIN", "QSEARCH"],
+    "arms": ["SHAM", "MASK_MAIN", "MASK_QSEARCH", "MASK_MAIN_QSEARCH", "MASK_ALL"],
+    "response_fingerprint": ["curvature_class", "dominant_coordinate", "dominant_sign"],
+    "squares": ["HEAVY_HEAVY", "MINOR_MINOR"]
+  },
+  "prospective_claims": [
+    {
+      "id": "R",
+      "name": "fresh_architecture_index_replication",
+      "criterion": "At canonical 80000-node atlas, no K8 state is an architecture-free intervention-response bisimulation block and each engine retains a nonconstant law family."
+    },
+    {
+      "id": "B",
+      "name": "search_budget_atlas_stability",
+      "criterion": "Report all frozen budget-pair coordinate drift and partition agreement; no threshold is retrofitted into a pass/fail claim."
+    },
+    {
+      "id": "C",
+      "name": "law_family_compression",
+      "criterion": "Find the smallest frozen descriptor subset whose induced engine partition refines the observed full-law equivalence partition."
+    },
+    {
+      "id": "M",
+      "name": "minimal_architecture_coordinate",
+      "criterion": "A one-coordinate descriptor is admissible only if its value partition alone never merges engines with different full K8 law signatures. Otherwise report the minimal cardinality or IDENTIFICATION_UNDERDETERMINED."
+    }
+  ],
+  "claim_ceiling": [
+    "P25 may replicate architecture-index necessity without proving that architecture identity is fundamental rather than a proxy for unmeasured mechanism coordinates.",
+    "Budget stability of the atlas does not imply stability at untested budgets or time controls.",
+    "Descriptor compression over three engines is a finite-set morphism result, not a general causal effect of a source-code feature.",
+    "No learned or outcome-optimized representation map may be introduced in P25."
+  ]
+}
