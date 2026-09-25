@@ -1,5 +1,5 @@
 name: p22-selective-relation-transport-repair
-# Native P22 executor repair; frozen design run remains 36126640625.
+# Exact frozen P21 arm algebra with corrected baseline representation; design run remains 36126640625.
 on:
   push:
     paths:
