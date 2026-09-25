@@ -1,0 +1,58 @@
+{
+  "schema": "c3x-p26-descriptor-feasibility-v1",
+  "scientific_stage": "C3X 0.7.0-G9.4-P26",
+  "authority": "SOURCE_AUDIT_ONLY_NO_DESCRIPTOR_EFFECT_ESTIMATE",
+  "source_locks": {
+    "stockfish_19": {
+      "repo": "official-stockfish/Stockfish",
+      "commit": "edb0d9db6731067ec50ce619ff372b463bc4dd5d",
+      "file": "src/tt.cpp"
+    },
+    "berserk": {
+      "repo": "jhonnold/berserk",
+      "commit": "32628515050b83805bab4afa1026dd2bcaa93f55",
+      "file": "src/transposition.c"
+    },
+    "ethereal": {
+      "repo": "AndyGrant/Ethereal",
+      "commit": "0e47e9b67f345c75eb965d9fb3e2493b6a11d09a",
+      "file": "src/transposition.c"
+    }
+  },
+  "coordinates": {
+    "probe_refreshes_age_on_hit": {
+      "status": "SOURCE_LOCAL_INTERVENTION_CANDIDATE",
+      "evidence": {
+        "stockfish_19": "probe() reads entry and returns TTWriter but does not refresh generation on hit",
+        "ethereal": "tt_probe() explicitly writes slots[i].generation = Table.generation | bound bits on a hit",
+        "berserk": "age is maintained globally and probe semantics are not represented by the same local refresh operation in the audited transposition source"
+      },
+      "next_authority": "requires matched source variants, semantic-equivalence preflight, and prospective intervention court before any causal effect claim"
+    },
+    "indexing_family": {
+      "status": "TOPOLOGY_CHANGING_CANDIDATE",
+      "evidence": {
+        "stockfish_19": "first_entry() uses mul_hi64(key, clusterCount)",
+        "ethereal": "tt_probe() indexes buckets by hash & Table.hashMask"
+      },
+      "reason": "changing indexing changes collision/occupancy topology, so it is not a local semantic toggle"
+    },
+    "probe_returns_replacement_handle": {
+      "status": "API_SHAPE_NOT_YET_CAUSAL_COORDINATE",
+      "evidence": {
+        "stockfish_19": "probe returns hit/data plus TTWriter replacement handle",
+        "ethereal": "tt_probe returns hit data only; tt_store separately selects replacement"
+      },
+      "reason": "API shape co-varies with caller control flow and replacement ownership"
+    },
+    "eval_move_packed_together": {
+      "status": "LAYOUT_ENTANGLED_NOT_ADMITTED",
+      "reason": "packing/layout modifications may jointly change memory layout, atomicity/race behavior, and replacement semantics"
+    }
+  },
+  "claim_ceiling": [
+    "Feasibility classification is not an effect estimate.",
+    "A source-local edit is not automatically a valid causal intervention; semantic equivalence outside the target coordinate must be demonstrated.",
+    "Topology-changing edits require their own prospective constitution."
+  ]
+}
