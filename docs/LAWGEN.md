@@ -17,7 +17,8 @@ Output:
 
 - `constitution.json` — typed scientific objects and immutable authority choices;
 - `execution-matrix.tsv` — the prospective order of world constitution, measurement, precommit, selective intervention and adjudication;
-- `claim-lattice.json` — which claims depend on which prior authorities, plus explicit non-implications.
+- `claim-lattice.json` — which claims depend on which prior authorities, plus explicit non-implications;
+- in schema v2, `product-field-contract.json` — the architecture × budget × mapped-state × intervention object and its index-removability tests.
 
 The current Rust crate is `crates/c3x-lawgen`.
 
@@ -79,8 +80,9 @@ LawGen is not downstream documentation. A generator schema change is potentially
 Examples:
 
 - P25 forced `search_budget` to become a first-class axis because the fine atlas was not stable across node budgets.
-- A future held-out-engine test may require `descriptor_prediction_authority`, distinguishing descriptors used for retrospective separation from descriptors allowed to make prospective predictions.
-- A source-level descriptor intervention would require the ontology to distinguish *observed architecture descriptors* from *manipulable mechanism coordinates*.
+- P26 promoted the schema to v2 with explicit `state_correspondence`, `product_space`, `prediction_authority`, `adjudication_support`, and descriptor-manipulability classes. It also demonstrated why architecture and budget must be represented as separate tested indices rather than folded into one state label.
+- A future held-out-engine test requires prediction authority distinct from retrospective descriptor separation.
+- A source-level descriptor intervention requires the ontology to distinguish *observed architecture descriptors* from *manipulable mechanism coordinates*.
 
 The repository should therefore review ontology-schema changes with the same care as adjudication changes.
 
@@ -94,6 +96,14 @@ This incident motivates a permanent rule:
 
 > **A generated scientific receipt is not sealed until its identity survives a fresh-process round trip.**
 
+## P26: schema v2 and product-space authority
+
+P26 compiled a frozen field contract for `L(a,b,z_b,i)→r`, where `a` is architecture, `b` is search budget, `z_b` is a budget-indexed state mapped through a deliberately low-capacity correspondence, and `i` is the intervention. The corresponding scientific result retained both architecture and budget as necessary empirical indices under the tested correspondence.
+
+Schema v2 therefore treats cross-budget state correspondence as an explicit authority object rather than an implementation detail. It also separates observed descriptors from descriptors that may become manipulable intervention coordinates. A descriptor classified as feasible is **not** thereby causally identified; a future experiment must still construct a source-level intervention that preserves the intended semantics and passes its own preflight.
+
+P26 also adds a second infrastructure rule: a post-adjudication verifier may be repaired only if it reuses the identical sealed precommit and already materialized selective artifacts and does not alter any scientific computation. The P26 JS path bug was handled exactly this way.
+
 ## Near-term roadmap
 
 1. Promote source provenance into the generated constitution rather than leaving it only in the input specification.
@@ -101,7 +111,7 @@ This incident motivates a permanent rule:
 3. Add JSON Schema export so external tools can validate LawGen specs without executing Rust.
 4. Add a dry-run DAG renderer for experiment review.
 5. Add `diff-constitution` to distinguish scientific changes from formatting changes.
-6. Add held-out descriptor prediction objects before any P26+ architecture-expansion outcome is opened.
+6. Extend v2 prediction-authority objects before any held-out architecture outcome is opened.
 7. Keep generated files reproducible: the same spec and LawGen version must yield byte-identical generated artifacts.
 
 ## Non-goals
