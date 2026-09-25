@@ -1,4 +1,5 @@
 name: p22-selective-relation-transport-repair
+# Native P22 executor repair; frozen design run remains 36126640625.
 on:
   push:
     paths:
