@@ -1,0 +1,229 @@
+{
+  "schema": "c3x-p33-closure-v1",
+  "scientific_stage": "C3X 0.7.0-G9.4-P33",
+  "status": "CLOSED",
+  "title": "Prospective Counterfactual Event-Lineage Reconstruction, Intervention-Stable TT Event Identity, Path-Divergence Causal Correspondence, Productive Search-Trace Actual Causation, Emergent-Event Necessity/Sufficiency & Explanation-Closure Reconstitution",
+  "parent": {
+    "stage": "C3X 0.7.0-G9.4-P32",
+    "closure_commit": "39cb274a812cef2c4f9a72cbee113a67968bc6d1",
+    "canonical_run": 36188807920,
+    "verdict": "EVENT_LEVEL_CAUSAL_EXPLANATION_COMPILER_MATERIALIZED_WITH_MINIMAL_NECESSITY_AND_SUFFICIENCY"
+  },
+  "execution": {
+    "canonical_run": 36192022350,
+    "canonical_head_sha": "3c4e9b3c92ac221bf02fd733772c016ef9c8403b",
+    "jobs_success": 10,
+    "jobs_total": 10,
+    "scientific_contract_changes_after_preseal": [],
+    "note": "All workflow jobs completed successfully. Two primary cases nevertheless remain scientifically on prospectively frozen refinement-limit HOLD; workflow success is not treated as causal-certification success."
+  },
+  "verdict": "COUNTERFACTUAL_EVENT_LINEAGE_RECONSTITUTED_WITH_PARTIAL_CAUSAL_CLOSURE",
+  "support": {
+    "primary_cases": 3,
+    "repeat_controls": 3,
+    "engines": [
+      "stockfish_19",
+      "berserk",
+      "ethereal"
+    ],
+    "hash_mib": 1,
+    "threads": 1,
+    "prime_nodes": 20000,
+    "decoy_nodes": 20000,
+    "decoy_count": 3,
+    "measurement_nodes": 80000,
+    "intervention_timing": "measurement search only"
+  },
+  "event_lineage": {
+    "classes": [
+      "EXACT_CONTINUATION",
+      "DRIFTED_CONTINUATION",
+      "EMERGENT",
+      "VANISHED"
+    ],
+    "hard_anchor": [
+      "scope",
+      "event_type",
+      "full_key",
+      "ply",
+      "tt_move",
+      "bound",
+      "payload"
+    ],
+    "soft_coordinates": [
+      "depth",
+      "exact-signature occurrence",
+      "trace ordinal"
+    ],
+    "correspondence": "Within each identical hard-anchor bucket, tokens are sorted prospectively by depth, occurrence, ordinal and address_id and paired by rank. No root move, score, PV, rendered explanation or downstream outcome enters matching.",
+    "split_merge_policy": "Unequal bucket cardinality yields unmatched EMERGENT/VANISHED tokens; no many-to-one or one-to-many identity is forced.",
+    "identity_ceiling": "Operational trace correspondence, not metaphysical identity and not causal evidence by itself."
+  },
+  "closure_refinement": {
+    "seed_universe": "baseline exact addresses at the inherited P32 frontier",
+    "rule": "Any previously unseen exact address reached on a replay path actually visited by the frozen closure/minimality algorithm is appended without ranking, and the affected search is restarted.",
+    "max_refinement_rounds": 8,
+    "max_addresses": 2048,
+    "max_replays_per_case": 160,
+    "max_final_leave_one_out": 32,
+    "fixed_point_ceiling": "Replay-discovered closure only over prospectively visited intervention paths, not every subset of every possible event universe."
+  },
+  "adjudication": {
+    "repeat_controls": {
+      "passed": 3,
+      "total": 3
+    },
+    "primary_status_counts": {
+      "LINEAGE_CLOSURE_NECESSITY_AND_SUFFICIENCY_CERTIFIED": 1,
+      "LINEAGE_CLOSURE_REFINEMENT_LIMIT_HOLD": 2
+    },
+    "certified": {
+      "conditional_necessity": 1,
+      "conditional_necessity_and_sufficiency": 1,
+      "productive_search_trace_witnesses": 1
+    },
+    "stockfish_finite_closure": {
+      "case_id": "stockfish_19:f8cde3d6abb4:MOVE_ORDER+EVAL",
+      "status": "LINEAGE_CLOSURE_NECESSITY_AND_SUFFICIENCY_CERTIFIED",
+      "frontier": 0,
+      "baseline_addresses": 34,
+      "closed_universe_addresses": 56,
+      "branch_novel_addresses": 22,
+      "refinement_rounds": 2,
+      "refinement_restarts": 1,
+      "replays": 13,
+      "parent_seed_removal_bestmove": "h1g1",
+      "minimal_branch_novel_removal_bestmove": "e6e3",
+      "singleton_emergent_address_id": "1cfb4e42993f7550aaddd3ec2233b23f24cf2fff3ab410b2fefe51c2139bca10",
+      "conditional_necessity": "CERTIFIED",
+      "retaining_sufficiency": "CERTIFIED",
+      "productive_search_trace_witness": true,
+      "first_parent_target_ordinal": 0,
+      "first_minimal_branch_novel_event_ordinal": 28
+    },
+    "open_event_universe_boundaries": [
+      {
+        "case_id": "ethereal:a8fd39b3864a:CUTOFF",
+        "status": "LINEAGE_CLOSURE_REFINEMENT_LIMIT_HOLD",
+        "frontier": 1,
+        "baseline_addresses": 87,
+        "closed_so_far_addresses": 183,
+        "branch_novel_addresses": 96,
+        "refinement_rounds": 8,
+        "refinement_restarts": 8,
+        "replays": 30
+      },
+      {
+        "case_id": "ethereal:f8cde3d6abb4:MOVE_ORDER",
+        "status": "LINEAGE_CLOSURE_REFINEMENT_LIMIT_HOLD",
+        "frontier": 1,
+        "baseline_addresses": 168,
+        "closed_so_far_addresses": 468,
+        "branch_novel_addresses": 300,
+        "refinement_rounds": 8,
+        "refinement_restarts": 8,
+        "replays": 9
+      }
+    ],
+    "interpretation": "The Stockfish witness demonstrates finite replay-relative lineage closure with a singleton emergent event that is conditionally necessary and sufficient. The two Ethereal witnesses continue generating novel exact events through the frozen eight-round refinement budget. Those HOLDs are evidence of an open-event-universe/path-explosion boundary under the tested representation, not evidence of no causal dependence."
+  },
+  "explanation": {
+    "baseline_pv_legal_replay": {
+      "passed": 3,
+      "total": 3
+    },
+    "available_counterfactual_pv_legal_replay": {
+      "passed": 3,
+      "total": 3
+    },
+    "verified_explanations": {
+      "passed": 3,
+      "total": 3,
+      "unsupported_rendered_claims": 0
+    },
+    "independent_javascript_verifier": "PASS",
+    "pipeline": [
+      "lineage certificate",
+      "conditional necessity/sufficiency certificate",
+      "legal PV replay",
+      "deterministic chess atoms",
+      "explanation AST",
+      "independent JavaScript verifier",
+      "rendered language"
+    ],
+    "language_ceiling": "mechanically verified lineage, root-move dependence, minimal-set size, legal move atoms and PV divergence only; no unverified strategy, cognition, intent, prevalence or global actual-causation claim"
+  },
+  "implementation": {
+    "policy": "CAPABILITY_FIRST_POLYGLOT_LANGUAGE_NONAUTHORITATIVE",
+    "C_or_Cpp": "engine-native P32 TT hooks and trace emission",
+    "Rust": "deterministic lineage correspondence compiler and LawGen v9 constitution",
+    "Python": "UCI orchestration, bounded causal replay, python-chess legality and move grounding",
+    "JavaScript": "independent certificate and explanation verifier",
+    "note": "Python is precedent, not a repository-wide default or mandate."
+  },
+  "literature_positioning": {
+    "presealed": [
+      {
+        "work": "Lee & Bareinboim (2026), Productive Actual Causation",
+        "locator": "Causal AI Lab Technical Report R-142; Drive 1BkGWXUm3t6fdreb0F_WRiFcTmBjnIu-6",
+        "role": "production/dependence distinction; vocabulary discipline only"
+      },
+      {
+        "work": "Beckers (2025), Actual Causation and Nondeterministic Causal Models",
+        "locator": "PMLR 275:514-532; arXiv:2503.07849",
+        "role": "model-relative counterfactual dependence background"
+      },
+      {
+        "work": "Groce, Kroening & Clarke (2004), Counterexample Guided Abstraction Refinement via Program Execution",
+        "doi": "10.1007/978-3-540-30482-1_23",
+        "role": "execution-driven refinement precedent without formal-equivalence claim"
+      },
+      {
+        "work": "Geiger et al. (2025), Causal Abstraction: A Theoretical Foundation for Mechanistic Interpretability",
+        "locator": "JMLR 26(83); arXiv:2301.04709",
+        "role": "interventional abstraction and faithfulness background"
+      }
+    ],
+    "note": "Literature disciplined terminology and failure modes; it did not override the prospectively frozen P33 world-contact result."
+  },
+  "custody_hashes": {
+    "precommit": {
+      "receipt_sha256": "b4bf4551e0b673c5ecc8f5f5a7d4264ea81ddd5dc95ab88953cc3b9b470cba18",
+      "file_sha256": "b595cb0b57b8ac1c52a2b8da34eca700a87be4823917061fdcd9c3f173459307",
+      "artifact_id": 10888477161,
+      "artifact_digest": "sha256:42565a032aa3637f60b8eff88abc3501052b7748874905b2ed77c3fed460ae61"
+    },
+    "final": {
+      "receipt_sha256": "d2059098f1bad0cde50207fad754edfbabb0116b7c101a1fc2db802667e5065a",
+      "adjudication_sha256": "c0b332b73bf009628a2fe4f90ac8f60ca394eee6a467840d0b35fb150b0e6a3c",
+      "explanation_ast_sha256": "ae0d0108e775be3d42b516c9a846d1faf38aedccc4d8b68c35402aaa676bc55f",
+      "chess_grounding_sha256": "a1894269d8424d03b82174abd43792be34085762a00a8a2e907ce2a28b1e8074",
+      "explanations_sha256": "d06bd7e95237c6b01dbc3b967441011d0e6ac50b5b0166771ac5d341937695f1",
+      "js_verification_sha256": "2d44e5ce07f6bd32deeac94dd676706b568406551982c22b83f9bb628fa5e536",
+      "artifact_id": 10888327491,
+      "artifact_digest": "sha256:c2d51946613ace9c961378be9923b7dc32c8b6691e1cee1204da7cab2e885cef"
+    },
+    "rust_lineager": {
+      "artifact_id": 10888507149,
+      "binary_sha256": "65283bf0af44f9e8b52023f2f8d812a32a721c4855fd3e470ce380dc598aad61"
+    }
+  },
+  "custody": {
+    "drive_folder_id": "1r-pZtu_7m-YyrWORfmkwzpWTDDHW6A2E",
+    "drive_precommit_file_id": "1RaWnyo2sBB-dlC3PO7CP-98Jg6IG-Fzn",
+    "drive_final_file_id": "1onEU9w0m3wwbTcuh6vIUIJFWAGz3o8vE",
+    "notion_page_id": "3e6ef561-cf92-8128-ba41-e6782f579154"
+  },
+  "claim_ceiling": [
+    "P33 certificates are exact only for the inherited 1 MiB, Threads=1, warmed-TT, 80k-node measurement procedure and P32 instrumentation.",
+    "A lineage match is an operational correspondence and is not causal evidence by itself.",
+    "Replay-discovered closure covers prospectively visited refinement/minimality paths, not all possible event subsets.",
+    "Conditional emergent necessity and sufficiency are relative to the parent baseline-seed removal intervention.",
+    "The productive search-trace witness is a C3X operational certificate, not the complete Lee-Bareinboim SCM definition.",
+    "Inclusion-minimal does not imply globally minimum-cardinality, uniqueness, or population prevalence.",
+    "The Ethereal refinement-limit HOLDs are not converted into no-cause conclusions.",
+    "No cognitive, strategic, human-intention, prevalence or cross-position generalization is authorized beyond mechanically verified atoms and selected support."
+  ],
+  "successor_question": "Can the two Ethereal refinement-limit witnesses be represented by an outcome-blind, prospectively frozen causal-cone or lineage quotient that either reaches a well-founded fixed point or certifies irreducible divergence, while preserving exact-event drill-down and root-move counterfactuals needed for necessity and sufficiency?",
+  "successor_proposal": "C3X 0.7.0-G9.4-P34 — Prospective Open-Event-Universe Causal Cone Constitution, Outcome-Blind Lineage Quotients, Well-Founded Closure-or-Divergence Certificates, Quotient-Collision Falsification, Abstraction-Preserving Necessity/Sufficiency & Exact-Event Explanation Drill-Down"
+}
