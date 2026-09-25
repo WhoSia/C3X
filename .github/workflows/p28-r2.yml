@@ -1,0 +1,306 @@
+name: p28-mechanism-mediation-r2
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - "c3x/ontology/p28-lawgen-spec.json"
+      - "crates/c3x-lawgen/src/bin/lawgen_v4.rs"
+      - "harness/p28_mediation.py"
+      - ".github/workflows/p28-r2.yml"
+
+concurrency:
+  group: p28-mechanism-mediation
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  actions: read
+
+env:
+  P26_RUN: "36153015935"
+
+jobs:
+  lawgen:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: |
+          cargo run --release --manifest-path crates/c3x-lawgen/Cargo.toml --bin lawgen_v4 -- c3x/ontology/p28-lawgen-spec.json out/lawgen
+          sha256sum out/lawgen/* | sort > out/lawgen-sha256.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: p28-lawgen-preseal
+          path: out/
+          retention-days: 30
+
+  build:
+    needs: lawgen
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - engine: stockfish_19
+            repo: https://github.com/official-stockfish/Stockfish.git
+            commit: edb0d9db6731067ec50ce619ff372b463bc4dd5d
+            protocol: stockfish_uci
+            native: off
+          - engine: berserk
+            repo: https://github.com/jhonnold/berserk.git
+            commit: 32628515050b83805bab4afa1026dd2bcaa93f55
+            protocol: env
+            native: off
+          - engine: ethereal
+            repo: https://github.com/AndyGrant/Ethereal.git
+            commit: 0e47e9b67f345c75eb965d9fb3e2493b6a11d09a
+            protocol: env
+            native: on
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: p26-canonical-precommit
+          path: parent
+          repository: WhoSia/C3X
+          run-id: ${{ env.P26_RUN }}
+          github-token: ${{ github.token }}
+      - run: |
+          P26="$(find parent -name p26-precommit.json -print -quit)"
+          test -n "$P26"
+          echo "P26=$P26" >> "$GITHUB_ENV"
+          git clone "${{ matrix.repo }}" src-clean
+          git -C src-clean checkout --detach "${{ matrix.commit }}"
+          cp -a src-clean src-off
+          cp -a src-clean src-on
+          mkdir -p out
+      - name: Materialize paired PSM and age policies
+        run: |
+          if [ "${{ matrix.engine }}" = stockfish_19 ]; then
+            python3 tools/materialize_p15.py --stockfish src-off --target stockfish_19
+            python3 tools/materialize_p15.py --stockfish src-on --target stockfish_19
+          elif [ "${{ matrix.engine }}" = berserk ]; then
+            python3 tools/p20_patch_berserk.py --root src-off --variant instrument --manifest out/psm-off.json
+            python3 tools/p20_patch_berserk.py --root src-on --variant instrument --manifest out/psm-on.json
+          else
+            python3 tools/p20_patch_ethereal.py --root src-off --variant instrument --manifest out/psm-off.json
+            python3 tools/p20_patch_ethereal.py --root src-on --variant instrument --manifest out/psm-on.json
+          fi
+          python3 tools/p27_patch_age.py --root src-off --engine "${{ matrix.engine }}" --policy OFF --manifest out/age-off.json
+          python3 tools/p27_patch_age.py --root src-on --engine "${{ matrix.engine }}" --policy ON --manifest out/age-on.json
+      - name: Build portable clean and paired binaries
+        run: |
+          set -eux
+          if [ "${{ matrix.engine }}" = stockfish_19 ]; then
+            make -C src-clean/src -j2 build ARCH=x86-64
+            cp src-clean/src/stockfish out/c3x-p28-${{ matrix.engine }}-clean
+            for p in off on; do make -C src-$p/src clean; make -C src-$p/src -j2 build ARCH=x86-64; cp src-$p/src/stockfish out/c3x-p28-${{ matrix.engine }}-$p; done
+          elif [ "${{ matrix.engine }}" = berserk ]; then
+            make -C src-clean/src ARCH=x86-64 build
+            cp src-clean/src/berserk out/c3x-p28-${{ matrix.engine }}-clean
+            for p in off on; do make -C src-$p/src clean || true; make -C src-$p/src ARCH=x86-64 build; cp src-$p/src/berserk out/c3x-p28-${{ matrix.engine }}-$p; done
+          else
+            ECFLAGS="-O3 -std=gnu11 -Wall -Wextra -Wshadow -DNDEBUG -flto -DUSE_NNUE=0 -march=x86-64 -msse2"
+            make -C src-clean/src basic CFLAGS="$ECFLAGS"
+            cp src-clean/src/Ethereal out/c3x-p28-${{ matrix.engine }}-clean
+            for p in off on; do make -C src-$p/src basic CFLAGS="$ECFLAGS"; cp src-$p/src/Ethereal out/c3x-p28-${{ matrix.engine }}-$p; done
+          fi
+          chmod +x out/c3x-p28-${{ matrix.engine }}-*
+          sha256sum out/c3x-p28-${{ matrix.engine }}-* | sort > out/binary-sha256.txt
+      - name: Native-equivalence gate
+        run: |
+          python3 harness/p27_age_morphism.py identity             --engine "${{ matrix.engine }}"             --baseline "out/c3x-p28-${{ matrix.engine }}-clean"             --native "out/c3x-p28-${{ matrix.engine }}-${{ matrix.native }}"             --protocol "${{ matrix.protocol }}"             --parent "$P26"             --out "out/p28-identity-${{ matrix.engine }}.json"
+          python3 -c 'import json,sys;assert json.load(open(sys.argv[1]))["verdict"]=="PASS"' "out/p28-identity-${{ matrix.engine }}.json"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: p28-build-${{ matrix.engine }}
+          path: out/
+          retention-days: 30
+
+  precommit:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: p26-canonical-precommit
+          path: parent
+          repository: WhoSia/C3X
+          run-id: ${{ env.P26_RUN }}
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: p28-lawgen-preseal
+          path: lawgen
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: p28-build-*
+          path: builds
+      - run: |
+          P26="$(find parent -name p26-precommit.json -print -quit)"
+          CONST="$(find lawgen -name constitution.json -print -quit)"
+          python3 harness/p28_mediation.py precommit --parent "$P26" --constitution "$CONST" --build-dir builds --out p28-precommit.json
+          sha256sum p28-precommit.json > p28-precommit-file-sha256.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: p28-precommit-sealed
+          path: p28-precommit*
+          retention-days: 30
+
+  donor:
+    needs: precommit
+    runs-on: ubuntu-latest
+    timeout-minutes: 240
+    strategy:
+      fail-fast: false
+      matrix:
+        engine: [stockfish_19, berserk]
+        family: [KQQvKQ, KQRvKQ, KQQvKR, KQRvKR, KRBvKB, KRNvKB, KRBvKN, KRNvKN]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with: {name: p28-precommit-sealed, path: pre}
+      - uses: actions/download-artifact@v4
+        with:
+          name: p28-build-${{ matrix.engine }}
+          path: build
+      - run: |
+          chmod +x build/c3x-p28-${{ matrix.engine }}-off build/c3x-p28-${{ matrix.engine }}-on
+          mkdir -p out
+          python3 harness/p28_mediation.py vertex --mode full --precommit pre/p28-precommit.json             --engine "${{ matrix.engine }}" --family "${{ matrix.family }}"             --off build/c3x-p28-${{ matrix.engine }}-off --on build/c3x-p28-${{ matrix.engine }}-on             --out out/p28-${{ matrix.engine }}-${{ matrix.family }}.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: p28-donor-${{ matrix.engine }}-${{ matrix.family }}
+          path: out/
+          retention-days: 30
+
+  rule:
+    needs: donor
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with: {name: p28-precommit-sealed, path: pre}
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: p28-donor-*
+          path: donors
+          merge-multiple: true
+      - run: |
+          python3 harness/p28_mediation.py rule --precommit pre/p28-precommit.json --results donors --out p28-donor-rule.json
+          sha256sum p28-donor-rule.json > p28-donor-rule-file-sha256.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: p28-donor-rule-sealed
+          path: p28-donor-rule*
+          retention-days: 30
+
+  heldout_mediator:
+    needs: precommit
+    runs-on: ubuntu-latest
+    timeout-minutes: 180
+    strategy:
+      fail-fast: false
+      matrix:
+        family: [KQQvKQ, KQRvKQ, KQQvKR, KQRvKR, KRBvKB, KRNvKB, KRBvKN, KRNvKN]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with: {name: p28-precommit-sealed, path: pre}
+      - uses: actions/download-artifact@v4
+        with: {name: p28-build-ethereal, path: build}
+      - run: |
+          chmod +x build/c3x-p28-ethereal-off build/c3x-p28-ethereal-on
+          mkdir -p out
+          python3 harness/p28_mediation.py vertex --mode mediator --precommit pre/p28-precommit.json             --engine ethereal --family "${{ matrix.family }}"             --off build/c3x-p28-ethereal-off --on build/c3x-p28-ethereal-on             --out out/p28-ethereal-mediator-${{ matrix.family }}.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: p28-heldout-mediator-${{ matrix.family }}
+          path: out/
+          retention-days: 30
+
+  prediction:
+    needs: [rule, heldout_mediator]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with: {name: p28-precommit-sealed, path: pre}
+      - uses: actions/download-artifact@v4
+        with: {name: p28-donor-rule-sealed, path: rule}
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: p28-heldout-mediator-*
+          path: mediator
+          merge-multiple: true
+      - run: |
+          python3 harness/p28_mediation.py predict --precommit pre/p28-precommit.json             --rule rule/p28-donor-rule.json --mediator mediator --out p28-heldout-prediction.json
+          sha256sum p28-heldout-prediction.json > p28-heldout-prediction-file-sha256.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: p28-heldout-prediction-sealed
+          path: p28-heldout-prediction*
+          retention-days: 30
+
+  heldout:
+    needs: prediction
+    runs-on: ubuntu-latest
+    timeout-minutes: 240
+    strategy:
+      fail-fast: false
+      matrix:
+        family: [KQQvKQ, KQRvKQ, KQQvKR, KQRvKR, KRBvKB, KRNvKB, KRBvKN, KRNvKN]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with: {name: p28-precommit-sealed, path: pre}
+      - uses: actions/download-artifact@v4
+        with: {name: p28-heldout-prediction-sealed, path: pred}
+      - uses: actions/download-artifact@v4
+        with: {name: p28-build-ethereal, path: build}
+      - run: |
+          test -s pred/p28-heldout-prediction.json
+          chmod +x build/c3x-p28-ethereal-off build/c3x-p28-ethereal-on
+          mkdir -p out
+          python3 harness/p28_mediation.py vertex --mode full --precommit pre/p28-precommit.json             --engine ethereal --family "${{ matrix.family }}"             --off build/c3x-p28-ethereal-off --on build/c3x-p28-ethereal-on             --out out/p28-ethereal-${{ matrix.family }}.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: p28-heldout-${{ matrix.family }}
+          path: out/
+          retention-days: 30
+
+  adjudicate:
+    needs: heldout
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with: {name: p28-precommit-sealed, path: pre}
+      - uses: actions/download-artifact@v4
+        with: {name: p28-heldout-prediction-sealed, path: pred}
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: p28-donor-*
+          path: donors
+          merge-multiple: true
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: p28-heldout-mediator-*
+          path: mediator
+          merge-multiple: true
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: p28-heldout-K*
+          path: heldout
+          merge-multiple: true
+      - run: |
+          mkdir -p final
+          python3 harness/p28_mediation.py adjudicate --precommit pre/p28-precommit.json             --prediction pred/p28-heldout-prediction.json --donors donors --mediator mediator --heldout heldout             --out final/p28-adjudication.json
+          sha256sum final/p28-adjudication.json > final/p28-adjudication-file-sha256.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: p28-final-adjudication
+          path: final/
+          retention-days: 30
