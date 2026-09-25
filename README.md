@@ -25,8 +25,8 @@ C3X does **not** equate engine strength, Stockfish agreement, search depth, prob
 **G9.4** studies whether persistent search-memory mechanisms transport across engine architectures.
 
 - **P20–P22:** constituted and stress-tested cross-engine relation laws over Stockfish 19, Berserk and Ethereal, with Inanis as a topology-specific negative-control architecture.
-- **P23:** showed that a scalar pre-intervention qsearch-state quotient is response-relevant but does not recover a universal cross-architecture causal law. The current authority is *architecture-indexed and search-state-modulated*.
-- **P24 (active):** prospectively builds a multivariate, outcome-blind search-state atlas and tests nested quotient refinement, intervention-response bisimulation, and the point at which a universal law must give way to an architecture-indexed law family.
+- **P23:** showed that a scalar pre-intervention qsearch-state quotient is response-relevant but does not recover a universal cross-architecture causal law. The authority became *architecture-indexed and search-state-modulated*.
+- **P24 (closed):** replaced the scalar cut with a prospectively frozen multivariate atlas at `K=1,2,4,8`. No level recovered universal strict transport or conditional naturality; at `K=8`, **0/8** states formed an architecture-free intervention-response bisimulation block. The frozen quotient-refinement ceiling was therefore reached and a nonconstant **architecture-indexed causal-law family** was constituted within the P24 authority ceiling.
 
 Scientific meaning and claim authority live in the Research OS / Notion lineage. This repository is the executable byte authority for the code that realizes those tests.
 
@@ -69,9 +69,11 @@ No result becomes stronger because more languages were used. Independent impleme
 
 P24 deliberately avoids an outcome-trained representation map. Within each material-family × side-to-move stratum, named SHAM telemetry is transformed to empirical-copula ranks separately for each engine. The three engines are then aligned into an engine-symmetric shared coordinate system using coordinate-wise medians plus explicit cross-architecture disagreement coordinates.
 
-A frozen balanced refinement tree creates nested state quotients `K=1 → 2 → 4 → 8`. Only after this atlas is sealed are the source-level memory interventions executed. The court then asks whether greater state resolution actually earns cross-architecture causal transport or merely reveals a finer architecture dependence.
+A frozen balanced refinement tree creates nested state quotients `K=1 → 2 → 4 → 8`. Only after this atlas is sealed are the source-level memory interventions executed. The court asks whether greater state resolution actually earns cross-architecture causal transport or merely reveals a finer architecture dependence.
 
-See [`docs/P24_THEORY.md`](docs/P24_THEORY.md) and [`c3x/protocol/p24-preseal.json`](c3x/protocol/p24-preseal.json).
+P24 closed on the latter branch. The key distinction is important: this is a **quotient-refinement ceiling for the predeclared atlas family and intervention algebra**, not a theorem that no conceivable representation can transport between engines. Likewise, P24 uses **intervention-response bisimulation**, not full dynamical MDP bisimulation.
+
+See [`docs/P24_THEORY.md`](docs/P24_THEORY.md), [`c3x/protocol/p24-preseal.json`](c3x/protocol/p24-preseal.json), and [`c3x/receipts/p24-closure.json`](c3x/receipts/p24-closure.json).
 
 ## Reproducibility model
 
