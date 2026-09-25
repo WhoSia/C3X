@@ -180,14 +180,16 @@ def adjudicate(a):
         for sq,mp in SQUARES.items():
           fps[str(b)][s][sq]={};support[str(b)][s][sq]={}
           for t in TARGETS:
-            vres={}
+            raw={}
             for bit,fam in mp.items():
                 rows=[]
                 for r in by[fam]["rows"]:
                     if r["states_by_budget"][str(b)]["mapped"]==s:
-                        rows.append({"targets":{t:r["by_budget"][str(b)]["targets"][t]}})
-                if not rows:raise SystemExit(f"P26_EMPTY_VERTEX {b} {s} {sq} {t} {fam}")
-                vres[bit]={"rows":rows};support[str(b)][s][sq][fam]=len(rows)
+                        rows.append((r["candidate_sha256"],{"targets":{t:r["by_budget"][str(b)]["targets"][t]}}))
+                rows.sort(key=lambda z:z[0]);raw[bit]=rows;support[str(b)][s][sq][fam]=len(rows)
+            m=min(len(raw[bit]) for bit in ("00","10","01","11"))
+            if m<2:raise SystemExit(f"P26_EQUALIZED_SUPPORT {b} {s} {sq} {t} {m}")
+            vres={bit:{"rows":[x[1] for x in raw[bit][:m]]} for bit in ("00","10","01","11")}
             fps[str(b)][s][sq][t]=fp(p20.square_analysis(vres,t))
     architecture_cells=0;total_cells=0
     for b in BUDGETS:
