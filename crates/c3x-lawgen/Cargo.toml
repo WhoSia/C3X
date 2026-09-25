@@ -10,6 +10,10 @@ publish = false
 name = "c3x-lawgen"
 path = "src/main.rs"
 
+[[bin]]
+name = "c3x-lawgen-v2"
+path = "src/bin/lawgen_v2.rs"
+
 [dependencies]
 serde = { version = "1", features = ["derive"] }
 serde_json = "1"
