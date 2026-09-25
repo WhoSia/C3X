@@ -1,0 +1,134 @@
+{
+  "schema": "c3x-lawgen-spec-v4",
+  "scientific_stage": "C3X 0.7.0-G9.4-P28",
+  "title": "Prospective Mechanism-Mediation Decomposition, TT Survival/Replacement Hazard Instrumentation, Age-Coordinate Dose–Response, Ethereal Null Localization, Dynamic Collision-Graph Witness & Conditional Causal-Morphism Recovery",
+  "parent_authority": {
+    "stage": "C3X 0.7.0-G9.4-P27",
+    "receipt": "c3x/receipts/p27-closure.json",
+    "closure_commit": "09cf2eb8e943e49f74242d06a1370d4e81d5bb78",
+    "verdict": "AGE_ON_HIT_EFFECT_ARCHITECTURE_CONDITIONED_NO_UNIVERSAL_HELDOUT_MORPHISM",
+    "canonical_run": 36163727371,
+    "precommit_receipt_sha256": "125a4b0ffa2999895028d53946a7fb645d81ed1365cf5e43778583d245f586a9"
+  },
+  "scope": {
+    "support": "same deterministic 128-cell P27 support rule reconstructed from the frozen P26 parent; no P28 outcome-driven reselection",
+    "anchor_budget_nodes": 80000,
+    "prime_nodes": 20000,
+    "decoy_nodes": 20000,
+    "dose_decoy_counts": [0, 1, 3, 7],
+    "anchor_dose": 3,
+    "architectures": ["stockfish_19", "berserk", "ethereal"],
+    "age_policies": ["OFF", "ON"],
+    "law_modes": ["SHAM", "MASK_MAIN", "MASK_QSEARCH", "MASK_MAIN_QSEARCH", "MASK_ALL"],
+    "threads": 1,
+    "hash_mib": 64,
+    "selected_cells": 128
+  },
+  "mediator_contract": {
+    "name": "measurement-search TT reuse survival / replacement-pressure proxy",
+    "observed_coordinates": [
+      "probes_main",
+      "hits_main",
+      "probes_qsearch",
+      "hits_qsearch",
+      "total_probe_count",
+      "total_hit_count",
+      "exact hit-rate sign under OFF->ON by dose"
+    ],
+    "estimand": "history-conditioned change in measurement-search TT reuse after deterministic decoy-dose aging",
+    "hazard_semantics": "replacement pressure is operationalized as loss of reusable TT hits under increasing decoy dose; exact entry-level replacement events are not claimed",
+    "no_threshold_rule": "all mediator comparisons use exact integer cross-products of hits/probes; no learned or post-outcome numeric threshold"
+  },
+  "dose_response": {
+    "doses": [0, 1, 3, 7],
+    "history_template": "target prime 20k -> d deterministic decoys each 20k -> target measurement 80k",
+    "fresh_process_per_cell_age_mode_dose": true,
+    "age_policy_applies_throughout_history": true,
+    "primary_signature": "four-symbol OFF->ON hit-rate sign vector across doses, each symbol in {-1,0,+1}"
+  },
+  "conditional_morphism": {
+    "donor_architectures": ["stockfish_19", "berserk"],
+    "held_out_architecture": "ethereal",
+    "law_endpoint": "three-bit OFF->ON transition mask over curvature_class, dominant_coordinate, dominant_sign at dose=3",
+    "rule": "pool donor state×square observations by frozen four-dose mediator signature; admit a signature only when both donor architectures contribute and every donor observation at that signature has the same law-transition mask",
+    "heldout_sequence": "measure Ethereal SHAM-only mediator dose ladder -> seal conditional prediction -> execute Ethereal selective law modes",
+    "unresolved_rule": "unseen or donor-inconsistent mediator signatures are UNRESOLVED",
+    "universal_gate": "all 16 held-out state×square cells resolved and exactly matched"
+  },
+  "ethereal_null_localization": {
+    "question": "does the P27 0/16 law-fingerprint null arise upstream at the TT-reuse mediator or downstream of a nonzero mediator displacement?",
+    "outcomes": [
+      "UPSTREAM_MEDIATOR_NULL",
+      "LOW_LEVEL_MEDIATOR_EFFECT_WITH_FROZEN_LAW_NULL",
+      "LAW_NULL_NOT_REPLICATED"
+    ],
+    "criterion": "exact zero/nonzero mediator-signature displacement and exact frozen law-fingerprint transition count; no effect-size threshold"
+  },
+  "collision_graph_witness": {
+    "coordinate": "indexing_family",
+    "required_witness": "dynamic full-key trace sufficient to construct the frozen-key collision multigraph under native and counterfactual index maps plus a bijective bucket relabeling preserving collision adjacency and occupancy opportunity",
+    "p28_gate": "HOLD unless full 64-bit key traces exist before indexing outcomes",
+    "current_instrument_limitation": "P27/P28 PSM telemetry exposes probe/hit counts but not full keys; hit-decay is insufficient for an exact collision-graph isomorphism witness",
+    "forbidden": "infer topology equivalence from aggregate hit rates or hashfull alone"
+  },
+  "portability_contract": {
+    "ethereal_build": "release ssse3-popcnt target; no -march=native",
+    "reason": "eliminate the P27 heterogeneous-runner ISA incident",
+    "binary_identity": "all paired binaries SHA-256 sealed before selective outcomes"
+  },
+  "lawgen_v4": {
+    "new_first_class_objects": [
+      "mediator_contract",
+      "dose_ladder",
+      "operational_hazard",
+      "conditional_morphism_rule",
+      "null_localization_court",
+      "collision_graph_witness_gate",
+      "portable_binary_contract"
+    ],
+    "principle": "mediation claims require an explicit observed mediator and a frozen mapping rule; operational hazard proxies must not be promoted to unobserved entry-level replacement facts"
+  },
+  "literature_constraints": [
+    {
+      "source": "Geiger et al. (2025), Causal Abstraction",
+      "constraint": "mechanism transformations and causal mediation must keep low-level interventions, mediator variables, and high-level readouts explicitly separated"
+    },
+    {
+      "source": "Grant et al. (ICLR 2026), Addressing divergent representations from causal interventions",
+      "constraint": "intervention validity and downstream representational divergence are distinct"
+    },
+    {
+      "source": "Sutter et al. (NeurIPS 2025), nonlinear representation dilemma",
+      "constraint": "conditional transport capacity is frozen before held-out selective outcomes; no post-outcome alignment expansion"
+    }
+  ],
+  "prospective_claims": [
+    {
+      "id": "D",
+      "name": "dose_response",
+      "criterion": "report exact OFF->ON TT-reuse sign at each of four decoy doses for every architecture×state×square cell"
+    },
+    {
+      "id": "N",
+      "name": "ethereal_null_localization",
+      "criterion": "classify the held-out Ethereal null from exact mediator displacement and fresh selective law replication"
+    },
+    {
+      "id": "C",
+      "name": "conditional_morphism",
+      "criterion": "seal donor mediator-signature->law-mask map before Ethereal selective modes are executed"
+    },
+    {
+      "id": "G",
+      "name": "collision_graph_witness",
+      "criterion": "no indexing causal-effect claim without the predeclared full-key graph witness"
+    }
+  ],
+  "claim_ceiling": [
+    "The mediator is an operational TT-reuse survival / replacement-pressure proxy, not an exact per-entry replacement-event census.",
+    "P28 uses the inherited frozen 80k law readout and does not authorize transport to 40k/160k/300k.",
+    "A conditional held-out match supports only the frozen low-capacity mediator-signature rule, not a universal architecture ontology.",
+    "Ethereal null localization is limited to the observed TT-reuse mediator and frozen law fingerprint.",
+    "Aggregate hit telemetry cannot establish the dynamic collision-graph witness; indexing causality remains held if no full-key trace is available."
+  ]
+}
