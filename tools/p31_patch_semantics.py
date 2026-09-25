@@ -28,7 +28,7 @@ def stockfish(r):
  inc=install(r)
  tt=r/"src"/"tt.cpp";t=tt.read_text()
  t=one(t,'#include "c3x_p30_victim.inc"',
-       '#include "c3x_p30_victim.inc"\n\nextern "C" unsigned long long c3x_p31_tt_seq(void){ return c3xSeq; }',"SF_SEQ")
+       '#include "c3x_p30_victim.inc"\n\nextern "C" uint64_t c3x_p31_tt_seq(void){ return (uint64_t)c3xSeq; }',"SF_SEQ")
  tt.write_text(t)
  p=r/"src"/"search.cpp";s=p.read_text()
  s=one(s,'#include "ucioption.h"','#include "ucioption.h"\n#include "c3x_p31_semantic.inc"',"SF_INC")
