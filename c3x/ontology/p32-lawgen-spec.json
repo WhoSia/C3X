@@ -62,9 +62,10 @@
       "depth",
       "tt_move",
       "bound",
+      "payload",
       "baseline_signature_occurrence"
     ],
-    "occurrence_semantics": "baseline_signature_occurrence is the 1-based count among events with identical preceding address fields in the native BASE catalogue",
+    "occurrence_semantics": "baseline_signature_occurrence is the 1-based count among events with identical preceding address fields; payload is retained when an engine has multiple native semantic-use subpaths with otherwise identical structural state.",
     "targeted_replay": "a target fires only when the same structural signature reaches the frozen occurrence count; requested-but-unreached targets are recorded, never silently remapped",
     "measurement_only": "all P32 interventions activate only when TT search sequence == 5"
   },
