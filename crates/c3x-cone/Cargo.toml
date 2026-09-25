@@ -1,0 +1,17 @@
+[package]
+name = "c3x-cone"
+version = "0.1.0"
+edition = "2021"
+description = "Independent causal-cone quotient compiler and verifier for C3X P34"
+license = "MIT"
+publish = false
+
+[dependencies]
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+sha2 = "0.10"
+
+[profile.release]
+lto = "thin"
+codegen-units = 1
+panic = "abort"
