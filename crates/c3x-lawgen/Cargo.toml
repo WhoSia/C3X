@@ -1,0 +1,21 @@
+[package]
+name = "c3x-lawgen"
+version = "0.1.0"
+edition = "2021"
+description = "Typed ontological compiler for C3X causal-law experiments"
+license = "MIT"
+publish = false
+
+[[bin]]
+name = "c3x-lawgen"
+path = "src/main.rs"
+
+[dependencies]
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+sha2 = "0.10"
+
+[profile.release]
+lto = "thin"
+codegen-units = 1
+panic = "abort"
