@@ -187,3 +187,5 @@ jobs:
             p26-adjudication.json
             p26-report.md
           retention-days: 30
+
+# exact-prefix engineering repair: LawGen v2 Serialize derives; no scientific field changed
