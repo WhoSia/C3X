@@ -1,0 +1,130 @@
+{
+  "schema": "c3x-lawgen-spec-v6",
+  "scientific_stage": "C3X 0.7.0-G9.4-P30",
+  "title": "Prospective Replacement-Pressure Activation, Hash-Capacity Dose–Response, Victim-Eligibility State Instrumentation, Ethereal Age→Replacement Edge Reopening, Cross-Architecture Slot-Value Mediation & Conditional Causal-Morphism Reconstitution",
+  "parent_authority": {
+    "stage": "C3X 0.7.0-G9.4-P29",
+    "receipt": "c3x/receipts/p29-closure.json",
+    "closure_commit": "2383d68c8bb5ce1867ff9b70837e1f9b02d7d5b8",
+    "canonical_run": 36176449111,
+    "verdict": "ENTRY_LEVEL_PATHWAY_LOCALIZED_BUT_MEDIATOR_NOT_UNIVERSALLY_SUFFICIENT"
+  },
+  "objective": {
+    "primary": "test whether controlled TT replacement pressure activates Ethereal's silent age-write→replacement edge",
+    "explanation_system": "materialize mechanism-grounded explanation certificates from age write through victim eligibility, replacement, protected-key reuse, search use and law/action readout"
+  },
+  "support": {
+    "source": "P29 canonical 128-world precommit; no outcome-conditioned reselection",
+    "pressure_probe_worlds": 16,
+    "pressure_probe_rule": "P29 graph_probe=true (vertex-00 family of each square, WHITE side, all 8 mapped states)",
+    "law_worlds": 128,
+    "law_capacity_mib": 1,
+    "inherited_reference_capacity_mib": 64,
+    "history": {
+      "prime_nodes": 20000,
+      "decoy_nodes": 20000,
+      "decoy_count": 3,
+      "measurement_nodes": 80000,
+      "threads": 1
+    },
+    "capacities_mib": [
+      1,
+      4,
+      16,
+      64
+    ]
+  },
+  "victim_instrument": {
+    "events": [
+      "V: search_seq,bucket,requested_full_key,actual_victim_slot,actual_victim_full_key,depth_only_victim_slot,depth_only_victim_full_key,actual_age_score,depth_only_score,all_slots_shadow_known",
+      "H: search_seq,bucket,slot,full_key,last_store_seq"
+    ],
+    "replacement_value_semantics": {
+      "stockfish_19": "depth8 - 8*relative_age; minimum selected",
+      "berserk": "stored depth - age/2; minimum selected",
+      "ethereal": "stored depth - encoded age distance; minimum selected"
+    },
+    "derived_witnesses": [
+      "age_sensitive_victim_choice := actual victim slot != depth-only victim slot",
+      "protected_key := depth-only victim full key when age-sensitive victim choice holds",
+      "protected_then_reused := protected key later appears in H event during the same measurement search",
+      "replacement_pressure := committed full-key replacements in measurement search"
+    ],
+    "graph_window": "measurement search seq=5 only",
+    "no_intervention": "victim/H telemetry is observer-only; native semantics equivalence required"
+  },
+  "causal_chain": {
+    "ordered": [
+      "effective age write",
+      "age-sensitive victim eligibility",
+      "replacement displacement",
+      "protected-key later reuse",
+      "cross-search survival/full-key hit",
+      "selective TT-read law/action readout"
+    ],
+    "activation_gate": "Ethereal age→replacement edge is REOPENED at a capacity iff ON−OFF committed full-key replacement count is nonzero on at least one frozen pressure-probe cell; report all cells and all capacities, no post-hoc threshold",
+    "monotonicity": "descriptive exact dose vector only; no monotonicity assumption"
+  },
+  "mediator_rule": {
+    "donors": [
+      "stockfish_19",
+      "berserk"
+    ],
+    "heldout": "ethereal at 1 MiB selective law",
+    "signature": [
+      "sign delta age-sensitive victim choices at 1 MiB",
+      "sign delta committed full-key replacements at 1 MiB",
+      "sign delta protected-then-reused at 1 MiB",
+      "sign delta prime-origin hits at 1 MiB",
+      "sign delta full-key hits at 1 MiB",
+      "pressure activation profile over 1/4/16/64 MiB"
+    ],
+    "donor_resolution": "exact donor-consistent signature→3-bit law-transition mask only; otherwise UNRESOLVED",
+    "heldout_order": [
+      "Ethereal pressure trace all capacities",
+      "donor mediator rule",
+      "Ethereal prediction seal",
+      "Ethereal 1 MiB selective law"
+    ],
+    "universal_gate": "all 16 Ethereal cells resolved and matched"
+  },
+  "explanation_certificate": {
+    "unit": "engine × mapped-state × square",
+    "evidence_fields": [
+      "capacity dose-response",
+      "age-write engagement",
+      "victim age-sensitivity",
+      "replacement shift",
+      "protected-then-reused shift",
+      "prime-origin survival shift",
+      "full-key hit shift",
+      "law transition mask",
+      "action-change counts"
+    ],
+    "labels": [
+      "NULL_BEFORE_VICTIM",
+      "VICTIM_ONLY",
+      "REPLACEMENT_EDGE",
+      "REUSE_EDGE",
+      "SEARCH_EFFECT",
+      "LAW_EFFECT"
+    ],
+    "natural_language_template_authority": "template may verbalize only fields carried by the certificate; no motive/strategy claim beyond measured mechanism"
+  },
+  "architecture_sources": {
+    "stockfish_19": "edb0d9db6731067ec50ce619ff372b463bc4dd5d",
+    "berserk": "32628515050b83805bab4afa1026dd2bcaa93f55",
+    "ethereal": "0e47e9b67f345c75eb965d9fb3e2493b6a11d09a"
+  },
+  "literature_anchor": {
+    "breuker_1994_doi": "10.3233/ICG-1994-17402",
+    "relevance": "replacement behavior depends on TT size/pressure and replacement scheme; P30 directly intervenes on capacity while observing modern engine-specific victim scores"
+  },
+  "claim_ceiling": [
+    "Capacity is a deliberate systems intervention and may alter many TT collisions; mediation claims require the measured ordered chain and are not pure local-coordinate claims.",
+    "Victim depth-only counterfactual removes only the age term from the engine's native replacement ranking; it is not a counterfactual search replay.",
+    "Protected-then-reused is a within-measurement witness, not proof that the key caused the final move.",
+    "The heldout law target is Ethereal at 1 MiB only; P29's 64 MiB Ethereal result is inherited background, not fresh heldout evidence.",
+    "No human-like strategic-intent explanation is authorized; certificates explain engine computation."
+  ]
+}
