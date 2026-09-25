@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """P22 selective lane. Scientific rules remain frozen; this module only bridges the P22 receipt schema to the already-audited P21 executor/adjudicator implementation."""
-import argparse,hashlib,json,shutil,tempfile
+import argparse,hashlib,json,tempfile
 from pathlib import Path
 import p21_boundary as p21
 STAGE="C3X 0.7.0-G9.4-P22"
@@ -15,7 +15,9 @@ def compat_pre(pre,lane,path):
  cells=[]
  for r in pre["cells"]:
   c={k:r[k] for k in ("candidate_sha256","material_seed_name","side_to_move","square","vertex","fen","world")}
-  cells.append({"candidate":c,"sham":r["sham"],"features":r["features"],"inanis_sham":r["inanis_sham"]})
+  sh={t:(p21.baseline_arm(c,r["sham"][t]) if "semantic" in r["sham"][t] else r["sham"][t]) for t in p21.P20_TARGETS}
+  ina=p21.baseline_arm(c,r["inanis_sham"]) if "semantic" in r["inanis_sham"] else r["inanis_sham"]
+  cells.append({"candidate":c,"sham":sh,"features":r["features"],"inanis_sham":ina})
  cpp=pre["selection"]["cpp"];smd=cpp.get("smd",[])
  heavy_smd={k:float(smd[i]) for i,k in enumerate(p21.FEATURES)} if len(smd)==len(p21.FEATURES) else {}
  x={"schema":f"c3x-p21-{lane}-precommit-v1","scientific_stage":"C3X 0.7.0-G9.4-P21","authorization":"P21-CORE-INTERVENTION-AUTHORIZED" if lane=="core" else "P21-CARRIER-INTERVENTION-AUTHORIZED","selective_outcomes_consulted":False,"p20_binaries":pre["p20_binaries"],"inanis_binary_sha256":pre["inanis_binary_sha256"],"committed_cells":cells,"precommit_sha256":pre["receipt_sha256"],"exposure_balance_pass":True,"heavy_vs_minor_smd":heavy_smd}
