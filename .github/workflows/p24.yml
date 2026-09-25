@@ -1,0 +1,165 @@
+name: p24-multivariate-atlas-bisimulation-court
+on:
+  push:
+    paths:
+      - ".github/workflows/p24.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+env:
+  INSTRUMENT_RUN: 36041727983
+jobs:
+  world:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    strategy:
+      fail-fast: false
+      matrix:
+        family: [KQQvKQ,KQRvKQ,KQQvKR,KQRvKR,KRBvKB,KRNvKB,KRBvKN,KRNvKN]
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 -m pip install --disable-pip-version-check chess==1.11.2
+      - name: Constitute fresh exact worlds
+        run: |
+          mkdir -p out
+          python3 compiler/exact_world/p24_core_compile.py --material "${{ matrix.family }}" --target-per-vertex 48 --max-generated-per-vertex 1400 --out "out/p24-core-${{ matrix.family }}.json"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: p24-world-${{ matrix.family }}
+          path: out/
+          retention-days: 30
+  merge:
+    needs: world
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: p24-world-*
+          path: parts
+      - run: python3 compiler/exact_world/p24_merge.py --parts parts --out p24-core-pool.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: p24-core-pool
+          path: p24-core-pool.json
+          retention-days: 30
+  census:
+    needs: merge
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    strategy:
+      fail-fast: false
+      matrix:
+        family: [KQQvKQ,KQRvKQ,KQQvKR,KQRvKR,KRBvKB,KRNvKB,KRBvKN,KRNvKN]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: p24-core-pool
+          path: stage
+      - uses: actions/download-artifact@v4
+        with:
+          name: p21-instrument-packet
+          path: instrument
+          repository: WhoSia/C3X
+          run-id: ${{ env.INSTRUMENT_RUN }}
+          github-token: ${{ github.token }}
+      - name: Outcome-blind SHAM telemetry census
+        run: |
+          chmod +x instrument/p20/packet/c3x-p20-* instrument/inanis/inanis-instrument
+          mkdir -p out
+          python3 harness/p24_atlas.py census --pool stage/p24-core-pool.json --engine stockfish_19,stockfish_uci,instrument/p20/packet/c3x-p20-sf19 --engine berserk,env,instrument/p20/packet/c3x-p20-berserk --engine ethereal,env,instrument/p20/packet/c3x-p20-ethereal --inanis instrument/inanis/inanis-instrument --family "${{ matrix.family }}" --nodes 80000 --out "out/p24-census-${{ matrix.family }}.json"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: p24-census-${{ matrix.family }}
+          path: out/
+          retention-days: 30
+  atlas:
+    needs: census
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: p24-census-*
+          path: census
+      - uses: actions/download-artifact@v4
+        with:
+          name: p24-core-pool
+          path: stage
+      - name: Export named telemetry
+        run: python3 harness/p24_atlas.py export --census-dir census --out p24-census.tsv
+      - name: Test and build Rust scientific kernel
+        run: |
+          cargo test --manifest-path crates/c3x-atlas/Cargo.toml
+          cargo build --release --manifest-path crates/c3x-atlas/Cargo.toml
+      - name: Freeze empirical-copula atlas before interventions
+        run: target/release/c3x-atlas p24-census.tsv p24-atlas.tsv p24-atlas-receipt.json
+      - name: Materialize P24 precommit
+        run: python3 harness/p24_atlas.py precommit --census-dir census --pool stage/p24-core-pool.json --atlas p24-atlas.tsv --atlas-receipt p24-atlas-receipt.json --out p24-core-precommit.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: p24-atlas-precommit
+          path: |
+            p24-census.tsv
+            p24-atlas.tsv
+            p24-atlas-receipt.json
+            p24-core-precommit.json
+          retention-days: 30
+  vertex:
+    needs: atlas
+    runs-on: ubuntu-latest
+    timeout-minutes: 180
+    strategy:
+      fail-fast: false
+      matrix:
+        family: [KQQvKQ,KQRvKQ,KQQvKR,KQRvKR,KRBvKB,KRNvKB,KRBvKN,KRNvKN]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: p24-atlas-precommit
+          path: pre
+      - uses: actions/download-artifact@v4
+        with:
+          name: p21-instrument-packet
+          path: instrument
+          repository: WhoSia/C3X
+          run-id: ${{ env.INSTRUMENT_RUN }}
+          github-token: ${{ github.token }}
+      - name: Execute frozen intervention algebra on every fresh atlas cell
+        run: |
+          chmod +x instrument/p20/packet/c3x-p20-* instrument/inanis/inanis-instrument
+          mkdir -p out
+          python3 harness/p24_atlas.py vertex --precommit pre/p24-core-precommit.json --engine stockfish_19,stockfish_uci,instrument/p20/packet/c3x-p20-sf19 --engine berserk,env,instrument/p20/packet/c3x-p20-berserk --engine ethereal,env,instrument/p20/packet/c3x-p20-ethereal --inanis instrument/inanis/inanis-instrument --family "${{ matrix.family }}" --nodes 300000 --out "out/p24-core-${{ matrix.family }}.json"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: p24-vertex-${{ matrix.family }}
+          path: out/
+          retention-days: 30
+  adjudicate:
+    needs: vertex
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: p24-atlas-precommit
+          path: pre
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: p24-vertex-*
+          path: results
+      - name: Adjudicate nested quotient court and response bisimulation
+        run: python3 harness/p24_atlas.py adjudicate --precommit pre/p24-core-precommit.json --results results --out p24-adjudication.json
+      - name: Independent JavaScript lineage and receipt verification
+        run: node tools/p24-verify.mjs pre/p24-core-precommit.json p24-adjudication.json p24-report.md
+      - run: cat p24-report.md
+      - uses: actions/upload-artifact@v4
+        with:
+          name: p24-final
+          path: |
+            p24-adjudication.json
+            p24-report.md
+          retention-days: 30
