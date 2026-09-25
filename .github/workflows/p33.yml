@@ -1,0 +1,197 @@
+name: p33-counterfactual-event-lineage
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - "c3x/ontology/p33-support-from-p32.json"
+      - "c3x/ontology/p33-lawgen-spec.json"
+      - "crates/c3x-lawgen/src/bin/lawgen_v9.rs"
+      - "crates/c3x-lineage/**"
+      - "harness/p33_lineage_court.py"
+      - "harness/p33_explanation_verify.py"
+      - "tools/p33-verify.mjs"
+      - ".github/workflows/p33.yml"
+
+concurrency:
+  group: p33-counterfactual-event-lineage
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  actions: read
+
+env:
+  P32_RUN: "36188807920"
+
+jobs:
+  lawgen:
+    name: LawGen v9 lineage constitution
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Static gates and prospective constitution
+        run: |
+          python3 -m py_compile harness/p33_lineage_court.py harness/p33_explanation_verify.py
+          node --check tools/p33-verify.mjs
+          cargo run --release --manifest-path crates/c3x-lawgen/Cargo.toml --bin lawgen_v9 --             c3x/ontology/p33-lawgen-spec.json             c3x/ontology/p33-support-from-p32.json             out/lawgen
+          sha256sum out/lawgen/* | sort > out/lawgen-sha256.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: p33-lawgen-preseal
+          path: out/
+          retention-days: 30
+
+  lineager:
+    name: Rust intervention-stable lineage compiler
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Test and build
+        run: |
+          cargo test --manifest-path crates/c3x-lineage/Cargo.toml
+          cargo build --release --manifest-path crates/c3x-lineage/Cargo.toml
+          mkdir -p out
+          cp crates/c3x-lineage/target/release/c3x-lineage out/c3x-lineage
+          sha256sum out/c3x-lineage > out/c3x-lineage-sha256.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: p33-lineager
+          path: out/
+          retention-days: 30
+
+  precommit:
+    name: Seal P33 lineage-closure cases
+    needs: [lawgen, lineager]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: p32-precommit-sealed
+          path: parent-pre
+          repository: WhoSia/C3X
+          run-id: ${{ env.P32_RUN }}
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: p32-final-event-explainer
+          path: parent-final
+          repository: WhoSia/C3X
+          run-id: ${{ env.P32_RUN }}
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with: {name: p33-lawgen-preseal, path: lawgen}
+      - name: Freeze inherited boundary cases
+        run: |
+          python3 harness/p33_lineage_court.py precommit             --support c3x/ontology/p33-support-from-p32.json             --parent-final parent-final/p32-adjudication.json             --parent-pre parent-pre/p32-precommit.json             --constitution lawgen/lawgen/constitution.json             --out p33-precommit.json
+          sha256sum p33-precommit.json > p33-precommit-file-sha256.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: p33-precommit-sealed
+          path: p33-precommit*
+          retention-days: 30
+
+  control:
+    name: Identity control — ${{ matrix.artifact }}
+    needs: precommit
+    runs-on: ubuntu-latest
+    timeout-minutes: 180
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - {engine: stockfish_19, case_id: "stockfish_19:ec55f57dd7e3:CUTOFF", artifact: "sf-ec55-cutoff"}
+          - {engine: berserk, case_id: "berserk:b27b7a24ddcd:EVAL", artifact: "be-b27b-eval"}
+          - {engine: ethereal, case_id: "ethereal:c18e10bd6a3a:MOVE_ORDER", artifact: "et-c18e-move"}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with: {name: p33-precommit-sealed, path: pre}
+      - uses: actions/download-artifact@v4
+        with: {name: p33-lineager, path: lineage}
+      - uses: actions/download-artifact@v4
+        with:
+          name: p32-build-${{ matrix.engine }}
+          path: build
+          repository: WhoSia/C3X
+          run-id: ${{ env.P32_RUN }}
+          github-token: ${{ github.token }}
+      - name: Execute deterministic repeat identity gate
+        run: |
+          chmod +x lineage/c3x-lineage build/c3x-p32-${{ matrix.engine }}
+          mkdir -p out
+          python3 harness/p33_lineage_court.py control             --precommit pre/p33-precommit.json             --case-id "${{ matrix.case_id }}"             --binary build/c3x-p32-${{ matrix.engine }}             --lineager lineage/c3x-lineage             --out "out/p33-control-${{ matrix.artifact }}.json"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: p33-control-${{ matrix.artifact }}
+          path: out/
+          retention-days: 30
+
+  case:
+    name: Lineage closure — ${{ matrix.artifact }}
+    needs: precommit
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - {engine: stockfish_19, case_id: "stockfish_19:f8cde3d6abb4:MOVE_ORDER+EVAL", artifact: "sf-f8cd-move-eval"}
+          - {engine: ethereal, case_id: "ethereal:a8fd39b3864a:CUTOFF", artifact: "et-a8fd-cutoff"}
+          - {engine: ethereal, case_id: "ethereal:f8cde3d6abb4:MOVE_ORDER", artifact: "et-f8cd-move"}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with: {name: p33-precommit-sealed, path: pre}
+      - uses: actions/download-artifact@v4
+        with: {name: p33-lineager, path: lineage}
+      - uses: actions/download-artifact@v4
+        with:
+          name: p32-build-${{ matrix.engine }}
+          path: build
+          repository: WhoSia/C3X
+          run-id: ${{ env.P32_RUN }}
+          github-token: ${{ github.token }}
+      - name: Execute append-only closure and conditional minimality court
+        run: |
+          chmod +x lineage/c3x-lineage build/c3x-p32-${{ matrix.engine }}
+          mkdir -p out
+          python3 harness/p33_lineage_court.py case             --precommit pre/p33-precommit.json             --case-id "${{ matrix.case_id }}"             --binary build/c3x-p32-${{ matrix.engine }}             --lineager lineage/c3x-lineage             --out "out/p33-case-${{ matrix.artifact }}.json"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: p33-case-${{ matrix.artifact }}
+          path: out/
+          retention-days: 30
+
+  adjudicate:
+    name: Explanation closure and independent verification
+    needs: [control, case]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with: {name: p33-precommit-sealed, path: pre}
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: p33-control-*
+          path: results
+          merge-multiple: true
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: p33-case-*
+          path: results
+          merge-multiple: true
+      - name: Install chess verifier
+        run: python3 -m pip install --disable-pip-version-check python-chess==1.999
+      - name: Compile bounded explanations and verify in independent runtime
+        run: |
+          mkdir -p final
+          python3 harness/p33_explanation_verify.py             --precommit pre/p33-precommit.json             --results results             --out final/p33-adjudication.json             --ast final/p33-explanation-ast.json             --grounding final/p33-chess-grounding.json             --markdown final/p33-explanations.md
+          node tools/p33-verify.mjs final/p33-adjudication.json | tee final/p33-js-verification.txt
+          sha256sum final/* | sort > final/p33-final-sha256.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: p33-final-lineage-explainer
+          path: final/
+          retention-days: 30
