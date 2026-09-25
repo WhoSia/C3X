@@ -1,0 +1,201 @@
+{
+  "schema": "c3x-p32-parent-support-v1",
+  "scientific_stage": "C3X 0.7.0-G9.4-P32",
+  "parent_run": 36183969565,
+  "parent_final_receipt_sha256": "26cb3dec6295de0aa53d3dc979da20c690d575010b43b183fa6cfacede54b11b",
+  "selection_rule": "Include every P31 engine×world certificate with a root-move single-class dependency or root-move interaction dependency. Primary single-family cases are each P31 single-class dependency; joint-family cases are retained separately and marked pure/non-pure.",
+  "selected_engine_worlds": 14,
+  "single_family_cases": 17,
+  "joint_family_cases": 2,
+  "units": [
+    {
+      "engine": "stockfish_19",
+      "candidate_sha256": "b27b7a24ddcdefe425074dbf8456fc799361f70ec0f2ca0b859cfa94318f1ba1",
+      "material_seed_name": "KRBvKB",
+      "state": "Q1_T0_D0",
+      "square": "MINOR_MINOR",
+      "baseline_bestmove": "d3e4",
+      "single_families": [
+        "CUTOFF"
+      ],
+      "interaction_families": [
+        "MOVE_ORDER+EVAL"
+      ],
+      "pure_interaction_only": false
+    },
+    {
+      "engine": "stockfish_19",
+      "candidate_sha256": "ec55f57dd7e33dc617cf6820e3cd9cef6aad871514ee955baa6e1f509d7212a4",
+      "material_seed_name": "KRBvKB",
+      "state": "Q1_T1_D0",
+      "square": "MINOR_MINOR",
+      "baseline_bestmove": "h5g5",
+      "single_families": [
+        "CUTOFF",
+        "MOVE_ORDER"
+      ],
+      "interaction_families": [],
+      "pure_interaction_only": false
+    },
+    {
+      "engine": "stockfish_19",
+      "candidate_sha256": "eccbac6921d80f3e2bd11ec950b0fd2dd3805149c4629fe2ebe8e18fb7b09a03",
+      "material_seed_name": "KRBvKB",
+      "state": "Q0_T1_D1",
+      "square": "MINOR_MINOR",
+      "baseline_bestmove": "a1b2",
+      "single_families": [
+        "EVAL"
+      ],
+      "interaction_families": [],
+      "pure_interaction_only": false
+    },
+    {
+      "engine": "stockfish_19",
+      "candidate_sha256": "f85d0171a40b2737c94ec347cfb8983095aecdc8323c2daf7f244c842c82a9a5",
+      "material_seed_name": "KRBvKB",
+      "state": "Q1_T0_D1",
+      "square": "MINOR_MINOR",
+      "baseline_bestmove": "g2g7",
+      "single_families": [
+        "MOVE_ORDER",
+        "EVAL"
+      ],
+      "interaction_families": [],
+      "pure_interaction_only": false
+    },
+    {
+      "engine": "stockfish_19",
+      "candidate_sha256": "c18e10bd6a3a941ec8c97ff332cb0f327b0345174580d8d32f8a324cc318374e",
+      "material_seed_name": "KQQvKQ",
+      "state": "Q0_T1_D1",
+      "square": "HEAVY_HEAVY",
+      "baseline_bestmove": "e5d6",
+      "single_families": [
+        "CUTOFF"
+      ],
+      "interaction_families": [],
+      "pure_interaction_only": false
+    },
+    {
+      "engine": "stockfish_19",
+      "candidate_sha256": "f8cde3d6abb4234f4bc7cea5c4669f164d2b6a61893c16c6e2f22468088ed30f",
+      "material_seed_name": "KRBvKB",
+      "state": "Q1_T1_D1",
+      "square": "MINOR_MINOR",
+      "baseline_bestmove": "h1g1",
+      "single_families": [],
+      "interaction_families": [
+        "MOVE_ORDER+EVAL"
+      ],
+      "pure_interaction_only": true
+    },
+    {
+      "engine": "berserk",
+      "candidate_sha256": "7dc2aade69962800152b9da9048976126db5ae39bbdda97bb7cbb2562d8cec41",
+      "material_seed_name": "KRBvKB",
+      "state": "Q0_T0_D0",
+      "square": "MINOR_MINOR",
+      "baseline_bestmove": "b5b4",
+      "single_families": [
+        "MOVE_ORDER"
+      ],
+      "interaction_families": [],
+      "pure_interaction_only": false
+    },
+    {
+      "engine": "berserk",
+      "candidate_sha256": "b27b7a24ddcdefe425074dbf8456fc799361f70ec0f2ca0b859cfa94318f1ba1",
+      "material_seed_name": "KRBvKB",
+      "state": "Q1_T0_D0",
+      "square": "MINOR_MINOR",
+      "baseline_bestmove": "d3c4",
+      "single_families": [
+        "MOVE_ORDER",
+        "EVAL"
+      ],
+      "interaction_families": [],
+      "pure_interaction_only": false
+    },
+    {
+      "engine": "berserk",
+      "candidate_sha256": "ec55f57dd7e33dc617cf6820e3cd9cef6aad871514ee955baa6e1f509d7212a4",
+      "material_seed_name": "KRBvKB",
+      "state": "Q1_T1_D0",
+      "square": "MINOR_MINOR",
+      "baseline_bestmove": "h5g4",
+      "single_families": [
+        "MOVE_ORDER"
+      ],
+      "interaction_families": [],
+      "pure_interaction_only": false
+    },
+    {
+      "engine": "berserk",
+      "candidate_sha256": "f85d0171a40b2737c94ec347cfb8983095aecdc8323c2daf7f244c842c82a9a5",
+      "material_seed_name": "KRBvKB",
+      "state": "Q1_T0_D1",
+      "square": "MINOR_MINOR",
+      "baseline_bestmove": "d6e5",
+      "single_families": [
+        "MOVE_ORDER"
+      ],
+      "interaction_families": [],
+      "pure_interaction_only": false
+    },
+    {
+      "engine": "berserk",
+      "candidate_sha256": "f8cde3d6abb4234f4bc7cea5c4669f164d2b6a61893c16c6e2f22468088ed30f",
+      "material_seed_name": "KRBvKB",
+      "state": "Q1_T1_D1",
+      "square": "MINOR_MINOR",
+      "baseline_bestmove": "h1g1",
+      "single_families": [
+        "CUTOFF",
+        "EVAL"
+      ],
+      "interaction_families": [],
+      "pure_interaction_only": false
+    },
+    {
+      "engine": "ethereal",
+      "candidate_sha256": "a8fd39b3864a30ec60fe487569a9347a2284f80aacdfd107b49c0e01a26e6b57",
+      "material_seed_name": "KQQvKQ",
+      "state": "Q1_T1_D0",
+      "square": "HEAVY_HEAVY",
+      "baseline_bestmove": "a8b7",
+      "single_families": [
+        "CUTOFF"
+      ],
+      "interaction_families": [],
+      "pure_interaction_only": false
+    },
+    {
+      "engine": "ethereal",
+      "candidate_sha256": "c18e10bd6a3a941ec8c97ff332cb0f327b0345174580d8d32f8a324cc318374e",
+      "material_seed_name": "KQQvKQ",
+      "state": "Q0_T1_D1",
+      "square": "HEAVY_HEAVY",
+      "baseline_bestmove": "f8d6",
+      "single_families": [
+        "MOVE_ORDER"
+      ],
+      "interaction_families": [],
+      "pure_interaction_only": false
+    },
+    {
+      "engine": "ethereal",
+      "candidate_sha256": "f8cde3d6abb4234f4bc7cea5c4669f164d2b6a61893c16c6e2f22468088ed30f",
+      "material_seed_name": "KRBvKB",
+      "state": "Q1_T1_D1",
+      "square": "MINOR_MINOR",
+      "baseline_bestmove": "h1g1",
+      "single_families": [
+        "MOVE_ORDER"
+      ],
+      "interaction_families": [],
+      "pure_interaction_only": false
+    }
+  ],
+  "interpretation": "This is a prospective P32 support freeze derived only from already-closed P31 certificates. No P32 event-level outcome has been observed."
+}
