@@ -1,0 +1,209 @@
+{
+  "schema": "c3x-lawgen-spec-v8",
+  "scientific_stage": "C3X 0.7.0-G9.4-P32",
+  "title": "Prospective Event-Targeted TT Causal Replay, Full-Key/Ply Semantic Intervention Addressing, Minimal Root-Move Sufficient Event Sets, Principal-Variation Counterfactual Reconstruction, Chess-Concept Grounding & Verified Natural-Language Explanation Synthesis",
+  "parent_authority": {
+    "stage": "C3X 0.7.0-G9.4-P31",
+    "receipt": "c3x/receipts/p31-closure.json",
+    "closure_commit": "b2959387940950f5443800153bccd8696c615b3d",
+    "canonical_run": 36183969565,
+    "verdict": "FAITHFUL_TT_SEMANTIC_EXPLANATION_COMPILER_MATERIALIZED_WITH_ROOT_MOVE_DEPENDENCIES",
+    "support_manifest": "c3x/ontology/p32-support-from-p31.json"
+  },
+  "objective": {
+    "primary": "localize P31 semantic-class root-move dependencies to addressable individual TT-use events or event interactions",
+    "necessity": "find intervention-address sets whose removal changes the frozen root move and certify inclusion-minimality by replay",
+    "sufficiency": "starting from a prospectively defined addressable family-null frontier, find retained event sets sufficient to restore the native root move and certify inclusion-minimality by replay",
+    "explanation": "compile PV-contrast and mechanically verified chess-concept facts only after event-level certificates are sealed"
+  },
+  "support": {
+    "selected_engine_worlds": 14,
+    "single_family_cases": 17,
+    "joint_family_cases": 2,
+    "primary_cases": "all 17 P31 single-family root dependencies plus the one pure MOVE_ORDER+EVAL interaction-only case",
+    "secondary_interaction_replication": "the non-pure MOVE_ORDER+EVAL interaction on stockfish_19/b27b... is retained as a diagnostic replication but does not inflate the primary case count",
+    "hash_mib": 1,
+    "threads": 1,
+    "prime_nodes": 20000,
+    "decoy_nodes": 20000,
+    "decoy_count": 3,
+    "measurement_nodes": 80000,
+    "no_outcome_conditioned_reselection": true
+  },
+  "intervention_address": {
+    "event_types": [
+      "CUTOFF",
+      "MOVE_ORDER_SEED",
+      "EVAL_REUSE",
+      "TT_VALUE_AS_EVAL"
+    ],
+    "family_map": {
+      "CUTOFF": [
+        "CUTOFF"
+      ],
+      "MOVE_ORDER": [
+        "MOVE_ORDER_SEED"
+      ],
+      "EVAL": [
+        "EVAL_REUSE",
+        "TT_VALUE_AS_EVAL"
+      ],
+      "MOVE_ORDER+EVAL": [
+        "MOVE_ORDER_SEED",
+        "EVAL_REUSE",
+        "TT_VALUE_AS_EVAL"
+      ]
+    },
+    "address_fields": [
+      "scope",
+      "event_type",
+      "full_key",
+      "ply",
+      "depth",
+      "tt_move",
+      "bound",
+      "baseline_signature_occurrence"
+    ],
+    "occurrence_semantics": "baseline_signature_occurrence is the 1-based count among events with identical preceding address fields in the native BASE catalogue",
+    "targeted_replay": "a target fires only when the same structural signature reaches the frozen occurrence count; requested-but-unreached targets are recorded, never silently remapped",
+    "measurement_only": "all P32 interventions activate only when TT search sequence == 5"
+  },
+  "frontier_localization": {
+    "ply_frontiers": [
+      0,
+      1,
+      2,
+      4,
+      8
+    ],
+    "procedure": "for each P31 root-dependent family case, block every family event whose ply is at or below the frontier; select the smallest prospectively ordered frontier that changes the root move away from BASE",
+    "authorization": "minimal event-set claims are authorized only inside a frontier that demonstrably changes root bestmove",
+    "unresolved": "if ply<=8 never changes root bestmove, classify DEEPER_OR_NONADDRESSABLE and do not fabricate event-level localization"
+  },
+  "minimality": {
+    "removal_set": {
+      "name": "difference-making removal set",
+      "predicate": "blocking exactly the addressed set changes bestmove away from BASE",
+      "search": "deterministic ddmin-style partition search over the frozen frontier catalogue",
+      "certificate": "every retained event is leave-one-out necessary for the found set; otherwise MINIMALITY_HOLD",
+      "claim": "inclusion-minimal under frozen address/replay semantics, not globally minimum cardinality"
+    },
+    "retaining_set": {
+      "name": "sufficient retaining set",
+      "predicate": "with all other frontier-family events blocked, permitting exactly the addressed set restores BASE bestmove",
+      "search": "deterministic subset minimization followed by leave-one-out verification",
+      "certificate": "every retained event is necessary within the sufficient set; otherwise SUFFICIENCY_MINIMALITY_HOLD",
+      "claim": "inclusion-minimal sufficient set relative to the frozen frontier-null intervention, not universal sufficient causation"
+    },
+    "budget": {
+      "max_replays_per_case": 96,
+      "max_final_set_for_leave_one_out": 24
+    },
+    "nonmonotonicity": "search responses need not be monotone in event sets; any budget exhaustion or failed final verification is a HOLD, not an inferred minimal cause"
+  },
+  "pv_counterfactual": {
+    "compare": [
+      "BASE",
+      "minimal_removal",
+      "frontier_null",
+      "minimal_retaining"
+    ],
+    "fields": [
+      "bestmove",
+      "score",
+      "wdl",
+      "depth",
+      "seldepth",
+      "nodes",
+      "pv"
+    ],
+    "first_divergence": "first legal PV ply where UCI moves differ; unequal termination is represented explicitly",
+    "legality_gate": "every parsed PV prefix used for concept claims must replay legally from the frozen FEN"
+  },
+  "chess_concept_grounding": {
+    "representation": "deterministic python-chess feature extraction from frozen root FEN and certified PV prefixes",
+    "allowed_atomic_claims": [
+      "SAN/UCI move identity",
+      "moved piece type",
+      "capture and captured piece type",
+      "check",
+      "promotion",
+      "castling",
+      "material-vector delta",
+      "legal-move-count delta",
+      "side-to-move in check",
+      "king Chebyshev-distance delta",
+      "passed-pawn status for a moved pawn",
+      "first PV divergence ply"
+    ],
+    "prohibited_unverified_claims": [
+      "strategic plan",
+      "positional compensation",
+      "initiative",
+      "zugzwang",
+      "fortress",
+      "tactical motif name",
+      "human intention",
+      "why the engine wanted a move"
+    ],
+    "rule": "higher-level motif language requires a separate mechanical predicate; otherwise explanations remain atomic and contrastive"
+  },
+  "explanation_verification": {
+    "architecture": "certificate -> explanation AST -> deterministic renderer -> independent verifier",
+    "ast_claim_types": [
+      "EVENT_NECESSITY",
+      "EVENT_INTERACTION",
+      "EVENT_SUFFICIENCY",
+      "PV_DIVERGENCE",
+      "CHESS_ATOMIC_CONTRAST",
+      "LIMITATION"
+    ],
+    "verifier": "every rendered factual clause must map to a certificate/grounding field; unsupported clauses fail the workflow",
+    "faithfulness_metrics": [
+      "event comprehensiveness analogue",
+      "event sufficiency analogue",
+      "minimality certificate",
+      "PV legal-prefix coverage"
+    ],
+    "natural_language": "generated only from verified AST; no free-form post-hoc rationale is authoritative"
+  },
+  "literature": {
+    "geiger_2025": {
+      "doi": "10.5555/3638840.3638923",
+      "note": "JMLR 26(83), causal abstraction / interventionals; Drive copy already present"
+    },
+    "halpern_pearl_2005": {
+      "doi": "10.1093/bjps/axi147",
+      "use": "actual causality and minimal causal structure"
+    },
+    "beckers_2021": {
+      "doi": "10.1007/s10992-021-09601-z",
+      "use": "causal sufficiency and NESS-style necessary-element-of-sufficient-set framing"
+    },
+    "jacovi_goldberg_2020": {
+      "doi": "10.18653/v1/2020.acl-main.386",
+      "use": "faithfulness as distinct from plausibility"
+    },
+    "jacovi_goldberg_2021": {
+      "doi": "10.1162/tacl_a_00367",
+      "use": "causal attribution vs social attribution"
+    },
+    "deyoung_2020": {
+      "doi": "10.18653/v1/2020.acl-main.408",
+      "use": "sufficiency/comprehensiveness-style intervention metrics"
+    },
+    "parfenova_2026": {
+      "arxiv": "2609.22245",
+      "use": "chess-specific warning that fluent explanations need not reflect decisions"
+    }
+  },
+  "claim_ceiling": [
+    "Event causation is relative to the frozen single-thread 1 MiB warmed-TT search procedure and exact address-trigger semantics.",
+    "An addressed event may be unreachable after an earlier intervention; reachability is part of the counterfactual result and targets are never remapped.",
+    "Inclusion-minimal is not minimum-cardinality and is never upgraded to a unique cause claim.",
+    "A sufficient retaining set is sufficient only relative to the frozen frontier-null intervention and support world.",
+    "Fixed-node-budget path divergence remains part of the intervention semantics.",
+    "Chess-concept statements are mechanically grounded properties of legal moves/PV prefixes, not claims about strategic intent.",
+    "No prevalence or cross-position generalization beyond the selected P31 root-dependent cases is authorized."
+  ]
+}
