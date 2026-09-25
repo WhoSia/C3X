@@ -11,6 +11,12 @@ def one(t,a,b,label):
  n=t.count(a)
  if n!=1: raise SystemExit(f"{label}_ANCHOR_{n}")
  return t.replace(a,b,1)
+def nth(t,a,b,n,label):
+ pos=-1
+ for _ in range(n+1):
+  pos=t.find(a,pos+1)
+  if pos<0: raise SystemExit(f"{label}_NTH_{n}")
+ return t[:pos]+b+t[pos+len(a):]
 def head(r):return subprocess.check_output(["git","-C",str(r),"rev-parse","HEAD"],text=True).strip()
 def install(r):
  dst=r/"src"/"c3x_p32_target.inc";shutil.copyfile(ROOT/"tools"/"p32_event_target.inc",dst);return str(dst.relative_to(r))
@@ -160,9 +166,9 @@ def berserk(r):
 def ethereal(r):
  inc=install(r);p=r/"src"/"search.c";s=p.read_text()
  s=one(s,'#include "c3x_p31_semantic.inc"','#include "c3x_p31_semantic.inc"\n#include "c3x_p32_target.inc"',"ET_INC")
- s=one(s,'if (c3x_p31_no_move()) ttMove = NONE_MOVE;',
+ s=nth(s,'if (c3x_p31_no_move()) ttMove = NONE_MOVE;',
  '''if (ttMove && c3x_p32_block("MAIN",C3X_P32_MOVE,(unsigned long long)board->hash,thread->height,depth,alpha,beta,
-                                  ttValue,ttEval,ttBound,(unsigned long long)ttMove,0)) ttMove = NONE_MOVE;''',"ET_MAIN_MOVE")
+                                  ttValue,ttEval,ttBound,(unsigned long long)ttMove,0)) ttMove = NONE_MOVE;''',0,"ET_MAIN_MOVE")
  # qsearch move was never an actual move-order semantic use in this source; leave its P31 no-op mask false under BASE.
  s=one(s,'''            if (!c3x_p31_no_cutoff() && (ttBound == BOUND_EXACT
                 || (ttBound == BOUND_LOWER && ttValue >= beta)
