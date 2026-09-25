@@ -44,7 +44,7 @@ fn spread3(x: [f64; 3]) -> f64 {
     hi - lo
 }
 
-/// Average-tie empirical ranks in (0,1), using (midrank + 0.5) / n.
+/// Average-tie empirical ranks in (0,1), using (zero-based midrank + 0.5) / n.
 fn midranks(values: &[(usize, f64)]) -> HashMap<usize, f64> {
     let mut v = values.to_vec();
     v.sort_by(|a, b| a.1.partial_cmp(&b.1).unwrap_or(Ordering::Equal).then(a.0.cmp(&b.0)));
@@ -82,6 +82,7 @@ fn read_rows(path: &str) -> Vec<Row> {
     for (line_no, line) in lines.enumerate() {
         if line.trim().is_empty() { continue; }
         let c: Vec<&str> = line.split('\t').collect();
+        assert!(c.len() >= h.len(), "short row {}", line_no + 2);
         let get = |k: &str| -> &str { c[*h.get(k).unwrap()] };
         rows.push(Row {
             sha: get("sha").to_string(),
@@ -92,15 +93,14 @@ fn read_rows(path: &str) -> Vec<Row> {
             q: [parse_f64(get("sf_q"), "sf_q"), parse_f64(get("berserk_q"), "berserk_q"), parse_f64(get("ethereal_q"), "ethereal_q")],
             qshare: [parse_f64(get("sf_qshare"), "sf_qshare"), parse_f64(get("berserk_qshare"), "berserk_qshare"), parse_f64(get("ethereal_qshare"), "ethereal_qshare")],
         });
-        assert!(c.len() >= h.len(), "short row {}", line_no + 2);
     }
     rows
 }
 
-fn assign_half<F: Fn(usize) -> f64>(idxs: &[usize], atlas: &mut [Atlas], rows: &[Row], value: F, prefix: &str, field: usize) -> (Vec<usize>, Vec<usize>) {
+fn assign_half(idxs: &[usize], atlas: &mut [Atlas], rows: &[Row], values: &[f64], prefix: &str, field: usize) -> (Vec<usize>, Vec<usize>) {
     assert!(idxs.len() % 2 == 0, "balanced split requires even support");
     let mut v = idxs.to_vec();
-    v.sort_by(|&a, &b| value(a).partial_cmp(&value(b)).unwrap_or(Ordering::Equal).then(rows[a].sha.cmp(&rows[b].sha)));
+    v.sort_by(|&a, &b| values[a].partial_cmp(&values[b]).unwrap_or(Ordering::Equal).then(rows[a].sha.cmp(&rows[b].sha)));
     let mid = v.len()/2;
     let lo = v[..mid].to_vec();
     let hi = v[mid..].to_vec();
@@ -139,19 +139,22 @@ fn build(rows: &[Row]) -> Vec<Atlas> {
             atlas[i].d_q = spread3(q);
             atlas[i].d_joint = (atlas[i].d_total + atlas[i].d_q)/2.0;
         }
+        let c_q: Vec<f64> = atlas.iter().map(|a| a.c_q).collect();
+        let c_total: Vec<f64> = atlas.iter().map(|a| a.c_total).collect();
+        let d_joint: Vec<f64> = atlas.iter().map(|a| a.d_joint).collect();
 
         // K2: Q-share consensus. Exactly 12/12.
-        let (q0,q1) = assign_half(idxs, &mut atlas, rows, |i| atlas[i].c_q, "Q", 2);
+        let (q0,q1) = assign_half(idxs, &mut atlas, rows, &c_q, "Q", 2);
         let halves = [("Q0_T",q0),("Q1_T",q1)];
         let mut state4_groups: Vec<(String,Vec<usize>)> = Vec::new();
         for (prefix, block) in halves {
-            let (lo,hi) = assign_half(&block, &mut atlas, rows, |i| atlas[i].c_total, prefix, 4);
+            let (lo,hi) = assign_half(&block, &mut atlas, rows, &c_total, prefix, 4);
             state4_groups.push((format!("{}0_D",prefix),lo));
             state4_groups.push((format!("{}1_D",prefix),hi));
         }
         // K8: cross-architecture disagreement. Exactly 3/3 within each K4 block.
         for (prefix, block) in state4_groups {
-            let _ = assign_half(&block, &mut atlas, rows, |i| atlas[i].d_joint, &prefix, 8);
+            let _ = assign_half(&block, &mut atlas, rows, &d_joint, &prefix, 8);
         }
     }
 
