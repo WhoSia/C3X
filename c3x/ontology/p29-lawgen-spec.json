@@ -1,0 +1,143 @@
+{
+  "schema": "c3x-lawgen-spec-v5",
+  "scientific_stage": "C3X 0.7.0-G9.4-P29",
+  "title": "Prospective Entry-Level TT State Trace, Full-Key Collision-Graph Materialization, Replacement-Event Causal Census, Ethereal Age-Write Engagement Localization & Mediator-Sufficiency Reconstitution",
+  "parent_authority": {
+    "stage": "C3X 0.7.0-G9.4-P28",
+    "receipt": "c3x/receipts/p28-closure.json",
+    "closure_commit": "9f7decbaf84029c86a3113a241be59b76fb257e9",
+    "canonical_run": 36170673020,
+    "verdict": "ARCHITECTURE_CONDITIONING_PERSISTS_NO_UNIVERSAL_CONDITIONAL_MORPHISM"
+  },
+  "fresh_support": {
+    "source": "P26 canonical precommit",
+    "selection": "for each mapped K8 state, choose one side by sorted-state parity; within every family×chosen-side×state stratum choose the second candidate_sha256",
+    "worlds": 64,
+    "law_cells": 16,
+    "p28_world_overlap": "forbidden by rank-2 selection",
+    "history": {
+      "prime_nodes": 20000,
+      "decoy_nodes": 20000,
+      "decoy_count": 3,
+      "measurement_nodes": 80000,
+      "threads": 1,
+      "hash_mib": 64
+    }
+  },
+  "trace_contract": {
+    "activation": "C3X_TT_TRACE environment variable; no semantic intervention",
+    "exact_shadow_state": "instrumentation maintains full 64-bit key and last-store search sequence for each physical TT slot",
+    "summary_fields": [
+      "probes",
+      "signature_hits",
+      "full_key_hits",
+      "signature_collisions",
+      "shadow_unknown_occupied",
+      "cross_search_full_hits",
+      "origin_delta_1",
+      "origin_delta_2",
+      "origin_delta_3",
+      "origin_delta_4",
+      "origin_delta_5plus",
+      "store_attempts",
+      "store_commits",
+      "initial_stores",
+      "same_full_key_updates",
+      "full_key_replacements",
+      "store_rejects",
+      "age_write_attempts",
+      "age_write_effective_changes",
+      "age_write_true_key",
+      "age_write_signature_collision"
+    ],
+    "graph_events": [
+      "R replacement edge: search_seq,bucket,slot,old_full_key,new_full_key,old_store_seq",
+      "C signature-collision edge: search_seq,bucket,slot,requested_full_key,resident_full_key,resident_store_seq",
+      "A age-write event: search_seq,bucket,slot,requested_full_key,resident_full_key,value_changed"
+    ],
+    "graph_window": "measurement search only (search_seq=5)",
+    "graph_probe_worlds": "vertex 00 family in each of HEAVY_HEAVY and MINOR_MINOR, all 8 states = 16 worlds",
+    "validity_gate": "shadow_unknown_occupied must equal zero"
+  },
+  "causal_census": {
+    "coordinate": "probe_refreshes_age_on_hit OFF↔ON",
+    "ordered_path": [
+      "effective age write",
+      "full-key replacement",
+      "prime-origin survival",
+      "full-key reuse",
+      "frozen law fingerprint"
+    ],
+    "exact_effects": "paired integer differences under identical fresh histories; no learned numeric threshold",
+    "ethereal_localization": [
+      "AGE_WRITE_SEMANTIC_NOOP",
+      "AGE_WRITE_ENGAGED_REPLACEMENT_CHANNEL_NULL",
+      "REPLACEMENT_SHIFT_REUSE_CHANNEL_NULL",
+      "REUSE_SHIFT_FROZEN_LAW_NULL",
+      "LAW_EFFECT_REOPENED"
+    ]
+  },
+  "mediator_rule": {
+    "donors": [
+      "stockfish_19",
+      "berserk"
+    ],
+    "heldout": "ethereal",
+    "signature": [
+      "effective_age_write_engaged",
+      "sign_delta_full_key_replacements",
+      "sign_delta_prime_origin_hits",
+      "sign_delta_full_key_hits",
+      "sign_delta_signature_collisions"
+    ],
+    "capacity": "exact 5-coordinate sign/boolean signature only",
+    "donor_resolution": "both donor architectures must exhibit identical signature and identical 3-bit law-transition mask",
+    "heldout_order": [
+      "Ethereal SHAM full-key trace",
+      "prediction seal",
+      "Ethereal selective modes"
+    ],
+    "unresolved": "unseen or donor-inconsistent signature remains UNRESOLVED",
+    "universal_gate": "all 16 heldout state×square cells resolved and matched"
+  },
+  "graph_analysis": {
+    "object": "directed dynamic multigraph over exact 64-bit full keys",
+    "replacement_edges": "resident full key -> committed new full key in same physical slot",
+    "signature_collision_edges": "requested full key -> resident full key when stored signature matches but exact key differs",
+    "per_world_invariants": [
+      "vertex_count",
+      "replacement_edge_count",
+      "signature_collision_edge_count",
+      "unique_edge_count",
+      "edge_multiset_sha256"
+    ],
+    "off_on_test": "exact edge-multiset equality and graph-invariant deltas; no graph similarity threshold"
+  },
+  "law_readout": {
+    "modes": [
+      "SHAM",
+      "MASK_MAIN",
+      "MASK_QSEARCH",
+      "MASK_MAIN_QSEARCH",
+      "MASK_ALL"
+    ],
+    "fingerprint": [
+      "curvature_class",
+      "dominant_coordinate",
+      "dominant_sign"
+    ],
+    "anchor_nodes": 80000
+  },
+  "architecture_sources": {
+    "stockfish_19": "edb0d9db6731067ec50ce619ff372b463bc4dd5d",
+    "berserk": "32628515050b83805bab4afa1026dd2bcaa93f55",
+    "ethereal": "0e47e9b67f345c75eb965d9fb3e2493b6a11d09a"
+  },
+  "claim_ceiling": [
+    "Full-key shadow state is an instrumentation witness for the instrumented single-thread executions, not a claim about unobserved production executions.",
+    "Replacement edges identify physical-slot replacement events in the traced measurement search; they do not by themselves identify downstream search-value causality.",
+    "Mediator sufficiency is tested only for the frozen five-coordinate signature and fresh 80k law cells.",
+    "No 40k/160k/300k transport claim is authorized.",
+    "Cross-engine graph comparison is descriptive unless an explicit intervention correspondence is separately established."
+  ]
+}
