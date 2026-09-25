@@ -1,0 +1,210 @@
+{
+  "schema": "c3x-p30-closure-v1",
+  "scientific_stage": "C3X 0.7.0-G9.4-P30",
+  "status": "CLOSED",
+  "title": "Prospective Replacement-Pressure Activation, Hash-Capacity Dose–Response, Victim-Eligibility State Instrumentation, Ethereal Age→Replacement Edge Reopening, Cross-Architecture Slot-Value Mediation & Conditional Causal-Morphism Reconstitution",
+  "parent": {
+    "stage": "C3X 0.7.0-G9.4-P29",
+    "closure_commit": "2383d68c8bb5ce1867ff9b70837e1f9b02d7d5b8",
+    "canonical_run": 36176449111,
+    "verdict": "ENTRY_LEVEL_PATHWAY_LOCALIZED_BUT_MEDIATOR_NOT_UNIVERSALLY_SUFFICIENT"
+  },
+  "execution": {
+    "canonical_run": 36179305166,
+    "canonical_head_sha": "956a5c0a23fae5ebef83658cd3e640ef6bcaa975",
+    "jobs_success": 35,
+    "jobs_total": 35,
+    "run_attempt": 1,
+    "invalid_attempts": [
+      {
+        "run_id": 36179100388,
+        "status": "CANCELLED_PRE_SCIENTIFIC_PRECOMMIT",
+        "reason": "Berserk C linkage mismatch in observer-only victim witness declarations"
+      }
+    ],
+    "scientific_contract_changes_after_preseal": [],
+    "note": "The repair changed C linkage only. Capacity grid, support, mediator coordinates, held-out ordering, thresholds, law target, and claim ceiling were unchanged."
+  },
+  "verdict": "ETHEREAL_AGE_REPLACEMENT_EDGE_REOPENED_UNDER_PRESSURE_MEDIATOR_NOT_UNIVERSALLY_SUFFICIENT",
+  "instrument": {
+    "inherited_support_worlds": 128,
+    "pressure_probe_worlds": 16,
+    "capacities_mib": [
+      1,
+      4,
+      16,
+      64
+    ],
+    "law_capacity_mib": 1,
+    "history": [
+      "target_prime_20k",
+      "decoy_1_20k",
+      "decoy_2_20k",
+      "decoy_3_20k",
+      "target_measurement_80k"
+    ],
+    "observer_events": {
+      "V": "native age-aware victim and depth-only victim counterfactual",
+      "H": "exact full-key hit with physical bucket/slot and store-search provenance"
+    },
+    "causal_chain": [
+      "effective age write",
+      "age-sensitive victim eligibility",
+      "committed replacement",
+      "protected-key later reuse",
+      "cross-search survival/full-key hit",
+      "selective TT-read law/action readout"
+    ]
+  },
+  "adjudication": {
+    "ethereal_replacement_edge": {
+      "reopened_capacities_mib": [
+        1,
+        4
+      ],
+      "highest_capacity_reopened_mib": 4,
+      "interpretation": "P29's 64 MiB Ethereal replacement-channel null was pressure-regime-specific, not an architecture-wide impossibility."
+    },
+    "ethereal_capacity_dose_response": {
+      "1": {
+        "victim_shift_cells": 11,
+        "replacement_shift_cells": 12,
+        "protected_reuse_shift_cells": 9,
+        "prime_survival_shift_cells": 11,
+        "full_hit_shift_cells": 11,
+        "action_changed_cells": 0,
+        "total": 16
+      },
+      "4": {
+        "victim_shift_cells": 9,
+        "replacement_shift_cells": 8,
+        "protected_reuse_shift_cells": 4,
+        "prime_survival_shift_cells": 10,
+        "full_hit_shift_cells": 10,
+        "action_changed_cells": 0,
+        "total": 16
+      },
+      "16": {
+        "victim_shift_cells": 0,
+        "replacement_shift_cells": 0,
+        "protected_reuse_shift_cells": 0,
+        "prime_survival_shift_cells": 0,
+        "full_hit_shift_cells": 0,
+        "action_changed_cells": 0,
+        "total": 16
+      },
+      "64": {
+        "victim_shift_cells": 0,
+        "replacement_shift_cells": 0,
+        "protected_reuse_shift_cells": 0,
+        "prime_survival_shift_cells": 0,
+        "full_hit_shift_cells": 0,
+        "action_changed_cells": 0,
+        "total": 16
+      }
+    },
+    "law_effects_1mib": {
+      "stockfish_19": {
+        "changed": 9,
+        "total": 16
+      },
+      "berserk": {
+        "changed": 12,
+        "total": 16
+      },
+      "ethereal": {
+        "changed": 3,
+        "total": 16
+      }
+    },
+    "explanation_certificate_labels": {
+      "stockfish_19": {
+        "LAW_EFFECT": 9,
+        "SEARCH_EFFECT": 4,
+        "NULL_BEFORE_VICTIM": 3
+      },
+      "berserk": {
+        "LAW_EFFECT": 12,
+        "SEARCH_EFFECT": 2,
+        "NULL_BEFORE_VICTIM": 2
+      },
+      "ethereal": {
+        "LAW_EFFECT": 3,
+        "SEARCH_EFFECT": 9,
+        "REPLACEMENT_EDGE": 1,
+        "NULL_BEFORE_VICTIM": 3
+      }
+    },
+    "conditional_morphism": {
+      "donor_signature_types": 25,
+      "donor_rules_resolved": 0,
+      "heldout_resolved": 0,
+      "heldout_total": 16,
+      "universal": false,
+      "interpretation": "The concrete pressure-conditioned causal pathway was recovered, but the frozen cross-architecture signature was still insufficient for a donor-stable law morphism."
+    }
+  },
+  "custody_hashes": {
+    "precommit": {
+      "receipt_sha256": "4832192900ad5d4667a815144db0f05c6eebca58adfc2321261e8211c8369cbe",
+      "file_sha256": "c124d03f4e405fa03d12c58feb2a2ed2ebf721e56d96eeeb133268c2a1a2a223",
+      "artifact_id": 10883956181,
+      "artifact_digest": "sha256:9139df2b506c3487ac2de28c3838050a69f1d660a9cb0b12018174b400c018f7"
+    },
+    "donor_rule": {
+      "receipt_sha256": "caea300a48e125a89765fd49e93034008eb3023a0c521aa053ea9efeecb0a962",
+      "file_sha256": "83bf5bddf57f703658fd157c3dde0d50fa4aeda46aba978640c5b8adfb8537a4",
+      "artifact_id": 10883364159,
+      "artifact_digest": "sha256:0825b80e40913b693db21f63bc95bf9b9202a916a11f411168d1d9aaeba82a20"
+    },
+    "prediction": {
+      "receipt_sha256": "fd04494c2a897f8f7af5530982837ab1bc3f9f6d0c516987d850252a79f5c0aa",
+      "file_sha256": "71cb90867b3db2712a86449b3f614a4102fe2a9d273c759bff801e95120d0a5a",
+      "artifact_id": 10883578880,
+      "artifact_digest": "sha256:93a68da12cbf5d1a02e449c4effcafead9960f347ed3e7ad5712895a26cf58fd"
+    },
+    "final": {
+      "receipt_sha256": "c1cad65f5c38450df01e9e95e253b03c6a24d9bc00a8786e276919fb5c8932c5",
+      "file_sha256": "6ce5ba900eb4fe755c6c310a4d846119be0eec14a6a1b245b03e4e9db301046b",
+      "artifact_id": 10883841853,
+      "artifact_digest": "sha256:2e61b94c5bb5d0f8506a7fdd93fde533559eb21ccd595dbade73f9d547870d51"
+    },
+    "pressure_artifacts": {
+      "stockfish_19": {
+        "artifact_id": 10883169155,
+        "digest": "sha256:c78d720449fa50ed0159a58a750752d3719f5f51f4703697744cda4c73b5e014"
+      },
+      "berserk": {
+        "artifact_id": 10883856337,
+        "digest": "sha256:cdefa7d1a57d4d6c372af932c3c223472934c44d28f937550e5a02ed740bc0e5"
+      },
+      "ethereal": {
+        "artifact_id": 10883358866,
+        "digest": "sha256:0da19e07988287c7d31ec069366f7b483cb46cfb75f6ae77b78b7cff7fece66b"
+      }
+    }
+  },
+  "custody": {
+    "drive_folder_id": "1-qZ_TJ4SGxzZ0JPNwrNAGoW0fhdicK59",
+    "drive_precommit_file_id": "1OjEucCMy6E-bv5RXCdNOo6hrblyEIHWA",
+    "drive_donor_rule_file_id": "1m-RwavYL6D09rimQIinNmFVf9i7-E5tU",
+    "drive_prediction_file_id": "1gKY9FVv0iQnkWq6HcI6HJIbFi-NyjP2W",
+    "drive_final_file_id": "1MG7UsLR811oIa02bS10nQGJ3g2755zKH",
+    "drive_pressure_stockfish_file_id": "1YoVFl_gDVFy3hME60kiLgTKG6haGg7Lt",
+    "drive_pressure_berserk_file_id": "1bupT-HKAoLcJzdhTLb8AlrY1u4hsNgWo",
+    "drive_pressure_ethereal_file_id": "1U0HxS5pe5ubdSWtqBs07cDIky8ndq2kI",
+    "notion_page_id": "3e6ef561-cf92-8161-9e0b-d05ba445bb18"
+  },
+  "literature_anchor": {
+    "citation": "Breuker, Uiterwijk & van den Herik, Replacement Schemes for Transposition Tables, ICGA Journal 17(4), 1994",
+    "doi": "10.3233/ICG-1994-17402"
+  },
+  "claim_ceiling": [
+    "Hash capacity is a broad collision-pressure intervention; the recovered pathway is a measured mechanism chain, not a pure local-coordinate effect.",
+    "The depth-only victim is an eligibility counterfactual and not a counterfactual search replay.",
+    "Protected-then-reused events do not alone prove that an entry caused the final root move.",
+    "Heldout authority is Ethereal 1 MiB selective law only; P29 64 MiB results are inherited background.",
+    "Explanation certificates describe engine computation and do not claim human-like strategic intent."
+  ],
+  "successor_question": "Which exact TT-use events alter cutoff decisions, move ordering, evaluation reuse, PV propagation, and ultimately the root best move, and can those event-attribution paths be compiled into faithful move-level engine explanations?"
+}
