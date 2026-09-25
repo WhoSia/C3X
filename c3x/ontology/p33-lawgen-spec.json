@@ -1,0 +1,114 @@
+{
+  "schema": "c3x-lawgen-spec-v9",
+  "scientific_stage": "C3X 0.7.0-G9.4-P33",
+  "title": "Prospective Counterfactual Event-Lineage Reconstruction, Intervention-Stable TT Event Identity, Path-Divergence Causal Correspondence, Productive Search-Trace Actual Causation, Emergent-Event Necessity/Sufficiency & Explanation-Closure Reconstitution",
+  "parent_authority": {
+    "stage": "C3X 0.7.0-G9.4-P32",
+    "closure_commit": "39cb274a812cef2c4f9a72cbee113a67968bc6d1",
+    "canonical_run": 36188807920,
+    "verdict": "EVENT_LEVEL_CAUSAL_EXPLANATION_COMPILER_MATERIALIZED_WITH_MINIMAL_NECESSITY_AND_SUFFICIENCY",
+    "inherited_boundary": "A baseline-address catalogue is not closed under path-divergent interventions; an unreachable or newly reached event is part of the counterfactual rather than evidence of no cause."
+  },
+  "objective": "Reconstitute event-level causal authority when the intervention changes which TT semantic-use event tokens exist, without silently remapping tokens by outcome and without conflating trace correspondence with causal production.",
+  "support": {
+    "manifest": "c3x/ontology/p33-support-from-p32.json",
+    "primary_cases": 3,
+    "repeat_controls": 3,
+    "engines": ["stockfish_19", "berserk", "ethereal"],
+    "hash_mib": 1,
+    "threads": 1,
+    "prime_nodes": 20000,
+    "decoy_nodes": 20000,
+    "decoy_count": 3,
+    "measurement_nodes": 80000,
+    "intervention_timing": "measurement search only"
+  },
+  "event_identity": {
+    "token_identity": "The exact P32 address remains the intervention token: scope, event_type, full_key, ply, depth, tt_move, bound, payload, exact-signature occurrence.",
+    "lineage_hard_anchor": ["scope", "event_type", "full_key", "ply", "tt_move", "bound", "payload"],
+    "lineage_soft_coordinates": ["depth", "exact-signature occurrence", "trace ordinal"],
+    "correspondence_rule": "Within each identical hard-anchor bucket, sort tokens lexicographically by depth, occurrence, ordinal and address_id, then pair by rank. No root move, score, PV, explanation text or downstream outcome enters matching.",
+    "classes": ["EXACT_CONTINUATION", "DRIFTED_CONTINUATION", "EMERGENT", "VANISHED"],
+    "split_merge_policy": "Unequal bucket cardinality creates unmatched EMERGENT/VANISHED tokens; no many-to-one or one-to-many identity is forced.",
+    "identity_nonclaim": "Lineage correspondence is a frozen operational relation over observed traces, not metaphysical identity and not by itself causal evidence."
+  },
+  "closure_refinement": {
+    "seed_universe": "All baseline exact addresses in the inherited P32 selected frontier for the same semantic family.",
+    "parent_intervention": "REMOVE_SET over the entire baseline seed universe.",
+    "refinement_rule": "Every previously unseen exact event address observed at or above the frozen frontier in any closure or minimality replay is appended to the universe without ranking. The affected search is restarted against the enlarged universe.",
+    "fixed_point": "Closure is certified only when the full-universe replay and all replay paths actually visited by the frozen ddmin plus leave-one-out courts introduce no unseen exact addresses.",
+    "max_refinement_rounds": 8,
+    "max_addresses": 2048,
+    "max_replays_per_case": 160,
+    "max_final_leave_one_out": 32,
+    "budget_rule": "Caps are frozen before P33 selective replay. Crossing a cap yields HOLD; no outcome-based truncation, ranking or inflation is allowed.",
+    "universal_nonclaim": "The certificate is replay-discovered closure over the visited intervention path, not proof of closure over every subset of every possible event universe."
+  },
+  "emergent_causation": {
+    "branch_novel_set": "Exact addresses discovered only after the baseline seed universe has been constituted; lineage classes distinguish drifted continuations from genuinely unmatched emergent tokens.",
+    "necessity_predicate": "Conditioned on removing every baseline seed address, removing a candidate branch-novel set changes the root move relative to the baseline-seed-only parent intervention.",
+    "retaining_sufficiency_predicate": "Conditioned on the baseline seed removal and the closed branch-novel universe, leaving active only a candidate branch-novel subset restores the root move produced by the baseline-seed-only parent intervention.",
+    "minimality": "Replay-certified inclusion-1-minimality under the frozen replay-discovered universe; not minimum cardinality and not uniqueness.",
+    "productive_search_trace_witness": {
+      "required": [
+        "at least one baseline intervention target fired before the first branch-novel token in the parent counterfactual trace",
+        "the branch-novel token is classified by the outcome-blind lineage compiler",
+        "an inclusion-minimal branch-novel removal set is root-move difference-making conditional on the parent intervention",
+        "the reported counterfactual PV prefix replays legally"
+      ],
+      "name_boundary": "This is a C3X operational productive search-trace witness inspired by production/dependence distinctions in actual-causation work; it is not asserted to instantiate the full Lee-Bareinboim SCM definition."
+    }
+  },
+  "controls": {
+    "repeat_trace_gate": "One case per engine is replayed twice under identical BASE/CATALOG conditions. Root semantics must match and the lineage compiler must report zero EMERGENT and zero VANISHED tokens; exact-vs-drift counts are reported rather than post-hoc thresholded.",
+    "control_failure": "A failed repeat gate places intervention-stable event identity on HOLD for that engine; it does not get repaired by relaxing correspondence after primary outcomes."
+  },
+  "pv_counterfactual": {
+    "legality_gate": "Every baseline and reported P33 counterfactual PV prefix used in explanation must replay legally from the frozen FEN.",
+    "contrast": "First legal PV divergence or unequal termination is represented explicitly."
+  },
+  "explanation_verification": {
+    "pipeline": ["lineage certificate", "conditional necessity/sufficiency certificate", "legal PV replay", "deterministic chess atoms", "explanation AST", "independent JavaScript verifier", "rendered language"],
+    "allowed": ["event-lineage class", "conditional root-move dependence", "inclusion-minimal set size", "PV divergence", "legal SAN/UCI root-move properties"],
+    "forbidden": ["unverified strategic plan", "initiative", "compensation", "human-like intent", "global actual-causation claim", "population prevalence"]
+  },
+  "implementation_roles": {
+    "C_or_Cpp": "Inherited engine-native P32 TT-use hooks remain byte authority for event firing and trace emission.",
+    "Rust": "New deterministic lineage correspondence compiler and LawGen v9 constitution; no chess-outcome authority.",
+    "Python": "UCI orchestration, python-chess legality/atomic move grounding and bounded causal replay court; Python is not the default merely because prior harnesses used it.",
+    "JavaScript": "Independent final certificate and explanation-claim verifier.",
+    "policy": "CAPABILITY_FIRST_POLYGLOT_LANGUAGE_NONAUTHORITATIVE"
+  },
+  "literature": [
+    {
+      "work": "Lee & Bareinboim (2026), Productive Actual Causation",
+      "locator": "Causal AI Lab Technical Report R-142; Drive 1BkGWXUm3t6fdreb0F_WRiFcTmBjnIu-6",
+      "role": "separates dependence from production and emphasizes intermediate variables that trace a production pathway; used only to discipline the operational witness vocabulary"
+    },
+    {
+      "work": "Beckers (2025), Actual Causation and Nondeterministic Causal Models",
+      "locator": "PMLR 275:514-532; arXiv:2503.07849",
+      "role": "counterfactual dependence, structural simplification and model-relative actual-causation background"
+    },
+    {
+      "work": "Groce, Kroening & Clarke (2004), Counterexample Guided Abstraction Refinement via Program Execution",
+      "doi": "10.1007/978-3-540-30482-1_23",
+      "role": "methodological precedent for execution-driven refinement; P33 uses an analogous append-only trace-universe refinement idea without claiming formal equivalence"
+    },
+    {
+      "work": "Geiger et al. (2025), Causal Abstraction: A Theoretical Foundation for Mechanistic Interpretability",
+      "locator": "JMLR 26(83); arXiv:2301.04709",
+      "role": "interventional abstraction and faithfulness background inherited from P32"
+    }
+  ],
+  "claim_ceiling": [
+    "All P33 certificates are conditional on the inherited 1 MiB, Threads=1, warmed-TT, 80k-node measurement procedure and the P32 engine instrumentation.",
+    "A lineage match is an operational correspondence, not causal evidence by itself.",
+    "Replay-discovered closure covers the fixed execution paths actually visited by the prospective refinement/minimality algorithm, not all possible event subsets.",
+    "Conditional emergent necessity/sufficiency is relative to the parent baseline-seed removal intervention.",
+    "Productive search-trace witness is a C3X operational certificate and is not the full Lee-Bareinboim SCM definition.",
+    "Inclusion-minimal does not mean globally minimum-cardinality or unique cause.",
+    "No chess-strategy, cognitive-intention, prevalence or cross-position generalization is authorized beyond mechanically verified atoms and selected support."
+  ],
+  "p33_selective_results_consulted": false
+}
