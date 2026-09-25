@@ -1,0 +1,74 @@
+{
+  "schema": "c3x-p22-closure-v1",
+  "scientific_stage": "C3X 0.7.0-G9.4-P22",
+  "closed_at": "2026-09-25T20:11:00+09:00",
+  "canonical_selective_run": 36127715799,
+  "fresh_world_run": 36102375988,
+  "balance_design_run": 36126640625,
+  "design": {
+    "core_selected": 96,
+    "carrier_selected": 96,
+    "quota_per_material_side": 6,
+    "frozen_smd_gate": 0.5,
+    "core_max_abs_smd": 0.08869038145678079,
+    "carrier_max_abs_smd": 0.016318352622179528,
+    "rust_cpp_r_js_authorization": true
+  },
+  "core": {
+    "core_relation_boundary_replicated": false,
+    "exposure_only_rival": "NOT_DEFEATED",
+    "heavy_fingerprints": {
+      "stockfish_19": ["FLAT", "INTERACTION", -1],
+      "berserk": ["CURVED", "MAIN", 1],
+      "ethereal": ["CURVED", "MAIN", 1]
+    },
+    "minor_fingerprints": {
+      "stockfish_19": ["CURVED", "INTERACTION", -1],
+      "berserk": ["CURVED", "MAIN", -1],
+      "ethereal": ["CURVED", "QSEARCH", 1]
+    },
+    "inanis_pawn_q_negative_control_pass": true,
+    "robust_wdl_changed_any_arm": false,
+    "adjudication_receipt_sha256": "9563e1f653360f28994eae5cebe66ed2451e50857689854d3fec9b72e4728fec"
+  },
+  "carrier": {
+    "broader_qsearch_memory_carrier_support": false,
+    "channel_homology_claim": "NOT_GRANTED_BY_SIGN_AGREEMENT",
+    "tt_qsearch_negative_targets_on_heavy": 0,
+    "robust_wdl_changed_any_arm": false,
+    "adjudication_receipt_sha256": "194264246f5b2b924dd97f5df237a987344a6241cd19a66fcdca6e1940c64d9a"
+  },
+  "synthesis": {
+    "verdict": "P20_RELATION_BOUNDARY_NOT_FRESHLY_REPLICATED",
+    "exposure_only_status": "NOT_DEFEATED",
+    "broader_qsearch_persistent_memory_status": "NOT_ESTABLISHED",
+    "channel_homology_claimed": false,
+    "structural_zero_imputation": false,
+    "authority_ceiling": "FOUR_ENGINE_FROZEN_ARCHITECTURE_SET_AND_EXACT_WORLD_FAMILIES_ONLY",
+    "receipt_sha256": "840caa45a051c365033f1c560b44d1af769f092951df905fa522b8a7eeab1b5e"
+  },
+  "implementation_repairs": [
+    "Original P22 balance workflow omitted an R runtime; the frozen census and selector were rerun with an explicit R runtime without changing scientific gates.",
+    "The first selective bridge exposed a latent P21 baseline-representation mismatch; the P22 native executor was repaired while preserving frozen cells, modes, node budget, engine identities and adjudication rules.",
+    "Canonical closure used parallel execution only to reduce wall-clock time; it did not alter the frozen experiment."
+  ],
+  "literature_integrated": [
+    "Stuart (2010) — Matching Methods for Causal Inference - A Review and a Look Forward",
+    "Hainmueller (2012) — Entropy Balancing for Causal Effects",
+    "Zubizarreta (2012) — Using Mixed Integer Programming for Matching in an Observational Study of Kidney Failure After Surgery",
+    "Zubizarreta, Paredes & Rosenbaum (2014) — Matching for Balance, Pairing for Heterogeneity",
+    "Zubizarreta (2015) — Stable Weights that Balance Covariates for Estimation With Incomplete Outcome Data",
+    "Geiger et al. (2025) — Causal Abstraction - A Theoretical Foundation for Mechanistic Interpretability",
+    "Ng, Cheung, Chan & Yu (2006) — Work Experience versus Refactoring to Design Patterns - A Controlled Experiment",
+    "Baldwin & Clark (2002) — The Option Value of Modularity in Design"
+  ],
+  "drive_intake": {
+    "normalized_and_moved": true,
+    "verified_duplicate_deleted": "Pietrantuono et al. (2025) — Causal Software Engineering",
+    "intake_empty_after_cleanup": true
+  },
+  "next_stage": {
+    "version": "C3X 0.7.0-G9.4-P23",
+    "formal_name": "Prospective Transport-Failure Localization, Pre-Intervention Search-State Quotienting, Outcome-Blind Regime Stratification, Relation-Law Conditionalization & Minimal Architecture-Invariant Causal Object Reconstitution"
+  }
+}
