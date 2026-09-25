@@ -1,5 +1,5 @@
 {
-  "schema": "c3x-g9.4-p23-preseal-v1",
+  "schema": "c3x-g9.4-p23-preseal-v2",
   "scientific_stage": "C3X 0.7.0-G9.4-P23",
   "title": "Prospective Transport-Failure Localization, Pre-Intervention Search-State Quotienting, Outcome-Blind Regime Stratification, Relation-Law Conditionalization & Minimal Architecture-Invariant Causal Object Reconstitution",
   "ancestry": {
@@ -9,16 +9,26 @@
     "p22_selective_run": 36127715799,
     "p21_instrument_run": 36041727983
   },
-  "epistemic_separation": {
-    "p22_selective_results_available_to_design_job": false,
-    "p22_selected_cells_reused": false,
-    "design_inputs": ["P22 core SHAM census TSV", "P22 core selected-cell list", "P22 fresh core pool", "P22 binary identity precommit"],
-    "selective_outcomes_open_only_after_p23_precommit": true
+  "design_repair_before_selective_outcomes": {
+    "failed_run": 36129712883,
+    "failed_design": "P22-unused 288-cell holdout with unchanged 6-per-family-side quotas and 0.50 balance gate",
+    "best_max_abs_smd": 1.769760886,
+    "gate": 0.50,
+    "selective_outcomes_opened": false,
+    "interpretation": "support failure after removing the P22 balanced cells; not a scientific outcome",
+    "repair": "discard the failed holdout selection and constitute a genuinely fresh P23 exact-world namespace at generation offset 420000 while retaining the same exposure features, selector, quotas, 0.50 gate, engine identities, intervention algebra, and 300k selective budget"
   },
-  "holdout_design": {
+  "epistemic_separation": {
+    "p22_selective_results_available_to_p23_design": false,
+    "p22_cells_reused": false,
+    "p23_failed_holdout_cells_used_for_selective_outcomes": false,
+    "fresh_world_compiler_namespace": "c3x-p23-core-v1 / offset 420000",
+    "selective_outcomes_open_only_after_fresh_SHAM_census_balance_and_quotient_precommit": true
+  },
+  "fresh_design": {
     "lane": "pawnless core",
-    "eligible_pool": "P22 SHAM-censused cells excluding every P22 selected cell",
-    "expected_rows_after_exclusion": 288,
+    "worlds": "48 per material family, 24 per side, 384 total",
+    "sham_census_nodes": 80000,
     "selector": "unchanged P22 Rust 64-start quota best-improvement matcher",
     "independent_certificates": ["C++", "R", "JavaScript cross-language seal"],
     "quota": "6 cells per material family x side-to-move = 96 total",
@@ -26,10 +36,10 @@
     "runtime": "Threads=1; Hash=64 MiB if exposed; Clear Hash/cold process; 300000 nodes per selective arm"
   },
   "search_state_quotient": {
-    "coordinate": "median(SF19 Q_SHARE, Berserk Q_SHARE, Ethereal Q_SHARE) measured in the already outcome-blind 80k SHAM census",
+    "coordinate": "median(SF19 Q_SHARE, Berserk Q_SHARE, Ethereal Q_SHARE) measured in the fresh outcome-blind 80k SHAM census",
     "symmetry": "engine labels enter only through a symmetric median",
     "stratification": "within each material-family x side-to-move quota, rank the six selected cells by the coordinate then candidate SHA; lowest three = Q_LOW, highest three = Q_HIGH",
-    "support": "exactly 3 cells per family x side x regime; therefore 6 cells per material vertex x regime",
+    "support": "exactly 3 cells per family x side x regime; 6 cells per material vertex x regime",
     "post_outcome_regime_reassignment": false
   },
   "interventions": {
@@ -43,15 +53,12 @@
     "p20_conditional_recovery": "Within a frozen regime, all three admitted engines must be CURVED/QSEARCH/-1 on HEAVY_HEAVY and MINOR_MINOR must not share one common CURVED fingerprint.",
     "strict_conditional_naturality": "Within a frozen regime, all three engine pairs must satisfy inherited P20 compatible() on both HEAVY_HEAVY and MINOR_MINOR.",
     "abstraction_lattice_coarse_to_fine": ["EFFECT_SUPPORT", "CURVATURE_CLASS", "DOMINANT_COORDINATE", "SIGNED_COORDINATE", "FULL_FINGERPRINT"],
-    "minimal_object_rule": "Choose the coarsest nontrivial level whose value is identical across all three engines for every regime x square cell and takes at least two distinct values across those cells. If none exists, no architecture-invariant causal object is reconstituted.",
-    "failure_localization": "Distinguish architecture-dominant persistence from search-state-modulated disagreement and conditional convergence without changing the quotient after outcomes are opened.",
+    "minimal_object_rule": "Choose the coarsest nontrivial level whose value is identical across all three engines for every regime x square cell and takes at least two distinct values across those cells; otherwise return none.",
+    "failure_localization": "Distinguish architecture-dominant persistence, search-state-modulated disagreement, partial conditional convergence, and exact conditional P20 recovery without changing the quotient after outcomes are opened.",
     "robust_wdl": "reported only; never substituted for the frozen fine-value outcome"
   },
   "fail_closed": [
-    "Any P22-selected SHA in P23 selection aborts.",
-    "Any balance/certificate failure aborts before selective intervention.",
-    "Any family-side-regime quota mismatch aborts.",
-    "Any binary identity mismatch aborts.",
-    "No result-driven threshold, quotient, arm, node-budget, or engine-set change is permitted."
+    "Any fresh-world, SHAM-census, balance, cross-language certificate, quota, or binary-identity failure aborts before selective intervention.",
+    "No result-driven threshold, quotient, arm, node-budget, or engine-set change is permitted after selective outcomes open."
   ]
 }
