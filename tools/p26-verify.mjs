@@ -1,0 +1,21 @@
+#!/usr/bin/env node
+import fs from "node:fs";
+const [prePath,adjPath,reportPath]=process.argv.slice(2);
+if(!prePath||!adjPath||!reportPath) throw new Error("usage: p26-verify precommit adjudication report");
+const pre=JSON.parse(fs.readFileSync(prePath,"utf8"));
+const adj=JSON.parse(fs.readFileSync(adjPath,"utf8"));
+if(pre.schema!=="c3x-p26-precommit-v1"||adj.schema!=="c3x-p26-adjudication-v1") throw new Error("schema");
+if(pre.receipt_sha256!==adj.precommit_receipt_sha256) throw new Error("lineage");
+if(pre.selective_outcomes_consulted!==false) throw new Error("precommit leakage");
+if(pre.state_correspondence.capacity!=="permutation_only"||pre.state_correspondence.cycle_consistent_by_construction!==true) throw new Error("correspondence authority");
+const a=adj.architecture_index,b=adj.budget_index;
+const archRem=a.invariant_cells===a.total_cells;
+const budgetRem=b.stable_engine_state_square_trajectories===b.total_trajectories;
+if(archRem!==a.removable||budgetRem!==b.removable) throw new Error("removability recompute");
+const expected=archRem&&budgetRem ? "ARCHITECTURE_AND_BUDGET_INDICES_REMOVABLE_UNDER_FROZEN_CORRESPONDENCE" : (!archRem&&!budgetRem ? "ARCHITECTURE_BUDGET_PRODUCT_FIELD_REQUIRED_UNDER_FROZEN_CORRESPONDENCE" : (!archRem ? "ARCHITECTURE_INDEX_REQUIRED_BUDGET_INDEX_REMOVABLE" : "BUDGET_INDEX_REQUIRED_ARCHITECTURE_INDEX_REMOVABLE"));
+if(expected!==adj.verdict) throw new Error("verdict");
+const overlaps=pre.state_correspondence.anchor_overlap_accuracy;
+for(const v of Object.values(overlaps)) if(!(v>=0&&v<=1)) throw new Error("overlap");
+const md=["# C3X P26 independent semantic verification","", "- verdict: `"+adj.verdict+"`", "- architecture-invariant cells: **"+a.invariant_cells+"/"+a.total_cells+"**", "- budget-stable trajectories: **"+b.stable_engine_state_square_trajectories+"/"+b.total_trajectories+"**", "- selected cells: **"+adj.selected_cells+"**", "- correspondence overlap to 80k: `"+JSON.stringify(overlaps)+"`", "", "JavaScript independently recomputed lineage, correspondence authority, index-removability branches, and final verdict. It does not replace the scientific adjudicator."].join("\n");
+fs.writeFileSync(reportPath,md+"\n");
+console.log("P26_JS_VERIFY_PASS",expected);
