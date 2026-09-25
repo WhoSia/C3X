@@ -132,5 +132,33 @@
     "No P21 HEAVY-vs-MINOR causal mediation conclusion is authorized.",
     "The post-HOLD feasible balance witness is design evidence only and cannot retroactively reselect P21."
   ],
-  "successor_constraint": "Any successor must be a new mainline. It may preseal an explicit quota-preserving balance optimizer/matcher using SHAM telemetry and fresh selective outcomes, but may not relax P21's 0.50 gate or reuse post-HOLD P21 selection as confirmatory evidence."
+  "successor_constraint": "Any successor must be a new mainline. It may preseal an explicit quota-preserving balance optimizer/matcher using SHAM telemetry and fresh selective outcomes, but may not relax P21's 0.50 gate or reuse post-HOLD P21 selection as confirmatory evidence.",
+  "custody": {
+    "google_drive": {
+      "folder_name": "G9_4_P21",
+      "folder_id": "1YQEY2BEIkq7ywrFOGyO9eJYDYQUt6k9F",
+      "verified_zip_count": 39,
+      "verified_contents": {
+        "inanis_admission": 1,
+        "merged_world_pools": 2,
+        "world_family_artifacts": 16,
+        "sham_census_artifacts": 16,
+        "precommits": 2,
+        "post_hold_diagnostic": 1,
+        "final_hold": 1
+      }
+    },
+    "github_large_artifact_exception": {
+      "artifact_name": "p21-instrument-packet",
+      "artifact_id": 10826389978,
+      "size_bytes": 155261093,
+      "digest": "sha256:6f730b0ff173cfb66237406f591ac27b63306290de147fd1d30e4b8ddd4946f4",
+      "drive_copy": false,
+      "reason": "155,261,093-byte artifact exceeds the established >100 MiB connector handoff ceiling; canonical custody remains the unexpired GitHub Actions artifact."
+    },
+    "notion": {
+      "page_id": "3e5ef561cf9281fb96accd138f587ea7",
+      "parent_c3x_page_id": "3c4ef561cf92817ab76bcab15e7d1faf"
+    }
+  }
 }
