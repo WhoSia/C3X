@@ -1,0 +1,286 @@
+{
+  "schema": "c3x-p32-closure-v1",
+  "scientific_stage": "C3X 0.7.0-G9.4-P32",
+  "status": "CLOSED",
+  "title": "Prospective Event-Targeted TT Causal Replay, Full-Key/Ply Semantic Intervention Addressing, Minimal Root-Move Sufficient Event Sets, Principal-Variation Counterfactual Reconstruction, Chess-Concept Grounding & Verified Natural-Language Explanation Synthesis",
+  "parent": {
+    "stage": "C3X 0.7.0-G9.4-P31",
+    "closure_commit": "b2959387940950f5443800153bccd8696c615b3d",
+    "canonical_run": 36183969565,
+    "verdict": "FAITHFUL_TT_SEMANTIC_EXPLANATION_COMPILER_MATERIALIZED_WITH_ROOT_MOVE_DEPENDENCIES"
+  },
+  "execution": {
+    "canonical_run": 36188807920,
+    "canonical_head_sha": "72f3de6a2683ee35f68617a840edcdbb379f6dd1",
+    "jobs_success": 25,
+    "jobs_total": 25,
+    "invalid_attempts": [
+      {
+        "run_id": 36188706899,
+        "status": "FAILED_PRE_SCIENTIFIC_PRECOMMIT",
+        "reason": "Ethereal source locator ambiguity: ET_MAIN_MOVE_ANCHOR_2 in event-target patch materialization"
+      }
+    ],
+    "scientific_contract_changes_after_preseal": [],
+    "note": "The repair disambiguated an exact-source hook before event-level scientific precommit. Support selection, event address, frontier ladder, budgets, minimality predicates, and claim ceiling were unchanged."
+  },
+  "verdict": "EVENT_LEVEL_CAUSAL_EXPLANATION_COMPILER_MATERIALIZED_WITH_MINIMAL_NECESSITY_AND_SUFFICIENCY",
+  "support": {
+    "selected_engine_worlds": 14,
+    "primary_cases": 18,
+    "diagnostic_cases": 1,
+    "primary_single_family_cases": 17,
+    "primary_pure_interaction_cases": 1,
+    "hash_mib": 1,
+    "threads": 1,
+    "prime_nodes": 20000,
+    "decoy_nodes": 20000,
+    "decoy_count": 3,
+    "measurement_nodes": 80000,
+    "intervention_timing": "measurement search only"
+  },
+  "event_address": {
+    "fields": [
+      "scope",
+      "event_type",
+      "full_key",
+      "ply",
+      "depth",
+      "tt_move",
+      "bound",
+      "payload",
+      "baseline_signature_occurrence"
+    ],
+    "event_types": [
+      "CUTOFF",
+      "MOVE_ORDER_SEED",
+      "EVAL_REUSE",
+      "TT_VALUE_AS_EVAL"
+    ],
+    "semantics": "Targets fire only on the exact frozen structural signature and occurrence. Unreached targets after path divergence are recorded and never remapped."
+  },
+  "adjudication": {
+    "primary_status_counts": {
+      "EVENT_LEVEL_NECESSITY_AND_SUFFICIENCY_CERTIFIED": 6,
+      "EVENT_LEVEL_SUFFICIENCY_CERTIFIED_NECESSITY_HOLD": 3,
+      "EVENT_UNIVERSE_BUDGET_HOLD": 5,
+      "DEEPER_OR_NONADDRESSABLE": 3,
+      "REPLAY_BUDGET_HOLD": 1
+    },
+    "all_case_status_counts": {
+      "EVENT_LEVEL_NECESSITY_AND_SUFFICIENCY_CERTIFIED": 7,
+      "EVENT_LEVEL_SUFFICIENCY_CERTIFIED_NECESSITY_HOLD": 3,
+      "EVENT_UNIVERSE_BUDGET_HOLD": 5,
+      "DEEPER_OR_NONADDRESSABLE": 3,
+      "REPLAY_BUDGET_HOLD": 1
+    },
+    "primary_certified": {
+      "minimal_removal_sets": 7,
+      "minimal_retaining_sets": 9,
+      "both_necessity_and_sufficiency": 6,
+      "interaction_only_removal_sets": 1
+    },
+    "primary_address_census": {
+      "removal_addresses_total": 8,
+      "removal_by_class": {
+        "CUTOFF": 2,
+        "MOVE_ORDER_SEED": 4,
+        "EVAL_REUSE": 1,
+        "TT_VALUE_AS_EVAL": 1
+      },
+      "removal_by_scope": {
+        "MAIN": 6,
+        "QSEARCH": 2
+      },
+      "removal_by_ply": {
+        "0": 4,
+        "1": 4
+      },
+      "retaining_addresses_total": 13,
+      "retaining_by_class": {
+        "CUTOFF": 4,
+        "MOVE_ORDER_SEED": 4,
+        "EVAL_REUSE": 2,
+        "TT_VALUE_AS_EVAL": 3
+      },
+      "retaining_by_scope": {
+        "MAIN": 10,
+        "QSEARCH": 3
+      },
+      "retaining_by_ply": {
+        "0": 4,
+        "1": 9
+      }
+    },
+    "individually_localized_primary_cases": [
+      {
+        "case_id": "stockfish_19:b27b7a24ddcd:CUTOFF",
+        "necessity_size": 1,
+        "sufficiency_size": 2,
+        "witness": "one ply-1 QSEARCH cutoff event is difference-making"
+      },
+      {
+        "case_id": "stockfish_19:ec55f57dd7e3:CUTOFF",
+        "necessity_size": 1,
+        "sufficiency_size": 1,
+        "witness": "one ply-1 QSEARCH cutoff event is difference-making"
+      },
+      {
+        "case_id": "stockfish_19:f85d0171a40b:MOVE_ORDER",
+        "necessity_size": 1,
+        "sufficiency_size": 2,
+        "witness": "one ply-1 MAIN move-order seed is difference-making"
+      },
+      {
+        "case_id": "stockfish_19:f85d0171a40b:EVAL",
+        "necessity_size": 1,
+        "sufficiency_size": 1,
+        "witness": "one ply-0 MAIN stored-evaluation reuse is difference-making"
+      },
+      {
+        "case_id": "berserk:b27b7a24ddcd:MOVE_ORDER",
+        "necessity_size": 1,
+        "sufficiency_size": 1,
+        "witness": "one MAIN move-order seed is difference-making"
+      },
+      {
+        "case_id": "berserk:b27b7a24ddcd:EVAL",
+        "necessity_size": 1,
+        "sufficiency_size": 3,
+        "witness": "one ply-0 MAIN TT-value-as-evaluation event is difference-making"
+      }
+    ],
+    "interaction_witness": {
+      "case_id": "ethereal:c18e10bd6a3a:MOVE_ORDER",
+      "removal_set_size": 2,
+      "interaction_only": true,
+      "structure": "two MAIN ply-0 move-order events with the same full key and TT move at successive depths 15 and 16; neither singleton changes root move, the pair does",
+      "sufficiency_status": "HOLD_REPLAY_BUDGET_EXHAUSTED"
+    },
+    "address_incompleteness_boundary": {
+      "finding": "A real class-wide counterfactual can fail to admit a baseline-addressed necessity certificate because the intervention changes the search path and creates/reaches events outside the baseline catalogue.",
+      "examples": [
+        "stockfish_19:f8cde3d6abb4:MOVE_ORDER+EVAL",
+        "ethereal:a8fd39b3864a:CUTOFF",
+        "ethereal:f8cde3d6abb4:MOVE_ORDER"
+      ],
+      "interpretation": "necessity failure under a baseline-only address universe is not evidence of no causal dependence"
+    },
+    "prospective_hold_boundaries": {
+      "event_universe_budget_hold": 5,
+      "deeper_or_nonaddressable": 3,
+      "replay_budget_hold": 1,
+      "max_catalog_candidates_per_case": 512,
+      "max_replays_per_case": 96,
+      "max_final_set_for_leave_one_out": 24,
+      "rule": "No outcome-based ranking, truncation, frontier expansion, or budget inflation was introduced."
+    }
+  },
+  "explanation": {
+    "native_pv_legal_replay": {
+      "passed": 19,
+      "total": 19
+    },
+    "available_counterfactual_pv_legal_replay": {
+      "passed": 16,
+      "total": 16
+    },
+    "verified_explanations": {
+      "passed": 19,
+      "total": 19,
+      "unsupported_rendered_claims": 0
+    },
+    "pipeline": [
+      "event certificate",
+      "legal PV replay",
+      "deterministic chess atoms",
+      "explanation AST",
+      "independent verifier",
+      "rendered language"
+    ],
+    "language_ceiling": "mechanically verified chess atoms and PV contrasts only; no unverified plan, initiative, compensation, motif, zugzwang, fortress, or human-intention claims"
+  },
+  "literature_positioning": {
+    "presealed": [
+      {
+        "work": "Geiger et al. (2025), Causal Abstraction: A Theoretical Foundation for Mechanistic Interpretability",
+        "locator": "JMLR 26(83), arXiv:2301.04709",
+        "role": "interventionals, causal abstraction, graded faithfulness"
+      },
+      {
+        "work": "Halpern & Pearl (2005), Causes and Explanations: A Structural-Model Approach. Part I",
+        "doi": "10.1093/bjps/axi147",
+        "role": "actual causality and minimal causal structure"
+      },
+      {
+        "work": "Beckers (2021), Causal Sufficiency and Actual Causation",
+        "doi": "10.1007/s10992-021-09601-z",
+        "role": "necessary-element-of-sufficient-set framing"
+      },
+      {
+        "work": "Jacovi & Goldberg (2020), Towards Faithfully Interpretable NLP Systems",
+        "doi": "10.18653/v1/2020.acl-main.386",
+        "role": "faithfulness distinct from plausibility"
+      },
+      {
+        "work": "DeYoung et al. (2020), ERASER",
+        "doi": "10.18653/v1/2020.acl-main.408",
+        "role": "sufficiency/comprehensiveness-style intervention metrics"
+      }
+    ],
+    "post_closure_interpretive": [
+      {
+        "work": "Beckers (2025), Actual Causation and Nondeterministic Causal Models",
+        "locator": "PMLR 275:514-532",
+        "role": "actual causation as structural simplification and communicable causal model"
+      },
+      {
+        "work": "Lee & Bareinboim (2026), Productive Actual Causation",
+        "locator": "Causal AI Lab Technical Report R-142; Drive 1BkGWXUm3t6fdreb0F_WRiFcTmBjnIu-6",
+        "role": "production-vs-dependence distinction motivates future intervention-stable event-lineage modeling"
+      },
+      {
+        "work": "Björnsson (2024), Chess and explainable AI",
+        "doi": "10.3233/ICG-240256",
+        "role": "positions chess as a domain for human-understandable agent explanation"
+      }
+    ],
+    "note": "Post-closure literature is interpretive only and did not alter prospective P32 tests."
+  },
+  "custody_hashes": {
+    "precommit": {
+      "receipt_sha256": "8f577a915729b75e475b0fd2e20481b0f5b9f1298cf2b7e0842af42bd36c8a21",
+      "file_sha256": "86857221dc3ad166bc3db853100b610140ef6922fefea0d729d1eaf2b77561c4",
+      "artifact_id": 10886633291,
+      "artifact_digest": "sha256:3be2ea7a04be71908af0b3b6aa50d2e0e905adc3bd10d30e1d7bcdc7a4e3f6f8"
+    },
+    "final": {
+      "receipt_sha256": "c893ce616956611958ee69684fe58e6e6dbe57eab7a91b743df95673fdc2e773",
+      "adjudication_sha256": "d3b143fe854a8f08c836ca85406bfcedbe8ad8ab082438beef7121bc4404cd51",
+      "explanation_ast_sha256": "48219fc9f3c6c9c996db80b25033e5041db9ed36e9e1aadf6c968763d32b0d9e",
+      "chess_grounding_sha256": "fc51334ad216833457d1d63cf589a8d0f0e1230393cf9ed340a637f98579210f",
+      "explanations_sha256": "06bbfe3a4a75a2cb50c694fda080a2d9f02fb5897b653b679f9802b194899235",
+      "artifact_id": 10887274155,
+      "artifact_digest": "sha256:5b6ea1999c5cbc50bdb78c80e8635f2a2a857ba36cdc1d2784b01dcbe40e238e"
+    }
+  },
+  "custody": {
+    "drive_folder_id": "1Aj-4fkv-Xn2i8bsPcosrf0Syi9ZMf5JS",
+    "drive_precommit_file_id": "1STr-wxT_AstNTft4CQYkA4s9dX6STLD9",
+    "drive_final_file_id": "1S6FCY36Z8W4nK5EOIxFnIl-R3eyM68o9",
+    "drive_raw_event_cases_folder_id": "1MsmQlDezDKso2j6l9FW4BuJPf_Ysct_I",
+    "drive_raw_event_cases_count": 19,
+    "notion_page_id": "3e6ef561-cf92-81b0-a322-c0b5deb3d095"
+  },
+  "claim_ceiling": [
+    "Certificates are exact only for the frozen 1 MiB, Threads=1, warmed-TT, 80k-node measurement procedure and address-trigger semantics.",
+    "Inclusion-minimal means replay-certified 1-minimal within the searched event universe, not globally minimum-cardinality and not unique causation.",
+    "A sufficient retaining set is sufficient only relative to its frozen frontier-null intervention and support world.",
+    "Targets that become unreachable after an intervention are not remapped; reachability is part of the counterfactual.",
+    "Baseline-address incompleteness under path divergence is not converted into a no-cause conclusion.",
+    "Chess language is certificate-bounded and may not exceed mechanically verified move/PV facts.",
+    "No prevalence or cross-position generalization beyond the selected P31 root-dependent support is authorized."
+  ],
+  "successor_question": "Can event identity remain causally meaningful when the intervention itself changes which events exist, by reconstructing lineage/correspondence across divergent search traces rather than restricting the causal universe to baseline-addressed events?",
+  "successor_proposal": "C3X 0.7.0-G9.4-P33 — Prospective Counterfactual Event-Lineage Reconstruction, Intervention-Stable TT Event Identity, Path-Divergence Causal Correspondence, Productive Search-Trace Actual Causation, Emergent-Event Necessity/Sufficiency & Explanation-Closure Reconstitution"
+}
