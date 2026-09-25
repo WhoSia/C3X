@@ -1,0 +1,347 @@
+name: p29-entry-level-tt-trace
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - "c3x/ontology/p29-lawgen-spec.json"
+      - "crates/c3x-lawgen/src/bin/lawgen_v5.rs"
+      - "tools/p29_trace_stockfish.inc"
+      - "tools/p29_trace_berserk.inc"
+      - "tools/p29_trace_ethereal.inc"
+      - "tools/p29_patch_tttrace.py"
+      - "harness/p29_trace_court.py"
+      - ".github/workflows/p29.yml"
+
+concurrency:
+  group: p29-entry-level-tt-trace
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  actions: read
+
+env:
+  P26_RUN: "36153015935"
+
+jobs:
+  lawgen:
+    name: LawGen v5 full-key trace constitution
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Static Python syntax gate
+        run: |
+          python3 -m py_compile tools/p29_patch_tttrace.py harness/p29_trace_court.py
+      - name: Compile prospective constitution
+        run: |
+          cargo run --release --manifest-path crates/c3x-lawgen/Cargo.toml --bin lawgen_v5 -- c3x/ontology/p29-lawgen-spec.json out/lawgen
+          sha256sum out/lawgen/* | sort > out/lawgen-sha256.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: p29-lawgen-preseal
+          path: out/
+          retention-days: 30
+
+  build:
+    name: Full-key trace pair — ${{ matrix.engine }}
+    needs: lawgen
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - engine: stockfish_19
+            repo: https://github.com/official-stockfish/Stockfish.git
+            commit: edb0d9db6731067ec50ce619ff372b463bc4dd5d
+            protocol: stockfish_uci
+            native: off
+            native_policy: OFF
+          - engine: berserk
+            repo: https://github.com/jhonnold/berserk.git
+            commit: 32628515050b83805bab4afa1026dd2bcaa93f55
+            protocol: env
+            native: off
+            native_policy: OFF
+          - engine: ethereal
+            repo: https://github.com/AndyGrant/Ethereal.git
+            commit: 0e47e9b67f345c75eb965d9fb3e2493b6a11d09a
+            protocol: env
+            native: on
+            native_policy: ON
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: p26-canonical-precommit
+          path: parent
+          repository: WhoSia/C3X
+          run-id: ${{ env.P26_RUN }}
+          github-token: ${{ github.token }}
+      - name: Resolve parent and exact source
+        run: |
+          P26="$(find parent -name p26-precommit.json -print -quit)"
+          test -n "$P26"
+          echo "P26=$P26" >> "$GITHUB_ENV"
+          git clone "${{ matrix.repo }}" src-clean
+          git -C src-clean checkout --detach "${{ matrix.commit }}"
+          test "$(git -C src-clean rev-parse HEAD)" = "${{ matrix.commit }}"
+          cp -a src-clean src-off
+          cp -a src-clean src-on
+          mkdir -p out
+      - name: Materialize PSM, age coordinate, and full-key trace
+        run: |
+          if [ "${{ matrix.engine }}" = stockfish_19 ]; then
+            python3 tools/materialize_p15.py --stockfish src-off --target stockfish_19
+            python3 tools/materialize_p15.py --stockfish src-on --target stockfish_19
+          elif [ "${{ matrix.engine }}" = berserk ]; then
+            python3 tools/p20_patch_berserk.py --root src-off --variant instrument --manifest out/psm-off.json
+            python3 tools/p20_patch_berserk.py --root src-on --variant instrument --manifest out/psm-on.json
+          else
+            python3 tools/p20_patch_ethereal.py --root src-off --variant instrument --manifest out/psm-off.json
+            python3 tools/p20_patch_ethereal.py --root src-on --variant instrument --manifest out/psm-on.json
+          fi
+          python3 tools/p27_patch_age.py --root src-off --engine "${{ matrix.engine }}" --policy OFF --manifest out/age-off.json
+          python3 tools/p27_patch_age.py --root src-on --engine "${{ matrix.engine }}" --policy ON --manifest out/age-on.json
+          python3 tools/p29_patch_tttrace.py --root src-off --engine "${{ matrix.engine }}" --policy OFF --manifest out/trace-off.json
+          python3 tools/p29_patch_tttrace.py --root src-on --engine "${{ matrix.engine }}" --policy ON --manifest out/trace-on.json
+      - name: Build clean and paired portable binaries
+        run: |
+          set -eux
+          if [ "${{ matrix.engine }}" = stockfish_19 ]; then
+            make -C src-clean/src -j2 build ARCH=x86-64
+            cp src-clean/src/stockfish out/c3x-p29-${{ matrix.engine }}-clean
+            for p in off on; do
+              make -C src-$p/src clean
+              make -C src-$p/src -j2 build ARCH=x86-64
+              cp src-$p/src/stockfish out/c3x-p29-${{ matrix.engine }}-$p
+            done
+          elif [ "${{ matrix.engine }}" = berserk ]; then
+            make -C src-clean/src ARCH=x86-64 build
+            cp src-clean/src/berserk out/c3x-p29-${{ matrix.engine }}-clean
+            for p in off on; do
+              make -C src-$p/src clean || true
+              make -C src-$p/src ARCH=x86-64 build
+              cp src-$p/src/berserk out/c3x-p29-${{ matrix.engine }}-$p
+            done
+          else
+            ECFLAGS="-O3 -std=gnu11 -Wall -Wextra -Wshadow -DNDEBUG -flto -DUSE_NNUE=0 -march=x86-64 -msse2"
+            make -C src-clean/src basic CFLAGS="$ECFLAGS"
+            cp src-clean/src/Ethereal out/c3x-p29-${{ matrix.engine }}-clean
+            for p in off on; do
+              make -C src-$p/src basic CFLAGS="$ECFLAGS"
+              cp src-$p/src/Ethereal out/c3x-p29-${{ matrix.engine }}-$p
+            done
+          fi
+          chmod +x out/c3x-p29-${{ matrix.engine }}-*
+          sha256sum out/c3x-p29-${{ matrix.engine }}-* | sort > out/p29-binary-sha256-${{ matrix.engine }}.txt
+      - name: Native semantics and trace transparency gates
+        run: |
+          python3 harness/p27_age_morphism.py identity             --engine "${{ matrix.engine }}"             --baseline "out/c3x-p29-${{ matrix.engine }}-clean"             --native "out/c3x-p29-${{ matrix.engine }}-${{ matrix.native }}"             --protocol "${{ matrix.protocol }}"             --parent "$P26"             --out "out/p29-native-identity-${{ matrix.engine }}.json"
+          python3 -c 'import json,sys;assert json.load(open(sys.argv[1]))["verdict"]=="PASS"' "out/p29-native-identity-${{ matrix.engine }}.json"
+          python3 harness/p29_trace_court.py identity             --engine "${{ matrix.engine }}"             --policy "${{ matrix.native_policy }}"             --binary "out/c3x-p29-${{ matrix.engine }}-${{ matrix.native }}"             --protocol "${{ matrix.protocol }}"             --parent "$P26"             --out "out/p29-identity-${{ matrix.engine }}.json"
+          python3 -c 'import json,sys;assert json.load(open(sys.argv[1]))["verdict"]=="PASS"' "out/p29-identity-${{ matrix.engine }}.json"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: p29-build-${{ matrix.engine }}
+          path: out/
+          retention-days: 30
+
+  precommit:
+    name: Seal fresh 128-world trace/law support
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: p26-canonical-precommit
+          path: parent
+          repository: WhoSia/C3X
+          run-id: ${{ env.P26_RUN }}
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: p29-lawgen-preseal
+          path: lawgen
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: p29-build-*
+          path: builds
+      - name: Freeze fresh support and binary identities
+        run: |
+          P26="$(find parent -name p26-precommit.json -print -quit)"
+          CONST="$(find lawgen -name constitution.json -print -quit)"
+          python3 harness/p29_trace_court.py precommit             --parent "$P26" --constitution "$CONST" --build-dir builds --out p29-precommit.json
+          sha256sum p29-precommit.json > p29-precommit-file-sha256.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: p29-precommit-sealed
+          path: p29-precommit*
+          retention-days: 30
+
+  donor:
+    name: Donor full-key + selective — ${{ matrix.engine }} / ${{ matrix.family }}
+    needs: precommit
+    runs-on: ubuntu-latest
+    timeout-minutes: 240
+    strategy:
+      fail-fast: false
+      matrix:
+        engine: [stockfish_19, berserk]
+        family: [KQQvKQ, KQRvKQ, KQQvKR, KQRvKR, KRBvKB, KRNvKB, KRBvKN, KRNvKN]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with: {name: p29-precommit-sealed, path: pre}
+      - uses: actions/download-artifact@v4
+        with:
+          name: p29-build-${{ matrix.engine }}
+          path: build
+      - name: Execute frozen donor trace and law court
+        run: |
+          chmod +x build/c3x-p29-${{ matrix.engine }}-off build/c3x-p29-${{ matrix.engine }}-on
+          mkdir -p out
+          python3 harness/p29_trace_court.py donor             --precommit pre/p29-precommit.json             --engine "${{ matrix.engine }}" --family "${{ matrix.family }}"             --off build/c3x-p29-${{ matrix.engine }}-off             --on build/c3x-p29-${{ matrix.engine }}-on             --out "out/p29-${{ matrix.engine }}-${{ matrix.family }}.json"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: p29-donor-${{ matrix.engine }}-${{ matrix.family }}
+          path: out/
+          retention-days: 30
+
+  heldout_trace:
+    name: Held-out Ethereal trace-only — ${{ matrix.family }}
+    needs: precommit
+    runs-on: ubuntu-latest
+    timeout-minutes: 180
+    strategy:
+      fail-fast: false
+      matrix:
+        family: [KQQvKQ, KQRvKQ, KQQvKR, KQRvKR, KRBvKB, KRNvKB, KRBvKN, KRNvKN]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with: {name: p29-precommit-sealed, path: pre}
+      - uses: actions/download-artifact@v4
+        with: {name: p29-build-ethereal, path: build}
+      - name: Execute held-out full-key trace without selective modes
+        run: |
+          chmod +x build/c3x-p29-ethereal-off build/c3x-p29-ethereal-on
+          mkdir -p out
+          python3 harness/p29_trace_court.py heldout-trace             --precommit pre/p29-precommit.json --family "${{ matrix.family }}"             --off build/c3x-p29-ethereal-off --on build/c3x-p29-ethereal-on             --out "out/p29-ethereal-trace-${{ matrix.family }}.json"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: p29-heldout-trace-${{ matrix.family }}
+          path: out/
+          retention-days: 30
+
+  rule:
+    name: Seal donor entry-level mediator rule
+    needs: donor
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with: {name: p29-precommit-sealed, path: pre}
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: p29-donor-*
+          path: donors
+          merge-multiple: true
+      - run: |
+          python3 harness/p29_trace_court.py rule             --precommit pre/p29-precommit.json --results donors --out p29-donor-rule.json
+          sha256sum p29-donor-rule.json > p29-donor-rule-file-sha256.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: p29-donor-rule-sealed
+          path: p29-donor-rule*
+          retention-days: 30
+
+  prediction:
+    name: Seal Ethereal law prediction after trace-only reveal
+    needs: [rule, heldout_trace]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with: {name: p29-precommit-sealed, path: pre}
+      - uses: actions/download-artifact@v4
+        with: {name: p29-donor-rule-sealed, path: rule}
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: p29-heldout-trace-*
+          path: trace
+          merge-multiple: true
+      - run: |
+          python3 harness/p29_trace_court.py predict             --precommit pre/p29-precommit.json             --rule rule/p29-donor-rule.json --trace-results trace             --out p29-heldout-prediction.json
+          sha256sum p29-heldout-prediction.json > p29-heldout-prediction-file-sha256.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: p29-heldout-prediction-sealed
+          path: p29-heldout-prediction*
+          retention-days: 30
+
+  heldout:
+    name: Held-out Ethereal selective law — ${{ matrix.family }}
+    needs: prediction
+    runs-on: ubuntu-latest
+    timeout-minutes: 240
+    strategy:
+      fail-fast: false
+      matrix:
+        family: [KQQvKQ, KQRvKQ, KQQvKR, KQRvKR, KRBvKB, KRNvKB, KRBvKN, KRNvKN]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with: {name: p29-precommit-sealed, path: pre}
+      - uses: actions/download-artifact@v4
+        with: {name: p29-heldout-prediction-sealed, path: prediction}
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: p29-heldout-trace-*
+          path: trace
+          merge-multiple: true
+      - uses: actions/download-artifact@v4
+        with: {name: p29-build-ethereal, path: build}
+      - name: Verify prediction seal then open selective outcomes
+        run: |
+          test -s prediction/p29-heldout-prediction.json
+          chmod +x build/c3x-p29-ethereal-off build/c3x-p29-ethereal-on
+          mkdir -p out
+          python3 harness/p29_trace_court.py heldout-selective             --precommit pre/p29-precommit.json             --prediction prediction/p29-heldout-prediction.json             --trace-results trace --family "${{ matrix.family }}"             --off build/c3x-p29-ethereal-off --on build/c3x-p29-ethereal-on             --out "out/p29-ethereal-${{ matrix.family }}.json"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: p29-heldout-${{ matrix.family }}
+          path: out/
+          retention-days: 30
+
+  adjudicate:
+    name: Replacement-path and graph adjudication
+    needs: heldout
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with: {name: p29-precommit-sealed, path: pre}
+      - uses: actions/download-artifact@v4
+        with: {name: p29-heldout-prediction-sealed, path: prediction}
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: p29-donor-*
+          path: donors
+          merge-multiple: true
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: p29-heldout-K*
+          path: heldout
+          merge-multiple: true
+      - run: |
+          mkdir -p final
+          python3 harness/p29_trace_court.py adjudicate             --precommit pre/p29-precommit.json             --prediction prediction/p29-heldout-prediction.json             --donors donors --heldout heldout             --out final/p29-adjudication.json
+          sha256sum final/p29-adjudication.json > final/p29-adjudication-file-sha256.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: p29-final-adjudication
+          path: final/
+          retention-days: 30
