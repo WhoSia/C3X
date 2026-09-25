@@ -1,0 +1,70 @@
+{
+  "schema": "c3x-g9.4-p23-closure-v1",
+  "scientific_stage": "C3X 0.7.0-G9.4-P23",
+  "title": "Prospective Transport-Failure Localization, Pre-Intervention Search-State Quotienting, Outcome-Blind Regime Stratification, Relation-Law Conditionalization & Minimal Architecture-Invariant Causal Object Reconstitution",
+  "status": "CLOSED",
+  "canonical_run": 36130004951,
+  "canonical_run_head_sha": "044b8316e26d688ed02c1f18c9019125fde41d70",
+  "preseal_v2_commit": "d3b7dad1c60c68b123756beca3f130b7b5d4a3c1",
+  "design_repair": {
+    "failed_unused_p22_holdout_run": 36129712883,
+    "best_max_abs_smd": 1.769760886,
+    "frozen_gate": 0.50,
+    "selective_outcomes_opened_before_repair": false,
+    "repair": "fresh exact-world namespace c3x-p23-core-v1 at generation offset 420000; all substantive gates and interventions retained"
+  },
+  "fresh_design": {
+    "worlds": 384,
+    "selected": 96,
+    "per_family_side": 6,
+    "sham_census_nodes": 80000,
+    "selective_nodes": 300000,
+    "balance_max_abs_smd": 0.2387765386191653,
+    "balance_gate": 0.50,
+    "rust_cpp_r_js_certified": true,
+    "precommit_receipt_sha256": "48364a49e5ad851d2c3e94f4782efec88beeeea3b1de651552b4d7f1b230e16f"
+  },
+  "quotient": {
+    "coordinate": "median_cross_engine_qshare",
+    "regimes": ["Q_LOW", "Q_HIGH"],
+    "within_family_side_rank": true,
+    "per_family_side_regime": 3
+  },
+  "fingerprints": {
+    "Q_LOW": {
+      "stockfish_19": {"HEAVY_HEAVY": ["FLAT","INTERACTION",1], "MINOR_MINOR": ["CURVED","MAIN",-1]},
+      "berserk": {"HEAVY_HEAVY": ["FLAT","MAIN",1], "MINOR_MINOR": ["CURVED","QSEARCH",-1]},
+      "ethereal": {"HEAVY_HEAVY": ["FLAT","QSEARCH",-1], "MINOR_MINOR": ["FLAT","INTERACTION",1]}
+    },
+    "Q_HIGH": {
+      "stockfish_19": {"HEAVY_HEAVY": ["FLAT","QSEARCH",1], "MINOR_MINOR": ["CURVED","INTERACTION",1]},
+      "berserk": {"HEAVY_HEAVY": ["CURVED","MAIN",-1], "MINOR_MINOR": ["CURVED","INTERACTION",-1]},
+      "ethereal": {"HEAVY_HEAVY": ["CURVED","INTERACTION",1], "MINOR_MINOR": ["CURVED","INTERACTION",-1]}
+    }
+  },
+  "adjudication": {
+    "verdict": "TRANSPORT_FAILURE_PERSISTS_AFTER_PREINTERVENTION_QUOTIENTING",
+    "failure_localization": "MIXED_SEARCH_STATE_BY_ARCHITECTURE_FAILURE_GEOMETRY",
+    "p20_conditional_recovery_regimes": [],
+    "strict_conditional_naturality_regimes": [],
+    "full_fingerprint_convergence_cells": [],
+    "minimal_architecture_invariant_causal_object": null,
+    "effect_support_architecture_invariant": true,
+    "effect_support_nontrivial": false,
+    "inanis_pawn_q_fine_changes": 0,
+    "inanis_negative_control_pass": true,
+    "robust_wdl_changed_any_arm": true,
+    "final_receipt_sha256": "e0580332011cddbfb32e1fba5b3ef72c28961c9d712387fb8d2b1e54f76e1011"
+  },
+  "interpretation": [
+    "The scalar pre-intervention Q-share quotient is genuinely response-relevant: every engine changes fingerprint between Q_LOW and Q_HIGH on both squares.",
+    "That modulation does not restore cross-architecture transport. No regime recovers the P20 HEAVY fingerprint, no regime satisfies strict pairwise naturality, and no regime x square cell has full-fingerprint convergence.",
+    "The only abstraction invariant everywhere is EFFECT_SUPPORT, but it is constant EFFECT in all four regime x square cells and therefore fails the predeclared nontriviality rule.",
+    "Accordingly P23 does not authorize an architecture-invariant causal object above trivial effect existence. The current authority is architecture-indexed and search-state-modulated.",
+    "The raw adjudication artifact contains a legacy authority_ceiling label saying 'fresh P22-unused'; this is a descriptive string bug only. The executed cells are the fresh P23 offset-420000 world, as established by the pool/precommit/run provenance. No numerical or scientific field is affected."
+  ],
+  "next_stage": {
+    "version": "C3X 0.7.0-G9.4-P24",
+    "title": "Prospective Multivariate Search-State Atlas, Outcome-Blind Cross-Architecture Coordinate Alignment, Quotient-Refinement Ceiling, Intervention-Response Bisimulation & Architecture-Indexed Causal Law Constitution"
+  }
+}
