@@ -67,11 +67,11 @@ claim update
 
 A green LawGen build means **the declared experiment is internally executable**, not **the scientific claim is true**.
 
-## Why Rust
+## Why Rust here — and why that is not a repository default
 
-The generator is a small deterministic compiler with a narrow side-effect surface. Rust is useful here because invalid states can progressively be moved from runtime conventions into typed structures and validation rules. The goal is not to rewrite Python orchestration in Rust.
+The generator is a small deterministic compiler with a narrow side-effect surface. Rust is useful **for this component** because invalid states can progressively be moved from runtime conventions into typed structures and validation rules. That choice does not create a Rust-first rule, just as the repository's existing Python harnesses do not create a Python-first rule.
 
-Python remains the right layer for `python-chess`, exact-world semantics, engine orchestration and rapid scientific adjudication. JavaScript/TypeScript remains useful as an independent verifier and report/tooling layer. C++ should enter when an engine-native or independent numerical implementation gives a real additional failure mode. Kotlin should enter only if C3X gains a durable JVM-native inspection application.
+C3X follows a **capability-first, language-nonauthoritative** policy. Python is often convenient where `python-chess` or rapid experiment composition is materially useful; JavaScript/TypeScript can provide an independent verifier or tooling surface; C/C++ is preferable when engine-native semantics or low-level numerical behavior is itself part of the contract; R, Julia, Kotlin, Java, Ada, Go and other languages are admissible when they provide a real correctness, verification, interoperability or maintenance advantage. No language is added for diversity theatre, and no language is retained merely for uniformity.
 
 ## Generator / theory co-evolution
 
