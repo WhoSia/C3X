@@ -53,3 +53,69 @@ jobs:
           name: p34-coner
           path: out/
           retention-days: 30
+
+  build:
+    name: Dynamic cone engine — ${{ matrix.engine }}
+    needs: lawgen
+    runs-on: ubuntu-latest
+    timeout-minutes: 180
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - engine: stockfish_19
+            repo: https://github.com/official-stockfish/Stockfish.git
+            commit: edb0d9db6731067ec50ce619ff372b463bc4dd5d
+            native_policy: OFF
+          - engine: berserk
+            repo: https://github.com/jhonnold/berserk.git
+            commit: 32628515050b83805bab4afa1026dd2bcaa93f55
+            native_policy: OFF
+          - engine: ethereal
+            repo: https://github.com/AndyGrant/Ethereal.git
+            commit: 0e47e9b67f345c75eb965d9fb3e2493b6a11d09a
+            native_policy: ON
+    steps:
+      - uses: actions/checkout@v4
+      - name: Resolve exact engine source
+        run: |
+          git clone "${{ matrix.repo }}" src
+          git -C src checkout --detach "${{ matrix.commit }}"
+          test "$(git -C src rev-parse HEAD)" = "${{ matrix.commit }}"
+          mkdir -p out
+      - name: Materialize inherited observer chain and P34 dynamic cone
+        run: |
+          if [ "${{ matrix.engine }}" = stockfish_19 ]; then
+            python3 tools/materialize_p15.py --stockfish src --target stockfish_19
+          elif [ "${{ matrix.engine }}" = berserk ]; then
+            python3 tools/p20_patch_berserk.py --root src --variant instrument --manifest out/p20.json
+          else
+            python3 tools/p20_patch_ethereal.py --root src --variant instrument --manifest out/p20.json
+          fi
+          python3 tools/p27_patch_age.py --root src --engine "${{ matrix.engine }}" --policy "${{ matrix.native_policy }}" --manifest out/p27.json
+          python3 tools/p29_patch_tttrace.py --root src --engine "${{ matrix.engine }}" --policy "${{ matrix.native_policy }}" --manifest out/p29.json
+          python3 tools/p30_patch_victim.py --root src --engine "${{ matrix.engine }}" --manifest out/p30.json
+          python3 tools/p31_patch_semantics.py --root src --engine "${{ matrix.engine }}" --manifest out/p31.json
+          python3 tools/p32_patch_event_target.py --root src --engine "${{ matrix.engine }}" --manifest out/p32.json
+          python3 tools/p34_patch_cone.py --root src --engine "${{ matrix.engine }}" --manifest out/p34.json
+      - name: Build portable binary
+        run: |
+          set -eux
+          if [ "${{ matrix.engine }}" = stockfish_19 ]; then
+            make -C src/src -j2 build ARCH=x86-64
+            cp src/src/stockfish out/c3x-p34-${{ matrix.engine }}
+          elif [ "${{ matrix.engine }}" = berserk ]; then
+            make -C src/src ARCH=x86-64 build
+            cp src/src/berserk out/c3x-p34-${{ matrix.engine }}
+          else
+            ECFLAGS="-O3 -std=gnu11 -Wall -Wextra -Wshadow -DNDEBUG -flto -DUSE_NNUE=0 -march=x86-64 -msse2"
+            make -C src/src basic CFLAGS="$ECFLAGS"
+            cp src/src/Ethereal out/c3x-p34-${{ matrix.engine }}
+          fi
+          chmod +x out/c3x-p34-${{ matrix.engine }}
+          sha256sum out/c3x-p34-${{ matrix.engine }} > out/p34-binary-sha256-${{ matrix.engine }}.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: p34-build-${{ matrix.engine }}
+          path: out/
+          retention-days: 30
