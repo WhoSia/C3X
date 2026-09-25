@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
-"""P22 selective lane. Scientific rules remain frozen; this module only bridges the P22 receipt schema to the already-audited P21 executor/adjudicator implementation."""
+"""P22 selective lane. Scientific rules are frozen; implementation repairs do not alter cells, modes, nodes, gates, or adjudication rules."""
 import argparse,hashlib,json,tempfile
 from pathlib import Path
+import p20_transport as p20
 import p21_boundary as p21
 STAGE="C3X 0.7.0-G9.4-P22"
 def canon(o):return json.dumps(o,sort_keys=True,separators=(",",":"),ensure_ascii=False).encode()
@@ -15,21 +16,39 @@ def compat_pre(pre,lane,path):
  cells=[]
  for r in pre["cells"]:
   c={k:r[k] for k in ("candidate_sha256","material_seed_name","side_to_move","square","vertex","fen","world")}
-  sh={t:(p21.baseline_arm(c,r["sham"][t]) if "semantic" in r["sham"][t] else r["sham"][t]) for t in p21.P20_TARGETS}
-  ina=p21.baseline_arm(c,r["inanis_sham"]) if "semantic" in r["inanis_sham"] else r["inanis_sham"]
-  cells.append({"candidate":c,"sham":sh,"features":r["features"],"inanis_sham":ina})
- cpp=pre["selection"]["cpp"];smd=cpp.get("smd",[])
- heavy_smd={k:float(smd[i]) for i,k in enumerate(p21.FEATURES)} if len(smd)==len(p21.FEATURES) else {}
+  cells.append({"candidate":c,"sham":r["sham"],"features":r["features"],"inanis_sham":r["inanis_sham"]})
+ smd=pre["selection"]["cpp"].get("smd",[]);heavy_smd={k:float(smd[i]) for i,k in enumerate(p21.FEATURES)} if len(smd)==len(p21.FEATURES) else {}
  x={"schema":f"c3x-p21-{lane}-precommit-v1","scientific_stage":"C3X 0.7.0-G9.4-P21","authorization":"P21-CORE-INTERVENTION-AUTHORIZED" if lane=="core" else "P21-CARRIER-INTERVENTION-AUTHORIZED","selective_outcomes_consulted":False,"p20_binaries":pre["p20_binaries"],"inanis_binary_sha256":pre["inanis_binary_sha256"],"committed_cells":cells,"precommit_sha256":pre["receipt_sha256"],"exposure_balance_pass":True,"heavy_vs_minor_smd":heavy_smd}
  Path(path).write_text(json.dumps(x,indent=2,sort_keys=True)+"\n");return x
+def arm(c,base,run):
+ w=p20.world_value(c,run["semantic"]["bestmove"]);bw=p20.world_value(c,base["semantic"]["bestmove"])
+ if w is None or bw is None:raise SystemExit("P22_WORLD_JOIN_FAIL "+c["candidate_sha256"])
+ return {"receipt":run,"world":w,"action_changed":run["semantic"]["bestmove"]!=base["semantic"]["bestmove"],"fine_changed":(w["wdl"],w["precise_dtz"])!=(bw["wdl"],bw["precise_dtz"]),"coarse_changed":w["wdl"]!=bw["wdl"]}
 def vertex(a,lane):
- pre=load_pre(a.precommit,lane)
- with tempfile.TemporaryDirectory() as td:
-  cp=Path(td)/"compat-pre.json";compat_pre(pre,lane,cp)
-  ns=argparse.Namespace(precommit=str(cp),engine=a.engine,inanis=a.inanis,family=a.family,out=a.out)
-  p21.do_vertex(ns,lane)
- x=json.loads(Path(a.out).read_text());x["schema"]=f"c3x-p22-{lane}-vertex-result-v1";x["scientific_stage"]=STAGE;x["p22_precommit_sha256"]=p21.sha_file(a.precommit);x["p21_cells_reused"]=False;x["selective_outcomes_consulted"]=True;seal(x)
- Path(a.out).write_text(json.dumps(x,indent=2,sort_keys=True)+"\n");print("P22_VERTEX_PASS",lane,a.family,x["receipt_sha256"])
+ pre=load_pre(a.precommit,lane);eng=p20.parse_engines(a.engine)
+ for t in p21.P20_TARGETS:
+  if p21.sha_file(eng[t]["path"])!=pre["p20_binaries"][t]["sha256"] or eng[t]["protocol"]!=pre["p20_binaries"][t]["protocol"]:raise SystemExit("P22_ENGINE_IDENTITY_FAIL "+t)
+ if p21.sha_file(a.inanis)!=pre["inanis_binary_sha256"]:raise SystemExit("P22_INANIS_IDENTITY_FAIL")
+ rows=[r for r in pre["cells"] if r["material_seed_name"]==a.family]
+ if len(rows)!=12:raise SystemExit(f"P22_VERTEX_CELL_COUNT {a.family} {len(rows)}/12")
+ out=[]
+ for r in rows:
+  c={k:r[k] for k in ("candidate_sha256","material_seed_name","side_to_move","square","vertex","fen","world")}
+  if lane=="core":
+   by={}
+   for t in p21.P20_TARGETS:
+    base=r["sham"][t];arms={}
+    for bits in p21.ARM_BITS:
+     run=p20.run_search(eng[t],c["fen"],p21.mode_core(bits),a.nodes);arms[bits]=arm(c,base,run)
+    by[t]=arms
+   out.append({"candidate_sha256":c["candidate_sha256"],"side_to_move":c["side_to_move"],"square":c["square"],"vertex":c["vertex"],"arms":by})
+  else:
+   base=r["inanis_sham"];arms={}
+   for bits in p21.ARM_BITS:
+    run=p21.run_inanis(a.inanis,c["fen"],p21.mode_carrier(bits),a.nodes);arms[bits]=arm(c,base,run)
+   out.append({"candidate_sha256":c["candidate_sha256"],"side_to_move":c["side_to_move"],"square":c["square"],"vertex":c["vertex"],"arms":arms})
+ x={"schema":f"c3x-p22-{lane}-vertex-result-v1","scientific_stage":STAGE,"lane":lane,"family":a.family,"precommit_sha256":pre["receipt_sha256"],"p22_precommit_sha256":p21.sha_file(a.precommit),"selected_cells":len(rows),"results":out,"p21_cells_reused":False,"selective_outcomes_consulted":True};seal(x)
+ Path(a.out).parent.mkdir(parents=True,exist_ok=True);Path(a.out).write_text(json.dumps(x,indent=2,sort_keys=True)+"\n");print("P22_VERTEX_PASS",lane,a.family,x["receipt_sha256"])
 def bridge_adjudicate(a,lane):
  pre=load_pre(a.precommit,lane)
  with tempfile.TemporaryDirectory() as td0:
@@ -38,7 +57,7 @@ def bridge_adjudicate(a,lane):
    x=json.loads(p.read_text())
    if x.get("schema")!=f"c3x-p22-{lane}-vertex-result-v1" or x.get("scientific_stage")!=STAGE:raise SystemExit("P22_RESULT_AUTHORITY")
    x["schema"]=f"c3x-p21-{lane}-vertex-v1";x["scientific_stage"]="C3X 0.7.0-G9.4-P21"
-   q=td/p.name.replace("p22-","p21-",1);q.write_text(json.dumps(x,sort_keys=True)+"\n");n+=1
+   (td/p.name.replace("p22-","p21-",1)).write_text(json.dumps(x,sort_keys=True)+"\n");n+=1
   if n!=8:raise SystemExit(f"P22_RESULT_COUNT {lane} {n}/8")
   tmp=td/"adjudication.json";ns=argparse.Namespace(precommit=str(cp),result_dir=str(td),out=str(tmp))
   if lane=="core":p21.core_adjudicate(ns)
