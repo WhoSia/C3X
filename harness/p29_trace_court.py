@@ -237,6 +237,8 @@ def donor_vertex(a):
 
 def heldout_trace(a):
  pre=load_pre(a.precommit);e=HELDOUT;paths={"OFF":a.off,"ON":a.on};protocol=pre["variants"][e]["OFF"]["protocol"]
+ for pol in POLICIES:
+  if sha_file(paths[pol])!=pre["variants"][e][pol]["sha256"]:raise SystemExit("P29_HELDOUT_TRACE_BINARY")
  src=[c for c in pre["cells"] if c["material_seed_name"]==a.family]
  rows=[];outdir=Path(a.out).parent
  for i,c in enumerate(src,1):
@@ -262,6 +264,11 @@ def collect_trace(path):
 
 def heldout_selective(a):
  pre=load_pre(a.precommit);e=HELDOUT;paths={"OFF":a.off,"ON":a.on};protocol=pre["variants"][e]["OFF"]["protocol"]
+ pr=json.loads(Path(a.prediction).read_text())
+ if pr.get("schema")!="c3x-p29-heldout-prediction-v1" or pr.get("heldout_selective_consulted") is not False:raise SystemExit("P29_PREDICTION_AUTH")
+ if pr.get("precommit_receipt_sha256")!=pre["receipt_sha256"]:raise SystemExit("P29_PREDICTION_PARENT")
+ for pol in POLICIES:
+  if sha_file(paths[pol])!=pre["variants"][e][pol]["sha256"]:raise SystemExit("P29_HELDOUT_SELECTIVE_BINARY")
  tb=collect_trace(a.trace_results);src=tb[a.family]["rows"];rows=[]
  index={c["candidate_sha256"]:c for c in pre["cells"] if c["material_seed_name"]==a.family}
  for i,r in enumerate(src,1):
