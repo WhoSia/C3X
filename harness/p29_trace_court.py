@@ -170,7 +170,9 @@ def trace_history(path,protocol,cell,trace_path,graph):
   for d in cell["history"]["decoys"]:_,prev=p27.go(p,d["fen"],DECOY,protocol)
   sem,tel=p27.go(p,cell["fen"],ANCHOR,protocol)
   if protocol=="env":tel=p27.tdelta(tel,prev)
-  p27.go(p,cell["fen"],1,protocol)
+  p.stdin.write(f"position fen {cell['fen']}\ngo nodes 1\n");p.stdin.flush()
+  flushed=p27.read_until(p,lambda x:x.startswith("bestmove "))
+  if not any(x.startswith("bestmove ") for x in flushed):raise RuntimeError("P29_TRACE_FLUSH")
  finally:
   try:
    p.stdin.write("quit\n");p.stdin.flush()
