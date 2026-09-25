@@ -169,8 +169,11 @@
   },
   "literature": {
     "geiger_2025": {
-      "doi": "10.5555/3638840.3638923",
-      "note": "JMLR 26(83), causal abstraction / interventionals; Drive copy already present"
+      "jmlr": "26(83):1-64, 2025",
+      "url": "https://jmlr.org/papers/v26/23-0058.html",
+      "arxiv": "2301.04709",
+      "note": "No DOI is listed by JMLR; Drive copy already present.",
+      "use": "causal abstraction / interventionals / graded faithfulness"
     },
     "halpern_pearl_2005": {
       "doi": "10.1093/bjps/axi147",
