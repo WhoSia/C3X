@@ -1,0 +1,251 @@
+name: p34-open-event-causal-cone
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - "c3x/ontology/p34-support-from-p33.json"
+      - "c3x/ontology/p34-lawgen-spec.json"
+      - "crates/c3x-lawgen/src/bin/lawgen_v10.rs"
+      - "crates/c3x-cone/**"
+      - "tools/p34_cone_target.inc"
+      - "tools/p34_patch_cone.py"
+      - "harness/p34_cone_court.py"
+      - "harness/p34_explanation_verify.py"
+      - "tools/p34-verify.mjs"
+      - ".github/workflows/p34.yml"
+
+concurrency:
+  group: p34-open-event-causal-cone
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  actions: read
+
+env:
+  P31_RUN: "36183969565"
+  P33_RUN: "36192022350"
+
+jobs:
+  lawgen:
+    name: LawGen v10 quotient constitution
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Static prospective gates
+        run: |
+          python3 -m py_compile tools/p34_patch_cone.py harness/p34_cone_court.py harness/p34_explanation_verify.py
+          node --check tools/p34-verify.mjs
+          cargo run --release --manifest-path crates/c3x-lawgen/Cargo.toml --bin lawgen_v10 -- c3x/ontology/p34-lawgen-spec.json c3x/ontology/p34-support-from-p33.json out/lawgen
+          sha256sum out/lawgen/* | sort > out/lawgen-sha256.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: p34-lawgen-preseal
+          path: out/
+          retention-days: 30
+
+  coner:
+    name: Rust independent quotient verifier
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Test and build
+        run: |
+          cargo test --manifest-path crates/c3x-cone/Cargo.toml
+          cargo build --release --manifest-path crates/c3x-cone/Cargo.toml
+          mkdir -p out
+          cp crates/c3x-cone/target/release/c3x-cone out/c3x-cone
+          sha256sum out/c3x-cone > out/c3x-cone-sha256.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: p34-coner
+          path: out/
+          retention-days: 30
+
+  build:
+    name: Dynamic cone engine — ${{ matrix.engine }}
+    needs: lawgen
+    runs-on: ubuntu-latest
+    timeout-minutes: 180
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - engine: stockfish_19
+            repo: https://github.com/official-stockfish/Stockfish.git
+            commit: edb0d9db6731067ec50ce619ff372b463bc4dd5d
+            native_policy: OFF
+          - engine: berserk
+            repo: https://github.com/jhonnold/berserk.git
+            commit: 32628515050b83805bab4afa1026dd2bcaa93f55
+            native_policy: OFF
+          - engine: ethereal
+            repo: https://github.com/AndyGrant/Ethereal.git
+            commit: 0e47e9b67f345c75eb965d9fb3e2493b6a11d09a
+            native_policy: ON
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: p31-precommit-sealed
+          path: parent-pre
+          repository: WhoSia/C3X
+          run-id: ${{ env.P31_RUN }}
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: p31-final-explainer
+          path: parent-final
+          repository: WhoSia/C3X
+          run-id: ${{ env.P31_RUN }}
+          github-token: ${{ github.token }}
+      - name: Resolve exact engine source
+        run: |
+          P31_PRE="$(find parent-pre -name p31-precommit.json -print -quit)"
+          P31_FINAL="$(find parent-final -name p31-adjudication.json -print -quit)"
+          test -n "$P31_PRE" && test -n "$P31_FINAL"
+          echo "P31_PRE=$P31_PRE" >> "$GITHUB_ENV"
+          echo "P31_FINAL=$P31_FINAL" >> "$GITHUB_ENV"
+          git clone "${{ matrix.repo }}" src
+          git -C src checkout --detach "${{ matrix.commit }}"
+          test "$(git -C src rev-parse HEAD)" = "${{ matrix.commit }}"
+          mkdir -p out
+      - name: Materialize inherited observer chain and P34 dynamic cone
+        run: |
+          if [ "${{ matrix.engine }}" = stockfish_19 ]; then
+            python3 tools/materialize_p15.py --stockfish src --target stockfish_19
+          elif [ "${{ matrix.engine }}" = berserk ]; then
+            python3 tools/p20_patch_berserk.py --root src --variant instrument --manifest out/p20.json
+          else
+            python3 tools/p20_patch_ethereal.py --root src --variant instrument --manifest out/p20.json
+          fi
+          python3 tools/p27_patch_age.py --root src --engine "${{ matrix.engine }}" --policy "${{ matrix.native_policy }}" --manifest out/p27.json
+          python3 tools/p29_patch_tttrace.py --root src --engine "${{ matrix.engine }}" --policy "${{ matrix.native_policy }}" --manifest out/p29.json
+          python3 tools/p30_patch_victim.py --root src --engine "${{ matrix.engine }}" --manifest out/p30.json
+          python3 tools/p31_patch_semantics.py --root src --engine "${{ matrix.engine }}" --manifest out/p31.json
+          python3 tools/p32_patch_event_target.py --root src --engine "${{ matrix.engine }}" --manifest out/p32.json
+          python3 tools/p34_patch_cone.py --root src --engine "${{ matrix.engine }}" --manifest out/p34.json
+      - name: Build portable binary
+        run: |
+          set -eux
+          if [ "${{ matrix.engine }}" = stockfish_19 ]; then
+            make -C src/src -j2 build ARCH=x86-64
+            cp src/src/stockfish out/c3x-p34-${{ matrix.engine }}
+          elif [ "${{ matrix.engine }}" = berserk ]; then
+            make -C src/src ARCH=x86-64 build
+            cp src/src/berserk out/c3x-p34-${{ matrix.engine }}
+          else
+            ECFLAGS="-O3 -std=gnu11 -Wall -Wextra -Wshadow -DNDEBUG -flto -DUSE_NNUE=0 -march=x86-64 -msse2"
+            make -C src/src basic CFLAGS="$ECFLAGS"
+            cp src/src/Ethereal out/c3x-p34-${{ matrix.engine }}
+          fi
+          chmod +x out/c3x-p34-${{ matrix.engine }}
+          sha256sum out/c3x-p34-${{ matrix.engine }} > out/p34-binary-sha256-${{ matrix.engine }}.txt
+      - name: BASE transparency against inherited P31 certificates
+        run: |
+          python3 harness/p32_event_court.py transparency --engine "${{ matrix.engine }}" --binary "out/c3x-p34-${{ matrix.engine }}" --support c3x/ontology/p32-support-from-p31.json --parent-final "$P31_FINAL" --parent-pre "$P31_PRE" --out "out/p34-transparency-${{ matrix.engine }}.json"
+          python3 -c 'import json,sys; assert json.load(open(sys.argv[1]))["verdict"]=="PASS"' "out/p34-transparency-${{ matrix.engine }}.json"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: p34-build-${{ matrix.engine }}
+          path: out/
+          retention-days: 30
+
+  precommit:
+    name: Seal P34 quotient cases
+    needs: [build, coner]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: p33-precommit-sealed
+          path: parent-pre
+          repository: WhoSia/C3X
+          run-id: ${{ env.P33_RUN }}
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: p33-final-lineage-explainer
+          path: parent-final
+          repository: WhoSia/C3X
+          run-id: ${{ env.P33_RUN }}
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with: {name: p34-lawgen-preseal, path: lawgen}
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: p34-build-*
+          path: builds
+      - name: Freeze inherited support and binaries
+        run: |
+          P33_PRE="$(find parent-pre -name p33-precommit.json -print -quit)"
+          P33_FINAL="$(find parent-final -name p33-adjudication.json -print -quit)"
+          CONST="$(find lawgen -name constitution.json -print -quit)"
+          test -n "$P33_PRE" && test -n "$P33_FINAL" && test -n "$CONST"
+          python3 harness/p34_cone_court.py precommit --support c3x/ontology/p34-support-from-p33.json --parent-final "$P33_FINAL" --parent-pre "$P33_PRE" --constitution "$CONST" --build-dir builds --out p34-precommit.json
+          sha256sum p34-precommit.json > p34-precommit-file-sha256.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: p34-precommit-sealed
+          path: p34-precommit*
+          retention-days: 30
+
+  case:
+    name: Quotient court — ${{ matrix.artifact }}
+    needs: precommit
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - {engine: stockfish_19, case_id: "stockfish_19:f8cde3d6abb4:MOVE_ORDER+EVAL", artifact: "sf-f8cd-control"}
+          - {engine: ethereal, case_id: "ethereal:a8fd39b3864a:CUTOFF", artifact: "et-a8fd-open"}
+          - {engine: ethereal, case_id: "ethereal:f8cde3d6abb4:MOVE_ORDER", artifact: "et-f8cd-open"}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with: {name: p34-precommit-sealed, path: pre}
+      - uses: actions/download-artifact@v4
+        with: {name: p34-coner, path: coner}
+      - uses: actions/download-artifact@v4
+        with: {name: p34-build-${{ matrix.engine }}, path: build}
+      - name: Execute frozen quotient lattice
+        run: |
+          chmod +x coner/c3x-cone build/c3x-p34-${{ matrix.engine }}
+          mkdir -p out
+          python3 harness/p34_cone_court.py case --precommit pre/p34-precommit.json --case-id "${{ matrix.case_id }}" --binary build/c3x-p34-${{ matrix.engine }} --coner coner/c3x-cone --out "out/p34-case-${{ matrix.artifact }}.json"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: p34-case-${{ matrix.artifact }}
+          path: out/
+          retention-days: 30
+
+  adjudicate:
+    name: P34 explanation and independent verification
+    needs: case
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with: {name: p34-precommit-sealed, path: pre}
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: p34-case-*
+          path: results
+          merge-multiple: true
+      - name: Install chess verifier
+        run: python3 -m pip install --disable-pip-version-check python-chess==1.999
+      - name: Compile bounded explanations and independently verify
+        run: |
+          mkdir -p final
+          python3 harness/p34_explanation_verify.py --precommit pre/p34-precommit.json --results results --out final/p34-adjudication.json --ast final/p34-explanation-ast.json --grounding final/p34-chess-grounding.json --markdown final/p34-explanations.md
+          node tools/p34-verify.mjs final/p34-adjudication.json | tee final/p34-js-verification.txt
+          sha256sum final/* | sort > final/p34-final-sha256.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: p34-final-causal-cone
+          path: final/
+          retention-days: 30
