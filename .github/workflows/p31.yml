@@ -1,0 +1,200 @@
+name: p31-tt-semantic-explainer
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - "c3x/ontology/p31-lawgen-spec.json"
+      - "crates/c3x-lawgen/src/bin/lawgen_v7.rs"
+      - "tools/p31_semantic_common.inc"
+      - "tools/p31_patch_semantics.py"
+      - "harness/p31_semantic_explainer.py"
+      - ".github/workflows/p31.yml"
+
+concurrency:
+  group: p31-tt-semantic-explainer
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  actions: read
+
+env:
+  P30_RUN: "36179305166"
+
+jobs:
+  lawgen:
+    name: LawGen v7 semantic attribution constitution
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Static gates
+        run: |
+          python3 -m py_compile tools/p31_patch_semantics.py harness/p31_semantic_explainer.py
+          cargo run --release --manifest-path crates/c3x-lawgen/Cargo.toml --bin lawgen_v7 -- c3x/ontology/p31-lawgen-spec.json out/lawgen
+          sha256sum out/lawgen/* | sort > out/lawgen-sha256.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: p31-lawgen-preseal
+          path: out/
+          retention-days: 30
+
+  build:
+    name: Native semantic tracer — ${{ matrix.engine }}
+    needs: lawgen
+    runs-on: ubuntu-latest
+    timeout-minutes: 150
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - engine: stockfish_19
+            repo: https://github.com/official-stockfish/Stockfish.git
+            commit: edb0d9db6731067ec50ce619ff372b463bc4dd5d
+            native_policy: OFF
+          - engine: berserk
+            repo: https://github.com/jhonnold/berserk.git
+            commit: 32628515050b83805bab4afa1026dd2bcaa93f55
+            native_policy: OFF
+          - engine: ethereal
+            repo: https://github.com/AndyGrant/Ethereal.git
+            commit: 0e47e9b67f345c75eb965d9fb3e2493b6a11d09a
+            native_policy: ON
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: p30-precommit-sealed
+          path: parent
+          repository: WhoSia/C3X
+          run-id: ${{ env.P30_RUN }}
+          github-token: ${{ github.token }}
+      - name: Resolve source
+        run: |
+          P30="$(find parent -name p30-precommit.json -print -quit)"
+          test -n "$P30"
+          echo "P30=$P30" >> "$GITHUB_ENV"
+          git clone "${{ matrix.repo }}" src
+          git -C src checkout --detach "${{ matrix.commit }}"
+          test "$(git -C src rev-parse HEAD)" = "${{ matrix.commit }}"
+          mkdir -p out
+      - name: Materialize native semantics and observer chain
+        run: |
+          if [ "${{ matrix.engine }}" = stockfish_19 ]; then
+            python3 tools/materialize_p15.py --stockfish src --target stockfish_19
+          elif [ "${{ matrix.engine }}" = berserk ]; then
+            python3 tools/p20_patch_berserk.py --root src --variant instrument --manifest out/p20.json
+          else
+            python3 tools/p20_patch_ethereal.py --root src --variant instrument --manifest out/p20.json
+          fi
+          python3 tools/p27_patch_age.py --root src --engine "${{ matrix.engine }}" --policy "${{ matrix.native_policy }}" --manifest out/p27.json
+          python3 tools/p29_patch_tttrace.py --root src --engine "${{ matrix.engine }}" --policy "${{ matrix.native_policy }}" --manifest out/p29.json
+          python3 tools/p30_patch_victim.py --root src --engine "${{ matrix.engine }}" --manifest out/p30.json
+          python3 tools/p31_patch_semantics.py --root src --engine "${{ matrix.engine }}" --manifest out/p31.json
+      - name: Build portable binary
+        run: |
+          set -eux
+          if [ "${{ matrix.engine }}" = stockfish_19 ]; then
+            make -C src/src -j2 build ARCH=x86-64
+            cp src/src/stockfish out/c3x-p31-${{ matrix.engine }}
+          elif [ "${{ matrix.engine }}" = berserk ]; then
+            make -C src/src ARCH=x86-64 build
+            cp src/src/berserk out/c3x-p31-${{ matrix.engine }}
+          else
+            ECFLAGS="-O3 -std=gnu11 -Wall -Wextra -Wshadow -DNDEBUG -flto -DUSE_NNUE=0 -march=x86-64 -msse2"
+            make -C src/src basic CFLAGS="$ECFLAGS"
+            cp src/src/Ethereal out/c3x-p31-${{ matrix.engine }}
+          fi
+          chmod +x out/c3x-p31-${{ matrix.engine }}
+          sha256sum out/c3x-p31-${{ matrix.engine }} > out/p31-binary-sha256-${{ matrix.engine }}.txt
+      - name: Trace transparency
+        run: |
+          python3 harness/p31_semantic_explainer.py transparency             --engine "${{ matrix.engine }}"             --binary "out/c3x-p31-${{ matrix.engine }}"             --parent "$P30"             --out "out/p31-transparency-${{ matrix.engine }}.json"
+          python3 -c 'import json,sys; assert json.load(open(sys.argv[1]))["verdict"]=="PASS"' "out/p31-transparency-${{ matrix.engine }}.json"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: p31-build-${{ matrix.engine }}
+          path: out/
+          retention-days: 30
+
+  precommit:
+    name: Seal 16-world semantic attribution support
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: p30-precommit-sealed
+          path: parent
+          repository: WhoSia/C3X
+          run-id: ${{ env.P30_RUN }}
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with: {name: p31-lawgen-preseal, path: lawgen}
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: p31-build-*
+          path: builds
+      - run: |
+          P30="$(find parent -name p30-precommit.json -print -quit)"
+          CONST="$(find lawgen -name constitution.json -print -quit)"
+          python3 harness/p31_semantic_explainer.py precommit             --parent "$P30" --constitution "$CONST" --build-dir builds --out p31-precommit.json
+          sha256sum p31-precommit.json > p31-precommit-file-sha256.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: p31-precommit-sealed
+          path: p31-precommit*
+          retention-days: 30
+
+  attribution:
+    name: Semantic counterfactuals — ${{ matrix.engine }} / shard-${{ matrix.shard }}
+    needs: precommit
+    runs-on: ubuntu-latest
+    timeout-minutes: 240
+    strategy:
+      fail-fast: false
+      matrix:
+        engine: [stockfish_19, berserk, ethereal]
+        shard: [0, 1, 2, 3]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with: {name: p31-precommit-sealed, path: pre}
+      - uses: actions/download-artifact@v4
+        with:
+          name: p31-build-${{ matrix.engine }}
+          path: build
+      - name: Execute eight semantic-use arms
+        run: |
+          chmod +x build/c3x-p31-${{ matrix.engine }}
+          mkdir -p out
+          python3 harness/p31_semantic_explainer.py shard             --precommit pre/p31-precommit.json             --engine "${{ matrix.engine }}"             --binary build/c3x-p31-${{ matrix.engine }}             --shard "${{ matrix.shard }}" --shards 4             --out "out/p31-${{ matrix.engine }}-shard-${{ matrix.shard }}.json"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: p31-attribution-${{ matrix.engine }}-${{ matrix.shard }}
+          path: out/
+          retention-days: 30
+
+  adjudicate:
+    name: Compile faithful move-level explanations
+    needs: attribution
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with: {name: p31-precommit-sealed, path: pre}
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: p31-attribution-*
+          path: results
+          merge-multiple: true
+      - run: |
+          mkdir -p final
+          python3 harness/p31_semantic_explainer.py adjudicate             --precommit pre/p31-precommit.json --results results             --out final/p31-adjudication.json             --markdown final/p31-explanations.md             --graph final/p31-attribution-graph.json
+          sha256sum final/* | sort > final/p31-final-sha256.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: p31-final-explainer
+          path: final/
+          retention-days: 30
