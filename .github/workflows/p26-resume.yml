@@ -1,0 +1,158 @@
+name: p26-exact-prefix-product-field-resume
+on:
+  push:
+    paths:
+      - ".github/workflows/p26-resume.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+env:
+  PREFIX_RUN: 36148531504
+  INSTRUMENT_RUN: 36041727983
+jobs:
+  prefix:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Compile current LawGen v2 constitution
+        run: |
+          cargo test --manifest-path crates/c3x-lawgen/Cargo.toml
+          cargo run --release --manifest-path crates/c3x-lawgen/Cargo.toml --bin c3x-lawgen-v2 -- c3x/ontology/p26-lawgen-spec.json lawgen
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: p26-world-*
+          path: parts
+          repository: WhoSia/C3X
+          run-id: ${{ env.PREFIX_RUN }}
+          github-token: ${{ github.token }}
+      - name: Reconstitute exact outcome-blind world prefix
+        run: |
+          python3 compiler/exact_world/p26_merge.py --parts parts --out p26-core-pool.json
+          python3 - <<'PY'
+          import json
+          x=json.load(open('p26-core-pool.json'))
+          assert len(x['candidates'])==384
+          assert x['freshness']['generation_index_offset']==720000
+          assert x['engine_outcomes_consulted'] is False
+          print('P26_EXACT_PREFIX_PASS',x['pool_sha256'])
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: p26-prefix
+          path: |
+            p26-core-pool.json
+            lawgen/
+          retention-days: 30
+  census:
+    needs: prefix
+    runs-on: ubuntu-latest
+    timeout-minutes: 180
+    strategy:
+      fail-fast: false
+      matrix:
+        family: [KQQvKQ,KQRvKQ,KQQvKR,KQRvKR,KRBvKB,KRNvKB,KRBvKN,KRNvKN]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: p26-prefix
+          path: stage
+      - uses: actions/download-artifact@v4
+        with:
+          name: p21-instrument-packet
+          path: instrument
+          repository: WhoSia/C3X
+          run-id: ${{ env.INSTRUMENT_RUN }}
+          github-token: ${{ github.token }}
+      - run: |
+          chmod +x instrument/p20/packet/c3x-p20-*
+          mkdir -p out
+          python3 harness/p26_product_field.py census --pool stage/p26-core-pool.json --engine stockfish_19,stockfish_uci,instrument/p20/packet/c3x-p20-sf19 --engine berserk,env,instrument/p20/packet/c3x-p20-berserk --engine ethereal,env,instrument/p20/packet/c3x-p20-ethereal --family "${{ matrix.family }}" --out "out/p26-census-${{ matrix.family }}.json"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: p26-r-census-${{ matrix.family }}
+          path: out/
+          retention-days: 30
+  precommit:
+    needs: census
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: p26-r-census-*
+          path: census
+      - uses: actions/download-artifact@v4
+        with:
+          name: p26-prefix
+          path: stage
+      - name: Materialize atlases, fit frozen finite correspondence, seal support
+        run: |
+          mkdir -p atlas
+          cargo test --manifest-path crates/c3x-atlas/Cargo.toml
+          for b in 40000 80000 160000 300000; do
+            python3 harness/p26_product_field.py export --census-dir census --budget "$b" --out "atlas/p26-census-$b.tsv"
+            cargo run --release --manifest-path crates/c3x-atlas/Cargo.toml -- "atlas/p26-census-$b.tsv" "atlas/p26-atlas-$b.tsv" "atlas/p26-atlas-$b-receipt.json"
+          done
+          python3 harness/p26_product_field.py precommit --census-dir census --pool stage/p26-core-pool.json --constitution stage/lawgen/constitution.json --atlas-dir atlas --out atlas/p26-precommit.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: p26-r-precommit
+          path: atlas/
+          retention-days: 30
+  vertex:
+    needs: precommit
+    runs-on: ubuntu-latest
+    timeout-minutes: 240
+    strategy:
+      fail-fast: false
+      matrix:
+        family: [KQQvKQ,KQRvKQ,KQQvKR,KQRvKR,KRBvKB,KRNvKB,KRBvKN,KRNvKN]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: p26-r-precommit
+          path: pre
+      - uses: actions/download-artifact@v4
+        with:
+          name: p21-instrument-packet
+          path: instrument
+          repository: WhoSia/C3X
+          run-id: ${{ env.INSTRUMENT_RUN }}
+          github-token: ${{ github.token }}
+      - run: |
+          chmod +x instrument/p20/packet/c3x-p20-*
+          mkdir -p out
+          python3 harness/p26_product_field.py vertex --precommit pre/p26-precommit.json --engine stockfish_19,stockfish_uci,instrument/p20/packet/c3x-p20-sf19 --engine berserk,env,instrument/p20/packet/c3x-p20-berserk --engine ethereal,env,instrument/p20/packet/c3x-p20-ethereal --family "${{ matrix.family }}" --out "out/p26-core-${{ matrix.family }}.json"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: p26-r-vertex-${{ matrix.family }}
+          path: out/
+          retention-days: 30
+  adjudicate:
+    needs: vertex
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: p26-r-precommit
+          path: pre
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: p26-r-vertex-*
+          path: results
+      - run: python3 harness/p26_product_field.py adjudicate --precommit pre/p26-precommit.json --results results --out p26-adjudication.json
+      - run: node tools/p26-verify.mjs pre/p26-precommit.json p26-adjudication.json p26-report.md
+      - run: cat p26-report.md
+      - uses: actions/upload-artifact@v4
+        with:
+          name: p26-r-final
+          path: |
+            p26-adjudication.json
+            p26-report.md
+          retention-days: 30
