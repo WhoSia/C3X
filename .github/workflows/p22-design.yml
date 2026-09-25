@@ -1,0 +1,198 @@
+name: p22-sham-balance-precommit
+on:
+  workflow_run:
+    workflows: ["p22-fresh-world-constitution"]
+    types: [completed]
+  workflow_dispatch:
+    inputs:
+      world_run:
+        description: "successful p22-fresh-world-constitution run id"
+        required: true
+        type: string
+permissions:
+  contents: read
+  actions: read
+env:
+  WORLD_RUN: ${{ github.event_name == 'workflow_run' && github.event.workflow_run.id || inputs.world_run }}
+  INSTRUMENT_RUN: 36041727983
+jobs:
+  guard:
+    runs-on: ubuntu-latest
+    if: ${{ github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success' }}
+    steps:
+      - run: echo "P22_WORLD_RUN=$WORLD_RUN"
+  core-census:
+    needs: guard
+    runs-on: ubuntu-latest
+    timeout-minutes: 180
+    strategy:
+      fail-fast: false
+      matrix:
+        family: [KQQvKQ,KQRvKQ,KQQvKR,KQRvKR,KRBvKB,KRNvKB,KRBvKN,KRNvKN]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: p22-core-pool
+          path: stage
+          repository: WhoSia/C3X
+          run-id: ${{ env.WORLD_RUN }}
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: p21-instrument-packet
+          path: instrument
+          repository: WhoSia/C3X
+          run-id: ${{ env.INSTRUMENT_RUN }}
+          github-token: ${{ github.token }}
+      - run: |
+          chmod +x instrument/p20/packet/c3x-p20-* instrument/inanis/inanis-instrument
+          mkdir -p out
+          python3 harness/p22_design.py core-census --stage-a stage/p22-core-pool.json --engine stockfish_19,stockfish_uci,instrument/p20/packet/c3x-p20-sf19 --engine berserk,env,instrument/p20/packet/c3x-p20-berserk --engine ethereal,env,instrument/p20/packet/c3x-p20-ethereal --inanis instrument/inanis/inanis-instrument --family "${{ matrix.family }}" --nodes 80000 --out "out/p22-core-census-${{ matrix.family }}.json"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: p22-core-census-${{ matrix.family }}
+          path: out/
+          retention-days: 30
+  carrier-census:
+    needs: guard
+    runs-on: ubuntu-latest
+    timeout-minutes: 180
+    strategy:
+      fail-fast: false
+      matrix:
+        family: [KQQPvKQP,KQRPvKQP,KQQPvKRP,KQRPvKRP,KRBPvKBP,KRNPvKBP,KRBPvKNP,KRNPvKNP]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: p22-carrier-pool
+          path: stage
+          repository: WhoSia/C3X
+          run-id: ${{ env.WORLD_RUN }}
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: p21-instrument-packet
+          path: instrument
+          repository: WhoSia/C3X
+          run-id: ${{ env.INSTRUMENT_RUN }}
+          github-token: ${{ github.token }}
+      - run: |
+          chmod +x instrument/p20/packet/c3x-p20-* instrument/inanis/inanis-instrument
+          mkdir -p out
+          python3 harness/p22_design.py carrier-census --stage-a stage/p22-carrier-pool.json --engine stockfish_19,stockfish_uci,instrument/p20/packet/c3x-p20-sf19 --engine berserk,env,instrument/p20/packet/c3x-p20-berserk --engine ethereal,env,instrument/p20/packet/c3x-p20-ethereal --inanis instrument/inanis/inanis-instrument --family "${{ matrix.family }}" --nodes 80000 --out "out/p22-carrier-census-${{ matrix.family }}.json"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: p22-carrier-census-${{ matrix.family }}
+          path: out/
+          retention-days: 30
+  core-seal:
+    needs: core-census
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: p22-core-pool
+          path: stage
+          repository: WhoSia/C3X
+          run-id: ${{ env.WORLD_RUN }}
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: p22-core-census-*
+          path: census
+      - name: Export outcome-blind design matrix
+        run: python3 harness/p22_design.py export-tsv --lane core --census-dir census --out p22-core-census.tsv
+      - name: Rust selector
+        id: rust
+        continue-on-error: true
+        run: |
+          rustc -O matcher/p22_balance_matcher.rs -o p22_matcher
+          ./p22_matcher p22-core-census.tsv p22-core-selected.txt p22-core-rust.json
+      - name: Independent C++ certificate
+        id: cpp
+        continue-on-error: true
+        run: |
+          g++ -O2 -std=c++17 analysis/p22_balance_cert.cpp -o p22_cert
+          ./p22_cert p22-core-census.tsv p22-core-selected.txt p22-core-cpp.json
+      - name: Independent R audit
+        id: r
+        continue-on-error: true
+        run: Rscript analysis/p22_balance_audit.R p22-core-census.tsv p22-core-selected.txt p22-core-r.json
+      - name: Cross-language authorization
+        id: cross
+        continue-on-error: true
+        run: node scripts/p22_verify_seal.js c3x/protocol/p22-preseal.json p22-core-rust.json p22-core-cpp.json p22-core-r.json > p22-core-cross-seal.json
+      - name: Materialize precommit only on unanimous PASS
+        if: ${{ steps.rust.outcome == 'success' && steps.cpp.outcome == 'success' && steps.r.outcome == 'success' && steps.cross.outcome == 'success' }}
+        run: python3 harness/p22_design.py seal --lane core --stage-a stage/p22-core-pool.json --census-dir census --census-tsv p22-core-census.tsv --selected p22-core-selected.txt --rust-report p22-core-rust.json --cpp-cert p22-core-cpp.json --r-audit p22-core-r.json --cross-seal p22-core-cross-seal.json --out p22-core-precommit.json
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: p22-core-balance-design
+          path: |
+            p22-core-census.tsv
+            p22-core-selected.txt
+            p22-core-rust.json
+            p22-core-cpp.json
+            p22-core-r.json
+            p22-core-cross-seal.json
+            p22-core-precommit.json
+          if-no-files-found: ignore
+          retention-days: 30
+      - name: Fail closed when design gate did not authorize
+        if: ${{ steps.rust.outcome != 'success' || steps.cpp.outcome != 'success' || steps.r.outcome != 'success' || steps.cross.outcome != 'success' }}
+        run: exit 42
+  carrier-seal:
+    needs: carrier-census
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: p22-carrier-pool
+          path: stage
+          repository: WhoSia/C3X
+          run-id: ${{ env.WORLD_RUN }}
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: p22-carrier-census-*
+          path: census
+      - run: python3 harness/p22_design.py export-tsv --lane carrier --census-dir census --out p22-carrier-census.tsv
+      - id: rust
+        continue-on-error: true
+        run: |
+          rustc -O matcher/p22_balance_matcher.rs -o p22_matcher
+          ./p22_matcher p22-carrier-census.tsv p22-carrier-selected.txt p22-carrier-rust.json
+      - id: cpp
+        continue-on-error: true
+        run: |
+          g++ -O2 -std=c++17 analysis/p22_balance_cert.cpp -o p22_cert
+          ./p22_cert p22-carrier-census.tsv p22-carrier-selected.txt p22-carrier-cpp.json
+      - id: r
+        continue-on-error: true
+        run: Rscript analysis/p22_balance_audit.R p22-carrier-census.tsv p22-carrier-selected.txt p22-carrier-r.json
+      - id: cross
+        continue-on-error: true
+        run: node scripts/p22_verify_seal.js c3x/protocol/p22-preseal.json p22-carrier-rust.json p22-carrier-cpp.json p22-carrier-r.json > p22-carrier-cross-seal.json
+      - if: ${{ steps.rust.outcome == 'success' && steps.cpp.outcome == 'success' && steps.r.outcome == 'success' && steps.cross.outcome == 'success' }}
+        run: python3 harness/p22_design.py seal --lane carrier --stage-a stage/p22-carrier-pool.json --census-dir census --census-tsv p22-carrier-census.tsv --selected p22-carrier-selected.txt --rust-report p22-carrier-rust.json --cpp-cert p22-carrier-cpp.json --r-audit p22-carrier-r.json --cross-seal p22-carrier-cross-seal.json --out p22-carrier-precommit.json
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: p22-carrier-balance-design
+          path: |
+            p22-carrier-census.tsv
+            p22-carrier-selected.txt
+            p22-carrier-rust.json
+            p22-carrier-cpp.json
+            p22-carrier-r.json
+            p22-carrier-cross-seal.json
+            p22-carrier-precommit.json
+          if-no-files-found: ignore
+          retention-days: 30
+      - if: ${{ steps.rust.outcome != 'success' || steps.cpp.outcome != 'success' || steps.r.outcome != 'success' || steps.cross.outcome != 'success' }}
+        run: exit 42
