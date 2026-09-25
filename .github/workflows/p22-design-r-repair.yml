@@ -1,0 +1,67 @@
+name: p22-sham-balance-precommit
+on:
+  push:
+    paths:
+      - ".github/workflows/p22-design-r-repair.yml"
+permissions:
+  actions: read
+  contents: read
+jobs:
+  seal:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - lane: core
+            stage_artifact: p22-core-pool
+            stage_file: stage/p22-core-pool.json
+          - lane: carrier
+            stage_artifact: p22-carrier-pool
+            stage_file: stage/p22-carrier-pool.json
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: r-lib/actions/setup-r@v2
+      - uses: actions/download-artifact@v4
+        with:
+          name: ${{ matrix.stage_artifact }}
+          path: stage
+          repository: WhoSia/C3X
+          run-id: 36102375988
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: p22-${{ matrix.lane }}-census-*
+          path: census
+          merge-multiple: false
+          repository: WhoSia/C3X
+          run-id: 36126460453
+          github-token: ${{ github.token }}
+      - name: Export frozen outcome-blind design matrix
+        run: python3 harness/p22_design.py export-tsv --lane ${{ matrix.lane }} --census-dir census --out p22-${{ matrix.lane }}-census.tsv
+      - name: Rust selector
+        run: |
+          rustc -O matcher/p22_balance_matcher.rs -o p22_matcher
+          ./p22_matcher p22-${{ matrix.lane }}-census.tsv p22-${{ matrix.lane }}-selected.txt p22-${{ matrix.lane }}-rust.json
+      - name: Independent C++ certificate
+        run: |
+          g++ -O2 -std=c++17 analysis/p22_balance_cert.cpp -o p22_cert
+          ./p22_cert p22-${{ matrix.lane }}-census.tsv p22-${{ matrix.lane }}-selected.txt p22-${{ matrix.lane }}-cpp.json
+      - name: Independent R audit
+        run: Rscript analysis/p22_balance_audit.R p22-${{ matrix.lane }}-census.tsv p22-${{ matrix.lane }}-selected.txt p22-${{ matrix.lane }}-r.json
+      - name: Cross-language authorization
+        run: node scripts/p22_verify_seal.js c3x/protocol/p22-preseal.json p22-${{ matrix.lane }}-rust.json p22-${{ matrix.lane }}-cpp.json p22-${{ matrix.lane }}-r.json > p22-${{ matrix.lane }}-cross-seal.json
+      - name: Materialize precommit
+        run: python3 harness/p22_design.py seal --lane ${{ matrix.lane }} --stage-a ${{ matrix.stage_file }} --census-dir census --census-tsv p22-${{ matrix.lane }}-census.tsv --selected p22-${{ matrix.lane }}-selected.txt --rust-report p22-${{ matrix.lane }}-rust.json --cpp-cert p22-${{ matrix.lane }}-cpp.json --r-audit p22-${{ matrix.lane }}-r.json --cross-seal p22-${{ matrix.lane }}-cross-seal.json --out p22-${{ matrix.lane }}-precommit.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: p22-${{ matrix.lane }}-balance-design
+          path: |
+            p22-${{ matrix.lane }}-census.tsv
+            p22-${{ matrix.lane }}-selected.txt
+            p22-${{ matrix.lane }}-rust.json
+            p22-${{ matrix.lane }}-cpp.json
+            p22-${{ matrix.lane }}-r.json
+            p22-${{ matrix.lane }}-cross-seal.json
+            p22-${{ matrix.lane }}-precommit.json
+          retention-days: 30
