@@ -1,0 +1,16 @@
+name: p22-cancel-redundant-sequential
+on:
+  push:
+    paths:
+      - ".github/workflows/p22-cancel-redundant.yml"
+permissions:
+  actions: write
+  contents: read
+jobs:
+  cancel:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Cancel superseded sequential P22 run
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh run cancel 36127209243 --repo WhoSia/C3X
