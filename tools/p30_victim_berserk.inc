@@ -1,11 +1,11 @@
-static void c3x_p30_hit(uint64_t hash, TTEntry* e){
+void c3x_p30_hit(uint64_t hash, TTEntry* e){
   if(!c3x_graph_on())return;
   uint64_t b,idx;int s;idx=c3x_be_index(e,&b,&s);
   if(!C3XKeys[idx]||C3XKeys[idx]!=hash)return;
   fprintf(c3x_trace_file(),"H,%llu,%llu,%d,%016llx,%u\n",
     (unsigned long long)C3XSeq,(unsigned long long)b,s,(unsigned long long)hash,(unsigned)C3XStoreSeq[idx]);
 }
-static void c3x_p30_victim(uint64_t requested, TTEntry* bucket, TTEntry* actual){
+void c3x_p30_victim(uint64_t requested, TTEntry* bucket, TTEntry* actual){
   if(!c3x_graph_on())return;
   for(int i=0;i<BUCKET_SIZE;i++)if(!bucket[i].depth)return;
   TTEntry* depthOnly=bucket;
