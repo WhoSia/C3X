@@ -56,7 +56,7 @@ fn main(){
  })).unwrap()+"\n").unwrap();
  fs::write(out.join("trace-schema.json"),serde_json::to_string_pretty(&json!({
    "schema":"c3x-p29-trace-schema-v1",
-   "summary":"S,seq,probes,signature_hits,full_hits,signature_collisions,shadow_unknown,cross_hits,origin_d1,origin_d2,origin_d3,origin_d4,origin_d5plus,store_attempts,store_commits,initial_stores,same_key_updates,replacements,store_rejects,age_attempts,age_changes,age_true_key,age_collision_key",
+   "summary":"S,seq,probes,signature_hits,full_hits,signature_collisions,empty_signature_matches,shadow_unknown,cross_hits,origin_d1,origin_d2,origin_d3,origin_d4,origin_d5plus,store_attempts,store_commits,initial_stores,same_key_updates,replacements,store_rejects,age_attempts,age_changes,age_true_key,age_collision_key",
    "replacement":"R,seq,bucket,slot,old_key,new_key,old_store_seq",
    "signature_collision":"C,seq,bucket,slot,requested_key,resident_key,resident_store_seq",
    "age_write":"A,seq,bucket,slot,requested_key,resident_key,value_changed",
