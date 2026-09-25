@@ -4,11 +4,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdint.h>
 
 #ifdef __cplusplus
-extern "C" unsigned long long c3x_p31_tt_seq(void);
+extern "C" uint64_t c3x_p31_tt_seq(void);
 #else
-unsigned long long c3x_p31_tt_seq(void);
+uint64_t c3x_p31_tt_seq(void);
 #endif
 
 enum {
