@@ -26,6 +26,7 @@
   "engines": [
     {
       "id": "stockfish_19",
+      "source": {"repo": "official-stockfish/Stockfish", "commit": "edb0d9db6731067ec50ce619ff372b463bc4dd5d"},
       "instrument_protocol": "stockfish_uci",
       "instrument_binary_sha256": "bb8487ab5de45a192d56502fdf33d3b74e5489f043528ea1240c68b7c7533425",
       "descriptor": {
@@ -43,6 +44,7 @@
     },
     {
       "id": "berserk",
+      "source": {"repo": "jhonnold/berserk", "commit": "32628515050b83805bab4afa1026dd2bcaa93f55"},
       "instrument_protocol": "env",
       "instrument_binary_sha256": "5e95346d204dfa88a61e1c7a539906079b4a72053e4afcaac151b2b44285cc1f",
       "descriptor": {
@@ -60,6 +62,7 @@
     },
     {
       "id": "ethereal",
+      "source": {"repo": "AndyGrant/Ethereal", "commit": "0e47e9b67f345c75eb965d9fb3e2493b6a11d09a"},
       "instrument_protocol": "env",
       "instrument_binary_sha256": "55d1fea3dd34c2478143c01cf802c60b2fc0e8253888051725a2d01062867a8d",
       "descriptor": {
@@ -78,6 +81,7 @@
   ],
   "descriptor_authority": {
     "freeze_time": "pre_selective_outcome",
+    "source_lock_authority": "c3x/ontology/p19-heterogeneous-engine-source-lock.json plus P19 Stockfish lineage lock",
     "candidate_coordinates": [
       "indexing_family",
       "probe_refreshes_age_on_hit",
