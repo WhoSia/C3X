@@ -1,0 +1,120 @@
+{
+  "schema": "c3x-lawgen-spec-v3",
+  "scientific_stage": "C3X 0.7.0-G9.4-P27",
+  "title": "Prospective Manipulable-Architecture Coordinate Experiment, Age-on-Hit Semantic Intervention, Topology-Matched Indexing Counterfactual, Held-Out Law-Field Prediction & Descriptor-to-Causal-Morphism Identification",
+  "parent_authority": {
+    "stage": "C3X 0.7.0-G9.4-P26",
+    "receipt": "c3x/receipts/p26-closure.json",
+    "verdict": "ARCHITECTURE_BUDGET_PRODUCT_FIELD_REQUIRED_UNDER_FROZEN_CORRESPONDENCE",
+    "precommit_run": 36153015935,
+    "precommit_receipt_sha256": "0d06ff54d7aed7f68e6d1f891e6bf167cd79b571dc9fe6e734aa31fcb0732e1f"
+  },
+  "scope": {
+    "support": "inherit P26 frozen treatment-blind selected support; no P27 outcome-driven world reselection",
+    "anchor_budget_nodes": 80000,
+    "mapped_state_levels": 8,
+    "selected_per_family_side_state": 1,
+    "expected_cells": 128,
+    "architectures": ["stockfish_19", "berserk", "ethereal"],
+    "intervention_policies": ["SHAM", "MASK_MAIN", "MASK_QSEARCH", "MASK_MAIN_QSEARCH", "MASK_ALL"]
+  },
+  "manipulable_coordinate": {
+    "name": "probe_refreshes_age_on_hit",
+    "values": [false, true],
+    "intervention": "force hit-entry generation/age refresh OFF or ON while preserving key/depth/value/eval/move/bound/PV semantics",
+    "native_value": {
+      "stockfish_19": false,
+      "berserk": false,
+      "ethereal": true
+    },
+    "source_locality_gate": [
+      "exact upstream source lock",
+      "one audited age-field edit surface only",
+      "bound and PV bits preserved",
+      "instrumentation identical across OFF and ON variants",
+      "native-equivalent policy must match clean baseline on a frozen deterministic preflight pack"
+    ]
+  },
+  "history_instrument": {
+    "reason": "single fresh-process searches make hit-age refresh largely idempotent because entries are normally in the current generation",
+    "trajectory": ["target_prime", "decoy_1", "decoy_2", "decoy_3", "target_measurement"],
+    "prime_nodes": 20000,
+    "decoy_nodes": 20000,
+    "decoy_count": 3,
+    "measurement_nodes": 80000,
+    "hash_mib": 64,
+    "threads": 1,
+    "fresh_process_each_age_policy_x_psm_policy_x_cell": true,
+    "psm_policy_applies_throughout_history": true,
+    "interpretation": "history-conditioned law field; age effect includes mediated TT-survival/replacement consequences"
+  },
+  "held_out_prediction": {
+    "donor_architectures": ["stockfish_19", "berserk"],
+    "held_out_architecture": "ethereal",
+    "freeze_before_held_out_selective_outcomes": true,
+    "prediction_object": "three-bit fingerprint transition mask over curvature_class, dominant_coordinate, dominant_sign",
+    "consensus_rule": "predict only state×square cells where both donors have the same OFF->ON transition mask",
+    "unresolved_rule": "donor-disagreement cells are predeclared UNRESOLVED and excluded from agreement scoring",
+    "universal_morphism_gate": "all 16 state×square cells donor-resolved and all 16 held-out masks exactly match"
+  },
+  "indexing_counterfactual": {
+    "coordinate": "indexing_family",
+    "status": "PRECOMMITTED_HOLD_UNLESS_TOPOLOGY_ISOMORPHISM_WITNESS",
+    "required_witness": "dynamic frozen-key collision multigraph plus a bijective bucket relabeling preserving collision adjacency and occupancy opportunity",
+    "current_evidence": "P26 has no dynamic TT-key/collision graph trace sufficient to establish this witness",
+    "forbidden": "multiply-high<->low-bit-mask source swap presented as a one-coordinate intervention without the witness"
+  },
+  "lawgen_v3": {
+    "new_first_class_objects": [
+      "manipulation_contract",
+      "history_instrument",
+      "source_variant_pair",
+      "held_out_morphism_prediction",
+      "topology_counterfactual_gate",
+      "off_target_equivalence"
+    ],
+    "principle": "theory changes imply schema changes; schema compilation does not imply scientific truth"
+  },
+  "literature_constraints": [
+    {
+      "source": "Geiger et al. (2025), Causal Abstraction",
+      "constraint": "mechanism transformations may be interventions, but the abstraction/intervention map must be explicit"
+    },
+    {
+      "source": "Grant et al. (ICLR 2026), Addressing divergent representations from causal interventions",
+      "constraint": "intervention validity and intervention-induced divergence are distinct from downstream agreement"
+    },
+    {
+      "source": "Sutter et al. (NeurIPS 2025), nonlinear representation dilemma",
+      "constraint": "low-capacity maps/predictions are part of the hypothesis; post-outcome alignment freedom is forbidden"
+    }
+  ],
+  "prospective_claims": [
+    {
+      "id": "M",
+      "name": "manipulability",
+      "criterion": "OFF and ON variants pass source-locality and native-equivalence gates before selective outcomes"
+    },
+    {
+      "id": "C",
+      "name": "within_architecture_causal_law_effect",
+      "criterion": "report every state×square OFF->ON law-fingerprint transition separately for each architecture; no threshold retrofitting"
+    },
+    {
+      "id": "H",
+      "name": "held_out_architecture_morphism",
+      "criterion": "freeze donor-consensus transition-mask predictions before any Ethereal P27 selective outcome is opened"
+    },
+    {
+      "id": "T",
+      "name": "indexing_topology_counterfactual",
+      "criterion": "no indexing causal effect may be estimated unless the predeclared topology-isomorphism witness exists"
+    }
+  ],
+  "claim_ceiling": [
+    "P27 identifies only the age-on-hit coordinate within the frozen history instrument and 80k anchor budget; it does not yet transport that coordinate over the full P26 budget axis.",
+    "The history-conditioned effect includes mediated replacement/occupancy consequences and is not a pure instantaneous direct effect.",
+    "A held-out transition-mask match is evidence for a low-capacity causal morphism, not engine-independent ontological fundamentality.",
+    "Failure of the indexing witness is a manipulability hold, not evidence that indexing has no causal effect."
+  ]
+}
