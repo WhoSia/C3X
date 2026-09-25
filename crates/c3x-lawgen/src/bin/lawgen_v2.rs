@@ -9,7 +9,7 @@ struct Spec{
  parent_authority:Value, fresh_worlds:FreshWorlds, axes:Axes,
  state_correspondence:StateCorrespondence,
  descriptor_authority:Value, product_space:Value,
- prediction_authority:Value, literature_constraints:Vec<Value>,
+ prediction_authority:Value, adjudication_support:Value, literature_constraints:Vec<Value>,
  prospective_claims:Vec<Value>, claim_ceiling:Vec<String>
 }
 #[derive(Debug,Deserialize)]
@@ -116,6 +116,7 @@ fn main(){
   "descriptor_authority":s.descriptor_authority,
   "product_space":s.product_space,
   "prediction_authority":s.prediction_authority,
+  "adjudication_support":s.adjudication_support,
   "literature_constraints":s.literature_constraints,
   "prospective_claims":s.prospective_claims,
   "claim_ceiling":s.claim_ceiling,
