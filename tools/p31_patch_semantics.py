@@ -225,7 +225,7 @@ def berserk(r):
       if (c3x_p31_no_eval()) rawEval = EVAL_UNKNOWN;
       if (rawEval == EVAL_UNKNOWN)
         rawEval = Evaluate(board, thread);'''
- s=one(s,a,b,"BE_MAIN_EVAL")
+ s=nth(s,a,b,0,"BE_MAIN_EVAL")
 
  a='''      if (ttScore != UNKNOWN && (ttBound & (ttScore > eval ? BOUND_LOWER : BOUND_UPPER)))
         eval = ttScore;'''
@@ -233,7 +233,7 @@ def berserk(r):
         c3x_p31_event("MAIN",C3X_P31_VALUE_EVAL,(unsigned long long)board->zobrist,ss->ply,depth,alpha,beta,ttScore,ttEval,ttBound,(unsigned long long)hashMove,(long long)eval);
         eval = ttScore;
       }'''
- s=one(s,a,b,"BE_MAIN_VALUE")
+ s=nth(s,a,b,0,"BE_MAIN_VALUE")
 
  a='''  InitNormalMovePicker(&mp, hashMove, thread, ss);'''
  b='''  if (hashMove)
@@ -249,7 +249,7 @@ def berserk(r):
         if (move == hashMove)
           c3x_p31_event("MAIN",C3X_P31_PV,(unsigned long long)board->zobrist,ss->ply,depth,alpha,beta,ttScore,ttEval,ttBound,(unsigned long long)move,(long long)score);
         alpha    = score;'''
- s=one(s,a,b,"BE_MAIN_PV")
+ s=nth(s,a,b,0,"BE_MAIN_PV")
 
  # Qsearch PSM site.
  a='''  c3x_psm_probe("QSEARCH",isPV,&ttHit,&hashMove,&ttScore,&ttEval,&ttDepth,&ttBound,&ttPv);
@@ -371,7 +371,7 @@ def ethereal(r):
     // We can grab in check based on the already computed king attackers bitboard
     inCheck = !!board->kingAttackers;
 
-    // Save a history of the static evaluations
+    // Save a history of the static evaluations when not checked
     eval = ns->eval = inCheck ? VALUE_NONE
          : ttEval != VALUE_NONE ? ttEval : evaluateBoard(thread, board);'''
  b='''    // Step 6. Initialize flags and values used by pruning and search methods
@@ -384,7 +384,7 @@ def ethereal(r):
         c3x_p31_event("MAIN",C3X_P31_EVAL,(unsigned long long)board->hash,thread->height,depth,alpha,beta,ttValue,ttEval,ttBound,(unsigned long long)ttMove,0);
     if (c3x_p31_no_eval()) ttEval = VALUE_NONE;
 
-    // Save a history of the static evaluations
+    // Save a history of the static evaluations when not checked
     eval = ns->eval = inCheck ? VALUE_NONE
          : ttEval != VALUE_NONE ? ttEval : evaluateBoard(thread, board);'''
  s=one(s,a,b,"ET_MAIN_EVAL")
