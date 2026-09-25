@@ -1,0 +1,43 @@
+name: lawgen-ci
+on:
+  push:
+    paths:
+      - "crates/c3x-lawgen/**"
+      - "c3x/ontology/*lawgen-spec.json"
+      - ".github/workflows/lawgen.yml"
+  pull_request:
+    paths:
+      - "crates/c3x-lawgen/**"
+      - "c3x/ontology/*lawgen-spec.json"
+      - ".github/workflows/lawgen.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  compile-ontology:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Unit tests
+        run: cargo test --manifest-path crates/c3x-lawgen/Cargo.toml
+      - name: Compile current ontology
+        run: cargo run --release --manifest-path crates/c3x-lawgen/Cargo.toml -- c3x/ontology/p25-lawgen-spec.json generated/lawgen
+      - name: Fresh-process parse and authority checks
+        run: |
+          python3 - <<'PY'
+          import json,pathlib
+          root=pathlib.Path('generated/lawgen')
+          c=json.loads((root/'constitution.json').read_text())
+          l=json.loads((root/'claim-lattice.json').read_text())
+          rows=(root/'execution-matrix.tsv').read_text().splitlines()
+          assert c['constitution']['selective_outcomes_consulted'] is False
+          assert c['constitution']['execution_matrix_rows']==57
+          assert l['constitution_sha256']==c['constitution_sha256']
+          assert len(rows)==58
+          print('LAWGEN_FRESH_PROCESS_PASS',c['constitution_sha256'])
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: lawgen-current
+          path: generated/lawgen/
+          retention-days: 14
