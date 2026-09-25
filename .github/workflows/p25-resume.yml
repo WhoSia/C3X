@@ -1,0 +1,112 @@
+name: p25-exact-prefix-receipt-repair-resume
+on:
+  push:
+    paths:
+      - ".github/workflows/p25-resume.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+env:
+  SOURCE_RUN: 36141322649
+  INSTRUMENT_RUN: 36041727983
+jobs:
+  precommit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: p25-census-*
+          path: census
+          repository: WhoSia/C3X
+          run-id: ${{ env.SOURCE_RUN }}
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: p25-core-pool
+          path: stage
+          repository: WhoSia/C3X
+          run-id: ${{ env.SOURCE_RUN }}
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: p25-lawgen
+          path: lawgen
+          repository: WhoSia/C3X
+          run-id: ${{ env.SOURCE_RUN }}
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: p25-atlas-precommit
+          path: atlas
+          repository: WhoSia/C3X
+          run-id: ${{ env.SOURCE_RUN }}
+          github-token: ${{ github.token }}
+      - name: Re-seal identical outcome-blind prefix with round-trip-stable receipt hash
+        run: python3 harness/p25_law_family_v2.py precommit --census-dir census --pool stage/p25-core-pool.json --constitution lawgen/constitution.json --atlas-dir atlas --out atlas/p25-precommit-v2.json
+      - name: Verify repaired precommit can survive a fresh parse
+        run: python3 -c 'import sys;sys.path.insert(0,"harness");import p25_law_family_v2 as r;r.p.load_pre("atlas/p25-precommit-v2.json");print("P25_PRECOMMIT_ROUNDTRIP_PASS")'
+      - uses: actions/upload-artifact@v4
+        with:
+          name: p25-atlas-precommit-v2
+          path: atlas/
+          retention-days: 30
+  vertex:
+    needs: precommit
+    runs-on: ubuntu-latest
+    timeout-minutes: 180
+    strategy:
+      fail-fast: false
+      matrix:
+        family: [KQQvKQ,KQRvKQ,KQQvKR,KQRvKR,KRBvKB,KRNvKB,KRBvKN,KRNvKN]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: p25-atlas-precommit-v2
+          path: pre
+      - uses: actions/download-artifact@v4
+        with:
+          name: p21-instrument-packet
+          path: instrument
+          repository: WhoSia/C3X
+          run-id: ${{ env.INSTRUMENT_RUN }}
+          github-token: ${{ github.token }}
+      - name: Execute frozen intervention algebra after exact-prefix repair
+        run: |
+          chmod +x instrument/p20/packet/c3x-p20-*
+          mkdir -p out
+          python3 harness/p25_law_family_v2.py vertex --precommit pre/p25-precommit-v2.json --engine stockfish_19,stockfish_uci,instrument/p20/packet/c3x-p20-sf19 --engine berserk,env,instrument/p20/packet/c3x-p20-berserk --engine ethereal,env,instrument/p20/packet/c3x-p20-ethereal --family "${{ matrix.family }}" --out "out/p25-core-${{ matrix.family }}.json"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: p25-v2-vertex-${{ matrix.family }}
+          path: out/
+          retention-days: 30
+  adjudicate:
+    needs: vertex
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: p25-atlas-precommit-v2
+          path: pre
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: p25-v2-vertex-*
+          path: results
+      - name: Adjudicate P25 frozen law-family court
+        run: python3 harness/p25_law_family_v2.py adjudicate --precommit pre/p25-precommit-v2.json --results results --out p25-adjudication.json
+      - name: Independent JavaScript semantic verification
+        run: node tools/p25-verify.mjs pre/p25-precommit-v2.json p25-adjudication.json p25-report.md
+      - run: cat p25-report.md
+      - uses: actions/upload-artifact@v4
+        with:
+          name: p25-final-v2
+          path: |
+            p25-adjudication.json
+            p25-report.md
+          retention-days: 30
