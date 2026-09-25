@@ -1,0 +1,79 @@
+name: p22-fresh-world-constitution
+on:
+  push:
+    paths:
+      - ".github/workflows/p22-worlds.yml"
+      - "compiler/exact_world/p22_core_compile.py"
+      - "compiler/exact_world/p22_carrier_compile.py"
+      - "compiler/exact_world/p22_merge.py"
+      - "c3x/protocol/p22-preseal.json"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  core-world:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    strategy:
+      fail-fast: false
+      matrix:
+        family: [KQQvKQ,KQRvKQ,KQQvKR,KQRvKR,KRBvKB,KRNvKB,KRBvKN,KRNvKN]
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 -m pip install --disable-pip-version-check chess==1.11.2
+      - run: |
+          mkdir -p out
+          python3 compiler/exact_world/p22_core_compile.py --material "${{ matrix.family }}" --target-per-vertex 48 --max-generated-per-vertex 1400 --out "out/p22-core-${{ matrix.family }}.json"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: p22-core-${{ matrix.family }}
+          path: out/
+          retention-days: 30
+  carrier-world:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    strategy:
+      fail-fast: false
+      matrix:
+        family: [KQQPvKQP,KQRPvKQP,KQQPvKRP,KQRPvKRP,KRBPvKBP,KRNPvKBP,KRBPvKNP,KRNPvKNP]
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 -m pip install --disable-pip-version-check chess==1.11.2
+      - run: |
+          mkdir -p out
+          python3 compiler/exact_world/p22_carrier_compile.py --material "${{ matrix.family }}" --target-per-vertex 48 --max-generated-per-vertex 1800 --out "out/p22-carrier-${{ matrix.family }}.json"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: p22-carrier-${{ matrix.family }}
+          path: out/
+          retention-days: 30
+  core-merge:
+    needs: core-world
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: p22-core-*
+          path: parts
+      - run: python3 compiler/exact_world/p22_merge.py --lane core --parts parts --out p22-core-pool.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: p22-core-pool
+          path: p22-core-pool.json
+          retention-days: 30
+  carrier-merge:
+    needs: carrier-world
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: p22-carrier-*
+          path: parts
+      - run: python3 compiler/exact_world/p22_merge.py --lane carrier --parts parts --out p22-carrier-pool.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: p22-carrier-pool
+          path: p22-carrier-pool.json
+          retention-days: 30
