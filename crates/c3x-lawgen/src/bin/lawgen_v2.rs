@@ -18,13 +18,13 @@ struct FreshWorlds{
  worlds_per_family:usize,worlds_per_side_per_family:usize,
  engine_outcomes_consulted:bool
 }
-#[derive(Debug,Deserialize)]
+#[derive(Debug,Deserialize,Serialize)]
 struct Axes{
  architecture:Vec<String>,budget_nodes:Vec<u64>,anchor_budget_nodes:u64,
  state_levels:Vec<usize>,interventions:Vec<String>,squares:Vec<String>,
  response_fingerprint:Vec<String>
 }
-#[derive(Debug,Deserialize)]
+#[derive(Debug,Deserialize,Serialize)]
 struct StateCorrespondence{
  family:String,fit_data:String,capacity:String,anchor_budget_nodes:u64,
  objective:String,composition:String,selection_after_alignment:String,
