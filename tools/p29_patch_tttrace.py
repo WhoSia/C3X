@@ -169,7 +169,7 @@ void c3x_tt_trace_age(TTEntry* e, uint64_t requested, uint8_t oldv, uint8_t newv
  u=one(u,'inline void TTUpdate() {\n  TT.age += AGE_INC;\n}',
        'inline void TTUpdate() {\n  c3x_trace_begin_search();\n  TT.age += AGE_INC;\n}',"BE_SEQ")
  c.write_text(u)
- return {"include":inc,"files":["src/transposition.h","src/transposition.c"],"shado":"parallel full-key/store-seq arrays"}
+ return {"include":inc,"files":["src/transposition.h","src/transposition.c"],"shadow":"parallel full-key/store-seq arrays"}
 
 def ethereal(root,policy):
  inc=install_inc(root,"p29_trace_ethereal.inc")
@@ -178,7 +178,7 @@ def ethereal(root,policy):
  t=one(t,'TTable Table; // Global Transposition Table\n','TTable Table; // Global Transposition Table\n#include "c3x_p29_trace.inc"\n',"ET_INCLUDE")
  t=one(t,'void tt_update() { Table.generation += TT_MASK_BOUND + 1; }',
        'void tt_update() { c3x_trace_begin_search(); Table.generation += TT_MASK_BOUND + 1; }',"ET_SEQ")
- t=one(t,'    Table.hashMask = (1ull << keySize) - 1u;\ln\n    // Clear the table',
+ t=one(t,'    Table.hashMask = (1ull << keySize) - 1u;\n\n    // Clear the table',
        '    Table.hashMask = (1ull << keySize) - 1u;\n    c3x_trace_alloc((Table.hashMask + 1) * TT_BUCKET_NB);\n\n    // Clear the table',"ET_ALLOC")
  t=one(t,'    TTEntry *slots = Table.buckets[hash & Table.hashMask].slots;\n\n    for (int i = 0; i < TT_BUCKET_NB; i++) {',
        '    TTEntry *slots = Table.buckets[hash & Table.hashMask].slots;\n    c3x_et_probe_start();\n\n    for (int i = 0; i < TT_BUCKET_NB; i++) {',"ET_PROBE_START")
