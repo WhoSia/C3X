@@ -1,0 +1,32 @@
+{
+  "schema": "c3x-p34-parent-support-v1",
+  "scientific_stage": "C3X 0.7.0-G9.4-P34",
+  "parent_stage": "C3X 0.7.0-G9.4-P33",
+  "parent_closure_commit": "8f626720fe3753401f07ed9f137e8a95c39adb7d",
+  "parent_canonical_run": 36192022350,
+  "parent_verdict": "COUNTERFACTUAL_EVENT_LINEAGE_RECONSTITUTED_WITH_PARTIAL_CAUSAL_CLOSURE",
+  "p34_selective_outcomes_consulted": false,
+  "primary_cases": [
+    {
+      "case_id": "stockfish_19:f8cde3d6abb4:MOVE_ORDER+EVAL",
+      "engine": "stockfish_19",
+      "role": "FINITE_CLOSURE_POSITIVE_CONTROL",
+      "parent_status": "LINEAGE_CLOSURE_NECESSITY_AND_SUFFICIENCY_CERTIFIED"
+    },
+    {
+      "case_id": "ethereal:a8fd39b3864a:CUTOFF",
+      "engine": "ethereal",
+      "role": "OPEN_EVENT_UNIVERSE_PRIMARY",
+      "parent_status": "LINEAGE_CLOSURE_REFINEMENT_LIMIT_HOLD"
+    },
+    {
+      "case_id": "ethereal:f8cde3d6abb4:MOVE_ORDER",
+      "engine": "ethereal",
+      "role": "OPEN_EVENT_UNIVERSE_PRIMARY",
+      "parent_status": "LINEAGE_CLOSURE_REFINEMENT_LIMIT_HOLD"
+    }
+  ],
+  "primary_case_count": 3,
+  "rationale": "The Stockfish case is the P33 finite-closure positive control. The two Ethereal cases are the exact P33 open-event-universe witnesses and are the only scientific primaries in P34.",
+  "nonreuse_boundary": "P34 may use P33 artifacts as inherited parent evidence and support definition. P34 quotient-level selective outcomes are not consulted when defining the quotient lattice, gates, caps, or refinement order."
+}
