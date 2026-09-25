@@ -1,0 +1,103 @@
+{
+  "schema": "c3x-p27-closure-v1",
+  "scientific_stage": "C3X 0.7.0-G9.4-P27",
+  "status": "CLOSED",
+  "title": "Prospective Manipulable-Architecture Coordinate Experiment, Age-on-Hit Semantic Intervention, Topology-Matched Indexing Counterfactual, Held-Out Law-Field Prediction & Descriptor-to-Causal-Morphism Identification",
+  "parent": {
+    "stage": "C3X 0.7.0-G9.4-P26",
+    "precommit_run": 36153015935,
+    "precommit_receipt_sha256": "0d06ff54d7aed7f68e6d1f891e6bf167cd79b571dc9fe6e734aa31fcb0732e1f"
+  },
+  "execution": {
+    "github_run_id": 36163727371,
+    "final_run_attempt": 7,
+    "workflow_head_sha": "21b960dd3033849697fbf395186520328faac416",
+    "precommit_receipt_sha256": "125a4b0ffa2999895028d53946a7fb645d81ed1365cf5e43778583d245f586a9",
+    "precommit_file_sha256": "d65e6d50164d2115a1c90d09359e70793a3cc69aa8deed4922c275bab4825ab4",
+    "precommit_artifact_digest": "sha256:b070857ae4b28d78348ca09eb38ec2a355dcaa4e5e6a29c9f3770fc4e32c147f",
+    "prediction_receipt_sha256": "6640f07ef18cca1550c2f9e5094539c5c4cd12f919cfcbe194811e2ff9e5c266",
+    "prediction_file_sha256": "c611a08ef02e579dd034aa307fd7a9606a406a5afae70b3164c0990276a9d1b8",
+    "prediction_artifact_digest": "sha256:d8fa78e2f11b4b71596e52a151c22247ba85bc7b3fdd3baaa4f49ae9d78ed176",
+    "final_receipt_sha256": "0cabb3fff491f8676a26fed6f59bfba17bfc1d49bed87bd6caf2e7a4fad2118d",
+    "final_file_sha256": "599dc2ec8f2ff966441d99e9e10e4dfc81b37d4091bc0e89884c7b696c1df86b",
+    "final_artifact_digest": "sha256:71b2c1cc300e41125df7ec8fda65e01e78929628c8b0e2746849de67da362bba"
+  },
+  "instrument": {
+    "support": "P26-inherited outcome-blind frozen support",
+    "selected_cells": 128,
+    "anchor_budget_nodes": 80000,
+    "history": [
+      "target_prime_20k",
+      "decoy_1_20k",
+      "decoy_2_20k",
+      "decoy_3_20k",
+      "target_measurement_80k"
+    ],
+    "threads": 1,
+    "hash_mib": 64,
+    "coordinate": "probe_refreshes_age_on_hit",
+    "policies": [
+      "OFF",
+      "ON"
+    ]
+  },
+  "verdict": "AGE_ON_HIT_EFFECT_ARCHITECTURE_CONDITIONED_NO_UNIVERSAL_HELDOUT_MORPHISM",
+  "adjudication": {
+    "within_architecture_changed_state_square_cells": {
+      "stockfish_19": {
+        "changed": 14,
+        "total": 16
+      },
+      "berserk": {
+        "changed": 11,
+        "total": 16
+      },
+      "ethereal": {
+        "changed": 0,
+        "total": 16
+      }
+    },
+    "donor_prediction": {
+      "resolved": 5,
+      "total": 16,
+      "unresolved": 11
+    },
+    "heldout": {
+      "agreement": 2,
+      "resolved": 5,
+      "total": 16,
+      "universal_morphism": false
+    },
+    "indexing_lane": "HOLD_MISSING_DYNAMIC_COLLISION_GRAPH_WITNESS"
+  },
+  "interpretation": {
+    "manipulability": "probe_refreshes_age_on_hit was successfully materialized bidirectionally with native-equivalence gates on Stockfish 19, Berserk, and Ethereal",
+    "causal_effect": "nonzero history-conditioned law-fingerprint effects were observed in Stockfish 19 and Berserk under the frozen 80k history instrument",
+    "transport": "the low-capacity donor-consensus descriptor-to-law morphism did not transport universally to held-out Ethereal",
+    "ethereal": "Ethereal showed 0/16 law-fingerprint transitions under the frozen readout; this does not establish zero lower-level TT effect beyond P27's observation map",
+    "indexing": "no indexing-family causal effect was estimated because the predeclared topology-isomorphism witness was unavailable"
+  },
+  "portability_incident": {
+    "cause": "Ethereal src/makefile basic target uses CFLAGS with -march=native, making the frozen binary non-portable across heterogeneous GitHub hosted runner CPUs",
+    "symptom": "some held-out jobs terminated before UCI handshake with UCI_OK failure",
+    "repair": "GitHub failed-jobs-only exact reruns of the same frozen binary artifacts and same precommit/prediction contract until execution occurred on compatible runners",
+    "attempts": 7,
+    "scientific_changes_after_prediction": [],
+    "note": "No worlds, histories, binaries, intervention semantics, state mappings, prediction rules, support rules, or adjudication thresholds were changed after prediction seal."
+  },
+  "custody": {
+    "drive_folder_id": "1u4OJs4s0NUy0o5g5Jig_LYPEuVXYyOW5",
+    "drive_precommit_file_id": "1F8FOS8deG8Qr8DzRf4aLQHqW-DzCClhV",
+    "drive_prediction_file_id": "13bunug4qVu_sVwk_TnkM3yXM17OZ_0UE",
+    "drive_final_file_id": "1zHaRAFtnCxMkWtvYg2OvLhFQU0_HKNtz",
+    "notion_page_id": "3e6ef561-cf92-812f-85dc-d563ff754844"
+  },
+  "claim_ceiling": [
+    "Authority is limited to the P26-inherited frozen support, mapped K8 anchor state, deterministic persistent-TT history, and 80k measurement budget.",
+    "The estimated age-coordinate effect is a history-conditioned total effect that may include mediated TT survival/replacement consequences, not an instantaneous direct effect.",
+    "The held-out failure rejects a universal low-capacity descriptor-to-law morphism for the tested architectures; it does not establish that no richer conditional morphism exists.",
+    "Ethereal's 0/16 fingerprint transition is a null result at the frozen P27 observation map, not proof of zero internal causal effect.",
+    "No 40k/160k/300k budget transport claim is authorized.",
+    "Indexing-family causality remains on hold without a topology-isomorphism witness."
+  ]
+}
