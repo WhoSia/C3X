@@ -27,7 +27,7 @@ fn main(){
  let s:Value=serde_json::from_str(&fs::read_to_string(&a[1]).unwrap()).unwrap();
  assert_eq!(s["schema"],"c3x-lawgen-spec-v5");
  assert_eq!(s["scientific_stage"],"C3X 0.7.0-G9.4-P29");
- assert_eq!(s["fresh_support"]["worlds"],64);
+ assert_eq!(s["fresh_support"]["worlds"],128);
  assert_eq!(s["fresh_support"]["law_cells"],16);
  assert_eq!(s["fresh_support"]["history"]["measurement_nodes"],80000);
  assert_eq!(s["trace_contract"]["graph_window"],"measurement search only (search_seq=5)");
