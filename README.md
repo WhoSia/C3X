@@ -56,17 +56,19 @@ C3X/
 
 ### Why a polyglot stack?
 
-The languages are separated by epistemic role rather than taste alone.
+C3X has **no repository-wide preferred implementation language**. Language is non-authoritative: choose the implementation that best reduces scientific or engineering risk for the specific component, and document why. Existing Python code is precedent, not a mandate.
 
-| Layer | Default | Why |
+| Work shape | Typical fit — not a default | Why it may fit |
 |---|---|---|
-| Scientific kernels, typed constitutions, deterministic partitioning | **Rust** | strong invariants, reproducible binaries, good audit surface |
-| Chess semantics, exact-world generation, orchestration | **Python / python-chess** | expressive domain model and rapid scientific composition |
-| Independent receipt/schema verification, reporting | **JavaScript / ESM** | lightweight second implementation and excellent tooling surface |
-| Engine-adjacent or independent numerical checks | **C++** | native fit with chess-engine ecosystems and useful implementation diversity |
-| JVM services/UI | **Kotlin when justified** | intentionally not placed on the scientific critical path without a real JVM-native role |
+| Typed scientific kernels, deterministic constitutions, graph/certificate compilers | **Rust** | strong invariants, reproducible binaries, explicit failure surfaces |
+| Chess legality/features and rapid experiment composition | **Python / python-chess** | use when the chess library or fast orchestration is a material advantage |
+| Independent receipt/schema verification, browser/report tooling | **JavaScript / TypeScript** | useful second runtime and tooling ecosystem |
+| Engine-native instrumentation, search-critical or numerical checks | **C / C++** | preserve native engine semantics and avoid adapter distortion |
+| Statistical audit | **R / Julia / Python as justified** | choose by the numerical method and independent-failure-mode value |
+| Durable JVM tooling or services | **Kotlin / Java when justified** | use only when a JVM-native role actually exists |
+| Other components | **Any suitable language** | Ada, Go, OCaml, Haskell, Zig and others are admissible when they improve correctness, verification, interoperability or maintainability |
 
-No result becomes stronger because more languages were used. Independent implementations matter only when they test a real failure mode.
+Do not add a language merely for variety, and do not keep Python merely for uniformity. A result becomes stronger only when an independent implementation tests a real failure mode or when the chosen language makes the scientific contract more auditable.
 
 ## C3X Law Generator: theory as an executable constitution
 
