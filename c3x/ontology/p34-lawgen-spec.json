@@ -1,0 +1,261 @@
+{
+  "schema": "c3x-lawgen-spec-v10",
+  "scientific_stage": "C3X 0.7.0-G9.4-P34",
+  "title": "Prospective Open-Event-Universe Causal Cone Constitution, Outcome-Blind Lineage Quotients, Well-Founded Closure-or-Divergence Certificates, Quotient-Collision Falsification, Abstraction-Preserving Necessity/Sufficiency & Exact-Event Explanation Drill-Down",
+  "parent_authority": {
+    "stage": "C3X 0.7.0-G9.4-P33",
+    "closure_commit": "8f626720fe3753401f07ed9f137e8a95c39adb7d",
+    "canonical_run": 36192022350,
+    "verdict": "COUNTERFACTUAL_EVENT_LINEAGE_RECONSTITUTED_WITH_PARTIAL_CAUSAL_CLOSURE",
+    "inherited_boundary": "Exact-address closure succeeded for Stockfish but the two Ethereal witnesses continued generating novel exact events through the frozen P33 refinement cap."
+  },
+  "objective": "Test whether an outcome-blind finite quotient of TT semantic-use events can close the intervention universe while preserving root-move causal authority and exact-event drill-down, or else certify failure of the entire frozen quotient lattice without post-hoc feature invention.",
+  "quotient_lattice": {
+    "refinement_order": [
+      "Q0",
+      "Q1",
+      "Q2",
+      "Q3"
+    ],
+    "common_raw_fields": [
+      "scope",
+      "event_type",
+      "ply",
+      "depth",
+      "bound",
+      "payload",
+      "tt_move",
+      "alpha",
+      "beta",
+      "tt_value"
+    ],
+    "bucket_rules": {
+      "ply_bucket": [
+        "0",
+        "1",
+        "2",
+        "3_4",
+        "5_8",
+        "9_PLUS"
+      ],
+      "depth_bucket": [
+        "LE_0",
+        "1_4",
+        "5_8",
+        "9_12",
+        "13_16",
+        "17_24",
+        "25_PLUS"
+      ],
+      "payload_bucket": [
+        "ZERO",
+        "ONE",
+        "NEG_ONE",
+        "POS_OTHER",
+        "NEG_OTHER"
+      ],
+      "move_presence": [
+        "NONE",
+        "PRESENT"
+      ],
+      "window_relation": [
+        "LE_ALPHA",
+        "MID",
+        "GE_BETA"
+      ]
+    },
+    "levels": {
+      "Q0": [
+        "scope",
+        "event_type",
+        "ply_bucket"
+      ],
+      "Q1": [
+        "scope",
+        "event_type",
+        "ply_bucket",
+        "bound",
+        "payload_bucket"
+      ],
+      "Q2": [
+        "scope",
+        "event_type",
+        "ply_bucket",
+        "bound",
+        "payload_bucket",
+        "depth_bucket",
+        "move_presence"
+      ],
+      "Q3": [
+        "scope",
+        "event_type",
+        "ply_bucket",
+        "bound",
+        "payload_bucket",
+        "depth_bucket",
+        "move_presence",
+        "window_relation"
+      ]
+    },
+    "selection_rule": "Start at Q0 and refine monotonically only when a prospectively named gate fails. The first level passing every closure, causal, collision and drill-down gate is the selected quotient. No new coordinate may be added after P34 outcomes.",
+    "finite_domain_nonclaim": "Finite coding makes each Q-level finite, but finite representational range alone is not evidence that the quotient is causally adequate."
+  },
+  "intervention_semantics": {
+    "parent_condition": "The P33 baseline-seed exact-address removal is always active. P34 cone interventions are additional dynamic predicates evaluated at each TT semantic-use event during the measurement search.",
+    "dynamic_remove": "REMOVE_CONE_SET blocks every event at the frozen frontier whose quotient tuple belongs to the selected cone set, including exact events not present in the parent trace.",
+    "dynamic_keep": "KEEP_CONE_SET blocks every non-seed event at the frozen frontier whose quotient tuple is not in the retained cone set. Previously unseen quotient classes are therefore blocked rather than silently escaping.",
+    "remove_all": "REMOVE_ALL_CONES blocks all non-seed family events at the frozen frontier.",
+    "storage_boundary": "No TT storage, indexing, replacement, age, key generation, or native value production is edited."
+  },
+  "closure_or_divergence": {
+    "max_refinement_rounds_per_level": 6,
+    "max_observed_cones_per_level": 256,
+    "max_replays_per_case_level": 128,
+    "max_final_cone_set_for_leave_one_out": 24,
+    "refinement_rule": "For REMOVE_CONE_SET paths, every newly observed quotient class is appended without ranking and the level court restarts. A fixed point requires no new quotient class on the full-universe replay and on every replay actually visited by ddmin/leave-one-out.",
+    "level_pass": "A level passes representation closure only at a replay-discovered fixed point under the frozen caps.",
+    "divergence_certificate": "If Q0,Q1,Q2,Q3 all fail prospectively named closure/collision/causal-preservation gates, emit BOUNDED_QUOTIENT_LATTICE_DIVERGENCE. This is a certificate against the frozen lattice, not a proof that no possible abstraction exists."
+  },
+  "causal_gates": {
+    "conditional_necessity": "Conditioned on P33 seed removal, removing a quotient set must change the root move relative to the seed-only parent.",
+    "retaining_sufficiency": "Conditioned on P33 seed removal, retaining only a quotient subset must restore the seed-only parent root move.",
+    "minimality": "Final sets must be inclusion-1-minimal by exact leave-one-out within the replay-discovered closed quotient universe.",
+    "positive_control": "The Stockfish P33 positive-control case must not lose its already established conditional causal structure under the selected quotient."
+  },
+  "collision_falsification": {
+    "max_exact_members_per_selected_cone": 12,
+    "member_source": "Exact P32 addresses observed in the seed-only parent trace and mapped to each selected quotient class.",
+    "singleton_probe": "For each selected cone with at most 12 parent-trace exact members, replay seed removal plus each exact member separately and record the root semantic response signature.",
+    "collision_predicate": "Two parent-trace exact members in the same quotient class with different singleton root bestmoves constitute a quotient collision under the frozen probe.",
+    "large_class_rule": "A selected cone with more than 12 observed exact members is DRILLDOWN_SIZE_HOLD rather than collision-free by sampling.",
+    "exact_expansion_probe": "Replay the union of all parent-trace exact members of the selected quotient set and compare its root bestmove with the dynamic quotient intervention. Equality earns LOCAL_EXACT_EXPANSION_PARITY; inequality is reported, not repaired."
+  },
+  "explanation_verification": {
+    "pipeline": [
+      "quotient closure certificate",
+      "conditional necessity/sufficiency certificate",
+      "exact-member drill-down",
+      "legal PV replay",
+      "deterministic chess atoms",
+      "explanation AST",
+      "independent JavaScript verifier",
+      "rendered language"
+    ],
+    "allowed": [
+      "selected Q-level",
+      "quotient tuple",
+      "conditional root-move dependence",
+      "minimal cone-set size",
+      "collision status",
+      "exact-member count",
+      "local exact-expansion parity",
+      "legal PV divergence",
+      "legal root-move atoms"
+    ],
+    "forbidden": [
+      "unverified strategy",
+      "initiative",
+      "compensation",
+      "human-like intent",
+      "global actual-causation claim",
+      "universal abstraction claim",
+      "population prevalence"
+    ]
+  },
+  "implementation_roles": {
+    "C_or_Cpp": "Engine-native dynamic quotient predicate and trace emission layered over the P32 exact seed-removal hook.",
+    "Rust": "Independent quotient compiler/verifier and LawGen v10 constitution.",
+    "Python": "UCI orchestration, prospective quotient-lattice court, exact-event drill-down, PV legality and move grounding.",
+    "JavaScript": "Independent final adjudication / explanation verifier.",
+    "policy": "CAPABILITY_FIRST_POLYGLOT_LANGUAGE_NONAUTHORITATIVE"
+  },
+  "external_code_study": [
+    {
+      "repository": "official-stockfish/Stockfish",
+      "lesson": "Full-key verification, depth/bound semantics and replacement age make raw TT entries stateful; P34 therefore does not equate table slot identity with causal event identity."
+    },
+    {
+      "repository": "AndyGrant/Ethereal",
+      "lesson": "tt_probe/tt_store expose hash, height, move, value/eval, depth and bound as distinct native coordinates; P34 keeps intervention at semantic-use sites rather than altering table mechanics."
+    },
+    {
+      "repository": "jhonnold/berserk",
+      "lesson": "TTProbe exposes ply, score/eval/depth/bound/PV channels separately; supports keeping semantic-role coordinates explicit rather than collapsing all TT hits."
+    },
+    {
+      "repository": "LeelaChessZero/lc0",
+      "lesson": "DAG/tree-search implementations reinforce separating node reuse/topology from behavioral output; P34 treats a quotient as an abstraction to falsify, not as node identity."
+    },
+    {
+      "repository": "official-stockfish/fishtest",
+      "lesson": "Testing infrastructure separates experiment contract from result adjudication; P34 freezes quotient lattice and gates before selective execution."
+    },
+    {
+      "repository": "cutechess/cutechess",
+      "lesson": "Deterministic engine protocol/opening handling is treated as infrastructure, not causal evidence."
+    },
+    {
+      "repository": "niklasf/python-chess",
+      "lesson": "Used only for legal PV and chess-atom verification; legality is independent of causal authority."
+    }
+  ],
+  "literature": [
+    {
+      "work": "Geiger et al. (2025), Causal Abstraction: A Theoretical Foundation for Mechanistic Interpretability",
+      "locator": "JMLR 26(83); Drive 1i_i_cFFv6vqYHaBOgKK9AbuprPtj8v91",
+      "role": "high-level abstraction must preserve intervention structure rather than merely compress observations"
+    },
+    {
+      "work": "Lorenz & Tull (2026), Causal and Compositional Abstraction",
+      "locator": "arXiv:2602.16612; Drive 1oyyHY8seKsjrgtdNLqXykVUYilNmflm_",
+      "role": "component/query-level abstraction and compositional consistency"
+    },
+    {
+      "work": "Madaleno, Misra & Markham (2026), Coarsening Causal DAG Models",
+      "locator": "arXiv:2601.10531; Drive 1eryuOUX-Ws9Mq7laADms0rMWyP3LUYgU",
+      "role": "partition-refinement lattice motivates a frozen monotone quotient-refinement court"
+    },
+    {
+      "work": "Shalizi & Crutchfield (2001), Computational Mechanics: Pattern and Prediction, Structure and Simplicity",
+      "locator": "Drive 1T0T2lXQs5VuD9ytU86O6KnV6B_JIlZ-k",
+      "role": "minimal predictive state abstractions motivate testing whether event histories admit compact sufficient state classes"
+    },
+    {
+      "work": "Givan, Dean & Greig (2003), Equivalence Notions and Model Minimization in Markov Decision Processes",
+      "locator": "Drive 1nb1_v9pKOvJMtkwmYfXtowzfYUo3fmg4",
+      "role": "behavior-preserving quotient/minimization precedent"
+    },
+    {
+      "work": "Lee & Bareinboim (2026), Productive Actual Causation",
+      "locator": "Causal AI Lab R-142; Drive 1BkGWXUm3t6fdreb0F_WRiFcTmBjnIu-6",
+      "role": "intermediate production pathways and event individuation constrain causal-language claims"
+    },
+    {
+      "work": "Groce, Kroening & Clarke (2004), Counterexample Guided Abstraction Refinement via Program Execution",
+      "doi": "10.1007/978-3-540-30482-1_23",
+      "drive_status": "ABSENT",
+      "role": "execution-driven refinement precedent; P34 freezes its entire refinement lattice before execution"
+    },
+    {
+      "work": "Reduction of event structures under history preserving bisimulation (2016)",
+      "doi": "10.1016/j.jlamp.2015.10.004",
+      "drive_status": "ABSENT",
+      "role": "history-preserving reduction motivates retaining drill-down/provenance while reducing event representations"
+    }
+  ],
+  "data_policy": {
+    "external_pgn_needed": false,
+    "reason": "P34 tests representation closure on the exact three inherited P33 causal worlds; adding PGN positions would change the estimand rather than solve the identified open-event-universe problem.",
+    "future_rule": "PGN or additional GitHub-derived world corpora may be introduced only in a later fresh transport/replication stage after P34 establishes or rejects the quotient representation."
+  },
+  "claim_ceiling": [
+    "A P34 quotient is an operational event-role abstraction, not metaphysical event identity.",
+    "The frozen Q0→Q3 lattice is intentionally low-capacity; failure does not imply that no causal abstraction exists.",
+    "Replay-discovered fixed points cover only paths visited by the frozen court.",
+    "Conditional necessity/sufficiency remain relative to the P33 baseline-seed removal intervention.",
+    "Singleton collision probes concern parent-trace exact members and do not establish global within-class interchangeability.",
+    "Local exact-expansion parity is a bounded drill-down test, not proof of full low/high-level causal equivalence.",
+    "No chess strategy, cognition, intent, prevalence or cross-position generalization is authorized."
+  ],
+  "p34_selective_results_consulted": false
+}
