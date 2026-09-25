@@ -1,0 +1,165 @@
+{
+  "schema": "c3x-g9.4-p22-preseal-v1",
+  "scientific_stage": "C3X 0.7.0-G9.4-P22",
+  "title": "Prospective Exposure-Balanced Relation-Transport Reconstitution, Quota-Preserving SHAM Matcher, Fresh HEAVY/MINOR Mediation Replication & Inanis Channel-Specific Cross-Architecture Counterexample Experiment",
+  "parent": {
+    "stage": "C3X 0.7.0-G9.4-P21",
+    "verdict": "EXPOSURE_BALANCE_HOLD_NO_P21_CAUSAL_VERDICT",
+    "inheritance": "P20 PARTIAL-CROSS-ENGINE-RELATION-LAW-TRANSPORT remains the last causal transport authority"
+  },
+  "epistemic_reset": {
+    "p21_selective_outcomes_reused": false,
+    "p21_selected_cells_reused": false,
+    "p21_post_hold_28_swap_witness_cells_reused": false,
+    "p21_census_rows_reused_for_parameter_tuning": false,
+    "allowed_inheritance": [
+      "P21 localized the HOLD to its frozen global-center selector rather than proving absence of common support",
+      "the original absolute-SMD <= 0.50 gate",
+      "native instrument identities and channel admission already independently established",
+      "the abstract lesson that balance must be optimized directly rather than through distance-to-global-center"
+    ]
+  },
+  "theoretical_object": {
+    "name": "relation-conditioned intervention-response transport",
+    "engine_specific_micro_object": "engine-native persistent-memory intervention channel and its exact-world response law",
+    "candidate_macro_object": "a relation-indexed response signature preserved under an explicitly declared intervention mapping across engines",
+    "transport_is_not": [
+      "same source language",
+      "same cache implementation",
+      "same hit count",
+      "same sign on one aggregate statistic",
+      "same material label without balanced support"
+    ],
+    "transport_requires": [
+      "prospectively declared intervention semantics",
+      "common-support design on outcome-blind SHAM exposure coordinates",
+      "fresh exact-world evaluation",
+      "preservation of the predeclared relation-level response signature",
+      "explicit failure when an engine lacks the relevant intervention channel"
+    ]
+  },
+  "formalization": {
+    "world": "x",
+    "relation": "r in {HEAVY_HEAVY, MINOR_MINOR}",
+    "engine": "e",
+    "native_intervention": "i_e in I_e",
+    "abstract_intervention_role": "a in {MAIN_MEMORY, QSEARCH_MEMORY}",
+    "partial_channel_map": "phi_e: I_e -> A; phi_e may be undefined",
+    "outcome": "Y_e(x,i_e) = exact-world action/fine/coarse response",
+    "sham_exposure": "Z_e(x) measured before selective interventions",
+    "relation_law": "L(e,r) = response geometry/fingerprint over the frozen intervention square",
+    "transport_claim": "For declared engines and balanced support Omega*, L(e,r) is preserved after mapping only those native interventions for which phi_e is prospectively licensed.",
+    "structural_zero_rule": "undefined phi_e is evidence against universal channel homology, not a zero effect estimate"
+  },
+  "design_principle": {
+    "name": "QUOTA_CONSTRAINED_BALANCE_FEASIBILITY",
+    "donor_methods": [
+      "matching as design before outcome analysis",
+      "cardinality/mixed-integer matching that targets balance constraints directly",
+      "entropy/stable balancing as evidence that balance should be an explicit optimization target rather than an incidental distance property"
+    ],
+    "adaptation": "P22 is not an observational treatment-effect estimator. It borrows the design principle only: choose the experimental support using pre-outcome nuisance coordinates so the relation comparison is not driven by exposure imbalance.",
+    "fixed_quota": "6 cells per side per material vertex; 96 core cells total",
+    "primary_balance_features": [
+      "log1p(SF19 MAIN hits)", "log1p(SF19 QSEARCH hits)", "SF19 QSEARCH hit share",
+      "log1p(Berserk MAIN hits)", "log1p(Berserk QSEARCH hits)", "Berserk QSEARCH hit share",
+      "log1p(Ethereal MAIN hits)", "log1p(Ethereal QSEARCH hits)", "Ethereal QSEARCH hit share"
+    ],
+    "primary_gate": "pooled HEAVY_HEAVY vs MINOR_MINOR absolute selected-sample SMD <= 0.50 for every frozen feature",
+    "gate_relaxation": "FORBIDDEN",
+    "secondary_diagnostics_non_authoritative": [
+      "mean absolute SMD",
+      "selected-sample variance ratio per feature",
+      "engine-wise exposure summaries"
+    ]
+  },
+  "matcher": {
+    "implementation": "Rust std-only deterministic quota-preserving subset search",
+    "input": "TSV exported from fresh P22 SHAM census only",
+    "initializations": 64,
+    "initialization_rule": "within each family x side stratum, rank candidates by deterministic FNV-1a hash(candidate_sha256 || start_index), choose six",
+    "move": "one selected/unselected swap within the same family x side stratum",
+    "objective_lexicographic": [
+      "minimize maximum absolute selected-sample SMD over nine frozen features",
+      "minimize mean absolute SMD",
+      "minimize maximum absolute log variance ratio",
+      "lexicographic selected candidate SHA list"
+    ],
+    "search": "best-improvement coordinate descent to a local optimum for each deterministic start; retain the lexicographically best objective across starts",
+    "authorization": "only if independent C++ and R recomputation both confirm the <=0.50 primary gate and all quotas/engagement constraints",
+    "failure": "BALANCE_FEASIBILITY_HOLD; no selective arm is executed and no matcher parameter is changed inside P22"
+  },
+  "fresh_worlds": {
+    "core_generation_offset": 260000,
+    "carrier_generation_offset": 340000,
+    "worlds_per_vertex": 48,
+    "worlds_per_side_per_vertex": 24,
+    "p20_cells_reused": false,
+    "p21_cells_reused": false,
+    "exact_world": "Lichess public Syzygy move-level WDL + precise DTZ under inherited exact-world constitution"
+  },
+  "instruments": {
+    "stockfish19_sha256": "bb8487ab5de45a192d56502fdf33d3b74e5489f043528ea1240c68b7c7533425",
+    "berserk_sha256": "5e95346d204dfa88a61e1c7a539906079b4a72053e4afcaac151b2b44285cc1f",
+    "ethereal_sha256": "55d1fea3dd34c2478143c01cf802c60b2fc0e8253888051725a2d01062867a8d",
+    "inanis_sha256": "593e44729640d78f44215aa4e7a7411e6f25a484586a1be709a34268594cf075",
+    "native_semantics_only": true,
+    "language_translation_cannot_create_channel_homology": true
+  },
+  "implementation_roles": {
+    "Python": "python-chess exact-world constitution, UCI orchestration, canonical JSON receipts",
+    "Rust": "deterministic quota-constrained balance matcher",
+    "C++": "independent selected-sample balance certificate and quota verifier",
+    "JavaScript": "preseal/receipt invariant verifier independent of Python",
+    "R": "independent statistical balance audit only; never selects cells"
+  },
+  "frozen_rivals": {
+    "EXPOSURE_ONLY": "If the relation boundary survives after the prospective balance gate, exposure-only is defeated within the declared balanced support; otherwise it is not defeated.",
+    "TT_QSEARCH_SEMANTIC": "HEAVY_HEAVY QSEARCH-negative replication may remain specific to QSEARCH x SEARCH_TT among engines that instantiate that channel.",
+    "BROADER_QSEARCH_PERSISTENT_MEMORY": "If Inanis QSEARCH x PAWN_EVAL_CACHE independently reproduces the predeclared HEAVY negative direction on carrier worlds while TT engines do likewise, the broader persistent-memory rival gains bounded support without asserting channel identity.",
+    "ENGINE_LOCAL_SEMANTIC_POLICY": "Persistent MINOR divergence after balanced support is evidence for engine-local semantic susceptibility within the tested architecture set.",
+    "RELATION_LABEL_ONLY": "If HEAVY/MINOR labels fail to predict fresh response geometry after balance, the relation ontology is not promoted."
+  },
+  "decision_tree": [
+    "If fresh-world or SHAM census constitution fails: CONSTITUTION_HOLD.",
+    "If Rust matcher has no candidate satisfying the frozen gate or C++/R disagree: BALANCE_FEASIBILITY_HOLD; execute no selective arms.",
+    "If balanced selective experiment fails to replicate HEAVY CURVED/QSEARCH/negative across SF19/Berserk/Ethereal: P20_RELATION_BOUNDARY_NOT_FRESHLY_REPLICATED.",
+    "If HEAVY replicates and MINOR lacks a common fingerprint: EXPOSURE_BALANCED_RELATION_BOUNDARY_REPLICATED and EXPOSURE_ONLY defeated within scope.",
+    "Carrier/Inanis results then distinguish bounded TT-specific support from broader qsearch persistent-memory support; sign agreement never grants channel homology.",
+    "Any robust-WDL change is reported separately and does not retroactively alter the matching design."
+  ],
+  "resource_freeze": {
+    "census_nodes": 80000,
+    "selective_nodes": 300000,
+    "threads": 1,
+    "hash_mib_if_exposed": 64,
+    "fresh_process_each_arm": true,
+    "no_post_outcome_reselection": true,
+    "no_post_outcome_threshold_change": true
+  },
+  "authority_ceiling": [
+    "No universal theorem from four engines.",
+    "No claim that TT and pawn-evaluation caches are the same causal variable.",
+    "No claim beyond the exact frozen world families, resources, source locks and intervention mappings.",
+    "A structural zero is a boundary of the abstraction map, not missing data to be imputed.",
+    "Failure to transport is scientifically admissible and must remain visible."
+  ],
+  "literature_status": {
+    "drive_read": [
+      "Pearl & Bareinboim (2011) transportability",
+      "Peters, Buhlmann & Meinshausen invariant prediction",
+      "Rischel & Weichwald (2021) compositional abstraction error",
+      "Lorenz & Tull (2026) causal and compositional abstraction",
+      "Jenner et al. (2024) learned look-ahead in Leela"
+    ],
+    "harvest_read": "Literature Fragment Harvest XLV",
+    "acquisition_queue": [
+      "Stuart (2010) Matching Methods for Causal Inference, DOI 10.1214/09-STS313",
+      "Hainmueller (2012) Entropy Balancing, DOI 10.1093/pan/mpr025",
+      "Zubizarreta (2012) Using Mixed Integer Programming for Matching, DOI 10.1080/01621459.2012.703874",
+      "Zubizarreta, Paredes & Rosenbaum (2014) Cardinality Matching, DOI 10.1214/13-AOAS713",
+      "Zubizarreta (2015) Stable Weights, DOI 10.1080/01621459.2015.1023805",
+      "Geiger et al. (2025) Causal Abstraction: A Theoretical Foundation for Mechanistic Interpretability, JMLR 26(83), no DOI located in canonical JMLR record"
+    ]
+  }
+}
