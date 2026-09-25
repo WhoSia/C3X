@@ -1,0 +1,122 @@
+{
+  "schema": "c3x-g9.4-p26-closure-v1",
+  "scientific_stage": "C3X 0.7.0-G9.4-P26",
+  "title": "Budget-Indexed Causal Law Field, Cross-Budget State Correspondence, Descriptor Intervention Feasibility, Generator Schema Evolution & Architecture–Budget Product-Space Transport",
+  "status": "CLOSED",
+  "canonical_execution": {
+    "prefix_run": 36148531504,
+    "canonical_selective_run": 36153015935,
+    "post_adjudication_seal_run": 36155474031,
+    "canonical_head_sha": "8a55586d8df8209d56c48a88e166d6af0f581411",
+    "seal_head_sha": "aa98195a366b39d79adec88f957ffeb163abc836",
+    "final_artifact_id": 10873561211,
+    "final_artifact_digest": "sha256:ae9a6e8deb8d1a9da402279a3d7966ea2bc3deec6105886313ee2bc25f6d9425"
+  },
+  "design": {
+    "fresh_generation_offset": 720000,
+    "fresh_worlds": 384,
+    "selected_cells": 256,
+    "architectures": [
+      "stockfish_19",
+      "berserk",
+      "ethereal"
+    ],
+    "budgets": [
+      40000,
+      80000,
+      160000,
+      300000
+    ],
+    "anchor_budget": 80000,
+    "correspondence_capacity": "finite permutation only through shared 80k anchor",
+    "intervention_algebra": [
+      "SHAM",
+      "MASK_MAIN",
+      "MASK_QSEARCH",
+      "MASK_MAIN_QSEARCH",
+      "MASK_ALL"
+    ],
+    "response_fingerprint": [
+      "curvature_class",
+      "dominant_coordinate",
+      "dominant_sign"
+    ]
+  },
+  "state_correspondence": {
+    "anchor_overlap_accuracy": {
+      "40000": 0.5130208333333334,
+      "80000": 1,
+      "160000": 0.546875,
+      "300000": 0.4348958333333333
+    },
+    "cycle_consistent_by_construction": true,
+    "learned_or_outcome_optimized_map": false
+  },
+  "adjudication": {
+    "verdict": "ARCHITECTURE_BUDGET_PRODUCT_FIELD_REQUIRED_UNDER_FROZEN_CORRESPONDENCE",
+    "architecture_index": {
+      "removable": false,
+      "invariant_cells": 1,
+      "total_cells": 64
+    },
+    "budget_index": {
+      "removable": false,
+      "stable_engine_state_square_trajectories": 0,
+      "total_trajectories": 48
+    },
+    "product_space_transport": false,
+    "precommit_receipt_sha256": "0d06ff54d7aed7f68e6d1f891e6bf167cd79b571dc9fe6e734aa31fcb0732e1f",
+    "final_receipt_sha256": "4964a3159c7c8dd035640b5cf5b71080fb1cadc35be2c40abc62df9a6869cc55"
+  },
+  "descriptor_intervention_feasibility": [
+    {
+      "name": "probe_refreshes_age_on_hit",
+      "status": "SOURCE_LOCAL_INTERVENTION_CANDIDATE"
+    },
+    {
+      "name": "indexing_family",
+      "status": "TOPOLOGY_CHANGING_CANDIDATE"
+    },
+    {
+      "name": "probe_returns_replacement_handle",
+      "status": "API_SHAPE_NOT_YET_CAUSAL_COORDINATE"
+    },
+    {
+      "name": "eval_move_packed_together",
+      "status": "LAYOUT_ENTANGLED_NOT_ADMITTED"
+    }
+  ],
+  "lawgen": {
+    "version": "v2",
+    "additions": [
+      "first-class architecture × budget × mapped-state × intervention product space",
+      "finite-capacity state correspondence",
+      "prediction authority",
+      "descriptor manipulability classes",
+      "adjudication support authority"
+    ],
+    "role": "executable ontology projection; not scientific truth oracle"
+  },
+  "engineering_provenance": [
+    "Initial canonical wiring failed before selective execution because the canonical precommit artifact path was wrong.",
+    "Repaired canonical run executed and materialized all 32 family×budget selective slices.",
+    "Deterministic Python adjudication completed successfully and emitted the final scientific verdict.",
+    "The run then failed only because the independent JavaScript verifier referenced pre/p26-precommit.json instead of pre/atlas/p26-precommit.json.",
+    "Post-adjudication exact-resume run 36155474031 reused the identical precommit and 32 selective artifacts, reproduced the same adjudication, and independently verified the verdict. No scientific rule, result, map, threshold, support rule, engine, budget, or intervention changed after outcomes opened."
+  ],
+  "authority_ceiling": [
+    "The result is conditional on the deliberately low-capacity finite-permutation cross-budget correspondence family.",
+    "Budget-index necessity under node controls does not establish the same field under wall-clock controls or other hardware regimes.",
+    "Descriptor feasibility classifications are source-architecture judgments, not estimates of descriptor causal effects.",
+    "Architecture and budget are empirically required indices within the tested product space; this does not establish engine identity or budget as fundamental ontological primitives."
+  ],
+  "custody": {
+    "drive_folder_id": "19oEp-_nH7fD051c69WtUKeB5Oeol3-hw",
+    "drive_precommit_file_id": "1H7Z_HTlscVMLDauXZVrGEEhGvB3PXGZu",
+    "drive_final_file_id": "1MuudxJtQ7dGJO5P9LIDhmCcbnLcHTGu5"
+  },
+  "next_stage": {
+    "version": "C3X 0.7.0-G9.4-P27",
+    "title": "Prospective Manipulable-Architecture Coordinate Experiment, Age-on-Hit Semantic Intervention, Topology-Matched Indexing Counterfactual, Held-Out Law-Field Prediction & Descriptor-to-Causal-Morphism Identification"
+  }
+}
