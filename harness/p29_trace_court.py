@@ -208,7 +208,7 @@ def arm(c,base,run):
   "fine_changed":(w["wdl"],w["precise_dtz"])!=(bw["wdl"],bw["precise_dtz"]),"coarse_changed":w["wdl"]!=bw["wdl"]}
 
 def law_arms(path,protocol,c,baseline_trace):
- bw=p20.world_value(c,baseline_trace["semantic"])
+ bw=p20.world_value(c,baseline_trace["semantic"]["bestmove"])
  if bw is None:raise SystemExit("P29_SHAM_WORLD")
  base={"receipt":{"semantic":baseline_trace["semantic"],"telemetry":baseline_trace["psm_telemetry"]},"world":bw,
        "action_changed":False,"fine_changed":False,"coarse_changed":False}
