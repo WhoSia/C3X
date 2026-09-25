@@ -98,7 +98,9 @@
     },
     "budget": {
       "max_replays_per_case": 96,
-      "max_final_set_for_leave_one_out": 24
+      "max_final_set_for_leave_one_out": 24,
+      "max_catalog_candidates_per_case": 512,
+      "candidate_overflow": "EVENT_UNIVERSE_BUDGET_HOLD; no ranking/truncation by observed outcome."
     },
     "nonmonotonicity": "search responses need not be monotone in event sets; any budget exhaustion or failed final verification is a HOLD, not an inferred minimal cause"
   },
