@@ -1,0 +1,160 @@
+{
+  "schema": "c3x-lawgen-spec-v7",
+  "scientific_stage": "C3X 0.7.0-G9.4-P31",
+  "title": "Prospective TT-Use Semantic Attribution Graph, Cutoff/Move-Ordering/Evaluation-Reuse Event Instrumentation, Root-Decision Provenance, Counterfactual Search-Path Certificates & Faithful Move-Level Chess-Engine Explanation Compiler",
+  "parent_authority": {
+    "stage": "C3X 0.7.0-G9.4-P30",
+    "receipt": "c3x/receipts/p30-closure.json",
+    "closure_commit": "ae3e745dccf15d7222d20d3f19ad0e71cfeaaee3",
+    "canonical_run": 36179305166,
+    "verdict": "ETHEREAL_AGE_REPLACEMENT_EDGE_REOPENED_UNDER_PRESSURE_MEDIATOR_NOT_UNIVERSALLY_SUFFICIENT"
+  },
+  "objective": {
+    "primary": "identify which semantic uses of TT information are counterfactually relevant to the engine's root decision under a fixed warmed-TT history",
+    "explainer": "compile machine-checkable and human-readable move-level explanations from normalized TT-use events plus measurement-only semantic interventions"
+  },
+  "support": {
+    "source": "P30 inherited pressure-probe support; no outcome-conditioned reselection",
+    "worlds": 16,
+    "rule": "P30/P29 graph_probe=true worlds",
+    "hash_mib": 1,
+    "history": {
+      "prime_nodes": 20000,
+      "decoy_nodes": 20000,
+      "decoy_count": 3,
+      "measurement_nodes": 80000,
+      "threads": 1
+    },
+    "native_age_policy": {
+      "stockfish_19": "OFF",
+      "berserk": "OFF",
+      "ethereal": "ON"
+    }
+  },
+  "normalized_semantics": {
+    "classes": [
+      "CUTOFF",
+      "MOVE_ORDER_SEED",
+      "EVAL_REUSE",
+      "TT_VALUE_AS_EVAL",
+      "PV_PROMOTION"
+    ],
+    "event_fields": [
+      "scope",
+      "full_key",
+      "ply",
+      "depth",
+      "alpha",
+      "beta",
+      "tt_value",
+      "tt_eval",
+      "bound",
+      "tt_move",
+      "payload"
+    ],
+    "scopes": [
+      "MAIN",
+      "QSEARCH"
+    ],
+    "low_ply_event_witness": "retain deterministic first 128 semantic events with ply<=4 per measurement search; aggregate all events exactly"
+  },
+  "intervention_family": {
+    "measurement_only": "semantic masks activate only when TT search sequence == 5; prime/decoy history is native and identical across arms",
+    "modes": [
+      "BASE",
+      "NO_CUTOFF",
+      "NO_MOVE",
+      "NO_EVAL",
+      "NO_CUTOFF_MOVE",
+      "NO_CUTOFF_EVAL",
+      "NO_MOVE_EVAL",
+      "NO_ALL"
+    ],
+    "semantics": {
+      "NO_CUTOFF": "prevent TT-derived early returns while preserving probe, move ordering, and eval reuse",
+      "NO_MOVE": "remove TT move only from move-ordering/singular-IIR semantic use in measurement search; preserve cutoff and eval reuse",
+      "NO_EVAL": "prevent stored evaluation and TT-value-as-evaluation reuse; preserve cutoff and move ordering",
+      "compound": "pairwise and all-class masks expose interactions without attributing interaction effects to a single class"
+    },
+    "no_replacement_intervention": "P31 does not edit TT replacement, age, indexing, or stored entry contents"
+  },
+  "root_provenance": {
+    "readout": [
+      "bestmove",
+      "score",
+      "wdl",
+      "depth",
+      "seldepth",
+      "nodes",
+      "pv"
+    ],
+    "exact_dependence": {
+      "root_move": "ablation bestmove differs from BASE",
+      "pv": "normalized PV string differs from BASE",
+      "score": "score token differs from BASE",
+      "search_path": "nodes or depth differs from BASE"
+    },
+    "interaction": "a compound mask changes root output when neither corresponding single mask does"
+  },
+  "attribution_graph": {
+    "nodes": [
+      "TT full-key semantic-use event class",
+      "measurement search state",
+      "root readout"
+    ],
+    "edges": [
+      "OBSERVED_USE: normalized event occurred under BASE",
+      "SINGLE_CLASS_EFFECT: removing one class changed a frozen root readout",
+      "INTERACTION_EFFECT: compound removal changed a root readout beyond its singles"
+    ],
+    "no_specific_event_causation": "class-level ablation cannot identify a unique individual TT event as the cause unless a later event-targeted replay is performed"
+  },
+  "explanation_certificate": {
+    "unit": "engine × pressure-probe world",
+    "machine_fields": [
+      "baseline root readout",
+      "semantic event counts",
+      "low-ply event witnesses",
+      "single-class counterfactual readouts",
+      "compound counterfactual readouts",
+      "root_move_dependencies",
+      "pv_dependencies",
+      "score_dependencies",
+      "search_path_dependencies",
+      "interaction_dependencies"
+    ],
+    "compiler_rules": [
+      "A class may be described as observed only if BASE event count > 0.",
+      "A class may be described as root-move necessary under this frozen replay only if its single-class removal changes bestmove.",
+      "PV/score/search-path dependence must be stated separately from bestmove dependence.",
+      "Interaction-only effects must not be rewritten as single-class causes.",
+      "No human intention, plan, or strategic motive may be inferred from engine-computation provenance."
+    ],
+    "outputs": [
+      "certificate.json",
+      "explanation.md",
+      "attribution-graph.json"
+    ]
+  },
+  "architecture_sources": {
+    "stockfish_19": "edb0d9db6731067ec50ce619ff372b463bc4dd5d",
+    "berserk": "32628515050b83805bab4afa1026dd2bcaa93f55",
+    "ethereal": "0e47e9b67f345c75eb965d9fb3e2493b6a11d09a"
+  },
+  "literature": {
+    "causal_abstraction_drive_id": "1i_i_cFFv6vqYHaBOgKK9AbuprPtj8v91",
+    "causal_abstraction_use": "distinguish low-level event observation from interventionally supported higher-level causal explanation",
+    "tt_search_background": [
+      "transposition-table cutoff",
+      "hash move ordering",
+      "stored static-evaluation reuse"
+    ]
+  },
+  "claim_ceiling": [
+    "P31 identifies semantic-class dependence under a fixed node budget and warmed-TT history, not game-theoretic necessity across all searches.",
+    "Removing a semantic class globally during the measurement search changes many downstream nodes; class-level dependence is not unique-event attribution.",
+    "Node-count changes can alter which nodes are reached under a fixed node budget, so root-output effects are properties of the frozen search procedure.",
+    "Explanation text is faithful only to certificate fields and does not claim human-like strategic intent.",
+    "Support is the inherited 16 pressure-probe worlds at 1 MiB; no population-wide engine claim is authorized."
+  ]
+}
