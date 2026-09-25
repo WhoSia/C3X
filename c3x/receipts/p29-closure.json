@@ -23,7 +23,21 @@
     "prediction_artifact_digest": "sha256:5f0a65fc0b455e5857dcde5234097e09188948d15f0b24da45899d0a7f931864",
     "final_receipt_sha256": "c2e4c0babee110cf8636f0e55b6df721ebc11ff32452464b07e68e1fa1d1a14f",
     "final_file_sha256": "a98c0186a5fd496d6dda7fc96de3993d7eb12041484f9f5c3d2cb4023d3f47ec",
-    "final_artifact_digest": "sha256:f4c9c3dabce9443ccbf52f5826206762481da2a152240f7430a49dc12538ee30"
+    "final_artifact_digest": "sha256:f4c9c3dabce9443ccbf52f5826206762481da2a152240f7430a49dc12538ee30",
+    "invalid_attempts": [
+      {
+        "run_id": 36175564729,
+        "status": "CANCELLED_PRE_CANONICAL",
+        "reason": "precommit-ineligible instrumentation anchors/trace-flush defects"
+      },
+      {
+        "run_id": 36175736574,
+        "status": "FAILED_PRE_PREDICTION",
+        "reason": "common donor SHAM world-join adapter passed semantic object instead of bestmove string"
+      }
+    ],
+    "scientific_contract_changes_after_preseal": [],
+    "note": "Canonical run restarted from source-locked build and fresh precommit after execution-only repairs; invalid-attempt outcomes were not used to alter support, mediator coordinates, thresholds, prediction rule, or claim ceiling."
   },
   "verdict": "ENTRY_LEVEL_PATHWAY_LOCALIZED_BUT_MEDIATOR_NOT_UNIVERSALLY_SUFFICIENT",
   "fresh_support": {
@@ -70,28 +84,66 @@
   },
   "ethereal_pathway_localization": {
     "verdict": "AGE_WRITE_ENGAGED_REPLACEMENT_CHANNEL_NULL",
-    "cells": 16
+    "cells": 16,
+    "total": 16,
+    "frozen_signature": [
+      1,
+      0,
+      0,
+      0,
+      0
+    ],
+    "interpretation": "Age-on-hit writes engage, but under the frozen P29 regime they produce no replacement-event shift, no prime-origin survival shift, no full-key-hit shift, and no frozen law transition."
   },
   "conditional_morphism": {
     "donor_rules_resolved": 0,
     "heldout_resolved": 0,
     "heldout_total": 16,
-    "universal": false
+    "universal": false,
+    "donor_signature_types": 11,
+    "interpretation": "No donor-stable rule was resolved for the frozen five-coordinate signature; this rejects that mediator capacity, not every richer prospective mediator."
   },
   "collision_graph": {
     "stockfish_19": {
       "changed_graph_pairs": 2,
-      "total_pairs": 16
+      "total_pairs": 16,
+      "off": {
+        "replacement_edges": 1,
+        "signature_collision_edges": 0
+      },
+      "on": {
+        "replacement_edges": 1,
+        "signature_collision_edges": 0,
+        "age_events": 643473
+      }
     },
     "berserk": {
       "changed_graph_pairs": 2,
-      "total_pairs": 16
+      "total_pairs": 16,
+      "off": {
+        "replacement_edges": 1,
+        "signature_collision_edges": 0
+      },
+      "on": {
+        "replacement_edges": 0,
+        "signature_collision_edges": 2,
+        "age_events": 679893
+      }
     },
     "ethereal": {
       "changed_graph_pairs": 0,
-      "total_pairs": 16
+      "total_pairs": 16,
+      "off": {
+        "replacement_edges": 0,
+        "signature_collision_edges": 0
+      },
+      "on": {
+        "replacement_edges": 0,
+        "signature_collision_edges": 0,
+        "age_events": 712554
+      }
     },
-    "scope": "exact full-key replacement/signature-collision graph in measurement search only"
+    "scope": "exact 64-bit full-key replacement/signature-collision edge multiset in the frozen measurement-search graph-probe worlds"
   },
   "custody": {
     "drive_folder_id": "1lwVTB2kl97sAX4hlcEy4-vlFMMJ8kHZ0",
@@ -100,12 +152,22 @@
     "drive_prediction_file_id": "15Z6P0eQpqNWB6-XoZsYz3ei7Bo-upk7g",
     "drive_final_file_id": "1Exc7NrN2aWlfpXlCqHY-KAzPtumR73ZA",
     "drive_graph_witness_folder_id": "1AhU0CObvPQpuxvGpkotQVUSwFaEunHgd",
+    "graph_witness_files": {
+      "berserk_KRBvKB": "19iz919s_UqjZLuUG8DAQ9kIUSBKzcFTY",
+      "ethereal_KRBvKB": "1Okz1vRXDRPBN79ipYKzSAuu4GEhuW-V8",
+      "stockfish_19_KQQvKQ": "1KzeNLpegn--TMcm0zSA1Ki6Z1SwArWTd",
+      "berserk_KQQvKQ": "1G6qGvoSvA4QxIvIvARbivshCWm4nnZ-D",
+      "ethereal_KQQvKQ": "1BYAllHItmVaweFqMCLnM9y4y1uC3oNRU",
+      "stockfish_19_KRBvKB": "1BMSpLK-qQJ5eODzWPpTFRvuXuI6dzAgZ"
+    },
     "notion_page_id": "3e6ef561-cf92-810c-9a54-da1253966705"
   },
   "claim_ceiling": [
-    "Full-key shadow state is an instrumentation witness for the instrumented single-thread executions, not unobserved production executions.",
-    "Replacement edges identify physical-slot events but do not alone identify downstream search-value causality.",
-    "Mediator sufficiency failed only for the frozen five-coordinate signature.",
-    "No cross-budget transport claim is authorized."
-  ]
+    "Full-key shadow and graph events are instrumentation witnesses for the source-locked, single-thread executions only.",
+    "Ethereal's replacement-channel null is regime-specific to the frozen 64 MiB P29 history; it does not prove that age can never affect replacement under other occupancy or pressure regimes.",
+    "Replacement-event shifts do not by themselves identify which individual replacement caused a downstream search or law transition.",
+    "The conditional-morphism failure applies only to the frozen five-coordinate mediator signature; richer prospectively frozen mediator state remains open.",
+    "No 40k/160k/300k cross-budget transport claim is authorized."
+  ],
+  "successor_question": "Can controlled TT occupancy/replacement pressure activate Ethereal's silent age→replacement edge, and can replacement-victim eligibility plus slot-value state become a sufficient conditional mediator across architectures?"
 }
