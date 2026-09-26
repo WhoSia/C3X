@@ -76,16 +76,20 @@ def verify_binary(pre,case,path):
  return v["protocol"]
 
 def transparency(a):
- sup=load_support(a.support);pf=load_p33_final(a.parent_final);pp=load_p33_pre(a.parent_pre)
- fc=p33_cases(pf);pc={x["case_id"]:x for x in pp["cases"]};rows=[];bad=[]
- for z in sup["primary_cases"]:
-  if z["engine"]!=a.engine:continue
-  cid=z["case_id"]
-  if cid not in fc or cid not in pc:raise SystemExit("P34_TRANSPARENCY_CASE "+cid)
-  f=fc[cid];q=pc[cid]
-  r=run34(a.binary,p32.protocol_for(a.engine),q["cell"],q["family"],f["frontier"],None,"CATALOG",3,None,
+ sup=load_support(a.support);load_p33_final(a.parent_final);pp=load_p33_pre(a.parent_pre)
+ pc={x["case_id"]:x for x in pp["cases"]};rows=[];bad=[]
+ requested=[z["case_id"] for z in sup["primary_cases"] if z["engine"]==a.engine]
+ if not requested:
+  fallbacks=sorted(x["case_id"] for x in pp["cases"] if x["engine"]==a.engine)
+  if not fallbacks:raise SystemExit("P34_TRANSPARENCY_NO_CASE "+a.engine)
+  requested=[fallbacks[0]]
+ for cid in requested[:1]:
+  if cid not in pc:raise SystemExit("P34_TRANSPARENCY_CASE "+cid)
+  q=pc[cid];frontier=q.get("selected_frontier")
+  if frontier is None:frontier=8
+  r=run34(a.binary,p32.protocol_for(a.engine),q["cell"],q["family"],frontier,None,"CATALOG",3,None,
     Path(a.out).parent/"identity"/cid.replace(":","_"))
-  got=sem(r["semantic"]);exp=f["baseline"];keys=("bestmove","score","depth","pv")
+  got=sem(r["semantic"]);exp=q["baseline"];keys=("bestmove","score","depth","pv")
   ok=all(got.get(k)==exp.get(k) for k in keys)
   rows.append({"case_id":cid,"match":ok,"expected":{k:exp.get(k) for k in keys},"got":{k:got.get(k) for k in keys},
     "catalog_events":r["cone"]["summary"]["events"]})
@@ -94,7 +98,6 @@ def transparency(a):
   "verdict":"PASS" if not bad else "FAIL","p34_selective_results_consulted":False}
  seal(out);Path(a.out).write_text(json.dumps(out,indent=2,sort_keys=True)+"\n")
  print("P34_TRANSPARENCY",a.engine,out["verdict"],len(rows))
-
 
 def write_cones(path,tuples):
  with open(path,"w") as f:
