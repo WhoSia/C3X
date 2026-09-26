@@ -1,6 +1,7 @@
 name: p34-open-event-causal-cone
 
 on:
+  workflow_dispatch:
   push:
     paths:
       - "c3x/ontology/p34-support-from-p33.json"
@@ -14,9 +15,16 @@ on:
       - "tools/p34-verify.mjs"
       - ".github/workflows/p34.yml"
 
+concurrency:
+  group: p34-open-event-causal-cone
+  cancel-in-progress: true
+
 permissions:
   contents: read
   actions: read
+
+env:
+  P33_RUN: "36192022350"
 
 jobs:
   lawgen:
@@ -47,6 +55,7 @@ jobs:
           cargo build --release --manifest-path crates/c3x-cone/Cargo.toml
           mkdir -p out
           cp crates/c3x-cone/target/release/c3x-cone out/c3x-cone
+          chmod +x out/c3x-cone
           sha256sum out/c3x-cone > out/c3x-cone-sha256.txt
       - uses: actions/upload-artifact@v4
         with:
@@ -77,8 +86,27 @@ jobs:
             native_policy: ON
     steps:
       - uses: actions/checkout@v4
-      - name: Resolve exact engine source
+      - uses: actions/download-artifact@v4
+        with:
+          name: p33-precommit-sealed
+          path: parent-pre
+          repository: WhoSia/C3X
+          run-id: ${{ env.P33_RUN }}
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: p33-final-lineage-explainer
+          path: parent-final
+          repository: WhoSia/C3X
+          run-id: ${{ env.P33_RUN }}
+          github-token: ${{ github.token }}
+      - name: Resolve exact engine source and parent authority
         run: |
+          P33_PRE="$(find parent-pre -name p33-precommit.json -print -quit)"
+          P33_FINAL="$(find parent-final -name p33-adjudication.json -print -quit)"
+          test -n "$P33_PRE" && test -n "$P33_FINAL"
+          echo "P33_PRE=$P33_PRE" >> "$GITHUB_ENV"
+          echo "P33_FINAL=$P33_FINAL" >> "$GITHUB_ENV"
           git clone "${{ matrix.repo }}" src
           git -C src checkout --detach "${{ matrix.commit }}"
           test "$(git -C src rev-parse HEAD)" = "${{ matrix.commit }}"
@@ -114,8 +142,110 @@ jobs:
           fi
           chmod +x out/c3x-p34-${{ matrix.engine }}
           sha256sum out/c3x-p34-${{ matrix.engine }} > out/p34-binary-sha256-${{ matrix.engine }}.txt
+      - name: BASE transparency against inherited P33 baseline
+        run: |
+          python3 harness/p34_cone_court.py transparency             --engine "${{ matrix.engine }}"             --binary "out/c3x-p34-${{ matrix.engine }}"             --support c3x/ontology/p34-support-from-p33.json             --parent-final "$P33_FINAL"             --parent-pre "$P33_PRE"             --out "out/p34-transparency-${{ matrix.engine }}.json"
+          python3 -c 'import json,sys; x=json.load(open(sys.argv[1])); assert x["verdict"]=="PASS" and x["rows"]' "out/p34-transparency-${{ matrix.engine }}.json"
       - uses: actions/upload-artifact@v4
         with:
           name: p34-build-${{ matrix.engine }}
           path: out/
+          retention-days: 30
+
+  precommit:
+    name: Seal P34 causal-cone cases
+    needs: [build, coner]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: p33-precommit-sealed
+          path: parent-pre
+          repository: WhoSia/C3X
+          run-id: ${{ env.P33_RUN }}
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: p33-final-lineage-explainer
+          path: parent-final
+          repository: WhoSia/C3X
+          run-id: ${{ env.P33_RUN }}
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with: {name: p34-lawgen-preseal, path: lawgen}
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: p34-build-*
+          path: builds
+      - name: Freeze inherited worlds and executable variants
+        run: |
+          P33_PRE="$(find parent-pre -name p33-precommit.json -print -quit)"
+          P33_FINAL="$(find parent-final -name p33-adjudication.json -print -quit)"
+          CONST="$(find lawgen -name constitution.json -print -quit)"
+          test -n "$P33_PRE" && test -n "$P33_FINAL" && test -n "$CONST"
+          python3 harness/p34_cone_court.py precommit             --support c3x/ontology/p34-support-from-p33.json             --parent-final "$P33_FINAL"             --parent-pre "$P33_PRE"             --constitution "$CONST"             --build-dir builds             --out p34-precommit.json
+          sha256sum p34-precommit.json > p34-precommit-file-sha256.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: p34-precommit-sealed
+          path: p34-precommit*
+          retention-days: 30
+
+  case:
+    name: Causal-cone court — ${{ matrix.artifact }}
+    needs: precommit
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - {engine: stockfish_19, case_id: "stockfish_19:f8cde3d6abb4:MOVE_ORDER+EVAL", artifact: "sf-f8cd-move-eval"}
+          - {engine: ethereal, case_id: "ethereal:a8fd39b3864a:CUTOFF", artifact: "et-a8fd-cutoff"}
+          - {engine: ethereal, case_id: "ethereal:f8cde3d6abb4:MOVE_ORDER", artifact: "et-f8cd-move"}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with: {name: p34-precommit-sealed, path: pre}
+      - uses: actions/download-artifact@v4
+        with: {name: p34-coner, path: coner}
+      - uses: actions/download-artifact@v4
+        with: {name: p34-build-${{ matrix.engine }}, path: build}
+      - name: Execute frozen quotient lattice and exact drill-down
+        run: |
+          chmod +x coner/c3x-cone build/c3x-p34-${{ matrix.engine }}
+          mkdir -p out
+          python3 harness/p34_cone_court.py case             --precommit pre/p34-precommit.json             --case-id "${{ matrix.case_id }}"             --binary build/c3x-p34-${{ matrix.engine }}             --coner coner/c3x-cone             --out "out/p34-case-${{ matrix.artifact }}.json"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: p34-case-${{ matrix.artifact }}
+          path: out/
+          retention-days: 30
+
+  adjudicate:
+    name: Explanation closure and independent quotient verification
+    needs: case
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with: {name: p34-precommit-sealed, path: pre}
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: p34-case-*
+          path: results
+          merge-multiple: true
+      - name: Install chess verifier
+        run: python3 -m pip install --disable-pip-version-check python-chess==1.999
+      - name: Compile bounded explanations and verify independently
+        run: |
+          mkdir -p final
+          python3 harness/p34_explanation_verify.py             --precommit pre/p34-precommit.json             --results results             --out final/p34-adjudication.json             --ast final/p34-explanation-ast.json             --grounding final/p34-chess-grounding.json             --markdown final/p34-explanations.md
+          node tools/p34-verify.mjs final/p34-adjudication.json | tee final/p34-js-verification.txt
+          sha256sum final/* | sort > final/p34-final-sha256.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: p34-final-causal-cone
+          path: final/
           retention-days: 30
