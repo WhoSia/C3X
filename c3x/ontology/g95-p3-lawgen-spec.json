@@ -53,7 +53,8 @@
     "same_class_prev_gap_bucket",
     "same_key_count_bucket",
     "same_key_prev_gap_bucket",
-    "scope_transition_bucket"
+    "scope_transition_bucket",
+    "ply_transition_bucket"
   ],
   "schema_families": [
     {
@@ -91,7 +92,7 @@
       "added_coordinates": [
         "prev_semantic_class",
         "same_class_prev_gap_bucket",
-        "scope_transition_bucket"
+        "ply_transition_bucket"
       ],
       "coordinates": [
         "parent_depth_bucket",
@@ -99,7 +100,7 @@
         "event_ordinal_bucket",
         "prev_semantic_class",
         "same_class_prev_gap_bucket",
-        "scope_transition_bucket"
+        "ply_transition_bucket"
       ],
       "role": "PRIMARY_CANDIDATE"
     },
@@ -141,7 +142,7 @@
     }
   ],
   "context_measurement": {
-    "timing": "Primary context must be causally available at or before the candidate event in the unablated parent semantic-use trace, before any singleton counterfactual target is opened.",
+    "timing": "At or before the candidate event in the unablated parent semantic-use trace; EVENT_PREFIX_ONLY. No next-event, future same-key, or symmetric-window feature is admitted.",
     "raw_full_key_emitted": false,
     "key_equality_relation_allowed": true,
     "forbidden_primary": [
