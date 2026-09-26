@@ -11,7 +11,9 @@ for(const z of x.certificates){
   selected++;ok(passes.length===1,'passing-level-count');ok(passes[0].level===c.selected_level,'selected-first-pass');
   const q=passes[0];ok(q.minimal_remove.certified===true,'remove');ok(q.minimal_keep.certified===true,'keep');
   ok(q.drilldown.status==='PASS','drill');ok(q.drilldown.collision===false,'collision');ok(q.drilldown.large_class_hold===false,'large');
-  ok(q.drilldown.exact_expansion_parity===true,'parity');
+  ok(q.drilldown.remove_exact_expansion_parity===true,'remove-parity');
+  ok(q.drilldown.keep_exact_expansion_parity===true,'keep-parity');
+  ok(q.drilldown.query_commutation===true,'query-commutation');
   if(c.role==='OPEN_EVENT_UNIVERSE_PRIMARY')open++;if(c.role==='FINITE_CLOSURE_POSITIVE_CONTROL')pos++;
  }else{
   ok(c.status==='BOUNDED_QUOTIENT_LATTICE_DIVERGENCE','divergence-status');ok(passes.length===0,'hidden-pass');
