@@ -1,0 +1,167 @@
+name: g95-p2-context-field-toolkit-v2
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - ".github/workflows/g95-p2-toolkit.yml"
+      - "docs/C3X_FIELD_CLI.md"
+      - "docs/G95_P2_THEORY.md"
+      - "tools/c3x_context.py"
+      - "tools/c3x-context.py"
+
+permissions:
+  contents: read
+  actions: read
+
+env:
+  P2_CANONICAL_RUN: "36223570067"
+  P2_CANONICAL_HEAD: "4859cd5f2db554740b36bd5e89ade06e7969cea5"
+
+jobs:
+  package:
+    name: Repackage and smoke-test canonical P2 toolkit
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: g95-p2-kernels
+          path: kernels
+          repository: WhoSia/C3X
+          run-id: ${{ env.P2_CANONICAL_RUN }}
+          github-token: ${{ github.token }}
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: g95-p2-lawgen-preseal
+          path: lawgen
+          repository: WhoSia/C3X
+          run-id: ${{ env.P2_CANONICAL_RUN }}
+          github-token: ${{ github.token }}
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: g95-p2-discovery-field
+          path: field
+          repository: WhoSia/C3X
+          run-id: ${{ env.P2_CANONICAL_RUN }}
+          github-token: ${{ github.token }}
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: g95-p2-scope-sealed
+          path: scope
+          repository: WhoSia/C3X
+          run-id: ${{ env.P2_CANONICAL_RUN }}
+          github-token: ${{ github.token }}
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: g95-p2-verification
+          path: verify
+          repository: WhoSia/C3X
+          run-id: ${{ env.P2_CANONICAL_RUN }}
+          github-token: ${{ github.token }}
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: g95-p2-final-context-field
+          path: final
+          repository: WhoSia/C3X
+          run-id: ${{ env.P2_CANONICAL_RUN }}
+          github-token: ${{ github.token }}
+
+      - name: Build canonical toolkit with portable permissions
+        run: |
+          set -euxo pipefail
+          test -f kernels/c3x-field
+          test -f field/field.json
+          test -f scope/scope.json
+          test -f verify/verification.json
+          test -f final/g95-p2-adjudication.json
+
+          rm -rf toolkit smoke
+          mkdir -p toolkit/bin toolkit/tools toolkit/docs toolkit/certificates toolkit/schemas
+
+          install -m 0755 kernels/c3x-field toolkit/bin/c3x-field
+          install -m 0755 tools/c3x_context.py toolkit/tools/c3x_context.py
+          install -m 0755 tools/c3x-context.py toolkit/tools/c3x-context.py
+          install -m 0644 docs/C3X_FIELD_CLI.md toolkit/docs/C3X_FIELD_CLI.md
+          install -m 0644 docs/G95_P2_THEORY.md toolkit/docs/G95_P2_THEORY.md
+          install -m 0644 lawgen/lawgen/constitution.json toolkit/schemas/constitution.json
+          install -m 0644 lawgen/lawgen/context-vocabulary.json toolkit/schemas/context-vocabulary.json
+          install -m 0644 field/field.json toolkit/certificates/discovery-field.json
+          install -m 0644 scope/scope.json toolkit/certificates/heldout-scope.json
+          install -m 0644 verify/verification.json toolkit/certificates/heldout-verification.json
+          install -m 0644 final/g95-p2-adjudication.json toolkit/certificates/final-adjudication.json
+          install -m 0644 final/g95-p2-explanations.md toolkit/certificates/g95-p2-explanations.md
+
+          cat > toolkit/README.txt <<'EOF'
+          C3X G9.5-P2 context-indexed causal-field toolkit.
+
+          Scientific authority:
+            Canonical run: 36223570067
+            Canonical head: 4859cd5f2db554740b36bd5e89ade06e7969cea5
+            Verdict: PORTABLE_CONTEXT_FIELD_HELDOUT_FALSIFIED
+
+          Start:
+            ./bin/c3x-field --help
+            python3 tools/c3x-context.py --help
+            less docs/C3X_FIELD_CLI.md
+
+          Integrity:
+            Run from this toolkit directory:
+              sha256sum -c MANIFEST.sha256
+
+          The bundled field is research evidence, not a universal causal oracle.
+          Covered cells may be certified or contradicted; unseen cells are abstentions.
+          EOF
+
+          (
+            cd toolkit
+            find . -type f ! -name MANIFEST.sha256 -print0 | sort -z | xargs -0 sha256sum > MANIFEST.sha256
+          )
+
+          tar -czf g95-p2-context-field-toolkit-v2.tar.gz toolkit
+          sha256sum g95-p2-context-field-toolkit-v2.tar.gz > g95-p2-context-field-toolkit-v2.sha256
+
+      - name: Extract as an external user and smoke-test
+        run: |
+          set -euxo pipefail
+          mkdir smoke
+          tar -xzf g95-p2-context-field-toolkit-v2.tar.gz -C smoke
+          cd smoke/toolkit
+          sha256sum -c MANIFEST.sha256
+          test -x bin/c3x-field
+          bin/c3x-field --help > /tmp/c3x-field-help.txt
+          python3 tools/c3x-context.py --help > /tmp/c3x-context-help.txt
+          grep -q "discover" /tmp/c3x-field-help.txt
+          grep -q -- "--fen" /tmp/c3x-context-help.txt
+          python3 - <<'PY'
+          import hashlib,json,pathlib
+          p=pathlib.Path("../../g95-p2-context-field-toolkit-v2.tar.gz")
+          out={
+            "schema":"c3x-g95-p2-toolkit-smoke-v2",
+            "scientific_stage":"C3X 0.7.0-G9.5-P2",
+            "canonical_run":36223570067,
+            "canonical_head":"4859cd5f2db554740b36bd5e89ade06e7969cea5",
+            "manifest_verified":True,
+            "binary_executable_after_extract":True,
+            "rust_cli_help_pass":True,
+            "python_frontend_help_pass":True,
+            "tar_sha256":hashlib.sha256(p.read_bytes()).hexdigest()
+          }
+          pathlib.Path("../../g95-p2-toolkit-smoke.json").write_text(json.dumps(out,indent=2,sort_keys=True)+"\n")
+          PY
+
+      - name: Upload reusable toolkit v2
+        uses: actions/upload-artifact@v4
+        with:
+          name: g95-p2-context-field-toolkit-v2
+          path: |
+            g95-p2-context-field-toolkit-v2.tar.gz
+            g95-p2-context-field-toolkit-v2.sha256
+            g95-p2-toolkit-smoke.json
+          retention-days: 30
