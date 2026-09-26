@@ -1,0 +1,70 @@
+{
+  "schema": "c3x-g95-p3-literature-cleanup-postrun-v1",
+  "scientific_stage": "C3X 0.7.0-G9.5-P3",
+  "authority": "POSTRUN_CUSTODY_ONLY_NO_SCIENTIFIC_VOTE",
+  "timestamp_utc": "2026-09-26T09:01:00Z",
+  "frozen_science_head_before_cleanup": "b9d791188ef35af8ff81839120384509fd95389e",
+  "literature_commons": {
+    "intake_folder_id": "1MLtYh0pv8QUZDReYzRqjDrOjRkSJAD16",
+    "canonical_papers_folder_id": "1D2M4LHcejREhlyp6vTd71xxLLx-6ldUP",
+    "current_intake_files_verified": 0,
+    "p3_used_literature_parent_verified_in_10_papers": 8,
+    "p3_used_literature_ids": [
+      "1_MpcXD5vnc5RHrxOvOsG7VSZkh19LwPd",
+      "1ljkrI7d5XCC16eIgecO1fQ-73-xJwp0k",
+      "1eEnQxWYFC5gjSyxBFF3BY4xfmmGllv_c",
+      "1e4SKpJ4yaYETPCadT-NxOwAat-XuF-Yw",
+      "14oUBHn8v9LpST4ppGFgSCwL_MamJA6aO",
+      "1k02x5swNSkKsDjruPzfhsJzwnDzNlMrz",
+      "1yp5Mc5-4mTeNpu7DyuHKIH4gEuz-BIwk",
+      "1zOtH8I_aIh-AsTamW-AE7KV1UVAo2jX5"
+    ]
+  },
+  "intake_normalization": [
+    {
+      "file_id": "1gyjQm8MNU_t-KbGuQNovYR2mSoFtx6a3",
+      "doi": "10.1111/ecin.12878",
+      "canonical_name": "Balafoutas et al. (2020) — Incentives for Dishonesty - An Experimental Study with Internal Auditors.pdf"
+    },
+    {
+      "file_id": "1nqwJ92ZCyBQrxDixlWbg1T-f70IEZOWA",
+      "doi": "10.1111/padm.12964",
+      "canonical_name": "Liston-Heyes & Juillet (2024) — Does Increasing Auditors' Independence Lead to More Forceful Public Auditing - A Study of a Canadian Internal Audit Reform.pdf"
+    },
+    {
+      "file_id": "1iuxA5wnR4NFfrhNEp049Gj-Lmn0ixG83",
+      "doi": "10.1016/j.intaccaudtax.2022.100470",
+      "canonical_name": "Hwang, Sarath & Han (2022) — Auditor Independence - The Effect of Auditors' Quality Control Efforts and Corporate Governance.pdf"
+    },
+    {
+      "file_id": "1t62LW7METuqOQ0WNEwsqhLTITzbk-GTa",
+      "doi": "10.1093/jopart/muac007",
+      "canonical_name": "Alon-Barkat & Busuioc (2023) — Human–AI Interactions in Public Sector Decision Making - Automation Bias and Selective Adherence to Algorithmic Advice.pdf"
+    },
+    {
+      "file_id": "1CJZN5FubF7KXwrPNXJNNu4DWjfsHE6j0",
+      "doi": "10.1177/0018720810376055",
+      "canonical_name": "Parasuraman & Manzey (2010) — Complacency and Bias in Human Use of Automation - An Attentional Integration.pdf"
+    },
+    {
+      "file_id": "1p8BWZTwtMUZS82kGRkApjiH3JU9GfiEB",
+      "doi": "10.2478/kjps-2018-0001",
+      "canonical_name": "Kahle & Oitavem (2018) — What Is Hilbert's 24th Problem.pdf"
+    },
+    {
+      "file_id": "1LGC8TcBc7lAfSMHmq7xyrGN4IMOObDML",
+      "doi": "10.1098/rsta.2018.0038",
+      "canonical_name": "Straßburger (2019) — The Problem of Proof Identity, and Why Computer Scientists Should Care About Hilbert's 24th Problem.pdf"
+    }
+  ],
+  "duplicate_audit": {
+    "same_doi_existing_canonical_matches": 0,
+    "unresolved_duplicates_quarantined": 0
+  },
+  "invariants": [
+    "All seven intake promotions were metadata-only renames/moves.",
+    "Drive file IDs and raw bytes were preserved.",
+    "No P3 schema, threshold, corpus, field, target, or verdict was modified.",
+    "This receipt is postrun custody documentation and cannot retroactively affect P3 scientific authority."
+  ]
+}
