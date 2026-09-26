@@ -75,6 +75,27 @@ def verify_binary(pre,case,path):
  if p32.sha_file(path)!=v["sha256"]:raise SystemExit("P34_BINARY")
  return v["protocol"]
 
+def transparency(a):
+ sup=load_support(a.support);pf=load_p33_final(a.parent_final);pp=load_p33_pre(a.parent_pre)
+ fc=p33_cases(pf);pc={x["case_id"]:x for x in pp["cases"]};rows=[];bad=[]
+ for z in sup["primary_cases"]:
+  if z["engine"]!=a.engine:continue
+  cid=z["case_id"]
+  if cid not in fc or cid not in pc:raise SystemExit("P34_TRANSPARENCY_CASE "+cid)
+  f=fc[cid];q=pc[cid]
+  r=run34(a.binary,p32.protocol_for(a.engine),q["cell"],q["family"],f["frontier"],None,"CATALOG",3,None,
+    Path(a.out).parent/"identity"/cid.replace(":","_"))
+  got=sem(r["semantic"]);exp=f["baseline"];keys=("bestmove","score","depth","pv")
+  ok=all(got.get(k)==exp.get(k) for k in keys)
+  rows.append({"case_id":cid,"match":ok,"expected":{k:exp.get(k) for k in keys},"got":{k:got.get(k) for k in keys},
+    "catalog_events":r["cone"]["summary"]["events"]})
+  if not ok:bad.append(cid)
+ out={"schema":"c3x-p34-transparency-v1","scientific_stage":STAGE,"engine":a.engine,"rows":rows,"mismatches":bad,
+  "verdict":"PASS" if not bad else "FAIL","p34_selective_results_consulted":False}
+ seal(out);Path(a.out).write_text(json.dumps(out,indent=2,sort_keys=True)+"\n")
+ print("P34_TRANSPARENCY",a.engine,out["verdict"],len(rows))
+
+
 def write_cones(path,tuples):
  with open(path,"w") as f:
   for t in tuples:f.write("\t".join(str(x) for x in t)+"\n")
@@ -226,7 +247,7 @@ def case_run(a):
     rounds+=1
     try:
      full=replay("REMOVE_SET",list(universe),f"closure-{rounds}")
-     all_dynamic=replay("REMOVE_ALL",[],f"all-{rounds}",allow_refine=False)
+     all_dynamic=replay("REMOVE_ALL",[],f"all-{rounds}")
      if full["semantic"]["bestmove"]!=all_dynamic["semantic"]["bestmove"]:
       status="DYNAMIC_ALL_PARITY_FAIL";failure.append(status);break
      if full["semantic"]["bestmove"]==parent["semantic"]["bestmove"]:
@@ -308,6 +329,7 @@ def case_run(a):
 
 def main():
  ap=argparse.ArgumentParser();sp=ap.add_subparsers(dest="cmd",required=True)
+ q=sp.add_parser("transparency");q.add_argument("--engine",choices=("stockfish_19","berserk","ethereal"),required=True);q.add_argument("--binary",required=True);q.add_argument("--support",required=True);q.add_argument("--parent-final",required=True);q.add_argument("--parent-pre",required=True);q.add_argument("--out",required=True);q.set_defaults(fn=transparency)
  q=sp.add_parser("precommit");q.add_argument("--support",required=True);q.add_argument("--parent-final",required=True);q.add_argument("--parent-pre",required=True);q.add_argument("--constitution",required=True);q.add_argument("--build-dir",required=True);q.add_argument("--out",required=True);q.set_defaults(fn=precommit)
  q=sp.add_parser("case");q.add_argument("--precommit",required=True);q.add_argument("--case-id",required=True);q.add_argument("--binary",required=True);q.add_argument("--coner",required=True);q.add_argument("--out",required=True);q.set_defaults(fn=case_run)
  a=ap.parse_args();a.fn(a)
