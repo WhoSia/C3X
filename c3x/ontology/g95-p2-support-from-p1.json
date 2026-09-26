@@ -1,0 +1,74 @@
+{
+  "schema": "c3x-g95-p2-support-v1",
+  "scientific_stage": "C3X 0.7.0-G9.5-P2",
+  "title": "Prospective Context-Indexed Causal Fiber Field, Pre-Intervention Context Sufficiency, Minimal Conditioning-Basis Identification, Cross-World Congruence Restoration, Held-Out Context Transport & Explanation-Scope Calibration",
+  "parent_stage": "C3X 0.7.0-G9.5-P1",
+  "parent_closure_commit": "5641751979adb562a381177323c56d8262d62cc6",
+  "parent_canonical_run": 36219611294,
+  "parent_verdict": "WITNESS_PRESERVING_LOCAL_FIBER_CROSS_CONTEXT_HOLD",
+  "parent_boundary": {
+    "fiber_id": "F0|MAIN|MOVE_ORDER_SEED|1|-1|4",
+    "finding": "The same F0 intervention-response fiber carried different ROOT_CHANGE labels across fresh contexts, including a reversal within Berserk across two positions.",
+    "role": "HYPOTHESIS_GENERATION_ONLY_NOT_CONFIRMATORY"
+  },
+  "fresh_environment_design": {
+    "source_repository": "official-stockfish/books",
+    "source_commit": "65815ccdbc7727cd4f6aee252ba8f67fb740e92f",
+    "discovery_dataset": {
+      "archive": "4mvs_+90_+99.epd.zip",
+      "logical_dataset": "4mvs_+90_+99.epd",
+      "positions": 8,
+      "exclusion_sha256_prefixes": [
+        "0020c0362348",
+        "0095cdadc5f2"
+      ],
+      "role": "DISCOVERY_CONTEXT_BASIS"
+    },
+    "heldout_dataset": {
+      "archive": "8mvs_+90_+99.epd.zip",
+      "logical_dataset": "8mvs_+90_+99.epd",
+      "positions": 8,
+      "role": "HELDOUT_CONTEXT_TRANSPORT"
+    },
+    "position_rule": "Normalize unique legal FENs, sort by SHA-256(FEN), remove explicit exclusions, then take the first N. For each selected target choose the next three hash-ordered non-target FENs cyclically as decoys. No engine output enters selection.",
+    "engines": [
+      "stockfish_19",
+      "berserk",
+      "ethereal"
+    ],
+    "candidate_events_per_engine_world": 8
+  },
+  "engine_sources": {
+    "stockfish_19": {
+      "repo": "official-stockfish/Stockfish",
+      "commit": "edb0d9db6731067ec50ce619ff372b463bc4dd5d"
+    },
+    "berserk": {
+      "repo": "jhonnold/berserk",
+      "commit": "32628515050b83805bab4afa1026dd2bcaa93f55"
+    },
+    "ethereal": {
+      "repo": "AndyGrant/Ethereal",
+      "commit": "0e47e9b67f345c75eb965d9fb3e2493b6a11d09a"
+    }
+  },
+  "architecture_descriptor_authority": {
+    "source": "c3x/ontology/p25-lawgen-spec.json",
+    "coordinates": [
+      "indexing_family",
+      "probe_refreshes_age_on_hit",
+      "probe_returns_replacement_handle",
+      "eval_move_packed_together"
+    ],
+    "rule": "Descriptors are source-grounded secondary context only. Engine IDs are forbidden from basis identity."
+  },
+  "inherited_tooling": {
+    "p34_binaries_run": 36216185685,
+    "p33_lineager_run": 36192022350,
+    "p1_fiber_definition": "F0 selected prospectively in G9.5-P1",
+    "p1_fiber_verifier": "crates/c3x-fiber"
+  },
+  "parent_outcomes_consulted_for_hypothesis_generation": true,
+  "p2_selective_results_consulted": false,
+  "nonimplication": "The P1 collision licenses the P2 question and frozen candidate vocabulary only. It does not license choosing P2 coordinates, bins, basis cardinality, corpus positions, coverage thresholds, or held-out verdicts after P2 outcomes."
+}
