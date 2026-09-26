@@ -51,6 +51,10 @@ def topology_context(trace,event_ordinal):
 
  if prev is None:scope_transition="START_TO_"+str(e["scope"])
  else:scope_transition=str(prev["scope"])+"_TO_"+str(e["scope"])
+ if prev is None:ply_transition="START"
+ else:
+  pp=int(prev["ply"]);cp=int(e["ply"])
+  ply_transition="UP" if cp>pp else "DOWN" if cp<pp else "SAME"
 
  return {
   "event_bound_bucket":bound_bucket(e.get("bound",0)),
@@ -59,6 +63,7 @@ def topology_context(trace,event_ordinal):
   "same_key_count_bucket":count_bucket(len(same_key_prefix)),
   "same_key_prev_gap_bucket":gap_bucket(None if prev_key is None else i-prev_key),
   "scope_transition_bucket":scope_transition,
+  "ply_transition_bucket":ply_transition,
  }
 
 def build_context(fen,parent_sem,parent_trace,event,event_ordinal,descriptor):
