@@ -384,17 +384,45 @@ jobs:
         with: {name: g95-p3-final-topology-field, path: final}
       - uses: actions/download-artifact@v4
         with: {name: g95-p3-kernels, path: kernels}
+      - uses: actions/download-artifact@v4
+        with: {name: g95-p3-lawgen-preseal, path: lawgen}
       - name: External-style service smoke and Rust parity
         run: |
           set -euxo pipefail
-          mkdir -p service/bin service/tools service/certificates service/docs service/examples
+          mkdir -p service/bin service/tools service/certificates service/docs service/examples service/schemas
           cp kernels/c3x-field-p3 service/bin/
-          cp tools/c3x_service.py service/tools/
-          cp docs/G95_P3_THEORY.md service/docs/
+          cp tools/c3x_service.py tools/c3x_context_v2.py tools/c3x_context.py service/tools/
+          cp docs/G95_P3_THEORY.md docs/C3X_FIELD_CLI.md service/docs/
+          cp lawgen/lawgen/constitution.json lawgen/lawgen/schema-families.json service/schemas/
           cp field/field.json service/certificates/
           cp scope/scope.json service/certificates/
           cp verify/verification.json verify/diagnosis.json service/certificates/
           cp final/g95-p3-adjudication.json final/g95-p3-explanations.md service/certificates/
+          cat > service/README.md <<'EOF'
+          # C3X G9.5-P3 deterministic explanation service
+
+          Core path:
+          instrumented engine -> exact event/F0 -> event-prefix context profile ->
+          frozen causal field -> CERTIFIED / ABSTAIN / CONTRADICTED -> deterministic explanation.
+
+          No LLM is required. MCP/agent/LLM layers may call this service later, but they
+          cannot expand the authority encoded in the bundled field certificates.
+
+          Start:
+            python3 tools/c3x_service.py --field certificates/field.json --port 8765
+
+          Profile materialization:
+            python3 tools/c3x_context_v2.py --help
+
+          Typed field kernel:
+            bin/c3x-field-p3 --help
+
+          Endpoints:
+            GET  /health
+            POST /v1/query
+            POST /v1/explain
+            POST /v1/diagnose
+          EOF
           python3 - <<'PY'
           import json
           p=json.load(open("scope/heldout-profiles.json"))["records"][0]
@@ -402,7 +430,11 @@ jobs:
           t={r["record_id"]:r for r in json.load(open("verify/heldout-targets.json"))["records"]}[p["record_id"]]
           json.dump({"profile":p,"observed_root_change":t["root_change"]},open("service/examples/diagnose-request.json","w"),indent=2,sort_keys=True);open("service/examples/diagnose-request.json","a").write("\n")
           PY
-          python3 tools/c3x_service.py --field field/field.json --port 8765 > service.log 2>&1 &
+          service/bin/c3x-field-p3 --help > service/c3x-field-p3-help.txt
+          python3 service/tools/c3x_context_v2.py --help > service/c3x-context-v2-help.txt
+          grep -q "assess" service/c3x-field-p3-help.txt
+          grep -q -- "--event-id" service/c3x-context-v2-help.txt
+          python3 service/tools/c3x_service.py --field service/certificates/field.json --port 8765 > service.log 2>&1 &
           PID=$!
           trap 'kill $PID || true' EXIT
           for i in {1..20}; do curl -fsS http://127.0.0.1:8765/health > service/health.json && break || sleep 1; done
