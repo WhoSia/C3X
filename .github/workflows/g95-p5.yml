@@ -427,7 +427,7 @@ jobs:
   transport-verify:
     name: Open untouched transport targets only after scope authorization
     needs: transport-scope
-    if: ${{ needs.transport-scope.outputs.open_targets == 'true' }}
+    if: ${{ needs['transport-scope'].outputs.open_targets == 'true' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -451,7 +451,7 @@ jobs:
   transport-no-open:
     name: Close without opening transport targets when field or scope gate fails
     needs: transport-scope
-    if: ${{ needs.transport-scope.outputs.open_targets != 'true' }}
+    if: ${{ needs['transport-scope'].outputs.open_targets != 'true' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -471,7 +471,7 @@ jobs:
   adjudicate:
     name: Final nested-sequestration authority adjudication
     needs: [train-learn, selection-verify, transport-scope, transport-verify, transport-no-open]
-    if: ${{ always() && needs.train-learn.result == 'success' && needs.selection-verify.result == 'success' && needs.transport-scope.result == 'success' && (needs.transport-verify.result == 'success' || needs.transport-no-open.result == 'success') }}
+    if: ${{ always() && needs['train-learn'].result == 'success' && needs['selection-verify'].result == 'success' && needs['transport-scope'].result == 'success' && (needs['transport-verify'].result == 'success' || needs['transport-no-open'].result == 'success') }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
