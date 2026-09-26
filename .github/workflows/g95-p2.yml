@@ -151,6 +151,8 @@ jobs:
           repository: WhoSia/C3X
           run-id: ${{ env.P34_RUN }}
           github-token: ${{ github.token }}
+      - name: Install chess profile dependency
+        run: python3 -m pip install --disable-pip-version-check python-chess==1.999
       - name: Execute prospectively sampled singleton interventions
         run: |
           chmod +x kernels/c3x-fiber kernels/c3x-lineage build/c3x-p34-${{ matrix.engine }}
@@ -217,6 +219,8 @@ jobs:
           repository: WhoSia/C3X
           run-id: ${{ env.P34_RUN }}
           github-token: ${{ github.token }}
+      - name: Install chess profile dependency
+        run: python3 -m pip install --disable-pip-version-check python-chess==1.999
       - name: Execute once and split profile from target evidence
         run: |
           chmod +x kernels/c3x-fiber kernels/c3x-lineage build/c3x-p34-${{ matrix.engine }}
