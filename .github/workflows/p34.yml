@@ -211,7 +211,7 @@ jobs:
       - uses: actions/download-artifact@v4
         with: {name: p34-coner, path: coner}
       - uses: actions/download-artifact@v4
-        with: {name: p34-build-${{ matrix.engine }}, path: build}
+        with: {name: "p34-build-${{ matrix.engine }}", path: build}
       - name: Execute frozen quotient lattice and exact drill-down
         run: |
           chmod +x coner/c3x-cone build/c3x-p34-${{ matrix.engine }}
