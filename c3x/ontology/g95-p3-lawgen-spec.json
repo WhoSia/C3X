@@ -1,0 +1,337 @@
+{
+  "schema": "c3x-lawgen-spec-v13",
+  "scientific_stage": "C3X 0.7.0-G9.5-P3",
+  "title": "Prospective Causal-Field Failure Decomposition, Engine-Conditional Context Geometry, Search-Topology Context Instrumentation, Counterexample-Guided Schema Evolution, Fresh Reconstitution, Held-Out Regime Transport & Reproducible Explanation-Service API",
+  "parent_authority": {
+    "stage": "C3X 0.7.0-G9.5-P2",
+    "closure_commit": "07591db34ee6af830efc5736ad397a7e1a577247",
+    "canonical_run": 36223570067,
+    "verdict": "PORTABLE_CONTEXT_FIELD_HELDOUT_FALSIFIED",
+    "boundary": "P2 discovery-minimal B3 field was target-blind scoped over 68.75% of held-out profiles but produced 8 contradictions and 1 mixed cell."
+  },
+  "p3_selective_results_consulted": false,
+  "development_firewall": {
+    "p2_failure_witnesses": "DEVELOPMENT_ONLY",
+    "confirmatory_vote": false,
+    "may_do": [
+      "motivate frozen schema families",
+      "exercise diagnose tooling",
+      "describe failure geometry"
+    ],
+    "may_not_do": [
+      "select P3 schema",
+      "satisfy P3 support gates",
+      "count toward fresh discovery",
+      "count toward held-out verification",
+      "alter thresholds after P3 target opening"
+    ]
+  },
+  "formal_object": {
+    "fiber": "G9.5-P1 F0",
+    "target": "ROOT_CHANGE after singleton exact-event removal",
+    "context_schema": "One prospectively frozen semantic family over pre-intervention parent-trace structure",
+    "cell": "K_s(r)=(F0(r),C_s(r))",
+    "field": "L_s : K_s partial-> {ROOT_CHANGE,NO_ROOT_CHANGE}",
+    "authority_states": [
+      "CERTIFIED_ROOT_CHANGE",
+      "CERTIFIED_NO_ROOT_CHANGE",
+      "ABSTAIN_UNSEEN_CONTEXT",
+      "CONTRADICTED_CONTEXT_CELL"
+    ]
+  },
+  "context_schema_version": "c3x-context-v2",
+  "base_coordinates": [
+    "parent_depth_bucket",
+    "event_occ_bucket",
+    "event_ordinal_bucket"
+  ],
+  "new_coordinate_vocabulary": [
+    "event_bound_bucket",
+    "prev_semantic_class",
+    "next_semantic_class",
+    "same_class_prev_gap_bucket",
+    "local_class_diversity_bucket",
+    "same_key_count_bucket",
+    "same_key_prev_gap_bucket",
+    "same_key_next_gap_bucket",
+    "scope_transition_bucket",
+    "ply_transition_bucket"
+  ],
+  "schema_families": [
+    {
+      "id": "P2_BASE",
+      "rank": 0,
+      "added_coordinates": [],
+      "coordinates": [
+        "parent_depth_bucket",
+        "event_occ_bucket",
+        "event_ordinal_bucket"
+      ]
+    },
+    {
+      "id": "TT_LOCAL",
+      "rank": 1,
+      "added_coordinates": [
+        "event_window_relation",
+        "event_bound_bucket",
+        "event_payload_sign"
+      ],
+      "coordinates": [
+        "parent_depth_bucket",
+        "event_occ_bucket",
+        "event_ordinal_bucket",
+        "event_window_relation",
+        "event_bound_bucket",
+        "event_payload_sign"
+      ]
+    },
+    {
+      "id": "TEMPORAL_LOCAL",
+      "rank": 2,
+      "added_coordinates": [
+        "prev_semantic_class",
+        "next_semantic_class",
+        "same_class_prev_gap_bucket"
+      ],
+      "coordinates": [
+        "parent_depth_bucket",
+        "event_occ_bucket",
+        "event_ordinal_bucket",
+        "prev_semantic_class",
+        "next_semantic_class",
+        "same_class_prev_gap_bucket"
+      ]
+    },
+    {
+      "id": "KEY_REUSE_TOPOLOGY",
+      "rank": 3,
+      "added_coordinates": [
+        "same_key_count_bucket",
+        "same_key_prev_gap_bucket",
+        "scope_transition_bucket"
+      ],
+      "coordinates": [
+        "parent_depth_bucket",
+        "event_occ_bucket",
+        "event_ordinal_bucket",
+        "same_key_count_bucket",
+        "same_key_prev_gap_bucket",
+        "scope_transition_bucket"
+      ]
+    },
+    {
+      "id": "MINIMAL_HYBRID",
+      "rank": 4,
+      "added_coordinates": [
+        "same_class_prev_gap_bucket",
+        "same_key_count_bucket",
+        "event_window_relation"
+      ],
+      "coordinates": [
+        "parent_depth_bucket",
+        "event_occ_bucket",
+        "event_ordinal_bucket",
+        "same_class_prev_gap_bucket",
+        "same_key_count_bucket",
+        "event_window_relation"
+      ]
+    }
+  ],
+  "context_measurement": {
+    "timing": "Before singleton intervention target opening, from unablated parent semantic-use trace and board state.",
+    "raw_full_key_emitted": false,
+    "key_equality_relation_allowed": true,
+    "forbidden_primary": [
+      "engine_name",
+      "FEN",
+      "position_hash",
+      "case_id",
+      "world_id",
+      "raw_full_key",
+      "exact_address_id",
+      "ROOT_CHANGE",
+      "counterfactual_bestmove",
+      "counterfactual_score",
+      "counterfactual_wdl",
+      "counterfactual_pv",
+      "learned_embedding",
+      "post_outcome_threshold"
+    ]
+  },
+  "corpus": {
+    "repository": "official-stockfish/books",
+    "commit": "65815ccdbc7727cd4f6aee252ba8f67fb740e92f",
+    "discovery": {
+      "archive": "6mvs_+90_+99.epd.zip",
+      "logical": "6mvs_+90_+99.epd",
+      "positions": 8
+    },
+    "heldout": {
+      "archive": "8mvs_big_+80_+109.epd.zip",
+      "logical": "8mvs_big_+80_+109.epd",
+      "positions": 8
+    },
+    "selection": "Unique legal FENs sorted by SHA-256(FEN); exclude every P1/P2 position hash; first eight remaining positions; three hash-ordered non-target decoys per target; no engine outcomes."
+  },
+  "execution": {
+    "engines": [
+      "stockfish_19",
+      "berserk",
+      "ethereal"
+    ],
+    "hash_mib": 1,
+    "threads": 1,
+    "prime_nodes": 20000,
+    "decoy_nodes": 20000,
+    "decoy_count": 3,
+    "measurement_nodes": 80000,
+    "family": "MOVE_ORDER+EVAL",
+    "frontier": 1,
+    "candidate_events_per_world": 8,
+    "inherited_engine_build_run": 36216185685,
+    "lineage_run": 36192022350
+  },
+  "discovery_court": {
+    "support_gate": {
+      "min_fired_records": 96,
+      "min_positive_records": 2,
+      "min_negative_records": 24
+    },
+    "admissibility": {
+      "max_target_collisions": 0,
+      "min_compression": 0.15,
+      "min_records_in_cross_position_cells": 24,
+      "min_records_in_cross_engine_cells": 12,
+      "require_both_target_labels": true
+    },
+    "selection_rule": "minimum added-coordinate count, then frozen schema rank, then lexical schema id",
+    "engine_specific": {
+      "support_gate": {
+        "min_fired_records": 24,
+        "min_positive_records": 1,
+        "min_negative_records": 12
+      },
+      "min_compression": 0.1,
+      "min_records_in_cross_position_cells": 8
+    }
+  },
+  "heldout_firewall": {
+    "profile_schema": "c3x-context-profile-batch-v2",
+    "target_schema": "c3x-context-target-batch-v1",
+    "scope_target_fields_consulted": false,
+    "pre_target_scope_gate": {
+      "min_seen_fraction": 0.25,
+      "required_engines": 3,
+      "min_positions": 4,
+      "min_discovery_predicted_positive_profiles": 1
+    },
+    "engine_specific_scope_gate": {
+      "min_seen_fraction": 0.2,
+      "min_positions": 3
+    }
+  },
+  "heldout_transport_gate": {
+    "global": "Every covered profile agrees with discovery label and no covered mixed target cell exists.",
+    "engine_specific": "Per-engine covered predictions agree and no per-engine mixed cell exists.",
+    "abstention": "Unseen cells are excluded from error counts and remain explicit abstentions.",
+    "no_post_target_schema_change": true
+  },
+  "diagnose_surface": {
+    "command": "c3x-field-p3 diagnose",
+    "allowed_after": "target verification",
+    "outputs": [
+      "contradiction clusters",
+      "mixed cells",
+      "engine distribution",
+      "same-fiber nearest field cells",
+      "abstention/contradiction distinction"
+    ],
+    "may_modify_field": false
+  },
+  "explanation_service": {
+    "implementation": "deterministic HTTP/JSON service; no LLM dependency",
+    "endpoints": [
+      "GET /health",
+      "POST /v1/query",
+      "POST /v1/explain",
+      "POST /v1/diagnose"
+    ],
+    "parity_requirement": "Service query statuses must match Rust c3x-field-p3 query on the same profile packet.",
+    "future_adapters": "MCP/agent/LLM narrator may wrap the service but cannot expand certificate authority."
+  },
+  "verdict_ladder": {
+    "discovery_support_limited": "FRESH_RECONSTITUTION_SUPPORT_LIMITED_HOLD",
+    "no_admissible_global_schema": "NO_TOPOLOGY_AWARE_GLOBAL_FIELD_HOLD",
+    "scope_insufficient": "TOPOLOGY_FIELD_SCOPE_INSUFFICIENT_HOLD",
+    "global_certified": "TOPOLOGY_CONTEXT_CAUSAL_FIELD_HELDOUT_CERTIFIED",
+    "global_falsified_engine_specific_certified": "ENGINE_CONDITIONAL_FIELDS_SUPPORTED_CROSS_ENGINE_GLUE_HOLD",
+    "global_falsified": "TOPOLOGY_FIELD_HELDOUT_FALSIFIED",
+    "explanation_or_service_fail": "EXPLANATION_SERVICE_VERIFICATION_FAIL"
+  },
+  "implementation_object": {
+    "rust_cli": "c3x-field-p3",
+    "rust_commands": [
+      "discover",
+      "scope",
+      "query",
+      "verify",
+      "diagnose"
+    ],
+    "python_profiler": "tools/c3x_context_v2.py",
+    "deterministic_service": "tools/c3x_service.py",
+    "lawgen": "lawgen_v13",
+    "independent_verifier": "tools/g95-p3-verify.mjs"
+  },
+  "literature": [
+    {
+      "work": "Duarte & Solus (2026), Representation of Context-Specific Causal Models with Observational and Interventional Data",
+      "drive_id": "1_MpcXD5vnc5RHrxOvOsG7VSZkh19LwPd",
+      "role": "Context-specific causal structure is a legitimate target object rather than a single global law."
+    },
+    {
+      "work": "Peters, Bühlmann & Meinshausen (2016), Causal Inference by Using Invariant Prediction",
+      "drive_id": "1ljkrI7d5XCC16eIgecO1fQ-73-xJwp0k",
+      "role": "Fresh-environment stability is a test rather than a discovery-set property."
+    },
+    {
+      "work": "Pearl & Bareinboim (2011), Transportability of Causal and Statistical Relations",
+      "drive_id": "1eEnQxWYFC5gjSyxBFF3BY4xfmmGllv_c",
+      "role": "Source/target changes and transfer authority must be explicit."
+    },
+    {
+      "work": "Lee & Yannakakis (1994), Testing Finite-State Machines - State Identification and Verification",
+      "drive_id": "1yp5Mc5-4mTeNpu7DyuHKIH4gEuz-BIwk",
+      "role": "Distinguishing-response discipline for latent state refinement."
+    },
+    {
+      "work": "Kroening, Groce & Clarke (2004), Counterexample Guided Abstraction Refinement Via Program Execution",
+      "drive_id": "1zOtH8I_aIh-AsTamW-AE7KV1UVAo2jX5",
+      "role": "Counterexamples can guide bounded schema refinement, but P3 adds a fresh-evidence firewall."
+    },
+    {
+      "work": "Sutter et al. (2025), The Non-Linear Representation Dilemma",
+      "drive_id": "1e4SKpJ4yaYETPCadT-NxOwAat-XuF-Yw",
+      "role": "Bound context capacity to preserve falsifiability."
+    },
+    {
+      "work": "Yao et al. (2025), Unifying Causal Representation Learning with the Invariance Principle",
+      "drive_id": "14oUBHn8v9LpST4ppGFgSCwL_MamJA6aO",
+      "role": "Invariance is an identification constraint, not automatic causal semantics."
+    }
+  ],
+  "source_code_study": [
+    "official-stockfish/Stockfish src/search.cpp and src/tt.cpp",
+    "AndyGrant/Ethereal src/search.c and src/transposition.c",
+    "jhonnold/berserk search/transposition implementation as inherited P34 engine target"
+  ],
+  "claim_ceiling": [
+    "P2 contradictions are development-only and cannot certify P3.",
+    "A schema family is an operational licensing language for ROOT_CHANGE, not a unique true causal ontology.",
+    "Key-equality topology is relational parent-trace structure; raw key identity is not admitted.",
+    "Engine-specific field differences do not establish engine architecture as the causal source.",
+    "Unseen contexts imply abstention, not non-causality.",
+    "No authority beyond frozen source commits, books, history procedure, search budget and engines.",
+    "No cognition, intent, human strategy, or population-prevalence claim.",
+    "The deterministic explanation service cannot add authority beyond its bundled field certificates."
+  ]
+}
