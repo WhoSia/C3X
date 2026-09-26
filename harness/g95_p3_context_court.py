@@ -92,7 +92,7 @@ def merge_discovery(a):
  ps=batches(a.root,"c3x-context-profile-batch-v2","FRESH_RECONSTITUTION");ts=batches(a.root,"c3x-context-target-batch-v1","FRESH_RECONSTITUTION")
  if len(ps)!=24 or len(ts)!=24:raise SystemExit(f"P3_DISC_BATCH {len(ps)} {len(ts)}")
  pm={r["record_id"]:r for b in ps for r in b["records"]};tm={r["record_id"]:r for b in ts for r in b["records"]}
- if set(pm)!=set(tm):raise SystemExit("P3_DISC_JOIN")
+ if set(pm)!=set(tm):raise SystemExit("P3_DISC_JOIN")\n if any(r.get("causal_availability")!="EVENT_PREFIX_ONLY" for r in pm.values()):raise SystemExit("P3_DISC_CAUSAL_AVAILABILITY")
  rows=[{"record_id":rid,"engine":pm[rid]["engine"],"position_id":pm[rid]["position_id"],"event_id":pm[rid]["event_id"],"fiber_id":pm[rid]["fiber_id"],"context":pm[rid]["context"],"architecture_context":pm[rid]["architecture_context"],"target":bool(tm[rid]["root_change"])} for rid in sorted(pm)]
  Path(a.out).write_text(json.dumps({"schema":"c3x-field-p3-discovery-input-v1","scientific_stage":STAGE,"records":rows},indent=2,sort_keys=True)+"\n");print("P3_DISC_MERGE",len(rows))
 
@@ -141,7 +141,10 @@ def select_field(a):
 def merge_profiles(a):
  bs=batches(a.root,"c3x-context-profile-batch-v2","HELDOUT_REGIME_TRANSPORT")
  if len(bs)!=24:raise SystemExit("P3_HOLD_PROFILES")
- rows=sorted([r for b in bs for r in b["records"]],key=lambda z:z["record_id"]);if any(r.get("causal_availability")!="EVENT_PREFIX_ONLY" for r in rows):raise SystemExit("P3_PROFILE_CAUSAL_AVAILABILITY")\n Path(a.out).write_text(json.dumps({"schema":"c3x-context-profile-batch-v2","schema_version":"c3x-context-v2","scientific_stage":STAGE,"records":rows,"causal_availability":"EVENT_PREFIX_ONLY","target_fields_consulted":False,"raw_full_key_emitted":False},indent=2,sort_keys=True)+"\n");print("P3_PROFILES",len(rows))
+ rows=sorted([r for b in bs for r in b["records"]],key=lambda z:z["record_id"])
+ if any(r.get("causal_availability")!="EVENT_PREFIX_ONLY" for r in rows):raise SystemExit("P3_PROFILE_CAUSAL_AVAILABILITY")
+ Path(a.out).write_text(json.dumps({"schema":"c3x-context-profile-batch-v2","schema_version":"c3x-context-v2","scientific_stage":STAGE,"records":rows,"causal_availability":"EVENT_PREFIX_ONLY","target_fields_consulted":False,"raw_full_key_emitted":False},indent=2,sort_keys=True)+"\n")
+ print("P3_PROFILES",len(rows))
 def predict(schema,rs):
  if not schema:return []
  cs=schema["coordinates"];cc=schema["cells"];out=[]
