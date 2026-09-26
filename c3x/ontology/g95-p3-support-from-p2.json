@@ -26,7 +26,36 @@
       "p2:hold:5:ethereal:05fc6eef6c39c2f7",
       "p2:hold:6:ethereal:04635ce1103a0e08"
     ],
-    "rule": "These witnesses may motivate and diagnose schema families, but no P3 discovery, schema selection, held-out scope, transport verdict, or explanation authority may count them as fresh evidence."
+    "rule": "These witnesses may motivate and diagnose schema families, but no P3 discovery, schema selection, held-out scope, transport verdict, or explanation authority may count them as fresh evidence.",
+    "legacy_surface_posthoc_controls": {
+      "authority": "DEVELOPMENT_DERIVED_RIVAL_ONLY_NO_CONFIRMATORY_VOTE",
+      "pooled_p2_records": 384,
+      "minimum_collision_free_cardinality_in_existing_p2_vocabulary": 5,
+      "no_collision_free_basis_cardinality_0_through_4": true,
+      "rivals": [
+        {
+          "id": "LEGACY_SURFACE_5A",
+          "coordinates": [
+            "board_center_bucket",
+            "board_development_bucket",
+            "event_depth_bucket",
+            "event_occ_bucket",
+            "event_ordinal_bucket"
+          ]
+        },
+        {
+          "id": "LEGACY_SURFACE_5B",
+          "coordinates": [
+            "board_development_bucket",
+            "event_depth_bucket",
+            "event_occ_bucket",
+            "event_ordinal_bucket",
+            "parent_score_bucket"
+          ]
+        }
+      ],
+      "rule": "These controls are frozen before P3 selective outcomes and may be scored on fresh P3 discovery only as non-authoritative rivals. They cannot select or certify the primary P3 field."
+    }
   },
   "schema_evolution_constraint": {
     "permitted_families": [
@@ -46,10 +75,13 @@
       "ROOT_CHANGE",
       "counterfactual_output",
       "learned_world_identifier",
-      "post_outcome_threshold"
+      "post_outcome_threshold",
+      "post_candidate_baseline_trace_feature"
     ],
-    "equality_derived_key_topology": "Raw full keys are never emitted as context. Equality/reuse relations derived from the unablated parent trace are allowed because they describe pre-intervention topology rather than event identity.",
-    "schema_selection_authority": "P2 witnesses do not select the P3 schema. Fresh P3 discovery applies the frozen admissibility and complexity ordering."
+    "equality_derived_key_topology": "Use the P32 parent-trace `key` only transiently for equality/reuse relations among events at indices <= the candidate ordinal. Raw key values are never emitted.",
+    "schema_selection_authority": "P2 witnesses do not select the P3 schema. Fresh P3 discovery applies the frozen admissibility and complexity ordering.",
+    "causal_availability": "EVENT_PREFIX_ONLY",
+    "future_of_candidate_parent_trace_features_allowed": false
   },
   "literature_custody": {
     "Duarte & Solus (2026)": "1_MpcXD5vnc5RHrxOvOsG7VSZkh19LwPd",
@@ -64,8 +96,23 @@
   "literature_intake_cleanup": {
     "staging_folder_id": "1MLtYh0pv8QUZDReYzRqjDrOjRkSJAD16",
     "canonical_papers_folder_id": "1D2M4LHcejREhlyp6vTd71xxLLx-6ldUP",
-    "files_normalized_and_moved": 22,
-    "files_remaining_in_intake": 0,
-    "operation": "metadata-only rename + move; Drive file IDs and raw bytes preserved"
+    "current_intake_files_verified": 0,
+    "used_papers_parented_in_10_papers_verified": true,
+    "metadata_only_renames_this_audit": [
+      {
+        "file_id": "1zXZLMTQWORSN3fHJ541RbsJwdDCokfo2",
+        "to": "Rothenhäusler et al. (2021) — Anchor Regression - Heterogeneous Data Meet Causality.pdf"
+      },
+      {
+        "file_id": "1e4SKpJ4yaYETPCadT-NxOwAat-XuF-Yw",
+        "to": "Sutter et al. (2025) — The Non-Linear Representation Dilemma - Is Causal Abstraction Enough for Mechanistic Interpretability.pdf"
+      }
+    ],
+    "duarte_solus_debt_resolved": {
+      "file_id": "1_MpcXD5vnc5RHrxOvOsG7VSZkh19LwPd",
+      "parent": "10_PAPERS — Canonical Literature Commons",
+      "doi": "10.1093/jrsssb/qkaf059"
+    },
+    "operation": "Verified current central literature intake is empty; canonical paper custody and filenames audited. Renames are metadata-only; Drive IDs/raw bytes preserved."
   }
 }
