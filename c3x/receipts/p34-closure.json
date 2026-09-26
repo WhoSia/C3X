@@ -1,1 +1,191 @@
-__PLACEHOLDER__
+{
+  "schema": "c3x-p34-closure-v1",
+  "scientific_stage": "C3X 0.7.0-G9.4-P34",
+  "status": "CLOSED",
+  "decision": "HOLD",
+  "title": "Prospective Open-Event-Universe Causal Cone Constitution, Outcome-Blind Lineage Quotients, Well-Founded Closure-or-Divergence Certificates, Quotient-Collision Falsification, Abstraction-Preserving Necessity/Sufficiency & Exact-Event Explanation Drill-Down",
+  "parent": {
+    "stage": "C3X 0.7.0-G9.4-P33",
+    "closure_commit": "8f626720fe3753401f07ed9f137e8a95c39adb7d",
+    "canonical_run": 36192022350,
+    "verdict": "COUNTERFACTUAL_EVENT_LINEAGE_RECONSTITUTED_WITH_PARTIAL_CAUSAL_CLOSURE"
+  },
+  "execution": {
+    "canonical_run": 36216185685,
+    "canonical_head_sha": "9a74bd2138ee689bd7b1260c15a8de0333b44c6c",
+    "jobs_success": 10,
+    "jobs_total": 10,
+    "scientific_contract_changes_after_preseal": [],
+    "note": "All workflow jobs succeeded. Scientific success is adjudicated separately; the frozen Stockfish positive control fails at every admissible quotient level."
+  },
+  "verdict": "OPEN_EVENT_QUOTIENT_SIGNAL_POSITIVE_CONTROL_FAILURE_HOLD",
+  "authority_ceiling": "Frozen Q0→Q3 event-role quotient chain and inherited P33 worlds only; no universal causal abstraction, event identity, chess strategy, cognition or prevalence claim.",
+  "adjudication": {
+    "primary_cases": 3,
+    "case_status_counts": {
+      "QUOTIENT_CAUSAL_CLOSURE_EXACT_DRILLDOWN_PRESERVED": 1,
+      "BOUNDED_QUOTIENT_LATTICE_DIVERGENCE": 2
+    },
+    "selected_cases": 1,
+    "selected_open_event_cases": 1,
+    "positive_control_selected": 0,
+    "selected_levels": {
+      "ethereal:a8fd39b3864a:CUTOFF": null,
+      "ethereal:f8cde3d6abb4:MOVE_ORDER": "Q2",
+      "stockfish_19:f8cde3d6abb4:MOVE_ORDER+EVAL": null
+    }
+  },
+  "open_event_positive_signal": {
+    "case_id": "ethereal:f8cde3d6abb4:MOVE_ORDER",
+    "selected_level": "Q2",
+    "seed_exact_addresses": 168,
+    "closed_cones": 25,
+    "closure_rounds": 4,
+    "replays_used": 39,
+    "minimal_remove_cones": 3,
+    "minimal_keep_cones": 1,
+    "parent_bestmove": "h1g1",
+    "remove_bestmove": "e6g6",
+    "keep_bestmove": "h1g1",
+    "collision": false,
+    "remove_local_exact_expansion_parity": true,
+    "keep_local_exact_expansion_parity": true,
+    "bounded_query_commutation": true,
+    "interpretation": "A previously exact-address-open Ethereal world admits a bounded Q2 causal abstraction under the frozen court, with exact-member drill-down preserved for the tested local queries."
+  },
+  "open_event_unresolved": {
+    "case_id": "ethereal:a8fd39b3864a:CUTOFF",
+    "status": "BOUNDED_QUOTIENT_LATTICE_DIVERGENCE",
+    "seed_exact_addresses": 87,
+    "failures": {
+      "Q0": [
+        "DRILLDOWN_SIZE_HOLD"
+      ],
+      "Q1": [
+        "REMOVE_LOCAL_EXACT_EXPANSION_PARITY_FAIL"
+      ],
+      "Q2": [
+        "REMOVE_LOCAL_EXACT_EXPANSION_PARITY_FAIL"
+      ],
+      "Q3": [
+        "QUOTIENT_REFINEMENT_LIMIT_HOLD"
+      ]
+    }
+  },
+  "positive_control_failure": {
+    "case_id": "stockfish_19:f8cde3d6abb4:MOVE_ORDER+EVAL",
+    "status": "BOUNDED_QUOTIENT_LATTICE_DIVERGENCE",
+    "seed_exact_addresses": 34,
+    "known_p33_singleton_witness": "1cfb4e42993f7550aaddd3ec2233b23f24cf2fff3ab410b2fefe51c2139bca10",
+    "known_witness_counterfactual_bestmove": "e6e3",
+    "failures": {
+      "Q0": [
+        "DRILLDOWN_SIZE_HOLD"
+      ],
+      "Q1": [
+        "DRILLDOWN_SIZE_HOLD"
+      ],
+      "Q2": [
+        "QUOTIENT_COLLISION"
+      ],
+      "Q3": [
+        "QUOTIENT_COLLISION"
+      ]
+    },
+    "collision_detail": {
+      "Q2_or_Q3_parent_trace_members_in_same_causal_class": 3,
+      "singleton_root_response_signatures": 2,
+      "witness_changes_parent": true,
+      "two_colocated_exact_members_change_parent": false
+    },
+    "interpretation": "The frozen event-role quotient merges an already certified causal exact event with exact events having different singleton intervention responses, falsifying causal interchangeability of that quotient class."
+  },
+  "verification": {
+    "parent_pv_complete": 3,
+    "counterfactual_pv_available": 3,
+    "counterfactual_pv_complete": 3,
+    "verified_explanations": 3,
+    "failed_explanations": 0,
+    "unsupported_rendered_claims": 0,
+    "independent_javascript_verifier": "PASS"
+  },
+  "implementation": {
+    "policy": "CAPABILITY_FIRST_POLYGLOT_LANGUAGE_NONAUTHORITATIVE",
+    "C_or_Cpp": "dynamic engine-native quotient predicates layered over exact seed-removal hooks",
+    "Rust": "LawGen v10 and independent quotient compiler/verifier",
+    "Python": "UCI court, replay closure, exact drill-down, PV legality and chess grounding",
+    "JavaScript": "independent final certificate/explanation verification"
+  },
+  "external_code_study": [
+    {
+      "repository": "official-stockfish/Stockfish",
+      "observed": "TranspositionTable::probe returns TT data plus writer/replacement-age semantics; raw TT slot identity is not treated as causal identity."
+    },
+    {
+      "repository": "AndyGrant/Ethereal",
+      "observed": "tt_probe/tt_store expose move, value, eval, depth and bound separately; intervention remains at semantic-use sites."
+    },
+    {
+      "repository": "jhonnold/berserk",
+      "observed": "TTProbe exposes hit/move/score/eval/depth/bound/PV channels; C3X keeps those role coordinates explicit."
+    },
+    {
+      "repository": "LeelaChessZero/lc0",
+      "observed": "dag_classic separates node/edge reuse from output semantics; topology/quotients remain falsifiable abstractions."
+    },
+    {
+      "repository": "cutechess/cutechess",
+      "observed": "repeat/opening/PGN handling used as reproducibility precedent, not causal evidence."
+    },
+    {
+      "repository": "niklasf/python-chess",
+      "observed": "used only for legality and chess-atom verification."
+    }
+  ],
+  "literature_positioning": {
+    "drive_present": [
+      "Geiger et al. (2025), Causal Abstraction: A Theoretical Foundation for Mechanistic Interpretability",
+      "Lorenz & Tull (2026), Causal and Compositional Abstraction",
+      "Madaleno, Misra & Markham (2026), Coarsening Causal DAG Models",
+      "Shalizi & Crutchfield (2001), Computational Mechanics: Pattern and Prediction, Structure and Simplicity",
+      "Givan, Dean & Greig (2003), Equivalence Notions and Model Minimization in Markov Decision Processes",
+      "Lee & Bareinboim (2026), Productive Actual Causation"
+    ],
+    "drive_absent_doi_requests": [
+      "10.1007/978-3-540-30482-1_23",
+      "10.1016/j.jlamp.2015.10.004"
+    ]
+  },
+  "data_policy": {
+    "external_pgn_used": false,
+    "reason": "P34's estimand was the inherited three P33 causal worlds; adding positions during the court would change the estimand.",
+    "successor": "Fresh PGN/engine corpora are appropriate only after the witness-preserving abstraction constitution is frozen."
+  },
+  "custody_hashes": {
+    "precommit": {
+      "receipt_sha256": "d204db919db724a73bed4777466d82ab6319cbaeed73012338cb7eadafd0734b",
+      "file_sha256": "862be5b59a95e41a6ca903f533e9428abc98f1fdc8b5cd7bb29eb32c500e3be1",
+      "artifact_id": 10897891200,
+      "artifact_digest": "sha256:711889093c11f3a303bc6bd4d391b68d5ce71a39f00fbf07f465678ab30117f4"
+    },
+    "final": {
+      "receipt_sha256": "56d5533035ad7e4afedd93177482b8a7d28995379d93e3104d3b02551990d2a1",
+      "adjudication_sha256": "394b5672c6b9feb86874f93840ee8a8b333804d34f65d0f3f9128611383849c0",
+      "explanation_ast_sha256": "1078f7538d95a3b29d0f997e71ed0f2cc7b51d46fde239f6cf40f4ebd0fb5f22",
+      "chess_grounding_sha256": "3db76bb8d3748eed4dc4b4466069c7d79abd0c8ae49ea3c6d728b2e67854af1d",
+      "explanations_sha256": "fbadf5de1ea93aa40ec2b3a567f01f265602985afcc02e763612d21e3fac7c02",
+      "js_verification_sha256": "e7b2265c9c9fe1fd8fea258bc5dc0a5ad4dad47609c176849156017b916c5e35",
+      "artifact_id": 10897481789,
+      "artifact_digest": "sha256:594a7da0033c0e892fc258fe8ec20c7d5a5dbed817edee7884a8708e7f3a67f3"
+    }
+  },
+  "claim_ceiling": [
+    "P34 establishes one bounded open-event quotient success but does not authorize a general event-role abstraction because the inherited Stockfish positive control fails.",
+    "A quotient collision is evidence against interchangeability inside the tested class, not proof that no finer lawful abstraction exists.",
+    "BOUNDED_QUOTIENT_LATTICE_DIVERGENCE rejects only the prospectively frozen Q0→Q3 chain.",
+    "Local REMOVE/KEEP parity and singleton collision tests are bounded query-commutation probes, not full causal-equivalence proofs.",
+    "No strategy, cognition, human-like intent, prevalence or cross-position generalization is authorized."
+  ],
+  "successor_question": "Can a causal partition be constituted so that exact events are merged only when their intervention-response fibers are prospectively indistinguishable, while preventing post-hoc outcome leakage and preserving the P33 singleton witness on held-out worlds?",
+  "successor_proposal": "C3X 0.7.0-G9.5-P1 — Prospective Witness-Preserving Causal Fiber Constitution, Intervention-Response Congruence, Counterexample-Guided Quotient Splitting, Held-Out Positive-Control Preservation, Cross-Engine Fiber Transport & Exact-Event Explanation Reconstruction"
+}
