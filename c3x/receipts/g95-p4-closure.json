@@ -1,0 +1,242 @@
+{
+  "canonical_head": "5e844227c447b9c34432c3f2fb5860c249331081",
+  "canonical_inner_file_sha256": {
+    "adjudication_json": "091bce0cf1886c06a7d694c2011acb7859b10b4fc5e950a7b3c8235f2db4fd4f",
+    "control_gate_json": "1664d46d5ce890f18f91847a85c9fa4daebd47759ed88d8861d8d554daf79526",
+    "corpus_json": "0221e1a9c817638d5be07099c01a90ca0e062a8986882ff7486732412952b06f",
+    "field_json": "7d1fce51b07e5da172955f145f5c5cae086d389ab4bc75b9fdb02fcc535811be",
+    "lawgen_constitution_json": "dbde3299541312cc17caa9580aff9125e43c63d56f2319496318030231995468",
+    "precommit_json": "8fb9e38958dc7a3ca9ecf97863376f7bcf11d3bc399dbd4a720f2bb85ccd1c16",
+    "public_deployment_json": "d5138b4e317e3bdd6750f374ec626c4f70f579195a4e42f4c44caa2ee74991ad",
+    "scope_json": "a0626e7d997ce406701b52dc3074c547c5c752c48c257c2c50a3e15a79e18ada",
+    "verification_json": "e34c21599e751fd8bc449667ee6441c01b5620731b7c9ad928593b8f59908657"
+  },
+  "canonical_run": 36233574663,
+  "canonical_verdict": "SUPPORT_RECOVERED_NO_ADMISSIBLE_GLOBAL_FIELD_HOLD",
+  "claim_ceiling": [
+    "P4 shows that prospective outcome-blind mechanism-stratified sampling can recover substantially more fresh ROOT_CHANGE support under the frozen P4 regime; it does not establish the sampling strata as causal mechanisms.",
+    "P32 positive controls calibrate executable intervention sensitivity only and contribute zero fresh-support votes.",
+    "P2/P3 target labels did not select P4 positions, sampling strata, quotas, power thresholds or field features.",
+    "P4 does not license post-hoc feature expansion: all field tests were restricted to P3-frozen context families.",
+    "The failure to form an admissible field is representation failure under the tested frozen families, not evidence that the recovered causal positives are noise or that topology is useless.",
+    "Because no discovery field survived admissibility, held-out transport was not meaningfully tested; zero covered contradictions do not imply transport success.",
+    "The public service may expose only certificate/abstention/diagnostic states and cannot expand scientific authority.",
+    "No claim about human cognition, intent, strategy, population prevalence or a universal engine law is authorized."
+  ],
+  "drive_custody": {
+    "control_gate": "1I4PYFcH2hXPDg_2bX3fOeEyDy1laS-fK",
+    "corpus": "1VgqwiLlU8gnfDgiuGPwzx8bBw3vER2j6",
+    "field": "1_YaledFfBLZAM3eOi3FOD3Iq3Y2-2yK0",
+    "final": "1i-tuk4CL5XxKyfXisJ1jkxuHm3624Sjh",
+    "folder_id": "1cnazTN0sODu4AkMlPNC8MmIBG0989uNK",
+    "lawgen": "1dY3A49ObwfDkGODiZTc-htovvOd-wZVc",
+    "precommit": "1-mx6b1qFDxSUGCqlNaQphBfg1eoRVXms",
+    "scope": "10oHpq7l-O5OGgkvN-5-v0x1HtETRw5Jc",
+    "service": "10c0NXJhIGxMqBp5jlKYD0AXG0Xft4ApB",
+    "verification": "1TDM8nrrTZaZetJTVg--jUoGHBw-wKKWn"
+  },
+  "field_reconstitution": {
+    "admissibility_max_target_collisions": 0,
+    "engine_specific_selected_schema": {
+      "berserk": null,
+      "ethereal": null,
+      "stockfish_19": null
+    },
+    "engine_specific_support_pass": {
+      "berserk": true,
+      "ethereal": true,
+      "stockfish_19": true
+    },
+    "feature_expansion_performed": false,
+    "frozen_schema_census": {
+      "KEY_REUSE_TOPOLOGY": {
+        "compression": 0.5572916666666667,
+        "target_collisions": 10
+      },
+      "MINIMAL_HYBRID": {
+        "compression": 0.41145833333333337,
+        "target_collisions": 6
+      },
+      "P2_BASE": {
+        "compression": 0.6701388888888888,
+        "target_collisions": 13
+      },
+      "TEMPORAL_LOCAL": {
+        "compression": 0.45486111111111116,
+        "target_collisions": 9
+      },
+      "TT_LOCAL": {
+        "compression": 0.47048611111111116,
+        "target_collisions": 8
+      }
+    },
+    "interpretation": "Support recovery succeeded, but every P3-frozen context family aliased opposite causal labels in fresh discovery. No global or engine-local field earned authority.",
+    "selected_global_schema": null,
+    "status": "NO_ADMISSIBLE_GLOBAL_SCHEMA"
+  },
+  "fresh_discovery": {
+    "by_engine": {
+      "berserk": {
+        "positive": 8,
+        "records": 192
+      },
+      "ethereal": {
+        "positive": 9,
+        "records": 192
+      },
+      "stockfish_19": {
+        "positive": 9,
+        "records": 192
+      }
+    },
+    "by_source_regime": {
+      "CLOSED_STRUCTURAL": {
+        "positive": 13,
+        "records": 144
+      },
+      "MID_OPENING": {
+        "positive": 2,
+        "records": 144
+      },
+      "SHALLOW_OPENING": {
+        "positive": 7,
+        "records": 144
+      },
+      "UHO_BALANCED": {
+        "positive": 4,
+        "records": 144
+      }
+    },
+    "effective_detection_probability_at_sensitivity": 0.9737011757783066,
+    "interpretation": "The outcome-blind design recovered rare causal-positive support across all three engines and all four fresh source regimes. P4 is no longer support-limited.",
+    "positive_by_sampling_stratum": {
+      "BALANCED_PREFIX_FALLBACK": 3,
+      "NEAR_ROOT_EVAL": 2,
+      "NEAR_ROOT_MOVE_ORDER": 10,
+      "PREFIX_KEY_REUSE": 4,
+      "QUOTA_FILL": 7
+    },
+    "records": 576,
+    "root_change_negative": 550,
+    "root_change_positive": 26,
+    "support_gate_pass": true
+  },
+  "github_artifacts": {
+    "control_gate": {
+      "digest": "sha256:e26b86fd954e0bf972383159ff11960e9fa63e7e17845c852ea978552ad16b1a",
+      "id": 10902824337
+    },
+    "corpus": {
+      "digest": "sha256:ed5fc091a7989ce823b980eaceed322eac3218549b136b01528ddb8310af0780",
+      "id": 10903223525
+    },
+    "field": {
+      "digest": "sha256:54e642e4042f0503b71f021bb101022919a470d822c30e7bee139aa91057a04b",
+      "id": 10903637238
+    },
+    "final": {
+      "digest": "sha256:693fe3db50817111f32dbfca7fb27f532eadf191c51bafd569ba0688a881a76b",
+      "id": 10903911330
+    },
+    "lawgen": {
+      "digest": "sha256:10942545369eb83caeaef78b183c1b7c2c3b470d7f93de1e11020ae4be280d47",
+      "id": 10902883758
+    },
+    "precommit": {
+      "digest": "sha256:8f7f9b87356832844b79dfa3c413bb5b485028e6fdde4707789638d1235fcb32",
+      "id": 10902924170
+    },
+    "scope": {
+      "digest": "sha256:26fb0641387941e7d36013f4aec2c74b83a0ce64f9a8b7c3a553653531f34437",
+      "id": 10903577431
+    },
+    "service": {
+      "digest": "sha256:3cbe37c6af5c19a2f2de1ea416c990ead25946e5299b8dd1bcfb2915b3664185",
+      "id": 10903462581
+    },
+    "verification": {
+      "digest": "sha256:f05a34e857ae5f721feb1ef743af7e577b71a8a115e254bd13c47d9ae3a8fe57",
+      "id": 10902974933
+    }
+  },
+  "heldout": {
+    "contradictions": 0,
+    "covered_verified": 0,
+    "global_field_present": false,
+    "global_predictions": 0,
+    "global_scope_gate_pass": false,
+    "global_seen": 0,
+    "global_seen_fraction": 0.0,
+    "interpretation": "Held-out transport was not falsified or certified: no admissible discovery field existed to address held-out profiles. Zero contradictions therefore carry no transport authority.",
+    "mixed_cells": 0,
+    "profiles": 384,
+    "target_opened_after_scope": true
+  },
+  "outcome_blindness_audit": {
+    "heldout_scope_downloaded_target_artifacts": false,
+    "heldout_targets_opened_only_after_scope_seal": true,
+    "post_target_schema_change": false,
+    "raw_full_key_emitted": false,
+    "sampler_inputs": [
+      "parent CATALOG trace",
+      "event class",
+      "ply",
+      "tt_move",
+      "prefix key reuse test",
+      "exact address_id"
+    ],
+    "sampler_root_change_access": false,
+    "single_event_counterfactual_executed_after_sampling": true,
+    "verdict": "PASS"
+  },
+  "parent": {
+    "canonical_run": 36231281653,
+    "closure_commit": "73028b94c09110581ce97a668ebb52ddc8eae4c8",
+    "p2_contradictions_authority": "DEVELOPMENT_ONLY_NO_CONFIRMATORY_VOTE",
+    "stage": "C3X 0.7.0-G9.5-P3",
+    "verdict": "FRESH_RECONSTITUTION_SUPPORT_LIMITED_HOLD"
+  },
+  "positive_control_calibration": {
+    "authority": "INSTRUMENT_CALIBRATION_ONLY_NO_FRESH_SUPPORT_VOTE",
+    "control_gate_receipt_sha256": "9fd1b82eb25bc854f45faec341de12f56dc1cbbe45ead54da64338f6a2fb11fd",
+    "controls": 3,
+    "fresh_support_records": 0,
+    "gate_pass": true
+  },
+  "prospective_constitution": {
+    "candidate_events_per_world": 16,
+    "causal_availability": "EVENT_PREFIX_ONLY",
+    "context_schema_version": "c3x-context-v2",
+    "engines": [
+      "stockfish_19",
+      "berserk",
+      "ethereal"
+    ],
+    "feature_expansion_allowed": false,
+    "heldout_profile_target_physical_split": true,
+    "p2_p3_target_labels_used_for_sampling_design": false,
+    "sampling_target_fields_consulted": false,
+    "source_commit": "65815ccdbc7727cd4f6aee252ba8f67fb740e92f",
+    "source_repo": "official-stockfish/books"
+  },
+  "public_explanation_harness": {
+    "adjudication_receipt_sha256": "c5fabec7fa2d12ea9cfb50435badacb6d913d9b965999bccfc3f90f7473956cf",
+    "deployment_receipt_sha256": "dca5b2686829962aea245f1b1fa09c83a535c5d05b9ea652fababd164188aef4",
+    "explanation_verification_failed": 0,
+    "explanation_verification_passed": 384,
+    "llm_dependency": false,
+    "profiles_checked": 384,
+    "public_global_authority": false,
+    "public_state_counts": {
+      "ABSTAIN_UNCERTIFIED_FIELD": 384
+    },
+    "service_tar_sha256": "f84056740fd6d9852cf652f023268854b01d44470bc26214559915c8f9de5f12",
+    "unsupported_rendered_claims": 0
+  },
+  "receipt_sha256": "8cbbd2be35ce0a801cae24b4951776dc45b8932c5e9d65ded25d0e1db4fd8f89",
+  "schema": "c3x-g95-p4-closure-v1",
+  "scientific_stage": "C3X 0.7.0-G9.5-P4",
+  "status": "CLOSED_HOLD",
+  "successor_question": "Can a prospectively nested, outcome-sequestered representation-discovery court learn a collision-resolving causal coordinate from fresh discovery only, under frozen complexity and anti-leakage constraints, and then earn authority on untouched cross-engine held-out regimes without post-target schema growth?",
+  "title": "Prospective Rare-Event Causal-Support Constitution, Outcome-Blind Mechanism-Stratified Event Sampling, Positive-Control-Calibrated Power Recovery, Fresh Cross-Engine Regime Replication, Held-Out Transport Reopening & Authority-Conservative Public Explanation Harness"
+}
