@@ -131,7 +131,9 @@
     "large_class_rule": "A selected cone with more than 12 observed exact members is DRILLDOWN_SIZE_HOLD rather than collision-free by sampling.",
     "remove_exact_expansion_probe": "Replay seed removal plus the union of all parent-trace exact members of the minimal REMOVE quotient set and compare its root bestmove with dynamic REMOVE_SET. Equality is REMOVE_LOCAL_EXACT_EXPANSION_PARITY.",
     "keep_exact_expansion_probe": "Replay seed removal plus every parent-trace exact member whose quotient class is outside the minimal KEEP set and compare its root bestmove with dynamic KEEP_SET. Equality is KEEP_LOCAL_EXACT_EXPANSION_PARITY.",
-    "query_commutation_gate": "A quotient level may pass only when both REMOVE and KEEP local exact-expansion parities hold, no selected causal cone has a forbidden singleton-response collision, and no selected causal cone exceeds the frozen exact-member drill-down cap."
+    "query_commutation_gate": "A quotient level may pass only when both REMOVE and KEEP local exact-expansion parities hold, no selected causal cone has a forbidden singleton-response collision, and no selected causal cone exceeds the frozen exact-member drill-down cap.",
+    "max_drilldown_replays_per_case_level": 64,
+    "drilldown_replay_budget_rule": "Singleton probes plus the two REMOVE/KEEP exact-expansion probes are pre-counted. If the planned drill-down exceeds 64 replays at a level, emit DRILLDOWN_REPLAY_BUDGET_HOLD; do not sample, rank, or enlarge the cap."
   },
   "explanation_verification": {
     "pipeline": [
@@ -258,7 +260,8 @@
     "Conditional necessity/sufficiency remain relative to the P33 baseline-seed removal intervention.",
     "Singleton collision probes concern parent-trace exact members and do not establish global within-class interchangeability.",
     "Bidirectional local query-commutation parity is a bounded REMOVE/KEEP drill-down test on parent-trace exact members, not proof of full low/high-level causal equivalence.",
-    "No chess strategy, cognition, intent, prevalence or cross-position generalization is authorized."
+    "No chess strategy, cognition, intent, prevalence or cross-position generalization is authorized.",
+    "Drill-down replay-budget HOLD is evidential incompleteness, not evidence of quotient validity or invalidity."
   ],
   "p34_selective_results_consulted": false
 }
