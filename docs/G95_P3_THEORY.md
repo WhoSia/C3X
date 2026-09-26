@@ -37,7 +37,7 @@ P3 does not enumerate arbitrary supersets of the P2 basis until one passes. It f
 
 1. **P2_BASE** — parent search depth, exact-signature occurrence, trace quartile.
 2. **TT_LOCAL** — P2_BASE + event window relation, bound class, payload sign.
-3. **TEMPORAL_LOCAL** — P2_BASE + immediately previous semantic class, gap to previous same-class use, previous-scope→current-scope transition.
+3. **TEMPORAL_LOCAL** — P2_BASE + immediately previous semantic class, gap to previous same-class use, previous→current ply transition.
 4. **KEY_REUSE_TOPOLOGY** — P2_BASE + same-key prefix reuse count, gap to previous same-key use, previous-scope→current-scope transition.
 5. **MINIMAL_HYBRID** — P2_BASE + previous same-class gap, same-key prefix reuse count, window relation.
 
