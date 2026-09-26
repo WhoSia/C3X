@@ -1,0 +1,317 @@
+name: g95-p1-witness-preserving-causal-fiber
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - "c3x/ontology/g95-p1-support-from-p34.json"
+      - "c3x/ontology/g95-p1-lawgen-spec.json"
+      - "crates/c3x-lawgen/src/bin/lawgen_v11.rs"
+      - "crates/c3x-fiber/**"
+      - "harness/g95_p1_corpus.py"
+      - "harness/g95_p1_fiber_court.py"
+      - "harness/g95_p1_explanation_verify.py"
+      - "tools/g95-p1-verify.mjs"
+      - ".github/workflows/g95-p1.yml"
+
+concurrency:
+  group: g95-p1-witness-preserving-causal-fiber
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  actions: read
+
+env:
+  P32_RUN: "36188807920"
+  P33_RUN: "36192022350"
+  P34_RUN: "36216185685"
+
+jobs:
+  lawgen:
+    name: LawGen v11 causal-fiber constitution
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Static prospective gates
+        run: |
+          python3 -m py_compile harness/g95_p1_corpus.py harness/g95_p1_fiber_court.py harness/g95_p1_explanation_verify.py
+          node --check tools/g95-p1-verify.mjs
+          cargo run --release --manifest-path crates/c3x-lawgen/Cargo.toml --bin lawgen_v11 --             c3x/ontology/g95-p1-lawgen-spec.json c3x/ontology/g95-p1-support-from-p34.json out/lawgen
+          sha256sum out/lawgen/* | sort > out/lawgen-sha256.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: g95-p1-lawgen-preseal
+          path: out/
+          retention-days: 30
+
+  fiber-verifier:
+    name: Rust independent intervention-response fiber verifier
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Test and build
+        run: |
+          cargo test --manifest-path crates/c3x-fiber/Cargo.toml
+          cargo build --release --manifest-path crates/c3x-fiber/Cargo.toml
+          mkdir -p out
+          cp crates/c3x-fiber/target/release/c3x-fiber out/c3x-fiber
+          chmod +x out/c3x-fiber
+          sha256sum out/c3x-fiber > out/c3x-fiber-sha256.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: g95-p1-fiber-verifier
+          path: out/
+          retention-days: 30
+
+  corpus:
+    name: Source-locked fresh Stockfish Books corpus
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Materialize pinned external EPD without engine contact
+        run: |
+          python3 -m pip install --disable-pip-version-check python-chess==1.999
+          export GIT_LFS_SKIP_SMUDGE=1
+          git clone https://github.com/official-stockfish/books.git books
+          git -C books checkout --detach 65815ccdbc7727cd4f6aee252ba8f67fb740e92f
+          git -C books lfs install --local
+          git -C books lfs pull --include="4mvs_+90_+99.epd"
+          test -s "books/4mvs_+90_+99.epd"
+          python3 harness/g95_p1_corpus.py             --epd "books/4mvs_+90_+99.epd"             --source-repo official-stockfish/books             --source-commit 65815ccdbc7727cd4f6aee252ba8f67fb740e92f             --source-path "4mvs_+90_+99.epd"             --out g95-p1-fresh-corpus.json
+          sha256sum g95-p1-fresh-corpus.json > g95-p1-fresh-corpus-file-sha256.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: g95-p1-fresh-corpus
+          path: g95-p1-fresh-corpus*
+          retention-days: 30
+
+  precommit:
+    name: Seal G9.5-P1 worlds, firewall and executable inheritance
+    needs: [lawgen, fiber-verifier, corpus]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: p32-precommit-sealed
+          path: p32-pre
+          repository: WhoSia/C3X
+          run-id: ${{ env.P32_RUN }}
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: p32-final-event-explainer
+          path: p32-final
+          repository: WhoSia/C3X
+          run-id: ${{ env.P32_RUN }}
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: p34-precommit-sealed
+          path: p34-pre
+          repository: WhoSia/C3X
+          run-id: ${{ env.P34_RUN }}
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with: {name: g95-p1-lawgen-preseal, path: lawgen}
+      - uses: actions/download-artifact@v4
+        with: {name: g95-p1-fresh-corpus, path: fresh}
+      - name: Freeze all roles before G9.5 selective execution
+        run: |
+          P32_PRE="$(find p32-pre -name p32-precommit.json -print -quit)"
+          P32_FINAL="$(find p32-final -name p32-adjudication.json -print -quit)"
+          P34_PRE="$(find p34-pre -name p34-precommit.json -print -quit)"
+          CONST="$(find lawgen -name constitution.json -print -quit)"
+          FRESH="$(find fresh -name g95-p1-fresh-corpus.json -print -quit)"
+          test -n "$P32_PRE" && test -n "$P32_FINAL" && test -n "$P34_PRE" && test -n "$CONST" && test -n "$FRESH"
+          python3 harness/g95_p1_fiber_court.py precommit             --support c3x/ontology/g95-p1-support-from-p34.json             --constitution "$CONST" --p32-pre "$P32_PRE" --p32-final "$P32_FINAL"             --p34-pre "$P34_PRE" --fresh "$FRESH" --out g95-p1-precommit.json
+          sha256sum g95-p1-precommit.json > g95-p1-precommit-file-sha256.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: g95-p1-precommit-sealed
+          path: g95-p1-precommit*
+          retention-days: 30
+
+  discovery:
+    name: Discovery fiber diagnostics — ${{ matrix.artifact }}
+    needs: precommit
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - {engine: ethereal, case_id: "ethereal:a8fd39b3864a:CUTOFF", artifact: "disc-et-a8fd-cutoff"}
+          - {engine: ethereal, case_id: "ethereal:f8cde3d6abb4:MOVE_ORDER", artifact: "disc-et-f8cd-move"}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with: {name: g95-p1-precommit-sealed, path: pre}
+      - uses: actions/download-artifact@v4
+        with: {name: g95-p1-fiber-verifier, path: fiber}
+      - uses: actions/download-artifact@v4
+        with:
+          name: p33-lineager
+          path: lineage
+          repository: WhoSia/C3X
+          run-id: ${{ env.P33_RUN }}
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: "p34-build-${{ matrix.engine }}"
+          path: build
+          repository: WhoSia/C3X
+          run-id: ${{ env.P34_RUN }}
+          github-token: ${{ github.token }}
+      - name: Execute outcome-separated singleton diagnostics
+        run: |
+          chmod +x fiber/c3x-fiber lineage/c3x-lineage build/c3x-p34-${{ matrix.engine }}
+          mkdir -p out
+          python3 harness/g95_p1_fiber_court.py case             --precommit pre/g95-p1-precommit.json             --case-id "${{ matrix.case_id }}"             --binary build/c3x-p34-${{ matrix.engine }}             --lineager lineage/c3x-lineage             --fiber-verifier fiber/c3x-fiber             --out "out/g95-case-${{ matrix.artifact }}.json"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: "g95-p1-case-${{ matrix.artifact }}"
+          path: out/
+          retention-days: 30
+
+  select:
+    name: Freeze discovery-selected causal-fiber level
+    needs: discovery
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with: {name: g95-p1-precommit-sealed, path: pre}
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: g95-p1-case-disc-*
+          path: discovery
+          merge-multiple: true
+      - name: Apply predeclared F0→F3 refinement rule
+        run: |
+          python3 harness/g95_p1_fiber_court.py select             --precommit pre/g95-p1-precommit.json             --results-dir discovery             --out g95-p1-selection.json
+          sha256sum g95-p1-selection.json > g95-p1-selection-file-sha256.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: g95-p1-selection-sealed
+          path: g95-p1-selection*
+          retention-days: 30
+
+  holdout:
+    name: Binding Stockfish witness holdout
+    needs: select
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with: {name: g95-p1-precommit-sealed, path: pre}
+      - uses: actions/download-artifact@v4
+        with: {name: g95-p1-selection-sealed, path: sel}
+      - uses: actions/download-artifact@v4
+        with: {name: g95-p1-fiber-verifier, path: fiber}
+      - uses: actions/download-artifact@v4
+        with:
+          name: p33-lineager
+          path: lineage
+          repository: WhoSia/C3X
+          run-id: ${{ env.P33_RUN }}
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: p34-build-stockfish_19
+          path: build
+          repository: WhoSia/C3X
+          run-id: ${{ env.P34_RUN }}
+          github-token: ${{ github.token }}
+      - name: Open holdout only after level seal
+        run: |
+          chmod +x fiber/c3x-fiber lineage/c3x-lineage build/c3x-p34-stockfish_19
+          mkdir -p out
+          python3 harness/g95_p1_fiber_court.py case             --precommit pre/g95-p1-precommit.json             --case-id "stockfish_19:f8cde3d6abb4:MOVE_ORDER+EVAL"             --binary build/c3x-p34-stockfish_19             --lineager lineage/c3x-lineage --fiber-verifier fiber/c3x-fiber             --selection sel/g95-p1-selection.json             --out out/g95-case-holdout-stockfish.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: g95-p1-case-holdout-stockfish
+          path: out/
+          retention-days: 30
+
+  transport:
+    name: Frozen-level transport — ${{ matrix.artifact }}
+    needs: select
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - {engine: stockfish_19, case_id: "stockfish_19:ec55f57dd7e3:CUTOFF", artifact: "hist-sf-ec55-cutoff"}
+          - {engine: berserk, case_id: "berserk:b27b7a24ddcd:MOVE_ORDER", artifact: "hist-be-b27b-move"}
+          - {engine: berserk, case_id: "berserk:b27b7a24ddcd:EVAL", artifact: "hist-be-b27b-eval"}
+          - {engine: ethereal, case_id: "ethereal:c18e10bd6a3a:MOVE_ORDER", artifact: "hist-et-c18e-move"}
+          - {engine: stockfish_19, case_id: "fresh:0:stockfish_19", artifact: "fresh0-sf"}
+          - {engine: berserk, case_id: "fresh:0:berserk", artifact: "fresh0-be"}
+          - {engine: ethereal, case_id: "fresh:0:ethereal", artifact: "fresh0-et"}
+          - {engine: stockfish_19, case_id: "fresh:1:stockfish_19", artifact: "fresh1-sf"}
+          - {engine: berserk, case_id: "fresh:1:berserk", artifact: "fresh1-be"}
+          - {engine: ethereal, case_id: "fresh:1:ethereal", artifact: "fresh1-et"}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with: {name: g95-p1-precommit-sealed, path: pre}
+      - uses: actions/download-artifact@v4
+        with: {name: g95-p1-selection-sealed, path: sel}
+      - uses: actions/download-artifact@v4
+        with: {name: g95-p1-fiber-verifier, path: fiber}
+      - uses: actions/download-artifact@v4
+        with:
+          name: p33-lineager
+          path: lineage
+          repository: WhoSia/C3X
+          run-id: ${{ env.P33_RUN }}
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: "p34-build-${{ matrix.engine }}"
+          path: build
+          repository: WhoSia/C3X
+          run-id: ${{ env.P34_RUN }}
+          github-token: ${{ github.token }}
+      - name: Execute frozen-level transport world
+        run: |
+          chmod +x fiber/c3x-fiber lineage/c3x-lineage build/c3x-p34-${{ matrix.engine }}
+          mkdir -p out
+          python3 harness/g95_p1_fiber_court.py case             --precommit pre/g95-p1-precommit.json             --case-id "${{ matrix.case_id }}"             --binary build/c3x-p34-${{ matrix.engine }}             --lineager lineage/c3x-lineage --fiber-verifier fiber/c3x-fiber             --selection sel/g95-p1-selection.json             --out "out/g95-case-${{ matrix.artifact }}.json"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: "g95-p1-case-${{ matrix.artifact }}"
+          path: out/
+          retention-days: 30
+
+  adjudicate:
+    name: Exact-event explanation reconstruction and independent firewall
+    needs: [holdout, transport]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with: {name: g95-p1-precommit-sealed, path: pre}
+      - uses: actions/download-artifact@v4
+        with: {name: g95-p1-selection-sealed, path: sel}
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: g95-p1-case-*
+          path: results
+          merge-multiple: true
+      - name: Install chess verifier and adjudicate
+        run: |
+          python3 -m pip install --disable-pip-version-check python-chess==1.999
+          mkdir -p final
+          python3 harness/g95_p1_explanation_verify.py             --precommit pre/g95-p1-precommit.json             --selection sel/g95-p1-selection.json             --results results             --out final/g95-p1-adjudication.json             --ast final/g95-p1-explanation-ast.json             --grounding final/g95-p1-chess-grounding.json             --markdown final/g95-p1-explanations.md
+          node tools/g95-p1-verify.mjs final/g95-p1-adjudication.json | tee final/g95-p1-js-verification.txt
+          sha256sum final/* | sort > final/g95-p1-final-sha256.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: g95-p1-final-causal-fiber
+          path: final/
+          retention-days: 30
