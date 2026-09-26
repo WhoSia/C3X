@@ -2,7 +2,6 @@
 import argparse,json,re
 from pathlib import Path
 from collections import Counter
-import chess
 
 STAGE="C3X 0.7.0-G9.5-P2"
 CLASSES=("CUTOFF","MOVE_ORDER_SEED","EVAL_REUSE","TT_VALUE_AS_EVAL")
@@ -13,6 +12,7 @@ def _bucket(n,cuts,labels):
  return labels[-1]
 
 def board_context(fen):
+ import chess
  b=chess.Board(fen)
  legal=b.legal_moves.count()
  legal_bucket="0_20" if legal<=20 else "21_30" if legal<=30 else "31_40" if legal<=40 else "41_PLUS"
