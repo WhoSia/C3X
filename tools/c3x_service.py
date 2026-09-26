@@ -10,25 +10,50 @@ class FieldService:
   self.field=field
   if field.get("schema")!="c3x-field-p3-discovery-v1":raise ValueError("field schema")
   self.schema=field.get("selected_global_schema")
-  if not self.schema:raise ValueError("no selected global schema")
-  self.coords=list(self.schema["coordinates"]);self.cells=self.schema["cells"]
+  self.coords=[] if not self.schema else list(self.schema["coordinates"])
+  self.cells={} if not self.schema else self.schema["cells"]
  def cell_key(self,p):
+  if not self.schema:return None
   return "||".join([p["fiber_id"]]+[f"{c}={p['context'][c]}" for c in self.coords])
  def query(self,p):
+  if not self.schema:
+   return {"schema":"c3x-service-certificate-v1","scientific_stage":STAGE,"record_id":p.get("record_id"),
+    "schema_id":None,"cell_key":None,"status":"ABSTAIN_NO_GLOBAL_FIELD","predicted_root_change":None,
+    "discovery_support":0,"field_status":self.field.get("status")}
   k=self.cell_key(p);c=self.cells.get(k)
-  if not c:return {"schema":"c3x-service-certificate-v1","scientific_stage":STAGE,"record_id":p.get("record_id"),"schema_id":self.schema["id"],"cell_key":k,"status":"ABSTAIN_UNSEEN_CONTEXT","predicted_root_change":None,"discovery_support":0}
+  if not c:return {"schema":"c3x-service-certificate-v1","scientific_stage":STAGE,"record_id":p.get("record_id"),
+    "schema_id":self.schema["id"],"cell_key":k,"status":"ABSTAIN_UNSEEN_CONTEXT","predicted_root_change":None,
+    "discovery_support":0,"field_status":self.field.get("status")}
   y=c["label"]=="ROOT_CHANGE"
-  return {"schema":"c3x-service-certificate-v1","scientific_stage":STAGE,"record_id":p.get("record_id"),"schema_id":self.schema["id"],"cell_key":k,"status":"CERTIFIED_ROOT_CHANGE" if y else "CERTIFIED_NO_ROOT_CHANGE","predicted_root_change":y,"discovery_support":c["support"]}
+  return {"schema":"c3x-service-certificate-v1","scientific_stage":STAGE,"record_id":p.get("record_id"),
+    "schema_id":self.schema["id"],"cell_key":k,
+    "status":"CERTIFIED_ROOT_CHANGE" if y else "CERTIFIED_NO_ROOT_CHANGE",
+    "predicted_root_change":y,"discovery_support":c["support"],"field_status":self.field.get("status")}
  def explain(self,p):
   q=self.query(p)
-  if q["status"]=="ABSTAIN_UNSEEN_CONTEXT":
-   text=f"{p.get('record_id','event')}: ABSTAIN_UNSEEN_CONTEXT. The event's topology-aware context cell was not observed in the frozen discovery field, so no ROOT_CHANGE label is licensed."
+  if q["status"]=="ABSTAIN_NO_GLOBAL_FIELD":
+   text=f"{p.get('record_id','event')}: ABSTAIN_NO_GLOBAL_FIELD. Fresh discovery did not license any primary P3 topology field, so no ROOT_CHANGE label can be issued."
+  elif q["status"]=="ABSTAIN_UNSEEN_CONTEXT":
+   text=f"{p.get('record_id','event')}: ABSTAIN_UNSEEN_CONTEXT. The event's prefix-topology context cell was not observed in the frozen discovery field, so no ROOT_CHANGE label is licensed."
   else:
    text=f"{p.get('record_id','event')}: {q['status']}. The frozen {q['schema_id']} field contains this F0/context cell with discovery support {q['discovery_support']}. This licenses only the tested singleton-removal ROOT_CHANGE query under the frozen execution envelope."
-  return {"schema":"c3x-service-explanation-v1","scientific_stage":STAGE,"certificate":q,"ast":[{"type":"FIBER","fiber_id":p["fiber_id"]},{"type":"CONTEXT_SCHEMA","schema_id":q["schema_id"],"coordinates":{c:p["context"][c] for c in self.coords}},{"type":"AUTHORITY","status":q["status"],"support":q["discovery_support"]},{"type":"LIMITATION","text":"No universal mechanism, cognition, strategy, or out-of-scope transport claim."}],"text":text,"llm_used":False}
+  coords={} if not self.schema else {c:p["context"][c] for c in self.coords}
+  return {"schema":"c3x-service-explanation-v1","scientific_stage":STAGE,"certificate":q,
+   "ast":[{"type":"FIBER","fiber_id":p["fiber_id"]},
+          {"type":"CONTEXT_SCHEMA","schema_id":q["schema_id"],"coordinates":coords},
+          {"type":"AUTHORITY","status":q["status"],"support":q["discovery_support"]},
+          {"type":"LIMITATION","text":"No universal mechanism, cognition, strategy, or out-of-scope transport claim."}],
+   "text":text,"llm_used":False}
  def diagnose(self,p,observed):
-  q=self.query(p);contradiction=q["predicted_root_change"] is not None and bool(q["predicted_root_change"])!=bool(observed)
-  return {"schema":"c3x-service-diagnosis-v1","scientific_stage":STAGE,"authority":"POST_TARGET_DIAGNOSTIC_ONLY","may_modify_field":False,"certificate":q,"observed_root_change":bool(observed),"contradiction":contradiction,"classification":"ABSTAIN_UNSEEN_CONTEXT" if q["predicted_root_change"] is None else "CONTRADICTED_CONTEXT_CELL" if contradiction else "CONSISTENT_COVERED_CONTEXT"}
+  q=self.query(p)
+  contradiction=q["predicted_root_change"] is not None and bool(q["predicted_root_change"])!=bool(observed)
+  if q["status"]=="ABSTAIN_NO_GLOBAL_FIELD":classification="ABSTAIN_NO_GLOBAL_FIELD"
+  elif q["predicted_root_change"] is None:classification="ABSTAIN_UNSEEN_CONTEXT"
+  elif contradiction:classification="CONTRADICTED_CONTEXT_CELL"
+  else:classification="CONSISTENT_COVERED_CONTEXT"
+  return {"schema":"c3x-service-diagnosis-v1","scientific_stage":STAGE,
+   "authority":"POST_TARGET_DIAGNOSTIC_ONLY","may_modify_field":False,"certificate":q,
+   "observed_root_change":bool(observed),"contradiction":contradiction,"classification":classification}
 
 class Handler(BaseHTTPRequestHandler):
  service=None
@@ -37,7 +62,7 @@ class Handler(BaseHTTPRequestHandler):
  def _json(self):
   n=int(self.headers.get("Content-Length","0"));return json.loads(self.rfile.read(n) or b"{}")
  def do_GET(self):
-  if self.path=="/health":self._send(200,{"status":"ok","scientific_stage":STAGE,"service":"c3x-explanation-service","llm_dependency":False})
+  if self.path=="/health":self._send(200,{"status":"ok","scientific_stage":STAGE,"service":"c3x-explanation-service","llm_dependency":False,"deterministic_core":True})
   else:self._send(404,{"error":"not_found"})
  def do_POST(self):
   try:
