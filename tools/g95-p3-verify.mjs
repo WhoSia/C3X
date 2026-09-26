@@ -26,6 +26,7 @@ for(const z of x.certificates||[]){
  const p=z.profile||{};
  for(const k of ['root_change','counterfactual_bestmove','counterfactual_score','counterfactual_wdl','counterfactual_pv'])ok(!(k in p),'profile-target-leak:'+k);
  ok(!('full_key' in (p.context||{})),'raw-key-leak');
+ ok(p.causal_availability==='EVENT_PREFIX_ONLY','profile-causal-availability');
 }
 const hv=x.heldout_transport;
 if(hv.verdict==='TOPOLOGY_CONTEXT_CAUSAL_FIELD_HELDOUT_CERTIFIED')ok(hv.global_transport_certified===true,'global-cert');
