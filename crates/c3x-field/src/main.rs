@@ -12,10 +12,27 @@ struct Cli{#[command(subcommand)] command:Command}
 
 #[derive(Subcommand,Debug)]
 enum Command{
-    Discover{constitution:PathBuf,input:PathBuf,out:PathBuf},
-    Scope{discovery:PathBuf,profiles:PathBuf,out:PathBuf},
-    Verify{scope:PathBuf,targets:PathBuf,out:PathBuf},
-    Query{discovery:PathBuf,basis:String,profiles:PathBuf,out:PathBuf},
+    Discover{
+        #[arg(long)] constitution:PathBuf,
+        #[arg(long)] input:PathBuf,
+        #[arg(long)] out:PathBuf,
+    },
+    Scope{
+        #[arg(long)] discovery:PathBuf,
+        #[arg(long)] profiles:PathBuf,
+        #[arg(long)] out:PathBuf,
+    },
+    Verify{
+        #[arg(long)] scope:PathBuf,
+        #[arg(long)] targets:PathBuf,
+        #[arg(long)] out:PathBuf,
+    },
+    Query{
+        #[arg(long)] discovery:PathBuf,
+        #[arg(long)] basis:String,
+        #[arg(long)] profiles:PathBuf,
+        #[arg(long)] out:PathBuf,
+    },
 }
 
 #[derive(Clone,Debug,Deserialize,Serialize)]
