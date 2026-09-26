@@ -274,5 +274,13 @@
     "Failure on transport cannot be repaired inside P1 by adding engine, FEN, full key, exact address, or new diagnostics.",
     "No chess strategy, cognition, intent, prevalence, or population-level causal law is authorized."
   ],
-  "g95_p1_selective_results_consulted": false
+  "g95_p1_selective_results_consulted": false,
+  "verdict_ladder": {
+    "no_discovery_level": "DISCOVERY_FIBER_CONSTITUTION_HOLD",
+    "holdout_failure": "DISCOVERY_FIBER_HOLDOUT_FALSIFIED",
+    "holdout_pass_fresh_within_world_collision": "WITNESS_PRESERVING_HOLDOUT_PASS_FRESH_TRANSPORT_COLLISION_HOLD",
+    "holdout_pass_fresh_local_but_cross_context_collision": "WITNESS_PRESERVING_LOCAL_FIBER_CROSS_CONTEXT_HOLD",
+    "all_primary_gates_pass": "WITNESS_PRESERVING_CAUSAL_FIBER_TRANSPORT_CERTIFIED",
+    "rule": "Apply this ladder mechanically after the selected discovery level is frozen. Historical transport is descriptive stress evidence; fresh source-locked transport determines transport authority."
+  }
 }
