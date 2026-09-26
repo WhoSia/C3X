@@ -1,0 +1,315 @@
+{
+  "schema": "c3x-g95-p4-constitution-v1",
+  "scientific_stage": "C3X 0.7.0-G9.5-P4",
+  "title": "Prospective Rare-Event Causal-Support Constitution, Outcome-Blind Mechanism-Stratified Event Sampling, Positive-Control-Calibrated Power Recovery, Fresh Cross-Engine Regime Replication, Held-Out Transport Reopening & Authority-Conservative Public Explanation Harness",
+  "parent": {
+    "stage": "C3X 0.7.0-G9.5-P3",
+    "closure_commit": "73028b94c09110581ce97a668ebb52ddc8eae4c8",
+    "canonical_run": 36231281653,
+    "verdict": "FRESH_RECONSTITUTION_SUPPORT_LIMITED_HOLD",
+    "discovery_records": 192,
+    "discovery_positive": 1,
+    "discovery_negative": 191
+  },
+  "selective_firewall": {
+    "p2_p3_root_change_labels_used_to_choose_sampling_strata": false,
+    "p2_p3_heldout_targets_confirmatory_vote": false,
+    "p32_closed_event_witnesses_role": "MECHANISTIC_PRIOR_AND_KNOWN_POSITIVE_CONTROL_ONLY",
+    "p32_positive_controls_count_toward_fresh_support": false,
+    "post_target_quota_or_threshold_change": false
+  },
+  "explanandum": {
+    "target": "ROOT_CHANGE after exact addressed event removal",
+    "causal_availability": "EVENT_PREFIX_ONLY",
+    "question": "Can an outcome-blind mechanism-stratified design recover enough fresh causal-positive support to license and transport an existing bounded context-field family?"
+  },
+  "execution": {
+    "engines": [
+      "stockfish_19",
+      "berserk",
+      "ethereal"
+    ],
+    "hash_mib": 1,
+    "threads": 1,
+    "prime_nodes": 20000,
+    "decoy_nodes": 20000,
+    "decoy_count": 3,
+    "measurement_nodes": 80000,
+    "family": "MOVE_ORDER+EVAL",
+    "frontier": 1,
+    "candidate_events_per_world": 16,
+    "inherited_engine_build_run": 36216185685
+  },
+  "positive_control_lane": {
+    "authority": "INSTRUMENT_CALIBRATION_ONLY_NO_FRESH_SUPPORT_VOTE",
+    "source_stage": "C3X 0.7.0-G9.4-P32",
+    "source_run": 36188807920,
+    "controls": [
+      {
+        "engine": "stockfish_19",
+        "case_id": "stockfish_19:ec55f57dd7e3:CUTOFF",
+        "expected_removal_size": 1
+      },
+      {
+        "engine": "berserk",
+        "case_id": "berserk:b27b7a24ddcd:MOVE_ORDER",
+        "expected_removal_size": 1
+      },
+      {
+        "engine": "ethereal",
+        "case_id": "ethereal:c18e10bd6a3a:MOVE_ORDER",
+        "expected_removal_size": 2
+      }
+    ],
+    "gate": "All three frozen P32 exact-event controls must reproduce baseline identity and a root-move-changing exact removal under the inherited P34/P3 executable chain before fresh P4 discovery may run."
+  },
+  "sampling": {
+    "eligible_event_boundary": "parent CATALOG trace only; unique exact address; ply <= 1; no counterfactual or ROOT_CHANGE field",
+    "strata": [
+      {
+        "id": "NEAR_ROOT_CUTOFF",
+        "kind": "CUTOFF_NEAR_ROOT",
+        "quota": 4
+      },
+      {
+        "id": "NEAR_ROOT_MOVE_ORDER",
+        "kind": "MOVE_ORDER_NEAR_ROOT",
+        "quota": 4
+      },
+      {
+        "id": "NEAR_ROOT_EVAL",
+        "kind": "EVAL_NEAR_ROOT",
+        "quota": 4
+      },
+      {
+        "id": "PREFIX_KEY_REUSE",
+        "kind": "PREFIX_KEY_REUSE",
+        "quota": 2
+      },
+      {
+        "id": "BALANCED_PREFIX_FALLBACK",
+        "kind": "ANY_PREFIX",
+        "quota": 2
+      }
+    ],
+    "tie_break": "lexicographic exact address_id within each frozen stratum; duplicate selections suppressed; remaining quota filled from all eligible prefix events by address_id",
+    "raw_key_policy": "May be read transiently only to test prefix key equality; raw key is not emitted by the sampler.",
+    "target_fields_consulted": false,
+    "prior_basis": "P32 independently certified near-root cutoff, move-order, evaluation-reuse and same-key interaction witnesses before P4; P3 target labels do not tune these strata."
+  },
+  "source_regimes": {
+    "repository": "official-stockfish/books",
+    "commit": "65815ccdbc7727cd4f6aee252ba8f67fb740e92f",
+    "selection": "unique legal standard-chess FENs sorted by SHA-256(FEN) within each source; exclude all recoverable P1/P2/P3 candidate hashes and all P4 cross-source duplicates; choose fixed counts before engine execution",
+    "discovery": [
+      {
+        "id": "SHALLOW_OPENING",
+        "logical": "noob_3moves.epd",
+        "positions": 3
+      },
+      {
+        "id": "MID_OPENING",
+        "logical": "noob_5moves.epd",
+        "positions": 3
+      },
+      {
+        "id": "CLOSED_STRUCTURAL",
+        "logical": "closedpos.epd",
+        "positions": 3
+      },
+      {
+        "id": "UHO_BALANCED",
+        "logical": "UHO_4060_v1.epd",
+        "positions": 3
+      }
+    ],
+    "heldout": [
+      {
+        "id": "SHALLOW_SHIFT",
+        "logical": "noob_4moves.epd",
+        "positions": 2
+      },
+      {
+        "id": "DEEP_BALANCED",
+        "logical": "Drawkiller_balanced_big.epd",
+        "positions": 2
+      },
+      {
+        "id": "NATURAL_POPULAR",
+        "logical": "popularpos_lichess_v3.epd",
+        "positions": 2
+      },
+      {
+        "id": "UHO_SUCCESSOR",
+        "logical": "UHO_4060_v4.epd",
+        "positions": 2
+      }
+    ]
+  },
+  "power_gate": {
+    "planned_discovery_max_records": 576,
+    "min_fired_records": 480,
+    "min_positive_records": 6,
+    "min_negative_records": 240,
+    "min_positive_per_engine": 1,
+    "min_records_per_engine": 144,
+    "min_positive_source_regimes": 2,
+    "sensitivity_prevalence": 0.02,
+    "min_detection_probability_at_sensitivity": 0.9,
+    "detection_event": "observe at least 6 ROOT_CHANGE positives",
+    "frozen_reference": {
+      "n480_probability": 0.9183079725164388,
+      "n576_probability": 0.9737011757783066
+    },
+    "rule": "Power is recomputed from actual fired n before field formation. The gate is not relaxed after observing targets."
+  },
+  "context_field": {
+    "context_schema_version": "c3x-context-v2",
+    "feature_expansion_allowed": false,
+    "schema_families": [
+      {
+        "id": "P2_BASE",
+        "rank": 0,
+        "coordinates": [
+          "parent_depth_bucket",
+          "event_occ_bucket",
+          "event_ordinal_bucket"
+        ],
+        "added_coordinates": []
+      },
+      {
+        "id": "TT_LOCAL",
+        "rank": 1,
+        "coordinates": [
+          "parent_depth_bucket",
+          "event_occ_bucket",
+          "event_ordinal_bucket",
+          "event_window_relation",
+          "event_bound_bucket",
+          "event_payload_sign"
+        ],
+        "added_coordinates": [
+          "event_window_relation",
+          "event_bound_bucket",
+          "event_payload_sign"
+        ]
+      },
+      {
+        "id": "TEMPORAL_LOCAL",
+        "rank": 2,
+        "coordinates": [
+          "parent_depth_bucket",
+          "event_occ_bucket",
+          "event_ordinal_bucket",
+          "prev_semantic_class",
+          "same_class_prev_gap_bucket",
+          "ply_transition_bucket"
+        ],
+        "added_coordinates": [
+          "prev_semantic_class",
+          "same_class_prev_gap_bucket",
+          "ply_transition_bucket"
+        ]
+      },
+      {
+        "id": "KEY_REUSE_TOPOLOGY",
+        "rank": 3,
+        "coordinates": [
+          "parent_depth_bucket",
+          "event_occ_bucket",
+          "event_ordinal_bucket",
+          "same_key_count_bucket",
+          "same_key_prev_gap_bucket",
+          "scope_transition_bucket"
+        ],
+        "added_coordinates": [
+          "same_key_count_bucket",
+          "same_key_prev_gap_bucket",
+          "scope_transition_bucket"
+        ]
+      },
+      {
+        "id": "MINIMAL_HYBRID",
+        "rank": 4,
+        "coordinates": [
+          "parent_depth_bucket",
+          "event_occ_bucket",
+          "event_ordinal_bucket",
+          "same_class_prev_gap_bucket",
+          "same_key_count_bucket",
+          "event_window_relation"
+        ],
+        "added_coordinates": [
+          "same_class_prev_gap_bucket",
+          "same_key_count_bucket",
+          "event_window_relation"
+        ]
+      }
+    ],
+    "admissibility": {
+      "max_target_collisions": 0,
+      "min_compression": 0.15,
+      "min_records_in_cross_position_cells": 60,
+      "min_records_in_cross_engine_cells": 30,
+      "require_both_target_labels": true
+    },
+    "selection_rule": "minimum added-coordinate count, then frozen rank, then lexical schema id",
+    "engine_specific": {
+      "min_fired_records": 144,
+      "min_positive_records": 1,
+      "min_negative_records": 72,
+      "min_compression": 0.1,
+      "min_records_in_cross_position_cells": 24
+    }
+  },
+  "heldout_firewall": {
+    "profile_target_physical_split": true,
+    "scope_target_fields_consulted": false,
+    "global_scope_gate": {
+      "min_seen_fraction": 0.25,
+      "required_engines": 3,
+      "min_positions": 4,
+      "min_source_regimes": 3,
+      "min_discovery_predicted_positive_profiles": 1
+    },
+    "engine_scope_gate": {
+      "min_seen_fraction": 0.2,
+      "min_positions": 3,
+      "min_source_regimes": 2
+    },
+    "transport_gate": "Every covered profile agrees with the frozen discovery field and no covered held-out cell is mixed.",
+    "no_post_target_schema_change": true
+  },
+  "public_explanation_harness": {
+    "deterministic_core": true,
+    "llm_dependency": false,
+    "public_certification_requires_heldout_transport": true,
+    "states": [
+      "CERTIFIED_ROOT_CHANGE",
+      "CERTIFIED_NO_ROOT_CHANGE",
+      "ABSTAIN_UNSEEN_CONTEXT",
+      "ABSTAIN_UNCERTIFIED_FIELD",
+      "CONTRADICTED_CONTEXT_CELL"
+    ],
+    "rule": "A discovery field that fails held-out transport is never exposed as CERTIFIED by the public service. MCP/agent/LLM adapters may narrate only returned certificate states and cannot expand authority."
+  },
+  "verdict_ladder": {
+    "positive_control_failure": "MECHANISM_POSITIVE_CONTROL_FAILURE_HOLD",
+    "support_or_power_failure": "RARE_EVENT_SUPPORT_POWER_HOLD",
+    "no_global_field": "SUPPORT_RECOVERED_NO_ADMISSIBLE_GLOBAL_FIELD_HOLD",
+    "scope_failure": "RARE_EVENT_FIELD_SCOPE_INSUFFICIENT_HOLD",
+    "transport_certified": "RARE_EVENT_CAUSAL_FIELD_HELDOUT_CERTIFIED",
+    "transport_falsified": "RARE_EVENT_FIELD_HELDOUT_FALSIFIED",
+    "engine_conditional": "ENGINE_CONDITIONAL_RARE_EVENT_FIELDS_CROSS_ENGINE_GLUE_HOLD",
+    "service_failure": "PUBLIC_EXPLANATION_HARNESS_VERIFICATION_FAIL"
+  },
+  "claim_ceiling": [
+    "Sampling strata are design instruments, not causal mechanisms by themselves.",
+    "P32 positive controls calibrate executable intervention sensitivity and do not count as P4 fresh support.",
+    "P4 does not use P2/P3 target labels to select source positions, event strata, quotas, support gates or field features.",
+    "No new context coordinate is admitted in P4; field formation is restricted to P3-frozen schema families.",
+    "Unseen contexts imply abstention, not non-causality.",
+    "Held-out contradiction removes public certification authority for the global field.",
+    "No human cognition, intent, strategy, prevalence or universal engine-law claim is authorized."
+  ]
+}
