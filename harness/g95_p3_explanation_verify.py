@@ -15,7 +15,8 @@ def main():
  for k in ("precommit","field","scope","verification","diagnosis","profiles","targets","out","ast","grounding","markdown"):ap.add_argument("--"+k,required=True)
  a=ap.parse_args();pre=load(a.precommit);field=load(a.field);scope=load(a.scope);ver=load(a.verification);diag=load(a.diagnosis);prof=load(a.profiles);tar=load(a.targets)
  if pre.get("schema")!="c3x-g95-p3-precommit-v1" or field.get("schema")!="c3x-field-p3-discovery-v1" or scope.get("schema")!="c3x-field-p3-scope-v1" or ver.get("schema")!="c3x-field-p3-verification-v1":raise SystemExit("P3_EXPLAIN_SCHEMA")
- pm={r["record_id"]:r for r in prof["records"]};tm={r["record_id"]:r for r in tar["records"]}\n if any(r.get("causal_availability")!="EVENT_PREFIX_ONLY" for r in pm.values()):raise SystemExit("P3_EXPLAIN_CAUSAL_AVAILABILITY")
+ pm={r["record_id"]:r for r in prof["records"]};tm={r["record_id"]:r for r in tar["records"]}
+ if any(r.get("causal_availability")!="EVENT_PREFIX_ONLY" for r in pm.values()):raise SystemExit("P3_EXPLAIN_CAUSAL_AVAILABILITY")
  if set(pm)!=set(tm):raise SystemExit("P3_EXPLAIN_JOIN")
  preds={r["record_id"]:r for r in scope.get("global_predictions",[])};bad_ids={r["record_id"] for r in ver["global"]["contradictions"]}
  cm={(c["position_id"],c["engine"]):c for c in pre["cases"] if c["role"]=="HELDOUT_REGIME_TRANSPORT"}
