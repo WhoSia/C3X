@@ -400,5 +400,14 @@
     "No transport beyond the frozen books, engine commits, history procedure, frontier and 80k-node measurement search is authorized.",
     "No strategy, cognition, human intent or population prevalence claim is authorized."
   ],
-  "p2_selective_results_consulted": false
+  "p2_selective_results_consulted": false,
+  "verdict_ladder": {
+    "discovery_support_limited": "DISCOVERY_CONTEXT_SUPPORT_LIMITED_HOLD",
+    "no_portable_basis": "NO_PORTABLE_CONTEXT_BASIS_HOLD",
+    "no_portable_but_architecture_diagnostic": "PORTABLE_FIELD_HOLD_ARCHITECTURE_DIAGNOSTIC_ONLY",
+    "heldout_scope_insufficient": "PORTABLE_CONTEXT_FIELD_SCOPE_INSUFFICIENT_HOLD",
+    "covered_contradiction": "PORTABLE_CONTEXT_FIELD_HELDOUT_FALSIFIED",
+    "certified": "PORTABLE_CONTEXT_INDEXED_CAUSAL_FIELD_HELDOUT_CERTIFIED",
+    "rule": "Apply mechanically in this order after discovery, target-blind scope seal, and held-out target opening. Architecture-secondary results cannot substitute for a portable-field certification."
+  }
 }
