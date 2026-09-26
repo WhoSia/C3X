@@ -391,6 +391,7 @@ jobs:
           set -euxo pipefail
           mkdir -p service/bin service/tools service/certificates service/docs service/examples service/schemas
           cp kernels/c3x-field-p3 service/bin/
+          chmod +x service/bin/c3x-field-p3
           cp tools/c3x_service.py tools/c3x_context_v2.py tools/c3x_context.py service/tools/
           cp docs/G95_P3_THEORY.md service/docs/
           cp lawgen/lawgen/constitution.json lawgen/lawgen/schema-families.json service/schemas/
