@@ -256,7 +256,9 @@ def selection_field(a):
   if ok:passing.append((c,ev))
  passing.sort(key=lambda z:(z[0]["mdl_bits"],-z[1]["coverage"]["seen_fraction"],len(z[0]["coordinates"]),z[0]["id"]))
  selected=passing[0][0] if passing else None
- status="REPRESENTATION_SELECTED" if selected else "REPRESENTATION_SELECTION_FAIL"
+ if not tr.get("support",{}).get("pass"):status="FRESH_SUPPORT_POWER_HOLD"
+ elif not sl.get("shortlist"):status="NO_COLLISION_FREE_TRAIN_REPRESENTATION"
+ else:status="REPRESENTATION_SELECTED" if selected else "REPRESENTATION_SELECTION_FAIL"
  out={"schema":"c3x-p5-selected-field-v1","scientific_stage":STAGE,"status":status,
    "selected_candidate":selected,"selected_candidate_id":None if selected is None else selected["id"],
    "selection_evaluations":evals,"selection_targets_consulted":True,"transport_targets_consulted":False,
@@ -292,7 +294,10 @@ def verify_transport(a):
 def no_transport_open(a):
  scope=load(a.scope);field=load(a.field)
  if scope.get("transport_targets_open_authorized") is True:raise SystemExit("P5_NO_OPEN_WHEN_AUTHORIZED")
- verdict="P5_REPRESENTATION_SELECTION_FAIL_HOLD" if field.get("selected_candidate") is None else "P5_TRANSPORT_SCOPE_INSUFFICIENT_HOLD"
+ if field.get("status")=="FRESH_SUPPORT_POWER_HOLD":verdict="P5_FRESH_SUPPORT_POWER_HOLD"
+ elif field.get("status")=="NO_COLLISION_FREE_TRAIN_REPRESENTATION":verdict="P5_NO_COLLISION_FREE_REPRESENTATION_HOLD"
+ elif field.get("selected_candidate") is None:verdict="P5_REPRESENTATION_SELECTION_FAIL_HOLD"
+ else:verdict="P5_TRANSPORT_SCOPE_INSUFFICIENT_HOLD"
  out={"schema":"c3x-p5-transport-verification-v1","scientific_stage":STAGE,"verdict":verdict,
    "target_opened_after_scope":False,"transport_targets_consulted":False,"covered_verified":0,"abstained":len(scope.get("predictions",[])),
    "contradictions":[],"mixed_cells":[],"transport_certified":False}
