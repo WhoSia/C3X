@@ -1,0 +1,383 @@
+{
+  "schema": "c3x-lawgen-spec-v12",
+  "scientific_stage": "C3X 0.7.0-G9.5-P2",
+  "title": "Prospective Context-Indexed Causal Fiber Field, Pre-Intervention Context Sufficiency, Minimal Conditioning-Basis Identification, Cross-World Congruence Restoration, Held-Out Context Transport & Explanation-Scope Calibration",
+  "parent_authority": {
+    "stage": "C3X 0.7.0-G9.5-P1",
+    "closure_commit": "5641751979adb562a381177323c56d8262d62cc6",
+    "canonical_run": 36219611294,
+    "verdict": "WITNESS_PRESERVING_LOCAL_FIBER_CROSS_CONTEXT_HOLD",
+    "boundary": "The same F0 intervention-response fiber carried different ROOT_CHANGE labels across fresh contexts, including a reversal within Berserk across two positions."
+  },
+  "objective": "Identify the smallest frozen set of pre-intervention context coordinates for which equal P1 F0 fibers regain deterministic ROOT_CHANGE congruence on fresh discovery environments, then test the resulting partial causal field on target-blind scoped held-out contexts from a distinct opening-depth source and expose the result as a reusable certificate tool.",
+  "formal_object": {
+    "fiber": "F0 from G9.5-P1",
+    "context_index": "C_S(r) for a frozen coordinate subset S",
+    "cell": "K_S(r)=(F0(r),C_S(r))",
+    "target": "ROOT_CHANGE after singleton exact-event removal",
+    "congruence": "K_S(ri)=K_S(rj) implies ROOT_CHANGE(ri)=ROOT_CHANGE(rj) over the tested support",
+    "field": "L_S : (F0,C_S) partial-> {ROOT_CHANGE,NO_ROOT_CHANGE}; unseen cells return ABSTAIN_UNSEEN_CONTEXT",
+    "interpretation": "A query-specific operational causal field, not metaphysical event identity or universal causal transport."
+  },
+  "context_vocabulary": {
+    "portable": [
+      {
+        "name": "board_legal_bucket",
+        "group": "BOARD",
+        "bins": [
+          "0_20",
+          "21_30",
+          "31_40",
+          "41_PLUS"
+        ]
+      },
+      {
+        "name": "board_center_bucket",
+        "group": "BOARD",
+        "bins": [
+          "0",
+          "1",
+          "2_PLUS"
+        ]
+      },
+      {
+        "name": "board_development_bucket",
+        "group": "BOARD",
+        "bins": [
+          "0_2",
+          "3_5",
+          "6_PLUS"
+        ]
+      },
+      {
+        "name": "board_castling_bucket",
+        "group": "BOARD",
+        "bins": [
+          "0",
+          "1",
+          "2"
+        ]
+      },
+      {
+        "name": "parent_score_bucket",
+        "group": "SEARCH",
+        "bins": [
+          "MATE_NEG",
+          "LE_NEG150",
+          "NEG149_NEG50",
+          "NEG49_POS49",
+          "POS50_POS149",
+          "GE_POS150",
+          "MATE_POS",
+          "UNKNOWN"
+        ]
+      },
+      {
+        "name": "parent_depth_bucket",
+        "group": "SEARCH",
+        "bins": [
+          "LE8",
+          "9_12",
+          "13_16",
+          "GE17"
+        ]
+      },
+      {
+        "name": "parent_activity_bucket",
+        "group": "SEARCH",
+        "bins": [
+          "LE63",
+          "64_255",
+          "256_1023",
+          "GE1024"
+        ]
+      },
+      {
+        "name": "parent_qshare_bucket",
+        "group": "SEARCH",
+        "bins": [
+          "ZERO",
+          "LE_0_1",
+          "LE_0_3",
+          "GT_0_3"
+        ]
+      },
+      {
+        "name": "parent_class_balance",
+        "group": "SEARCH",
+        "bins": [
+          "MOVE_LT_EVAL",
+          "BALANCED",
+          "MOVE_GT_EVAL"
+        ]
+      },
+      {
+        "name": "event_depth_bucket",
+        "group": "EVENT",
+        "bins": [
+          "LE0",
+          "1_4",
+          "5_8",
+          "9_12",
+          "13_16",
+          "GE17"
+        ]
+      },
+      {
+        "name": "event_occ_bucket",
+        "group": "EVENT",
+        "bins": [
+          "1",
+          "2",
+          "3_PLUS"
+        ]
+      },
+      {
+        "name": "event_ordinal_bucket",
+        "group": "EVENT",
+        "bins": [
+          "Q1",
+          "Q2",
+          "Q3",
+          "Q4"
+        ]
+      },
+      {
+        "name": "event_window_relation",
+        "group": "EVENT",
+        "bins": [
+          "LE_ALPHA",
+          "BETWEEN",
+          "GE_BETA"
+        ]
+      },
+      {
+        "name": "event_move_presence",
+        "group": "EVENT",
+        "bins": [
+          "NO_MOVE",
+          "HAS_MOVE"
+        ]
+      },
+      {
+        "name": "event_payload_sign",
+        "group": "EVENT",
+        "bins": [
+          "NEG",
+          "ZERO",
+          "POS"
+        ]
+      }
+    ],
+    "architecture_secondary": [
+      "arch_indexing_family",
+      "arch_probe_refreshes_age",
+      "arch_probe_returns_replacement_handle",
+      "arch_eval_move_packed"
+    ],
+    "forbidden": [
+      "engine_id as a basis coordinate",
+      "FEN",
+      "position hash",
+      "case role",
+      "exact address_id",
+      "full_key",
+      "ROOT_CHANGE",
+      "counterfactual bestmove",
+      "counterfactual score",
+      "counterfactual WDL",
+      "counterfactual PV",
+      "learned embeddings",
+      "post-outcome bin thresholds",
+      "arbitrary hash-derived world identifiers"
+    ]
+  },
+  "context_measurement": {
+    "board": "python-chess on the frozen FEN before singleton intervention",
+    "search": "unablated parent search and P32 semantic-use trace only",
+    "event": "candidate's parent-trace attributes before singleton removal",
+    "architecture": "P25 source-locked descriptors",
+    "p24_return_to_origin": "parent_activity_bucket, parent_qshare_bucket and parent_class_balance are the event-trace analogue of P24 TOTAL/Q_SHARE/IMBALANCE coordinates"
+  },
+  "corpus": {
+    "discovery": {
+      "archive": "4mvs_+90_+99.epd.zip",
+      "logical": "4mvs_+90_+99.epd",
+      "positions": 8,
+      "exclude_p1_positions": true
+    },
+    "heldout": {
+      "archive": "8mvs_+90_+99.epd.zip",
+      "logical": "8mvs_+90_+99.epd",
+      "positions": 8
+    },
+    "engines": [
+      "stockfish_19",
+      "berserk",
+      "ethereal"
+    ],
+    "family": "MOVE_ORDER+EVAL",
+    "frontier": 1,
+    "event_sampler": "Group parent events by scope×semantic-class×ply-bucket; sort addresses within strata; lexical-stratum round-robin until eight distinct events.",
+    "outcome_blind_position_and_event_selection": true
+  },
+  "discovery_basis_court": {
+    "max_portable_cardinality": 3,
+    "enumerate_empty_basis": true,
+    "support_gate": {
+      "min_fired_records": 96,
+      "min_positive_records": 2,
+      "min_negative_records": 24
+    },
+    "admissibility": {
+      "target_collisions": 0,
+      "min_compression": 0.2,
+      "min_records_in_cross_position_cells": 24,
+      "min_records_in_cross_engine_cells": 12,
+      "require_both_target_labels": true
+    },
+    "minimality": "Enumerate every portable subset by increasing cardinality. Retain every admissible subset at the first cardinality with any admissible subset; do not select a unique basis using discovery targets.",
+    "engine_specific_lane": "Apply the same vocabulary within each engine as a descriptive comparison; engine-specific bases cannot replace the pooled cross-engine court.",
+    "no_portable_basis": "Run an architecture-indexed diagnostic search only; max total cardinality 4, at most one architecture coordinate, at least one portable coordinate. This lane cannot earn architecture-free transport."
+  },
+  "heldout_firewall": {
+    "execution": "Held-out singleton jobs emit separate profile and target artifacts.",
+    "profile_artifact_may_contain": [
+      "F0 fiber",
+      "pre-intervention context",
+      "event provenance",
+      "parent provenance"
+    ],
+    "profile_artifact_forbidden": [
+      "ROOT_CHANGE",
+      "counterfactual bestmove",
+      "counterfactual score",
+      "counterfactual WDL",
+      "counterfactual PV"
+    ],
+    "target_artifact": "Sealed separately and never downloaded by scope-selection job.",
+    "scope_selection": "Among discovery-minimal portable bases, maximize target-blind seen-cell coverage on held-out profiles; then covered-engine count; then covered-position count; then lexical basis ID.",
+    "pre_target_scope_gate": {
+      "min_seen_fraction": 0.25,
+      "required_engines": 3,
+      "min_positions": 4,
+      "min_discovery_predicted_positive_profiles": 1
+    }
+  },
+  "heldout_transport_gate": {
+    "condition": "Only covered held-out profiles whose (F0,context) signature existed in discovery receive a prediction.",
+    "pass": [
+      "zero covered-record target contradictions",
+      "zero covered-cell mixed labels",
+      "scope gate was sealed before targets were opened"
+    ],
+    "abstention": "Unseen signatures are ABSTAIN_UNSEEN_CONTEXT and are not errors or evidence of non-causality.",
+    "failure": "Any covered contradiction falsifies the selected context basis for the frozen transport support."
+  },
+  "explanation_scope": {
+    "statuses": [
+      "CERTIFIED_ROOT_CHANGE",
+      "CERTIFIED_NO_ROOT_CHANGE",
+      "ABSTAIN_UNSEEN_CONTEXT",
+      "CONTRADICTED_CONTEXT_CELL"
+    ],
+    "required_evidence": [
+      "exact event ID prefix",
+      "F0 fiber",
+      "selected context basis",
+      "context values",
+      "discovery support count",
+      "scope status",
+      "held-out verification status if opened"
+    ],
+    "forbidden": [
+      "unverified strategy",
+      "human intent",
+      "population prevalence",
+      "claim that abstention means no cause",
+      "claim that context coordinates are uniquely true causal variables"
+    ]
+  },
+  "implementation_object": {
+    "rust_cli": "c3x-field",
+    "rust_commands": [
+      "discover",
+      "scope",
+      "verify",
+      "query"
+    ],
+    "python_frontend": "tools/c3x-context.py",
+    "python_roles": [
+      "board/search/event profile materialization",
+      "case packet conversion",
+      "human-readable profile inspection"
+    ],
+    "stable_packet_schemas": [
+      "c3x-context-profile-v1",
+      "c3x-field-discovery-v1",
+      "c3x-field-scope-v1",
+      "c3x-field-verification-v1"
+    ],
+    "utility_goal": "A researcher can feed exact-event/F0/profile packets to a frozen field and receive CERTIFIED/ABSTAIN/COLLISION evidence without rerunning the research court."
+  },
+  "execution_budgets": {
+    "hash_mib": 1,
+    "threads": 1,
+    "prime_nodes": 20000,
+    "decoy_nodes": 20000,
+    "decoy_count": 3,
+    "measurement_nodes": 80000,
+    "candidate_events_per_world": 8,
+    "discovery_positions": 8,
+    "heldout_positions": 8,
+    "discovery_engine_worlds": 24,
+    "heldout_engine_worlds": 24,
+    "max_singleton_replays_per_world": 8
+  },
+  "literature": [
+    {
+      "work": "Peters, Bühlmann & Meinshausen (2016), Causal Inference by Using Invariant Prediction",
+      "locator": "Drive 1ljkrI7d5XCC16eIgecO1fQ-73-xJwp0k",
+      "role": "Conditional invariance across environments motivates minimal conditioning-basis search."
+    },
+    {
+      "work": "Pearl & Bareinboim (2011), Transportability of Causal and Statistical Relations",
+      "locator": "Drive 1eEnQxWYFC5gjSyxBFF3BY4xfmmGllv_c",
+      "role": "Transport requires explicit statements of cross-environment differences/commonalities; context basis is treated as a licensing condition."
+    },
+    {
+      "work": "VanderWeele & Hernán (2013), Causal Inference Under Multiple Versions of Treatment",
+      "locator": "Drive 1NvqfiMTmvSK9tr2WCa_vWVF1ts3BbBXd",
+      "role": "A single coarse intervention/fiber label may hide causally distinct versions."
+    },
+    {
+      "work": "Rothenhäusler et al. (2021), Anchor Regression",
+      "locator": "Drive 1zXZLMTQWORSN3fHJ541RbsJwdDCokfo2",
+      "role": "Source-grounded exogenous heterogeneity motivates the secondary architecture-anchor lane."
+    },
+    {
+      "work": "Sutter et al. (2025), The Non-Linear Representation Dilemma",
+      "locator": "Drive 1e4SKpJ4yaYETPCadT-NxOwAat-XuF-Yw",
+      "role": "Anti-vacuity: constrain context vocabulary and alignment capacity before outcomes."
+    },
+    {
+      "work": "Duarte & Solus (2026), Representation of context-specific causal models with observational and interventional data",
+      "doi": "10.1093/jrsssb/qkaf059",
+      "role": "Formal comparison point for context-specific interventional structure; not used as an authority override."
+    },
+    {
+      "work": "Geiger et al. (2025), Causal Abstraction",
+      "locator": "Drive 1i_i_cFFv6vqYHaBOgKK9AbuprPtj8v91",
+      "role": "Interventional commutation remains the abstraction standard; P2 narrows authority by context."
+    }
+  ],
+  "claim_ceiling": [
+    "A selected basis is finite-support and query-specific; it is not the unique true causal context.",
+    "Target-blind held-out scope calibration may choose among already-minimal discovery bases using coverage only; it may not inspect held-out targets.",
+    "Architecture descriptors are secondary diagnostics and cannot make a failed portable field count as architecture-free transport.",
+    "Unseen context signatures cause abstention, not negative causal conclusions.",
+    "No transport beyond the frozen books, engine commits, history procedure, frontier and 80k-node measurement search is authorized.",
+    "No strategy, cognition, human intent or population prevalence claim is authorized."
+  ],
+  "p2_selective_results_consulted": false
+}
