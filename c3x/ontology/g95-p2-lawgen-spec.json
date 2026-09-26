@@ -238,7 +238,28 @@
     },
     "minimality": "Enumerate every portable subset by increasing cardinality. Retain every admissible subset at the first cardinality with any admissible subset; do not select a unique basis using discovery targets.",
     "engine_specific_lane": "Apply the same vocabulary within each engine as a descriptive comparison; engine-specific bases cannot replace the pooled cross-engine court.",
-    "no_portable_basis": "Run an architecture-indexed diagnostic search only; max total cardinality 4, at most one architecture coordinate, at least one portable coordinate. This lane cannot earn architecture-free transport."
+    "no_portable_basis": "Run an architecture-indexed diagnostic search only; max total cardinality 4, at most one architecture coordinate, at least one portable coordinate. This lane cannot earn architecture-free transport.",
+    "engine_specific_admissibility": {
+      "support_gate": {
+        "min_fired_records": 24,
+        "min_positive_records": 1,
+        "min_negative_records": 12
+      },
+      "target_collisions": 0,
+      "min_compression": 0.2,
+      "min_records_in_cross_position_cells": 12,
+      "require_both_target_labels": true,
+      "max_portable_cardinality": 3,
+      "authority": "DESCRIPTIVE_COMPARISON_ONLY"
+    },
+    "architecture_diagnostic": {
+      "activation": "ONLY_IF_NO_PORTABLE_BASIS",
+      "max_total_cardinality": 4,
+      "max_architecture_coordinates": 1,
+      "min_portable_coordinates": 1,
+      "admissibility": "same pooled discovery gates as portable lane",
+      "authority": "DIAGNOSTIC_ONLY_CANNOT_EARN_ARCHITECTURE_FREE_TRANSPORT"
+    }
   },
   "heldout_firewall": {
     "execution": "Held-out singleton jobs emit separate profile and target artifacts.",
