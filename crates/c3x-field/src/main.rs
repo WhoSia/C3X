@@ -102,11 +102,6 @@ fn write_json(p:&PathBuf,v:&Value){
     if let Some(par)=p.parent(){fs::create_dir_all(par).unwrap();}
     fs::write(p,serde_json::to_string_pretty(v).unwrap()+"\n").unwrap();
 }
-fn arr_str(v:&Value,path:&[&str])->Vec<String>{
-    let mut z=v;for k in path{z=&z[*k];}
-    z.as_array().unwrap_or_else(||panic!("array {:?}",path)).iter()
-        .map(|x|x.as_str().unwrap().to_string()).collect()
-}
 fn int_at(v:&Value,path:&[&str])->usize{
     let mut z=v;for k in path{z=&z[*k];}
     z.as_u64().unwrap_or_else(||panic!("int {:?}",path)) as usize
@@ -213,11 +208,6 @@ fn assess_pass(m:&Metrics,min_comp:f64,min_cp:usize,min_ce:usize,require_both:bo
     m.cross_position_records>=min_cp && m.cross_engine_records>=min_ce &&
     (!require_both || (m.positives>0 && m.negatives>0))
 }
-fn basis_cert(records:&[DiscoveryRecord],coords:Vec<String>,pass:bool)->Value{
-    let m=metrics(records,&coords);
-    json!({"basis_id":basis_id(&coords),"coordinates":coords,"cardinality":m.records.checked_sub(m.records).unwrap_or(0)+
-        0,"metrics":metrics_json(&m),"admissible":pass,"cells":if pass{field_cells(records,&coords)}else{json!({})}})
-}
 fn make_basis_cert(records:&[DiscoveryRecord],coords:Vec<String>,pass:bool)->Value{
     let m=metrics(records,&coords);
     json!({"basis_id":basis_id(&coords),"coordinates":coords,"cardinality":coords.len(),
@@ -235,10 +225,7 @@ fn discovery_command(constitution:PathBuf,input:PathBuf,out:PathBuf){
     assert_eq!(c["scientific_stage"],STAGE);
     let iv=read_json(&input);let d:DiscoveryInput=serde_json::from_value(iv.clone()).unwrap();
     assert_eq!(d.schema,"c3x-field-discovery-input-v1");assert_eq!(d.scientific_stage,STAGE);
-    let portable=arr_str(c,&["context_vocabulary","portable"]).into_iter().map(|x|{
-        if x.starts_with('{'){panic!("bad portable encoding")}x
-    }).collect::<Vec<_>>();
-    // constitution portable entries are objects, so read their names directly.
+    // constitution portable entries are objects; read their frozen names directly.
     let portable:Vec<String>=c["context_vocabulary"]["portable"].as_array().unwrap().iter()
         .map(|x|x["name"].as_str().unwrap().to_string()).collect();
     let arch:Vec<String>=c["context_vocabulary"]["architecture_secondary"].as_array().unwrap()
