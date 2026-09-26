@@ -7,6 +7,9 @@ ok(x.schema==='c3x-g95-p3-adjudication-v1','schema');
 ok(x.scientific_stage==='C3X 0.7.0-G9.5-P3','stage');
 ok(x.explanation_verification.failed===0,'explanation');
 ok(x.explanation_verification.unsupported_rendered_claims===0,'unsupported');
+ok(x.causal_availability==='EVENT_PREFIX_ONLY','causal-availability');
+ok(x.primary_selection_consulted_development_rivals===false,'development-rival-selection-leak');
+for(const r of x.development_rival_census||[])ok(r.primary_eligible===false,'development-rival-primary-eligibility');
 const allowed=new Set([
  'FRESH_RECONSTITUTION_SUPPORT_LIMITED_HOLD',
  'NO_TOPOLOGY_AWARE_GLOBAL_FIELD_HOLD',
