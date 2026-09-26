@@ -39,7 +39,7 @@ fn main(){
   "parent_authority":s["parent_authority"],"objective":s["objective"],
   "causal_fiber":s["causal_fiber"],"candidate_selection":s["candidate_selection"],
   "parent_contexts":s["parent_contexts"],"discovery_and_freeze":s["discovery_and_freeze"],
-  "holdout_gate":s["holdout_gate"],"transport":s["transport"],
+  "holdout_gate":s["holdout_gate"],"transport":s["transport"],"verdict_ladder":s["verdict_ladder"],
   "execution_budgets":s["execution_budgets"],"exact_event_explanation":s["exact_event_explanation"],
   "implementation_roles":s["implementation_roles"],"external_code_study":s["external_code_study"],
   "literature":s["literature"],"claim_ceiling":s["claim_ceiling"],
