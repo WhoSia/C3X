@@ -23,6 +23,7 @@ def main():
  ap=argparse.ArgumentParser()
  ap.add_argument("--p32-pre",required=True)
  ap.add_argument("--p32-final",required=True)
+ ap.add_argument("--p4-precommit",required=True)
  ap.add_argument("--binary",required=True)
  ap.add_argument("--engine",required=True)
  ap.add_argument("--case-id",required=True)
