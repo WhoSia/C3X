@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-import argparse,json
+import argparse,hashlib,json
 from http.server import BaseHTTPRequestHandler,ThreadingHTTPServer
 from pathlib import Path
 
@@ -10,6 +10,8 @@ class FieldService:
   self.field=field
   if field.get("schema")!="c3x-field-p3-discovery-v1":raise ValueError("field schema")
   self.schema=field.get("selected_global_schema")
+  self.context_schema_version=field.get("context_schema_version")
+  self.field_sha256=hashlib.sha256(json.dumps(field,sort_keys=True,separators=(",",":")).encode()).hexdigest()
   self.coords=[] if not self.schema else list(self.schema["coordinates"])
   self.cells={} if not self.schema else self.schema["cells"]
  def cell_key(self,p):
@@ -19,16 +21,16 @@ class FieldService:
   if not self.schema:
    return {"schema":"c3x-service-certificate-v1","scientific_stage":STAGE,"record_id":p.get("record_id"),
     "schema_id":None,"cell_key":None,"status":"ABSTAIN_NO_GLOBAL_FIELD","predicted_root_change":None,
-    "discovery_support":0,"field_status":self.field.get("status")}
+    "discovery_support":0,"field_status":self.field.get("status"),"context_schema_version":self.context_schema_version,"field_sha256":self.field_sha256}
   k=self.cell_key(p);c=self.cells.get(k)
   if not c:return {"schema":"c3x-service-certificate-v1","scientific_stage":STAGE,"record_id":p.get("record_id"),
     "schema_id":self.schema["id"],"cell_key":k,"status":"ABSTAIN_UNSEEN_CONTEXT","predicted_root_change":None,
-    "discovery_support":0,"field_status":self.field.get("status")}
+    "discovery_support":0,"field_status":self.field.get("status"),"context_schema_version":self.context_schema_version,"field_sha256":self.field_sha256}
   y=c["label"]=="ROOT_CHANGE"
   return {"schema":"c3x-service-certificate-v1","scientific_stage":STAGE,"record_id":p.get("record_id"),
     "schema_id":self.schema["id"],"cell_key":k,
     "status":"CERTIFIED_ROOT_CHANGE" if y else "CERTIFIED_NO_ROOT_CHANGE",
-    "predicted_root_change":y,"discovery_support":c["support"],"field_status":self.field.get("status")}
+    "predicted_root_change":y,"discovery_support":c["support"],"field_status":self.field.get("status"),"context_schema_version":self.context_schema_version,"field_sha256":self.field_sha256}
  def explain(self,p):
   q=self.query(p)
   if q["status"]=="ABSTAIN_NO_GLOBAL_FIELD":
@@ -62,7 +64,7 @@ class Handler(BaseHTTPRequestHandler):
  def _json(self):
   n=int(self.headers.get("Content-Length","0"));return json.loads(self.rfile.read(n) or b"{}")
  def do_GET(self):
-  if self.path=="/health":self._send(200,{"status":"ok","scientific_stage":STAGE,"service":"c3x-explanation-service","llm_dependency":False,"deterministic_core":True})
+  if self.path=="/health":self._send(200,{"status":"ok","scientific_stage":STAGE,"service":"c3x-explanation-service","llm_dependency":False,"deterministic_core":True,"field_sha256":self.service.field_sha256,"context_schema_version":self.service.context_schema_version})
   else:self._send(404,{"error":"not_found"})
  def do_POST(self):
   try:
