@@ -1,0 +1,18 @@
+[package]
+name = "c3x-field"
+version = "0.1.0"
+edition = "2021"
+description = "Context-indexed causal-fiber field discovery, scope and transport certification for C3X"
+license = "MIT"
+publish = false
+
+[dependencies]
+clap = { version = "4.5", features = ["derive"] }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+sha2 = "0.10"
+
+[profile.release]
+lto = "thin"
+codegen-units = 1
+panic = "abort"
