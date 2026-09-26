@@ -1,0 +1,291 @@
+{
+  "schema": "c3x-g95-p1-closure-v1",
+  "scientific_stage": "C3X 0.7.0-G9.5-P1",
+  "status": "CLOSED",
+  "decision": "PARTIAL_PASS_CROSS_CONTEXT_HOLD",
+  "title": "Prospective Witness-Preserving Causal Fiber Constitution, Intervention-Response Congruence, Counterexample-Guided Quotient Splitting, Held-Out Positive-Control Preservation, Cross-Engine Fiber Transport & Exact-Event Explanation Reconstruction",
+  "parent": {
+    "stage": "C3X 0.7.0-G9.4-P34",
+    "closure_commit": "8e4543c60fb26255e4ebae72b6950371539ac0b5",
+    "canonical_run": 36216185685,
+    "verdict": "OPEN_EVENT_QUOTIENT_SIGNAL_POSITIVE_CONTROL_FAILURE_HOLD"
+  },
+  "execution": {
+    "canonical_run": 36219611294,
+    "canonical_head_sha": "2040714085290e7076dfc35d3e8e19b1030a2668",
+    "jobs_success": 19,
+    "jobs_total": 19,
+    "invalid_pre_scientific_runs": [
+      {
+        "run_id": 36219445693,
+        "head_sha": "bb16c46778d1003a4ea5045863e630bb88bd95e9",
+        "reason": "Pinned Stockfish Books source stores 4mvs_+90_+99.epd.zip rather than a Git-LFS raw EPD; corpus acquisition failed before precommit.",
+        "selective_engine_jobs_executed": 0,
+        "repair": "Archive materialization only; source commit, logical dataset, selection rule, diagnostic constitution, budgets and verdict gates unchanged."
+      }
+    ]
+  },
+  "verdict": "WITNESS_PRESERVING_LOCAL_FIBER_CROSS_CONTEXT_HOLD",
+  "fiber_constitution": {
+    "target_query": "ROOT_CHANGE under singleton exact-event removal",
+    "target_separation": "Root bestmove, score, WDL and PV are excluded from fiber identity and opened only for discovery selection or post-freeze validation.",
+    "selected_level": "F0",
+    "selected_definition": [
+      "source_scope",
+      "source_semantic_class",
+      "source_ply_bucket",
+      "sign(emergent_minus_vanished)",
+      "broad_first_divergence_bucket"
+    ],
+    "forbidden_identity_fields": [
+      "root bestmove",
+      "root score",
+      "root WDL",
+      "root PV",
+      "engine identity",
+      "FEN",
+      "case role",
+      "exact address_id",
+      "full_key",
+      "known prior causal label"
+    ],
+    "lineager": "P33 HARD_ANCHOR_ORDER_PRESERVING_RANK_MATCH_V1"
+  },
+  "discovery": {
+    "cases": [
+      "ethereal:a8fd39b3864a:CUTOFF",
+      "ethereal:f8cde3d6abb4:MOVE_ORDER"
+    ],
+    "fired_exact_event_records": 16,
+    "level_census": {
+      "F0": {
+        "distinct_fibers": 9,
+        "compression": 0.4375,
+        "non_singleton_fibers": 3,
+        "root_change_collisions": 0,
+        "pass": true
+      },
+      "F1": {
+        "distinct_fibers": 12,
+        "compression": 0.25,
+        "non_singleton_fibers": 2,
+        "root_change_collisions": 0,
+        "pass": true
+      },
+      "F2": {
+        "distinct_fibers": 12,
+        "compression": 0.25,
+        "non_singleton_fibers": 2,
+        "root_change_collisions": 0,
+        "pass": true
+      },
+      "F3": {
+        "distinct_fibers": 12,
+        "compression": 0.25,
+        "non_singleton_fibers": 2,
+        "root_change_collisions": 0,
+        "pass": true
+      }
+    },
+    "selection_rule": "First F0→F3 level with zero discovery ROOT_CHANGE collisions and nontrivial compression.",
+    "selected_level": "F0",
+    "selection_receipt_sha256": "30f318cbf2f8a83b9a783480d93e6b9946b4a7e1fd0b11956b7f7f8f7cf7bf29",
+    "holdout_consulted_at_selection": false,
+    "transport_consulted_at_selection": false
+  },
+  "binding_holdout": {
+    "case_id": "stockfish_19:f8cde3d6abb4:MOVE_ORDER+EVAL",
+    "inherited_witness_address_id": "1cfb4e42993f7550aaddd3ec2233b23f24cf2fff3ab410b2fefe51c2139bca10",
+    "witness_present": true,
+    "witness_fired": true,
+    "parent_bestmove": "h1g1",
+    "singleton_counterfactual_bestmove": "e6e3",
+    "witness_root_change": true,
+    "selected_fiber": "F0|MAIN|TT_VALUE_AS_EVAL|0|-1|4",
+    "probed_fiber_size": 1,
+    "collision": false,
+    "pass": true,
+    "interpretation": "P34's specific false merge is avoided under the discovery-frozen fiber, but the holdout witness fiber is singleton among the bounded probes and therefore demonstrates preservation rather than useful within-Stockfish compression."
+  },
+  "fresh_transport": {
+    "source": {
+      "repository": "official-stockfish/books",
+      "commit": "65815ccdbc7727cd4f6aee252ba8f67fb740e92f",
+      "logical_dataset": "4mvs_+90_+99.epd",
+      "repository_archive": "4mvs_+90_+99.epd.zip",
+      "extracted_epd_sha256": "9b4d9fb7eda778377a36f67c93b6913b67c6b4db9a51e1b7d9bf6bff5cdf8e8e",
+      "legal_unique_positions": 635
+    },
+    "selection": {
+      "rule": "Unique legal FENs sorted by SHA-256(FEN); first two targets; next three hash-ordered FENs cyclically as deterministic decoys; no engine output.",
+      "position_ids": [
+        "fresh:0020c0362348",
+        "fresh:0095cdadc5f2"
+      ]
+    },
+    "engines": [
+      "stockfish_19",
+      "berserk",
+      "ethereal"
+    ],
+    "fresh_engine_worlds": 6,
+    "fired_exact_event_records": 48,
+    "within_world_collision_count": 0,
+    "all_worlds_execution_pass": 6,
+    "pooled": {
+      "distinct_fibers": 11,
+      "compression": 0.7708333333333334,
+      "non_singleton_fibers": 7,
+      "cross_context_collision_count": 1
+    },
+    "counterexample": {
+      "fiber_id": "F0|MAIN|MOVE_ORDER_SEED|1|-1|4",
+      "root_changing_member": {
+        "case_id": "fresh:0:berserk",
+        "event_id": "01ca98bd2ef67076d22bcb7d9795b83323513b5844549e35131d1716fca99491",
+        "parent_bestmove": "b1c3",
+        "counterfactual_bestmove": "c1e3"
+      },
+      "non_changing_members": [
+        {
+          "case_id": "fresh:0:stockfish_19",
+          "event_id": "00054b35a881fc4596702e96bd2d6e7982b6e13090ce4318e8661233ef49affe"
+        },
+        {
+          "case_id": "fresh:1:berserk",
+          "event_id": "0025b5b913e95f628ef56f5d45fcc41b48e444de0e4363149f7b7e2228e552c1"
+        },
+        {
+          "case_id": "fresh:1:stockfish_19",
+          "event_id": "007b1aee34edff9beb94747ccadaec3294d1cfdb1522e92d30b496f8c583f430"
+        }
+      ],
+      "interpretation": "The same engine Berserk supplies both a root-changing and a non-changing member in different fresh positions, so engine identity alone cannot restore congruence. The failed assumption is context-free fiber transport."
+    }
+  },
+  "historical_transport": {
+    "cases": [
+      "stockfish_19:ec55f57dd7e3:CUTOFF",
+      "berserk:b27b7a24ddcd:MOVE_ORDER",
+      "berserk:b27b7a24ddcd:EVAL",
+      "ethereal:c18e10bd6a3a:MOVE_ORDER"
+    ],
+    "authority": "DESCRIPTIVE_STRESS_ONLY",
+    "fired_exact_event_records": 32,
+    "distinct_fibers": 13,
+    "compression": 0.59375,
+    "cross_context_collision_count": 2
+  },
+  "verification": {
+    "execution_case_status_counts": {
+      "PASS": 13
+    },
+    "parent_pv_complete": 13,
+    "counterfactual_pv_available": 13,
+    "counterfactual_pv_complete": 13,
+    "explanation_passed": 13,
+    "explanation_failed": 0,
+    "unsupported_rendered_claims": 0,
+    "independent_javascript_firewall": "PASS",
+    "independent_rust_fiber_recomputation": "PASS_NO_MISMATCH_TARGET_FIELDS_FALSE"
+  },
+  "implementation": {
+    "policy": "CAPABILITY_FIRST_POLYGLOT_LANGUAGE_NONAUTHORITATIVE",
+    "C_or_Cpp": "No new native intervention semantics; sealed P34 binaries reused in P34 BASE mode with P32 exact-event targeting.",
+    "Rust": "LawGen v11 plus independent F0→F3 fiber recomputation and target-leak audit.",
+    "Python": "Source-locked corpus materialization, singleton replay orchestration, P33 lineage-response diagnostics, discovery selection, chess legality and explanation compilation.",
+    "JavaScript": "Independent verdict/firewall verification."
+  },
+  "external_code_study": [
+    "official-stockfish/Stockfish",
+    "AndyGrant/Ethereal",
+    "jhonnold/berserk",
+    "LeelaChessZero/lc0",
+    "official-stockfish/fishtest",
+    "official-stockfish/books",
+    "cutechess/cutechess",
+    "niklasf/python-chess"
+  ],
+  "literature_positioning": {
+    "drive_present": [
+      {
+        "work": "Geiger et al. (2025), Causal Abstraction",
+        "drive_id": "1i_i_cFFv6vqYHaBOgKK9AbuprPtj8v91"
+      },
+      {
+        "work": "Sutter et al. (2025), The Non-Linear Representation Dilemma",
+        "drive_id": "1e4SKpJ4yaYETPCadT-NxOwAat-XuF-Yw"
+      },
+      {
+        "work": "Armas-Cervantes, Baldan & García-Bañuelos (2016), Reduction of event structures under history preserving bisimulation",
+        "doi": "10.1016/j.jlamp.2015.10.004",
+        "drive_id": "16Bqmafjy0PH-owzfG1ANWqs9PVqJBnkP"
+      },
+      {
+        "work": "Groce, Kroening & Clarke (2004), Counterexample Guided Abstraction Refinement via Program Execution",
+        "doi": "10.1007/978-3-540-30482-1_23",
+        "drive_id": "1zOtH8I_aIh-AsTamW-AE7KV1UVAo2jX5"
+      },
+      {
+        "work": "Peters, Bühlmann & Meinshausen (2016), Invariant Prediction",
+        "drive_id": "1ljkrI7d5XCC16eIgecO1fQ-73-xJwp0k"
+      },
+      {
+        "work": "Lee & Bareinboim (2026), Productive Actual Causation",
+        "drive_id": "1BkGWXUm3t6fdreb0F_WRiFcTmBjnIu-6"
+      }
+    ],
+    "missing_doi_requests": []
+  },
+  "custody_hashes": {
+    "precommit": {
+      "receipt_sha256": "2591a0ba9078d51719cd6797b74a1468d15f319b84e473907d9f787f8378f54e",
+      "artifact_id": 10898541093,
+      "artifact_digest": "sha256:8398837fe0e338e086b4a6fb60c8fc99f4bd66c98a6463499444b40238154381"
+    },
+    "selection": {
+      "receipt_sha256": "30f318cbf2f8a83b9a783480d93e6b9946b4a7e1fd0b11956b7f7f8f7cf7bf29",
+      "artifact_id": 10899116259,
+      "artifact_digest": "sha256:c0ef9c600bf2ec165d03a5a717dcd55b49375e476b07ac7d6540f775d834f176"
+    },
+    "fresh_corpus": {
+      "corpus_sha256": "38cf21c0f136f693f4b25ecf1433c5fb7f005b4c94b1100bcd8c7e40ac04b7cf",
+      "artifact_id": 10898945731,
+      "artifact_digest": "sha256:50ce84969335ebb74c490ef4d44068cda176e18e6e99528e9b4f47a5553c48d2"
+    },
+    "final": {
+      "receipt_sha256": "b3fbbb50467f56f827b504fb75deb862741b6c8b4dec5cb26f13c7cc795fe724",
+      "adjudication_sha256": "e29f92471978e3cda596cfd51d1d6d5db87122b7e368ec50800b2eaaa2db7315",
+      "explanation_ast_sha256": "855c6b4775b4e6177f071119360777d91745df736f589d0f81349d02e957791e",
+      "chess_grounding_sha256": "95d2f8053c47661c49f4e949ac8e9782ec35020ed3e06bae58d4ff29383fface",
+      "explanations_sha256": "39c7ad376c19b55adae12aaacab9e8d752f151b61cd77f8b1048cdfa9ba29288",
+      "js_verification_sha256": "5952f869a93fb5bc03d1b143cd20afefced8baa0770ff61ede97185f856cbc85",
+      "artifact_id": 10898377556,
+      "artifact_digest": "sha256:880af83fea662b3ab5eb3424956348626f58e9f3736a77d396c78cb7ee635da0"
+    },
+    "rust_fiber_verifier": {
+      "artifact_id": 10899050621,
+      "artifact_digest": "sha256:ad950200c8fbb6a59554cf8c911eb7694926282a23f22988e94e5ed2cdac1a85"
+    }
+  },
+  "custody": {
+    "drive_folder_id": "1Ll0N4G7ufIgbVrKbJq1rUCmGJ-ODTH7J",
+    "drive_precommit_file_id": "1ct8j5aUFmTjDIYfsHObD1Q36gxU90B-v",
+    "drive_selection_file_id": "17IGzNuK4kU84d_hBBJLn8bXrOeji7N8j",
+    "drive_fresh_corpus_file_id": "1A1cmeIB8LR6nPEmD375f82X8IZrLrF39",
+    "drive_final_file_id": "1mtJ-yWOCo27aTzbQmH9U8VSqyNJ3La51",
+    "notion_page_id": "3e7ef561-cf92-81d1-90d1-c0161e31fecc"
+  },
+  "claim_ceiling": [
+    "F0 is an operational lineage-response equivalence class for the tested root-change query, not metaphysical event identity.",
+    "The Stockfish positive-control pass preserves an exact witness but its probed F0 fiber is singleton; it does not establish within-Stockfish compression.",
+    "Fresh within-world congruence across six engine-worlds does not license context-free transport because pooled fresh worlds contain one prospectively observed collision.",
+    "The historical transport arm is descriptive because earlier outcomes already existed.",
+    "The single fresh cross-context collision is a counterexample to the tested context-free F0 law, not a population prevalence estimate.",
+    "No engine identity, FEN, full key, exact address, new diagnostic coordinate or post-outcome threshold may be added retroactively to rescue P1.",
+    "No chess strategy, cognition, intent or population-level causal law is authorized."
+  ],
+  "scientific_interpretation": "P1 replaces P34 structural similarity with an outcome-blind lineage-response causal fiber. The fiber preserves the binding Stockfish singleton witness and is locally congruent in every fresh engine-world, but the same F0 diagnostic fiber can reverse ROOT_CHANGE across contexts, including within the same engine across fresh positions. The next object is therefore a context-indexed causal fiber field and the identification of the minimal pre-intervention conditioning basis required for transport.",
+  "successor_question": "Which prospectively measurable pre-intervention context coordinates are minimally sufficient to make a lineage-response fiber's root-change relation transport across positions and engines without collapsing to position or engine identity?",
+  "successor_proposal": "C3X 0.7.0-G9.5-P2 — Prospective Context-Indexed Causal Fiber Field, Pre-Intervention Context Sufficiency, Minimal Conditioning-Basis Identification, Cross-World Congruence Restoration, Held-Out Context Transport & Explanation-Scope Calibration"
+}
