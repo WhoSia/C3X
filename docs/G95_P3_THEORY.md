@@ -14,7 +14,7 @@ P3 does not enumerate arbitrary supersets of the P2 basis until one passes. Inst
 
 1. P2_BASE — parent search depth, exact-signature occurrence, trace quartile.
 2. TT_LOCAL — P2_BASE plus event window relation, bound class, payload sign.
-3. TEMPORAL_LOCAL — P2_BASE plus preceding class, following class, gap to previous same-class use.
+3. TEMPORAL_LOCAL — P2_BASE plus preceding class, gap to previous same-class use, and previous→current ply transition.
 4. KEY_REUSE_TOPOLOGY — P2_BASE plus equality-derived TT-key reuse degree, gap to previous same-key use, and scope transition.
 5. MINIMAL_HYBRID — P2_BASE plus previous same-class gap, same-key reuse degree, and window relation.
 
@@ -40,11 +40,11 @@ The same schema-family census is computed separately for each engine. Engine-spe
 
 ## 6. Search-topology coordinates
 
-All new coordinates are computed from the unablated parent semantic-use trace.
+All new coordinates are computed from the unablated parent semantic-use trace under EVENT_PREFIX_ONLY causal availability: only events at or before the candidate event may contribute. Future events, next-key relations and symmetric future-looking windows are prohibited.
 
-Temporal-local: prev_semantic_class, next_semantic_class, same_class_prev_gap_bucket, local_class_diversity_bucket.
+Temporal-local: prev_semantic_class, same_class_prev_gap_bucket, ply_transition_bucket.
 
-Key-reuse topology: same_key_count_bucket, same_key_prev_gap_bucket, same_key_next_gap_bucket, scope_transition_bucket, ply_transition_bucket. Raw keys are never written to a profile.
+Key-reuse topology: prefix-only same_key_count_bucket, same_key_prev_gap_bucket, scope_transition_bucket. Raw keys are never written to a profile.
 
 TT-local: event_bound_bucket plus inherited event_window_relation, event_payload_sign, and event_move_presence.
 
