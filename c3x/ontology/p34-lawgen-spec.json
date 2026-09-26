@@ -98,7 +98,8 @@
       ]
     },
     "selection_rule": "Start at Q0 and refine monotonically only when a prospectively named gate fails. The first level passing every closure, causal, collision and drill-down gate is the selected quotient. No new coordinate may be added after P34 outcomes.",
-    "finite_domain_nonclaim": "Finite coding makes each Q-level finite, but finite representational range alone is not evidence that the quotient is causally adequate."
+    "finite_domain_nonclaim": "Finite coding makes each Q-level finite, but finite representational range alone is not evidence that the quotient is causally adequate.",
+    "order_theory_nonclaim": "Q0→Q3 is a prospectively frozen monotone refinement chain over event-role coordinates. It is not claimed to be a Madaleno-style coarsening lattice of a known ground-truth causal DAG; the order-theoretic role is experimental search discipline only."
   },
   "intervention_semantics": {
     "parent_condition": "The P33 baseline-seed exact-address removal is always active. P34 cone interventions are additional dynamic predicates evaluated at each TT semantic-use event during the measurement search.",
@@ -112,7 +113,7 @@
     "max_observed_cones_per_level": 256,
     "max_replays_per_case_level": 128,
     "max_final_cone_set_for_leave_one_out": 24,
-    "refinement_rule": "For REMOVE_CONE_SET paths, every newly observed quotient class is appended without ranking and the level court restarts. A fixed point requires no new quotient class on the full-universe replay and on every replay actually visited by ddmin/leave-one-out.",
+    "refinement_rule": "For every replay path actually visited by REMOVE_SET, KEEP_SET, REMOVE_ALL, ddmin, leave-one-out, or exact drill-down, every newly observed quotient class is appended without ranking and the level court restarts. A fixed point requires no new quotient class on all such visited paths under the frozen caps.",
     "level_pass": "A level passes representation closure only at a replay-discovered fixed point under the frozen caps.",
     "divergence_certificate": "If Q0,Q1,Q2,Q3 all fail prospectively named closure/collision/causal-preservation gates, emit BOUNDED_QUOTIENT_LATTICE_DIVERGENCE. This is a certificate against the frozen lattice, not a proof that no possible abstraction exists."
   },
@@ -125,10 +126,12 @@
   "collision_falsification": {
     "max_exact_members_per_selected_cone": 12,
     "member_source": "Exact P32 addresses observed in the seed-only parent trace and mapped to each selected quotient class.",
-    "singleton_probe": "For each selected cone with at most 12 parent-trace exact members, replay seed removal plus each exact member separately and record the root semantic response signature.",
+    "singleton_probe": "For every quotient class participating in either the inclusion-minimal removal set or the inclusion-minimal retaining set, if it has at most 12 parent-trace exact members, replay seed removal plus each exact member separately and record the root semantic response signature.",
     "collision_predicate": "Two parent-trace exact members in the same quotient class with different singleton root bestmoves constitute a quotient collision under the frozen probe.",
     "large_class_rule": "A selected cone with more than 12 observed exact members is DRILLDOWN_SIZE_HOLD rather than collision-free by sampling.",
-    "exact_expansion_probe": "Replay the union of all parent-trace exact members of the selected quotient set and compare its root bestmove with the dynamic quotient intervention. Equality earns LOCAL_EXACT_EXPANSION_PARITY; inequality is reported, not repaired."
+    "remove_exact_expansion_probe": "Replay seed removal plus the union of all parent-trace exact members of the minimal REMOVE quotient set and compare its root bestmove with dynamic REMOVE_SET. Equality is REMOVE_LOCAL_EXACT_EXPANSION_PARITY.",
+    "keep_exact_expansion_probe": "Replay seed removal plus every parent-trace exact member whose quotient class is outside the minimal KEEP set and compare its root bestmove with dynamic KEEP_SET. Equality is KEEP_LOCAL_EXACT_EXPANSION_PARITY.",
+    "query_commutation_gate": "A quotient level may pass only when both REMOVE and KEEP local exact-expansion parities hold, no selected causal cone has a forbidden singleton-response collision, and no selected causal cone exceeds the frozen exact-member drill-down cap."
   },
   "explanation_verification": {
     "pipeline": [
@@ -148,7 +151,7 @@
       "minimal cone-set size",
       "collision status",
       "exact-member count",
-      "local exact-expansion parity",
+      "bidirectional local query-commutation parity",
       "legal PV divergence",
       "legal root-move atoms"
     ],
@@ -254,7 +257,7 @@
     "Replay-discovered fixed points cover only paths visited by the frozen court.",
     "Conditional necessity/sufficiency remain relative to the P33 baseline-seed removal intervention.",
     "Singleton collision probes concern parent-trace exact members and do not establish global within-class interchangeability.",
-    "Local exact-expansion parity is a bounded drill-down test, not proof of full low/high-level causal equivalence.",
+    "Bidirectional local query-commutation parity is a bounded REMOVE/KEEP drill-down test on parent-trace exact members, not proof of full low/high-level causal equivalence.",
     "No chess strategy, cognition, intent, prevalence or cross-position generalization is authorized."
   ],
   "p34_selective_results_consulted": false
