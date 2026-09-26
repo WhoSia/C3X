@@ -113,6 +113,8 @@
       "parent": "10_PAPERS — Canonical Literature Commons",
       "doi": "10.1093/jrsssb/qkaf059"
     },
-    "operation": "Verified current central literature intake is empty; canonical paper custody and filenames audited. Renames are metadata-only; Drive IDs/raw bytes preserved."
+    "operation": "Verified current central literature intake is empty; canonical paper custody and filenames audited. Renames are metadata-only; Drive IDs/raw bytes preserved.",
+    "receipt_document_id": "1Vd3gVQbua1EDVcEQf6B_uXRw03fEBCIj0KmCh22WKLU",
+    "receipt_location": "12_INTERNAL — Research Notes, Scout Reports & Working Sources"
   }
 }
