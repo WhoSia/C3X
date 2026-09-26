@@ -1,0 +1,82 @@
+{
+  "schema": "c3x-g95-p1-support-v1",
+  "scientific_stage": "C3X 0.7.0-G9.5-P1",
+  "title": "Prospective Witness-Preserving Causal Fiber Constitution, Intervention-Response Congruence, Counterexample-Guided Quotient Splitting, Held-Out Positive-Control Preservation, Cross-Engine Fiber Transport & Exact-Event Explanation Reconstruction",
+  "parent_stage": "C3X 0.7.0-G9.4-P34",
+  "parent_closure_commit": "8e4543c60fb26255e4ebae72b6950371539ac0b5",
+  "parent_canonical_run": 36216185685,
+  "parent_verdict": "OPEN_EVENT_QUOTIENT_SIGNAL_POSITIVE_CONTROL_FAILURE_HOLD",
+  "role_assignment_rule": "P34 outcomes may determine which inherited worlds serve as discovery versus binding holdout, but G9.5-P1 fiber coordinates, response diagnostics, budgets, candidate-selection rules, corpus selection, and success gates are frozen before any G9.5-P1 selective outcome is opened. The Stockfish P33 singleton witness is binding holdout evidence and cannot be used to choose or refine the G9.5 fiber level.",
+  "discovery_cases": [
+    {
+      "case_id": "ethereal:a8fd39b3864a:CUTOFF",
+      "engine": "ethereal",
+      "role": "DISCOVERY_SPLIT_WORLD",
+      "reason": "P34 structural quotient failed across the frozen Q0→Q3 chain; suitable adversarial discovery world."
+    },
+    {
+      "case_id": "ethereal:f8cde3d6abb4:MOVE_ORDER",
+      "engine": "ethereal",
+      "role": "DISCOVERY_SPLIT_WORLD",
+      "reason": "P34 Q2 succeeded; contrasting discovery world prevents designing only for a failure case."
+    }
+  ],
+  "binding_holdout": [
+    {
+      "case_id": "stockfish_19:f8cde3d6abb4:MOVE_ORDER+EVAL",
+      "engine": "stockfish_19",
+      "role": "BINDING_WITNESS_HOLDOUT",
+      "required_address_id": "1cfb4e42993f7550aaddd3ec2233b23f24cf2fff3ab410b2fefe51c2139bca10",
+      "inherited_target_fact": "Under the P33 parent seed-removal condition, removing this singleton exact event changes the root move from h1g1 to e6e3.",
+      "anti_leakage": "The inherited witness identity is allowed only to guarantee inclusion in the holdout probe set. Its G9.5 diagnostic fiber and all G9.5 root-response comparisons remain sealed until after the discovery-selected level is frozen."
+    }
+  ],
+  "historical_transport_cases": [
+    {
+      "case_id": "stockfish_19:ec55f57dd7e3:CUTOFF",
+      "engine": "stockfish_19",
+      "role": "HISTORICAL_TRANSPORT_STRESS"
+    },
+    {
+      "case_id": "berserk:b27b7a24ddcd:MOVE_ORDER",
+      "engine": "berserk",
+      "role": "HISTORICAL_TRANSPORT_STRESS"
+    },
+    {
+      "case_id": "berserk:b27b7a24ddcd:EVAL",
+      "engine": "berserk",
+      "role": "HISTORICAL_TRANSPORT_STRESS"
+    },
+    {
+      "case_id": "ethereal:c18e10bd6a3a:MOVE_ORDER",
+      "engine": "ethereal",
+      "role": "HISTORICAL_TRANSPORT_STRESS"
+    }
+  ],
+  "fresh_corpus": {
+    "repository": "official-stockfish/books",
+    "commit": "65815ccdbc7727cd4f6aee252ba8f67fb740e92f",
+    "path": "4mvs_+90_+99.epd",
+    "declared_total_positions": 635,
+    "selection": "Normalize legal EPD FENs, sort by SHA-256(FEN), take the first two targets; for each target use the next three hash-ordered positions cyclically as deterministic decoys. No engine output enters selection.",
+    "selected_positions": 2,
+    "engines": [
+      "stockfish_19",
+      "berserk",
+      "ethereal"
+    ],
+    "family": "MOVE_ORDER+EVAL",
+    "frontier": 1,
+    "role": "FRESH_CROSS_ENGINE_TRANSPORT"
+  },
+  "counts": {
+    "discovery": 2,
+    "binding_holdout": 1,
+    "historical_transport": 4,
+    "fresh_positions": 2,
+    "fresh_engine_worlds": 6
+  },
+  "parent_outcomes_consulted_for_role_assignment": true,
+  "g95_p1_selective_results_consulted": false,
+  "nonimplication": "Historical role assignment and the inherited positive-control identity do not license tuning any G9.5-P1 diagnostic feature, refinement level, replay budget, corpus position, or transport gate after G9.5-P1 outcomes."
+}
