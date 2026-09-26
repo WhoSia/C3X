@@ -113,7 +113,7 @@
     "max_observed_cones_per_level": 256,
     "max_replays_per_case_level": 128,
     "max_final_cone_set_for_leave_one_out": 24,
-    "refinement_rule": "For every replay path actually visited by REMOVE_SET, KEEP_SET, REMOVE_ALL, ddmin, leave-one-out, or exact drill-down, every newly observed quotient class is appended without ranking and the level court restarts. A fixed point requires no new quotient class on all such visited paths under the frozen caps.",
+    "refinement_rule": "For every quotient-intervention replay path actually visited by REMOVE_SET, KEEP_SET, REMOVE_ALL, ddmin, or leave-one-out, every newly observed quotient class is appended without ranking and the level court restarts. A fixed point requires no new quotient class on all such visited quotient-intervention paths under the frozen caps. Exact-address drill-down is a downstream falsification test and does not reopen the quotient universe; any mismatch is retained as failed query commutation.",
     "level_pass": "A level passes representation closure only at a replay-discovered fixed point under the frozen caps.",
     "divergence_certificate": "If Q0,Q1,Q2,Q3 all fail prospectively named closure/collision/causal-preservation gates, emit BOUNDED_QUOTIENT_LATTICE_DIVERGENCE. This is a certificate against the frozen lattice, not a proof that no possible abstraction exists."
   },
