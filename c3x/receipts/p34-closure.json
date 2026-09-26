@@ -187,5 +187,11 @@
     "No strategy, cognition, human-like intent, prevalence or cross-position generalization is authorized."
   ],
   "successor_question": "Can a causal partition be constituted so that exact events are merged only when their intervention-response fibers are prospectively indistinguishable, while preventing post-hoc outcome leakage and preserving the P33 singleton witness on held-out worlds?",
-  "successor_proposal": "C3X 0.7.0-G9.5-P1 — Prospective Witness-Preserving Causal Fiber Constitution, Intervention-Response Congruence, Counterexample-Guided Quotient Splitting, Held-Out Positive-Control Preservation, Cross-Engine Fiber Transport & Exact-Event Explanation Reconstruction"
+  "successor_proposal": "C3X 0.7.0-G9.5-P1 — Prospective Witness-Preserving Causal Fiber Constitution, Intervention-Response Congruence, Counterexample-Guided Quotient Splitting, Held-Out Positive-Control Preservation, Cross-Engine Fiber Transport & Exact-Event Explanation Reconstruction",
+  "custody": {
+    "drive_folder_id": "1ScCvshaYuZolBYfsiEVzGbhczvK4b4M2",
+    "drive_precommit_file_id": "18GIoqnMgISLjnoAYJCt5loRiSCz-Lin-",
+    "drive_final_file_id": "1c1h2khPYYy0AO8eje_XyniosF5gW-qKa",
+    "notion_page_id": "3e7ef561-cf92-8176-83e0-e6b782404ccb"
+  }
 }
