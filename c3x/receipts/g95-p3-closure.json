@@ -1,0 +1,145 @@
+{
+  "canonical_head": "b9d791188ef35af8ff81839120384509fd95389e",
+  "canonical_inner_file_sha256": {
+    "adjudication_json": "db2a506368372a8ee88c7613f5d5d99656cd72c5f9fcfd8fa643a3b25de14827",
+    "corpus_json": "d4a0363e1dd2333a445f8c3943e52ff06910e92276a66f82071eedc25b712d18",
+    "field_json": "648d5d70a17a13105e23a2ba13a443a034f69ca652b6f96281719da2c3728d59",
+    "lawgen_constitution_json": "cc297a994675e7ff5e80f8f170832eb309c920f8db2b594afa99f18656f86ac5",
+    "precommit_json": "f87a4ce2ad0ec156059ace53b6bab816016d0d350551c094e42c65d310ee0ef0",
+    "scope_json": "de299f923afa0fa8ed21fccce914f12f6293932d7146953fa40a7dd957be7acc",
+    "verification_json": "d388d51147ed1f64b0b0529694e8cd8db539317f22c048fd5c2b2774af3e794a"
+  },
+  "canonical_run": 36231281653,
+  "canonical_run_number": 29,
+  "canonical_verdict": "FRESH_RECONSTITUTION_SUPPORT_LIMITED_HOLD",
+  "claim_ceiling": [
+    "P3 does not show that topology/history context is useless; the fresh experiment is support-limited.",
+    "P3 does not establish engine identity or architecture as the missing causal variable.",
+    "The Stockfish-local P2_BASE field did not survive held-out transport.",
+    "Abstention is an explicit boundary of authority, not evidence of non-causality.",
+    "The deterministic service may expose certificates and diagnoses but cannot add scientific authority.",
+    "No LLM, cognition, intent, human-strategy, or population-prevalence claim is licensed."
+  ],
+  "deterministic_service": {
+    "court_global_predictions": 0,
+    "field_identity_sha256": "f90892dfa968c78046ffeb332b235cee4e4b97eae5cc2c053fd90740db3bac5f",
+    "full_parity_pass": true,
+    "inner_tar_sha256": "8590c663dc3c9d913c25e6256ef30eb5f06f206d460a152376873dc18200db63",
+    "llm_dependency": false,
+    "profiles_checked": 192,
+    "smoke_query_status": "ABSTAIN_NO_GLOBAL_FIELD"
+  },
+  "drive_custody": {
+    "corpus": "1k5q_4rJ5ifCGAFe8xDibA1JmQ9zs90zw",
+    "field": "1JTD5tfKCc0_kVIS81ERUj_QC6Q7vk4Sj",
+    "final": "1tEtyv6v8UUFOiKsA6E93BQfHjtpci6dy",
+    "folder_id": "16hLENr3qA-N5XYTulViupADiweLNf5iL",
+    "lawgen": "1kj0ifBYUtz7aD5-YVAwJ29DSxalQlcmd",
+    "precommit": "1caCtuO9_OMtDZC12cob-VYCzw4xTLkge",
+    "scope": "11XgO-Ur_5rBrKsCjmdmkVNaozOqsLT8U",
+    "service": "1uTqGqHUgJld11U5FeYgHF2x-qgrIc26O",
+    "verification": "1x6MJEf3P7qTLzWM5brhI6R6oGZWv3_gE"
+  },
+  "engine_specific": {
+    "berserk": {
+      "discovery_support_pass": false,
+      "selected_schema": null
+    },
+    "ethereal": {
+      "discovery_support_pass": false,
+      "selected_schema": null
+    },
+    "stockfish_19": {
+      "discovery_negative": 63,
+      "discovery_positive": 1,
+      "discovery_records": 64,
+      "discovery_support_pass": true,
+      "heldout_contradictions": 2,
+      "heldout_mixed_cells": 2,
+      "heldout_profiles": 64,
+      "heldout_scope_gate_pass": true,
+      "heldout_seen": 38,
+      "heldout_seen_fraction": 0.59375,
+      "selected_schema": "P2_BASE",
+      "transport_certified": false
+    }
+  },
+  "engineering_repair": {
+    "core_field_scope_verification_adjudication_byte_identical_between_runs_28_and_29": true,
+    "failure": "Service package lost executable bit after artifact download; external-style smoke stopped at exit 126.",
+    "noncanonical_head": "426fd8c913ed109cc1f7df65b451c7845a794002",
+    "noncanonical_run": 36230505634,
+    "repair": "chmod +x service/bin/c3x-field-p3 after artifact copy",
+    "repair_commit": "b9d791188ef35af8ff81839120384509fd95389e",
+    "science_changed": false
+  },
+  "explanation_closure": {
+    "adjudication_receipt_sha256": "8d506473c89d9ebedcbaa6497c6c9516fcce21b523c49a3f9683e966b230df33",
+    "counterfactual_pv_complete": 192,
+    "parent_pv_complete": 192,
+    "profiles": 192,
+    "unsupported_rendered_claims": 0,
+    "verification_failed": 0,
+    "verification_passed": 192
+  },
+  "fresh_discovery": {
+    "field_status": "FRESH_DISCOVERY_SUPPORT_LIMITED",
+    "interpretation": "The frozen fresh discovery distribution did not contain enough positive ROOT_CHANGE support to license a global topology-aware causal field. Zero discovery collisions are therefore not transport authority.",
+    "primary_schema_target_collisions": 0,
+    "records": 192,
+    "required_min_positive": 2,
+    "root_change_negative": 191,
+    "root_change_positive": 1,
+    "selected_global_schema": null,
+    "support_gate_pass": false
+  },
+  "github_artifacts": {
+    "corpus": {"digest": "sha256:c65aa183e4872a4bba87214f648ec2295f38a8493e8966ce4153f7451735cec1", "id": 10902464242},
+    "field": {"digest": "sha256:1423b1d0e0f4145667a4b38b3df2592bf845ffedeb6c67621ed223112982348c", "id": 10902800514},
+    "final": {"digest": "sha256:f734921e10a6b8cb857ce7d9738a460e7daa70e7fa03ab69c8ee876bf4f671ac", "id": 10902726462},
+    "lawgen": {"digest": "sha256:beedbca0dbd5d4f22d07aaca309f820e5210bf60e845686333692a69681f2c4c", "id": 10902414454},
+    "precommit": {"digest": "sha256:55fdbc45ff5a191919b4df8c305f23076639ce9cb2d9a751127473441118f982", "id": 10902731115},
+    "scope": {"digest": "sha256:3fc611a82280e1144180a7ebb58d0de0d599f490a726aa0af12f4749c2ab024c", "id": 10902444716},
+    "service": {"digest": "sha256:3ab617edd9e6e3c42f1a8878bdecc17d805463574ae095b9c18ac3a21690e580", "id": 10901659435},
+    "verification": {"digest": "sha256:97dba51801bc2f97a61e2227cb7fd5d9917c84883a4e082d1fbeee03e19d287c", "id": 10902464645}
+  },
+  "heldout_global": {
+    "global_field_present": false,
+    "global_seen": 0,
+    "global_service_status": "ABSTAIN_NO_GLOBAL_FIELD",
+    "global_service_status_count": 192,
+    "profiles": 192
+  },
+  "literature_custody": {
+    "current_00_intake_files": 0,
+    "duarte_solus_debt_resolved": true,
+    "new_intake_files_normalized_and_promoted": 7,
+    "p3_used_papers_verified_in_10_papers": 8,
+    "postrun_intake_cleanup_commit": "36ed64e6f832e60b6b4ab03861fa4d94f202cef6",
+    "postrun_intake_cleanup_receipt_path": "c3x/receipts/g95-p3-literature-cleanup-postrun.json",
+    "scientific_authority": "NONE_POSTRUN_CUSTODY_ONLY"
+  },
+  "parent": {
+    "canonical_run": 36223570067,
+    "closure_commit": "07591db34ee6af830efc5736ad397a7e1a577247",
+    "failure_witness_authority": "DEVELOPMENT_ONLY_NO_CONFIRMATORY_VOTE",
+    "stage": "C3X 0.7.0-G9.5-P2",
+    "verdict": "PORTABLE_CONTEXT_FIELD_HELDOUT_FALSIFIED"
+  },
+  "prospective_constitution": {
+    "causal_availability": "EVENT_PREFIX_ONLY",
+    "context_schema_version": "c3x-context-v2",
+    "discovery_book": "6mvs_+90_+99.epd",
+    "engines": ["stockfish_19", "berserk", "ethereal"],
+    "fresh_source_commit": "65815ccdbc7727cd4f6aee252ba8f67fb740e92f",
+    "fresh_source_repo": "official-stockfish/books",
+    "heldout_book": "8mvs_big_+80_+109.epd",
+    "p2_contradictions_used_for_confirmatory_vote": false
+  },
+  "receipt_sha256": "d0415066c2b44f4e5b690da5d7a986f52b74368f0703cacf783da69bfd0676ca",
+  "schema": "c3x-g95-p3-closure-v1",
+  "scientific_stage": "C3X 0.7.0-G9.5-P3",
+  "status": "CLOSED_HOLD",
+  "successor_question": "Can a prospectively outcome-blind experimental design increase support for rare exact-event ROOT_CHANGE mechanisms without selecting on the target, while preserving the same abstention and transport firewalls?",
+  "title": "Prospective Causal-Field Failure Decomposition, Engine-Conditional Context Geometry, Search-Topology Context Instrumentation, Counterexample-Guided Schema Evolution, Fresh Reconstitution, Held-Out Regime Transport & Reproducible Explanation-Service API"
+}
