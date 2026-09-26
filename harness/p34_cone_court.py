@@ -271,16 +271,15 @@ def case_run(a):
   except Budget:
    status="QUOTIENT_BUDGET_HOLD";failure.append(status)
 
-  drill={"status":"NOT_RUN","cones":{},"collision":False,"large_class_hold":False,"exact_expansion_parity":False}
-  if rem_cert:
+  drill={"status":"NOT_RUN","cones":{},"collision":False,"large_class_hold":False,
+    "remove_exact_expansion_parity":False,"keep_exact_expansion_parity":False,"query_commutation":False}
+  if rem_cert and keep_cert:
    parent_by_q=defaultdict(list)
    for pe,ce in zip(parent["p32"]["events"],parent["cone"]["events"]):
     if pe["ply"]<=frontier and not ce["seed_blocked"]:parent_by_q[qid(ce,level)].append(pe)
-   singleton_bestmoves=set();large=False;collision=False
-   union_members=[]
-   for q in rem_ids:
+   causal_ids=sorted(set(rem_ids)|set(keep_ids));large=False;collision=False
+   for q in causal_ids:
     members=parent_by_q.get(q,[]);info={"parent_trace_members":len(members),"singleton_probes":[]}
-    union_members.extend(members)
     if len(members)>MAX_DRILL:
      large=True;info["status"]="DRILLDOWN_SIZE_HOLD"
     else:
@@ -289,23 +288,51 @@ def case_run(a):
       extra=dict(m["address"]);extra["address_id"]=m["address_id"]
       rr=run34(a.binary,protocol,case["cell"],case["family"],frontier,seed+[extra],"SEED_ONLY",level,None,
         root/f"Q{level}"/"drill"/f"{q.replace(':','_')}-{j}")
-      bm=rr["semantic"]["bestmove"];sig.add(bm);singleton_bestmoves.add(bm)
-      info["singleton_probes"].append({"address_id":m["address_id"],"bestmove":bm,"changes_parent":bm!=parent["semantic"]["bestmove"]})
+      bm=rr["semantic"]["bestmove"];sig.add(bm)
+      info["singleton_probes"].append({"address_id":m["address_id"],"bestmove":bm,
+        "changes_parent":bm!=parent["semantic"]["bestmove"]})
      info["singleton_signature_count"]=len(sig);info["status"]="COLLISION" if len(sig)>1 else "NO_SINGLETON_COLLISION"
      if len(sig)>1:collision=True
     drill["cones"][q]=info
-   uniq=[];seen=set()
-   for m in union_members:
-    if m["address_id"] not in seen:
-     seen.add(m["address_id"]);z=dict(m["address"]);z["address_id"]=m["address_id"];uniq.append(z)
-   expansion=run34(a.binary,protocol,case["cell"],case["family"],frontier,seed+uniq,"SEED_ONLY",level,None,root/f"Q{level}"/"drill"/"exact-expansion")
-   parity=bool(rem and expansion["semantic"]["bestmove"]==rem["semantic"]["bestmove"])
-   drill.update({"status":"PASS" if (not collision and not large and parity) else "HOLD","collision":collision,"large_class_hold":large,
-     "exact_expansion_member_count":len(uniq),"exact_expansion_bestmove":expansion["semantic"]["bestmove"],
-     "dynamic_quotient_bestmove":rem["semantic"]["bestmove"] if rem else None,"exact_expansion_parity":parity})
+
+   def exact_targets(members):
+    out=[];seen=set()
+    for m in members:
+     if m["address_id"] not in seen:
+      seen.add(m["address_id"]);z=dict(m["address"]);z["address_id"]=m["address_id"];out.append(z)
+    return out
+
+   rem_members=[]
+   for q in rem_ids:rem_members.extend(parent_by_q.get(q,[]))
+   rem_exact=exact_targets(rem_members)
+   rem_expansion=run34(a.binary,protocol,case["cell"],case["family"],frontier,seed+rem_exact,"SEED_ONLY",level,None,
+     root/f"Q{level}"/"drill"/"remove-exact-expansion")
+   rem_parity=bool(rem and rem_expansion["semantic"]["bestmove"]==rem["semantic"]["bestmove"])
+
+   keep_blocked_members=[]
+   keep_set=set(keep_ids)
+   for q,members in parent_by_q.items():
+    if q not in keep_set:keep_blocked_members.extend(members)
+   keep_exact=exact_targets(keep_blocked_members)
+   keep_expansion=run34(a.binary,protocol,case["cell"],case["family"],frontier,seed+keep_exact,"SEED_ONLY",level,None,
+     root/f"Q{level}"/"drill"/"keep-exact-expansion")
+   keep_parity=bool(keep and keep_expansion["semantic"]["bestmove"]==keep["semantic"]["bestmove"])
+   commute=rem_parity and keep_parity
+   drill.update({"status":"PASS" if (not collision and not large and commute) else "HOLD","collision":collision,
+     "large_class_hold":large,"causal_cone_ids":causal_ids,
+     "remove_exact_expansion_member_count":len(rem_exact),
+     "remove_exact_expansion_bestmove":rem_expansion["semantic"]["bestmove"],
+     "dynamic_remove_bestmove":rem["semantic"]["bestmove"] if rem else None,
+     "remove_exact_expansion_parity":rem_parity,
+     "keep_exact_blocked_member_count":len(keep_exact),
+     "keep_exact_expansion_bestmove":keep_expansion["semantic"]["bestmove"],
+     "dynamic_keep_bestmove":keep["semantic"]["bestmove"] if keep else None,
+     "keep_exact_expansion_parity":keep_parity,
+     "query_commutation":commute})
    if collision:failure.append("QUOTIENT_COLLISION")
    if large:failure.append("DRILLDOWN_SIZE_HOLD")
-   if not parity:failure.append("LOCAL_EXACT_EXPANSION_PARITY_FAIL")
+   if not rem_parity:failure.append("REMOVE_LOCAL_EXACT_EXPANSION_PARITY_FAIL")
+   if not keep_parity:failure.append("KEEP_LOCAL_EXACT_EXPANSION_PARITY_FAIL")
 
   fullv=verify_cones(a.coner,full["cone"],level,root/"verify",f"Q{level}-full") if full else None
   remv=verify_cones(a.coner,rem["cone"],level,root/"verify",f"Q{level}-rem") if rem else None
