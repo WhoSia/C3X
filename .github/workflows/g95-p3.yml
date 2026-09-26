@@ -392,7 +392,7 @@ jobs:
           mkdir -p service/bin service/tools service/certificates service/docs service/examples service/schemas
           cp kernels/c3x-field-p3 service/bin/
           cp tools/c3x_service.py tools/c3x_context_v2.py tools/c3x_context.py service/tools/
-          cp docs/G95_P3_THEORY.md docs/C3X_FIELD_CLI.md service/docs/
+          cp docs/G95_P3_THEORY.md service/docs/
           cp lawgen/lawgen/constitution.json lawgen/lawgen/schema-families.json service/schemas/
           cp field/field.json service/certificates/
           cp scope/scope.json service/certificates/
@@ -430,6 +430,33 @@ jobs:
           t={r["record_id"]:r for r in json.load(open("verify/heldout-targets.json"))["records"]}[p["record_id"]]
           json.dump({"profile":p,"observed_root_change":t["root_change"]},open("service/examples/diagnose-request.json","w"),indent=2,sort_keys=True);open("service/examples/diagnose-request.json","a").write("\n")
           PY
+          PYTHONPATH=service/tools python3 - <<'PY'
+          import json
+          from c3x_service import FieldService
+          field=json.load(open("service/certificates/field.json"))
+          profiles=json.load(open("scope/heldout-profiles.json"))["records"]
+          scope=json.load(open("scope/scope.json"))
+          svc=FieldService(field)
+          expected={x["record_id"]:x for x in scope["global_predictions"]}
+          checked=0
+          for p in profiles:
+              q=svc.query(p)
+              if expected:
+                  e=expected[p["record_id"]]
+                  assert q["status"]==e["status"],(p["record_id"],q["status"],e["status"])
+                  assert q["predicted_root_change"]==e["predicted_root_change"]
+              else:
+                  assert q["status"]=="ABSTAIN_NO_GLOBAL_FIELD"
+                  assert q["predicted_root_change"] is None
+              assert q["field_sha256"]==svc.field_sha256
+              assert q["context_schema_version"]==field["context_schema_version"]
+              checked+=1
+          out={"schema":"c3x-g95-p3-service-full-parity-v1","profiles_checked":checked,
+               "court_global_predictions":len(expected),"pass":True,
+               "field_sha256":svc.field_sha256,"context_schema_version":svc.context_schema_version}
+          json.dump(out,open("service/full-parity.json","w"),indent=2,sort_keys=True);open("service/full-parity.json","a").write("\n")
+          print("P3_SERVICE_FULL_PARITY_PASS",checked,len(expected))
+          PY
           service/bin/c3x-field-p3 --help > service/c3x-field-p3-help.txt
           python3 service/tools/c3x_context_v2.py --help > service/c3x-context-v2-help.txt
           grep -q "assess" service/c3x-field-p3-help.txt
@@ -461,7 +488,7 @@ jobs:
           )
           tar -czf g95-p3-explanation-service.tar.gz service
           sha256sum g95-p3-explanation-service.tar.gz > g95-p3-explanation-service.sha256
-          sha256sum service/health.json service/query-response.json service/explain-response.json service/diagnose-response.json | sort > g95-p3-service-smoke-sha256.txt
+          sha256sum service/health.json service/query-response.json service/explain-response.json service/diagnose-response.json service/full-parity.json | sort > g95-p3-service-smoke-sha256.txt
       - uses: actions/upload-artifact@v4
         with:
           name: g95-p3-explanation-service
