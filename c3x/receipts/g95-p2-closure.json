@@ -1,0 +1,383 @@
+{
+  "schema": "c3x-g95-p2-closure-v1",
+  "scientific_stage": "C3X 0.7.0-G9.5-P2",
+  "status": "CLOSED",
+  "decision": "DISCOVERY_PASS_HELDOUT_TRANSPORT_FALSIFIED",
+  "title": "Prospective Context-Indexed Causal Fiber Field, Pre-Intervention Context Sufficiency, Minimal Conditioning-Basis Identification, Cross-World Congruence Restoration, Held-Out Context Transport & Explanation-Scope Calibration",
+  "parent": {
+    "stage": "C3X 0.7.0-G9.5-P1",
+    "closure_commit": "5641751979adb562a381177323c56d8262d62cc6",
+    "canonical_run": 36219611294,
+    "verdict": "WITNESS_PRESERVING_LOCAL_FIBER_CROSS_CONTEXT_HOLD"
+  },
+  "execution": {
+    "canonical_run": 36223570067,
+    "canonical_scientific_head_sha": "4859cd5f2db554740b36bd5e89ade06e7969cea5",
+    "jobs_success": 57,
+    "jobs_total": 57,
+    "noncanonical_engineering_runs": [
+      {
+        "run_id": 36222839152,
+        "conclusion": "failure",
+        "authority": "NONE",
+        "note": "Noncanonical launch/wiring execution; not used for final scientific adjudication."
+      },
+      {
+        "run_id": 36222922780,
+        "conclusion": "cancelled",
+        "authority": "NONE",
+        "note": "Noncanonical engineering execution; not used for final scientific adjudication."
+      },
+      {
+        "run_id": 36222925081,
+        "conclusion": "failure",
+        "authority": "NONE",
+        "note": "Noncanonical engineering execution during dependency/CLI-surface stabilization; not used for final adjudication."
+      }
+    ],
+    "authority_rule": "Only run 36223570067 carries P2 scientific authority. Later toolkit runs are packaging/reproducibility checks only."
+  },
+  "verdict": "PORTABLE_CONTEXT_FIELD_HELDOUT_FALSIFIED",
+  "formal_object": {
+    "fiber": "G9.5-P1 F0",
+    "context_index": "C_S(r) over frozen pre-intervention coordinates",
+    "cell": "K_S(r)=(F0(r),C_S(r))",
+    "target": "ROOT_CHANGE after singleton exact-event removal",
+    "field": "L_S : (F0,C_S) partial-> {ROOT_CHANGE,NO_ROOT_CHANGE}",
+    "unseen_semantics": "ABSTAIN_UNSEEN_CONTEXT",
+    "contradiction_semantics": "Covered held-out disagreement falsifies transport for the selected field."
+  },
+  "prospective_context_constitution": {
+    "portable_coordinate_count": 15,
+    "coordinate_groups": [
+      "BOARD",
+      "SEARCH",
+      "EVENT"
+    ],
+    "forbidden_primary_context": [
+      "engine name",
+      "FEN",
+      "position hash",
+      "case/world identity",
+      "exact address_id",
+      "full key",
+      "ROOT_CHANGE",
+      "counterfactual bestmove/score/WDL/PV",
+      "learned world identifiers",
+      "post-outcome thresholds"
+    ],
+    "architecture_lane": "SECONDARY_DIAGNOSTIC_ONLY",
+    "anti_vacuity": "Primary basis cardinality capped prospectively at 3; architecture descriptors could not rescue a failed portable field into a primary PASS."
+  },
+  "discovery": {
+    "source": "Pinned Stockfish Books 4mvs_+90_+99.epd",
+    "fresh_positions": 8,
+    "engines": [
+      "stockfish_19",
+      "berserk",
+      "ethereal"
+    ],
+    "candidate_events_per_engine_world": 8,
+    "fired_records": 192,
+    "positive_records": 15,
+    "negative_records": 177,
+    "support_gate": "PASS",
+    "search": "All frozen portable subsets of cardinality 0 through 3",
+    "minimum_portable_cardinality": 3,
+    "minimal_portable_basis_count": 1,
+    "unique_minimal_basis_id": "P:parent_depth_bucket+event_occ_bucket+event_ordinal_bucket",
+    "unique_minimal_coordinates": [
+      "parent_depth_bucket",
+      "event_occ_bucket",
+      "event_ordinal_bucket"
+    ],
+    "interpretation": "On discovery support, parent search depth, exact-signature recurrence, and relative event location jointly removed target collisions under the frozen admissibility rules.",
+    "engine_specific": {
+      "berserk": {
+        "minimum_portable_cardinality": 0,
+        "minimal_basis_ids": [
+          "P:EMPTY"
+        ],
+        "interpretation": "No additional portable context beyond F0 was required on the finite discovery support."
+      },
+      "stockfish_19": {
+        "minimum_portable_cardinality": 2,
+        "minimal_basis_ids": [
+          "P:board_legal_bucket+event_window_relation",
+          "P:event_occ_bucket+event_ordinal_bucket",
+          "P:event_ordinal_bucket+event_window_relation"
+        ]
+      },
+      "ethereal": {
+        "minimum_portable_cardinality": 3,
+        "minimal_basis_ids": [
+          "P:board_legal_bucket+event_depth_bucket+event_ordinal_bucket",
+          "P:board_development_bucket+parent_score_bucket+event_ordinal_bucket",
+          "P:board_development_bucket+event_depth_bucket+event_ordinal_bucket",
+          "P:parent_score_bucket+parent_depth_bucket+event_ordinal_bucket",
+          "P:parent_depth_bucket+event_depth_bucket+event_ordinal_bucket",
+          "P:parent_depth_bucket+event_occ_bucket+event_ordinal_bucket"
+        ]
+      }
+    },
+    "hashes": {
+      "discovery_input_sha256": "4ab7885b69145728a023f479cfdf32e79e11a332fcf8aeb701bf4f4675f5a8e7",
+      "discovery_field_sha256": "7d378b5f18fb77d018142255111bb3a9e4b9a3b7caeb82dd597bd0c25c12bd72"
+    }
+  },
+  "heldout_scope": {
+    "source": "Pinned Stockfish Books 8mvs_+90_+99.epd",
+    "positions": 8,
+    "engines": [
+      "stockfish_19",
+      "berserk",
+      "ethereal"
+    ],
+    "profiles": 192,
+    "target_firewall": "Profile packets contained F0 plus pre-intervention context only; target packets were unavailable to scope selection.",
+    "selected_basis_id": "P:parent_depth_bucket+event_occ_bucket+event_ordinal_bucket",
+    "target_fields_consulted": false,
+    "seen_profiles": 132,
+    "seen_fraction": 0.6875,
+    "covered_engines": 3,
+    "covered_positions": 8,
+    "discovery_predicted_positive_profiles": 8,
+    "gate_pass": true,
+    "hashes": {
+      "profiles_sha256": "2c6a7cb175880692078670a3266480218b829dcae176755024daee760279a684",
+      "scope_sha256": "ad8cf132a78a03b05c78eb98d81025b071c54bec1c872de1280bcd7410e72933"
+    }
+  },
+  "heldout_verification": {
+    "target_opening": "After target-blind scope seal only",
+    "covered_verified": 132,
+    "abstained_unseen_contexts": 60,
+    "contradictions": 8,
+    "mixed_heldout_cells": 1,
+    "verdict": "CONTEXT_FIELD_TRANSPORT_FALSIFIED",
+    "mixed_cell": {
+      "cell_key": "F0|MAIN|MOVE_ORDER_SEED|0|-1|4||parent_depth_bucket=9_12||event_occ_bucket=1||event_ordinal_bucket=Q1",
+      "observed_labels": [
+        false,
+        true
+      ]
+    },
+    "contradiction_counts_by_engine": {
+      "berserk": 0,
+      "stockfish_19": 3,
+      "ethereal": 5
+    },
+    "engine_heldout_summary": {
+      "berserk": {
+        "records": 64,
+        "covered_verified": 48,
+        "abstained": 16,
+        "contradictions": 0
+      },
+      "stockfish_19": {
+        "records": 64,
+        "covered_verified": 35,
+        "abstained": 26,
+        "contradictions": 3
+      },
+      "ethereal": {
+        "records": 64,
+        "covered_verified": 41,
+        "abstained": 18,
+        "contradictions": 5
+      }
+    },
+    "hashes": {
+      "targets_sha256": "b3425761ece636224f36c7d0950502359db6f83403762dd518087dc4ab398c72",
+      "verification_sha256": "fa7c9ef043c5c295f6abd3fcb27ff1cbf4e19fdb65a2b0dfc373b8cf479683e2"
+    }
+  },
+  "explanation_closure": {
+    "heldout_records": 192,
+    "status_counts": {
+      "ABSTAIN_UNSEEN_CONTEXT": 60,
+      "CERTIFIED_NO_ROOT_CHANGE": 123,
+      "CERTIFIED_ROOT_CHANGE": 1,
+      "CONTRADICTED_CONTEXT_CELL": 8
+    },
+    "parent_pv_complete": 192,
+    "counterfactual_pv_complete": 192,
+    "explanation_passed": 192,
+    "explanation_failed": 0,
+    "unsupported_rendered_claims": 0,
+    "independent_javascript_firewall": "PASS",
+    "interpretation": "Per-record certificate statuses remain bounded by the selected field; the global held-out field is falsified."
+  },
+  "implementation": {
+    "policy": "CAPABILITY_FIRST_POLYGLOT_LANGUAGE_NONAUTHORITATIVE",
+    "rust_cli": {
+      "binary": "c3x-field",
+      "commands": [
+        "discover",
+        "scope",
+        "query",
+        "verify"
+      ],
+      "semantics": "Typed discovery, target-blind scope, explicit abstention, and post-seal verification."
+    },
+    "python_frontend": {
+      "entrypoint": "tools/c3x-context.py",
+      "role": "Materialize the frozen chess-aware pre-intervention context profile from FEN, parent semantics/trace, exact event and architecture descriptor."
+    },
+    "javascript": {
+      "entrypoint": "tools/g95-p2-verify.mjs",
+      "role": "Independent verdict ladder, target-leak and explanation-scope firewall."
+    },
+    "lawgen": "LawGen v12 compiles the context-field constitution and vocabulary before selective P2 outcomes."
+  },
+  "toolkit_release": {
+    "scientific_authority": "NONE_ADDITIONAL",
+    "relation_to_science": "Post-outcome packaging/reproducibility only; does not alter P2 selection, thresholds, contexts, targets, or verdict.",
+    "version": "v3",
+    "toolkit_release_head_sha": "dd6bdb5f84127e4bd01d8e1224a4803aacf4d813",
+    "workflow_run": 36225008396,
+    "artifact_id": 10900865235,
+    "artifact_digest": "sha256:53fcd53e7d176c7d0ed5e49963cb1d1ac84cd16a6a47763cd1ffad8609490e78",
+    "inner_tar_sha256": "a4b529a063fb5d76940dbd0930bdf776f0ecc7ceb6dc4bd6e891595e67dad722",
+    "capabilities": [
+      "bundled canonical Rust c3x-field binary",
+      "bundled chess-aware context profiler",
+      "bundled LawGen constitution and context vocabulary",
+      "bundled discovery input, held-out profiles and held-out targets",
+      "bundled canonical discovery/scope/verification/final certificates",
+      "manifest integrity verification",
+      "external extraction and canonical replay"
+    ],
+    "reproducibility": {
+      "manifest_verified": true,
+      "discovery_reproduced_byte_exact": true,
+      "scope_reproduced_byte_exact": true,
+      "verification_reproduced_byte_exact": true,
+      "smoke_output": "C3X_TOOLKIT_REPRO_PASS 3 132 132 60"
+    }
+  },
+  "scientific_interpretation": {
+    "hierarchy": [
+      "F0 alone was insufficient across P1 contexts.",
+      "A prospectively constrained 3-coordinate pre-intervention field perfectly separated P2 discovery evidence.",
+      "Target-blind held-out scope covered 68.75% of profiles across all engines and positions.",
+      "After target opening the same field produced eight contradictions and one mixed held-out cell."
+    ],
+    "conclusion": "Discovery sufficiency plus broad target-blind coverage does not establish causal transport authority.",
+    "structured_failure": "Berserk had no additional-context requirement on finite discovery support and no held-out covered contradictions; Stockfish and Ethereal required richer discovery context and failed held-out transport. This motivates engine-conditional/search-topology investigation but does not identify engine identity as the missing causal variable.",
+    "prohibited_repair": "Do not rescue P2 post hoc with cardinality 4+, engine ID, FEN/hash, exact key/address, learned world IDs, or outcome-tuned context thresholds."
+  },
+  "prior_program_integration": {
+    "harvest": [
+      "Harvest XLV: replication is not transport; intervention-defined quotients and positive non-identifiability.",
+      "Harvest XLVI: invariance/alignment success does not itself establish causal semantics; representation/context capacity is part of the hypothesis."
+    ],
+    "c3x_lineage": [
+      "P23/P24: pre-intervention search-state quotients failed universal architecture invariance and yielded architecture-indexed law families.",
+      "P25: fresh architecture index replicated; source descriptors separated engines without proving descriptor causal effects.",
+      "P26: architecture × search-budget product field remained required under frozen low-capacity correspondence."
+    ]
+  },
+  "literature_positioning": {
+    "drive_present": [
+      {
+        "work": "Peters, Bühlmann & Meinshausen (2016), Causal Inference by Using Invariant Prediction",
+        "drive_id": "1ljkrI7d5XCC16eIgecO1fQ-73-xJwp0k"
+      },
+      {
+        "work": "Pearl & Bareinboim (2011), Transportability of Causal and Statistical Relations",
+        "drive_id": "1eEnQxWYFC5gjSyxBFF3BY4xfmmGllv_c"
+      },
+      {
+        "work": "VanderWeele & Hernán (2013), Causal Inference Under Multiple Versions of Treatment",
+        "drive_id": "1NvqfiMTmvSK9tr2WCa_vWVF1ts3BbBXd"
+      },
+      {
+        "work": "Rothenhäusler et al. (2021), Anchor Regression",
+        "drive_id": "1zXZLMTQWORSN3fHJ541RbsJwdDCokfo2"
+      },
+      {
+        "work": "Sutter et al. (2025), The Non-Linear Representation Dilemma",
+        "drive_id": "1e4SKpJ4yaYETPCadT-NxOwAat-XuF-Yw"
+      },
+      {
+        "work": "Geiger et al. (2025), Causal Abstraction",
+        "drive_id": "1i_i_cFFv6vqYHaBOgKK9AbuprPtj8v91"
+      }
+    ],
+    "drive_missing": [
+      {
+        "work": "Duarte & Solus (2026), Representation of context-specific causal models with observational and interventional data",
+        "doi": "10.1093/jrsssb/qkaf059"
+      }
+    ]
+  },
+  "custody_hashes": {
+    "precommit_receipt_sha256": "df4ddf89857698aa5b845fe40e5bc37280e7e634ffb89e2d8f6fa2a4ca2053fc",
+    "lawgen_constitution_sha256": "19b46248af5147dc1de90e4202c356af6394516296fcd66f56d2433ac6f8c0be",
+    "discovery_field_sha256": "7d378b5f18fb77d018142255111bb3a9e4b9a3b7caeb82dd597bd0c25c12bd72",
+    "scope_sha256": "ad8cf132a78a03b05c78eb98d81025b071c54bec1c872de1280bcd7410e72933",
+    "verification_sha256": "fa7c9ef043c5c295f6abd3fcb27ff1cbf4e19fdb65a2b0dfc373b8cf479683e2",
+    "final_receipt_sha256": "fe6104afc598fc16482748303867257dc9037a1af0766f5d4c9d542328c385be",
+    "final_adjudication_file_sha256": "1e79f4828c96e87b163d046e92034a18ee1dd70e048b4b0f607913da1d8f6ab0",
+    "explanation_ast_sha256": "305067db7a9ed37df965a33cea63dfdbb036409452ae75f4b3392bc9d805922d",
+    "explanations_sha256": "d3949f46253288cc82a2f17f2be8a1040f1c79fb5b084d2f700aa6df4d1c5d4e",
+    "chess_grounding_sha256": "e02116198e089a83ae223b89dad957c94d3bf47e755d46cfdb8ef651e9ad1e26",
+    "js_verification_sha256": "2cc8a7f83b544c53bef4113ffbe0b4f23fab5696c0bf5af80ba1bfd2168943ce"
+  },
+  "artifacts": {
+    "precommit": {
+      "id": 10899917488,
+      "digest": "sha256:590dbf5872c1c090cd49a3e2d887c19af6d593db2ea8897e2ed921b2e12fe737"
+    },
+    "lawgen": {
+      "id": 10899499099,
+      "digest": "sha256:d507009d045b7e3ba935f58df468b65d34bef7147ea4c87b91643b9f9df4747e"
+    },
+    "discovery": {
+      "id": 10899902791,
+      "digest": "sha256:f5a6dd20fb6a6fd2efa10499e8a201b4da28f9f54de6990ea8523b6a78746feb"
+    },
+    "scope": {
+      "id": 10900170987,
+      "digest": "sha256:719b40c975302c6bfcfa85d456810d26bdddb9be14e858a48b56f6bb8d6820de"
+    },
+    "verification": {
+      "id": 10900007520,
+      "digest": "sha256:004197e999b29c887d17aaf93ee7504d2d37c6d2d95a484e620ada64b60e15d2"
+    },
+    "final": {
+      "id": 10900635276,
+      "digest": "sha256:0f929473a38bd2a84d487bfd885eb0723e754eb505bd3c3e90a97a95b25ec8df"
+    },
+    "toolkit_v3": {
+      "id": 10900865235,
+      "digest": "sha256:53fcd53e7d176c7d0ed5e49963cb1d1ac84cd16a6a47763cd1ffad8609490e78"
+    }
+  },
+  "custody": {
+    "drive_folder_id": "1Hs1kBOJkJhXucdYND8j0IxmJYNPL9sOp",
+    "drive_precommit_file_id": "13t1HoLFk0Ol0ok9Cb4OZ0kD3YzWt8q_a",
+    "drive_lawgen_file_id": "1CTgnG6QQZEr1qBdGtxMCRSk1kIQnJzHN",
+    "drive_discovery_file_id": "1A5uK0gsG5ruyjrf9cQ-VXK5qjbRDwvlG",
+    "drive_scope_file_id": "1DcD7ISfPx9uBRoKJO7F0ZtoZDVJIotGT",
+    "drive_verification_file_id": "1yfcTkbKdZ2JHZNnO2PdHIVLKtWclGwxK",
+    "drive_final_file_id": "1oVBVyhP-c27WarAZaUNDi2nJpnLQ-b46",
+    "drive_toolkit_v3_file_id": "1vZ6aflOPkvJyNShmqO4QBUwbDP5lP1yX",
+    "notion_page_id": "3e7ef561-cf92-81b6-bcca-de2794f266ae"
+  },
+  "claim_ceiling": [
+    "The selected basis is a finite-support, query-specific licensing basis, not the unique true causal context.",
+    "Discovery sufficiency does not imply held-out transport; P2 explicitly falsifies the selected portable field on new contexts.",
+    "Architecture descriptors are secondary diagnostics and cannot convert this failed portable field into a PASS.",
+    "Berserk P:EMPTY means no additional portable coordinate beyond F0 on finite discovery support, not context-free universal causation.",
+    "Unseen context signatures imply abstention, not non-causality.",
+    "Covered agreement at individual records does not override the eight held-out contradictions or the mixed cell.",
+    "No transport beyond the frozen books, source commits, TT-history procedure, Threads=1, Hash=1 MiB and 80k-node measurement search is authorized.",
+    "No post-hoc cardinality expansion, engine/FEN/key/address conditioning, learned identifier, or outcome-tuned threshold may repair P2.",
+    "No chess strategy, cognition, human intent or population prevalence claim is authorized.",
+    "Toolkit v3 reproducibility proves executable replay of the P2 certificate pipeline, not scientific transport."
+  ],
+  "successor_question": "Which prospectively measurable pre-intervention structures explain the P2 contradiction geometry without collapsing into world identity: engine-conditional context geometry, search-path/topology state, temporal event history, TT-state geometry, or interactions among them?",
+  "successor_proposal": "C3X 0.7.0-G9.5-P3 — Prospective Causal-Field Failure Decomposition, Engine-Conditional Context Geometry, Search-Topology Context Instrumentation, Counterexample-Guided Schema Evolution, Fresh Reconstitution, Held-Out Regime Transport & Reproducible Explanation-Service API"
+}
