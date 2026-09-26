@@ -1,0 +1,174 @@
+name: g95-p5-service-recovery
+
+on:
+  push:
+    paths:
+      - ".github/workflows/g95-p5-service-recovery.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+env:
+  CANONICAL_RUN: "36249500693"
+  CANONICAL_HEAD: "adc095253925730d8c967edf7b9be62d08778f3d"
+
+jobs:
+  package:
+    name: Recover deterministic P5 explanation service from canonical sealed artifacts
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ env.CANONICAL_HEAD }}
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: g95-p5-final-adjudication
+          path: final
+          repository: WhoSia/C3X
+          run-id: ${{ env.CANONICAL_RUN }}
+          github-token: ${{ github.token }}
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: g95-p5-selected-field
+          path: field
+          repository: WhoSia/C3X
+          run-id: ${{ env.CANONICAL_RUN }}
+          github-token: ${{ github.token }}
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: g95-p5-transport-scope-sealed
+          path: scope
+          repository: WhoSia/C3X
+          run-id: ${{ env.CANONICAL_RUN }}
+          github-token: ${{ github.token }}
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: g95-p5-kernels
+          path: kernels
+          repository: WhoSia/C3X
+          run-id: ${{ env.CANONICAL_RUN }}
+          github-token: ${{ github.token }}
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: g95-p5-lawgen-preseal
+          path: lawgen
+          repository: WhoSia/C3X
+          run-id: ${{ env.CANONICAL_RUN }}
+          github-token: ${{ github.token }}
+
+      - name: Reproduce service package without changing science
+        run: |
+          set -euxo pipefail
+          mkdir -p service/bin service/tools service/certificates service/docs service/schemas service/examples
+          cp kernels/c3x-repr-p5 service/bin/
+          chmod +x service/bin/*
+          cp tools/c3x_service_v3.py tools/c3x_context_v3.py service/tools/
+          cp docs/G95_P5_THEORY.md service/docs/
+          cp lawgen/lawgen/constitution.json lawgen/lawgen/representation-grammar.json lawgen/lawgen/split-gates.json service/schemas/
+          cp field/selected-field.json service/certificates/
+          cp scope/transport-scope.json service/certificates/
+          cp final/g95-p5-adjudication.json final/g95-p5-public-deployment.json final/g95-p5-explanations.md service/certificates/
+
+          python3 - <<'PY'
+          import json,os
+          receipt={
+            "schema":"c3x-g95-p5-service-recovery-v1",
+            "scientific_stage":"C3X 0.7.0-G9.5-P5",
+            "canonical_run":int(os.environ["CANONICAL_RUN"]),
+            "canonical_head":os.environ["CANONICAL_HEAD"],
+            "recovery_reason":"Original service job was skipped by GitHub default success() propagation after the authorized no-transport-open branch.",
+            "science_changed":False,
+            "authority_changed":False
+          }
+          json.dump(receipt,open("service/recovery-receipt.json","w"),indent=2,sort_keys=True)
+          open("service/recovery-receipt.json","a").write("\n")
+          PY
+
+          PYTHONPATH=service/tools python3 - <<'PY'
+          import json
+          from c3x_service_v3 import RepresentationService
+          field=json.load(open("service/certificates/selected-field.json"))
+          dep=json.load(open("service/certificates/g95-p5-public-deployment.json"))
+          adj=json.load(open("service/certificates/g95-p5-adjudication.json"))
+          profiles=json.load(open("scope/transport-profiles.json"))["records"]
+          expected={x["record_id"]:x["public_status"] for x in adj["certificates"]}
+          svc=RepresentationService(field,dep)
+          checked=0
+          for p in profiles:
+              q=svc.query(p)
+              assert q["status"]==expected[p["record_id"]],(p["record_id"],q["status"],expected[p["record_id"]])
+              checked+=1
+          assert checked==288
+          out={
+            "schema":"c3x-g95-p5-service-full-parity-v1",
+            "profiles_checked":checked,
+            "pass":True,
+            "public_global_authority":svc.public,
+            "field_sha256":svc.field_sha256,
+            "verdict":dep["verdict"]
+          }
+          json.dump(out,open("service/full-parity.json","w"),indent=2,sort_keys=True)
+          open("service/full-parity.json","a").write("\n")
+          json.dump({"profile":profiles[0]},open("service/examples/query-request.json","w"),indent=2,sort_keys=True)
+          open("service/examples/query-request.json","a").write("\n")
+          print("P5_SERVICE_RECOVERY_FULL_PARITY_PASS",checked,svc.public)
+          PY
+
+          python3 service/tools/c3x_service_v3.py --field service/certificates/selected-field.json --deployment service/certificates/g95-p5-public-deployment.json --port 8765 > service.log 2>&1 &
+          PID=$!
+          trap 'kill $PID || true' EXIT
+          for i in {1..20}; do curl -fsS http://127.0.0.1:8765/health > service/health.json && break || sleep 1; done
+          curl -fsS -H 'Content-Type: application/json' --data @service/examples/query-request.json http://127.0.0.1:8765/v1/query > service/query-response.json
+          curl -fsS -H 'Content-Type: application/json' --data @service/examples/query-request.json http://127.0.0.1:8765/v1/explain > service/explain-response.json
+          python3 - <<'PY'
+          import json
+          q=json.load(open("service/query-response.json"))
+          e=json.load(open("service/explain-response.json"))
+          assert q["status"]=="ABSTAIN_UNCERTIFIED_FIELD"
+          assert e["llm_used"] is False
+          print("P5_SERVICE_RECOVERY_HTTP_PASS",q["status"])
+          PY
+          kill $PID
+          trap - EXIT
+
+          (
+            cd service
+            find . -type f ! -name MANIFEST.sha256 -print0 | sort -z | xargs -0 sha256sum > MANIFEST.sha256
+          )
+          tar -czf g95-p5-public-explanation-harness.tar.gz service
+          sha256sum g95-p5-public-explanation-harness.tar.gz > g95-p5-public-explanation-harness.sha256
+          python3 - <<'PY'
+          import hashlib,json
+          p="g95-p5-public-explanation-harness.tar.gz"
+          h=hashlib.sha256(open(p,"rb").read()).hexdigest()
+          out={
+            "schema":"c3x-g95-p5-service-recovery-package-v1",
+            "canonical_run":36249500693,
+            "canonical_head":"adc095253925730d8c967edf7b9be62d08778f3d",
+            "service_tar_sha256":h,
+            "science_changed":False,
+            "authority_changed":False,
+            "full_parity_profiles":288,
+            "http_status":"ABSTAIN_UNCERTIFIED_FIELD",
+            "llm_dependency":False
+          }
+          json.dump(out,open("g95-p5-service-recovery.json","w"),indent=2,sort_keys=True)
+          open("g95-p5-service-recovery.json","a").write("\n")
+          PY
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: g95-p5-public-explanation-harness
+          path: |
+            g95-p5-public-explanation-harness.tar.gz
+            g95-p5-public-explanation-harness.sha256
+            g95-p5-service-recovery.json
+            service/
+          retention-days: 30
