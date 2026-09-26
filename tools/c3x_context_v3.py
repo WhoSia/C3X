@@ -3,7 +3,6 @@ import argparse,json
 from collections import Counter
 from pathlib import Path
 
-import chess
 
 STAGE="C3X 0.7.0-G9.5-P5"
 SCHEMA_VERSION="c3x-context-v3"
@@ -70,6 +69,7 @@ def bound_bucket(v):
  return {0:"NONE",1:"UPPER",2:"LOWER",3:"EXACT"}.get(n,"OTHER")
 
 def board_context(fen):
+ import chess
  b=chess.Board(fen)
  if not b.is_valid() or b.chess960:raise ValueError("standard chess FEN required")
  legal=b.legal_moves.count()
