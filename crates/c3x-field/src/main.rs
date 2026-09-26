@@ -209,9 +209,9 @@ fn assess_pass(m:&Metrics,min_comp:f64,min_cp:usize,min_ce:usize,require_both:bo
     (!require_both || (m.positives>0 && m.negatives>0))
 }
 fn make_basis_cert(records:&[DiscoveryRecord],coords:Vec<String>,pass:bool)->Value{
-    let m=metrics(records,&coords);
-    json!({"basis_id":basis_id(&coords),"coordinates":coords,"cardinality":coords.len(),
-        "metrics":metrics_json(&m),"admissible":pass,"cells":if pass{field_cells(records,&coords)}else{json!({})}})
+    let m=metrics(records,&coords);let card=coords.len();let cells=if pass{field_cells(records,&coords)}else{json!({})};
+    json!({"basis_id":basis_id(&coords),"coordinates":coords,"cardinality":card,
+        "metrics":metrics_json(&m),"admissible":pass,"cells":cells})
 }
 fn validate_context(records:&[DiscoveryRecord],portable:&[String],arch:&[String]){
     for r in records{
