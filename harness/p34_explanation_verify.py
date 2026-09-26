@@ -36,7 +36,11 @@ def build_ast(c,g):
   ast.append({"type":"CAUSAL_QUOTIENT","level":z["level"],"remove_size":len(z["minimal_remove"]["cone_ids"]),
     "keep_size":len(z["minimal_keep"]["cone_ids"])})
   ast.append({"type":"EXACT_DRILLDOWN","collision":z["drilldown"]["collision"],"large_class_hold":z["drilldown"]["large_class_hold"],
-    "exact_expansion_parity":z["drilldown"]["exact_expansion_parity"],"exact_expansion_member_count":z["drilldown"].get("exact_expansion_member_count",0)})
+    "remove_exact_expansion_parity":z["drilldown"]["remove_exact_expansion_parity"],
+    "keep_exact_expansion_parity":z["drilldown"]["keep_exact_expansion_parity"],
+    "query_commutation":z["drilldown"]["query_commutation"],
+    "remove_exact_expansion_member_count":z["drilldown"].get("remove_exact_expansion_member_count",0),
+    "keep_exact_blocked_member_count":z["drilldown"].get("keep_exact_blocked_member_count",0)})
  else:
   ast.append({"type":"LATTICE_FAILURE","levels":[{"level":x["level"],"status":x["status"],"failures":x.get("failures",[])} for x in c["levels"]]})
  if g.get("pv_divergence") is not None:ast.append({"type":"PV_DIVERGENCE","value":g["pv_divergence"]})
@@ -52,7 +56,9 @@ def verify_ast(c,g,ast):
  if z:
   if not any(a["type"]=="CAUSAL_QUOTIENT" and a["level"]==z["level"] for a in ast):err.append("QUOTIENT_SUPPORT")
   if z["drilldown"]["status"]!="PASS":err.append("DRILLDOWN")
-  if z["drilldown"]["collision"] or z["drilldown"]["large_class_hold"] or not z["drilldown"]["exact_expansion_parity"]:err.append("DRILLDOWN_GATE")
+  if (z["drilldown"]["collision"] or z["drilldown"]["large_class_hold"] or
+      not z["drilldown"]["remove_exact_expansion_parity"] or not z["drilldown"]["keep_exact_expansion_parity"] or
+      not z["drilldown"]["query_commutation"]):err.append("DRILLDOWN_GATE")
   if not z["minimal_remove"]["certified"] or not z["minimal_keep"]["certified"]:err.append("CAUSAL_GATE")
  else:
   if not any(a["type"]=="LATTICE_FAILURE" for a in ast):err.append("FAILURE_SUPPORT")
@@ -62,7 +68,9 @@ def render(c,ast):
   z=selected_level(c)
   return (f'{c["case_id"]}: the first prospectively admissible quotient is {z["level"]}. '
           f'Its inclusion-minimal conditional removal set contains {len(z["minimal_remove"]["cone_ids"])} cone class(es) and its retaining set contains {len(z["minimal_keep"]["cone_ids"])}. '
-          f'Parent-trace exact-member collision testing found no forbidden singleton response collision, and local exact-expansion parity is {z["drilldown"]["exact_expansion_parity"]}. '
+          f'Parent-trace exact-member collision testing found no forbidden singleton response collision. '
+          f'Local REMOVE parity is {z["drilldown"]["remove_exact_expansion_parity"]}, KEEP parity is {z["drilldown"]["keep_exact_expansion_parity"]}, '
+          f'and the bounded query-commutation gate is {z["drilldown"]["query_commutation"]}. '
           'This is a bounded causal-abstraction certificate, not a universal event identity claim.')
  return (f'{c["case_id"]}: no level in the frozen Q0→Q3 quotient lattice passed all closure, causal, collision and exact-drilldown gates. '
          'The result is retained as bounded lattice divergence rather than repaired by adding post-hoc coordinates.')
