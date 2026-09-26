@@ -16,14 +16,16 @@
     "may_do": [
       "motivate frozen schema families",
       "exercise diagnose tooling",
-      "describe failure geometry"
+      "describe failure geometry",
+      "freeze two P2-derived legacy-surface 5-coordinate rival schemas as non-authoritative fresh controls"
     ],
     "may_not_do": [
       "select P3 schema",
       "satisfy P3 support gates",
       "count toward fresh discovery",
       "count toward held-out verification",
-      "alter thresholds after P3 target opening"
+      "alter thresholds after P3 target opening",
+      "promote a P2-derived legacy-surface rival into the primary P3 field"
     ]
   },
   "formal_object": {
@@ -48,14 +50,10 @@
   "new_coordinate_vocabulary": [
     "event_bound_bucket",
     "prev_semantic_class",
-    "next_semantic_class",
     "same_class_prev_gap_bucket",
-    "local_class_diversity_bucket",
     "same_key_count_bucket",
     "same_key_prev_gap_bucket",
-    "same_key_next_gap_bucket",
-    "scope_transition_bucket",
-    "ply_transition_bucket"
+    "scope_transition_bucket"
   ],
   "schema_families": [
     {
@@ -66,7 +64,8 @@
         "parent_depth_bucket",
         "event_occ_bucket",
         "event_ordinal_bucket"
-      ]
+      ],
+      "role": "PRIMARY_CANDIDATE"
     },
     {
       "id": "TT_LOCAL",
@@ -83,24 +82,26 @@
         "event_window_relation",
         "event_bound_bucket",
         "event_payload_sign"
-      ]
+      ],
+      "role": "PRIMARY_CANDIDATE"
     },
     {
       "id": "TEMPORAL_LOCAL",
       "rank": 2,
       "added_coordinates": [
         "prev_semantic_class",
-        "next_semantic_class",
-        "same_class_prev_gap_bucket"
+        "same_class_prev_gap_bucket",
+        "scope_transition_bucket"
       ],
       "coordinates": [
         "parent_depth_bucket",
         "event_occ_bucket",
         "event_ordinal_bucket",
         "prev_semantic_class",
-        "next_semantic_class",
-        "same_class_prev_gap_bucket"
-      ]
+        "same_class_prev_gap_bucket",
+        "scope_transition_bucket"
+      ],
+      "role": "PRIMARY_CANDIDATE"
     },
     {
       "id": "KEY_REUSE_TOPOLOGY",
@@ -117,7 +118,8 @@
         "same_key_count_bucket",
         "same_key_prev_gap_bucket",
         "scope_transition_bucket"
-      ]
+      ],
+      "role": "PRIMARY_CANDIDATE"
     },
     {
       "id": "MINIMAL_HYBRID",
@@ -134,11 +136,12 @@
         "same_class_prev_gap_bucket",
         "same_key_count_bucket",
         "event_window_relation"
-      ]
+      ],
+      "role": "PRIMARY_CANDIDATE"
     }
   ],
   "context_measurement": {
-    "timing": "Before singleton intervention target opening, from unablated parent semantic-use trace and board state.",
+    "timing": "Primary context must be causally available at or before the candidate event in the unablated parent semantic-use trace, before any singleton counterfactual target is opened.",
     "raw_full_key_emitted": false,
     "key_equality_relation_allowed": true,
     "forbidden_primary": [
@@ -155,8 +158,14 @@
       "counterfactual_wdl",
       "counterfactual_pv",
       "learned_embedding",
-      "post_outcome_threshold"
-    ]
+      "post_outcome_threshold",
+      "next-event class after the candidate",
+      "future same-key reuse after the candidate",
+      "any symmetric trace window containing post-candidate events"
+    ],
+    "causal_availability": "EVENT_PREFIX_ONLY",
+    "future_of_candidate_parent_trace_features_allowed": false,
+    "key_equality_definition": "Use P32 parent-trace field `key` transiently to derive equality/reuse counts within indices <= candidate ordinal; raw key bytes/values are never emitted."
   },
   "corpus": {
     "repository": "official-stockfish/books",
@@ -213,7 +222,11 @@
       },
       "min_compression": 0.1,
       "min_records_in_cross_position_cells": 8
-    }
+    },
+    "primary_schema_roles": [
+      "PRIMARY_CANDIDATE"
+    ],
+    "development_rival_rule": "LEGACY_SURFACE_5A/5B receive the same fresh discovery metrics as falsification controls but are never eligible for primary selection, engine-specific selection, support gates, or P3 PASS."
   },
   "heldout_firewall": {
     "profile_schema": "c3x-context-profile-batch-v2",
@@ -334,6 +347,7 @@
     "jhonnold/berserk search/transposition implementation as inherited P34 engine target"
   ],
   "claim_ceiling": [
+    "Primary topology context is event-prefix-only: no baseline event occurring after the candidate may enter a primary P3 context cell.",
     "P2 contradictions are development-only and cannot certify P3.",
     "A schema family is an operational licensing language for ROOT_CHANGE, not a unique true causal ontology.",
     "Key-equality topology is relational parent-trace structure; raw key identity is not admitted.",
@@ -341,6 +355,37 @@
     "Unseen contexts imply abstention, not non-causality.",
     "No authority beyond frozen source commits, books, history procedure, search budget and engines.",
     "No cognition, intent, human strategy, or population-prevalence claim.",
-    "The deterministic explanation service cannot add authority beyond its bundled field certificates."
+    "The deterministic explanation service cannot add authority beyond its bundled field certificates.",
+    "Fresh success of a development-derived legacy-surface rival is descriptive only and cannot produce the P3 primary verdict."
+  ],
+  "development_derived_rivals": [
+    {
+      "id": "LEGACY_SURFACE_5A",
+      "role": "DEVELOPMENT_DERIVED_RIVAL_ONLY",
+      "origin": "Post-hoc minimum-cardinality collision-free basis on pooled P2 discovery+held-out records; frozen before any P3 selective outcome.",
+      "coordinates": [
+        "board_center_bucket",
+        "board_development_bucket",
+        "event_depth_bucket",
+        "event_occ_bucket",
+        "event_ordinal_bucket"
+      ],
+      "may_select_primary_field": false,
+      "confirmatory_authority": false
+    },
+    {
+      "id": "LEGACY_SURFACE_5B",
+      "role": "DEVELOPMENT_DERIVED_RIVAL_ONLY",
+      "origin": "Post-hoc minimum-cardinality collision-free basis on pooled P2 discovery+held-out records; frozen before any P3 selective outcome.",
+      "coordinates": [
+        "board_development_bucket",
+        "event_depth_bucket",
+        "event_occ_bucket",
+        "event_ordinal_bucket",
+        "parent_score_bucket"
+      ],
+      "may_select_primary_field": false,
+      "confirmatory_authority": false
+    }
   ]
 }
