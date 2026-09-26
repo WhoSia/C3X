@@ -223,8 +223,15 @@ def compare_predictions(preds,tm):
  return seen,bad,[{"cell_key":k,"labels":sorted(v)} for k,v in labels.items() if len(v)>1]
 
 def selection_field(a):
- pre=load(a.precommit);sl=load(a.shortlist);q=load(a.query);p=load(a.profiles);t=load(a.targets)
+ pre=load(a.precommit);tr=load(a.train);sl=load(a.shortlist);q=load(a.query);p=load(a.profiles);t=load(a.targets)
  if p["role"]!="SCHEMA_SELECTION" or t["role"]!="SCHEMA_SELECTION":raise SystemExit("P5_SELECT_ROLE")
+ if not tr.get("support",{}).get("pass"):
+  out={"schema":"c3x-p5-selected-field-v1","scientific_stage":STAGE,"status":"FRESH_SUPPORT_POWER_HOLD",
+   "selected_candidate":None,"selected_candidate_id":None,"selection_evaluations":[],
+   "selection_targets_consulted":True,"transport_targets_consulted":False,
+   "post_selection_representation_mutation":False,"train_support":tr.get("support")}
+  seal(out);Path(a.out).write_text(json.dumps(out,indent=2,sort_keys=True)+"\\n")
+  print("P5_SELECTION","FRESH_SUPPORT_POWER_HOLD",None,"passing",0);return
  tm={r["record_id"]:r for r in t["records"]};n=len(p["records"]);g=pre["selection_gate"]
  bycand={z["candidate_id"]:z["predictions"] for z in q["queries"]};candmap={z["id"]:z for z in sl["shortlist"]}
  evals=[];passing=[]
@@ -300,7 +307,7 @@ def main():
  q=sp.add_parser("merge-targets");q.add_argument("--root",required=True);q.add_argument("--role",choices=ROLES,required=True);q.add_argument("--out",required=True);q.set_defaults(fn=merge_targets)
  q=sp.add_parser("train-input");q.add_argument("--precommit",required=True);q.add_argument("--profiles",required=True);q.add_argument("--targets",required=True);q.add_argument("--out",required=True);q.set_defaults(fn=train_input)
  q=sp.add_parser("audit-shortlist");q.add_argument("--train",required=True);q.add_argument("--shortlist",required=True);q.add_argument("--grammar",required=True);q.add_argument("--out",required=True);q.set_defaults(fn=audit_shortlist)
- q=sp.add_parser("selection-field");q.add_argument("--precommit",required=True);q.add_argument("--shortlist",required=True);q.add_argument("--query",required=True);q.add_argument("--profiles",required=True);q.add_argument("--targets",required=True);q.add_argument("--out",required=True);q.set_defaults(fn=selection_field)
+ q=sp.add_parser("selection-field");q.add_argument("--precommit",required=True);q.add_argument("--train",required=True);q.add_argument("--shortlist",required=True);q.add_argument("--query",required=True);q.add_argument("--profiles",required=True);q.add_argument("--targets",required=True);q.add_argument("--out",required=True);q.set_defaults(fn=selection_field)
  q=sp.add_parser("transport-scope");q.add_argument("--precommit",required=True);q.add_argument("--field",required=True);q.add_argument("--profiles",required=True);q.add_argument("--query",required=True);q.add_argument("--out",required=True);q.set_defaults(fn=scope_run)
  q=sp.add_parser("verify-transport");q.add_argument("--scope",required=True);q.add_argument("--targets",required=True);q.add_argument("--out",required=True);q.set_defaults(fn=verify_transport)
  q=sp.add_parser("no-transport-open");q.add_argument("--scope",required=True);q.add_argument("--field",required=True);q.add_argument("--out",required=True);q.set_defaults(fn=no_transport_open)
