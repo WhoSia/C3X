@@ -1,0 +1,17 @@
+[package]
+name = "c3x-fiber"
+version = "0.1.0"
+edition = "2021"
+description = "Independent intervention-response causal-fiber verifier for C3X G9.5-P1"
+license = "MIT"
+publish = false
+
+[dependencies]
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+sha2 = "0.10"
+
+[profile.release]
+lto = "thin"
+codegen-units = 1
+panic = "abort"
