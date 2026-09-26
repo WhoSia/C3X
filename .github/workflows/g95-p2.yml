@@ -1,0 +1,373 @@
+name: g95-p2-context-indexed-causal-field
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - "docs/G95_P2_THEORY.md"
+      - "docs/C3X_FIELD_CLI.md"
+      - "c3x/ontology/g95-p2-support-from-p1.json"
+      - "c3x/ontology/g95-p2-lawgen-spec.json"
+      - "crates/c3x-lawgen/src/bin/lawgen_v12.rs"
+      - "crates/c3x-field/**"
+      - "tools/c3x_context.py"
+      - "tools/c3x-context.py"
+      - "harness/g95_p2_corpus.py"
+      - "harness/g95_p2_context_court.py"
+      - "harness/g95_p2_explanation_verify.py"
+      - "tools/g95-p2-verify.mjs"
+      - ".github/workflows/g95-p2.yml"
+
+concurrency:
+  group: g95-p2-context-indexed-causal-field
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  actions: read
+
+env:
+  P34_RUN: "36216185685"
+
+jobs:
+  lawgen:
+    name: LawGen v12 context-field constitution
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Static prospective gates
+        run: |
+          python3 -m py_compile tools/c3x_context.py tools/c3x-context.py harness/g95_p2_corpus.py harness/g95_p2_context_court.py harness/g95_p2_explanation_verify.py
+          node --check tools/g95-p2-verify.mjs
+          cargo run --release --manifest-path crates/c3x-lawgen/Cargo.toml --bin lawgen_v12 --             c3x/ontology/g95-p2-lawgen-spec.json c3x/ontology/g95-p2-support-from-p1.json out/lawgen
+          sha256sum out/lawgen/* | sort > out/lawgen-sha256.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: g95-p2-lawgen-preseal
+          path: out/
+          retention-days: 30
+
+  kernels:
+    name: Reusable field, fiber and lineage kernels
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Test and build Rust kernels
+        run: |
+          cargo test --manifest-path crates/c3x-field/Cargo.toml
+          cargo test --manifest-path crates/c3x-fiber/Cargo.toml
+          cargo test --manifest-path crates/c3x-lineage/Cargo.toml
+          cargo build --release --manifest-path crates/c3x-field/Cargo.toml
+          cargo build --release --manifest-path crates/c3x-fiber/Cargo.toml
+          cargo build --release --manifest-path crates/c3x-lineage/Cargo.toml
+          mkdir -p out
+          cp crates/c3x-field/target/release/c3x-field out/c3x-field
+          cp crates/c3x-fiber/target/release/c3x-fiber out/c3x-fiber
+          cp crates/c3x-lineage/target/release/c3x-lineage out/c3x-lineage
+          chmod +x out/c3x-field out/c3x-fiber out/c3x-lineage
+          out/c3x-field --help > out/c3x-field-help.txt
+          sha256sum out/c3x-field out/c3x-fiber out/c3x-lineage | sort > out/kernel-sha256.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: g95-p2-kernels
+          path: out/
+          retention-days: 30
+
+  corpus:
+    name: Freeze discovery and held-out books
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Materialize pinned books without engine contact
+        run: |
+          python3 -m pip install --disable-pip-version-check python-chess==1.999
+          git clone https://github.com/official-stockfish/books.git books
+          git -C books checkout --detach 65815ccdbc7727cd4f6aee252ba8f67fb740e92f
+          test -s "books/4mvs_+90_+99.epd.zip"
+          test -s "books/8mvs_+90_+99.epd.zip"
+          unzip -p "books/4mvs_+90_+99.epd.zip" > discovery.epd
+          unzip -p "books/8mvs_+90_+99.epd.zip" > heldout.epd
+          python3 harness/g95_p2_corpus.py             --discovery-epd discovery.epd --heldout-epd heldout.epd             --source-repo official-stockfish/books             --source-commit 65815ccdbc7727cd4f6aee252ba8f67fb740e92f             --discovery-logical "4mvs_+90_+99.epd"             --heldout-logical "8mvs_+90_+99.epd"             --out g95-p2-corpus.json
+          sha256sum discovery.epd heldout.epd g95-p2-corpus.json | sort > g95-p2-corpus-sha256.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: g95-p2-corpus-sealed
+          path: |
+            g95-p2-corpus.json
+            g95-p2-corpus-sha256.txt
+          retention-days: 30
+
+  precommit:
+    name: Seal P2 worlds, context vocabulary and executables
+    needs: [lawgen, kernels, corpus]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: p34-precommit-sealed
+          path: p34-pre
+          repository: WhoSia/C3X
+          run-id: ${{ env.P34_RUN }}
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with: {name: g95-p2-lawgen-preseal, path: lawgen}
+      - uses: actions/download-artifact@v4
+        with: {name: g95-p2-corpus-sealed, path: corpus}
+      - name: Freeze all P2 cases before selective execution
+        run: |
+          P34_PRE="$(find p34-pre -name p34-precommit.json -print -quit)"
+          CONST="$(find lawgen -name constitution.json -print -quit)"
+          CORPUS="$(find corpus -name g95-p2-corpus.json -print -quit)"
+          test -n "$P34_PRE" && test -n "$CONST" && test -n "$CORPUS"
+          python3 harness/g95_p2_context_court.py precommit             --support c3x/ontology/g95-p2-support-from-p1.json             --constitution "$CONST" --corpus "$CORPUS"             --p34-pre "$P34_PRE" --p25-spec c3x/ontology/p25-lawgen-spec.json             --out g95-p2-precommit.json
+          sha256sum g95-p2-precommit.json > g95-p2-precommit-file-sha256.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: g95-p2-precommit-sealed
+          path: g95-p2-precommit*
+          retention-days: 30
+
+  discovery:
+    name: Discovery context records — p${{ matrix.pos }}-${{ matrix.engine }}
+    needs: precommit
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+    strategy:
+      fail-fast: false
+      matrix:
+        pos: [0,1,2,3,4,5,6,7]
+        engine: [stockfish_19, berserk, ethereal]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with: {name: g95-p2-precommit-sealed, path: pre}
+      - uses: actions/download-artifact@v4
+        with: {name: g95-p2-kernels, path: kernels}
+      - uses: actions/download-artifact@v4
+        with:
+          name: "p34-build-${{ matrix.engine }}"
+          path: build
+          repository: WhoSia/C3X
+          run-id: ${{ env.P34_RUN }}
+          github-token: ${{ github.token }}
+      - name: Execute prospectively sampled singleton interventions
+        run: |
+          chmod +x kernels/c3x-fiber kernels/c3x-lineage build/c3x-p34-${{ matrix.engine }}
+          mkdir -p out
+          python3 harness/g95_p2_context_court.py case             --precommit pre/g95-p2-precommit.json             --case-id "p2:disc:${{ matrix.pos }}:${{ matrix.engine }}"             --binary build/c3x-p34-${{ matrix.engine }}             --lineager kernels/c3x-lineage --fiber-verifier kernels/c3x-fiber             --profile-out "out/profile.json" --target-out "out/target.json"             --case-out "out/case.json"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: "g95-p2-discovery-${{ matrix.pos }}-${{ matrix.engine }}"
+          path: out/
+          retention-days: 30
+
+  discover-field:
+    name: Discover minimal portable context-basis frontier
+    needs: discovery
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with: {name: g95-p2-precommit-sealed, path: pre}
+      - uses: actions/download-artifact@v4
+        with: {name: g95-p2-lawgen-preseal, path: lawgen}
+      - uses: actions/download-artifact@v4
+        with: {name: g95-p2-kernels, path: kernels}
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: g95-p2-discovery-*
+          path: discovery
+          merge-multiple: false
+      - name: Materialize discovery field with typed CLI
+        run: |
+          chmod +x kernels/c3x-field
+          CONST="$(find lawgen -name constitution.json -print -quit)"
+          test -n "$CONST"
+          mkdir -p out
+          python3 harness/g95_p2_context_court.py merge-discovery             --precommit pre/g95-p2-precommit.json --root discovery             --out out/discovery-input.json
+          kernels/c3x-field discover             --constitution "$CONST" --input out/discovery-input.json             --out out/field.json
+          sha256sum out/* | sort > out/discovery-field-sha256.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: g95-p2-discovery-field
+          path: out/
+          retention-days: 30
+
+  heldout:
+    name: Held-out profile/target split — p${{ matrix.pos }}-${{ matrix.engine }}
+    needs: discover-field
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+    strategy:
+      fail-fast: false
+      matrix:
+        pos: [0,1,2,3,4,5,6,7]
+        engine: [stockfish_19, berserk, ethereal]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with: {name: g95-p2-precommit-sealed, path: pre}
+      - uses: actions/download-artifact@v4
+        with: {name: g95-p2-kernels, path: kernels}
+      - uses: actions/download-artifact@v4
+        with:
+          name: "p34-build-${{ matrix.engine }}"
+          path: build
+          repository: WhoSia/C3X
+          run-id: ${{ env.P34_RUN }}
+          github-token: ${{ github.token }}
+      - name: Execute once and split profile from target evidence
+        run: |
+          chmod +x kernels/c3x-fiber kernels/c3x-lineage build/c3x-p34-${{ matrix.engine }}
+          mkdir -p out
+          python3 harness/g95_p2_context_court.py case             --precommit pre/g95-p2-precommit.json             --case-id "p2:hold:${{ matrix.pos }}:${{ matrix.engine }}"             --binary build/c3x-p34-${{ matrix.engine }}             --lineager kernels/c3x-lineage --fiber-verifier kernels/c3x-fiber             --profile-out "out/profile.json" --target-out "out/target.json"             --case-out "out/case.json"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: "g95-p2-heldout-profile-${{ matrix.pos }}-${{ matrix.engine }}"
+          path: out/profile.json
+          retention-days: 30
+      - uses: actions/upload-artifact@v4
+        with:
+          name: "g95-p2-heldout-target-${{ matrix.pos }}-${{ matrix.engine }}"
+          path: out/target.json
+          retention-days: 30
+      - uses: actions/upload-artifact@v4
+        with:
+          name: "g95-p2-heldout-case-${{ matrix.pos }}-${{ matrix.engine }}"
+          path: out/case.json
+          retention-days: 30
+
+  scope:
+    name: Target-blind held-out scope calibration
+    needs: heldout
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with: {name: g95-p2-kernels, path: kernels}
+      - uses: actions/download-artifact@v4
+        with: {name: g95-p2-discovery-field, path: field}
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: g95-p2-heldout-profile-*
+          path: profiles
+          merge-multiple: false
+      - name: Select among discovery-minimal bases without target access
+        run: |
+          chmod +x kernels/c3x-field
+          mkdir -p out
+          python3 harness/g95_p2_context_court.py merge-profiles             --root profiles --out out/heldout-profiles.json
+          kernels/c3x-field scope             --discovery field/field.json             --profiles out/heldout-profiles.json             --out out/scope.json
+          python3 - <<'PY'
+          import json
+          x=json.load(open("out/scope.json"))
+          assert x["target_fields_consulted"] is False
+          forbidden=("root_change","counterfactual_bestmove","counterfactual_score","counterfactual_wdl","counterfactual_pv")
+          txt=open("out/heldout-profiles.json").read().lower()
+          for k in forbidden: assert k not in txt, k
+          PY
+          sha256sum out/* | sort > out/scope-sha256.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: g95-p2-scope-sealed
+          path: out/
+          retention-days: 30
+
+  verify:
+    name: Open held-out targets and verify transport
+    needs: scope
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with: {name: g95-p2-kernels, path: kernels}
+      - uses: actions/download-artifact@v4
+        with: {name: g95-p2-scope-sealed, path: scope}
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: g95-p2-heldout-target-*
+          path: targets
+          merge-multiple: false
+      - name: Open target packets only after scope seal
+        run: |
+          chmod +x kernels/c3x-field
+          mkdir -p out
+          python3 harness/g95_p2_context_court.py merge-targets             --root targets --out out/heldout-targets.json
+          kernels/c3x-field verify             --scope scope/scope.json             --targets out/heldout-targets.json             --out out/verification.json
+          sha256sum out/* | sort > out/verification-sha256.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: g95-p2-verification
+          path: out/
+          retention-days: 30
+
+  adjudicate:
+    name: Scope-calibrated explanations and independent firewall
+    needs: verify
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with: {name: g95-p2-precommit-sealed, path: pre}
+      - uses: actions/download-artifact@v4
+        with: {name: g95-p2-discovery-field, path: field}
+      - uses: actions/download-artifact@v4
+        with: {name: g95-p2-scope-sealed, path: scope}
+      - uses: actions/download-artifact@v4
+        with: {name: g95-p2-verification, path: verify}
+      - name: Compile bounded explanations and verify verdict independently
+        run: |
+          python3 -m pip install --disable-pip-version-check python-chess==1.999
+          mkdir -p final
+          python3 harness/g95_p2_explanation_verify.py             --precommit pre/g95-p2-precommit.json             --discovery field/field.json             --scope scope/scope.json             --verification verify/verification.json             --profiles scope/heldout-profiles.json             --targets verify/heldout-targets.json             --out final/g95-p2-adjudication.json             --ast final/g95-p2-explanation-ast.json             --grounding final/g95-p2-chess-grounding.json             --markdown final/g95-p2-explanations.md
+          node tools/g95-p2-verify.mjs final/g95-p2-adjudication.json | tee final/g95-p2-js-verification.txt
+          sha256sum final/* | sort > final/g95-p2-final-sha256.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: g95-p2-final-context-field
+          path: final/
+          retention-days: 30
+
+  toolkit:
+    name: Package reusable C3X causal-field toolkit
+    needs: adjudicate
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with: {name: g95-p2-kernels, path: kernels}
+      - uses: actions/download-artifact@v4
+        with: {name: g95-p2-lawgen-preseal, path: lawgen}
+      - uses: actions/download-artifact@v4
+        with: {name: g95-p2-discovery-field, path: field}
+      - uses: actions/download-artifact@v4
+        with: {name: g95-p2-scope-sealed, path: scope}
+      - uses: actions/download-artifact@v4
+        with: {name: g95-p2-verification, path: verify}
+      - uses: actions/download-artifact@v4
+        with: {name: g95-p2-final-context-field, path: final}
+      - name: Build reviewable toolkit packet
+        run: |
+          mkdir -p toolkit/bin toolkit/tools toolkit/docs toolkit/certificates toolkit/schemas
+          cp kernels/c3x-field toolkit/bin/
+          cp tools/c3x_context.py tools/c3x-context.py toolkit/tools/
+          cp docs/C3X_FIELD_CLI.md docs/G95_P2_THEORY.md toolkit/docs/
+          cp lawgen/lawgen/constitution.json toolkit/schemas/
+          cp lawgen/lawgen/context-vocabulary.json toolkit/schemas/
+          cp field/field.json toolkit/certificates/discovery-field.json
+          cp scope/scope.json toolkit/certificates/heldout-scope.json
+          cp verify/verification.json toolkit/certificates/heldout-verification.json
+          cp final/g95-p2-adjudication.json toolkit/certificates/final-adjudication.json
+          cp final/g95-p2-explanations.md toolkit/certificates/
+          sha256sum $(find toolkit -type f | sort) > toolkit/MANIFEST.sha256
+          printf '%s\n'             'C3X G9.5-P2 reusable context-indexed causal-field toolkit.'             'Start with docs/C3X_FIELD_CLI.md.'             'Scientific authority is bounded by the included constitution and certificates.'             > toolkit/README.txt
+          tar -czf g95-p2-context-field-toolkit.tar.gz toolkit
+          sha256sum g95-p2-context-field-toolkit.tar.gz > g95-p2-context-field-toolkit.sha256
+      - uses: actions/upload-artifact@v4
+        with:
+          name: g95-p2-context-field-toolkit
+          path: |
+            g95-p2-context-field-toolkit.tar.gz
+            g95-p2-context-field-toolkit.sha256
+          retention-days: 30
