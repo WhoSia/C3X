@@ -72,11 +72,10 @@ jobs:
       - name: Materialize pinned external EPD without engine contact
         run: |
           python3 -m pip install --disable-pip-version-check python-chess==1.999
-          export GIT_LFS_SKIP_SMUDGE=1
           git clone https://github.com/official-stockfish/books.git books
           git -C books checkout --detach 65815ccdbc7727cd4f6aee252ba8f67fb740e92f
-          git -C books lfs install --local
-          git -C books lfs pull --include="4mvs_+90_+99.epd"
+          test -s "books/4mvs_+90_+99.epd.zip"
+          unzip -p "books/4mvs_+90_+99.epd.zip" > "books/4mvs_+90_+99.epd"
           test -s "books/4mvs_+90_+99.epd"
           python3 harness/g95_p1_corpus.py             --epd "books/4mvs_+90_+99.epd"             --source-repo official-stockfish/books             --source-commit 65815ccdbc7727cd4f6aee252ba8f67fb740e92f             --source-path "4mvs_+90_+99.epd"             --out g95-p1-fresh-corpus.json
           sha256sum g95-p1-fresh-corpus.json > g95-p1-fresh-corpus-file-sha256.txt
