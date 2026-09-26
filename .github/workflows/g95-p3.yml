@@ -1,0 +1,441 @@
+name: g95-p3-topology-field-explanation-service
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - "docs/G95_P3_THEORY.md"
+      - "c3x/ontology/g95-p3-support-from-p2.json"
+      - "c3x/ontology/g95-p3-lawgen-spec.json"
+      - "crates/c3x-lawgen/src/bin/lawgen_v13.rs"
+      - "crates/c3x-field/src/bin/c3x-field-p3.rs"
+      - "tools/c3x_context_v2.py"
+      - "tools/c3x_service.py"
+      - "harness/g95_p3_corpus.py"
+      - "harness/g95_p3_context_court.py"
+      - "harness/g95_p3_development_diagnosis.py"
+      - "harness/g95_p3_explanation_verify.py"
+      - "tools/g95-p3-verify.mjs"
+      - ".github/workflows/g95-p3.yml"
+
+concurrency:
+  group: g95-p3-topology-field-explanation-service
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  actions: read
+
+env:
+  P2_RUN: "36223570067"
+  P34_RUN: "36216185685"
+
+jobs:
+  lawgen:
+    name: LawGen v13 topology-field constitution
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Compile frozen P3 constitution
+        run: |
+          set -euxo pipefail
+          python3 -m py_compile tools/c3x_context_v2.py tools/c3x_service.py harness/g95_p3_corpus.py harness/g95_p3_context_court.py harness/g95_p3_development_diagnosis.py harness/g95_p3_explanation_verify.py
+          node --check tools/g95-p3-verify.mjs
+          cargo run --release --manifest-path crates/c3x-lawgen/Cargo.toml --bin lawgen_v13 --             c3x/ontology/g95-p3-lawgen-spec.json c3x/ontology/g95-p3-support-from-p2.json out/lawgen
+          sha256sum out/lawgen/* | sort > out/lawgen-sha256.txt
+      - uses: actions/upload-artifact@v4
+        with: {name: g95-p3-lawgen-preseal, path: out/, retention-days: 30}
+
+  kernels:
+    name: Build typed topology, fiber and lineage kernels
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Test and build
+        run: |
+          set -euxo pipefail
+          cargo test --manifest-path crates/c3x-field/Cargo.toml
+          cargo test --manifest-path crates/c3x-fiber/Cargo.toml
+          cargo test --manifest-path crates/c3x-lineage/Cargo.toml
+          cargo build --release --manifest-path crates/c3x-field/Cargo.toml --bin c3x-field-p3
+          cargo build --release --manifest-path crates/c3x-fiber/Cargo.toml
+          cargo build --release --manifest-path crates/c3x-lineage/Cargo.toml
+          mkdir -p out
+          cp crates/c3x-field/target/release/c3x-field-p3 out/
+          cp crates/c3x-fiber/target/release/c3x-fiber out/
+          cp crates/c3x-lineage/target/release/c3x-lineage out/
+          chmod +x out/*
+          out/c3x-field-p3 --help > out/c3x-field-p3-help.txt
+          sha256sum out/c3x-field-p3 out/c3x-fiber out/c3x-lineage | sort > out/kernel-sha256.txt
+      - uses: actions/upload-artifact@v4
+        with: {name: g95-p3-kernels, path: out/, retention-days: 30}
+
+  development-diagnosis:
+    name: Decompose P2 contradictions as development-only witnesses
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: g95-p2-final-context-field
+          path: p2-final
+          repository: WhoSia/C3X
+          run-id: ${{ env.P2_RUN }}
+          github-token: ${{ github.token }}
+      - name: Development-only decomposition
+        run: |
+          set -euxo pipefail
+          P2_FINAL="$(find p2-final -name g95-p2-adjudication.json -print -quit)"
+          test -n "$P2_FINAL"
+          python3 harness/g95_p3_development_diagnosis.py --p2-final "$P2_FINAL" --out g95-p3-development-diagnosis.json
+          sha256sum g95-p3-development-diagnosis.json > g95-p3-development-diagnosis.sha256
+      - uses: actions/upload-artifact@v4
+        with:
+          name: g95-p3-development-diagnosis
+          path: g95-p3-development-diagnosis*
+          retention-days: 30
+
+  corpus:
+    name: Freeze fresh P3 reconstitution and held-out regimes
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: g95-p2-precommit-sealed
+          path: p2-pre
+          repository: WhoSia/C3X
+          run-id: ${{ env.P2_RUN }}
+          github-token: ${{ github.token }}
+      - name: Materialize disjoint pinned books
+        run: |
+          set -euxo pipefail
+          python3 -m pip install --disable-pip-version-check python-chess==1.999
+          git clone https://github.com/official-stockfish/books.git books
+          git -C books checkout --detach 65815ccdbc7727cd4f6aee252ba8f67fb740e92f
+          unzip -p "books/6mvs_+90_+99.epd.zip" > discovery.epd
+          unzip -p "books/8mvs_big_+80_+109.epd.zip" > heldout.epd
+          P2_PRE="$(find p2-pre -name g95-p2-precommit.json -print -quit)"
+          python3 harness/g95_p3_corpus.py --discovery-epd discovery.epd --heldout-epd heldout.epd             --p2-precommit "$P2_PRE" --source-repo official-stockfish/books             --source-commit 65815ccdbc7727cd4f6aee252ba8f67fb740e92f --out g95-p3-corpus.json
+          sha256sum discovery.epd heldout.epd g95-p3-corpus.json | sort > g95-p3-corpus-sha256.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: g95-p3-corpus-sealed
+          path: |
+            g95-p3-corpus.json
+            g95-p3-corpus-sha256.txt
+          retention-days: 30
+
+  precommit:
+    name: Seal P3 schemas, worlds and executable inheritance
+    needs: [lawgen, kernels, development-diagnosis, corpus]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with: {name: g95-p3-lawgen-preseal, path: lawgen}
+      - uses: actions/download-artifact@v4
+        with: {name: g95-p3-corpus-sealed, path: corpus}
+      - uses: actions/download-artifact@v4
+        with:
+          name: g95-p2-precommit-sealed
+          path: p2-pre
+          repository: WhoSia/C3X
+          run-id: ${{ env.P2_RUN }}
+          github-token: ${{ github.token }}
+      - name: Seal before P3 selective execution
+        run: |
+          set -euxo pipefail
+          CONST="$(find lawgen -name constitution.json -print -quit)"
+          CORPUS="$(find corpus -name g95-p3-corpus.json -print -quit)"
+          P2_PRE="$(find p2-pre -name g95-p2-precommit.json -print -quit)"
+          python3 harness/g95_p3_context_court.py precommit             --support c3x/ontology/g95-p3-support-from-p2.json --constitution "$CONST"             --corpus "$CORPUS" --p2-precommit "$P2_PRE" --out g95-p3-precommit.json
+          sha256sum g95-p3-precommit.json > g95-p3-precommit-file-sha256.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: g95-p3-precommit-sealed
+          path: g95-p3-precommit*
+          retention-days: 30
+
+  discovery:
+    name: Fresh reconstitution — p${{ matrix.pos }}-${{ matrix.engine }}
+    needs: precommit
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+    strategy:
+      fail-fast: false
+      matrix:
+        pos: [0,1,2,3,4,5,6,7]
+        engine: [stockfish_19, berserk, ethereal]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with: {name: g95-p3-precommit-sealed, path: pre}
+      - uses: actions/download-artifact@v4
+        with: {name: g95-p3-kernels, path: kernels}
+      - uses: actions/download-artifact@v4
+        with:
+          name: "p34-build-${{ matrix.engine }}"
+          path: build
+          repository: WhoSia/C3X
+          run-id: ${{ env.P34_RUN }}
+          github-token: ${{ github.token }}
+      - name: Execute prospectively sampled exact-event replays
+        run: |
+          set -euxo pipefail
+          python3 -m pip install --disable-pip-version-check python-chess==1.999
+          chmod +x kernels/c3x-fiber kernels/c3x-lineage build/c3x-p34-${{ matrix.engine }}
+          mkdir -p out
+          python3 harness/g95_p3_context_court.py case             --precommit pre/g95-p3-precommit.json --case-id "p3:disc:${{ matrix.pos }}:${{ matrix.engine }}"             --binary build/c3x-p34-${{ matrix.engine }} --lineager kernels/c3x-lineage             --fiber-verifier kernels/c3x-fiber --profile-out out/profile.json --target-out out/target.json --case-out out/case.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: "g95-p3-discovery-${{ matrix.pos }}-${{ matrix.engine }}"
+          path: out/
+          retention-days: 30
+
+  discover-field:
+    name: Fresh topology-schema reconstitution
+    needs: discovery
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with: {name: g95-p3-lawgen-preseal, path: lawgen}
+      - uses: actions/download-artifact@v4
+        with: {name: g95-p3-kernels, path: kernels}
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: g95-p3-discovery-*
+          path: discovery
+          merge-multiple: false
+      - name: Independent Rust assessment then deterministic field selection
+        run: |
+          set -euxo pipefail
+          chmod +x kernels/c3x-field-p3
+          CONST="$(find lawgen -name constitution.json -print -quit)"
+          SCHEMAS="$(find lawgen -name schema-families.json -print -quit)"
+          mkdir -p out
+          python3 harness/g95_p3_context_court.py merge-discovery --root discovery --out out/discovery-input.json
+          kernels/c3x-field-p3 assess --input out/discovery-input.json --schemas "$SCHEMAS" --out out/rust-assessment.json
+          python3 harness/g95_p3_context_court.py select-field --constitution "$CONST"             --input out/discovery-input.json --rust-assessment out/rust-assessment.json --out out/field.json
+          sha256sum out/* | sort > out/discovery-field-sha256.txt
+      - uses: actions/upload-artifact@v4
+        with: {name: g95-p3-discovery-field, path: out/, retention-days: 30}
+
+  heldout:
+    name: Held-out regime split — p${{ matrix.pos }}-${{ matrix.engine }}
+    needs: discover-field
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+    strategy:
+      fail-fast: false
+      matrix:
+        pos: [0,1,2,3,4,5,6,7]
+        engine: [stockfish_19, berserk, ethereal]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with: {name: g95-p3-precommit-sealed, path: pre}
+      - uses: actions/download-artifact@v4
+        with: {name: g95-p3-kernels, path: kernels}
+      - uses: actions/download-artifact@v4
+        with:
+          name: "p34-build-${{ matrix.engine }}"
+          path: build
+          repository: WhoSia/C3X
+          run-id: ${{ env.P34_RUN }}
+          github-token: ${{ github.token }}
+      - name: Execute once and physically split profile from target
+        run: |
+          set -euxo pipefail
+          python3 -m pip install --disable-pip-version-check python-chess==1.999
+          chmod +x kernels/c3x-fiber kernels/c3x-lineage build/c3x-p34-${{ matrix.engine }}
+          mkdir -p out
+          python3 harness/g95_p3_context_court.py case             --precommit pre/g95-p3-precommit.json --case-id "p3:hold:${{ matrix.pos }}:${{ matrix.engine }}"             --binary build/c3x-p34-${{ matrix.engine }} --lineager kernels/c3x-lineage             --fiber-verifier kernels/c3x-fiber --profile-out out/profile.json --target-out out/target.json --case-out out/case.json
+      - uses: actions/upload-artifact@v4
+        with: {name: "g95-p3-heldout-profile-${{ matrix.pos }}-${{ matrix.engine }}", path: out/profile.json, retention-days: 30}
+      - uses: actions/upload-artifact@v4
+        with: {name: "g95-p3-heldout-target-${{ matrix.pos }}-${{ matrix.engine }}", path: out/target.json, retention-days: 30}
+      - uses: actions/upload-artifact@v4
+        with: {name: "g95-p3-heldout-case-${{ matrix.pos }}-${{ matrix.engine }}", path: out/case.json, retention-days: 30}
+
+  scope:
+    name: Target-blind P3 field scope
+    needs: heldout
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with: {name: g95-p3-discovery-field, path: field}
+      - uses: actions/download-artifact@v4
+        with: {name: g95-p3-kernels, path: kernels}
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: g95-p3-heldout-profile-*
+          path: profiles
+          merge-multiple: false
+      - name: Scope without downloading any target artifact
+        run: |
+          set -euxo pipefail
+          chmod +x kernels/c3x-field-p3
+          mkdir -p out
+          python3 harness/g95_p3_context_court.py merge-profiles --root profiles --out out/heldout-profiles.json
+          python3 harness/g95_p3_context_court.py scope --field field/field.json --profiles out/heldout-profiles.json --out out/scope.json
+          python3 - <<'PY'
+          import json
+          f=json.load(open("field/field.json"));p=json.load(open("out/heldout-profiles.json"))
+          if f.get("selected_global_schema"):
+              json.dump(f["selected_global_schema"],open("out/selected-field.json","w"),indent=2,sort_keys=True);open("out/selected-field.json","a").write("\n")
+          assert "root_change" not in open("out/heldout-profiles.json").read().lower()
+          assert json.load(open("out/scope.json"))["target_fields_consulted"] is False
+          PY
+          if test -f out/selected-field.json; then
+            kernels/c3x-field-p3 query --field out/selected-field.json --profiles out/heldout-profiles.json --out out/rust-query.json
+            python3 - <<'PY'
+          import json
+          a=json.load(open("out/scope.json"))["global_predictions"];b=json.load(open("out/rust-query.json"))["predictions"]
+          assert a==b,(len(a),len(b))
+          print("P3_RUST_PYTHON_QUERY_PARITY",len(a))
+          PY
+          fi
+          sha256sum out/* | sort > out/scope-sha256.txt
+      - uses: actions/upload-artifact@v4
+        with: {name: g95-p3-scope-sealed, path: out/, retention-days: 30}
+
+  verify:
+    name: Open P3 held-out targets, verify and diagnose
+    needs: scope
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with: {name: g95-p3-scope-sealed, path: scope}
+      - uses: actions/download-artifact@v4
+        with: {name: g95-p3-kernels, path: kernels}
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: g95-p3-heldout-target-*
+          path: targets
+          merge-multiple: false
+      - name: Open targets only after scope seal
+        run: |
+          set -euxo pipefail
+          chmod +x kernels/c3x-field-p3
+          mkdir -p out
+          python3 harness/g95_p3_context_court.py merge-targets --root targets --out out/heldout-targets.json
+          python3 harness/g95_p3_context_court.py verify --scope scope/scope.json --targets out/heldout-targets.json --out out/verification.json
+          if test -f scope/rust-query.json; then
+            kernels/c3x-field-p3 diagnose --predictions scope/rust-query.json --targets out/heldout-targets.json --out out/diagnosis.json
+            python3 - <<'PY'
+          import json
+          v=json.load(open("out/verification.json"));d=json.load(open("out/diagnosis.json"))
+          assert len(v["global"]["contradictions"])==len(d["contradictions"])
+          print("P3_DIAGNOSIS_PARITY",len(d["contradictions"]))
+          PY
+          else
+            python3 - <<'PY'
+          import json
+          json.dump({"schema":"c3x-field-p3-diagnosis-v1","scientific_stage":"C3X 0.7.0-G9.5-P3","authority":"POST_VERIFICATION_DIAGNOSTIC_ONLY","may_modify_field":False,"abstained":0,"contradictions":[]},open("out/diagnosis.json","w"),indent=2,sort_keys=True)
+          open("out/diagnosis.json","a").write("\n")
+          PY
+          fi
+          sha256sum out/* | sort > out/verification-sha256.txt
+      - uses: actions/upload-artifact@v4
+        with: {name: g95-p3-verification, path: out/, retention-days: 30}
+
+  adjudicate:
+    name: Explanation closure and independent firewall
+    needs: verify
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with: {name: g95-p3-precommit-sealed, path: pre}
+      - uses: actions/download-artifact@v4
+        with: {name: g95-p3-discovery-field, path: field}
+      - uses: actions/download-artifact@v4
+        with: {name: g95-p3-scope-sealed, path: scope}
+      - uses: actions/download-artifact@v4
+        with: {name: g95-p3-verification, path: verify}
+      - name: Compile verified explanations
+        run: |
+          set -euxo pipefail
+          python3 -m pip install --disable-pip-version-check python-chess==1.999
+          mkdir -p final
+          python3 harness/g95_p3_explanation_verify.py             --precommit pre/g95-p3-precommit.json --field field/field.json --scope scope/scope.json             --verification verify/verification.json --diagnosis verify/diagnosis.json             --profiles scope/heldout-profiles.json --targets verify/heldout-targets.json             --out final/g95-p3-adjudication.json --ast final/g95-p3-explanation-ast.json             --grounding final/g95-p3-chess-grounding.json --markdown final/g95-p3-explanations.md
+          node tools/g95-p3-verify.mjs final/g95-p3-adjudication.json | tee final/g95-p3-js-verification.txt
+          sha256sum final/* | sort > final/g95-p3-final-sha256.txt
+      - uses: actions/upload-artifact@v4
+        with: {name: g95-p3-final-topology-field, path: final/, retention-days: 30}
+
+  service:
+    name: Reproducible deterministic explanation-service API
+    needs: adjudicate
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with: {name: g95-p3-discovery-field, path: field}
+      - uses: actions/download-artifact@v4
+        with: {name: g95-p3-scope-sealed, path: scope}
+      - uses: actions/download-artifact@v4
+        with: {name: g95-p3-verification, path: verify}
+      - uses: actions/download-artifact@v4
+        with: {name: g95-p3-final-topology-field, path: final}
+      - uses: actions/download-artifact@v4
+        with: {name: g95-p3-kernels, path: kernels}
+      - name: External-style service smoke and Rust parity
+        run: |
+          set -euxo pipefail
+          mkdir -p service/bin service/tools service/certificates service/docs service/examples
+          cp kernels/c3x-field-p3 service/bin/
+          cp tools/c3x_service.py service/tools/
+          cp docs/G95_P3_THEORY.md service/docs/
+          cp field/field.json service/certificates/
+          cp scope/scope.json service/certificates/
+          cp verify/verification.json verify/diagnosis.json service/certificates/
+          cp final/g95-p3-adjudication.json final/g95-p3-explanations.md service/certificates/
+          python3 - <<'PY'
+          import json
+          p=json.load(open("scope/heldout-profiles.json"))["records"][0]
+          json.dump({"profile":p},open("service/examples/query-request.json","w"),indent=2,sort_keys=True);open("service/examples/query-request.json","a").write("\n")
+          t={r["record_id"]:r for r in json.load(open("verify/heldout-targets.json"))["records"]}[p["record_id"]]
+          json.dump({"profile":p,"observed_root_change":t["root_change"]},open("service/examples/diagnose-request.json","w"),indent=2,sort_keys=True);open("service/examples/diagnose-request.json","a").write("\n")
+          PY
+          python3 tools/c3x_service.py --field field/field.json --port 8765 > service.log 2>&1 &
+          PID=$!
+          trap 'kill $PID || true' EXIT
+          for i in {1..20}; do curl -fsS http://127.0.0.1:8765/health > service/health.json && break || sleep 1; done
+          curl -fsS -H 'Content-Type: application/json' --data @service/examples/query-request.json http://127.0.0.1:8765/v1/query > service/query-response.json
+          curl -fsS -H 'Content-Type: application/json' --data @service/examples/query-request.json http://127.0.0.1:8765/v1/explain > service/explain-response.json
+          curl -fsS -H 'Content-Type: application/json' --data @service/examples/diagnose-request.json http://127.0.0.1:8765/v1/diagnose > service/diagnose-response.json
+          python3 - <<'PY'
+          import json
+          q=json.load(open("service/query-response.json"));s=json.load(open("scope/scope.json"))
+          if s["global_predictions"]:
+              rid=json.load(open("service/examples/query-request.json"))["profile"]["record_id"]
+              exp=next(x for x in s["global_predictions"] if x["record_id"]==rid)
+              assert q["status"]==exp["status"];assert q["predicted_root_change"]==exp["predicted_root_change"]
+          else:
+              assert q["status"]=="ABSTAIN_NO_GLOBAL_FIELD"
+          e=json.load(open("service/explain-response.json"));assert e["llm_used"] is False
+          print("P3_SERVICE_PARITY_PASS",q["status"])
+          PY
+          kill $PID
+          trap - EXIT
+          (
+            cd service
+            find . -type f ! -name MANIFEST.sha256 -print0 | sort -z | xargs -0 sha256sum > MANIFEST.sha256
+          )
+          tar -czf g95-p3-explanation-service.tar.gz service
+          sha256sum g95-p3-explanation-service.tar.gz > g95-p3-explanation-service.sha256
+          sha256sum service/health.json service/query-response.json service/explain-response.json service/diagnose-response.json | sort > g95-p3-service-smoke-sha256.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: g95-p3-explanation-service
+          path: |
+            g95-p3-explanation-service.tar.gz
+            g95-p3-explanation-service.sha256
+            g95-p3-service-smoke-sha256.txt
+            service/
+          retention-days: 30
