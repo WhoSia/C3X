@@ -30,7 +30,9 @@ def main():
  ap.add_argument("--out",required=True)
  a=ap.parse_args()
 
- pre=load(a.p32_pre);final=load(a.p32_final)
+ pre=load(a.p32_pre);final=load(a.p32_final);p4=load(a.p4_precommit)
+ if p4.get("schema")!="c3x-g95-p4-precommit-v1": raise SystemExit("P4_PC_PRECOMMIT")
+ if p32.sha_file(a.binary)!=p4["variants"][a.engine]["sha256"]: raise SystemExit("P4_PC_BINARY_ID")
  if pre.get("schema")!="c3x-p32-precommit-v1" or final.get("schema")!="c3x-p32-adjudication-v1":
   raise SystemExit("P4_PC_PARENT_SCHEMA")
  c0=next((z for z in pre["cases"] if z["case_id"]==a.case_id),None)
