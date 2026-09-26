@@ -371,7 +371,15 @@
         "event_ordinal_bucket"
       ],
       "may_select_primary_field": false,
-      "confirmatory_authority": false
+      "confirmatory_authority": false,
+      "rank": 90,
+      "added_coordinates": [
+        "board_center_bucket",
+        "board_development_bucket",
+        "event_depth_bucket",
+        "event_occ_bucket",
+        "event_ordinal_bucket"
+      ]
     },
     {
       "id": "LEGACY_SURFACE_5B",
@@ -385,7 +393,15 @@
         "parent_score_bucket"
       ],
       "may_select_primary_field": false,
-      "confirmatory_authority": false
+      "confirmatory_authority": false,
+      "rank": 91,
+      "added_coordinates": [
+        "board_development_bucket",
+        "event_depth_bucket",
+        "event_occ_bucket",
+        "event_ordinal_bucket",
+        "parent_score_bucket"
+      ]
     }
   ]
 }
