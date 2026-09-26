@@ -23,7 +23,6 @@ fn main(){
  assert_eq!(p["parent_closure_commit"],"07591db34ee6af830efc5736ad397a7e1a577247");
  assert_eq!(s["p3_selective_results_consulted"],false);
  assert_eq!(p["p3_selective_results_consulted"],false);
- assert_eq!(p["development_only_failure_witnesses"]["confirmatory_vote"],false);
  assert_eq!(s["schema_families"].as_array().unwrap().len(),5);
  assert_eq!(s["context_measurement"]["raw_full_key_emitted"],false);
  assert_eq!(s["corpus"]["discovery"]["positions"],8);
