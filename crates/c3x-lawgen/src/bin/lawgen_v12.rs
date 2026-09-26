@@ -41,7 +41,7 @@ fn main(){
   "parent_authority":s["parent_authority"],"objective":s["objective"],"formal_object":s["formal_object"],
   "context_vocabulary":s["context_vocabulary"],"context_measurement":s["context_measurement"],
   "corpus":s["corpus"],"discovery_basis_court":s["discovery_basis_court"],
-  "heldout_firewall":s["heldout_firewall"],"heldout_transport_gate":s["heldout_transport_gate"],
+  "heldout_firewall":s["heldout_firewall"],"heldout_transport_gate":s["heldout_transport_gate"],"verdict_ladder":s["verdict_ladder"],
   "explanation_scope":s["explanation_scope"],"implementation_object":s["implementation_object"],
   "execution_budgets":s["execution_budgets"],"literature":s["literature"],"claim_ceiling":s["claim_ceiling"],
   "p2_selective_results_consulted":false
