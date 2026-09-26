@@ -246,7 +246,7 @@
   },
   "heldout_transport_gate": {
     "global": "Every covered profile agrees with discovery label and no covered mixed target cell exists.",
-    "engine_specific": "Per-engine covered predictions agree and no per-engine mixed cell exists.",
+    "engine_specific": "Per-engine selected fields are target-blind scoped and verified. If all three certify while the pooled global field is absent or fails, the allowed result is ENGINE_CONDITIONAL_FIELDS_SUPPORTED_CROSS_ENGINE_GLUE_HOLD; engine identity remains an index, not a causal coordinate.",
     "abstention": "Unseen cells are excluded from error counts and remain explicit abstentions.",
     "no_post_target_schema_change": true
   },
@@ -278,9 +278,10 @@
     "no_admissible_global_schema": "NO_TOPOLOGY_AWARE_GLOBAL_FIELD_HOLD",
     "scope_insufficient": "TOPOLOGY_FIELD_SCOPE_INSUFFICIENT_HOLD",
     "global_certified": "TOPOLOGY_CONTEXT_CAUSAL_FIELD_HELDOUT_CERTIFIED",
-    "global_falsified_engine_specific_certified": "ENGINE_CONDITIONAL_FIELDS_SUPPORTED_CROSS_ENGINE_GLUE_HOLD",
     "global_falsified": "TOPOLOGY_FIELD_HELDOUT_FALSIFIED",
-    "explanation_or_service_fail": "EXPLANATION_SERVICE_VERIFICATION_FAIL"
+    "explanation_or_service_fail": "EXPLANATION_SERVICE_VERIFICATION_FAIL",
+    "global_missing_or_falsified_engine_specific_certified": "ENGINE_CONDITIONAL_FIELDS_SUPPORTED_CROSS_ENGINE_GLUE_HOLD",
+    "rule": "Apply mechanically after fresh discovery and held-out opening. If no global schema exists but all three prospectively selected engine-specific fields pass their held-out scope and transport gates, emit ENGINE_CONDITIONAL_FIELDS_SUPPORTED_CROSS_ENGINE_GLUE_HOLD rather than a generic no-global-field HOLD."
   },
   "implementation_object": {
     "rust_cli": "c3x-field-p3",
