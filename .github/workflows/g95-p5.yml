@@ -1,0 +1,574 @@
+name: g95-p5-causal-representation-discovery
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - "docs/G95_P5_THEORY.md"
+      - "c3x/ontology/g95-p5-constitution.json"
+      - "crates/c3x-lawgen/src/bin/lawgen_v15.rs"
+      - "crates/c3x-field/src/bin/c3x-repr-p5.rs"
+      - "tools/c3x_context_v3.py"
+      - "harness/g95_p5_corpus.py"
+      - "harness/g95_p5_court.py"
+      - "harness/g95_p5_finalize.py"
+      - "tools/c3x_service_v3.py"
+      - "tools/g95-p5-verify.mjs"
+      - ".github/workflows/g95-p5.yml"
+
+concurrency:
+  group: g95-p5-causal-representation-discovery
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  actions: read
+
+env:
+  P1_RUN: "36219611294"
+  P2_RUN: "36223570067"
+  P3_RUN: "36231281653"
+  P4_RUN: "36233574663"
+  P34_RUN: "36216185685"
+  BOOK_COMMIT: "65815ccdbc7727cd4f6aee252ba8f67fb740e92f"
+
+jobs:
+  lawgen:
+    name: LawGen v15 representation constitution
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Compile frozen P5 constitution
+        run: |
+          set -euxo pipefail
+          python3 -m py_compile tools/c3x_context_v3.py harness/g95_p5_corpus.py harness/g95_p5_court.py harness/g95_p5_finalize.py tools/c3x_service_v3.py
+          node --check tools/g95-p5-verify.mjs
+          cargo run --release --manifest-path crates/c3x-lawgen/Cargo.toml --bin lawgen_v15 -- c3x/ontology/g95-p5-constitution.json out/lawgen
+          sha256sum out/lawgen/* | sort > out/lawgen-sha256.txt
+      - uses: actions/upload-artifact@v4
+        with: {name: g95-p5-lawgen-preseal, path: out/, retention-days: 30}
+
+  kernels:
+    name: Build representation, sampler, fiber and lineage kernels
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Test and build
+        run: |
+          set -euxo pipefail
+          cargo test --manifest-path crates/c3x-field/Cargo.toml
+          cargo test --manifest-path crates/c3x-fiber/Cargo.toml
+          cargo test --manifest-path crates/c3x-lineage/Cargo.toml
+          cargo build --release --manifest-path crates/c3x-field/Cargo.toml --bin c3x-repr-p5 --bin c3x-support-p4
+          cargo build --release --manifest-path crates/c3x-fiber/Cargo.toml
+          cargo build --release --manifest-path crates/c3x-lineage/Cargo.toml
+          mkdir -p out
+          cp crates/c3x-field/target/release/c3x-repr-p5 out/
+          cp crates/c3x-field/target/release/c3x-support-p4 out/
+          cp crates/c3x-fiber/target/release/c3x-fiber out/
+          cp crates/c3x-lineage/target/release/c3x-lineage out/
+          chmod +x out/*
+          out/c3x-repr-p5 --help > out/c3x-repr-p5-help.txt
+          out/c3x-support-p4 --help > out/c3x-support-p4-help.txt
+          sha256sum out/* | sort > out/kernel-sha256.txt
+      - uses: actions/upload-artifact@v4
+        with: {name: g95-p5-kernels, path: out/, retention-days: 30}
+
+  corpus:
+    name: Freeze train, selection and untouched transport worlds
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: g95-p1-precommit-sealed
+          path: p1
+          repository: WhoSia/C3X
+          run-id: ${{ env.P1_RUN }}
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: g95-p2-precommit-sealed
+          path: p2
+          repository: WhoSia/C3X
+          run-id: ${{ env.P2_RUN }}
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: g95-p3-corpus-sealed
+          path: p3
+          repository: WhoSia/C3X
+          run-id: ${{ env.P3_RUN }}
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: g95-p4-corpus-sealed
+          path: p4
+          repository: WhoSia/C3X
+          run-id: ${{ env.P4_RUN }}
+          github-token: ${{ github.token }}
+      - name: Materialize pinned fresh source regimes
+        run: |
+          set -euxo pipefail
+          python3 -m pip install --disable-pip-version-check python-chess==1.999
+          git clone https://github.com/official-stockfish/books.git books
+          git -C books checkout --detach "$BOOK_COMMIT"
+          mkdir -p data
+          extract_book () {
+            local f="$1"
+            if test -f "books/$f"; then cp "books/$f" "data/$f";
+            elif test -f "books/$f.zip"; then unzip -p "books/$f.zip" > "data/$f";
+            else echo "missing book $f" >&2; exit 1; fi
+          }
+          for f in noob_2moves.epd 4mvs_+90_+99.epd popularpos_lichess.epd UHO_4060_v2.epd 6mvs_+90_+99.epd popularpos_lichess_v2.epd UHO_4060_v3.epd 8mvs_+90_+99.epd 8mvs_big_+80_+109.epd hybrid_book_beta.epd; do extract_book "$f"; done
+          P1="$(find p1 -name g95-p1-precommit.json -print -quit)"
+          P2="$(find p2 -name g95-p2-precommit.json -print -quit)"
+          P3="$(find p3 -name g95-p3-corpus.json -print -quit)"
+          P4="$(find p4 -name g95-p4-corpus.json -print -quit)"
+          test -n "$P1" && test -n "$P2" && test -n "$P3" && test -n "$P4"
+          python3 harness/g95_p5_corpus.py             --train "TRAIN_SHALLOW|data/noob_2moves.epd|noob_2moves.epd|2"             --train "TRAIN_4MVS|data/4mvs_+90_+99.epd|4mvs_+90_+99.epd|2"             --train "TRAIN_NATURAL|data/popularpos_lichess.epd|popularpos_lichess.epd|2"             --train "TRAIN_UHO|data/UHO_4060_v2.epd|UHO_4060_v2.epd|2"             --select "SELECT_6MVS|data/6mvs_+90_+99.epd|6mvs_+90_+99.epd|2"             --select "SELECT_NATURAL|data/popularpos_lichess_v2.epd|popularpos_lichess_v2.epd|2"             --select "SELECT_UHO|data/UHO_4060_v3.epd|UHO_4060_v3.epd|2"             --transport "TRANSPORT_8MVS|data/8mvs_+90_+99.epd|8mvs_+90_+99.epd|2"             --transport "TRANSPORT_8MVS_BIG|data/8mvs_big_+80_+109.epd|8mvs_big_+80_+109.epd|2"             --transport "TRANSPORT_HYBRID|data/hybrid_book_beta.epd|hybrid_book_beta.epd|2"             --exclude "$P1" --exclude "$P2" --exclude "$P3" --exclude "$P4"             --source-repo official-stockfish/books --source-commit "$BOOK_COMMIT" --out g95-p5-corpus.json
+          sha256sum data/*.epd g95-p5-corpus.json | sort > g95-p5-corpus-sha256.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: g95-p5-corpus-sealed
+          path: |
+            g95-p5-corpus.json
+            g95-p5-corpus-sha256.txt
+          retention-days: 30
+
+  precommit:
+    name: Seal P5 grammar, splits and authority order
+    needs: [lawgen, kernels, corpus]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with: {name: g95-p5-lawgen-preseal, path: lawgen}
+      - uses: actions/download-artifact@v4
+        with: {name: g95-p5-corpus-sealed, path: corpus}
+      - uses: actions/download-artifact@v4
+        with:
+          name: g95-p4-precommit-sealed
+          path: p4
+          repository: WhoSia/C3X
+          run-id: ${{ env.P4_RUN }}
+          github-token: ${{ github.token }}
+      - name: Seal prospective nested design
+        run: |
+          set -euxo pipefail
+          CONST="$(find lawgen -name constitution.json -print -quit)"
+          CORPUS="$(find corpus -name g95-p5-corpus.json -print -quit)"
+          P4PRE="$(find p4 -name g95-p4-precommit.json -print -quit)"
+          test -n "$CONST" && test -n "$CORPUS" && test -n "$P4PRE"
+          python3 harness/g95_p5_court.py precommit --constitution "$CONST" --corpus "$CORPUS" --p4-precommit "$P4PRE" --p4-closure c3x/receipts/g95-p4-closure.json --out g95-p5-precommit.json
+          sha256sum g95-p5-precommit.json > g95-p5-precommit.sha256
+      - uses: actions/upload-artifact@v4
+        with: {name: g95-p5-precommit-sealed, path: g95-p5-precommit*, retention-days: 30}
+
+  train-cases:
+    name: Representation train — p${{ matrix.pos }}-${{ matrix.engine }}
+    needs: precommit
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+    strategy:
+      fail-fast: false
+      matrix:
+        pos: [0,1,2,3,4,5,6,7]
+        engine: [stockfish_19, berserk, ethereal]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with: {name: g95-p5-precommit-sealed, path: pre}
+      - uses: actions/download-artifact@v4
+        with: {name: g95-p5-kernels, path: kernels}
+      - uses: actions/download-artifact@v4
+        with:
+          name: g95-p4-lawgen-preseal
+          path: p4-lawgen
+          repository: WhoSia/C3X
+          run-id: ${{ env.P4_RUN }}
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: p34-build-${{ matrix.engine }}
+          path: build
+          repository: WhoSia/C3X
+          run-id: ${{ env.P34_RUN }}
+          github-token: ${{ github.token }}
+      - name: Execute frozen exact-event sampling and strict-prefix profiling
+        run: |
+          set -euxo pipefail
+          python3 -m pip install --disable-pip-version-check python-chess==1.999
+          chmod +x kernels/c3x-support-p4 kernels/c3x-fiber kernels/c3x-lineage "build/c3x-p34-${{ matrix.engine }}"
+          PLAN="$(find p4-lawgen -name sampling-strata.json -print -quit)"
+          mkdir -p out
+          python3 harness/g95_p5_court.py case --precommit pre/g95-p5-precommit.json --case-id "p5:train:${{ matrix.pos }}:${{ matrix.engine }}"             --binary "build/c3x-p34-${{ matrix.engine }}" --sampler kernels/c3x-support-p4 --sampling-plan "$PLAN"             --lineager kernels/c3x-lineage --fiber-verifier kernels/c3x-fiber             --profile-out out/profile.json --target-out out/target.json --case-out out/case.json
+      - uses: actions/upload-artifact@v4
+        with: {name: "g95-p5-train-${{ matrix.pos }}-${{ matrix.engine }}", path: out/, retention-days: 30}
+
+  selection-cases:
+    name: Schema selection acquisition — p${{ matrix.pos }}-${{ matrix.engine }}
+    needs: precommit
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+    strategy:
+      fail-fast: false
+      matrix:
+        pos: [0,1,2,3,4,5]
+        engine: [stockfish_19, berserk, ethereal]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with: {name: g95-p5-precommit-sealed, path: pre}
+      - uses: actions/download-artifact@v4
+        with: {name: g95-p5-kernels, path: kernels}
+      - uses: actions/download-artifact@v4
+        with:
+          name: g95-p4-lawgen-preseal
+          path: p4-lawgen
+          repository: WhoSia/C3X
+          run-id: ${{ env.P4_RUN }}
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: p34-build-${{ matrix.engine }}
+          path: build
+          repository: WhoSia/C3X
+          run-id: ${{ env.P34_RUN }}
+          github-token: ${{ github.token }}
+      - name: Execute once; keep selection profile and target physically separable
+        run: |
+          set -euxo pipefail
+          python3 -m pip install --disable-pip-version-check python-chess==1.999
+          chmod +x kernels/c3x-support-p4 kernels/c3x-fiber kernels/c3x-lineage "build/c3x-p34-${{ matrix.engine }}"
+          PLAN="$(find p4-lawgen -name sampling-strata.json -print -quit)"
+          mkdir -p out
+          python3 harness/g95_p5_court.py case --precommit pre/g95-p5-precommit.json --case-id "p5:select:${{ matrix.pos }}:${{ matrix.engine }}"             --binary "build/c3x-p34-${{ matrix.engine }}" --sampler kernels/c3x-support-p4 --sampling-plan "$PLAN"             --lineager kernels/c3x-lineage --fiber-verifier kernels/c3x-fiber             --profile-out out/profile.json --target-out out/target.json --case-out out/case.json
+      - uses: actions/upload-artifact@v4
+        with: {name: "g95-p5-selection-profile-${{ matrix.pos }}-${{ matrix.engine }}", path: out/profile.json, retention-days: 30}
+      - uses: actions/upload-artifact@v4
+        with: {name: "g95-p5-selection-target-${{ matrix.pos }}-${{ matrix.engine }}", path: out/target.json, retention-days: 30}
+      - uses: actions/upload-artifact@v4
+        with: {name: "g95-p5-selection-case-${{ matrix.pos }}-${{ matrix.engine }}", path: out/case.json, retention-days: 30}
+
+  transport-cases:
+    name: Untouched transport acquisition — p${{ matrix.pos }}-${{ matrix.engine }}
+    needs: precommit
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+    strategy:
+      fail-fast: false
+      matrix:
+        pos: [0,1,2,3,4,5]
+        engine: [stockfish_19, berserk, ethereal]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with: {name: g95-p5-precommit-sealed, path: pre}
+      - uses: actions/download-artifact@v4
+        with: {name: g95-p5-kernels, path: kernels}
+      - uses: actions/download-artifact@v4
+        with:
+          name: g95-p4-lawgen-preseal
+          path: p4-lawgen
+          repository: WhoSia/C3X
+          run-id: ${{ env.P4_RUN }}
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: p34-build-${{ matrix.engine }}
+          path: build
+          repository: WhoSia/C3X
+          run-id: ${{ env.P34_RUN }}
+          github-token: ${{ github.token }}
+      - name: Execute once; transport target remains unopened downstream
+        run: |
+          set -euxo pipefail
+          python3 -m pip install --disable-pip-version-check python-chess==1.999
+          chmod +x kernels/c3x-support-p4 kernels/c3x-fiber kernels/c3x-lineage "build/c3x-p34-${{ matrix.engine }}"
+          PLAN="$(find p4-lawgen -name sampling-strata.json -print -quit)"
+          mkdir -p out
+          python3 harness/g95_p5_court.py case --precommit pre/g95-p5-precommit.json --case-id "p5:transport:${{ matrix.pos }}:${{ matrix.engine }}"             --binary "build/c3x-p34-${{ matrix.engine }}" --sampler kernels/c3x-support-p4 --sampling-plan "$PLAN"             --lineager kernels/c3x-lineage --fiber-verifier kernels/c3x-fiber             --profile-out out/profile.json --target-out out/target.json --case-out out/case.json
+      - uses: actions/upload-artifact@v4
+        with: {name: "g95-p5-transport-profile-${{ matrix.pos }}-${{ matrix.engine }}", path: out/profile.json, retention-days: 30}
+      - uses: actions/upload-artifact@v4
+        with: {name: "g95-p5-transport-target-${{ matrix.pos }}-${{ matrix.engine }}", path: out/target.json, retention-days: 30}
+      - uses: actions/upload-artifact@v4
+        with: {name: "g95-p5-transport-case-${{ matrix.pos }}-${{ matrix.engine }}", path: out/case.json, retention-days: 30}
+
+  train-learn:
+    name: Open train targets and learn bounded representation shortlist
+    needs: train-cases
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with: {name: g95-p5-precommit-sealed, path: pre}
+      - uses: actions/download-artifact@v4
+        with: {name: g95-p5-lawgen-preseal, path: lawgen}
+      - uses: actions/download-artifact@v4
+        with: {name: g95-p5-kernels, path: kernels}
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: g95-p5-train-*
+          path: train
+          merge-multiple: false
+      - name: Merge train labels, exhaust grammar and independently audit
+        run: |
+          set -euxo pipefail
+          chmod +x kernels/c3x-repr-p5
+          mkdir -p out
+          python3 harness/g95_p5_court.py merge-profiles --root train --role REPRESENTATION_TRAIN --out out/train-profiles.json
+          python3 harness/g95_p5_court.py merge-targets --root train --role REPRESENTATION_TRAIN --out out/train-targets.json
+          python3 harness/g95_p5_court.py train-input --precommit pre/g95-p5-precommit.json --profiles out/train-profiles.json --targets out/train-targets.json --out out/train-input.json
+          GRAMMAR="$(find lawgen -name representation-grammar.json -print -quit)"
+          kernels/c3x-repr-p5 learn --input out/train-input.json --grammar "$GRAMMAR" --out out/train-shortlist.json
+          python3 harness/g95_p5_court.py audit-shortlist --train out/train-input.json --shortlist out/train-shortlist.json --grammar "$GRAMMAR" --out out/train-audit.json
+          sha256sum out/* | sort > out/train-learn-sha256.txt
+      - uses: actions/upload-artifact@v4
+        with: {name: g95-p5-train-learn-sealed, path: out/, retention-days: 30}
+
+  selection-scope:
+    name: Query frozen shortlist on selection profiles before target opening
+    needs: [train-learn, selection-cases]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with: {name: g95-p5-train-learn-sealed, path: train}
+      - uses: actions/download-artifact@v4
+        with: {name: g95-p5-kernels, path: kernels}
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: g95-p5-selection-profile-*
+          path: profiles
+          merge-multiple: false
+      - name: Seal target-blind selection predictions
+        run: |
+          set -euxo pipefail
+          chmod +x kernels/c3x-repr-p5
+          mkdir -p out
+          python3 harness/g95_p5_court.py merge-profiles --root profiles --role SCHEMA_SELECTION --out out/selection-profiles.json
+          kernels/c3x-repr-p5 query-shortlist --shortlist train/train-shortlist.json --profiles out/selection-profiles.json --out out/selection-query.json
+          python3 - <<'PY'
+          import json
+          x=json.load(open("out/selection-query.json"))
+          assert x["target_fields_consulted"] is False
+          print("P5_SELECTION_QUERY_SEALED",len(x["queries"]))
+          PY
+          sha256sum out/* | sort > out/selection-query-sha256.txt
+      - uses: actions/upload-artifact@v4
+        with: {name: g95-p5-selection-query-sealed, path: out/, retention-days: 30}
+
+  selection-verify:
+    name: Open selection targets, choose one representation, freeze field
+    needs: selection-scope
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with: {name: g95-p5-precommit-sealed, path: pre}
+      - uses: actions/download-artifact@v4
+        with: {name: g95-p5-train-learn-sealed, path: train}
+      - uses: actions/download-artifact@v4
+        with: {name: g95-p5-selection-query-sealed, path: selection}
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: g95-p5-selection-target-*
+          path: targets
+          merge-multiple: false
+      - name: Selection court with no refit
+        run: |
+          set -euxo pipefail
+          mkdir -p out
+          python3 harness/g95_p5_court.py merge-targets --root targets --role SCHEMA_SELECTION --out out/selection-targets.json
+          python3 harness/g95_p5_court.py selection-field --precommit pre/g95-p5-precommit.json --train train/train-input.json             --shortlist train/train-shortlist.json --query selection/selection-query.json --profiles selection/selection-profiles.json             --targets out/selection-targets.json --out out/selected-field.json
+          sha256sum out/* | sort > out/selection-field-sha256.txt
+      - uses: actions/upload-artifact@v4
+        with: {name: g95-p5-selected-field, path: out/, retention-days: 30}
+
+  transport-scope:
+    name: Scope selected representation on untouched transport profiles
+    needs: [selection-verify, transport-cases]
+    runs-on: ubuntu-latest
+    outputs:
+      open_targets: ${{ steps.gate.outputs.open_targets }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with: {name: g95-p5-precommit-sealed, path: pre}
+      - uses: actions/download-artifact@v4
+        with: {name: g95-p5-selected-field, path: field}
+      - uses: actions/download-artifact@v4
+        with: {name: g95-p5-kernels, path: kernels}
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: g95-p5-transport-profile-*
+          path: profiles
+          merge-multiple: false
+      - name: Target-blind transport scope
+        run: |
+          set -euxo pipefail
+          chmod +x kernels/c3x-repr-p5
+          mkdir -p out
+          python3 harness/g95_p5_court.py merge-profiles --root profiles --role HELDOUT_TRANSPORT --out out/transport-profiles.json
+          kernels/c3x-repr-p5 query-field --field field/selected-field.json --profiles out/transport-profiles.json --out out/transport-query.json
+          python3 harness/g95_p5_court.py transport-scope --precommit pre/g95-p5-precommit.json --field field/selected-field.json             --profiles out/transport-profiles.json --query out/transport-query.json --out out/transport-scope.json
+          sha256sum out/* | sort > out/transport-scope-sha256.txt
+      - id: gate
+        name: Publish target-open authority bit
+        run: |
+          OPEN="$(python3 -c 'import json; x=json.load(open("out/transport-scope.json")); print("true" if x["transport_targets_open_authorized"] else "false")')"
+          echo "open_targets=$OPEN" >> "$GITHUB_OUTPUT"
+          echo "P5_TRANSPORT_TARGET_OPEN=$OPEN"
+      - uses: actions/upload-artifact@v4
+        with: {name: g95-p5-transport-scope-sealed, path: out/, retention-days: 30}
+
+  transport-verify:
+    name: Open untouched transport targets only after scope authorization
+    needs: transport-scope
+    if: ${{ needs.transport-scope.outputs.open_targets == 'true' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with: {name: g95-p5-transport-scope-sealed, path: scope}
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: g95-p5-transport-target-*
+          path: targets
+          merge-multiple: false
+      - name: Verify frozen representation on untouched targets
+        run: |
+          set -euxo pipefail
+          mkdir -p out
+          python3 harness/g95_p5_court.py merge-targets --root targets --role HELDOUT_TRANSPORT --out out/transport-targets.json
+          python3 harness/g95_p5_court.py verify-transport --scope scope/transport-scope.json --targets out/transport-targets.json --out out/verification.json
+          sha256sum out/* | sort > out/verification-sha256.txt
+      - uses: actions/upload-artifact@v4
+        with: {name: g95-p5-transport-verification, path: out/, retention-days: 30}
+
+  transport-no-open:
+    name: Close without opening transport targets when field or scope gate fails
+    needs: transport-scope
+    if: ${{ needs.transport-scope.outputs.open_targets != 'true' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with: {name: g95-p5-transport-scope-sealed, path: scope}
+      - uses: actions/download-artifact@v4
+        with: {name: g95-p5-selected-field, path: field}
+      - name: Seal target-unopened HOLD
+        run: |
+          set -euxo pipefail
+          mkdir -p out
+          python3 harness/g95_p5_court.py no-transport-open --scope scope/transport-scope.json --field field/selected-field.json --out out/verification.json
+          sha256sum out/* | sort > out/verification-sha256.txt
+      - uses: actions/upload-artifact@v4
+        with: {name: g95-p5-transport-verification, path: out/, retention-days: 30}
+
+  adjudicate:
+    name: Final nested-sequestration authority adjudication
+    needs: [train-learn, selection-verify, transport-scope, transport-verify, transport-no-open]
+    if: ${{ always() && needs.train-learn.result == 'success' && needs.selection-verify.result == 'success' && needs.transport-scope.result == 'success' && (needs.transport-verify.result == 'success' || needs.transport-no-open.result == 'success') }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with: {name: g95-p5-precommit-sealed, path: pre}
+      - uses: actions/download-artifact@v4
+        with: {name: g95-p5-train-learn-sealed, path: train}
+      - uses: actions/download-artifact@v4
+        with: {name: g95-p5-selected-field, path: field}
+      - uses: actions/download-artifact@v4
+        with: {name: g95-p5-transport-scope-sealed, path: scope}
+      - uses: actions/download-artifact@v4
+        with: {name: g95-p5-transport-verification, path: verify}
+      - name: Compile authority-bounded final artifacts
+        run: |
+          set -euxo pipefail
+          mkdir -p final
+          TARGET_ARG=""
+          if test -f verify/transport-targets.json; then TARGET_ARG="--targets verify/transport-targets.json"; fi
+          python3 harness/g95_p5_finalize.py --precommit pre/g95-p5-precommit.json --train train/train-input.json --train-audit train/train-audit.json             --shortlist train/train-shortlist.json --field field/selected-field.json --scope scope/transport-scope.json --verification verify/verification.json             --profiles scope/transport-profiles.json $TARGET_ARG --out final/g95-p5-adjudication.json             --deployment final/g95-p5-public-deployment.json --explanations final/g95-p5-explanations.md
+          node tools/g95-p5-verify.mjs final/g95-p5-adjudication.json final/g95-p5-public-deployment.json field/selected-field.json verify/verification.json train/train-audit.json | tee final/g95-p5-js-verification.txt
+          sha256sum final/* | sort > final/g95-p5-final-sha256.txt
+      - uses: actions/upload-artifact@v4
+        with: {name: g95-p5-final-adjudication, path: final/, retention-days: 30}
+
+  service:
+    name: Package deterministic P5 representation explanation service
+    needs: adjudicate
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with: {name: g95-p5-final-adjudication, path: final}
+      - uses: actions/download-artifact@v4
+        with: {name: g95-p5-selected-field, path: field}
+      - uses: actions/download-artifact@v4
+        with: {name: g95-p5-transport-scope-sealed, path: scope}
+      - uses: actions/download-artifact@v4
+        with: {name: g95-p5-kernels, path: kernels}
+      - uses: actions/download-artifact@v4
+        with: {name: g95-p5-lawgen-preseal, path: lawgen}
+      - name: Full-record parity, HTTP smoke and reproducible package
+        run: |
+          set -euxo pipefail
+          mkdir -p service/bin service/tools service/certificates service/docs service/schemas service/examples
+          cp kernels/c3x-repr-p5 service/bin/
+          chmod +x service/bin/*
+          cp tools/c3x_service_v3.py tools/c3x_context_v3.py service/tools/
+          cp docs/G95_P5_THEORY.md service/docs/
+          cp lawgen/lawgen/constitution.json lawgen/lawgen/representation-grammar.json lawgen/lawgen/split-gates.json service/schemas/
+          cp field/selected-field.json service/certificates/
+          cp scope/transport-scope.json service/certificates/
+          cp final/g95-p5-adjudication.json final/g95-p5-public-deployment.json final/g95-p5-explanations.md service/certificates/
+          PYTHONPATH=service/tools python3 - <<'PY'
+          import json
+          from c3x_service_v3 import RepresentationService
+          field=json.load(open("service/certificates/selected-field.json"))
+          dep=json.load(open("service/certificates/g95-p5-public-deployment.json"))
+          adj=json.load(open("service/certificates/g95-p5-adjudication.json"))
+          profiles=json.load(open("scope/transport-profiles.json"))["records"]
+          expected={x["record_id"]:x["public_status"] for x in adj["certificates"]}
+          svc=RepresentationService(field,dep);checked=0
+          for p in profiles:
+              q=svc.query(p)
+              assert q["status"]==expected[p["record_id"]],(p["record_id"],q["status"],expected[p["record_id"]])
+              checked+=1
+          out={"schema":"c3x-g95-p5-service-full-parity-v1","profiles_checked":checked,"pass":True,
+               "public_global_authority":svc.public,"field_sha256":svc.field_sha256,"verdict":dep["verdict"]}
+          json.dump(out,open("service/full-parity.json","w"),indent=2,sort_keys=True);open("service/full-parity.json","a").write("\n")
+          json.dump({"profile":profiles[0]},open("service/examples/query-request.json","w"),indent=2,sort_keys=True);open("service/examples/query-request.json","a").write("\n")
+          print("P5_SERVICE_FULL_PARITY_PASS",checked,svc.public)
+          PY
+          python3 service/tools/c3x_service_v3.py --field service/certificates/selected-field.json --deployment service/certificates/g95-p5-public-deployment.json --port 8765 > service.log 2>&1 &
+          PID=$!
+          trap 'kill $PID || true' EXIT
+          for i in {1..20}; do curl -fsS http://127.0.0.1:8765/health > service/health.json && break || sleep 1; done
+          curl -fsS -H 'Content-Type: application/json' --data @service/examples/query-request.json http://127.0.0.1:8765/v1/query > service/query-response.json
+          curl -fsS -H 'Content-Type: application/json' --data @service/examples/query-request.json http://127.0.0.1:8765/v1/explain > service/explain-response.json
+          python3 - <<'PY'
+          import json
+          q=json.load(open("service/query-response.json"));e=json.load(open("service/explain-response.json"))
+          assert e["llm_used"] is False
+          print("P5_SERVICE_HTTP_PASS",q["status"])
+          PY
+          kill $PID
+          trap - EXIT
+          (
+            cd service
+            find . -type f ! -name MANIFEST.sha256 -print0 | sort -z | xargs -0 sha256sum > MANIFEST.sha256
+          )
+          tar -czf g95-p5-public-explanation-harness.tar.gz service
+          sha256sum g95-p5-public-explanation-harness.tar.gz > g95-p5-public-explanation-harness.sha256
+      - uses: actions/upload-artifact@v4
+        with:
+          name: g95-p5-public-explanation-harness
+          path: |
+            g95-p5-public-explanation-harness.tar.gz
+            g95-p5-public-explanation-harness.sha256
+            service/
+          retention-days: 30
