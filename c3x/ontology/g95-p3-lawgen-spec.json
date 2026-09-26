@@ -271,16 +271,25 @@
   "implementation_object": {
     "rust_cli": "c3x-field-p3",
     "rust_commands": [
-      "discover",
-      "scope",
+      "assess",
       "query",
-      "verify",
       "diagnose"
     ],
     "python_profiler": "tools/c3x_context_v2.py",
     "deterministic_service": "tools/c3x_service.py",
     "lawgen": "lawgen_v13",
-    "independent_verifier": "tools/g95-p3-verify.mjs"
+    "independent_verifier": "tools/g95-p3-verify.mjs",
+    "python_court": "harness/g95_p3_context_court.py",
+    "python_court_commands": [
+      "precommit",
+      "case",
+      "merge-discovery",
+      "select-field",
+      "merge-profiles",
+      "scope",
+      "merge-targets",
+      "verify"
+    ]
   },
   "literature": [
     {
