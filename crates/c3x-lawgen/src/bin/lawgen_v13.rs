@@ -31,7 +31,7 @@ fn main(){
  assert_eq!(s["discovery_court"]["support_gate"]["min_fired_records"],96);
  assert_eq!(s["heldout_firewall"]["pre_target_scope_gate"]["min_seen_fraction"],0.25);
  assert_eq!(s["implementation_object"]["rust_cli"],"c3x-field-p3");
- assert_eq!(s["implementation_object"]["rust_commands"],json!(["discover","scope","query","verify","diagnose"]));
+ assert_eq!(s["implementation_object"]["rust_commands"],json!(["assess","query","diagnose"]));
  let ss=sha(&s);let ps=sha(&p);
  let c=json!({
   "schema":"c3x-lawgen-constitution-v13","scientific_stage":s["scientific_stage"],"title":s["title"],
