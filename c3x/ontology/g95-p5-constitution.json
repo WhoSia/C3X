@@ -1,0 +1,190 @@
+{
+  "schema": "c3x-g95-p5-constitution-v1",
+  "scientific_stage": "C3X 0.7.0-G9.5-P5",
+  "title": "Prospective Outcome-Sequestered Causal Representation Discovery, Nested Discovery–Selection–Transport Splitting, Collision-Resolving Coordinate Grammar, Complexity-Regularized Minimal Sufficient Context Learning, Cross-Engine Representation Invariance & Held-Out Field Authority Reconstitution",
+  "parent": {
+    "stage": "C3X 0.7.0-G9.5-P4",
+    "closure_commit": "3f9c1454bdc071379a6fd697957cacccd60dc069",
+    "canonical_run": 36233574663,
+    "verdict": "SUPPORT_RECOVERED_NO_ADMISSIBLE_GLOBAL_FIELD_HOLD",
+    "fresh_records": 576,
+    "fresh_positive": 26,
+    "field_failure": "ALL_P3_FROZEN_FAMILIES_TARGET_COLLIDED"
+  },
+  "temporal_repair": {
+    "context_schema_version": "c3x-context-v3",
+    "causal_availability": "STRICT_EVENT_PREFIX_ONLY",
+    "p4_context_v2_issue": "Some inherited base coordinates used whole-parent-trace or terminal parent-semantic summaries despite EVENT_PREFIX_ONLY naming.",
+    "p4_authority_impact": "NO_CERTIFIED_FIELD_WAS_PRODUCED; repair is prospective and does not retroactively promote or falsify P4.",
+    "future_parent_trace_allowed": false,
+    "parent_terminal_semantic_allowed": false,
+    "raw_full_key_emitted": false
+  },
+  "selective_firewall": {
+    "p2_p3_contradictions_confirmatory_vote": false,
+    "p4_labels_used_to_choose_p5_fresh_positions": false,
+    "p4_labels_used_to_tune_p5_thresholds_after_freeze": false,
+    "representation_train_targets_visible_to_learner": true,
+    "schema_selection_targets_visible_during_representation_learning": false,
+    "transport_targets_visible_before_field_and_scope_seal": false,
+    "post_selection_representation_mutation": false,
+    "post_transport_representation_mutation": false
+  },
+  "execution": {
+    "engines": ["stockfish_19", "berserk", "ethereal"],
+    "hash_mib": 1,
+    "threads": 1,
+    "prime_nodes": 20000,
+    "decoy_nodes": 20000,
+    "decoy_count": 3,
+    "measurement_nodes": 80000,
+    "family": "MOVE_ORDER+EVAL",
+    "frontier": 1,
+    "candidate_events_per_world": 16,
+    "inherited_engine_build_run": 36216185685,
+    "inherited_sampler": "c3x-support-p4"
+  },
+  "fresh_worlds": {
+    "source_repository": "official-stockfish/books",
+    "source_commit": "65815ccdbc7727cd4f6aee252ba8f67fb740e92f",
+    "selection_rule": "Unique legal standard-chess FENs sorted by SHA-256(FEN) within source; exclude all recoverable P1–P4 candidate hashes and cross-split duplicates before engine execution.",
+    "representation_train": [
+      {"id":"TRAIN_SHALLOW","logical":"noob_2moves.epd","positions":2},
+      {"id":"TRAIN_4MVS","logical":"4mvs_+90_+99.epd","positions":2},
+      {"id":"TRAIN_NATURAL","logical":"popularpos_lichess.epd","positions":2},
+      {"id":"TRAIN_UHO","logical":"UHO_4060_v2.epd","positions":2}
+    ],
+    "schema_selection": [
+      {"id":"SELECT_6MVS","logical":"6mvs_+90_+99.epd","positions":2},
+      {"id":"SELECT_NATURAL","logical":"popularpos_lichess_v2.epd","positions":2},
+      {"id":"SELECT_UHO","logical":"UHO_4060_v3.epd","positions":2}
+    ],
+    "transport": [
+      {"id":"TRANSPORT_8MVS","logical":"8mvs_+90_+99.epd","positions":2},
+      {"id":"TRANSPORT_8MVS_BIG","logical":"8mvs_big_+80_+109.epd","positions":2},
+      {"id":"TRANSPORT_HYBRID","logical":"hybrid_book_beta.epd","positions":2}
+    ]
+  },
+  "support_gate": {
+    "representation_train_planned_max_records": 384,
+    "min_fired_records": 336,
+    "min_positive_records": 4,
+    "min_negative_records": 240,
+    "min_records_per_engine": 112,
+    "min_positive_per_engine": 1,
+    "min_positive_source_regimes": 2,
+    "sensitivity_prevalence": 0.02,
+    "min_detection_probability_at_sensitivity": 0.90,
+    "detection_event": "observe at least 4 ROOT_CHANGE positives",
+    "frozen_reference_n336_probability": 0.9046970008194741
+  },
+  "representation_grammar": {
+    "authority": "TRAIN_ONLY_GENERATION_SELECTION_ONLY_CHOICE",
+    "mandatory_anchor": "fiber_id",
+    "max_coordinates": 4,
+    "max_shortlist": 24,
+    "forbid_engine_identity": true,
+    "forbid_architecture_identity": true,
+    "forbid_sampling_stratum": true,
+    "atoms": [
+      "board_legal_bucket",
+      "board_center_bucket",
+      "board_development_bucket",
+      "board_castling_bucket",
+      "source_scope",
+      "source_class",
+      "source_ply_bucket",
+      "event_depth_bucket",
+      "event_occ_bucket",
+      "event_index_bucket",
+      "event_window_relation",
+      "event_move_presence",
+      "event_payload_sign",
+      "event_bound_bucket",
+      "prefix_event_count_bucket",
+      "prefix_qshare_bucket",
+      "prefix_class_balance",
+      "prefix_cutoff_count_bucket",
+      "prefix_move_order_count_bucket",
+      "prefix_eval_count_bucket",
+      "prefix_unique_key_ratio_bucket",
+      "prev_semantic_class",
+      "prev_scope",
+      "same_class_count_bucket",
+      "same_class_prev_gap_bucket",
+      "same_key_count_bucket",
+      "same_key_prev_gap_bucket",
+      "scope_transition_bucket",
+      "ply_transition_bucket",
+      "prev_depth_delta_bucket",
+      "same_key_depth_delta_bucket"
+    ],
+    "train_admissibility": {
+      "max_target_collisions": 0,
+      "min_compression": 0.15,
+      "min_cross_position_records": 64,
+      "min_cross_engine_records": 48,
+      "require_both_target_labels": true
+    },
+    "complexity": {
+      "criterion": "TWO_PART_MDL_PROXY",
+      "coordinate_cost_bits": 8.0,
+      "cell_cost_bits": 1.0,
+      "formula": "8 * number_of_coordinates + distinct_cells",
+      "ranking": "minimum_mdl_then_fewer_coordinates_then_higher_compression_then_lexical_coordinate_tuple"
+    }
+  },
+  "selection_gate": {
+    "no_refit_on_selection": true,
+    "min_seen_fraction": 0.20,
+    "min_seen_fraction_per_engine": 0.10,
+    "required_engines": 3,
+    "min_positions": 4,
+    "min_source_regimes": 2,
+    "min_covered_positive": 1,
+    "max_contradictions": 0,
+    "max_mixed_cells": 0,
+    "choice_rule": "Among train-admissible shortlist candidates that pass selection unchanged: minimum train MDL, then higher selection coverage, then fewer coordinates, then lexical id."
+  },
+  "transport_gate": {
+    "scope_before_targets": true,
+    "min_seen_fraction": 0.20,
+    "required_engines": 3,
+    "min_positions": 4,
+    "min_source_regimes": 2,
+    "min_predicted_positive_profiles": 1,
+    "certification": "Every covered transport profile must agree with the frozen selected field; no covered transport cell may be mixed.",
+    "selection_failure_behavior": "Do not open transport target artifacts; close at representation-selection HOLD."
+  },
+  "public_explanation_harness": {
+    "deterministic_core": true,
+    "llm_dependency": false,
+    "public_certification_requires_transport": true,
+    "states": [
+      "CERTIFIED_ROOT_CHANGE",
+      "CERTIFIED_NO_ROOT_CHANGE",
+      "ABSTAIN_UNSEEN_CONTEXT",
+      "ABSTAIN_UNCERTIFIED_FIELD",
+      "CONTRADICTED_CONTEXT_CELL"
+    ],
+    "rule": "Train or selection success alone never yields public CERTIFIED authority. Transport certification is required."
+  },
+  "verdict_ladder": {
+    "support_failure": "P5_FRESH_SUPPORT_POWER_HOLD",
+    "no_train_representation": "P5_NO_COLLISION_FREE_REPRESENTATION_HOLD",
+    "selection_failure": "P5_REPRESENTATION_SELECTION_FAIL_HOLD",
+    "transport_scope_failure": "P5_TRANSPORT_SCOPE_INSUFFICIENT_HOLD",
+    "transport_falsified": "P5_CAUSAL_REPRESENTATION_HELDOUT_FALSIFIED",
+    "transport_certified": "P5_MINIMAL_CAUSAL_REPRESENTATION_HELDOUT_CERTIFIED",
+    "service_failure": "P5_PUBLIC_EXPLANATION_HARNESS_FAIL"
+  },
+  "claim_ceiling": [
+    "P5 learns only a bounded predictive causal partition for exact-event ROOT_CHANGE under the frozen replay regime; it does not identify a unique physical or cognitive mechanism.",
+    "Zero training collision is necessary but not sufficient for authority; selection and untouched transport remain mandatory.",
+    "The selected coordinates are representational discriminators, not automatically causal variables.",
+    "Cross-engine invariance means the same frozen representation and cell labels survive the tested engines; it does not imply universality across all chess engines.",
+    "Strict prefix-causal availability forbids future parent-trace summaries, terminal parent semantic outputs, raw engine identity and post-target feature growth.",
+    "Unseen contexts imply abstention, not NO_ROOT_CHANGE.",
+    "No human cognition, intent, strategy or population-prevalence claim is authorized."
+  ]
+}
