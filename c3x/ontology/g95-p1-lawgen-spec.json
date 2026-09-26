@@ -1,0 +1,278 @@
+{
+  "schema": "c3x-lawgen-spec-v11",
+  "scientific_stage": "C3X 0.7.0-G9.5-P1",
+  "title": "Prospective Witness-Preserving Causal Fiber Constitution, Intervention-Response Congruence, Counterexample-Guided Quotient Splitting, Held-Out Positive-Control Preservation, Cross-Engine Fiber Transport & Exact-Event Explanation Reconstruction",
+  "parent_authority": {
+    "stage": "C3X 0.7.0-G9.4-P34",
+    "closure_commit": "8e4543c60fb26255e4ebae72b6950371539ac0b5",
+    "canonical_run": 36216185685,
+    "verdict": "OPEN_EVENT_QUOTIENT_SIGNAL_POSITIVE_CONTROL_FAILURE_HOLD",
+    "inherited_boundary": "A hand-designed structural quotient can close one open Ethereal world but merges the already-certified Stockfish singleton cause with non-equivalent exact events. Structural similarity therefore lacks causal interchangeability authority."
+  },
+  "objective": "Constitute event fibers from intervention-induced search-trace responses rather than root outcomes or hand-designed structural labels; select the coarsest prospectively frozen diagnostic fiber level that is target-congruent on discovery worlds, then test the selected level unchanged on a binding Stockfish witness holdout and cross-engine transport worlds.",
+  "causal_fiber": {
+    "unit": "One exact P32 TT semantic-use event under a fixed engine/world/family/frontier/parent intervention context.",
+    "diagnostic_intervention": "Remove exactly one candidate exact event, conditioned on the frozen parent context, and compare the resulting TT semantic-use trace to the parent trace with the P33 outcome-blind lineage compiler.",
+    "forbidden_from_fiber_identity": [
+      "root bestmove",
+      "root score",
+      "root WDL",
+      "root PV",
+      "rendered explanation",
+      "known P32/P33/P34 causal label",
+      "case role",
+      "engine name",
+      "position hash/FEN",
+      "exact address_id/full_key"
+    ],
+    "target_query": {
+      "primary": "ROOT_CHANGE = whether singleton exact-event removal changes the parent's root bestmove at the frozen 80k-node measurement search.",
+      "separation": "ROOT_CHANGE and the resulting bestmove are withheld from diagnostic fiber construction. They may be opened only by the discovery selector or later holdout/transport adjudication."
+    },
+    "diagnostic_coordinates": {
+      "source_context": [
+        "scope",
+        "semantic event class",
+        "ply bucket"
+      ],
+      "lineage_totals": [
+        "EXACT_CONTINUATION",
+        "DRIFTED_CONTINUATION",
+        "EMERGENT",
+        "VANISHED"
+      ],
+      "divergence": "first trace-divergence ordinal, bucketed prospectively",
+      "class_flow": "EMERGENT/VANISHED/DRIFTED counts by the four P32 semantic classes",
+      "count_delta": "counterfactual minus parent event-count vector by semantic class"
+    },
+    "levels": {
+      "F0": [
+        "source scope",
+        "source semantic class",
+        "source ply bucket",
+        "sign(emergent-vanished)",
+        "broad first-divergence bucket"
+      ],
+      "F1": [
+        "F0",
+        "bucket(emergent)",
+        "bucket(vanished)",
+        "bucket(drifted)"
+      ],
+      "F2": [
+        "F1",
+        "sign vectors for emergent_by_class",
+        "vanished_by_class",
+        "drifted_by_class",
+        "count_delta_by_class"
+      ],
+      "F3": [
+        "F2",
+        "exact capped lineage totals",
+        "exact capped class-flow vectors",
+        "exact capped count-delta vector",
+        "exact capped first-divergence ordinal"
+      ]
+    },
+    "anti_triviality": "No exact key, exact address, FEN, engine identity, root outcome, or unconstrained learned identifier may enter a fiber. A selected discovery level must contain at least one non-singleton fiber and fewer fibers than events; otherwise emit TRIVIAL_IDENTITY_HOLD."
+  },
+  "candidate_selection": {
+    "max_exact_events_per_world": 8,
+    "base_rule": "From the parent trace at or above the frozen frontier, take distinct exact events ordered lexicographically by address_id and retain the first eight.",
+    "binding_holdout_override": "For the Stockfish positive-control world, include the inherited P33 witness address first, then fill remaining slots by the same lexicographic address_id rule excluding duplicates. This override is frozen because the witness identity is the object being held out, not because of any G9.5-P1 response.",
+    "no_ranking_by_outcome": true
+  },
+  "parent_contexts": {
+    "p34_inherited_worlds": "For the two Ethereal discovery worlds and Stockfish binding holdout, reconstruct the P33 parent by CATALOG at the inherited frontier followed by exact removal of every baseline frontier address.",
+    "historical_transport": "For four P32 transport cases, use the native baseline CATALOG context at the P32 selected frontier; no P33 seed-removal condition is added.",
+    "fresh_transport": "For source-locked Stockfish Books positions, use a baseline CATALOG parent, family MOVE_ORDER+EVAL, frontier 1, and the same 1 MiB/Threads=1/20k-prime/three-20k-decoy/80k-measurement procedure."
+  },
+  "discovery_and_freeze": {
+    "discovery_cases": [
+      "ethereal:a8fd39b3864a:CUTOFF",
+      "ethereal:f8cde3d6abb4:MOVE_ORDER"
+    ],
+    "refinement_order": [
+      "F0",
+      "F1",
+      "F2",
+      "F3"
+    ],
+    "target_collision": "Within the pooled discovery records, a fiber is target-colliding when it contains both ROOT_CHANGE=true and ROOT_CHANGE=false events.",
+    "selection_rule": "Starting at F0, choose the first level with zero discovery target collisions and nontrivial compression. If none passes through F3, emit DISCOVERY_FIBER_CONSTITUTION_HOLD and do not interpret later holdout/transport as confirmatory fiber evidence.",
+    "counterexample_guidance": "A discovery collision authorizes only movement to the next already-frozen diagnostic level. No new coordinate, threshold, classifier, hash salt, budget, or case may be invented after observing G9.5-P1 discovery targets.",
+    "holdout_firewall": "The binding Stockfish root responses are not produced until the discovery-selected level receipt is sealed."
+  },
+  "holdout_gate": {
+    "case_id": "stockfish_19:f8cde3d6abb4:MOVE_ORDER+EVAL",
+    "witness_address_id": "1cfb4e42993f7550aaddd3ec2233b23f24cf2fff3ab410b2fefe51c2139bca10",
+    "pass_conditions": [
+      "The inherited witness exact event fires under the reconstructed parent and its singleton removal changes the parent root bestmove.",
+      "At the discovery-selected F-level, every probed exact member sharing the witness fiber has the same ROOT_CHANGE label as the witness.",
+      "The level is not altered after holdout opening."
+    ],
+    "failure": "Any conflicting holdout member is WITNESS_FIBER_COLLISION and falsifies witness-preserving transport of the selected discovery fiber."
+  },
+  "transport": {
+    "historical_cases": [
+      "stockfish_19:ec55f57dd7e3:CUTOFF",
+      "berserk:b27b7a24ddcd:MOVE_ORDER",
+      "berserk:b27b7a24ddcd:EVAL",
+      "ethereal:c18e10bd6a3a:MOVE_ORDER"
+    ],
+    "fresh_corpus": {
+      "repository": "official-stockfish/books",
+      "commit": "65815ccdbc7727cd4f6aee252ba8f67fb740e92f",
+      "file": "4mvs_+90_+99.epd",
+      "targets": 2,
+      "engines": [
+        "stockfish_19",
+        "berserk",
+        "ethereal"
+      ],
+      "family": "MOVE_ORDER+EVAL",
+      "frontier": 1,
+      "selection": "SHA-256-ordered legal FENs; two targets; next three hash-ordered FENs as decoys; no engine output."
+    },
+    "metrics": [
+      "within-world fiber collision count under selected discovery level",
+      "cross-world identical-fiber ROOT_CHANGE agreement",
+      "compression ratio",
+      "engine-indexed collision census",
+      "fresh versus historical transport split"
+    ],
+    "authority": "Transport failure localizes context dependence of the diagnostic fiber. It does not authorize adding engine identity, FEN, or case labels to rescue the same stage."
+  },
+  "execution_budgets": {
+    "max_candidates_per_world": 8,
+    "singleton_replays_per_candidate": 1,
+    "max_world_replays": 12,
+    "lineager": "P33 HARD_ANCHOR_ORDER_PRESERVING_RANK_MATCH_V1",
+    "hash_mib": 1,
+    "threads": 1,
+    "prime_nodes": 20000,
+    "decoy_nodes": 20000,
+    "decoy_count": 3,
+    "measurement_nodes": 80000,
+    "fresh_positions": 2
+  },
+  "exact_event_explanation": {
+    "allowed": [
+      "exact event address prefix and semantic role",
+      "selected fiber level and diagnostic response signature",
+      "whether singleton removal changed the root move",
+      "fiber member count and measured congruence/collision status",
+      "legal parent and singleton-counterfactual root moves/PV facts"
+    ],
+    "forbidden": [
+      "unverified chess strategy or plan",
+      "human-like intent",
+      "global causal identity",
+      "mechanism equivalence outside tested queries",
+      "population prevalence",
+      "claim that equal diagnostic fibers are metaphysically the same event"
+    ],
+    "pipeline": [
+      "exact singleton replay",
+      "outcome-blind lineage diagnostic",
+      "independent Rust fiber recomputation",
+      "discovery freeze/holdout separation",
+      "python-chess legality",
+      "explanation AST",
+      "independent JavaScript adjudication",
+      "rendered bounded language"
+    ]
+  },
+  "implementation_roles": {
+    "C_or_Cpp": "No new native intervention semantics. Reuse the already-sealed P34 executable variants in P34 BASE mode so the P32 exact-event hook remains the only active intervention mechanism.",
+    "Rust": "LawGen v11 constitution plus independent causal-fiber signature recomputation and target-leak audit.",
+    "Python": "Source-locked corpus materialization, exact-event replay orchestration, lineage-response diagnostics, discovery selection, legality and explanation compilation.",
+    "JavaScript": "Independent final firewall/adjudication verification.",
+    "policy": "CAPABILITY_FIRST_POLYGLOT_LANGUAGE_NONAUTHORITATIVE"
+  },
+  "external_code_study": [
+    {
+      "repository": "official-stockfish/Stockfish",
+      "commit": "0a215d6c9e48856ef630013b8ab8312941a59057",
+      "lesson": "TTWriter/probe and relative-age replacement reinforce that storage-entry identity is not a causal event identity."
+    },
+    {
+      "repository": "AndyGrant/Ethereal",
+      "commit": "0e47e9b67f345c75eb965d9fb3e2493b6a11d09a",
+      "lesson": "Search consumes TT move/value/eval/depth/bound through separate semantic roles; diagnostic fibers should be defined over intervention response, not raw table slot."
+    },
+    {
+      "repository": "jhonnold/berserk",
+      "commit": "32628515050b83805bab4afa1026dd2bcaa93f55",
+      "lesson": "TTProbe exposes distinct score/eval/depth/bound/PV channels and supplies a materially different transport architecture."
+    },
+    {
+      "repository": "LeelaChessZero/lc0",
+      "commit": "1227b4c8c23375f4011831f4d7496d1551f85145",
+      "lesson": "DAG node/edge reuse shows that topology and identity may diverge; C3X keeps exact event provenance while testing behavioral equivalence."
+    },
+    {
+      "repository": "official-stockfish/fishtest",
+      "commit": "4136e07795ee6a7dac9b74e21bc457e0d1ba5b8c",
+      "lesson": "Experiment execution and result adjudication are separated; G9.5 physically separates discovery selection from holdout execution."
+    },
+    {
+      "repository": "official-stockfish/books",
+      "commit": "65815ccdbc7727cd4f6aee252ba8f67fb740e92f",
+      "lesson": "Source-locked engine-development positions provide fresh transport worlds without outcome-conditioned cherry-picking."
+    },
+    {
+      "repository": "cutechess/cutechess",
+      "commit": "5e84232be4546aaedc9d87a96c91867a1da06ada",
+      "lesson": "Deterministic opening order/repetition informs reproducible corpus transport handling."
+    },
+    {
+      "repository": "niklasf/python-chess",
+      "commit": "0c6bdaccfcb3b09cdbe94b0f81e948cb2a356015",
+      "lesson": "Used only for FEN/PV legality and deterministic chess atoms, never causal identity."
+    }
+  ],
+  "literature": [
+    {
+      "work": "Geiger et al. (2025), Causal Abstraction: A Theoretical Foundation for Mechanistic Interpretability",
+      "locator": "JMLR 26(83); Drive 1i_i_cFFv6vqYHaBOgKK9AbuprPtj8v91",
+      "role": "Interventional structure rather than observational compression is the abstraction target."
+    },
+    {
+      "work": "Sutter, Minder, Hofmann & Pimentel (2025), The Non-Linear Representation Dilemma",
+      "locator": "Drive 1e4SKpJ4yaYETPCadT-NxOwAat-XuF-Yw",
+      "role": "Anti-triviality discipline: an unconstrained mapping can make abstraction vacuous, motivating a small frozen fiber language."
+    },
+    {
+      "work": "Armas-Cervantes, Baldan & García-Bañuelos (2016), Reduction of event structures under history preserving bisimulation",
+      "doi": "10.1016/j.jlamp.2015.10.004",
+      "locator": "Drive 16Bqmafjy0PH-owzfG1ANWqs9PVqJBnkP",
+      "role": "Event folding is legitimate only under behavior-preserving equivalence and preserved history."
+    },
+    {
+      "work": "Groce, Kroening & Clarke (2004), Counterexample Guided Abstraction Refinement via Program Execution",
+      "doi": "10.1007/978-3-540-30482-1_23",
+      "locator": "Drive 1zOtH8I_aIh-AsTamW-AE7KV1UVAo2jX5",
+      "role": "Counterexamples may refine a predeclared abstraction family without licensing arbitrary post-hoc feature invention."
+    },
+    {
+      "work": "Peters, Bühlmann & Meinshausen (2016), Causal Inference by Using Invariant Prediction",
+      "locator": "Drive 1ljkrI7d5XCC16eIgecO1fQ-73-xJwp0k",
+      "role": "Transport is treated as an invariance test rather than an assumption."
+    },
+    {
+      "work": "Lee & Bareinboim (2026), Productive Actual Causation",
+      "locator": "Drive 1BkGWXUm3t6fdreb0F_WRiFcTmBjnIu-6",
+      "role": "Exact-event provenance and production paths constrain how causal explanations may be rendered."
+    }
+  ],
+  "claim_ceiling": [
+    "A G9.5-P1 fiber is an operational equivalence class under a frozen lineage-response diagnostic and tested root-change query; it is not metaphysical event identity.",
+    "Discovery target congruence is not independent validation. The binding Stockfish holdout and transport worlds carry the validation burden.",
+    "The historical transport cases are not fresh evidence because their earlier P32 outcomes exist; fresh authority comes only from the source-locked corpus arm.",
+    "A singleton fiber may preserve a witness but does not by itself establish useful abstraction; discovery must show nontrivial compression.",
+    "Failure on transport cannot be repaired inside P1 by adding engine, FEN, full key, exact address, or new diagnostics.",
+    "No chess strategy, cognition, intent, prevalence, or population-level causal law is authorized."
+  ],
+  "g95_p1_selective_results_consulted": false
+}
