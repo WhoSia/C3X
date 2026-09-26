@@ -88,7 +88,7 @@ static int c3x_p34_block(const char *scope,int cls,unsigned long long key,int pl
   }
   c3x_p34_events++;if(seed)c3x_p34_seed_blocked++;if(extra)c3x_p34_extra_blocked++;
   if(c3x_p34_f && ply<=8){
-    fprintf(c3x_p34_f,"C,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%016llx,%d,%d,%llu,%lld,%d,%d,%d,%d,%d\n",
+    fprintf(c3x_p34_f,"C,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%016llx,%d,%d,%llu,%lld,%d,%d,%d,%d,%d\n",
       c3x_p34_level,q.scope,q.cls,q.ply_bucket,q.bound,q.payload_bucket,q.depth_bucket,q.move_presence,q.window_relation,
       selected,seed,extra,key,ply,depth,move,payload,alpha,beta,ttval,tteval,bound);
   }
