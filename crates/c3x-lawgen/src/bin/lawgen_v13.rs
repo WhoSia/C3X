@@ -23,7 +23,12 @@ fn main(){
  assert_eq!(p["parent_closure_commit"],"07591db34ee6af830efc5736ad397a7e1a577247");
  assert_eq!(s["p3_selective_results_consulted"],false);
  assert_eq!(p["p3_selective_results_consulted"],false);
- assert_eq!(s["schema_families"].as_array().unwrap().len(),5);\n assert_eq!(s["development_derived_rivals"].as_array().unwrap().len(),2);\n assert!(s["schema_families"].as_array().unwrap().iter().all(|x|x["role"]=="PRIMARY_CANDIDATE"));\n assert!(s["development_derived_rivals"].as_array().unwrap().iter().all(|x|x["role"]=="DEVELOPMENT_DERIVED_RIVAL_ONLY"));\n assert_eq!(s["context_measurement"]["causal_availability"],"EVENT_PREFIX_ONLY");\n assert_eq!(s["context_measurement"]["future_of_candidate_parent_trace_features_allowed"],false);
+ assert_eq!(s["schema_families"].as_array().unwrap().len(),5);
+ assert_eq!(s["development_derived_rivals"].as_array().unwrap().len(),2);
+ assert!(s["schema_families"].as_array().unwrap().iter().all(|x|x["role"]=="PRIMARY_CANDIDATE"));
+ assert!(s["development_derived_rivals"].as_array().unwrap().iter().all(|x|x["role"]=="DEVELOPMENT_DERIVED_RIVAL_ONLY"));
+ assert_eq!(s["context_measurement"]["causal_availability"],"EVENT_PREFIX_ONLY");
+ assert_eq!(s["context_measurement"]["future_of_candidate_parent_trace_features_allowed"],false);
  assert_eq!(s["context_measurement"]["raw_full_key_emitted"],false);
  assert_eq!(s["corpus"]["discovery"]["positions"],8);
  assert_eq!(s["corpus"]["heldout"]["positions"],8);
@@ -37,7 +42,8 @@ fn main(){
   "spec_sha256":ss,"parent_support_sha256":ps,"parent_authority":s["parent_authority"],
   "development_firewall":s["development_firewall"],"formal_object":s["formal_object"],
   "context_schema_version":s["context_schema_version"],"base_coordinates":s["base_coordinates"],
-  "new_coordinate_vocabulary":s["new_coordinate_vocabulary"],"schema_families":s["schema_families"],\n  "development_derived_rivals":s["development_derived_rivals"],
+  "new_coordinate_vocabulary":s["new_coordinate_vocabulary"],"schema_families":s["schema_families"],
+  "development_derived_rivals":s["development_derived_rivals"],
   "context_measurement":s["context_measurement"],"corpus":s["corpus"],"execution":s["execution"],
   "discovery_court":s["discovery_court"],"heldout_firewall":s["heldout_firewall"],
   "heldout_transport_gate":s["heldout_transport_gate"],"diagnose_surface":s["diagnose_surface"],
@@ -48,7 +54,9 @@ fn main(){
  });
  let cs=sha(&c);let out=Path::new(&a[3]);fs::create_dir_all(out).unwrap();
  fs::write(out.join("constitution.json"),serde_json::to_string_pretty(&json!({"constitution":c,"constitution_sha256":cs})).unwrap()+"\n").unwrap();
- let mut all_schemas=s["schema_families"].as_array().unwrap().clone();\n all_schemas.extend(s["development_derived_rivals"].as_array().unwrap().clone());\n fs::write(out.join("schema-families.json"),serde_json::to_string_pretty(&Value::Array(all_schemas)).unwrap()+"\\n").unwrap();
+ let mut all_schemas=s["schema_families"].as_array().unwrap().clone();
+ all_schemas.extend(s["development_derived_rivals"].as_array().unwrap().clone());
+ fs::write(out.join("schema-families.json"),serde_json::to_string_pretty(&Value::Array(all_schemas)).unwrap()+"\n").unwrap();
  fs::write(out.join("execution-matrix.tsv"),
 "ordinal\tphase\n1\tconstitution\n2\tp2_development_failure_diagnosis\n3\tfresh_corpus_freeze\n4\tprecommit_and_executable_inheritance\n5\tfresh_discovery_profiles_and_targets\n6\ttopology_schema_discovery\n7\theldout_profile_target_split\n8\ttarget_blind_scope\n9\theldout_target_opening\n10\tglobal_and_engine_specific_transport\n11\tpost_verification_diagnosis\n12\texplanation_service_compilation\n13\tindependent_firewall\n14\treproducible_toolkit\n15\tdurable_custody\n").unwrap();
  println!("G95_P3_LAWGEN_V13_PASS {} {} {}",ss,ps,cs);
