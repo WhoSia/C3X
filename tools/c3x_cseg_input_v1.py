@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-import chess
+
 
 SCHEMA="c3x-cseg-input-v1"
 
@@ -9,6 +9,7 @@ def bucket(v,cuts,labels):
  return labels[-1]
 
 def board_atoms(fen):
+ import chess
  b=chess.Board(fen)
  vals={chess.PAWN:1,chess.KNIGHT:3,chess.BISHOP:3,chess.ROOK:5,chess.QUEEN:9}
  def mat(color):
@@ -58,6 +59,7 @@ def prepare_batch(fen,parent_trace,selected):
   "target_fields_consulted":False,"counterfactual_trace_consulted":False,"fiber_id_consulted":False}
 
 def root_move_phenotype(fen,baseline_uci,counterfactual_uci):
+ import chess
  b=chess.Board(fen)
  def atom(uci):
   if not uci:return None
