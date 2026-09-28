@@ -1,0 +1,181 @@
+name: g95-p8-train-causal-annotation
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - ".github/workflows/g95-p8-train-causal-annotation.yml"
+
+concurrency:
+  group: g95-p8-train-causal-annotation
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  actions: read
+
+env:
+  SCIENCE_HEAD: "0983a67547baff53a085277d2f6750016257c8c5"
+  BOOTSTRAP_RUN: "36396781932"
+  PROFILE_RUN: "36397282255"
+  GEOMETRY_RUN: "36397649132"
+  P4_RUN: "36233574663"
+  P34_RUN: "36216185685"
+
+jobs:
+  train_targets:
+    name: P8 frozen train target — p${{ matrix.pos }}-${{ matrix.engine }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+    strategy:
+      fail-fast: false
+      matrix:
+        pos: [0,1,2,3,4,5,6,7,8,9,10,11]
+        engine: [stockfish_19, berserk, ethereal]
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ env.SCIENCE_HEAD }}
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: g95-p8-precommit-sealed
+          path: pre
+          repository: WhoSia/C3X
+          run-id: ${{ env.BOOTSTRAP_RUN }}
+          github-token: ${{ github.token }}
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: g95-p8-geometry-profile-${{ matrix.pos }}-${{ matrix.engine }}
+          path: profile
+          repository: WhoSia/C3X
+          run-id: ${{ env.PROFILE_RUN }}
+          github-token: ${{ github.token }}
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: g95-p8-kernels
+          path: kernels
+          repository: WhoSia/C3X
+          run-id: ${{ env.BOOTSTRAP_RUN }}
+          github-token: ${{ github.token }}
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: g95-p4-lawgen-preseal
+          path: p4-lawgen
+          repository: WhoSia/C3X
+          run-id: ${{ env.P4_RUN }}
+          github-token: ${{ github.token }}
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: p34-build-${{ matrix.engine }}
+          path: build
+          repository: WhoSia/C3X
+          run-id: ${{ env.P34_RUN }}
+          github-token: ${{ github.token }}
+
+      - name: Open only the already-frozen train target
+        run: |
+          set -euxo pipefail
+          test "$(git rev-parse HEAD)" = "$SCIENCE_HEAD"
+          python3 -m pip install --disable-pip-version-check python-chess==1.999
+          chmod +x kernels/c3x-support-p4 "build/c3x-p34-${{ matrix.engine }}"
+          PLAN="$(find p4-lawgen -name sampling-strata.json -print -quit)"
+          PROF="$(find profile -name profile.json -print -quit)"
+          test -n "$PLAN"
+          test -n "$PROF"
+          mkdir -p out
+          python3 harness/g95_p8_court.py target-case             --precommit pre/g95-p8-precommit.json             --case-id "p8:train:${{ matrix.pos }}:${{ matrix.engine }}"             --binary "build/c3x-p34-${{ matrix.engine }}"             --sampler kernels/c3x-support-p4             --sampling-plan "$PLAN"             --profile "$PROF"             --target-out out/target.json             --case-out out/case.json
+          python3 - <<'PY'
+          import json
+          c=json.load(open("out/case.json"))
+          assert c["target_open_authorized_upstream"] is True
+          assert c["status"]=="PASS"
+          print("P8_TRAIN_TARGET_PASS",c["case_id"],c["fired_targets"])
+          PY
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: g95-p8-train-target-${{ matrix.pos }}-${{ matrix.engine }}
+          path: out/target.json
+          retention-days: 30
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: g95-p8-train-target-case-${{ matrix.pos }}-${{ matrix.engine }}
+          path: out/case.json
+          retention-days: 30
+
+  annotate:
+    name: Annotate frozen prototype index with train counterfactuals
+    needs: train_targets
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ env.SCIENCE_HEAD }}
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: g95-p8-precommit-sealed
+          path: pre
+          repository: WhoSia/C3X
+          run-id: ${{ env.BOOTSTRAP_RUN }}
+          github-token: ${{ github.token }}
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: g95-p8-target-blind-geometry-recovered
+          path: geometry
+          repository: WhoSia/C3X
+          run-id: ${{ env.GEOMETRY_RUN }}
+          github-token: ${{ github.token }}
+
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: g95-p8-train-target-*
+          path: targets
+          merge-multiple: false
+
+      - name: Freeze causal annotation without changing geometry
+        run: |
+          set -euxo pipefail
+          test "$(git rev-parse HEAD)" = "$SCIENCE_HEAD"
+          mkdir -p out
+          python3 harness/g95_p8_court.py merge-targets             --root targets             --role PROTOTYPE_TRAIN             --out out/train-targets.json
+          python3 harness/g95_p8_court.py annotate             --precommit pre/g95-p8-precommit.json             --index geometry/prototype-index.json             --profiles geometry/train-profiles.json             --targets out/train-targets.json             --out out/annotated-index.json
+          python3 - <<'PY'
+          import json,hashlib
+          x=json.load(open("out/annotated-index.json"))
+          receipt={
+            "schema":"c3x-g95-p8-train-annotation-adjudication-v1",
+            "scientific_stage":"C3X 0.7.0-G9.5-P8",
+            "science_head":"0983a67547baff53a085277d2f6750016257c8c5",
+            "bootstrap_run":36396781932,
+            "profile_run":36397282255,
+            "geometry_run":36397649132,
+            "selected_radius":x["selected_radius"],
+            "status":x["status"],
+            "support":x["support"],
+            "prototype_count":len(x["prototypes"]),
+            "train_targets_consulted":True,
+            "post_target_metric_refit":False,
+            "consequence":"OPEN_FRESH_SELECTION" if x["status"]=="TRAIN_PROTOTYPE_ANNOTATED" else "P8_TRAIN_SUPPORT_HOLD"
+          }
+          raw=json.dumps(receipt,sort_keys=True,separators=(",",":")).encode()
+          receipt["receipt_sha256"]=hashlib.sha256(raw).hexdigest()
+          json.dump(receipt,open("out/train-annotation-adjudication.json","w"),indent=2,sort_keys=True)
+          open("out/train-annotation-adjudication.json","a").write("\n")
+          print("P8_TRAIN_ANNOTATION",receipt["status"],"positive",x["support"]["positive_records"],"receipt",receipt["receipt_sha256"])
+          PY
+          sha256sum out/* | sort > out/train-annotation-sha256.txt
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: g95-p8-train-annotated-index
+          path: out/
+          retention-days: 30
