@@ -1,5 +1,7 @@
 name: g95-p8-bootstrap
 
+# Bootstrap rerun after exact finite-EPD pool repair.
+
 on:
   workflow_dispatch:
   push:
