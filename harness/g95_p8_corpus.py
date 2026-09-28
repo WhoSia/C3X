@@ -41,7 +41,10 @@ def epd_candidates(path,limit=4096):
   if h in seen:continue
   seen.add(h);out.append((h,fen))
   if len(out)==limit:return out
- raise RuntimeError(f"P8_EPD_TOPK_INSUFFICIENT {path} {len(out)} {limit}")
+ # If the bounded heap never filled, the entire source was scanned and retained:
+ # returning the shorter legal pool is still exact rather than approximate.
+ if len(heap)<cap and len(out)>=16:return out
+ raise RuntimeError(f"P8_EPD_EXACT_POOL_INSUFFICIENT {path} {len(out)} {limit} heap={len(heap)} cap={cap}")
 def pgn_candidates(path,lo,hi,limit=4096):
  seen=set();xs=[]
  with open(path,errors="strict") as f:
