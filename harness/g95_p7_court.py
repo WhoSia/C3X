@@ -79,7 +79,7 @@ def verify_binary(pre,case,path):
 def case_run(a):
  pre=load(a.precommit);case=next((x for x in pre["cases"] if x["case_id"]==a.case_id),None)
  if not case:raise SystemExit("P7_CASE")
- protocol=verify_binary(pre,case,a.binary);work=Path(a.case_out).parent/"private";work.mkdir(parents=True,exist_ok=True)
+ protocol=verify_binary(pre,case,a.binary);work=Path(a.case_out).parent.parent/".p7-private"/case["case_id"].replace(":","_");work.mkdir(parents=True,exist_ok=True)
  parent=p32.run_history(a.binary,protocol,case["cell"],"CATALOG",case["family"],case["frontier"],None,work/"000-parent")
  trace_path=work/"parent-trace.json";trace_path.write_text(json.dumps(parent["trace"],sort_keys=True)+"\n")
  sample_path=work/"sampling.json"
