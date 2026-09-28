@@ -1,0 +1,200 @@
+{
+  "schema": "c3x-g95-p6-constitution-v1",
+  "scientific_stage": "C3X 0.7.0-G9.5-P6",
+  "title": "Prospective Counterexample-Sequestered Relational Causal Representation Reconstitution, Interaction-Basis Discovery, Train–Selection Stability Recovery, Fresh Cross-Engine Replication & Untouched Transport Reopening",
+  "parent": {
+    "stage": "C3X 0.7.0-G9.5-P5",
+    "closure_commit": "f4ca55cdb6a2fb11daa6ee17fb1ba5901f6d393e",
+    "canonical_run": 36249500693,
+    "verdict": "P5_REPRESENTATION_SELECTION_FAIL_HOLD",
+    "train_records": 384,
+    "train_positive": 8,
+    "train_collision_free_shortlist": 7,
+    "selection_records": 288,
+    "selection_positive": 1,
+    "selection_status": "REPRESENTATION_SELECTION_FAIL"
+  },
+  "counterexample_sequestration": {
+    "p5_selection_labels_confirmatory_vote": false,
+    "p5_shared_counterexample_authority_required": "DEVELOPMENT_ONLY_SUCCESSOR_MOTIVATION_NO_CONFIRMATORY_VOTE",
+    "p5_selection_target_artifacts_may_be_downloaded": false,
+    "p5_counterexample_literal_may_appear_in_primary_grammar": false,
+    "allowed_use": "MOTIVATE_RELATIONAL_LANGUAGE_ONLY",
+    "p6_fresh_targets_used_to_tune_thresholds_after_freeze": false
+  },
+  "temporal_firewall": {
+    "context_schema_version": "c3x-context-v4-relational",
+    "causal_availability": "STRICT_EVENT_PREFIX_ONLY",
+    "future_parent_trace_allowed": false,
+    "parent_terminal_semantic_allowed": false,
+    "raw_full_key_emitted": false,
+    "raw_engine_identity_in_primary_representation": false,
+    "sampling_stratum_in_primary_representation": false
+  },
+  "execution": {
+    "engines": ["stockfish_19", "berserk", "ethereal"],
+    "hash_mib": 1,
+    "threads": 1,
+    "prime_nodes": 20000,
+    "decoy_nodes": 20000,
+    "decoy_count": 3,
+    "measurement_nodes": 80000,
+    "family": "MOVE_ORDER+EVAL",
+    "frontier": 1,
+    "candidate_events_per_world": 16,
+    "inherited_engine_build_run": 36216185685,
+    "inherited_sampler": "c3x-support-p4"
+  },
+  "fresh_worlds": {
+    "source_repository": "official-stockfish/books",
+    "source_commit": "65815ccdbc7727cd4f6aee252ba8f67fb740e92f",
+    "selection_rule": "Unique legal standard-chess FENs sorted by SHA-256(FEN) within source; exclude all recoverable P1–P5 candidate hashes and cross-role duplicates before engine execution.",
+    "relational_train": [
+      {"id":"P6_TRAIN_NOOB3","logical":"noob_3moves.epd","positions":3},
+      {"id":"P6_TRAIN_UHO1","logical":"UHO_4060_v1.epd","positions":3},
+      {"id":"P6_TRAIN_NATURAL3","logical":"popularpos_lichess_v3.epd","positions":3},
+      {"id":"P6_TRAIN_CLOSED","logical":"closedpos.epd","positions":3}
+    ],
+    "relational_selection": [
+      {"id":"P6_SELECT_NOOB4","logical":"noob_4moves.epd","positions":4},
+      {"id":"P6_SELECT_UHO4","logical":"UHO_4060_v4.epd","positions":4},
+      {"id":"P6_SELECT_ENDGAMES","logical":"endgames.epd","positions":4}
+    ],
+    "untouched_transport": [
+      {"id":"P6_TRANSPORT_NOOB5","logical":"noob_5moves.epd","positions":4},
+      {"id":"P6_TRANSPORT_ENDCDB","logical":"endgames_cdb95105.epd","positions":4},
+      {"id":"P6_TRANSPORT_DRAWKILLER","logical":"Drawkiller_balanced_big.epd","positions":4}
+    ]
+  },
+  "train_support_gate": {
+    "planned_max_records": 576,
+    "min_fired_records": 540,
+    "min_positive_records": 6,
+    "min_negative_records": 400,
+    "min_records_per_engine": 180,
+    "min_positive_per_engine": 1,
+    "min_positive_source_regimes": 2,
+    "sensitivity_prevalence": 0.02,
+    "min_detection_probability_at_sensitivity": 0.95,
+    "detection_event": "observe at least 6 ROOT_CHANGE positives",
+    "frozen_reference_n540_probability": 0.9591909197662545
+  },
+  "selection_support_gate": {
+    "planned_max_records": 576,
+    "min_fired_records": 540,
+    "min_positive_records": 4,
+    "min_negative_records": 400,
+    "min_records_per_engine": 180,
+    "min_positive_source_regimes": 2,
+    "sensitivity_prevalence": 0.02,
+    "min_detection_probability_at_sensitivity": 0.99,
+    "detection_event": "observe at least 4 ROOT_CHANGE positives",
+    "frozen_reference_n540_probability": 0.994615878091861
+  },
+  "representation_grammar": {
+    "authority": "P6_TRAIN_ONLY_GENERATION_SELECTION_ONLY_CHOICE",
+    "mandatory_anchor": "fiber_id",
+    "max_terms": 3,
+    "max_interaction_terms": 1,
+    "max_description_bits": 38,
+    "max_shortlist": 32,
+    "atomic_term_cost_bits": 10,
+    "interaction_term_cost_bits": 18,
+    "cell_cost_bits": 1.0,
+    "ordinary_context_atoms": [
+      "board_legal_bucket",
+      "board_center_bucket",
+      "board_development_bucket",
+      "source_scope",
+      "source_class",
+      "event_depth_bucket",
+      "event_occ_bucket",
+      "event_window_relation",
+      "event_move_presence",
+      "event_bound_bucket",
+      "scope_transition_bucket",
+      "ply_transition_bucket"
+    ],
+    "relational_atoms": [
+      "rel_key_history_state",
+      "rel_key_scope_state",
+      "rel_same_key_depth_direction",
+      "rel_same_key_ply_direction",
+      "rel_same_class_key_relation",
+      "rel_immediate_key_relation",
+      "rel_immediate_class_relation",
+      "rel_triplet_key_pattern",
+      "rel_triplet_class_pattern",
+      "rel_same_key_class_diversity",
+      "rel_same_key_scope_diversity",
+      "rel_same_key_lineage_length",
+      "rel_same_class_lineage_length",
+      "rel_same_key_move_transition",
+      "rel_same_key_last2_class_pattern",
+      "rel_same_key_last2_scope_pattern"
+    ],
+    "interaction_templates": [
+      {"id":"IX_KEYDEPTH_WINDOW","left":"R.rel_same_key_depth_direction","right":"C.event_window_relation"},
+      {"id":"IX_KEYCLASS_BOUND","left":"R.rel_same_class_key_relation","right":"C.event_bound_bucket"},
+      {"id":"IX_KEYLEN_MOVE","left":"R.rel_same_key_lineage_length","right":"C.event_move_presence"},
+      {"id":"IX_TRIPKEY_WINDOW","left":"R.rel_triplet_key_pattern","right":"C.event_window_relation"},
+      {"id":"IX_TRIPCLASS_SCOPE","left":"R.rel_triplet_class_pattern","right":"C.source_scope"},
+      {"id":"IX_KEYDIVERSITY_CLASS","left":"R.rel_same_key_class_diversity","right":"C.source_class"},
+      {"id":"IX_BOARDDEV_KEYDEPTH","left":"C.board_development_bucket","right":"R.rel_same_key_depth_direction"},
+      {"id":"IX_BOARDCENTER_WINDOW","left":"C.board_center_bucket","right":"C.event_window_relation"},
+      {"id":"IX_KEYHISTORY_DEPTH","left":"R.rel_key_history_state","right":"C.event_depth_bucket"},
+      {"id":"IX_IMMEDIATECLASS_PLY","left":"R.rel_immediate_class_relation","right":"C.ply_transition_bucket"},
+      {"id":"IX_KEYMOVE_BOUND","left":"R.rel_same_key_move_transition","right":"C.event_bound_bucket"},
+      {"id":"IX_KEYSCOPE_WINDOW","left":"R.rel_key_scope_state","right":"C.event_window_relation"}
+    ],
+    "train_admissibility": {
+      "max_target_collisions": 0,
+      "min_compression": 0.20,
+      "min_cross_position_records": 96,
+      "min_cross_engine_records": 72,
+      "min_reused_positive_records": 2,
+      "require_both_target_labels": true
+    },
+    "ranking": "minimum_total_mdl_then_lower_description_bits_then_fewer_terms_then_higher_compression_then_lexical_id"
+  },
+  "selection_gate": {
+    "no_refit_on_selection": true,
+    "selection_support_gate_required": true,
+    "min_seen_fraction": 0.25,
+    "min_seen_fraction_per_engine": 0.15,
+    "required_engines": 3,
+    "min_positions": 6,
+    "min_source_regimes": 2,
+    "min_covered_positive": 2,
+    "min_covered_positive_source_regimes": 2,
+    "max_contradictions": 0,
+    "max_mixed_cells": 0,
+    "choice_rule": "Among frozen train-admissible candidates passing selection unchanged: minimum train total MDL, then higher selection coverage, then lower description bits, then lexical id."
+  },
+  "transport_gate": {
+    "scope_before_targets": true,
+    "min_seen_fraction": 0.25,
+    "min_seen_fraction_per_engine": 0.15,
+    "required_engines": 3,
+    "min_positions": 6,
+    "min_source_regimes": 2,
+    "min_predicted_positive_profiles": 2,
+    "certification": "Every covered transport profile must agree with the frozen selected field; no covered transport cell may be mixed.",
+    "selection_failure_behavior": "Do not open transport target artifacts."
+  },
+  "public_explanation_harness": {
+    "deterministic_core": true,
+    "llm_dependency": false,
+    "public_certification_requires_transport": true,
+    "states": ["CERTIFIED_ROOT_CHANGE","CERTIFIED_NO_ROOT_CHANGE","ABSTAIN_UNSEEN_CONTEXT","ABSTAIN_UNCERTIFIED_FIELD"],
+    "rule": "No public CERTIFIED_* state unless untouched transport is certified. Diagnostics may never expand authority."
+  },
+  "claim_ceiling": [
+    "P6 relational terms are bounded representational discriminators, not automatically unique causal mechanisms.",
+    "P5 selection labels, including the shared Ethereal counterexample, have zero P6 confirmatory vote.",
+    "Train collision freedom does not imply selection stability.",
+    "Selection stability does not imply transport until untouched targets are opened after scope authorization.",
+    "No post-selection refit, interaction addition, threshold relaxation or representation mutation is allowed.",
+    "No universal engine-law, human cognition, intent, strategy or population-prevalence claim is authorized."
+  ]
+}
