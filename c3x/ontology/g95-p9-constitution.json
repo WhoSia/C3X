@@ -1,0 +1,149 @@
+{
+  "schema":"c3x-g95-p9-constitution-v1",
+  "scientific_stage":"C3X 0.7.0-G9.5-P9",
+  "title":"Prospective Opening-to-Middlegame TT-Sensitivity Cartography, Root-Move Instability Hotspot Mapping, Phase-Matched Cross-Engine Counterfactual Replication & Developer Regression Diagnostics",
+  "program_identity":{
+    "domain":"CHESS_ENGINE_SEARCH_AND_REGRESSION_DIAGNOSTICS",
+    "methodology_role":"CONSTRAINT_AND_MEASUREMENT_ONLY",
+    "primary_question":"Across fresh phase-matched chess lines, where does exact TT semantic-use intervention reproducibly destabilize the chosen root move?",
+    "terminal_product":"Replayable developer regression cases linking phase, TT semantic-use event, engine, root-move change and legal PV contrast."
+  },
+  "parent":{
+    "stage":"C3X 0.7.0-G9.5-P8",
+    "closure_commit":"839307a248d97b57cbb6c7a1b74bb7fe54a26480",
+    "closure_receipt_sha256":"f9db5765595bac0c598cac7e5889f7f6202263852e8a32ef57c68ed25a64e29f",
+    "verdict":"P8_PROTOTYPE_GEOMETRY_PASS_TRAIN_CAUSAL_BREADTH_HOLD"
+  },
+  "p8_firewall":{
+    "p8_target_labels_confirmatory_vote":false,
+    "p8_positive_source_locations_confirmatory_vote":false,
+    "p8_prototype_ids_allowed":false,
+    "p8_descriptor_allowed_as_primary_estimand":false,
+    "allowed_use":"MOTIVATE_FRESH_PHASE_CARTOGRAPHY_ONLY"
+  },
+  "harvest_bridge":{
+    "authority":"DESIGN_DONOR_ONLY",
+    "donors":[
+      "CROSS_SYSTEM_BALANCE_IS_NOT_CROSS_WORLD_BALANCE",
+      "RETRIEVAL_GEOMETRY_REQUIRES_CAUSAL_ECOLOGY_BREADTH",
+      "STOP_AT_THE_EARLIEST_FAILED_ENTITLEMENT"
+    ],
+    "translation":"P9 separately reports phase, source, engine and TT-semantic breadth; no single axis substitutes for another."
+  },
+  "source_snapshot":{
+    "repository":"official-stockfish/books",
+    "commit":"65815ccdbc7727cd4f6aee252ba8f67fb740e92f",
+    "pgn_sources":[
+      "UHO_MEGA_2022_+110_+149.pgn",
+      "UHO_XXL_+0.90_+1.19.pgn",
+      "bjbraams_chessdb_198350_lines.pgn"
+    ],
+    "freshness_rule":"Exclude every recoverable P1-P8 candidate FEN hash before line admission."
+  },
+  "phase_matching":{
+    "unit":"PGN_LINE_TRAJECTORY",
+    "trajectories_per_source":2,
+    "sources":3,
+    "total_trajectories":6,
+    "phase_windows":[
+      {"id":"EARLY_OPENING","ply_lo":4,"ply_hi":7},
+      {"id":"DEVELOPING_OPENING","ply_lo":8,"ply_hi":13},
+      {"id":"LATE_OPENING","ply_lo":14,"ply_hi":21},
+      {"id":"EARLY_MIDDLEGAME","ply_lo":22,"ply_hi":35}
+    ],
+    "position_choice":"Within each admitted PGN line and phase window, select the legal canonical position with minimum SHA-256(FEN); the same line must supply all four phases.",
+    "eligibility":{
+      "standard_chess_only":true,
+      "no_terminal_position":true,
+      "in_check_allowed":false,
+      "absolute_material_balance_max_pawns":3,
+      "legal_moves_min":18,
+      "legal_moves_max":48
+    },
+    "complexity_audit":["legal_move_count","material_balance_pawns","nonpawn_phase_units","castling_rights_count"],
+    "engine_outcomes_consulted":false,
+    "historical_target_labels_consulted":false
+  },
+  "execution":{
+    "engines":["stockfish_19","berserk","ethereal"],
+    "planned_positions":24,
+    "planned_worlds":72,
+    "candidate_events_per_world":16,
+    "planned_max_event_records":1152,
+    "hash_mib":1,
+    "threads":1,
+    "prime_nodes":20000,
+    "decoy_nodes":20000,
+    "decoy_count":3,
+    "measurement_nodes":80000,
+    "family":"MOVE_ORDER+EVAL",
+    "frontier":1,
+    "inherited_engine_build_run":36216185685,
+    "inherited_outcome_blind_sampler":"c3x-support-p4"
+  },
+  "primary_estimands":{
+    "world_sensitive":"At least one fired sampled exact-event intervention changes the baseline root move in an engine×position world.",
+    "world_sensitivity_rate":"ROOT_CHANGE fired events / fired sampled events in each engine×position world.",
+    "phase_sensitive_world_fraction":"Sensitive worlds / eligible worlds in a phase.",
+    "phase_event_sensitivity_rate":"ROOT_CHANGE fired events / fired sampled events in a phase.",
+    "cross_engine_replication":"For the same trajectory×phase position, at least two of three engines contain a ROOT_CHANGE event.",
+    "semantic_class_map":"ROOT_CHANGE counts and rates by TT semantic class within phase."
+  },
+  "support_gate":{
+    "min_total_fired_records":1000,
+    "min_fired_records_per_phase":245,
+    "min_records_per_engine":330,
+    "min_total_root_change":10,
+    "min_positive_engines":3,
+    "min_positive_sources":2,
+    "min_positive_phases":2
+  },
+  "hotspot_rule":{
+    "authority":"OPERATIONAL_DEVELOPER_HOTSPOT_NOT_POPULATION_PREVALENCE",
+    "evaluate_every_phase_no_winner_selection":true,
+    "requirements":{
+      "min_root_change_events":4,
+      "min_sensitive_worlds":3,
+      "min_sensitive_positions":2,
+      "min_positive_engines":2,
+      "min_positive_sources":2,
+      "min_cross_engine_replicated_positions":1
+    },
+    "multiple_comparison_policy":"No best-phase ranking and no post-hoc thresholding. Report every phase that meets the same prospectively frozen absolute replication rule, and every phase that does not.",
+    "semantic_class_hotspots_are_secondary":true
+  },
+  "regression_suite":{
+    "build_only_from_operational_hotspots":true,
+    "positive_case":"Exact addressed event with fired target and ROOT_CHANGE=true.",
+    "matched_control":"Same engine×position and semantic class when an available fired event has ROOT_CHANGE=false; otherwise same trajectory×phase and engine with the same semantic class.",
+    "max_positive_cases_per_phase_engine":3,
+    "required_fields":["engine","engine_binary_sha256","trajectory_id","phase","fen_sha256","event_address_id","semantic_class","scope","ply","depth","baseline_bestmove","counterfactual_bestmove","baseline_pv","counterfactual_pv","first_pv_divergence","sampling_stratum"],
+    "developer_use":"Replayable regression witness bank; no Elo or strength claim."
+  },
+  "developer_diagnostic":{
+    "outputs":["phase_map","engine_phase_map","semantic_class_phase_map","cross_engine_replication_map","hotspot_case_bank","matched_negative_controls","replay_manifest","legal_pv_contrasts"],
+    "llm_required":false,
+    "may_claim_human_strategy":false,
+    "may_claim_engine_strength":false
+  },
+  "implementation_roles":{
+    "C_or_Cpp":"Existing exact TT semantic-use intervention inside engine search.",
+    "Python":"PGN longitudinal phase matching, UCI orchestration, cartography and chess/PV phenotype.",
+    "Rust":"Deterministic aggregation, hotspot rule and regression manifest compiler.",
+    "Go":"Independent phase/world aggregation parity verifier.",
+    "JavaScript":"Independent public diagnostic/claim-ceiling verifier."
+  },
+  "stop_rule":[
+    "If phase-matched corpus cannot be constructed prospectively, P9 closes CORPUS_HOLD.",
+    "If causal support gate fails, P9 closes SUPPORT_HOLD and no hotspot claim is issued.",
+    "If support passes, apply the same frozen hotspot rule to all four phases; do not rank or tune thresholds.",
+    "P9 closes after cartography and regression-suite materialization; it does not grow a new representation family."
+  ],
+  "claim_ceiling":[
+    "P9 maps sensitivity under the exact declared engines, node budget, sampler and phase-matched PGN worlds; it is not a universal opening law.",
+    "P8 source-specific outcomes receive zero P9 confirmatory vote.",
+    "A hotspot is an operational regression hotspot, not a population prevalence or causal essence of a chess phase.",
+    "Cross-engine replication does not imply human strategic relevance.",
+    "P9 does not measure Elo, playing strength or best-move correctness."
+  ]
+}
