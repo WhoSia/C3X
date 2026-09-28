@@ -1,0 +1,201 @@
+name: g95-p8-target-blind-geometry
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - ".github/workflows/g95-p8-geometry.yml"
+
+concurrency:
+  group: g95-p8-target-blind-geometry
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  actions: read
+
+env:
+  SCIENCE_HEAD: "0983a67547baff53a085277d2f6750016257c8c5"
+  BOOTSTRAP_RUN: "36396781932"
+  P4_RUN: "36233574663"
+  P34_RUN: "36216185685"
+
+jobs:
+  profiles:
+    name: P8 target-blind train profile — p${{ matrix.pos }}-${{ matrix.engine }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 180
+    strategy:
+      fail-fast: false
+      matrix:
+        pos:
+          - 0
+          - 1
+          - 2
+          - 3
+          - 4
+          - 5
+          - 6
+          - 7
+          - 8
+          - 9
+          - 10
+          - 11
+        engine:
+          - stockfish_19
+          - berserk
+          - ethereal
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ env.SCIENCE_HEAD }}
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: g95-p8-precommit-sealed
+          path: pre
+          repository: WhoSia/C3X
+          run-id: ${{ env.BOOTSTRAP_RUN }}
+          github-token: ${{ github.token }}
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: g95-p8-kernels
+          path: kernels
+          repository: WhoSia/C3X
+          run-id: ${{ env.BOOTSTRAP_RUN }}
+          github-token: ${{ github.token }}
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: g95-p4-lawgen-preseal
+          path: p4-lawgen
+          repository: WhoSia/C3X
+          run-id: ${{ env.P4_RUN }}
+          github-token: ${{ github.token }}
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: p34-build-${{ matrix.engine }}
+          path: build
+          repository: WhoSia/C3X
+          run-id: ${{ env.P34_RUN }}
+          github-token: ${{ github.token }}
+
+      - name: Materialize strict-prefix descriptor without target replay
+        run: |
+          set -euxo pipefail
+          test "$(git rev-parse HEAD)" = "$SCIENCE_HEAD"
+          python3 -m pip install --disable-pip-version-check python-chess==1.999
+          chmod +x kernels/c3x-support-p4 "build/c3x-p34-${{ matrix.engine }}"
+          PLAN="$(find p4-lawgen -name sampling-strata.json -print -quit)"
+          test -n "$PLAN"
+          mkdir -p out
+          python3 harness/g95_p8_court.py profile-case             --precommit pre/g95-p8-precommit.json             --case-id "p8:train:${{ matrix.pos }}:${{ matrix.engine }}"             --binary "build/c3x-p34-${{ matrix.engine }}"             --sampler kernels/c3x-support-p4             --sampling-plan "$PLAN"             --profile-out out/profile.json             --case-out out/case.json
+          python3 - <<'PY'
+          import json
+          p=json.load(open("out/profile.json"))
+          c=json.load(open("out/case.json"))
+          assert p["target_fields_consulted"] is False
+          assert p["counterfactual_information_consulted"] is False
+          assert p["p7_q_state_consulted"] is False
+          assert c["counterfactual_replay_executed"] is False
+          print("P8_GEOMETRY_PROFILE_PASS",c["case_id"],len(p["records"]))
+          PY
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: g95-p8-geometry-profile-${{ matrix.pos }}-${{ matrix.engine }}
+          path: out/profile.json
+          retention-days: 30
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: g95-p8-geometry-case-${{ matrix.pos }}-${{ matrix.engine }}
+          path: out/case.json
+          retention-days: 30
+
+  prototype:
+    name: Freeze P8 target-blind prototype cover
+    needs:
+      - profiles
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ env.SCIENCE_HEAD }}
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: g95-p8-lawgen-preseal
+          path: lawgen
+          repository: WhoSia/C3X
+          run-id: ${{ env.BOOTSTRAP_RUN }}
+          github-token: ${{ github.token }}
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: g95-p8-kernels
+          path: kernels
+          repository: WhoSia/C3X
+          run-id: ${{ env.BOOTSTRAP_RUN }}
+          github-token: ${{ github.token }}
+
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: g95-p8-geometry-profile-*
+          path: profiles
+          merge-multiple: false
+
+      - name: Merge profiles and freeze prototype geometry
+        run: |
+          set -euxo pipefail
+          test "$(git rev-parse HEAD)" = "$SCIENCE_HEAD"
+          chmod +x kernels/c3x-prototype-p8 kernels/p8-prototype-verify
+          mkdir -p out
+
+          python3 harness/g95_p8_court.py merge-profiles             --root profiles             --role PROTOTYPE_TRAIN             --out out/train-profiles.json
+
+          kernels/c3x-prototype-p8 cover             --profiles out/train-profiles.json             --law lawgen/lawgen/prototype-law.json             --out out/prototype-index.json
+
+          kernels/p8-prototype-verify             out/train-profiles.json             out/prototype-index.json             out/go-parity.json
+
+          python3 - <<'PY'
+          import json
+          p=json.load(open("out/train-profiles.json"))
+          i=json.load(open("out/prototype-index.json"))
+          g=json.load(open("out/go-parity.json"))
+          assert p["target_fields_consulted"] is False
+          assert i["target_fields_consulted"] is False
+          assert i["counterfactual_information_consulted"] is False
+          assert g["pass"] is True
+          receipt={
+            "schema":"c3x-g95-p8-geometry-adjudication-v1",
+            "scientific_stage":"C3X 0.7.0-G9.5-P8",
+            "bootstrap_run":36396781932,
+            "science_head":"0983a67547baff53a085277d2f6750016257c8c5",
+            "precommit_receipt_sha256":"68c40936af536fa2f26c34394251faf46226b8a01df9209607742f9c225976f2",
+            "records":len(p["records"]),
+            "status":i["status"],
+            "selected_radius":i["selected_radius"],
+            "radius_evaluations":i["radius_evaluations"],
+            "prototypes":len(i["prototypes"]),
+            "target_fields_consulted":False,
+            "counterfactual_replay_executed":False,
+            "go_parity_pass":True,
+            "consequence":"OPEN_TRAIN_TARGETS" if i["status"]=="TARGET_BLIND_PROTOTYPE_COVER_SELECTED" else "P8_ENGINEERING_HOLD_NO_TARGET_OPEN"
+          }
+          json.dump(receipt,open("out/geometry-adjudication.json","w"),indent=2,sort_keys=True)
+          open("out/geometry-adjudication.json","a").write("\n")
+          print("P8_GEOMETRY_ADJUDICATION",receipt["status"],receipt["selected_radius"],receipt["prototypes"])
+          PY
+
+          sha256sum out/* | sort > out/geometry-sha256.txt
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: g95-p8-target-blind-geometry
+          path: out/
+          retention-days: 30
