@@ -1,0 +1,158 @@
+{
+  "canonical_verdict": "P8_PROTOTYPE_GEOMETRY_PASS_TRAIN_CAUSAL_BREADTH_HOLD",
+  "claim_ceiling": [
+    "P8 establishes that the frozen scale-normalized descriptor can form nontrivial reusable prototype geometry across fresh train positions and engines.",
+    "P8 does not establish that prototype risk predicts ROOT_CHANGE on fresh selection worlds.",
+    "P8 does not establish cross-engine causal analogue retrieval validity because fresh selection was not opened.",
+    "P8 does not certify or falsify untouched transport.",
+    "The concentration of 8 of 9 train positives in P8_TRAIN_2MVS and 1 in P8_TRAIN_4MVS is development-only motivation for a fresh phase/sensitivity study, not a population prevalence estimate.",
+    "No post-target radius, descriptor, source-breadth threshold or metric was changed.",
+    "No human cognition, intent, universal engine law or general opening-theory claim is authorized."
+  ],
+  "development_only_diagnostics": {
+    "authority": "SUCCESSOR_MOTIVATION_NO_CONFIRMATORY_VOTE",
+    "may_relax_p8_gate": false,
+    "note": "The nine train positives occupied nine distinct prototypes; some positive-containing prototypes also had cross-position or cross-engine support, but P8 did not open fresh selection and therefore does not claim retrieval validity.",
+    "positive_prototypes": 9
+  },
+  "drive_custody": {
+    "corpus": "1iAQQkfTuPdQ5_bDGmttas2M6yVZ7GZM-",
+    "folder_id": "1zz1CLicZp3S_YGQyAjDWLrY6O3MIp8RY",
+    "geometry": "1GAbqdTAMRMX1cKkA9w2Z2LdqR1glx1ru",
+    "kernels": "16zZo9sDE6kYxsPH5qMDPLkKZ26zg7Sh9",
+    "lawgen": "1KBJr2npl24UXJpfW3eseAJWh2MV0CDzu",
+    "package_count": 6,
+    "precommit": "143JR61DxkWYKTkWPkNkxBAeEHrvUCULB",
+    "train_annotation": "1ObaUNLjs-FXkBC9cKf_9Poxtk3a6vKbI"
+  },
+  "github_artifacts": {
+    "corpus": {
+      "digest": "sha256:3542c1743eade5b69cbcc327c89b1120268bf77e5a71a287bbdb9ef401ec7913",
+      "id": 10958685858
+    },
+    "geometry": {
+      "digest": "sha256:027a6b28fae9acd6ad6f6db11e6a02a88471192a4e02f1942f789ab764355303",
+      "id": 10959166166
+    },
+    "kernels": {
+      "digest": "sha256:fe35e1298cc2f096b578d95bb56f273cf03f2d75090b92698e2c2a62529ece40",
+      "id": 10958323262
+    },
+    "lawgen": {
+      "digest": "sha256:3d112f5769435605c2cb83b80213b31f044470236a2c8509058894822dcdfca6",
+      "id": 10958576161
+    },
+    "precommit": {
+      "digest": "sha256:bae2ba31926cf50f7e393a336663649a90ac4f8f27964983a5eac5c1f2a08392",
+      "id": 10958526540
+    },
+    "train_annotation": {
+      "digest": "sha256:5a2ebca5408f726dc6bbf99d91f88b7af88caa9d1aae422be89f58b374fa0a66",
+      "id": 10958854663
+    }
+  },
+  "harvest_backflow": {
+    "authority": "CROSS_LAB_FRAGMENT_NO_C3X_AUTHORITY_EXPANSION",
+    "fragments": [
+      "COMPRESSION_GEOMETRY_AND_CAUSAL_SIGNAL_BREADTH_ARE_ORTHOGONAL",
+      "RETRIEVAL_GEOMETRY_MUST_NOT_BE_VALIDATED_ON_A_CAUSALLY_NARROW_SOURCE_ECOLOGY",
+      "SUCCESSFUL_SELECTIVE_FORGETTING_CAN_BE_AN_ENGINEERING_RESULT_EVEN_WHEN_DOWNSTREAM_CAUSAL_VALIDATION_STOPS"
+    ]
+  },
+  "parent": {
+    "closure_commit": "f4ef387a85056bd9e6664363d6063f017dfb5520",
+    "closure_receipt_sha256": "8527ab6eb82f7023c037335b71e108fa3cb64a95ea5330af6b3acc8d5615542c",
+    "stage": "C3X 0.7.0-G9.5-P7",
+    "verdict": "P7_TARGET_BLIND_SEARCH_STATE_REUSE_FAILURE_HOLD"
+  },
+  "receipt_sha256": "f9db5765595bac0c598cac7e5889f7f6202263852e8a32ef57c68ed25a64e29f",
+  "schema": "c3x-g95-p8-closure-v1",
+  "scientific_execution": {
+    "bootstrap_precommit_receipt_sha256": "68c40936af536fa2f26c34394251faf46226b8a01df9209607742f9c225976f2",
+    "bootstrap_run": 36396781932,
+    "geometry_recovery_run": 36397649132,
+    "lawgen_packaging_recovery_run": 36397548582,
+    "science_changed_by_repairs": false,
+    "science_head": "0983a67547baff53a085277d2f6750016257c8c5",
+    "target_blind_profile_run": 36397282255,
+    "train_annotation_run": 36398663945
+  },
+  "scientific_stage": "C3X 0.7.0-G9.5-P8",
+  "selection_and_transport": {
+    "fresh_selection_opened": false,
+    "reason": "TRAIN_SUPPORT_HOLD_SOURCE_POSITIVE_BREADTH",
+    "retrieval_auroc_claim_authorized": false,
+    "retrieval_average_precision_claim_authorized": false,
+    "transport_validation_claim_authorized": false,
+    "untouched_transport_opened": false
+  },
+  "status": "CLOSED_HOLD",
+  "successor_question": "Across fresh phase-matched chess positions, where in opening-to-middlegame search does exact TT semantic-use intervention most often alter the chosen root move, and can those sensitivity hotspots be made stable enough across engines to support practical regression diagnostics without using P8 outcomes as confirmatory evidence?",
+  "suggested_successor": "C3X 0.7.0-G9.5-P9 — Prospective Opening-to-Middlegame TT-Sensitivity Cartography, Root-Move Instability Hotspot Mapping, Phase-Matched Cross-Engine Counterfactual Replication & Developer Regression Diagnostics",
+  "target_blind_geometry": {
+    "compression": 0.5798611111111112,
+    "counterfactual_replay_executed": false,
+    "cross_engine_reused_records": 178,
+    "cross_position_reused_records": 304,
+    "go_parity_pass": true,
+    "interpretation": "P8 successfully escaped P7 episode fingerprinting: the frozen scale-normalized descriptor generated substantial cross-position and cross-engine prototype reuse before any ROOT_CHANGE labels were opened.",
+    "max_prototype_fraction": 0.03298611111111111,
+    "max_prototype_support": 19,
+    "prototype_count": 242,
+    "receipt_sha256": "7e9bfead9de9a7d560f7ddbc60cf0b8ffd10ec6fb6709037ce6907cf6e246ceb",
+    "records": 576,
+    "reused_records": 438,
+    "selected_radius": 0.08,
+    "status": "TARGET_BLIND_PROTOTYPE_COVER_SELECTED",
+    "target_fields_consulted": false
+  },
+  "title": "Prospective Scale-Normalized Chess Search-State Prototyping, TT-Provenance Compression, Root-Move Change Retrieval, Cross-Engine Counterfactual Validation & Developer-Grade Causal Diagnostics",
+  "train_causal_annotation": {
+    "all_positive_counts_per_positive_prototype_one": true,
+    "by_engine": {
+      "berserk": {
+        "positive": 3,
+        "records": 192
+      },
+      "ethereal": {
+        "positive": 3,
+        "records": 192
+      },
+      "stockfish_19": {
+        "positive": 3,
+        "records": 192
+      }
+    },
+    "by_source_regime": {
+      "P8_TRAIN_2MVS": {
+        "positive": 8,
+        "records": 144
+      },
+      "P8_TRAIN_4MVS": {
+        "positive": 1,
+        "records": 144
+      },
+      "P8_TRAIN_PIONEER": {
+        "positive": 0,
+        "records": 144
+      },
+      "P8_TRAIN_UHO_PGN": {
+        "positive": 0,
+        "records": 144
+      }
+    },
+    "effective_detection_probability_at_sensitivity": 0.9737011757783066,
+    "failure_reasons": [
+      "SOURCE_POSITIVE_BREADTH"
+    ],
+    "interpretation": "The causal signal was engine-balanced but source-concentrated. P8 therefore lacked the prospectively required breadth to validate analogue retrieval on fresh selection worlds.",
+    "negative_records": 567,
+    "positive_prototype_count": 9,
+    "positive_records": 9,
+    "post_target_metric_refit": false,
+    "prototype_count": 242,
+    "receipt_sha256": "fdc3f12f3a1a5ef6ac04d1b1374a9cb515f2e90a219f768e8898a4d1f9499f71",
+    "records": 576,
+    "status": "TRAIN_SUPPORT_HOLD"
+  }
+}
