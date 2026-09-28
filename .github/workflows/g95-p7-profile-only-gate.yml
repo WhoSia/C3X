@@ -34,6 +34,8 @@ jobs:
         engine: [stockfish_19, berserk, ethereal]
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - name: Verify frozen science implementation unchanged
         run: |
           set -euxo pipefail
