@@ -1,0 +1,144 @@
+name: g95-p7-train-recovery
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - ".github/workflows/g95-p7-train-recovery.yml"
+
+concurrency:
+  group: g95-p7-train-recovery
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  actions: read
+
+env:
+  CANONICAL_P7_RUN: "36385972623"
+  CANONICAL_P7_HEAD: "b8cd6905a8f7d7e7078a7b7b4d381999d16d79de"
+  P4_RUN: "36233574663"
+  P34_RUN: "36216185685"
+
+jobs:
+  train_cases:
+    name: Recovery CSEG train — p${{ matrix.pos }}-${{ matrix.engine }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+    strategy:
+      fail-fast: false
+      matrix:
+        pos: [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14]
+        engine: [stockfish_19, berserk, ethereal]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ env.CANONICAL_P7_HEAD }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: g95-p7-precommit-sealed
+          path: pre
+          repository: WhoSia/C3X
+          run-id: ${{ env.CANONICAL_P7_RUN }}
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: g95-p7-kernels
+          path: kernels
+          repository: WhoSia/C3X
+          run-id: ${{ env.CANONICAL_P7_RUN }}
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: g95-p4-lawgen-preseal
+          path: p4-lawgen
+          repository: WhoSia/C3X
+          run-id: ${{ env.P4_RUN }}
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: p34-build-${{ matrix.engine }}
+          path: build
+          repository: WhoSia/C3X
+          run-id: ${{ env.P34_RUN }}
+          github-token: ${{ github.token }}
+      - name: Replay exact frozen train case from canonical P7 precommit
+        run: |
+          set -euxo pipefail
+          test "$(git rev-parse HEAD)" = "$CANONICAL_P7_HEAD"
+          python3 -m pip install --disable-pip-version-check python-chess==1.999
+          chmod +x kernels/c3x-cseg-p7 kernels/c3x-support-p4 kernels/p7-cseg-verify "build/c3x-p34-${{ matrix.engine }}"
+          PLAN="$(find p4-lawgen -name sampling-strata.json -print -quit)"
+          mkdir -p out
+          python3 harness/g95_p7_court.py case             --precommit pre/g95-p7-precommit.json             --case-id "p7:train:${{ matrix.pos }}:${{ matrix.engine }}"             --binary "build/c3x-p34-${{ matrix.engine }}"             --sampler kernels/c3x-support-p4             --sampling-plan "$PLAN"             --cseg-kernel kernels/c3x-cseg-p7             --go-verifier kernels/p7-cseg-verify             --profile-out out/profile.json             --target-out out/target.json             --case-out out/case.json
+          python3 - <<'PY'
+          import json,os
+          m=json.load(open("out/case.json"))
+          r={
+            "schema":"c3x-g95-p7-train-recovery-case-v1",
+            "scientific_stage":"C3X 0.7.0-G9.5-P7",
+            "canonical_science_run":int(os.environ["CANONICAL_P7_RUN"]),
+            "canonical_science_head":os.environ["CANONICAL_P7_HEAD"],
+            "case_id":m["case_id"],
+            "science_changed":False,
+            "precommit_reused":True,
+            "execution_semantics_changed":False
+          }
+          json.dump(r,open("out/recovery.json","w"),indent=2,sort_keys=True);open("out/recovery.json","a").write("\n")
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: "g95-p7-recovery-train-${{ matrix.pos }}-${{ matrix.engine }}"
+          path: out/
+          retention-days: 30
+
+  train_state:
+    name: Recovery adjudicate frozen Q0-Q3 train ladder
+    needs: train_cases
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ env.CANONICAL_P7_HEAD }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: g95-p7-precommit-sealed
+          path: pre
+          repository: WhoSia/C3X
+          run-id: ${{ env.CANONICAL_P7_RUN }}
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: g95-p7-recovery-train-*
+          path: train
+          merge-multiple: false
+      - name: Merge exact recovery cases and adjudicate unchanged train law
+        run: |
+          set -euxo pipefail
+          test "$(git rev-parse HEAD)" = "$CANONICAL_P7_HEAD"
+          mkdir -p out
+          python3 harness/g95_p7_court.py merge-profiles --root train --role STRUCTURAL_TRAIN --out out/train-profiles.json
+          python3 harness/g95_p7_court.py merge-targets --root train --role STRUCTURAL_TRAIN --out out/train-targets.json
+          python3 harness/g95_p7_court.py train-field             --precommit pre/g95-p7-precommit.json             --profiles out/train-profiles.json             --targets out/train-targets.json             --out out/train-field.json
+          python3 - <<'PY'
+          import json,os
+          f=json.load(open("out/train-field.json"))
+          r={
+            "schema":"c3x-g95-p7-train-recovery-receipt-v1",
+            "scientific_stage":"C3X 0.7.0-G9.5-P7",
+            "canonical_science_run":int(os.environ["CANONICAL_P7_RUN"]),
+            "canonical_science_head":os.environ["CANONICAL_P7_HEAD"],
+            "precommit_reused":True,
+            "science_changed":False,
+            "execution_semantics_changed":False,
+            "train_status":f["status"],
+            "selected_q_level":f.get("selected_q_level")
+          }
+          json.dump(r,open("out/recovery-receipt.json","w"),indent=2,sort_keys=True);open("out/recovery-receipt.json","a").write("\n")
+          PY
+          sha256sum out/* | sort > out/train-recovery-sha256.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: g95-p7-train-recovery-adjudication
+          path: out/
+          retention-days: 30
