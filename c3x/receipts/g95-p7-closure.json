@@ -1,0 +1,198 @@
+{
+  "authority_neutral_tools": {
+    "chess_phenotype_atlas_commit": "39dcaceac1b36c09f53ae360230aa34a3b79c9fa",
+    "profile_only_recovery_commit": "3afc47028f21d6e77eb90206b2248c6ed1e04d3f",
+    "state_reuse_audit_commit": "5bc0814bc94a92c689626283d57ad0c7b24aa887"
+  },
+  "canonical_verdict": "P7_TARGET_BLIND_SEARCH_STATE_REUSE_FAILURE_HOLD",
+  "claim_ceiling": [
+    "P7 rejects the tested exact whole-prefix digest as an engineering representation for reusable chess-search states on the audited fresh profiles.",
+    "P7 does not establish that no reusable chess-search state exists.",
+    "P7 does not establish a ROOT_CHANGE law because the full train causal target court was intentionally not completed.",
+    "P7 does not certify or falsify fresh selection stability or untouched transport.",
+    "The 480-profile reuse audit and scale-normalization probes are target-blind and cannot vote on causal labels.",
+    "No conclusion about human chess cognition, intent, strategy or universal engine behavior is authorized.",
+    "The successor may intentionally forget episode identity, but must preserve chess/search semantics and validate usefulness against fresh root-move counterfactuals."
+  ],
+  "drive_custody": {
+    "corpus": "14KWso4uOkXvuhzU-YMOBwdwD2HutjQIk",
+    "folder_id": "15IjhPHAhLKpZEHp9dzSvmvzVEA6vOm-c",
+    "lawgen": "1LrVRR0cDn-sn_ADxjrNskuyrNzGHcxoi",
+    "precommit": "1RRLinKjESiLiWodDiJU6f87VVzM4QgVf"
+  },
+  "engineering_interpretation": {
+    "causal_status": "No ROOT_CHANGE causal-field claim is made from this closure. P7 is closed before a full train target court because the engineering representation precondition failed target-blind.",
+    "chess_meaning": "The failure is not absence of recurring TT/search semantics. Coarser board/current-event and scale-normalized descriptors show reuse across positions and engines.",
+    "mechanism": "State IDs preserve exact node-colour and typed-edge multiplicities over the full prefix; graph scale/length becomes effectively identifying.",
+    "primary": "P7 exact whole-prefix CSEG digest behaves as an episode fingerprint rather than a reusable chess-search state on the audited fresh worlds."
+  },
+  "execution_lineage": {
+    "mixed_role_run": {
+      "conclusion": "cancelled",
+      "head": "b8cd6905a8f7d7e7078a7b7b4d381999d16d79de",
+      "reason": "EXECUTION_PRIORITY_HANDOFF_AFTER_TARGET_BLIND_REUSE_WARNING",
+      "run": 36385972623,
+      "science_changed": false
+    },
+    "profile_only_gate_initial": {
+      "conclusion": "failure",
+      "reason": "SHALLOW_CLONE_COULD_NOT_RESOLVE_CANONICAL_HEAD_FOR_PARITY_DIFF",
+      "run": 36391606946,
+      "science_changed": false
+    },
+    "profile_only_gate_repaired": {
+      "completed_train_cases_audited": 11,
+      "conclusion": "cancelled_after_sufficient_reuse_evidence",
+      "counterfactual_replay_executed_for_audited_profile_only_cases": false,
+      "head": "ca22cc54dba6d8ab3a358849618c17a1a437eba5",
+      "run": 36391720172,
+      "science_changed": false,
+      "train_profiles_audited": 176
+    },
+    "profile_stop_handoff": {
+      "conclusion": "success",
+      "head": "393146fee68aa35fff710c07fe36e0c14d048b0f",
+      "run": 36393380672
+    },
+    "train_full_recovery": {
+      "conclusion": "cancelled",
+      "reason": "SUPERSEDED_BY_TARGET_INDEPENDENT_PROFILE_ONLY_GATE",
+      "run": 36390703301,
+      "science_changed": false
+    }
+  },
+  "receipt_sha256": "8527ab6eb82f7023c037335b71e108fa3cb64a95ea5330af6b3acc8d5615542c",
+  "schema": "c3x-g95-p7-closure-v1",
+  "scientific_precommit": {
+    "canonical_candidate_run": 36385972623,
+    "canonical_science_head": "b8cd6905a8f7d7e7078a7b7b4d381999d16d79de",
+    "causal_availability": "BASELINE_PREFIX_ONLY",
+    "engines": [
+      "stockfish_19",
+      "berserk",
+      "ethereal"
+    ],
+    "historical_candidate_hashes_excluded": 368,
+    "p6_target_labels_confirmatory_vote": false,
+    "planned_engine_position_cases": 135,
+    "precommit_receipt_sha256": "ca170958c3624638b0b7c83927c5cb0b85e2f730fff96e841e4187dce5cff08c",
+    "quotient_ladder": [
+      "Q0",
+      "Q1",
+      "Q2",
+      "Q3"
+    ],
+    "roles": {
+      "structural_selection_positions": 15,
+      "structural_train_positions": 15,
+      "untouched_transport_positions": 15
+    }
+  },
+  "scientific_stage": "C3X 0.7.0-G9.5-P7",
+  "status": "CLOSED_HOLD",
+  "successor_question": "Can a deliberately scale-normalized, target-blind chess-search prototype representation forget exact episode identity while preserving TT/search provenance well enough to retrieve recurring root-move-change situations across positions and engines, then validate those prototypes with fresh counterfactual replay?",
+  "suggested_successor": "C3X 0.7.0-G9.5-P8 — Prospective Scale-Normalized Chess Search-State Prototyping, TT-Provenance Compression, Root-Move Change Retrieval, Cross-Engine Counterfactual Validation & Developer-Grade Causal Diagnostics",
+  "target_blind_reuse_evidence": {
+    "authority": "ENGINEERING_PRECONDITION_DIAGNOSTIC_NO_CAUSAL_LABEL_VOTE",
+    "combined_observed_profiles": {
+      "cross_engine_reuse_records": 0,
+      "cross_position_reuse_records": 0,
+      "max_state_support": 1,
+      "profiles": 480,
+      "q_level_compression": {
+        "Q0": 0.0,
+        "Q1": 0.0,
+        "Q2": 0.0,
+        "Q3": 0.0
+      },
+      "q_level_distinct": {
+        "Q0": 480,
+        "Q1": 480,
+        "Q2": 480,
+        "Q3": 480
+      },
+      "train_nontrain_state_overlap": {
+        "Q0": 0,
+        "Q1": 0,
+        "Q2": 0,
+        "Q3": 0
+      }
+    },
+    "nontrain_profiles": {
+      "board_plus_graph_census_distinct": 304,
+      "case_profile_artifacts": 19,
+      "cross_engine_reuse_records": 0,
+      "cross_position_reuse_records": 0,
+      "graph_census_distinct": 303,
+      "profiles": 304,
+      "q_level_compression": {
+        "Q0": 0.0,
+        "Q1": 0.0,
+        "Q2": 0.0,
+        "Q3": 0.0
+      },
+      "q_level_distinct": {
+        "Q0": 304,
+        "Q1": 304,
+        "Q2": 304,
+        "Q3": 304
+      },
+      "roles": [
+        "STRUCTURAL_SELECTION",
+        "UNTOUCHED_TRANSPORT"
+      ]
+    },
+    "partial_train_profiles": {
+      "board_atoms_distinct": 8,
+      "board_plus_current_event_distinct": 140,
+      "board_plus_graph_census_distinct": 176,
+      "completed_cases": 11,
+      "cross_engine_reuse_records": 0,
+      "cross_position_reuse_records": 0,
+      "current_event_descriptor_distinct": 101,
+      "graph_census_distinct": 176,
+      "max_state_support": 1,
+      "profiles": 176,
+      "q_level_compression": {
+        "Q0": 0.0,
+        "Q1": 0.0,
+        "Q2": 0.0,
+        "Q3": 0.0
+      },
+      "q_level_distinct": {
+        "Q0": 176,
+        "Q1": 176,
+        "Q2": 176,
+        "Q3": 176
+      },
+      "records_per_case": 16
+    },
+    "scale_normalization_diagnostic": {
+      "board_plus_current_event": {
+        "compression": 0.29934210526315785,
+        "cross_engine_reuse_records": 48,
+        "cross_position_reuse_records": 55,
+        "distinct": 213,
+        "reused_records": 155
+      },
+      "board_plus_current_event_plus_coarse_prefix_size": {
+        "compression": 0.16776315789473684,
+        "cross_engine_reuse_records": 21,
+        "cross_position_reuse_records": 35,
+        "distinct": 253,
+        "reused_records": 95
+      },
+      "current_event_plus_coarse_prefix_size": {
+        "compression": 0.4375,
+        "cross_engine_reuse_records": 125,
+        "cross_position_reuse_records": 174,
+        "distinct": 171,
+        "reused_records": 188
+      },
+      "interpretation": "Repeated chess/search semantics are observable, but exact whole-prefix multiplicities erase reuse by preserving episode identity.",
+      "sample_profiles": 304
+    },
+    "target_fields_consulted_for_closure_decision": false
+  },
+  "title": "Prospective Target-Blind Prefix-Graph Causal-State Construction, Structural Quotient Discovery, Label-Sequestered State Compression, Fresh Selection Stability & Untouched Cross-Engine Transport"
+}
