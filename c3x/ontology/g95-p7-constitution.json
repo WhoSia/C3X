@@ -1,0 +1,158 @@
+{
+  "schema":"c3x-g95-p7-constitution-v1",
+  "scientific_stage":"C3X 0.7.0-G9.5-P7",
+  "title":"Prospective Target-Blind Prefix-Graph Causal-State Construction, Structural Quotient Discovery, Label-Sequestered State Compression, Fresh Selection Stability & Untouched Cross-Engine Transport",
+  "program_identity":{
+    "domain":"CHESS_ENGINE_SEARCH_AND_EXPLANATION",
+    "methodology_role":"INSTRUMENTAL_ONLY",
+    "primary_question":"Whether chess-engine baseline search prefixes admit reusable causal states for exact-event dependence of the chosen root move."
+  },
+  "parent":{
+    "stage":"C3X 0.7.0-G9.5-P6",
+    "closure_commit":"ad60787a476bfac89a0f949e2a9be1874b9834db",
+    "verdict":"P6_NO_ADMISSIBLE_RELATIONAL_REPRESENTATION_HOLD",
+    "closure_receipt_sha256":"f66d5f2568ad3b9b87d155adbc1a3cf8269fe0d6241ea42337d5b6b62a808834"
+  },
+  "label_firewall":{
+    "p6_target_labels_confirmatory_vote":false,
+    "p6_near_miss_diagnostics_confirmatory_vote":false,
+    "p6_target_artifacts_may_be_downloaded_for_p7_state_construction":false,
+    "fiber_id_allowed_in_p7_state":false,
+    "counterfactual_trace_allowed_in_p7_state":false,
+    "root_change_allowed_in_p7_state":false
+  },
+  "source_snapshot":{
+    "repository":"official-stockfish/books",
+    "commit":"65815ccdbc7727cd4f6aee252ba8f67fb740e92f",
+    "selection_rule":"Deterministic legal positions derived without engine outcomes; exclude all recoverable P1-P6 FEN hashes and all cross-role duplicates before execution."
+  },
+  "fresh_worlds":{
+    "structural_train":[
+      {"id":"P7_TRAIN_PGN8","kind":"PGN","logical":"8moves_v3.pgn","positions":3,"ply_window":[8,16]},
+      {"id":"P7_TRAIN_LICHESS","kind":"EPD","logical":"popularpos_lichess_v2.epd","positions":3},
+      {"id":"P7_TRAIN_UHO2","kind":"EPD","logical":"UHO_4060_v2.epd","positions":3},
+      {"id":"P7_TRAIN_STALEMATE","kind":"EPD","logical":"stalemates_200d30_v1.epd","positions":3},
+      {"id":"P7_TRAIN_PIONEER","kind":"GENERATED_LEGAL","seed":"c3x-p7-train-pioneer","positions":3,"ply_window":[14,30]}
+    ],
+    "structural_selection":[
+      {"id":"P7_SELECT_PGN2","kind":"PGN","logical":"2moves_v2.pgn","positions":3,"ply_window":[4,8]},
+      {"id":"P7_SELECT_UHO3","kind":"EPD","logical":"UHO_4060_v3.epd","positions":3},
+      {"id":"P7_SELECT_8MVS","kind":"EPD","logical":"8mvs_+90_+99.epd","positions":3},
+      {"id":"P7_SELECT_NOOB2","kind":"EPD","logical":"noob_2moves.epd","positions":3},
+      {"id":"P7_SELECT_PIONEER","kind":"GENERATED_LEGAL","seed":"c3x-p7-select-pioneer","positions":3,"ply_window":[16,32]}
+    ],
+    "untouched_transport":[
+      {"id":"P7_TRANSPORT_UHOLICHESS","kind":"EPD","logical":"UHO_Lichess_4852_v1.epd","positions":3},
+      {"id":"P7_TRANSPORT_8BIG","kind":"EPD","logical":"8mvs_big_+80_+109.epd","positions":3},
+      {"id":"P7_TRANSPORT_HYBRID","kind":"EPD","logical":"hybrid_book_beta.epd","positions":3},
+      {"id":"P7_TRANSPORT_UHOPGN","kind":"PGN","logical":"UHO_XXL_+1.00_+1.29.pgn","positions":3,"ply_window":[8,16]},
+      {"id":"P7_TRANSPORT_PIONEER","kind":"GENERATED_LEGAL","seed":"c3x-p7-transport-pioneer","positions":3,"ply_window":[18,34]}
+    ]
+  },
+  "execution":{
+    "engines":["stockfish_19","berserk","ethereal"],
+    "hash_mib":1,
+    "threads":1,
+    "prime_nodes":20000,
+    "decoy_nodes":20000,
+    "decoy_count":3,
+    "measurement_nodes":80000,
+    "candidate_events_per_world":16,
+    "family":"MOVE_ORDER+EVAL",
+    "frontier":1,
+    "inherited_engine_build_run":36216185685,
+    "inherited_outcome_blind_sampler":"c3x-support-p4"
+  },
+  "cseg":{
+    "schema_version":"c3x-cseg-v1",
+    "causal_availability":"BASELINE_PREFIX_ONLY",
+    "root_node_atoms":["side_to_move","in_check","phase","legal_moves_bucket","material_balance_bucket","castling_bucket","halfmove_bucket"],
+    "event_node_atoms":["scope","class","ply_bucket","depth_bucket","bound","window_relation","move_presence","payload_bucket","current_event"],
+    "edge_types":["NEXT","STACK_PARENT","SAME_KEY_PREV","SAME_CLASS_PREV","SAME_SCOPE_PREV","ROOT_EVENT","ROOT_CURRENT"],
+    "raw_tt_key_emitted":false,
+    "counterfactual_information_allowed":false,
+    "fiber_id_allowed":false
+  },
+  "quotient_ladder":{
+    "levels":[
+      {"id":"Q0","wl_rounds":0},
+      {"id":"Q1","wl_rounds":1},
+      {"id":"Q2","wl_rounds":2},
+      {"id":"Q3","wl_rounds":3}
+    ],
+    "state_digest":"SHA256(root_colour,current_colour,node-colour multiset,typed coloured-edge multiset)",
+    "selection_rule":"First Q-level in Q0→Q3 passing every fresh-train gate; no post-target graph mutation or extra refinement round."
+  },
+  "train_support_gate":{
+    "planned_max_records":720,
+    "min_fired_records":675,
+    "min_positive_records":8,
+    "min_negative_records":550,
+    "min_records_per_engine":220,
+    "min_positive_per_engine":1,
+    "min_positive_source_regimes":3,
+    "sensitivity_prevalence":0.02,
+    "min_detection_probability_at_sensitivity":0.95,
+    "frozen_reference_n675_probability":0.9599591661195808
+  },
+  "state_gate":{
+    "max_target_collisions":0,
+    "min_compression":0.15,
+    "min_cross_position_records":120,
+    "min_cross_engine_records":120,
+    "min_reused_positive_records":3,
+    "require_both_labels":true
+  },
+  "selection_support_gate":{
+    "planned_max_records":720,
+    "min_fired_records":675,
+    "min_positive_records":6,
+    "min_negative_records":550,
+    "min_records_per_engine":220,
+    "min_positive_source_regimes":3,
+    "sensitivity_prevalence":0.02,
+    "min_detection_probability_at_sensitivity":0.99
+  },
+  "selection_gate":{
+    "no_refit":true,
+    "min_seen_fraction":0.20,
+    "min_seen_fraction_per_engine":0.10,
+    "required_engines":3,
+    "min_positions":8,
+    "min_source_regimes":3,
+    "min_covered_positive":2,
+    "max_contradictions":0,
+    "max_mixed_cells":0
+  },
+  "transport_gate":{
+    "scope_before_targets":true,
+    "min_seen_fraction":0.20,
+    "min_seen_fraction_per_engine":0.10,
+    "required_engines":3,
+    "min_positions":8,
+    "min_source_regimes":3,
+    "min_predicted_positive_profiles":2,
+    "selection_failure_behavior":"Do not open transport target artifacts."
+  },
+  "chess_phenotype_lane":{
+    "authority":"DOWNSTREAM_EXPLANATION_ONLY",
+    "atoms":["baseline_root_move","counterfactual_root_move","moved_piece","capture","check","promotion","pv_prefix_divergence","score_direction","wdl_direction"],
+    "may_expand_field_authority":false
+  },
+  "implementation_roles":{
+    "C_or_Cpp":"Existing engine-native exact-event intervention and TT/search semantic trace.",
+    "Python":"PGN/EPD/generated-world materialization, board atoms, UCI orchestration and chess phenotype.",
+    "Rust":"Primary CSEG canonicalization, WL refinement, state-map construction and query.",
+    "Go":"Independent CSEG digest parity verifier.",
+    "JavaScript":"Independent final authority and explanation verifier.",
+    "policy":"CAPABILITY_FIRST_POLYGLOT_LANGUAGE_NONAUTHORITATIVE"
+  },
+  "claim_ceiling":[
+    "P7 states are bounded operational chess-search abstractions, not metaphysical event identities.",
+    "P6 labels and near-miss diagnostics have zero P7 confirmatory vote.",
+    "A passing graph state need not be unique or minimal among all possible state constructions.",
+    "PGN/EPD/generated lanes provide chess worlds; causal labels still come only from controlled engine intervention.",
+    "No post-target edge, node atom, refinement round, support threshold or state splitting may be introduced.",
+    "No human cognition, intent, universal engine law or population-prevalence claim is authorized."
+  ]
+}
