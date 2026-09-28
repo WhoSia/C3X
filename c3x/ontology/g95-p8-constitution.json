@@ -1,0 +1,206 @@
+{
+  "schema":"c3x-g95-p8-constitution-v1",
+  "scientific_stage":"C3X 0.7.0-G9.5-P8",
+  "title":"Prospective Scale-Normalized Chess Search-State Prototyping, TT-Provenance Compression, Root-Move Change Retrieval, Cross-Engine Counterfactual Validation & Developer-Grade Causal Diagnostics",
+  "program_identity":{
+    "domain":"CHESS_ENGINE_SEARCH_AND_EXPLANATION",
+    "methodology_role":"CONSTRAINT_AND_INSTRUMENT_ONLY",
+    "primary_estimand":"Whether a target-blind scale-normalized search descriptor can retrieve recurring exact-intervention root-move-change analogues across fresh positions and engines.",
+    "non_goal":"P8 does not seek a metaphysically privileged causal state or a universal chess concept ontology."
+  },
+  "parent":{
+    "stage":"C3X 0.7.0-G9.5-P7",
+    "closure_commit":"f4ef387a85056bd9e6664363d6063f017dfb5520",
+    "verdict":"P7_TARGET_BLIND_SEARCH_STATE_REUSE_FAILURE_HOLD",
+    "closure_receipt_sha256":"8527ab6eb82f7023c037335b71e108fa3cb64a95ea5330af6b3acc8d5615542c"
+  },
+  "harvest_bridge":{
+    "authority":"DESIGN_DONOR_ONLY",
+    "sources":[
+      "Literature Fragment Harvest XLV — Intervention-Defined Explanation, Causal Abstraction, Adaptive State Identification & Cross-Regime Transport",
+      "MQR-1.16-A — A State Is a Compression Claim, Not a Container for the Past",
+      "MQR Literature Harvest LR-20260916-A — Predictive State Compression",
+      "AI Mastery Classical Harvest — Associative Memory / Local Experts / Retrieval"
+    ],
+    "backflow_rule":"P8 may export empirical chess-engine lessons back to Harvest, but Harvest abstractions cannot expand P8 causal authority."
+  },
+  "label_firewall":{
+    "p7_q_state_ids_allowed_in_p8_descriptor":false,
+    "p7_target_labels_confirmatory_vote":false,
+    "p7_reuse_diagnostics_confirmatory_vote":false,
+    "p7_reuse_diagnostics_design_motivation_only":true,
+    "engine_identity_allowed_in_primary_descriptor":false,
+    "source_identity_allowed_in_primary_descriptor":false,
+    "sampling_stratum_allowed_in_primary_descriptor":false,
+    "raw_tt_key_emitted":false,
+    "raw_tt_key_allowed_as_feature":false,
+    "tt_key_equality_allowed_for_prefix_recurrence_statistics":true,
+    "counterfactual_information_allowed_before_train_prototype_freeze":false,
+    "root_change_allowed_before_train_prototype_freeze":false,
+    "post_selection_metric_refit":false
+  },
+  "source_snapshot":{
+    "repository":"official-stockfish/books",
+    "commit":"65815ccdbc7727cd4f6aee252ba8f67fb740e92f",
+    "selection_rule":"Deterministic legal positions derived without engine outcomes; exclude all recoverable P1-P7 FEN hashes and all cross-role duplicates before execution."
+  },
+  "fresh_worlds":{
+    "prototype_train":[
+      {"id":"P8_TRAIN_2MVS","kind":"EPD","logical":"2moves_v1.epd","positions":3},
+      {"id":"P8_TRAIN_4MVS","kind":"EPD","logical":"4mvs_+90_+99.epd","positions":3},
+      {"id":"P8_TRAIN_UHO_PGN","kind":"PGN","logical":"UHO_XXL_+0.80_+1.09.pgn","positions":3,"ply_window":[8,18]},
+      {"id":"P8_TRAIN_PIONEER","kind":"GENERATED_LEGAL","seed":"c3x-p8-train-pioneer","positions":3,"ply_window":[14,32]}
+    ],
+    "retrieval_selection":[
+      {"id":"P8_SELECT_6MVS","kind":"EPD","logical":"6mvs_+90_+99.epd","positions":3},
+      {"id":"P8_SELECT_POPULAR","kind":"EPD","logical":"popularpos_lichess.epd","positions":3},
+      {"id":"P8_SELECT_MEGA","kind":"PGN","logical":"UHO_MEGA_2022_+110_+149.pgn","positions":3,"ply_window":[10,20]},
+      {"id":"P8_SELECT_PIONEER","kind":"GENERATED_LEGAL","seed":"c3x-p8-select-pioneer","positions":3,"ply_window":[16,34]}
+    ],
+    "untouched_transport":[
+      {"id":"P8_TRANSPORT_CHESSDB","kind":"PGN","logical":"bjbraams_chessdb_198350_lines.pgn","positions":3,"ply_window":[10,22]},
+      {"id":"P8_TRANSPORT_UHO100","kind":"PGN","logical":"UHO_XXL_2022_+100_+129.pgn","positions":3,"ply_window":[10,20]},
+      {"id":"P8_TRANSPORT_UHO120","kind":"PGN","logical":"UHO_XXL_2022_+120_+149.pgn","positions":3,"ply_window":[10,20]},
+      {"id":"P8_TRANSPORT_PIONEER","kind":"GENERATED_LEGAL","seed":"c3x-p8-transport-pioneer","positions":3,"ply_window":[18,36]}
+    ]
+  },
+  "execution":{
+    "engines":["stockfish_19","berserk","ethereal"],
+    "hash_mib":1,
+    "threads":1,
+    "prime_nodes":20000,
+    "decoy_nodes":20000,
+    "decoy_count":3,
+    "measurement_nodes":80000,
+    "candidate_events_per_world":16,
+    "family":"MOVE_ORDER+EVAL",
+    "frontier":1,
+    "planned_cases_per_role":36,
+    "planned_max_records_per_role":576,
+    "inherited_engine_build_run":36216185685,
+    "inherited_outcome_blind_sampler":"c3x-support-p4"
+  },
+  "descriptor":{
+    "schema_version":"c3x-prototype-descriptor-v1",
+    "causal_availability":"STRICT_EVENT_PREFIX_ONLY",
+    "blocks":{
+      "board":{
+        "weight":0.15,
+        "features":["side_to_move","in_check","phase","legal_moves_bucket","material_balance_bucket","castling_bucket","halfmove_bucket"]
+      },
+      "current_event":{
+        "weight":0.30,
+        "features":["scope","class","ply_bucket","depth_bucket","bound_bucket","window_relation","move_presence","payload_bucket"]
+      },
+      "provenance_rates":{
+        "weight":0.30,
+        "features":["cutoff_share","move_order_share","eval_share","pv_share","qsearch_share","current_scope_share","current_class_share","unique_key_ratio","repeated_key_event_share","current_key_share","same_key_gap_ratio","same_class_gap_ratio","depth_percentile","same_ply_share"]
+      },
+      "temporal_shape":{
+        "weight":0.20,
+        "features":["q1_class","q1_scope","q1_reuse","q2_class","q2_scope","q2_reuse","q3_class","q3_scope","q3_reuse","q4_class","q4_scope","q4_reuse"]
+      },
+      "coarse_scale":{
+        "weight":0.05,
+        "features":["prefix_size_bucket"]
+      }
+    },
+    "ratio_buckets":["ZERO","LE05","LE15","LE30","LE50","GT50"],
+    "gap_ratio_buckets":["NONE","LE05","LE15","LE30","GT30"],
+    "prefix_size_buckets":["LE32","33_128","129_512","513_PLUS"],
+    "distance":"sum(block_weight * within_block categorical mismatch fraction)",
+    "forbidden":["engine","source_stratum","source_kind","sampling_stratum","raw_tt_key","record_id","P7_Q_state_id","ROOT_CHANGE","counterfactual_semantic"]
+  },
+  "prototype_cover":{
+    "algorithm":"DETERMINISTIC_FARTHEST_FIRST_RADIUS_COVER",
+    "primary_descriptor_family":"RATE_SHAPE_SCALE",
+    "diagnostic_controls":["LOCAL_BOARD_EVENT","RATE_ONLY"],
+    "radius_ladder":[0.08,0.12,0.16,0.20,0.24,0.28],
+    "seed_rule":"lexicographically smallest stable profile id; subsequently add the point with largest nearest-prototype distance, lexical tie break",
+    "assignment_rule":"nearest prototype within radius; lexical prototype-id tie break",
+    "selection_rule":"Choose the smallest radius in the primary family passing every target-blind engineering gate. Controls cannot become authoritative.",
+    "engineering_gate":{
+      "min_compression":0.20,
+      "max_compression":0.80,
+      "min_cross_position_reused_records":150,
+      "min_cross_engine_reused_records":150,
+      "max_prototype_fraction":0.08,
+      "min_reused_records":250
+    }
+  },
+  "train_support_gate":{
+    "min_fired_records":540,
+    "min_positive_records":6,
+    "min_negative_records":450,
+    "min_records_per_engine":175,
+    "min_positive_per_engine":1,
+    "min_positive_source_regimes":3,
+    "sensitivity_prevalence":0.02,
+    "min_detection_probability_at_sensitivity":0.95,
+    "frozen_reference_n540_probability_ge6":0.9591909197662545
+  },
+  "prototype_labeling":{
+    "risk_score":"Laplace-smoothed ROOT_CHANGE frequency (positive+1)/(labelled_support+2)",
+    "positive_analogue_support":"A prototype has positive analogue support iff it contains at least one fired train ROOT_CHANGE record.",
+    "no_deterministic_causal_state_claim":true,
+    "store_positive_exemplar_ids":true,
+    "store_negative_exemplar_ids":true
+  },
+  "selection_support_gate":{
+    "min_fired_records":540,
+    "min_positive_records":6,
+    "min_negative_records":450,
+    "min_records_per_engine":175,
+    "min_positive_source_regimes":3,
+    "sensitivity_prevalence":0.02,
+    "min_detection_probability_at_sensitivity":0.95
+  },
+  "retrieval_gate":{
+    "no_refit":true,
+    "min_coverage":0.70,
+    "min_coverage_per_engine":0.60,
+    "required_engines":3,
+    "min_positions":8,
+    "min_source_regimes":3,
+    "min_auroc":0.60,
+    "min_average_precision_lift_over_base_rate":2.0,
+    "min_positive_analogue_hit_rate":0.40,
+    "min_cross_engine_positive_analogue_hit_rate":0.20,
+    "min_cross_position_positive_analogue_hit_rate":0.30
+  },
+  "transport_gate":{
+    "scope_before_targets":true,
+    "same_retrieval_thresholds_as_selection":true,
+    "selection_failure_behavior":"Do not open transport target artifacts.",
+    "scope_gate":{
+      "min_coverage":0.70,
+      "min_coverage_per_engine":0.60,
+      "required_engines":3,
+      "min_positions":8,
+      "min_source_regimes":3
+    }
+  },
+  "developer_diagnostic":{
+    "authority_after_transport_pass":"VALIDATED_CAUSAL_ANALOGUE_RETRIEVAL",
+    "never_emit":"CERTIFIED_ROOT_CHANGE",
+    "outputs":["nearest_prototype","prototype_distance","train_profile_support","train_labelled_support","smoothed_root_change_rate","cross_engine_positive_analogue_ids","cross_position_positive_analogue_ids","baseline_to_counterfactual_root_move_examples","legal_pv_divergence_examples","tt_semantic_class","scale_normalized_provenance_summary"],
+    "llm_required":false,
+    "may_expand_causal_authority":false
+  },
+  "implementation_roles":{
+    "C_or_Cpp":"Existing engine-native exact-event intervention and TT/search semantic trace.",
+    "Python":"Fresh world materialization, strict-prefix normalized descriptor, causal phenotype and orchestration.",
+    "Rust":"Primary block-balanced distance, farthest-first prototype cover, frozen index and query.",
+    "Go":"Independent descriptor-distance and assignment parity verifier.",
+    "JavaScript":"Independent retrieval-metric and public-authority verifier.",
+    "policy":"CAPABILITY_FIRST_POLYGLOT_LANGUAGE_NONAUTHORITATIVE"
+  },
+  "claim_ceiling":[
+    "P8 prototypes are engineering retrieval objects, not discovered metaphysical states or human chess concepts.",
+    "P7 Q-state IDs and reuse diagnostics have zero P8 confirmatory vote.",
+    "Prototype construction and radius selection are target-blind; causal labels may only annotate the frozen train index afterward.",
+    "Passing selection/transport validates analogue retrieval under the declared engines/worlds/interventions, not deterministic causal prediction.",
+    "A diagnostic may report similar exact-intervention cases and enrichment but must not say ROOT_CHANGE is certified for a new query.",
+    "No human cognition, intent, universal engine law or population-prevalence claim is authorized."
+  ]
+}
