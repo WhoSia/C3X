@@ -25,29 +25,33 @@ def load_exclusions(paths):
  return out
 
 def epd_candidates(path,limit=4096):
- # Exact streaming top-K by SHA-256(FEN). The retained threshold only decreases,
- # so an evicted/non-retained duplicate can never become eligible later.
- heap=[];in_heap=set()
+ # Exact two-stage top-K: the full file is scanned by canonical textual FEN hash,
+ # then only the smallest 4K candidates pay python-chess legality cost.
+ # If fewer than K legal/canonical candidates remain, fail rather than approximate.
+ cap=limit*4;heap=[];in_heap=set()
  with open(path,errors="strict") as f:
   for line in f:
    z=line.strip().split()
    if len(z)<4:continue
-   fen=" ".join(z[:4])+" 0 1"
-   try:
-    b=chess.Board(fen)
-    if not b.is_valid() or b.chess960:continue
-    fen=canonical_board(b)
-   except Exception:continue
-   h=sha(fen)
+   fen=" ".join(z[:4])+" 0 1";h=sha(fen)
    if h in in_heap:continue
-   hi=int(h,16)
-   item=(-hi,h,fen)
-   if len(heap)<limit:
+   hi=int(h,16);item=(-hi,h,fen)
+   if len(heap)<cap:
     heapq.heappush(heap,item);in_heap.add(h)
    elif hi < -heap[0][0]:
-    _,old_h,_=heapq.heapreplace(heap,item)
-    in_heap.remove(old_h);in_heap.add(h)
- return sorted((h,fen) for _,h,fen in heap)
+    _,old_h,_=heapq.heapreplace(heap,item);in_heap.remove(old_h);in_heap.add(h)
+ raw=sorted((h,fen) for _,h,fen in heap);out=[];seen=set()
+ for h,fen in raw:
+  try:
+   b=chess.Board(fen)
+   if not b.is_valid() or b.chess960:continue
+   fen2=canonical_board(b)
+   if fen2!=fen:continue
+  except Exception:continue
+  if h in seen:continue
+  seen.add(h);out.append((h,fen))
+  if len(out)==limit:return out
+ raise RuntimeError(f"P7_EPD_EXACT_TOPK_INSUFFICIENT {path} {len(out)} {limit}")
 
 def pgn_candidates(path,lo,hi,limit=4096):
  seen=set();xs=[]
