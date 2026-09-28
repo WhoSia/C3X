@@ -1,0 +1,145 @@
+name: g95-p7-profile-only-gate
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - ".github/workflows/g95-p7-profile-only-gate.yml"
+
+# Cancel the expensive full train recovery: this lane tests only frozen,
+# target-independent necessary state gates first.
+concurrency:
+  group: g95-p7-train-recovery
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  actions: read
+
+env:
+  CANONICAL_P7_RUN: "36385972623"
+  CANONICAL_P7_HEAD: "b8cd6905a8f7d7e7078a7b7b4d381999d16d79de"
+  P4_RUN: "36233574663"
+  P34_RUN: "36216185685"
+
+jobs:
+  profiles:
+    name: Baseline-only P7 train profile — p${{ matrix.pos }}-${{ matrix.engine }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    strategy:
+      fail-fast: false
+      matrix:
+        pos: [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14]
+        engine: [stockfish_19, berserk, ethereal]
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify frozen science implementation unchanged
+        run: |
+          set -euxo pipefail
+          git diff --exit-code "$CANONICAL_P7_HEAD" --             harness/p32_event_court.py             tools/c3x_cseg_input_v1.py             crates/c3x-field/src/bin/c3x-cseg-p7.rs             harness/g95_p7_court.py
+      - uses: actions/download-artifact@v4
+        with:
+          name: g95-p7-precommit-sealed
+          path: pre
+          repository: WhoSia/C3X
+          run-id: ${{ env.CANONICAL_P7_RUN }}
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: g95-p7-kernels
+          path: kernels
+          repository: WhoSia/C3X
+          run-id: ${{ env.CANONICAL_P7_RUN }}
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: g95-p4-lawgen-preseal
+          path: p4-lawgen
+          repository: WhoSia/C3X
+          run-id: ${{ env.P4_RUN }}
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: p34-build-${{ matrix.engine }}
+          path: build
+          repository: WhoSia/C3X
+          run-id: ${{ env.P34_RUN }}
+          github-token: ${{ github.token }}
+      - name: Materialize baseline-only frozen CSEG profile
+        run: |
+          set -euxo pipefail
+          python3 -m pip install --disable-pip-version-check python-chess==1.999
+          chmod +x kernels/c3x-cseg-p7 kernels/c3x-support-p4 kernels/p7-cseg-verify "build/c3x-p34-${{ matrix.engine }}"
+          PLAN="$(find p4-lawgen -name sampling-strata.json -print -quit)"
+          mkdir -p out
+          python3 harness/g95_p7_profile_only.py             --precommit pre/g95-p7-precommit.json             --case-id "p7:train:${{ matrix.pos }}:${{ matrix.engine }}"             --binary "build/c3x-p34-${{ matrix.engine }}"             --sampler kernels/c3x-support-p4             --sampling-plan "$PLAN"             --cseg-kernel kernels/c3x-cseg-p7             --go-verifier kernels/p7-cseg-verify             --profile-out out/profile.json             --manifest-out out/manifest.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: "g95-p7-profile-only-train-${{ matrix.pos }}-${{ matrix.engine }}"
+          path: out/
+          retention-days: 30
+
+  gate:
+    name: Adjudicate P7 target-independent necessary state gates
+    needs: profiles
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: g95-p7-precommit-sealed
+          path: pre
+          repository: WhoSia/C3X
+          run-id: ${{ env.CANONICAL_P7_RUN }}
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: g95-p7-profile-only-train-*
+          path: profiles
+          merge-multiple: false
+      - name: Merge target-blind train profiles and evaluate necessary gates
+        run: |
+          set -euxo pipefail
+          mkdir -p out
+          python3 harness/g95_p7_court.py merge-profiles             --root profiles --role STRUCTURAL_TRAIN --out out/train-profiles.json
+          python3 tools/g95_p7_state_reuse_audit.py             $(find profiles -name profile.json -printf '%p\n' | sort | sed 's/^/--profile /')             --out out/reuse-audit.json
+          python3 - <<'PY'
+          import json
+          from collections import defaultdict
+          pre=json.load(open("pre/g95-p7-precommit.json"))
+          p=json.load(open("out/train-profiles.json"))
+          gate=pre["state_gate"]
+          rows=p["records"]
+          levels=[]
+          for q in ("Q0","Q1","Q2","Q3"):
+              g=defaultdict(list)
+              for r in rows:g[r["state_ids"][q]].append(r)
+              n=len(rows);d=len(g)
+              xp=sum(len(v) for v in g.values() if len({x["position_id"] for x in v})>1)
+              xe=sum(len(v) for v in g.values() if len({x["engine"] for x in v})>1)
+              comp=1-d/n if n else 0.0
+              necessary_pass=(comp>=gate["min_compression"] and xp>=gate["min_cross_position_records"] and xe>=gate["min_cross_engine_records"])
+              levels.append({"q_level":q,"records":n,"distinct_states":d,"compression":comp,
+                "cross_position_records":xp,"cross_engine_records":xe,
+                "necessary_pass":necessary_pass})
+          any_pass=any(x["necessary_pass"] for x in levels)
+          out={"schema":"c3x-g95-p7-target-independent-gate-v1",
+            "scientific_stage":"C3X 0.7.0-G9.5-P7",
+            "canonical_science_run":36385972623,
+            "canonical_science_head":"b8cd6905a8f7d7e7078a7b7b4d381999d16d79de",
+            "target_fields_consulted":False,
+            "counterfactual_replay_executed":False,
+            "levels":levels,
+            "all_levels_fail_target_independent_necessary_gate":not any_pass,
+            "consequence":"PREFIX_GRAPH_STATE_FAMILY_HOLD_WITHOUT_TARGET_OPEN" if not any_pass else "FULL_TRAIN_TARGET_COURT_REQUIRED",
+            "science_changed":False}
+          json.dump(out,open("out/necessary-gate.json","w"),indent=2,sort_keys=True);open("out/necessary-gate.json","a").write("\n")
+          print("P7_TARGET_INDEPENDENT_GATE",out["consequence"],levels)
+          PY
+          sha256sum out/* | sort > out/profile-only-gate-sha256.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: g95-p7-profile-only-necessary-gate
+          path: out/
+          retention-days: 30
