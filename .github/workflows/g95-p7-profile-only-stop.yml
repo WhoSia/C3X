@@ -1,0 +1,26 @@
+name: g95-p7-profile-only-stop
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - ".github/workflows/g95-p7-profile-only-stop.yml"
+
+concurrency:
+  group: g95-p7-train-recovery
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  stop:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Record P7 early engineering closure handoff
+        run: |
+          cat <<'EOF'
+          C3X G9.5-P7 profile-only execution stopped after target-blind
+          state-reuse failure was already established on 480 fresh profiles.
+          No target labels were required for this closure decision.
+          EOF
