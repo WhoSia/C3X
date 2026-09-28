@@ -1,0 +1,263 @@
+name: g95-p9-tt-sensitivity-cartography
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - "c3x/ontology/g95-p9-constitution.json"
+      - "docs/G95_P9_THEORY.md"
+      - "harness/g95_p9_corpus.py"
+      - "harness/g95_p9_court.py"
+      - "crates/c3x-lawgen/src/bin/lawgen_v19.rs"
+      - "crates/c3x-field/src/bin/c3x-p9-map.rs"
+      - "tools/p9_map_verify.go"
+      - "tools/p9-verify.mjs"
+      - ".github/workflows/g95-p9.yml"
+
+concurrency:
+  group: g95-p9-tt-sensitivity-cartography
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  actions: read
+
+env:
+  P1_RUN: "36219611294"
+  P2_RUN: "36223570067"
+  P3_RUN: "36231281653"
+  P4_RUN: "36233574663"
+  P5_RUN: "36249500693"
+  P6_RUN: "36381217698"
+  P7_RUN: "36385972623"
+  P8_RUN: "36396781932"
+  P34_RUN: "36216185685"
+  BOOK_COMMIT: "65815ccdbc7727cd4f6aee252ba8f67fb740e92f"
+
+jobs:
+  lawgen:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Compile frozen P9 law
+        run: |
+          set -euxo pipefail
+          python3 -m py_compile harness/g95_p9_corpus.py harness/g95_p9_court.py
+          node --check tools/p9-verify.mjs
+          cargo run --release --manifest-path crates/c3x-lawgen/Cargo.toml --bin lawgen_v19 -- c3x/ontology/g95-p9-constitution.json out/lawgen
+          sha256sum out/lawgen/* | sort > out/lawgen-sha256.txt
+      - uses: actions/upload-artifact@v4
+        with: {name: g95-p9-lawgen-preseal, path: out/, retention-days: 30}
+
+  kernels:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build map, sampler and independent verifier
+        run: |
+          set -euxo pipefail
+          cargo test --manifest-path crates/c3x-field/Cargo.toml
+          cargo build --release --manifest-path crates/c3x-field/Cargo.toml --bin c3x-p9-map --bin c3x-support-p4
+          mkdir -p out
+          cp crates/c3x-field/target/release/c3x-p9-map out/
+          cp crates/c3x-field/target/release/c3x-support-p4 out/
+          go build -o out/p9-map-verify tools/p9_map_verify.go
+          chmod +x out/*
+          sha256sum out/* | sort > out/kernel-sha256.txt
+      - uses: actions/upload-artifact@v4
+        with: {name: g95-p9-kernels, path: out/, retention-days: 30}
+
+  corpus:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install chess parser
+        run: python3 -m pip install --disable-pip-version-check python-chess==1.999
+      - name: Fetch pinned PGN sources
+        run: |
+          set -euxo pipefail
+          git clone https://github.com/official-stockfish/books.git books
+          git -C books checkout --detach "$BOOK_COMMIT"
+          mkdir -p data
+          unzip -p "books/UHO_MEGA_2022_+110_+149.pgn.zip" > "data/UHO_MEGA_2022_+110_+149.pgn"
+          unzip -p "books/UHO_XXL_+0.90_+1.19.pgn.zip" > "data/UHO_XXL_+0.90_+1.19.pgn"
+          unzip -p "books/bjbraams_chessdb_198350_lines.pgn.zip" > "data/bjbraams_chessdb_198350_lines.pgn"
+      - uses: actions/download-artifact@v4
+        with:
+          name: g95-p1-precommit-sealed
+          path: hist/p1
+          repository: WhoSia/C3X
+          run-id: ${{ env.P1_RUN }}
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: g95-p2-precommit-sealed
+          path: hist/p2
+          repository: WhoSia/C3X
+          run-id: ${{ env.P2_RUN }}
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: g95-p3-corpus-sealed
+          path: hist/p3
+          repository: WhoSia/C3X
+          run-id: ${{ env.P3_RUN }}
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: g95-p4-corpus-sealed
+          path: hist/p4
+          repository: WhoSia/C3X
+          run-id: ${{ env.P4_RUN }}
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: g95-p5-corpus-sealed
+          path: hist/p5
+          repository: WhoSia/C3X
+          run-id: ${{ env.P5_RUN }}
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: g95-p6-corpus-sealed
+          path: hist/p6
+          repository: WhoSia/C3X
+          run-id: ${{ env.P6_RUN }}
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: g95-p7-corpus-sealed
+          path: hist/p7
+          repository: WhoSia/C3X
+          run-id: ${{ env.P7_RUN }}
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: g95-p8-corpus-sealed
+          path: hist/p8
+          repository: WhoSia/C3X
+          run-id: ${{ env.P8_RUN }}
+          github-token: ${{ github.token }}
+      - name: Seal fresh longitudinal phase corpus
+        run: |
+          set -euxo pipefail
+          EX=()
+          while IFS= read -r f; do EX+=(--exclude "$f"); done < <(find hist -name '*.json' -type f | sort)
+          python3 harness/g95_p9_corpus.py             --source "P9_SRC_MEGA|data/UHO_MEGA_2022_+110_+149.pgn|UHO_MEGA_2022_+110_+149.pgn"             --source "P9_SRC_XXL090|data/UHO_XXL_+0.90_+1.19.pgn|UHO_XXL_+0.90_+1.19.pgn"             --source "P9_SRC_CHESSDB|data/bjbraams_chessdb_198350_lines.pgn|bjbraams_chessdb_198350_lines.pgn"             "${EX[@]}" --source-repo official-stockfish/books --source-commit "$BOOK_COMMIT" --out g95-p9-corpus.json
+          sha256sum g95-p9-corpus.json > g95-p9-corpus.sha256
+      - uses: actions/upload-artifact@v4
+        with: {name: g95-p9-corpus-sealed, path: g95-p9-corpus*, retention-days: 30}
+
+  precommit:
+    needs: [lawgen,kernels,corpus]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with: {name: g95-p9-lawgen-preseal, path: lawgen}
+      - uses: actions/download-artifact@v4
+        with: {name: g95-p9-corpus-sealed, path: corpus}
+      - uses: actions/download-artifact@v4
+        with:
+          name: g95-p4-precommit-sealed
+          path: p4
+          repository: WhoSia/C3X
+          run-id: ${{ env.P4_RUN }}
+          github-token: ${{ github.token }}
+      - name: Seal phase map before outcomes
+        run: |
+          set -euxo pipefail
+          CONST="$(find lawgen -name constitution.json -print -quit)"
+          P4PRE="$(find p4 -name g95-p4-precommit.json -print -quit)"
+          python3 harness/g95_p9_court.py precommit             --constitution "$CONST"             --corpus corpus/g95-p9-corpus.json             --p4-precommit "$P4PRE"             --p8-closure c3x/receipts/g95-p8-closure.json             --out g95-p9-precommit.json
+          sha256sum g95-p9-precommit.json > g95-p9-precommit.sha256
+      - uses: actions/upload-artifact@v4
+        with: {name: g95-p9-precommit-sealed, path: g95-p9-precommit*, retention-days: 30}
+
+  cases:
+    needs: precommit
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+    strategy:
+      fail-fast: false
+      matrix:
+        pos: [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23]
+        engine: [stockfish_19,berserk,ethereal]
+    name: P9 phase replay — p${{ matrix.pos }}-${{ matrix.engine }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with: {name: g95-p9-precommit-sealed, path: pre}
+      - uses: actions/download-artifact@v4
+        with: {name: g95-p9-kernels, path: kernels}
+      - uses: actions/download-artifact@v4
+        with:
+          name: g95-p4-lawgen-preseal
+          path: p4-lawgen
+          repository: WhoSia/C3X
+          run-id: ${{ env.P4_RUN }}
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: p34-build-${{ matrix.engine }}
+          path: build
+          repository: WhoSia/C3X
+          run-id: ${{ env.P34_RUN }}
+          github-token: ${{ github.token }}
+      - name: Execute exact-event phase world
+        run: |
+          set -euxo pipefail
+          python3 -m pip install --disable-pip-version-check python-chess==1.999
+          chmod +x kernels/c3x-support-p4 "build/c3x-p34-${{ matrix.engine }}"
+          PLAN="$(find p4-lawgen -name sampling-strata.json -print -quit)"
+          mkdir -p out
+          python3 harness/g95_p9_court.py case             --precommit pre/g95-p9-precommit.json             --case-id "p9:${{ matrix.pos }}:${{ matrix.engine }}"             --binary "build/c3x-p34-${{ matrix.engine }}"             --sampler kernels/c3x-support-p4             --sampling-plan "$PLAN"             --event-out out/events.json             --case-out out/case.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: "g95-p9-case-${{ matrix.pos }}-${{ matrix.engine }}"
+          path: out/
+          retention-days: 30
+
+  final:
+    needs: cases
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with: {name: g95-p9-lawgen-preseal, path: lawgen}
+      - uses: actions/download-artifact@v4
+        with: {name: g95-p9-kernels, path: kernels}
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: g95-p9-case-*
+          path: cases
+          merge-multiple: false
+      - name: Compile phase map and regression bank
+        run: |
+          set -euxo pipefail
+          chmod +x kernels/c3x-p9-map kernels/p9-map-verify
+          mkdir -p out
+          python3 harness/g95_p9_court.py merge --root cases --out out/merged-events.json
+          kernels/c3x-p9-map compile --input out/merged-events.json --law lawgen/lawgen/phase-law.json --out out/p9-map.json
+          kernels/p9-map-verify out/merged-events.json lawgen/lawgen/phase-law.json out/p9-map.json out/go-parity.json
+          node tools/p9-verify.mjs out/p9-map.json out/go-parity.json | tee out/js-verification.txt
+          python3 - <<'PY'
+          import json
+          m=json.load(open("out/p9-map.json"))
+          lines=["# C3X G9.5-P9 — TT Sensitivity Cartography","",f"Status: **{m['status']}**","",
+                 f"Records: **{m['support']['records']}**",f"ROOT_CHANGE: **{m['support']['root_change']}**","",
+                 "## Phase map"]
+          for p in m["phase_map"]:
+              lines += [f"### {p['phase']}",
+                        f"- Event sensitivity: **{p['root_change_events']}/{p['records']}** ({p['event_sensitivity_rate']:.4f})",
+                        f"- Sensitive worlds: **{p['sensitive_worlds']}/{p['worlds']}**",
+                        f"- Sensitive positions: **{len(p['sensitive_positions'])}**",
+                        f"- Cross-engine replicated positions: **{len(p['cross_engine_replicated_positions'])}**",
+                        f"- Operational developer hotspot: **{p['operational_hotspot']}**",""]
+          lines += ["## Regression suite",f"- Cases: **{len(m['regression_suite'])}**",
+                    "- No best-phase ranking is produced.","- No Elo, human-strategy, or population-prevalence claim is authorized."]
+          open("out/p9-phase-atlas.md","w").write("\n".join(lines)+"\n")
+          PY
+          sha256sum out/* | sort > out/final-sha256.txt
+      - uses: actions/upload-artifact@v4
+        with: {name: g95-p9-final-cartography, path: out/, retention-days: 30}
