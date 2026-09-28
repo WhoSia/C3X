@@ -1,21 +1,13 @@
-name: g95-p8-prototype-retrieval
+name: g95-p8-bootstrap
 
 on:
   workflow_dispatch:
   push:
     paths:
-      - "docs/G95_P8_THEORY.md"
-      - "c3x/ontology/g95-p8-constitution.json"
-      - "crates/c3x-lawgen/src/bin/lawgen_v18.rs"
-      - "crates/c3x-field/src/bin/c3x-prototype-p8.rs"
-      - "tools/c3x_prototype_v1.py"
-      - "tools/p8_prototype_verify.go"
-      - "harness/g95_p8_corpus.py"
-      - "harness/g95_p8_court.py"
       - ".github/workflows/g95-p8.yml"
 
 concurrency:
-  group: g95-p8-prototype-retrieval
+  group: g95-p8-bootstrap
   cancel-in-progress: true
 
 permissions:
@@ -30,7 +22,6 @@ env:
   P5_RUN: "36249500693"
   P6_RUN: "36381217698"
   P7_RUN: "36385972623"
-  P34_RUN: "36216185685"
   BOOK_COMMIT: "65815ccdbc7727cd4f6aee252ba8f67fb740e92f"
 
 jobs:
@@ -38,20 +29,23 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Compile P8 constitution
+      - name: Compile constitution
         run: |
           set -euxo pipefail
           python3 -m py_compile tools/c3x_prototype_v1.py harness/g95_p8_corpus.py harness/g95_p8_court.py
           cargo run --release --manifest-path crates/c3x-lawgen/Cargo.toml --bin lawgen_v18 -- c3x/ontology/g95-p8-constitution.json out/lawgen
           sha256sum out/lawgen/* | sort > out/lawgen-sha256.txt
       - uses: actions/upload-artifact@v4
-        with: {name: g95-p8-lawgen-preseal, path: out/, retention-days: 30}
+        with:
+          name: g95-p8-lawgen-preseal
+          path: out/
+          retention-days: 30
 
   kernels:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Build prototype and sampler kernels
+      - name: Build primary and independent kernels
         run: |
           set -euxo pipefail
           cargo test --manifest-path crates/c3x-field/Cargo.toml
@@ -64,26 +58,72 @@ jobs:
           chmod +x out/*
           sha256sum out/* | sort > out/kernel-sha256.txt
       - uses: actions/upload-artifact@v4
-        with: {name: g95-p8-kernels, path: out/, retention-days: 30}
+        with:
+          name: g95-p8-kernels
+          path: out/
+          retention-days: 30
 
   corpus:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
       - uses: actions/download-artifact@v4
-        with: {name: g95-p1-precommit-sealed, path: hist/p1, repository: WhoSia/C3X, run-id: ${{ env.P1_RUN }}, github-token: ${{ github.token }}}
+        with:
+          name: g95-p1-precommit-sealed
+          path: hist/p1
+          repository: WhoSia/C3X
+          run-id: ${{ env.P1_RUN }}
+          github-token: ${{ github.token }}
+
       - uses: actions/download-artifact@v4
-        with: {name: g95-p2-precommit-sealed, path: hist/p2, repository: WhoSia/C3X, run-id: ${{ env.P2_RUN }}, github-token: ${{ github.token }}}
+        with:
+          name: g95-p2-precommit-sealed
+          path: hist/p2
+          repository: WhoSia/C3X
+          run-id: ${{ env.P2_RUN }}
+          github-token: ${{ github.token }}
+
       - uses: actions/download-artifact@v4
-        with: {name: g95-p3-corpus-sealed, path: hist/p3, repository: WhoSia/C3X, run-id: ${{ env.P3_RUN }}, github-token: ${{ github.token }}}
+        with:
+          name: g95-p3-corpus-sealed
+          path: hist/p3
+          repository: WhoSia/C3X
+          run-id: ${{ env.P3_RUN }}
+          github-token: ${{ github.token }}
+
       - uses: actions/download-artifact@v4
-        with: {name: g95-p4-corpus-sealed, path: hist/p4, repository: WhoSia/C3X, run-id: ${{ env.P4_RUN }}, github-token: ${{ github.token }}}
+        with:
+          name: g95-p4-corpus-sealed
+          path: hist/p4
+          repository: WhoSia/C3X
+          run-id: ${{ env.P4_RUN }}
+          github-token: ${{ github.token }}
+
       - uses: actions/download-artifact@v4
-        with: {name: g95-p5-corpus-sealed, path: hist/p5, repository: WhoSia/C3X, run-id: ${{ env.P5_RUN }}, github-token: ${{ github.token }}}
+        with:
+          name: g95-p5-corpus-sealed
+          path: hist/p5
+          repository: WhoSia/C3X
+          run-id: ${{ env.P5_RUN }}
+          github-token: ${{ github.token }}
+
       - uses: actions/download-artifact@v4
-        with: {name: g95-p6-corpus-sealed, path: hist/p6, repository: WhoSia/C3X, run-id: ${{ env.P6_RUN }}, github-token: ${{ github.token }}}
+        with:
+          name: g95-p6-corpus-sealed
+          path: hist/p6
+          repository: WhoSia/C3X
+          run-id: ${{ env.P6_RUN }}
+          github-token: ${{ github.token }}
+
       - uses: actions/download-artifact@v4
-        with: {name: g95-p7-corpus-sealed, path: hist/p7, repository: WhoSia/C3X, run-id: ${{ env.P7_RUN }}, github-token: ${{ github.token }}}
+        with:
+          name: g95-p7-corpus-sealed
+          path: hist/p7
+          repository: WhoSia/C3X
+          run-id: ${{ env.P7_RUN }}
+          github-token: ${{ github.token }}
+
       - name: Freeze fresh P8 chess worlds
         run: |
           set -euxo pipefail
@@ -91,410 +131,81 @@ jobs:
           git clone https://github.com/official-stockfish/books.git books
           git -C books checkout --detach "$BOOK_COMMIT"
           mkdir -p data
+
           extract_book () {
             local f="$1"
-            if test -f "books/$f"; then cp "books/$f" "data/$f";
-            elif test -f "books/$f.zip"; then unzip -p "books/$f.zip" > "data/$f";
-            else echo "missing book $f" >&2; exit 1; fi
+            if test -f "books/$f"; then
+              cp "books/$f" "data/$f"
+            elif test -f "books/$f.zip"; then
+              unzip -p "books/$f.zip" > "data/$f"
+            else
+              echo "missing book $f" >&2
+              exit 1
+            fi
           }
-          for f in             2moves_v1.epd 4mvs_+90_+99.epd UHO_XXL_+0.80_+1.09.pgn             6mvs_+90_+99.epd popularpos_lichess.epd UHO_MEGA_2022_+110_+149.pgn             bjbraams_chessdb_198350_lines.pgn UHO_XXL_2022_+100_+129.pgn UHO_XXL_2022_+120_+149.pgn; do
+
+          for f in             2moves_v1.epd             4mvs_+90_+99.epd             UHO_XXL_+0.80_+1.09.pgn             6mvs_+90_+99.epd             popularpos_lichess.epd             UHO_MEGA_2022_+110_+149.pgn             bjbraams_chessdb_198350_lines.pgn             UHO_XXL_2022_+100_+129.pgn             UHO_XXL_2022_+120_+149.pgn
+          do
             extract_book "$f"
           done
+
           EX=()
-          for d in hist/p1 hist/p2 hist/p3 hist/p4 hist/p5 hist/p6 hist/p7; do
-            p="$(find "$d" -name '*.json' -print -quit)"; test -n "$p"; EX+=(--exclude "$p")
+          for d in hist/p1 hist/p2 hist/p3 hist/p4 hist/p5 hist/p6 hist/p7
+          do
+            p="$(find "$d" -name '*.json' -print -quit)"
+            test -n "$p"
+            EX+=(--exclude "$p")
           done
-          python3 harness/g95_p8_corpus.py             --train "P8_TRAIN_2MVS|EPD|data/2moves_v1.epd|2moves_v1.epd|3"             --train "P8_TRAIN_4MVS|EPD|data/4mvs_+90_+99.epd|4mvs_+90_+99.epd|3"             --train "P8_TRAIN_UHO_PGN|PGN|data/UHO_XXL_+0.80_+1.09.pgn|UHO_XXL_+0.80_+1.09.pgn|8|18|3"             --train "P8_TRAIN_PIONEER|GENERATED_LEGAL|c3x-p8-train-pioneer|14|32|3"             --select "P8_SELECT_6MVS|EPD|data/6mvs_+90_+99.epd|6mvs_+90_+99.epd|3"             --select "P8_SELECT_POPULAR|EPD|data/popularpos_lichess.epd|popularpos_lichess.epd|3"             --select "P8_SELECT_MEGA|PGN|data/UHO_MEGA_2022_+110_+149.pgn|UHO_MEGA_2022_+110_+149.pgn|10|20|3"             --select "P8_SELECT_PIONEER|GENERATED_LEGAL|c3x-p8-select-pioneer|16|34|3"             --transport "P8_TRANSPORT_CHESSDB|PGN|data/bjbraams_chessdb_198350_lines.pgn|bjbraams_chessdb_198350_lines.pgn|10|22|3"             --transport "P8_TRANSPORT_UHO100|PGN|data/UHO_XXL_2022_+100_+129.pgn|UHO_XXL_2022_+100_+129.pgn|10|20|3"             --transport "P8_TRANSPORT_UHO120|PGN|data/UHO_XXL_2022_+120_+149.pgn|UHO_XXL_2022_+120_+149.pgn|10|20|3"             --transport "P8_TRANSPORT_PIONEER|GENERATED_LEGAL|c3x-p8-transport-pioneer|18|36|3"             "${EX[@]}" --source-repo official-stockfish/books --source-commit "$BOOK_COMMIT" --out g95-p8-corpus.json
+
+          python3 harness/g95_p8_corpus.py             --train "P8_TRAIN_2MVS|EPD|data/2moves_v1.epd|2moves_v1.epd|3"             --train "P8_TRAIN_4MVS|EPD|data/4mvs_+90_+99.epd|4mvs_+90_+99.epd|3"             --train "P8_TRAIN_UHO_PGN|PGN|data/UHO_XXL_+0.80_+1.09.pgn|UHO_XXL_+0.80_+1.09.pgn|8|18|3"             --train "P8_TRAIN_PIONEER|GENERATED_LEGAL|c3x-p8-train-pioneer|14|32|3"             --select "P8_SELECT_6MVS|EPD|data/6mvs_+90_+99.epd|6mvs_+90_+99.epd|3"             --select "P8_SELECT_POPULAR|EPD|data/popularpos_lichess.epd|popularpos_lichess.epd|3"             --select "P8_SELECT_MEGA|PGN|data/UHO_MEGA_2022_+110_+149.pgn|UHO_MEGA_2022_+110_+149.pgn|10|20|3"             --select "P8_SELECT_PIONEER|GENERATED_LEGAL|c3x-p8-select-pioneer|16|34|3"             --transport "P8_TRANSPORT_CHESSDB|PGN|data/bjbraams_chessdb_198350_lines.pgn|bjbraams_chessdb_198350_lines.pgn|10|22|3"             --transport "P8_TRANSPORT_UHO100|PGN|data/UHO_XXL_2022_+100_+129.pgn|UHO_XXL_2022_+100_+129.pgn|10|20|3"             --transport "P8_TRANSPORT_UHO120|PGN|data/UHO_XXL_2022_+120_+149.pgn|UHO_XXL_2022_+120_+149.pgn|10|20|3"             --transport "P8_TRANSPORT_PIONEER|GENERATED_LEGAL|c3x-p8-transport-pioneer|18|36|3"             "${EX[@]}"             --source-repo official-stockfish/books             --source-commit "$BOOK_COMMIT"             --out g95-p8-corpus.json
+
           sha256sum g95-p8-corpus.json > g95-p8-corpus.sha256
+
       - uses: actions/upload-artifact@v4
-        with: {name: g95-p8-corpus-sealed, path: g95-p8-corpus*, retention-days: 30}
+        with:
+          name: g95-p8-corpus-sealed
+          path: g95-p8-corpus*
+          retention-days: 30
 
   precommit:
-    needs: [lawgen,kernels,corpus]
+    needs:
+      - lawgen
+      - kernels
+      - corpus
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
       - uses: actions/download-artifact@v4
-        with: {name: g95-p8-lawgen-preseal, path: lawgen}
+        with:
+          name: g95-p8-lawgen-preseal
+          path: lawgen
+
       - uses: actions/download-artifact@v4
-        with: {name: g95-p8-corpus-sealed, path: corpus}
+        with:
+          name: g95-p8-corpus-sealed
+          path: corpus
+
       - uses: actions/download-artifact@v4
-        with: {name: g95-p4-precommit-sealed, path: p4, repository: WhoSia/C3X, run-id: ${{ env.P4_RUN }}, github-token: ${{ github.token }}}
+        with:
+          name: g95-p4-precommit-sealed
+          path: p4
+          repository: WhoSia/C3X
+          run-id: ${{ env.P4_RUN }}
+          github-token: ${{ github.token }}
+
       - name: Seal P8 before engine execution
         run: |
           set -euxo pipefail
           CONST="$(find lawgen -name constitution.json -print -quit)"
           P4="$(find p4 -name g95-p4-precommit.json -print -quit)"
-          python3 harness/g95_p8_court.py precommit --constitution "$CONST" --corpus corpus/g95-p8-corpus.json             --p4-precommit "$P4" --p7-closure c3x/receipts/g95-p7-closure.json --out g95-p8-precommit.json
+          test -n "$CONST"
+          test -n "$P4"
+          python3 harness/g95_p8_court.py precommit             --constitution "$CONST"             --corpus corpus/g95-p8-corpus.json             --p4-precommit "$P4"             --p7-closure c3x/receipts/g95-p7-closure.json             --out g95-p8-precommit.json
           sha256sum g95-p8-precommit.json > g95-p8-precommit.sha256
-      - uses: actions/upload-artifact@v4
-        with: {name: g95-p8-precommit-sealed, path: g95-p8-precommit*, retention-days: 30}
 
-  train_profiles:
-    needs: precommit
-    runs-on: ubuntu-latest
-    timeout-minutes: 180
-    strategy:
-      fail-fast: false
-      matrix:
-        pos: [0,1,2,3,4,5,6,7,8,9,10,11]
-        engine: [stockfish_19,berserk,ethereal]
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/download-artifact@v4
-        with: {name: g95-p8-precommit-sealed, path: pre}
-      - uses: actions/download-artifact@v4
-        with: {name: g95-p8-kernels, path: kernels}
-      - uses: actions/download-artifact@v4
-        with: {name: g95-p4-lawgen-preseal, path: p4-lawgen, repository: WhoSia/C3X, run-id: ${{ env.P4_RUN }}, github-token: ${{ github.token }}}
-      - uses: actions/download-artifact@v4
-        with: {name: "p34-build-${{ matrix.engine }}", path: build, repository: WhoSia/C3X, run-id: ${{ env.P34_RUN }}, github-token: ${{ github.token }}}
-      - name: Materialize target-blind train profile
-        run: |
-          set -euxo pipefail
-          python3 -m pip install --disable-pip-version-check python-chess==1.999
-          chmod +x kernels/c3x-support-p4 "build/c3x-p34-${{ matrix.engine }}"
-          PLAN="$(find p4-lawgen -name sampling-strata.json -print -quit)"
-          mkdir -p out
-          python3 harness/g95_p8_court.py profile-case --precommit pre/g95-p8-precommit.json             --case-id "p8:train:${{ matrix.pos }}:${{ matrix.engine }}" --binary "build/c3x-p34-${{ matrix.engine }}"             --sampler kernels/c3x-support-p4 --sampling-plan "$PLAN" --profile-out out/profile.json --case-out out/case.json
       - uses: actions/upload-artifact@v4
-        with: {name: "g95-p8-train-profile-${{ matrix.pos }}-${{ matrix.engine }}", path: out/profile.json, retention-days: 30}
-      - uses: actions/upload-artifact@v4
-        with: {name: "g95-p8-train-profile-case-${{ matrix.pos }}-${{ matrix.engine }}", path: out/case.json, retention-days: 30}
-
-  prototype_index:
-    needs: train_profiles
-    runs-on: ubuntu-latest
-    outputs:
-      open_train_targets: ${{ steps.gate.outputs.open_train_targets }}
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/download-artifact@v4
-        with: {name: g95-p8-precommit-sealed, path: pre}
-      - uses: actions/download-artifact@v4
-        with: {name: g95-p8-lawgen-preseal, path: lawgen}
-      - uses: actions/download-artifact@v4
-        with: {name: g95-p8-kernels, path: kernels}
-      - uses: actions/download-artifact@v4
-        with: {pattern: g95-p8-train-profile-*, path: profiles, merge-multiple: false}
-      - name: Freeze target-blind prototype geometry
-        run: |
-          set -euxo pipefail
-          chmod +x kernels/c3x-prototype-p8 kernels/p8-prototype-verify
-          mkdir -p out
-          python3 harness/g95_p8_court.py merge-profiles --root profiles --role PROTOTYPE_TRAIN --out out/train-profiles.json
-          kernels/c3x-prototype-p8 cover --profiles out/train-profiles.json --law lawgen/lawgen/prototype-law.json --out out/prototype-index.json
-          kernels/p8-prototype-verify out/train-profiles.json out/prototype-index.json out/go-parity.json
-          sha256sum out/* | sort > out/prototype-index-sha256.txt
-      - id: gate
-        run: |
-          OPEN="$(python3 -c 'import json; x=json.load(open("out/prototype-index.json")); print("true" if x["status"]=="TARGET_BLIND_PROTOTYPE_COVER_SELECTED" else "false")')"
-          echo "open_train_targets=$OPEN" >> "$GITHUB_OUTPUT"
-          echo "P8_OPEN_TRAIN_TARGETS=$OPEN"
-      - uses: actions/upload-artifact@v4
-        with: {name: g95-p8-prototype-index-sealed, path: out/, retention-days: 30}
-
-  train_targets:
-    needs: prototype_index
-    if: ${{ needs.prototype_index.outputs.open_train_targets == 'true' }}
-    runs-on: ubuntu-latest
-    timeout-minutes: 360
-    strategy:
-      fail-fast: false
-      matrix:
-        pos: [0,1,2,3,4,5,6,7,8,9,10,11]
-        engine: [stockfish_19,berserk,ethereal]
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/download-artifact@v4
-        with: {name: g95-p8-precommit-sealed, path: pre}
-      - uses: actions/download-artifact@v4
-        with: {name: g95-p8-kernels, path: kernels}
-      - uses: actions/download-artifact@v4
-        with: {name: "g95-p8-train-profile-${{ matrix.pos }}-${{ matrix.engine }}", path: profile}
-      - uses: actions/download-artifact@v4
-        with: {name: g95-p4-lawgen-preseal, path: p4-lawgen, repository: WhoSia/C3X, run-id: ${{ env.P4_RUN }}, github-token: ${{ github.token }}}
-      - uses: actions/download-artifact@v4
-        with: {name: "p34-build-${{ matrix.engine }}", path: build, repository: WhoSia/C3X, run-id: ${{ env.P34_RUN }}, github-token: ${{ github.token }}}
-      - name: Open frozen train target replay
-        run: |
-          set -euxo pipefail
-          chmod +x kernels/c3x-support-p4 "build/c3x-p34-${{ matrix.engine }}"
-          PLAN="$(find p4-lawgen -name sampling-strata.json -print -quit)"
-          mkdir -p out
-          python3 harness/g95_p8_court.py target-case --precommit pre/g95-p8-precommit.json             --case-id "p8:train:${{ matrix.pos }}:${{ matrix.engine }}" --binary "build/c3x-p34-${{ matrix.engine }}"             --sampler kernels/c3x-support-p4 --sampling-plan "$PLAN" --profile profile/profile.json             --target-out out/target.json --case-out out/case.json
-      - uses: actions/upload-artifact@v4
-        with: {name: "g95-p8-train-target-${{ matrix.pos }}-${{ matrix.engine }}", path: out/target.json, retention-days: 30}
-
-  train_annotate:
-    needs: [prototype_index,train_targets]
-    if: ${{ needs.prototype_index.outputs.open_train_targets == 'true' && needs.train_targets.result == 'success' }}
-    runs-on: ubuntu-latest
-    outputs:
-      train_ready: ${{ steps.gate.outputs.train_ready }}
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/download-artifact@v4
-        with: {name: g95-p8-precommit-sealed, path: pre}
-      - uses: actions/download-artifact@v4
-        with: {name: g95-p8-prototype-index-sealed, path: index}
-      - uses: actions/download-artifact@v4
-        with: {pattern: g95-p8-train-target-*, path: targets, merge-multiple: false}
-      - name: Attach train causal evidence without geometry refit
-        run: |
-          set -euxo pipefail
-          mkdir -p out
-          python3 harness/g95_p8_court.py merge-targets --root targets --role PROTOTYPE_TRAIN --out out/train-targets.json
-          python3 harness/g95_p8_court.py annotate --precommit pre/g95-p8-precommit.json --index index/prototype-index.json             --profiles index/train-profiles.json --targets out/train-targets.json --out out/annotated-index.json
-          sha256sum out/* | sort > out/train-annotate-sha256.txt
-      - id: gate
-        run: |
-          READY="$(python3 -c 'import json; x=json.load(open("out/annotated-index.json")); print("true" if x["status"]=="TRAIN_PROTOTYPE_ANNOTATED" else "false")')"
-          echo "train_ready=$READY" >> "$GITHUB_OUTPUT"
-      - uses: actions/upload-artifact@v4
-        with: {name: g95-p8-annotated-index, path: out/, retention-days: 30}
-
-  selection_profiles:
-    needs: train_annotate
-    if: ${{ needs.train_annotate.outputs.train_ready == 'true' }}
-    runs-on: ubuntu-latest
-    timeout-minutes: 180
-    strategy:
-      fail-fast: false
-      matrix:
-        pos: [0,1,2,3,4,5,6,7,8,9,10,11]
-        engine: [stockfish_19,berserk,ethereal]
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/download-artifact@v4
-        with: {name: g95-p8-precommit-sealed, path: pre}
-      - uses: actions/download-artifact@v4
-        with: {name: g95-p8-kernels, path: kernels}
-      - uses: actions/download-artifact@v4
-        with: {name: g95-p4-lawgen-preseal, path: p4-lawgen, repository: WhoSia/C3X, run-id: ${{ env.P4_RUN }}, github-token: ${{ github.token }}}
-      - uses: actions/download-artifact@v4
-        with: {name: "p34-build-${{ matrix.engine }}", path: build, repository: WhoSia/C3X, run-id: ${{ env.P34_RUN }}, github-token: ${{ github.token }}}
-      - name: Materialize fresh selection profile
-        run: |
-          set -euxo pipefail
-          python3 -m pip install --disable-pip-version-check python-chess==1.999
-          chmod +x kernels/c3x-support-p4 "build/c3x-p34-${{ matrix.engine }}"
-          PLAN="$(find p4-lawgen -name sampling-strata.json -print -quit)"
-          mkdir -p out
-          python3 harness/g95_p8_court.py profile-case --precommit pre/g95-p8-precommit.json             --case-id "p8:select:${{ matrix.pos }}:${{ matrix.engine }}" --binary "build/c3x-p34-${{ matrix.engine }}"             --sampler kernels/c3x-support-p4 --sampling-plan "$PLAN" --profile-out out/profile.json --case-out out/case.json
-      - uses: actions/upload-artifact@v4
-        with: {name: "g95-p8-selection-profile-${{ matrix.pos }}-${{ matrix.engine }}", path: out/profile.json, retention-days: 30}
-
-  selection_scope:
-    needs: [train_annotate,selection_profiles]
-    runs-on: ubuntu-latest
-    outputs:
-      open_selection_targets: ${{ steps.gate.outputs.open_selection_targets }}
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/download-artifact@v4
-        with: {name: g95-p8-precommit-sealed, path: pre}
-      - uses: actions/download-artifact@v4
-        with: {name: g95-p8-prototype-index-sealed, path: index}
-      - uses: actions/download-artifact@v4
-        with: {name: g95-p8-annotated-index, path: ann}
-      - uses: actions/download-artifact@v4
-        with: {name: g95-p8-kernels, path: kernels}
-      - uses: actions/download-artifact@v4
-        with: {pattern: g95-p8-selection-profile-*, path: profiles, merge-multiple: false}
-      - name: Query frozen index before selection targets
-        run: |
-          set -euxo pipefail
-          chmod +x kernels/c3x-prototype-p8
-          mkdir -p out
-          python3 harness/g95_p8_court.py merge-profiles --root profiles --role RETRIEVAL_SELECTION --out out/selection-profiles.json
-          kernels/c3x-prototype-p8 query --index index/prototype-index.json --profiles out/selection-profiles.json --out out/raw-query.json
-          python3 harness/g95_p8_court.py enrich --annotated-index ann/annotated-index.json --query out/raw-query.json             --profiles out/selection-profiles.json --out out/enriched-query.json
-          python3 harness/g95_p8_court.py scope --precommit pre/g95-p8-precommit.json --query out/enriched-query.json             --role RETRIEVAL_SELECTION --out out/scope.json
-      - id: gate
-        run: |
-          OPEN="$(python3 -c 'import json; x=json.load(open("out/scope.json")); print("true" if x["target_open_authorized"] else "false")')"
-          echo "open_selection_targets=$OPEN" >> "$GITHUB_OUTPUT"
-      - uses: actions/upload-artifact@v4
-        with: {name: g95-p8-selection-scope, path: out/, retention-days: 30}
-
-  selection_targets:
-    needs: selection_scope
-    if: ${{ needs.selection_scope.outputs.open_selection_targets == 'true' }}
-    runs-on: ubuntu-latest
-    timeout-minutes: 360
-    strategy:
-      fail-fast: false
-      matrix:
-        pos: [0,1,2,3,4,5,6,7,8,9,10,11]
-        engine: [stockfish_19,berserk,ethereal]
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/download-artifact@v4
-        with: {name: g95-p8-precommit-sealed, path: pre}
-      - uses: actions/download-artifact@v4
-        with: {name: g95-p8-kernels, path: kernels}
-      - uses: actions/download-artifact@v4
-        with: {name: "g95-p8-selection-profile-${{ matrix.pos }}-${{ matrix.engine }}", path: profile}
-      - uses: actions/download-artifact@v4
-        with: {name: g95-p4-lawgen-preseal, path: p4-lawgen, repository: WhoSia/C3X, run-id: ${{ env.P4_RUN }}, github-token: ${{ github.token }}}
-      - uses: actions/download-artifact@v4
-        with: {name: "p34-build-${{ matrix.engine }}", path: build, repository: WhoSia/C3X, run-id: ${{ env.P34_RUN }}, github-token: ${{ github.token }}}
-      - name: Open fresh selection targets
-        run: |
-          set -euxo pipefail
-          chmod +x kernels/c3x-support-p4 "build/c3x-p34-${{ matrix.engine }}"
-          PLAN="$(find p4-lawgen -name sampling-strata.json -print -quit)"
-          mkdir -p out
-          python3 harness/g95_p8_court.py target-case --precommit pre/g95-p8-precommit.json             --case-id "p8:select:${{ matrix.pos }}:${{ matrix.engine }}" --binary "build/c3x-p34-${{ matrix.engine }}"             --sampler kernels/c3x-support-p4 --sampling-plan "$PLAN" --profile profile/profile.json             --target-out out/target.json --case-out out/case.json
-      - uses: actions/upload-artifact@v4
-        with: {name: "g95-p8-selection-target-${{ matrix.pos }}-${{ matrix.engine }}", path: out/target.json, retention-days: 30}
-
-  selection_verify:
-    needs: [train_annotate,selection_scope,selection_targets]
-    if: ${{ needs.selection_scope.outputs.open_selection_targets == 'true' && needs.selection_targets.result == 'success' }}
-    runs-on: ubuntu-latest
-    outputs:
-      selection_pass: ${{ steps.gate.outputs.selection_pass }}
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/download-artifact@v4
-        with: {name: g95-p8-precommit-sealed, path: pre}
-      - uses: actions/download-artifact@v4
-        with: {name: g95-p8-annotated-index, path: ann}
-      - uses: actions/download-artifact@v4
-        with: {name: g95-p8-selection-scope, path: sel}
-      - uses: actions/download-artifact@v4
-        with: {pattern: g95-p8-selection-target-*, path: targets, merge-multiple: false}
-      - name: Fresh retrieval adjudication
-        run: |
-          set -euxo pipefail
-          mkdir -p out
-          python3 harness/g95_p8_court.py merge-targets --root targets --role RETRIEVAL_SELECTION --out out/selection-targets.json
-          python3 harness/g95_p8_court.py verify --precommit pre/g95-p8-precommit.json --annotated-index ann/annotated-index.json             --query sel/enriched-query.json --targets out/selection-targets.json --role RETRIEVAL_SELECTION --out out/verification.json
-      - id: gate
-        run: |
-          PASS="$(python3 -c 'import json; x=json.load(open("out/verification.json")); print("true" if x["pass"] else "false")')"
-          echo "selection_pass=$PASS" >> "$GITHUB_OUTPUT"
-      - uses: actions/upload-artifact@v4
-        with: {name: g95-p8-selection-verification, path: out/, retention-days: 30}
-
-  transport_profiles:
-    needs: selection_verify
-    if: ${{ needs.selection_verify.outputs.selection_pass == 'true' }}
-    runs-on: ubuntu-latest
-    timeout-minutes: 180
-    strategy:
-      fail-fast: false
-      matrix:
-        pos: [0,1,2,3,4,5,6,7,8,9,10,11]
-        engine: [stockfish_19,berserk,ethereal]
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/download-artifact@v4
-        with: {name: g95-p8-precommit-sealed, path: pre}
-      - uses: actions/download-artifact@v4
-        with: {name: g95-p8-kernels, path: kernels}
-      - uses: actions/download-artifact@v4
-        with: {name: g95-p4-lawgen-preseal, path: p4-lawgen, repository: WhoSia/C3X, run-id: ${{ env.P4_RUN }}, github-token: ${{ github.token }}}
-      - uses: actions/download-artifact@v4
-        with: {name: "p34-build-${{ matrix.engine }}", path: build, repository: WhoSia/C3X, run-id: ${{ env.P34_RUN }}, github-token: ${{ github.token }}}
-      - name: Materialize untouched transport profile
-        run: |
-          set -euxo pipefail
-          python3 -m pip install --disable-pip-version-check python-chess==1.999
-          chmod +x kernels/c3x-support-p4 "build/c3x-p34-${{ matrix.engine }}"
-          PLAN="$(find p4-lawgen -name sampling-strata.json -print -quit)"
-          mkdir -p out
-          python3 harness/g95_p8_court.py profile-case --precommit pre/g95-p8-precommit.json             --case-id "p8:transport:${{ matrix.pos }}:${{ matrix.engine }}" --binary "build/c3x-p34-${{ matrix.engine }}"             --sampler kernels/c3x-support-p4 --sampling-plan "$PLAN" --profile-out out/profile.json --case-out out/case.json
-      - uses: actions/upload-artifact@v4
-        with: {name: "g95-p8-transport-profile-${{ matrix.pos }}-${{ matrix.engine }}", path: out/profile.json, retention-days: 30}
-
-  transport_scope:
-    needs: [train_annotate,transport_profiles]
-    runs-on: ubuntu-latest
-    outputs:
-      open_transport_targets: ${{ steps.gate.outputs.open_transport_targets }}
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/download-artifact@v4
-        with: {name: g95-p8-precommit-sealed, path: pre}
-      - uses: actions/download-artifact@v4
-        with: {name: g95-p8-prototype-index-sealed, path: index}
-      - uses: actions/download-artifact@v4
-        with: {name: g95-p8-annotated-index, path: ann}
-      - uses: actions/download-artifact@v4
-        with: {name: g95-p8-kernels, path: kernels}
-      - uses: actions/download-artifact@v4
-        with: {pattern: g95-p8-transport-profile-*, path: profiles, merge-multiple: false}
-      - name: Scope untouched transport before targets
-        run: |
-          set -euxo pipefail
-          chmod +x kernels/c3x-prototype-p8
-          mkdir -p out
-          python3 harness/g95_p8_court.py merge-profiles --root profiles --role UNTOUCHED_TRANSPORT --out out/transport-profiles.json
-          kernels/c3x-prototype-p8 query --index index/prototype-index.json --profiles out/transport-profiles.json --out out/raw-query.json
-          python3 harness/g95_p8_court.py enrich --annotated-index ann/annotated-index.json --query out/raw-query.json             --profiles out/transport-profiles.json --out out/enriched-query.json
-          python3 harness/g95_p8_court.py scope --precommit pre/g95-p8-precommit.json --query out/enriched-query.json             --role UNTOUCHED_TRANSPORT --out out/scope.json
-      - id: gate
-        run: |
-          OPEN="$(python3 -c 'import json; x=json.load(open("out/scope.json")); print("true" if x["target_open_authorized"] else "false")')"
-          echo "open_transport_targets=$OPEN" >> "$GITHUB_OUTPUT"
-      - uses: actions/upload-artifact@v4
-        with: {name: g95-p8-transport-scope, path: out/, retention-days: 30}
-
-  transport_targets:
-    needs: transport_scope
-    if: ${{ needs.transport_scope.outputs.open_transport_targets == 'true' }}
-    runs-on: ubuntu-latest
-    timeout-minutes: 360
-    strategy:
-      fail-fast: false
-      matrix:
-        pos: [0,1,2,3,4,5,6,7,8,9,10,11]
-        engine: [stockfish_19,berserk,ethereal]
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/download-artifact@v4
-        with: {name: g95-p8-precommit-sealed, path: pre}
-      - uses: actions/download-artifact@v4
-        with: {name: g95-p8-kernels, path: kernels}
-      - uses: actions/download-artifact@v4
-        with: {name: "g95-p8-transport-profile-${{ matrix.pos }}-${{ matrix.engine }}", path: profile}
-      - uses: actions/download-artifact@v4
-        with: {name: g95-p4-lawgen-preseal, path: p4-lawgen, repository: WhoSia/C3X, run-id: ${{ env.P4_RUN }}, github-token: ${{ github.token }}}
-      - uses: actions/download-artifact@v4
-        with: {name: "p34-build-${{ matrix.engine }}", path: build, repository: WhoSia/C3X, run-id: ${{ env.P34_RUN }}, github-token: ${{ github.token }}}
-      - name: Open untouched transport targets
-        run: |
-          set -euxo pipefail
-          chmod +x kernels/c3x-support-p4 "build/c3x-p34-${{ matrix.engine }}"
-          PLAN="$(find p4-lawgen -name sampling-strata.json -print -quit)"
-          mkdir -p out
-          python3 harness/g95_p8_court.py target-case --precommit pre/g95-p8-precommit.json             --case-id "p8:transport:${{ matrix.pos }}:${{ matrix.engine }}" --binary "build/c3x-p34-${{ matrix.engine }}"             --sampler kernels/c3x-support-p4 --sampling-plan "$PLAN" --profile profile/profile.json             --target-out out/target.json --case-out out/case.json
-      - uses: actions/upload-artifact@v4
-        with: {name: "g95-p8-transport-target-${{ matrix.pos }}-${{ matrix.engine }}", path: out/target.json, retention-days: 30}
-
-  transport_verify:
-    needs: [train_annotate,transport_scope,transport_targets]
-    if: ${{ needs.transport_scope.outputs.open_transport_targets == 'true' && needs.transport_targets.result == 'success' }}
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/download-artifact@v4
-        with: {name: g95-p8-precommit-sealed, path: pre}
-      - uses: actions/download-artifact@v4
-        with: {name: g95-p8-annotated-index, path: ann}
-      - uses: actions/download-artifact@v4
-        with: {name: g95-p8-transport-scope, path: trans}
-      - uses: actions/download-artifact@v4
-        with: {pattern: g95-p8-transport-target-*, path: targets, merge-multiple: false}
-      - name: Untouched retrieval validation
-        run: |
-          set -euxo pipefail
-          mkdir -p out
-          python3 harness/g95_p8_court.py merge-targets --root targets --role UNTOUCHED_TRANSPORT --out out/transport-targets.json
-          python3 harness/g95_p8_court.py verify --precommit pre/g95-p8-precommit.json --annotated-index ann/annotated-index.json             --query trans/enriched-query.json --targets out/transport-targets.json --role UNTOUCHED_TRANSPORT --out out/verification.json
-          sha256sum out/* | sort > out/transport-verification-sha256.txt
-      - uses: actions/upload-artifact@v4
-        with: {name: g95-p8-transport-verification, path: out/, retention-days: 30}
+        with:
+          name: g95-p8-precommit-sealed
+          path: g95-p8-precommit*
+          retention-days: 30
