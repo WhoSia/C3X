@@ -1,0 +1,107 @@
+name: g95-p8-geometry-recovery
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - ".github/workflows/g95-p8-geometry-recovery.yml"
+
+permissions:
+  contents: read
+  actions: read
+
+env:
+  SCIENCE_HEAD: "0983a67547baff53a085277d2f6750016257c8c5"
+  BOOTSTRAP_RUN: "36396781932"
+  PROFILE_RUN: "36397282255"
+  LAWGEN_RECOVERY_RUN: "36397548582"
+
+jobs:
+  recover:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ env.SCIENCE_HEAD }}
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: g95-p8-kernels
+          path: kernels
+          repository: WhoSia/C3X
+          run-id: ${{ env.BOOTSTRAP_RUN }}
+          github-token: ${{ github.token }}
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: g95-p8-lawgen-packaging-recovery
+          path: lawgen
+          repository: WhoSia/C3X
+          run-id: ${{ env.LAWGEN_RECOVERY_RUN }}
+          github-token: ${{ github.token }}
+
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: g95-p8-geometry-profile-*
+          path: profiles
+          merge-multiple: false
+          repository: WhoSia/C3X
+          run-id: ${{ env.PROFILE_RUN }}
+          github-token: ${{ github.token }}
+
+      - name: Adjudicate unchanged target-blind geometry
+        run: |
+          set -euxo pipefail
+          test "$(git rev-parse HEAD)" = "$SCIENCE_HEAD"
+          chmod +x kernels/c3x-prototype-p8 kernels/p8-prototype-verify
+          mkdir -p out
+
+          python3 harness/g95_p8_court.py merge-profiles             --root profiles             --role PROTOTYPE_TRAIN             --out out/train-profiles.json
+
+          kernels/c3x-prototype-p8 cover             --profiles out/train-profiles.json             --law lawgen/lawgen/prototype-law.json             --out out/prototype-index.json
+
+          kernels/p8-prototype-verify             out/train-profiles.json             out/prototype-index.json             out/go-parity.json
+
+          python3 - <<'PY'
+          import json,hashlib
+          p=json.load(open("out/train-profiles.json"))
+          i=json.load(open("out/prototype-index.json"))
+          g=json.load(open("out/go-parity.json"))
+          assert len(p["records"])==576
+          assert p["target_fields_consulted"] is False
+          assert i["target_fields_consulted"] is False
+          assert i["counterfactual_information_consulted"] is False
+          assert g["pass"] is True
+          out={
+            "schema":"c3x-g95-p8-geometry-adjudication-v1",
+            "scientific_stage":"C3X 0.7.0-G9.5-P8",
+            "bootstrap_run":36396781932,
+            "profile_run":36397282255,
+            "lawgen_recovery_run":36397548582,
+            "science_head":"0983a67547baff53a085277d2f6750016257c8c5",
+            "precommit_receipt_sha256":"68c40936af536fa2f26c34394251faf46226b8a01df9209607742f9c225976f2",
+            "records":len(p["records"]),
+            "status":i["status"],
+            "selected_radius":i["selected_radius"],
+            "radius_evaluations":i["radius_evaluations"],
+            "prototype_count":len(i["prototypes"]),
+            "target_fields_consulted":False,
+            "counterfactual_replay_executed":False,
+            "go_parity_pass":True,
+            "science_changed_by_recovery":False,
+            "consequence":"OPEN_TRAIN_TARGETS" if i["status"]=="TARGET_BLIND_PROTOTYPE_COVER_SELECTED" else "P8_ENGINEERING_HOLD_NO_TARGET_OPEN"
+          }
+          raw=json.dumps(out,sort_keys=True,separators=(",",":")).encode()
+          out["receipt_sha256"]=hashlib.sha256(raw).hexdigest()
+          json.dump(out,open("out/geometry-adjudication.json","w"),indent=2,sort_keys=True)
+          open("out/geometry-adjudication.json","a").write("\n")
+          print("P8_GEOMETRY",out["status"],"radius",out["selected_radius"],"prototypes",out["prototype_count"],"receipt",out["receipt_sha256"])
+          PY
+
+          sha256sum out/* | sort > out/geometry-sha256.txt
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: g95-p8-target-blind-geometry-recovered
+          path: out/
+          retention-days: 30
