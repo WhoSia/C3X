@@ -1,0 +1,34 @@
+name: g95-p7-train-priority-handoff
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - ".github/workflows/g95-p7-train-priority-handoff.yml"
+
+# Deliberately shares the canonical P7 concurrency key.
+# Starting this tiny handoff run cancels the long mixed-role acquisition run
+# after sufficient target-blind selection/transport profiles have materialized,
+# so the separately frozen train-recovery workflow can receive runner capacity.
+concurrency:
+  group: g95-p7-chess-prefix-graph-causal-state
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  handoff:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Record execution-only handoff
+        run: |
+          cat <<'EOF'
+          C3X G9.5-P7 execution-only train-priority handoff.
+          Canonical scientific precommit/run identity remains:
+            run: 36385972623
+            head: b8cd6905a8f7d7e7078a7b7b4d381999d16d79de
+          This handoff changes no graph schema, Q-level, threshold, world,
+          target label, or scientific authority.
+          Train recovery run replays the exact frozen STRUCTURAL_TRAIN cases.
+          EOF
