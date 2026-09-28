@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-import argparse,hashlib,json,random
+import argparse,hashlib,json,heapq
 from pathlib import Path
 import chess,chess.pgn
 
@@ -25,19 +25,29 @@ def load_exclusions(paths):
  return out
 
 def epd_candidates(path,limit=4096):
- seen=set();xs=[]
- for line in Path(path).read_text(errors="strict").splitlines():
-  z=line.strip().split()
-  if len(z)<4:continue
-  fen=" ".join(z[:4])+" 0 1"
-  try:
-   b=chess.Board(fen)
-   if not b.is_valid() or b.chess960:continue
-   fen=canonical_board(b)
-  except Exception:continue
-  if fen in seen:continue
-  seen.add(fen);xs.append((sha(fen),fen))
- return sorted(xs)[:limit]
+ # Exact streaming top-K by SHA-256(FEN). The retained threshold only decreases,
+ # so an evicted/non-retained duplicate can never become eligible later.
+ heap=[];in_heap=set()
+ with open(path,errors="strict") as f:
+  for line in f:
+   z=line.strip().split()
+   if len(z)<4:continue
+   fen=" ".join(z[:4])+" 0 1"
+   try:
+    b=chess.Board(fen)
+    if not b.is_valid() or b.chess960:continue
+    fen=canonical_board(b)
+   except Exception:continue
+   h=sha(fen)
+   if h in in_heap:continue
+   hi=int(h,16)
+   item=(-hi,h,fen)
+   if len(heap)<limit:
+    heapq.heappush(heap,item);in_heap.add(h)
+   elif hi < -heap[0][0]:
+    _,old_h,_=heapq.heapreplace(heap,item)
+    in_heap.remove(old_h);in_heap.add(h)
+ return sorted((h,fen) for _,h,fen in heap)
 
 def pgn_candidates(path,lo,hi,limit=4096):
  seen=set();xs=[]
