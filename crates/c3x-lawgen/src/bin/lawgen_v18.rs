@@ -18,7 +18,7 @@ fn main(){
  write(&out.join("descriptor-law.json"),&json!({"schema":"c3x-p8-descriptor-law-v1","scientific_stage":STAGE,
   "descriptor":s["descriptor"],"label_firewall":s["label_firewall"]}));
  write(&out.join("prototype-law.json"),&json!({"schema":"c3x-p8-prototype-law-v1","scientific_stage":STAGE,
-  "prototype_cover":s["prototype_cover"],"prototype_labeling":s["prototype_labeling"]}));
+  "descriptor":s["descriptor"],"prototype_cover":s["prototype_cover"],"prototype_labeling":s["prototype_labeling"]}));
  write(&out.join("retrieval-gates.json"),&json!({"schema":"c3x-p8-retrieval-gates-v1","scientific_stage":STAGE,
   "train_support_gate":s["train_support_gate"],"selection_support_gate":s["selection_support_gate"],
   "retrieval_gate":s["retrieval_gate"],"transport_gate":s["transport_gate"]}));
