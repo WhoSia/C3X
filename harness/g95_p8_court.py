@@ -74,11 +74,11 @@ def verify_binary(pre,case,path):
  if sha_file(path)!=v["sha256"]:raise SystemExit("P8_BINARY_ID")
  return v["protocol"]
 
-def case_run(a):
+def profile_case(a):
  pre=load(a.precommit);case=next((x for x in pre["cases"] if x["case_id"]==a.case_id),None)
  if not case:raise SystemExit("P8_CASE")
  protocol=verify_binary(pre,case,a.binary)
- work=Path(a.case_out).parent.parent/".p8-private"/case["case_id"].replace(":","_");work.mkdir(parents=True,exist_ok=True)
+ work=Path(a.profile_out).parent.parent/".p8-private"/case["case_id"].replace(":","_");work.mkdir(parents=True,exist_ok=True)
  parent=p32.run_history(a.binary,protocol,case["cell"],"CATALOG",case["family"],case["frontier"],None,work/"000-parent")
  trace_path=work/"parent-trace.json";trace_path.write_text(json.dumps(parent["trace"],sort_keys=True)+"\n")
  sample_path=work/"sampling.json"
@@ -86,13 +86,35 @@ def case_run(a):
  samp=load(sample_path)
  if samp.get("target_fields_consulted") is not False or samp.get("raw_full_key_emitted") is not False:raise SystemExit("P8_SAMPLER_FIREWALL")
  batch=proto.prepare_batch(case["cell"]["fen"],parent["trace"],samp["selected"])
- profiles=[];targets=[];miss=[]
+ profiles=[]
  for z in batch["records"]:
   rid=f'{case["case_id"]}:{z["event_id"][:16]}'
   profiles.append({"record_id":rid,"engine":case["engine"],"position_id":case["position_id"],"source_stratum":case["source_stratum"],"source_kind":case["source_kind"],
    "event_id":z["event_id"],"sampling_stratum":z["sampling_stratum"],"descriptor":z["descriptor"],"target_fields_consulted":False,
    "counterfactual_information_consulted":False,"raw_tt_key_emitted":False,"p7_q_state_consulted":False})
- byid={e["address_id"]:e for e in parent["trace"]["events"]}
+ pd={"schema":"c3x-prototype-profile-batch-p8-v1","scientific_stage":STAGE,"case_id":case["case_id"],"role":case["role"],"records":profiles,
+  "target_fields_consulted":False,"counterfactual_information_consulted":False,"raw_tt_key_emitted":False,"p7_q_state_consulted":False}
+ Path(a.profile_out).write_text(json.dumps(pd,indent=2,sort_keys=True)+"\n")
+ man={"schema":"c3x-g95-p8-profile-case-v1","scientific_stage":STAGE,"case_id":case["case_id"],"role":case["role"],"engine":case["engine"],
+  "position_id":case["position_id"],"source_stratum":case["source_stratum"],"selected_profiles":len(profiles),"profile_sha256":digest(pd),
+  "counterfactual_replay_executed":False,"target_fields_consulted":False,"status":"PASS"}
+ seal(man);Path(a.case_out).write_text(json.dumps(man,indent=2,sort_keys=True)+"\n")
+ print("G95_P8_PROFILE_CASE",case["case_id"],"profiles",len(profiles))
+
+def target_case(a):
+ pre=load(a.precommit);case=next((x for x in pre["cases"] if x["case_id"]==a.case_id),None)
+ if not case:raise SystemExit("P8_CASE")
+ profile=load(a.profile);protocol=verify_binary(pre,case,a.binary)
+ if profile.get("case_id")!=case["case_id"] or profile.get("role")!=case["role"] or profile.get("target_fields_consulted") is not False:raise SystemExit("P8_TARGET_PROFILE_ID")
+ work=Path(a.target_out).parent.parent/".p8-target-private"/case["case_id"].replace(":","_");work.mkdir(parents=True,exist_ok=True)
+ parent=p32.run_history(a.binary,protocol,case["cell"],"CATALOG",case["family"],case["frontier"],None,work/"000-parent")
+ trace_path=work/"parent-trace.json";trace_path.write_text(json.dumps(parent["trace"],sort_keys=True)+"\n")
+ sample_path=work/"sampling.json"
+ subprocess.run([a.sampler,"sample","--trace",str(trace_path),"--plan",a.sampling_plan,"--max-events",str(pre["execution"]["candidate_events_per_world"]),"--out",str(sample_path)],check=True)
+ samp=load(sample_path)
+ profile_ids=[r["event_id"] for r in profile["records"]];sample_ids=[r["event_id"] for r in samp["selected"]]
+ if profile_ids!=sample_ids:raise SystemExit("P8_TARGET_PROFILE_SELECTION_DRIFT")
+ byid={e["address_id"]:e for e in parent["trace"]["events"]};targets=[];miss=[]
  for j,s in enumerate(samp["selected"]):
   aid=s["event_id"];e=byid[aid];addr=dict(e["address"]);addr["address_id"]=aid
   cf=p32.run_history(a.binary,protocol,case["cell"],"REMOVE_SET",case["family"],case["frontier"],[addr],work/f"{j+1:03d}-single")
@@ -104,15 +126,13 @@ def case_run(a):
     "baseline":{k:parent["semantic"].get(k) for k in ("bestmove","score","wdl","depth","seldepth","nodes","pv")},
     "counterfactual":{k:cf["semantic"].get(k) for k in ("bestmove","score","wdl","depth","seldepth","nodes","pv")},
     "chess_phenotype":chessphen.root_move_phenotype(case["cell"]["fen"],parent["semantic"].get("bestmove"),cf["semantic"].get("bestmove"))})
- pd={"schema":"c3x-prototype-profile-batch-p8-v1","scientific_stage":STAGE,"case_id":case["case_id"],"role":case["role"],"records":profiles,
-  "target_fields_consulted":False,"counterfactual_information_consulted":False,"raw_tt_key_emitted":False,"p7_q_state_consulted":False}
  td={"schema":"c3x-prototype-target-batch-p8-v1","scientific_stage":STAGE,"case_id":case["case_id"],"role":case["role"],"records":targets}
- Path(a.profile_out).write_text(json.dumps(pd,indent=2,sort_keys=True)+"\n");Path(a.target_out).write_text(json.dumps(td,indent=2,sort_keys=True)+"\n")
- man={"schema":"c3x-g95-p8-case-v1","scientific_stage":STAGE,"case_id":case["case_id"],"role":case["role"],"engine":case["engine"],"position_id":case["position_id"],
-  "source_stratum":case["source_stratum"],"selected_profiles":len(profiles),"fired_targets":len(targets),"missed_targets":miss,
-  "profile_sha256":digest(pd),"target_sha256":digest(td),"profile_geometry_depends_on_target_firing":False,"status":"PASS"}
+ Path(a.target_out).write_text(json.dumps(td,indent=2,sort_keys=True)+"\n")
+ man={"schema":"c3x-g95-p8-target-case-v1","scientific_stage":STAGE,"case_id":case["case_id"],"role":case["role"],"engine":case["engine"],
+  "position_id":case["position_id"],"source_stratum":case["source_stratum"],"selected_profiles":len(profile_ids),"fired_targets":len(targets),
+  "missed_targets":miss,"profile_sha256":digest(profile),"target_sha256":digest(td),"target_open_authorized_upstream":True,"status":"PASS"}
  seal(man);Path(a.case_out).write_text(json.dumps(man,indent=2,sort_keys=True)+"\n")
- print("G95_P8_CASE",case["case_id"],"profiles",len(profiles),"fired",len(targets))
+ print("G95_P8_TARGET_CASE",case["case_id"],"fired",len(targets))
 
 def batches(root,schema,role):
  out=[]
@@ -233,7 +253,8 @@ def verify(a):
 def main():
  ap=argparse.ArgumentParser();sp=ap.add_subparsers(dest="cmd",required=True)
  q=sp.add_parser("precommit");q.add_argument("--constitution",required=True);q.add_argument("--corpus",required=True);q.add_argument("--p4-precommit",required=True);q.add_argument("--p7-closure",required=True);q.add_argument("--out",required=True);q.set_defaults(fn=precommit)
- q=sp.add_parser("case");q.add_argument("--precommit",required=True);q.add_argument("--case-id",required=True);q.add_argument("--binary",required=True);q.add_argument("--sampler",required=True);q.add_argument("--sampling-plan",required=True);q.add_argument("--profile-out",required=True);q.add_argument("--target-out",required=True);q.add_argument("--case-out",required=True);q.set_defaults(fn=case_run)
+ q=sp.add_parser("profile-case");q.add_argument("--precommit",required=True);q.add_argument("--case-id",required=True);q.add_argument("--binary",required=True);q.add_argument("--sampler",required=True);q.add_argument("--sampling-plan",required=True);q.add_argument("--profile-out",required=True);q.add_argument("--case-out",required=True);q.set_defaults(fn=profile_case)
+ q=sp.add_parser("target-case");q.add_argument("--precommit",required=True);q.add_argument("--case-id",required=True);q.add_argument("--binary",required=True);q.add_argument("--sampler",required=True);q.add_argument("--sampling-plan",required=True);q.add_argument("--profile",required=True);q.add_argument("--target-out",required=True);q.add_argument("--case-out",required=True);q.set_defaults(fn=target_case)
  for name,fn in (("merge-profiles",merge_profiles),("merge-targets",merge_targets)):
   q=sp.add_parser(name);q.add_argument("--root",required=True);q.add_argument("--role",choices=ROLES,required=True);q.add_argument("--out",required=True);q.set_defaults(fn=fn)
  q=sp.add_parser("annotate");q.add_argument("--precommit",required=True);q.add_argument("--index",required=True);q.add_argument("--profiles",required=True);q.add_argument("--targets",required=True);q.add_argument("--out",required=True);q.set_defaults(fn=annotate)
