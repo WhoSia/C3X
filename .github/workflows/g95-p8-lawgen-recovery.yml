@@ -1,0 +1,46 @@
+name: g95-p8-lawgen-packaging-recovery
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - ".github/workflows/g95-p8-lawgen-recovery.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  lawgen:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Repackage unchanged P8 law surface
+        run: |
+          set -euxo pipefail
+          cargo run --release             --manifest-path crates/c3x-lawgen/Cargo.toml             --bin lawgen_v18             -- c3x/ontology/g95-p8-constitution.json out/lawgen
+
+          python3 - <<'PY'
+          import json
+          x=json.load(open("out/lawgen/prototype-law.json"))
+          assert x["scientific_stage"]=="C3X 0.7.0-G9.5-P8"
+          assert "descriptor" in x
+          assert "prototype_cover" in x
+          assert x["descriptor"]["blocks"]["board"]["weight"]==0.15
+          r={
+            "schema":"c3x-g95-p8-lawgen-packaging-recovery-v1",
+            "scientific_stage":"C3X 0.7.0-G9.5-P8",
+            "science_changed":False,
+            "reason":"prototype-law artifact now carries the already-frozen descriptor block required by the Rust cover reader"
+          }
+          json.dump(r,open("out/recovery.json","w"),indent=2,sort_keys=True)
+          open("out/recovery.json","a").write("\n")
+          PY
+
+          sha256sum out/lawgen/* | sort > out/lawgen-sha256.txt
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: g95-p8-lawgen-packaging-recovery
+          path: out/
+          retention-days: 30
