@@ -1,0 +1,288 @@
+{
+  "schema": "c3x-g95-p17-constitution-v1",
+  "scientific_stage": "C3X 0.7.0-G9.5-P17",
+  "title": "Prospective Exposure-Balanced Relation-Atom Fatal Replication, Frozen OWN|DISPREFERRED_FROM_LOSS Hypothesis, Matched Rival Atom Families, Cross-Engine Minimal-Bridge Transport & Structural-Law Survival Test",
+  "parent": {
+    "stage": "C3X 0.7.0-G9.5-P16",
+    "closure_commit": "64b46c7ee6347a60f4684805ca6e8bd8c5a20232",
+    "closure_receipt_sha256": "85860d444c870f6a412990292e385752a77ecaed4066b79f6a0d499b11d9e8ed",
+    "verdict": "P16_LOCAL_MINIMAL_FULL_BRIDGE_ONLY"
+  },
+  "research_os": {
+    "mode": "RUN-FATAL-TEST",
+    "runtime": "LIGHTWEIGHT_CURRENT",
+    "release": "2.4.4_FROZEN",
+    "applied_kernel": [
+      "GOAL_FIDELITY",
+      "FRONTIER_COMPRESSION",
+      "AUTHORITY_SEPARATION",
+      "FAILURE_PRESERVING_MEMORY",
+      "WORLD_CONTACT_MINIMALITY"
+    ],
+    "continuation_authority": "CI-C3X-G95-P16-CLOSE; exactly one P17 fatal-test mainline",
+    "failure_terminal_for_exact_hypothesis": true
+  },
+  "two_track_boundary": {
+    "science_mainline": "P17 tests structural-law survival for engine preference mediation.",
+    "explanation_implementation": "May consume only earned certificates; cannot enlarge P17 authority.",
+    "provenance_class": "C3X_CAUSAL_CONTRAST"
+  },
+  "frozen_hypothesis": {
+    "family": "H",
+    "moved_side_role": "OWN",
+    "engine_relative_atoms": [
+      "DISPREFERRED_FROM_LOSS"
+    ],
+    "predicted_bound": "LOWER",
+    "exact_signature": "H|OWN|DISPREFERRED_FROM_LOSS|LOWER|MINIMAL_FULL_BRIDGE",
+    "p16_donor_witness_can_vote": false,
+    "upper_can_rescue": false
+  },
+  "rival_families": {
+    "R_GAIN": {
+      "moved_side_role": "OWN",
+      "engine_relative_atoms": [
+        "DISPREFERRED_FROM_GAIN"
+      ],
+      "contrast": "relation direction reversal"
+    },
+    "R_PREF": {
+      "moved_side_role": "OWN",
+      "engine_relative_atoms": [
+        "PREFERRED_FROM_LOSS"
+      ],
+      "contrast": "candidate role reversal"
+    },
+    "R_SIDE": {
+      "moved_side_role": "OPPONENT",
+      "engine_relative_atoms": [
+        "DISPREFERRED_FROM_LOSS"
+      ],
+      "contrast": "moved-side reversal"
+    },
+    "R_ENDPOINT": {
+      "moved_side_role": "OWN",
+      "engine_relative_atoms": [
+        "DISPREFERRED_TO_LOSS"
+      ],
+      "contrast": "endpoint-role reversal"
+    }
+  },
+  "fresh_worlds": {
+    "sources": [
+      "P17_SRC_LICHESS_2026_07",
+      "P17_SRC_LICHESS_2026_08"
+    ],
+    "source_prefix_games": 8192,
+    "positions_per_source": 36,
+    "planned_positions": 72,
+    "engines": [
+      "stockfish_19",
+      "berserk",
+      "ethereal"
+    ],
+    "planned_engine_worlds": 216,
+    "exclude_recoverable_candidate_hashes_through": "P16",
+    "intervention_outcomes_used_for_position_selection": false
+  },
+  "execution": {
+    "threads": 1,
+    "hash_mib": 1,
+    "shallow_legal_move_nodes": 10000,
+    "shortlist_size": 8,
+    "isolated_confirm_nodes": 30000,
+    "isolated_confirm_repeats": 2,
+    "exposure_pair_confirm_nodes": 22000,
+    "exposure_pair_confirm_repeats": 2,
+    "root_child_fingerprint_nodes": 12000,
+    "max_semantic_targets_per_board": 2,
+    "max_atomic_candidates_per_family_per_world": 3,
+    "prequalification_pool_quota_per_engine_source_family": 10,
+    "matched_set_quota_per_engine_source": 4
+  },
+  "unordered_pair_constitution": {
+    "near_equal_max_abs_cp": 50,
+    "engine_support_for_pair": "both moves stable; absolute isolated gap <=50cp; contextual original-board bestmove inside pair",
+    "pair_admission": "at least two engines support same unordered pair",
+    "selection_order": [
+      "maximum supporting engines",
+      "minimum median absolute gap",
+      "minimum maximum absolute gap",
+      "lexicographically smallest canonical pair id"
+    ],
+    "orientation_not_used_as_selection_bonus": true
+  },
+  "board_intervention_family": {
+    "unit": "quiet relocation of one non-king non-pawn piece not participating as either candidate moving piece",
+    "allowed_piece_types": [
+      "KNIGHT",
+      "BISHOP",
+      "ROOK",
+      "QUEEN"
+    ],
+    "material_delta_pawns": 0,
+    "max_abs_legal_root_move_count_delta": 6,
+    "max_moved_piece_attack_set_symmetric_difference": 10,
+    "target_and_sham_same_piece": true,
+    "target_and_sham_same_chebyshev_distance": true,
+    "atomic_target_only": true,
+    "sham_atom_count": 0,
+    "generation_outcome_blind": true
+  },
+  "family_classification": {
+    "uses_original_baseline_preference": true,
+    "uses_side_to_move": true,
+    "uses_edited_native_choice": false,
+    "uses_search_event_outcomes": false,
+    "exact_single_atom_only": true
+  },
+  "prequalification_pool": {
+    "strata": [
+      "engine",
+      "source",
+      "family"
+    ],
+    "quota": 10,
+    "candidate_sort": [
+      "lower absolute legal-root delta",
+      "lower attack-set symmetric difference",
+      "smaller relocation distance",
+      "piece type",
+      "position id",
+      "target edit id",
+      "sham edit id"
+    ],
+    "outcomes_consulted": false
+  },
+  "edited_pair_marginality": {
+    "boards": [
+      "TARGET",
+      "SHAM"
+    ],
+    "pair_gap_max_abs_cp": 50,
+    "repeats": 2,
+    "selection_may_use": [
+      "legality",
+      "stable isolated pair cp",
+      "pair gap"
+    ],
+    "selection_may_not_use": [
+      "edited native bestmove",
+      "event eligibility",
+      "event firing",
+      "T_ONLY outcome",
+      "bridge class"
+    ]
+  },
+  "matched_sets": {
+    "arms": [
+      "H",
+      "R_GAIN",
+      "R_PREF",
+      "R_SIDE",
+      "R_ENDPOINT"
+    ],
+    "exact_balance": "every admitted set contains exactly one exposure from each arm",
+    "within": [
+      "engine",
+      "source"
+    ],
+    "without_replacement": true,
+    "max_sets_per_engine_source": 4,
+    "distance_components": {
+      "piece_type_mismatch": 8,
+      "relocation_distance_abs_diff": 2,
+      "legal_root_delta_abs_diff": 1,
+      "attack_symdiff_abs_diff": 0.25,
+      "original_pair_gap_abs_diff": 0.25,
+      "edited_max_pair_gap_abs_diff": 0.25
+    },
+    "anchor": "H",
+    "anchor_sort": "minimum total nearest-rival distance, then exposure id",
+    "outcomes_consulted": false
+  },
+  "exact_event_mediator": {
+    "inherited_from": "P16",
+    "semantic_class": "MOVE_ORDER_SEED",
+    "scope": "MAIN",
+    "ply": 1,
+    "depth_min": 5,
+    "depth_max": 8,
+    "repeated_full_key": true,
+    "same_most_recent_tt_move": true,
+    "bounds": [
+      "LOWER",
+      "UPPER"
+    ],
+    "anchor": "original-board baseline-dispreferred pair member",
+    "intervention": "T_ONLY exact semantic-use removal",
+    "no_taxonomy_rescue": true
+  },
+  "estimand": {
+    "primary": "atomic MINIMAL_FULL_BRIDGE at LOWER",
+    "upper_status": "diagnostic_only_no_rescue",
+    "full_bridge": [
+      "original native and TARGET native choose opposite frozen pair members",
+      "eligible semantic event fires on original and TARGET for the same bound",
+      "T_ONLY collapses original and TARGET to the same frozen pair member",
+      "matched zero-atom SHAM does not reproduce the bridge",
+      "no defining cell leaves the frozen pair"
+    ],
+    "minimality": "atomic target has exactly one relation atom and its declared proper subset is the zero-atom SHAM"
+  },
+  "replication_rule": {
+    "per_family_lower_requires": {
+      "witnesses": 4,
+      "engines": 2,
+      "positions": 3,
+      "sources": 2,
+      "distinct_physical_edits": 3
+    },
+    "primary_family": "H",
+    "rival_families": [
+      "R_GAIN",
+      "R_PREF",
+      "R_SIDE",
+      "R_ENDPOINT"
+    ],
+    "no_post_outcome_signature_refit": true
+  },
+  "specificity_rule": {
+    "no_rival_lower_replication": true,
+    "min_h_lower_bridge_advantage_over_strongest_rival": 2,
+    "equal_exposure_by_matched_set": true
+  },
+  "support_gate": {
+    "min_admitted_pair_positions": 24,
+    "min_complete_matched_sets": 12,
+    "min_active_engines": 3,
+    "min_sources": 2,
+    "min_h_exposures": 12,
+    "require_equal_family_exposure_counts": true,
+    "min_worlds_with_any_fired_semantic_target": 12,
+    "max_address_misses": 0
+  },
+  "verdicts": [
+    "P17_HYPOTHESIS_SURVIVES_FATAL_REPLICATION_SPECIFICALLY",
+    "P17_HYPOTHESIS_REPLICATES_BUT_NOT_SPECIFIC",
+    "P17_RIVAL_FAMILY_REPLICATES_HYPOTHESIS_DEFEATED",
+    "P17_HYPOTHESIS_FAILS_UNDER_BALANCED_EXPOSURE",
+    "P17_EXPOSURE_SUPPORT_HOLD"
+  ],
+  "claim_ceiling": [
+    "A survival verdict would establish only that the frozen OWN|DISPREFERRED_FROM_LOSS|LOWER atomic intervention family specifically transports operational minimal FULL_BRIDGE evidence under the declared matched exposure regime.",
+    "A supported failure or rival replication defeats this exact post-P16 structural-law hypothesis and forbids atom/signature rescue within P17.",
+    "Family matching balances declared observable intervention covariates; it is not randomized assignment and does not prove absence of all hidden structural differences.",
+    "No verdict establishes objective chess truth, human intention, cognition, strategic concept semantics, or implementation-wide universality."
+  ],
+  "forbidden": [
+    "No P16 or earlier witness votes.",
+    "No post-outcome bound switch; UPPER cannot rescue LOWER.",
+    "No atom coarsening or refit.",
+    "No narrower search-event taxonomy rescue.",
+    "No human concept naming.",
+    "No Track-B authority transfer.",
+    "No continuation of this exact atom-law branch after supported fatal failure without a new PI reauthorization based on a different scientific question."
+  ],
+  "stop_rule": "Run once under frozen balanced exposure. If support passes and H fails the survival rule, freeze the exact post-P16 atom-law branch."
+}
