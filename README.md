@@ -22,14 +22,19 @@ C3X does **not** equate engine strength, Stockfish agreement, search depth, prob
 
 ## Current scientific frontier
 
-**G9.4** studies whether persistent search-memory mechanisms transport across engine architectures and search budgets.
+**G9.5** is now returning the mechanism programme to C3X's founding chess question: explaining marginal preference between near-equal legal moves.
 
-- **P20–P22:** constituted and stress-tested cross-engine relation laws over Stockfish 19, Berserk and Ethereal, with Inanis as a topology-specific negative-control architecture.
-- **P23:** showed that a scalar pre-intervention qsearch-state quotient is response-relevant but does not recover a universal cross-architecture causal law. The authority became *architecture-indexed and search-state-modulated*.
-- **P24 (closed):** replaced the scalar cut with a prospectively frozen multivariate atlas at `K=1,2,4,8`. No level recovered universal strict transport or conditional naturality; at `K=8`, **0/8** states formed an architecture-free intervention-response bisimulation block. A nonconstant **architecture-indexed causal-law family** was constituted within the frozen P24 authority ceiling.
-- **P25 (closed):** replicated architecture-index necessity on **384 fresh exact worlds**, measured the atlas at `40k/80k/160k/300k` SHAM node budgets, and introduced the typed **C3X Law Generator**. The fine `K=8` atlas proved materially budget-sensitive (`40k↔300k` agreement `0.331`, ARI `0.103`; `80k↔300k` agreement `0.440`, ARI `0.159`). Architecture-free `K=8` response states again remained **0/8**. A frozen source-descriptor court found minimal cardinality **2**, but every sufficient descriptor map still separated all three engines, so P25 earned **descriptor factorization without nontrivial law-family compression**.\n- **P26 (closed):** constituted the prospectively frozen product field `L(a,b,z_b,i)→r` on **384 fresh worlds**, **256 selected cells**, three architectures and four node budgets. Cross-budget K8 correspondence was restricted to finite label permutations through the 80k anchor. Architecture was invariant in only **1/64** budget×state×square cells and budget was stable in **0/48** engine×state×square trajectories; therefore neither index is removable under the frozen correspondence. LawGen advanced to schema **v2** with first-class state-correspondence, product-space, prediction-authority and descriptor-manipulability objects.
+- **P13 (closed):** reconstructed root-candidate competition and found local exact-event preference-boundary crossings, but no frozen winner/rival-oriented transport signature.
+- **P14 (closed / PASS):** prospectively promoted the unordered legal-move pair to the scientific object. Across 24 fresh positions × 3 engines, 19 pairs were admitted, 352 exact targets fired, and 42 pair-edge reversals produced two replicated orientation-free signatures spanning engines, positions, and both source months. Reciprocal multi-engine geometry remained local-only.
+- **P15 (authorized):** returns from search-event causality to chess-board structure. The target estimand is a prospectively matched, legal-pair-preserving board intervention that changes exact-event susceptibility and pair preference in a controlled board × search factorial.
 
-Scientific meaning and claim authority live in the Research OS / Notion lineage. This repository is the executable byte authority for the code that realizes those tests.
+C3X now has a binding **two-track constitution**:
+- **Science / Novelty Mainline:** why this near-equal legal move rather than that one, with causal authority earned prospectively.
+- **Explanation Implementation:** build a practical **PGN → explanation/commentary** system using C3X certificates where available and clearly labelled conventional techniques elsewhere.
+
+See [`docs/C3X_TWO_TRACK_CONSTITUTION.md`](docs/C3X_TWO_TRACK_CONSTITUTION.md).
+
+Scientific meaning and claim authority live in the Research OS / Notion lineage. This repository is the executable byte authority for the code that realizes those tests and the implementation surface for the separately governed explanation system.
 
 ## Repository architecture
 
