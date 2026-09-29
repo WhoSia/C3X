@@ -72,6 +72,13 @@ def main():
  ap.add_argument("--manifest",required=True)
  a=ap.parse_args();root=Path(a.root);h=head(root)
  if h!=LOCKS[a.engine]:raise SystemExit(f"P11_SOURCE_LOCK {h}")
+ p32inc=root/"src"/"c3x_p32_event_target.inc"
+ if not p32inc.exists():raise SystemExit("P11_REQUIRES_P32_TARGET")
+ ps=p32inc.read_text()
+ fam_anchor='static int c3x_p32_family_has(int cls){'
+ fam_new=fam_anchor+'\n  if(!strcmp(c3x_p32_family,"ALL")) return cls>=C3X_P32_CUTOFF && cls<=C3X_P32_VALUE_EVAL;'
+ if ps.count(fam_anchor)!=1:raise SystemExit(f"P11_ALL_FAMILY_ANCHOR_{ps.count(fam_anchor)}")
+ p32inc.write_text(ps.replace(fam_anchor,fam_new,1))
  p=root/"src"/"c3x_p34_cone.inc"
  if not p.exists():raise SystemExit("P11_REQUIRES_P34_CONE")
  s=p.read_text()
