@@ -159,7 +159,7 @@ def case_run(a):
  v=pre["variants"][t["engine"]]
  if sha_file(a.binary)!=v["sha256"]:raise SystemExit("P11_BINARY")
  root=Path(a.out).parent/f".p11-{a.target_id}";root.mkdir(parents=True,exist_ok=True)
- base=run(a.binary,v["protocol"],t["cell"],"CATALOG","MOVE_ORDER",1,None,root/"base",patch="NONE")
+ base=run(a.binary,v["protocol"],t["cell"],"CATALOG","ALL",8,None,root/"base",patch="NONE")
  matches=[(i,e) for i,e in enumerate(base["trace"]["events"]) if e["address_id"]==t["event_id"]]
  if len(matches)!=1:
   out={"schema":"c3x-g95-p11-case-v1","scientific_stage":STAGE,"target_id":a.target_id,"engine":t["engine"],"position_id":t["position_id"],
@@ -167,7 +167,7 @@ def case_run(a):
   seal(out);Path(a.out).write_text(json.dumps(out,indent=2,sort_keys=True)+"\n");return
  ordinal,event=matches[0];addr=dict(event["address"]);addr["address_id"]=event["address_id"]
  if base["semantic"].get("bestmove")!=t["baseline"].get("bestmove"):raise SystemExit("P11_PARENT_BASELINE_DRIFT")
- tc=run(a.binary,v["protocol"],t["cell"],"REMOVE_SET","MOVE_ORDER",1,[addr],root/"target",patch="NONE")
+ tc=run(a.binary,v["protocol"],t["cell"],"REMOVE_SET","ALL",8,[addr],root/"target",patch="NONE")
  fired=bool(tc["trace"]["targets"] and tc["trace"]["targets"][0]["fired"])
  exact=fired and tc["semantic"].get("bestmove")==t["counterfactual"].get("bestmove")
  bsum=private_visit_summary(base["trace"]);tsum=private_visit_summary(tc["trace"])
@@ -178,8 +178,8 @@ def case_run(a):
  mediator_doc=None
  if q3 is not None:
   qf=root/"mediator.tsv";write_q3(qf,q3)
-  med=run(a.binary,v["protocol"],t["cell"],"BASE","MOVE_ORDER",8,None,root/"mediator",patch="NONE",p34mode="REMOVE_SET",q3file=qf,mediator_all=True)
-  both=run(a.binary,v["protocol"],t["cell"],"REMOVE_SET","MOVE_ORDER",8,[addr],root/"target-plus-mediator",patch="NONE",p34mode="REMOVE_SET",q3file=qf,mediator_all=True)
+  med=run(a.binary,v["protocol"],t["cell"],"BASE","ALL",8,None,root/"mediator",patch="NONE",p34mode="REMOVE_SET",q3file=qf,mediator_all=True)
+  both=run(a.binary,v["protocol"],t["cell"],"REMOVE_SET","ALL",8,[addr],root/"target-plus-mediator",patch="NONE",p34mode="REMOVE_SET",q3file=qf,mediator_all=True)
   bm=base["semantic"].get("bestmove");tm=tc["semantic"].get("bestmove");mm=med["semantic"].get("bestmove");xm=both["semantic"].get("bestmove")
   if mm==tm and xm==tm:medstat="MEDIATOR_CLASS_CAUSAL_ALIGNMENT"
   elif mm!=bm or xm!=tm:medstat="MEDIATOR_CLASS_INTERACTION_REDIRECT"
@@ -193,6 +193,8 @@ def case_run(a):
       "status":"PASS" if exact else "PARENT_REPLAY_DRIFT","parent_exact_replay":exact,"target_fired":fired,
       "baseline_move":base["semantic"].get("bestmove"),"target_counterfactual_move":tc["semantic"].get("bestmove"),
       "first_trace_divergence_ordinal":div,"first_cutoff_divergence":cdiv,
+      "baseline_class_counts":dict(sorted(Counter(e["class"] for e in base["trace"]["events"]).items())),
+      "target_class_counts":dict(sorted(Counter(e["class"] for e in tc["trace"]["events"]).items())),
       "visit_delta_summary":summary_delta(bsum,tsum),
       "research_proxy_delta":tsum["multiwindow_revisit_proxy_nodes"]-bsum["multiwindow_revisit_proxy_nodes"],
       "mediator_class":mediator_doc,"mediation_status":medstat,"first_pv_divergence":t.get("first_pv_divergence"),
@@ -265,12 +267,16 @@ def adjudicate(a):
   if x.get("status")=="PASS":pos[x["position_id"]].add(x["engine"])
  cross={k:sorted(v) for k,v in pos.items() if len(v)>=2}
  patch=Counter((x["patch_mode"],x["classification"]) for x in reg["rows"])
- support=exact==len(cases) and len(eng)>=2 and len(bounds)>=2 and reg.get("none_mode_pass") is True
+ cutoff_observed=sum(int(x.get("baseline_class_counts",{}).get("CUTOFF",0))>0 for x in cases)
+ cutoff_diverged=sum(x.get("first_cutoff_divergence") is not None for x in cases)
+ observed_classes=sorted({k for x in cases for k,v in x.get("baseline_class_counts",{}).items() if int(v)>0})
+ support=exact==len(cases) and len(eng)>=2 and len(bounds)>=2 and reg.get("none_mode_pass") is True and cutoff_observed>=1
  verdict="P11_BOUNDED_MEDIATION_AND_PATCH_DIAGNOSTIC_CLOSED" if support else "P11_MEDIATION_OR_REGRESSION_HOLD"
  out={"schema":"c3x-g95-p11-adjudication-v1","scientific_stage":STAGE,"authority":"CONDITIONAL_MECHANISM_FOLLOWUP",
       "fresh_confirmatory_vote":False,"status":"CLOSED_PASS" if support else "HOLD","verdict":verdict,
       "support":{"pass":support,"targets":len(cases),"exact_parent_replays":exact,"valid_engines":eng,"valid_bound_variants":bounds,
-                 "same_position_cross_engine":cross},
+                 "same_position_cross_engine":cross,"cases_with_cutoff_observed":cutoff_observed,
+                 "cases_with_first_cutoff_divergence":cutoff_diverged,"observed_semantic_classes":observed_classes},
       "mediation_status_counts":dict(sorted(med.items())),
       "patch_classification_counts":{f"{k[0]}|{k[1]}":v for k,v in sorted(patch.items())},
       "cases":cases,"patch_regression_receipt_sha256":reg["receipt_sha256"],"claim_ceiling":pre["claim_ceiling"],
@@ -289,7 +295,7 @@ def adjudicate(a):
   lines.append(f"- {mode}: "+", ".join(f"{k}={v}" for k,v in sorted(q.items())))
  lines += ["","Raw TT keys are not emitted. Mediation is bounded to the frozen P34-Q3 class intervention and is not a formal natural indirect effect."]
  Path(a.markdown).write_text("\n".join(lines)+"\n")
- print("P11_ADJUDICATE",out["status"],verdict,exact,len(cross))
+ print("P11_ADJUDICATE",out["status"],verdict,exact,len(cross),"cutoff-observed",cutoff_observed,"cutoff-diverged",cutoff_diverged)
 
 def main():
  ap=argparse.ArgumentParser();sp=ap.add_subparsers(dest="cmd",required=True)
