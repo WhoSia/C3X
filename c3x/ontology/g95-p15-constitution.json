@@ -1,0 +1,261 @@
+{
+  "schema": "c3x-g95-p15-constitution-v1",
+  "scientific_stage": "C3X 0.7.0-G9.5-P15",
+  "title": "Prospective Chess-Structure→Search Pair-Mediation Bridge, Legal-Pair-Preserving Board Interventions, Susceptibility-State Causality, Cross-Engine Mediation Transport & Preference-Explanation Reconstitution",
+  "parent": {
+    "stage": "C3X 0.7.0-G9.5-P14",
+    "closure_commit": "51f9b9832540b636b1cf0f0ac7dcd2437f0908e0",
+    "closure_receipt_sha256": "fe8230f1dc3d08c2ad249b2387697aa6aff6fe540007b8c4493c31b5133a14d3",
+    "verdict": "P14_REPLICATED_ORIENTATION_FREE_PAIR_REVERSAL_TRANSPORT"
+  },
+  "origin_lock": {
+    "founding_explanandum": "why one legal move is marginally preferred over a near-equal alternative beyond obvious tactical dominance",
+    "p15_role": "return from replicated exact search-event pair-edge causality to a chess-board structural cause of that preference boundary",
+    "terminal_object": "a prospectively matched chess-board edit -> exact semantic search susceptibility -> unordered legal-move pair preference bridge",
+    "anti_drift": "a finer MOVE_ORDER_SEED taxonomy, telemetry catalogue, or implementation detail is not a P15 success unless it changes the chess move-vs-move contrast"
+  },
+  "two_track_boundary": {
+    "science_mainline": "novel causal/contrastive identification of marginal strategic preference",
+    "explanation_implementation": "PGN-to-commentary engineering may borrow external methods but cannot enlarge P15 scientific authority",
+    "provenance_classes": [
+      "C3X_CAUSAL_CONTRAST",
+      "CONVENTIONAL_HEURISTIC_COMMENTARY"
+    ],
+    "doctrine_path": "docs/C3X_TWO_TRACK_CONSTITUTION.md"
+  },
+  "source_freshness": {
+    "checked_date_utc": "2026-09-29",
+    "official_index": "https://database.lichess.org/broadcast/",
+    "latest_completed_monthly_broadcast_available": "2026-08",
+    "september_monthly_broadcast_available": false,
+    "policy": "reuse completed July/August provider bytes only as source containers; every P15 target and decoy position must be hash-disjoint from all recoverable P1-P14 positions"
+  },
+  "fresh_worlds": {
+    "sources": [
+      "P15_SRC_LICHESS_2026_07",
+      "P15_SRC_LICHESS_2026_08"
+    ],
+    "source_prefix_games": 4096,
+    "positions_per_source": 16,
+    "planned_positions": 32,
+    "engines": [
+      "stockfish_19",
+      "berserk",
+      "ethereal"
+    ],
+    "planned_engine_worlds": 96,
+    "eligibility": "standard legal nonterminal chess; not in check; plies 14-27; 18-48 legal moves; absolute material imbalance <=3 pawns; target/decoy hashes disjoint from recoverable P1-P14 corpus hashes",
+    "intervention_outcomes_used_for_position_selection": false
+  },
+  "execution": {
+    "threads": 1,
+    "hash_mib": 1,
+    "prime_nodes": 20000,
+    "decoy_nodes": 20000,
+    "decoy_count": 3,
+    "measurement_nodes": 80000,
+    "shallow_legal_move_nodes": 10000,
+    "shortlist_size": 8,
+    "isolated_confirm_nodes": 30000,
+    "isolated_confirm_repeats": 2,
+    "board_pair_confirm_nodes": 24000,
+    "board_pair_confirm_repeats": 2,
+    "root_child_fingerprint_nodes": 12000,
+    "max_board_edit_pairs_per_position": 8,
+    "max_semantic_targets_per_board": 2,
+    "frontier": 8
+  },
+  "unordered_pair_constitution": {
+    "canonical_pair_id": "lexicographically sorted UCI pair joined by ::; lexical A/B is reconstruction only",
+    "engine_support_for_pair": "both moves stable for that engine, absolute isolated cp gap <=50, contextual shared-search bestmove is inside the pair",
+    "pair_admission": "at least two engines support the same unordered pair at the same fresh position",
+    "pair_selection_order": [
+      "maximum supporting engines",
+      "minimum median absolute gap",
+      "minimum maximum absolute gap",
+      "lexicographically smallest canonical pair id"
+    ],
+    "orientation_not_used_as_selection_bonus": true,
+    "near_equal_max_abs_cp": 50,
+    "gap_bands_cp": {
+      "VERY_TIGHT": [
+        0,
+        15
+      ],
+      "TIGHT": [
+        16,
+        30
+      ],
+      "MARGINAL": [
+        31,
+        50
+      ]
+    },
+    "freeze_before_board_intervention_outcomes": true
+  },
+  "board_intervention_grammar": {
+    "intervention_unit": "single quiet relocation of one non-king, non-pawn piece that is not the moving piece of either frozen candidate",
+    "legal_counterfactual_semantics": "valid chess state with unchanged side to move and material; historical reachability is not claimed",
+    "forbidden_touch_squares": "neither relocation source nor destination may equal either candidate move source/destination square",
+    "allowed_piece_types": [
+      "KNIGHT",
+      "BISHOP",
+      "ROOK",
+      "QUEEN"
+    ],
+    "relocation_destination": "empty square contained in that piece's occupancy-aware attack set on the original board; no capture",
+    "castling_rights_guard": "do not relocate a rook carrying a current castling right",
+    "pair_preservation": [
+      "both frozen candidate moves remain legal",
+      "position remains valid and nonterminal",
+      "side to move unchanged",
+      "resulting board is not in check"
+    ],
+    "collateral_budget": {
+      "material_delta_pawns": 0,
+      "max_abs_legal_root_move_count_delta": 6,
+      "max_moved_piece_attack_set_symmetric_difference": 10,
+      "changed_piece_count": 1
+    },
+    "pair_local_relation_vector": "for the relocated piece, four booleans: attacks A.from, A.to, B.from, B.to",
+    "TARGET_EDIT": "pair-local relation vector changes and the changed bits are asymmetric between candidate A endpoints and candidate B endpoints",
+    "SHAM_EDIT": "pair-local relation vector is preserved",
+    "target_sham_matching": "same moved piece identity and same Chebyshev relocation distance; otherwise the candidate edit pair is inadmissible",
+    "generation_outcome_blind": true,
+    "max_candidate_edit_pairs_before_engine_marginality_checks": 8
+  },
+  "board_edit_marginality_freeze": {
+    "per_engine_support": "on BOTH target and matched sham boards, both frozen pair moves remain legal and have two exactly repeated non-mate isolated cp scores with absolute pair gap <=50",
+    "edit_pair_admission": "the SAME target/sham edit pair is supported by at least two engines that were active on the frozen original pair",
+    "selection_order": [
+      "maximum supporting active engines",
+      "minimum maximum edited pair gap across target/sham/engines",
+      "minimum target collateral tuple",
+      "minimum sham collateral tuple",
+      "lexicographic target edit id",
+      "lexicographic sham edit id"
+    ],
+    "search_event_intervention_outcomes_consulted": false,
+    "board_native_root_choice_consulted_for_selection": false
+  },
+  "exact_event_mediator": {
+    "inherited_semantic_class": "MOVE_ORDER_SEED",
+    "scope": "MAIN",
+    "ply": 1,
+    "depth_min": 5,
+    "depth_max": 8,
+    "requires_repeated_full_key": true,
+    "requires_same_most_recent_tt_move": true,
+    "bound_signs": [
+      "LOWER",
+      "UPPER"
+    ],
+    "semantic_anchor": "the pair member that was BASELINE_DISPREFERRED on the original B0 board for this engine",
+    "per_board_addressing": "native private event addresses are reconstituted separately on B0, TARGET, and SHAM; no address identity across boards or engines is assumed",
+    "target_selection": "within each board and bound, choose the lexicographically smallest eligible exact event mapped to the original anchor-dispreferred candidate; at most one per bound",
+    "intervention": "T_ONLY exact semantic-use removal; TT storage/replacement/index/age untouched",
+    "raw_tt_keys_public": false
+  },
+  "factorial": {
+    "board_conditions": [
+      "B0_ORIGINAL",
+      "B1_TARGET",
+      "BS_SHAM"
+    ],
+    "search_conditions": [
+      "NATIVE",
+      "T_ONLY"
+    ],
+    "primary_comparison": "B0_ORIGINAL vs B1_TARGET crossed with NATIVE vs T_ONLY",
+    "negative_control": "BS_SHAM is footprint-matched and relation-preserving",
+    "pair_outcomes": [
+      "PAIR_A",
+      "PAIR_B",
+      "THIRD_MOVE"
+    ],
+    "susceptibility_states": {
+      "NO_EVENT": "no eligible anchor event for the bound on that board",
+      "EVENT_NULL": "eligible event fires and T_ONLY leaves the native root choice unchanged",
+      "EVENT_PAIR_REVERSAL": "eligible event fires and T_ONLY selects the other frozen pair member",
+      "EVENT_THIRD_ESCAPE": "eligible event fires and T_ONLY selects outside the frozen pair"
+    }
+  },
+  "operational_mediation": {
+    "language_rule": "P15 uses operational mechanistic mediation/interaction, not Pearl natural direct/indirect effects or cross-world counterfactual mediation",
+    "classes": {
+      "FULL_BRIDGE": "TARGET changes native pair orientation relative to B0; at least one shared bound has fired events on both boards; T_ONLY collapses the B0-vs-TARGET native pair difference to the same frozen pair member; SHAM does not reproduce the same collapse pattern",
+      "SUSCEPTIBILITY_MODULATION": "TARGET changes exact-event susceptibility state relative to B0 for a shared bound while pair legality/marginality is preserved; FULL_BRIDGE not met",
+      "DIRECT_BOARD_ONLY": "TARGET changes native pair orientation but exact-event removal does not collapse or account for that difference",
+      "SEARCH_ONLY_NO_BOARD_LINK": "exact-event intervention affects pair preference but TARGET does not differ from B0 beyond SHAM-matched behavior",
+      "NULL": "none of the above"
+    },
+    "full_bridge_requires_native_pair_members": true,
+    "third_move_escape_cannot_count_as_full_bridge": true
+  },
+  "support_gate": {
+    "min_admitted_pair_positions": 10,
+    "min_board_edit_pair_positions": 6,
+    "min_factorial_active_engine_worlds": 12,
+    "min_active_engines": 2,
+    "min_sources": 2,
+    "min_worlds_with_any_fired_semantic_target": 8,
+    "max_address_misses": 0
+  },
+  "replication_rule": {
+    "bridge_signature": "target_relation_delta_role|target_bound|FULL_BRIDGE",
+    "replicated_full_bridge_requires": {
+      "witnesses": 3,
+      "engines": 2,
+      "positions": 2,
+      "sources": 2
+    },
+    "susceptibility_signature": "target_relation_delta_role|target_bound|SUSCEPTIBILITY_MODULATION",
+    "replicated_susceptibility_requires": {
+      "witnesses": 4,
+      "engines": 2,
+      "positions": 2,
+      "sources": 2
+    },
+    "no_post_outcome_signature_refit": true
+  },
+  "mechanism_bridge_card": {
+    "required_fields": [
+      "original/target/sham FEN",
+      "unordered pair UCI/SAN",
+      "exact target and sham board edits",
+      "pair-local relation-vector delta",
+      "collateral audit",
+      "per-engine isolated pair gaps on all three boards",
+      "native and T_ONLY root choices",
+      "per-bound susceptibility state",
+      "2x2 operational bridge class",
+      "claim authority"
+    ]
+  },
+  "verdicts": [
+    "P15_REPLICATED_CHESS_STRUCTURE_SEARCH_PREFERENCE_FULL_BRIDGE",
+    "P15_REPLICATED_CHESS_STRUCTURE_SUSCEPTIBILITY_MODULATION",
+    "P15_LOCAL_CHESS_STRUCTURE_SEARCH_BRIDGE_ONLY",
+    "P15_BOARD_DIRECT_PREFERENCE_EFFECT_WITHOUT_SEARCH_MEDIATION",
+    "P15_NO_CHESS_STRUCTURE_SEARCH_BRIDGE_UNDER_FROZEN_GRAMMAR",
+    "P15_FRESH_SUPPORT_HOLD"
+  ],
+  "claim_ceiling": [
+    "P15 may identify prospectively matched low-collateral board structural perturbations that modulate exact-event susceptibility and near-equal legal-pair preference under the declared engines and budgets.",
+    "FULL_BRIDGE is an operational factorial interaction/collapse result, not a natural direct/indirect effect decomposition.",
+    "A pair-local attack-relation delta is a mechanistic board descriptor, not yet a human strategic concept such as space, initiative, prophylaxis, or piece quality.",
+    "Semantic event transport does not imply native address or algorithm identity across boards or engines.",
+    "Engine preference is not objective chess truth, human intent, cognition, or normative move quality.",
+    "Historically unreachable but rule-valid counterfactual boards are structural probes, not claims about natural game frequency."
+  ],
+  "forbidden": [
+    "No narrower MOVE_ORDER_SEED taxonomy rescue.",
+    "No P14 position or witness may vote in P15 confirmation.",
+    "No retrospective promotion of P14 reciprocal geometry.",
+    "No post-outcome human concept naming as a P15 causal variable.",
+    "No board edit may touch a candidate move source/destination square or alter material.",
+    "No board-edit selection using native edited-board bestmove or T_ONLY outcomes.",
+    "No silent authority transfer from the explanation-implementation track."
+  ],
+  "stop_rule": "Run the frozen P15 fresh campaign once. If the board grammar or support gates fail, report that structural-probe ceiling rather than tuning relation deltas, collateral thresholds, pair-gap thresholds, event subclasses, or bridge definitions after outcomes."
+}
