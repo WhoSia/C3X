@@ -242,6 +242,8 @@ jobs:
         with:
           name: g95-p12-corpus-sealed
           path: corpus
+      - name: Install P12 chess dependency
+        run: python3 -m pip install --disable-pip-version-check python-chess==1.999
       - name: Freeze all 36 worlds before P12 outcomes
         run: |
           set -euxo pipefail
@@ -312,6 +314,8 @@ jobs:
         with:
           pattern: g95-p12-world-*
           path: worlds
+      - name: Install P12 chess dependency
+        run: python3 -m pip install --disable-pip-version-check python-chess==1.999
       - name: Adjudicate exact cutoff mediation and verify
         run: |
           set -euxo pipefail
