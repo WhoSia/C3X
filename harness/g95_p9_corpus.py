@@ -72,15 +72,25 @@ def game_candidate(g,source_id,game_index,excluded):
  tid=sha(source_id+"|"+str(game_index)+"|"+"|".join(ids))
  return {"trajectory_hash":tid,"source_id":source_id,"game_index":game_index,"phases":chosen}
 def scan_source(path,source_id,excluded,limit=8000):
- out=[]
+ out=[];phase_games={pid:0 for pid,_,_ in PHASES};max_ply=0;games=0
  with open(path,errors="strict") as f:
   gi=0
   while gi<limit:
    g=chess.pgn.read_game(f)
    if g is None:break
-   c=game_candidate(g,source_id,gi,excluded)
-   if c:out.append(c)
+   games+=1
+   b=g.board();ply=0;seen_phase=set()
+   for m in g.mainline_moves():
+    b.push(m);ply+=1;max_ply=max(max_ply,ply)
+    for pid,lo,hi in PHASES:
+     if lo<=ply<=hi and eligible(b):seen_phase.add(pid)
+   for pid in seen_phase:phase_games[pid]+=1
+   cand=game_candidate(g,source_id,gi,excluded)
+   if cand:out.append(cand)
    gi+=1
+ diag={"source_id":source_id,"games_scanned":games,"max_mainline_ply":max_ply,
+  "eligible_games_by_phase":phase_games,"complete_trajectory_candidates":len(out)}
+ print("P9_SOURCE_CENSUS",json.dumps(diag,sort_keys=True))
  return sorted(out,key=lambda z:z["trajectory_hash"])
 def main():
  ap=argparse.ArgumentParser()
