@@ -1,0 +1,273 @@
+name: g95-p11-bound-signed-mediation
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - "c3x/ontology/g95-p11-constitution.json"
+      - "docs/G95_P11_THEORY.md"
+      - "tools/g95_p11_patch_repeatkey.py"
+      - "harness/g95_p11_court.py"
+      - "tools/p11_mediation_verify.go"
+      - "tools/p11-verify.mjs"
+      - ".github/workflows/g95-p11.yml"
+
+concurrency:
+  group: g95-p11-bound-signed-mediation
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  actions: read
+
+env:
+  P34_RUN: "36216185685"
+  P9_RUN: "36502126530"
+  P10_RUN: "36504724602"
+
+jobs:
+  static:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Static gates
+        run: |
+          set -euxo pipefail
+          python3 -m py_compile tools/g95_p11_patch_repeatkey.py harness/g95_p11_court.py
+          node --check tools/p11-verify.mjs
+          go build -o /tmp/p11-verify tools/p11_mediation_verify.go
+          python3 - <<'PY'
+          import json
+          x=json.load(open("c3x/ontology/g95-p11-constitution.json"))
+          assert x["schema"]=="c3x-g95-p11-constitution-v1"
+          assert x["frozen_parent_domain"]["expected_parent_positive_records"]==17
+          assert x["authority"]["fresh_confirmatory_vote"] is False
+          PY
+
+  build:
+    needs: static
+    runs-on: ubuntu-latest
+    timeout-minutes: 180
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - engine: stockfish_19
+            repo: https://github.com/official-stockfish/Stockfish.git
+            commit: edb0d9db6731067ec50ce619ff372b463bc4dd5d
+            native_policy: OFF
+          - engine: berserk
+            repo: https://github.com/jhonnold/berserk.git
+            commit: 32628515050b83805bab4afa1026dd2bcaa93f55
+            native_policy: OFF
+          - engine: ethereal
+            repo: https://github.com/AndyGrant/Ethereal.git
+            commit: 0e47e9b67f345c75eb965d9fb3e2493b6a11d09a
+            native_policy: ON
+    steps:
+      - uses: actions/checkout@v4
+      - name: Resolve pinned source
+        run: |
+          set -euxo pipefail
+          git clone "${{ matrix.repo }}" src
+          git -C src checkout --detach "${{ matrix.commit }}"
+          test "$(git -C src rev-parse HEAD)" = "${{ matrix.commit }}"
+          mkdir -p out
+      - name: Materialize inherited observer chain plus P11 patch
+        run: |
+          set -euxo pipefail
+          if [ "${{ matrix.engine }}" = stockfish_19 ]; then
+            python3 tools/materialize_p15.py --stockfish src --target stockfish_19
+          elif [ "${{ matrix.engine }}" = berserk ]; then
+            python3 tools/p20_patch_berserk.py --root src --variant instrument --manifest out/p20.json
+          else
+            python3 tools/p20_patch_ethereal.py --root src --variant instrument --manifest out/p20.json
+          fi
+          python3 tools/p27_patch_age.py --root src --engine "${{ matrix.engine }}" --policy "${{ matrix.native_policy }}" --manifest out/p27.json
+          python3 tools/p29_patch_tttrace.py --root src --engine "${{ matrix.engine }}" --policy "${{ matrix.native_policy }}" --manifest out/p29.json
+          python3 tools/p30_patch_victim.py --root src --engine "${{ matrix.engine }}" --manifest out/p30.json
+          python3 tools/p31_patch_semantics.py --root src --engine "${{ matrix.engine }}" --manifest out/p31.json
+          python3 tools/p32_patch_event_target.py --root src --engine "${{ matrix.engine }}" --manifest out/p32.json
+          python3 tools/p34_patch_cone.py --root src --engine "${{ matrix.engine }}" --manifest out/p34.json
+          python3 tools/g95_p11_patch_repeatkey.py --root src --engine "${{ matrix.engine }}" --manifest out/p11.json
+      - name: Build P11 binary
+        run: |
+          set -euxo pipefail
+          if [ "${{ matrix.engine }}" = stockfish_19 ]; then
+            make -C src/src -j2 build ARCH=x86-64
+            cp src/src/stockfish out/c3x-p11-${{ matrix.engine }}
+          elif [ "${{ matrix.engine }}" = berserk ]; then
+            make -C src/src ARCH=x86-64 build
+            cp src/src/berserk out/c3x-p11-${{ matrix.engine }}
+          else
+            ECFLAGS="-O3 -std=gnu11 -Wall -Wextra -Wshadow -DNDEBUG -flto -DUSE_NNUE=0 -march=x86-64 -msse2"
+            make -C src/src basic CFLAGS="$ECFLAGS"
+            cp src/src/Ethereal out/c3x-p11-${{ matrix.engine }}
+          fi
+          chmod +x out/c3x-p11-${{ matrix.engine }}
+          sha256sum out/c3x-p11-${{ matrix.engine }} > out/p11-binary-sha256-${{ matrix.engine }}.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: g95-p11-build-${{ matrix.engine }}
+          path: out/
+          retention-days: 30
+
+  precommit:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: g95-p11-build-*
+          path: builds
+      - uses: actions/download-artifact@v4
+        with:
+          name: g95-p10-final-anatomy
+          path: p10-final
+          repository: WhoSia/C3X
+          run-id: ${{ env.P10_RUN }}
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: g95-p10-precommit-sealed
+          path: p10-pre
+          repository: WhoSia/C3X
+          run-id: ${{ env.P10_RUN }}
+          github-token: ${{ github.token }}
+      - name: Seal P11 target universe before new outcomes
+        run: |
+          set -euxo pipefail
+          M="$(find p10-final -name merged-events.json -print -quit)"
+          P="$(find p10-pre -name g95-p10-precommit.json -print -quit)"
+          test -n "$M" && test -n "$P"
+          python3 harness/g95_p11_court.py precommit             --constitution c3x/ontology/g95-p11-constitution.json             --p10-closure c3x/receipts/g95-p10-closure.json             --p10-merged "$M"             --p10-precommit "$P"             --build-dir builds             --out g95-p11-precommit.json
+          sha256sum g95-p11-precommit.json > g95-p11-precommit.sha256
+      - uses: actions/upload-artifact@v4
+        with:
+          name: g95-p11-precommit-sealed
+          path: g95-p11-precommit*
+          retention-days: 30
+
+  mediation:
+    needs: precommit
+    runs-on: ubuntu-latest
+    timeout-minutes: 240
+    strategy:
+      fail-fast: false
+      matrix:
+        engine: [stockfish_19, berserk, ethereal]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: g95-p11-precommit-sealed
+          path: pre
+      - uses: actions/download-artifact@v4
+        with:
+          name: g95-p11-build-${{ matrix.engine }}
+          path: build
+      - name: Execute every inherited P10 witness for this engine
+        run: |
+          set -euxo pipefail
+          chmod +x build/c3x-p11-${{ matrix.engine }}
+          mkdir -p out
+          python3 - <<'PY' > /tmp/targets.txt
+          import json,os
+          x=json.load(open("pre/g95-p11-precommit.json"))
+          eng=os.environ["MATRIX_ENGINE"]
+          for z in x["targets"]:
+              if z["engine"]==eng:
+                  print(z["target_id"])
+          PY
+          while read -r tid; do
+            test -n "$tid"
+            python3 harness/g95_p11_court.py case               --precommit pre/g95-p11-precommit.json               --target-id "$tid"               --binary build/c3x-p11-${{ matrix.engine }}               --out "out/p11-case-$tid.json"
+          done < /tmp/targets.txt
+          sha256sum out/* | sort > out/case-sha256.txt
+        env:
+          MATRIX_ENGINE: ${{ matrix.engine }}
+      - uses: actions/upload-artifact@v4
+        with:
+          name: g95-p11-cases-${{ matrix.engine }}
+          path: out/
+          retention-days: 30
+
+  regression:
+    needs: precommit
+    runs-on: ubuntu-latest
+    timeout-minutes: 240
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: g95-p11-precommit-sealed
+          path: pre
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: g95-p11-build-*
+          path: builds
+      - uses: actions/download-artifact@v4
+        with:
+          name: g95-p10-final-anatomy
+          path: p10-final
+          repository: WhoSia/C3X
+          run-id: ${{ env.P10_RUN }}
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: g95-p9-precommit-sealed
+          path: p9-pre
+          repository: WhoSia/C3X
+          run-id: ${{ env.P9_RUN }}
+          github-token: ${{ github.token }}
+      - name: Run actual source-patch contrast on sealed seven-case bank
+        run: |
+          set -euxo pipefail
+          R="$(find p10-final -name p9-seed-replay.json -print -quit)"
+          P="$(find p9-pre -name g95-p9-precommit.json -print -quit)"
+          SF="$(find builds -type f -name c3x-p11-stockfish_19 -print -quit)"
+          BE="$(find builds -type f -name c3x-p11-berserk -print -quit)"
+          ET="$(find builds -type f -name c3x-p11-ethereal -print -quit)"
+          chmod +x "$SF" "$BE" "$ET"
+          mkdir -p out
+          python3 harness/g95_p11_court.py regression             --precommit pre/g95-p11-precommit.json             --p10-seed-replay "$R"             --p9-precommit "$P"             --stockfish-bin "$SF"             --berserk-bin "$BE"             --ethereal-bin "$ET"             --out out/p11-patch-regression.json
+          sha256sum out/* | sort > out/regression-sha256.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: g95-p11-patch-regression
+          path: out/
+          retention-days: 30
+
+  final:
+    needs: [mediation, regression]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: g95-p11-precommit-sealed
+          path: pre
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: g95-p11-cases-*
+          path: cases
+      - uses: actions/download-artifact@v4
+        with:
+          name: g95-p11-patch-regression
+          path: regression
+      - name: Adjudicate and verify
+        run: |
+          set -euxo pipefail
+          mkdir -p out
+          python3 harness/g95_p11_court.py adjudicate             --precommit pre/g95-p11-precommit.json             --cases cases             --regression regression/p11-patch-regression.json             --out out/p11-adjudication.json             --markdown out/p11-developer-diagnostic.md
+          go run tools/p11_mediation_verify.go out/p11-adjudication.json | tee out/go-verification.txt
+          node tools/p11-verify.mjs out/p11-adjudication.json regression/p11-patch-regression.json | tee out/js-verification.txt
+          cp regression/p11-patch-regression.json out/
+          cp pre/g95-p11-precommit.json out/
+          sha256sum out/* | sort > out/final-sha256.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: g95-p11-final-mediation
+          path: out/
+          retention-days: 30
