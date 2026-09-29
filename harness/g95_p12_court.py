@@ -234,8 +234,9 @@ def adjudicate(a):
  for k,v in groups.items():
   if len(v)>=req["root_change_witnesses"] and len({x["engine"] for x in v})>=req["positive_engines"] and len({x["position_id"] for x in v})>=req["positions"] and len({x["source_id"] for x in v})>=req["sources"]:
    rep.append({"signature":k,"witnesses":len(v),"engines":sorted({x["engine"] for x in v}),"positions":len({x["position_id"] for x in v}),"sources":sorted({x["source_id"] for x in v})})
+ rep_mediated=[z for z in rep if z["signature"].split("|")[-1] in mednames]
  if not support:verdict="P12_FRESH_SUPPORT_HOLD"
- elif rep:verdict="P12_REPLICATED_EXACT_CUTOFF_MEDIATION"
+ elif rep_mediated:verdict="P12_REPLICATED_EXACT_CUTOFF_MEDIATION"
  elif mediated:verdict="P12_EXACT_CUTOFF_MEDIATION_IDENTIFIED_REPLICATION_HOLD"
  else:verdict="P12_CUTOFF_COLOCATION_ONLY"
  out={"schema":"c3x-g95-p12-adjudication-v1","scientific_stage":STAGE,"status":"CLOSED_PASS" if support else "HOLD","verdict":verdict,
@@ -244,7 +245,7 @@ def adjudicate(a):
   "mediation_status_counts":dict(sorted(Counter(r["mediation_verdict"] for r in pos).items())),
   "root_change_per_engine":dict(sorted(Counter(r["engine"] for r in pos).items())),
   "root_change_per_source":dict(sorted(Counter(r["source_id"] for r in pos).items())),
-  "replicated_transition_signatures":rep,"world_count":len(worlds),"records":rows,
+  "replicated_transition_signatures":rep,"replicated_mediated_transition_signatures":rep_mediated,"world_count":len(worlds),"records":rows,
   "claim_ceiling":pre["claim_ceiling"],"raw_tt_key_emitted":False}
  seal(out);Path(a.out).write_text(json.dumps(out,indent=2,sort_keys=True)+"\n")
  lines=["# C3X G9.5-P12 — Chess-Native Exact-Cutoff Diagnostic","",f"Status: **{out['status']} / {verdict}**",
