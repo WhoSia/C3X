@@ -72,7 +72,7 @@ def main():
  ap.add_argument("--manifest",required=True)
  a=ap.parse_args();root=Path(a.root);h=head(root)
  if h!=LOCKS[a.engine]:raise SystemExit(f"P11_SOURCE_LOCK {h}")
- p32inc=root/"src"/"c3x_p32_event_target.inc"
+ p32inc=root/"src"/"c3x_p32_target.inc"
  if not p32inc.exists():raise SystemExit("P11_REQUIRES_P32_TARGET")
  ps=p32inc.read_text()
  fam_anchor='static int c3x_p32_family_has(int cls){'
