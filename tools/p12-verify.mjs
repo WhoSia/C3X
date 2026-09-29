@@ -9,6 +9,8 @@ ok(x.raw_tt_key_emitted===false,'raw-key');
 ok(x.world_count===36,'world-count');
 const verdicts=new Set(['P12_FRESH_SUPPORT_HOLD','P12_REPLICATED_EXACT_CUTOFF_MEDIATION','P12_EXACT_CUTOFF_MEDIATION_IDENTIFIED_REPLICATION_HOLD','P12_CUTOFF_COLOCATION_ONLY']);
 ok(verdicts.has(x.verdict),'verdict');
+if(x.verdict==='P12_REPLICATED_EXACT_CUTOFF_MEDIATION')ok(Array.isArray(x.replicated_mediated_transition_signatures)&&x.replicated_mediated_transition_signatures.length>0,'replicated-mediated-signature');
+if(x.verdict==='P12_EXACT_CUTOFF_MEDIATION_IDENTIFIED_REPLICATION_HOLD')ok(Array.isArray(x.replicated_mediated_transition_signatures)&&x.replicated_mediated_transition_signatures.length===0&&x.support.mediated_targets>0,'mediation-replication-hold');
 for(const r of x.records){
  ok(r.raw_tt_key_emitted===false,'record-key-flag');
  const s=JSON.stringify(r);
