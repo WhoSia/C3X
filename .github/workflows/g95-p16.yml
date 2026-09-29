@@ -94,7 +94,7 @@ jobs:
         run: |
           set -euxo pipefail
           if [ "${{ matrix.engine }}" = stockfish_19 ]; then
-            python3 tools/materialize_p16.py --stockfish src --target stockfish_19
+            python3 tools/materialize_p15.py --stockfish src --target stockfish_19
           elif [ "${{ matrix.engine }}" = berserk ]; then
             python3 tools/p20_patch_berserk.py --root src --variant instrument --manifest out/p20.json
           else
