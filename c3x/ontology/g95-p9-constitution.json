@@ -51,7 +51,9 @@
       }
     ],
     "freshness_rule": "Exclude every recoverable P1-P8 candidate FEN hash before line admission.",
-    "source_feasibility_repair": "Official-stockfish opening-book PGNs were target-blindly rejected before P9 precommit because sampled sources did not provide the frozen EARLY_MIDDLEGAME window. Lichess July 2026 was then excluded before decompression because a runner checksum did not match the official published checksum; April/May/June full-game broadcasts are checksum-pinned instead. Phase windows and all causal gates remained unchanged."
+    "source_feasibility_repair": "Official-stockfish opening-book PGNs were target-blindly rejected before P9 precommit because sampled sources did not provide the frozen EARLY_MIDDLEGAME window. Lichess July 2026 was then excluded before decompression because a runner checksum did not match the official published checksum; April/May/June full-game broadcasts are checksum-pinned instead. Phase windows and all causal gates remained unchanged. The earlier 8,000-game feasibility scan was replaced before P9 precommit with a fixed 1,024-game source-prefix rule because exhaustive source scanning added no causal information and materially inflated execution cost; all phase and causal gates remain unchanged.",
+    "trajectory_source_prefix_games": 1024,
+    "trajectory_selection_rule": "For each checksum-pinned monthly broadcast, scan exactly the first 1,024 PGN games; among complete eligible four-phase trajectories in that fixed prefix, admit the two lexicographically smallest target-blind trajectory hashes."
   },
   "phase_matching": {
     "unit": "PGN_LINE_TRAJECTORY",
