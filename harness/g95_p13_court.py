@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-import argparse,hashlib,json,re,subprocess,sys
+import argparse,hashlib,json,os,re,subprocess,sys
 from collections import Counter,defaultdict
 from pathlib import Path
 import chess
@@ -100,10 +100,17 @@ def run_context(path,protocol,cell,mode,addresses,work):
  for q in (trace,tt,target):q.unlink(missing_ok=True)
  return {"semantic":s,"trace":tr,"incumbent_timeline":parse_incumbents(lines)}
 
-def run_forced(path,protocol,fen,move,nodes,work,tag):
+def run_forced(path,protocol,fen,move,nodes,work,tag,observe_rootchild=False):
  work=Path(work);work.mkdir(parents=True,exist_ok=True)
- trace=work/f"{tag}.csv";tt=work/f"{tag}-tt.csv"
- p=p32.setup(path,protocol,"CATALOG","ALL",8,None,trace,tt)
+ trace=work/f"{tag}.csv";tt=work/f"{tag}-tt.csv";rc=work/f"{tag}-rootchild.csv"
+ old=os.environ.get("C3X_P13_ROOTCHILD_TRACE")
+ if observe_rootchild:os.environ["C3X_P13_ROOTCHILD_TRACE"]=str(rc)
+ else:os.environ.pop("C3X_P13_ROOTCHILD_TRACE",None)
+ try:
+  p=p32.setup(path,protocol,"CATALOG","ALL",8,None,trace,tt)
+ finally:
+  if old is None:os.environ.pop("C3X_P13_ROOTCHILD_TRACE",None)
+  else:os.environ["C3X_P13_ROOTCHILD_TRACE"]=old
  try:
   p.stdin.write(f"position fen {fen}\ngo nodes {nodes} searchmoves {move}\n");p.stdin.flush()
   lines=p27.read_until(p,lambda x:x.startswith("bestmove "))
@@ -111,15 +118,19 @@ def run_forced(path,protocol,fen,move,nodes,work,tag):
   quitp(p)
  finally:
   if p.poll() is None:p.kill()
- tr=p32.parse_trace(trace)
- for q in (trace,tt):q.unlink(missing_ok=True)
- return {"semantic":s,"trace":tr,"incumbent_timeline":parse_incumbents(lines)}
+ tr=p32.parse_trace(trace);keys=[]
+ if observe_rootchild and rc.exists():
+  for line in rc.read_text().splitlines():
+   z=line.split(",")
+   if len(z)==2 and z[0]=="K":keys.append(z[1].lower())
+ for q in (trace,tt,rc):q.unlink(missing_ok=True)
+ return {"semantic":s,"trace":tr,"incumbent_timeline":parse_incumbents(lines),"rootchild_keys":sorted(set(keys))}
 
 def fingerprint(path,protocol,fen,moves,nodes,work):
  out={};collisions=[];key_to_move={}
  for i,m in enumerate(moves):
-  r=run_forced(path,protocol,fen,m,nodes,work,f"fp-{i:02d}")
-  keys=sorted({e["key"] for e in r["trace"]["events"] if int(e.get("ply",-1))==1})
+  r=run_forced(path,protocol,fen,m,nodes,work,f"fp-{i:02d}",observe_rootchild=True)
+  keys=r["rootchild_keys"]
   ok=len(keys)==1
   out[m]={"mapped":ok,"ply1_key_count":len(keys)}
   if not ok:continue
