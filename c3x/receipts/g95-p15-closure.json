@@ -1,0 +1,241 @@
+{
+  "schema": "c3x-g95-p15-closure-v1",
+  "scientific_stage": "C3X 0.7.0-G9.5-P15",
+  "title": "Prospective Chess-Structure→Search Pair-Mediation Bridge, Legal-Pair-Preserving Board Interventions, Susceptibility-State Causality, Cross-Engine Mediation Transport & Preference-Explanation Reconstitution",
+  "status": "CLOSED_PASS",
+  "verdict": "P15_REPLICATED_CHESS_STRUCTURE_SUSCEPTIBILITY_MODULATION",
+  "authority": "REPLICATED_CHESS_STRUCTURE_SUSCEPTIBILITY_MODULATION / FULL_PREFERENCE_MEDIATION_LOCAL_ONLY",
+  "parent": {
+    "stage": "C3X 0.7.0-G9.5-P14",
+    "closure_commit": "51f9b9832540b636b1cf0f0ac7dcd2437f0908e0",
+    "closure_receipt_sha256": "fe8230f1dc3d08c2ad249b2387697aa6aff6fe540007b8c4493c31b5133a14d3",
+    "verdict": "P14_REPLICATED_ORIENTATION_FREE_PAIR_REVERSAL_TRANSPORT"
+  },
+  "canonical_execution": {
+    "workflow": "g95-p15-board-search-mediation",
+    "run_id": 36533275067,
+    "run_number": 1,
+    "science_head": "6c0f762de0c44c4b16e5fb1af0a69f9f66d51f78",
+    "conclusion": "success",
+    "qualification_jobs_success": 96,
+    "board_qualification_jobs_success": 96,
+    "factorial_jobs_success": 96,
+    "main_only_branch_audit": true
+  },
+  "artifacts": {
+    "corpus": {
+      "id": 11017467888,
+      "name": "g95-p15-corpus-sealed",
+      "digest": "sha256:f592535724c2095f517253e76d72e37d5faaa8bb6587542eaf32c6442063f994"
+    },
+    "design": {
+      "id": 11017996179,
+      "name": "g95-p15-design-precommit-sealed",
+      "digest": "sha256:e42bee9f03ba236730e88265cf79d9c71e8532e2078958aecbdddad4f0312cdf"
+    },
+    "pair_freeze": {
+      "id": 11017333592,
+      "name": "g95-p15-pair-freeze-sealed",
+      "digest": "sha256:9872cfccaddd648e058e70d8eb90fea73c890e79b03ea5a95d2a92bfe33759bb"
+    },
+    "board_freeze": {
+      "id": 11017882748,
+      "name": "g95-p15-board-freeze-sealed",
+      "digest": "sha256:7b64bbf65fe755ff57479eb346f3048001b15216cacf0f63a45921bc4e05bdcd"
+    },
+    "final": {
+      "id": 11017584056,
+      "name": "g95-p15-final-board-search-mediation",
+      "digest": "sha256:8cc8729a68ca86f5767d1a74f6600d48a21583821f35e6ce26c8b8ff9c27c693",
+      "size_bytes": 117255
+    }
+  },
+  "fresh_corpus": {
+    "positions": 32,
+    "engine_worlds": 96,
+    "historical_candidate_hashes_excluded": 1032,
+    "source_prefix_games": 4096,
+    "freshness_note": "July/August 2026 provider byte containers were reused because the official monthly broadcast index had no September 2026 monthly file at design time; every P15 target/decoy position hash was excluded against all recoverable P1-P14 candidate/decoy hashes.",
+    "sources": {
+      "P15_SRC_LICHESS_2026_07": {
+        "compressed_sha256": "714d0eb99f99fca8d791142038b6c59b5ca6a51b3339bd3891a92f4bdffcbf0c",
+        "decompressed_sha256": "6ad4a7652e22986a309d98b4e9df9a7d5ea9afc095ff503c49be67df363576b3",
+        "eligible_positions": 3891,
+        "logical": "lichess_db_broadcast_2026-07.pgn"
+      },
+      "P15_SRC_LICHESS_2026_08": {
+        "compressed_sha256": "e227c35c3207ebade754849c1825982e2717ae82c013013d896778e27be77724",
+        "decompressed_sha256": "6aa009cfc119ea75903c19d8a658f7aae7448989dc91b6aada791e109d039fe8",
+        "eligible_positions": 3824,
+        "logical": "lichess_db_broadcast_2026-08.pgn"
+      }
+    }
+  },
+  "freeze": {
+    "pair_freeze_receipt_sha256": "8f6ee6b5e697cf45de7b379a399f07251b6ab7a5cb68cb194a353632a8b33b23",
+    "admitted_pair_positions": 27,
+    "pair_active_engine_worlds": 69,
+    "positions_with_outcome_blind_board_candidates": 16,
+    "board_freeze_receipt_sha256": "aa68072f2c86dc7bce2415a6213bb77e1fdb41ef002e55602537299837da9c8c",
+    "board_edit_pair_positions": 9,
+    "factorial_active_engine_worlds": 20,
+    "board_edit_selection_used_search_event_outcomes": false,
+    "board_edit_selection_used_edited_native_root_choice": false
+  },
+  "result": {
+    "adjudication_receipt_sha256": "459ab4c0fe1d8fe5fb642a43c0b1f21830412b9e26822871a9aa8bcb3c9623b2",
+    "support": {
+      "active_engines": [
+        "berserk",
+        "ethereal",
+        "stockfish_19"
+      ],
+      "address_misses": 0,
+      "admitted_pair_positions": 27,
+      "board_edit_pair_positions": 9,
+      "factorial_active_engine_worlds": 20,
+      "pass": true,
+      "sources": [
+        "P15_SRC_LICHESS_2026_07",
+        "P15_SRC_LICHESS_2026_08"
+      ],
+      "worlds_with_any_fired_semantic_target": 20
+    },
+    "overall_class_counts": {
+      "DIRECT_BOARD_ONLY": 2,
+      "FULL_BRIDGE": 1,
+      "NULL": 3,
+      "SUSCEPTIBILITY_MODULATION": 14
+    },
+    "full_bridge_records": 1,
+    "susceptibility_modulation_records": 16,
+    "replicated_full_bridge_signatures": [],
+    "replicated_susceptibility_signatures": [
+      {
+        "engines": [
+          "berserk",
+          "ethereal",
+          "stockfish_19"
+        ],
+        "positions": 4,
+        "signature": "ANCHOR_PREFERRED_DOMINANT|LOWER|SUSCEPTIBILITY_MODULATION",
+        "sources": [
+          "P15_SRC_LICHESS_2026_07",
+          "P15_SRC_LICHESS_2026_08"
+        ],
+        "witnesses": 5
+      },
+      {
+        "engines": [
+          "berserk",
+          "ethereal",
+          "stockfish_19"
+        ],
+        "positions": 5,
+        "signature": "ANCHOR_PREFERRED_DOMINANT|UPPER|SUSCEPTIBILITY_MODULATION",
+        "sources": [
+          "P15_SRC_LICHESS_2026_07",
+          "P15_SRC_LICHESS_2026_08"
+        ],
+        "witnesses": 6
+      }
+    ],
+    "record_count": 17
+  },
+  "replicated_susceptibility_signatures": [
+    {
+      "engines": [
+        "berserk",
+        "ethereal",
+        "stockfish_19"
+      ],
+      "positions": 4,
+      "signature": "ANCHOR_PREFERRED_DOMINANT|LOWER|SUSCEPTIBILITY_MODULATION",
+      "sources": [
+        "P15_SRC_LICHESS_2026_07",
+        "P15_SRC_LICHESS_2026_08"
+      ],
+      "witnesses": 5
+    },
+    {
+      "engines": [
+        "berserk",
+        "ethereal",
+        "stockfish_19"
+      ],
+      "positions": 5,
+      "signature": "ANCHOR_PREFERRED_DOMINANT|UPPER|SUSCEPTIBILITY_MODULATION",
+      "sources": [
+        "P15_SRC_LICHESS_2026_07",
+        "P15_SRC_LICHESS_2026_08"
+      ],
+      "witnesses": 6
+    }
+  ],
+  "full_bridge_authority_note": "Exactly one FULL_BRIDGE world was observed, so full board→search→pair-preference mediation did not earn replication authority. It is retained as a local reopening witness only.",
+  "representative_full_bridge_witness": {
+    "engine": "stockfish_19",
+    "position_id": "p15:P15_SRC_LICHESS_2026_07:00764c6d0bff",
+    "source_id": "P15_SRC_LICHESS_2026_07",
+    "pair": "Nbd7 / c5",
+    "pair_uci": "b8d7::c7c5",
+    "original_native": "Nbd7",
+    "target_native": "c5",
+    "target_edit": "Bf4→g5",
+    "target_edit_id": "f4g5",
+    "target_relation_delta_role": "ANCHOR_DISPREFERRED_DOMINANT",
+    "sham_edit": "Bf4→e5",
+    "sham_edit_id": "f4e5",
+    "bridge_bound": "UPPER",
+    "t_only_collapse": "Nbd7",
+    "sham_reproduced": false,
+    "original_upper_state": "EVENT_NULL",
+    "target_upper_state": "EVENT_PAIR_REVERSAL",
+    "sham_upper_state": "EVENT_NULL",
+    "authority": "LOCAL_FULL_BRIDGE_ONLY"
+  },
+  "claim_ceiling": [
+    "P15 may identify prospectively matched low-collateral board structural perturbations that modulate exact-event susceptibility and near-equal legal-pair preference under the declared engines and budgets.",
+    "FULL_BRIDGE is an operational factorial interaction/collapse result, not a natural direct/indirect effect decomposition.",
+    "A pair-local attack-relation delta is a mechanistic board descriptor, not yet a human strategic concept such as space, initiative, prophylaxis, or piece quality.",
+    "Semantic event transport does not imply native address or algorithm identity across boards or engines.",
+    "Engine preference is not objective chess truth, human intent, cognition, or normative move quality.",
+    "Historically unreachable but rule-valid counterfactual boards are structural probes, not claims about natural game frequency."
+  ],
+  "two_track_constitution": {
+    "science_track": "Causal/contrastive novelty about marginal preference between near-equal legal moves.",
+    "implementation_track": "PGN→commentary engineering may borrow external chess/XAI/NLP methods but cannot enlarge scientific authority.",
+    "github_doctrine": "docs/C3X_TWO_TRACK_CONSTITUTION.md",
+    "implementation_roadmap": "docs/EXPLANATION_IMPLEMENTATION_TRACK.md",
+    "provenance_classes": [
+      "C3X_CAUSAL_CONTRAST",
+      "CONVENTIONAL_HEURISTIC_COMMENTARY"
+    ]
+  },
+  "harvest_backflow": [
+    "BOARD_STRUCTURE_CAN_REPLICABLY_MODULATE_EXACT_SEARCH_SUSCEPTIBILITY_WITHOUT_YET_REPLICATING_FULL_PREFERENCE_MEDIATION",
+    "SUSCEPTIBILITY_MODULATION_AND_FULL_PREFERENCE_MEDIATION_ARE_DISTINCT_AUTHORITY_LEVELS",
+    "MATCHED_SHAM_BOARD_EDITS_CAN_SEPARATE_GENERIC_BOARD_SENSITIVITY_FROM_PAIR_LOCAL_RELATION_CHANGE",
+    "A_LOCAL_FULL_BRIDGE_IS_REOPENING_EVIDENCE_NOT_REPLICATION",
+    "SCIENCE_NOVELTY_AND_EXPLANATION_IMPLEMENTATION_REQUIRE_SEPARATE_AUTHORITY_TRACKS"
+  ],
+  "next_authorization": {
+    "count": 1,
+    "stage": "C3X 0.7.0-G9.5-P16",
+    "direction": "Prospectively identify and minimize the chess-board structural causes that convert replicated susceptibility modulation into replicated pair-preference mediation, using held-out board-intervention families, minimal distinguishing structure tests, and explicit causal explanation certificates.",
+    "forbidden": "No retrospective tuning of the P15 board grammar or support thresholds; no narrower search-event taxonomy rescue; no promotion of the single P15 FULL_BRIDGE witness into a law; no human concept naming without a separate prospective bridge from structural descriptors to chess concepts."
+  },
+  "verification": {
+    "go": "P15_GO_VERIFY_PASS P15_REPLICATED_CHESS_STRUCTURE_SUSCEPTIBILITY_MODULATION records 17 active 20",
+    "js": "P15_JS_CLAIM_FIREWALL_PASS P15_REPLICATED_CHESS_STRUCTURE_SUSCEPTIBILITY_MODULATION records 17 active 20",
+    "final_file_sha256": {
+      "p15-mechanism-bridge-cards.md": "5bf0da7480684caf48bd508d6d890b781f8d679768353d2975d12d013d02e67f",
+      "go-verification.txt": "650ccee8045b0c4d1379089db40609a807dc52b06242d351085fbda6c9db4b8d",
+      "g95-p15-board-freeze.json": "afa2009b69317c6e5bca613da1b331a32cc32ff8d2ef699da385375078686d5f",
+      "js-verification.txt": "b762eb80910965db4977e5741dd2747c0e0e920662f7da82f0fbe6668095c836",
+      "p15-adjudication.json": "d1d88583d86f1fd5f569a9f3006d4df2827679923e7b44b622ac501340ed673e"
+    }
+  },
+  "receipt_digest_scope": "SHA256_OF_CANONICAL_JSON_WITHOUT_RECEIPT_SHA256_AND_RECEIPT_DIGEST_SCOPE",
+  "receipt_sha256": "b01a4ab158dfc3f5e640cf38f2d4f9da04a09c2fdfa04c0c32d042976ffaa54d"
+}
