@@ -1,0 +1,174 @@
+{
+  "schema":"c3x-g95-p10-constitution-v1",
+  "scientific_stage":"C3X 0.7.0-G9.5-P10",
+  "title":"Prospective Late-Opening Move-Ordering Causal Anatomy, Same-Position Cross-Engine Witness Expansion, Search-Lineage Localization, Patch-Level Regression Replay & Developer-Facing TT Decision Diagnostics",
+  "program_identity":{
+    "domain":"CHESS_ENGINE_SEARCH_CAUSAL_DEBUGGING",
+    "methodology_role":"CONSTRAINT_AND_MEASUREMENT_ONLY",
+    "primary_question":"Within fresh late-opening worlds, which prospectively defined MOVE_ORDER_SEED search-lineage archetypes repeatedly produce exact-intervention root-move changes across engines, positions and sources?",
+    "engineering_question":"Can the P9 exact witness bank be replayed byte-identically as a baseline regression harness that future engine patches can consume?",
+    "terminal_product":"Fresh causal-lineage anatomy plus a replayable TT decision regression manifest and developer diagnostic."
+  },
+  "parent":{
+    "stage":"C3X 0.7.0-G9.5-P9",
+    "closure_commit":"a50c765a7ebfa018acfd362156c5fe03146be8f1",
+    "closure_receipt_sha256":"a7390b0366606dfc880097760c69f2d4082f45d0d5e8e1982d74408b30e8e8b0",
+    "verdict":"P9_CARTOGRAPHY_COMPLETE_ONE_OPERATIONAL_HOTSPOT"
+  },
+  "p9_firewall":{
+    "p9_hotspot_domain_allowed":true,
+    "allowed_domain":"LATE_OPENING × MOVE_ORDER_SEED",
+    "p9_target_labels_confirmatory_vote":false,
+    "p9_regression_witnesses_confirmatory_vote":false,
+    "p9_positive_positions_allowed_in_fresh_anatomy":false,
+    "p9_witnesses_allowed_in_regression_seed_lane":true,
+    "regression_seed_lane_authority":"ENGINEERING_REPRODUCTION_ONLY",
+    "fresh_anatomy_authority":"P10_CONFIRMATORY"
+  },
+  "harvest_bridge":{
+    "authority":"DESIGN_DONOR_AND_BACKFLOW_ONLY",
+    "donors":[
+      "WITHIN_TRAJECTORY_CARTOGRAPHY_CAN_RECOVER_CAUSAL_ECOLOGY_WITHOUT_LEARNED_REPRESENTATIONS",
+      "CROSS_SYSTEM_REPLICATION_IS_ACTIONABLE_WITHOUT_BECOMING_UNIVERSAL_TRANSPORT",
+      "REGRESSION_WITNESS_BANKS_CAN_BE_TERMINAL_SCIENTIFIC_PRODUCTS"
+    ],
+    "rule":"Harvest may motivate lineage and regression organization but cannot strengthen fresh P10 chess authority."
+  },
+  "fresh_sources":{
+    "provider":"Lichess official broadcasts",
+    "license":"CC BY-SA 4.0",
+    "trajectory_source_prefix_games":1024,
+    "sources":[
+      {"id":"P10_SRC_LICHESS_2026_01","url":"https://database.lichess.org/broadcast/lichess_db_broadcast_2026-01.pgn.zst","sha256":"9abf10d106a8bf5ecd41359825b3bf55c2f124c8a790a380cb98844c2cca5dca"},
+      {"id":"P10_SRC_LICHESS_2026_02","url":"https://database.lichess.org/broadcast/lichess_db_broadcast_2026-02.pgn.zst","sha256":"ea977569917718b33940ba5379db2adad77d58876c29084294d357f15fe6a31b"},
+      {"id":"P10_SRC_LICHESS_2026_03","url":"https://database.lichess.org/broadcast/lichess_db_broadcast_2026-03.pgn.zst","sha256":"1a5ad83fc9f440dcdadde17b11cc81a953f4895aaf8b8588470b3078209dc7fc"}
+    ],
+    "freshness_rule":"Exclude every recoverable P1-P9 candidate FEN hash before admission; exclude cross-source duplicates; P9 positive positions are forbidden."
+  },
+  "late_opening_worlds":{
+    "ply_lo":14,
+    "ply_hi":21,
+    "positions_per_source":3,
+    "sources":3,
+    "planned_positions":9,
+    "position_choice":"Among eligible late-opening positions in each of the first 1,024 source games, select the three lexicographically smallest fresh trajectory-position hashes after historical exclusion.",
+    "eligibility":{
+      "standard_chess_only":true,
+      "no_terminal_position":true,
+      "in_check_allowed":false,
+      "absolute_material_balance_max_pawns":3,
+      "legal_moves_min":18,
+      "legal_moves_max":48
+    },
+    "engine_outcomes_consulted":false,
+    "historical_target_labels_consulted":false
+  },
+  "execution":{
+    "engines":["stockfish_19","berserk","ethereal"],
+    "planned_worlds":27,
+    "candidate_events_per_world":24,
+    "planned_max_event_records":648,
+    "hash_mib":1,
+    "threads":1,
+    "prime_nodes":20000,
+    "decoy_nodes":20000,
+    "decoy_count":3,
+    "measurement_nodes":80000,
+    "family":"MOVE_ORDER",
+    "frontier":1,
+    "inherited_engine_build_run":36216185685
+  },
+  "event_sampler":{
+    "authority":"TARGET_BLIND_BASELINE_TRACE_ONLY",
+    "eligible":"semantic class MOVE_ORDER_SEED; ply<=1; tt_move!=0",
+    "max_events":24,
+    "strata":[
+      {"id":"FIRST_KEY","quota":8,"predicate":"no prior event in baseline prefix has the same TT key"},
+      {"id":"REPEAT_KEY","quota":12,"predicate":"at least one prior event in baseline prefix has the same TT key"},
+      {"id":"QUOTA_FILL","quota":4,"predicate":"any remaining eligible MOVE_ORDER_SEED event"}
+    ],
+    "tie_break":"lexicographic exact address_id",
+    "raw_key_emitted_in_public_anatomy":false
+  },
+  "support_gate":{
+    "min_total_fired_records":500,
+    "min_total_root_change":8,
+    "min_records_per_engine":160,
+    "min_positive_engines":2,
+    "min_positive_sources":2,
+    "min_sensitive_positions":3,
+    "min_cross_engine_replicated_positions":1
+  },
+  "lineage":{
+    "causal_prior_semantics":"All primary archetype atoms are computed from the baseline trace at or before the addressed event; raw TT key may be used transiently only for within-trace equality.",
+    "primary_archetype":{
+      "id":"A0",
+      "atoms":["scope","ply_bucket","depth_band","bound_bucket","key_history","same_key_move_relation"],
+      "scope_values":["MAIN","QSEARCH"],
+      "ply_bucket":"PLY0 | PLY1",
+      "depth_band":"LE4 | D5_8 | D9_12 | D13_PLUS",
+      "bound_bucket":"NONE | UPPER | LOWER | EXACT | OTHER",
+      "key_history":"FIRST_KEY | REPEAT_KEY",
+      "same_key_move_relation":"FIRST_KEY | SAME_MOVE | DIFF_MOVE"
+    },
+    "diagnostic_archetype":{
+      "id":"A1",
+      "adds":["same_key_count_bucket","same_key_prev_gap_bucket","same_key_depth_delta","same_class_prev_gap_bucket","previous_semantic_class","previous_scope"]
+    },
+    "counterfactual_trace_lineage":{
+      "engine":"c3x-lineage",
+      "report":["matched","emergent","vanished","first_trace_divergence"],
+      "authority":"POST_TARGET_CAUSAL_ANATOMY_ONLY"
+    },
+    "replicated_primary_archetype_rule":{
+      "min_root_change_events":4,
+      "min_positive_engines":2,
+      "min_positive_positions":2,
+      "min_positive_sources":2
+    },
+    "no_post_target_archetype_refit":true
+  },
+  "fresh_anatomy_verdicts":{
+    "support_fail":"P10_FRESH_SUPPORT_HOLD",
+    "support_pass_no_replicated_archetype":"P10_ANATOMY_NO_REPLICATED_ARCHETYPE_HOLD",
+    "support_pass_replicated_archetype":"P10_REPLICATED_MOVE_ORDER_LINEAGE_ANATOMY"
+  },
+  "p9_regression_seed_lane":{
+    "parent_run":36502126530,
+    "expected_cases":7,
+    "replay_positive":"Re-run each P9 positive exact address on the original pinned engine binary and require target fired plus the exact recorded baseline→counterfactual bestmove transition.",
+    "replay_control":"Where a matched negative control exists, re-run its exact address and require target fired plus no baseline root-move change.",
+    "success_rule":"All replayable positive cases must reproduce exactly; every present matched control must remain negative.",
+    "future_patch_manifest_fields":["engine","baseline_binary_sha256","position_id","fen","event_address","semantic_class","expected_baseline_bestmove","expected_counterfactual_bestmove","matched_control_address","baseline_pv","counterfactual_pv","first_pv_divergence"],
+    "fresh_confirmatory_vote":false
+  },
+  "developer_diagnostic":{
+    "outputs":["fresh_support_map","A0_lineage_map","A1_diagnostic_map","same_position_cross_engine_witnesses","counterfactual_trace_lineage","root_move_transitions","legal_pv_divergences","p9_seed_regression_replay","future_patch_replay_manifest"],
+    "llm_required":false,
+    "may_claim_human_strategy":false,
+    "may_claim_engine_strength":false,
+    "may_claim_universal_late_opening_law":false
+  },
+  "implementation_roles":{
+    "C_or_Cpp":"Existing engine-native exact MOVE_ORDER_SEED intervention.",
+    "Python":"Fresh PGN late-opening corpus, exact replay, baseline-prefix lineage atoms, PV/chess phenotype and regression harness.",
+    "Rust":"Deterministic fresh anatomy aggregation, support gate and replicated-archetype compiler.",
+    "Go":"Independent anatomy aggregation and archetype parity verifier.",
+    "JavaScript":"Independent claim-ceiling and regression-manifest verifier."
+  },
+  "stop_rule":[
+    "If fresh corpus cannot be materialized, close CORPUS_HOLD.",
+    "If fresh causal support gate fails, close P10_FRESH_SUPPORT_HOLD; do not invent new lineage atoms.",
+    "If support passes, evaluate frozen A0 rule exactly once; A1 remains diagnostic only.",
+    "Regression seed replay is engineering reproduction and cannot rescue failed fresh anatomy.",
+    "P10 closes after fresh anatomy and baseline regression-harness materialization; it does not grow a new representation family."
+  ],
+  "claim_ceiling":[
+    "P10 fresh anatomy is specific to late-opening worlds, exact MOVE_ORDER_SEED intervention, the declared engines, node budget and sampler.",
+    "P9 target labels and regression witnesses receive zero P10 fresh confirmatory vote.",
+    "Raw TT key equality is only an intra-trace lineage relation and never a cross-engine identity claim.",
+    "A replicated A0 archetype is a developer-facing structural regularity, not a universal causal essence of move ordering.",
+    "Baseline regression replay validates harness reproducibility, not persistence under an untested future patch.",
+    "No human strategic intent, Elo, playing strength or universal opening law is authorized."
+  ]
+}
