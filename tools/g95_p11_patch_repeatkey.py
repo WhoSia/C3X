@@ -78,8 +78,16 @@ def main():
  anchor="static int c3x_p34_block(const char *scope"
  if s.count(anchor)!=1:raise SystemExit(f"P11_BLOCK_ANCHOR_{s.count(anchor)}")
  s=s.replace(anchor,HELPER+"\n"+anchor,1)
+ seed_anchor="  int seed=c3x_p32_block(scope,cls,key,ply,depth,alpha,beta,ttval,tteval,bound,move,payload);"
+ seed_new=seed_anchor+"\n  int p11=c3x_p11_patch_block(scope,cls,key,ply,depth,bound,move);"
+ if s.count(seed_anchor)!=1:raise SystemExit(f"P11_SEED_ANCHOR_{s.count(seed_anchor)}")
+ s=s.replace(seed_anchor,seed_new,1)
+ old_gate="  if(!c3x_p32_measurement() || !c3x_p32_family_has(cls))return seed;"
+ new_gate="  if(!c3x_p32_measurement() || (!c3x_p32_family_has(cls) && !c3x_p11_mediator_all()))return seed||p11;"
+ if s.count(old_gate)!=1:raise SystemExit(f"P11_GATE_ANCHOR_{s.count(old_gate)}")
+ s=s.replace(old_gate,new_gate,1)
  old="  return seed||extra;\n}"
- new="  int p11=c3x_p11_patch_block(scope,cls,key,ply,depth,bound,move);\n  return seed||extra||p11;\n}"
+ new="  return seed||extra||p11;\n}"
  if s.count(old)!=1:raise SystemExit(f"P11_RETURN_ANCHOR_{s.count(old)}")
  s=s.replace(old,new,1)
  p.write_text(s)
