@@ -1,0 +1,249 @@
+name: g95-p10-late-opening-move-order-anatomy
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - "c3x/ontology/g95-p10-constitution.json"
+      - "docs/G95_P10_THEORY.md"
+      - "harness/g95_p10_corpus.py"
+      - "harness/g95_p10_court.py"
+      - "crates/c3x-lawgen/src/bin/lawgen_v20.rs"
+      - "crates/c3x-field/src/bin/c3x-p10-anatomy.rs"
+      - "tools/p10_anatomy_verify.go"
+      - "tools/p10-verify.mjs"
+      - ".github/workflows/g95-p10.yml"
+
+concurrency:
+  group: g95-p10-late-opening-move-order-anatomy
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  actions: read
+
+env:
+  P1_RUN: "36219611294"
+  P2_RUN: "36223570067"
+  P3_RUN: "36231281653"
+  P4_RUN: "36233574663"
+  P5_RUN: "36249500693"
+  P6_RUN: "36381217698"
+  P7_RUN: "36385972623"
+  P8_RUN: "36396781932"
+  P9_RUN: "36502126530"
+  P34_RUN: "36216185685"
+
+jobs:
+  lawgen:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Compile P10 frozen law
+        run: |
+          set -euxo pipefail
+          python3 -m py_compile harness/g95_p10_corpus.py harness/g95_p10_court.py
+          node --check tools/p10-verify.mjs
+          cargo run --release --manifest-path crates/c3x-lawgen/Cargo.toml --bin lawgen_v20 -- c3x/ontology/g95-p10-constitution.json out/lawgen
+          sha256sum out/lawgen/* | sort > out/lawgen-sha256.txt
+      - uses: actions/upload-artifact@v4
+        with: {name: g95-p10-lawgen-preseal, path: out/, retention-days: 30}
+
+  kernels:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build anatomy, lineage and independent verifier
+        run: |
+          set -euxo pipefail
+          cargo test --manifest-path crates/c3x-field/Cargo.toml
+          cargo build --release --manifest-path crates/c3x-field/Cargo.toml --bin c3x-p10-anatomy
+          cargo test --manifest-path crates/c3x-lineage/Cargo.toml
+          cargo build --release --manifest-path crates/c3x-lineage/Cargo.toml
+          mkdir -p out
+          cp crates/c3x-field/target/release/c3x-p10-anatomy out/
+          cp crates/c3x-lineage/target/release/c3x-lineage out/
+          go build -o out/p10-anatomy-verify tools/p10_anatomy_verify.go
+          chmod +x out/*
+          sha256sum out/* | sort > out/kernel-sha256.txt
+      - uses: actions/upload-artifact@v4
+        with: {name: g95-p10-kernels, path: out/, retention-days: 30}
+
+  corpus:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install corpus dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y zstd
+          python3 -m pip install --disable-pip-version-check python-chess==1.999
+      - name: Fetch checksum-pinned Jan-Feb-Mar broadcasts
+        run: |
+          set -euxo pipefail
+          mkdir -p data
+          for m in 01 02 03; do
+            curl -fL --retry 3 -o "data/lichess_db_broadcast_2026-${m}.pgn.zst" "https://database.lichess.org/broadcast/lichess_db_broadcast_2026-${m}.pgn.zst"
+          done
+          echo "9abf10d106a8bf5ecd41359825b3bf55c2f124c8a790a380cb98844c2cca5dca  data/lichess_db_broadcast_2026-01.pgn.zst" | sha256sum -c -
+          echo "ea977569917718b33940ba5379db2adad77d58876c29084294d357f15fe6a31b  data/lichess_db_broadcast_2026-02.pgn.zst" | sha256sum -c -
+          echo "1a5ad83fc9f440dcdadde17b11cc81a953f4895aaf8b8588470b3078209dc7fc  data/lichess_db_broadcast_2026-03.pgn.zst" | sha256sum -c -
+          unzstd data/lichess_db_broadcast_2026-01.pgn.zst
+          unzstd data/lichess_db_broadcast_2026-02.pgn.zst
+          unzstd data/lichess_db_broadcast_2026-03.pgn.zst
+      - uses: actions/download-artifact@v4
+        with: {name: g95-p1-precommit-sealed, path: hist/p1, repository: WhoSia/C3X, run-id: ${{ env.P1_RUN }}, github-token: ${{ github.token }}}
+      - uses: actions/download-artifact@v4
+        with: {name: g95-p2-precommit-sealed, path: hist/p2, repository: WhoSia/C3X, run-id: ${{ env.P2_RUN }}, github-token: ${{ github.token }}}
+      - uses: actions/download-artifact@v4
+        with: {name: g95-p3-corpus-sealed, path: hist/p3, repository: WhoSia/C3X, run-id: ${{ env.P3_RUN }}, github-token: ${{ github.token }}}
+      - uses: actions/download-artifact@v4
+        with: {name: g95-p4-corpus-sealed, path: hist/p4, repository: WhoSia/C3X, run-id: ${{ env.P4_RUN }}, github-token: ${{ github.token }}}
+      - uses: actions/download-artifact@v4
+        with: {name: g95-p5-corpus-sealed, path: hist/p5, repository: WhoSia/C3X, run-id: ${{ env.P5_RUN }}, github-token: ${{ github.token }}}
+      - uses: actions/download-artifact@v4
+        with: {name: g95-p6-corpus-sealed, path: hist/p6, repository: WhoSia/C3X, run-id: ${{ env.P6_RUN }}, github-token: ${{ github.token }}}
+      - uses: actions/download-artifact@v4
+        with: {name: g95-p7-corpus-sealed, path: hist/p7, repository: WhoSia/C3X, run-id: ${{ env.P7_RUN }}, github-token: ${{ github.token }}}
+      - uses: actions/download-artifact@v4
+        with: {name: g95-p8-corpus-sealed, path: hist/p8, repository: WhoSia/C3X, run-id: ${{ env.P8_RUN }}, github-token: ${{ github.token }}}
+      - uses: actions/download-artifact@v4
+        with: {name: g95-p9-corpus-sealed, path: hist/p9, repository: WhoSia/C3X, run-id: ${{ env.P9_RUN }}, github-token: ${{ github.token }}}
+      - name: Seal fresh P10 late-opening corpus
+        run: |
+          set -euxo pipefail
+          EX=()
+          while IFS= read -r f; do EX+=(--exclude "$f"); done < <(find hist -name '*.json' -type f | sort)
+          python3 harness/g95_p10_corpus.py             --source "P10_SRC_LICHESS_2026_01|data/lichess_db_broadcast_2026-01.pgn|lichess_db_broadcast_2026-01.pgn"             --source "P10_SRC_LICHESS_2026_02|data/lichess_db_broadcast_2026-02.pgn|lichess_db_broadcast_2026-02.pgn"             --source "P10_SRC_LICHESS_2026_03|data/lichess_db_broadcast_2026-03.pgn|lichess_db_broadcast_2026-03.pgn"             "${EX[@]}" --source-repo lichess-official-broadcasts --source-commit "2026-01_02_03-sha256-pinned" --out g95-p10-corpus.json
+          sha256sum g95-p10-corpus.json > g95-p10-corpus.sha256
+      - uses: actions/upload-artifact@v4
+        with: {name: g95-p10-corpus-sealed, path: g95-p10-corpus*, retention-days: 30}
+
+  precommit:
+    needs: [lawgen,kernels,corpus]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with: {name: g95-p10-lawgen-preseal, path: lawgen}
+      - uses: actions/download-artifact@v4
+        with: {name: g95-p10-corpus-sealed, path: corpus}
+      - uses: actions/download-artifact@v4
+        with: {name: g95-p4-precommit-sealed, path: p4, repository: WhoSia/C3X, run-id: ${{ env.P4_RUN }}, github-token: ${{ github.token }}}
+      - name: Seal fresh anatomy before P10 outcomes
+        run: |
+          set -euxo pipefail
+          CONST="$(find lawgen -name constitution.json -print -quit)"
+          P4PRE="$(find p4 -name g95-p4-precommit.json -print -quit)"
+          python3 harness/g95_p10_court.py precommit --constitution "$CONST" --corpus corpus/g95-p10-corpus.json             --p4-precommit "$P4PRE" --p9-closure c3x/receipts/g95-p9-closure.json --out g95-p10-precommit.json
+          sha256sum g95-p10-precommit.json > g95-p10-precommit.sha256
+      - uses: actions/upload-artifact@v4
+        with: {name: g95-p10-precommit-sealed, path: g95-p10-precommit*, retention-days: 30}
+
+  cases:
+    needs: precommit
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+    strategy:
+      fail-fast: false
+      matrix:
+        pos: [0,1,2,3,4,5,6,7,8]
+        engine: [stockfish_19,berserk,ethereal]
+    name: P10 fresh anatomy — p${{ matrix.pos }}-${{ matrix.engine }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with: {name: g95-p10-precommit-sealed, path: pre}
+      - uses: actions/download-artifact@v4
+        with: {name: g95-p10-kernels, path: kernels}
+      - uses: actions/download-artifact@v4
+        with: {name: p34-build-${{ matrix.engine }}, path: build, repository: WhoSia/C3X, run-id: ${{ env.P34_RUN }}, github-token: ${{ github.token }}}
+      - name: Execute exact MOVE_ORDER_SEED anatomy world
+        run: |
+          set -euxo pipefail
+          python3 -m pip install --disable-pip-version-check python-chess==1.999
+          chmod +x kernels/c3x-lineage "build/c3x-p34-${{ matrix.engine }}"
+          mkdir -p out
+          python3 harness/g95_p10_court.py case --precommit pre/g95-p10-precommit.json             --case-id "p10:${{ matrix.pos }}:${{ matrix.engine }}" --binary "build/c3x-p34-${{ matrix.engine }}"             --lineager kernels/c3x-lineage --event-out out/events.json --case-out out/case.json
+      - uses: actions/upload-artifact@v4
+        with: {name: "g95-p10-case-${{ matrix.pos }}-${{ matrix.engine }}", path: out/, retention-days: 30}
+
+  p9_seed_regression:
+    needs: precommit
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with: {name: g95-p9-final-cartography, path: p9-final, repository: WhoSia/C3X, run-id: ${{ env.P9_RUN }}, github-token: ${{ github.token }}}
+      - uses: actions/download-artifact@v4
+        with: {name: g95-p9-precommit-sealed, path: p9-pre, repository: WhoSia/C3X, run-id: ${{ env.P9_RUN }}, github-token: ${{ github.token }}}
+      - uses: actions/download-artifact@v4
+        with: {name: p34-build-stockfish_19, path: build/stockfish_19, repository: WhoSia/C3X, run-id: ${{ env.P34_RUN }}, github-token: ${{ github.token }}}
+      - uses: actions/download-artifact@v4
+        with: {name: p34-build-berserk, path: build/berserk, repository: WhoSia/C3X, run-id: ${{ env.P34_RUN }}, github-token: ${{ github.token }}}
+      - uses: actions/download-artifact@v4
+        with: {name: p34-build-ethereal, path: build/ethereal, repository: WhoSia/C3X, run-id: ${{ env.P34_RUN }}, github-token: ${{ github.token }}}
+      - name: Replay P9 seed regression bank on pinned baseline binaries
+        run: |
+          set -euxo pipefail
+          MAP="$(find p9-final -name p9-map.json -print -quit)"
+          PRE="$(find p9-pre -name g95-p9-precommit.json -print -quit)"
+          SF="$(find build/stockfish_19 -type f -name 'c3x-p34-stockfish_19' -print -quit)"
+          BE="$(find build/berserk -type f -name 'c3x-p34-berserk' -print -quit)"
+          ET="$(find build/ethereal -type f -name 'c3x-p34-ethereal' -print -quit)"
+          chmod +x "$SF" "$BE" "$ET"
+          mkdir -p out
+          python3 harness/g95_p10_court.py regression --p9-map "$MAP" --p9-precommit "$PRE"             --stockfish-bin "$SF" --berserk-bin "$BE" --ethereal-bin "$ET" --out out/p9-seed-replay.json
+          sha256sum out/* > out/p9-seed-replay.sha256
+      - uses: actions/upload-artifact@v4
+        with: {name: g95-p10-p9-seed-regression, path: out/, retention-days: 30}
+
+  final:
+    needs: [cases,p9_seed_regression]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with: {name: g95-p10-lawgen-preseal, path: lawgen}
+      - uses: actions/download-artifact@v4
+        with: {name: g95-p10-kernels, path: kernels}
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: g95-p10-case-*
+          path: cases
+          merge-multiple: false
+      - uses: actions/download-artifact@v4
+        with: {name: g95-p10-p9-seed-regression, path: regression}
+      - name: Compile anatomy and developer regression diagnostic
+        run: |
+          set -euxo pipefail
+          chmod +x kernels/c3x-p10-anatomy kernels/p10-anatomy-verify
+          mkdir -p out
+          python3 harness/g95_p10_court.py merge --root cases --out out/merged-events.json
+          LAW="$(find lawgen -name anatomy-law.json -print -quit)"
+          kernels/c3x-p10-anatomy compile --input out/merged-events.json --law "$LAW" --out out/p10-anatomy.json
+          kernels/p10-anatomy-verify out/merged-events.json "$LAW" out/p10-anatomy.json out/go-parity.json
+          cp regression/p9-seed-replay.json out/
+          node tools/p10-verify.mjs out/p10-anatomy.json out/go-parity.json out/p9-seed-replay.json | tee out/js-verification.txt
+          python3 - <<'PY'
+          import json
+          a=json.load(open("out/p10-anatomy.json"));r=json.load(open("out/p9-seed-replay.json"))
+          lines=["# C3X G9.5-P10 — Late-Opening Move-Ordering Causal Anatomy","",
+            f"Fresh status: **{a['status']}**",f"Fresh records: **{a['support']['records']}**",
+            f"Fresh ROOT_CHANGE: **{a['support']['root_change']}**",
+            f"Replicated A0 archetypes: **{len(a['replicated_a0_archetypes'])}**","",
+            "## Replicated A0 archetypes"]
+          for z in a["replicated_a0_archetypes"]:
+            lines += [f"- `{z['archetype_id']}`: {z['root_change']}/{z['records']} ROOT_CHANGE; engines={len(z['positive_engines'])}; positions={len(z['positive_positions'])}; sources={len(z['positive_sources'])}"]
+          lines += ["","## Same-position cross-engine witnesses"]
+          for z in a["same_position_cross_engine_witnesses"]:
+            lines += [f"- {z['position_id']}: engines={', '.join(z['engines'])}; witnesses={len(z['witnesses'])}"]
+          lines += ["","## P9 seed regression replay",
+            f"- Cases: **{r['case_count']}**",f"- Baseline harness parity: **{'PASS' if r['pass'] else 'FAIL'}**","",
+            "P9 seed replay is engineering reproduction only and contributes zero fresh P10 confirmatory vote."]
+          open("out/p10-developer-diagnostic.md","w").write("\n".join(lines)+"\n")
+          PY
+          sha256sum out/* | sort > out/final-sha256.txt
+      - uses: actions/upload-artifact@v4
+        with: {name: g95-p10-final-anatomy, path: out/, retention-days: 30}
