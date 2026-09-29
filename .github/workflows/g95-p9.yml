@@ -80,13 +80,13 @@ jobs:
           mkdir -p data
           curl -fL --retry 3 -o data/lichess_db_broadcast_2026-05.pgn.zst https://database.lichess.org/broadcast/lichess_db_broadcast_2026-05.pgn.zst
           curl -fL --retry 3 -o data/lichess_db_broadcast_2026-06.pgn.zst https://database.lichess.org/broadcast/lichess_db_broadcast_2026-06.pgn.zst
-          curl -fL --retry 3 -o data/lichess_db_broadcast_2026-07.pgn.zst https://database.lichess.org/broadcast/lichess_db_broadcast_2026-07.pgn.zst
+          curl -fL --retry 3 -o data/lichess_db_broadcast_2026-04.pgn.zst https://database.lichess.org/broadcast/lichess_db_broadcast_2026-04.pgn.zst
           echo "d212987f7972a70268809ff6c726acff8bf0987161aacd7647b160f8564f6a53  data/lichess_db_broadcast_2026-05.pgn.zst" | sha256sum -c -
           echo "65905d611c0d78d90ab57cd9edd3821f4119b46c22b5489fd7e265a74c6767b3  data/lichess_db_broadcast_2026-06.pgn.zst" | sha256sum -c -
-          echo "e93b3ded55d463ff6839c06b42b740dc1d725145f7f4da460172a3cf84041a8b  data/lichess_db_broadcast_2026-07.pgn.zst" | sha256sum -c -
+          echo "97b036f3a3639ae3be59c1508b1e18c76ac1b2e8fada4587d1b5c5a93c438d5d  data/lichess_db_broadcast_2026-04.pgn.zst" | sha256sum -c -
           unzstd data/lichess_db_broadcast_2026-05.pgn.zst
           unzstd data/lichess_db_broadcast_2026-06.pgn.zst
-          unzstd data/lichess_db_broadcast_2026-07.pgn.zst
+          unzstd data/lichess_db_broadcast_2026-04.pgn.zst
       - uses: actions/download-artifact@v4
         with:
           name: g95-p1-precommit-sealed
@@ -148,7 +148,7 @@ jobs:
           set -euxo pipefail
           EX=()
           while IFS= read -r f; do EX+=(--exclude "$f"); done < <(find hist -name '*.json' -type f | sort)
-          python3 harness/g95_p9_corpus.py --source "P9_SRC_LICHESS_2026_05|data/lichess_db_broadcast_2026-05.pgn|lichess_db_broadcast_2026-05.pgn" --source "P9_SRC_LICHESS_2026_06|data/lichess_db_broadcast_2026-06.pgn|lichess_db_broadcast_2026-06.pgn" --source "P9_SRC_LICHESS_2026_07|data/lichess_db_broadcast_2026-07.pgn|lichess_db_broadcast_2026-07.pgn" "${EX[@]}" --source-repo lichess-official-broadcasts --source-commit "2026-05_06_07-sha256-pinned" --out g95-p9-corpus.json
+          python3 harness/g95_p9_corpus.py --source "P9_SRC_LICHESS_2026_05|data/lichess_db_broadcast_2026-05.pgn|lichess_db_broadcast_2026-05.pgn" --source "P9_SRC_LICHESS_2026_06|data/lichess_db_broadcast_2026-06.pgn|lichess_db_broadcast_2026-06.pgn" --source "P9_SRC_LICHESS_2026_04|data/lichess_db_broadcast_2026-04.pgn|lichess_db_broadcast_2026-04.pgn" "${EX[@]}" --source-repo lichess-official-broadcasts --source-commit "2026-04_05_06-sha256-pinned" --out g95-p9-corpus.json
           sha256sum g95-p9-corpus.json > g95-p9-corpus.sha256
       - uses: actions/upload-artifact@v4
         with: {name: g95-p9-corpus-sealed, path: g95-p9-corpus*, retention-days: 30}
