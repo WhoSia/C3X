@@ -1,0 +1,178 @@
+{
+  "schema": "c3x-g95-p14-constitution-v1",
+  "scientific_stage": "C3X 0.7.0-G9.5-P14",
+  "title": "Prospective Unordered Legal-Move Pair Transport, Reciprocal Cross-Engine Preference-Boundary Geometry, Orientation-Free Causal Signature Constitution & Fresh Pairwise Mechanism Replication",
+  "parent": {
+    "stage": "C3X 0.7.0-G9.5-P13",
+    "closure_commit": "f4ebbbaa22d1a5340ada1881097c7cdd497e869c",
+    "closure_receipt_sha256": "7b250ef1dc9fe4dd5717070d7a15e4651cee3985c927f941a6aba9d2811e6045",
+    "verdict": "P13_PAIRWISE_PREFERENCE_BOUNDARY_CAUSALITY_LOCAL_ONLY"
+  },
+  "founding_question": "Is the unordered legal-move pair {A,B} a more transportable chess object than engine-specific winner/rival orientation, and do exact search events reproducibly alter that pair edge across engines?",
+  "invariance_constitution": {
+    "quotient": "identify pair labels under the two-element permutation group S2: {A,B} is invariant under A<->B",
+    "prospective_authority": "the quotient is frozen before any P14 intervention outcome and cannot retroactively rescue P13",
+    "label_swap_invariants": [
+      "pair admission support count",
+      "CONSENSUS_ORIENTATION vs SPLIT_ORIENTATION",
+      "target relation to engine-relative baseline preferred/dispreferred pair member",
+      "absolute isolated gap band",
+      "EDGE_REVERSAL / EDGE_PRESERVED / EDGE_TO_THIRD_ESCAPE",
+      "same-position multi-engine reversal and reciprocal-vs-consensus geometry"
+    ],
+    "noninvariants_retained_for_reconstruction": [
+      "canonical lexical A/B UCI labels",
+      "engine-specific baseline preferred member",
+      "engine-specific signed cp difference"
+    ],
+    "reopening_rule": "canonical UCI pair identity and engine-level orientation are retained so the quotient can be audited or reversed if it erases a live chess distinction"
+  },
+  "source_freshness": {
+    "checked_date_utc": "2026-09-29",
+    "official_index": "https://database.lichess.org/broadcast/",
+    "latest_completed_monthly_broadcast_available": "2026-08",
+    "september_monthly_broadcast_available": false,
+    "policy": "reuse completed July/August provider bytes only as source containers; every P14 target and decoy position must be hash-disjoint from all recoverable P1-P13 positions"
+  },
+  "fresh_worlds": {
+    "sources": ["P14_SRC_LICHESS_2026_07", "P14_SRC_LICHESS_2026_08"],
+    "source_prefix_games": 3072,
+    "positions_per_source": 12,
+    "planned_positions": 24,
+    "engines": ["stockfish_19", "berserk", "ethereal"],
+    "planned_engine_worlds": 72,
+    "eligibility": "standard legal nonterminal chess; not in check; plies 14-25; 18-48 legal moves; absolute material imbalance <=3 pawns; candidate and decoy hashes disjoint from recoverable P1-P13 corpus hashes",
+    "intervention_outcomes_used_for_position_selection": false
+  },
+  "execution": {
+    "threads": 1,
+    "hash_mib": 1,
+    "prime_nodes": 20000,
+    "decoy_nodes": 20000,
+    "decoy_count": 3,
+    "measurement_nodes": 80000,
+    "shallow_legal_move_nodes": 10000,
+    "shortlist_size": 8,
+    "isolated_confirm_nodes": 30000,
+    "isolated_confirm_repeats": 2,
+    "root_child_fingerprint_nodes": 12000,
+    "max_targets_per_active_world": 8,
+    "frontier": 8
+  },
+  "engine_qualification": {
+    "legal_move_universe": "enumerate every legal root move; no tactical prefilter",
+    "shallow_rank": "one cold root-restricted equal-node search per legal move; rank by side-to-move engine score with deterministic UCI tiebreak",
+    "shortlist": "eight highest shallow-ranked legal moves per engine",
+    "confirmatory_score": "two cold root-restricted 30k-node searches for each shortlisted move",
+    "stable_move": "both confirmatory scores are non-mate cp scores and exactly equal",
+    "contextual_bestmove": "80k-node shared search after frozen prime/decoy history",
+    "intervention_outcomes_consulted": false
+  },
+  "unordered_pair_constitution": {
+    "canonical_pair_id": "lexicographically sorted UCI pair joined by ::; lexical A/B is storage only, not scientific orientation",
+    "engine_support_for_pair": "both moves are stable for that engine, absolute isolated cp gap <=50, and the engine's contextual shared-search bestmove is one of the pair",
+    "pair_admission": "at least two engines support the same unordered pair at the same fresh position",
+    "pair_selection_order": [
+      "maximum number of supporting engines",
+      "minimum median absolute isolated cp gap among supporting engines",
+      "minimum maximum absolute isolated cp gap among supporting engines",
+      "lexicographically smallest canonical pair id"
+    ],
+    "orientation_not_used_as_selection_bonus": true,
+    "near_equal_max_abs_cp": 50,
+    "gap_bands_cp": {"VERY_TIGHT": [0, 15], "TIGHT": [16, 30], "MARGINAL": [31, 50]},
+    "position_geometry": {
+      "CONSENSUS_ORIENTATION": "all active supporting engines prefer the same pair member at baseline",
+      "SPLIT_ORIENTATION": "active supporting engines include baseline preference for both pair members"
+    },
+    "freeze_before_interventions": true
+  },
+  "root_child_attribution": {
+    "observer": "inherit P13 private nonbehavioral root-child full-position-key observer",
+    "mapping": "root-restricted searchmoves fingerprint for the two frozen pair members maps private ply-1 keys back to legal UCI identity",
+    "public_observables": ["pair UCI/SAN", "engine baseline preferred member", "semantic-event exposure count", "class counts", "null-window count", "max depth", "PV incumbent timeline", "candidate fate"],
+    "raw_tt_keys_public": false,
+    "node_allocation_claim": "forbidden; semantic-event exposure is not candidate-specific node accounting"
+  },
+  "exact_target": {
+    "semantic_class": "MOVE_ORDER_SEED",
+    "scope": "MAIN",
+    "ply": 1,
+    "depth_min": 5,
+    "depth_max": 8,
+    "requires_repeated_full_key": true,
+    "requires_same_most_recent_tt_move": true,
+    "bound_signs": ["LOWER", "UPPER"],
+    "candidate_membership": "target private root-child key must map to one of the two frozen pair members",
+    "target_relation": {
+      "BASELINE_PREFERRED": "target maps to the pair member chosen by this engine at baseline",
+      "BASELINE_DISPREFERRED": "target maps to the other frozen pair member"
+    },
+    "selection": "lexicographically smallest exact address IDs up to max_targets_per_active_world from baseline trace only",
+    "outcome_used_for_target_selection": false,
+    "intervention": "T_ONLY exact semantic-use removal; TT storage/replacement/index/age untouched"
+  },
+  "orientation_free_effects": {
+    "EDGE_REVERSAL": "baseline pair member becomes the other frozen pair member under T_ONLY",
+    "EDGE_PRESERVED": "baseline pair member remains root bestmove under T_ONLY",
+    "EDGE_TO_THIRD_ESCAPE": "T_ONLY selects a legal move outside the frozen pair",
+    "label_swap_invariant": true
+  },
+  "same_position_transport": {
+    "semantic_transport_key": "target_relation|target_bound",
+    "MULTIENGINE_REVERSAL": "at least two engines at the same position/pair each show EDGE_REVERSAL for the same semantic transport key",
+    "RECIPROCAL_MULTIENGINE_REVERSAL": "MULTIENGINE_REVERSAL and the reversing engines have opposite baseline-preferred pair members",
+    "CONSENSUS_MULTIENGINE_REVERSAL": "MULTIENGINE_REVERSAL and the reversing engines share the same baseline-preferred pair member",
+    "event_addresses_need_not_be_homologous": true
+  },
+  "support_gate": {
+    "min_admitted_pair_positions": 8,
+    "min_active_engine_worlds": 16,
+    "min_active_engines": 3,
+    "min_sources": 2,
+    "min_worlds_with_selected_target": 12,
+    "min_fired_target_records": 48,
+    "max_address_misses": 0
+  },
+  "replication_rule": {
+    "event_signature": "position_geometry|target_relation|target_bound|engine_gap_band|EDGE_REVERSAL",
+    "replicated_orientation_free_reversal_requires": {
+      "witnesses": 3,
+      "engines": 2,
+      "positions": 2,
+      "sources": 2
+    },
+    "reciprocal_signature": "target_relation|target_bound|RECIPROCAL_MULTIENGINE_REVERSAL",
+    "replicated_reciprocal_requires": {
+      "positions": 2,
+      "sources": 2,
+      "minimum_distinct_engines_across_positions": 2
+    },
+    "no_post_target_signature_refit": true
+  },
+  "verdicts": [
+    "P14_REPLICATED_RECIPROCAL_CROSS_ENGINE_PAIR_GEOMETRY",
+    "P14_REPLICATED_ORIENTATION_FREE_PAIR_REVERSAL_TRANSPORT",
+    "P14_LOCAL_MULTIENGINE_UNORDERED_PAIR_TRANSPORT_ONLY",
+    "P14_LOCAL_UNORDERED_PAIR_EDGE_CAUSALITY_ONLY",
+    "P14_NO_PAIR_EDGE_REVERSAL_UNDER_FROZEN_EXACT_EVENT_INTERVENTION",
+    "P14_FRESH_SUPPORT_HOLD"
+  ],
+  "claim_ceiling": [
+    "P14 may identify exact-event-sensitive causal reversal of an unordered near-equal legal-move pair edge under frozen engine/history/node budgets.",
+    "Same-position multi-engine reversal is a semantic-class transport result, not identity of native event addresses or algorithms.",
+    "Reciprocal cross-engine geometry means opposite engine-specific orientations of the same prospectively frozen unordered pair can each be causally reversed; it is not a claim that engines implement the same internal mechanism.",
+    "Root-child semantic-event exposure is not per-candidate node allocation.",
+    "Engine preference is not objective chess truth, human strategic intent, cognition, or normative move quality.",
+    "Raw TT keys remain private intra-run locators."
+  ],
+  "forbidden": [
+    "No retrospective relabeling of P13's nine direct flips as P14 evidence.",
+    "No post-outcome pair selection or 50 cp threshold tuning.",
+    "No selection bonus for observing reciprocal intervention outcomes.",
+    "No target-taxonomy rescue.",
+    "No public raw TT key emission.",
+    "No claim of shared internal mechanism merely from semantic transport."
+  ],
+  "stop_rule": "Adjudicate the frozen 24-position/72-engine-world campaign once. If orientation-free transport fails, report the ceiling rather than subdividing the exact-event skeleton after outcomes."
+}
