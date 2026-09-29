@@ -1,0 +1,255 @@
+{
+  "schema": "c3x-g95-p16-constitution-v1",
+  "scientific_stage": "C3X 0.7.0-G9.5-P16",
+  "title": "Prospective Minimal Distinguishing Chess Structure, Intervention-Set Minimization, Full Preference-Mediation Replication, Structural Equivalence & Causal Explanation Certificate",
+  "parent": {
+    "stage": "C3X 0.7.0-G9.5-P15",
+    "closure_commit": "ba86eb94a5e84d565af673b34a16ed567ced6a6d",
+    "closure_receipt_sha256": "b01a4ab158dfc3f5e640cf38f2d4f9da04a09c2fdfa04c0c32d042976ffaa54d",
+    "verdict": "P15_REPLICATED_CHESS_STRUCTURE_SUSCEPTIBILITY_MODULATION"
+  },
+  "research_os": {
+    "runtime_freshness_date": "2026-09-29",
+    "operating_surface": "01. Research OS — Scientific Operating Surface — START HERE",
+    "release": "2.4.4 FROZEN",
+    "applied_kernel": [
+      "GOAL_FIDELITY",
+      "FRONTIER_COMPRESSION",
+      "AUTHORITY_SEPARATION",
+      "PROVENANCE_THROUGH_TRANSFORMATION",
+      "FAILURE_PRESERVING_MEMORY",
+      "WORLD_CONTACT_MINIMALITY"
+    ],
+    "continuation_authority": "C3X Hub Judgment CI PASS at P15; exactly one P16 science-mainline continuation authorized",
+    "no_new_ro_operator": true
+  },
+  "origin_lock": {
+    "founding_explanandum": "why one legal move is marginally preferred over a near-equal legal alternative beyond obvious tactical dominance",
+    "p16_role": "convert replicated structural susceptibility modulation into prospectively replicated full board→search→pair-preference mediation with minimal chess-native structural support",
+    "anti_drift": "no narrower search taxonomy, no infrastructure-only success, no human concept naming before structural authority"
+  },
+  "two_track_boundary": {
+    "science_mainline": "P16 earns causal/contrastive authority only",
+    "explanation_implementation": "may consume P16 certificates later; cannot enlarge P16 scientific authority",
+    "provenance_class": "C3X_CAUSAL_CONTRAST"
+  },
+  "fresh_worlds": {
+    "sources": [
+      "P16_SRC_LICHESS_2026_07",
+      "P16_SRC_LICHESS_2026_08"
+    ],
+    "source_prefix_games": 6144,
+    "positions_per_source": 18,
+    "planned_positions": 36,
+    "engines": [
+      "stockfish_19",
+      "berserk",
+      "ethereal"
+    ],
+    "planned_engine_worlds": 108,
+    "exclude_recoverable_candidate_hashes_through": "P15",
+    "intervention_outcomes_used_for_position_selection": false
+  },
+  "execution": {
+    "threads": 1,
+    "hash_mib": 1,
+    "prime_nodes": 20000,
+    "decoy_nodes": 20000,
+    "decoy_count": 3,
+    "measurement_nodes": 80000,
+    "shallow_legal_move_nodes": 10000,
+    "shortlist_size": 8,
+    "isolated_confirm_nodes": 30000,
+    "isolated_confirm_repeats": 2,
+    "chain_pair_confirm_nodes": 20000,
+    "chain_pair_confirm_repeats": 2,
+    "root_child_fingerprint_nodes": 12000,
+    "max_chain_candidates_per_position": 12,
+    "max_selected_chains_per_position": 2,
+    "max_semantic_targets_per_board": 2,
+    "frontier": 8
+  },
+  "unordered_pair_constitution": {
+    "near_equal_max_abs_cp": 50,
+    "engine_support_for_pair": "both moves stable; absolute isolated gap <=50cp; contextual shared-search bestmove inside pair",
+    "pair_admission": "at least two engines support same unordered pair",
+    "selection_order": [
+      "maximum supporting engines",
+      "minimum median absolute gap",
+      "minimum maximum absolute gap",
+      "lexicographically smallest canonical pair id"
+    ],
+    "orientation_not_used_as_selection_bonus": true
+  },
+  "board_intervention_family": {
+    "inherits_p15_constraints": true,
+    "unit": "quiet relocation of one non-king non-pawn piece not participating as the moving piece of either candidate",
+    "forbidden_touch": "relocation source/destination cannot equal candidate source/destination squares",
+    "allowed_piece_types": [
+      "KNIGHT",
+      "BISHOP",
+      "ROOK",
+      "QUEEN"
+    ],
+    "material_delta_pawns": 0,
+    "max_abs_legal_root_move_count_delta": 6,
+    "max_moved_piece_attack_set_symmetric_difference": 10,
+    "target_and_controls_same_piece": true,
+    "target_and_controls_same_chebyshev_distance": true,
+    "generation_outcome_blind": true
+  },
+  "relation_atoms": {
+    "lexical_atoms": [
+      "A_FROM_GAIN",
+      "A_FROM_LOSS",
+      "A_TO_GAIN",
+      "A_TO_LOSS",
+      "B_FROM_GAIN",
+      "B_FROM_LOSS",
+      "B_TO_GAIN",
+      "B_TO_LOSS"
+    ],
+    "engine_relative_atoms": [
+      "PREFERRED_FROM_GAIN",
+      "PREFERRED_FROM_LOSS",
+      "PREFERRED_TO_GAIN",
+      "PREFERRED_TO_LOSS",
+      "DISPREFERRED_FROM_GAIN",
+      "DISPREFERRED_FROM_LOSS",
+      "DISPREFERRED_TO_GAIN",
+      "DISPREFERRED_TO_LOSS"
+    ],
+    "moved_side_roles": [
+      "OWN",
+      "OPPONENT"
+    ],
+    "human_concept_labels_forbidden": true
+  },
+  "chain_constitution": {
+    "target": "nonempty asymmetric pair-local relation-atom set",
+    "subset": "same moved piece and distance; nonempty strict atom subset of target for composite chains",
+    "sham": "same moved piece and distance; empty atom set",
+    "composite_chain": "target has >=2 atoms; choose a proper subset deleting exactly one atom when possible; sham empty",
+    "atomic_chain": "target has exactly one atom; sham is its only proper subset",
+    "candidate_sort": [
+      "COMPOSITE before ATOMIC",
+      "smaller target atom count",
+      "smaller total collateral",
+      "lexicographic target/subset/sham ids"
+    ],
+    "board_marginality_support": "TARGET, SUBSET (if composite), SHAM all preserve pair legality and exactly repeated non-mate isolated cp gap <=50 for the engine",
+    "chain_admission": "same chain supported by at least two engines active on original pair",
+    "select_per_position": "at most one best COMPOSITE and one best ATOMIC chain",
+    "selection_uses_native_edited_choice": false,
+    "selection_uses_search_event_outcomes": false
+  },
+  "exact_event_mediator": {
+    "inherited_from": "P15",
+    "semantic_class": "MOVE_ORDER_SEED",
+    "scope": "MAIN",
+    "ply": 1,
+    "depth_min": 5,
+    "depth_max": 8,
+    "repeated_full_key": true,
+    "same_most_recent_tt_move": true,
+    "bounds": [
+      "LOWER",
+      "UPPER"
+    ],
+    "anchor": "original-board baseline-dispreferred pair member for that engine",
+    "addressing": "private event addresses independently reconstructed per board; no cross-board or cross-engine address identity",
+    "intervention": "T_ONLY exact semantic-use removal; TT storage/replacement/index/age untouched",
+    "no_taxonomy_rescue": true
+  },
+  "bridge_definitions": {
+    "FULL_BRIDGE": [
+      "B0 native and TARGET native choose opposite frozen pair members",
+      "same bound has fired eligible semantic event on B0 and TARGET",
+      "T_ONLY makes B0 and TARGET choose the same frozen pair member",
+      "SHAM does not reproduce same bridge/collapse pattern",
+      "no defining cell leaves the frozen pair"
+    ],
+    "MINIMAL_FULL_BRIDGE": [
+      "FULL_BRIDGE holds for TARGET",
+      "no declared proper-subset edit in the frozen chain reproduces the same bridge/collapse pattern",
+      "SHAM does not reproduce"
+    ],
+    "minimality_ceiling": "inclusion-minimal relative to the declared frozen chain family, not global minimality over all possible chess interventions"
+  },
+  "structural_equivalence": {
+    "exact_signature": "MOVED_SIDE_ROLE|SORTED_ENGINE_RELATIVE_ATOM_SET|BOUND|MINIMAL_FULL_BRIDGE",
+    "physical_identity_excluded": [
+      "square names",
+      "physical edit id",
+      "position id",
+      "engine id"
+    ],
+    "exact_replication_requires": {
+      "witnesses": 3,
+      "engines": 2,
+      "positions": 2,
+      "sources": 2,
+      "distinct_physical_edits": 2
+    },
+    "coarse_signature": "PREFERRED_OR_DISPREFERRED_DOMINANT|BOUND|FULL_BRIDGE",
+    "coarse_replication_requires": {
+      "witnesses": 4,
+      "engines": 2,
+      "positions": 3,
+      "sources": 2
+    },
+    "no_post_outcome_signature_refit": true
+  },
+  "support_gate": {
+    "min_admitted_pair_positions": 12,
+    "min_chain_positions": 6,
+    "min_active_chain_engine_worlds": 12,
+    "min_active_engines": 2,
+    "min_sources": 2,
+    "min_worlds_with_any_fired_semantic_target": 8,
+    "max_address_misses": 0
+  },
+  "certificate": {
+    "schema": "c3x-causal-contrast-certificate-v1",
+    "provenance_class": "C3X_CAUSAL_CONTRAST",
+    "required_fields": [
+      "position",
+      "engine",
+      "pair",
+      "original/target/subset/sham FEN",
+      "physical edits",
+      "engine-relative atom signature",
+      "native/T_ONLY choices",
+      "bound",
+      "subset/sham falsifiers",
+      "replication membership",
+      "authority ceiling"
+    ],
+    "concept_label": null,
+    "replicated_status": "REPLICATED_FAMILY_MEMBER only if exact structural-equivalence signature passes frozen replication rule; otherwise LOCAL_ONLY"
+  },
+  "verdicts": [
+    "P16_REPLICATED_MINIMAL_STRUCTURAL_EQUIVALENCE_FULL_BRIDGE",
+    "P16_REPLICATED_FULL_PREFERENCE_MEDIATION_NO_STABLE_MINIMAL_EQUIVALENCE",
+    "P16_LOCAL_MINIMAL_FULL_BRIDGE_ONLY",
+    "P16_REPLICATED_SUSCEPTIBILITY_ONLY",
+    "P16_NO_FULL_BRIDGE_UNDER_FROZEN_MINIMIZATION_FAMILY",
+    "P16_FRESH_SUPPORT_HOLD"
+  ],
+  "claim_ceiling": [
+    "P16 may identify chain-relative inclusion-minimal pair-local relation-atom sets that support an operational board→exact-search→pair-preference FULL_BRIDGE under declared engines and budgets.",
+    "Structural equivalence means the same normalized intervention-response signature across physically distinct edits; it does not imply identical native search implementation.",
+    "Minimality is relative to the frozen admissible edit/chain family and is not a global theorem over all legal board perturbations.",
+    "Certificates carry engine-preference causal authority, not objective chess truth, human intention, cognition, or semantic strategic concepts.",
+    "Human concept labels remain absent until a separate prospective concept-as-partition bridge is tested."
+  ],
+  "forbidden": [
+    "No P15 witness may vote in P16 confirmation.",
+    "No post-outcome widening of 50cp, collateral limits, atom vocabulary, bridge definition, event class or replication thresholds.",
+    "No narrower MOVE_ORDER_SEED taxonomy rescue.",
+    "No promotion of the P15 single FULL_BRIDGE witness.",
+    "No human strategic concept naming as a causal variable.",
+    "No silent authority transfer from the PGN explanation implementation track."
+  ],
+  "stop_rule": "Run the frozen P16 fresh campaign once. If chain support or full mediation replication fails, close that ceiling and return to strategic judgment; do not tune the constitution after outcomes."
+}
