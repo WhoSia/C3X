@@ -1,0 +1,92 @@
+{
+  "artifact_payload": {
+    "file_sha256": {
+      "g95-p11-precommit.json": "f1814cd86ad9c8e7ee1033824336a7d0a8a4fded95996d80f88c7d209f047bf8",
+      "go-verification.txt": "e09ef1ab58489adcbee0f84dcde68c704cb056fe7b1249c224edb74ee5bb5bbd",
+      "js-verification.txt": "4a678640d0884dee0869dcb5b70fd796db734098f50abaef022723cd93818b2d",
+      "p11-adjudication.json": "619230ad2f88c1c9cb728f23d3c6f3ca4926d553770745335103335b60982b5a",
+      "p11-developer-diagnostic.md": "1f8928ff0e5944807e7a5c37b5e5f9886086a8735e99531c3dda0c08fd94d0e4",
+      "p11-patch-regression.json": "b0f8e0354495108e73b21d3b70eec2905363d8b3c13fbb007c06298fee1fbf57"
+    },
+    "p11_adjudication_receipt_sha256": "2edd7a006ab5e35b86e97cbd29907c34ad55fb9c55ff5331f89f1df3f48209f4"
+  },
+  "authority": "CONDITIONAL_MECHANISM_FOLLOWUP",
+  "canonical_run": {
+    "final_artifact": {
+      "digest": "sha256:5d02bb7cf7e2bb7fe5a901d9afa4cca94f225abfee1cb22f01f184d1f69e863d",
+      "id": 11008867250,
+      "name": "g95-p11-final-mediation"
+    },
+    "head_sha": "14bd8b9ab46df53b88b78d27b0513b6693408b49",
+    "run_id": 36509824064
+  },
+  "claim_ceiling": [
+    "P11 is conditional on P10's late-opening replicated skeleton and is not an independent prevalence replication.",
+    "CUTOFF is the frozen first downstream candidate class in all 17 witnesses, but only 4/17 show mediator-class causal alignment; 11/17 redirect under the class intervention.",
+    "P34-Q3 class removal is a coarse intervention and does not identify a formal natural indirect effect or one universal cutoff mechanism.",
+    "Patch regression is engineering evidence; LOWER/UPPER/BOTH frequently alter baseline search lineage or event address and are not strength recommendations.",
+    "No Elo, best-move correctness, human strategic intent, or universal engine law is authorized."
+  ],
+  "fresh_confirmatory_vote": false,
+  "next_authorization": {
+    "allowed": "one P12 mainline only",
+    "requires": "freeze exact cutoff-address/window observables and fresh-world sampling before P12 outcomes",
+    "scope": "prospectively test exact cutoff/window/re-search mediation within the already frozen P11 domain without retrospective A0 refinement"
+  },
+  "parent": {
+    "canonical_run": 36504724602,
+    "closure_commit": "582b08908e40a3a43c03ddbc6462010234bdea0a",
+    "closure_receipt_sha256": "27de32c2f18eaddefff72773dd4a8e9007c861e9187b768b042efe670924f44a",
+    "stage": "C3X 0.7.0-G9.5-P10"
+  },
+  "patch_regression": {
+    "case_count": 7,
+    "classification_counts": {
+      "BOTH|BASELINE_DRIFT": 4,
+      "BOTH|EVENT_ADDRESS_DRIFTS": 3,
+      "LOWER|BASELINE_DRIFT": 2,
+      "LOWER|EVENT_ADDRESS_DRIFTS": 5,
+      "NONE|SURVIVES_EXACTLY": 7,
+      "UPPER|BASELINE_DRIFT": 5,
+      "UPPER|EFFECT_DISAPPEARS": 1,
+      "UPPER|EVENT_ADDRESS_DRIFTS": 1
+    },
+    "none_mode_pass": true,
+    "receipt_sha256": "83a2daba203f496f1afcb2dc2212b19c34999c2df24b20e26146fd4906ff35d8",
+    "rows": 28
+  },
+  "receipt_sha256": "f3f211791ccb9deafa1d5d6e3f756b9659c4a1ee3f221026df3cb4bade08e3f5",
+  "schema": "c3x-g95-p11-closure-v1",
+  "science": {
+    "bound_by_mediation": {
+      "LOWER": {
+        "MEDIATOR_CLASS_CAUSAL_ALIGNMENT": 2,
+        "MEDIATOR_CLASS_INTERACTION_REDIRECT": 2,
+        "OBSERVED_PATH_DIVERGENCE": 2
+      },
+      "UPPER": {
+        "MEDIATOR_CLASS_CAUSAL_ALIGNMENT": 2,
+        "MEDIATOR_CLASS_INTERACTION_REDIRECT": 9,
+        "OBSERVED_PATH_DIVERGENCE": 0
+      }
+    },
+    "bound_variants": ["LOWER", "UPPER"],
+    "cases_with_cutoff_observed": 17,
+    "cases_with_first_cutoff_divergence": 17,
+    "engines": ["berserk", "ethereal", "stockfish_19"],
+    "exact_parent_replays": 17,
+    "inherited_targets": 17,
+    "mediation_status_counts": {
+      "MEDIATOR_CLASS_CAUSAL_ALIGNMENT": 4,
+      "MEDIATOR_CLASS_INTERACTION_REDIRECT": 11,
+      "OBSERVED_PATH_DIVERGENCE": 2
+    },
+    "mediator_candidate_class": {"CUTOFF": 17},
+    "observed_semantic_classes": ["CUTOFF", "EVAL_REUSE", "MOVE_ORDER_SEED", "TT_VALUE_AS_EVAL"],
+    "same_position_cross_engine_sets": 2
+  },
+  "scientific_stage": "C3X 0.7.0-G9.5-P11",
+  "status": "CLOSED_PASS",
+  "title": "Bound-Signed Repeat-Key Move-Ordering Mediation Anatomy, Node-Visit/Cutoff Divergence Localization, Patch-Contrast Regression Survival & Minimal TT Diagnostic Surface",
+  "verdict": "P11_BOUNDED_MEDIATION_AND_PATCH_DIAGNOSTIC_CLOSED"
+}
