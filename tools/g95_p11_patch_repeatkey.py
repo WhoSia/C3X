@@ -10,7 +10,7 @@ LOCKS={
 
 HELPER=r'''
 /* C3X G9.5-P11: bounded repeat-key/same-move move-order patch. */
-#define C3X_P11_SEEN_N 16384
+#define C3X_P11_SEEN_N 1048576
 static unsigned long long c3x_p11_key[C3X_P11_SEEN_N];
 static unsigned long long c3x_p11_move[C3X_P11_SEEN_N];
 static unsigned char c3x_p11_used[C3X_P11_SEEN_N];
