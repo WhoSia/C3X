@@ -1,0 +1,188 @@
+{
+  "artifact_hashes": {
+    "developer_diagnostic_sha256": "8a232ac78803494d98c616dc805cccda6907caccfaf237225935025715b8d8bb",
+    "go_parity_sha256": "d36b9a0d66b5bac7f0afe5f96eb5495b2f5a5bd9d6c47bfd494bedbcb7de1846",
+    "js_verification_sha256": "ece295b638061f4e5836993b2ca8aef8fcd49cf6b2f030e1b47feb3ba0ed4e41",
+    "merged_events_sha256": "d1e49b5ae353e3e41b99a4f044e9185ac010f62481d7338828dfcf30b47919d5",
+    "p10_anatomy_sha256": "52a444f3428feaac579241e9fd70c7c56184bffca88f964a6b5a4148fd3cbd4f",
+    "p9_seed_replay_sha256": "a0c223aabb48deffb6ec7a203ad211fa7763f65823fbede4fe6db5f675a937b3"
+  },
+  "canonical_head": "efcd94570ba0011e2619ba6b41f6606bed62472d",
+  "canonical_run": 36504724602,
+  "canonical_verdict": "P10_REPLICATED_MOVE_ORDER_LINEAGE_ANATOMY",
+  "claim_ceiling": [
+    "P10 fresh anatomy is specific to late-opening worlds, exact MOVE_ORDER_SEED intervention, the declared engines, node budget and sampler.",
+    "P9 target labels and regression witnesses receive zero P10 fresh confirmatory vote.",
+    "Raw TT key equality is only an intra-trace lineage relation and never a cross-engine identity claim.",
+    "The two replicated A0 archetypes are developer-facing structural regularities, not universal causal essences of move ordering.",
+    "Baseline regression replay validates harness reproducibility, not persistence under an untested future patch.",
+    "Same-position cross-engine replication does not establish implementation-independent causation or human strategic relevance.",
+    "No Elo, playing-strength, best-move-correctness or universal opening-law claim is authorized."
+  ],
+  "drive_custody": {
+    "folder_id": "1E8cvoBpe-L8plXu9Qc57OLu7SCQjDlWo",
+    "lawgen": "1oLeJ1ywhAcYq9rB9c117uIPWNA2EJw8z",
+    "kernels": "1LEAG8d_Xws3PxeMSb9kGEOT9eY3ReuJy",
+    "corpus": "1GfMgxFVtD9N-5tNiPqAiejzsJMbWJuN2",
+    "precommit": "16lZfWATz22dgpBjhs1Xxe57d2SIYW1cf",
+    "regression": "1CrlhnKPrAq4seopqox_z8smiVqAqeWUj",
+    "final": "13Fa-Njq2gUfQZi9QMZTqRXi-7lXNw2eK"
+  },
+  "github_artifacts": {
+    "lawgen": {
+      "id": 11006797438,
+      "digest": "sha256:686f302af500614c0e82898864d823a4515afbe30a3333ce18e64df27393cbb3"
+    },
+    "kernels": {
+      "id": 11007221860,
+      "digest": "sha256:962224538ed0fb9ff49a69b676cfd5b3f1ea22e26b66cf1fd2661f16ba74912f"
+    },
+    "corpus": {
+      "id": 11006437997,
+      "digest": "sha256:a7d9f818bc886d2b99ca0e1f7260bb77d768d5cceadf7b730e12c9a57a96df62"
+    },
+    "precommit": {
+      "id": 11006178437,
+      "digest": "sha256:93d65490be71c23dfaa5730a64900704755f1956dd1efad6d2e135d05978c3b8"
+    },
+    "regression": {
+      "id": 11006642773,
+      "digest": "sha256:6caf096e49a73149b331c317a5cdfbd9a708df0cc6725438e76e837eb2c6d34e"
+    },
+    "final": {
+      "id": 11007291438,
+      "digest": "sha256:a5d7ea10142691598b867fc464686ddf517421dcc71de0af16675691799a29a3"
+    }
+  },
+  "harvest_backflow": [
+    "PROSPECTIVE_COARSE_LINEAGE_ARCHETYPES_CAN_LOCALIZE_ACTIONABLE_CAUSAL_REGULARITIES_WITHOUT_POST_TARGET_REFITTING",
+    "SAME_POSITION_CROSS_ENGINE_REPLICATION_CAN_SEPARATE_SINGLE_IMPLEMENTATION_IDIOSYNCRASY_FROM_MULTI_IMPLEMENTATION_SENSITIVITY_WITHOUT_LICENSE_TO_UNIVERSALIZE",
+    "REGRESSION_WITNESS_BANKS_CAN_BRIDGE_SCIENTIFIC_CAUSAL_FINDINGS_TO_PATCH_LEVEL_ENGINEERING_TESTS",
+    "BOUND_SIGN_CAN_SPLIT_A_SHARED_REPEAT_KEY_SAME_MOVE_LINEAGE_SKELETON_WITHOUT_REQUIRING_A_NEW_LEARNED_REPRESENTATION"
+  ],
+  "parent": {
+    "stage": "C3X 0.7.0-G9.5-P9",
+    "closure_commit": "a50c765a7ebfa018acfd362156c5fe03146be8f1",
+    "closure_receipt_sha256": "a7390b0366606dfc880097760c69f2d4082f45d0d5e8e1982d74408b30e8e8b0",
+    "verdict": "P9_CARTOGRAPHY_COMPLETE_ONE_OPERATIONAL_HOTSPOT"
+  },
+  "receipt_digest_scope": "SHA256_OF_CANONICAL_JSON_WITHOUT_RECEIPT_SHA256_AND_RECEIPT_DIGEST_SCOPE",
+  "receipt_sha256": "27de32c2f18eaddefff72773dd4a8e9007c861e9187b768b042efe670924f44a",
+  "regression_suite": {
+    "cases": 7,
+    "pass": true,
+    "authority": "ENGINEERING_REPRODUCTION_ONLY",
+    "fresh_confirmatory_vote": false,
+    "p9_seed_replay_receipt_sha256": "5f83bfc2cab0d82a1e19f62672b9e7cc4a6336086914afbb32751f973cc6f3ef",
+    "result": "ALL_REPLAYABLE_POSITIVES_REPRODUCED_AND_PRESENT_MATCHED_CONTROLS_REMAINED_NEGATIVE"
+  },
+  "replicated_a0_archetypes": [
+    {
+      "a0_id": "LOWER|D5_8|REPEAT_KEY|PLY1|SAME_MOVE|MAIN",
+      "root_change": 6,
+      "records": 58,
+      "positive_engines": [
+        "berserk",
+        "ethereal",
+        "stockfish_19"
+      ],
+      "positive_positions": 2,
+      "positive_sources": [
+        "P10_SRC_LICHESS_2026_01",
+        "P10_SRC_LICHESS_2026_02"
+      ]
+    },
+    {
+      "a0_id": "UPPER|D5_8|REPEAT_KEY|PLY1|SAME_MOVE|MAIN",
+      "root_change": 11,
+      "records": 122,
+      "positive_engines": [
+        "berserk",
+        "ethereal"
+      ],
+      "positive_positions": 2,
+      "positive_sources": [
+        "P10_SRC_LICHESS_2026_01",
+        "P10_SRC_LICHESS_2026_02"
+      ]
+    }
+  ],
+  "same_position_cross_engine_witnesses": [
+    {
+      "position_id": "p10:P10_SRC_LICHESS_2026_01:003334e79c52",
+      "witnesses": 21,
+      "engines": [
+        "berserk",
+        "ethereal",
+        "stockfish_19"
+      ]
+    },
+    {
+      "position_id": "p10:P10_SRC_LICHESS_2026_02:003b32836ded",
+      "witnesses": 11,
+      "engines": [
+        "berserk",
+        "ethereal"
+      ]
+    }
+  ],
+  "schema": "c3x-g95-p10-closure-v1",
+  "scientific_stage": "C3X 0.7.0-G9.5-P10",
+  "shared_replicated_skeleton": {
+    "scope": "MAIN",
+    "ply_bucket": "PLY1",
+    "depth_band": "D5_8",
+    "key_history": "REPEAT_KEY",
+    "same_key_move_relation": "SAME_MOVE",
+    "bound_variants": [
+      "LOWER",
+      "UPPER"
+    ],
+    "authority": "PROSPECTIVELY_FROZEN_DEVELOPER_FACING_STRUCTURAL_REGULARITY"
+  },
+  "status": "CLOSED_PASS",
+  "successor_question": "Within the replicated ply-1 D5_8 REPEAT_KEY/SAME_MOVE MAIN skeleton, which downstream node-visitation, cutoff and PV-divergence mechanisms mediate the root-move change, and which engine patches preserve, remove or redirect those witnesses while matched controls remain stable?",
+  "suggested_successor": "C3X 0.7.0-G9.5-P11 — Bound-Signed Repeat-Key Move-Ordering Mediation Anatomy, Node-Visit/Cutoff Divergence Localization, Patch-Contrast Regression Survival & Minimal TT Diagnostic Surface",
+  "support": {
+    "pass": true,
+    "records": 648,
+    "negative": 612,
+    "root_change": 36,
+    "records_per_engine": {
+      "berserk": 216,
+      "ethereal": 216,
+      "stockfish_19": 216
+    },
+    "root_change_per_engine": {
+      "berserk": 13,
+      "ethereal": 16,
+      "stockfish_19": 7
+    },
+    "positive_engines": [
+      "berserk",
+      "ethereal",
+      "stockfish_19"
+    ],
+    "root_change_per_source": {
+      "P10_SRC_LICHESS_2026_01": 23,
+      "P10_SRC_LICHESS_2026_02": 12,
+      "P10_SRC_LICHESS_2026_03": 1
+    },
+    "positive_sources": [
+      "P10_SRC_LICHESS_2026_01",
+      "P10_SRC_LICHESS_2026_02",
+      "P10_SRC_LICHESS_2026_03"
+    ],
+    "sensitive_positions": 5,
+    "cross_engine_replicated_positions": 2
+  },
+  "title": "Prospective Late-Opening Move-Ordering Causal Anatomy, Same-Position Cross-Engine Witness Expansion, Search-Lineage Localization, Patch-Level Regression Replay & Developer-Facing TT Decision Diagnostics",
+  "verification": {
+    "github_actions_success": true,
+    "go_parity": true,
+    "js_claim_firewall": "PASS",
+    "post_target_archetype_refit": false,
+    "a1_rescued_a0": false,
+    "raw_tt_key_emitted": false
+  }
+}
