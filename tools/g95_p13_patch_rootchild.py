@@ -45,8 +45,9 @@ def main():
  if a.engine=="stockfish_19":
   txt=one(txt,'#include "c3x_p32_target.inc"','#include "c3x_p32_target.inc"\n#include "c3x_p13_rootchild.inc"',"SF_INC")
   anchor='''    ttData.value = ttHit ? value_from_tt(ttData.value, ss->ply, pos.rule50_count()) : VALUE_NONE;'''
-  txt=one(txt,anchor,'''    c3x_p13_rootchild((unsigned long long)posKey,ss->ply);
-'''+anchor,"SF_MAIN")
+  if txt.count(anchor)!=2:raise SystemExit(f"P13_ROOTCHILD_ANCHOR SF_MAIN {txt.count(anchor)}")
+  txt=txt.replace(anchor,'''    c3x_p13_rootchild((unsigned long long)posKey,ss->ply);
+'''+anchor)
  elif a.engine=="berserk":
   txt=one(txt,'#include "c3x_p32_target.inc"','#include "c3x_p32_target.inc"\n#include "c3x_p13_rootchild.inc"',"BE_INC")
   anchor='''  if (!ss->skip) c3x_psm_probe("MAIN",isPV,&ttHit,&hashMove,&ttScore,&ttEval,&ttDepth,&ttBound,&ttPv);'''
