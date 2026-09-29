@@ -1,0 +1,222 @@
+{
+  "artifact_hashes": {
+    "go_parity_sha256": "212b2ff35a3d15eed740ed88153ba6a3e793993f0b058900f7ad2ee732091b8a",
+    "js_verification_sha256": "6b443d89a81b5d63594fcfba848a627d19814defdaa820cc1d0b002a36c70acb",
+    "merged_events_sha256": "e35cffc64ebea51242bd8f5d6c1c9e07f1cb0c8399a7c9548c9f4006b1b9c2e0",
+    "p9_map_sha256": "f4f36dcb504460135daf2e5e550a7bd3d735e86f89a691ec41a2c0ad150c0024",
+    "phase_atlas_sha256": "b60b0a68bcf0afb0f5b2c99eda7fd9ed726efaf2561d62b361cf43ba7f3c8c41"
+  },
+  "canonical_head": "05be0e5dbbd44efec5881deb326e80519e42fc03",
+  "canonical_run": 36502126530,
+  "canonical_verdict": "P9_CARTOGRAPHY_COMPLETE_ONE_OPERATIONAL_HOTSPOT",
+  "claim_ceiling": [
+    "P9 maps sensitivity under the exact declared engines, node budget, sampler and phase-matched PGN worlds; it is not a universal opening law.",
+    "P8 source-specific outcomes receive zero P9 confirmatory vote.",
+    "LATE_OPENING is an operational developer hotspot under the frozen rule, not a population prevalence or causal essence of the phase.",
+    "All nine late-opening ROOT_CHANGE events in this run were MOVE_ORDER_SEED interventions; this does not establish that evaluation reuse can never matter in other regimes.",
+    "Cross-engine replication does not imply human strategic relevance or implementation-independent causation.",
+    "P9 does not measure Elo, playing strength or best-move correctness.",
+    "No best-phase ranking or post-hoc threshold selection is authorized."
+  ],
+  "drive_custody": {
+    "corpus": "1aGFUbozyAeQs7L9pdhuB-x7PkHU9WmFc",
+    "final": "1P-e4zlYYUB3DqtKocLyTxQ39lW6q7yi5",
+    "folder_id": "1i52As347_0cF1V0XZAG8oLc2_z_c7H98",
+    "kernels": "1pDRssP5NDWS3zL_u3DtRXgyBfq-vxmUR",
+    "lawgen": "1ngBz65KqEcn8vXehqLUaFift4Glak0Gh",
+    "precommit": "1OPiH8AbTSNMjAFWDyQjyVNAZPJJczMGh"
+  },
+  "github_artifacts": {
+    "corpus": {
+      "digest": "sha256:98d1262d10cf2fc42a58d25325948c6c0affbb8f99fc9a9596730c2894c81275",
+      "id": 11005803076
+    },
+    "final": {
+      "digest": "sha256:f1619897f592bee54871a4155753fc0f15a13b50bbb31603a1c2420ecd654b39",
+      "id": 11005609052
+    },
+    "kernels": {
+      "digest": "sha256:de79c3230e885d99f1bf55376ea60cda9ac5a5ca4a783fd7c105b07f2c020dc6",
+      "id": 11005603688
+    },
+    "lawgen": {
+      "digest": "sha256:1fe0504487221ddbcf94bb6945f44f49158521fc247ddc6e69e422040cd3ecfc",
+      "id": 11005643441
+    },
+    "precommit": {
+      "digest": "sha256:6f67282ca36b4fac04d19bc8a4259f8100425ff6d8598825450a6d314cd6c4d2",
+      "id": 11005758318
+    }
+  },
+  "harvest_backflow": [
+    "PHASE_LOCAL_CAUSAL_SENSITIVITY_CAN_EXIST_WITHOUT_GLOBAL_SOURCE_BREADTH_FAILURE",
+    "MOVE_ORDER_TT_USE_DOMINATED_THE_ONLY_OPERATIONAL_HOTSPOT_UNDER_THIS_REGIME",
+    "CROSS_ENGINE_REPLICATION_IS_A_USEFUL_REGRESSION_WITNESS_BUT_NOT_A_UNIVERSAL_CHESS_LAW",
+    "WITHIN_TRAJECTORY_PHASE_CARTOGRAPHY_CAN_RECOVER_CAUSAL_ECOLOGY_WITHOUT_LEARNED_REPRESENTATIONS"
+  ],
+  "hotspot": {
+    "authority": "OPERATIONAL_DEVELOPER_HOTSPOT_NOT_POPULATION_PREVALENCE",
+    "cross_engine_replicated_positions": 1,
+    "engine_rates": {
+      "berserk": {
+        "rate": 0.010416666666666666,
+        "records": 96,
+        "root_change": 1
+      },
+      "ethereal": {
+        "rate": 0.03125,
+        "records": 96,
+        "root_change": 3
+      },
+      "stockfish_19": {
+        "rate": 0.052083333333333336,
+        "records": 96,
+        "root_change": 5
+      }
+    },
+    "phase": "LATE_OPENING",
+    "positive_engines": [
+      "berserk",
+      "ethereal",
+      "stockfish_19"
+    ],
+    "positive_sources": [
+      "P9_SRC_LICHESS_2026_05",
+      "P9_SRC_LICHESS_2026_06"
+    ],
+    "records": 288,
+    "root_change_events": 9,
+    "semantic_class_rates": {
+      "EVAL_REUSE": {
+        "rate": 0.0,
+        "records": 113,
+        "root_change": 0
+      },
+      "MOVE_ORDER_SEED": {
+        "rate": 0.061224489795918366,
+        "records": 147,
+        "root_change": 9
+      },
+      "TT_VALUE_AS_EVAL": {
+        "rate": 0.0,
+        "records": 28,
+        "root_change": 0
+      }
+    },
+    "sensitive_positions": 2,
+    "sensitive_worlds": 4,
+    "worlds": 18
+  },
+  "parent": {
+    "closure_commit": "839307a248d97b57cbb6c7a1b74bb7fe54a26480",
+    "closure_receipt_sha256": "f9db5765595bac0c598cac7e5889f7f6202263852e8a32ef57c68ed25a64e29f",
+    "stage": "C3X 0.7.0-G9.5-P8",
+    "verdict": "P8_PROTOTYPE_GEOMETRY_PASS_TRAIN_CAUSAL_BREADTH_HOLD"
+  },
+  "phase_map": [
+    {
+      "cross_engine_replicated_positions": 0,
+      "event_sensitivity_rate": 0.017361111111111112,
+      "operational_hotspot": false,
+      "phase": "EARLY_OPENING",
+      "records": 288,
+      "root_change_events": 5,
+      "sensitive_positions": 2,
+      "sensitive_worlds": 2,
+      "worlds": 18
+    },
+    {
+      "cross_engine_replicated_positions": 0,
+      "event_sensitivity_rate": 0.013888888888888888,
+      "operational_hotspot": false,
+      "phase": "DEVELOPING_OPENING",
+      "records": 288,
+      "root_change_events": 4,
+      "sensitive_positions": 3,
+      "sensitive_worlds": 3,
+      "worlds": 18
+    },
+    {
+      "cross_engine_replicated_positions": 1,
+      "event_sensitivity_rate": 0.03125,
+      "operational_hotspot": true,
+      "phase": "LATE_OPENING",
+      "records": 288,
+      "root_change_events": 9,
+      "sensitive_positions": 2,
+      "sensitive_worlds": 4,
+      "worlds": 18
+    },
+    {
+      "cross_engine_replicated_positions": 0,
+      "event_sensitivity_rate": 0.024305555555555556,
+      "operational_hotspot": false,
+      "phase": "EARLY_MIDDLEGAME",
+      "records": 288,
+      "root_change_events": 7,
+      "sensitive_positions": 2,
+      "sensitive_worlds": 2,
+      "worlds": 18
+    }
+  ],
+  "precommit": {
+    "cases": 72,
+    "p8_target_labels_confirmatory_vote": false,
+    "planned_max_event_records": 1152,
+    "planned_positions": 24,
+    "planned_worlds": 72,
+    "receipt_sha256": "ed6bdecf6ca1eddbb16c0c2076565befff9c73b80ef34405bb5972d4d714739b"
+  },
+  "receipt_sha256": "a7390b0366606dfc880097760c69f2d4082f45d0d5e8e1982d74408b30e8e8b0",
+  "regression_suite": {
+    "by_engine": {
+      "berserk": 1,
+      "ethereal": 3,
+      "stockfish_19": 3
+    },
+    "cases": 7,
+    "intended_use": "Replayable within-search regression witness bank with matched negative controls; no Elo or strength claim.",
+    "positions": 2,
+    "semantic_class": "MOVE_ORDER_SEED"
+  },
+  "schema": "c3x-g95-p9-closure-v1",
+  "scientific_stage": "C3X 0.7.0-G9.5-P9",
+  "status": "CLOSED_PASS",
+  "successor_question": "Within the prospectively identified LATE_OPENING operational hotspot, which MOVE_ORDER_SEED search-lineage structures repeatedly mediate root-move changes across engines and positions, and can those exact witnesses become stable patch-level regression tests without turning the hotspot into a universal opening claim?",
+  "suggested_successor": "C3X 0.7.0-G9.5-P10 — Prospective Late-Opening Move-Ordering Causal Anatomy, Same-Position Cross-Engine Witness Expansion, Search-Lineage Localization, Patch-Level Regression Replay & Developer-Facing TT Decision Diagnostics",
+  "support": {
+    "negative": 1127,
+    "pass": true,
+    "positive_engines": [
+      "berserk",
+      "ethereal",
+      "stockfish_19"
+    ],
+    "positive_phases": [
+      "EARLY_OPENING",
+      "DEVELOPING_OPENING",
+      "LATE_OPENING",
+      "EARLY_MIDDLEGAME"
+    ],
+    "positive_sources": [
+      "P9_SRC_LICHESS_2026_04",
+      "P9_SRC_LICHESS_2026_05",
+      "P9_SRC_LICHESS_2026_06"
+    ],
+    "records": 1152,
+    "records_per_engine": {
+      "berserk": 384,
+      "ethereal": 384,
+      "stockfish_19": 384
+    },
+    "root_change": 25
+  },
+  "title": "Prospective Opening-to-Middlegame TT-Sensitivity Cartography, Root-Move Instability Hotspot Mapping, Phase-Matched Cross-Engine Counterfactual Replication & Developer Regression Diagnostics",
+  "verification": {
+    "go_parity": true,
+    "js_claim_firewall": "PASS",
+    "post_target_threshold_refit": false,
+    "rust_status": "CARTOGRAPHY_COMPLETE",
+    "winner_selected": false
+  }
+}
