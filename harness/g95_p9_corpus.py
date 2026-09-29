@@ -71,7 +71,7 @@ def game_candidate(g,source_id,game_index,excluded):
  if len(set(ids))!=4:return None
  tid=sha(source_id+"|"+str(game_index)+"|"+"|".join(ids))
  return {"trajectory_hash":tid,"source_id":source_id,"game_index":game_index,"phases":chosen}
-def scan_source(path,source_id,excluded,limit=8000):
+def scan_source(path,source_id,excluded,limit=1024):
  out=[];phase_games={pid:0 for pid,_,_ in PHASES};max_ply=0;games=0
  with open(path,errors="strict") as f:
   gi=0
@@ -145,7 +145,7 @@ def main():
   "source":{"repository":a.source_repo,"commit":a.source_commit,
    "sources":{s["id"]:{"logical":s["logical"],"eligible_trajectories":len(pools[s["id"]])} for s in specs}},
   "selection":{"engine_outcomes_consulted":False,"historical_target_labels_consulted":False,"p8_target_labels_consulted":False,
-   "historical_candidate_hashes_excluded":len(excluded),"trajectory_rule":"two lexicographically smallest fresh eligible trajectory hashes per source",
+   "historical_candidate_hashes_excluded":len(excluded),"trajectory_rule":"two lexicographically smallest fresh eligible trajectory hashes among the first 1024 PGN games of each checksum-pinned source",
    "phase_position_rule":"minimum SHA256 canonical legal FEN within each frozen ply window",
    "eligibility":"standard chess; nonterminal; not in check; 18-48 legal moves; abs material balance <=3 pawns"},
   "phase_windows":[{"id":p,"ply_lo":lo,"ply_hi":hi} for p,lo,hi in PHASES],
