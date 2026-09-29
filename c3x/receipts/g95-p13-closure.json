@@ -1,0 +1,198 @@
+{
+  "artifacts": {
+    "corpus": {
+      "digest": "sha256:1047f4d89e49ba2d7c5c0f3da7aa7bcf07296c66559f089586cbf15080f8eca1",
+      "id": 11013975982,
+      "name": "g95-p13-corpus-sealed"
+    },
+    "design": {
+      "digest": "sha256:f3f419f635ff5f9e1ddc861b58ce6377524cd2591bbe618763b35b88d4638d77",
+      "id": 11014420755,
+      "name": "g95-p13-design-precommit-sealed"
+    },
+    "final": {
+      "digest": "sha256:17166ddcdb743db2565f1b4a51cb8f4b554a0d3870d9811c257a351f79675308",
+      "id": 11014012486,
+      "name": "g95-p13-final-root-candidate-boundary"
+    },
+    "pair_freeze": {
+      "digest": "sha256:084a6b9ff8d1b176c0a88f4955d25cb9f749583ad9a30fe48c308d72c0ac47bb",
+      "id": 11013827217,
+      "name": "g95-p13-pair-freeze-sealed"
+    }
+  },
+  "authority": "FRESH_ROOT_CANDIDATE_PAIRWISE_CAUSALITY / TRANSPORT_REPLICATION_HOLD",
+  "canonical_execution": {
+    "conclusion": "success",
+    "run_id": 36524147020,
+    "run_number": 4,
+    "science_head": "6dc0f2092db4d10b9939f3915f76fc2b6c0b18b8",
+    "workflow": "g95-p13-root-candidate-boundary"
+  },
+  "claim_ceiling": [
+    "P13 identifies exact search-event-sensitive engine preference boundaries between independently qualified near-equal legal root moves under frozen engine/history/node budgets.",
+    "Root-child semantic-event exposure is not candidate-specific node allocation.",
+    "The 9 local direct pair flips do not establish a transportable cross-engine/source/position law because no frozen direct-pair signature replicated.",
+    "Engine preference is not objective chess truth, human strategic intent, or cognition.",
+    "Raw TT keys were not emitted."
+  ],
+  "fresh_corpus": {
+    "corpus_json_sha256": "d0040e90b90d284c296a68a3154ac76ad7653e6533ad9c87d03b7ce47cf34feb",
+    "historical_candidate_hashes_excluded": 872,
+    "positions": 16,
+    "source_prefix_games": 1536,
+    "sources": {
+      "P13_SRC_LICHESS_2026_07": {
+        "compressed_sha256": "714d0eb99f99fca8d791142038b6c59b5ca6a51b3339bd3891a92f4bdffcbf0c",
+        "decompressed_sha256": "6ad4a7652e22986a309d98b4e9df9a7d5ea9afc095ff503c49be67df363576b3",
+        "eligible_positions": 1503,
+        "logical": "lichess_db_broadcast_2026-07.pgn"
+      },
+      "P13_SRC_LICHESS_2026_08": {
+        "compressed_sha256": "e227c35c3207ebade754849c1825982e2717ae82c013013d896778e27be77724",
+        "decompressed_sha256": "6aa009cfc119ea75903c19d8a658f7aae7448989dc91b6aada791e109d039fe8",
+        "eligible_positions": 1477,
+        "logical": "lichess_db_broadcast_2026-08.pgn"
+      }
+    },
+    "worlds": 48
+  },
+  "implementation_repair": {
+    "canonical_rerun": "all qualification, pair-freeze, intervention worlds, and final court rerun from scratch on science head 6dc0f2092db4d10b9939f3915f76fc2b6c0b18b8",
+    "observed_failure": "private root-child fingerprint was empty because forced searchmoves produced no ply-1 P31 semantic events; 38 worlds qualified but 0 worlds selected a target and 0 interventions fired",
+    "precanonical_head": "a7f3e11b9e09d857877c65a7fd5abe60d376c82a",
+    "precanonical_run": 36523384074,
+    "precanonical_verdict": "P13_FRESH_SUPPORT_HOLD",
+    "repair": "added private, nonbehavioral root-child key observer at engine search entry; no outcome, pair rule, target predicate, support gate, replication rule, budget, source, or position membership changed",
+    "stockfish_build_repair": "observer anchor occurs in both main-search and qsearch code paths; observer call installed at both but records only ply==1"
+  },
+  "next_authorization": {
+    "count": 1,
+    "direction": "prospectively test orientation-free unordered legal-move-pair transport and reciprocal cross-engine preference-boundary geometry on fresh positions; P13 W/R-labeled signatures remain closed and may not be retrospectively relabeled",
+    "forbidden": "no retrospective reclassification of the 9 P13 direct flips as replicated; no target-taxonomy rescue",
+    "stage": "C3X 0.7.0-G9.5-P14"
+  },
+  "parent": {
+    "closure_commit": "5fb5f2489d572885a7d591c04184fd2c408ba30c",
+    "closure_receipt_sha256": "49db9504ca2ad005b7c578120a6bdcefe8873384e5bc707d178c3c4c7adcfc29",
+    "stage": "C3X 0.7.0-G9.5-P12"
+  },
+  "qualification": {
+    "design_receipt_sha256": "350d8a67bd7a9df6eea2d3b447d6100f64d79a64b5e21d2b4bdc14e33b53429e",
+    "gap_bands": {
+      "MARGINAL": 5,
+      "TIGHT": 2,
+      "VERY_TIGHT": 31
+    },
+    "pair_freeze_receipt_sha256": "401b9dd7459a0357b55466a8735298484332aa4bb9e26827fc283d1ed171ad2e",
+    "qualification_failures": {
+      "CONTEXTUAL_WINNER_OUTSIDE_SHORTLIST": 2,
+      "RIVAL_OUTSIDE_NEAR_EQUAL_BAND": 8
+    },
+    "qualified_engines": [
+      "berserk",
+      "ethereal",
+      "stockfish_19"
+    ],
+    "qualified_positions": 15,
+    "qualified_sources": [
+      "P13_SRC_LICHESS_2026_07",
+      "P13_SRC_LICHESS_2026_08"
+    ],
+    "qualified_worlds": 38
+  },
+  "receipt_digest_scope": "SHA256_OF_CANONICAL_JSON_WITHOUT_RECEIPT_SHA256_AND_RECEIPT_DIGEST_SCOPE",
+  "receipt_sha256": "7b250ef1dc9fe4dd5717070d7a15e4651cee3985c927f941a6aba9d2811e6045",
+  "representative_witnesses": [
+    {
+      "engine": "berserk",
+      "gap_band": "TIGHT",
+      "isolated_gap_cp": 27,
+      "root_transition": "fxe4 -> O-O",
+      "source": "2026-07",
+      "source_ply": 21,
+      "target": "WINNER/UPPER"
+    },
+    {
+      "engine": "berserk",
+      "gap_band": "VERY_TIGHT",
+      "isolated_gap_cp": 5,
+      "root_transition": "b6 -> Qc7",
+      "source": "2026-07",
+      "source_ply": 19,
+      "target": "WINNER/UPPER"
+    },
+    {
+      "engine": "ethereal",
+      "gap_band": "VERY_TIGHT",
+      "isolated_gap_cp": 0,
+      "root_transition": "Nbxd5 -> Bxd4",
+      "source": "2026-07",
+      "source_ply": 17,
+      "target": "RIVAL/LOWER"
+    },
+    {
+      "engine": "stockfish_19",
+      "gap_band": "MARGINAL",
+      "isolated_gap_cp": 37,
+      "root_transition": "Qc7 -> b6",
+      "source": "2026-07",
+      "source_ply": 19,
+      "target": "WINNER/LOWER"
+    },
+    {
+      "engine": "stockfish_19",
+      "gap_band": "VERY_TIGHT",
+      "isolated_gap_cp": -2,
+      "root_transition": "Nc5 -> c6",
+      "source": "2026-08",
+      "source_ply": 17,
+      "target": "RIVAL/LOWER"
+    }
+  ],
+  "result": {
+    "address_misses": 0,
+    "adjudication_receipt_sha256": "8a0d922801408d99f619fceca27cff3e91e392a3a35c915e19570018a777fda3",
+    "direct_flip_positions": 5,
+    "direct_flip_worlds": 6,
+    "direct_pair_flip_per_engine": {
+      "berserk": 5,
+      "ethereal": 1,
+      "stockfish_19": 3
+    },
+    "direct_pair_flip_per_source": {
+      "P13_SRC_LICHESS_2026_07": 6,
+      "P13_SRC_LICHESS_2026_08": 3
+    },
+    "effect_counts": {
+      "DIRECT_PAIR_FLIP": 9,
+      "ROOT_UNCHANGED": 255,
+      "THIRD_MOVE_REDIRECT": 13
+    },
+    "fired_target_records": 277,
+    "replicated_direct_pair_flip_signatures": [],
+    "worlds_with_selected_target": 38
+  },
+  "same_position_cross_engine_observation": {
+    "authority": "diagnostic observation only; P13 frozen replication signature is orientation-labeled and this does not satisfy it",
+    "berserk": "b6 -> Qc7 under exact event removal",
+    "position_id": "p13:P13_SRC_LICHESS_2026_07:0227936d6273",
+    "stockfish_19": "Qc7 -> b6 under exact event removal"
+  },
+  "schema": "c3x-g95-p13-closure-v1",
+  "scientific_stage": "C3X 0.7.0-G9.5-P13",
+  "status": "CLOSED_PASS",
+  "title": "Prospective Root-Candidate Competition Graph, Near-Equal Legal-Move Survival/Elimination Causality, Root-Child Search-Exposure Attribution, PV Branch-Replacement Mechanisms & Preference-Boundary Reconstruction",
+  "verdict": "P13_PAIRWISE_PREFERENCE_BOUNDARY_CAUSALITY_LOCAL_ONLY",
+  "verification": {
+    "final_file_sha256": {
+      "g95-p13-pair-freeze.json": "f90dd733e186209da9057bbe903297ce77ef7e172d3017a7df880b2d1505730c",
+      "go-verification.txt": "09be2b0a0b0bbeda08c6feb299089633bf22e053f053388fdf06569a4d2c8950",
+      "js-verification.txt": "c08fd30375373772d6aa7b80e4398146d87fa2f88bcaf45faf5906a0577e18cf",
+      "p13-adjudication.json": "d5d6c3cdd1e1769f83c54dd28e9e23838ad7d1983b9054080ce78b39bd1e1e44",
+      "p13-chess-diagnostic.md": "25a903f5cea1c3a3c717e5139d7a6f369707132b55779ddefe24cc7083f63c0d"
+    },
+    "go": "P13_GO_VERIFY_PASS P13_PAIRWISE_PREFERENCE_BOUNDARY_CAUSALITY_LOCAL_ONLY records 277 qualified 38",
+    "js": "P13_JS_CLAIM_FIREWALL_PASS P13_PAIRWISE_PREFERENCE_BOUNDARY_CAUSALITY_LOCAL_ONLY records 277 qualified 38"
+  }
+}
