@@ -1,0 +1,248 @@
+{
+  "schema": "c3x-causal-contrast-certificate-v1",
+  "materialization_revision": "postrun-complete-v1",
+  "scientific_stage": "C3X 0.7.0-G9.5-P16",
+  "scientific_verdict": "P16_LOCAL_MINIMAL_FULL_BRIDGE_ONLY",
+  "provenance_class": "C3X_CAUSAL_CONTRAST",
+  "certificate_id": "398eca8d6adf00525e6d5bf7",
+  "replication_status": "LOCAL_ONLY",
+  "source": {
+    "canonical_run_id": 36544344858,
+    "science_head": "ceca4f387d1617f4804afce26ced282c3f84c656",
+    "final_artifact_id": 11021403882,
+    "final_artifact_digest": "sha256:ccd3ac6c3e1514334b592d15bcc3506952c699a37cdb17ac97db74aa00e41f12",
+    "witness_artifact_id": 11022775013,
+    "witness_artifact_digest": "sha256:3de2e78a4c1dfa63578564aa038c80290ffa1a14bae4d86ed419164963249031",
+    "world_receipt_sha256": "f8efd711ceba73e6023648e8853a2f3f09c8d5796e3780b4c8ac462df1b55ca2",
+    "adjudication_receipt_sha256": "11cbe45504c5ba6b304b1ca1434c7c54a20a4186891111266703353897888338"
+  },
+  "position_id": "p16:P16_SRC_LICHESS_2026_08:00846cca2171",
+  "source_id": "P16_SRC_LICHESS_2026_08",
+  "engine": "ethereal",
+  "pair": {
+    "pair_id": "d6d5::e8g8",
+    "support_count": 3,
+    "median_gap_cp": 13,
+    "max_gap_cp": 17,
+    "A": {
+      "uci": "d6d5",
+      "san": "d5",
+      "capture": false,
+      "castling": false,
+      "check": false,
+      "promotion": false,
+      "legal": true
+    },
+    "B": {
+      "uci": "e8g8",
+      "san": "O-O",
+      "capture": false,
+      "castling": true,
+      "check": false,
+      "promotion": false,
+      "legal": true
+    }
+  },
+  "chain": {
+    "chain_id": "d8c7::SHAM::d8d7",
+    "chain_type": "ATOMIC_CHAIN",
+    "moved_side_role": "OWN",
+    "engine_relative_atoms": [
+      "DISPREFERRED_FROM_LOSS"
+    ],
+    "structural_signature": "OWN|DISPREFERRED_FROM_LOSS|LOWER|MINIMAL_FULL_BRIDGE",
+    "bound": "LOWER",
+    "target_edit": {
+      "edit_id": "d8c7",
+      "from": "d8",
+      "to": "c7",
+      "piece_color": "BLACK",
+      "piece_type": "QUEEN",
+      "distance": 1,
+      "atoms": [
+        "B_FROM_LOSS"
+      ],
+      "relation_before": [
+        true,
+        false,
+        true,
+        false
+      ],
+      "relation_after": [
+        true,
+        false,
+        false,
+        false
+      ],
+      "legal_move_count_delta": 4,
+      "attack_set_symmetric_difference": 6,
+      "fen": "r1b1k2r/ppq1bppp/2nppn2/8/2PP4/2N2NP1/PP3PBP/R1BQK2R b KQkq - 0 1"
+    },
+    "subset_edit": {
+      "edit_id": "d8d7",
+      "from": "d8",
+      "to": "d7",
+      "piece_color": "BLACK",
+      "piece_type": "QUEEN",
+      "distance": 1,
+      "atoms": [],
+      "relation_before": [
+        true,
+        false,
+        true,
+        false
+      ],
+      "relation_after": [
+        true,
+        false,
+        true,
+        false
+      ],
+      "legal_move_count_delta": -2,
+      "attack_set_symmetric_difference": 7,
+      "fen": "r1b1k2r/pp1qbppp/2nppn2/8/2PP4/2N2NP1/PP3PBP/R1BQK2R b KQkq - 0 1"
+    },
+    "sham_edit": {
+      "edit_id": "d8d7",
+      "from": "d8",
+      "to": "d7",
+      "piece_color": "BLACK",
+      "piece_type": "QUEEN",
+      "distance": 1,
+      "atoms": [],
+      "relation_before": [
+        true,
+        false,
+        true,
+        false
+      ],
+      "relation_after": [
+        true,
+        false,
+        true,
+        false
+      ],
+      "legal_move_count_delta": -2,
+      "attack_set_symmetric_difference": 7,
+      "fen": "r1b1k2r/pp1qbppp/2nppn2/8/2PP4/2N2NP1/PP3PBP/R1BQK2R b KQkq - 0 1"
+    }
+  },
+  "counterfactual_boards": {
+    "B0": {
+      "fen": "r1bqk2r/pp2bppp/2nppn2/8/2PP4/2N2NP1/PP3PBP/R1BQK2R b KQkq - 0 1"
+    },
+    "TARGET": {
+      "fen": "r1b1k2r/ppq1bppp/2nppn2/8/2PP4/2N2NP1/PP3PBP/R1BQK2R b KQkq - 0 1"
+    },
+    "SUBSET": {
+      "fen": "r1b1k2r/pp1qbppp/2nppn2/8/2PP4/2N2NP1/PP3PBP/R1BQK2R b KQkq - 0 1"
+    },
+    "SHAM": {
+      "fen": "r1b1k2r/pp1qbppp/2nppn2/8/2PP4/2N2NP1/PP3PBP/R1BQK2R b KQkq - 0 1"
+    }
+  },
+  "decision_cells": {
+    "B0": {
+      "native_bestmove": "d6d5",
+      "native_san": "d5",
+      "bounds": {
+        "LOWER": {
+          "state": "EVENT_PAIR_REVERSAL",
+          "event_fired": true,
+          "event_id_prefix": "2115815f63be3480",
+          "native_bestmove": "d6d5",
+          "t_only_bestmove": "e8g8",
+          "t_only_san": "O-O"
+        },
+        "UPPER": {
+          "state": "NO_EVENT",
+          "event_fired": false,
+          "event_id_prefix": null,
+          "native_bestmove": null,
+          "t_only_bestmove": null,
+          "t_only_san": null
+        }
+      }
+    },
+    "TARGET": {
+      "native_bestmove": "e8g8",
+      "native_san": "O-O",
+      "bounds": {
+        "LOWER": {
+          "state": "EVENT_NULL",
+          "event_fired": true,
+          "event_id_prefix": "13ca1a6a0f4cbe24",
+          "native_bestmove": "e8g8",
+          "t_only_bestmove": "e8g8",
+          "t_only_san": "O-O"
+        },
+        "UPPER": {
+          "state": "EVENT_NULL",
+          "event_fired": true,
+          "event_id_prefix": "1bc46b179042a240",
+          "native_bestmove": "e8g8",
+          "t_only_bestmove": "e8g8",
+          "t_only_san": "O-O"
+        }
+      }
+    },
+    "SUBSET": {
+      "native_bestmove": "e8g8",
+      "native_san": "O-O",
+      "bounds": {
+        "LOWER": {
+          "state": "EVENT_PAIR_REVERSAL",
+          "event_fired": true,
+          "event_id_prefix": "7f8047f79d38778c",
+          "native_bestmove": "e8g8",
+          "t_only_bestmove": "d6d5",
+          "t_only_san": "d5"
+        },
+        "UPPER": {
+          "state": "EVENT_NULL",
+          "event_fired": true,
+          "event_id_prefix": "f73628defe0b013a",
+          "native_bestmove": "e8g8",
+          "t_only_bestmove": "e8g8",
+          "t_only_san": "O-O"
+        }
+      }
+    },
+    "SHAM": {
+      "native_bestmove": "e8g8",
+      "native_san": "O-O",
+      "bounds": {
+        "LOWER": {
+          "state": "EVENT_PAIR_REVERSAL",
+          "event_fired": true,
+          "event_id_prefix": "7f8047f79d38778c",
+          "native_bestmove": "e8g8",
+          "t_only_bestmove": "d6d5",
+          "t_only_san": "d5"
+        },
+        "UPPER": {
+          "state": "EVENT_NULL",
+          "event_fired": true,
+          "event_id_prefix": "f73628defe0b013a",
+          "native_bestmove": "e8g8",
+          "t_only_bestmove": "e8g8",
+          "t_only_san": "O-O"
+        }
+      }
+    }
+  },
+  "falsifiers": {
+    "subset_reproduced": false,
+    "sham_reproduced": false
+  },
+  "concept_label": null,
+  "authority_ceiling": [
+    "P16 may identify chain-relative inclusion-minimal pair-local relation-atom sets that support an operational board→exact-search→pair-preference FULL_BRIDGE under declared engines and budgets.",
+    "Structural equivalence means the same normalized intervention-response signature across physically distinct edits; it does not imply identical native search implementation.",
+    "Minimality is relative to the frozen admissible edit/chain family and is not a global theorem over all legal board perturbations.",
+    "Certificates carry engine-preference causal authority, not objective chess truth, human intention, cognition, or semantic strategic concepts.",
+    "Human concept labels remain absent until a separate prospective concept-as-partition bridge is tested."
+  ],
+  "repair_note": "Post-run certificate materialization repair only. It restores fields prospectively required by the P16 certificate contract from immutable canonical world/freeze artifacts; it does not alter case selection, outcomes, adjudication, verdict, replication status, or scientific authority.",
+  "receipt_sha256": "441747f4b13a3a158cb03d2911a0ea3937ce2a46b3db6915ffa54d5808e522c7"
+}
