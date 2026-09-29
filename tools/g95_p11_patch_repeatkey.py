@@ -27,6 +27,10 @@ static void c3x_p11_setup(void){
     fprintf(stderr,"C3X_P11_BAD_PATCH %s\n",c3x_p11_mode);abort();
   }
 }
+static int c3x_p11_mediator_all(void){
+  const char *x=getenv("C3X_P11_MEDIATOR_ALL");
+  return x&&*x&&!strcmp(x,"1");
+}
 static int c3x_p11_bound_match(int bound){
   if(!strcmp(c3x_p11_mode,"BOTH"))return bound==1||bound==2;
   if(!strcmp(c3x_p11_mode,"UPPER"))return bound==1;
