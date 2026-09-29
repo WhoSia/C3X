@@ -122,7 +122,6 @@ def main():
     "source_prefix_games":1024,"position_rule":"three lexicographically smallest fresh trajectory-position hashes per source after historical exclusion",
     "eligibility":"standard chess; nonterminal; not in check; plies 14-21; 18-48 legal moves; abs material balance <=3 pawns"},
   "positions":positions}
- Path(a.out).write_text(json.dumps(out,indent=2,sort_keys=True)+"
-")
+ Path(a.out).write_text(json.dumps(out,indent=2,sort_keys=True)+"\\n")
  print("G95_P10_CORPUS_PASS","positions",len(positions),"excluded",len(excluded))
 if __name__=="__main__":main()
