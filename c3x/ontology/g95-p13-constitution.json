@@ -1,0 +1,123 @@
+{
+  "schema": "c3x-g95-p13-constitution-v1",
+  "scientific_stage": "C3X 0.7.0-G9.5-P13",
+  "title": "Prospective Root-Candidate Competition Graph, Near-Equal Legal-Move Survival/Elimination Causality, Root-Child Search-Exposure Attribution, PV Branch-Replacement Mechanisms & Preference-Boundary Reconstruction",
+  "parent": {
+    "stage": "C3X 0.7.0-G9.5-P12",
+    "closure_commit": "5fb5f2489d572885a7d591c04184fd2c408ba30c",
+    "closure_receipt_sha256": "49db9504ca2ad005b7c578120a6bdcefe8873384e5bc707d178c3c4c7adcfc29",
+    "verdict": "P12_EXACT_CUTOFF_MEDIATION_IDENTIFIED_REPLICATION_HOLD"
+  },
+  "founding_question": "Why does an engine prefer one near-equal legal root move over another under a frozen search regime?",
+  "fresh_worlds": {
+    "sources": ["P13_SRC_LICHESS_2026_07", "P13_SRC_LICHESS_2026_08"],
+    "source_prefix_games": 1536,
+    "positions_per_source": 8,
+    "planned_positions": 16,
+    "engines": ["stockfish_19", "berserk", "ethereal"],
+    "planned_worlds": 48,
+    "eligibility": "standard legal nonterminal chess; not in check; plies 14-23; 18-48 legal moves; absolute material imbalance <=3 pawns; disjoint from all recoverable P1-P12 candidate hashes",
+    "engine_outcomes_used_for_position_selection": false
+  },
+  "execution": {
+    "threads": 1,
+    "hash_mib": 1,
+    "prime_nodes": 20000,
+    "decoy_nodes": 20000,
+    "decoy_count": 3,
+    "measurement_nodes": 80000,
+    "shallow_legal_move_nodes": 12000,
+    "shortlist_size": 6,
+    "isolated_confirm_nodes": 30000,
+    "isolated_confirm_repeats": 2,
+    "root_child_fingerprint_nodes": 12000,
+    "max_targets_per_world": 8,
+    "frontier": 8
+  },
+  "candidate_qualification": {
+    "legal_move_universe": "enumerate every legal root move; no tactical prefilter",
+    "shallow_rank": "one cold root-restricted equal-node search per legal move; rank by side-to-move engine score with deterministic UCI tiebreak",
+    "shortlist": "six highest shallow-ranked legal moves",
+    "confirmatory_score": "two cold root-restricted equal-node repeats for each shortlisted move",
+    "stability_rule": "both confirmatory scores must be non-mate cp scores and exactly equal",
+    "contextual_winner": "the 80k-node shared-search bestmove after the frozen P12 history protocol",
+    "winner_admission": "contextual winner must be a stable shortlisted move",
+    "rival_rule": "among other stable shortlisted moves, choose the move with minimum absolute confirmatory cp difference from the contextual winner; ties prefer higher cp then lexical UCI",
+    "near_equal_max_abs_cp": 50,
+    "gap_bands_cp": {"VERY_TIGHT": [0, 15], "TIGHT": [16, 30], "MARGINAL": [31, 50]},
+    "mate_pairs_admitted": false,
+    "multi_pv_not_required": true,
+    "rationale": "restores the early C3X rule that candidate preference must be qualified by independent root-restricted equal-node evidence rather than treating a shared bestmove or MultiPV ordering as explanation."
+  },
+  "root_child_attribution": {
+    "method": "privately fingerprint each shortlisted legal move by a cold searchmoves trace; map unique ply-1 internal position keys back to UCI move identity; use that map only to attribute shared-search ply-1 semantic events",
+    "public_observables": ["candidate UCI/SAN", "ply-1 semantic-event exposure count", "semantic-class counts", "null-window count", "max observed depth", "first/last trace ordinal", "depth-indexed PV-incumbent timeline", "final candidate fate"],
+    "candidate_fates": ["FINAL_WINNER", "PV_DISPLACED", "SEARCH_EXPOSED_NEVER_PV", "NO_MAPPED_ROOTCHILD_EXPOSURE"],
+    "raw_tt_keys_public": false,
+    "node_allocation_claim": "not made; event exposure is a root-child search-exposure observable, not per-candidate node accounting"
+  },
+  "exact_target": {
+    "semantic_class": "MOVE_ORDER_SEED",
+    "scope": "MAIN",
+    "ply": 1,
+    "depth_min": 5,
+    "depth_max": 8,
+    "requires_repeated_full_key": true,
+    "requires_same_most_recent_tt_move": true,
+    "bound_signs": ["LOWER", "UPPER"],
+    "candidate_membership": "target ply-1 key must privately map to the frozen winner or frozen rival",
+    "selection": "lexicographically smallest exact address IDs up to max_targets_per_world, using baseline trace only",
+    "outcome_used_for_target_selection": false,
+    "intervention": "T_ONLY exact semantic-use removal; TT storage/replacement/index/age remain untouched"
+  },
+  "preference_boundary": {
+    "primary_effect_categories": ["DIRECT_PAIR_FLIP", "THIRD_MOVE_REDIRECT", "ROOT_UNCHANGED"],
+    "direct_pair_flip": "baseline contextual winner W becomes the frozen near-equal rival R under T_ONLY",
+    "third_move_redirect": "T_ONLY selects a legal move other than W or R",
+    "root_unchanged": "T_ONLY retains W",
+    "secondary_diagnostics": ["candidate exposure delta", "candidate fate transition", "first PV divergence", "depth-indexed incumbent replacement"],
+    "no_post_hoc_effect_redefinition": true
+  },
+  "support_gate": {
+    "min_qualified_worlds": 8,
+    "min_qualified_engines": 2,
+    "min_qualified_sources": 2,
+    "min_qualified_positions": 4,
+    "min_worlds_with_selected_target": 6,
+    "min_fired_target_records": 24,
+    "max_address_misses": 0
+  },
+  "replication_rule": {
+    "signature": "target_side|target_bound|isolated_gap_band|effect_category",
+    "replicated_direct_pair_flip_requires": {
+      "witnesses": 3,
+      "engines": 2,
+      "positions": 2,
+      "sources": 2
+    },
+    "no_post_target_signature_refit": true
+  },
+  "verdicts": [
+    "P13_REPLICATED_PAIRWISE_PREFERENCE_BOUNDARY_CAUSALITY",
+    "P13_PAIRWISE_PREFERENCE_BOUNDARY_CAUSALITY_LOCAL_ONLY",
+    "P13_ROOT_CANDIDATE_COMPETITION_REDIRECTION_WITHOUT_PAIRWISE_BOUNDARY_REPLICATION",
+    "P13_NO_ROOT_PREFERENCE_BOUNDARY_EFFECT_UNDER_FROZEN_EXACT_EVENT_INTERVENTION",
+    "P13_FRESH_SUPPORT_HOLD"
+  ],
+  "claim_ceiling": [
+    "A DIRECT_PAIR_FLIP identifies an exact search-event-sensitive engine preference boundary between two independently qualified near-equal legal moves under the frozen engine, history and node budget.",
+    "Root-child event exposure is not candidate-specific node allocation and must not be described as such.",
+    "An engine preference boundary is not objective chess truth, human strategic intent, or a cognitive mechanism.",
+    "Cross-engine/source/position transport is claimed only when the frozen replication rule is satisfied.",
+    "Raw TT keys remain private intra-run locators and are never emitted in public artifacts."
+  ],
+  "forbidden": [
+    "No narrower cutoff-taxonomy rescue.",
+    "No retrospective near-equal threshold tuning.",
+    "No target selection based on T_ONLY root changes.",
+    "No replacement of root-restricted qualification by MultiPV rank.",
+    "No public raw TT key emission.",
+    "No promotion from local engine preference to human chess explanation."
+  ],
+  "stop_rule": "Adjudicate the frozen 48-world campaign once. If pairwise boundary transport fails, return the result as a transport ceiling rather than subdividing targets after outcomes."
+}
