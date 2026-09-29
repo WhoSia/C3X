@@ -122,7 +122,8 @@
     "SHAM_EDIT": "pair-local relation vector is preserved",
     "target_sham_matching": "same moved piece identity and same Chebyshev relocation distance; otherwise the candidate edit pair is inadmissible",
     "generation_outcome_blind": true,
-    "max_candidate_edit_pairs_before_engine_marginality_checks": 8
+    "max_candidate_edit_pairs_before_engine_marginality_checks": 8,
+    "engine_relative_relation_delta_role": "after board-edit freeze, lexical A/B delta counts are re-expressed per engine as ANCHOR_DISPREFERRED_DOMINANT, ANCHOR_PREFERRED_DOMINANT, or BALANCED using that engine's original-board baseline orientation; lexical A/B is not a replication signature"
   },
   "board_edit_marginality_freeze": {
     "per_engine_support": "on BOTH target and matched sham boards, both frozen pair moves remain legal and have two exactly repeated non-mate isolated cp scores with absolute pair gap <=50",
