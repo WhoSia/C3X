@@ -106,9 +106,11 @@ def main():
  if len(specs)!=3:raise SystemExit("P9_SOURCE_COUNT")
  trajectories=[];pools={}
  used_fens=set()
+ # Scan every source first so feasibility is fully visible before any admission failure.
  for s in specs:
-  pool=scan_source(s["path"],s["id"],excluded);pools[s["id"]]=pool
-  picked=[]
+  pools[s["id"]]=scan_source(s["path"],s["id"],excluded)
+ for s in specs:
+  pool=pools[s["id"]];picked=[]
   for tr in pool:
    hs=[tr["phases"][p]["candidate_sha256"] for p,_,_ in PHASES]
    if any(h in used_fens for h in hs):continue
