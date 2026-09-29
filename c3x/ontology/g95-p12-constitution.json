@@ -1,133 +1,166 @@
 {
-  "schema":"c3x-g95-p12-constitution-v1",
-  "scientific_stage":"C3X 0.7.0-G9.5-P12",
-  "title":"Prospective Exact-Cutoff Mediation Identification, Alpha–Beta Window Transition Instrumentation, Re-search/PVS Path Causality, Fresh Late-Opening Witness Replication & Patch-Stable Minimal Search-Transition Diagnostics",
-  "parent":{
-    "stage":"C3X 0.7.0-G9.5-P11",
-    "canonical_run":36509824064,
-    "canonical_head":"14bd8b9ab46df53b88b78d27b0513b6693408b49",
-    "closure_commit":"5ff62a2d97b69e1858eddc032c1aa8808397c500",
-    "closure_receipt_sha256":"f3f211791ccb9deafa1d5d6e3f756b9659c4a1ee3f221026df3cb4bade08e3f5",
-    "verdict":"P11_BOUNDED_MEDIATION_AND_PATCH_DIAGNOSTIC_CLOSED"
+  "schema": "c3x-g95-p12-constitution-v1",
+  "scientific_stage": "C3X 0.7.0-G9.5-P12",
+  "title": "Prospective Exact-Cutoff Mediation Identification, Alpha–Beta Window Transition Instrumentation, Re-search/PVS Path Causality, Fresh Late-Opening Witness Replication & Patch-Stable Minimal Search-Transition Diagnostics",
+  "parent": {
+    "stage": "C3X 0.7.0-G9.5-P11",
+    "canonical_run": 36509824064,
+    "canonical_head": "14bd8b9ab46df53b88b78d27b0513b6693408b49",
+    "closure_commit": "5ff62a2d97b69e1858eddc032c1aa8808397c500",
+    "closure_receipt_sha256": "f3f211791ccb9deafa1d5d6e3f756b9659c4a1ee3f221026df3cb4bade08e3f5",
+    "verdict": "P11_BOUNDED_MEDIATION_AND_PATCH_DIAGNOSTIC_CLOSED"
   },
-  "origin_fidelity":{
-    "founding_question":"Explaining Marginal Strategic Preferences Beyond Tactical Best Moves",
-    "required_chess_return":"Every P12 mechanism claim must terminate in a legal root-candidate fate, PV replacement, or root-choice transition. Pure telemetry without candidate-move consequence is diagnostic only.",
-    "black_box_goal":"Experimentally traverse board position -> exact search transition -> candidate branch fate -> root choice; do not equate one layer with another.",
-    "anti_drift":"No new mechanism vocabulary unless an exact intervention separates live chess-search rivals prospectively."
+  "origin_fidelity": {
+    "founding_question": "Explaining Marginal Strategic Preferences Beyond Tactical Best Moves",
+    "required_chess_return": "Every P12 mechanism claim must terminate in a legal root-candidate fate, PV replacement, or root-choice transition. Pure telemetry without candidate-move consequence is diagnostic only.",
+    "black_box_goal": "Experimentally traverse board position -> exact search transition -> candidate branch fate -> root choice; do not equate one layer with another.",
+    "anti_drift": "No new mechanism vocabulary unless an exact intervention separates live chess-search rivals prospectively."
   },
-  "harvest_donors":[
+  "harvest_donors": [
     {
-      "id":"INTERVENTION_DEFINED_EXPLANATION",
-      "translation":"An explanatory cutoff transition must earn authority by exact event intervention, not by temporal co-location."
+      "id": "INTERVENTION_DEFINED_EXPLANATION",
+      "translation": "An explanatory cutoff transition must earn authority by exact event intervention, not by temporal co-location."
     },
     {
-      "id":"RIVAL_DISCRIMINATING_DESIGN",
-      "translation":"P12 explicitly discriminates baseline-cutoff-loss, counterfactual-emergent-cutoff, and generic-search-reorganization rivals."
+      "id": "RIVAL_DISCRIMINATING_DESIGN",
+      "translation": "P12 explicitly discriminates baseline-cutoff-loss, counterfactual-emergent-cutoff, and generic-search-reorganization rivals."
     },
     {
-      "id":"FAILURE_LOCATION_IDENTIFIABILITY",
-      "translation":"If exact cutoff intervention redirects rather than restores/reproduces the root choice, report nonidentification instead of attributing the effect to that cutoff."
+      "id": "FAILURE_LOCATION_IDENTIFIABILITY",
+      "translation": "If exact cutoff intervention redirects rather than restores/reproduces the root choice, report nonidentification instead of attributing the effect to that cutoff."
     },
     {
-      "id":"POSITIVE_NONIDENTIFIABILITY",
-      "translation":"No exact mediating transition under the frozen intervention set is a scientific result, not a reason to refine the A0 skeleton post hoc."
+      "id": "POSITIVE_NONIDENTIFIABILITY",
+      "translation": "No exact mediating transition under the frozen intervention set is a scientific result, not a reason to refine the A0 skeleton post hoc."
     }
   ],
-  "fresh_sources":{
-    "provider":"Lichess official broadcasts",
-    "license":"CC BY-SA 4.0",
-    "source_prefix_games":1024,
-    "hash_policy":"Download exact monthly bytes, compute SHA-256 and seal them in the P12 corpus artifact before any engine outcome is consulted.",
-    "sources":[
-      {"id":"P12_SRC_LICHESS_2026_04","url":"https://database.lichess.org/broadcast/lichess_db_broadcast_2026-04.pgn.zst","logical":"lichess_db_broadcast_2026-04.pgn"},
-      {"id":"P12_SRC_LICHESS_2026_05","url":"https://database.lichess.org/broadcast/lichess_db_broadcast_2026-05.pgn.zst","logical":"lichess_db_broadcast_2026-05.pgn"},
-      {"id":"P12_SRC_LICHESS_2026_06","url":"https://database.lichess.org/broadcast/lichess_db_broadcast_2026-06.pgn.zst","logical":"lichess_db_broadcast_2026-06.pgn"}
+  "fresh_sources": {
+    "provider": "Lichess official broadcasts",
+    "license": "CC BY-SA 4.0",
+    "source_prefix_games": 1024,
+    "hash_policy": "Download exact monthly bytes, compute SHA-256 and seal them in the P12 corpus artifact before any engine outcome is consulted.",
+    "sources": [
+      {
+        "id": "P12_SRC_LICHESS_2026_04",
+        "url": "https://database.lichess.org/broadcast/lichess_db_broadcast_2026-04.pgn.zst",
+        "logical": "lichess_db_broadcast_2026-04.pgn"
+      },
+      {
+        "id": "P12_SRC_LICHESS_2026_05",
+        "url": "https://database.lichess.org/broadcast/lichess_db_broadcast_2026-05.pgn.zst",
+        "logical": "lichess_db_broadcast_2026-05.pgn"
+      },
+      {
+        "id": "P12_SRC_LICHESS_2026_06",
+        "url": "https://database.lichess.org/broadcast/lichess_db_broadcast_2026-06.pgn.zst",
+        "logical": "lichess_db_broadcast_2026-06.pgn"
+      }
     ],
-    "freshness_rule":"Exclude every recoverable P1-P11 candidate FEN hash and cross-source duplicate before selection."
+    "freshness_rule": "Exclude every recoverable P1-P11 candidate FEN hash and cross-source duplicate before selection."
   },
-  "late_opening_worlds":{
-    "ply_lo":14,
-    "ply_hi":21,
-    "positions_per_source":4,
-    "sources":3,
-    "planned_positions":12,
-    "position_choice":"Among eligible positions in each of the first 1,024 games, select the four lexicographically smallest fresh trajectory-position hashes after historical exclusion.",
-    "eligibility":{
-      "standard_chess_only":true,
-      "no_terminal_position":true,
-      "in_check_allowed":false,
-      "absolute_material_balance_max_pawns":3,
-      "legal_moves_min":18,
-      "legal_moves_max":48
+  "late_opening_worlds": {
+    "ply_lo": 14,
+    "ply_hi": 21,
+    "positions_per_source": 4,
+    "sources": 3,
+    "planned_positions": 12,
+    "position_choice": "Among eligible positions in each of the first 1,024 games, select the four lexicographically smallest fresh trajectory-position hashes after historical exclusion.",
+    "eligibility": {
+      "standard_chess_only": true,
+      "no_terminal_position": true,
+      "in_check_allowed": false,
+      "absolute_material_balance_max_pawns": 3,
+      "legal_moves_min": 18,
+      "legal_moves_max": 48
     },
-    "engine_outcomes_consulted":false
+    "engine_outcomes_consulted": false
   },
-  "execution":{
-    "engines":["stockfish_19","berserk","ethereal"],
-    "planned_worlds":36,
-    "hash_mib":1,
-    "threads":1,
-    "prime_nodes":20000,
-    "decoy_nodes":20000,
-    "decoy_count":3,
-    "measurement_nodes":80000,
-    "frontier":8,
-    "max_targets_per_world":16,
-    "inherited_engine_build_run":36509824064
-  },
-  "upstream_target":{
-    "semantic_class":"MOVE_ORDER_SEED",
-    "baseline_only_eligibility":{
-      "scope":"MAIN",
-      "ply":1,
-      "depth_lo":5,
-      "depth_hi":8,
-      "key_history":"REPEAT_KEY",
-      "same_key_move_relation":"SAME_MOVE",
-      "bound":["LOWER","UPPER"]
-    },
-    "selection":"All eligible baseline events up to max_targets_per_world, lexical exact address_id tie-break; no target outcome consulted.",
-    "root_change":"Exact target removal changes legal root bestmove."
-  },
-  "exact_cutoff_transition":{
-    "candidate_rule":"For a ROOT_CHANGE T_ONLY witness, align post-target CUTOFF streams by exact public address_id order. Freeze the first divergence as a pair: baseline-side disappearing/replaced cutoff B and T_ONLY-side emergent/replaced cutoff C. Either side may be null.",
-    "private_alignment":"Full TT key equality may be used only inside one engine trace to characterize revisit lineage; raw keys are never emitted.",
-    "published_observables":[
-      "scope","ply","depth","alpha","beta","window_width","window_class",
-      "tt_value","bound","tt_move_present","payload","fail_direction",
-      "same_key_prior_count","same_key_prior_window_class","same_key_prior_depth",
-      "same_key_revisit_kind","trace_ordinal","distance_from_target"
+  "execution": {
+    "engines": [
+      "stockfish_19",
+      "berserk",
+      "ethereal"
     ],
-    "window_class":{
-      "NULL":"beta-alpha <= 1",
-      "NARROW":"2 <= beta-alpha <= 32",
-      "WIDE":"beta-alpha >= 33"
-    },
-    "fail_direction":{
-      "FAIL_HIGH":"tt_value >= beta",
-      "FAIL_LOW":"tt_value <= alpha",
-      "INSIDE":"alpha < tt_value < beta"
-    },
-    "research_proxy":"A later same-key same-ply occurrence after a NULL/NARROW event with strictly wider window, or changed fail-direction/window relation, is a bounded re-search/PVS proxy rather than a complete call-graph claim."
+    "planned_worlds": 36,
+    "hash_mib": 1,
+    "threads": 1,
+    "prime_nodes": 20000,
+    "decoy_nodes": 20000,
+    "decoy_count": 3,
+    "measurement_nodes": 80000,
+    "frontier": 8,
+    "max_targets_per_world": 16,
+    "inherited_engine_build_run": 36509824064
   },
-  "intervention_arms":[
+  "upstream_target": {
+    "semantic_class": "MOVE_ORDER_SEED",
+    "baseline_only_eligibility": {
+      "scope": "MAIN",
+      "ply": 1,
+      "depth_lo": 5,
+      "depth_hi": 8,
+      "key_history": "REPEAT_KEY",
+      "same_key_move_relation": "SAME_MOVE",
+      "bound": [
+        "LOWER",
+        "UPPER"
+      ]
+    },
+    "selection": "All eligible baseline events up to max_targets_per_world, lexical exact address_id tie-break; no target outcome consulted.",
+    "root_change": "Exact target removal changes legal root bestmove."
+  },
+  "exact_cutoff_transition": {
+    "candidate_rule": "For a ROOT_CHANGE T_ONLY witness, align post-target CUTOFF streams by exact public address_id order. Freeze the first divergence as a pair: baseline-side disappearing/replaced cutoff B and T_ONLY-side emergent/replaced cutoff C. Either side may be null.",
+    "private_alignment": "Full TT key equality may be used only inside one engine trace to characterize revisit lineage; raw keys are never emitted.",
+    "published_observables": [
+      "scope",
+      "ply",
+      "depth",
+      "alpha",
+      "beta",
+      "window_width",
+      "window_class",
+      "tt_value",
+      "bound",
+      "tt_move_present",
+      "payload",
+      "fail_direction",
+      "same_key_prior_count",
+      "same_key_prior_window_class",
+      "same_key_prior_depth",
+      "same_key_revisit_kind",
+      "trace_ordinal",
+      "distance_from_target"
+    ],
+    "window_class": {
+      "NULL": "beta-alpha <= 1",
+      "NARROW": "2 <= beta-alpha <= 32",
+      "WIDE": "beta-alpha >= 33"
+    },
+    "fail_direction": {
+      "FAIL_HIGH": "tt_value >= beta",
+      "FAIL_LOW": "tt_value <= alpha",
+      "INSIDE": "alpha < tt_value < beta"
+    },
+    "research_proxy": "A later same-key same-ply occurrence after a NULL/NARROW event with strictly wider window, or changed fail-direction/window relation, is a bounded re-search/PVS proxy rather than a complete call-graph claim."
+  },
+  "intervention_arms": [
     "BASE",
     "T_ONLY exact upstream MOVE_ORDER_SEED removal",
     "B_ONLY exact baseline-side divergent CUTOFF removal when B exists",
     "T_PLUS_C exact upstream target plus exact T_ONLY-side emergent CUTOFF removal when C exists"
   ],
-  "mediation_verdicts":{
-    "EXACT_CUTOFF_BRIDGE":"B_ONLY reaches the T_ONLY root move and T_PLUS_C restores the BASE root move.",
-    "BASELINE_CUTOFF_SUFFICIENCY_ONLY":"B_ONLY reaches the T_ONLY root move but T_PLUS_C does not restore BASE.",
-    "COUNTERFACTUAL_CUTOFF_NECESSITY_ONLY":"T_PLUS_C restores BASE but B_ONLY does not reach T_ONLY.",
-    "EXACT_CUTOFF_INTERACTION_REDIRECT":"B_ONLY or T_PLUS_C reaches a third legal root move.",
-    "CUTOFF_COLOCATION_ONLY":"Exact cutoff pair exists but neither exact intervention satisfies sufficiency/necessity.",
-    "NO_EXACT_CUTOFF_PAIR":"No post-target first cutoff divergence pair exists under the frozen rule.",
-    "ADDRESS_DRIFT":"A frozen exact event does not fire in its required arm."
+  "mediation_verdicts": {
+    "EXACT_CUTOFF_BRIDGE": "B_ONLY reaches the T_ONLY root move and T_PLUS_C restores the BASE root move.",
+    "BASELINE_CUTOFF_SUFFICIENCY_ONLY": "B_ONLY reaches the T_ONLY root move but T_PLUS_C does not restore BASE.",
+    "COUNTERFACTUAL_CUTOFF_NECESSITY_ONLY": "T_PLUS_C restores BASE but B_ONLY does not reach T_ONLY.",
+    "EXACT_CUTOFF_INTERACTION_REDIRECT": "B_ONLY or T_PLUS_C reaches a third legal root move.",
+    "CUTOFF_COLOCATION_ONLY": "Exact cutoff pair exists but neither exact intervention satisfies sufficiency/necessity.",
+    "NO_EXACT_CUTOFF_PAIR": "No post-target first cutoff divergence pair exists under the frozen rule.",
+    "ADDRESS_DRIFT": "A frozen exact event does not fire in its required arm."
   },
-  "chess_native_surface":{
-    "required":[
+  "chess_native_surface": {
+    "required": [
       "FEN-derived legal root move count",
       "baseline root move UCI and SAN",
       "T_ONLY root move UCI and SAN",
@@ -137,47 +170,48 @@
       "source game ply",
       "candidate-branch replacement summary"
     ],
-    "human_strategy_labels":"Not primary evidence. Tactical/strategic prose may summarize verified move/PV facts only."
+    "human_strategy_labels": "Not primary evidence. Tactical/strategic prose may summarize verified move/PV facts only."
   },
-  "support_gate":{
-    "min_fired_target_records":240,
-    "min_root_change_targets":8,
-    "min_positive_engines":2,
-    "min_positive_sources":2,
-    "min_sensitive_positions":3,
-    "min_exact_cutoff_pairs":6,
-    "min_exact_bridge_or_one_sided_mediation":2
+  "support_gate": {
+    "min_fired_target_records": 160,
+    "min_root_change_targets": 8,
+    "min_positive_engines": 2,
+    "min_positive_sources": 2,
+    "min_sensitive_positions": 3,
+    "min_exact_cutoff_pairs": 6,
+    "min_exact_bridge_or_one_sided_mediation": 2,
+    "rationale": "Exposure floor set before P12 outcomes from parent P10 density: 180 frozen-skeleton records across 27 worlds; P12 requires a conservative nonzero exposure floor rather than treating the proportional expectation (~240/36 worlds) as a minimum."
   },
-  "replication_rule":{
-    "same_transition_signature":"bound_sign + baseline cutoff fail_direction/window_class/revisit_kind + counterfactual cutoff fail_direction/window_class/revisit_kind + mediation_verdict",
-    "replicated_signature_requires":{
-      "root_change_witnesses":3,
-      "positive_engines":2,
-      "positions":2,
-      "sources":2
+  "replication_rule": {
+    "same_transition_signature": "bound_sign + baseline cutoff fail_direction/window_class/revisit_kind + counterfactual cutoff fail_direction/window_class/revisit_kind + mediation_verdict",
+    "replicated_signature_requires": {
+      "root_change_witnesses": 3,
+      "positive_engines": 2,
+      "positions": 2,
+      "sources": 2
     },
-    "no_post_target_signature_refit":true
+    "no_post_target_signature_refit": true
   },
-  "patch_stability":{
-    "authority":"ENGINEERING_DIAGNOSTIC_ONLY",
-    "baseline":"P11 NONE mode must remain transparent on the seven-case bank.",
-    "p11_bound_patch":"LOWER/UPPER/BOTH outcomes may be reported as inherited patch-stability context but cannot vote in P12 fresh science.",
-    "fresh_p12_patch":"No new behavioral patch is required unless exact mediation identifies a repeated transition signature prospectively."
+  "patch_stability": {
+    "authority": "ENGINEERING_DIAGNOSTIC_ONLY",
+    "baseline": "P11 NONE mode must remain transparent on the seven-case bank.",
+    "p11_bound_patch": "LOWER/UPPER/BOTH outcomes may be reported as inherited patch-stability context but cannot vote in P12 fresh science.",
+    "fresh_p12_patch": "No new behavioral patch is required unless exact mediation identifies a repeated transition signature prospectively."
   },
-  "implementation_roles":{
-    "C_or_Cpp":"Reuse exact P32 event intervention and P11/P34 observer chain; add native instrumentation only if required for a frozen observable unavailable from the existing trace.",
-    "Python":"Fresh corpus, target-blind skeleton sampling, exact cutoff-pair selection, event interventions, chess-native SAN/PV diagnostics and adjudication.",
-    "Go":"Independent support/verdict recomputation.",
-    "JavaScript":"Claim firewall, raw-key prohibition and chess-native diagnostic completeness."
+  "implementation_roles": {
+    "C_or_Cpp": "Reuse exact P32 event intervention and P11/P34 observer chain; add native instrumentation only if required for a frozen observable unavailable from the existing trace.",
+    "Python": "Fresh corpus, target-blind skeleton sampling, exact cutoff-pair selection, event interventions, chess-native SAN/PV diagnostics and adjudication.",
+    "Go": "Independent support/verdict recomputation.",
+    "JavaScript": "Claim firewall, raw-key prohibition and chess-native diagnostic completeness."
   },
-  "stop_rule":[
+  "stop_rule": [
     "Do not retrospectively split P10/P11 A0.",
     "Do not search for a later cutoff if the frozen first-divergence pair fails mediation.",
     "Do not convert re-search proxy into exact PVS-call authority.",
     "Do not create a new patch merely to rescue a failed exact mediation result.",
     "Close after fresh support, exact cutoff adjudication, chess-native diagnostics and bounded patch-stability report."
   ],
-  "claim_ceiling":[
+  "claim_ceiling": [
     "P12 identifies only exact event-level search mediation under the declared engines, node budget, history protocol and fresh late-opening sample.",
     "A repeated cutoff transition signature is not a universal chess or engine mechanism.",
     "Same-key revisit/window widening is an operational re-search/PVS proxy unless engine-native call identity is separately instrumented.",
