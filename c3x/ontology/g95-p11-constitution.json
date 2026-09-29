@@ -1,0 +1,116 @@
+{
+  "schema":"c3x-g95-p11-constitution-v1",
+  "scientific_stage":"C3X 0.7.0-G9.5-P11",
+  "title":"Bound-Signed Repeat-Key Move-Ordering Mediation Anatomy, Node-Visit/Cutoff Divergence Localization, Patch-Contrast Regression Survival & Minimal TT Diagnostic Surface",
+  "parent":{
+    "stage":"C3X 0.7.0-G9.5-P10",
+    "canonical_run":36504724602,
+    "canonical_head":"efcd94570ba0011e2619ba6b41f6606bed62472d",
+    "closure_commit":"582b08908e40a3a43c03ddbc6462010234bdea0a",
+    "closure_receipt_sha256":"27de32c2f18eaddefff72773dd4a8e9007c861e9187b768b042efe670924f44a",
+    "verdict":"P10_REPLICATED_MOVE_ORDER_LINEAGE_ANATOMY"
+  },
+  "authority":{
+    "lane":"CONDITIONAL_MECHANISM_FOLLOWUP",
+    "fresh_confirmatory_vote":false,
+    "rule":"P11 conditions on the prospectively frozen P10 replicated skeleton. It may localize downstream search mechanisms and patch survival, but it cannot count inherited P10 positives as a new independent replication."
+  },
+  "frozen_parent_domain":{
+    "scope":"MAIN",
+    "ply_bucket":"PLY1",
+    "depth_band":"D5_8",
+    "key_history":"REPEAT_KEY",
+    "same_key_move_relation":"SAME_MOVE",
+    "bound_variants":["LOWER","UPPER"],
+    "eligible_parent_records":"all and only P10 ROOT_CHANGE records in either replicated A0 archetype",
+    "expected_parent_positive_records":17,
+    "post_target_a0_refit":false
+  },
+  "mediation":{
+    "target":"exact inherited MOVE_ORDER_SEED address recovered by re-cataloguing the pinned P10 world and matching the inherited event_id",
+    "observables_frozen_before_replay":[
+      "unique_private_node_key_count",
+      "ply1_unique_private_key_count",
+      "event_visits_by_ply_depth_class",
+      "cutoff_event_count_and_first_cutoff_divergence",
+      "same_node_multiwindow_revisit_proxy",
+      "first_exact_trace_divergence_ordinal",
+      "first_pv_divergence",
+      "root_bestmove_transition"
+    ],
+    "node_identity_ceiling":"Private within-trace TT full-key equality is used only to count/reconcile search-event visitation; raw keys are never emitted.",
+    "research_proxy_ceiling":"same-node multiwindow revisit is a PVS/re-search proxy, not a complete search-call log.",
+    "candidate_mediator_rule":"After exact T-only replay, choose the first post-target divergent CUTOFF event when available; otherwise the first divergent MOVE_ORDER_SEED event; otherwise the first divergent TT semantic event. Convert it to the frozen P34 Q3 quotient cell.",
+    "interventions":[
+      "T_ONLY exact inherited target removal",
+      "M_ONLY removal of the selected P34-Q3 mediator class with target intact",
+      "T_PLUS_M exact target removal plus selected mediator-class removal"
+    ],
+    "interpretation":{
+      "OBSERVED_PATH_DIVERGENCE":"trace observables diverge but the coarse mediator class does not independently reproduce the target root transition",
+      "MEDIATOR_CLASS_CAUSAL_ALIGNMENT":"M_ONLY independently produces the same root move as T_ONLY and T_PLUS_M does not contradict that transition",
+      "MEDIATOR_CLASS_INTERACTION_REDIRECT":"M_ONLY or T_PLUS_M produces a distinct third root move or reverses the target transition",
+      "NO_POST_TARGET_MEDIATOR_CANDIDATE":"no frozen candidate class is available"
+    },
+    "formal_natural_indirect_effect_claim":false
+  },
+  "patch_contrast":{
+    "source_locks":{
+      "stockfish_19":"edb0d9db6731067ec50ce619ff372b463bc4dd5d",
+      "berserk":"32628515050b83805bab4afa1026dd2bcaa93f55",
+      "ethereal":"0e47e9b67f345c75eb965d9fb3e2493b6a11d09a"
+    },
+    "runtime_modes":["NONE","LOWER","UPPER","BOTH"],
+    "patch_semantics":"During measurement search only, suppress MOVE_ORDER_SEED when MAIN, ply=1, depth=5..8, the same full key has appeared previously in the measurement trace with the same TT move, and the event bound matches the selected sign.",
+    "none_mode_required_transparent":true,
+    "regression_bank":"P10 sealed seven-case P9 engineering witness bank plus present matched controls",
+    "classifications":[
+      "SURVIVES_EXACTLY",
+      "EFFECT_DISAPPEARS",
+      "EFFECT_REDIRECTS",
+      "EVENT_ADDRESS_DRIFTS",
+      "BASELINE_DRIFT",
+      "CONTROL_BREAKS",
+      "NONCOMPARABLE"
+    ],
+    "fresh_confirmatory_vote":false
+  },
+  "support_gate":{
+    "parent_targets_required":17,
+    "exact_parent_replay_fraction_required":1.0,
+    "minimum_engines_with_valid_mediation":2,
+    "minimum_bound_variants_with_valid_mediation":2,
+    "none_patch_regression_required":true,
+    "matched_controls_required_stable_in_none_mode":true
+  },
+  "developer_surface":{
+    "per_witness_fields":[
+      "engine","position_id","bound_sign","event_id_prefix","baseline_move","target_counterfactual_move",
+      "first_trace_divergence_ordinal","visit_delta_summary","cutoff_delta_summary","research_proxy_delta",
+      "mediator_class","mediation_status","patch_survival"
+    ],
+    "raw_tt_key":false,
+    "human_strategy_claim":false,
+    "engine_strength_claim":false
+  },
+  "implementation_roles":{
+    "C_or_Cpp":"engine-native repeat-key/same-move bound-signed behavioral patch inside the existing P34 semantic-use wrapper",
+    "Python":"parent recovery, exact replay, trace visitation/cutoff anatomy, mediator-class interventions, patch regression court",
+    "Go":"independent aggregate/support verifier",
+    "JavaScript":"claim firewall and diagnostic-surface verifier"
+  },
+  "stop_rule":[
+    "Do not split or retune the P10 A0 archetypes.",
+    "If an inherited event cannot be recovered by event_id from the re-catalogued pinned world, classify drift and do not substitute another event.",
+    "Do not call trace association mediation without M_ONLY intervention support.",
+    "Do not treat patch regression outcomes as fresh chess-science replication.",
+    "Close after the frozen 17-witness anatomy and seven-case patch bank are adjudicated."
+  ],
+  "claim_ceiling":[
+    "P11 is conditional on P10's late-opening replicated skeleton and does not independently establish its prevalence.",
+    "Private full-key equality is an intra-trace technical locator only.",
+    "P34-Q3 mediator removal is a coarse class intervention, not an identified natural indirect effect.",
+    "The repeat-key behavioral patch is a deliberately bounded developer patch, not a playing-strength recommendation.",
+    "No Elo, best-move correctness, human strategic intent, or universal engine law is authorized."
+  ]
+}
