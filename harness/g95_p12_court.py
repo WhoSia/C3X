@@ -116,7 +116,7 @@ def precommit(a):
  if corp.get("schema")!="c3x-g95-p12-corpus-v1" or corp["selection"]["engine_outcomes_consulted"] is not False:raise SystemExit("P12_CORPUS")
  builds=Path(a.build_dir);variants={}
  for e in ENGINES:
-  fs=list(builds.rglob(f"c3x-p11-{e}"))
+  fs=list(builds.rglob(f"c3x-p12-{e}"))
   if len(fs)!=1:raise SystemExit(f"P12_BUILD {e} {len(fs)}")
   variants[e]={"sha256":sha_file(fs[0]),"protocol":p32.protocol_for(e)}
  cases=[]
