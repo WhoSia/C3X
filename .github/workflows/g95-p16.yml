@@ -1,0 +1,509 @@
+name: g95-p16-minimal-structural-bridge
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - "c3x/ontology/g95-p16-constitution.json"
+      - "docs/G95_P16_THEORY.md"
+      - "harness/g95_p16_corpus.py"
+      - "harness/g95_p16_court.py"
+      - "tools/p16_exact_verify.go"
+      - "tools/p16-verify.mjs"
+      - ".github/workflows/g95-p16.yml"
+
+concurrency:
+  group: g95-p16-minimal-structural-bridge
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  actions: read
+
+env:
+  P1_RUN: "36219611294"
+  P2_RUN: "36223570067"
+  P3_RUN: "36231281653"
+  P4_RUN: "36233574663"
+  P5_RUN: "36249500693"
+  P6_RUN: "36381217698"
+  P7_RUN: "36385972623"
+  P8_RUN: "36396781932"
+  P9_RUN: "36502126530"
+  P10_RUN: "36504724602"
+  P12_RUN: "36520161374"
+  P13_RUN: "36524147020"
+  P14_RUN: "36528079999"
+  P15_RUN: "36533275067"
+
+jobs:
+  static:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Static prospective gates
+        run: |
+          set -euxo pipefail
+          python3 -m py_compile harness/g95_p16_corpus.py harness/g95_p16_court.py tools/g95_p13_patch_rootchild.py
+          node --check tools/p16-verify.mjs
+          go build -o /tmp/p16-verify tools/p16_exact_verify.go
+          python3 - <<'PY'
+          import json
+          x=json.load(open("c3x/ontology/g95-p16-constitution.json"))
+          assert x["schema"]=="c3x-g95-p16-constitution-v1"
+          assert x["parent"]["closure_receipt_sha256"]=="b01a4ab158dfc3f5e640cf38f2d4f9da04a09c2fdfa04c0c32d042976ffaa54d"
+          assert x["fresh_worlds"]["planned_positions"]==36
+          assert x["fresh_worlds"]["planned_engine_worlds"]==108
+          assert x["unordered_pair_constitution"]["near_equal_max_abs_cp"]==50
+          assert x["board_intervention_family"]["generation_outcome_blind"] is True
+          assert x["chain_constitution"]["selection_uses_search_event_outcomes"] is False
+          assert x["structural_equivalence"]["no_post_outcome_signature_refit"] is True
+          assert x["two_track_boundary"]["provenance_class"]=="C3X_CAUSAL_CONTRAST"
+          PY
+
+  build:
+    needs: static
+    runs-on: ubuntu-latest
+    timeout-minutes: 180
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - engine: stockfish_19
+            repo: https://github.com/official-stockfish/Stockfish.git
+            commit: edb0d9db6731067ec50ce619ff372b463bc4dd5d
+            native_policy: OFF
+          - engine: berserk
+            repo: https://github.com/jhonnold/berserk.git
+            commit: 32628515050b83805bab4afa1026dd2bcaa93f55
+            native_policy: OFF
+          - engine: ethereal
+            repo: https://github.com/AndyGrant/Ethereal.git
+            commit: 0e47e9b67f345c75eb965d9fb3e2493b6a11d09a
+            native_policy: ON
+    steps:
+      - uses: actions/checkout@v4
+      - name: Resolve pinned engine source
+        run: |
+          set -euxo pipefail
+          git clone "${{ matrix.repo }}" src
+          git -C src checkout --detach "${{ matrix.commit }}"
+          test "$(git -C src rev-parse HEAD)" = "${{ matrix.commit }}"
+          mkdir -p out
+      - name: Materialize inherited exact-event observer/intervention chain
+        run: |
+          set -euxo pipefail
+          if [ "${{ matrix.engine }}" = stockfish_19 ]; then
+            python3 tools/materialize_p16.py --stockfish src --target stockfish_19
+          elif [ "${{ matrix.engine }}" = berserk ]; then
+            python3 tools/p20_patch_berserk.py --root src --variant instrument --manifest out/p20.json
+          else
+            python3 tools/p20_patch_ethereal.py --root src --variant instrument --manifest out/p20.json
+          fi
+          python3 tools/p27_patch_age.py --root src --engine "${{ matrix.engine }}" --policy "${{ matrix.native_policy }}" --manifest out/p27.json
+          python3 tools/p29_patch_tttrace.py --root src --engine "${{ matrix.engine }}" --policy "${{ matrix.native_policy }}" --manifest out/p29.json
+          python3 tools/p30_patch_victim.py --root src --engine "${{ matrix.engine }}" --manifest out/p30.json
+          python3 tools/p31_patch_semantics.py --root src --engine "${{ matrix.engine }}" --manifest out/p31.json
+          python3 tools/p32_patch_event_target.py --root src --engine "${{ matrix.engine }}" --manifest out/p32.json
+          python3 tools/p34_patch_cone.py --root src --engine "${{ matrix.engine }}" --manifest out/p34.json
+          python3 tools/g95_p11_patch_repeatkey.py --root src --engine "${{ matrix.engine }}" --manifest out/p11.json
+          python3 tools/g95_p13_patch_rootchild.py --root src --engine "${{ matrix.engine }}" --manifest out/p16-rootchild.json
+      - name: Build exact-event P16 engine
+        run: |
+          set -euxo pipefail
+          if [ "${{ matrix.engine }}" = stockfish_19 ]; then
+            make -C src/src -j2 build ARCH=x86-64
+            cp src/src/stockfish out/c3x-p16-${{ matrix.engine }}
+          elif [ "${{ matrix.engine }}" = berserk ]; then
+            make -C src/src ARCH=x86-64 build
+            cp src/src/berserk out/c3x-p16-${{ matrix.engine }}
+          else
+            ECFLAGS="-O3 -std=gnu11 -Wall -Wextra -Wshadow -DNDEBUG -flto -DUSE_NNUE=0 -march=x86-64 -msse2"
+            make -C src/src basic CFLAGS="$ECFLAGS"
+            cp src/src/Ethereal out/c3x-p16-${{ matrix.engine }}
+          fi
+          chmod +x out/c3x-p16-${{ matrix.engine }}
+          sha256sum out/c3x-p16-${{ matrix.engine }} > out/p16-binary-sha256-${{ matrix.engine }}.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: g95-p16-build-${{ matrix.engine }}
+          path: out/
+          retention-days: 30
+
+  corpus:
+    needs: static
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install corpus dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y zstd
+          python3 -m pip install --disable-pip-version-check python-chess==1.999
+      - name: Download and provider-check July-August broadcasts
+        run: |
+          set -euxo pipefail
+          mkdir -p data
+          curl -fL --retry 3 -o data/sha256sums.txt https://database.lichess.org/broadcast/sha256sums.txt
+          for m in 07 08; do
+            f="lichess_db_broadcast_2026-${m}.pgn.zst"
+            curl -fL --retry 3 -o "data/${f}" "https://database.lichess.org/broadcast/${f}"
+            (cd data && grep "  ${f}$" sha256sums.txt | sha256sum -c -)
+            sha256sum "data/${f}" > "data/${f}.sha256"
+            unzstd "data/${f}"
+          done
+      - uses: actions/download-artifact@v4
+        with:
+          name: g95-p1-precommit-sealed
+          path: hist/p1
+          repository: WhoSia/C3X
+          run-id: ${{ env.P1_RUN }}
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: g95-p2-precommit-sealed
+          path: hist/p2
+          repository: WhoSia/C3X
+          run-id: ${{ env.P2_RUN }}
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: g95-p3-corpus-sealed
+          path: hist/p3
+          repository: WhoSia/C3X
+          run-id: ${{ env.P3_RUN }}
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: g95-p4-corpus-sealed
+          path: hist/p4
+          repository: WhoSia/C3X
+          run-id: ${{ env.P4_RUN }}
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: g95-p5-corpus-sealed
+          path: hist/p5
+          repository: WhoSia/C3X
+          run-id: ${{ env.P5_RUN }}
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: g95-p6-corpus-sealed
+          path: hist/p6
+          repository: WhoSia/C3X
+          run-id: ${{ env.P6_RUN }}
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: g95-p7-corpus-sealed
+          path: hist/p7
+          repository: WhoSia/C3X
+          run-id: ${{ env.P7_RUN }}
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: g95-p8-corpus-sealed
+          path: hist/p8
+          repository: WhoSia/C3X
+          run-id: ${{ env.P8_RUN }}
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: g95-p9-corpus-sealed
+          path: hist/p9
+          repository: WhoSia/C3X
+          run-id: ${{ env.P9_RUN }}
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: g95-p10-corpus-sealed
+          path: hist/p10
+          repository: WhoSia/C3X
+          run-id: ${{ env.P10_RUN }}
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: g95-p12-corpus-sealed
+          path: hist/p12
+          repository: WhoSia/C3X
+          run-id: ${{ env.P12_RUN }}
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: g95-p13-corpus-sealed
+          path: hist/p13
+          repository: WhoSia/C3X
+          run-id: ${{ env.P13_RUN }}
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: g95-p14-corpus-sealed
+          path: hist/p14
+          repository: WhoSia/C3X
+          run-id: ${{ env.P14_RUN }}
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: g95-p15-corpus-sealed
+          path: hist/p15
+          repository: WhoSia/C3X
+          run-id: ${{ env.P15_RUN }}
+          github-token: ${{ github.token }}
+      - name: Seal fresh P16 corpus before engine outcomes
+        run: |
+          set -euxo pipefail
+          EX=()
+          while IFS= read -r f; do EX+=(--exclude "$f"); done < <(find hist -name '*.json' -type f | sort)
+          S07="$(cut -d' ' -f1 data/lichess_db_broadcast_2026-07.pgn.zst.sha256)"
+          S08="$(cut -d' ' -f1 data/lichess_db_broadcast_2026-08.pgn.zst.sha256)"
+          python3 harness/g95_p16_corpus.py             --source "P16_SRC_LICHESS_2026_07|data/lichess_db_broadcast_2026-07.pgn|lichess_db_broadcast_2026-07.pgn|${S07}"             --source "P16_SRC_LICHESS_2026_08|data/lichess_db_broadcast_2026-08.pgn|lichess_db_broadcast_2026-08.pgn|${S08}"             "${EX[@]}" --out g95-p16-corpus.json
+          sha256sum g95-p16-corpus.json > g95-p16-corpus.sha256
+      - uses: actions/upload-artifact@v4
+        with:
+          name: g95-p16-corpus-sealed
+          path: g95-p16-corpus*
+          retention-days: 30
+
+  design:
+    needs: [build, corpus]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: g95-p16-build-*
+          path: builds
+      - uses: actions/download-artifact@v4
+        with:
+          name: g95-p16-corpus-sealed
+          path: corpus
+      - name: Install P16 chess dependency
+        run: python3 -m pip install --disable-pip-version-check python-chess==1.999
+      - name: Freeze P16 design before qualification outcomes
+        run: |
+          set -euxo pipefail
+          python3 harness/g95_p16_court.py design             --constitution c3x/ontology/g95-p16-constitution.json             --corpus corpus/g95-p16-corpus.json             --p15-closure c3x/receipts/g95-p15-closure.json             --build-dir builds             --out g95-p16-design-precommit.json
+          sha256sum g95-p16-design-precommit.json > g95-p16-design-precommit.sha256
+      - uses: actions/upload-artifact@v4
+        with:
+          name: g95-p16-design-precommit-sealed
+          path: g95-p16-design-precommit*
+          retention-days: 30
+
+  qualify:
+    needs: design
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+    strategy:
+      fail-fast: false
+      max-parallel: 16
+      matrix:
+        pos: [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35]
+        engine: [stockfish_19, berserk, ethereal]
+    name: P16 qualify — p${{ matrix.pos }}-${{ matrix.engine }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: g95-p16-design-precommit-sealed
+          path: design
+      - uses: actions/download-artifact@v4
+        with:
+          name: g95-p16-build-${{ matrix.engine }}
+          path: build
+      - name: Run outcome-separated candidate qualification
+        env:
+          MATRIX_ENGINE: ${{ matrix.engine }}
+          MATRIX_POS: ${{ matrix.pos }}
+        run: |
+          set -euxo pipefail
+          python3 -m pip install --disable-pip-version-check python-chess==1.999
+          chmod +x build/c3x-p16-${MATRIX_ENGINE}
+          CASE_ID="$(python3 - <<'PY'
+          import json,os
+          x=json.load(open("design/g95-p16-design-precommit.json"))
+          e=os.environ["MATRIX_ENGINE"];i=int(os.environ["MATRIX_POS"])
+          rows=[z for z in x["cases"] if z["engine"]==e]
+          print(rows[i]["case_id"])
+          PY
+          )"
+          mkdir -p out
+          python3 harness/g95_p16_court.py qualify --design design/g95-p16-design-precommit.json             --case-id "$CASE_ID" --binary build/c3x-p16-${MATRIX_ENGINE} --out out/p16-qualification.json
+          mv out/p16-qualification.json "out/p16-qualification-${MATRIX_POS}-${MATRIX_ENGINE}.json"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: g95-p16-qualification-${{ matrix.pos }}-${{ matrix.engine }}
+          path: out/
+          retention-days: 30
+
+  pair_freeze:
+    needs: qualify
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: g95-p16-design-precommit-sealed
+          path: design
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: g95-p16-qualification-*
+          path: qualifications
+      - name: Freeze unordered pairs and outcome-blind board edit candidates
+        run: |
+          set -euxo pipefail
+          python3 -m pip install --disable-pip-version-check python-chess==1.999
+          python3 harness/g95_p16_court.py pair-freeze --design design/g95-p16-design-precommit.json             --qualifications qualifications --out g95-p16-pair-freeze.json
+          sha256sum g95-p16-pair-freeze.json > g95-p16-pair-freeze.sha256
+      - uses: actions/upload-artifact@v4
+        with:
+          name: g95-p16-pair-freeze-sealed
+          path: g95-p16-pair-freeze*
+          retention-days: 30
+
+  chain_qualify:
+    needs: pair_freeze
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+    strategy:
+      fail-fast: false
+      max-parallel: 16
+      matrix:
+        pos: [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35]
+        engine: [stockfish_19, berserk, ethereal]
+    name: P16 chain qualification — p${{ matrix.pos }}-${{ matrix.engine }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: g95-p16-pair-freeze-sealed
+          path: freeze
+      - uses: actions/download-artifact@v4
+        with:
+          name: g95-p16-build-${{ matrix.engine }}
+          path: build
+      - name: Test frozen minimal-chain candidates for pair marginality only
+        env:
+          MATRIX_ENGINE: ${{ matrix.engine }}
+          MATRIX_POS: ${{ matrix.pos }}
+        run: |
+          set -euxo pipefail
+          python3 -m pip install --disable-pip-version-check python-chess==1.999
+          chmod +x build/c3x-p16-${MATRIX_ENGINE}
+          CASE_ID="$(python3 - <<'PY'
+          import json,os
+          x=json.load(open("freeze/g95-p16-pair-freeze.json"))
+          e=os.environ["MATRIX_ENGINE"];i=int(os.environ["MATRIX_POS"])
+          rows=[z for z in x["cases"] if z["engine"]==e]
+          print(rows[i]["case_id"])
+          PY
+          )"
+          mkdir -p out
+          python3 harness/g95_p16_court.py chain-qualify --freeze freeze/g95-p16-pair-freeze.json             --case-id "$CASE_ID" --binary build/c3x-p16-${MATRIX_ENGINE} --out out/p16-chain-qualification.json
+          mv out/p16-chain-qualification.json "out/p16-chain-qualification-${MATRIX_POS}-${MATRIX_ENGINE}.json"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: g95-p16-chain-qualification-${{ matrix.pos }}-${{ matrix.engine }}
+          path: out/
+          retention-days: 30
+
+  chain_freeze:
+    needs: chain_qualify
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: g95-p16-pair-freeze-sealed
+          path: freeze
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: g95-p16-chain-qualification-*
+          path: chainquals
+      - name: Freeze cross-engine target-sham board edits before search-event outcomes
+        run: |
+          set -euxo pipefail
+          python3 -m pip install --disable-pip-version-check python-chess==1.999
+          python3 harness/g95_p16_court.py chain-freeze --freeze freeze/g95-p16-pair-freeze.json             --chain-qualifications chainquals --out g95-p16-chain-freeze.json
+          sha256sum g95-p16-chain-freeze.json > g95-p16-chain-freeze.sha256
+      - uses: actions/upload-artifact@v4
+        with:
+          name: g95-p16-chain-freeze-sealed
+          path: g95-p16-chain-freeze*
+          retention-days: 30
+
+  factorial:
+    needs: chain_freeze
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+    strategy:
+      fail-fast: false
+      max-parallel: 16
+      matrix:
+        pos: [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35]
+        engine: [stockfish_19, berserk, ethereal]
+    name: P16 minimal-structure x search factorial — p${{ matrix.pos }}-${{ matrix.engine }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: g95-p16-chain-freeze-sealed
+          path: freeze
+      - uses: actions/download-artifact@v4
+        with:
+          name: g95-p16-build-${{ matrix.engine }}
+          path: build
+      - name: Execute frozen board x exact-search factorial
+        env:
+          MATRIX_ENGINE: ${{ matrix.engine }}
+          MATRIX_POS: ${{ matrix.pos }}
+        run: |
+          set -euxo pipefail
+          python3 -m pip install --disable-pip-version-check python-chess==1.999
+          chmod +x build/c3x-p16-${MATRIX_ENGINE}
+          CASE_ID="$(python3 - <<'PY'
+          import json,os
+          x=json.load(open("freeze/g95-p16-chain-freeze.json"))
+          e=os.environ["MATRIX_ENGINE"];i=int(os.environ["MATRIX_POS"])
+          rows=[z for z in x["cases"] if z["engine"]==e]
+          print(rows[i]["case_id"])
+          PY
+          )"
+          mkdir -p out
+          python3 harness/g95_p16_court.py factorial --freeze freeze/g95-p16-chain-freeze.json             --case-id "$CASE_ID" --binary build/c3x-p16-${MATRIX_ENGINE} --out out/p16-factorial-world.json
+          mv out/p16-factorial-world.json "out/p16-factorial-world-${MATRIX_POS}-${MATRIX_ENGINE}.json"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: g95-p16-factorial-${{ matrix.pos }}-${{ matrix.engine }}
+          path: out/
+          retention-days: 30
+
+  final:
+    needs: factorial
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: g95-p16-chain-freeze-sealed
+          path: freeze
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: g95-p16-factorial-*
+          path: worlds
+      - name: Adjudicate minimal structural mediation and verify
+        run: |
+          set -euxo pipefail
+          python3 -m pip install --disable-pip-version-check python-chess==1.999
+          mkdir -p out
+          python3 harness/g95_p16_court.py adjudicate --freeze freeze/g95-p16-chain-freeze.json             --worlds worlds --out out/p16-adjudication.json --markdown out/p16-minimal-structure-certificates.md
+          go run tools/p16_exact_verify.go out/p16-adjudication.json | tee out/go-verification.txt
+          node tools/p16-verify.mjs out/p16-adjudication.json | tee out/js-verification.txt
+          cp freeze/g95-p16-chain-freeze.json out/
+          sha256sum out/* | sort > out/final-sha256.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: g95-p16-final-minimal-structure
+          path: out/
+          retention-days: 30
