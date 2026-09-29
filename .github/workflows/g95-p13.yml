@@ -10,6 +10,7 @@ on:
       - "harness/g95_p13_court.py"
       - "tools/p13_exact_verify.go"
       - "tools/p13-verify.mjs"
+      - "tools/g95_p13_patch_rootchild.py"
       - ".github/workflows/g95-p13.yml"
 
 concurrency:
@@ -41,7 +42,7 @@ jobs:
       - name: Static prospective gates
         run: |
           set -euxo pipefail
-          python3 -m py_compile harness/g95_p13_corpus.py harness/g95_p13_court.py
+          python3 -m py_compile harness/g95_p13_corpus.py harness/g95_p13_court.py tools/g95_p13_patch_rootchild.py
           node --check tools/p13-verify.mjs
           go build -o /tmp/p13-verify tools/p13_exact_verify.go
           python3 - <<'PY'
@@ -101,6 +102,7 @@ jobs:
           python3 tools/p32_patch_event_target.py --root src --engine "${{ matrix.engine }}" --manifest out/p32.json
           python3 tools/p34_patch_cone.py --root src --engine "${{ matrix.engine }}" --manifest out/p34.json
           python3 tools/g95_p11_patch_repeatkey.py --root src --engine "${{ matrix.engine }}" --manifest out/p11.json
+          python3 tools/g95_p13_patch_rootchild.py --root src --engine "${{ matrix.engine }}" --manifest out/p13-rootchild.json
       - name: Build exact-event P13 engine
         run: |
           set -euxo pipefail
