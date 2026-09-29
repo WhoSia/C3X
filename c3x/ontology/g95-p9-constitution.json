@@ -35,6 +35,11 @@
     "license": "CC BY-SA 4.0",
     "sources": [
       {
+        "id": "P9_SRC_LICHESS_2026_04",
+        "url": "https://database.lichess.org/broadcast/lichess_db_broadcast_2026-04.pgn.zst",
+        "sha256": "97b036f3a3639ae3be59c1508b1e18c76ac1b2e8fada4587d1b5c5a93c438d5d"
+      },
+      {
         "id": "P9_SRC_LICHESS_2026_05",
         "url": "https://database.lichess.org/broadcast/lichess_db_broadcast_2026-05.pgn.zst",
         "sha256": "d212987f7972a70268809ff6c726acff8bf0987161aacd7647b160f8564f6a53"
@@ -43,15 +48,10 @@
         "id": "P9_SRC_LICHESS_2026_06",
         "url": "https://database.lichess.org/broadcast/lichess_db_broadcast_2026-06.pgn.zst",
         "sha256": "65905d611c0d78d90ab57cd9edd3821f4119b46c22b5489fd7e265a74c6767b3"
-      },
-      {
-        "id": "P9_SRC_LICHESS_2026_07",
-        "url": "https://database.lichess.org/broadcast/lichess_db_broadcast_2026-07.pgn.zst",
-        "sha256": "e93b3ded55d463ff6839c06b42b740dc1d725145f7f4da460172a3cf84041a8b"
       }
     ],
     "freshness_rule": "Exclude every recoverable P1-P8 candidate FEN hash before line admission.",
-    "source_feasibility_repair": "Official-stockfish opening-book PGNs were target-blindly rejected before P9 precommit because sampled sources did not provide the frozen EARLY_MIDDLEGAME window; phase windows and all causal gates remained unchanged."
+    "source_feasibility_repair": "Official-stockfish opening-book PGNs were target-blindly rejected before P9 precommit because sampled sources did not provide the frozen EARLY_MIDDLEGAME window. Lichess July 2026 was then excluded before decompression because a runner checksum did not match the official published checksum; April/May/June full-game broadcasts are checksum-pinned instead. Phase windows and all causal gates remained unchanged."
   },
   "phase_matching": {
     "unit": "PGN_LINE_TRAJECTORY",
