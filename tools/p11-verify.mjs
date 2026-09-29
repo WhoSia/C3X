@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-const fs=require('fs');
+import fs from 'node:fs';
 const [,,adjPath,regPath]=process.argv;
 if(!adjPath||!regPath)throw new Error('usage p11-verify adjudication regression');
 const a=JSON.parse(fs.readFileSync(adjPath,'utf8')),r=JSON.parse(fs.readFileSync(regPath,'utf8'));
