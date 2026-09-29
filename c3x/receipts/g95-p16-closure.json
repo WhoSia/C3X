@@ -1,0 +1,192 @@
+{
+  "schema": "c3x-g95-p16-closure-v1",
+  "scientific_stage": "C3X 0.7.0-G9.5-P16",
+  "title": "Prospective Minimal Distinguishing Chess Structure, Intervention-Set Minimization, Full Preference-Mediation Replication, Structural Equivalence & Causal Explanation Certificate",
+  "status": "CLOSED_PASS",
+  "verdict": "P16_LOCAL_MINIMAL_FULL_BRIDGE_ONLY",
+  "authority": "FRESH_LOCAL_CHAIN_RELATIVE_MINIMAL_FULL_BRIDGE / NO_REPLICATED_MINIMAL_STRUCTURAL_EQUIVALENCE / NO_REPLICATED_FULL_PREFERENCE_MEDIATION",
+  "parent": {
+    "stage": "C3X 0.7.0-G9.5-P15",
+    "closure_commit": "ba86eb94a5e84d565af673b34a16ed567ced6a6d",
+    "closure_receipt_sha256": "b01a4ab158dfc3f5e640cf38f2d4f9da04a09c2fdfa04c0c32d042976ffaa54d",
+    "verdict": "P15_REPLICATED_CHESS_STRUCTURE_SUSCEPTIBILITY_MODULATION"
+  },
+  "canonical_execution": {
+    "workflow": "g95-p16-minimal-structural-bridge",
+    "run_id": 36544344858,
+    "run_number": 2,
+    "science_head": "ceca4f387d1617f4804afce26ced282c3f84c656",
+    "conclusion": "success",
+    "main_only_branch_audit": true
+  },
+  "postrun_materialization": {
+    "certificate_commit": "99a3888bd4c6914782dc4b184364d8528fee81b3",
+    "certificate_path": "c3x/certificates/g95-p16-local-minimal-full-bridge.json",
+    "certificate_receipt_sha256": "441747f4b13a3a158cb03d2911a0ea3937ce2a46b3db6915ffa54d5808e522c7",
+    "certificate_file_sha256": "09024611a87187f37e86d00b6e446c571bdf2a5b82951cc7a8b0d155bc5a5e36",
+    "authority_note": "Materialization-only repair of prospectively required certificate fields from immutable canonical world/freeze artifacts; no selection, outcome, verdict, replication, or authority change."
+  },
+  "artifacts": {
+    "corpus": {
+      "id": 11021423707,
+      "name": "g95-p16-corpus-sealed",
+      "digest": "sha256:bbea0875ccb4538fb9f4bbeeda0d23e06a00160987a3e5c17c36416e995fed77",
+      "size_bytes": 11800
+    },
+    "design": {
+      "id": 11021808341,
+      "name": "g95-p16-design-precommit-sealed",
+      "digest": "sha256:e12c690374a4c448bae5244a60619238d6f47405bcf1d651faf1886ae090f86c",
+      "size_bytes": 16824
+    },
+    "pair_freeze": {
+      "id": 11022177196,
+      "name": "g95-p16-pair-freeze-sealed",
+      "digest": "sha256:1d6131ff1daf2b43e914f5d2ab15d8e0526738aae98a3a92ab71fc2178705541",
+      "size_bytes": 65230
+    },
+    "chain_freeze": {
+      "id": 11022357636,
+      "name": "g95-p16-chain-freeze-sealed",
+      "digest": "sha256:62cfaa81bd4193c089900ca14d76bdb690cc469788f829fc340a236d0b79d0eb",
+      "size_bytes": 78936
+    },
+    "final": {
+      "id": 11021403882,
+      "name": "g95-p16-final-minimal-structure",
+      "digest": "sha256:ccd3ac6c3e1514334b592d15bcc3506952c699a37cdb17ac97db74aa00e41f12",
+      "size_bytes": 81554
+    },
+    "representative_witness": {
+      "id": 11022775013,
+      "name": "g95-p16-factorial-28-ethereal",
+      "digest": "sha256:3de2e78a4c1dfa63578564aa038c80290ffa1a14bae4d86ed419164963249031",
+      "size_bytes": 2674
+    }
+  },
+  "fresh_corpus": {
+    "positions": 36,
+    "engine_worlds": 108,
+    "historical_candidate_hashes_excluded": 1160,
+    "source_prefix_games": 6144,
+    "sources": {
+      "P16_SRC_LICHESS_2026_07": {
+        "compressed_sha256": "714d0eb99f99fca8d791142038b6c59b5ca6a51b3339bd3891a92f4bdffcbf0c",
+        "decompressed_sha256": "6ad4a7652e22986a309d98b4e9df9a7d5ea9afc095ff503c49be67df363576b3",
+        "eligible_positions": 5830
+      },
+      "P16_SRC_LICHESS_2026_08": {
+        "compressed_sha256": "e227c35c3207ebade754849c1825982e2717ae82c013013d896778e27be77724",
+        "decompressed_sha256": "6aa009cfc119ea75903c19d8a658f7aae7448989dc91b6aada791e109d039fe8",
+        "eligible_positions": 5628
+      }
+    },
+    "freshness_note": "18 positions per July/August source selected outcome-blind after excluding every recoverable P1-P15 candidate/decoy hash; P15 local FULL_BRIDGE witness cannot vote."
+  },
+  "freeze": {
+    "admitted_pair_positions": 28,
+    "chain_positions": 9,
+    "selected_chain_count": 9,
+    "active_chain_engine_worlds": 23,
+    "active_engines": [
+      "berserk",
+      "ethereal",
+      "stockfish_19"
+    ],
+    "sources": [
+      "P16_SRC_LICHESS_2026_07",
+      "P16_SRC_LICHESS_2026_08"
+    ],
+    "search_event_outcomes_consulted_for_chain_selection": false,
+    "edited_native_root_choice_consulted_for_chain_selection": false
+  },
+  "result": {
+    "adjudication_receipt_sha256": "11cbe45504c5ba6b304b1ca1434c7c54a20a4186891111266703353897888338",
+    "support": {
+      "pass": true,
+      "admitted_pair_positions": 28,
+      "chain_positions": 9,
+      "selected_chain_count": 9,
+      "active_chain_engine_worlds": 23,
+      "active_engines": [
+        "berserk",
+        "ethereal",
+        "stockfish_19"
+      ],
+      "sources": [
+        "P16_SRC_LICHESS_2026_07",
+        "P16_SRC_LICHESS_2026_08"
+      ],
+      "worlds_with_any_fired_semantic_target": 23,
+      "address_misses": 0
+    },
+    "minimal_full_bridge_records": 1,
+    "all_full_bridge_records": 1,
+    "susceptibility_modulation_records": 29,
+    "replicated_exact_structural_signatures": [],
+    "replicated_coarse_full_bridge_signatures": [],
+    "certificate_count": 1
+  },
+  "representative_minimal_bridge": {
+    "engine": "ethereal",
+    "position_id": "p16:P16_SRC_LICHESS_2026_08:00846cca2171",
+    "source_id": "P16_SRC_LICHESS_2026_08",
+    "pair": "d5 / O-O",
+    "pair_uci": "d6d5::e8g8",
+    "chain_type": "ATOMIC_CHAIN",
+    "target_edit": "Qd8→c7",
+    "subset_sham_edit": "Qd8→d7",
+    "engine_relative_atoms": [
+      "DISPREFERRED_FROM_LOSS"
+    ],
+    "moved_side_role": "OWN",
+    "bound": "LOWER",
+    "structural_signature": "OWN|DISPREFERRED_FROM_LOSS|LOWER|MINIMAL_FULL_BRIDGE",
+    "original_native": "d5",
+    "target_native": "O-O",
+    "t_only_collapse": "O-O",
+    "subset_reproduced": false,
+    "sham_reproduced": false,
+    "replication_status": "LOCAL_ONLY"
+  },
+  "verification": {
+    "go": "P16_GO_VERIFY_PASS P16_LOCAL_MINIMAL_FULL_BRIDGE_ONLY minimal 1 certificates 1",
+    "js": "P16_JS_CLAIM_FIREWALL_PASS P16_LOCAL_MINIMAL_FULL_BRIDGE_ONLY minimal 1 certificates 1",
+    "final_file_sha256": {
+      "p16-adjudication.json": "4be64dd0c6e51c89ebd8c1368914b4caad36a83a20e32299eb27a35d57cd45c1",
+      "p16-minimal-structure-certificates.md": "663395430a90035ee4aeb1d477e2b19d76a70d9f1e99d5e2b3530dd1cd28257c",
+      "g95-p16-chain-freeze.json": "ed962b0fa577601fe9abc229c7948225d3396a84583f4d45786e001dcf20985c",
+      "go-verification.txt": "0cf694da093343dc93b9d4f4587bea78f85bb168d82abf7dfb2a27a301df9d09",
+      "js-verification.txt": "1752868664e236441e4073a7db2bd436ea7a78dd8e94b086124eef541039859e"
+    }
+  },
+  "research_os_judgment": {
+    "budget_state": "EXHAUSTED-CLEAN",
+    "core_exposure": "DIRECT",
+    "return_edge": "DISCHARGED",
+    "pi_judgment": "RUN-FATAL-TEST",
+    "reason": "P16 directly tested the origin-level full board→search→pair-preference bridge and found one fresh chain-relative minimal witness but no replicated exact or coarse full-bridge family. The strongest next scientific value is a targeted exposure-balanced fatal replication of the post-P16 atom hypothesis, not another broad random census or narrower search taxonomy."
+  },
+  "claim_ceiling": [
+    "P16 earns one fresh local chain-relative inclusion-minimal operational FULL_BRIDGE under the declared edit/search regime.",
+    "P16 does not earn a replicated minimal structural-equivalence family or replicated full preference-mediation law.",
+    "The atom DISPREFERRED_FROM_LOSS is a fresh local candidate for a successor fatal test, not a law and not a human strategic concept.",
+    "Minimality is relative to the frozen P16 chain family; it is not global over all legal board perturbations.",
+    "Engine preference is not objective chess truth, human intent, cognition, or normative move quality."
+  ],
+  "harvest_backflow": [
+    "CHAIN_RELATIVE_MINIMALITY_CAN_BE_CERTIFIED_WITHOUT_TRANSPORTABLE_EQUIVALENCE",
+    "A_COMPLETE_LOCAL_CAUSAL_CERTIFICATE_CAN_EXIST_WHILE_THE_STRUCTURAL_SIGNATURE_FAILS_REPLICATION",
+    "EXPOSURE_BALANCING_IS_THE_NEXT_TEST_WHEN_RARE_FULL_BRIDGES_SURVIVE_BUT_DO_NOT_TRANSPORT",
+    "CERTIFICATE_SCHEMA_COMPLETENESS_IS_AN_IMPLEMENTATION_CONTRACT_SEPARATE_FROM_SCIENTIFIC_AUTHORITY"
+  ],
+  "next_authorization": {
+    "count": 1,
+    "stage": "C3X 0.7.0-G9.5-P17",
+    "mode": "RUN-FATAL-TEST",
+    "direction": "Prospectively enrich exposure to the frozen post-P16 relation-atom hypothesis OWN|DISPREFERRED_FROM_LOSS without using outcome labels, compare against matched alternative atom families, and test whether minimal FULL_BRIDGE transports across fresh positions, engines and both sources.",
+    "forbidden": "No promotion of the P16 local witness into a law; no post-outcome atom/signature refit; no narrower search-event taxonomy rescue; no human concept naming; no PGN implementation authority transfer."
+  },
+  "receipt_digest_scope": "SHA256_OF_CANONICAL_JSON_WITHOUT_RECEIPT_SHA256_AND_RECEIPT_DIGEST_SCOPE",
+  "receipt_sha256": "85860d444c870f6a412990292e385752a77ecaed4066b79f6a0d499b11d9e8ed"
+}
