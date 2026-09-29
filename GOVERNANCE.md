@@ -110,6 +110,22 @@ Substantive scientific stages inherit:
 
 Private chain-of-thought is not stored. Persist only decision-relevant hypotheses, attacks, mutations, and verdicts.
 
-## 12. Custody
+## 12. Two-track authority firewall
+
+C3X separates scientific novelty from explanation implementation.
+
+**Science / Novelty Mainline** asks why one near-equal legal move is marginally preferred over another and promotes claims only through the Research OS scientific authority path.
+
+**Explanation Implementation** may borrow standard chess-analysis, XAI, retrieval, commentary-generation, and language-model techniques to build a practical PGN-to-explanation system. Engineering usefulness is not scientific novelty.
+
+The repository may host both tracks, but:
+- implementation CI cannot promote a scientific claim;
+- scientific PASS does not certify good commentary;
+- user-facing explanations must preserve machine-readable provenance between C3X causal evidence and conventional/heuristic commentary;
+- shared code must declare which authority surface it serves.
+
+See [docs/C3X_TWO_TRACK_CONSTITUTION.md](docs/C3X_TWO_TRACK_CONSTITUTION.md).
+
+## 13. Custody
 
 See [docs/CUSTODY.md](docs/CUSTODY.md).
