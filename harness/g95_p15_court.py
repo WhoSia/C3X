@@ -448,7 +448,7 @@ def adjudicate(a):
  if len(worlds)!=96:raise SystemExit(f"P15_WORLD_N {len(worlds)}")
  active=[w for w in worlds if w.get("active")];misses=sum(len(w.get("address_misses",[])) for w in worlds)
  engines=sorted({w["engine"] for w in active});sources=sorted({w["source_id"] for w in active})
- fired_worlds=sum(any(z["record"] for z in w["mechanism_bridge_card"]["board_results"].values() for z in z["bounds"].values()) for w in active)
+ fired_worlds=sum(any(q["record"] for br in w["mechanism_bridge_card"]["board_results"].values() for q in br["bounds"].values()) for w in active)
  gate=pre["support_gate"]
  support=(pre["admitted_pair_positions"]>=gate["min_admitted_pair_positions"] and
   pre["board_edit_pair_positions"]>=gate["min_board_edit_pair_positions"] and
