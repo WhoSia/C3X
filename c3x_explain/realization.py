@@ -30,7 +30,6 @@ def _sentence_role(claim:dict[str,Any])->str:
 def realize_packet(moment:dict[str,Any],rating_band:str="advanced")->dict[str,Any]:
     render=moment.get("render_packet") or {}
     claims=[c for c in render.get("claims",[]) if c.get("factuality",{}).get("pass")]
-    claims.sort(key=lambda c:(TYPE_ORDER.get(c.get("type"),99),c.get("claim_id","")))
     sentences=[]
     for i,c in enumerate(claims):
         text=(c.get("text") or "").strip()
