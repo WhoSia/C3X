@@ -1,0 +1,33 @@
+{
+  "schema": "c3x-explanation-implementation-i1-closure-v1",
+  "title": "C3X Explanation Implementation I1 — Verified Chess-Proxy Contrasts, Rating-Band Salience, Evidence-Atom Traceability & Bounded Renderer Contract",
+  "track": "Explanation Implementation",
+  "status": "CLOSED_PASS",
+  "authority": "IMPLEMENTATION_ONLY_NO_SCIENCE_PROMOTION",
+  "parent": {
+    "stage": "I0",
+    "receipt_path": "c3x/receipts/explanation-i0-closure.json"
+  },
+  "canonical_ci": {
+    "workflow": "c3x-explanation-implementation",
+    "run_id": 36671932144,
+    "run_number": 9,
+    "head": "05483806caaaa4fc2f2648c24ce9df8b055403b2",
+    "conclusion": "success"
+  },
+  "implemented": [
+    "exact board-derived proxy snapshots for center control/occupancy, minor-piece home squares, doubled/isolated/passed pawns, king-shield proxy and open files",
+    "played-versus-engine-top-candidate nonzero proxy deltas",
+    "rating-band salience thresholds: beginner 80cp, intermediate 50cp, advanced 25cp, expert 15cp",
+    "stable evidence atom IDs",
+    "bounded renderer contract with causal-language gating and abstention requirements",
+    "I0 legal/provenance firewall retained"
+  ],
+  "scientific_firewall": [
+    "proxy differences are descriptive and do not establish engine-decision causality",
+    "only C3X_CAUSAL_CONTRAST certificate atoms authorize causal wording",
+    "rating-band selection changes presentation threshold, not engine evidence",
+    "Track B cannot alter Track A P18 outcomes"
+  ],
+  "next": "I2 should add verified tactical motif adapters, richer pawn/file/king-safety deltas, licensed retrieval provenance and benchmarkable human-utility/evaluation packets before an optional LLM renderer."
+}
