@@ -47,3 +47,31 @@ def test_renderer_contract_preserves_authority_boundary():
     assert x["schema"]=="c3x-renderer-contract-v1"
     assert any("C3X_CAUSAL_CONTRAST" in z for z in x["required_behavior"])
     assert "objective-chess-truth wording from engine preference alone" in x["forbidden"]
+
+
+def test_verified_tactical_adapter_multi_attack_and_check():
+    import chess
+    from c3x_explain.tactics import verified_move_evidence,tactical_contrast
+    b=chess.Board("r3k3/8/8/1N6/8/8/8/4K3 w - - 0 1")
+    m=chess.Move.from_uci("b5c7")
+    ev=verified_move_evidence(b,m)
+    kinds={z["kind"] for z in ev}
+    assert "check" in kinds
+    assert "multi_attack" in kinds
+    ma=next(z for z in ev if z["kind"]=="multi_attack")
+    assert {z["square"] for z in ma["attacked"]}>={"a8","e8"}
+
+def test_i2_graph_routes_and_traceability_packet():
+    pgn='''[Event "Mate"]
+[Result "*"]
+
+1. f3 e5 2. g4 Qh4# *
+'''
+    out=analyze_pgn(pgn,rating_band="advanced")
+    audit=out["evaluation_packet"]
+    assert audit["traceability_coverage"]==1
+    assert audit["provenance_coverage"]==1
+    assert audit["firewall_failed_moments"]==0
+    assert any("tactics" in m["commentary_plan"]["categories"] for m in out["moments"])
+    assert any(a["type"]=="tactical_fact" and a["claim"]["kind"]=="checkmate"
+               for m in out["moments"] for a in m["atoms"])
