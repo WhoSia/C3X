@@ -182,15 +182,18 @@ The live verifier reverse-traces every sentence to bounded source claims and ato
 
 Canonical I6/I7 CI: run `36686880718`, head `4ab6fcf14ab8d61c0fd6251b94c58d665b460255`: 15/15 tests PASS; pinned Stockfish smoke `C3X_EXPLAIN_PINNED_STOCKFISH_PASS 3 10 12`; clean pass 1.0; adversarial rejection 1.0.
 
-### I8 — Human utility
-Evaluate separately:
-- correctness;
-- usefulness to different rating bands;
-- contrastiveness;
-- pedagogical clarity;
-- calibration/trust;
-- preference over baseline engine prose;
-- whether explanation improves subsequent move understanding.
+### I8 — Human-utility world contact — INFRASTRUCTURE PRESEALED / HUMAN OUTCOME UNOPENED
+Presealed and implemented:
+- correctness, usefulness and pedagogical clarity remain separate human endpoints;
+- deterministic blinded A/B comparison against baseline engine prose;
+- rating-band stratification across beginner / intermediate / advanced / expert;
+- post-commentary move-understanding questions as a behavioral endpoint;
+- trust calibration is reportable only with both reference-valid and reference-invalid control items;
+- participant packets are separated from adjudication keys;
+- empty human datasets cannot be summarized as positive outcomes;
+- human judgments cannot promote causal authority or rescue I5-I7 failures.
+
+See `docs/EXPLANATION_I8.md`. Human-world-contact claims remain open until real adjudication rows exist.
 
 ## Non-goals
 
