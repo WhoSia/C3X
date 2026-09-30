@@ -48,3 +48,22 @@ def retrieval_atoms(packet:dict[str,Any])->list[dict[str,Any]]:
                              "similarity_score":h["score"]},
                     "text":f"Related annotated commentary source available: {h['source_id']} ({', '.join(h['matched_tags'])})."})
     return out
+
+def audit_retrieval_corpus(records:Iterable[dict[str,Any]])->dict[str,Any]:
+    rows=list(records);errors=[];states={};sources=set()
+    for rec in rows:
+        es=validate_record(rec)
+        if es:errors.append({"source_id":rec.get("source_id"),"errors":es})
+        state=str(rec.get("license_state") or "missing");states[state]=states.get(state,0)+1
+        if rec.get("source_uri"):sources.add(str(rec["source_uri"]))
+    return {
+        "schema":"c3x-retrieval-corpus-governance-v1",
+        "record_count":len(rows),
+        "admissible_count":len(rows)-len(errors),
+        "rejected_count":len(errors),
+        "license_state_counts":dict(sorted(states.items())),
+        "distinct_source_uris":len(sources),
+        "errors":errors,
+        "pass":not errors,
+        "authority":"corpus_governance_does_not_promote_retrieved_commentary_to_causal_evidence",
+    }
