@@ -1,0 +1,47 @@
+{
+  "schema": "c3x-explanation-implementation-i0-closure-v1",
+  "title": "C3X Explanation Implementation I0 — Provenance-Bearing PGN Evidence Spine, MultiPV Contrast Packets, Critical-Moment Selection, Causal-Certificate Adapter & Verification Firewall",
+  "track": "Explanation Implementation",
+  "status": "CLOSED_PASS",
+  "authority": "IMPLEMENTATION_ONLY_NO_SCIENCE_PROMOTION",
+  "canonical_ci": {
+    "workflow": "c3x-explanation-implementation",
+    "run_id": 36671262038,
+    "run_number": 3,
+    "head": "d62a6d0f4aa8e1a3af7d909800f557079dcde03a",
+    "conclusion": "success",
+    "unit": "PASS",
+    "pinned_stockfish_smoke": "PASS",
+    "pinned_stockfish_smoke_moments": 3,
+    "stockfish_commit": "edb0d9db6731067ec50ce619ff372b463bc4dd5d"
+  },
+  "implemented": [
+    "deterministic PGN legal replay",
+    "bounded pinned-engine MultiPV candidate packets",
+    "critical-moment selection",
+    "verified forcing/irreversible move facts",
+    "candidate contrast atoms",
+    "optional C3X causal-certificate ingestion",
+    "typed explanation graph",
+    "deterministic natural-language renderer",
+    "legality/factuality/provenance firewall",
+    "mandatory provenance split: C3X_CAUSAL_CONTRAST vs CONVENTIONAL_HEURISTIC_COMMENTARY"
+  ],
+  "literature_donors": [
+    "Jhamtani et al. ACL 2018 — move-level commentary/pragmatics",
+    "Zang et al. ACL 2019 — category-routed engine-grounded commentary",
+    "Kim et al. NAACL 2025 — concept-guided expert-model→LLM bridge/evaluation",
+    "Spinnato 2025 — piece-level SHAP baseline",
+    "Parfenova 2026 — explanation faithfulness warning",
+    "Ciancarini & Pareschi 2026 — strategic-reasoning gap map",
+    "ChessCoach — practical engine+commentary architecture"
+  ],
+  "claim_ceiling": [
+    "I0 establishes an executable evidence-aware commentary spine, not human-level explanation quality.",
+    "Conventional heuristic commentary remains useful but non-causal.",
+    "Only a C3X causal certificate can authorize C3X_CAUSAL_CONTRAST wording.",
+    "LLM/NLG remains downstream renderer authority and is not yet part of I0.",
+    "I0 cannot alter or rescue any Track-A scientific verdict."
+  ],
+  "next": "I1 should add chess-concept adapters, rating-band-aware moment/comment selection, retrieval/evaluation fixtures, and a renderer contract while preserving the same authority firewall."
+}
