@@ -48,7 +48,9 @@ jobs:
           assert all(m['render_packet']['pass'] for m in x['moments'])
           assert x['renderer_benchmark']['renderer_failed_moments']==0
           assert x['renderer_benchmark']['atomic_factuality_rate']==1.0
+          assert x['realization_benchmark']['schema']=='c3x-constrained-realization-benchmark-v1'
           assert x['realization_benchmark']['failed_packets']==0
+          assert x['verification_benchmark']['schema']=='c3x-adversarial-verification-benchmark-v1'
           assert x['verification_benchmark']['clean_pass_rate']==1.0
           assert x['verification_benchmark']['adversarial_rejection_rate']==1.0
           assert any(m['candidates'] for m in x['moments'])
