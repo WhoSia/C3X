@@ -95,3 +95,26 @@ The scientific novelty question remains separate: only prospective C3X intervent
 - Donor: atom-level factuality adjudication, tool routing, error taxonomy and coverage-vs-correctness separation.
 - C3X use: strengthens Track-B evaluation/firewall design only; it does not supply Track-A causal authority.
 - https://arxiv.org/abs/2608.04240
+
+
+## 2026-09-30 — faithfulness and grounded-reasoning expansion
+
+### Parfenova 2026 — explanation faithfulness warning
+- Role: adversarial donor for the authority firewall.
+- Product use: coherent or plausible chess language must not be treated as evidence that the stated reason caused the model decision.
+- C3X response: I4 first-class causal certificates + I5 claim-level traceability keep narration downstream of evidence.
+
+### Tang et al. 2026 — Grounded Chess Reasoning in Language Models via Master Distillation
+- Role: donor for expert-system → natural-language transfer.
+- Product use: suggests a future training path where verified engine/evidence packets supervise language realization.
+- Authority boundary: distillation quality does not create C3X causal authority.
+
+### Dionisopoulos et al. 2026 — How Reasoning Evolves from Post-Training Data
+- Role: donor for reasoning-data design.
+- Product use: multi-move trajectory supervision is relevant to future renderer/learning experiments because isolated best-move supervision can encourage unfaithful rationale generation.
+- Authority boundary: this motivates data design, not a Track A claim.
+
+### Hammersborg & Strümke 2024 — information-based chess XAI
+- Role: donor/rival family for concept-level information-flow explanation.
+- Product use: useful benchmark axis for concept evidence and information localization.
+- Authority boundary: information attribution remains distinct from C3X intervention certificates.
