@@ -148,18 +148,18 @@ Implemented:
 - Structural / Motif / Tactic / Position-Judgment / Semantic / Contrastiveness / Provenance evaluation packet;
 - human-utility fields deliberately unset until human adjudication.
 
-### I4 — C3X bridge + verified planning evidence
-Next:
-- promote existing C3X causal certificates into first-class graph objects without widening their scope;
-- add line-backed threat, forcing-sequence and plan evidence only when the verifier can prove the relation;
-- add retrieval-corpus governance and source/license audit;
+### I4 — C3X bridge + verified planning evidence — IMPLEMENTED / CI PENDING
+Implemented:
+- normalize existing C3X causal certificates into first-class `causal_certificate` graph objects with explicit authority ceilings and `authorizes_causal_scope` edges;
+- legally replay bounded engine PVs and emit only verified line facts; strategic “threat/plan” labels remain abstained unless a later verifier proves their semantics;
+- audit retrieval corpora for source URI, license state, tags and excerpt bounds before retrieval;
 - preserve explicit abstention when strategic semantics outrun verified evidence.
 
-### I5 — Bounded renderer + atomic factuality benchmark
+### I5 — Bounded renderer + atomic factuality benchmark — IMPLEMENTED / CI PENDING
 Before free-form prose is trusted:
-- every rendered claim must map back to atom IDs;
-- ACT-Eval-style atomic factuality checks must adjudicate move identity, board facts, tactical claims and evaluation direction;
-- compare correctness, coverage and strategic completeness separately;
+- every rendered claim maps back to atom IDs through `c3x-bounded-render-packet-v1`;
+- ACT-Eval-style atomic factuality checks enforce atom traceability, provenance/authority presence and causal-scope discipline; legality/tactical/evaluation-direction checks remain delegated to verified atoms/firewalls;
+- output a machine-readable atomic renderer benchmark while leaving human strategic completeness explicitly unset;
 - never use an LLM as its own sole factuality judge.
 
 ### I6 — Language realization
