@@ -109,7 +109,7 @@ ChessCoach demonstrates an end-to-end engineering lineage with PGN processing, c
 - score/PV deltas;
 - schema for provenance-bearing explanation atoms.
 
-### I1 — Concept-proxy contrast, rating-band salience & renderer contract — RUNNING
+### I1 — Concept-proxy contrast, rating-band salience & renderer contract — CLOSED/PASS
 Do not narrate every move equally.
 Trigger on combinations of:
 - evaluation or WDL change;
@@ -128,18 +128,16 @@ I1 executable additions:
 - stable evidence atom IDs for renderer traceability;
 - bounded renderer contract requiring provenance preservation and abstention.
 
-### I2 — Conventional explanation adapters
-Implement clearly labelled adapters for:
-- tactics: checks, captures, threats, pins, forks, skewers, discovered attacks, overload, deflection, trapped pieces, mating nets;
-- material and exchange accounting;
-- king safety;
-- pawn structure;
-- mobility / space proxies;
-- open files, diagonals and outposts;
-- development and piece activity;
-- endgame-specific motifs.
+### I2 — Verified tactical evidence, candidate contrast routing & graph quality — CLOSED/PASS
+Implemented:
+- exact board-verifiable capture/castling/promotion/check/checkmate facts;
+- moved-piece multi-attack detection using explicit attacked-piece sets;
+- newly created absolute-pin detection against the enemy king;
+- played-vs-top-alternative tactical contrast packets;
+- evidence-first commentary category routing across causal contrast / tactics / comparison / positional proxy / material context;
+- graph-quality packet for provenance coverage, atom-ID traceability, firewall failures and category coverage.
 
-These can be engineered from known techniques and do not require C3X novelty.
+I2 deliberately stops short of unverified labels such as tactical "threat", "overload" or "deflection" unless a future adapter can prove the corresponding relation. Conventional adapters remain `CONVENTIONAL_HEURISTIC_COMMENTARY` and cannot establish engine-decision causality.
 
 ### I3 — Retrieval and commentary corpora
 - retrieve similar annotated positions/motifs;
