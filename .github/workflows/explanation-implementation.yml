@@ -48,7 +48,10 @@ jobs:
           assert all(m['render_packet']['pass'] for m in x['moments'])
           assert x['renderer_benchmark']['renderer_failed_moments']==0
           assert x['renderer_benchmark']['atomic_factuality_rate']==1.0
+          assert x['realization_benchmark']['failed_packets']==0
+          assert x['verification_benchmark']['clean_pass_rate']==1.0
+          assert x['verification_benchmark']['adversarial_rejection_rate']==1.0
           assert any(m['candidates'] for m in x['moments'])
           assert any(a['type']=='verified_line_evidence' for m in x['moments'] for a in m['atoms'])
-          print('C3X_EXPLAIN_PINNED_STOCKFISH_PASS',x['moment_count'],x['renderer_benchmark']['claim_count'])
+          print('C3X_EXPLAIN_PINNED_STOCKFISH_PASS',x['moment_count'],x['renderer_benchmark']['claim_count'],x['verification_benchmark']['adversarial_case_count'])
           PY
