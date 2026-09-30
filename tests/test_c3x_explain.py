@@ -48,7 +48,6 @@ def test_renderer_contract_preserves_authority_boundary():
     assert any("C3X_CAUSAL_CONTRAST" in z for z in x["required_behavior"])
     assert "objective-chess-truth wording from engine preference alone" in x["forbidden"]
 
-
 def test_verified_tactical_adapter_multi_attack_and_check():
     import chess
     from c3x_explain.tactics import verified_move_evidence,tactical_contrast
@@ -75,7 +74,6 @@ def test_i2_graph_routes_and_traceability_packet():
     assert any("tactics" in m["commentary_plan"]["categories"] for m in out["moments"])
     assert any(a["type"]=="tactical_fact" and a["claim"]["kind"]=="checkmate"
                for m in out["moments"] for a in m["atoms"])
-
 
 def test_i3_retrieval_requires_source_license_and_never_promotes_authority():
     from c3x_explain.retrieval import retrieve,retrieval_atoms
@@ -106,7 +104,6 @@ def test_i3_typed_graph_and_multi_axis_packet():
     assert all(m["typed_graph"]["schema"]=="c3x-typed-explanation-subgraph-v1" for m in out["moments"])
     assert any(a["type"]=="retrieval_reference" for m in out["moments"] for a in m["atoms"])
     assert any("retrieval_context" in m["commentary_plan"]["categories"] for m in out["moments"])
-
 
 def test_i4_certificate_is_first_class_graph_authority_object():
     import chess,chess.pgn,io
@@ -158,7 +155,6 @@ def test_i5_renderer_claims_are_atom_traceable_and_atomic_factuality_passes():
             assert set(c["atom_ids"])<=atom_ids
         assert m["commentary"]==m["render_packet"]["surface_text"]
 
-
 def test_i6_constrained_realization_is_sentence_atom_claim_traceable():
     out=analyze_pgn(PGN,rating_band="intermediate")
     assert out["realization_benchmark"]["schema"]=="c3x-constrained-realization-benchmark-v1"
@@ -174,7 +170,6 @@ def test_i6_constrained_realization_is_sentence_atom_claim_traceable():
             assert set(sent["atom_ids"])<=atom_ids
             assert sent["realization_mode"]=="verbatim_bounded_claim"
         assert m["commentary"]==rp["text"]
-
 
 def test_i7_adversarial_realization_firewall_rejects_all_frozen_attacks():
     pgn='''[Event "Mate"]
@@ -197,3 +192,51 @@ def test_i7_adversarial_realization_firewall_rejects_all_frozen_attacks():
                 "drop_atom_trace","authority_upgrade","unsupported_causal_wording","surface_tamper"
             }
             assert all(c["rejected"] for c in suite["cases"])
+
+def test_i8_preseal_keeps_human_outcomes_closed():
+    from c3x_explain.human_utility import i8_preseal,aggregate_scored
+    p=i8_preseal()
+    assert p["status"]=="HUMAN_OUTCOME_UNOPENED"
+    assert "subsequent_move_understanding" in p["endpoints"]
+    empty=aggregate_scored([])
+    assert empty["n"]==0
+    assert empty["human_outcome_opened"] is False
+
+def test_i8_blinding_is_deterministic_and_key_separated():
+    from c3x_explain.human_utility import build_blinded_trial
+    args=dict(
+        trial_id="t-001",rating_band="advanced",
+        position_fen="8/8/8/8/8/8/4K3/7k w - - 0 1",
+        c3x_text="C3X explanation.",baseline_text="Baseline explanation.",
+        played_move="Ke3",understanding_prompt="Which claim follows?",
+        understanding_options=["x","y"],understanding_answer="x",seed="sealed-study-seed",
+        reference_validity={"c3x":True,"baseline":False},
+    )
+    a=build_blinded_trial(**args); b=build_blinded_trial(**args)
+    assert a==b
+    assert "arm_identity" not in a["participant_packet"]
+    assert set(a["participant_packet"]["commentary"])=={"A","B"}
+    assert set(a["adjudication_key"]["arm_identity"].values())=={"c3x","baseline"}
+
+def test_i8_scoring_unblinds_only_at_adjudication_and_keeps_endpoints_separate():
+    from c3x_explain.human_utility import build_blinded_trial,score_response,aggregate_scored
+    trial=build_blinded_trial(
+        trial_id="t-002",rating_band="beginner",
+        position_fen="8/8/8/8/8/8/4K3/7k w - - 0 1",
+        c3x_text="C3X explanation.",baseline_text="Baseline explanation.",
+        played_move="Ke3",understanding_prompt="Best interpretation?",
+        understanding_options=["safe","unsafe"],understanding_answer="safe",seed="sealed-study-seed",
+        reference_validity={"c3x":True,"baseline":False},
+    )
+    resp={
+        "correctness":{"A":5,"B":2},"usefulness":{"A":4,"B":3},
+        "pedagogical_clarity":{"A":4,"B":2},"preference":"A",
+        "trust":{"A":75,"B":25},"understanding_answer":"safe",
+    }
+    row=score_response(resp,trial["adjudication_key"])
+    assert row["schema"]=="c3x-human-utility-scored-response-v1"
+    assert row["understanding_correct"]==1
+    assert row["c3x"]["trust_brier"] is not None
+    summary=aggregate_scored([row])
+    assert summary["human_outcome_opened"] is True
+    assert summary["n"]==1
