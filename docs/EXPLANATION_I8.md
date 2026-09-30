@@ -1,6 +1,6 @@
 # C3X Explain I8 — Human-Utility World Contact
 
-**Formal stage:** C3X Explain I8 — Rating-Band-Stratified Human Utility, Blind Baseline Preference, Explanation-Induced Move Understanding, Calibration/Trust & Authority-Separated Commentary Evaluation
+**Formal stage:** C3X Explain I8 — Human-Utility World Contact, Rating-Band-Stratified Human Utility, Blind Baseline Preference, Explanation-Induced Move Understanding, Calibration/Trust & Authority-Separated Commentary Evaluation
 
 ## Constitution
 
@@ -17,48 +17,71 @@ The machine pipeline I0-I7 stays frozen as the evidence and surface-safety subst
 5. subsequent move understanding;
 6. trust calibration.
 
-These are separate endpoints. A gain in one does not imply a gain in another.
+These are distinct endpoints. Success on one does not authorize a claim on another.
+
+## Identification repair before closure
+
+The initial I8 draft exposed both A/B commentaries and then asked one understanding question. That design could measure preference, but **could not identify which explanation caused any understanding gain**.
+
+Before human outcomes were opened, the design was therefore prospectively repaired:
+
+- **blind-preference trials** expose both C3X and baseline as randomized A/B and measure correctness, usefulness, clarity, preference and trust;
+- **move-understanding trials** expose exactly one randomized arm before the outcome question;
+- understanding arms are **C3X / baseline / no-commentary**, allowing C3X-vs-baseline and C3X-vs-no-commentary contrasts;
+- no human response existed before this repair, so the change is pre-outcome and not post-hoc optimization.
 
 ## Rating-band stratification
 
-Predeclared bands are beginner, intermediate, advanced, and expert. Analyses must retain within-band summaries before any pooled result.
+Predeclared bands are beginner, intermediate, advanced and expert. Every human analysis must retain within-band denominators and summaries before any pooled result.
 
 ## Blind comparison
 
-Each trial randomizes whether C3X or baseline prose appears as A or B using a deterministic hash of a private study seed and trial ID. Participant packets omit arm identity; adjudication keys retain it.
+Preference trials deterministically randomize whether C3X or baseline appears as A/B from the sealed study seed and trial ID. Participant packets omit identity; adjudication keys retain it.
 
-## Understanding endpoint
+## Explanation-induced move understanding
 
-Preference alone is insufficient. Each trial therefore carries a post-commentary move-understanding question with a predeclared answer. This tests whether commentary supports transferable understanding rather than merely sounding fluent.
+Understanding is not inferred from liking the prose. Each participant receives exactly one assigned commentary condition for an understanding item:
 
-## Trust calibration
+- C3X commentary;
+- baseline commentary;
+- no commentary.
 
-A mean trust score is not calibration. Calibration may be reported only if the study includes both reference-valid and reference-invalid control items, allowing trust to be compared with known validity.
+The question answer is frozen in the adjudication key. Assignment is deterministic from sealed seed + trial ID + participant ID, while participant-facing packets do not reveal the arm.
+
+## Calibration / trust
+
+Mean trust is not calibration. Calibration may be reported only on controls with known reference validity. The scoring kernel supports Brier loss for these controls and otherwise reports calibration as unavailable.
+
+## Missingness
+
+For move-understanding cells, reports must include expected N, observed N and missing N. When missing outcomes exist, both worst-case and best-case accuracy bounds are reported. No post-hoc imputation is authorized by I8.
 
 ## Authority firewall
 
-- human preference cannot promote HEURISTIC claims to C3X_CAUSAL_CONTRAST;
-- human usefulness cannot rescue an I5-I7 factuality/verification failure;
+- human preference cannot promote `CONVENTIONAL_HEURISTIC_COMMENTARY` to `C3X_CAUSAL_CONTRAST`;
+- human usefulness cannot rescue an I5-I7 factuality or verification failure;
 - machine evidence coverage is not a human score;
-- no human outcome is recorded until real adjudication rows are ingested.
+- no human outcome is recorded until actual adjudication rows are ingested;
+- human utility is a downstream product property, not evidence that P18's frozen scientific law succeeded.
 
 ## Literature donors
 
-Kim et al. (NAACL 2025) motivate chess-commentary evaluation across accuracy/informativeness/fluency, but I8 intentionally adds behavioral understanding and calibrated reliance as separate outcomes.
+Kim et al. (NAACL 2025) motivate chess-commentary evaluation across accuracy, informativeness and fluency. I8 deliberately adds behavioral understanding and calibrated reliance as separate outcomes.
 
-Broader human-XAI evidence shows that explanations can fail to improve decisions and can increase overreliance or cognitive burden. I8 therefore avoids using subjective preference as a surrogate for decision quality.
+Human-XAI evidence warns that explanations can improve subjective confidence without improving decisions and can induce overreliance or cognitive burden. Therefore preference, behavioral understanding and calibration remain non-substitutable.
 
-Chess-specific reliance studies also motivate stratification by expertise rather than treating users as exchangeable.
+## Terminal closure rule
 
-## Closure criterion
+The autonomous part of I8 is complete when:
 
-Infrastructure can close without human outcomes. Scientific/product claims about human utility cannot.
+- the v2 preseal is machine-readable;
+- preference and understanding trial families are causally separable;
+- blinding and arm assignment are deterministic and tested;
+- rating-band stratification is preserved;
+- missingness sensitivity is explicit;
+- participant packets and adjudication keys are separated;
+- zero human rows provably yield `NO_HUMAN_UTILITY_CLAIM`;
+- I0-I7 pinned Stockfish and verification gates remain green;
+- a closure receipt records that human utility itself remains unadjudicated.
 
-I8 becomes **INFRASTRUCTURE CLOSED / HUMAN WORLD CONTACT OPEN** when:
-- the preseal is machine-readable;
-- blind packet generation is deterministic and tested;
-- scoring preserves arm blinding until adjudication;
-- human-free empty summaries cannot accidentally look like positive results;
-- CI passes.
-
-A later human closure requires real, auditable participant rows and predeclared analysis.
+This permits **I8 CLOSED / HUMAN-UTILITY CLAIM HOLD**. The stage itself is closed because its admissible autonomous work and its stopping boundary are exhausted. Reopening requires genuine human-world-contact data; merely generating synthetic preference labels does not qualify.
