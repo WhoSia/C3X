@@ -75,3 +75,34 @@ def test_i2_graph_routes_and_traceability_packet():
     assert any("tactics" in m["commentary_plan"]["categories"] for m in out["moments"])
     assert any(a["type"]=="tactical_fact" and a["claim"]["kind"]=="checkmate"
                for m in out["moments"] for a in m["atoms"])
+
+
+def test_i3_retrieval_requires_source_license_and_never_promotes_authority():
+    from c3x_explain.retrieval import retrieve,retrieval_atoms
+    records=[
+      {"source_id":"ok","source_uri":"https://example.invalid/annotated","license_state":"citation_only",
+       "motif_tags":["checkmate"],"commentary_excerpt":"A bounded source note."},
+      {"source_id":"bad","source_uri":"https://example.invalid/bad","license_state":"unknown",
+       "motif_tags":["checkmate"],"commentary_excerpt":"x"}
+    ]
+    packet=retrieve(["checkmate"],records)
+    assert [h["source_id"] for h in packet["hits"]]==["ok"]
+    assert packet["rejected_count"]==1
+    atoms=retrieval_atoms(packet)
+    assert atoms and all(a["provenance"]==HEURISTIC for a in atoms)
+    assert all(a["authority"]=="retrieved_commentary_reference" for a in atoms)
+
+def test_i3_typed_graph_and_multi_axis_packet():
+    pgn='''[Event "Mate"]
+[Result "*"]
+
+1. f3 e5 2. g4 Qh4# *
+'''
+    records=[{"source_id":"mate-note","source_uri":"https://example.invalid/mate","license_state":"citation_only",
+              "motif_tags":["checkmate","tactical_fact"],"commentary_excerpt":"Bounded note."}]
+    out=analyze_pgn(pgn,rating_band="beginner",retrieval_records=records)
+    assert out["commentary_evaluation"]["schema"]=="c3x-commentary-evaluation-packet-v1"
+    assert out["commentary_evaluation"]["human_utility"]["correctness"] is None
+    assert all(m["typed_graph"]["schema"]=="c3x-typed-explanation-subgraph-v1" for m in out["moments"])
+    assert any(a["type"]=="retrieval_reference" for m in out["moments"] for a in m["atoms"])
+    assert any("retrieval_context" in m["commentary_plan"]["categories"] for m in out["moments"])
