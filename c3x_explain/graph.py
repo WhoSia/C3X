@@ -13,8 +13,13 @@ def assemble_typed_graph(moment:dict[str,Any])->dict[str,Any]:
                      "provenance":a.get("provenance"),"authority":a.get("authority"),"claim":a.get("claim")}})
         edges.append({"from":aid,"to":move_id,"relation":"supports_commentary_about"})
         claim=a.get("claim") or {}
+        cert=claim.get("certificate")
+        if isinstance(cert,dict) and cert.get("certificate_id"):
+            pid=f"certificate:{cert['certificate_id']}"
+            nodes.append({"node_id":pid,"node_type":"causal_certificate","payload":cert})
+            edges.append({"from":pid,"to":aid,"relation":"authorizes_causal_scope"})
         for key in ("source_id","certificate_id"):
-            if claim.get(key):
+            if claim.get(key) and not (key=="certificate_id" and isinstance(cert,dict)):
                 pid=f"{key}:{claim[key]}"
                 nodes.append({"node_id":pid,"node_type":"provenance_object","payload":{key:claim[key]}})
                 edges.append({"from":pid,"to":aid,"relation":"provenance_for"})
