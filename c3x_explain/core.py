@@ -5,6 +5,9 @@ from typing import Any,Iterable
 import chess,chess.pgn,chess.engine
 from .concepts import candidate_delta
 from .tactics import verified_move_evidence,tactical_contrast
+from .retrieval import retrieve,retrieval_atoms
+from .graph import attach_graphs
+from .evaluation import evaluation_packet
 
 CAUSAL="C3X_CAUSAL_CONTRAST"
 HEURISTIC="CONVENTIONAL_HEURISTIC_COMMENTARY"
@@ -79,6 +82,7 @@ def route_categories(atoms:list[dict[str,Any]])->list[str]:
     if "candidate_contrast" in types:cats.append("comparison")
     if "concept_proxy_delta" in types:cats.append("positional_proxy")
     if "material_snapshot" in types:cats.append("material_context")
+    if "retrieval_reference" in types:cats.append("retrieval_context")
     return cats
 
 def graph_audit(moments:list[dict[str,Any]])->dict[str,Any]:
@@ -162,7 +166,22 @@ def firewall(board:chess.Board,atoms:list[dict[str,Any]])->list[str]:
             errs.append("causal_wording_without_certificate")
     return errs
 
-def analyze_pgn(pgn_text:str,engine_path:str|None=None,multipv:int=3,nodes:int=20000,certificates:Iterable[dict[str,Any]]=(),threshold_cp:int|None=None,rating_band:str="advanced")->dict[str,Any]:
+def _retrieval_query_tags(atoms:list[dict[str,Any]])->list[str]:
+    tags=set()
+    for a in atoms:
+        t=a.get("type")
+        if t:tags.add(str(t))
+        c=a.get("claim") or {}
+        k=c.get("kind")
+        if k:tags.add(str(k))
+        if t=="concept_proxy_delta":
+            tags.update(str(x) for x in (c.get("played_minus_alternative") or {}).keys())
+        if t=="tactical_contrast":
+            tags.update(str(x) for x in c.get("played_only_kinds",[]))
+            tags.update(str(x) for x in c.get("alternative_only_kinds",[]))
+    return sorted(tags)
+
+def analyze_pgn(pgn_text:str,engine_path:str|None=None,multipv:int=3,nodes:int=20000,certificates:Iterable[dict[str,Any]]=(),threshold_cp:int|None=None,rating_band:str="advanced",retrieval_records:Iterable[dict[str,Any]]=(),retrieval_top_k:int=3)->dict[str,Any]:
     game=chess.pgn.read_game(io.StringIO(pgn_text))
     if game is None:raise ValueError("No PGN game found")
     if rating_band not in RATING_THRESHOLDS:raise ValueError(f"Unknown rating band: {rating_band}")
@@ -176,21 +195,26 @@ def analyze_pgn(pgn_text:str,engine_path:str|None=None,multipv:int=3,nodes:int=2
             selected,reasons=choose_moment(board,move,cands,facts,local_certs,effective_threshold)
             if selected:
                 atoms=heuristic_atoms(board,move,cands,facts)+causal_atoms(board,local_certs)
+                rpacket=retrieve(_retrieval_query_tags(atoms),retrieval_records,retrieval_top_k)
+                atoms+=retrieval_atoms(rpacket)
                 for idx,atom in enumerate(atoms):
                     atom["atom_id"]=f"p{ply}:a{idx}"
                 errs=firewall(board,atoms)
                 moments.append({"ply":ply,"fen":fen,"played_uci":move.uci(),"played_san":board.san(move),
                                 "selection_reasons":reasons,"candidates":cands,"atoms":atoms,
                                 "commentary_plan":{"categories":route_categories(atoms),"atom_ids":[a["atom_id"] for a in atoms]},
+                                "retrieval_packet":rpacket,
                                 "firewall":{"pass":not errs,"errors":errs},
                                 "commentary":" ".join(a["text"] for a in atoms if a.get("text") and not errs)})
             board.push(move)
     finally:
         if eng:eng.quit()
+    attach_graphs(moments)
     return {"schema":"c3x-explanation-graph-v1","provenance_classes":[CAUSAL,HEURISTIC],
             "rating_band":rating_band,"candidate_gap_threshold_cp":effective_threshold,
             "headers":dict(game.headers),"moment_count":len(moments),"moments":moments,
             "evaluation_packet":graph_audit(moments),
+            "commentary_evaluation":evaluation_packet(moments,rating_band),
             "authority_note":"Useful commentary is not automatically causal. Causal wording requires a C3X certificate."}
 
 def load_certificates(paths:list[str])->list[dict[str,Any]]:
