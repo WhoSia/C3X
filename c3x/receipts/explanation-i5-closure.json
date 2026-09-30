@@ -1,0 +1,42 @@
+{
+  "schema": "c3x-explanation-implementation-i5-closure-v1",
+  "title": "C3X Explanation Implementation I5 — Atom-Traceable Bounded Renderer, Atomic Factuality Benchmark, Abstention & Stockfish-Grounded Surface Gate",
+  "track": "Explanation Implementation",
+  "status": "CLOSED_PASS",
+  "authority": "IMPLEMENTATION_ONLY_NO_SCIENCE_PROMOTION",
+  "parent": {
+    "stage": "I4",
+    "receipt_path": "c3x/receipts/explanation-i4-closure.json",
+    "receipt_sha256": "afaa25a21268ed3dc24165ee7401af4f2e20c5b2f5d7c89e267a7596108330ca"
+  },
+  "canonical_ci": {
+    "workflow": "c3x-explanation-implementation",
+    "run_id": 36683142937,
+    "run_number": 34,
+    "head": "30cf1992ea8f8f8078add579f437dfe9e45eb434",
+    "conclusion": "success",
+    "unit_tests": "13 passed",
+    "pinned_stockfish_smoke": "C3X_EXPLAIN_PINNED_STOCKFISH_PASS 3 10"
+  },
+  "implemented": [
+    "c3x-bounded-render-packet-v1 with one or more atom_ids for every surfaced claim",
+    "claim-level provenance and authority preservation",
+    "causal wording gate requiring causal provenance and first-class C3X certificate object",
+    "explicit abstention for atoms lacking bounded surface text",
+    "c3x-atomic-renderer-benchmark-v1 separating atomic factuality from human strategic completeness",
+    "pinned Stockfish CI gate requiring renderer pass, atomic factuality rate 1.0 and verified-line evidence"
+  ],
+  "observed_ci": {
+    "moments": 3,
+    "rendered_claims": 10,
+    "renderer_failed_moments": 0,
+    "atomic_factuality_rate": 1
+  },
+  "scientific_firewall": [
+    "renderer cannot upgrade evidence authority",
+    "atomic factuality is not a human usefulness score",
+    "free-form LLM prose remains downstream and untrusted until future bounded NLG evaluation"
+  ],
+  "next": "I6 should add constrained language realization over the bounded claim packet, then I7 adversarial verification and I8 human utility/learning evaluation.",
+  "receipt_sha256": "26a41cbb9794b36a3ec780be94ac1b74801ff0170505a41dab45062964f45e8d"
+}
