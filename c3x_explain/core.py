@@ -3,9 +3,11 @@ import io,json,math
 from dataclasses import dataclass,asdict
 from typing import Any,Iterable
 import chess,chess.pgn,chess.engine
+from .concepts import candidate_delta
 
 CAUSAL="C3X_CAUSAL_CONTRAST"
 HEURISTIC="CONVENTIONAL_HEURISTIC_COMMENTARY"
+RATING_THRESHOLDS={"beginner":80,"intermediate":50,"advanced":25,"expert":15}
 
 def score_cp(score: chess.engine.PovScore, turn: chess.Color)->int|None:
     s=score.pov(turn).score(mate_score=100000)
@@ -79,6 +81,14 @@ def heuristic_atoms(board:chess.Board,played:chess.Move,cands:list[dict[str,Any]
                "top_pv_uci":top["pv_uci"]}
         atoms.append({"type":"candidate_contrast","provenance":HEURISTIC,"authority":"engine_analysis","claim":claim,
                       "text":candidate_sentence(board,played,claim)})
+        if top["uci"]!=played.uci():
+            alt=chess.Move.from_uci(top["uci"])
+            delta=candidate_delta(board,played,alt)
+            if delta["played_minus_alternative"]:
+                pairs=", ".join(f"{k} {v:+d}" for k,v in sorted(delta["played_minus_alternative"].items()))
+                atoms.append({"type":"concept_proxy_delta","provenance":HEURISTIC,"authority":"verified_board_proxy",
+                              "claim":delta,
+                              "text":f"Compared with {top['san']}, {board.san(played)} changes these measured board proxies: {pairs}."})
     atoms.append({"type":"material_snapshot","provenance":HEURISTIC,"authority":"verified_board_fact","claim":material(board),"text":""})
     return atoms
 
@@ -104,16 +114,18 @@ def firewall(board:chess.Board,atoms:list[dict[str,Any]])->list[str]:
             errs.append("causal_wording_without_certificate")
     return errs
 
-def analyze_pgn(pgn_text:str,engine_path:str|None=None,multipv:int=3,nodes:int=20000,certificates:Iterable[dict[str,Any]]=(),threshold_cp:int=20)->dict[str,Any]:
+def analyze_pgn(pgn_text:str,engine_path:str|None=None,multipv:int=3,nodes:int=20000,certificates:Iterable[dict[str,Any]]=(),threshold_cp:int|None=None,rating_band:str="advanced")->dict[str,Any]:
     game=chess.pgn.read_game(io.StringIO(pgn_text))
     if game is None:raise ValueError("No PGN game found")
+    if rating_band not in RATING_THRESHOLDS:raise ValueError(f"Unknown rating band: {rating_band}")
+    effective_threshold=RATING_THRESHOLDS[rating_band] if threshold_cp is None else int(threshold_cp)
     board=game.board();certs=cert_index(certificates);moments=[];eng=None
     if engine_path:eng=chess.engine.SimpleEngine.popen_uci(engine_path)
     try:
         for ply,move in enumerate(game.mainline_moves(),1):
             fen=board.fen();key=" ".join(fen.split()[:4]);local_certs=certs.get(key,[])
             facts=move_facts(board,move);cands=candidate_packet(eng,board,multipv,nodes) if eng else []
-            selected,reasons=choose_moment(board,move,cands,facts,local_certs,threshold_cp)
+            selected,reasons=choose_moment(board,move,cands,facts,local_certs,effective_threshold)
             if selected:
                 atoms=heuristic_atoms(board,move,cands,facts)+causal_atoms(board,local_certs)
                 errs=firewall(board,atoms)
@@ -125,6 +137,7 @@ def analyze_pgn(pgn_text:str,engine_path:str|None=None,multipv:int=3,nodes:int=2
     finally:
         if eng:eng.quit()
     return {"schema":"c3x-explanation-graph-v1","provenance_classes":[CAUSAL,HEURISTIC],
+            "rating_band":rating_band,"candidate_gap_threshold_cp":effective_threshold,
             "headers":dict(game.headers),"moment_count":len(moments),"moments":moments,
             "authority_note":"Useful commentary is not automatically causal. Causal wording requires a C3X certificate."}
 
