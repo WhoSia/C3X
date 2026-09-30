@@ -24,11 +24,12 @@ jobs:
       - run: python3 -m py_compile c3x_explain/*.py
       - run: |
           PYTHONPATH=. python3 - <<'PY'
-          from c3x_explain.human_utility import i8_preseal, aggregate_scored
+          from c3x_explain.human_utility import i8_preseal, aggregate_human_outcomes
           p=i8_preseal()
           assert p["status"]=="HUMAN_OUTCOME_UNOPENED"
-          assert aggregate_scored([])["human_outcome_opened"] is False
-          print("C3X_EXPLAIN_I8_PRESEAL_PASS", len(p["endpoints"]))
+          assert p["schema"]=="c3x-human-utility-preseal-v2"
+          assert aggregate_human_outcomes([],[])["human_outcome_opened"] is False
+          print("C3X_EXPLAIN_I8_PRESEAL_PASS", len(p["endpoints"]), len(p["trial_families"]))
           PY
 
   pinned-stockfish-smoke:
