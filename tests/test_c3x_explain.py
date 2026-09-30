@@ -194,49 +194,104 @@ def test_i7_adversarial_realization_firewall_rejects_all_frozen_attacks():
             assert all(c["rejected"] for c in suite["cases"])
 
 def test_i8_preseal_keeps_human_outcomes_closed():
-    from c3x_explain.human_utility import i8_preseal,aggregate_scored
+    from c3x_explain.human_utility import i8_preseal,aggregate_human_outcomes
     p=i8_preseal()
+    assert p["schema"]=="c3x-human-utility-preseal-v2"
     assert p["status"]=="HUMAN_OUTCOME_UNOPENED"
     assert "subsequent_move_understanding" in p["endpoints"]
-    empty=aggregate_scored([])
-    assert empty["n"]==0
+    assert p["trial_families"]["move_understanding"]["arms"]==["c3x","baseline","no_commentary"]
+    empty=aggregate_human_outcomes([],[])
     assert empty["human_outcome_opened"] is False
+    assert empty["verdict"]=="NO_HUMAN_UTILITY_CLAIM"
 
-def test_i8_blinding_is_deterministic_and_key_separated():
-    from c3x_explain.human_utility import build_blinded_trial
+def test_i8_preference_blinding_is_deterministic_and_key_separated():
+    from c3x_explain.human_utility import build_preference_trial
     args=dict(
-        trial_id="t-001",rating_band="advanced",
+        trial_id="p-001",rating_band="advanced",
         position_fen="8/8/8/8/8/8/4K3/7k w - - 0 1",
         c3x_text="C3X explanation.",baseline_text="Baseline explanation.",
-        played_move="Ke3",understanding_prompt="Which claim follows?",
-        understanding_options=["x","y"],understanding_answer="x",seed="sealed-study-seed",
+        played_move="Ke3",seed="sealed-study-seed",
         reference_validity={"c3x":True,"baseline":False},
     )
-    a=build_blinded_trial(**args); b=build_blinded_trial(**args)
+    a=build_preference_trial(**args); b=build_preference_trial(**args)
     assert a==b
     assert "arm_identity" not in a["participant_packet"]
     assert set(a["participant_packet"]["commentary"])=={"A","B"}
+    assert "subsequent_move_understanding" not in a["participant_packet"]["questions"]
     assert set(a["adjudication_key"]["arm_identity"].values())=={"c3x","baseline"}
 
-def test_i8_scoring_unblinds_only_at_adjudication_and_keeps_endpoints_separate():
-    from c3x_explain.human_utility import build_blinded_trial,score_response,aggregate_scored
-    trial=build_blinded_trial(
-        trial_id="t-002",rating_band="beginner",
+def test_i8_understanding_exposes_exactly_one_randomized_arm():
+    from c3x_explain.human_utility import build_understanding_trial
+    kwargs=dict(
+        trial_id="u-001",participant_id="participant-001",rating_band="beginner",
         position_fen="8/8/8/8/8/8/4K3/7k w - - 0 1",
         c3x_text="C3X explanation.",baseline_text="Baseline explanation.",
         played_move="Ke3",understanding_prompt="Best interpretation?",
-        understanding_options=["safe","unsafe"],understanding_answer="safe",seed="sealed-study-seed",
+        understanding_options=["safe","unsafe"],understanding_answer="safe",
+        seed="sealed-study-seed",
+    )
+    a=build_understanding_trial(**kwargs); b=build_understanding_trial(**kwargs)
+    assert a==b
+    assert "assigned_arm" not in a["participant_packet"]
+    assert isinstance(a["participant_packet"]["commentary"],str)
+    assert a["adjudication_key"]["assigned_arm"] in {"c3x","baseline","no_commentary"}
+    assert a["adjudication_key"]["participant_id_hash"]!="participant-001"
+
+def test_i8_preference_and_understanding_scoring_stay_separate():
+    from c3x_explain.human_utility import (
+        build_preference_trial,build_understanding_trial,
+        score_preference_response,score_understanding_response,aggregate_human_outcomes
+    )
+    pref=build_preference_trial(
+        trial_id="p-002",rating_band="beginner",
+        position_fen="8/8/8/8/8/8/4K3/7k w - - 0 1",
+        c3x_text="C3X explanation.",baseline_text="Baseline explanation.",
+        played_move="Ke3",seed="sealed-study-seed",
         reference_validity={"c3x":True,"baseline":False},
     )
-    resp={
+    presp={
         "correctness":{"A":5,"B":2},"usefulness":{"A":4,"B":3},
         "pedagogical_clarity":{"A":4,"B":2},"preference":"A",
-        "trust":{"A":75,"B":25},"understanding_answer":"safe",
+        "trust":{"A":75,"B":25},
     }
-    row=score_response(resp,trial["adjudication_key"])
-    assert row["schema"]=="c3x-human-utility-scored-response-v1"
-    assert row["understanding_correct"]==1
-    assert row["c3x"]["trust_brier"] is not None
-    summary=aggregate_scored([row])
+    prow=score_preference_response(presp,pref["adjudication_key"])
+    assert prow["schema"]=="c3x-human-preference-scored-v2"
+    assert prow["c3x"]["trust_brier"] is not None
+
+    under=build_understanding_trial(
+        trial_id="u-002",participant_id="participant-002",rating_band="beginner",
+        position_fen="8/8/8/8/8/8/4K3/7k w - - 0 1",
+        c3x_text="C3X explanation.",baseline_text="Baseline explanation.",
+        played_move="Ke3",understanding_prompt="Best interpretation?",
+        understanding_options=["safe","unsafe"],understanding_answer="safe",
+        seed="sealed-study-seed",
+    )
+    urow=score_understanding_response("safe",under["adjudication_key"])
+    assert urow["correct"]==1
+    assert "preference_c3x" not in urow
+
+    summary=aggregate_human_outcomes([prow],[urow],expected_understanding_counts={
+        f"beginner:{urow['assigned_arm']}":2
+    })
     assert summary["human_outcome_opened"] is True
-    assert summary["n"]==1
+    cell=summary["understanding"]["by_band"]["beginner"][urow["assigned_arm"]]
+    assert cell["observed_n"]==1 and cell["expected_n"]==2 and cell["missing_n"]==1
+    assert cell["missing_worst_case_accuracy"]<=cell["missing_best_case_accuracy"]
+
+def test_i8_trial_bank_manifest_has_no_human_outcome_bytes():
+    from c3x_explain.human_utility import build_preference_trial,build_understanding_trial,trial_bank_manifest
+    p=build_preference_trial(
+        trial_id="p-bank",rating_band="expert",position_fen="8/8/8/8/8/8/4K3/7k w - - 0 1",
+        c3x_text="c",baseline_text="b",played_move="Ke3",seed="s"
+    )
+    u=build_understanding_trial(
+        trial_id="u-bank",participant_id="x",rating_band="expert",
+        position_fen="8/8/8/8/8/8/4K3/7k w - - 0 1",
+        c3x_text="c",baseline_text="b",played_move="Ke3",
+        understanding_prompt="q",understanding_options=["a","b"],understanding_answer="a",seed="s"
+    )
+    m=trial_bank_manifest([p],[u])
+    assert m["preference_trial_count"]==1
+    assert m["understanding_trial_count"]==1
+    assert m["human_outcomes_included"] is False
+    assert len(m["public_identity_sha256"])==64
