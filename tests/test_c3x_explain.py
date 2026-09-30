@@ -157,3 +157,38 @@ def test_i5_renderer_claims_are_atom_traceable_and_atomic_factuality_passes():
             assert c["factuality"]["pass"]
             assert set(c["atom_ids"])<=atom_ids
         assert m["commentary"]==m["render_packet"]["surface_text"]
+
+
+def test_i6_constrained_realization_is_sentence_atom_claim_traceable():
+    out=analyze_pgn(PGN,rating_band="intermediate")
+    assert out["realization_benchmark"]["schema"]=="c3x-constrained-realization-benchmark-v1"
+    assert out["realization_benchmark"]["failed_packets"]==0
+    assert out["realization_benchmark"]["free_form_llm_used"] is False
+    for m in out["moments"]:
+        rp=m["realization_packet"]
+        assert rp["pass"]
+        claim_ids={c["claim_id"] for c in m["render_packet"]["claims"] if c["factuality"]["pass"]}
+        atom_ids={a["atom_id"] for a in m["atoms"]}
+        for sent in rp["sentences"]:
+            assert set(sent["claim_ids"])<=claim_ids
+            assert set(sent["atom_ids"])<=atom_ids
+            assert sent["realization_mode"]=="verbatim_bounded_claim"
+        assert m["commentary"]==rp["text"]
+
+
+def test_i7_adversarial_realization_firewall_rejects_all_frozen_attacks():
+    out=analyze_pgn(PGN)
+    bench=out["verification_benchmark"]
+    assert bench["schema"]=="c3x-adversarial-verification-benchmark-v1"
+    assert bench["clean_pass_rate"]==1.0
+    assert bench["adversarial_case_count"]>=4
+    assert bench["adversarial_rejection_rate"]==1.0
+    for m in out["moments"]:
+        assert m["realization_verification"]["pass"]
+        suite=m["adversarial_realization_suite"]
+        if suite["cases"]:
+            assert suite["pass"]
+            assert {c["name"] for c in suite["cases"]}=={
+                "drop_atom_trace","authority_upgrade","unsupported_causal_wording","surface_tamper"
+            }
+            assert all(c["rejected"] for c in suite["cases"])
