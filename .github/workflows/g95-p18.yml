@@ -137,37 +137,117 @@ jobs:
             unzstd "data/${f}"
           done
       - uses: actions/download-artifact@v4
-        with: {name: g95-p1-precommit-sealed, path: hist/p1, repository: WhoSia/C3X, run-id: ${{ env.P1_RUN }}, github-token: ${{ github.token }}}
+        with:
+          name: g95-p1-precommit-sealed
+          path: hist/p1
+          repository: WhoSia/C3X
+          run-id: ${{ env.P1_RUN }}
+          github-token: ${{ github.token }}
       - uses: actions/download-artifact@v4
-        with: {name: g95-p2-precommit-sealed, path: hist/p2, repository: WhoSia/C3X, run-id: ${{ env.P2_RUN }}, github-token: ${{ github.token }}}
+        with:
+          name: g95-p2-precommit-sealed
+          path: hist/p2
+          repository: WhoSia/C3X
+          run-id: ${{ env.P2_RUN }}
+          github-token: ${{ github.token }}
       - uses: actions/download-artifact@v4
-        with: {name: g95-p3-corpus-sealed, path: hist/p3, repository: WhoSia/C3X, run-id: ${{ env.P3_RUN }}, github-token: ${{ github.token }}}
+        with:
+          name: g95-p3-corpus-sealed
+          path: hist/p3
+          repository: WhoSia/C3X
+          run-id: ${{ env.P3_RUN }}
+          github-token: ${{ github.token }}
       - uses: actions/download-artifact@v4
-        with: {name: g95-p4-corpus-sealed, path: hist/p4, repository: WhoSia/C3X, run-id: ${{ env.P4_RUN }}, github-token: ${{ github.token }}}
+        with:
+          name: g95-p4-corpus-sealed
+          path: hist/p4
+          repository: WhoSia/C3X
+          run-id: ${{ env.P4_RUN }}
+          github-token: ${{ github.token }}
       - uses: actions/download-artifact@v4
-        with: {name: g95-p5-corpus-sealed, path: hist/p5, repository: WhoSia/C3X, run-id: ${{ env.P5_RUN }}, github-token: ${{ github.token }}}
+        with:
+          name: g95-p5-corpus-sealed
+          path: hist/p5
+          repository: WhoSia/C3X
+          run-id: ${{ env.P5_RUN }}
+          github-token: ${{ github.token }}
       - uses: actions/download-artifact@v4
-        with: {name: g95-p6-corpus-sealed, path: hist/p6, repository: WhoSia/C3X, run-id: ${{ env.P6_RUN }}, github-token: ${{ github.token }}}
+        with:
+          name: g95-p6-corpus-sealed
+          path: hist/p6
+          repository: WhoSia/C3X
+          run-id: ${{ env.P6_RUN }}
+          github-token: ${{ github.token }}
       - uses: actions/download-artifact@v4
-        with: {name: g95-p7-corpus-sealed, path: hist/p7, repository: WhoSia/C3X, run-id: ${{ env.P7_RUN }}, github-token: ${{ github.token }}}
+        with:
+          name: g95-p7-corpus-sealed
+          path: hist/p7
+          repository: WhoSia/C3X
+          run-id: ${{ env.P7_RUN }}
+          github-token: ${{ github.token }}
       - uses: actions/download-artifact@v4
-        with: {name: g95-p8-corpus-sealed, path: hist/p8, repository: WhoSia/C3X, run-id: ${{ env.P8_RUN }}, github-token: ${{ github.token }}}
+        with:
+          name: g95-p8-corpus-sealed
+          path: hist/p8
+          repository: WhoSia/C3X
+          run-id: ${{ env.P8_RUN }}
+          github-token: ${{ github.token }}
       - uses: actions/download-artifact@v4
-        with: {name: g95-p9-corpus-sealed, path: hist/p9, repository: WhoSia/C3X, run-id: ${{ env.P9_RUN }}, github-token: ${{ github.token }}}
+        with:
+          name: g95-p9-corpus-sealed
+          path: hist/p9
+          repository: WhoSia/C3X
+          run-id: ${{ env.P9_RUN }}
+          github-token: ${{ github.token }}
       - uses: actions/download-artifact@v4
-        with: {name: g95-p10-corpus-sealed, path: hist/p10, repository: WhoSia/C3X, run-id: ${{ env.P10_RUN }}, github-token: ${{ github.token }}}
+        with:
+          name: g95-p10-corpus-sealed
+          path: hist/p10
+          repository: WhoSia/C3X
+          run-id: ${{ env.P10_RUN }}
+          github-token: ${{ github.token }}
       - uses: actions/download-artifact@v4
-        with: {name: g95-p12-corpus-sealed, path: hist/p12, repository: WhoSia/C3X, run-id: ${{ env.P12_RUN }}, github-token: ${{ github.token }}}
+        with:
+          name: g95-p12-corpus-sealed
+          path: hist/p12
+          repository: WhoSia/C3X
+          run-id: ${{ env.P12_RUN }}
+          github-token: ${{ github.token }}
       - uses: actions/download-artifact@v4
-        with: {name: g95-p13-corpus-sealed, path: hist/p13, repository: WhoSia/C3X, run-id: ${{ env.P13_RUN }}, github-token: ${{ github.token }}}
+        with:
+          name: g95-p13-corpus-sealed
+          path: hist/p13
+          repository: WhoSia/C3X
+          run-id: ${{ env.P13_RUN }}
+          github-token: ${{ github.token }}
       - uses: actions/download-artifact@v4
-        with: {name: g95-p14-corpus-sealed, path: hist/p14, repository: WhoSia/C3X, run-id: ${{ env.P14_RUN }}, github-token: ${{ github.token }}}
+        with:
+          name: g95-p14-corpus-sealed
+          path: hist/p14
+          repository: WhoSia/C3X
+          run-id: ${{ env.P14_RUN }}
+          github-token: ${{ github.token }}
       - uses: actions/download-artifact@v4
-        with: {name: g95-p15-corpus-sealed, path: hist/p15, repository: WhoSia/C3X, run-id: ${{ env.P15_RUN }}, github-token: ${{ github.token }}}
+        with:
+          name: g95-p15-corpus-sealed
+          path: hist/p15
+          repository: WhoSia/C3X
+          run-id: ${{ env.P15_RUN }}
+          github-token: ${{ github.token }}
       - uses: actions/download-artifact@v4
-        with: {name: g95-p16-corpus-sealed, path: hist/p16, repository: WhoSia/C3X, run-id: ${{ env.P16_RUN }}, github-token: ${{ github.token }}}
+        with:
+          name: g95-p16-corpus-sealed
+          path: hist/p16
+          repository: WhoSia/C3X
+          run-id: ${{ env.P16_RUN }}
+          github-token: ${{ github.token }}
       - uses: actions/download-artifact@v4
-        with: {name: g95-p17-corpus-sealed, path: hist/p17, repository: WhoSia/C3X, run-id: ${{ env.P17_RUN }}, github-token: ${{ github.token }}}
+        with:
+          name: g95-p17-corpus-sealed
+          path: hist/p17
+          repository: WhoSia/C3X
+          run-id: ${{ env.P17_RUN }}
+          github-token: ${{ github.token }}
       - name: Seal disjoint development-confirmation corpus
         run: |
           set -euxo pipefail
@@ -177,7 +257,10 @@ jobs:
           python3 harness/g95_p18_corpus.py             --source "P18_SRC_LICHESS_2026_07|data/lichess_db_broadcast_2026-07.pgn|lichess_db_broadcast_2026-07.pgn|${S07}"             --source "P18_SRC_LICHESS_2026_08|data/lichess_db_broadcast_2026-08.pgn|lichess_db_broadcast_2026-08.pgn|${S08}"             "${EX[@]}" --out g95-p18-corpus.json
           sha256sum g95-p18-corpus.json > g95-p18-corpus.sha256
       - uses: actions/upload-artifact@v4
-        with: {name: g95-p18-corpus-sealed, path: "g95-p18-corpus*", retention-days: 30}
+        with:
+          name: g95-p18-corpus-sealed
+          path: "g95-p18-corpus*"
+          retention-days: 30
 
   design:
     needs: [build,corpus]
@@ -185,15 +268,22 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: actions/download-artifact@v4
-        with: {pattern: "g95-p18-build-*", path: builds}
+        with:
+          pattern: "g95-p18-build-*"
+          path: builds
       - uses: actions/download-artifact@v4
-        with: {name: g95-p18-corpus-sealed, path: corpus}
+        with:
+          name: g95-p18-corpus-sealed
+          path: corpus
       - run: |
           python3 -m pip install --disable-pip-version-check python-chess==1.999
           python3 harness/g95_p18_court.py design --constitution c3x/ontology/g95-p18-constitution.json --corpus corpus/g95-p18-corpus.json             --p17-closure c3x/receipts/g95-p17-closure.json --build-dir builds --out g95-p18-design-precommit.json
           sha256sum g95-p18-design-precommit.json > g95-p18-design-precommit.sha256
       - uses: actions/upload-artifact@v4
-        with: {name: g95-p18-design-precommit-sealed, path: "g95-p18-design-precommit*", retention-days: 30}
+        with:
+          name: g95-p18-design-precommit-sealed
+          path: "g95-p18-design-precommit*"
+          retention-days: 30
 
   qualify:
     needs: design
@@ -207,9 +297,13 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: actions/download-artifact@v4
-        with: {name: g95-p18-design-precommit-sealed, path: design}
+        with:
+          name: g95-p18-design-precommit-sealed
+          path: design
       - uses: actions/download-artifact@v4
-        with: {pattern: "g95-p18-build-*", path: builds}
+        with:
+          pattern: "g95-p18-build-*"
+          path: builds
       - env: {MATRIX_POS: "${{ matrix.pos }}"}
         run: |
           set -euxo pipefail
@@ -226,7 +320,10 @@ jobs:
             python3 harness/g95_p18_court.py qualify --design design/g95-p18-design-precommit.json --case-id "$CASE_ID" --binary "$BIN" --out "out/q-${e}.json"
           done
       - uses: actions/upload-artifact@v4
-        with: {name: "g95-p18-qualification-${{ matrix.pos }}", path: out/, retention-days: 30}
+        with:
+          name: "g95-p18-qualification-${{ matrix.pos }}"
+          path: out/
+          retention-days: 30
 
   pair_pool:
     needs: qualify
@@ -234,15 +331,22 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: actions/download-artifact@v4
-        with: {name: g95-p18-design-precommit-sealed, path: design}
+        with:
+          name: g95-p18-design-precommit-sealed
+          path: design
       - uses: actions/download-artifact@v4
-        with: {pattern: "g95-p18-qualification-*", path: qualifications}
+        with:
+          pattern: "g95-p18-qualification-*"
+          path: qualifications
       - run: |
           python3 -m pip install --disable-pip-version-check python-chess==1.999
           python3 harness/g95_p18_court.py pair-pool-freeze --design design/g95-p18-design-precommit.json --qualifications qualifications --out g95-p18-pair-pool.json
           sha256sum g95-p18-pair-pool.json > g95-p18-pair-pool.sha256
       - uses: actions/upload-artifact@v4
-        with: {name: g95-p18-pair-pool-sealed, path: "g95-p18-pair-pool*", retention-days: 30}
+        with:
+          name: g95-p18-pair-pool-sealed
+          path: "g95-p18-pair-pool*"
+          retention-days: 30
 
   dev_exposure:
     needs: pair_pool
@@ -256,9 +360,13 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: actions/download-artifact@v4
-        with: {name: g95-p18-pair-pool-sealed, path: pool}
+        with:
+          name: g95-p18-pair-pool-sealed
+          path: pool
       - uses: actions/download-artifact@v4
-        with: {pattern: "g95-p18-build-*", path: builds}
+        with:
+          pattern: "g95-p18-build-*"
+          path: builds
       - env: {MATRIX_POS: "${{ matrix.pos }}"}
         run: |
           set -euxo pipefail
@@ -275,7 +383,10 @@ jobs:
             python3 harness/g95_p18_court.py exposure-qualify --freeze pool/g95-p18-pair-pool.json --phase development               --case-id "$CASE_ID" --binary "$BIN" --out "out/dev-${e}.json"
           done
       - uses: actions/upload-artifact@v4
-        with: {name: "g95-p18-dev-exposure-${{ matrix.pos }}", path: out/, retention-days: 30}
+        with:
+          name: "g95-p18-dev-exposure-${{ matrix.pos }}"
+          path: out/
+          retention-days: 30
 
   ecology:
     needs: dev_exposure
@@ -283,15 +394,22 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: actions/download-artifact@v4
-        with: {name: g95-p18-pair-pool-sealed, path: pool}
+        with:
+          name: g95-p18-pair-pool-sealed
+          path: pool
       - uses: actions/download-artifact@v4
-        with: {pattern: "g95-p18-dev-exposure-*", path: devq}
+        with:
+          pattern: "g95-p18-dev-exposure-*"
+          path: devq
       - run: |
           python3 -m pip install --disable-pip-version-check python-chess==1.999
           python3 harness/g95_p18_court.py development-ecology --freeze pool/g95-p18-pair-pool.json --exposure-qualifications devq --out g95-p18-development-ecology.json
           sha256sum g95-p18-development-ecology.json > g95-p18-development-ecology.sha256
       - uses: actions/upload-artifact@v4
-        with: {name: g95-p18-development-ecology-sealed, path: "g95-p18-development-ecology*", retention-days: 30}
+        with:
+          name: g95-p18-development-ecology-sealed
+          path: "g95-p18-development-ecology*"
+          retention-days: 30
 
   confirm_exposure:
     needs: ecology
@@ -305,11 +423,17 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: actions/download-artifact@v4
-        with: {name: g95-p18-pair-pool-sealed, path: pool}
+        with:
+          name: g95-p18-pair-pool-sealed
+          path: pool
       - uses: actions/download-artifact@v4
-        with: {name: g95-p18-development-ecology-sealed, path: ecology}
+        with:
+          name: g95-p18-development-ecology-sealed
+          path: ecology
       - uses: actions/download-artifact@v4
-        with: {pattern: "g95-p18-build-*", path: builds}
+        with:
+          pattern: "g95-p18-build-*"
+          path: builds
       - env: {MATRIX_POS: "${{ matrix.pos }}"}
         run: |
           set -euxo pipefail
@@ -326,7 +450,10 @@ jobs:
             python3 harness/g95_p18_court.py exposure-qualify --freeze pool/g95-p18-pair-pool.json --phase confirmation               --ecology ecology/g95-p18-development-ecology.json --case-id "$CASE_ID" --binary "$BIN" --out "out/conf-${e}.json"
           done
       - uses: actions/upload-artifact@v4
-        with: {name: "g95-p18-conf-exposure-${{ matrix.pos }}", path: out/, retention-days: 30}
+        with:
+          name: "g95-p18-conf-exposure-${{ matrix.pos }}"
+          path: out/
+          retention-days: 30
 
   confirmation_freeze:
     needs: confirm_exposure
@@ -334,17 +461,26 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: actions/download-artifact@v4
-        with: {name: g95-p18-pair-pool-sealed, path: pool}
+        with:
+          name: g95-p18-pair-pool-sealed
+          path: pool
       - uses: actions/download-artifact@v4
-        with: {name: g95-p18-development-ecology-sealed, path: ecology}
+        with:
+          name: g95-p18-development-ecology-sealed
+          path: ecology
       - uses: actions/download-artifact@v4
-        with: {pattern: "g95-p18-conf-exposure-*", path: confq}
+        with:
+          pattern: "g95-p18-conf-exposure-*"
+          path: confq
       - run: |
           python3 -m pip install --disable-pip-version-check python-chess==1.999
           python3 harness/g95_p18_court.py confirmation-freeze --freeze pool/g95-p18-pair-pool.json --ecology ecology/g95-p18-development-ecology.json             --exposure-qualifications confq --out g95-p18-confirmation-freeze.json
           sha256sum g95-p18-confirmation-freeze.json > g95-p18-confirmation-freeze.sha256
       - uses: actions/upload-artifact@v4
-        with: {name: g95-p18-confirmation-freeze-sealed, path: "g95-p18-confirmation-freeze*", retention-days: 30}
+        with:
+          name: g95-p18-confirmation-freeze-sealed
+          path: "g95-p18-confirmation-freeze*"
+          retention-days: 30
 
   factorial:
     needs: confirmation_freeze
@@ -358,9 +494,13 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: actions/download-artifact@v4
-        with: {name: g95-p18-confirmation-freeze-sealed, path: freeze}
+        with:
+          name: g95-p18-confirmation-freeze-sealed
+          path: freeze
       - uses: actions/download-artifact@v4
-        with: {pattern: "g95-p18-build-*", path: builds}
+        with:
+          pattern: "g95-p18-build-*"
+          path: builds
       - env: {MATRIX_POS: "${{ matrix.pos }}"}
         run: |
           set -euxo pipefail
@@ -377,7 +517,10 @@ jobs:
             python3 harness/g95_p18_court.py factorial --freeze freeze/g95-p18-confirmation-freeze.json --case-id "$CASE_ID" --binary "$BIN" --out "out/world-${e}.json"
           done
       - uses: actions/upload-artifact@v4
-        with: {name: "g95-p18-factorial-${{ matrix.pos }}", path: out/, retention-days: 30}
+        with:
+          name: "g95-p18-factorial-${{ matrix.pos }}"
+          path: out/
+          retention-days: 30
 
   final:
     needs: factorial
@@ -385,11 +528,17 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: actions/download-artifact@v4
-        with: {name: g95-p18-confirmation-freeze-sealed, path: freeze}
+        with:
+          name: g95-p18-confirmation-freeze-sealed
+          path: freeze
       - uses: actions/download-artifact@v4
-        with: {name: g95-p18-development-ecology-sealed, path: ecology}
+        with:
+          name: g95-p18-development-ecology-sealed
+          path: ecology
       - uses: actions/download-artifact@v4
-        with: {pattern: "g95-p18-factorial-*", path: worlds}
+        with:
+          pattern: "g95-p18-factorial-*"
+          path: worlds
       - run: |
           set -euxo pipefail
           python3 -m pip install --disable-pip-version-check python-chess==1.999
@@ -401,4 +550,7 @@ jobs:
           cp ecology/g95-p18-development-ecology.json out/
           sha256sum out/* | sort > out/final-sha256.txt
       - uses: actions/upload-artifact@v4
-        with: {name: g95-p18-final-fatal-replication, path: out/, retention-days: 30}
+        with:
+          name: g95-p18-final-fatal-replication
+          path: out/
+          retention-days: 30
