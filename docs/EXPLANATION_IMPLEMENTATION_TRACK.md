@@ -102,14 +102,14 @@ ChessCoach demonstrates an end-to-end engineering lineage with PGN processing, c
 
 ## Implementation milestones
 
-### I0 — PGN evidence spine
+### I0 — PGN evidence spine — CLOSED/PASS
 - deterministic PGN replay;
 - per-ply FEN, SAN/UCI, clocks/metadata when available;
 - MultiPV candidate packet;
 - score/PV deltas;
 - schema for provenance-bearing explanation atoms.
 
-### I1 — Moment selection
+### I1 — Concept-proxy contrast, rating-band salience & renderer contract — RUNNING
 Do not narrate every move equally.
 Trigger on combinations of:
 - evaluation or WDL change;
@@ -120,6 +120,13 @@ Trigger on combinations of:
 - user-requested depth.
 
 Evaluate precision/recall against annotated games and human preference, not only score swing.
+
+I1 executable additions:
+- exact board-derived proxy snapshots for center control/occupancy, home-square minor pieces, doubled/isolated/passed pawns, king-shield proxy and open files;
+- played-vs-top-candidate proxy deltas, explicitly descriptive rather than causal;
+- rating-band default salience thresholds: beginner 80cp, intermediate 50cp, advanced 25cp, expert 15cp;
+- stable evidence atom IDs for renderer traceability;
+- bounded renderer contract requiring provenance preservation and abstention.
 
 ### I2 — Conventional explanation adapters
 Implement clearly labelled adapters for:
