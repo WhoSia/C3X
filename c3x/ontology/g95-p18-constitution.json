@@ -239,5 +239,20 @@
     "No narrower search-event taxonomy rescue",
     "No human strategic concept naming",
     "No Track-B authority transfer"
-  ]
+  ],
+  "execution": {
+    "threads": 1,
+    "hash_mib": 1,
+    "shallow_legal_move_nodes": 10000,
+    "shortlist_size": 8,
+    "isolated_confirm_nodes": 30000,
+    "isolated_confirm_repeats": 2,
+    "exposure_pair_confirm_nodes": 22000,
+    "exposure_pair_confirm_repeats": 2,
+    "root_child_fingerprint_nodes": 12000,
+    "max_semantic_targets_per_board": 2,
+    "max_atomic_candidates_per_family_per_world": 1,
+    "prequalification_pool_quota_per_engine_source_family_grammar": 6,
+    "max_confirmation_sets_per_engine_source": 4
+  }
 }
