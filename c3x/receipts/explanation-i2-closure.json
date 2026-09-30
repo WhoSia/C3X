@@ -1,0 +1,40 @@
+{
+  "schema": "c3x-explanation-implementation-i2-closure-v1",
+  "title": "C3X Explanation Implementation I2 — Verified Tactical Evidence, Candidate-Contrast Routing & Graph Quality Packets",
+  "track": "Explanation Implementation",
+  "status": "CLOSED_PASS",
+  "authority": "IMPLEMENTATION_ONLY_NO_SCIENCE_PROMOTION",
+  "parent": {
+    "stage": "I1",
+    "receipt_path": "c3x/receipts/explanation-i1-closure.json"
+  },
+  "canonical_ci": {
+    "workflow": "c3x-explanation-implementation",
+    "run_id": 36675851772,
+    "run_number": 12,
+    "head": "f4fd05d2ae9c7c1cd08ec14b0da3d7333b62e1d8",
+    "conclusion": "success",
+    "unit": "success",
+    "pinned_stockfish_smoke": "success"
+  },
+  "literature_map_ci": {
+    "run_id": 36675908263,
+    "run_number": 13,
+    "head": "3d8ab63a12e969608f03d4f0284c241739895267",
+    "conclusion": "success"
+  },
+  "implemented": [
+    "verified board-semantic tactical evidence adapters for capture, castling, promotion, check, checkmate, moved-piece multi-attack and newly created absolute pin",
+    "played-versus-top-alternative tactical contrast packets",
+    "evidence-first commentary category routing",
+    "graph audit packet for provenance coverage, atom traceability, firewall failures and category coverage",
+    "expanded 2025-2026 chess reasoning/commentary donor map while preserving implementation-only authority"
+  ],
+  "scientific_firewall": [
+    "verified chess facts do not establish engine-preference causality",
+    "only C3X_CAUSAL_CONTRAST certificate atoms authorize causal engine-decision wording",
+    "Track B code and CI cannot alter Track A P18 constitution, data, outcomes or authority"
+  ],
+  "next": "I3 should add license/source-bearing retrieval, similar-position and motif retrieval packets, evidence-graph merging, multi-axis commentary evaluation and rating-band human utility.",
+  "receipt_sha256": "40c1426cb05e44f1b9791c6ee97c3e3337edc6f4148036297e2a5e2eb4aa95f3"
+}
