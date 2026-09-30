@@ -1,0 +1,44 @@
+{
+  "schema": "c3x-explanation-implementation-i7-closure-v1",
+  "title": "C3X Explanation Implementation I7 — Adversarial Surface Verification, Authority-Upgrade Rejection, Causal-Wording Firewall & Stockfish-Grounded Faithfulness Gate",
+  "track": "Explanation Implementation",
+  "status": "CLOSED_PASS",
+  "authority": "IMPLEMENTATION_ONLY_NO_SCIENCE_PROMOTION",
+  "parent": {
+    "stage": "I6",
+    "receipt_path": "c3x/receipts/explanation-i6-closure.json",
+    "receipt_sha256": "7852a8861225c9125dfa7069a919c8c1459812b42eb1263b48ee3cf0849a9df0"
+  },
+  "canonical_ci": {
+    "workflow": "c3x-explanation-implementation",
+    "run_id": 36686880718,
+    "run_number": 42,
+    "head": "4ab6fcf14ab8d61c0fd6251b94c58d665b460255",
+    "conclusion": "success",
+    "unit_tests": "15 passed",
+    "pinned_stockfish_smoke": "C3X_EXPLAIN_PINNED_STOCKFISH_PASS 3 10 12",
+    "smoke_moments": 3,
+    "smoke_rendered_claims": 10,
+    "smoke_adversarial_cases": 12
+  },
+  "implemented": [
+    "c3x-adversarial-realization-verification-v1 reverse-tracing each sentence to bounded claims and atoms",
+    "provenance and authority equality checks between surface sentence and source claims",
+    "causal wording requires C3X causal provenance, a causal atom and a first-class graph certificate",
+    "four frozen attacks: atom-trace deletion, authority upgrade, unsupported causal wording and surface tampering",
+    "clean realization pass gate plus adversarial rejection benchmark",
+    "commentary release is suppressed when verification fails"
+  ],
+  "observed_ci": {
+    "clean_pass_rate": 1.0,
+    "adversarial_rejection_rate": 1.0,
+    "adversarial_cases_in_pinned_smoke": 12
+  },
+  "scientific_firewall": [
+    "I7 verifies structural faithfulness to admitted evidence; it does not establish objective chess truth",
+    "I7 cannot promote heuristic commentary to Track A causal authority",
+    "human strategic completeness, pedagogy and preference remain unmeasured"
+  ],
+  "next": "I8 should run blinded human utility/learning evaluation across rating bands against conventional Stockfish/engine-commentary baselines while preserving provenance visibility.",
+  "receipt_sha256": "6f98e407ac96b34e09c206c6100480f7c4db398403aacd77f4148964ac1e585e"
+}
