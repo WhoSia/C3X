@@ -19,7 +19,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - run: python3 -m pip install --disable-pip-version-check python-chess==1.999 pytest
-      - run: pytest -q tests/test_c3x_explain.py
+      - run: PYTHONPATH=. pytest -q tests/test_c3x_explain.py
       - run: python3 -m py_compile c3x_explain/*.py
 
   pinned-stockfish-smoke:
@@ -36,9 +36,9 @@ jobs:
           [Event "C3X Explain Smoke"]
           [Result "*"]
 
-          1. e4 e5 2. Nf3 Nc6 3. Bb5 a6 4. Ba4 Nf6 *
+          1. f3 e5 2. g4 Qh4# *
           PGN
-          python3 -m c3x_explain.cli /tmp/smoke.pgn --engine sf/src/stockfish --nodes 5000 --multipv 3 --out /tmp/graph.json
+          PYTHONPATH=. python3 -m c3x_explain.cli /tmp/smoke.pgn --engine sf/src/stockfish --nodes 5000 --multipv 3 --out /tmp/graph.json
           python3 - <<'PY'
           import json
           x=json.load(open('/tmp/graph.json'))
