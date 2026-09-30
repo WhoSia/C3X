@@ -8,6 +8,9 @@ from .tactics import verified_move_evidence,tactical_contrast
 from .retrieval import retrieve,retrieval_atoms
 from .graph import attach_graphs
 from .evaluation import evaluation_packet
+from .certificates import certificate_claim
+from .planning import verified_line_evidence,line_sentence
+from .renderer import attach_render_packets,renderer_benchmark
 
 CAUSAL="C3X_CAUSAL_CONTRAST"
 HEURISTIC="CONVENTIONAL_HEURISTIC_COMMENTARY"
@@ -103,13 +106,10 @@ def graph_audit(moments:list[dict[str,Any]])->dict[str,Any]:
 def causal_atoms(board:chess.Board,certs:list[dict[str,Any]])->list[dict[str,Any]]:
     atoms=[]
     for c in certs:
-        pair=c.get("pair") or c.get("pair_id")
-        bound=c.get("bound")
-        fam=c.get("family") or c.get("engine_relative_atoms")
+        claim=certificate_claim(c,board.fen())
         atoms.append({"type":"causal_contrast","provenance":CAUSAL,"authority":"engine_preference_causality",
-                      "claim":{"pair":pair,"bound":bound,"family":fam,"collapse_to":c.get("collapse_to"),
-                               "certificate_id":c.get("certificate_id") or c.get("receipt_sha256")},
-                      "text":"A C3X intervention certificate is available for this position; causal wording is limited to the engine preference contrast recorded by that certificate."})
+                      "claim":claim,
+                      "text":"A C3X intervention certificate supports a causal statement only about the recorded engine-preference contrast; it does not establish objective chess truth."})
     return atoms
 
 def heuristic_atoms(board:chess.Board,played:chess.Move,cands:list[dict[str,Any]],facts:list[dict[str,Any]])->list[dict[str,Any]]:
@@ -126,6 +126,10 @@ def heuristic_atoms(board:chess.Board,played:chess.Move,cands:list[dict[str,Any]
                "top_pv_uci":top["pv_uci"]}
         atoms.append({"type":"candidate_contrast","provenance":HEURISTIC,"authority":"engine_analysis","claim":claim,
                       "text":candidate_sentence(board,played,claim)})
+        line=verified_line_evidence(board,top)
+        if line:
+            atoms.append({"type":"verified_line_evidence","provenance":HEURISTIC,"authority":"verified_engine_pv_line",
+                          "claim":line,"text":line_sentence(line)})
         if top["uci"]!=played.uci():
             alt=chess.Move.from_uci(top["uci"])
             delta=candidate_delta(board,played,alt)
@@ -210,11 +214,13 @@ def analyze_pgn(pgn_text:str,engine_path:str|None=None,multipv:int=3,nodes:int=2
     finally:
         if eng:eng.quit()
     attach_graphs(moments)
+    attach_render_packets(moments)
     return {"schema":"c3x-explanation-graph-v1","provenance_classes":[CAUSAL,HEURISTIC],
             "rating_band":rating_band,"candidate_gap_threshold_cp":effective_threshold,
             "headers":dict(game.headers),"moment_count":len(moments),"moments":moments,
             "evaluation_packet":graph_audit(moments),
             "commentary_evaluation":evaluation_packet(moments,rating_band),
+            "renderer_benchmark":renderer_benchmark(moments),
             "authority_note":"Useful commentary is not automatically causal. Causal wording requires a C3X certificate."}
 
 def load_certificates(paths:list[str])->list[dict[str,Any]]:
