@@ -1,0 +1,243 @@
+{
+  "schema": "c3x-g95-p18-constitution-v1",
+  "scientific_stage": "C3X 0.7.0-G9.5-P18",
+  "title": "Prospective Falsifier-Ecology Realizability, Intervention-Grammar Support Mapping, Outcome-Blind Rival Reconstitution, Development↔Confirmation Split & Fatal-Replication Reopening",
+  "parent": {
+    "stage": "C3X 0.7.0-G9.5-P17",
+    "closure_commit": "ea46b1ad39125410784447089f59de65e888fed3",
+    "closure_receipt_sha256": "d96980c0ab448a6a450020c89f3558329fab887a6ec90ac8e22e01793ed461b4",
+    "verdict": "P17_EXPOSURE_SUPPORT_HOLD"
+  },
+  "research_os": {
+    "mode": "RECONSTITUTE-FALSIFIER-ECOLOGY",
+    "release": "2.4.4_FROZEN",
+    "runtime": "LIGHTWEIGHT_CURRENT",
+    "applied_kernel": [
+      "GOAL_FIDELITY",
+      "FRONTIER_COMPRESSION",
+      "AUTHORITY_SEPARATION",
+      "FAILURE_PRESERVING_MEMORY",
+      "WORLD_CONTACT_MINIMALITY"
+    ],
+    "continuation_authority": "CI-C3X-G95-P17-CLOSE; exactly one P18 science mainline"
+  },
+  "two_track_boundary": {
+    "science_mainline": "P18 tests support-realized falsifier ecology and reopens the frozen LOWER fatal replication.",
+    "explanation_implementation": "Independent product track may progress in parallel but cannot vote in P18 science.",
+    "provenance_classes": [
+      "C3X_CAUSAL_CONTRAST",
+      "CONVENTIONAL_HEURISTIC_COMMENTARY"
+    ]
+  },
+  "frozen_hypothesis": {
+    "family_id": "H",
+    "moved_side_role": "OWN",
+    "candidate_role": "DISPREFERRED",
+    "endpoint": "FROM",
+    "direction": "LOSS",
+    "predicted_bound": "LOWER",
+    "p16_p17_witnesses_can_vote": false,
+    "upper_can_rescue": false
+  },
+  "fresh_split": {
+    "sources": [
+      "P18_SRC_LICHESS_2026_07",
+      "P18_SRC_LICHESS_2026_08"
+    ],
+    "source_prefix_games": 16384,
+    "development_positions_per_source": 24,
+    "confirmation_positions_per_source": 24,
+    "total_positions": 96,
+    "total_engine_worlds": 288,
+    "engines": [
+      "stockfish_19",
+      "berserk",
+      "ethereal"
+    ],
+    "exclude_recoverable_candidate_hashes_through": "P17",
+    "confirmation_hashes_frozen_before_development_ecology_opened": true,
+    "development_confirmation_disjoint": true
+  },
+  "unordered_pair_constitution": {
+    "near_equal_max_abs_cp": 50,
+    "isolated_confirm_nodes": 30000,
+    "isolated_confirm_repeats": 2,
+    "shallow_legal_move_nodes": 10000,
+    "shortlist_size": 8,
+    "pair_admission": "same unordered pair supported by at least two engines; both moves stable; abs isolated gap <=50cp; contextual bestmove inside pair",
+    "selection_order": [
+      "maximum supporting engines",
+      "minimum median absolute gap",
+      "minimum maximum absolute gap",
+      "lexicographically smallest canonical pair id"
+    ]
+  },
+  "relation_family_universe": {
+    "moved_side_roles": [
+      "OWN",
+      "OPPONENT"
+    ],
+    "candidate_roles": [
+      "PREFERRED",
+      "DISPREFERRED"
+    ],
+    "endpoints": [
+      "FROM",
+      "TO"
+    ],
+    "directions": [
+      "GAIN",
+      "LOSS"
+    ],
+    "atomic_only": true,
+    "total_families": 16,
+    "human_concept_labels_forbidden": true
+  },
+  "development_allowed_observables": [
+    "legality",
+    "material preservation",
+    "legal-root-count delta",
+    "moved-piece attack-set symmetric difference",
+    "original pair isolated cp stability/gap",
+    "TARGET/SHAM isolated cp stability/gap",
+    "piece type",
+    "relocation distance",
+    "side to move",
+    "original baseline preferred candidate",
+    "relation atom"
+  ],
+  "development_forbidden_observables": [
+    "edited native bestmove",
+    "semantic event eligibility",
+    "semantic event firing",
+    "T_ONLY outcome",
+    "FULL_BRIDGE outcome",
+    "UPPER/LOWER bridge count"
+  ],
+  "control_grammar_ladder": {
+    "G0": {
+      "same_moved_piece": true,
+      "zero_atom_sham": true,
+      "max_chebyshev_distance_difference": 0,
+      "max_abs_legal_root_move_count_delta": 6,
+      "max_moved_piece_attack_set_symmetric_difference": 10
+    },
+    "G1": {
+      "same_moved_piece": true,
+      "zero_atom_sham": true,
+      "max_chebyshev_distance_difference": 1,
+      "max_abs_legal_root_move_count_delta": 6,
+      "max_moved_piece_attack_set_symmetric_difference": 10
+    },
+    "selection": "Choose G0 if development support produces an admissible ecology; otherwise G1. No search outcome may vote."
+  },
+  "development_rival_eligibility": {
+    "both_sources_required": true,
+    "min_engines": 2,
+    "min_engine_source_strata": 3,
+    "min_supported_exposures": 4
+  },
+  "ecology_selection": {
+    "rival_count_order": [
+      4,
+      3,
+      2
+    ],
+    "min_development_complete_sets": 8,
+    "max_sets_per_engine_source": 4,
+    "exact_balance": true,
+    "subset_search": "Enumerate eligible rival subsets at requested size. For each, deterministically compute without-replacement H-anchored matched sets.",
+    "tie_break": [
+      "largest rival count",
+      "most complete development sets",
+      "minimum summed coordinate-Hamming distance from H",
+      "maximum weakest-family support",
+      "lexicographically smallest family tuple"
+    ],
+    "matching_distance": {
+      "piece_type_mismatch": 8,
+      "relocation_distance_abs_diff": 2,
+      "legal_root_delta_abs_diff": 1,
+      "attack_symdiff_abs_diff": 0.25,
+      "original_pair_gap_abs_diff": 0.25,
+      "edited_max_pair_gap_abs_diff": 0.25
+    },
+    "freeze_before_confirmation_support_opened": true
+  },
+  "confirmation": {
+    "only_frozen_H_and_rivals": true,
+    "only_frozen_control_grammar": true,
+    "edited_pair_marginality": {
+      "pair_gap_max_abs_cp": 50,
+      "repeats": 2,
+      "nodes": 22000
+    },
+    "support_gate": {
+      "min_complete_matched_sets": 10,
+      "min_active_engines": 3,
+      "min_sources": 2,
+      "require_equal_family_exposure_counts": true,
+      "min_worlds_with_any_fired_semantic_target": 10,
+      "max_address_misses": 0
+    }
+  },
+  "exact_event_mediator": {
+    "inherited_from": "P16/P17",
+    "semantic_class": "MOVE_ORDER_SEED",
+    "scope": "MAIN",
+    "ply": 1,
+    "depth_min": 5,
+    "depth_max": 8,
+    "repeated_full_key": true,
+    "same_most_recent_tt_move": true,
+    "bounds": [
+      "LOWER",
+      "UPPER"
+    ],
+    "anchor": "original baseline-dispreferred pair member",
+    "intervention": "T_ONLY exact semantic-use removal",
+    "no_taxonomy_rescue": true
+  },
+  "estimand": {
+    "primary": "atomic FULL_BRIDGE at LOWER under frozen P18 grammar",
+    "upper_status": "diagnostic_only_no_rescue",
+    "full_bridge": [
+      "original native and TARGET native choose opposite frozen pair members",
+      "eligible LOWER event fires on original and TARGET",
+      "T_ONLY collapses original and TARGET to same frozen pair member",
+      "zero-atom SHAM does not reproduce",
+      "no defining cell leaves pair"
+    ]
+  },
+  "replication_rule": {
+    "per_family_lower_requires": {
+      "witnesses": 4,
+      "engines": 2,
+      "positions": 3,
+      "sources": 2,
+      "distinct_physical_edits": 3
+    },
+    "H_advantage_over_strongest_rival": 2,
+    "no_rival_replication_for_specific_survival": true,
+    "no_post_confirmation_refit": true
+  },
+  "verdicts": [
+    "P18_HYPOTHESIS_SURVIVES_SUPPORT_REALIZED_FATAL_REPLICATION",
+    "P18_HYPOTHESIS_REPLICATES_BUT_NOT_SPECIFIC",
+    "P18_RIVAL_REPLICATES_HYPOTHESIS_DEFEATED",
+    "P18_HYPOTHESIS_FAILS_WITH_ADEQUATE_SUPPORT",
+    "P18_CONFIRMATION_SUPPORT_HOLD",
+    "P18_DEVELOPMENT_ECOLOGY_HOLD"
+  ],
+  "stop_rule": "One development support-map and one disjoint confirmation. If development cannot freeze a realizable ecology, close HOLD. If confirmation support passes, the frozen LOWER outcome adjudication is terminal for this exact atom-law branch.",
+  "forbidden": [
+    "No P16/P17 witness voting",
+    "No bridge outcome during development",
+    "No post-confirmation rival substitution",
+    "No bound switch",
+    "No atom coarsening",
+    "No narrower search-event taxonomy rescue",
+    "No human strategic concept naming",
+    "No Track-B authority transfer"
+  ]
+}
