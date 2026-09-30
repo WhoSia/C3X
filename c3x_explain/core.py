@@ -128,6 +128,8 @@ def analyze_pgn(pgn_text:str,engine_path:str|None=None,multipv:int=3,nodes:int=2
             selected,reasons=choose_moment(board,move,cands,facts,local_certs,effective_threshold)
             if selected:
                 atoms=heuristic_atoms(board,move,cands,facts)+causal_atoms(board,local_certs)
+                for idx,atom in enumerate(atoms):
+                    atom["atom_id"]=f"p{ply}:a{idx}"
                 errs=firewall(board,atoms)
                 moments.append({"ply":ply,"fen":fen,"played_uci":move.uci(),"played_san":board.san(move),
                                 "selection_reasons":reasons,"candidates":cands,"atoms":atoms,
