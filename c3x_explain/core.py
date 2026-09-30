@@ -5,7 +5,7 @@ from typing import Any,Iterable
 import chess,chess.pgn,chess.engine
 from .concepts import candidate_delta
 from .tactics import verified_move_evidence,tactical_contrast
-from .retrieval import retrieve,retrieval_atoms
+from .retrieval import retrieve,retrieval_atoms,audit_retrieval_corpus
 from .graph import attach_graphs
 from .evaluation import evaluation_packet
 from .certificates import certificate_claim
@@ -86,6 +86,7 @@ def route_categories(atoms:list[dict[str,Any]])->list[str]:
     if "concept_proxy_delta" in types:cats.append("positional_proxy")
     if "material_snapshot" in types:cats.append("material_context")
     if "retrieval_reference" in types:cats.append("retrieval_context")
+    if "verified_line_evidence" in types:cats.append("verified_line")
     return cats
 
 def graph_audit(moments:list[dict[str,Any]])->dict[str,Any]:
@@ -221,6 +222,7 @@ def analyze_pgn(pgn_text:str,engine_path:str|None=None,multipv:int=3,nodes:int=2
             "evaluation_packet":graph_audit(moments),
             "commentary_evaluation":evaluation_packet(moments,rating_band),
             "renderer_benchmark":renderer_benchmark(moments),
+            "retrieval_corpus_audit":audit_retrieval_corpus(retrieval_records),
             "authority_note":"Useful commentary is not automatically causal. Causal wording requires a C3X certificate."}
 
 def load_certificates(paths:list[str])->list[dict[str,Any]]:
