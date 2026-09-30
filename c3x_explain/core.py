@@ -4,6 +4,7 @@ from dataclasses import dataclass,asdict
 from typing import Any,Iterable
 import chess,chess.pgn,chess.engine
 from .concepts import candidate_delta
+from .tactics import verified_move_evidence,tactical_contrast
 
 CAUSAL="C3X_CAUSAL_CONTRAST"
 HEURISTIC="CONVENTIONAL_HEURISTIC_COMMENTARY"
@@ -59,6 +60,42 @@ def choose_moment(board:chess.Board,played:chess.Move,cands:list[dict[str,Any]],
     if certs:reasons.append("c3x_certificate_available")
     return bool(reasons),reasons
 
+def tactical_text(e:dict[str,Any])->str:
+    kind=e.get("kind");san=e.get("san","the move")
+    if kind=="checkmate":return f"{san} is checkmate."
+    if kind=="multi_attack":
+        xs=", ".join(f"{z['piece']['piece_type']} on {z['square']}" for z in e.get("attacked",[]))
+        return f"After {san}, the moved piece attacks multiple valuable enemy pieces: {xs}."
+    if kind=="absolute_pin_created":
+        xs=", ".join(f"{z['piece']['piece_type']} on {z['square']}" for z in e.get("pinned",[]))
+        return f"After {san}, the following enemy piece is absolutely pinned to its king: {xs}."
+    return ""
+
+def route_categories(atoms:list[dict[str,Any]])->list[str]:
+    cats=[]
+    types={a.get("type") for a in atoms}
+    if "causal_contrast" in types:cats.append("causal_contrast")
+    if "tactical_fact" in types or "tactical_contrast" in types or "move_fact" in types:cats.append("tactics")
+    if "candidate_contrast" in types:cats.append("comparison")
+    if "concept_proxy_delta" in types:cats.append("positional_proxy")
+    if "material_snapshot" in types:cats.append("material_context")
+    return cats
+
+def graph_audit(moments:list[dict[str,Any]])->dict[str,Any]:
+    atoms=[a for m in moments for a in m.get("atoms",[])]
+    categories={}
+    for m in moments:
+        for c in m.get("commentary_plan",{}).get("categories",[]):categories[c]=categories.get(c,0)+1
+    causal=sum(a.get("provenance")==CAUSAL for a in atoms)
+    heuristic=sum(a.get("provenance")==HEURISTIC for a in atoms)
+    with_ids=sum(bool(a.get("atom_id")) for a in atoms)
+    return {"moment_count":len(moments),"atom_count":len(atoms),"causal_atom_count":causal,
+            "heuristic_atom_count":heuristic,"atoms_with_ids":with_ids,
+            "provenance_coverage":0 if not atoms else (causal+heuristic)/len(atoms),
+            "traceability_coverage":0 if not atoms else with_ids/len(atoms),
+            "firewall_failed_moments":sum(not m.get("firewall",{}).get("pass",False) for m in moments),
+            "category_moment_counts":dict(sorted(categories.items()))}
+
 def causal_atoms(board:chess.Board,certs:list[dict[str,Any]])->list[dict[str,Any]]:
     atoms=[]
     for c in certs:
@@ -74,6 +111,10 @@ def causal_atoms(board:chess.Board,certs:list[dict[str,Any]])->list[dict[str,Any
 def heuristic_atoms(board:chess.Board,played:chess.Move,cands:list[dict[str,Any]],facts:list[dict[str,Any]])->list[dict[str,Any]]:
     atoms=[]
     for f in facts:atoms.append({"type":"move_fact","provenance":HEURISTIC,"authority":"verified_board_fact","claim":f,"text":f["text"]})
+    for e in verified_move_evidence(board,played):
+        if e["kind"] in ("checkmate","multi_attack","absolute_pin_created"):
+            atoms.append({"type":"tactical_fact","provenance":HEURISTIC,"authority":"verified_board_tactic",
+                          "claim":e,"text":tactical_text(e)})
     if cands:
         top=cands[0];played_c=next((c for c in cands if c["uci"]==played.uci()),None)
         claim={"played_uci":played.uci(),"top_uci":top["uci"],"top_san":top["san"],"top_score_cp":top["score_cp"],
@@ -89,6 +130,13 @@ def heuristic_atoms(board:chess.Board,played:chess.Move,cands:list[dict[str,Any]
                 atoms.append({"type":"concept_proxy_delta","provenance":HEURISTIC,"authority":"verified_board_proxy",
                               "claim":delta,
                               "text":f"Compared with {top['san']}, {board.san(played)} changes these measured board proxies: {pairs}."})
+            tc=tactical_contrast(board,played,alt)
+            if tc["played_only_kinds"] or tc["alternative_only_kinds"]:
+                text=(f"Compared with {top['san']}, the verified tactical-property differences are "
+                      f"played-only={','.join(tc['played_only_kinds']) or 'none'}; "
+                      f"alternative-only={','.join(tc['alternative_only_kinds']) or 'none'}.")
+                atoms.append({"type":"tactical_contrast","provenance":HEURISTIC,"authority":"verified_board_tactic",
+                              "claim":tc,"text":text})
     atoms.append({"type":"material_snapshot","provenance":HEURISTIC,"authority":"verified_board_fact","claim":material(board),"text":""})
     return atoms
 
@@ -133,6 +181,7 @@ def analyze_pgn(pgn_text:str,engine_path:str|None=None,multipv:int=3,nodes:int=2
                 errs=firewall(board,atoms)
                 moments.append({"ply":ply,"fen":fen,"played_uci":move.uci(),"played_san":board.san(move),
                                 "selection_reasons":reasons,"candidates":cands,"atoms":atoms,
+                                "commentary_plan":{"categories":route_categories(atoms),"atom_ids":[a["atom_id"] for a in atoms]},
                                 "firewall":{"pass":not errs,"errors":errs},
                                 "commentary":" ".join(a["text"] for a in atoms if a.get("text") and not errs)})
             board.push(move)
@@ -141,6 +190,7 @@ def analyze_pgn(pgn_text:str,engine_path:str|None=None,multipv:int=3,nodes:int=2
     return {"schema":"c3x-explanation-graph-v1","provenance_classes":[CAUSAL,HEURISTIC],
             "rating_band":rating_band,"candidate_gap_threshold_cp":effective_threshold,
             "headers":dict(game.headers),"moment_count":len(moments),"moments":moments,
+            "evaluation_packet":graph_audit(moments),
             "authority_note":"Useful commentary is not automatically causal. Causal wording requires a C3X certificate."}
 
 def load_certificates(paths:list[str])->list[dict[str,Any]]:
