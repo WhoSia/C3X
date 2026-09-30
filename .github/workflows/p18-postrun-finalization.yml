@@ -33,13 +33,14 @@ jobs:
           github-token: ${{ github.token }}
           name: g95-p18-confirmation-freeze-sealed
           path: freeze
-      - uses: actions/download-artifact@v4
-        with:
-          repository: WhoSia/C3X
-          run-id: ${{ env.SOURCE_RUN }}
-          github-token: ${{ github.token }}
-          pattern: "g95-p18-factorial-*"
-          path: worlds
+      - name: Download all factorial artifacts with paginated GitHub CLI
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euxo pipefail
+          mkdir -p worlds
+          gh run download "$SOURCE_RUN" -R WhoSia/C3X --pattern "g95-p18-factorial-*" --dir worlds
+          test "$(find worlds -type f -name '*.json' | wc -l)" -eq 288
       - run: |
           set -euxo pipefail
           python3 -m pip install --disable-pip-version-check python-chess==1.999
