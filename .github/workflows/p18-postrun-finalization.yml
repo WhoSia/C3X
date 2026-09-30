@@ -1,0 +1,64 @@
+name: p18-postrun-finalization
+
+on:
+  push:
+    paths:
+      - ".github/workflows/p18-postrun-finalization.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+env:
+  SOURCE_RUN: "36675388073"
+  SOURCE_SCIENCE_HEAD: "ed03009a43932c45c95a9f993543890ea527d63e"
+
+jobs:
+  finalize:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          repository: WhoSia/C3X
+          run-id: ${{ env.SOURCE_RUN }}
+          github-token: ${{ github.token }}
+          name: g95-p18-development-ecology-sealed
+          path: ecology
+      - uses: actions/download-artifact@v4
+        with:
+          repository: WhoSia/C3X
+          run-id: ${{ env.SOURCE_RUN }}
+          github-token: ${{ github.token }}
+          name: g95-p18-confirmation-freeze-sealed
+          path: freeze
+      - uses: actions/download-artifact@v4
+        with:
+          repository: WhoSia/C3X
+          run-id: ${{ env.SOURCE_RUN }}
+          github-token: ${{ github.token }}
+          pattern: "g95-p18-factorial-*"
+          path: worlds
+      - run: |
+          set -euxo pipefail
+          python3 -m pip install --disable-pip-version-check python-chess==1.999
+          mkdir -p out
+          python3 harness/g95_p18_court.py adjudicate \
+            --freeze freeze/g95-p18-confirmation-freeze.json \
+            --ecology ecology/g95-p18-development-ecology.json \
+            --worlds worlds \
+            --out out/p18-adjudication.json \
+            --markdown out/p18-fatal-replication.md
+          go run tools/p18_exact_verify.go out/p18-adjudication.json | tee out/go-verification.txt
+          node tools/p18-postrun-verify.mjs out/p18-adjudication.json | tee out/js-verification.txt
+          cp ecology/g95-p18-development-ecology.json out/
+          cp freeze/g95-p18-confirmation-freeze.json out/
+          printf '%s\n' "$SOURCE_RUN" > out/source-run.txt
+          printf '%s\n' "$SOURCE_SCIENCE_HEAD" > out/source-science-head.txt
+          sha256sum out/* | sort > out/final-sha256.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: g95-p18-final-postrun
+          path: out/
+          retention-days: 30
