@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-const fs=require("fs");
+import fs from "node:fs";
 const x=JSON.parse(fs.readFileSync(process.argv[2],"utf8"));
 if(x.schema!=="c3x-g95-p18-adjudication-v1") throw Error("schema");
 const allowed=new Set(["P18_HYPOTHESIS_SURVIVES_SUPPORT_REALIZED_FATAL_REPLICATION","P18_HYPOTHESIS_REPLICATES_BUT_NOT_SPECIFIC","P18_RIVAL_REPLICATES_HYPOTHESIS_DEFEATED","P18_HYPOTHESIS_FAILS_WITH_ADEQUATE_SUPPORT","P18_CONFIRMATION_SUPPORT_HOLD","P18_DEVELOPMENT_ECOLOGY_HOLD"]);
