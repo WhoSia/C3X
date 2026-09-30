@@ -27,3 +27,23 @@ def test_certificate_provenance():
     out=analyze_pgn(PGN,certificates=[cert])
     hit=[a for m in out["moments"] for a in m["atoms"] if a["provenance"]==CAUSAL]
     assert hit and hit[0]["claim"]["certificate_id"]=="fixture"
+
+def test_rating_band_thresholds_and_atom_ids():
+    out=analyze_pgn(PGN,rating_band="beginner")
+    assert out["rating_band"]=="beginner"
+    assert out["candidate_gap_threshold_cp"]==80
+    assert all("atom_id" in a for m in out["moments"] for a in m["atoms"])
+
+def test_concept_proxy_delta_is_descriptive():
+    import chess
+    from c3x_explain.concepts import candidate_delta
+    b=chess.Board()
+    d=candidate_delta(b,chess.Move.from_uci("e2e4"),chess.Move.from_uci("a2a3"))
+    assert d["played_minus_alternative"]["own_center_occupancy_count"]==1
+
+def test_renderer_contract_preserves_authority_boundary():
+    import json
+    x=json.load(open("c3x/ontology/explanation-renderer-contract-v1.json"))
+    assert x["schema"]=="c3x-renderer-contract-v1"
+    assert any("C3X_CAUSAL_CONTRAST" in z for z in x["required_behavior"])
+    assert "objective-chess-truth wording from engine preference alone" in x["forbidden"]
