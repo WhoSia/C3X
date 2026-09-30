@@ -1,0 +1,34 @@
+{
+  "schema": "c3x-renderer-contract-v1",
+  "role": "language renderer only; never an authority source",
+  "input_schema": "c3x-explanation-graph-v1",
+  "required_behavior": [
+    "Preserve legal move identity, side to move, evaluation direction, provenance class and uncertainty.",
+    "Every substantive sentence must map to one or more input atom identifiers or be explicitly marked connective prose.",
+    "Use causal wording only for atoms whose provenance is C3X_CAUSAL_CONTRAST.",
+    "Render CONVENTIONAL_HEURISTIC_COMMENTARY as descriptive or heuristic evidence, never as engine-decision causality.",
+    "Do not invent tactics, plans, strategic concepts, principal variations, evaluations or source attributions absent from the graph.",
+    "If evidence is insufficient, abstain or state the narrower verified fact."
+  ],
+  "forbidden": [
+    "causal broadening beyond certificate authority ceiling",
+    "illegal or renamed move",
+    "evaluation sign reversal",
+    "unstated tactical motif",
+    "human-intent or cognition claims",
+    "objective-chess-truth wording from engine preference alone",
+    "silent removal of uncertainty or provenance"
+  ],
+  "rating_bands": {
+    "beginner": "Prefer fewer, larger and directly verifiable contrasts; explain forcing moves and major candidate gaps.",
+    "intermediate": "Add concrete candidate comparisons and basic board-proxy differences.",
+    "advanced": "Permit smaller candidate gaps and more detailed board-proxy contrasts.",
+    "expert": "Permit fine-grained candidate contrasts while retaining provenance and abstention rules."
+  },
+  "output_requirements": [
+    "commentary",
+    "claim_atom_ids",
+    "abstentions",
+    "preserved_provenance"
+  ]
+}
