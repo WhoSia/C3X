@@ -301,13 +301,14 @@ def exposure_qualify(a):
  print("P18_EXPOSUREQUAL",phase,case["case_id"],sum(z["supported"] for z in rows),"/",len(rows))
 
 def development_ecology(a):
- pre=load_pool(a.freeze);found={}
+ pre=load_pool(a.freeze)
+ devcases=[x for x in pre["cases"] if x["split"]=="development"];dev_ids={x["case_id"] for x in devcases};found={}
  for p in Path(a.exposure_qualifications).rglob("*.json"):
   try:x=load(p)
   except:continue
-  if x.get("schema")=="c3x-g95-p18-exposure-qualification-v1" and x.get("phase")=="development":found[x["case_id"]]=x
- devcases=[x for x in pre["cases"] if x["split"]=="development"]
- if set(found)!={x["case_id"] for x in devcases}:raise SystemExit(f"P18_DEV_EXQ_N {len(found)}")
+  if x.get("schema")=="c3x-g95-p18-exposure-qualification-v1" and x.get("phase")=="development" and x.get("case_id") in dev_ids:
+   found[x["case_id"]]=x
+ if set(found)!=dev_ids:raise SystemExit(f"P18_DEV_EXQ_N {len(found)} expected {len(dev_ids)}")
  supported=[]
  bycase={c["case_id"]:c for c in devcases}
  for cid,q in found.items():
@@ -349,13 +350,14 @@ def development_ecology(a):
  print("P18_DEVELOPMENT_ECOLOGY",out["status"],out["selected_grammar"],out["rivals"],out["development_complete_matched_sets"])
 
 def confirmation_freeze(a):
- pre=load_pool(a.freeze);eco=load_ecology(a.ecology);found={}
+ pre=load_pool(a.freeze);eco=load_ecology(a.ecology)
+ confcases=[x for x in pre["cases"] if x["split"]=="confirmation"];conf_ids={x["case_id"] for x in confcases};found={}
  for p in Path(a.exposure_qualifications).rglob("*.json"):
   try:x=load(p)
   except:continue
-  if x.get("schema")=="c3x-g95-p18-exposure-qualification-v1" and x.get("phase")=="confirmation":found[x["case_id"]]=x
- confcases=[x for x in pre["cases"] if x["split"]=="confirmation"]
- if set(found)!={x["case_id"] for x in confcases}:raise SystemExit(f"P18_CONF_EXQ_N {len(found)}")
+  if x.get("schema")=="c3x-g95-p18-exposure-qualification-v1" and x.get("phase")=="confirmation" and x.get("case_id") in conf_ids:
+   found[x["case_id"]]=x
+ if set(found)!=conf_ids:raise SystemExit(f"P18_CONF_EXQ_N {len(found)} expected {len(conf_ids)}")
  supported=[];bycase={c["case_id"]:c for c in confcases}
  if eco["status"]=="PASS":
   for cid,q in found.items():
