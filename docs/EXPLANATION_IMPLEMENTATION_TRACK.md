@@ -148,37 +148,39 @@ Implemented:
 - Structural / Motif / Tactic / Position-Judgment / Semantic / Contrastiveness / Provenance evaluation packet;
 - human-utility fields deliberately unset until human adjudication.
 
-### I4 — C3X bridge + verified planning evidence — IMPLEMENTED / CI PENDING
+### I4 — C3X bridge + verified planning evidence — CLOSED/PASS
 Implemented:
 - normalize existing C3X causal certificates into first-class `causal_certificate` graph objects with explicit authority ceilings and `authorizes_causal_scope` edges;
 - legally replay bounded engine PVs and emit only verified line facts; strategic “threat/plan” labels remain abstained unless a later verifier proves their semantics;
 - audit retrieval corpora for source URI, license state, tags and excerpt bounds before retrieval;
 - preserve explicit abstention when strategic semantics outrun verified evidence.
 
-### I5 — Bounded renderer + atomic factuality benchmark — IMPLEMENTED / CI PENDING
+### I5 — Bounded renderer + atomic factuality benchmark — CLOSED/PASS
 Before free-form prose is trusted:
 - every rendered claim maps back to atom IDs through `c3x-bounded-render-packet-v1`;
 - ACT-Eval-style atomic factuality checks enforce atom traceability, provenance/authority presence and causal-scope discipline; legality/tactical/evaluation-direction checks remain delegated to verified atoms/firewalls;
 - output a machine-readable atomic renderer benchmark while leaving human strategic completeness explicitly unset;
 - never use an LLM as its own sole factuality judge.
 
-### I6 — Language realization
-LLM or other NLG is a **renderer**, not the authority source.
-It receives only the structured graph plus bounded chess context and must preserve:
-- move identities;
-- side to move;
-- evaluation direction;
-- causal vs heuristic wording;
-- uncertainty.
+### I6 — Claim-bounded language realization — CLOSED/PASS
+The live implementation uses deterministic claim-bounded realization before any future free-form NLG:
+- every sentence retains claim IDs and atom IDs;
+- provenance and authority are copied, never inferred upward;
+- I5 claim order is preserved;
+- unsupported material is omitted/abstained rather than invented;
+- free-form LLM prose is disabled at this authority level.
 
-### I7 — Verification firewall
-Automatically reject or downgrade commentary if:
-- SAN/UCI is illegal or mismatched;
-- claimed tactic has no verified line;
-- evaluation direction contradicts evidence;
-- a C3X causal phrase lacks a certificate;
-- retrieval attribution is missing;
-- causal scope is broadened beyond the certificate.
+A future LLM/NLG adapter may improve style only after receiving this bounded packet; it remains a renderer, not an authority source.
+
+### I7 — Adversarial surface verification firewall — CLOSED/PASS
+The live verifier reverse-traces every sentence to bounded source claims and atoms. It rejects:
+- missing atom/claim traces;
+- provenance mismatch or authority upgrade;
+- unsupported causal wording;
+- surface-text tampering;
+- causal wording without a first-class C3X certificate in the typed graph.
+
+Canonical I6/I7 CI: run `36686880718`, head `4ab6fcf14ab8d61c0fd6251b94c58d665b460255`: 15/15 tests PASS; pinned Stockfish smoke `C3X_EXPLAIN_PINNED_STOCKFISH_PASS 3 10 12`; clean pass 1.0; adversarial rejection 1.0.
 
 ### I8 — Human utility
 Evaluate separately:
