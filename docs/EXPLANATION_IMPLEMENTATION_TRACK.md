@@ -139,32 +139,28 @@ Implemented:
 
 I2 deliberately stops short of unverified labels such as tactical "threat", "overload" or "deflection" unless a future adapter can prove the corresponding relation. Conventional adapters remain `CONVENTIONAL_HEURISTIC_COMMENTARY` and cannot establish engine-decision causality.
 
-### I3 — Retrieval and commentary corpora
-- retrieve similar annotated positions/motifs;
-- use licensed/permission-compatible corpora;
-- preserve source and licensing metadata;
-- separate retrieved human phrasing from newly generated analysis.
+### I3 — Retrieval, typed explanation graph & multi-axis evaluation — CLOSED/PASS
+Implemented:
+- license/source-bearing retrieval records with bounded excerpts;
+- explicit rejection of inadmissible retrieval provenance;
+- retrieval references remain conventional heuristic evidence;
+- per-moment typed graph linking moves, evidence atoms and provenance objects;
+- Structural / Motif / Tactic / Position-Judgment / Semantic / Contrastiveness / Provenance evaluation packet;
+- human-utility fields deliberately unset until human adjudication.
 
-### I4 — C3X bridge adapter
-A P15+ Mechanism Bridge Card becomes an explanation atom:
-- candidate pair;
-- board difference;
-- search mediator;
-- counterfactual choice;
-- authority ceiling.
+### I4 — C3X bridge + verified planning evidence
+Next:
+- promote existing C3X causal certificates into first-class graph objects without widening their scope;
+- add line-backed threat, forcing-sequence and plan evidence only when the verifier can prove the relation;
+- add retrieval-corpus governance and source/license audit;
+- preserve explicit abstention when strategic semantics outrun verified evidence.
 
-The language layer may paraphrase it, but cannot broaden it.
-
-### I5 — Explanation graph
-Before prose, construct a typed graph:
-- claim;
-- candidate move(s);
-- supporting evidence;
-- counterfactual;
-- tactical/positional concept;
-- provenance class;
-- confidence / abstention reason;
-- source/certificate IDs.
+### I5 — Bounded renderer + atomic factuality benchmark
+Before free-form prose is trusted:
+- every rendered claim must map back to atom IDs;
+- ACT-Eval-style atomic factuality checks must adjudicate move identity, board facts, tactical claims and evaluation direction;
+- compare correctness, coverage and strategic completeness separately;
+- never use an LLM as its own sole factuality judge.
 
 ### I6 — Language realization
 LLM or other NLG is a **renderer**, not the authority source.
