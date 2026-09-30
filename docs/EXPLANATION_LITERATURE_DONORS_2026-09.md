@@ -25,6 +25,32 @@ This page is **Track B engineering evidence**, not Track A novelty authority.
 - DOI: 10.18653/v1/2025.naacl-long.481
 - https://aclanthology.org/2025.naacl-long.481/
 
+### Wang et al. — NAACL 2025
+**Explore the Reasoning Capability of LLMs in the Chess Testbed**
+- Introduces MATE, a 1M-position dataset with strategy/tactic annotations for candidate moves.
+- Donor: candidate-level tactic/strategy supervision, category-conditioned evaluation and theme coverage.
+- DOI: 10.18653/v1/2025.naacl-short.52
+- https://aclanthology.org/2025.naacl-short.52/
+
+### Wen, Tang & Anderson — 2025
+**ChessQA: Evaluating Large Language Models for Chess Understanding**
+- Separates Structural, Motifs, Short Tactics, Position Judgment and Semantic understanding.
+- Donor: multi-axis utility/competence evaluation; do not collapse commentary quality into one score.
+- https://arxiv.org/abs/2510.23948
+
+### Tang et al. — 2026
+**Grounded Chess Reasoning in Language Models via Master Distillation**
+- Distills expert-system reasoning into language and reports large gains in chess reasoning.
+- Donor: expert-to-language training architecture and theme-balanced coverage.
+- C3X difference: generated reasoning remains Track-B implementation evidence unless independently tied to a C3X causal certificate.
+- https://arxiv.org/abs/2603.20510
+
+### Dionisopoulos, Majamaki & Ammanabrolu — 2026
+**Reasoning Through Chess: How Reasoning Evolves from Data Through Fine-Tuning and Reinforcement Learning**
+- Reports that move quality and reasoning faithfulness can diverge, and that multi-move trajectory training can improve faithfulness relative to direct best-move training.
+- Donor: separate move-quality, hallucination and reasoning-faithfulness evaluation axes.
+- https://arxiv.org/abs/2604.05134
+
 ## Explainability / faithfulness
 
 ### Spinnato — 2025
