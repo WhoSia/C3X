@@ -1,0 +1,37 @@
+{
+  "schema": "c3x-explanation-implementation-i6-closure-v1",
+  "title": "C3X Explanation Implementation I6 — Claim-Bounded Constrained Language Realization, Sentence↔Claim↔Atom Traceability & Authority-Preserving Surface Composition",
+  "track": "Explanation Implementation",
+  "status": "CLOSED_PASS",
+  "authority": "IMPLEMENTATION_ONLY_NO_SCIENCE_PROMOTION",
+  "parent": {
+    "stage": "I5",
+    "receipt_path": "c3x/receipts/explanation-i5-closure.json",
+    "receipt_sha256": "26a41cbb9794b36a3ec780be94ac1b74801ff0170505a41dab45062964f45e8d"
+  },
+  "canonical_ci": {
+    "workflow": "c3x-explanation-implementation",
+    "run_id": 36686880718,
+    "run_number": 42,
+    "head": "4ab6fcf14ab8d61c0fd6251b94c58d665b460255",
+    "conclusion": "success",
+    "unit_tests": "15 passed",
+    "pinned_stockfish_smoke": "C3X_EXPLAIN_PINNED_STOCKFISH_PASS 3 10 12"
+  },
+  "implemented": [
+    "c3x-constrained-realization-packet-v1 over already bounded factual claims",
+    "sentence-level claim_ids, atom_ids, provenance and authority preservation",
+    "deterministic renderer claim-order preservation",
+    "explicit abstention rather than unsupported surface invention",
+    "free-form LLM disabled at this authority level",
+    "c3x-constrained-realization-benchmark-v1 with zero failed packets in canonical CI"
+  ],
+  "scientific_firewall": [
+    "language realization cannot introduce new chess facts",
+    "language realization cannot upgrade evidence authority",
+    "language realization cannot turn conventional heuristic evidence into C3X causal evidence",
+    "human fluency/usefulness remain unevaluated"
+  ],
+  "next": "I7 adversarial surface verification over the realized sentence packets.",
+  "receipt_sha256": "7852a8861225c9125dfa7069a919c8c1459812b42eb1263b48ee3cf0849a9df0"
+}
