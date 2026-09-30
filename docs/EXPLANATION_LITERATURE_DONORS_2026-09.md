@@ -86,3 +86,12 @@ The Track-B architecture therefore treats language as the final renderer, not th
 `PGN → engine/candidate evidence → verified chess facts/concepts → optional C3X causal certificate → typed explanation graph → language renderer → factuality/provenance firewall`.
 
 The scientific novelty question remains separate: only prospective C3X intervention evidence can populate `C3X_CAUSAL_CONTRAST`.
+
+
+### Hebbar et al. — 2026
+**Hallucinations on the Board: Tool-Augmented Evaluation of LLM Chess Commentary**
+- Decomposes chess commentary into atomic claims and routes them to engine-supported tools / expert references for factuality and coverage evaluation.
+- Reports that fluent LLM commentary still contains substantial factual sub-claim errors without tool grounding.
+- Donor: atom-level factuality adjudication, tool routing, error taxonomy and coverage-vs-correctness separation.
+- C3X use: strengthens Track-B evaluation/firewall design only; it does not supply Track-A causal authority.
+- https://arxiv.org/abs/2608.04240
