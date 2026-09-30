@@ -11,6 +11,8 @@ from .evaluation import evaluation_packet
 from .certificates import certificate_claim
 from .planning import verified_line_evidence,line_sentence
 from .renderer import attach_render_packets,renderer_benchmark
+from .realization import attach_realizations,realization_benchmark
+from .verification import attach_verification,verification_benchmark
 
 CAUSAL="C3X_CAUSAL_CONTRAST"
 HEURISTIC="CONVENTIONAL_HEURISTIC_COMMENTARY"
@@ -216,12 +218,16 @@ def analyze_pgn(pgn_text:str,engine_path:str|None=None,multipv:int=3,nodes:int=2
         if eng:eng.quit()
     attach_graphs(moments)
     attach_render_packets(moments)
+    attach_realizations(moments,rating_band)
+    attach_verification(moments)
     return {"schema":"c3x-explanation-graph-v1","provenance_classes":[CAUSAL,HEURISTIC],
             "rating_band":rating_band,"candidate_gap_threshold_cp":effective_threshold,
             "headers":dict(game.headers),"moment_count":len(moments),"moments":moments,
             "evaluation_packet":graph_audit(moments),
             "commentary_evaluation":evaluation_packet(moments,rating_band),
             "renderer_benchmark":renderer_benchmark(moments),
+            "realization_benchmark":realization_benchmark(moments),
+            "verification_benchmark":verification_benchmark(moments),
             "retrieval_corpus_audit":audit_retrieval_corpus(retrieval_records),
             "authority_note":"Useful commentary is not automatically causal. Causal wording requires a C3X certificate."}
 
