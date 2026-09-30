@@ -1,0 +1,42 @@
+{
+  "admitted_pair_positions": 57,
+  "authority": {
+    "not_a_fatal_failure_of_H": true,
+    "not_evidence_for_H": true,
+    "p17_hypothesis_status": "UNRESOLVED_SUPPORT_HOLD",
+    "post_outcome_rival_replacement_within_P17_forbidden": true
+  },
+  "canonical_run_id": 36647199414,
+  "complete_matched_sets": 0,
+  "diagnosis": "FALSIFIER_ECOLOGY_REALIZABILITY_FAILURE_BEFORE_MATCHING",
+  "exposure_freeze_receipt_sha256": "94e7992d7f70b979d5e9bc6b6f05e6335a5bf828fd28f06692362d19725e69b6",
+  "family_flow": {
+    "H": {
+      "generated_atomic_chain_exposures": 21,
+      "supported_after_target_sham_pair_marginality": 11
+    },
+    "R_ENDPOINT": {
+      "generated_atomic_chain_exposures": 10,
+      "supported_after_target_sham_pair_marginality": 4
+    },
+    "R_GAIN": {
+      "generated_atomic_chain_exposures": 3,
+      "supported_after_target_sham_pair_marginality": 0
+    },
+    "R_PREF": {
+      "generated_atomic_chain_exposures": 18,
+      "supported_after_target_sham_pair_marginality": 5
+    },
+    "R_SIDE": {
+      "generated_atomic_chain_exposures": 0,
+      "supported_after_target_sham_pair_marginality": 0
+    }
+  },
+  "outcome_boundary": "Failure occurs before edited native choice, event firing, T_ONLY response, bridge classification, or confirmatory outcome can vote.",
+  "reason": "R_SIDE is absent from the complete frozen atomic-chain pool and R_GAIN has no marginality-surviving exposure, so no five-arm engine×source matched set can exist.",
+  "receipt_sha256": "938af800eab5f144bfed431ed1420554ca1c543c79e15077b543abce2b098935",
+  "schema": "c3x-g95-p17-support-audit-v1",
+  "science_head": "19f17a3e1d4c087b87a446950c78eea2aeaab7d1",
+  "scientific_stage": "C3X 0.7.0-G9.5-P17",
+  "selected_exposure_count": 0
+}
