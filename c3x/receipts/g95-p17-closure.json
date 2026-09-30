@@ -1,0 +1,143 @@
+{
+  "schema": "c3x-g95-p17-closure-v1",
+  "scientific_stage": "C3X 0.7.0-G9.5-P17",
+  "title": "Prospective Exposure-Balanced Relation-Atom Fatal Replication, Frozen OWN|DISPREFERRED_FROM_LOSS Hypothesis, Matched Rival Atom Families, Cross-Engine Minimal-Bridge Transport & Structural-Law Survival Test",
+  "status": "CLOSED_HOLD",
+  "verdict": "P17_EXPOSURE_SUPPORT_HOLD",
+  "authority": "FALSIFIER_ECOLOGY_REALIZABILITY_FAILURE / PRIMARY_HYPOTHESIS_UNRESOLVED / NO_CONFIRMATORY_OUTCOME_OPENED",
+  "parent": {
+    "stage": "C3X 0.7.0-G9.5-P16",
+    "closure_commit": "64b46c7ee6347a60f4684805ca6e8bd8c5a20232",
+    "closure_receipt_sha256": "85860d444c870f6a412990292e385752a77ecaed4066b79f6a0d499b11d9e8ed",
+    "verdict": "P16_LOCAL_MINIMAL_FULL_BRIDGE_ONLY"
+  },
+  "canonical_execution": {
+    "workflow": "g95-p17-exposure-balanced-fatal-replication",
+    "run_id": 36647199414,
+    "run_number": 3,
+    "science_head": "19f17a3e1d4c087b87a446950c78eea2aeaab7d1",
+    "conclusion": "success",
+    "main_only_branch_audit": true
+  },
+  "artifacts": {
+    "corpus": {
+      "id": 11069076201,
+      "name": "g95-p17-corpus-sealed",
+      "digest": "sha256:8df946361757d705e9fbf256a5971370b357e8004618c37b4084f1740ca7bfc0",
+      "size_bytes": 21605
+    },
+    "design": {
+      "id": 11069560300,
+      "name": "g95-p17-design-precommit-sealed",
+      "digest": "sha256:a794cff11eb6310e55a010e6887f1ba37124dc5b3467a4987a2159cc100b44a6",
+      "size_bytes": 28343
+    },
+    "pair_pool": {
+      "id": 11068923922,
+      "name": "g95-p17-pair-pool-freeze-sealed",
+      "digest": "sha256:eff5bddba821e833c8a7045a8a847d1b74a2d9152ac171d70e82cef8db922443",
+      "size_bytes": 136200
+    },
+    "exposure_freeze": {
+      "id": 11069617247,
+      "name": "g95-p17-exposure-freeze-sealed",
+      "digest": "sha256:239957e130c5b47f35dd98a5534b6610f411542372f984d2171fc262c91353e6",
+      "size_bytes": 153496
+    },
+    "final": {
+      "id": 11069442939,
+      "name": "g95-p17-final-fatal-replication",
+      "digest": "sha256:3d5c6b015933445d0e9be23ee611f219c9b576ab228945acf96cd9c70debe8d5",
+      "size_bytes": 155873
+    }
+  },
+  "fresh_corpus": {
+    "positions": 72,
+    "engine_worlds": 216,
+    "historical_candidate_hashes_excluded": 1304,
+    "sources": [
+      "P17_SRC_LICHESS_2026_07",
+      "P17_SRC_LICHESS_2026_08"
+    ]
+  },
+  "support": {
+    "admitted_pair_positions": 57,
+    "candidate_pool_exposures": 52,
+    "supported_candidate_exposures_after_marginality": 20,
+    "complete_matched_sets": 0,
+    "selected_exposure_count": 0,
+    "confirmatory_factorial_active_worlds": 0,
+    "address_misses": 0
+  },
+  "family_flow": {
+    "H": {
+      "generated": 21,
+      "marginality_supported": 11
+    },
+    "R_GAIN": {
+      "generated": 3,
+      "marginality_supported": 0
+    },
+    "R_PREF": {
+      "generated": 18,
+      "marginality_supported": 5
+    },
+    "R_SIDE": {
+      "generated": 0,
+      "marginality_supported": 0
+    },
+    "R_ENDPOINT": {
+      "generated": 10,
+      "marginality_supported": 4
+    }
+  },
+  "support_audit": {
+    "commit": "d9d808551eb27952dd308a00b5ddef2e097bf3fb",
+    "path": "c3x/receipts/g95-p17-support-audit.json",
+    "receipt_sha256": "938af800eab5f144bfed431ed1420554ca1c543c79e15077b543abce2b098935",
+    "diagnosis": "FALSIFIER_ECOLOGY_REALIZABILITY_FAILURE_BEFORE_MATCHING"
+  },
+  "result": {
+    "adjudication_receipt_sha256": "ca80d9ed2ffdc62eb7b4fab045986ccb0f9898767cef4b3de22d71beaf3379d2",
+    "go": "P17_GO_VERIFY_PASS P17_EXPOSURE_SUPPORT_HOLD sets 0 certs 0",
+    "js": "P17_JS_CLAIM_FIREWALL_PASS P17_EXPOSURE_SUPPORT_HOLD sets 0 Hlower 0",
+    "primary_hypothesis_status": "UNRESOLVED_SUPPORT_HOLD",
+    "lower_minimal_full_bridge_records": 0,
+    "upper_diagnostic_minimal_full_bridge_records": 0,
+    "causal_explanation_certificates": 0
+  },
+  "scientific_interpretation": [
+    "P17 does not defeat H because the frozen support gate failed before confirmatory exposure selection.",
+    "P17 does not support H because no confirmatory matched set or bridge outcome was admitted.",
+    "The five-arm falsifier ecology is unrealizable under the frozen P17 atomic edit/sham grammar in this fresh corpus: R_SIDE is absent at generation and R_GAIN has no marginality-surviving exposure.",
+    "Replacing rivals, relaxing exact balance, switching bounds, or coarsening atoms inside P17 would be post-outcome design rescue and is forbidden."
+  ],
+  "research_os_judgment": {
+    "budget_state": "EXHAUSTED-HOLD-CLEAN",
+    "core_exposure": "DIRECT_SUPPORT_TEST",
+    "return_edge": "DISCHARGED_WITH_SUPPORT_FAILURE",
+    "pi_judgment": "RECONSTITUTE-FALSIFIER-ECOLOGY",
+    "reason": "The fatal estimand itself was not observed because its prospectively required rival ecology had zero complete matched sets. The next scientific problem is therefore falsifier-support realizability, not another search-taxonomy refinement or an atom-law verdict."
+  },
+  "claim_ceiling": [
+    "P17 establishes only that its exact five-arm matched falsifier design lacked support under the declared edit/sham grammar and fresh corpus.",
+    "The frozen OWN|DISPREFERRED_FROM_LOSS|LOWER hypothesis remains unresolved.",
+    "No rival family or primary family received confirmatory bridge evidence in P17.",
+    "No objective chess truth, human strategic concept, cognition, or implementation-track authority is claimed."
+  ],
+  "harvest_backflow": [
+    "A_FATAL_TEST_CAN_FAIL_BEFORE_OUTCOME_IF_ITS_FALSIFIER_ECOLOGY_IS_NOT_REALIZABLE",
+    "EXACT_BALANCE_REQUIRES_PROSPECTIVE_SUPPORT_GEOMETRY_NOT_JUST_A_SYMMETRIC_CONCEPTUAL_RIVAL_SET",
+    "SUPPORT_HOLD_MUST_NOT_BE_MISREPORTED_AS_HYPOTHESIS_FAILURE_OR_NULL_EFFECT",
+    "POST_SUPPORT_FAILURE_RIVAL_REPLACEMENT_REQUIRES_A_NEW_SCIENTIFIC_STAGE"
+  ],
+  "next_authorization": {
+    "count": 1,
+    "stage": "C3X 0.7.0-G9.5-P18",
+    "mode": "RECONSTITUTE-FALSIFIER-ECOLOGY",
+    "direction": "Prospectively map outcome-blind intervention-family realizability on development-only fresh worlds, freeze a support-balanced rival ecology using only pre-outcome geometry, then reopen the OWN|DISPREFERRED_FROM_LOSS fatal replication on a disjoint confirmatory corpus without changing the P16/P17 search mediator or LOWER estimand.",
+    "forbidden": "No P17 bridge outcomes exist to mine; nevertheless no ad hoc use of P17 family scarcity to claim H, no within-P17 rival substitution, no post-confirmatory family refit, no bound switch, no narrower event taxonomy rescue, no human concept naming."
+  },
+  "receipt_digest_scope": "SHA256_OF_CANONICAL_JSON_WITHOUT_RECEIPT_SHA256_AND_RECEIPT_DIGEST_SCOPE",
+  "receipt_sha256": "d96980c0ab448a6a450020c89f3558329fab887a6ec90ac8e22e01793ed461b4"
+}
