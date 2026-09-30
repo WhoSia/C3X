@@ -1,0 +1,50 @@
+{
+  "schema": "c3x-explanation-i8-closure-v1",
+  "stage": "C3X Explain I8 — Human-Utility World Contact, Rating-Band-Stratified Human Utility, Blind Baseline Preference, Explanation-Induced Move Understanding, Calibration/Trust & Authority-Separated Commentary Evaluation",
+  "verdict": "I8_CLOSED_HUMAN_UTILITY_CLAIM_HOLD",
+  "authority": "implementation_methodology_only",
+  "track": "B",
+  "canonical_closure_head": "081bea416bcc841852bb765067a6e3c9084a77f5",
+  "canonical_closure_run": 36691356817,
+  "canonical_closure_run_conclusion": "success",
+  "terminal_design_head": "ab2e7390f4c598c681304e9bb9157b21c43c4e5a",
+  "terminal_design_run": 36691177181,
+  "terminal_design_run_conclusion": "success",
+  "pre_outcome_design_repair": {
+    "issue": "paired A/B exposure could not identify explanation-induced move understanding",
+    "repaired_before_human_outcome": true,
+    "repair": "separate paired blind-preference trials from randomized single-arm move-understanding trials",
+    "understanding_arms": [
+      "c3x",
+      "baseline",
+      "no_commentary"
+    ]
+  },
+  "rating_bands": [
+    "beginner",
+    "intermediate",
+    "advanced",
+    "expert"
+  ],
+  "endpoints": [
+    "correctness",
+    "usefulness",
+    "pedagogical_clarity",
+    "preference_vs_baseline",
+    "subsequent_move_understanding",
+    "trust_calibration"
+  ],
+  "missingness_policy": "expected/observed/missing denominators plus worst/best-case understanding-accuracy bounds; no post-hoc imputation",
+  "human_outcome_opened": false,
+  "human_outcome_rows": 0,
+  "human_utility_claim_authorized": false,
+  "no_human_claim_reason": "No genuine participant adjudication rows exist. Synthetic/model-judged pseudo-participants are inadmissible.",
+  "reopening_rule": "Reopen only on genuine auditable human-world-contact observations under the frozen I8 v2 constitution.",
+  "p18_science_reopened": false,
+  "notes": [
+    "Human preference cannot promote causal authority.",
+    "Human usefulness cannot rescue I5-I7 factuality or verification failures.",
+    "Zero human rows must yield NO_HUMAN_UTILITY_CLAIM.",
+    "I8 is terminally closed as an autonomous implementation stage; the empirical human-utility proposition remains HOLD/UNADJUDICATED."
+  ]
+}
