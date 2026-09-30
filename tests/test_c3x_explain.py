@@ -177,7 +177,12 @@ def test_i6_constrained_realization_is_sentence_atom_claim_traceable():
 
 
 def test_i7_adversarial_realization_firewall_rejects_all_frozen_attacks():
-    out=analyze_pgn(PGN)
+    pgn='''[Event "Mate"]
+[Result "*"]
+
+1. f3 e5 2. g4 Qh4# *
+'''
+    out=analyze_pgn(pgn)
     bench=out["verification_benchmark"]
     assert bench["schema"]=="c3x-adversarial-verification-benchmark-v1"
     assert bench["clean_pass_rate"]==1.0
