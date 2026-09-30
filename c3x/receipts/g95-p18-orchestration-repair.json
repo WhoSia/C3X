@@ -1,0 +1,27 @@
+{
+  "schema": "c3x-g95-p18-orchestration-repair-v1",
+  "scientific_stage": "C3X 0.7.0-G9.5-P18",
+  "failed_run": {
+    "run_id": 36671280880,
+    "head": "82e159db664837e10bb193e87e87746a7b0d2f6c",
+    "job_id": 109750491347,
+    "failure": "P18_DEV_EXQ_N 288"
+  },
+  "diagnosis": "MATRIX_GENERATED_INACTIVE_OPPOSITE_SPLIT_PLACEHOLDERS_WERE_COUNTED_AS_ACTIVE_PHASE_RECORDS",
+  "authority_effect": "NONE",
+  "scientific_design_unchanged": true,
+  "confirmation_outcomes_opened_before_repair": false,
+  "repair_commit": "ed03009a43932c45c95a9f993543890ea527d63e",
+  "repair": "Filter development and confirmation qualification records by the already-frozen case split before cardinality equality checks.",
+  "forbidden_changes_confirmed": [
+    "constitution unchanged",
+    "rival ecology algorithm unchanged",
+    "development observables unchanged",
+    "confirmation corpus unchanged",
+    "LOWER estimand unchanged",
+    "replication thresholds unchanged",
+    "no bridge outcome inspected"
+  ],
+  "note": "The failed run stopped in development ecology before confirmation jobs opened; this is an orchestration-only repair.",
+  "receipt_sha256": "e20dfc4f0f70839a0e56a56dfe005d94b895105b786bdc7efab5bafc2d7300a4"
+}
