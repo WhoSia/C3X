@@ -7,6 +7,7 @@ on:
       - "c3x_explain/**"
       - "tests/test_c3x_explain.py"
       - "docs/EXPLANATION_IMPLEMENTATION_TRACK.md"
+      - "docs/EXPLANATION_I8.md"
       - "docs/EXPLANATION_LITERATURE_DONORS_2026-09.md"
       - ".github/workflows/explanation-implementation.yml"
 
@@ -21,6 +22,14 @@ jobs:
       - run: python3 -m pip install --disable-pip-version-check python-chess==1.999 pytest
       - run: PYTHONPATH=. pytest -q tests/test_c3x_explain.py
       - run: python3 -m py_compile c3x_explain/*.py
+      - run: |
+          PYTHONPATH=. python3 - <<'PY'
+          from c3x_explain.human_utility import i8_preseal, aggregate_scored
+          p=i8_preseal()
+          assert p["status"]=="HUMAN_OUTCOME_UNOPENED"
+          assert aggregate_scored([])["human_outcome_opened"] is False
+          print("C3X_EXPLAIN_I8_PRESEAL_PASS", len(p["endpoints"]))
+          PY
 
   pinned-stockfish-smoke:
     runs-on: ubuntu-latest
