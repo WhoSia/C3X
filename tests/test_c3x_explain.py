@@ -106,3 +106,54 @@ def test_i3_typed_graph_and_multi_axis_packet():
     assert all(m["typed_graph"]["schema"]=="c3x-typed-explanation-subgraph-v1" for m in out["moments"])
     assert any(a["type"]=="retrieval_reference" for m in out["moments"] for a in m["atoms"])
     assert any("retrieval_context" in m["commentary_plan"]["categories"] for m in out["moments"])
+
+
+def test_i4_certificate_is_first_class_graph_authority_object():
+    import chess,chess.pgn,io
+    g=chess.pgn.read_game(io.StringIO(PGN));b=g.board()
+    cert={"schema":"c3x-causal-contrast-certificate-v1","fen":b.fen(),"certificate_id":"first-class-fixture",
+          "pair_id":"e2e4::d2d4","bound":"LOWER","family":"OWN|DISPREFERRED_FROM_LOSS","collapse_to":"e2e4",
+          "authority_ceiling":["engine preference only"]}
+    out=analyze_pgn(PGN,certificates=[cert])
+    m=next(m for m in out["moments"] if any(a["type"]=="causal_contrast" for a in m["atoms"]))
+    nodes=m["typed_graph"]["nodes"];edges=m["typed_graph"]["edges"]
+    assert any(n["node_type"]=="causal_certificate" and n["payload"]["certificate_id"]=="first-class-fixture" for n in nodes)
+    assert any(e["relation"]=="authorizes_causal_scope" for e in edges)
+
+def test_i4_verified_line_evidence_replays_legally():
+    import chess
+    from c3x_explain.planning import verified_line_evidence
+    b=chess.Board()
+    e=verified_line_evidence(b,{"uci":"e2e4","san":"e4","pv_uci":["e2e4","e7e5","g1f3"]})
+    assert e and e["all_moves_legally_replayed"]
+    assert [s["uci"] for s in e["steps"]]==["e2e4","e7e5","g1f3"]
+    assert e["semantic_scope"]=="bounded_pv_line_fact_only"
+
+def test_i4_retrieval_corpus_governance_is_explicit():
+    from c3x_explain.retrieval import audit_retrieval_corpus
+    rows=[
+      {"source_id":"ok","source_uri":"https://example.invalid/a","license_state":"citation_only",
+       "motif_tags":["mate"],"commentary_excerpt":"note"},
+      {"source_id":"bad","source_uri":"https://example.invalid/b","license_state":"unknown",
+       "motif_tags":["mate"],"commentary_excerpt":"bad"}
+    ]
+    a=audit_retrieval_corpus(rows)
+    assert not a["pass"] and a["admissible_count"]==1 and a["rejected_count"]==1
+
+def test_i5_renderer_claims_are_atom_traceable_and_atomic_factuality_passes():
+    pgn='''[Event "Mate"]
+[Result "*"]
+
+1. f3 e5 2. g4 Qh4# *
+'''
+    out=analyze_pgn(pgn)
+    bench=out["renderer_benchmark"]
+    assert bench["schema"]=="c3x-atomic-renderer-benchmark-v1"
+    assert bench["atomic_factuality_rate"]==1.0
+    assert bench["renderer_failed_moments"]==0
+    for m in out["moments"]:
+        atom_ids={a["atom_id"] for a in m["atoms"]}
+        for c in m["render_packet"]["claims"]:
+            assert c["factuality"]["pass"]
+            assert set(c["atom_ids"])<=atom_ids
+        assert m["commentary"]==m["render_packet"]["surface_text"]
