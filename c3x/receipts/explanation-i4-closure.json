@@ -1,0 +1,37 @@
+{
+  "schema": "c3x-explanation-implementation-i4-closure-v1",
+  "title": "C3X Explanation Implementation I4 — First-Class Causal Certificates, Verified PV Evidence, Retrieval Governance & Authority-Preserving Graph Integration",
+  "track": "Explanation Implementation",
+  "status": "CLOSED_PASS",
+  "authority": "IMPLEMENTATION_ONLY_NO_SCIENCE_PROMOTION",
+  "parent": {
+    "stage": "I3",
+    "receipt_path": "c3x/receipts/explanation-i3-closure.json",
+    "receipt_sha256": "2d778b4526e85201ab398b7aabc4460c84a9dfa7a8cbc04e6380bfb99823cb70"
+  },
+  "canonical_ci": {
+    "workflow": "c3x-explanation-implementation",
+    "run_id": 36683142937,
+    "run_number": 34,
+    "head": "30cf1992ea8f8f8078add579f437dfe9e45eb434",
+    "conclusion": "success",
+    "unit_tests": "13 passed",
+    "pinned_stockfish_smoke": "C3X_EXPLAIN_PINNED_STOCKFISH_PASS 3 10"
+  },
+  "implemented": [
+    "first-class normalized C3X causal_certificate graph objects with explicit authority ceilings",
+    "authorizes_causal_scope edges from certificate objects to causal evidence atoms",
+    "position/pair/bound/certificate identity validation before causal rendering",
+    "legally replayed bounded engine-PV evidence with no unsupported strategic plan semantics",
+    "retrieval corpus governance audit over source URI, license state, tags and excerpt bounds",
+    "separate verified-line commentary/evaluation category"
+  ],
+  "scientific_firewall": [
+    "I4 cannot alter or rescue P18",
+    "certificate graph structure cannot widen certificate authority",
+    "PV continuation evidence is a bounded line fact, not human strategy or causal mechanism",
+    "retrieved commentary remains CONVENTIONAL_HEURISTIC_COMMENTARY"
+  ],
+  "next": "I5 closes atom-traceable bounded rendering and automatic atomic factuality benchmarking before free-form NLG.",
+  "receipt_sha256": "afaa25a21268ed3dc24165ee7401af4f2e20c5b2f5d7c89e267a7596108330ca"
+}
