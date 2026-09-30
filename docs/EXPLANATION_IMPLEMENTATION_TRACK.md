@@ -182,18 +182,24 @@ The live verifier reverse-traces every sentence to bounded source claims and ato
 
 Canonical I6/I7 CI: run `36686880718`, head `4ab6fcf14ab8d61c0fd6251b94c58d665b460255`: 15/15 tests PASS; pinned Stockfish smoke `C3X_EXPLAIN_PINNED_STOCKFISH_PASS 3 10 12`; clean pass 1.0; adversarial rejection 1.0.
 
-### I8 — Human-utility world contact — INFRASTRUCTURE PRESEALED / HUMAN OUTCOME UNOPENED
-Presealed and implemented:
-- correctness, usefulness and pedagogical clarity remain separate human endpoints;
-- deterministic blinded A/B comparison against baseline engine prose;
-- rating-band stratification across beginner / intermediate / advanced / expert;
-- post-commentary move-understanding questions as a behavioral endpoint;
-- trust calibration is reportable only with both reference-valid and reference-invalid control items;
+### I8 — Human-Utility World Contact, Rating-Band-Stratified Human Utility, Blind Baseline Preference, Explanation-Induced Move Understanding, Calibration/Trust & Authority-Separated Commentary Evaluation — CLOSED / HUMAN-UTILITY CLAIM HOLD
+Terminal autonomous verdict:
+- preference trials and move-understanding trials are separated before any human outcome was opened;
+- blind preference uses paired randomized C3X-vs-baseline A/B exposure;
+- explanation-induced understanding uses single-arm randomized C3X / baseline / no-commentary exposure;
+- beginner / intermediate / advanced / expert strata are preserved;
+- correctness, usefulness, pedagogical clarity, preference, understanding and trust are non-substitutable endpoints;
+- trust calibration requires known valid/invalid controls rather than mean confidence alone;
+- move-understanding reports expected/observed/missing denominators plus worst/best-case missingness bounds;
 - participant packets are separated from adjudication keys;
-- empty human datasets cannot be summarized as positive outcomes;
+- zero human rows yield `NO_HUMAN_UTILITY_CLAIM`;
 - human judgments cannot promote causal authority or rescue I5-I7 failures.
 
-See `docs/EXPLANATION_I8.md`. Human-world-contact claims remain open until real adjudication rows exist.
+Canonical terminal-design CI before roadmap seal: run `36691177181`, head `ab2e7390f4c598c681304e9bb9157b21c43c4e5a`: unit PASS + pinned Stockfish smoke PASS.
+
+The I8 stage is **CLOSED** because all admissible autonomous work and the stopping boundary are exhausted. The empirical human-utility proposition is **HOLD / UNADJUDICATED**. Reopening requires genuine human-world-contact observations; synthetic preferences or model-judged pseudo-participants do not qualify.
+
+See `docs/EXPLANATION_I8.md`.
 
 ## Non-goals
 
