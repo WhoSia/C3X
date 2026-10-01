@@ -1,0 +1,23 @@
+{
+  "schema": "c3x-g10-p0-source-manifest-v1",
+  "status": "SOURCE_LANE_OPEN_NO_BULK_BYTES_INGESTED",
+  "primary_candidate": {
+    "name": "Lichess official broadcast PGN database",
+    "source_page": "https://database.lichess.org/",
+    "bounded_candidate_object": "https://database.lichess.org/broadcast/lichess_db_broadcast_2026-07.pgn.zst",
+    "month": "2026-07",
+    "published_game_count": 40038,
+    "compressed_size_mb": 24.5,
+    "license": "CC BY-SA 4.0",
+    "intended_role": "fresh real-PGN explanation-demand discovery only",
+    "scientific_authority": "source worlds only; broadcast provenance/evaluations do not supply C3X causal authority",
+    "acquisition_state": "METADATA_VERIFIED_BYTES_NOT_YET_PROMOTED"
+  },
+  "drive": {
+    "source_accrual_folder_id": "1wMlfI2lVX5aN6agVrki4pYA52LBffm5o",
+    "runtime_folder_id": "1GM_FFVdEnVw6sl7gkx9qnOYdFgLSvaFZ",
+    "sealed_results_folder_id": "1qT5UULyf9O8_FL-6oGjFYxf_fJSWR9wX"
+  },
+  "acquisition_rule": "Freeze executable demand grammar first; then acquire a bounded sample. Do not tune admission after causal outcomes.",
+  "bulk_dump_rejected_for_p0": "The multi-billion-game standard rated corpus is unnecessary for P0 realizability and creates avoidable custody/compute cost."
+}
