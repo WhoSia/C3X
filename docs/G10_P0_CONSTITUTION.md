@@ -69,3 +69,43 @@ P0 can establish **dual-track loop realizability**. It cannot establish:
 ## Return edge
 
 If P0 passes, P1 should spend fresh evidence on a bounded set of real-PGN demand cases and attempt local-certificate induction prospectively. It should not be another ontology-only stage.
+
+
+## Pre-closure realizability evidence
+
+Canonical first successful realizability run before the final commentary-bridge repair:
+
+- run: `36805247304`;
+- head: `b273d59da4d85674da7bbf1c703840c973a8cc24`;
+- G10 contract + full I0-I8 regression: PASS;
+- canonical P16 local-certificate round-trip: PASS;
+- Lichess live source-manifest ↔ downloaded archive hash match: PASS;
+- live archive SHA-256: `714d0eb99f99fca8d791142038b6c59b5ca6a51b3339bd3891a92f4bdffcbf0c`;
+- bounded source game: Borgaonkar Akshay – Advik Amit Agrawal, 2026-07-01, Pune International GM Round Robin, Standard B31;
+- positions scanned before reaching the frozen proposal cap: 3;
+- admitted demand proposals: 3/3;
+- all fresh proposals remained `QUESTION_PROPOSAL_ONLY`, with zero certificate attachment and zero causal-outcome opening.
+
+The observation did **not** change the frozen demand thresholds.
+
+## Certificate-to-commentary completion repair
+
+The first successful run established certificate→handoff realizability but exposed an implementation completeness issue: the historical P16 certificate was consumed through the G10 adapter rather than through the existing I0-I8 renderer surface itself.
+
+Before P0 closure, G10 therefore adds a strictly authority-preserving adapter:
+
+`canonical P16 nested certificate → G10 local normalizer → flat explanation certificate + verified chess-native consequence → existing explanation graph → bounded renderer → I7 verification`
+
+The resulting surface is allowed to state only the exact certified transition, e.g. the local `d5 → O-O` root-choice transition and the recorded event-suppression transition. It may not infer space, initiative, prophylaxis, human intention, objective bestness, or transportability.
+
+This is an interface repair. It does not alter P16 data, selection, outcomes, verdict, `LOCAL_ONLY` status, or P18's frozen H-law judgment.
+
+## Drive custody
+
+Allocated G10-P0 folders:
+
+- source accrual: `01_SOURCE_ACCRUAL_RAW/G10_P0`;
+- runtime/execution: `03_PATCHES_RUNTIME/G10_P0`;
+- sealed results: `04_SEALED_RESULTS_COURTS/G10_P0`.
+
+Run `36805247304` execution capsule and P16 round-trip artifact have already been promoted to Drive. The final closure run splits the bounded real PGN source artifact from the demand-result artifact before their canonical source/results promotion.
