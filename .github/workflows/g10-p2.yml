@@ -1,0 +1,268 @@
+name: c3x-g10-p2-question-identity-court
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - "c3x_g10/question_identity.py"
+      - "tools/g10_p2_bank.py"
+      - "tools/g10_p2_measure.py"
+      - "tools/g10_p2_court.py"
+      - "tests/test_g10_p2.py"
+      - "c3x/ontology/g10-p2-constitution.json"
+      - "c3x/receipts/g10-p2-precommit.json"
+      - ".github/workflows/g10-p2.yml"
+
+permissions:
+  contents: read
+  actions: read
+
+env:
+  STOCKFISH_COMMIT: edb0d9db6731067ec50ce619ff372b463bc4dd5d
+  BERSERK_COMMIT: 32628515050b83805bab4afa1026dd2bcaa93f55
+  ETHEREAL_COMMIT: 0e47e9b67f345c75eb965d9fb3e2493b6a11d09a
+  MAIA3_COMMIT: 1e13597c42d4858b7cfd7cfdae01e297263364b2
+  MAIA3_REVISION: b6559de2398d7140b985f28fd2c19fb5e47ddabe
+  MAIA3_SHA256: ba14208b2992d85502f5fb501934abf6aaaeb355e9f3fdf90e326911f562524f
+
+jobs:
+  static:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 -m pip install --disable-pip-version-check python-chess==1.999 pytest
+      - name: P2 + P1 + P0 + I0-I8 regression
+        run: PYTHONPATH=. pytest -q tests/test_g10_p2.py tests/test_g10_p1.py tests/test_g10_p0.py tests/test_c3x_explain.py
+      - run: python3 -m py_compile c3x_g10/question_identity.py tools/g10_p2_bank.py tools/g10_p2_measure.py tools/g10_p2_court.py
+      - name: P2 precommit authority lock
+        run: |
+          python3 - <<'PY'
+          import json
+          c=json.load(open("c3x/ontology/g10-p2-constitution.json"))
+          r=json.load(open("c3x/receipts/g10-p2-precommit.json"))
+          assert c["fresh_source"]["month"]=="2026-09"
+          assert c["fresh_source"]["position_target"]==60
+          assert c["admission"]["uses_certificate_yield"] is False
+          assert c["admission"]["uses_p1_survivors"] is False
+          assert r["fresh_disjoint_required"] is True
+          assert r["p1_survivors_used"] is False
+          assert r["certificate_outcomes_opened"] is False
+          print("C3X_G10_P2_PRECOMMIT_PASS")
+          PY
+
+  source-freeze:
+    needs: static
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+      - run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq zstd
+          python3 -m pip install --disable-pip-version-check huggingface-hub
+      - name: Freeze September broadcast and Maia checkpoint
+        run: |
+          set -euxo pipefail
+          mkdir -p source/broadcast source/maia
+          FILE=lichess_db_broadcast_2026-09.pgn.zst
+          curl -fL --retry 3 https://database.lichess.org/broadcast/sha256sums.txt -o source/broadcast/sha256sums.txt
+          curl -fL --retry 3 "https://database.lichess.org/broadcast/$FILE" -o "source/broadcast/$FILE"
+          (cd source/broadcast && grep "  $FILE$" sha256sums.txt | sha256sum -c -)
+          python3 - <<'PY'
+          import hashlib,json,shutil
+          from pathlib import Path
+          from huggingface_hub import hf_hub_download
+          repo="UofTCSSLab/Maia3-5M"
+          rev="b6559de2398d7140b985f28fd2c19fb5e47ddabe"
+          f="maia3-5m.pt"
+          p=hf_hub_download(repo_id=repo,filename=f,revision=rev)
+          dst=Path("source/maia")/f
+          shutil.copyfile(p,dst)
+          h=hashlib.sha256(dst.read_bytes()).hexdigest()
+          assert h=="ba14208b2992d85502f5fb501934abf6aaaeb355e9f3fdf90e326911f562524f",h
+          Path("source/maia/model-lock.json").write_text(json.dumps({"repo":repo,"revision":rev,"filename":f,"checkpoint_sha256":h},indent=2)+"\n")
+          PY
+      - name: Seal source lock
+        run: |
+          python3 - <<'PY'
+          import hashlib,json
+          from pathlib import Path
+          def sha(p):return hashlib.sha256(Path(p).read_bytes()).hexdigest()
+          m=json.load(open("source/maia/model-lock.json"))
+          r={"schema":"c3x-g10-p2-live-source-lock-v1","broadcast_month":"2026-09","broadcast_sha256":sha("source/broadcast/lichess_db_broadcast_2026-09.pgn.zst"),"maia3":m,"p1_survivors_used":False,"certificate_outcomes_opened":False}
+          Path("source/g10-p2-live-source-lock.json").write_text(json.dumps(r,indent=2,sort_keys=True)+"\n")
+          print("G10_P2_SOURCE_LOCK",r["broadcast_sha256"],m["checkpoint_sha256"])
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: g10-p2-source-locked
+          path: source/
+          retention-days: 90
+
+  build-engines:
+    needs: static
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: stockfish_19
+            repo: https://github.com/official-stockfish/Stockfish.git
+            commit: edb0d9db6731067ec50ce619ff372b463bc4dd5d
+          - name: berserk
+            repo: https://github.com/jhonnold/berserk.git
+            commit: 32628515050b83805bab4afa1026dd2bcaa93f55
+          - name: ethereal
+            repo: https://github.com/AndyGrant/Ethereal.git
+            commit: 0e47e9b67f345c75eb965d9fb3e2493b6a11d09a
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build exact engine
+        run: |
+          set -euxo pipefail
+          git clone "${{ matrix.repo }}" src
+          git -C src checkout --detach "${{ matrix.commit }}"
+          test "$(git -C src rev-parse HEAD)" = "${{ matrix.commit }}"
+          mkdir -p out
+          if [ "${{ matrix.name }}" = "stockfish_19" ]; then
+            make -C src/src -j2 build ARCH=x86-64
+            cp src/src/stockfish out/engine
+          elif [ "${{ matrix.name }}" = "berserk" ]; then
+            make -C src/src ARCH=x86-64 build
+            cp src/src/berserk out/engine
+          else
+            ECFLAGS="-O3 -std=gnu11 -Wall -Wextra -Wshadow -DNDEBUG -flto -DUSE_NNUE=0 -march=x86-64 -msse2"
+            make -C src/src basic CFLAGS="$ECFLAGS"
+            cp src/src/Ethereal out/engine
+          fi
+          chmod +x out/engine
+          printf 'uci\nisready\nquit\n' | timeout 20s out/engine > out/uci.txt 2>&1
+          grep -q uciok out/uci.txt
+          grep -q readyok out/uci.txt
+          sha256sum out/engine > out/engine.sha256
+      - uses: actions/upload-artifact@v4
+        with:
+          name: g10-p2-engine-${{ matrix.name }}
+          path: out/
+          retention-days: 90
+
+  bank-freeze:
+    needs: source-freeze
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: g10-p2-source-locked
+          path: source
+      - run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq zstd
+          python3 -m pip install --disable-pip-version-check python-chess==1.999
+          unzstd -q source/broadcast/lichess_db_broadcast_2026-09.pgn.zst -o /tmp/september.pgn
+      - name: Freeze position bank before engine outcomes
+        run: |
+          mkdir -p out
+          PYTHONPATH=. python3 tools/g10_p2_bank.py --pgn /tmp/september.pgn --game-cap 240 --out out/g10-p2-position-bank.json
+          python3 - <<'PY'
+          import json
+          b=json.load(open("out/g10-p2-position-bank.json"))
+          assert b["engine_outcomes_opened"] is False
+          assert b["maia_outcomes_opened"] is False
+          assert b["certificate_outcomes_opened"] is False
+          assert b["p1_case_ids_used"]==[]
+          print("G10_P2_PHASE_SUPPORT",b["phase_support"])
+          print("G10_P2_BANK_N",len(b["cases"]),b["bank_sha256"],b["source_support_pass"])
+          PY
+          sha256sum out/g10-p2-position-bank.json > out/sha256sums.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: g10-p2-position-bank-sealed
+          path: out/
+          retention-days: 90
+
+  measure:
+    needs: [source-freeze, build-engines, bank-freeze]
+    runs-on: ubuntu-latest
+    timeout-minutes: 240
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: [0,1,2]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: g10-p2-source-locked
+          path: source
+      - uses: actions/download-artifact@v4
+        with:
+          name: g10-p2-position-bank-sealed
+          path: bank
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: g10-p2-engine-*
+          path: engines
+      - name: Prepare instruments
+        run: |
+          set -euxo pipefail
+          python3 -m pip install --disable-pip-version-check python-chess==1.999 numpy huggingface-hub
+          python3 -m pip install --disable-pip-version-check --index-url https://download.pytorch.org/whl/cpu torch==2.8.0
+          git clone https://github.com/CSSLab/maia3.git ext/maia3
+          git -C ext/maia3 checkout --detach "$MAIA3_COMMIT"
+          test "$(git -C ext/maia3 rev-parse HEAD)" = "$MAIA3_COMMIT"
+          python3 -m pip install --disable-pip-version-check ./ext/maia3 --no-deps
+          for d in engines/g10-p2-engine-*; do chmod +x "$d/engine"; done
+      - name: Measure frozen shard
+        run: |
+          mkdir -p out
+          PYTHONPATH=. python3 tools/g10_p2_measure.py             --bank bank/g10-p2-position-bank.json             --shard "${{ matrix.shard }}" --shards 3             --stockfish engines/g10-p2-engine-stockfish_19/engine             --berserk engines/g10-p2-engine-berserk/engine             --ethereal engines/g10-p2-engine-ethereal/engine             --maia-checkpoint source/maia/maia3-5m.pt             --out "out/g10-p2-measure-${{ matrix.shard }}.json"
+          sha256sum out/*.json > out/sha256sums.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: g10-p2-measure-${{ matrix.shard }}
+          path: out/
+          retention-days: 90
+
+  court:
+    needs: [bank-freeze, measure]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: g10-p2-position-bank-sealed
+          path: bank
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: g10-p2-measure-*
+          path: shards
+      - name: Adjudicate stable question objects
+        run: |
+          mkdir -p out
+          ARGS=""
+          for f in shards/g10-p2-measure-*/*.json; do
+            case "$f" in *sha256sums*) continue ;; esac
+            ARGS="$ARGS --shard $f"
+          done
+          eval "PYTHONPATH=. python3 tools/g10_p2_court.py --bank bank/g10-p2-position-bank.json $ARGS --out-court out/g10-p2-court.json --out-stable out/g10-p2-stable-object-bank.json --out-all out/g10-p2-full-measurements.json"
+          python3 - <<'PY'
+          import json
+          c=json.load(open("out/g10-p2-court.json"))
+          b=json.load(open("out/g10-p2-stable-object-bank.json"))
+          assert c["fresh_local_certificate_induction_opened"] is False
+          assert c["certificate_yield_visible"] is False
+          assert c["uses_p1_survivors"] is False
+          assert b["fresh_local_certificate_induction_opened"] is False
+          print("G10_P2_FINAL_VERDICT",c["verdict"])
+          print("G10_P2_FINAL_BANK",c["stable_object_n"],c["stable_bank_sha256"],c["scope_counts"])
+          print("G10_P2_ERROR_LOCALIZATION",json.dumps(c["measurement_error_localization"],sort_keys=True))
+          PY
+          sha256sum out/*.json > out/sha256sums.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: g10-p2-court-sealed
+          path: out/
+          retention-days: 90
