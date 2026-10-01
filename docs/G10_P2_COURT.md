@@ -65,3 +65,8 @@ Exact observational-engine artifacts from the failed source attempt were preserv
 - Ethereal: `1UHk6k26Scxu4ixkNEmcYdO22ARua40O8`
 
 No P2 source or scientific-result artifact exists because source acquisition failed before bank construction.
+
+
+### Closure capsule Drive promotion
+
+Closure integrity at `a3409f2bde862a5c18fb3c2f963ee7e111207cf0` / run `36826348269` passed. The resulting source-HOLD closure capsule was promoted to Drive sealed-results custody as file `1xOapfwErCKTp3Z_dDBFnZ8f3XLUqrEHI` (GitHub artifact `11145053128`, digest `sha256:e445c808e9716fc7d507c23595ae1849f53eeac184c950287fe9d6c72af6cfc8`).

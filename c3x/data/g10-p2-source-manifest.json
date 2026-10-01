@@ -54,7 +54,10 @@
   "drive": {
     "source_folder_id": "1eOfCfaNrCK_rl4THIZa3GxlFtZh9toIx",
     "runtime_folder_id": "1vct_3d8pKDoH4Qa-tIUzGBvC_ad_hOes",
-    "results_folder_id": "1L6SIBEHe9HVJkWsXRwOIMV7cUrOdwelM"
+    "results_folder_id": "1L6SIBEHe9HVJkWsXRwOIMV7cUrOdwelM",
+    "closure_capsule_file_id": "1xOapfwErCKTp3Z_dDBFnZ8f3XLUqrEHI",
+    "closure_capsule_artifact_id": 11145053128,
+    "closure_capsule_artifact_digest": "sha256:e445c808e9716fc7d507c23595ae1849f53eeac184c950287fe9d6c72af6cfc8"
   },
   "reopen_condition": "Exact precommitted September 2026 Lichess broadcast archive becomes publicly retrievable and live checksum-verifiable. Reopen same P2; do not substitute another month/provider.",
   "authority_ceiling": "SOURCE_SUPPORT_HOLD_ONLY_NO_QUESTION_IDENTITY_RESULT"
