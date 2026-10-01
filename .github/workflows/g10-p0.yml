@@ -40,11 +40,12 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - run: python3 -m pip install --disable-pip-version-check python-chess==1.999
-      - name: Replay canonical P16 local certificate through G10 interface
+      - name: Replay canonical P16 local certificate through G10 and I0-I8 commentary
         run: |
           PYTHONPATH=. python3 - <<'PY'
           import json
-          from c3x_g10.loop import historical_contract_witness,build_roundtrip_packet
+          from c3x_g10.loop import historical_contract_witness,build_roundtrip_packet,to_explanation_certificate
+          from c3x_explain.core import analyze_pgn,CAUSAL
           c=json.load(open("c3x/certificates/g95-p16-local-minimal-full-bridge.json"))
           q=historical_contract_witness(c)
           out=build_roundtrip_packet(q,certificate=c)
@@ -53,16 +54,39 @@ jobs:
           assert out["transportable_law_claim"] is False
           assert out["chess_native_consequence"]["verified_legal_objects_only"] is True
           json.dump(out,open("/tmp/g10-p0-p16-roundtrip.json","w"),indent=2)
+
+          flat=to_explanation_certificate(c)
+          pgn=f"""[Event "G10 P16 Commentary Bridge"]
+          [SetUp "1"]
+          [FEN "{flat['fen']}"]
+          [Result "*"]
+
+          1... d5 *
+          """
+          commentary=analyze_pgn(pgn,certificates=[flat],rating_band="advanced")
+          assert commentary["moment_count"]==1
+          m=commentary["moments"][0]
+          causal=[a for a in m["atoms"] if a["provenance"]==CAUSAL]
+          assert len(causal)==1
+          assert "exact certified engine world" in causal[0]["text"]
+          assert "d5" in causal[0]["text"] and "O-O" in causal[0]["text"]
+          assert m["render_packet"]["pass"]
+          assert m["realization_verification"]["pass"]
+          assert commentary["verification_benchmark"]["clean_pass_rate"]==1.0
+          assert commentary["verification_benchmark"]["adversarial_rejection_rate"]==1.0
+          json.dump(commentary,open("/tmp/g10-p0-p16-commentary.json","w"),indent=2)
           print(
-              "C3X_G10_P0_P16_ROUNDTRIP_PASS",
+              "C3X_G10_P0_P16_COMMENTARY_PASS",
               out["certificate"]["pair_id"],
-              out["chess_native_consequence"]["board_preference_transition"],
+              causal[0]["text"],
           )
           PY
       - uses: actions/upload-artifact@v4
         with:
           name: g10-p0-p16-roundtrip
-          path: /tmp/g10-p0-p16-roundtrip.json
+          path: |
+            /tmp/g10-p0-p16-roundtrip.json
+            /tmp/g10-p0-p16-commentary.json
 
   real-pgn-demand:
     runs-on: ubuntu-latest
@@ -140,9 +164,12 @@ jobs:
           PY
       - uses: actions/upload-artifact@v4
         with:
-          name: g10-p0-real-demand
+          name: g10-p0-real-pgn-source
           path: |
             /tmp/real.pgn
-            /tmp/g10-p0-real-demand.json
             /tmp/pinned-source-checksum.txt
             /tmp/observed-source-sha256.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: g10-p0-real-demand-result
+          path: /tmp/g10-p0-real-demand.json
