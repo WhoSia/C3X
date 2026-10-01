@@ -77,7 +77,75 @@ jobs:
         run: |
           set -euxo pipefail
           curl -L --fail --retry 3             https://database.lichess.org/broadcast/lichess_db_broadcast_2026-07.pgn.zst             -o /tmp/lichess_db_broadcast_2026-07.pgn.zst
-          echo "e93b3ded55d463ff6839c06b42b740dc1d725145f7f4da460172a3cf84041a8b  /tmp/lichess_db_broadcast_2026-07.pgn.zst" | sha256sum -c -
+          curl -L --fail --retry 3 \
+            https://database.lichess.org/broadcast/sha256sums.txt \
+            -o /tmp/broadcast-sha256sums.txt
+          grep '  lichess_db_broadcast_2026-07.pgn.zst
+      - name: Extract first legal standard real game
+        run: |
+          python3 - <<'PY'
+          import chess.pgn
+          f=open("/tmp/broadcast.pgn",encoding="utf-8",errors="replace")
+          chosen=None
+          for _ in range(50):
+              g=chess.pgn.read_game(f)
+              if g is None: break
+              if g.headers.get("Variant","Standard") not in ("Standard","From Position"):
+                  continue
+              if sum(1 for _ in g.mainline_moves()) < 12:
+                  continue
+              chosen=g
+              break
+          assert chosen is not None
+          open("/tmp/real.pgn","w",encoding="utf-8").write(str(chosen)+"\n")
+          print("C3X_G10_P0_REAL_PGN",dict(chosen.headers))
+          PY
+      - name: Build pinned Stockfish
+        run: |
+          set -euxo pipefail
+          git clone --depth 100 https://github.com/official-stockfish/Stockfish.git /tmp/sf
+          git -C /tmp/sf fetch --depth 1 origin edb0d9db6731067ec50ce619ff372b463bc4dd5d
+          git -C /tmp/sf checkout --detach edb0d9db6731067ec50ce619ff372b463bc4dd5d
+          make -C /tmp/sf/src -j2 build ARCH=x86-64
+      - name: Outcome-blind explanation-demand discovery
+        run: |
+          PYTHONPATH=. python3 - <<'PY'
+          import json
+          from c3x_g10.loop import discover_pgn_demands,build_roundtrip_packet
+          text=open("/tmp/real.pgn",encoding="utf-8").read()
+          out=discover_pgn_demands(
+              text,
+              engine_path="/tmp/sf/src/stockfish",
+              source_id="LICHESS_BROADCAST_2026_07_PINNED",
+              nodes=5000,
+              multipv=3,
+              max_proposals=3,
+          )
+          assert out["causal_outcomes_opened"] is False
+          assert out["proposal_count"] >= 1, out
+          for q in out["proposals"]:
+              assert q["authority"]=="QUESTION_PROPOSAL_ONLY"
+              assert q["causal_outcomes_opened"] is False
+              assert q["certificate_attached"] is False
+              rt=build_roundtrip_packet(q)
+              assert rt["causal_status"]=="NO_CERTIFICATE"
+              assert rt["commentary_route"]["causal_wording_authorized"] is False
+          json.dump(out,open("/tmp/g10-p0-real-demand.json","w"),indent=2)
+          print("C3X_G10_P0_REAL_DEMAND_PASS",out["positions_scanned"],out["proposal_count"])
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: g10-p0-real-demand
+          path: |
+            /tmp/real.pgn
+            /tmp/g10-p0-real-demand.json
+            /tmp/pinned-source-checksum.txt
+            /tmp/observed-source-sha256.txt
+ /tmp/broadcast-sha256sums.txt \
+            | sed 's#  lichess_db_broadcast_2026-07.pgn.zst#  /tmp/lichess_db_broadcast_2026-07.pgn.zst#' \
+            | tee /tmp/pinned-source-checksum.txt \
+            | sha256sum -c -
+          sha256sum /tmp/lichess_db_broadcast_2026-07.pgn.zst | tee /tmp/observed-source-sha256.txt
           unzstd -q /tmp/lichess_db_broadcast_2026-07.pgn.zst -o /tmp/broadcast.pgn
       - name: Extract first legal standard real game
         run: |
