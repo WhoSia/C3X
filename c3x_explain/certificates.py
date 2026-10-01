@@ -39,6 +39,9 @@ def normalize_certificate(c:dict[str,Any], expected_fen:str|None=None)->dict[str
         "replication_status":c.get("replication_status"),
         "authority":"engine_preference_causality",
         "authority_ceiling":c.get("authority_ceiling"),
+        "g10_scope":c.get("g10_scope"),
+        "g10_transportable_law":c.get("g10_transportable_law"),
+        "chess_native_consequence":c.get("g10_chess_native_consequence"),
         "provenance_class":CAUSAL_PROVENANCE,
     }
 
@@ -50,5 +53,6 @@ def certificate_claim(c:dict[str,Any], expected_fen:str|None=None)->dict[str,Any
         "family":n["family"],
         "collapse_to":n["collapse_to"],
         "certificate_id":n["certificate_id"],
+        "chess_native_consequence":n.get("chess_native_consequence"),
         "certificate":n,
     }
