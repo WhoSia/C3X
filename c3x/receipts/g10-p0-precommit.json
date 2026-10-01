@@ -1,0 +1,22 @@
+{
+  "schema": "c3x-g10-p0-precommit-v1",
+  "stage": "C3X 0.8.0-G10-P0",
+  "parent_github_head": "57a18ae1deecc8a3488ea776d2c90200972ea0ca",
+  "notion_stage_page_id": "3ecef561-cf92-819b-9a3c-d978797e7333",
+  "research_judgment_ci_open_id": "3ecef561-cf92-817b-b83c-d3722abac4ac",
+  "drive": {
+    "source": "1wMlfI2lVX5aN6agVrki4pYA52LBffm5o",
+    "runtime": "1GM_FFVdEnVw6sl7gkx9qnOYdFgLSvaFZ",
+    "sealed_results": "1qT5UULyf9O8_FL-6oGjFYxf_fJSWR9wX"
+  },
+  "frozen_demand_policy": {
+    "minimum_multipv": 3,
+    "max_top2_gap_cp": 35,
+    "max_played_rank": 3,
+    "reject_mate_like_abs_cp_at_or_above": 90000
+  },
+  "causal_outcomes_opened": false,
+  "h_family_privileged": false,
+  "historical_p16_role": "KNOWN_POSITIVE_CONTRACT_WITNESS_ONLY",
+  "authority_ceiling": "CONSTITUTION_AND_DUAL_TRACK_REALIZABILITY_ONLY"
+}
