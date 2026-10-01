@@ -457,3 +457,35 @@ def build_roundtrip_packet(
         "causal_scope": "exact local engine-preference contrast only",
     }
     return out
+
+
+def to_explanation_certificate(c: dict[str, Any]) -> dict[str, Any]:
+    """Flatten an exact local G10 certificate for the existing I0-I8 explanation stack.
+
+    This is an interface adapter only. It preserves LOCAL_ONLY/authority ceilings and
+    carries the independently verified chess-native consequence packet without
+    promoting the certificate into a transportable law.
+    """
+    n = normalize_local_certificate(c)
+    consequence = compress_chess_native_consequence(c)
+    family = n["structural_signature"] or (
+        "+".join(n["engine_relative_atoms"]) if n["engine_relative_atoms"] else "LOCAL_CERTIFICATE"
+    )
+    return {
+        "schema": "c3x-causal-contrast-certificate-v1",
+        "certificate_id": n["certificate_id"],
+        "scientific_stage": n["scientific_stage"],
+        "scientific_verdict": n["scientific_verdict"],
+        "fen": n["position_fen"],
+        "engine": n["engine"],
+        "pair_id": n["pair_id"],
+        "bound": n["bound"],
+        "family": family,
+        "structural_signature": n["structural_signature"],
+        "replication_status": n["replication_status"],
+        "authority_ceiling": n["authority_ceiling"],
+        "provenance_class": "C3X_CAUSAL_CONTRAST",
+        "g10_scope": "EXACT_LOCAL_ENGINE_PREFERENCE_ONLY",
+        "g10_transportable_law": False,
+        "g10_chess_native_consequence": consequence,
+    }
