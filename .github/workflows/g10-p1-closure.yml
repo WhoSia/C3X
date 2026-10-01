@@ -1,0 +1,41 @@
+name: c3x-g10-p1-closure-finalization
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - "c3x/receipts/g10-p1-closure.json"
+      - "c3x/data/g10-p1-source-manifest.json"
+      - "docs/G10_P1_COURT.md"
+      - ".github/workflows/g10-p1-closure.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  closure-integrity:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 -m pip install --disable-pip-version-check python-chess==1.999 pytest
+      - name: Regression + strict closure parse
+        run: |
+          PYTHONPATH=. pytest -q tests/test_g10_p1.py tests/test_g10_p0.py tests/test_c3x_explain.py
+          python3 - <<'PY'
+          import json
+          r=json.load(open("c3x/receipts/g10-p1-closure.json"))
+          m=json.load(open("c3x/data/g10-p1-source-manifest.json"))
+          assert r["verdict"]=="HOLD_DEMAND_SELECTOR_EXTERNAL_VALIDITY_UNRESOLVED"
+          assert r["canonical_court"]["head"]=="71072ab6afba0c09b0507df53f2ce0163659ca04"
+          assert r["canonical_court"]["run"]==36815595893
+          assert r["frozen_banks"]["provisional_survivor_n"]==11
+          assert r["frozen_banks"]["preregistered_minimum_for_admission"]==18
+          assert r["p2_admission_authorized"] is False
+          assert r["fresh_local_certificate_induction_opened"] is False
+          assert r["precommitted_thresholds_changed_after_outcome"] is False
+          assert r["postrun_measurement_audit"]["p0_exact_replay_match_n"]==8
+          assert r["postrun_measurement_audit"]["p0_exact_replay_mismatch_n"]==40
+          assert m["court_observation"]["final_case_bank_n"]==11
+          assert m["fresh_local_certificate_induction_authorized"] is False
+          print("C3X_G10_P1_CLOSURE_INTEGRITY_PASS")
+          PY

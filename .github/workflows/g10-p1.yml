@@ -10,7 +10,7 @@ on:
       - "tests/test_g10_p1.py"
       - "c3x/ontology/g10-p1-constitution.json"
       - "c3x/data/g10-p1-source-manifest.json"
-      - "c3x/receipts/g10-p1-*.json"
+      - "c3x/receipts/g10-p1-precommit.json"
       - "docs/G10_P1_COURT.md"
       - ".github/workflows/g10-p1.yml"
 

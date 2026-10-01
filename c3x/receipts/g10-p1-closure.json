@@ -1,0 +1,152 @@
+{
+  "schema": "c3x-g10-p1-closure-v1",
+  "stage": "C3X 0.8.0-G10-P1 — Prospective Explanation-Demand Validity, Opening-Theory Degeneracy Exclusion, Human↔Engine Candidate-Salience Triangulation, Cross-Engine/Budget Stability, Decision-Pressure Stratification, Annotation-Supported Positive-Control Recovery, Frozen Real-PGN Case-Bank Constitution & Fresh Local-Certificate Induction Admission Court",
+  "verdict": "HOLD_DEMAND_SELECTOR_EXTERNAL_VALIDITY_UNRESOLVED",
+  "authority": "EXPLANATION_DEMAND_VALIDITY_AND_RESEARCH_ADMISSION_ONLY",
+  "canonical_court": {
+    "head": "71072ab6afba0c09b0507df53f2ce0163659ca04",
+    "run": 36815595893,
+    "conclusion": "success"
+  },
+  "parent": {
+    "stage": "C3X 0.8.0-G10-P0",
+    "verdict": "PASS_CONTRAST_TO_EXPLANATION_LOOP_REALIZABLE",
+    "closure_head": "05778ecab7b3e79440979ff77f738c4e4d5fc8ec"
+  },
+  "precommitted_thresholds_changed_after_outcome": false,
+  "fresh_local_certificate_induction_opened": false,
+  "certificate_yield_visible": false,
+  "p2_admission_authorized": false,
+  "pool": {
+    "positions_scanned": 2935,
+    "p0_admitted": 1509,
+    "p0_admit_rate": 0.5141396933560477,
+    "july": {
+      "positions_scanned": 1466,
+      "p0_admitted": 739,
+      "p0_admit_rate": 0.5040927694406548
+    },
+    "august": {
+      "positions_scanned": 1469,
+      "p0_admitted": 770,
+      "p0_admit_rate": 0.5241660993873384
+    }
+  },
+  "frozen_banks": {
+    "base_evaluation_n": 48,
+    "base_sha256": "2faee9fd2065494b75335862065d0c238805a34f608b35cdd05d66b395122e74",
+    "annotation_positive_n": 24,
+    "annotation_negative_n": 24,
+    "annotation_control_sha256": "41806a0ca62739dfcb1ae7dce33677fd7013440a808a5c715b41fef6c012726c",
+    "provisional_survivor_n": 11,
+    "provisional_survivor_sha256": "a68d736cdc971b23fcd2dd33550791a79e8ba5500bb61957a8d22fa9e5f84e5a",
+    "preregistered_minimum_for_admission": 18,
+    "provisional_survivors_are_p2_admission_bank": false,
+    "phases": [
+      "opening",
+      "middlegame",
+      "endgame"
+    ]
+  },
+  "axis_results": {
+    "maia3_instrument_pass": true,
+    "rating_bands": [
+      1200,
+      1800,
+      2400
+    ],
+    "human_pair_supported_n": 23,
+    "human_pair_supported_fraction": 0.4791666666666667,
+    "all_three_engines_pass": true,
+    "engine_pair_stable_n": 18,
+    "engine_unstable_n": 30,
+    "engine_unstable_share": 0.625,
+    "opening_corpus_pass": true,
+    "opening_theory_degenerate_n": 6,
+    "opening_theory_degenerate_share": 0.125,
+    "annotation_source_pass": true,
+    "selector_shrinkage_fraction": 0.7708333333333334
+  },
+  "annotation_positive_control": {
+    "annotated_n": 24,
+    "matched_unannotated_n": 24,
+    "p0_admission_rate_annotated": 0.5416666666666666,
+    "p0_admission_rate_unannotated": 0.5,
+    "p0_enrichment_ratio": 1.0833333333333333,
+    "refined_admission_rate_annotated": 0.08333333333333333,
+    "refined_admission_rate_unannotated": 0,
+    "refined_enrichment_ratio": "Infinity",
+    "threshold_tuned_on_annotation": false
+  },
+  "postrun_measurement_audit": {
+    "status": "ADDITIONAL_HOLD_EVIDENCE_NOT_A_NEW_PREREGISTERED_VERDICT_RULE",
+    "p0_exact_replay_match_n": 8,
+    "p0_exact_replay_total_n": 48,
+    "p0_exact_replay_mismatch_n": 40,
+    "mismatch_same_unordered_pair_n": 12,
+    "mismatch_pair_changed_n": 28,
+    "interpretation": "The frozen low-node P0 question identity was not exact-replay stable under the P1 scoring context. The existing Court therefore must not be interpreted as cleanly isolating cross-engine instability from within-engine low-budget search-context variability.",
+    "causal_mechanism_claimed": false
+  },
+  "source_lock": {
+    "broadcasts": {
+      "2026-07": "714d0eb99f99fca8d791142038b6c59b5ca6a51b3339bd3891a92f4bdffcbf0c",
+      "2026-08": "e227c35c3207ebade754849c1825982e2717ae82c013013d896778e27be77724"
+    },
+    "maia3_revision": "b6559de2398d7140b985f28fd2c19fb5e47ddabe",
+    "maia3_checkpoint_sha256": "ba14208b2992d85502f5fb501934abf6aaaeb355e9f3fdf90e326911f562524f",
+    "annotation_sha256": "c04e34595a238ebde41f7e501d38f14f44e86516015b4c272289506a30773d35",
+    "openings_commit": "c67912be581f0793dbaa776be5ccf111e01f88d9"
+  },
+  "artifacts": {
+    "source_locked": {
+      "id": 11141242287,
+      "digest": "sha256:8445dec5f4c62f2115c44eceedd7b0da22cf290ed1bfb3560b742cea860ff348"
+    },
+    "preinstrument_banks": {
+      "id": 11141147616,
+      "digest": "sha256:47941aa0a807041b73e02cc4d2e9e4f8e9bfef42358be22759d929d47db60b44"
+    },
+    "court_sealed": {
+      "id": 11141446922,
+      "digest": "sha256:15598b8de5a82066028f16002febc80a686846679bcdfc446b0310a04c464019"
+    },
+    "stockfish": {
+      "id": 11141237384,
+      "digest": "sha256:20a1253d770f3d908a9cb22dfb95796fca76217069a0987efcaa5b743409b9f4"
+    },
+    "berserk": {
+      "id": 11141306889,
+      "digest": "sha256:33437d34857c44a90f6ed52ef244c410be8c6db854ef696afa976d3cbd2b1761"
+    },
+    "ethereal": {
+      "id": 11141675064,
+      "digest": "sha256:80339e1fbd54eaa300cfd5763f317a57aac00f6359aab56716dc6b1d3e6c00c8"
+    }
+  },
+  "drive": {
+    "source_folder_id": "1ZFBypNPd6zIdUnrFf8mjiU0gW1lu_ZI4",
+    "runtime_folder_id": "1WXnzSnhlpsdLjYDbz-Nzuo5ClbqM2TOU",
+    "results_folder_id": "1isEEhN6c6cG1ppKiztjgSDHlwLR5basm",
+    "canonical_source_file_id": "1TEHES60FPp85lRQaFbNMNN9F-x-9_Znw",
+    "stockfish_runtime_file_id": "1A3ingSbicdnqdF0dSi5r5r5mTlUOlyeG",
+    "berserk_runtime_file_id": "1uHhzlLELDK47pOzVRnCD1bet8GZBRNxq",
+    "ethereal_runtime_file_id": "1IqHNIThCfhQ6xaBT2c0kc8BWhBy1lMiB",
+    "preinstrument_bank_file_id": "1-ZV8HaluZ__uT0GwqWvSE1z4MjTGs30x",
+    "court_file_id": "1ahZtUgJnHQFXHLW6e5HAXJovSB9apcCQ"
+  },
+  "closure_reason": [
+    "The preregistered final research-admission minimum was 18 but only 11 cases survived.",
+    "The P0 selector admitted 51.4% of scanned positions, so near-equal score proximity alone is not a sufficiently selective demand definition.",
+    "62.5% of the frozen base bank failed the preregistered engine/budget pair-stability criterion.",
+    "Only 23/48 frozen base cases had the P0 pair jointly supported by Maia-3 in at least two frozen rating bands.",
+    "Post-run exact P0 replay matched only 8/48 base cases, adding a measurement-repeatability limitation."
+  ],
+  "reopening_requirement": "Do not open fresh local-certificate induction. A successor must first prospectively repair question-identity measurement repeatability and external-validity coverage on fresh, disjoint real-PGN evidence; the 11 provisional survivors may be preserved for audit but may not be promoted retroactively.",
+  "authority_ceiling": [
+    "no fresh local causality",
+    "no transportable law",
+    "no objective chess truth",
+    "no human cognition or human-utility claim"
+  ]
+}

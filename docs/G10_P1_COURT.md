@@ -95,3 +95,95 @@ No P1 verdict authorizes causal claims.
 - `01_SOURCE_ACCRUAL_RAW/G10_P1`: source bytes and exact identity locks.
 - `03_PATCHES_RUNTIME/G10_P1`: runtime/scoring capsules.
 - `04_SEALED_RESULTS_COURTS/G10_P1`: Court result and frozen final case bank.
+
+
+## Canonical P1 Court result
+
+Canonical Court execution:
+
+- head: `71072ab6afba0c09b0507df53f2ce0163659ca04`;
+- run: `36815595893`;
+- workflow integrity: **SUCCESS**;
+- scientific verdict: **`HOLD_DEMAND_SELECTOR_EXTERNAL_VALIDITY_UNRESOLVED`**;
+- fresh local-certificate outcomes opened: **0**;
+- certificate yield visible: **false**;
+- P2 admission authorized: **false**.
+
+### Real-PGN selector breadth
+
+Across 48 bounded July/August 2026 broadcast games:
+
+- positions scanned: **2,935**;
+- P0 admitted: **1,509 (51.41%)**;
+- July: 739 / 1,466 = 50.41%;
+- August: 770 / 1,469 = 52.42%.
+
+The P0 3/3 pilot was therefore not merely an isolated first-game effect. Near-equal score proximity is a broad filter, not yet a sufficiently discriminating explanation-demand definition.
+
+### Frozen preinstrument banks
+
+Before Maia/cross-engine outcomes:
+
+- base evaluation bank: **48**, SHA-256 `2faee9fd2065494b75335862065d0c238805a34f608b35cdd05d66b395122e74`;
+- expert-annotation positives: **24**;
+- phase-matched unannotated controls: **24**;
+- annotation-control bank SHA-256 `41806a0ca62739dfcb1ae7dce33677fd7013440a808a5c715b41fef6c012726c`.
+
+### Axis results
+
+On the frozen 48-case base bank:
+
+- Maia human-pair supported: **23 / 48**;
+- engine/budget pair stable: **18 / 48**;
+- engine/budget unstable: **30 / 48 = 62.5%**;
+- opening-theory-degenerate: **6 / 48 = 12.5%**;
+- all preregistered refined gates pass: **11 / 48 = 22.9%**;
+- selector shrinkage: **77.1%**.
+
+Thus **R1 opening degeneracy is real but not dominant**. The stronger pressure comes from R2/R3: human-policy salience and especially engine/budget question-identity stability.
+
+The 11 survivors span opening, middlegame and endgame, but the preregistered minimum for an admission bank was **18**. Their SHA-256 is `a68d736cdc971b23fcd2dd33550791a79e8ba5500bb61957a8d22fa9e5f84e5a`. They are **provisional audit survivors only**, not a P2-authorizing case bank.
+
+### Annotation positive control
+
+- P0 admission: annotated 54.17% vs matched-unannotated 50.00%, ratio 1.083;
+- refined admission: annotated 8.33% vs matched-unannotated 0%, nominal enrichment unbounded because the control denominator is zero;
+- annotation labels were never used in selector fitting or case-bank selection.
+
+This positive control does not rescue P1 because final-bank cardinality independently fails the preregistered minimum.
+
+### Post-run measurement-repeatability audit
+
+A further limitation was discovered without changing the preregistered verdict:
+
+- exact frozen P0 pair/admission replay match: **8 / 48**;
+- exact mismatch: **40 / 48**;
+- among mismatches, **12** retained the same unordered move pair while **28** changed pair membership.
+
+This audit does **not** assert a causal mechanism such as TT contamination. It establishes only that the frozen low-node P0 question identity was not exact-replay stable under the P1 scoring context. Consequently, the 62.5% cross-engine/budget instability cannot be cleanly interpreted as purely cross-engine disagreement; within-engine low-budget search-context variability remains entangled.
+
+Because outcomes are already open, P1 will **not** rebuild the July/August bank after seeing this defect.
+
+## Source locks
+
+- July broadcast SHA-256: `714d0eb99f99fca8d791142038b6c59b5ca6a51b3339bd3891a92f4bdffcbf0c`;
+- August broadcast SHA-256: `e227c35c3207ebade754849c1825982e2717ae82c013013d896778e27be77724`;
+- Maia-3 revision: `b6559de2398d7140b985f28fd2c19fb5e47ddabe`;
+- Maia-3 checkpoint SHA-256: `ba14208b2992d85502f5fb501934abf6aaaeb355e9f3fdf90e326911f562524f`;
+- opening corpus: `c67912be581f0793dbaa776be5ccf111e01f88d9`;
+- annotation PGN SHA-256: `c04e34595a238ebde41f7e501d38f14f44e86516015b4c272289506a30773d35`.
+
+## Drive custody
+
+- canonical source lock: `1TEHES60FPp85lRQaFbNMNN9F-x-9_Znw`;
+- Stockfish runtime: `1A3ingSbicdnqdF0dSi5r5r5mTlUOlyeG`;
+- Berserk runtime: `1uHhzlLELDK47pOzVRnCD1bet8GZBRNxq`;
+- Ethereal runtime: `1IqHNIThCfhQ6xaBT2c0kc8BWhBy1lMiB`;
+- preinstrument banks: `1-ZV8HaluZ__uT0GwqWvSE1z4MjTGs30x`;
+- sealed Court: `1ahZtUgJnHQFXHLW6e5HAXJovSB9apcCQ`.
+
+## Closure authority
+
+**P1 CLOSED / HOLD. Fresh local-certificate induction remains CLOSED.**
+
+No preregistered threshold was changed after outcomes. The 11 survivors are not promoted. A successor must use **fresh, disjoint evidence** to repair question-identity repeatability and external-validity coverage before any causal-certificate induction may open.
