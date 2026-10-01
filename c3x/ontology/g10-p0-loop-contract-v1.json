@@ -1,0 +1,37 @@
+{
+  "schema": "c3x-g10-loop-contract-v1",
+  "stage": "C3X 0.8.0-G10-P0",
+  "generation": "Generation X — Contrast-to-Explanation Loop",
+  "objects": {
+    "demand_proposal": {
+      "authority": "QUESTION_PROPOSAL_ONLY",
+      "fresh_outcome_blind": true,
+      "causal_authority": false
+    },
+    "local_causal_certificate": {
+      "authority": "C3X_LOCAL_CAUSAL_CERTIFICATE",
+      "scope": "exact position × engine/runtime × candidate pair × intervention set",
+      "transportable_law": false
+    },
+    "chess_native_consequence": {
+      "authority": "verified legal chess consequence derived from exact local certificate",
+      "human_semantics": false
+    },
+    "commentary_handoff": {
+      "authority_rule": "C3X_CAUSAL_CONTRAST and CONVENTIONAL_HEURISTIC_COMMENTARY remain machine-readable and non-interchangeable"
+    }
+  },
+  "forbidden_promotions": [
+    "demand proposal -> causal claim",
+    "certificate similarity -> causal authority",
+    "local certificate -> transportable law",
+    "engine preference -> objective chess truth",
+    "chess-native consequence -> human cognition or intention",
+    "implementation or synthetic evaluation -> human utility"
+  ],
+  "p18_inheritance": {
+    "exact_h_atom_law_branch": "FROZEN",
+    "h_family_privileged": false,
+    "grammar_widening_for_h": "FORBIDDEN"
+  }
+}
