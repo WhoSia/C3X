@@ -1,0 +1,75 @@
+{
+  "schema": "c3x-g10-p2-closure-v1",
+  "stage": "C3X 0.8.0-G10-P2 — Prospective Explanation-Question Identity Constitution, Search-Context Repeatability, Independent-Instance Reconstitution, Budget↔Engine Perturbation Decomposition, Human-Salience-Preserving Contrast Equivalence, Fresh-Disjoint Real-PGN Replication, Measurement-Error Localization & Stable Research-Admission Object Court",
+  "verdict": "HOLD_FRESH_DISJOINT_SOURCE_SUPPORT_INSUFFICIENT",
+  "authority": "SOURCE_REALIZATION_ONLY",
+  "canonical_attempt": {
+    "head": "0d3930a8fe9152bcc2a211985d8cde3f760f6d60",
+    "run": 36825916744,
+    "workflow_conclusion": "failure",
+    "interpretation": "Operational failure at precommitted source acquisition; scientific HOLD, not a negative question-identity result."
+  },
+  "precommit_head": "6111c8adc61f084faf2c279b2da7e38e04ec7dce",
+  "measurement_implementation_head": "4681d79f7fbb869c00e3c2513f1132749ba49cf3",
+  "source_support_repair_head": "e1370a3c88f4604fb444a1340a9f6e7e6a6a5fa0",
+  "source_failure": {
+    "archive": "lichess_db_broadcast_2026-09.pgn.zst",
+    "http_status": 404,
+    "source_index_latest_month": "2026-08",
+    "source_bytes_acquired": false
+  },
+  "realized_jobs": {
+    "static": "success",
+    "source_freeze": "failure_404",
+    "stockfish_build": "success",
+    "berserk_build": "success",
+    "ethereal_build": "success",
+    "bank_freeze": "skipped",
+    "measurement": "skipped",
+    "court": "skipped"
+  },
+  "outcomes_opened": {
+    "position_bank": false,
+    "engine_question_identity": false,
+    "maia_human_policy": false,
+    "stable_object_bank": false,
+    "certificate_outcomes": false,
+    "certificate_yield": false
+  },
+  "p1_survivors_used": false,
+  "design_changed_after_source_failure": false,
+  "source_substitution_performed": false,
+  "p2_question_adjudicated": false,
+  "engine_artifacts": {
+    "stockfish": {
+      "artifact_id": 11144839379,
+      "digest": "sha256:49af00670d989552833d1442e1660a43d801134ddde6ca106913d302792d1708",
+      "drive_file_id": "1dJDl_5-dNhrbb2_GBYwy-GKoqWEAngzB"
+    },
+    "berserk": {
+      "artifact_id": 11144764385,
+      "digest": "sha256:d859f7b5c93736d34fb6993fb322b1a5e68f58fcead7ad035cc4c6bc7a728901",
+      "drive_file_id": "1pO-bJpht4MU9AavXlQvQUcsaaNN_zjLt"
+    },
+    "ethereal": {
+      "artifact_id": 11145565363,
+      "digest": "sha256:316d16de95f92e26676fe19517369df451f528cf4ecc7c294a2979dc6a5021b7",
+      "drive_file_id": "1UHk6k26Scxu4ixkNEmcYdO22ARua40O8"
+    }
+  },
+  "drive": {
+    "source_folder_id": "1eOfCfaNrCK_rl4THIZa3GxlFtZh9toIx",
+    "runtime_folder_id": "1vct_3d8pKDoH4Qa-tIUzGBvC_ad_hOes",
+    "results_folder_id": "1L6SIBEHe9HVJkWsXRwOIMV7cUrOdwelM"
+  },
+  "reopen_same_stage": true,
+  "reopen_condition": "Exact precommitted September 2026 Lichess broadcast archive becomes publicly retrievable and live checksum-verifiable. Reopen same P2; do not substitute another month/provider.",
+  "no_automatic_p3": true,
+  "authority_ceiling": [
+    "no stable question-object result",
+    "no local causal result",
+    "no transportable law",
+    "no objective chess truth",
+    "no human cognition or utility claim"
+  ]
+}

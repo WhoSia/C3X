@@ -1,22 +1,61 @@
 {
   "schema": "c3x-g10-p2-source-manifest-v1",
-  "status": "PRECOMMITTED_BEFORE_LIVE_SOURCE_FREEZE",
+  "status": "HOLD_FRESH_DISJOINT_SOURCE_SUPPORT_INSUFFICIENT",
   "primary_source": {
     "provider": "Lichess official broadcast database",
     "month": "2026-09",
-    "archive": "lichess_db_broadcast_2026-09.pgn.zst"
+    "archive": "lichess_db_broadcast_2026-09.pgn.zst",
+    "acquisition_url": "https://database.lichess.org/broadcast/lichess_db_broadcast_2026-09.pgn.zst",
+    "acquisition_observation": {
+      "run": 36825916744,
+      "head": "0d3930a8fe9152bcc2a211985d8cde3f760f6d60",
+      "http_status": 404,
+      "observed_at": "2026-10-01",
+      "latest_indexed_month_observed": "2026-08",
+      "source_bytes_acquired": false
+    }
+  },
+  "p2_execution": {
+    "static_and_precommit_pass": true,
+    "stockfish_build_pass": true,
+    "berserk_build_pass": true,
+    "ethereal_build_pass": true,
+    "position_bank_frozen": false,
+    "engine_measurements_opened": false,
+    "maia_measurements_opened": false,
+    "court_outcome_opened": false,
+    "certificate_outcomes_opened": false,
+    "certificate_yield_visible": false,
+    "p1_survivors_used": false
+  },
+  "engine_artifacts": {
+    "stockfish": {
+      "artifact_id": 11144839379,
+      "digest": "sha256:49af00670d989552833d1442e1660a43d801134ddde6ca106913d302792d1708",
+      "drive_file_id": "1dJDl_5-dNhrbb2_GBYwy-GKoqWEAngzB"
+    },
+    "berserk": {
+      "artifact_id": 11144764385,
+      "digest": "sha256:d859f7b5c93736d34fb6993fb322b1a5e68f58fcead7ad035cc4c6bc7a728901",
+      "drive_file_id": "1pO-bJpht4MU9AavXlQvQUcsaaNN_zjLt"
+    },
+    "ethereal": {
+      "artifact_id": 11145565363,
+      "digest": "sha256:316d16de95f92e26676fe19517369df451f528cf4ecc7c294a2979dc6a5021b7",
+      "drive_file_id": "1UHk6k26Scxu4ixkNEmcYdO22ARua40O8"
+    }
   },
   "maia3": {
     "code_commit": "1e13597c42d4858b7cfd7cfdae01e297263364b2",
     "revision": "b6559de2398d7140b985f28fd2c19fb5e47ddabe",
-    "checkpoint_sha256": "ba14208b2992d85502f5fb501934abf6aaaeb355e9f3fdf90e326911f562524f"
+    "checkpoint_sha256": "ba14208b2992d85502f5fb501934abf6aaaeb355e9f3fdf90e326911f562524f",
+    "checkpoint_bytes_acquired_in_p2_run": false
   },
   "drive": {
     "source_folder_id": "1eOfCfaNrCK_rl4THIZa3GxlFtZh9toIx",
     "runtime_folder_id": "1vct_3d8pKDoH4Qa-tIUzGBvC_ad_hOes",
     "results_folder_id": "1L6SIBEHe9HVJkWsXRwOIMV7cUrOdwelM"
   },
-  "p1_survivors_used": false,
-  "certificate_outcomes_opened": false,
-  "certificate_yield_visible": false
+  "reopen_condition": "Exact precommitted September 2026 Lichess broadcast archive becomes publicly retrievable and live checksum-verifiable. Reopen same P2; do not substitute another month/provider.",
+  "authority_ceiling": "SOURCE_SUPPORT_HOLD_ONLY_NO_QUESTION_IDENTITY_RESULT"
 }

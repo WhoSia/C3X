@@ -25,3 +25,43 @@ PASS requires at least 24/60 stable objects spanning at least two phases.
 
 ## Authority
 P2 earns only stable research-question-object authority. Fresh local-certificate outcomes remain sealed throughout P2.
+
+
+## Source-support HOLD — 2026-10-01
+
+P2 was prospectively opened with **September 2026 Lichess official broadcasts** as the fresh/disjoint primary source. The scientific design did not authorize substituting a different month after source availability was observed.
+
+Canonical attempt:
+- head: `0d3930a8fe9152bcc2a211985d8cde3f760f6d60`
+- run: `36825916744`
+- static/precommit: **PASS**
+- Stockfish/Berserk/Ethereal exact builds: **PASS**
+- source-freeze: **HTTP 404** for `lichess_db_broadcast_2026-09.pgn.zst`
+- bank-freeze / measurement / Court: **SKIPPED**
+
+Current Lichess broadcast export index exposed monthly files only through **2026-08** at the time of the attempt. No September source bytes were acquired.
+
+### Scientific verdict
+
+`HOLD_FRESH_DISJOINT_SOURCE_SUPPORT_INSUFFICIENT`
+
+This is **not** evidence that stable explanation-question objects do or do not exist. P2 never opened engine question-identity measurements, Maia outcomes, a stable-object bank, or any causal-certificate outcome.
+
+### Anti-rescue ruling
+
+P2 will **not** substitute June, July, August, another provider, P1's 11 survivors, or a hand-picked September event after observing that the precommitted monthly export is unavailable.
+
+### Reopen condition
+
+Reopen **the same P2 stage** only when the exact precommitted file `lichess_db_broadcast_2026-09.pgn.zst` becomes publicly retrievable and checksum-verifiable. The already frozen P2 constitution, representation hierarchy, thresholds, 60-position phase quotas and anti-leakage rules remain unchanged.
+
+No automatic P3 is authorized.
+
+### Runtime custody
+
+Exact observational-engine artifacts from the failed source attempt were preserved in Drive:
+- Stockfish 19: `1dJDl_5-dNhrbb2_GBYwy-GKoqWEAngzB`
+- Berserk: `1pO-bJpht4MU9AavXlQvQUcsaaNN_zjLt`
+- Ethereal: `1UHk6k26Scxu4ixkNEmcYdO22ARua40O8`
+
+No P2 source or scientific-result artifact exists because source acquisition failed before bank construction.
