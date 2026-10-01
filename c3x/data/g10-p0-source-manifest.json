@@ -1,6 +1,6 @@
 {
   "schema": "c3x-g10-p0-source-manifest-v1",
-  "status": "SOURCE_LANE_OPEN_NO_BULK_BYTES_INGESTED",
+  "status": "BOUNDED_REAL_PGN_ACQUIRED_AND_DEMAND_REALIZABILITY_OBSERVED",
   "primary_candidate": {
     "name": "Lichess official broadcast PGN database",
     "source_page": "https://database.lichess.org/",
@@ -11,13 +11,46 @@
     "license": "CC BY-SA 4.0",
     "intended_role": "fresh real-PGN explanation-demand discovery only",
     "scientific_authority": "source worlds only; broadcast provenance/evaluations do not supply C3X causal authority",
-    "acquisition_state": "METADATA_VERIFIED_BYTES_NOT_YET_PROMOTED"
+    "acquisition_state": "METADATA_VERIFIED_BYTES_NOT_YET_PROMOTED",
+    "live_acquisition": {
+      "canonical_observation_run": 36805247304,
+      "canonical_observation_head": "b273d59da4d85674da7bbf1c703840c973a8cc24",
+      "live_manifest_sha256": "714d0eb99f99fca8d791142038b6c59b5ca6a51b3339bd3891a92f4bdffcbf0c",
+      "observed_archive_sha256": "714d0eb99f99fca8d791142038b6c59b5ca6a51b3339bd3891a92f4bdffcbf0c",
+      "manifest_match": true,
+      "note": "The archive checksum was resolved from the live source sha256sums.txt in the same CI execution. Cached external index/checksum views are not byte authority."
+    }
   },
   "drive": {
     "source_accrual_folder_id": "1wMlfI2lVX5aN6agVrki4pYA52LBffm5o",
     "runtime_folder_id": "1GM_FFVdEnVw6sl7gkx9qnOYdFgLSvaFZ",
-    "sealed_results_folder_id": "1qT5UULyf9O8_FL-6oGjFYxf_fJSWR9wX"
+    "sealed_results_folder_id": "1qT5UULyf9O8_FL-6oGjFYxf_fJSWR9wX",
+    "runtime_capsule_file_id": "1xHVyZ3LbOhspkkxWXspZZikPmHX6NqG5",
+    "p16_roundtrip_file_id": "1hCeK2oFFFoga-krBz6-f3RVow6n5xt4b",
+    "source_split_promotion": "PENDING_FINAL_CLOSURE_RUN",
+    "demand_result_split_promotion": "PENDING_FINAL_CLOSURE_RUN"
   },
   "acquisition_rule": "Freeze executable demand grammar first; then acquire a bounded sample. Do not tune admission after causal outcomes.",
-  "bulk_dump_rejected_for_p0": "The multi-billion-game standard rated corpus is unnecessary for P0 realizability and creates avoidable custody/compute cost."
+  "bulk_dump_rejected_for_p0": "The multi-billion-game standard rated corpus is unnecessary for P0 realizability and creates avoidable custody/compute cost.",
+  "bounded_real_game": {
+    "event": "Round 2: Borgaonkar Akshay - Advik Amit Agrawal",
+    "site": "https://lichess.org/broadcast/pune-international-grandmaster-round-robin-tournament/round-2/FaJqWXz5/dyCCR30S",
+    "date": "2026.07.01",
+    "round": "2.1",
+    "white": "Borgaonkar Akshay",
+    "black": "Advik Amit Agrawal",
+    "result": "1/2-1/2",
+    "variant": "Standard",
+    "eco": "B31",
+    "opening": "Sicilian Defense: Nyezhmetdinov-Rossolimo Attack, Fianchetto Variation",
+    "selection_rule": "first legal Standard/From Position game among the first 50 archive games with at least 12 plies"
+  },
+  "demand_realizability": {
+    "positions_scanned": 3,
+    "admitted_proposals": 3,
+    "causal_outcomes_opened": false,
+    "causal_authority_granted": false,
+    "proposal_authority": "QUESTION_PROPOSAL_ONLY",
+    "demand_policy_changed_after_observation": false
+  }
 }
