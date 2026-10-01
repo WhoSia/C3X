@@ -8,6 +8,7 @@ from .loop import (
     compress_chess_native_consequence,
     historical_contract_witness,
     build_roundtrip_packet,
+    to_explanation_certificate,
 )
 
 __all__ = [
@@ -18,4 +19,5 @@ __all__ = [
     "compress_chess_native_consequence",
     "historical_contract_witness",
     "build_roundtrip_packet",
+    "to_explanation_certificate",
 ]
