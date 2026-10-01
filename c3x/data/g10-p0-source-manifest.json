@@ -1,6 +1,6 @@
 {
   "schema": "c3x-g10-p0-source-manifest-v1",
-  "status": "BOUNDED_REAL_PGN_ACQUIRED_AND_DEMAND_REALIZABILITY_OBSERVED",
+  "status": "CANONICAL_BOUNDED_SOURCE_AND_RESULTS_PROMOTED",
   "primary_candidate": {
     "name": "Lichess official broadcast PGN database",
     "source_page": "https://database.lichess.org/",
@@ -11,14 +11,18 @@
     "license": "CC BY-SA 4.0",
     "intended_role": "fresh real-PGN explanation-demand discovery only",
     "scientific_authority": "source worlds only; broadcast provenance/evaluations do not supply C3X causal authority",
-    "acquisition_state": "METADATA_VERIFIED_BYTES_NOT_YET_PROMOTED",
+    "acquisition_state": "CANONICAL_BOUNDED_SOURCE_PROMOTED",
     "live_acquisition": {
       "canonical_observation_run": 36805247304,
       "canonical_observation_head": "b273d59da4d85674da7bbf1c703840c973a8cc24",
       "live_manifest_sha256": "714d0eb99f99fca8d791142038b6c59b5ca6a51b3339bd3891a92f4bdffcbf0c",
       "observed_archive_sha256": "714d0eb99f99fca8d791142038b6c59b5ca6a51b3339bd3891a92f4bdffcbf0c",
       "manifest_match": true,
-      "note": "The archive checksum was resolved from the live source sha256sums.txt in the same CI execution. Cached external index/checksum views are not byte authority."
+      "note": "The archive checksum was resolved from the live source sha256sums.txt in the same CI execution. Cached external index/checksum views are not byte authority.",
+      "first_successful_run": 36805247304,
+      "first_successful_head": "b273d59da4d85674da7bbf1c703840c973a8cc24",
+      "canonical_closure_candidate_run": 36805825797,
+      "canonical_closure_candidate_head": "3c9a2917130dfea37316c0c24e29a51990afe23d"
     }
   },
   "drive": {
@@ -27,8 +31,24 @@
     "sealed_results_folder_id": "1qT5UULyf9O8_FL-6oGjFYxf_fJSWR9wX",
     "runtime_capsule_file_id": "1xHVyZ3LbOhspkkxWXspZZikPmHX6NqG5",
     "p16_roundtrip_file_id": "1hCeK2oFFFoga-krBz6-f3RVow6n5xt4b",
-    "source_split_promotion": "PENDING_FINAL_CLOSURE_RUN",
-    "demand_result_split_promotion": "PENDING_FINAL_CLOSURE_RUN"
+    "source_split_promotion": {
+      "state": "PROMOTED",
+      "file_id": "1b9MShEQQYiQ4G-HUFzHPdzZSdPoERIl_",
+      "artifact_id": 11137658177,
+      "artifact_digest": "sha256:fdebe2947ca04a446e2f52dc50817ce468739c16395b16f095a695f9a6378159"
+    },
+    "demand_result_split_promotion": {
+      "state": "PROMOTED",
+      "file_id": "1t0NZ_jywU6UISseGXgKtM8A2EbLIxwuD",
+      "artifact_id": 11137134071,
+      "artifact_digest": "sha256:f8b44fe1ed91cb283ef3d3ef8ff59cee59a4ca41c58919df74c6ca5543452192"
+    },
+    "p16_commentary_roundtrip_promotion": {
+      "state": "PROMOTED",
+      "file_id": "1W2fcSQtEv6kqwwZXbWIMF341ufG-LDIr",
+      "artifact_id": 11137392268,
+      "artifact_digest": "sha256:0aac683cdc06bb404b3b01a73ab854e9b7448c6f918622d7153740043baebabf"
+    }
   },
   "acquisition_rule": "Freeze executable demand grammar first; then acquire a bounded sample. Do not tune admission after causal outcomes.",
   "bulk_dump_rejected_for_p0": "The multi-billion-game standard rated corpus is unnecessary for P0 realizability and creates avoidable custody/compute cost.",
@@ -51,6 +71,10 @@
     "causal_outcomes_opened": false,
     "causal_authority_granted": false,
     "proposal_authority": "QUESTION_PROPOSAL_ONLY",
-    "demand_policy_changed_after_observation": false
+    "demand_policy_changed_after_observation": false,
+    "canonical_run": 36805825797,
+    "canonical_head": "3c9a2917130dfea37316c0c24e29a51990afe23d",
+    "commentary_bridge_pass": true,
+    "fresh_local_certificate_induction_opened": false
   }
 }

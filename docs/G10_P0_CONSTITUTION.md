@@ -109,3 +109,28 @@ Allocated G10-P0 folders:
 - sealed results: `04_SEALED_RESULTS_COURTS/G10_P0`.
 
 Run `36805247304` execution capsule and P16 round-trip artifact have already been promoted to Drive. The final closure run splits the bounded real PGN source artifact from the demand-result artifact before their canonical source/results promotion.
+
+
+## P0 closure candidate
+
+Canonical realizability candidate:
+
+- head: `3c9a2917130dfea37316c0c24e29a51990afe23d`;
+- run: `36805825797`;
+- contract + I0–I8 regression: **PASS**;
+- canonical P16 local certificate → G10 consequence → existing commentary graph/renderer/I7 firewall: **PASS**;
+- fresh Lichess real-PGN demand discovery under the unchanged frozen grammar: **PASS, 3 scanned / 3 admitted**;
+- fresh causal outcomes opened: **0**;
+- fresh causal authority granted: **0**;
+- source-integrity live manifest ↔ archive bytes: **PASS**;
+- Drive source/runtime/results custody: **PROMOTED**.
+
+Bounded P16 surface produced by the existing commentary stack:
+
+> For this exact certified engine world, the recorded board intervention changed the engine's root choice from d5 to O-O; suppressing the recorded search event on the baseline changed the root choice from d5 to O-O. This is local engine-preference causal evidence, not objective chess truth or a human strategic-intent claim.
+
+### Candidate verdict
+
+`PASS_CONTRAST_TO_EXPLANATION_LOOP_REALIZABLE / FRESH_LOCAL_CERTIFICATE_INDUCTION_NOT_YET_OPENED`
+
+P0 therefore closes the **constitution and realizability** problem. It does not treat the three fresh demand proposals as causal results. The next scientific mainline, if explicitly authorized, must spend fresh intervention evidence on a bounded frozen subset of real-PGN demand cases rather than continue ontology-only construction.

@@ -1,0 +1,91 @@
+{
+  "schema": "c3x-g10-p0-closure-v1",
+  "stage": "C3X 0.8.0-G10-P0 — Origin-Return Dual-Track Reconstitution, Real-PGN Explanation-Demand Discovery, Position-Specific Local Causal Certificate Induction, Chess-Native Consequence Compression, Authority-Separated Certificate↔Commentary Routing & Prospective Contrast-to-Explanation Loop Constitution",
+  "generation_alias": "Generation X — Contrast-to-Explanation Loop",
+  "verdict": "PASS_CONTRAST_TO_EXPLANATION_LOOP_REALIZABLE",
+  "residual_status": "FRESH_LOCAL_CERTIFICATE_INDUCTION_NOT_YET_OPENED",
+  "authority": "G10_CONSTITUTION_AND_DUAL_TRACK_REALIZABILITY_ONLY",
+  "scientific_parent": {
+    "stage": "G9.5-P18",
+    "state": "CLOSED_HOLD",
+    "exact_h_atom_law_branch": "FROZEN",
+    "h_family_privileged": false
+  },
+  "implementation_parent": {
+    "stage": "C3X Explain I8",
+    "state": "CLOSED_HUMAN_UTILITY_CLAIM_HOLD"
+  },
+  "canonical_realizability": {
+    "head": "3c9a2917130dfea37316c0c24e29a51990afe23d",
+    "run": 36805825797,
+    "conclusion": "success",
+    "jobs": {
+      "contract_and_i0_i8_regression": "success",
+      "historical_p16_certificate_to_commentary": "success",
+      "fresh_real_pgn_demand": "success"
+    }
+  },
+  "fresh_source": {
+    "archive": "lichess_db_broadcast_2026-07.pgn.zst",
+    "live_manifest_sha256": "714d0eb99f99fca8d791142038b6c59b5ca6a51b3339bd3891a92f4bdffcbf0c",
+    "observed_sha256": "714d0eb99f99fca8d791142038b6c59b5ca6a51b3339bd3891a92f4bdffcbf0c",
+    "byte_identity_pass": true,
+    "game": {
+      "event": "Round 2: Borgaonkar Akshay - Advik Amit Agrawal",
+      "date": "2026.07.01",
+      "round": "2.1",
+      "white": "Borgaonkar Akshay",
+      "black": "Advik Amit Agrawal",
+      "result": "1/2-1/2",
+      "eco": "B31",
+      "opening": "Sicilian Defense: Nyezhmetdinov-Rossolimo Attack, Fianchetto Variation",
+      "site": "https://lichess.org/broadcast/pune-international-grandmaster-round-robin-tournament/round-2/FaJqWXz5/dyCCR30S"
+    },
+    "positions_scanned": 3,
+    "demand_proposals": 3,
+    "demand_authority": "QUESTION_PROPOSAL_ONLY",
+    "causal_outcomes_opened": false,
+    "causal_authority_granted": false,
+    "demand_policy_changed_after_observation": false
+  },
+  "historical_known_positive": {
+    "certificate_id": "398eca8d6adf00525e6d5bf7",
+    "scientific_stage": "C3X 0.7.0-G9.5-P16",
+    "pair": "d6d5::e8g8",
+    "replication_status": "LOCAL_ONLY",
+    "transportable_law": false,
+    "commentary_surface": "For this exact certified engine world, the recorded board intervention changed the engine's root choice from d5 to O-O; suppressing the recorded search event on the baseline changed the root choice from d5 to O-O. This is local engine-preference causal evidence, not objective chess truth or a human strategic-intent claim."
+  },
+  "github_artifacts": {
+    "real_pgn_source": {
+      "id": 11137658177,
+      "digest": "sha256:fdebe2947ca04a446e2f52dc50817ce468739c16395b16f095a695f9a6378159"
+    },
+    "real_demand_result": {
+      "id": 11137134071,
+      "digest": "sha256:f8b44fe1ed91cb283ef3d3ef8ff59cee59a4ca41c58919df74c6ca5543452192"
+    },
+    "p16_commentary_roundtrip": {
+      "id": 11137392268,
+      "digest": "sha256:0aac683cdc06bb404b3b01a73ab854e9b7448c6f918622d7153740043baebabf"
+    }
+  },
+  "drive_custody": {
+    "source_folder": "1wMlfI2lVX5aN6agVrki4pYA52LBffm5o",
+    "runtime_folder": "1GM_FFVdEnVw6sl7gkx9qnOYdFgLSvaFZ",
+    "results_folder": "1qT5UULyf9O8_FL-6oGjFYxf_fJSWR9wX",
+    "canonical_source_file": "1b9MShEQQYiQ4G-HUFzHPdzZSdPoERIl_",
+    "canonical_demand_result_file": "1t0NZ_jywU6UISseGXgKtM8A2EbLIxwuD",
+    "canonical_p16_commentary_file": "1W2fcSQtEv6kqwwZXbWIMF341ufG-LDIr",
+    "earlier_runtime_capsule": "1xHVyZ3LbOhspkkxWXspZZikPmHX6NqG5"
+  },
+  "authority_firewall": [
+    "fresh demand proposals are question proposals, not causal claims",
+    "historical P16 remains LOCAL_ONLY and is not promoted to a law",
+    "engine preference is not objective chess truth",
+    "chess-native consequence does not imply human intention or cognition",
+    "Track B commentary quality cannot strengthen Track A scientific authority",
+    "I8 human utility remains unadjudicated"
+  ],
+  "next_mainline_constraint": "No automatic P1. If explicitly reauthorized, P1 must freeze a bounded subset of real-PGN demand cases before opening fresh local-certificate intervention outcomes; the P0 demand grammar may not be tuned using certificate yield."
+}
