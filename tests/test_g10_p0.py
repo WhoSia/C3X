@@ -133,3 +133,39 @@ def test_certificate_position_or_pair_mismatch_is_fatal():
         assert "pair mismatch" in str(e)
     else:
         raise AssertionError("pair mismatch should fail")
+
+
+def test_p16_routes_into_existing_commentary_stack_with_local_consequence():
+    from c3x_g10.loop import to_explanation_certificate
+    from c3x_explain.core import analyze_pgn, CAUSAL
+
+    c=_p16()
+    flat=to_explanation_certificate(c)
+    pgn=f"""[Event "G10 P16 Commentary Bridge"]
+[SetUp "1"]
+[FEN "{flat['fen']}"]
+[Result "*"]
+
+1... d5 *
+"""
+    out=analyze_pgn(pgn,certificates=[flat],rating_band="advanced")
+    assert out["moment_count"]==1
+    m=out["moments"][0]
+    causal=[a for a in m["atoms"] if a["provenance"]==CAUSAL]
+    assert len(causal)==1
+    atom=causal[0]
+    assert atom["claim"]["certificate_id"]=="398eca8d6adf00525e6d5bf7"
+    consequence=atom["claim"]["chess_native_consequence"]
+    assert consequence["board_preference_transition"]["before"]=="d6d5"
+    assert consequence["board_preference_transition"]["after"]=="e8g8"
+    assert "exact certified engine world" in atom["text"]
+    assert "d5" in atom["text"] and "O-O" in atom["text"]
+    assert m["render_packet"]["pass"] is True
+    assert m["realization_verification"]["pass"] is True
+    assert any(
+        n["node_type"]=="causal_certificate"
+        and n["payload"]["certificate_id"]=="398eca8d6adf00525e6d5bf7"
+        for n in m["typed_graph"]["nodes"]
+    )
+    assert out["verification_benchmark"]["clean_pass_rate"]==1.0
+    assert out["verification_benchmark"]["adversarial_rejection_rate"]==1.0
