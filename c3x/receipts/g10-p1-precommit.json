@@ -1,0 +1,20 @@
+{
+  "schema": "c3x-g10-p1-precommit-v1",
+  "stage": "C3X 0.8.0-G10-P1 — Prospective Explanation-Demand Validity, Opening-Theory Degeneracy Exclusion, Human↔Engine Candidate-Salience Triangulation, Cross-Engine/Budget Stability, Decision-Pressure Stratification, Annotation-Supported Positive-Control Recovery, Frozen Real-PGN Case-Bank Constitution & Fresh Local-Certificate Induction Admission Court",
+  "parent_head": "05778ecab7b3e79440979ff77f738c4e4d5fc8ec",
+  "notion_stage_page_id": "3ecef561-cf92-813e-bb15-d4de761b45c7",
+  "judgment_ci_open_id": "3ecef561-cf92-8188-9e1f-ed20c689d314",
+  "drive": {
+    "source": "1ZFBypNPd6zIdUnrFf8mjiU0gW1lu_ZI4",
+    "runtime": "1WXnzSnhlpsdLjYDbz-Nzuo5ClbqM2TOU",
+    "results": "1isEEhN6c6cG1ppKiztjgSDHlwLR5basm"
+  },
+  "selection": {
+    "base_evaluation_bank": "balance P0-admitted cases by source_month × phase × opening.theory_proximity using stable case hash; target 48",
+    "final_research_admission": "P0 admitted AND not opening-theory-degenerate AND Maia pair supported in >=2 rating bands AND candidate pair stable in >=3 Stockfish budgets and >=2 engines at medium budget; balance by source_month × phase; target 36",
+    "annotation_control": "evaluation only; never a selection input"
+  },
+  "causal_outcomes_opened": false,
+  "certificate_yield_visible": false,
+  "authority_ceiling": "EXPLANATION_DEMAND_VALIDITY_AND_RESEARCH_ADMISSION_ONLY"
+}\n

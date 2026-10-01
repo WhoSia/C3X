@@ -1,0 +1,92 @@
+{
+  "schema": "c3x-g10-p1-constitution-v1",
+  "stage": "C3X 0.8.0-G10-P1 — Prospective Explanation-Demand Validity, Opening-Theory Degeneracy Exclusion, Human↔Engine Candidate-Salience Triangulation, Cross-Engine/Budget Stability, Decision-Pressure Stratification, Annotation-Supported Positive-Control Recovery, Frozen Real-PGN Case-Bank Constitution & Fresh Local-Certificate Induction Admission Court",
+  "parent": {
+    "stage": "C3X 0.8.0-G10-P0",
+    "closure_head": "05778ecab7b3e79440979ff77f738c4e4d5fc8ec",
+    "verdict": "PASS_CONTRAST_TO_EXPLANATION_LOOP_REALIZABLE",
+    "residual": "FRESH_LOCAL_CERTIFICATE_INDUCTION_NOT_YET_OPENED"
+  },
+  "question": "Can C3X prospectively distinguish genuinely explanation-worthy real-game move contrasts from merely near-equal engine alternatives before learning which cases yield causal certificates?",
+  "rivals": [
+    "R0_P0_SELECTOR_SUFFICIENT",
+    "R1_OPENING_THEORY_DEGENERACY",
+    "R2_HUMAN_SALIENCE_DIVERGENCE",
+    "R3_ENGINE_OR_BUDGET_INSTABILITY",
+    "R4_DECISION_PRESSURE_STRATIFICATION",
+    "R5_EXPERT_ANNOTATION_EXTERNAL_CONTROL"
+  ],
+  "source_locks": {
+    "maia3_code": {
+      "repo": "CSSLab/maia3",
+      "commit": "1e13597c42d4858b7cfd7cfdae01e297263364b2",
+      "model_repo": "UofTCSSLab/Maia3-5M",
+      "checkpoint_revision": "FREEZE_BEFORE_SCORING"
+    },
+    "chess_openings": {
+      "repo": "lichess-org/chess-openings",
+      "commit": "c67912be581f0793dbaa776be5ccf111e01f88d9",
+      "license": "CC0"
+    },
+    "stockfish_19": {
+      "commit": "edb0d9db6731067ec50ce619ff372b463bc4dd5d"
+    },
+    "berserk": {
+      "commit": "32628515050b83805bab4afa1026dd2bcaa93f55"
+    },
+    "ethereal": {
+      "commit": "0e47e9b67f345c75eb965d9fb3e2493b6a11d09a"
+    },
+    "broadcasts": [
+      "2026-07",
+      "2026-08"
+    ],
+    "annotation_control": {
+      "provider": "Lichess",
+      "study_id": "y4CM41x8",
+      "label": "Tata Steel Chess 2026 - Annotations"
+    }
+  },
+  "frozen_policy": {
+    "elo_bands": [
+      1200,
+      1800,
+      2400
+    ],
+    "stockfish_node_budgets": [
+      2000,
+      5000,
+      10000,
+      40000
+    ],
+    "engine_medium_nodes": 10000,
+    "base_eval_target": 48,
+    "annotation_positive_target": 24,
+    "annotation_negative_target": 24,
+    "final_bank_target": 36,
+    "final_bank_minimum": 18,
+    "human_pair_mass_min": 0.2,
+    "human_each_candidate_min": 0.03,
+    "human_supported_band_min": 2,
+    "sf_pair_budget_support_min": 3,
+    "cross_engine_pair_support_min": 2,
+    "annotation_enrichment_floor": 1.05,
+    "selector_shrinkage_threshold": 0.25
+  },
+  "anti_leakage": [
+    "fresh certificate outcomes forbidden",
+    "certificate yield forbidden",
+    "annotation labels forbidden from selection",
+    "P0 thresholds may not be retuned against later certificate yield",
+    "Maia policy is predictive-model evidence, not actual human judgment",
+    "cross-engine observations do not reopen G9.5 intervention semantics"
+  ],
+  "verdict_space": [
+    "PASS_DEMAND_VALIDITY_CASE_BANK_FROZEN",
+    "PASS_WITH_SELECTOR_SHRINKAGE_CASE_BANK_FROZEN",
+    "HOLD_HUMAN_SALIENCE_INSTRUMENT_UNREALIZED",
+    "HOLD_DEMAND_SELECTOR_EXTERNAL_VALIDITY_UNRESOLVED",
+    "FAIL_P0_SELECTOR_NONDISCRIMINATING"
+  ],
+  "authority_ceiling": "EXPLANATION_DEMAND_VALIDITY_AND_RESEARCH_ADMISSION_ONLY"
+}\n

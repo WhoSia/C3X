@@ -1,0 +1,50 @@
+{
+  "schema": "c3x-g10-p1-source-manifest-v1",
+  "status": "PRECOMMITTED_IDENTITIES_PENDING_LIVE_BYTE_FREEZE",
+  "source_months": [
+    "2026-07",
+    "2026-08"
+  ],
+  "annotation_control": {
+    "provider": "Lichess",
+    "study_id": "y4CM41x8",
+    "api_candidate": "https://lichess.org/api/study/y4CM41x8.pgn",
+    "title": "Tata Steel Chess 2026 - Annotations",
+    "intended_role": "expert-attention positive control only"
+  },
+  "opening_corpus": {
+    "repo": "lichess-org/chess-openings",
+    "commit": "c67912be581f0793dbaa776be5ccf111e01f88d9",
+    "files": [
+      "a.tsv",
+      "b.tsv",
+      "c.tsv",
+      "d.tsv",
+      "e.tsv"
+    ],
+    "license": "CC0"
+  },
+  "human_policy": {
+    "code_repo": "CSSLab/maia3",
+    "code_commit": "1e13597c42d4858b7cfd7cfdae01e297263364b2",
+    "model_repo": "UofTCSSLab/Maia3-5M",
+    "checkpoint_snapshot": "TO_BE_FROZEN_BEFORE_SCORING",
+    "rating_bands": [
+      1200,
+      1800,
+      2400
+    ]
+  },
+  "observational_engines": {
+    "stockfish_19": "edb0d9db6731067ec50ce619ff372b463bc4dd5d",
+    "berserk": "32628515050b83805bab4afa1026dd2bcaa93f55",
+    "ethereal": "0e47e9b67f345c75eb965d9fb3e2493b6a11d09a"
+  },
+  "drive": {
+    "source_folder_id": "1ZFBypNPd6zIdUnrFf8mjiU0gW1lu_ZI4",
+    "runtime_folder_id": "1WXnzSnhlpsdLjYDbz-Nzuo5ClbqM2TOU",
+    "results_folder_id": "1isEEhN6c6cG1ppKiztjgSDHlwLR5basm"
+  },
+  "causal_outcomes_opened": false,
+  "certificate_yield_visible": false
+}\n
