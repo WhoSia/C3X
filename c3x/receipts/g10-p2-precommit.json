@@ -1,0 +1,43 @@
+{
+  "schema": "c3x-g10-p2-precommit-v1",
+  "stage": "C3X 0.8.0-G10-P2 — Prospective Explanation-Question Identity Constitution, Search-Context Repeatability, Independent-Instance Reconstitution, Budget↔Engine Perturbation Decomposition, Human-Salience-Preserving Contrast Equivalence, Fresh-Disjoint Real-PGN Replication, Measurement-Error Localization & Stable Research-Admission Object Court",
+  "parent_main_head": "d940e6f51a59eccb1ef22fb0f32494dde5ed38f5",
+  "notion_stage_page_id": "3ecef561-cf92-8181-b353-f7fe2fc85f44",
+  "judgment_ci_open_id": "3ecef561-cf92-810c-9dbb-f2e836ce3452",
+  "frozen_policy": {
+    "schema": "c3x-g10-p2-policy-v1",
+    "position_target": 60,
+    "phase_quota": {
+      "opening": 20,
+      "middlegame": 20,
+      "endgame": 20
+    },
+    "max_positions_per_game": 2,
+    "fresh_repeats": 5,
+    "clean_repeats": 5,
+    "history_repeats": 5,
+    "fresh_u2_repeatability_min": 0.8,
+    "fresh_n3_pairwise_jaccard_min": 0.8,
+    "clean_u2_agreement_min": 0.8,
+    "history_u2_agreement_min": 0.6,
+    "budget_direct_support_min": 2,
+    "hce_band_min": 2,
+    "hce_rank_max": 5,
+    "hce_probability_min": 0.01,
+    "hce_pair_mass_delta_max": 0.15,
+    "stable_bank_min": 24,
+    "fail_bank_max": 5,
+    "engine_universal_support_min": 2,
+    "uses_certificate_yield": false,
+    "uses_p1_survivors": false
+  },
+  "drive": {
+    "source": "1eOfCfaNrCK_rl4THIZa3GxlFtZh9toIx",
+    "runtime": "1vct_3d8pKDoH4Qa-tIUzGBvC_ad_hOes",
+    "results": "1L6SIBEHe9HVJkWsXRwOIMV7cUrOdwelM"
+  },
+  "fresh_disjoint_required": true,
+  "p1_survivors_used": false,
+  "certificate_outcomes_opened": false,
+  "authority_ceiling": "MEASUREMENT_STABLE_RESEARCH_QUESTION_OBJECT_ONLY"
+}

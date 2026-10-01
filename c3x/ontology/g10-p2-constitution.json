@@ -1,0 +1,86 @@
+{
+  "schema": "c3x-g10-p2-constitution-v1",
+  "stage": "C3X 0.8.0-G10-P2 — Prospective Explanation-Question Identity Constitution, Search-Context Repeatability, Independent-Instance Reconstitution, Budget↔Engine Perturbation Decomposition, Human-Salience-Preserving Contrast Equivalence, Fresh-Disjoint Real-PGN Replication, Measurement-Error Localization & Stable Research-Admission Object Court",
+  "parent": {
+    "stage": "C3X 0.8.0-G10-P1",
+    "verdict": "HOLD_DEMAND_SELECTOR_EXTERNAL_VALIDITY_UNRESOLVED",
+    "canonical_run": 36815595893
+  },
+  "question": "What representation of an explanation-question remains measurement-stable across controlled search contexts before causal outcomes?",
+  "fresh_source": {
+    "provider": "Lichess official broadcast database",
+    "month": "2026-09",
+    "position_target": 60,
+    "phase_quota": {
+      "opening": 20,
+      "middlegame": 20,
+      "endgame": 20
+    }
+  },
+  "representations": [
+    "O2_ORDERED_TOP2",
+    "U2_UNORDERED_TOP2",
+    "N3_TOP3_NEIGHBORHOOD",
+    "HCE_HUMAN_POLICY_EQUIVALENCE"
+  ],
+  "repeats": {
+    "fresh_process_5k": 5,
+    "clean_persistent_5k": 5,
+    "history_loaded_5k": 5
+  },
+  "budgets": [
+    2000,
+    5000,
+    10000,
+    40000
+  ],
+  "engines": {
+    "stockfish_19": "edb0d9db6731067ec50ce619ff372b463bc4dd5d",
+    "berserk": "32628515050b83805bab4afa1026dd2bcaa93f55",
+    "ethereal": "0e47e9b67f345c75eb965d9fb3e2493b6a11d09a"
+  },
+  "maia3": {
+    "code_commit": "1e13597c42d4858b7cfd7cfdae01e297263364b2",
+    "revision": "b6559de2398d7140b985f28fd2c19fb5e47ddabe",
+    "checkpoint_sha256": "ba14208b2992d85502f5fb501934abf6aaaeb355e9f3fdf90e326911f562524f",
+    "rating_bands": [
+      1200,
+      1800,
+      2400
+    ]
+  },
+  "admission": {
+    "schema": "c3x-g10-p2-policy-v1",
+    "position_target": 60,
+    "phase_quota": {
+      "opening": 20,
+      "middlegame": 20,
+      "endgame": 20
+    },
+    "max_positions_per_game": 2,
+    "fresh_repeats": 5,
+    "clean_repeats": 5,
+    "history_repeats": 5,
+    "fresh_u2_repeatability_min": 0.8,
+    "fresh_n3_pairwise_jaccard_min": 0.8,
+    "clean_u2_agreement_min": 0.8,
+    "history_u2_agreement_min": 0.6,
+    "budget_direct_support_min": 2,
+    "hce_band_min": 2,
+    "hce_rank_max": 5,
+    "hce_probability_min": 0.01,
+    "hce_pair_mass_delta_max": 0.15,
+    "stable_bank_min": 24,
+    "fail_bank_max": 5,
+    "engine_universal_support_min": 2,
+    "uses_certificate_yield": false,
+    "uses_p1_survivors": false
+  },
+  "anti_leakage": [
+    "P1 survivors forbidden",
+    "certificate outcomes forbidden",
+    "certificate yield forbidden",
+    "position bank frozen before engine/Maia outcomes"
+  ],
+  "authority_ceiling": "MEASUREMENT_STABLE_RESEARCH_QUESTION_OBJECT_ONLY"
+}
