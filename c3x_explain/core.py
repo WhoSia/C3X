@@ -106,13 +106,43 @@ def graph_audit(moments:list[dict[str,Any]])->dict[str,Any]:
             "firewall_failed_moments":sum(not m.get("firewall",{}).get("pass",False) for m in moments),
             "category_moment_counts":dict(sorted(categories.items()))}
 
+def _san_from_fen(fen:str,uci:str|None)->str|None:
+    if not uci:return None
+    try:
+        b=chess.Board(fen);m=chess.Move.from_uci(uci)
+        return b.san(m) if m in b.legal_moves else uci
+    except Exception:
+        return uci
+
+def _causal_certificate_text(board:chess.Board,claim:dict[str,Any])->str:
+    consequence=claim.get("chess_native_consequence")
+    if not isinstance(consequence,dict):
+        return "A C3X intervention certificate supports a causal statement only about the recorded engine-preference contrast; it does not establish objective chess truth."
+    baseline=consequence.get("baseline") or {}
+    board_transition=consequence.get("board_preference_transition") or {}
+    search_transition=consequence.get("search_mediation_transition") or {}
+    intervention=consequence.get("structural_intervention") or {}
+    bfen=str(baseline.get("fen") or board.fen())
+    tfen=intervention.get("target_fen")
+    before=_san_from_fen(bfen,board_transition.get("before"))
+    after=_san_from_fen(str(tfen),board_transition.get("after")) if tfen else board_transition.get("after")
+    suppressed=_san_from_fen(bfen,search_transition.get("event_suppressed"))
+    clauses=[]
+    if board_transition.get("changed") and before and after:
+        clauses.append(f"the recorded board intervention changed the engine's root choice from {before} to {after}")
+    if search_transition.get("changed") and before and suppressed:
+        clauses.append(f"suppressing the recorded search event on the baseline changed the root choice from {before} to {suppressed}")
+    if not clauses:
+        return "A C3X local causal certificate is attached, but no additional chess-native transition is surfaceable from the bounded packet."
+    return ("For this exact certified engine world, " + "; ".join(clauses) +
+            ". This is local engine-preference causal evidence, not objective chess truth or a human strategic-intent claim.")
+
 def causal_atoms(board:chess.Board,certs:list[dict[str,Any]])->list[dict[str,Any]]:
     atoms=[]
     for c in certs:
         claim=certificate_claim(c,board.fen())
         atoms.append({"type":"causal_contrast","provenance":CAUSAL,"authority":"engine_preference_causality",
-                      "claim":claim,
-                      "text":"A C3X intervention certificate supports a causal statement only about the recorded engine-preference contrast; it does not establish objective chess truth."})
+                      "claim":claim,"text":_causal_certificate_text(board,claim)})
     return atoms
 
 def heuristic_atoms(board:chess.Board,played:chess.Move,cands:list[dict[str,Any]],facts:list[dict[str,Any]])->list[dict[str,Any]]:
