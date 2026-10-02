@@ -76,3 +76,18 @@ No transportable causal pattern was instantiated. P18's transport failure remain
 - final GitHub artifact: `11206035497`
 - artifact digest: `sha256:a2f065d333bc46eebeaf3fa83d96077d4ac3ec0c185b4afffd80d2d809a10188`
 - Drive sealed-results custody: `1bwfvH0X_BogcWH6dIe_2Nyjat44OFP1a`
+
+
+## Exact-head closure verification
+
+Closure head `b86e18fe77abe34c9438c2c8c3efea255c0511a4` was verified by Actions run `36955040848` — **SUCCESS**.
+
+- full P5→P0 + explanation regression: **65 passed**
+- closure-fact assertions: PASS
+- canonical-run authority assertion: PASS
+- closure marker: `C3X_G10_P5_CLOSURE_VERIFY_PASS`
+- GitHub closure artifact: `11206115334`
+- digest: `sha256:0b247b109ae9de761d8dc05b07334194b8c8a501d36bfb1c4d92c7689e6a9244`
+- Drive closure-capsule custody: `1tSW7R9rdKEW_oX7p1R6CVtYsugGdfKrz`
+
+P5 is therefore closed at three aligned layers: scientific Court result, executable GitHub receipt, and persistent Drive custody.

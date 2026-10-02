@@ -1,13 +1,6 @@
 name: c3x-g10-p5-closure-verification
 
 on:
-  push:
-    paths:
-      - "c3x/results/g10-p5-court.json"
-      - "c3x/receipts/g10-p5-closure.json"
-      - "c3x/receipts/g10-p5-run-authority.json"
-      - "docs/G10_P5_COURT.md"
-      - ".github/workflows/g10-p5-closure.yml"
   workflow_dispatch:
 
 permissions:
