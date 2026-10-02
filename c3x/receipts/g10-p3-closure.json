@@ -23,7 +23,10 @@
     },
     "rerun": {
       "run_id": 36948056524,
-      "status": "QUEUED_AT_STATUS_SEAL",
+      "head": "667c312ba7f59884026f7e1a61c56425ba47367a",
+      "conclusion": "success",
+      "artifact_id": 11202898544,
+      "artifact_digest": "sha256:8fb4bc3a73af1d9a2b68f5912e7087fef005300f63518d4e38558f65be8c7b55",
       "scientific_role": "VERIFICATION_ONLY"
     }
   },
@@ -42,7 +45,8 @@
   "drive": {
     "source_folder_id": "1USMex4fiZ76grVgbqO7oVQldi0gjmF8N",
     "runtime_folder_id": "1HMaTwVwWkrkV7LJdrJjLhRq3iZMDGfwZ",
-    "results_folder_id": "1Pw2d2XYXGpM8d32EF7GzaE4eI8Ekbp9_"
+    "results_folder_id": "1Pw2d2XYXGpM8d32EF7GzaE4eI8Ekbp9_",
+    "verified_court_file_id": "1z9yoz8HwzEk6dsZsm3fZgW8FJ70p3sUJ"
   },
   "next_scientific_implication": "Future P2 repeatability should measure regime-tagged routing objects and candidate neighborhoods, while causal explanation authority remains gated by independent local certificate generation.",
   "authority_ceiling": [
@@ -50,5 +54,6 @@
     "P16 remains LOCAL_ONLY.",
     "P12 replicated colocation is not promoted to replicated mediation.",
     "No objective chess truth, human cognition or human utility claim is authorized."
-  ]
+  ],
+  "verification_state": "VERIFIED_SUCCESS"
 }
