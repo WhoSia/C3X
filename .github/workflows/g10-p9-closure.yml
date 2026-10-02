@@ -5,6 +5,7 @@ on:
     branches: [main]
     paths:
       - 'c3x/results/g10-p9-experiment.json'
+      - '.github/workflows/g10-p9-closure.yml'
 
 permissions:
   contents: write
