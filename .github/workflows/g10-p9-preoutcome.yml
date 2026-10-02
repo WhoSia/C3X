@@ -1,0 +1,84 @@
+name: c3x-g10-p9-graded-recoverability-preoutcome
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'c3x/ontology/g10-p9-constitution.json'
+      - 'c3x_g10/graded_recoverability.py'
+      - 'tools/g10_p9_preoutcome.py'
+      - 'tests/test_g10_p9.py'
+      - '.github/workflows/g10-p9-preoutcome.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: g10-p9-graded-recoverability-preoutcome
+  cancel-in-progress: true
+
+env:
+  P8_PAIR_FREEZE_RUN: "36980730341"
+
+jobs:
+  preoutcome:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install
+        run: python3 -m pip install --disable-pip-version-check python-chess==1.999 pytest
+
+      - name: Static contract
+        run: |
+          PYTHONPATH=. pytest -q tests/test_g10_p9.py tests/test_g10_p8.py tests/test_g10_p7.py
+          python3 - <<'PY'
+          import json
+          c=json.load(open("c3x/ontology/g10-p9-constitution.json"))
+          assert c["type"]=="EXPERIMENT"
+          assert c["inherited"]["grammar"]==["C","S","E"]
+          assert c["inherited"]["unlicensed_generators"]==["G","U"]
+          assert c["positivity_gate"]["outcomes_before_gate"] is False
+          assert "mechanism family" in c["authority_ceiling"].lower()
+          print("G10_P9_PREOUTCOME_CONTRACT_PASS")
+          PY
+
+      - name: Download frozen P8 pair-freezes only
+        uses: actions/download-artifact@v4
+        with:
+          pattern: g10-p8-pair-freeze-b*
+          path: pairfreezes
+          repository: WhoSia/C3X
+          run-id: ${{ env.P8_PAIR_FREEZE_RUN }}
+          github-token: ${{ github.token }}
+
+      - name: Run graded discriminability and positivity census
+        run: |
+          ARGS=()
+          while IFS= read -r f; do ARGS+=(--pair-freeze "$f"); done < <(find pairfreezes -name 'g10-p8-pair-freeze.json' | sort)
+          test "${#ARGS[@]}" -eq 6
+          PYTHONPATH=. python3 tools/g10_p9_preoutcome.py             "${ARGS[@]}"             --ecology c3x/data/g10-p7-development-ecology.json             --out g10-p9-preoutcome-census.json
+          python3 - <<'PY'
+          import json
+          r=json.load(open("g10-p9-preoutcome-census.json"))
+          assert r["firewall_pass"] is True
+          assert r["forbidden_outcomes_consulted"]==[]
+          assert r["chain_qualification_opened"] is False
+          assert r["factorial_outcomes_opened"] is False
+          assert r["certificate_outcomes_opened"] is False
+          assert r["family_admission_opened"] is False
+          print("G10_P9_PREOUTCOME_VERDICT",r["verdict"])
+          for k,v in sorted(r["source_stats"].items()):
+              print("G10_P9_SOURCE",k,v)
+          PY
+          sha256sum g10-p9-preoutcome-census.json > g10-p9-preoutcome-sha256.txt
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: g10-p9-preoutcome-census-sealed
+          path: |
+            g10-p9-preoutcome-census.json
+            g10-p9-preoutcome-sha256.txt
+          retention-days: 90
