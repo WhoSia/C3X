@@ -1,0 +1,43 @@
+{
+  "schema": "c3x-g10-p4-constitution-v1",
+  "stage": "C3X 0.8.0-G10-P4 — Prospective Evidence-Promotion Calculus, Typed Witness Necessity↔Sufficiency, Measurement→Surface→Causal Authority Lifting, Intervention-Preserving Abstraction, Counterexample-Closed Promotion Rules, Local-Certificate Composition & Explanation-Authority Transition Court",
+  "type": "COURT",
+  "parent": {
+    "stage": "G10-P3",
+    "verdict": "PASS_TWO_LEVEL_INVARIANT_ARCHITECTURE",
+    "receipt_head": "dab2778e30fb260830889fa8813cdf57a45ccc22"
+  },
+  "authority_states": [
+    "MEASUREMENT_ROUTING",
+    "CHESS_NATIVE_SURFACE",
+    "MECHANISM_CANDIDATE",
+    "LOCAL_CAUSAL_EXPLANATION",
+    "COMPOSITION_CANDIDATE",
+    "TRANSPORTABLE_CAUSAL_PATTERN"
+  ],
+  "core_axioms": [
+    "Evidence accumulation is not authority accumulation",
+    "Promotion is rule-licensed, typed and auditable",
+    "Failed promotion returns promotion debt",
+    "Composition does not imply transport",
+    "Causal wording is authority-gated"
+  ],
+  "novelty_kill": [
+    "natural language commentary alone",
+    "engine grounding alone",
+    "move classification alone",
+    "LLM plus engine alone",
+    "factual verifier alone",
+    "trace/provenance alone"
+  ],
+  "success": [
+    "executable graph",
+    "promotion debt",
+    "counterexample closure",
+    "composition guard",
+    "causal wording guard",
+    "bounded competitor novelty matrix",
+    "full G10 regression"
+  ],
+  "authority_ceiling": "May constitute promotion rules and composition-candidate authority; no new causal witness and no transportable causal pattern from existing evidence."
+}

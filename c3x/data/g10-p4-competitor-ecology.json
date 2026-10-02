@@ -1,0 +1,149 @@
+{
+  "schema": "c3x-g10-p4-competitor-ecology-v1",
+  "frozen_at": "2026-10-02",
+  "rows": [
+    {
+      "name": "Chess.com Game Review / Coach",
+      "type": "product",
+      "public_evidence": [
+        "https://support.chess.com/en/articles/8584089-how-does-game-review-work",
+        "https://support.chess.com/en/articles/8572705-how-are-moves-classified-what-is-a-blunder-or-brilliant-etc",
+        "https://support.chess.com/en/articles/11845102-why-did-my-move-classification-change-in-game-review"
+      ],
+      "capabilities": [
+        "engine_evaluation",
+        "move_classification",
+        "coach_natural_language",
+        "key_moves",
+        "visual_explanations",
+        "retry",
+        "expected_points_rating_conditioning"
+      ],
+      "typed_authority_promotion_contract_public": false,
+      "causal_wording_evidence_gate_public": false,
+      "promotion_debt_public": false,
+      "note": "Public docs explicitly acknowledge analysis/classification changes across quick/full review, device and engine strength."
+    },
+    {
+      "name": "DecodeChess",
+      "type": "product",
+      "public_evidence": [
+        "https://decodechess.com/features/"
+      ],
+      "capabilities": [
+        "stockfish_grounding",
+        "natural_language_move_explanation",
+        "threats",
+        "plans",
+        "concepts",
+        "piece_functionality",
+        "game_overview"
+      ],
+      "typed_authority_promotion_contract_public": false,
+      "causal_wording_evidence_gate_public": false,
+      "promotion_debt_public": false
+    },
+    {
+      "name": "Lichess computer analysis",
+      "type": "product",
+      "public_evidence": [
+        "https://lichess.org/page/changelog"
+      ],
+      "capabilities": [
+        "engine_analysis",
+        "accuracy",
+        "learn_from_mistakes",
+        "analysis_board"
+      ],
+      "typed_authority_promotion_contract_public": false,
+      "causal_wording_evidence_gate_public": false,
+      "promotion_debt_public": false
+    },
+    {
+      "name": "Automated Chess Commentator Powered by Neural Chess Engine",
+      "type": "research",
+      "year": 2019,
+      "public_evidence": [
+        "https://aclanthology.org/P19-1597/"
+      ],
+      "capabilities": [
+        "neural_chess_engine",
+        "category_conditioned_commentary_generation"
+      ],
+      "typed_authority_promotion_contract_public": false,
+      "causal_wording_evidence_gate_public": false,
+      "promotion_debt_public": false
+    },
+    {
+      "name": "ChessGPT",
+      "type": "research",
+      "year": 2023,
+      "public_evidence": [
+        "https://proceedings.neurips.cc/paper_files/paper/2023/hash/16b14e3f288f076e0ca73bdad6405f77-Abstract.html",
+        "https://github.com/waterhorse1/ChessGPT"
+      ],
+      "capabilities": [
+        "policy_learning",
+        "language_modeling",
+        "chess_language_dataset"
+      ],
+      "typed_authority_promotion_contract_public": false,
+      "causal_wording_evidence_gate_public": false,
+      "promotion_debt_public": false
+    },
+    {
+      "name": "Concept-guided Chess Commentary",
+      "type": "research",
+      "year": 2025,
+      "public_evidence": [
+        "https://aclanthology.org/2025.naacl-long.481/"
+      ],
+      "capabilities": [
+        "expert_model_concepts",
+        "LLM_commentary",
+        "commentary_evaluation"
+      ],
+      "typed_authority_promotion_contract_public": false,
+      "causal_wording_evidence_gate_public": false,
+      "promotion_debt_public": false
+    },
+    {
+      "name": "ACT-Eval",
+      "type": "research",
+      "year": 2026,
+      "public_evidence": [
+        "https://arxiv.org/abs/2608.04240"
+      ],
+      "capabilities": [
+        "atomic_claim_decomposition",
+        "tool_augmented_fact_checking",
+        "expert_gold_coverage",
+        "error_taxonomy"
+      ],
+      "typed_authority_promotion_contract_public": false,
+      "causal_wording_evidence_gate_public": false,
+      "promotion_debt_public": false,
+      "note": "Closest frozen research comparator on claim-level verification; evaluates commentary after/around generation rather than publishing a typed causal-authority promotion contract."
+    },
+    {
+      "name": "Noema64",
+      "type": "open_source_system",
+      "year": 2026,
+      "public_evidence": [
+        "https://github.com/ahmeddyounis/noema64"
+      ],
+      "capabilities": [
+        "LLM_planner",
+        "legal_move_core",
+        "verifier",
+        "decision_traces",
+        "strategy_memory",
+        "UCI"
+      ],
+      "typed_authority_promotion_contract_public": false,
+      "causal_wording_evidence_gate_public": false,
+      "promotion_debt_public": false
+    }
+  ],
+  "bounded_novelty_claim": "Within this frozen public ecology, no comparator was identified that publicly specifies an executable typed evidence-to-authority promotion contract with promotion debt and a causal-wording gate. This is a bounded search claim, not proof of universal novelty."
+}

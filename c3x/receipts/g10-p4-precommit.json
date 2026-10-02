@@ -1,0 +1,22 @@
+{
+  "schema": "c3x-g10-p4-precommit-v1",
+  "stage": "C3X 0.8.0-G10-P4 — Prospective Evidence-Promotion Calculus, Typed Witness Necessity↔Sufficiency, Measurement→Surface→Causal Authority Lifting, Intervention-Preserving Abstraction, Counterexample-Closed Promotion Rules, Local-Certificate Composition & Explanation-Authority Transition Court",
+  "parent_main_head": "dab2778e30fb260830889fa8813cdf57a45ccc22",
+  "notion_stage_page_id": "3edef561-cf92-8163-b155-fcd8f6c32b9a",
+  "judgment_ci_open_id": "3edef561-cf92-81b7-85d0-ca7c798672bb",
+  "frozen_inputs": [
+    "c3x/data/g10-p4-competitor-ecology.json",
+    "c3x/data/g10-p4-counterexample-bank.json",
+    "c3x/receipts/g95-p12-closure.json",
+    "c3x/receipts/g95-p16-closure.json",
+    "c3x/receipts/g95-p18-closure.json",
+    "c3x/receipts/g10-p3-closure.json"
+  ],
+  "drive": {
+    "source": "1VzdEc0KmWmw-TVHpuQ_ZJCB2bXB8xE9C",
+    "runtime": "1a1cKwnpFxKpdKYlTjDl_Ms_KQXK23we6",
+    "results": "1lcpQaEH5J3Yeg14tvWYIOQcQkJNOobCY"
+  },
+  "fresh_causal_outcomes_opened": false,
+  "transport_pattern_instantiation_authorized": false
+}

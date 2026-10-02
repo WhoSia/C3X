@@ -1,0 +1,70 @@
+{
+  "schema": "c3x-g10-p4-counterexample-bank-v1",
+  "cases": [
+    {
+      "id": "P12_ROOT_CHANGE_COLOCATION",
+      "source": "G9.5-P12",
+      "current_authority": "CHESS_NATIVE_SURFACE",
+      "evidence": [
+        "LEGAL_POSITION",
+        "LEGAL_CANDIDATE_OBJECT",
+        "OBSERVED_CANDIDATE_FATE",
+        "PROVENANCE_BOUND"
+      ],
+      "must_not_reach": [
+        "LOCAL_CAUSAL_EXPLANATION"
+      ],
+      "reason": "Root-choice change exists in colocation-only witnesses."
+    },
+    {
+      "id": "P12_RESPONSE_WITHOUT_COMPLETE_FALSIFIERS",
+      "source": "G9.5-P12",
+      "current_authority": "MECHANISM_CANDIDATE",
+      "evidence": [
+        "DECLARED_INTERVENTION",
+        "MATCHED_BASELINE",
+        "OBSERVED_INTERVENTION_RESPONSE",
+        "REGIME_IDENTITY",
+        "PROVENANCE_BOUND"
+      ],
+      "must_not_reach": [
+        "LOCAL_CAUSAL_EXPLANATION"
+      ],
+      "reason": "Observed intervention response does not supply minimality and falsifier contract."
+    },
+    {
+      "id": "P16_COMPLETE_LOCAL_BRIDGE",
+      "source": "G9.5-P16",
+      "current_authority": "MECHANISM_CANDIDATE",
+      "evidence": [
+        "EXACT_INTERVENTION_ADDRESS",
+        "LEGAL_CHESS_CONSEQUENCE",
+        "SUBSET_FALSIFIER_FAILED",
+        "SHAM_FALSIFIER_FAILED",
+        "CHAIN_RELATIVE_MINIMALITY",
+        "LOCAL_SCOPE_DECLARED",
+        "PROVENANCE_BOUND"
+      ],
+      "may_reach": [
+        "LOCAL_CAUSAL_EXPLANATION"
+      ],
+      "must_not_reach": [
+        "TRANSPORTABLE_CAUSAL_PATTERN"
+      ],
+      "reason": "Complete local certificate exists but replication status remains LOCAL_ONLY."
+    },
+    {
+      "id": "P18_LOCAL_ONLY_NO_TRANSPORT",
+      "source": "G9.5-P18",
+      "current_authority": "LOCAL_CAUSAL_EXPLANATION",
+      "evidence": [
+        "LOCAL_SCOPE_DECLARED",
+        "PROVENANCE_BOUND"
+      ],
+      "must_not_reach": [
+        "TRANSPORTABLE_CAUSAL_PATTERN"
+      ],
+      "reason": "Exact H law could not be promoted into a transportable ecology."
+    }
+  ]
+}
