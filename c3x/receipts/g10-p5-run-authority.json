@@ -21,9 +21,16 @@
       "reason": "POST_OUTCOME_TEST_ONLY_CHANGE_TRIGGERED_DUPLICATE_HEAVY_RUN",
       "read_outputs": false,
       "promote_outputs": false
+    },
+    {
+      "run_id": 36955593216,
+      "head": "9e1f45d2be864ea0008f82dfdd485eba4e249528",
+      "reason": "POST_CLOSURE_TRIGGER_ONLY_DUPLICATE_HEAVY_RUN",
+      "read_outputs": false,
+      "promote_outputs": false
     }
   ],
-  "policy": "Only canonical run 36951016134 may determine P5 fresh-ecology scientific outcomes. Later duplicate heavy runs are verification-ineligible for science authority.",
+  "policy": "Only canonical run 36951016134 may determine P5 fresh-ecology scientific outcomes. All later duplicate heavy runs, including 36955593216, are non-authoritative and must not be read or promoted.",
   "canonical_completion": {
     "conclusion": "success",
     "completed_at": "2026-10-02T02:16:10Z",
