@@ -1,0 +1,73 @@
+{
+  "schema": "c3x-g10-p8-constitution-v1",
+  "stage": "C3X 0.8.0-G10-P8 — Prospective Morphism-Conditioned Certificate Acquisition, Frozen Orbit-Targeted World Search, Pre-Outcome Family-Member Recoverability, Matched Untargeted Yield Control, Selection-Bias Firewall, Null-Yield Calibration, Cross-Source/Engine Replication & Empirical Mechanism-Family Admission Court",
+  "type": "COURT",
+  "parent": {
+    "stage": "G10-P7",
+    "verdict": "PASS_ADMISSIBLE_MORPHISM_GRAMMAR_NO_HOLDOUT_FAMILY",
+    "closure_head": "c28e8990ab7d637ed07c5f4b2619e1f488c8b6db"
+  },
+  "frozen_grammar": [
+    "C",
+    "S",
+    "E"
+  ],
+  "unlicensed_generators": [
+    "G",
+    "U"
+  ],
+  "sources": [
+    {
+      "id": "P8_SRC_TWIC_1657",
+      "date": "2026-08-10",
+      "games": 10768,
+      "url": "https://theweekinchess.com/zips/twic1657g.zip"
+    },
+    {
+      "id": "P8_SRC_TWIC_1658",
+      "date": "2026-08-17",
+      "games": 7465,
+      "url": "https://theweekinchess.com/zips/twic1658g.zip"
+    }
+  ],
+  "candidate_pool": {
+    "batches": 3,
+    "positions_per_batch_source": 18,
+    "total_positions_per_source": 54,
+    "total_positions": 108
+  },
+  "acquisition": {
+    "target_predicate": "pre-outcome board-trigger projection is in a nontrivial P7 C/S/E orbit",
+    "max_target_per_source": 12,
+    "min_target_per_source": 6,
+    "matched_control_features": [
+      "active_engine_count",
+      "source_ply_bucket",
+      "pair_support_count",
+      "chain_candidate_count_bucket",
+      "pair_gap_bucket"
+    ],
+    "causal_outcomes_before_assignment": false
+  },
+  "primary_estimand": "position-level any-complete-certificate yield TARGET minus matched CONTROL",
+  "family_admission": {
+    "requires": [
+      "same pre-existing P7 nontrivial family orbit",
+      "both P8 sources",
+      "at least two engines",
+      "complete LOCAL_ONLY certificates",
+      "falsifier/minimality preservation",
+      "frozen assignment"
+    ],
+    "grants_at_most": "MECHANISM_FAMILY_CANDIDATE"
+  },
+  "verdict_space": [
+    "PASS_EMPIRICAL_MECHANISM_FAMILY_ADMITTED",
+    "PASS_TARGETED_ACQUISITION_ENRICHED_NO_FAMILY",
+    "PASS_NO_TARGETED_YIELD_ADVANTAGE",
+    "NULL_YIELD_BOTH_ARMS",
+    "HOLD_ORBIT_TARGET_SUPPORT_INSUFFICIENT",
+    "FAIL_SELECTION_BIAS_FIREWALL"
+  ],
+  "authority_ceiling": "No transportable law, objective chess truth, human cognition or human utility claim."
+}
