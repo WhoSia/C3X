@@ -1,0 +1,58 @@
+{
+  "schema": "c3x-g10-p5-constitution-v1",
+  "stage": "C3X 0.8.0-G10-P5 — Prospective Explanation-Authority Dynamics, Promotion↔Suspension↔Demotion↔Retraction Calculus, Conflicting-Certificate Adjudication, Evidence-Arrival Noncommutativity, Dependency-Propagated Revision, Fresh Local-Certificate Ecology Expansion, Composition Stress Testing & Self-Correcting Explanation Authority Court",
+  "type": "COURT",
+  "parent": {
+    "stage": "G10-P4",
+    "verdict": "PASS_EXECUTABLE_EVIDENCE_PROMOTION_CALCULUS",
+    "head": "cf8195bd47ec6d8009dca2bd7e44d2643bfc16e6"
+  },
+  "authority_dynamics": {
+    "statuses": [
+      "ACTIVE",
+      "SUSPENDED",
+      "DEMOTED",
+      "RETRACTED",
+      "RESTORED",
+      "BRANCHED_CONFLICT"
+    ],
+    "ordinary_evidence_final_set_confluence_required": true,
+    "prospective_order_violation_noncommutative": true,
+    "dependency_propagation_required": true,
+    "stale_causal_language_forbidden": true
+  },
+  "fresh_ecology": {
+    "source": "TWIC 1664",
+    "source_url": "https://theweekinchess.com/zips/twic1664g.zip",
+    "positions": 36,
+    "strata": 2,
+    "positions_per_stratum": 18,
+    "inherited_instrument_contract": "G9.5-P16 exact-event minimal FULL_BRIDGE",
+    "engine_binaries_from_canonical_p16_run": 36544344858,
+    "no_post_outcome_contract_refit": true
+  },
+  "composition": {
+    "empirical_min_complete_local_certificates": 2,
+    "same_twic_issue_counts_as_independent_provenance": false,
+    "transport_authority_forbidden": true
+  },
+  "success": [
+    "authority state machine",
+    "confluence tests",
+    "procedural noncommutativity",
+    "dependency propagation",
+    "conflict classifier",
+    "TWIC source freeze",
+    "fresh P16-contract ecology",
+    "composition stress",
+    "causal wording withdrawal"
+  ],
+  "verdict_space": [
+    "PASS_SELF_CORRECTING_AUTHORITY_DYNAMICS",
+    "PASS_AUTHORITY_DYNAMICS_FRESH_ECOLOGY_NO_COMPOSITION",
+    "PASS_MULTI_CERTIFICATE_COMPOSITION_CANDIDATE",
+    "HOLD_FRESH_CERTIFICATE_ECOLOGY_SUPPORT_INSUFFICIENT",
+    "FAIL_AUTHORITY_REVISION_NONCONFLUENT",
+    "FAIL_DEPENDENCY_PROPAGATION_LEAK"
+  ]
+}
