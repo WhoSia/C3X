@@ -1,0 +1,100 @@
+name: c3x-g10-p10-opportunity-development
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'c3x/ontology/g10-p10-constitution.json'
+      - 'tools/g10_p10_opportunity_probe.py'
+      - 'tools/g10_p10_development.py'
+      - '.github/workflows/g10-p10-development.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: g10-p10-opportunity-development
+  cancel-in-progress: true
+
+env:
+  P9_RUN: "37007062196"
+  P16_RUN: "36544344858"
+
+jobs:
+  opportunity:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      max-parallel: 12
+      matrix:
+        shard: [0,1,2,3,4,5,6,7,8,9,10,11]
+    steps:
+      - uses: actions/checkout@v4
+      - name: Identity firewall
+        run: |
+          ! grep -Eq 'contents:[[:space:]]*write|git commit|git push|git tag|github-actions\[bot\]' .github/workflows/g10-p10-development.yml
+          python3 - <<'PY'
+          import json
+          c=json.load(open("c3x/ontology/g10-p10-constitution.json"))
+          f=c["github_automation_identity_firewall"]
+          assert f["contents_permission"]=="read"
+          assert f["repository_writeback_from_actions"] is False
+          print("G10_P10_IDENTITY_FIREWALL_PASS")
+          PY
+      - run: python3 -m pip install --disable-pip-version-check python-chess==1.999
+      - uses: actions/download-artifact@v4
+        with:
+          name: g10-p9-chain-freeze-sealed
+          path: state
+          repository: WhoSia/C3X
+          run-id: ${{ env.P9_RUN }}
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: g95-p16-build-*
+          path: builds
+          repository: WhoSia/C3X
+          run-id: ${{ env.P16_RUN }}
+          github-token: ${{ github.token }}
+      - name: Native topology opportunity probe
+        run: |
+          PYTHONPATH=. python3 tools/g10_p10_opportunity_probe.py             --chain-freeze state/g10-p9-chain-freeze.json             --build-dir builds             --shard ${{ matrix.shard }} --shards 12             --out-dir out
+      - uses: actions/upload-artifact@v4
+        with:
+          name: g10-p10-opportunity-${{ matrix.shard }}
+          path: out/*.json
+          retention-days: 90
+
+  development:
+    needs: opportunity
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: g10-p10-opportunity-*
+          path: worlds
+      - name: Development-only factorization readout
+        run: |
+          python3 tools/g10_p10_development.py             --worlds worlds             --p9-result c3x/results/g10-p9-experiment.json             --p9-census c3x/results/g10-p9-preoutcome-census.json             --out g10-p10-development.json
+          python3 - <<'PY'
+          import json
+          r=json.load(open("g10-p10-development.json"))
+          assert r["status"]=="DEVELOPMENT_ONLY_NO_CONFIRMATORY_AUTHORITY"
+          assert r["firewall_pass"] is True
+          assert r["confirmatory_authority"] is False
+          print("G10_P10_DEVELOPMENT_VERDICT",r["verdict"])
+          print("G10_P10_CLASS_COUNTS",r["opportunity_class_counts"])
+          print("G10_P10_POSITIVE",r["positive_case_rows"])
+          print("G10_P10_MATCH_SUPPORT",r["opportunity_matched_cells_with_family_distance_variation"])
+          PY
+          sha256sum g10-p10-development.json > g10-p10-development.sha256
+      - uses: actions/upload-artifact@v4
+        with:
+          name: g10-p10-development-sealed
+          path: |
+            g10-p10-development.json
+            g10-p10-development.sha256
+          retention-days: 90
