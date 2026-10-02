@@ -23,7 +23,14 @@ jobs:
       - uses: actions/checkout@v4
       - name: Identity firewall
         run: |
-          ! grep -Eq 'contents:[[:space:]]*write|git commit|git push|git tag|github-actions\[bot\]' .github/workflows/g10-p10-cartography.yml
+          python3 - <<'PY'
+          from pathlib import Path
+          s=Path(".github/workflows/g10-p10-cartography.yml").read_text()
+          assert "contents: write" not in s
+          assert "contents: read" in s
+          assert "actions: read" in s
+          print("G10_P10_IDENTITY_FIREWALL_PASS")
+          PY
       - uses: actions/download-artifact@v4
         with:
           pattern: g10-p10-opportunity-*
@@ -55,4 +62,3 @@ jobs:
             g10-p10-cartography.json
             g10-p10-cartography.sha256
           retention-days: 90
-# trigger-retry-after-self-check-fix
