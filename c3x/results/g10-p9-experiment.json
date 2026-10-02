@@ -1,0 +1,249 @@
+{
+  "acquisition": {
+    "both": 0,
+    "control_only": 1,
+    "control_positive_positions": 1,
+    "control_yield": 0.041666666666666664,
+    "neither": 23,
+    "paired_one_sided_binomial_p": 1.0,
+    "pairs": 24,
+    "target_only": 0,
+    "target_positive_positions": 0,
+    "target_yield": 0.0,
+    "yield_difference": -0.041666666666666664
+  },
+  "authority_ceiling": [
+    "Graded recoverability/acquisition evidence only",
+    "No mechanism-family admission",
+    "No transportable law",
+    "No objective chess truth or human cognition/utility claim"
+  ],
+  "certificates_by_arm": {
+    "CONTROL": 1,
+    "TARGET": 0
+  },
+  "complete_local_certificate_count": 1,
+  "engine_certificate_counts": {
+    "stockfish_19": {
+      "CONTROL": 1,
+      "TARGET": 0,
+      "UNASSIGNED": 0
+    }
+  },
+  "matched_pairs": [
+    {
+      "control_position_id": "p16:P8_SRC_TWIC_1657:00b88393c79a",
+      "control_positive": false,
+      "match_distance": 1,
+      "source_id": "P8_SRC_TWIC_1657",
+      "target_position_id": "p16:P8_SRC_TWIC_1657:0116094dfd90",
+      "target_positive": false
+    },
+    {
+      "control_position_id": "p16:P8_SRC_TWIC_1657:00be73d8f64a",
+      "control_positive": false,
+      "match_distance": 1,
+      "source_id": "P8_SRC_TWIC_1657",
+      "target_position_id": "p16:P8_SRC_TWIC_1657:00f9061f02f1",
+      "target_positive": false
+    },
+    {
+      "control_position_id": "p16:P8_SRC_TWIC_1657:0037e0b78b92",
+      "control_positive": false,
+      "match_distance": 1,
+      "source_id": "P8_SRC_TWIC_1657",
+      "target_position_id": "p16:P8_SRC_TWIC_1657:00cf696971f6",
+      "target_positive": false
+    },
+    {
+      "control_position_id": "p16:P8_SRC_TWIC_1657:000e6ad65ef3",
+      "control_positive": false,
+      "match_distance": 2,
+      "source_id": "P8_SRC_TWIC_1657",
+      "target_position_id": "p16:P8_SRC_TWIC_1657:006c176829c9",
+      "target_positive": false
+    },
+    {
+      "control_position_id": "p16:P8_SRC_TWIC_1657:008373f7e76b",
+      "control_positive": false,
+      "match_distance": 2,
+      "source_id": "P8_SRC_TWIC_1657",
+      "target_position_id": "p16:P8_SRC_TWIC_1657:00de3a622eca",
+      "target_positive": false
+    },
+    {
+      "control_position_id": "p16:P8_SRC_TWIC_1657:01b3bc6e2e07",
+      "control_positive": false,
+      "match_distance": 2,
+      "source_id": "P8_SRC_TWIC_1657",
+      "target_position_id": "p16:P8_SRC_TWIC_1657:022264f0024e",
+      "target_positive": false
+    },
+    {
+      "control_position_id": "p16:P8_SRC_TWIC_1657:00c2c0f440d0",
+      "control_positive": false,
+      "match_distance": 2,
+      "source_id": "P8_SRC_TWIC_1657",
+      "target_position_id": "p16:P8_SRC_TWIC_1657:0031f383a17a",
+      "target_positive": false
+    },
+    {
+      "control_position_id": "p16:P8_SRC_TWIC_1657:01941e59eeca",
+      "control_positive": false,
+      "match_distance": 10,
+      "source_id": "P8_SRC_TWIC_1657",
+      "target_position_id": "p16:P8_SRC_TWIC_1657:01b96aa8ef74",
+      "target_positive": false
+    },
+    {
+      "control_position_id": "p16:P8_SRC_TWIC_1657:017752aef89a",
+      "control_positive": true,
+      "match_distance": 10,
+      "source_id": "P8_SRC_TWIC_1657",
+      "target_position_id": "p16:P8_SRC_TWIC_1657:02226e810b8b",
+      "target_positive": false
+    },
+    {
+      "control_position_id": "p16:P8_SRC_TWIC_1657:003bac31cc31",
+      "control_positive": false,
+      "match_distance": 2,
+      "source_id": "P8_SRC_TWIC_1657",
+      "target_position_id": "p16:P8_SRC_TWIC_1657:02237625a060",
+      "target_positive": false
+    },
+    {
+      "control_position_id": "p16:P8_SRC_TWIC_1657:022681fee23f",
+      "control_positive": false,
+      "match_distance": 4,
+      "source_id": "P8_SRC_TWIC_1657",
+      "target_position_id": "p16:P8_SRC_TWIC_1657:0129303bff98",
+      "target_positive": false
+    },
+    {
+      "control_position_id": "p16:P8_SRC_TWIC_1657:008a6717be13",
+      "control_positive": false,
+      "match_distance": 4,
+      "source_id": "P8_SRC_TWIC_1657",
+      "target_position_id": "p16:P8_SRC_TWIC_1657:00379030593f",
+      "target_positive": false
+    },
+    {
+      "control_position_id": "p16:P8_SRC_TWIC_1658:00197cbebd39",
+      "control_positive": false,
+      "match_distance": 0,
+      "source_id": "P8_SRC_TWIC_1658",
+      "target_position_id": "p16:P8_SRC_TWIC_1658:00cdc4a24bd6",
+      "target_positive": false
+    },
+    {
+      "control_position_id": "p16:P8_SRC_TWIC_1658:00af60046393",
+      "control_positive": false,
+      "match_distance": 1,
+      "source_id": "P8_SRC_TWIC_1658",
+      "target_position_id": "p16:P8_SRC_TWIC_1658:02085788f96a",
+      "target_positive": false
+    },
+    {
+      "control_position_id": "p16:P8_SRC_TWIC_1658:01eed8a1bae8",
+      "control_positive": false,
+      "match_distance": 3,
+      "source_id": "P8_SRC_TWIC_1658",
+      "target_position_id": "p16:P8_SRC_TWIC_1658:00705ec7a8e6",
+      "target_positive": false
+    },
+    {
+      "control_position_id": "p16:P8_SRC_TWIC_1658:007df1671e6f",
+      "control_positive": false,
+      "match_distance": 4,
+      "source_id": "P8_SRC_TWIC_1658",
+      "target_position_id": "p16:P8_SRC_TWIC_1658:022dcc771225",
+      "target_positive": false
+    },
+    {
+      "control_position_id": "p16:P8_SRC_TWIC_1658:01cdff616703",
+      "control_positive": false,
+      "match_distance": 3,
+      "source_id": "P8_SRC_TWIC_1658",
+      "target_position_id": "p16:P8_SRC_TWIC_1658:0036cdfae703",
+      "target_positive": false
+    },
+    {
+      "control_position_id": "p16:P8_SRC_TWIC_1658:0011ccb2208d",
+      "control_positive": false,
+      "match_distance": 7,
+      "source_id": "P8_SRC_TWIC_1658",
+      "target_position_id": "p16:P8_SRC_TWIC_1658:01ff8f09e117",
+      "target_positive": false
+    },
+    {
+      "control_position_id": "p16:P8_SRC_TWIC_1658:020ad930ce60",
+      "control_positive": false,
+      "match_distance": 3,
+      "source_id": "P8_SRC_TWIC_1658",
+      "target_position_id": "p16:P8_SRC_TWIC_1658:00f5817dc6c7",
+      "target_positive": false
+    },
+    {
+      "control_position_id": "p16:P8_SRC_TWIC_1658:00a3f9db3021",
+      "control_positive": false,
+      "match_distance": 2,
+      "source_id": "P8_SRC_TWIC_1658",
+      "target_position_id": "p16:P8_SRC_TWIC_1658:0191de008dc7",
+      "target_positive": false
+    },
+    {
+      "control_position_id": "p16:P8_SRC_TWIC_1658:00162acaf72c",
+      "control_positive": false,
+      "match_distance": 9,
+      "source_id": "P8_SRC_TWIC_1658",
+      "target_position_id": "p16:P8_SRC_TWIC_1658:01a0bd894298",
+      "target_positive": false
+    },
+    {
+      "control_position_id": "p16:P8_SRC_TWIC_1658:0012f51c5f2a",
+      "control_positive": false,
+      "match_distance": 1,
+      "source_id": "P8_SRC_TWIC_1658",
+      "target_position_id": "p16:P8_SRC_TWIC_1658:0249c517d59b",
+      "target_positive": false
+    },
+    {
+      "control_position_id": "p16:P8_SRC_TWIC_1658:003e436e8c0b",
+      "control_positive": false,
+      "match_distance": 1,
+      "source_id": "P8_SRC_TWIC_1658",
+      "target_position_id": "p16:P8_SRC_TWIC_1658:02351526dd36",
+      "target_positive": false
+    },
+    {
+      "control_position_id": "p16:P8_SRC_TWIC_1658:00c7b96f7647",
+      "control_positive": false,
+      "match_distance": 3,
+      "source_id": "P8_SRC_TWIC_1658",
+      "target_position_id": "p16:P8_SRC_TWIC_1658:007c766a8d4b",
+      "target_positive": false
+    }
+  ],
+  "mechanism_family_admission_opened": false,
+  "preoutcome_firewall_pass": true,
+  "preoutcome_verdict": "PASS_PREOUTCOME_GRADED_SELECTOR_POSITIVITY",
+  "schema": "c3x-g10-p9-experiment-v1",
+  "source_enrichment": {
+    "P8_SRC_TWIC_1657": {
+      "control_only": 1,
+      "control_positive": 1,
+      "pairs": 12,
+      "target_only": 0,
+      "target_positive": 0
+    },
+    "P8_SRC_TWIC_1658": {
+      "control_only": 0,
+      "control_positive": 0,
+      "pairs": 12,
+      "target_only": 0,
+      "target_positive": 0
+    }
+  },
+  "transportable_pattern_instantiated": false,
+  "verdict": "PASS_GRADED_SELECTOR_DISCRIMINATIVE_NO_YIELD_ENRICHMENT"
+}
