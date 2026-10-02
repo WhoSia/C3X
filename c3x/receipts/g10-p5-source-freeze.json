@@ -1,0 +1,42 @@
+{
+  "schema": "c3x-g10-p5-source-freeze-v1",
+  "stage": "C3X 0.8.0-G10-P5",
+  "canonical_run": 36951016134,
+  "workflow_head": "88d6f7b8732e01a3cccba7c4c5499dd801f2b79b",
+  "status": "SEALED_BEFORE_ENGINE_CAUSAL_OUTCOMES",
+  "preoutcome_amendment_head": "6948be2897df62949dccdf8124451e3a0b6f0e16",
+  "sources": [
+    {
+      "id": "P5_SRC_TWIC_1663",
+      "issue": 1663,
+      "games": 10030,
+      "zip_sha256": "36ac4a1324a21674649f7b5eb12e0ef21167b18288917cce6aba3d8120669dd9",
+      "prefix_games_scanned": 6144,
+      "eligible_trajectories": 6043
+    },
+    {
+      "id": "P5_SRC_TWIC_1664",
+      "issue": 1664,
+      "games": 9114,
+      "zip_sha256": "e760b3419af0e441d74dad500130b2d585e3dfff6f3954244b957e61b3d3572a",
+      "prefix_games_scanned": 6144,
+      "eligible_trajectories": 6085
+    }
+  ],
+  "historical_candidate_hashes_excluded": 1979,
+  "frozen_positions": 36,
+  "positions_per_source": 18,
+  "selection_contract": "Inherited g95_p16_corpus.py without post-outcome modification",
+  "causal_outcomes_opened_at_freeze": false,
+  "source_artifact": {
+    "id": 11204511076,
+    "digest": "sha256:a5d21293ca7fff1982af8a276e3ca94cb9b486c37ad5842c5e5f291fc215a7f6",
+    "drive_file_id": "1vSQf3VhhYQrIqIQ38bB3QKTtND7py5ON"
+  },
+  "design_artifact": {
+    "id": 11203589051,
+    "digest": "sha256:5451ca7bb75b0768801484f67cd1e57723112632eda53463308cba8b74bc92ec",
+    "drive_file_id": "1ERgtoCnfFGgjrA8ooQVwCPllW-hPOzII"
+  },
+  "authority": "FRESH_WORLD_SELECTION_ONLY"
+}
