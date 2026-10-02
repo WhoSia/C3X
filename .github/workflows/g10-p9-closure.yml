@@ -8,7 +8,7 @@ on:
       - '.github/workflows/g10-p9-closure.yml'
 
 permissions:
-  contents: write
+  contents: read
   actions: read
 
 jobs:
@@ -52,12 +52,3 @@ jobs:
           pathlib.Path("c3x/receipts/g10-p9-closure.json").write_text(json.dumps(receipt,indent=2,sort_keys=True)+"\n")
           print("G10_P9_CLOSURE_VERIFIED",r["verdict"],sha)
           PY
-      - name: Bind closure receipt
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add c3x/receipts/g10-p9-closure.json
-          git diff --cached --quiet && exit 0
-          VERDICT="$(python3 -c 'import json;print(json.load(open("c3x/receipts/g10-p9-closure.json"))["verdict"])')"
-          git commit -m "C3X G10-P9: close experiment $VERDICT"
-          git push
