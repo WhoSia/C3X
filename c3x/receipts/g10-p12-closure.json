@@ -1,0 +1,110 @@
+{
+  "schema": "c3x-g10-p12-closure-v1",
+  "stage": "C3X 0.8.0-G10-P12 — Prospective Nonconjugacy Obstruction-Basis Reconstruction, Edge-Minimal Search-Topology Defect Certificates, Engine-Pair Conditional Transition Residuals, Board-Edit Obstruction Localization, Source-Stable Defect Recurrence, Shared-Core+Sparse-Defect Factorization, Counterfactual Defect Removal & Search-Topology Difference Experiment",
+  "status": "CLOSED_PASS",
+  "official_verdict": "DEVELOPMENT_POOLED_SPARSE_SOURCE_FRAGILE_DEFECT_BASIS",
+  "conclusion": {
+    "pooled_sparse_basis": true,
+    "source_stable_basis": false,
+    "cross_pair_shared_essential_generator": false,
+    "interpretation": "Engine-pair obstruction tensors admit strong pooled description compression, but the compressed generators are not source-stable and do not recur as shared essential defect families across engine pairs."
+  },
+  "pair_results": {
+    "berserk|ethereal": {
+      "residual_atoms": 16,
+      "minimum_basis_size": 5,
+      "compression_ratio": 3.2,
+      "shared_core_edges": 13,
+      "stable_atoms": 2,
+      "stable_fraction": 0.125,
+      "source_stable_essential_generators": 0,
+      "source_basis_sizes": {
+        "P8_SRC_TWIC_1657": 3,
+        "P8_SRC_TWIC_1658": 5
+      },
+      "stable_only_removal_fraction": {
+        "P8_SRC_TWIC_1657": 0,
+        "P8_SRC_TWIC_1658": 0
+      }
+    },
+    "berserk|stockfish_19": {
+      "residual_atoms": 4,
+      "minimum_basis_size": 2,
+      "compression_ratio": 2,
+      "shared_core_edges": 13,
+      "stable_atoms": 0,
+      "stable_fraction": 0,
+      "source_stable_essential_generators": 0,
+      "source_basis_sizes": {
+        "P8_SRC_TWIC_1657": 3,
+        "P8_SRC_TWIC_1658": 2
+      },
+      "stable_only_removal_fraction": {
+        "P8_SRC_TWIC_1657": 0,
+        "P8_SRC_TWIC_1658": 0
+      }
+    },
+    "ethereal|stockfish_19": {
+      "residual_atoms": 16,
+      "minimum_basis_size": 4,
+      "compression_ratio": 4,
+      "shared_core_edges": 12,
+      "stable_atoms": 3,
+      "stable_fraction": 0.1875,
+      "source_stable_essential_generators": 0,
+      "source_basis_sizes": {
+        "P8_SRC_TWIC_1657": 2,
+        "P8_SRC_TWIC_1658": 5
+      },
+      "stable_only_removal_fraction": {
+        "P8_SRC_TWIC_1657": 0,
+        "P8_SRC_TWIC_1658": 0
+      }
+    }
+  },
+  "cross_pair": {
+    "shared_essential_generator_count": 0,
+    "interpretation": "No essential pooled generator signature recurs across two or more engine pairs."
+  },
+  "counterfactual_checks": {
+    "full_minimum_basis_exact_removal": "PASS_BY_CONSTRUCTION_AND_IMPLEMENTATION",
+    "leave_one_essential_generator_out": "Every tested omission leaves nonzero residual obstruction mass.",
+    "stable_only_removal": "0% obstruction removal in every source-specific engine-pair residual tensor because no source-stable essential pooled generator exists."
+  },
+  "authority": {
+    "earned": [
+      "Pooled sparse-description structure for each engine-pair residual tensor",
+      "Pair-specific essential defect generators under frozen P11 semantic alignment"
+    ],
+    "not_earned": [
+      "Source-stable defect family",
+      "Cross-pair universal defect basis",
+      "Engine-mechanism interpretation",
+      "Cross-engine transport law",
+      "Objective chess truth",
+      "Human utility"
+    ]
+  },
+  "canonical_artifacts": {
+    "constitution_commit": "f79883315d5fb8b675084ccf24f8f48a337660c9",
+    "analyzer_commit": "7058c4c30169cfe440b66e17eba957472d36e7f9",
+    "workflow_commit": "d11ea6f79f6a3fbed1a120e2dd887577e8844f89",
+    "run_id": 37031379485,
+    "artifact_id": 11237955431,
+    "json_sha256": "262ac095b2694a0a6c8a756262c021bab1b6e9fa9c7480b75c8c6b3c5d7489b0"
+  },
+  "waiting_registry": {
+    "notion_page_id": "3edef561-cf92-813c-82cb-f3d4f3772798",
+    "active_items": [
+      "G10-P2 September Lichess broadcast source",
+      "G10-P10 TWIC 1665/1666 fresh replication",
+      "Explanation Track I8 human-utility world contact"
+    ]
+  },
+  "automation_identity": {
+    "actions_writeback": false,
+    "bot_author_hits_at_closure": 0,
+    "bot_committer_hits_at_closure": 0,
+    "canonical_promotion_actor": "WhoSia"
+  }
+}
