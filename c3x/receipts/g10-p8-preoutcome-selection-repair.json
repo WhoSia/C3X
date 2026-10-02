@@ -1,0 +1,10 @@
+{
+  "schema": "c3x-g10-p8-preoutcome-selection-repair-v1",
+  "reason": "Support gate incorrectly checked target availability but not matched untargeted control availability.",
+  "scientific_target_predicate_changed": false,
+  "p7_grammar_changed": false,
+  "source_pool_changed": false,
+  "pair_freeze_evidence_changed": false,
+  "causal_outcomes_consulted": false,
+  "repair": "support_pass requires >=6 matched target-control pairs per source; report target/control eligible counts."
+}

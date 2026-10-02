@@ -1,0 +1,66 @@
+name: c3x-g10-p8-preoutcome-selection-repair
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - "c3x_g10/acquisition_policy.py"
+      - "c3x/receipts/g10-p8-run-authority.json"
+      - "c3x/receipts/g10-p8-preoutcome-selection-repair.json"
+      - ".github/workflows/g10-p8-reselect.yml"
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: g10-p8-morphism-conditioned-acquisition
+  cancel-in-progress: true
+
+env:
+  CANONICAL_RUN: "36980730341"
+
+jobs:
+  reselect:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 -m pip install --disable-pip-version-check python-chess==1.999 pytest
+      - uses: actions/download-artifact@v4
+        with: {name: g10-p8-pair-freeze-b0, path: pairfreezes/b0, repository: WhoSia/C3X, run-id: "${{ env.CANONICAL_RUN }}", github-token: "${{ github.token }}"}
+      - uses: actions/download-artifact@v4
+        with: {name: g10-p8-pair-freeze-b1, path: pairfreezes/b1, repository: WhoSia/C3X, run-id: "${{ env.CANONICAL_RUN }}", github-token: "${{ github.token }}"}
+      - uses: actions/download-artifact@v4
+        with: {name: g10-p8-pair-freeze-b2, path: pairfreezes/b2, repository: WhoSia/C3X, run-id: "${{ env.CANONICAL_RUN }}", github-token: "${{ github.token }}"}
+      - name: Recompute selection only
+        run: |
+          ARGS=()
+          while IFS= read -r f; do ARGS+=(--pair-freeze "$f"); done < <(find pairfreezes -name 'g10-p8-pair-freeze.json' | sort)
+          PYTHONPATH=. python3 tools/g10_p8_select.py             "${ARGS[@]}"             --ecology c3x/data/g10-p7-development-ecology.json             --out-freeze g10-p8-repaired-selected-pair-freeze.json             --out-receipt g10-p8-repaired-acquisition-freeze.json
+          python3 - <<'PY'
+          import json
+          r=json.load(open("g10-p8-repaired-acquisition-freeze.json"))
+          assert r["support_pass"] is False
+          assert r["control_eligible_count"]==0
+          assert r["target_eligible_count"]==sum(x["chain_eligible_positions"] for x in r["source_stats"].values())
+          assert r["chain_qualification_opened"] is False and r["factorial_outcomes_opened"] is False
+          print("G10_P8_RESELECTION_HOLD",r["source_stats"])
+          out={"schema":"c3x-g10-p8-court-v1","verdict":"HOLD_ORBIT_TARGET_SUPPORT_INSUFFICIENT",
+            "reason":"PREOUTCOME_BOARD_TRIGGER_ORBIT_PROJECTION_SATURATES_CHAIN_ELIGIBLE_SPACE_NO_MATCHED_UNTARGETED_CONTROL",
+            "selection":r,"selection_bias_firewall_pass":True,"causal_outcomes_consulted":False,
+            "mechanism_family_candidate_instantiated":False,"transportable_pattern_instantiated":False,
+            "authority_ceiling":["P7 grammar remains valid","No acquisition-efficacy estimate identified","No mechanism-family admission","No transportable causal pattern"]}
+          open("g10-p8-court.json","w").write(json.dumps(out,indent=2,sort_keys=True)+"\n")
+          PY
+          PYTHONPATH=. pytest -q tests/test_g10_p8.py tests/test_g10_p7.py tests/test_g10_p6.py tests/test_g10_p5.py tests/test_g10_p4.py tests/test_g10_p3.py tests/test_g10_p0.py
+          mkdir -p out
+          cp g10-p8-repaired-acquisition-freeze.json out/
+          cp g10-p8-court.json out/
+          cp c3x/receipts/g10-p8-run-authority.json out/
+          cp c3x/receipts/g10-p8-preoutcome-selection-repair.json out/
+          sha256sum out/* | sort > out/sha256sums.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: g10-p8-preoutcome-reselection-sealed
+          path: out/
+          retention-days: 90

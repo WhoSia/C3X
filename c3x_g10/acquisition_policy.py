@@ -83,21 +83,24 @@ def select(pair_freezes,ecology,max_target_per_source=12,min_target_per_source=6
   positions.update(pf["positions"]);cases.extend(pf["cases"])
  bysource={}
  for pid,p in positions.items():bysource.setdefault(p["source_id"],[]).append((pid,p))
- assignments=[];selected_ids=set();support=True
+ assignments=[];selected_ids=set();support=True;source_stats={}
  for source,rows in sorted(bysource.items()):
   eligible=[(pid,p,target_hits(p,prototypes)) for pid,p in rows if p.get("admitted") and p.get("chain_candidates")]
-  targets=[x for x in eligible if x[2]]
-  targets.sort(key=lambda x:(-len(x[2]),-sum(len(v) for v in x[2].values()),x[1]["candidate_sha256"],x[0]))
-  targets=targets[:max_target_per_source]
-  if len(targets)<min_target_per_source:support=False
-  controls=[(pid,p) for pid,p,h in eligible if not h];used=set()
+  target_all=[x for x in eligible if x[2]]
+  controls=[(pid,p) for pid,p,h in eligible if not h]
+  target_all.sort(key=lambda x:(-len(x[2]),-sum(len(v) for v in x[2].values()),x[1]["candidate_sha256"],x[0]))
+  targets=target_all[:max_target_per_source];used=set();source_assignments=[]
   for pid,p,h in targets:
    available=[x for x in controls if x[0] not in used]
    if not available:break
    cid,cp=min(available,key=lambda x:(distance(p,x[1]),x[1]["candidate_sha256"],x[0]))
    used.add(cid);selected_ids|={pid,cid}
-   assignments.append({"source_id":source,"target_position_id":pid,"control_position_id":cid,"target_hits":h,
-    "target_features":position_features(p),"control_features":position_features(cp),"match_distance":distance(p,cp)})
+   rec={"source_id":source,"target_position_id":pid,"control_position_id":cid,"target_hits":h,
+    "target_features":position_features(p),"control_features":position_features(cp),"match_distance":distance(p,cp)}
+   assignments.append(rec);source_assignments.append(rec)
+  source_stats[source]={"chain_eligible_positions":len(eligible),"target_eligible_positions":len(target_all),
+    "control_eligible_positions":len(controls),"requested_targets":len(targets),"matched_pairs":len(source_assignments)}
+  if len(source_assignments)<min_target_per_source:support=False
  selected_positions={pid:deepcopy(positions[pid]) for pid in sorted(selected_ids)}
  arm={}
  for a in assignments:
@@ -115,6 +118,8 @@ def select(pair_freezes,ecology,max_target_per_source=12,min_target_per_source=6
   "positions":selected_positions,"cases":selected_cases})
  receipt={"schema":"c3x-g10-p8-acquisition-freeze-v1","support_pass":support,"prototypes":prototypes,
   "assignments":assignments,"target_count":sum(1 for v in arm.values() if v=="TARGET"),"control_count":sum(1 for v in arm.values() if v=="CONTROL"),
+  "source_stats":source_stats,"target_eligible_count":sum(x["target_eligible_positions"] for x in source_stats.values()),
+  "control_eligible_count":sum(x["control_eligible_positions"] for x in source_stats.values()),
   "sources":sorted(bysource),"features_used":["active_engines","ply_bucket","pair_support","chain_bucket","gap_bucket"],
   "forbidden_outcomes_consulted":[],"chain_qualification_opened":False,"factorial_outcomes_opened":False,"certificate_outcomes_opened":False,
   "p7_grammar":["C","S","E"],"unlicensed_generators":["G","U"]}

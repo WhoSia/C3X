@@ -1,0 +1,31 @@
+{
+  "schema": "c3x-g10-p8-run-authority-v1",
+  "canonical_preoutcome_run": 36980730341,
+  "canonical_preoutcome_head": "5da0dbff680f19cf5f62d891c1e3de9a3088ce84",
+  "authoritative_through": "PAIR_FREEZE_ONLY",
+  "pair_freeze_artifacts": [
+    {
+      "batch": 0,
+      "artifact_id": 11216260445,
+      "digest": "sha256:083481de1fd48a3bbf664ac2c2f974b3e13da72ab4283118ac63ac16b0d05825"
+    },
+    {
+      "batch": 1,
+      "artifact_id": 11216300321,
+      "digest": "sha256:a528e6cb6210a3c628cb5c5cb42a166568eb97e3871cf9d538a4c86f76c60aae"
+    },
+    {
+      "batch": 2,
+      "artifact_id": 11215587318,
+      "digest": "sha256:6664cd3337717c9fb7f37630809fb33c990f128793c43cbf5e02b5cb1505f833"
+    }
+  ],
+  "broken_selection_artifact": {
+    "artifact_id": 11215343954,
+    "digest": "sha256:86f07f26a2baa2af32797bc4d0dc68a82bc6f24fbf096224fa764e6346e16fdd",
+    "reason": "MATCHED_CONTROL_SUPPORT_NOT_INCLUDED_IN_SUPPORT_PASS"
+  },
+  "post_selection_outputs_authoritative": false,
+  "post_selection_outputs_read": false,
+  "policy": "Reuse only source/design/qualification/pair-freeze evidence from run 36980730341. Re-run selection from sealed pair-freezes under the unchanged frozen target predicate with repaired matched-control support accounting. Do not read or promote chain/factorial/certificate outcomes from the original run."
+}

@@ -2,17 +2,6 @@ name: c3x-g10-p8-morphism-conditioned-acquisition-court
 
 on:
   workflow_dispatch:
-  push:
-    paths:
-      - "tools/g10_p8_corpus.py"
-      - "c3x_g10/acquisition_policy.py"
-      - "tools/g10_p8_select.py"
-      - "tools/g10_p8_adjudicate.py"
-      - "tests/test_g10_p8.py"
-      - "c3x/ontology/g10-p8-constitution.json"
-      - "c3x/receipts/g10-p8-precommit.json"
-      - "c3x/receipts/g10-p8-preoutcome-decision-rule.json"
-      - ".github/workflows/g10-p8.yml"
 
 permissions:
   contents: read
