@@ -2,15 +2,6 @@ name: c3x-g10-p7-mechanism-family-isomorphism-court
 
 on:
   workflow_dispatch:
-  push:
-    paths:
-      - "c3x_g10/morphism_grammar.py"
-      - "tests/test_g10_p7.py"
-      - "tools/g10_p7_adjudicate.py"
-      - "c3x/data/g10-p7-development-ecology.json"
-      - "c3x/ontology/g10-p7-constitution.json"
-      - "c3x/receipts/g10-p7-precommit.json"
-      - ".github/workflows/g10-p7.yml"
 
 permissions:
   contents: read

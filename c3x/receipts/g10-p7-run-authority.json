@@ -1,0 +1,24 @@
+{
+  "schema": "c3x-g10-p7-run-authority-v1",
+  "canonical_heavy_scientific_run": 36975500509,
+  "canonical_heavy_head": "b14e8050d2debd7508cae40ecafa7ce0c3181bbf",
+  "heavy_run_conclusion": "success",
+  "note": "Heavy run bytes are canonical for P7 holdout evidence. Its originally emitted family verdict is not authoritative because a post-run implementation audit found a current-holdout membership bug in the final adjudicator.",
+  "non_authoritative_runs": [
+    {
+      "run_id": 36975270861,
+      "reason": "PRE_HOLDOUT_STATIC_ASSERTION_FAILURE",
+      "read_outputs": false,
+      "promote_outputs": false
+    },
+    {
+      "run_id": 36976576190,
+      "head": "3555ad29f44668f34129d1a933bd003f252a0d17",
+      "reason": "POST_OUTCOME_DUPLICATE_HEAVY_RUN_TRIGGERED_BY_IMPLEMENTATION_REPAIR",
+      "read_outputs": false,
+      "promote_outputs": false
+    }
+  ],
+  "repaired_adjudicator_head": "3555ad29f44668f34129d1a933bd003f252a0d17",
+  "policy": "Reuse evidence bytes only from canonical heavy run 36975500509. Determine the final P7 verdict by lightweight re-adjudication of that sealed artifact under the frozen pre-outcome grammar with the membership predicate repaired; do not read or promote later heavy-run outcomes."
+}
