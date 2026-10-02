@@ -1,0 +1,49 @@
+name: c3x-g10-p7-repaired-adjudication
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - ".github/workflows/g10-p7-readjudicate.yml"
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  readjudicate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: g10-p7-mechanism-family-court-sealed
+          path: canonical
+          repository: WhoSia/C3X
+          run-id: "36975500509"
+          github-token: "${{ github.token }}"
+      - name: Re-adjudicate canonical P7 evidence only
+        run: |
+          mkdir -p out
+          PYTHONPATH=. python3 tools/g10_p7_adjudicate.py             --development c3x/data/g10-p7-development-ecology.json             --holdout canonical/g10-p7-holdout-normalized.json             --out out/g10-p7-court-repaired.json
+          python3 - <<'PY'
+          import json
+          r=json.load(open("out/g10-p7-court-repaired.json"))
+          h=json.load(open("canonical/g10-p7-holdout-normalized.json"))
+          a=json.load(open("c3x/receipts/g10-p7-run-authority.json"))
+          assert a["canonical_heavy_scientific_run"]==36975500509
+          assert len(h.get("certificates",[]))==r["holdout_certificate_count"]
+          assert r["transportable_pattern_instantiated"] is False
+          print("G10_P7_REPAIRED_VERDICT",r["verdict"])
+          print("G10_P7_REPAIRED_HOLDOUT_CERTS",r["holdout_certificate_count"])
+          print("G10_P7_REPAIRED_FAMILIES",len(r["mechanism_family_candidates"]))
+          PY
+          cp canonical/g10-p7-holdout-normalized.json out/
+          cp canonical/g10-p7-holdout-p16.json out/
+          cp c3x/receipts/g10-p7-run-authority.json out/
+          sha256sum out/* | sort > out/sha256sums.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: g10-p7-repaired-court-sealed
+          path: out/
+          retention-days: 90
