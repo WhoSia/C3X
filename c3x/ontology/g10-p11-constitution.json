@@ -1,0 +1,114 @@
+{
+  "schema": "c3x-g10-p11-constitution-v1",
+  "stage": "C3X 0.8.0-G10-P11 — Prospective Engine-Relative Opportunity Conjugacy, Minimal Common Quotient Reconstruction, Fine-Fiber State Relabeling, Board-Edit Transition-Operator Alignment, Cross-Engine Nonconjugacy Obstruction Localization, Quotient Sufficiency Falsification, Search-Topology Transport Law Identification & Opportunity-Transport Experiment",
+  "type": "EXPERIMENT",
+  "parent": {
+    "stage": "G10-P10",
+    "verdict": "HOLD_FRESH_CONFIRMATION_SUPPORT_INSUFFICIENT",
+    "inherited_structure": [
+      "4-state native opportunity state space {00,01,10,11}.",
+      "TARGET/SUBSET/SHAM empirical transition operators.",
+      "Coarse quotient partially transports while fine signatures/edges are strongly engine-relative."
+    ]
+  },
+  "explanandum": "Determine whether cross-engine differences in fine opportunity dynamics are merely coordinate/relabeling differences, or whether invariant nonconjugacy obstructions remain after every admissible relabeling and nontrivial quotient.",
+  "development_only": {
+    "sources": [
+      "P8_SRC_TWIC_1657",
+      "P8_SRC_TWIC_1658"
+    ],
+    "role": "RETROSPECTIVE_DEVELOPMENT_ECOLOGY",
+    "fresh_confirmation_claim": false,
+    "source_separated_robustness": "Report 1657 and 1658 separately; agreement is robustness only, not prospective replication."
+  },
+  "state_space": {
+    "states": [
+      "00",
+      "01",
+      "10",
+      "11"
+    ],
+    "bits": [
+      "UPPER",
+      "LOWER"
+    ],
+    "edit_operators": [
+      "TARGET",
+      "SUBSET",
+      "SHAM"
+    ]
+  },
+  "relabeling_hierarchy": {
+    "semantic_authority_group": {
+      "name": "G_sem",
+      "maps": [
+        "IDENTITY",
+        "SWAP_UPPER_LOWER"
+      ],
+      "authority": "Only this group may support a semantic conjugacy claim."
+    },
+    "square_automorphism_group": {
+      "name": "Aut(Q2)",
+      "size": 8,
+      "definition": "All affine Hamming-square automorphisms x -> P x XOR b with coordinate permutation P and b in {00,01,10,11}.",
+      "authority": "DIAGNOSTIC_ONLY because bit complementation changes addressability presence/absence semantics."
+    },
+    "full_state_permutation_group": {
+      "name": "S4",
+      "size": 24,
+      "authority": "MAXIMAL_DIAGNOSTIC_CEILING_ONLY; never authority-bearing."
+    }
+  },
+  "operator_comparison": {
+    "common_map_rule": "For each engine pair, one single relabeling must jointly align TARGET, SUBSET and SHAM; edit-specific relabelings are forbidden.",
+    "primary_obstruction": "Total symmetric-difference cardinality of nonzero transition-support edges across the three edit operators after relabeling.",
+    "tie_breakers": [
+      "Equal-source-state row-kernel total-variation distance on jointly occupied source states.",
+      "Joint edge-distribution total-variation distance."
+    ],
+    "exact_support_conjugacy": "Primary obstruction = 0 under one common map.",
+    "no_learned_weights": true
+  },
+  "quotient_reconstruction": {
+    "universe": "All 15 set partitions of the 4-state space.",
+    "trivial_partition_disallowed_for_law": "One-block quotient is diagnostic only.",
+    "exact_common_support_quotient": "A partition whose aggregated transition-support graph is identical across all three engines separately for TARGET, SUBSET and SHAM.",
+    "selection": "Choose the finest nontrivial exact common-support quotient (maximum number of blocks). If multiple, report all; do not select by outcome-dependent narrative preference.",
+    "probability_layer": "After exact support matching, report operator TV distances on the quotient descriptively; support equivalence alone does not imply probabilistic equality.",
+    "distinguished_candidate": "Hamming-weight partition {{00},{01,10},{11}} is reported explicitly but receives no privileged acceptance."
+  },
+  "obstruction_localization": [
+    "Engine pair",
+    "Edit operator",
+    "Source state",
+    "Destination state",
+    "Edge present in only one engine after best admissible map",
+    "Source-specific recurrence across TWIC 1657/1658"
+  ],
+  "falsification": {
+    "semantic_conjugacy_falsified_if": "Every G_sem map leaves nonzero support obstruction for an engine pair.",
+    "arbitrary_coordinate_equivalence_falsified_if": "Every S4 map leaves nonzero support obstruction.",
+    "quotient_sufficiency_falsified_if": "No nontrivial partition yields exact common support across all engines and edits.",
+    "universal_transport_law_ceiling": "Requires one authority-bearing semantic map or one nontrivial exact common quotient shared across all engines and edit operators, plus source-separated recurrence. Development data alone cannot promote beyond DEVELOPMENT_CANDIDATE."
+  },
+  "verdict_space": [
+    "DEVELOPMENT_SEMANTIC_CONJUGACY_CANDIDATE",
+    "DEVELOPMENT_NONSEMANTIC_GRAPH_ISOMORPHISM_ONLY",
+    "DEVELOPMENT_FINE_NONCONJUGATE_COMMON_QUOTIENT_EXISTS",
+    "DEVELOPMENT_NONCONJUGATE_NO_NONTRIVIAL_COMMON_QUOTIENT",
+    "HOLD_OPERATOR_SUPPORT_INSUFFICIENT",
+    "FAIL_RELABELING_PRESEAL"
+  ],
+  "claim_ceiling": [
+    "Development-level opportunity-transport structure only.",
+    "No universal cross-engine law without fresh confirmation.",
+    "No mechanism-family admission.",
+    "No objective chess truth or human-cognitive claim."
+  ],
+  "automation_identity": {
+    "contents_permission": "read",
+    "actions_writeback": false,
+    "bot_authorship_forbidden": true,
+    "canonical_promotion": "WhoSia-authored only after artifact inspection."
+  }
+}
