@@ -369,7 +369,8 @@ def adjudicate(a):
   try:x=load(p)
   except:continue
   if x.get("schema")=="c3x-g95-p16-factorial-world-v1":worlds.append(x)
- if len(worlds)!=108:raise SystemExit(f"P16_WORLD_N {len(worlds)}")
+ expected_worlds=len(pre["cases"])
+ if len(worlds)!=expected_worlds:raise SystemExit(f"P16_WORLD_N {len(worlds)} expected={expected_worlds}")
  active=[w for w in worlds if w["active"]];misses=sum(len(w["address_misses"]) for w in worlds)
  engines=sorted({w["engine"] for w in active});sources=sorted({w["source_id"] for w in active})
  fired_worlds=0;rows=[];mods=[]
