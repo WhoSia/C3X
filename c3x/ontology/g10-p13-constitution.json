@@ -1,0 +1,126 @@
+{
+  "schema": "c3x-g10-p13-constitution-v1",
+  "stage": "C3X 0.8.0-G10-P13 — Prospective Source-Conditioned Defect Activation Geometry, Obstruction Appearance↔Disappearance Context Factorization, Engine-Pair Conditional Residual Surfaces, Opportunity/Family/Chain Covariate Matching, Source-Composition vs Transition-Law Drift Separation, Counterfactual Context Reweighting, Conditional Defect Recurrence & Context-Stable Obstruction Experiment",
+  "type": "EXPERIMENT",
+  "parent": {
+    "stage": "G10-P12",
+    "verdict": "DEVELOPMENT_POOLED_SPARSE_SOURCE_FRAGILE_DEFECT_BASIS"
+  },
+  "question": "Does P12 source fragility arise because TWIC 1657 and 1658 sample different chess/search contexts, or does engine-pair defect activation remain source-dependent after conditioning on the same pre-edit chess and search context?",
+  "unit": "source × position × selected-chain × engine-pair × edit",
+  "outcome": "Binary defect activation: after frozen P11 semantic alignment, the two engines realize different B0→edit opportunity transition edges for the same position/chain.",
+  "chess_native_context": {
+    "derived_from": "B0 FEN and frozen A/B candidate pair only; no edited-board or certificate outcome.",
+    "material_phase": {
+      "phase_units": "N=1,B=1,R=2,Q=4 summed over both sides; starting total=24",
+      "bins": {
+        "RICH": "17..24",
+        "TRANSITIONAL": "9..16",
+        "REDUCED": "0..8"
+      }
+    },
+    "material_imbalance": {
+      "values": "pawn=1,N/B=3,R=5,Q=9 absolute white-minus-black material",
+      "bins": {
+        "BALANCED": "0",
+        "SMALL": "1..2",
+        "LARGE": "3+"
+      }
+    },
+    "legal_branching": {
+      "bins": {
+        "NARROW": "<=20",
+        "MEDIUM": "21..35",
+        "WIDE": "36+"
+      }
+    },
+    "in_check": "side to move in check",
+    "candidate_tactical_mode": [
+      "QUIET_QUIET",
+      "ANY_CAPTURE",
+      "ANY_CHECK",
+      "CAPTURE_AND_CHECK"
+    ],
+    "candidate_relation": "A/B candidates frozen from P16 position pair; tactical labels computed legally on B0."
+  },
+  "inherited_context": {
+    "p9": [
+      "family_distance",
+      "family_margin",
+      "family_specificity",
+      "polarity_profile"
+    ],
+    "p10": [
+      "engine-pair pre-edit aligned B0 opportunity-state pair"
+    ],
+    "chain": [
+      "chain_type"
+    ],
+    "no_refit": true
+  },
+  "matching_signature": [
+    "material_phase",
+    "material_imbalance",
+    "legal_branching",
+    "in_check",
+    "candidate_tactical_mode",
+    "polarity_profile",
+    "chain_type",
+    "engine_pair_preedit_state_pair",
+    "family_distance_bucket"
+  ],
+  "family_distance_bucket": {
+    "NEAR": "0..1",
+    "MID": "2",
+    "FAR": "3+"
+  },
+  "source_factorization": {
+    "raw": "Per source/engine-pair/edit defect activation rate.",
+    "overlap": "Exact context signatures observed in both sources.",
+    "matched_weight": "m_c=min(n_1657(c),n_1658(c)); weight cells proportional to m_c.",
+    "standardized_drift": "Weighted within-cell rate difference r_1658(c)-r_1657(c) over overlap cells.",
+    "composition_diagnostic": "Compare raw source gap with overlap-standardized gap and report overlap mass; do not call the remainder causal mediation.",
+    "conditional_recurrence": "Context cells where the same engine-pair/edit defect activation direction recurs in both sources."
+  },
+  "chess_research_outputs": [
+    "Which chess-state regimes concentrate cross-engine search-topology disagreement?",
+    "Whether tactical pressure or branching width changes defect activation.",
+    "Whether source instability disappears after matching the same chess/search context.",
+    "Engine-pair-specific context surfaces rather than a universal pooled law."
+  ],
+  "falsification": {
+    "composition_only_candidate": "Raw source gap is large but overlap-standardized gap is near zero across engine-pair/edit families with adequate overlap.",
+    "conditional_drift_candidate": "Substantial within-context source gap remains after exact overlap standardization.",
+    "context_stable_obstruction_candidate": "Specific chess/search context cells show recurrent defect activation in both sources.",
+    "hold": "Overlap mass or matched cell count too low to distinguish composition from drift."
+  },
+  "minimum_support": {
+    "matched_cells_per_engine_pair_edit": 3,
+    "matched_units_per_source_engine_pair_edit": 6,
+    "report_no_authority_below_gate": true
+  },
+  "verdict_space": [
+    "DEVELOPMENT_CONTEXT_COMPOSITION_EXPLAINS_SOURCE_FRAGILITY",
+    "DEVELOPMENT_CONDITIONAL_DEFECT_DRIFT_PERSISTS_AFTER_MATCHING",
+    "DEVELOPMENT_MIXED_COMPOSITION_AND_CONDITIONAL_DRIFT",
+    "DEVELOPMENT_CONTEXT_STABLE_OBSTRUCTION_REGIMES_IDENTIFIED",
+    "HOLD_CONTEXT_OVERLAP_INSUFFICIENT",
+    "FAIL_CHESS_CONTEXT_PRESEAL"
+  ],
+  "claim_ceiling": [
+    "Development-level chess/search context conditionality only.",
+    "No claim that human chess concepts cause engine behavior.",
+    "No engine-internals mechanism claim from observational context matching.",
+    "No universal source transport law."
+  ],
+  "literature_boundary": [
+    "Modern alpha-beta engines use position- and move-dependent pruning/reduction/move-ordering, so branching and tactical context are plausible search-load coordinates, but P13 treats them as preregistered descriptive context, not imported causal truth.",
+    "Stockfish source confirms search behavior depends on TT state, checks, captures, reductions, pruning and move ordering; P13 does not reverse-engineer those internals from context associations."
+  ],
+  "automation_identity": {
+    "contents_permission": "read",
+    "actions_permission": "read",
+    "repository_writeback": false,
+    "canonical_promotion": "WhoSia after artifact inspection"
+  }
+}
