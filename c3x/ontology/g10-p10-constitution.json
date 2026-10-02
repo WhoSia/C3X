@@ -1,0 +1,158 @@
+{
+  "schema": "c3x-g10-p10-constitution-v1",
+  "stage": "C3X 0.8.0-G10-P10 — Prospective Certificate-Opportunity Surface Factorization, Outcome-Blind Search-Susceptibility Instrumentation, Board-Geometry×Search-Topology Interaction, Opportunity-Matched Family-Distance Challenge, Fresh-Source/Engine Replication, Sparse-Certificate Regime Identification & Causal Opportunity Experiment",
+  "type": "EXPERIMENT",
+  "parent": {
+    "stage": "G10-P9",
+    "verdict": "PASS_GRADED_SELECTOR_DISCRIMINATIVE_NO_YIELD_ENRICHMENT",
+    "scientific_readout": "P9 graded geometry discriminated pre-outcome ranks but did not enrich certificate yield (0/24 target vs 1/24 control)."
+  },
+  "question": "Are complete causal certificates sparse primarily because candidate worlds differ in pre-intervention search opportunity, and does frozen board-family distance retain any acquisition signal after conditioning on that opportunity surface?",
+  "anti_rescue": {
+    "p9_score_refit": false,
+    "p7_grammar_refit": false,
+    "post_outcome_threshold_tuning": false,
+    "development_confirmation_split": "P9/P16 worlds are development-only. No P10 confirmatory authority may be earned on them."
+  },
+  "development": {
+    "chain_freeze_run": 37007062196,
+    "source_ids": [
+      "P8_SRC_TWIC_1657",
+      "P8_SRC_TWIC_1658"
+    ],
+    "role": "DEVELOPMENT_ONLY",
+    "known_outcomes_allowed_after_opportunity_definition_freeze": true
+  },
+  "opportunity_instrument": {
+    "allowed_runs": [
+      "native CATALOG",
+      "fingerprint/addressability census"
+    ],
+    "forbidden_runs": [
+      "REMOVE_SET",
+      "event ablation",
+      "factorial intervention",
+      "certificate adjudication"
+    ],
+    "forbidden_fields": [
+      "edited-board bestmove",
+      "edited-board score",
+      "edited-board wdl",
+      "edited-board pv",
+      "event-removal response",
+      "certificate label"
+    ],
+    "per_board_observables": [
+      "eligible_anchor_target_count",
+      "available_bound_set",
+      "selected_target_depth_by_bound",
+      "fingerprint_collision_count",
+      "trace_event_count"
+    ],
+    "boards": [
+      "B0",
+      "TARGET",
+      "SUBSET",
+      "SHAM"
+    ],
+    "primary_surface": {
+      "common_target_bounds": "|bounds(B0) ∩ bounds(TARGET)|",
+      "common_subset_bounds": "|bounds(B0) ∩ bounds(SUBSET)|",
+      "common_sham_bounds": "|bounds(B0) ∩ bounds(SHAM)|",
+      "target_specific_common_bound_delta": "common_target_bounds - common_sham_bounds",
+      "opportunity_class": {
+        "0": "NO_COMMON_BOUND",
+        "1": "ONE_COMMON_BOUND",
+        "2": "TWO_COMMON_BOUNDS"
+      }
+    }
+  },
+  "board_geometry": {
+    "authority": "Frozen G10-P9/P7 C/S/E graded geometry only",
+    "features": [
+      "family_distance",
+      "family_margin",
+      "family_specificity",
+      "family_consensus"
+    ],
+    "no_refit": true
+  },
+  "primary_confirmatory_estimands": [
+    "Certificate yield by frozen opportunity class.",
+    "Within opportunity-matched strata, certificate-yield contrast by frozen family-distance rank.",
+    "Board-geometry × search-opportunity interaction without learned post-outcome weights."
+  ],
+  "matching": {
+    "mandatory": [
+      "source",
+      "engine",
+      "opportunity_class",
+      "gain_loss_polarity_profile"
+    ],
+    "secondary": [
+      "pair_gap_bucket",
+      "active_engine_count",
+      "chain_type"
+    ],
+    "family_distance_excluded_from_matching": "Family distance is the challenged predictor and must remain unmatched within opportunity strata."
+  },
+  "confirmation_sources": {
+    "policy": "Reserve the next two issue-level-independent TWIC releases after the 2026-09-28 TWIC 1664 source frontier before their bytes/outcomes are opened.",
+    "sources": [
+      {
+        "id": "P10_SRC_TWIC_1665",
+        "issue": 1665,
+        "status": "FUTURE_UNOPENED"
+      },
+      {
+        "id": "P10_SRC_TWIC_1666",
+        "issue": 1666,
+        "status": "FUTURE_UNOPENED"
+      }
+    ],
+    "candidate_exclusion": "Exclude every recoverable prior C3X candidate hash before selection.",
+    "minimum_independence": "Issue-level independent; no A/B split of one issue may satisfy source replication."
+  },
+  "engines": {
+    "confirmation": [
+      "stockfish_19",
+      "berserk",
+      "ethereal"
+    ],
+    "replication_rule": "Report engine-conditional opportunity and yield before any pooled estimate; at least two engines must contribute active opportunity-matched worlds for a cross-engine claim."
+  },
+  "gates": {
+    "development_nontriviality": [
+      "At least two opportunity classes observed among active development engine-worlds.",
+      "No forbidden outcome field appears in opportunity artifacts.",
+      "Opportunity probe performs zero REMOVE_SET/event-ablation runs."
+    ],
+    "confirmation_opening": [
+      "Both TWIC 1665 and 1666 bytes are available and sealed.",
+      "Prior-use exclusion completed before causal outcomes.",
+      "Opportunity/matching rules unchanged from this constitution.",
+      "At least 6 opportunity-matched family-distance contrasts per source across >=2 engines; otherwise HOLD."
+    ]
+  },
+  "verdict_space": [
+    "PASS_OPPORTUNITY_SURFACE_EXPLAINS_SPARSE_CERTIFICATE_REGIME_AND_FAMILY_DISTANCE_CONDITIONAL_SIGNAL",
+    "PASS_OPPORTUNITY_SURFACE_EXPLAINS_SPARSE_CERTIFICATE_REGIME_NO_FAMILY_DISTANCE_CONDITIONAL_SIGNAL",
+    "PASS_OPPORTUNITY_SURFACE_NONTRIVIAL_NO_CERTIFICATE_ENRICHMENT",
+    "NULL_SPARSE_CERTIFICATE_REGIME_PERSISTS_ACROSS_OPPORTUNITY_STRATA",
+    "HOLD_OPPORTUNITY_INSTRUMENT_NONDISCRIMINATIVE",
+    "HOLD_FRESH_CONFIRMATION_SUPPORT_INSUFFICIENT",
+    "FAIL_OUTCOME_BLIND_FIREWALL"
+  ],
+  "authority_ceiling": [
+    "Opportunity-conditioned acquisition structure only.",
+    "No mechanism-family admission.",
+    "No transportable law beyond tested sources/engines.",
+    "No objective chess truth, human cognition, or human utility claim."
+  ],
+  "github_automation_identity_firewall": {
+    "contents_permission": "read",
+    "repository_writeback_from_actions": false,
+    "git_commit_push_tag_merge_from_actions": false,
+    "result_promotion": "Human-account-authored only after artifact inspection."
+  }
+}
