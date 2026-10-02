@@ -1,0 +1,55 @@
+name: c3x-g10-p8-closure-verification
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - "c3x/results/g10-p8-court.json"
+      - "c3x/receipts/g10-p8-closure.json"
+      - "c3x/receipts/g10-p8-run-authority.json"
+      - "c3x/receipts/g10-p8-preoutcome-selection-repair.json"
+      - ".github/workflows/g10-p8-closure.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 -m pip install --disable-pip-version-check python-chess==1.999 pytest
+      - name: Verify P8 closure and G10 regression
+        run: |
+          PYTHONPATH=. pytest -q tests/test_g10_p8.py tests/test_g10_p7.py tests/test_g10_p6.py tests/test_g10_p5.py tests/test_g10_p4.py tests/test_g10_p3.py tests/test_g10_p0.py
+          python3 - <<'PY'
+          import json
+          r=json.load(open("c3x/results/g10-p8-court.json"))
+          c=json.load(open("c3x/receipts/g10-p8-closure.json"))
+          a=json.load(open("c3x/receipts/g10-p8-run-authority.json"))
+          s=json.load(open("c3x/receipts/g10-p8-preoutcome-selection-repair.json"))
+          assert r["verdict"]=="HOLD_ORBIT_TARGET_SUPPORT_INSUFFICIENT"
+          assert r["selection_bias_firewall_pass"] is True
+          assert r["preoutcome_evidence"]["causal_outcomes_consulted"] is False
+          assert r["preoutcome_evidence"]["source_stats"]["P8_SRC_TWIC_1657"]["control_eligible_positions"]==0
+          assert r["preoutcome_evidence"]["source_stats"]["P8_SRC_TWIC_1658"]["control_eligible_positions"]==0
+          assert c["status"]=="CLOSED_HOLD"
+          assert a["post_selection_outputs_authoritative"] is False
+          assert a["post_selection_outputs_read"] is False
+          assert s["causal_outcomes_consulted"] is False
+          print("C3X_G10_P8_CLOSURE_VERIFY_PASS")
+          PY
+      - name: Seal closure capsule
+        run: |
+          mkdir -p out
+          cp c3x/results/g10-p8-court.json out/
+          cp c3x/receipts/g10-p8-closure.json out/
+          cp c3x/receipts/g10-p8-run-authority.json out/
+          cp c3x/receipts/g10-p8-preoutcome-selection-repair.json out/
+          cp docs/G10_P8_COURT.md out/
+          sha256sum out/* | sort > out/sha256sums.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: g10-p8-closure-capsule
+          path: out/
+          retention-days: 90
