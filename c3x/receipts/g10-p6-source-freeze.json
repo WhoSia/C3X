@@ -1,0 +1,29 @@
+{
+  "schema": "c3x-g10-p6-source-freeze-v1",
+  "canonical_run": 36964450411,
+  "workflow_head": "939cf443cbf594e8154d51649330d18514c4f877",
+  "status": "SEALED_BEFORE_HOLDOUT_CAUSAL_OUTCOMES",
+  "sources": [
+    {
+      "id": "P6_SRC_TWIC_1661",
+      "issue": 1661,
+      "date": "2026-09-07",
+      "games": 7670,
+      "zip_sha256": "1c77bb2515885228fa57f1bde11f33214260e83abecc538e19e5a40d73cc5425"
+    },
+    {
+      "id": "P6_SRC_TWIC_1662",
+      "issue": 1662,
+      "date": "2026-09-14",
+      "games": 6671,
+      "zip_sha256": "a1f1e1d72ed08fe521ed153cdd768dd7502852d89a94cadd58ae54fe1cc8b634"
+    }
+  ],
+  "historical_candidate_hashes_excluded": 2123,
+  "frozen_positions": 36,
+  "positions_per_source": 18,
+  "causal_outcomes_opened_at_freeze": false,
+  "artifact_id": 11209480544,
+  "artifact_digest": "sha256:69ff9cfab69fa11de505ab55a8890baeef13f09f86671bab522c39726c9590a9",
+  "drive_file_id": "1_aJAA7Q3uf3GK5peZ8qnkcFuKDNeZ_qF"
+}

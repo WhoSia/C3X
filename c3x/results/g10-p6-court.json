@@ -1,0 +1,78 @@
+{
+  "schema": "c3x-g10-p6-court-v1",
+  "stage": "C3X 0.8.0-G10-P6",
+  "verdict": "PASS_CONSTITUTIVE_MECHANISM_IDENTITY_NO_COMPOSITION",
+  "canonical_scientific_run": 36964450411,
+  "canonical_workflow_head": "939cf443cbf594e8154d51649330d18514c4f877",
+  "run_conclusion": "success",
+  "development": {
+    "verdict": "PASS_CONJUNCTIVE_CONSTITUTIVE_CORE_PRESEALED",
+    "constitutive_core": [
+      "relation_delta",
+      "response_topology"
+    ],
+    "minimal_witness_sets": [
+      [
+        "relation_delta",
+        "response_topology"
+      ]
+    ],
+    "exact_signature_only": "REJECTED_BY_SAME_SIGNATURE_DIFFERENT_RESPONSE_TOPOLOGY",
+    "relation_delta_only": "REJECTED_BY_SAME_TRIGGER_DIFFERENT_RESPONSE_TOPOLOGY",
+    "response_topology_only": "REJECTED_BY_SAME_RESPONSE_DIFFERENT_BOARD_TRIGGER",
+    "falsifier_role": "AUTHORITY_OBLIGATION_NOT_IDENTITY_SHORTCUT"
+  },
+  "holdout": {
+    "sources": [
+      "P6_SRC_TWIC_1661",
+      "P6_SRC_TWIC_1662"
+    ],
+    "frozen_positions": 36,
+    "historical_candidate_hashes_excluded": 2123,
+    "admitted_pair_positions": 33,
+    "active_engine_worlds": 86,
+    "chain_positions": 13,
+    "selected_chain_count": 13,
+    "active_chain_engine_worlds": 32,
+    "semantic_target_worlds": 32,
+    "address_misses": 0,
+    "fresh_instrument_verdict": "P16_LOCAL_MINIMAL_FULL_BRIDGE_ONLY",
+    "complete_local_certificates": 2,
+    "certificate_authority": "LOCAL_ONLY"
+  },
+  "geometry_counts": {
+    "DIFFERENT_CAUSE_SAME_CONSEQUENCE": 7,
+    "NONCOMPARABLE": 5,
+    "SAME_SEARCH_RESPONSE_DIFFERENT_BOARD_TRIGGER": 2,
+    "SAME_BOARD_TRIGGER_DIFFERENT_SEARCH_MANIFESTATION": 1,
+    "COMPOSITION_CORE_MATCH": 0
+  },
+  "empirical_composition_candidates": 0,
+  "transportable_pattern_instantiated": false,
+  "authority_ceiling": [
+    "At most COMPOSITION_CANDIDATE",
+    "No transportable causal pattern",
+    "No objective chess truth, human cognition, or human utility claim"
+  ],
+  "artifacts": {
+    "source": {
+      "id": 11209480544,
+      "digest": "sha256:69ff9cfab69fa11de505ab55a8890baeef13f09f86671bab522c39726c9590a9",
+      "drive_file_id": "1_aJAA7Q3uf3GK5peZ8qnkcFuKDNeZ_qF"
+    },
+    "pair_freeze": {
+      "id": 11209436491,
+      "digest": "sha256:ab9fc9ba67d75d471a0f8aa0c8f45d8d8b58c46109dd4902ff144c3be8427d4b"
+    },
+    "chain_freeze": {
+      "id": 11208784038,
+      "digest": "sha256:170d075f44be47bcbb4503ed825d3e9516d57cfd03f660a3bcf2f8e8e57f05dd",
+      "drive_file_id": "1RN3YEEcJPrqJfVKDTGmnoIFJTww8Vcv0"
+    },
+    "final": {
+      "id": 11209591077,
+      "digest": "sha256:665b9600586fe6d2c19679ff2e4ab834fdbb194f0d5f753988f60e7a19355270",
+      "drive_file_id": "1SdRDHORrvpusJNyJawydweARJf60jLkG"
+    }
+  }
+}

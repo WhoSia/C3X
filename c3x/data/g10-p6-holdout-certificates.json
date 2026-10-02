@@ -1,0 +1,143 @@
+{
+  "schema": "c3x-g10-p6-holdout-normalized-certificates-v1",
+  "mapping_refit_after_outcome": false,
+  "fresh_instrument_verdict": "P16_LOCAL_MINIMAL_FULL_BRIDGE_ONLY",
+  "support": {
+    "admitted_pair_positions": 33,
+    "chain_positions": 13,
+    "selected_chain_count": 13,
+    "active_chain_engine_worlds": 32,
+    "active_engines": [
+      "berserk",
+      "ethereal",
+      "stockfish_19"
+    ],
+    "sources": [
+      "P6_SRC_TWIC_1661",
+      "P6_SRC_TWIC_1662"
+    ],
+    "worlds_with_any_fired_semantic_target": 32,
+    "address_misses": 0,
+    "pass": true
+  },
+  "certificates": [
+    {
+      "id": "HOLDOUT_c64ae837e530ff9822621fc3",
+      "certificate_id": "c64ae837e530ff9822621fc3",
+      "source_id": "P6_SRC_TWIC_1662",
+      "position_id": "p16:P6_SRC_TWIC_1662:001b4f03f649",
+      "engine": "ethereal",
+      "bound": "LOWER",
+      "exact_signature": "OPPONENT|PREFERRED_TO_GAIN|LOWER|MINIMAL_FULL_BRIDGE",
+      "context": {
+        "pair_id": "b8d7::f6d5",
+        "physical_edit_id": "e2c4"
+      },
+      "board_trigger": {
+        "moved_side_role": "OPPONENT",
+        "target_atom": "B_TO_GAIN",
+        "relation_before": [
+          false,
+          false,
+          false,
+          false
+        ],
+        "relation_after": [
+          false,
+          false,
+          false,
+          true
+        ]
+      },
+      "response_topology": {
+        "B0": {
+          "state": "EVENT_PAIR_REVERSAL",
+          "native": "B",
+          "t_only": "A"
+        },
+        "TARGET": {
+          "state": "EVENT_NULL",
+          "native": "A",
+          "t_only": "A"
+        },
+        "SUBSET": {
+          "state": "NO_EVENT",
+          "native": null,
+          "t_only": null
+        },
+        "SHAM": {
+          "state": "NO_EVENT",
+          "native": null,
+          "t_only": null
+        }
+      },
+      "falsifier": {
+        "subset_reproduced": false,
+        "sham_reproduced": false,
+        "chain_relative_minimality": true
+      },
+      "surface": {
+        "board_native_transition": "B_TO_A"
+      }
+    },
+    {
+      "id": "HOLDOUT_f05f7fbd9afcec6d80016f8b",
+      "certificate_id": "f05f7fbd9afcec6d80016f8b",
+      "source_id": "P6_SRC_TWIC_1662",
+      "position_id": "p16:P6_SRC_TWIC_1662:003c91b5d236",
+      "engine": "ethereal",
+      "bound": "UPPER",
+      "exact_signature": "OPPONENT|PREFERRED_TO_LOSS|UPPER|MINIMAL_FULL_BRIDGE",
+      "context": {
+        "pair_id": "e4d5::h2h3",
+        "physical_edit_id": "d8c8"
+      },
+      "board_trigger": {
+        "moved_side_role": "OPPONENT",
+        "target_atom": "A_TO_LOSS",
+        "relation_before": [
+          false,
+          true,
+          false,
+          false
+        ],
+        "relation_after": [
+          false,
+          false,
+          false,
+          false
+        ]
+      },
+      "response_topology": {
+        "B0": {
+          "state": "EVENT_NULL",
+          "native": "A",
+          "t_only": "A"
+        },
+        "TARGET": {
+          "state": "EVENT_PAIR_REVERSAL",
+          "native": "B",
+          "t_only": "A"
+        },
+        "SUBSET": {
+          "state": "EVENT_NULL",
+          "native": "B",
+          "t_only": "B"
+        },
+        "SHAM": {
+          "state": "EVENT_NULL",
+          "native": "B",
+          "t_only": "B"
+        }
+      },
+      "falsifier": {
+        "subset_reproduced": false,
+        "sham_reproduced": false,
+        "chain_relative_minimality": true
+      },
+      "surface": {
+        "board_native_transition": "A_TO_B"
+      }
+    }
+  ]
+}

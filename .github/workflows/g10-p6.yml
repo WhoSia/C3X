@@ -2,16 +2,6 @@ name: c3x-g10-p6-constitutive-mechanism-court
 
 on:
   workflow_dispatch:
-  push:
-    paths:
-      - "c3x_g10/mechanism_identity.py"
-      - "tests/test_g10_p6.py"
-      - "tools/g10_p6_extract.py"
-      - "tools/g10_p6_adjudicate.py"
-      - "c3x/data/g10-p6-development-ecology.json"
-      - "c3x/ontology/g10-p6-constitution.json"
-      - "c3x/receipts/g10-p6-precommit.json"
-      - ".github/workflows/g10-p6.yml"
 
 permissions:
   contents: read

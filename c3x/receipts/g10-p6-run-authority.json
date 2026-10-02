@@ -1,0 +1,8 @@
+{
+  "schema": "c3x-g10-p6-run-authority-v1",
+  "canonical_scientific_run": 36964450411,
+  "canonical_head": "939cf443cbf594e8154d51649330d18514c4f877",
+  "conclusion": "success",
+  "final_verdict": "PASS_CONSTITUTIVE_MECHANISM_IDENTITY_NO_COMPOSITION",
+  "policy": "Only run 36964450411 may determine G10-P6 holdout outcomes. Later heavy runs are non-authoritative unless explicitly re-Courted."
+}
