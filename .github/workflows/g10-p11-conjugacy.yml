@@ -1,0 +1,59 @@
+name: c3x-g10-p11-conjugacy
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'c3x/ontology/g10-p11-constitution.json'
+      - 'tools/g10_p11_conjugacy.py'
+      - '.github/workflows/g10-p11-conjugacy.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+env:
+  OPPORTUNITY_RUN: "37015671080"
+
+jobs:
+  conjugacy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: g10-p10-opportunity-*
+          path: worlds
+          repository: WhoSia/C3X
+          run-id: ${{ env.OPPORTUNITY_RUN }}
+          github-token: ${{ github.token }}
+      - name: Exhaustive relabeling and quotient reconstruction
+        run: |
+          python3 tools/g10_p11_conjugacy.py             --worlds worlds             --out g10-p11-conjugacy.json
+          python3 - <<'PY'
+          import json
+          r=json.load(open("g10-p11-conjugacy.json"))
+          assert r["status"]=="DEVELOPMENT_ONLY_NO_CONFIRMATORY_AUTHORITY"
+          assert r["quotient_search"]["partition_count"]==15
+          assert r["claim_ceiling"]=="DEVELOPMENT_CANDIDATE_ONLY"
+          assert r["automation_identity"]["actions_writeback"] is False
+          print("G10_P11_VERIFIED",r["verdict"])
+          for k,v in sorted(r["engine_pair_results"].items()):
+              print("PAIR",k,
+                    "SEM",v["semantic"]["best"]["support_obstruction"],v["semantic"]["best"]["map_name"],
+                    "D4",v["square_automorphism"]["best"]["support_obstruction"],v["square_automorphism"]["best"]["map_name"],
+                    "S4",v["S4"]["best"]["support_obstruction"],v["S4"]["best"]["map_name"])
+          q=r["quotient_search"]
+          print("QUOTIENT",q["exact_nontrivial_count"],q["finest_exact_common_support_block_count"],
+                [x["name"] for x in q["finest_exact_common_support_quotients"]])
+          print("HAMMING",q["hamming_weight_quotient"]["exact_common_support"])
+          PY
+          sha256sum g10-p11-conjugacy.json > g10-p11-conjugacy.sha256
+      - uses: actions/upload-artifact@v4
+        with:
+          name: g10-p11-conjugacy-sealed
+          path: |
+            g10-p11-conjugacy.json
+            g10-p11-conjugacy.sha256
+          retention-days: 90
