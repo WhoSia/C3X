@@ -1,0 +1,29 @@
+name: c3x-g10-p5-authority-dynamics-verification
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - ".github/workflows/g10-p5-authority-verify.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 -m pip install --disable-pip-version-check python-chess==1.999 pytest
+      - name: Verify P5 authority dynamics only
+        run: |
+          PYTHONPATH=. pytest -q tests/test_g10_p5.py tests/test_g10_p4.py
+          python3 - <<'PY'
+          from c3x_g10.authority_dynamics import Claim,apply_evidence,resolve_atoms,ClaimStatus
+          c=Claim("audit","LOCAL_CAUSAL_EXPLANATION")
+          apply_evidence(c,{"OBSERVED_OUTCOME"},"bad","OUTCOME_BEFORE_REQUIRED_FREEZE")
+          resolve_atoms(c,{"PROVENANCE_INVALID"},{"PROVENANCE_RESTORED"},"attempt")
+          assert c.status==ClaimStatus.RETRACTED
+          assert "PROVENANCE_INVALID" in c.evidence
+          print("G10_P5_AUTHORITY_DYNAMICS_VERIFY_PASS")
+          PY
