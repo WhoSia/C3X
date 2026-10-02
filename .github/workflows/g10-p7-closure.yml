@@ -1,0 +1,58 @@
+name: c3x-g10-p7-closure-verification
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - "c3x/results/g10-p7-court.json"
+      - "c3x/receipts/g10-p7-source-freeze.json"
+      - "c3x/receipts/g10-p7-run-authority.json"
+      - "c3x/receipts/g10-p7-closure.json"
+      - "c3x_g10/morphism_grammar.py"
+      - "tools/g10_p7_adjudicate.py"
+      - "tests/test_g10_p7.py"
+      - ".github/workflows/g10-p7-closure.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 -m pip install --disable-pip-version-check python-chess==1.999 pytest
+      - name: Verify P7 closure
+        run: |
+          PYTHONPATH=. pytest -q tests/test_g10_p7.py tests/test_g10_p6.py tests/test_g10_p5.py tests/test_g10_p4.py tests/test_g10_p3.py tests/test_g10_p2.py tests/test_g10_p1.py tests/test_g10_p0.py tests/test_c3x_explain.py
+          python3 - <<'PY'
+          import json
+          r=json.load(open("c3x/results/g10-p7-court.json"))
+          c=json.load(open("c3x/receipts/g10-p7-closure.json"))
+          a=json.load(open("c3x/receipts/g10-p7-run-authority.json"))
+          s=json.load(open("c3x/receipts/g10-p7-source-freeze.json"))
+          assert r["verdict"]=="PASS_ADMISSIBLE_MORPHISM_GRAMMAR_NO_HOLDOUT_FAMILY"
+          assert r["development"]["admissible_grammar"]==["C","S","E"]
+          assert r["holdout"]["complete_local_certificates"]==0
+          assert r["mechanism_family_candidates"]==[]
+          assert c["status"]=="CLOSED_PASS"
+          assert c["canonical_evidence_run"]==36975500509
+          assert c["canonical_readjudication_run"]==36977345547
+          assert a["canonical_heavy_scientific_run"]==36975500509
+          assert s["causal_outcomes_opened_at_freeze"] is False
+          print("C3X_G10_P7_CLOSURE_VERIFY_PASS")
+          PY
+      - name: Seal verification capsule
+        run: |
+          mkdir -p out
+          cp c3x/results/g10-p7-court.json out/
+          cp c3x/receipts/g10-p7-source-freeze.json out/
+          cp c3x/receipts/g10-p7-run-authority.json out/
+          cp c3x/receipts/g10-p7-closure.json out/
+          cp docs/G10_P7_COURT.md out/
+          sha256sum out/* | sort > out/sha256sums.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: g10-p7-closure-capsule
+          path: out/
+          retention-days: 90
