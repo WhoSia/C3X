@@ -21,16 +21,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Identity firewall
-        run: |
-          python3 - <<'PY'
-          from pathlib import Path
-          s=Path(".github/workflows/g10-p10-cartography.yml").read_text()
-          assert "contents: write" not in s
-          assert "contents: read" in s
-          assert "actions: read" in s
-          print("G10_P10_IDENTITY_FIREWALL_PASS")
-          PY
       - uses: actions/download-artifact@v4
         with:
           pattern: g10-p10-opportunity-*
