@@ -1,0 +1,62 @@
+name: c3x-g10-p9-closure-verification
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'c3x/results/g10-p9-experiment.json'
+
+permissions:
+  contents: write
+  actions: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 -m pip install --disable-pip-version-check pytest python-chess==1.999
+      - name: Verify P9 scientific boundary
+        run: |
+          PYTHONPATH=. pytest -q tests/test_g10_p9.py tests/test_g10_p8.py tests/test_g10_p7.py
+          python3 - <<'PY'
+          import json,hashlib,pathlib
+          p=pathlib.Path("c3x/results/g10-p9-experiment.json")
+          r=json.loads(p.read_text())
+          allowed={
+            "PASS_GRADED_RECOVERABILITY_ENRICHED",
+            "PASS_GRADED_SELECTOR_DISCRIMINATIVE_NO_YIELD_ENRICHMENT",
+            "NULL_CERTIFICATE_YIELD_BOTH_ARMS",
+            "FAIL_PREOUTCOME_FIREWALL",
+          }
+          assert r["verdict"] in allowed
+          assert r["preoutcome_verdict"]=="PASS_PREOUTCOME_GRADED_SELECTOR_POSITIVITY"
+          assert r["preoutcome_firewall_pass"] is True
+          assert r["mechanism_family_admission_opened"] is False
+          assert r["transportable_pattern_instantiated"] is False
+          assert r["acquisition"]["pairs"]==24
+          assert sum(x["pairs"] for x in r["source_enrichment"].values())==24
+          sha=hashlib.sha256(p.read_bytes()).hexdigest()
+          receipt={
+            "schema":"c3x-g10-p9-closure-v1",
+            "status":"CLOSED",
+            "verdict":r["verdict"],
+            "experiment_result_sha256":sha,
+            "preoutcome_verdict":r["preoutcome_verdict"],
+            "preoutcome_firewall_pass":r["preoutcome_firewall_pass"],
+            "mechanism_family_admission_opened":False,
+            "transportable_pattern_instantiated":False,
+            "authority_ceiling":r["authority_ceiling"],
+          }
+          pathlib.Path("c3x/receipts/g10-p9-closure.json").write_text(json.dumps(receipt,indent=2,sort_keys=True)+"\n")
+          print("G10_P9_CLOSURE_VERIFIED",r["verdict"],sha)
+          PY
+      - name: Bind closure receipt
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add c3x/receipts/g10-p9-closure.json
+          git diff --cached --quiet && exit 0
+          VERDICT="$(python3 -c 'import json;print(json.load(open("c3x/receipts/g10-p9-closure.json"))["verdict"])')"
+          git commit -m "C3X G10-P9: close experiment $VERDICT"
+          git push
