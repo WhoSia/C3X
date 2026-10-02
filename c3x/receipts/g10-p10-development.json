@@ -1,0 +1,55 @@
+{
+  "schema": "c3x-g10-p10-development-receipt-v1",
+  "stage": "C3X 0.8.0-G10-P10",
+  "status": "DEVELOPMENT_COMPLETE_CONFIRMATION_PENDING",
+  "development_verdict": "DEVELOPMENT_OPPORTUNITY_SURFACE_NONTRIVIAL",
+  "development_run": 37015671080,
+  "development_artifact_id": 11229822865,
+  "development_json_sha256": "f0f6876a41f2ea30ee7b5e22a13a0bfba07b8fbcdd4282352c935847e7e6c6a9",
+  "firewall_pass": true,
+  "confirmatory_authority": false,
+  "world_count": 144,
+  "active_world_count": 73,
+  "opportunity_class_counts": {
+    "NO_COMMON_BOUND": 16,
+    "ONE_COMMON_BOUND": 54,
+    "TWO_COMMON_BOUNDS": 3
+  },
+  "sole_development_certificate_world": {
+    "source_id": "P8_SRC_TWIC_1657",
+    "position_id": "p16:P8_SRC_TWIC_1657:017752aef89a",
+    "engine": "stockfish_19",
+    "opportunity_class": "ONE_COMMON_BOUND",
+    "max_common_target_bound_count": 1,
+    "max_target_specific_common_bound_delta": 0,
+    "family_distance": 1,
+    "family_margin": 3,
+    "family_specificity": 3,
+    "polarity_profile": [
+      "GAIN"
+    ]
+  },
+  "opportunity_matched_cells_with_family_distance_variation": 12,
+  "interpretation": [
+    "The opportunity instrument is non-degenerate in development.",
+    "The sole development certificate did not require the maximal TWO_COMMON_BOUNDS class.",
+    "Development evidence is insufficient for any causal opportunity or conditional family-distance claim.",
+    "Fresh confirmation remains mandatory on presealed TWIC 1665 and 1666."
+  ],
+  "confirmation_sources": [
+    {
+      "id": "P10_SRC_TWIC_1665",
+      "status": "FUTURE_UNOPENED"
+    },
+    {
+      "id": "P10_SRC_TWIC_1666",
+      "status": "FUTURE_UNOPENED"
+    }
+  ],
+  "automation_identity": {
+    "actions_contents_permission": "read",
+    "repository_writeback_from_actions": false,
+    "bot_author_committer_hits_at_promotion": 0,
+    "canonical_promotion_actor": "WhoSia"
+  }
+}
