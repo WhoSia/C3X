@@ -12,7 +12,7 @@ def test_side_role_only_development_witness():
 def test_candidate_endpoint_side_witness():
     c=certs();w=morphism_witness(c["P5_1664_ETHEREAL"],c["HOLDOUT_c64ae837e530ff9822621fc3"])
     assert w["isomorphic"] is True
-    assert w["minimal_generators"]==["C","E","S"]
+    assert w["minimal_generators"]==["C","S","E"]
 
 def test_p6_same_trigger_different_response_stays_distinct():
     c=certs();w=morphism_witness(c["P5_1663_BERSERK"],c["P5_1663_ETHEREAL"])

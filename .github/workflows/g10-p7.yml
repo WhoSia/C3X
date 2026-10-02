@@ -48,7 +48,7 @@ jobs:
       - uses: actions/checkout@v4
       - run: python3 -m pip install --disable-pip-version-check python-chess==1.999 pytest
       - name: P7 morphism grammar and G10 regression
-        run: PYTHONPATH=. pytest -q tests/test_g10_p6.py tests/test_g10_p5.py tests/test_g10_p4.py tests/test_g10_p3.py tests/test_g10_p2.py tests/test_g10_p1.py tests/test_g10_p0.py tests/test_c3x_explain.py
+        run: PYTHONPATH=. pytest -q tests/test_g10_p7.py tests/test_g10_p6.py tests/test_g10_p5.py tests/test_g10_p4.py tests/test_g10_p3.py tests/test_g10_p2.py tests/test_g10_p1.py tests/test_g10_p0.py tests/test_c3x_explain.py
       - name: Development morphism grammar preseal
         run: |
           python3 - <<'PY'

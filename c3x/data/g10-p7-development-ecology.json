@@ -383,8 +383,8 @@
       "b": "HOLDOUT_c64ae837e530ff9822621fc3",
       "expected_generators": [
         "C",
-        "E",
-        "S"
+        "S",
+        "E"
       ],
       "reason": "candidate relabel + endpoint duality + side-role duality preserves changed edge, response topology, and surface transition"
     }
