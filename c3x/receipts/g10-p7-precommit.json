@@ -1,0 +1,27 @@
+{
+  "schema": "c3x-g10-p7-precommit-v1",
+  "stage": "C3X 0.8.0-G10-P7 — Prospective Mechanism-Family Isomorphism Constitution, Admissible Certificate-Morphism Grammar, Role↔Candidate↔Gain/Loss↔Bound Duality, Causal-Structure-Preserving Relabeling, Context-Transport vs Mechanism-Change Separation, Nontriviality & Degenerate-Isomorphism Falsification, Quotient-Family Reconstruction, Minimal Cross-Instance Morphism Witness & Lawful Mechanism-Family Court",
+  "parent_main_head": "b4f47be5ab4284b6cca78abbe3fc68322516d8a4",
+  "notion_stage_page_id": "3edef561-cf92-81e1-9484-cf88bc19cce0",
+  "judgment_ci_open_id": "3edef561-cf92-8126-9a6b-c0eb244cb494",
+  "development_outcomes_opened": true,
+  "development_authority": "P16_P5_P6_SEALED_ONLY",
+  "holdout_source_bytes_opened": false,
+  "holdout_causal_outcomes_opened": false,
+  "grammar_refit_allowed": false,
+  "frozen_admissible_grammar": [
+    "C",
+    "S",
+    "E"
+  ],
+  "unlicensed_generators": [
+    "G",
+    "U"
+  ],
+  "drive": {
+    "source": "1qS1fYW8tsu8jf3XwwLor-itmMlBl0l4k",
+    "runtime": "1wG-Gig8zmUjCgNb699uiOw9VChEyzqUr",
+    "results": "1gbRqq-EMbQ-HZrmMIX4BIuU1fZs8igFK"
+  },
+  "authority_ceiling": "MECHANISM_FAMILY_CANDIDATE_ONLY"
+}

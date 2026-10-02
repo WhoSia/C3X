@@ -1,0 +1,74 @@
+{
+  "schema": "c3x-g10-p7-constitution-v1",
+  "stage": "C3X 0.8.0-G10-P7 — Prospective Mechanism-Family Isomorphism Constitution, Admissible Certificate-Morphism Grammar, Role↔Candidate↔Gain/Loss↔Bound Duality, Causal-Structure-Preserving Relabeling, Context-Transport vs Mechanism-Change Separation, Nontriviality & Degenerate-Isomorphism Falsification, Quotient-Family Reconstruction, Minimal Cross-Instance Morphism Witness & Lawful Mechanism-Family Court",
+  "type": "COURT",
+  "parent": {
+    "stage": "G10-P6",
+    "verdict": "PASS_CONSTITUTIVE_MECHANISM_IDENTITY_NO_COMPOSITION",
+    "closure_head": "b4f47be5ab4284b6cca78abbe3fc68322516d8a4"
+  },
+  "development": {
+    "evidence": "c3x/data/g10-p7-development-ecology.json",
+    "authority": "GRAMMAR_DEVELOPMENT_ONLY",
+    "context_factorization": "ignore unchanged endpoint-relation background; preserve changed endpoint edge",
+    "candidate_generators": [
+      "C",
+      "S",
+      "G",
+      "E",
+      "U"
+    ],
+    "frozen_admissible_grammar": [
+      "C",
+      "S",
+      "E"
+    ],
+    "unlicensed": [
+      "G",
+      "U"
+    ],
+    "nondegeneracy": "must preserve P6 negative pairs and must not collapse all six certificates"
+  },
+  "holdout": {
+    "sources": [
+      {
+        "id": "P7_SRC_TWIC_1659",
+        "date": "2026-08-24",
+        "games": 8342,
+        "url": "https://theweekinchess.com/zips/twic1659g.zip"
+      },
+      {
+        "id": "P7_SRC_TWIC_1660",
+        "date": "2026-08-31",
+        "games": 9139,
+        "url": "https://theweekinchess.com/zips/twic1660g.zip"
+      }
+    ],
+    "positions": 36,
+    "positions_per_source": 18,
+    "instrument_contract": "G9.5-P16 exact-event minimal FULL_BRIDGE",
+    "grammar_refit_after_outcome": false
+  },
+  "family_promotion": {
+    "requires": [
+      "complete LOCAL_ONLY certificates",
+      "non-identity morphism under frozen grammar",
+      "independent source and position provenance",
+      "falsifier/minimality preservation"
+    ],
+    "grants_at_most": "MECHANISM_FAMILY_CANDIDATE",
+    "transport_authority": false
+  },
+  "literature_anchors": [
+    "Otsuka & Saigo 2022 causal-model equivalence under abstraction",
+    "Geiger et al. 2025 causal abstraction for mechanistic interpretability",
+    "Lorenz & Tull 2026 causal and compositional abstraction"
+  ],
+  "verdict_space": [
+    "PASS_NONTRIVIAL_MECHANISM_FAMILY_ISOMORPHISM",
+    "PASS_ADMISSIBLE_MORPHISM_GRAMMAR_NO_HOLDOUT_FAMILY",
+    "HOLD_HOLDOUT_CERTIFICATE_SUPPORT_INSUFFICIENT",
+    "FAIL_DEGENERATE_ISOMORPHISM_GRAMMAR",
+    "FAIL_MORPHISM_STRUCTURE_NOT_PRESERVED"
+  ]
+}
