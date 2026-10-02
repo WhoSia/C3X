@@ -43,5 +43,15 @@
     "No transportable causal pattern",
     "No objective chess truth or human cognition claim"
   ],
-  "next_scientific_implication": "The grammar is executable and nondegenerate, but P7 holdout produced no complete local certificates. The next stage should test whether family-level evidence requires targeted family-member acquisition under a frozen morphism query, rather than another undirected corpus sweep."
+  "next_scientific_implication": "The grammar is executable and nondegenerate, but P7 holdout produced no complete local certificates. The next stage should test whether family-level evidence requires targeted family-member acquisition under a frozen morphism query, rather than another undirected corpus sweep.",
+  "closure_verification": {
+    "run_id": 36977710480,
+    "head": "49470bacc45b78c29a371fbab0313e4493bcc729",
+    "conclusion": "success",
+    "marker": "C3X_G10_P7_CLOSURE_VERIFY_PASS",
+    "artifact_id": 11213289887,
+    "artifact_digest": "sha256:17e7aedec40ad54238b3789e6ddaac41d5af41a7e91bdaef961ba81f48faf9de",
+    "drive_file_id": "1r5oUi31v338XtGZGn-_P7U_2A5Ih6dXL"
+  },
+  "verification_state": "VERIFIED_SUCCESS"
 }
