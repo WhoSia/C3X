@@ -1,0 +1,54 @@
+name: c3x-g10-p10-transition-algebra
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'tools/g10_p10_transition_algebra.py'
+      - '.github/workflows/g10-p10-transition-algebra.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+env:
+  OPPORTUNITY_RUN: "37015671080"
+
+jobs:
+  transition-algebra:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: g10-p10-opportunity-*
+          path: worlds
+          repository: WhoSia/C3X
+          run-id: ${{ env.OPPORTUNITY_RUN }}
+          github-token: ${{ github.token }}
+      - name: Opportunity transition algebra
+        run: |
+          python3 tools/g10_p10_transition_algebra.py             --worlds worlds             --out g10-p10-transition-algebra.json
+          python3 - <<'PY'
+          import json
+          r=json.load(open("g10-p10-transition-algebra.json"))
+          assert r["status"]=="DEVELOPMENT_ONLY_NO_CONFIRMATORY_AUTHORITY"
+          assert r["confirmatory_authority"] is False
+          assert r["firewall"]["certificate_labels_used"] is False
+          assert r["firewall"]["event_ablation_used"] is False
+          print("G10_P10_TRANSITION_ALGEBRA_VERIFIED")
+          print("SUMMARY",r["transition_summary"])
+          print("BOUND",r["bound_stats"])
+          print("TV",r["engine_operator_total_variation"])
+          print("FIBERS",r["quotient_fibers"])
+          print("TRANSPORT",r["cross_engine_transition_transport"])
+          PY
+          sha256sum g10-p10-transition-algebra.json > g10-p10-transition-algebra.sha256
+      - uses: actions/upload-artifact@v4
+        with:
+          name: g10-p10-transition-algebra-sealed
+          path: |
+            g10-p10-transition-algebra.json
+            g10-p10-transition-algebra.sha256
+          retention-days: 90
