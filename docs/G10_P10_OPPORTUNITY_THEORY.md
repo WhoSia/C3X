@@ -138,3 +138,53 @@ This empirically separates:
 - replicated structural authority.
 
 The single local certificate therefore cannot be promoted into a family law.
+
+## 9. Opportunity transition algebra — terminal development readout
+Using 78 active chain rows, the two-bit B0 bound state was mapped to TARGET, SUBSET and SHAM states.
+
+### Reachability
+- B0→TARGET: 14/16 possible edges observed; change fraction 0.4744; edge entropy 3.2117 bits.
+- B0→SUBSET: 12/16 edges; change fraction 0.3590; entropy 2.8914 bits.
+- B0→SHAM: 13/16 edges; change fraction 0.3718; entropy 2.9698 bits.
+
+TARGET is therefore the most topologically disruptive edit in this development ecology, but the state graph is still highly connected rather than governed by a small deterministic rule set.
+
+### Bound creation/destruction asymmetry
+For TARGET:
+- UPPER: persist 36, destroy 14, create 10, absent 18.
+- LOWER: persist 28, destroy 11, create 6, absent 33.
+
+This shows that board edits change semantic opportunity by both destroying and creating addressable bound channels. Opportunity is therefore not a monotone resource count.
+
+### Engine-conditional transition operators
+Total-variation distance between empirical transition operators:
+- Berserk↔Ethereal: 0.2308–0.3182.
+- Berserk↔Stockfish 19: 0.9333–0.9545.
+- Ethereal↔Stockfish 19: 0.9615 on all three edit families.
+
+Thus Stockfish 19 occupies a markedly different fine opportunity-transition regime from Berserk/Ethereal in this sample.
+
+### Transition transport
+For 32 position×chain groups with multiple active engines, exact B0→edit transition-edge unanimity is 1/32 for TARGET, SUBSET and SHAM.
+
+The most defensible representation is therefore:
+- a partially transportable coarse opportunity quotient;
+- strongly engine-relative fine fibers and transition operators.
+
+No universal opportunity-transition law is earned.
+
+## 10. P10 terminal development conclusion
+P10 establishes four development-level separations:
+1. board-family geometry and search opportunity are nonidentical axes;
+2. native opportunity is necessary but radically insufficient for causal certification;
+3. coarse opportunity quotient structure partially survives engine change while fine topology does not;
+4. board edits and engine changes interact strongly at the fine opportunity level.
+
+P10 does **not** establish:
+- a monotone opportunity→certificate law;
+- a universal cross-engine transition law;
+- mechanism-family admission;
+- fresh-source replication;
+- human-cognitive or objective-chess claims.
+
+Fresh TWIC 1665/1666 confirmation remains a deferred dependency rather than an open P10 execution requirement.
