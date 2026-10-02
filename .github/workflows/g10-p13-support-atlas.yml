@@ -1,0 +1,66 @@
+name: c3x-g10-p13-support-atlas
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'tools/g10_p13_support_atlas.py'
+      - '.github/workflows/g10-p13-support-atlas.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+env:
+  OPPORTUNITY_RUN: "37015671080"
+  P9_RUN: "37007062196"
+  PRIMARY_RUN: "37032856034"
+
+jobs:
+  atlas:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 -m pip install --disable-pip-version-check python-chess==1.999
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: g10-p10-opportunity-*
+          path: worlds
+          repository: WhoSia/C3X
+          run-id: ${{ env.OPPORTUNITY_RUN }}
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: g10-p9-chain-freeze-sealed
+          path: state
+          repository: WhoSia/C3X
+          run-id: ${{ env.P9_RUN }}
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: g10-p13-context-factorization-sealed
+          path: primary
+          repository: WhoSia/C3X
+          run-id: ${{ env.PRIMARY_RUN }}
+          github-token: ${{ github.token }}
+      - name: Post-HOLD chess support atlas
+        run: |
+          python3 tools/g10_p13_support_atlas.py             --worlds worlds             --chain-freeze state/g10-p9-chain-freeze.json             --p9-census c3x/results/g10-p9-preoutcome-census.json             --primary primary/g10-p13-context-factorization.json             --out g10-p13-support-atlas.json
+          python3 - <<'PY'
+          import json
+          r=json.load(open("g10-p13-support-atlas.json"))
+          assert r["status"]=="POST_RESULT_DESCRIPTIVE_DEMOTION_ONLY"
+          assert r["can_strengthen_primary"] is False
+          print("G10_P13_ATLAS_VERIFIED",r["primary_verdict"])
+          print("DIST",r["source_position_context_distribution"])
+          print("OVERLAP",r["context_overlap_ladder"])
+          PY
+          sha256sum g10-p13-support-atlas.json > g10-p13-support-atlas.sha256
+      - uses: actions/upload-artifact@v4
+        with:
+          name: g10-p13-support-atlas-sealed
+          path: |
+            g10-p13-support-atlas.json
+            g10-p13-support-atlas.sha256
+          retention-days: 90
