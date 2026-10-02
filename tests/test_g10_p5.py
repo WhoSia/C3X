@@ -54,3 +54,34 @@ def test_dependency_retraction_withdraws_downstream_causal_wording():
     assert out["claims"]["atom"]["status"]=="SUSPENDED"
     assert rendered_language_allowed(atom)["causal"] is False
     assert out["claims"]["comp"]["status"]=="SUSPENDED"
+
+
+def test_exhaustive_semantic_update_permutations_are_confluent():
+    import itertools
+    atoms=[{"LOCAL_MINIMALITY_LOST"},{"UNRESOLVED_DIRECT_CONTRADICTION"},{"CONTEXT_CONDITION_DISCOVERED"}]
+    finals=set()
+    for perm in itertools.permutations(atoms):
+        c=Claim("x","LOCAL_CAUSAL_EXPLANATION")
+        for i,a in enumerate(perm): apply_evidence(c,a,f"e{i}")
+        finals.add((c.status.value,c.authority))
+    assert finals=={("SUSPENDED","LOCAL_CAUSAL_EXPLANATION")}
+
+def test_provenance_invalidation_cannot_be_resolved_away():
+    c=Claim("x","LOCAL_CAUSAL_EXPLANATION")
+    apply_evidence(c,{"OBSERVED_OUTCOME"},"bad","OUTCOME_BEFORE_REQUIRED_FREEZE")
+    resolve_atoms(c,{"PROVENANCE_INVALID"},{"PROVENANCE_RESTORED"},"attempt")
+    assert c.status==ClaimStatus.RETRACTED
+    assert "PROVENANCE_INVALID" in c.evidence
+
+def test_revision_propagates_transitively():
+    cert=Claim("cert","LOCAL_CAUSAL_EXPLANATION")
+    atom=Claim("atom","LOCAL_CAUSAL_EXPLANATION",dependencies={"cert"})
+    comp=Claim("comp","COMPOSITION_CANDIDATE",dependencies={"atom"})
+    rendered=Claim("rendered","LOCAL_CAUSAL_EXPLANATION",dependencies={"comp"})
+    claims={x.claim_id:x for x in (cert,atom,comp,rendered)}
+    apply_evidence(cert,{"PROVENANCE_INVALID"},"retract")
+    out=propagate_revision(claims)
+    assert out["claims"]["atom"]["status"]=="SUSPENDED"
+    assert out["claims"]["comp"]["status"]=="SUSPENDED"
+    assert out["claims"]["rendered"]["status"]=="SUSPENDED"
+    assert rendered_language_allowed(rendered)["causal"] is False
