@@ -1,0 +1,38 @@
+{
+  "schema": "c3x-g10-p3-closure-v1",
+  "stage": "C3X 0.8.0-G10-P3 — Sealed-Evidence Explanation-Invariant Constitution, Canonical-State→Preference-Sign→Candidate-Fate→Local-Causal-Certificate Quotient Lattice, Metrology↔Mechanism Back-Transport, Chess-Native Consequence Preservation, Counterexample-Guided Coarsening & Minimal Explanation-Object Court",
+  "status": "CLOSED_PASS",
+  "verdict": "PASS_TWO_LEVEL_INVARIANT_ARCHITECTURE",
+  "authority": "SEALED_EVIDENCE_EXPLANATION_INVARIANT_CONSTITUTION",
+  "precommit_head": "a1cf8b5c141475d20cb66b548419f1074ea0789e",
+  "workflow_head": "8b2a07571f73bc835c8231913afc70f655dd3aba",
+  "actions_verification": {
+    "run_id": 36947609981,
+    "status": "QUEUED_AT_CLOSURE_MATERIALIZATION",
+    "scientific_role": "VERIFICATION_ONLY"
+  },
+  "scientific_result": {
+    "universal_single_quotient_rejected": true,
+    "measurement_routing_object": "REGIME_TAGGED_LEGAL_PAIR_PLUS_PREFERENCE_SIGN",
+    "explanation_surface_object": "LEGAL_CANDIDATE_FATE_OR_ROOT_CHOICE_TRANSITION",
+    "causal_authority_object": "LOCAL_CAUSAL_CERTIFICATE",
+    "p16_replication_ceiling_preserved": "LOCAL_ONLY",
+    "p12_replicated_mediation_promoted": false
+  },
+  "counterexample_count": 4,
+  "p2_status": "PARKED_SOURCE_DEPENDENCY_UNCHANGED",
+  "p2_outcomes_imputed": false,
+  "fresh_causal_outcomes_opened": false,
+  "drive": {
+    "source_folder_id": "1USMex4fiZ76grVgbqO7oVQldi0gjmF8N",
+    "runtime_folder_id": "1HMaTwVwWkrkV7LJdrJjLhRq3iZMDGfwZ",
+    "results_folder_id": "1Pw2d2XYXGpM8d32EF7GzaE4eI8Ekbp9_"
+  },
+  "next_scientific_implication": "Future P2 repeatability should measure regime-tagged routing objects and candidate neighborhoods, while causal explanation authority remains gated by independent local certificate generation.",
+  "authority_ceiling": [
+    "No new causal witness is created.",
+    "P16 remains LOCAL_ONLY.",
+    "P12 replicated colocation is not promoted to replicated mediation.",
+    "No objective chess truth, human cognition or human utility claim is authorized."
+  ]
+}

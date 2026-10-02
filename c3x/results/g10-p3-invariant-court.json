@@ -1,0 +1,101 @@
+{
+  "schema": "c3x-g10-p3-invariant-court-v1",
+  "stage": "C3X 0.8.0-G10-P3 — Sealed-Evidence Explanation-Invariant Constitution, Canonical-State→Preference-Sign→Candidate-Fate→Local-Causal-Certificate Quotient Lattice, Metrology↔Mechanism Back-Transport, Chess-Native Consequence Preservation, Counterexample-Guided Coarsening & Minimal Explanation-Object Court",
+  "verdict": "PASS_TWO_LEVEL_INVARIANT_ARCHITECTURE",
+  "evidence": {
+    "metrology": {
+      "canonical_repeatability_zero_positions_each_movetime_arm": 34,
+      "pair_sign_repeatability_1000ms": 34,
+      "nonzero_fixed_node_sign_transport_1000ms": 165,
+      "fixed_node_load_canonical_identity": 170,
+      "movetime_load_canonical_difference": 170,
+      "movetime_load_pair_sign_difference": 17,
+      "realized_node_pair_sign_reproduction": 340,
+      "search_state_reproduction_without_node_counter": 336,
+      "residual_states_exactly_reachable": 4
+    },
+    "p12": {
+      "root_change_targets": 42,
+      "mediated_targets": 24,
+      "mediation_status_counts": {
+        "EXACT_CUTOFF_BRIDGE": 4,
+        "EXACT_CUTOFF_INTERACTION_REDIRECT": 4,
+        "BASELINE_CUTOFF_SUFFICIENCY_ONLY": 11,
+        "COUNTERFACTUAL_CUTOFF_NECESSITY_ONLY": 9,
+        "CUTOFF_COLOCATION_ONLY": 14
+      },
+      "replicated_mediated_transition_signatures": []
+    },
+    "p16": {
+      "minimal_full_bridge_records": 1,
+      "certificate_count": 1,
+      "replicated_exact_structural_signatures": [],
+      "replicated_coarse_full_bridge_signatures": [],
+      "representative_pair": "d6d5::e8g8",
+      "replication_status": "LOCAL_ONLY",
+      "subset_reproduced": false,
+      "sham_reproduced": false
+    }
+  },
+  "counterexamples": [
+    {
+      "candidate": "CANONICAL_STATE",
+      "failure": "NOT_NECESSARY_FOR_ROBUST_PREFERENCE_ROUTING",
+      "witness": "METROLOGY_0_3",
+      "detail": "Full canonical repeatability is 0/34 at every movetime arm while pair sign is repeat-stable 34/34 at 1000ms."
+    },
+    {
+      "candidate": "REGIME_TAGGED_PAIR_SIGN",
+      "failure": "MERGES_CAUSALLY_DISTINCT_ROOT_CHANGE_WITNESSES",
+      "witness": "G9_5_P12",
+      "detail": "The same root-change evidence class contains mediation-positive and colocation/partial cases; preference direction cannot identify mediation status."
+    },
+    {
+      "candidate": "CANDIDATE_FATE",
+      "failure": "ROOT_CHOICE_TRANSITION_DOES_NOT_IDENTIFY_CAUSAL_BRIDGE",
+      "witness": "G9_5_P12",
+      "detail": "Legal root-choice change occurs both in exact-mediation and colocation-only witnesses."
+    },
+    {
+      "candidate": "INTERVENTION_RESPONSE",
+      "failure": "OMITS_MINIMALITY_AND_FALSIFIER_CONTRACT",
+      "witness": "G9_5_P16",
+      "detail": "P16 causal authority depends on failed subset/sham reproduction in addition to observed response."
+    }
+  ],
+  "adjudication": {
+    "measurement_routing_object": {
+      "representation": "REGIME_TAGGED_LEGAL_PAIR_PLUS_PREFERENCE_SIGN",
+      "authority": "MEASUREMENT_ROUTING_ONLY",
+      "reason": "Pair sign can remain stable when full canonical state does not, but must carry measurement-regime identity because stopping-rule/load boundary cases can flip sign."
+    },
+    "explanation_surface_object": {
+      "representation": "LEGAL_CANDIDATE_FATE_OR_ROOT_CHOICE_TRANSITION",
+      "authority": "CHESS_NATIVE_SURFACE_ONLY",
+      "reason": "This is the coarsest object that preserves the legal chess consequence consumed by explanation, but P12 shows it does not identify mediation."
+    },
+    "causal_authority_object": {
+      "representation": "LOCAL_CAUSAL_CERTIFICATE",
+      "authority": "LOCAL_CAUSAL_EXPLANATION",
+      "reason": "P16 authority requires board intervention, exact search response, legal preference consequence, falsifiers and chain-relative minimality. LOCAL_ONLY ceiling is preserved."
+    },
+    "single_universal_quotient_rejected": true
+  },
+  "p2_predictions": [
+    "Exact ordered/canonical identity should be less repeatable than regime-tagged pair/sign or candidate-neighborhood summaries.",
+    "Any P2 stable-object representation that omits regime identity should fail near stopping-budget boundaries.",
+    "Even a highly repeatable candidate-fate object must not be promoted to causal explanation authority without an independent local certificate."
+  ],
+  "authority_ceiling": [
+    "No new causal witness is created.",
+    "P16 remains LOCAL_ONLY.",
+    "P12 replicated colocation is not promoted to replicated mediation.",
+    "No objective chess truth, human cognition or human utility claim is authorized."
+  ],
+  "materialization": {
+    "method": "DETERMINISTIC_EVALUATION_OF_PRECOMMITTED_RULES_OVER_SEALED_EVIDENCE",
+    "actions_run_id": 36947609981,
+    "actions_status_at_materialization": "QUEUED",
+    "actions_role": "VERIFICATION_ONLY"
+  }
+}
