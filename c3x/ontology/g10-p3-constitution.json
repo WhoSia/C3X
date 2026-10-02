@@ -1,0 +1,47 @@
+{
+  "schema": "c3x-g10-p3-constitution-v1",
+  "stage": "C3X 0.8.0-G10-P3 — Sealed-Evidence Explanation-Invariant Constitution, Canonical-State→Preference-Sign→Candidate-Fate→Local-Causal-Certificate Quotient Lattice, Metrology↔Mechanism Back-Transport, Chess-Native Consequence Preservation, Counterexample-Guided Coarsening & Minimal Explanation-Object Court",
+  "type": "COURT",
+  "court_qualification": {
+    "live_alternatives": [
+      "CANONICAL_STATE",
+      "REGIME_TAGGED_PAIR_SIGN",
+      "CANDIDATE_FATE",
+      "INTERVENTION_RESPONSE",
+      "LOCAL_CAUSAL_CERTIFICATE"
+    ],
+    "fixed_criteria": [
+      "measurement robustness",
+      "causal discrimination",
+      "chess-native preservation",
+      "authority monotonicity",
+      "transport honesty"
+    ],
+    "binding_verdict": true,
+    "downstream_authority_change": true
+  },
+  "sealed_evidence_only": true,
+  "p2_outcomes_used": false,
+  "fresh_causal_outcomes_opened": false,
+  "candidate_authority": {
+    "CANONICAL_STATE": "MEASUREMENT_STATE_ONLY",
+    "REGIME_TAGGED_PAIR_SIGN": "MEASUREMENT_ROUTING_ONLY",
+    "CANDIDATE_FATE": "CHESS_NATIVE_SURFACE_ONLY",
+    "INTERVENTION_RESPONSE": "MECHANISM_CANDIDATE_ONLY",
+    "LOCAL_CAUSAL_CERTIFICATE": "LOCAL_CAUSAL_EXPLANATION"
+  },
+  "success_condition": "Identify the coarsest measurement-routing object and separately the minimum causal-authority object; reject any quotient that merges authority-relevant counterexamples.",
+  "verdict_space": [
+    "PASS_TWO_LEVEL_INVARIANT_ARCHITECTURE",
+    "PASS_FULL_CERTIFICATE_ONLY_CAUSAL_AUTHORITY",
+    "HOLD_SEALED_EVIDENCE_INSUFFICIENT_FOR_QUOTIENT_ADJUDICATION",
+    "FAIL_NO_NONTRIVIAL_AUTHORITY_PRESERVING_QUOTIENT"
+  ],
+  "authority_ceiling": [
+    "no new causal witness",
+    "P16 remains LOCAL_ONLY",
+    "no replicated mediation promotion",
+    "no objective chess truth",
+    "no human cognition or utility"
+  ]
+}

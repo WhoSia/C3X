@@ -1,0 +1,41 @@
+{
+  "schema": "c3x-g10-p3-sealed-metrology-evidence-v1",
+  "evidence_class": "SEALED_HISTORICAL_C3X_METROLOGY",
+  "metrology_0_3": {
+    "notion_page_id": "3c4ef561-cf92-8101-9195-d1c936018054",
+    "canonical_repeatability_zero_positions_each_arm": 34,
+    "pair_sign_repeatability_50ms": 31,
+    "pair_sign_repeatability_200ms": 32,
+    "pair_sign_repeatability_1000ms": 34,
+    "nonzero_fixed_node_sign_transport_1000ms": 165,
+    "total_nonzero_fixed_node_sign_transport_1000ms": 165,
+    "verdict": "CROSS_REGIME_EQUIVALENCE_REJECTED"
+  },
+  "metrology_0_4": {
+    "notion_page_id": "3c4ef561-cf92-815f-bb7c-cb49f8bd64c3",
+    "fixed_node_load_canonical_identity": 170,
+    "fixed_node_load_total": 170,
+    "movetime_load_canonical_difference": 170,
+    "movetime_load_total": 170,
+    "movetime_load_pair_sign_difference": 17,
+    "verdict": "BUDGET_SEMANTICS_MEDIATION_SUPPORTED_AT_INSTRUMENT_LEVEL"
+  },
+  "metrology_0_5": {
+    "notion_page_id": "3c4ef561-cf92-8150-9168-ffd348c59971",
+    "realized_node_pair_sign_reproduction": 340,
+    "realized_node_pair_sign_total": 340,
+    "original_load_sign_disagreements_reproduced": 17,
+    "original_load_sign_disagreements_total": 17,
+    "search_state_reproduction_without_node_counter": 336,
+    "search_state_total": 340,
+    "verdict": "REALIZED_NODE_PAIR_SIGN_MEDIATION_340_OF_340"
+  },
+  "metrology_0_6": {
+    "notion_page_id": "3c4ef561-cf92-81d2-af69-e8516ce69ef0",
+    "residual_states_exactly_reachable": 4,
+    "residual_states_total": 4,
+    "confirmation_probes_pass": 8,
+    "verdict": "NO_TIMER_INTERRUPT_STATE_RESIDUAL_REQUIRED_BY_OBSERVED_MATRIX"
+  },
+  "authority_note": "These facts are transcribed from sealed Notion Courts and are used only for cross-stage synthesis. P3 does not reopen their primary rates or causal claims."
+}

@@ -1,0 +1,24 @@
+{
+  "schema": "c3x-g10-p3-precommit-v1",
+  "stage": "C3X 0.8.0-G10-P3 — Sealed-Evidence Explanation-Invariant Constitution, Canonical-State→Preference-Sign→Candidate-Fate→Local-Causal-Certificate Quotient Lattice, Metrology↔Mechanism Back-Transport, Chess-Native Consequence Preservation, Counterexample-Guided Coarsening & Minimal Explanation-Object Court",
+  "parent_main_head": "e4242ad8bde81d0d42c6738b57dfbdeb1f33d1c1",
+  "notion_stage_page_id": "3edef561-cf92-8179-94b3-e8f6c55cda68",
+  "judgment_ci_open_id": "3edef561-cf92-8197-8b29-e4ed0b824628",
+  "evidence_paths": [
+    "c3x/data/g10-p3-metrology-evidence.json",
+    "c3x/receipts/g95-p12-closure.json",
+    "c3x/receipts/g95-p16-closure.json"
+  ],
+  "forbidden": [
+    "P2 unavailable outcomes",
+    "new causal search",
+    "post-hoc promotion of P16",
+    "promotion of P12 colocation to mediation"
+  ],
+  "drive": {
+    "source": "1USMex4fiZ76grVgbqO7oVQldi0gjmF8N",
+    "runtime": "1HMaTwVwWkrkV7LJdrJjLhRq3iZMDGfwZ",
+    "results": "1Pw2d2XYXGpM8d32EF7GzaE4eI8Ekbp9_"
+  },
+  "fresh_causal_outcomes_opened": false
+}
