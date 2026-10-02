@@ -1,0 +1,60 @@
+name: c3x-g10-p13-context-factorization
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'c3x/ontology/g10-p13-constitution.json'
+      - 'tools/g10_p13_context_factorization.py'
+      - '.github/workflows/g10-p13-context-factorization.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+env:
+  OPPORTUNITY_RUN: "37015671080"
+  P9_RUN: "37007062196"
+
+jobs:
+  context-factorization:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 -m pip install --disable-pip-version-check python-chess==1.999
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: g10-p10-opportunity-*
+          path: worlds
+          repository: WhoSia/C3X
+          run-id: ${{ env.OPPORTUNITY_RUN }}
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: g10-p9-chain-freeze-sealed
+          path: state
+          repository: WhoSia/C3X
+          run-id: ${{ env.P9_RUN }}
+          github-token: ${{ github.token }}
+      - name: Chess-context defect factorization
+        run: |
+          python3 tools/g10_p13_context_factorization.py             --worlds worlds             --chain-freeze state/g10-p9-chain-freeze.json             --p9-census c3x/results/g10-p9-preoutcome-census.json             --out g10-p13-context-factorization.json
+          python3 - <<'PY'
+          import json
+          r=json.load(open("g10-p13-context-factorization.json"))
+          assert r["status"]=="DEVELOPMENT_ONLY_NO_CONFIRMATORY_AUTHORITY"
+          assert r["authority"]["engine_internal_mechanism"] is False
+          print("G10_P13_VERIFIED",r["verdict"])
+          print("ROWS",r["row_count"])
+          print("SUPPORTED",r["supported_full_pair_edits"])
+          print("REGIME",r["chess_regime_defect_rates"])
+          PY
+          sha256sum g10-p13-context-factorization.json > g10-p13-context-factorization.sha256
+      - uses: actions/upload-artifact@v4
+        with:
+          name: g10-p13-context-factorization-sealed
+          path: |
+            g10-p13-context-factorization.json
+            g10-p13-context-factorization.sha256
+          retention-days: 90
