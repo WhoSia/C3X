@@ -29,7 +29,7 @@ def test_minimal_empirical_witness_is_conjunction():
 
 def test_physical_context_is_not_built_into_core():
     c=byid()
-    assert constitutive_core(c["P5_1664_ETHEREAL"])==constitutive_core(c["P5_1663_BERSERK"]) is False
+    assert constitutive_core(c["P5_1664_ETHEREAL"]) != constitutive_core(c["P5_1663_BERSERK"])
 
 def test_composition_requires_independent_provenance():
     c=byid()
