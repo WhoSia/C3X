@@ -1,0 +1,57 @@
+name: c3x-g10-p10-opportunity-cartography
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'tools/g10_p10_opportunity_cartography.py'
+      - 'docs/G10_P10_OPPORTUNITY_THEORY.md'
+      - '.github/workflows/g10-p10-cartography.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+env:
+  OPPORTUNITY_RUN: "37015671080"
+
+jobs:
+  cartography:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Identity firewall
+        run: |
+          ! grep -Eq 'contents:[[:space:]]*write|git commit|git push|git tag|github-actions\[bot\]' .github/workflows/g10-p10-cartography.yml
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: g10-p10-opportunity-*
+          path: worlds
+          repository: WhoSia/C3X
+          run-id: ${{ env.OPPORTUNITY_RUN }}
+          github-token: ${{ github.token }}
+      - name: Signature ecology and factorization audit
+        run: |
+          python3 tools/g10_p10_opportunity_cartography.py             --worlds worlds             --p9-census c3x/results/g10-p9-preoutcome-census.json             --out g10-p10-cartography.json
+          python3 - <<'PY'
+          import json
+          r=json.load(open("g10-p10-cartography.json"))
+          assert r["status"]=="DEVELOPMENT_ONLY_NO_CONFIRMATORY_AUTHORITY"
+          assert r["confirmatory_authority"] is False
+          assert r["firewall"]["certificate_labels_used"] is False
+          assert r["firewall"]["event_ablation_used"] is False
+          assert r["geometry_opportunity_factorization"]["deterministic_recoding_rejected"] is True
+          print("G10_P10_CARTOGRAPHY_VERIFIED")
+          print("CASE_SIGNATURES",r["distinct_case_signatures"],r["case_signature_entropy_bits"])
+          print("TRANSPORT",r["cross_engine_transport"])
+          print("FACTOR",r["geometry_opportunity_factorization"])
+          PY
+          sha256sum g10-p10-cartography.json > g10-p10-cartography.sha256
+      - uses: actions/upload-artifact@v4
+        with:
+          name: g10-p10-cartography-sealed
+          path: |
+            g10-p10-cartography.json
+            g10-p10-cartography.sha256
+          retention-days: 90
