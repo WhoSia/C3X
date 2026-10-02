@@ -1,0 +1,70 @@
+{
+  "schema": "c3x-g10-p9-constitution-v1",
+  "stage": "C3X 0.8.0-G10-P9 — Prospective Graded Mechanism-Family Recoverability, Cayley-Distance Morphism Geometry, Pre-Outcome Family-Margin Scoring, Matched-Control Positivity Preservation, Rank-Calibrated Certificate Acquisition, Null-Yield Discrimination, Cross-Source/Engine Enrichment & Graded Recoverability Experiment",
+  "type": "EXPERIMENT",
+  "parent": {
+    "stage": "G10-P8",
+    "verdict": "HOLD_ORBIT_TARGET_SUPPORT_INSUFFICIENT",
+    "closure_head": "0bdaf1f463765d3f7b3f2a3beba7d6391923d579"
+  },
+  "inherited": {
+    "grammar": [
+      "C",
+      "S",
+      "E"
+    ],
+    "unlicensed_generators": [
+      "G",
+      "U"
+    ],
+    "pair_freeze_run": 36980730341,
+    "sources": [
+      "P8_SRC_TWIC_1657",
+      "P8_SRC_TWIC_1658"
+    ],
+    "p8_causal_outcomes_authority": "QUARANTINED_NOT_REUSED"
+  },
+  "preoutcome_geometry": {
+    "distance": "minimum Cayley word length under frozen C/S/E from a chain board-trigger to an exact observed member trigger of a nontrivial P7 development orbit",
+    "family_margin": "nearest same-polarity non-family development-prototype distance minus nearest nontrivial-family distance; unreachable rival distance is capped at 4",
+    "specificity": "distance gap between nearest and second-nearest nontrivial P7 family, capped at 4; unreachable second family receives cap",
+    "position_rank": [
+      "family_margin DESC",
+      "family_distance ASC",
+      "family_specificity DESC",
+      "family_consensus DESC"
+    ],
+    "nuisance_matching_only": [
+      "active_engines",
+      "ply_bucket",
+      "pair_support",
+      "chain_bucket",
+      "gap_bucket",
+      "polarity_profile"
+    ]
+  },
+  "positivity_gate": {
+    "max_pairs_per_source": 12,
+    "min_pairs_per_source": 6,
+    "target_definition": "strictly higher graded-recoverability rank than matched control within the same source and polarity profile",
+    "control_definition": "lower-ranked chain-eligible position; binary non-membership is not required",
+    "outcomes_before_gate": false,
+    "hold_if": [
+      "no strict rank variation in either source",
+      "fewer than 6 matched rank-separated pairs in either source"
+    ]
+  },
+  "preoutcome_verdict_space": [
+    "PASS_PREOUTCOME_GRADED_SELECTOR_POSITIVITY",
+    "HOLD_GRADED_SELECTOR_NONDISCRIMINATIVE",
+    "HOLD_MATCHED_CONTROL_POSITIVITY_INSUFFICIENT",
+    "FAIL_PREOUTCOME_FIREWALL"
+  ],
+  "experiment_verdict_space": [
+    "PASS_GRADED_RECOVERABILITY_ENRICHED",
+    "PASS_GRADED_SELECTOR_DISCRIMINATIVE_NO_YIELD_ENRICHMENT",
+    "NULL_CERTIFICATE_YIELD_BOTH_ARMS",
+    "FAIL_PREOUTCOME_FIREWALL"
+  ],
+  "authority_ceiling": "P9 may establish discriminative pre-outcome recoverability geometry and acquisition enrichment only. It may not admit a mechanism family or infer a transportable law, objective chess truth, human cognition, or human utility."
+}
