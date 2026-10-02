@@ -1,0 +1,59 @@
+name: c3x-g10-p4-evidence-promotion-court
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - "c3x_g10/promotion_calculus.py"
+      - "tests/test_g10_p4.py"
+      - "tools/g10_p4_court.py"
+      - "c3x/data/g10-p4-competitor-ecology.json"
+      - "c3x/data/g10-p4-counterexample-bank.json"
+      - "c3x/ontology/g10-p4-constitution.json"
+      - "c3x/receipts/g10-p4-precommit.json"
+      - ".github/workflows/g10-p4.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  court:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 -m pip install --disable-pip-version-check python-chess==1.999 pytest
+      - name: P4 plus G10 regression
+        run: PYTHONPATH=. pytest -q tests/test_g10_p4.py tests/test_g10_p3.py tests/test_g10_p2.py tests/test_g10_p1.py tests/test_g10_p0.py tests/test_c3x_explain.py
+      - name: Strict precommit and competitor parse
+        run: |
+          python3 - <<'PY'
+          import json
+          c=json.load(open("c3x/ontology/g10-p4-constitution.json"))
+          p=json.load(open("c3x/receipts/g10-p4-precommit.json"))
+          e=json.load(open("c3x/data/g10-p4-competitor-ecology.json"))
+          assert c["authority_ceiling"]
+          assert p["fresh_causal_outcomes_opened"] is False
+          assert p["transport_pattern_instantiation_authorized"] is False
+          assert len(e["rows"]) >= 6
+          print("C3X_G10_P4_PRECOMMIT_PASS",len(e["rows"]))
+          PY
+      - name: Execute evidence promotion Court
+        run: |
+          mkdir -p out
+          PYTHONPATH=. python3 tools/g10_p4_court.py             --competitors c3x/data/g10-p4-competitor-ecology.json             --counterexamples c3x/data/g10-p4-counterexample-bank.json             --p12 c3x/receipts/g95-p12-closure.json             --p16 c3x/receipts/g95-p16-closure.json             --p18 c3x/receipts/g95-p18-closure.json             --p3 c3x/receipts/g10-p3-closure.json             --out out/g10-p4-court.json
+          python3 - <<'PY'
+          import json
+          r=json.load(open("out/g10-p4-court.json"))
+          assert r["fresh_causal_outcomes_opened"] is False
+          assert r["transportable_pattern_instantiated"] is False
+          print("G10_P4_VERDICT",r["verdict"])
+          print("G10_P4_COUNTEREXAMPLE_PASS",r["counterexample_closure_pass"])
+          print("G10_P4_NOVELTY",r["competitor_novelty"]["novelty_survives_frozen_public_ecology"])
+          print("G10_P4_COMPOSITION",json.dumps(r["composition"],sort_keys=True))
+          PY
+          sha256sum out/g10-p4-court.json > out/sha256sums.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: g10-p4-promotion-court-sealed
+          path: out/
+          retention-days: 90
