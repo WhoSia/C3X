@@ -1,0 +1,57 @@
+name: c3x-g10-p12-obstruction-basis
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'c3x/ontology/g10-p12-constitution.json'
+      - 'tools/g10_p12_obstruction_basis.py'
+      - '.github/workflows/g10-p12-obstruction-basis.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+env:
+  OPPORTUNITY_RUN: "37015671080"
+
+jobs:
+  basis:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: g10-p10-opportunity-*
+          path: worlds
+          repository: WhoSia/C3X
+          run-id: ${{ env.OPPORTUNITY_RUN }}
+          github-token: ${{ github.token }}
+      - name: Exhaustive sparse obstruction basis
+        run: |
+          python3 tools/g10_p12_obstruction_basis.py             --worlds worlds             --out g10-p12-obstruction-basis.json
+          python3 - <<'PY'
+          import json
+          r=json.load(open("g10-p12-obstruction-basis.json"))
+          assert r["status"]=="DEVELOPMENT_ONLY_NO_CONFIRMATORY_AUTHORITY"
+          assert r["validity"]["p11_alignment_reselected"] is False
+          assert r["validity"]["rectangle_cover_exhaustive"] is True
+          print("G10_P12_VERIFIED",r["verdict"])
+          for k,v in sorted(r["engine_pairs"].items()):
+              print("PAIR",k,
+                    "ATOMS",v["pooled"]["residual_atom_count"],
+                    "BASIS",v["pooled"]["minimum_basis_size"],
+                    "CR",v["pooled"]["overall_compression_ratio"],
+                    "STABLE",v["source_recurrence"],
+                    "SRC", {s:x["minimum_basis_size"] for s,x in v["source_specific"].items()})
+          print("SHARED",r["cross_pair_essential_generator_recurrence"])
+          PY
+          sha256sum g10-p12-obstruction-basis.json > g10-p12-obstruction-basis.sha256
+      - uses: actions/upload-artifact@v4
+        with:
+          name: g10-p12-obstruction-basis-sealed
+          path: |
+            g10-p12-obstruction-basis.json
+            g10-p12-obstruction-basis.sha256
+          retention-days: 90
