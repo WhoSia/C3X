@@ -66,3 +66,16 @@ P16 remains `LOCAL_ONLY`; P12's replicated colocation is not promoted to replica
 When September data arrives, P2 should test repeatability of **regime-tagged routing objects and candidate neighborhoods**, not demand exact full search-state identity as the sole success criterion. Even if a P2 object is highly repeatable, causal wording remains forbidden without an independent local certificate.
 
 The queued Actions run `36947609981` is verification-only; the scientific verdict is a deterministic consequence of the precommitted mapping over already sealed evidence.
+
+
+## Verification implementation status
+
+The first verification run `36947609981` failed **before P3 Court execution** because the workflow installed `pytest` but omitted `python-chess`, which is required by the existing G10 regression suite. Test collection therefore stopped with `ModuleNotFoundError: chess`.
+
+This is an implementation-only failure:
+- no sealed evidence changed;
+- no invariant rule changed;
+- no threshold or authority criterion changed;
+- no P3 result was recomputed from altered inputs.
+
+Repair head `667c312ba7f59884026f7e1a61c56425ba47367a` adds only `python-chess==1.999` to the verification environment. Verification rerun `36948056524` is queued. The scientific verdict remains the deterministic result sealed at `6f6cfb923a94bd44ffdb47dabf1ed3964f5d0a99`; the rerun is verification-only.

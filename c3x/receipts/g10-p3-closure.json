@@ -7,9 +7,25 @@
   "precommit_head": "a1cf8b5c141475d20cb66b548419f1074ea0789e",
   "workflow_head": "8b2a07571f73bc835c8231913afc70f655dd3aba",
   "actions_verification": {
-    "run_id": 36947609981,
-    "status": "QUEUED_AT_CLOSURE_MATERIALIZATION",
-    "scientific_role": "VERIFICATION_ONLY"
+    "initial_run": {
+      "run_id": 36947609981,
+      "head": "8b2a07571f73bc835c8231913afc70f655dd3aba",
+      "conclusion": "failure",
+      "failure_class": "IMPLEMENTATION_DEPENDENCY_ONLY",
+      "failure_detail": "python-chess was not installed before the existing G10 regression suite; test collection failed with ModuleNotFoundError: chess before P3 Court execution."
+    },
+    "repair": {
+      "head": "667c312ba7f59884026f7e1a61c56425ba47367a",
+      "change": "Added python-chess==1.999 to verification dependency installation only.",
+      "scientific_design_changed": false,
+      "sealed_evidence_changed": false,
+      "scientific_verdict_changed": false
+    },
+    "rerun": {
+      "run_id": 36948056524,
+      "status": "QUEUED_AT_STATUS_SEAL",
+      "scientific_role": "VERIFICATION_ONLY"
+    }
   },
   "scientific_result": {
     "universal_single_quotient_rejected": true,
