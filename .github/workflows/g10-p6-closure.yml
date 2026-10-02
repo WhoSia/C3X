@@ -1,0 +1,60 @@
+name: c3x-g10-p6-closure-verification
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - "c3x/results/g10-p6-court.json"
+      - "c3x/data/g10-p6-holdout-certificates.json"
+      - "c3x/receipts/g10-p6-source-freeze.json"
+      - "c3x/receipts/g10-p6-run-authority.json"
+      - "c3x/receipts/g10-p6-closure.json"
+      - "c3x_g10/mechanism_identity.py"
+      - "tests/test_g10_p6.py"
+      - ".github/workflows/g10-p6-closure.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 -m pip install --disable-pip-version-check python-chess==1.999 pytest
+      - name: Verify P6 closure and G10 regression
+        run: |
+          PYTHONPATH=. pytest -q tests/test_g10_p6.py tests/test_g10_p5.py tests/test_g10_p4.py tests/test_g10_p3.py tests/test_g10_p2.py tests/test_g10_p1.py tests/test_g10_p0.py tests/test_c3x_explain.py
+          python3 - <<'PY'
+          import json
+          r=json.load(open("c3x/results/g10-p6-court.json"))
+          c=json.load(open("c3x/receipts/g10-p6-closure.json"))
+          a=json.load(open("c3x/receipts/g10-p6-run-authority.json"))
+          s=json.load(open("c3x/receipts/g10-p6-source-freeze.json"))
+          h=json.load(open("c3x/data/g10-p6-holdout-certificates.json"))
+          assert r["verdict"]=="PASS_CONSTITUTIVE_MECHANISM_IDENTITY_NO_COMPOSITION"
+          assert r["development"]["minimal_witness_sets"]==[["relation_delta","response_topology"]]
+          assert r["holdout"]["complete_local_certificates"]==2
+          assert r["empirical_composition_candidates"]==0
+          assert c["status"]=="CLOSED_PASS"
+          assert a["canonical_scientific_run"]==36964450411
+          assert a["conclusion"]=="success"
+          assert s["frozen_positions"]==36 and s["causal_outcomes_opened_at_freeze"] is False
+          assert len(h["certificates"])==2
+          print("C3X_G10_P6_CLOSURE_VERIFY_PASS")
+          PY
+      - name: Seal closure capsule
+        run: |
+          mkdir -p out
+          cp c3x/results/g10-p6-court.json out/
+          cp c3x/data/g10-p6-holdout-certificates.json out/
+          cp c3x/receipts/g10-p6-source-freeze.json out/
+          cp c3x/receipts/g10-p6-run-authority.json out/
+          cp c3x/receipts/g10-p6-closure.json out/
+          cp docs/G10_P6_COURT.md out/
+          sha256sum out/* | sort > out/sha256sums.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: g10-p6-closure-capsule
+          path: out/
+          retention-days: 90
