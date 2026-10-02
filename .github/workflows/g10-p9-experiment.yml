@@ -1,0 +1,164 @@
+name: c3x-g10-p9-graded-recoverability-experiment
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/g10-p9-experiment.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  actions: read
+
+concurrency:
+  group: g10-p9-graded-recoverability-experiment
+  cancel-in-progress: true
+
+env:
+  P8_PAIR_FREEZE_RUN: "36980730341"
+  P16_RUN: "36544344858"
+
+jobs:
+  materialize:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 -m pip install --disable-pip-version-check python-chess==1.999 pytest
+      - name: Verify sealed pre-outcome PASS
+        run: |
+          PYTHONPATH=. pytest -q tests/test_g10_p9.py tests/test_g10_p8.py tests/test_g10_p7.py
+          python3 - <<'PY'
+          import json
+          r=json.load(open("c3x/results/g10-p9-preoutcome-census.json"))
+          assert r["verdict"]=="PASS_PREOUTCOME_GRADED_SELECTOR_POSITIVITY"
+          assert r["firewall_pass"] is True
+          assert r["forbidden_outcomes_consulted"]==[]
+          assert r["certificate_outcomes_opened"] is False
+          print("G10_P9_PREOUTCOME_PASS_BOUND",r["source_stats"])
+          PY
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: g10-p8-pair-freeze-b*
+          path: pairfreezes
+          repository: WhoSia/C3X
+          run-id: ${{ env.P8_PAIR_FREEZE_RUN }}
+          github-token: ${{ github.token }}
+      - name: Materialize frozen assignment
+        run: |
+          ARGS=()
+          while IFS= read -r f; do ARGS+=(--pair-freeze "$f"); done < <(find pairfreezes -name 'g10-p8-pair-freeze.json' | sort)
+          test "${#ARGS[@]}" -eq 6
+          PYTHONPATH=. python3 tools/g10_p9_materialize.py             "${ARGS[@]}"             --census c3x/results/g10-p9-preoutcome-census.json             --out g10-p9-selected-pair-freeze.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: g10-p9-selected-pair-freeze-sealed
+          path: g10-p9-selected-pair-freeze.json
+          retention-days: 90
+
+  chain_qualify:
+    needs: materialize
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+    strategy:
+      fail-fast: false
+      max-parallel: 12
+      matrix: {shard: [0,1,2,3,4,5,6,7,8,9,10,11]}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with: {name: g10-p9-selected-pair-freeze-sealed, path: state}
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: g95-p16-build-*
+          path: builds
+          repository: WhoSia/C3X
+          run-id: ${{ env.P16_RUN }}
+          github-token: ${{ github.token }}
+      - run: python3 -m pip install --disable-pip-version-check python-chess==1.999
+      - run: PYTHONPATH=. python3 tools/g10_p5_p16_shard.py --phase chain-qualify --state state/g10-p9-selected-pair-freeze.json --build-dir builds --shard ${{ matrix.shard }} --shards 12 --out-dir out
+      - uses: actions/upload-artifact@v4
+        with: {name: "g10-p9-chainqual-${{ matrix.shard }}", path: out/, retention-days: 90}
+
+  chain_freeze:
+    needs: chain_qualify
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with: {name: g10-p9-selected-pair-freeze-sealed, path: state}
+      - uses: actions/download-artifact@v4
+        with: {pattern: "g10-p9-chainqual-*", path: chainquals}
+      - run: |
+          python3 -m pip install --disable-pip-version-check python-chess==1.999
+          python3 harness/g95_p16_court.py chain-freeze --freeze state/g10-p9-selected-pair-freeze.json --chain-qualifications chainquals --out g10-p9-chain-freeze.json
+      - uses: actions/upload-artifact@v4
+        with: {name: g10-p9-chain-freeze-sealed, path: g10-p9-chain-freeze.json, retention-days: 90}
+
+  factorial:
+    needs: chain_freeze
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+    strategy:
+      fail-fast: false
+      max-parallel: 12
+      matrix: {shard: [0,1,2,3,4,5,6,7,8,9,10,11]}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with: {name: g10-p9-chain-freeze-sealed, path: state}
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: g95-p16-build-*
+          path: builds
+          repository: WhoSia/C3X
+          run-id: ${{ env.P16_RUN }}
+          github-token: ${{ github.token }}
+      - run: python3 -m pip install --disable-pip-version-check python-chess==1.999
+      - run: PYTHONPATH=. python3 tools/g10_p5_p16_shard.py --phase factorial --state state/g10-p9-chain-freeze.json --build-dir builds --shard ${{ matrix.shard }} --shards 12 --out-dir out
+      - uses: actions/upload-artifact@v4
+        with: {name: "g10-p9-factorial-${{ matrix.shard }}", path: out/, retention-days: 90}
+
+  adjudicate:
+    needs: factorial
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with: {name: g10-p9-chain-freeze-sealed, path: state}
+      - uses: actions/download-artifact@v4
+        with: {pattern: "g10-p9-factorial-*", path: worlds}
+      - run: python3 -m pip install --disable-pip-version-check python-chess==1.999 pytest
+      - name: Unchanged P16 certificate adjudication
+        run: |
+          mkdir -p out
+          python3 harness/g95_p16_court.py adjudicate             --freeze state/g10-p9-chain-freeze.json             --worlds worlds             --out out/g10-p9-p16-adjudication.json             --markdown out/g10-p9-certificates.md
+          PYTHONPATH=. python3 tools/g10_p6_extract.py             --fresh out/g10-p9-p16-adjudication.json             --chain_freeze state/g10-p9-chain-freeze.json             --worlds worlds             --out out/g10-p9-normalized-certificates.json
+          PYTHONPATH=. python3 tools/g10_p9_adjudicate.py             --normalized out/g10-p9-normalized-certificates.json             --census c3x/results/g10-p9-preoutcome-census.json             --out out/g10-p9-experiment.json
+          python3 - <<'PY'
+          import json
+          r=json.load(open("out/g10-p9-experiment.json"))
+          assert r["preoutcome_firewall_pass"] is True
+          assert r["mechanism_family_admission_opened"] is False
+          assert r["transportable_pattern_instantiated"] is False
+          print("G10_P9_FINAL",r["verdict"])
+          print("G10_P9_ACQUISITION",r["acquisition"])
+          print("G10_P9_SOURCE",r["source_enrichment"])
+          print("G10_P9_ENGINE",r["engine_certificate_counts"])
+          PY
+          sha256sum out/* | sort > out/final-sha256.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: g10-p9-experiment-sealed
+          path: out/
+          retention-days: 90
+      - name: Bind experiment result
+        run: |
+          cp out/g10-p9-experiment.json c3x/results/g10-p9-experiment.json
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add c3x/results/g10-p9-experiment.json
+          git diff --cached --quiet && exit 0
+          VERDICT="$(python3 -c 'import json;print(json.load(open("out/g10-p9-experiment.json"))["verdict"])')"
+          git commit -m "C3X G10-P9: bind experiment $VERDICT"
+          git push
