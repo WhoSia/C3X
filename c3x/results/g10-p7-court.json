@@ -1,0 +1,92 @@
+{
+  "schema": "c3x-g10-p7-court-v2-repaired",
+  "stage": "C3X 0.8.0-G10-P7",
+  "verdict": "PASS_ADMISSIBLE_MORPHISM_GRAMMAR_NO_HOLDOUT_FAMILY",
+  "canonical_evidence": {
+    "heavy_run": 36975500509,
+    "heavy_head": "b14e8050d2debd7508cae40ecafa7ce0c3181bbf",
+    "heavy_conclusion": "success",
+    "artifact_id": 11214025059,
+    "artifact_digest": "sha256:fa0777910f3cb852e38c4062b7c679e0e68478dcef9c2db2e4ffe6abbf3d8601"
+  },
+  "canonical_verdict": {
+    "readjudication_run": 36977345547,
+    "head": "34285cfed1c5043091d34391c6250b1f0a08d9b1",
+    "conclusion": "success",
+    "artifact_id": 11212989882,
+    "artifact_digest": "sha256:59ec8c35da5212908c89a336f8c593e5e596ca1028e01011c6821303eca7186d"
+  },
+  "repair": {
+    "reason": "POST_RUN_CURRENT_HOLDOUT_MEMBERSHIP_BUG",
+    "invalidated_original_family_count": 2,
+    "evidence_bytes_changed": false,
+    "frozen_grammar_changed": false,
+    "repaired_predicate": "At least one member of a promoted family must belong to the current P7 holdout certificate set."
+  },
+  "development": {
+    "admissible_grammar": [
+      "C",
+      "S",
+      "E"
+    ],
+    "unlicensed_generators": [
+      "G",
+      "U"
+    ],
+    "gauge_generator": "C",
+    "substantive_generators": [
+      "S",
+      "E"
+    ],
+    "certificate_count": 6,
+    "largest_orbit": 2,
+    "nondegenerate": true,
+    "orbit_partition": [
+      [
+        "P16_BASE"
+      ],
+      [
+        "P5_1663_BERSERK"
+      ],
+      [
+        "HOLDOUT_c64ae837e530ff9822621fc3",
+        "P5_1664_ETHEREAL"
+      ],
+      [
+        "HOLDOUT_f05f7fbd9afcec6d80016f8b",
+        "P5_1663_ETHEREAL"
+      ]
+    ]
+  },
+  "holdout": {
+    "sources": [
+      "P7_SRC_TWIC_1659",
+      "P7_SRC_TWIC_1660"
+    ],
+    "frozen_positions": 36,
+    "historical_candidate_hashes_excluded": 2267,
+    "admitted_pair_positions": 32,
+    "chain_positions": 15,
+    "selected_chain_count": 16,
+    "active_chain_engine_worlds": 37,
+    "semantic_target_worlds": 35,
+    "address_misses": 0,
+    "support_pass": true,
+    "instrument_verdict": "P16_REPLICATED_SUSCEPTIBILITY_ONLY",
+    "complete_local_certificates": 0
+  },
+  "mechanism_family_candidates": [],
+  "transportable_pattern_instantiated": false,
+  "authority_ceiling": [
+    "Admissible morphism grammar only",
+    "No MECHANISM_FAMILY_CANDIDATE instantiated on P7 holdout",
+    "No transportable causal pattern",
+    "No objective chess truth or human cognition claim"
+  ],
+  "custody": {
+    "source_drive_file_id": "144Fu5IiGwH_zjBXp6cYODSlZ64czMz4U",
+    "chain_freeze_drive_file_id": "1os2PK6AQy4J0i5UuCP6EBlAvo1FsS_kh",
+    "heavy_court_drive_file_id": "1U7l-agjfPpc0qYSYD9cAPU08PJvjReuX",
+    "repaired_court_drive_file_id": "1vPhJLrllFJjwGU3GlokEnbcCuu24Q1Y_"
+  }
+}

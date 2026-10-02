@@ -1,0 +1,25 @@
+{
+  "schema": "c3x-g10-p7-source-freeze-v1",
+  "canonical_heavy_run": 36975500509,
+  "status": "SEALED_BEFORE_HOLDOUT_CAUSAL_OUTCOMES",
+  "sources": [
+    {
+      "id": "P7_SRC_TWIC_1659",
+      "date": "2026-08-24",
+      "games": 8342,
+      "zip_sha256": "67462b854b974e5425216d6ad1387489d9e34a61850c8fde84f637aefcda53f6"
+    },
+    {
+      "id": "P7_SRC_TWIC_1660",
+      "date": "2026-08-31",
+      "games": 9139,
+      "zip_sha256": "f46e172fa2ed5fe53cc465e44f3c8f321685d123006e32b6f531b95dafffc263"
+    }
+  ],
+  "frozen_positions": 36,
+  "historical_candidate_hashes_excluded": 2267,
+  "causal_outcomes_opened_at_freeze": false,
+  "artifact_id": 11213277230,
+  "artifact_digest": "sha256:d981441a1e555f0d33d4e78e2d1ea93c8b6f9a17fbd4c25151a0e0303f4cab7d",
+  "drive_file_id": "144Fu5IiGwH_zjBXp6cYODSlZ64czMz4U"
+}

@@ -1,0 +1,47 @@
+{
+  "schema": "c3x-g10-p7-closure-v1",
+  "status": "CLOSED_PASS",
+  "verdict": "PASS_ADMISSIBLE_MORPHISM_GRAMMAR_NO_HOLDOUT_FAMILY",
+  "parent": {
+    "stage": "G10-P6",
+    "verdict": "PASS_CONSTITUTIVE_MECHANISM_IDENTITY_NO_COMPOSITION",
+    "closure_head": "b4f47be5ab4284b6cca78abbe3fc68322516d8a4"
+  },
+  "precommit_head": "a9c98f211ed7d88a63b8034c5f17fc8b0307f4db",
+  "canonical_evidence_run": 36975500509,
+  "canonical_evidence_head": "b14e8050d2debd7508cae40ecafa7ce0c3181bbf",
+  "repaired_adjudicator_head": "3555ad29f44668f34129d1a933bd003f252a0d17",
+  "canonical_readjudication_run": 36977345547,
+  "canonical_readjudication_head": "34285cfed1c5043091d34391c6250b1f0a08d9b1",
+  "repair_note": "Original heavy-run family verdict invalidated by current-holdout membership bug. Sealed evidence retained; final verdict produced only by repaired lightweight re-adjudication.",
+  "scientific_result": {
+    "frozen_admissible_grammar": [
+      "C",
+      "S",
+      "E"
+    ],
+    "unlicensed_generators": [
+      "G",
+      "U"
+    ],
+    "nondegenerate": true,
+    "holdout_support_pass": true,
+    "holdout_complete_local_certificates": 0,
+    "mechanism_family_candidates": 0,
+    "transportable_pattern_instantiated": false
+  },
+  "custody": {
+    "source_drive_file_id": "144Fu5IiGwH_zjBXp6cYODSlZ64czMz4U",
+    "chain_freeze_drive_file_id": "1os2PK6AQy4J0i5UuCP6EBlAvo1FsS_kh",
+    "heavy_court_drive_file_id": "1U7l-agjfPpc0qYSYD9cAPU08PJvjReuX",
+    "repaired_court_drive_file_id": "1vPhJLrllFJjwGU3GlokEnbcCuu24Q1Y_"
+  },
+  "p2_status": "PARKED_SOURCE_DEPENDENCY_UNCHANGED",
+  "authority_ceiling": [
+    "Admissible morphism grammar only",
+    "No MECHANISM_FAMILY_CANDIDATE instantiated on P7 holdout",
+    "No transportable causal pattern",
+    "No objective chess truth or human cognition claim"
+  ],
+  "next_scientific_implication": "The grammar is executable and nondegenerate, but P7 holdout produced no complete local certificates. The next stage should test whether family-level evidence requires targeted family-member acquisition under a frozen morphism query, rather than another undirected corpus sweep."
+}
