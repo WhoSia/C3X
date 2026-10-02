@@ -1,0 +1,61 @@
+name: c3x-g10-p11-quotient-audit
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'docs/G10_P11_QUOTIENT_SUFFICIENCY_AUDIT.md'
+      - 'tools/g10_p11_quotient_audit.py'
+      - '.github/workflows/g10-p11-quotient-audit.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+env:
+  OPPORTUNITY_RUN: "37015671080"
+  CONJUGACY_RUN: "37028931039"
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: g10-p10-opportunity-*
+          path: worlds
+          repository: WhoSia/C3X
+          run-id: ${{ env.OPPORTUNITY_RUN }}
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: g10-p11-conjugacy-sealed
+          path: primary
+          repository: WhoSia/C3X
+          run-id: ${{ env.CONJUGACY_RUN }}
+          github-token: ${{ github.token }}
+      - name: Demotion-only quotient sufficiency audit
+        run: |
+          python3 tools/g10_p11_quotient_audit.py             --worlds worlds             --primary primary/g10-p11-conjugacy.json             --out g10-p11-quotient-audit.json
+          python3 - <<'PY'
+          import json
+          r=json.load(open("g10-p11-quotient-audit.json"))
+          assert r["status"]=="DEMOTION_ONLY_POST_RESULT_AUDIT"
+          assert r["authority"]["can_strengthen_primary"] is False
+          print("G10_P11_QUOTIENT_AUDIT_VERIFIED",r["verdict"])
+          print("SOURCE",r["source_split"])
+          print("FIBER",r["fiber_consistency"]["support_tests"],r["fiber_consistency"]["support_failures"],
+                r["fiber_consistency"]["probability_tests"],r["fiber_consistency"]["probability_failures"],
+                r["fiber_consistency"]["untestable_fibers"])
+          print("LAW_BLOCKED",r["authority"]["transport_law_blocked"])
+          PY
+          sha256sum g10-p11-quotient-audit.json > g10-p11-quotient-audit.sha256
+      - uses: actions/upload-artifact@v4
+        with:
+          name: g10-p11-quotient-audit-sealed
+          path: |
+            g10-p11-quotient-audit.json
+            g10-p11-quotient-audit.sha256
+          retention-days: 90
