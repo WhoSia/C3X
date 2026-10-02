@@ -1,0 +1,145 @@
+{
+  "schema": "c3x-g10-p13-closure-v1",
+  "stage": "C3X 0.8.0-G10-P13 — Prospective Source-Conditioned Defect Activation Geometry, Obstruction Appearance↔Disappearance Context Factorization, Engine-Pair Conditional Residual Surfaces, Opportunity/Family/Chain Covariate Matching, Source-Composition vs Transition-Law Drift Separation, Counterfactual Context Reweighting, Conditional Defect Recurrence & Context-Stable Obstruction Experiment",
+  "status": "CLOSED_HOLD",
+  "official_verdict": "HOLD_CONTEXT_OVERLAP_INSUFFICIENT",
+  "conclusion": {
+    "primary_estimand_identified": false,
+    "reason": "Exact preregistered FULL chess/search-context overlap between TWIC 1657 and 1658 is too sparse to distinguish source-composition from conditional defect drift.",
+    "interpretation": [
+      "The failure is support-limited rather than a negative finding about chess-context conditionality.",
+      "The two sources differ materially in the composition of branching width and candidate tactical mix.",
+      "Lower-resolution context overlap improves, but those levels were presealed as secondary/diagnostic and cannot rescue the primary FULL-context HOLD."
+    ]
+  },
+  "chess_native_ecology": {
+    "defect_rows": 180,
+    "material_phase": {
+      "RICH": 162,
+      "TRANSITIONAL": 18,
+      "REDUCED": 0
+    },
+    "in_check": {
+      "false": 180,
+      "true": 0
+    },
+    "legal_branching": {
+      "MEDIUM": {
+        "n": 66,
+        "pooled_defect_rate": 0.3484848484848485
+      },
+      "WIDE": {
+        "n": 114,
+        "pooled_defect_rate": 0.6666666666666666
+      }
+    },
+    "material_imbalance": {
+      "BALANCED": {
+        "n": 153,
+        "pooled_defect_rate": 0.5163398692810458
+      },
+      "SMALL": {
+        "n": 27,
+        "pooled_defect_rate": 0.7407407407407407
+      }
+    },
+    "candidate_tactical_mode": {
+      "QUIET_QUIET": {
+        "n": 126,
+        "pooled_defect_rate": 0.5555555555555556
+      },
+      "ANY_CAPTURE": {
+        "n": 51,
+        "pooled_defect_rate": 0.5490196078431373
+      },
+      "ANY_CHECK": {
+        "n": 3,
+        "pooled_defect_rate": 0.3333333333333333
+      }
+    }
+  },
+  "source_context_atlas": {
+    "P8_SRC_TWIC_1657": {
+      "positions": 12,
+      "legal_branching": {
+        "MEDIUM": 2,
+        "WIDE": 10
+      },
+      "candidate_tactical_mode": {
+        "ANY_CAPTURE": 5,
+        "QUIET_QUIET": 7
+      },
+      "polarity": {
+        "GAIN": 8,
+        "LOSS": 4
+      },
+      "mean_legal_moves": 38.083333333333336
+    },
+    "P8_SRC_TWIC_1658": {
+      "positions": 18,
+      "legal_branching": {
+        "MEDIUM": 7,
+        "WIDE": 11
+      },
+      "candidate_tactical_mode": {
+        "ANY_CAPTURE": 4,
+        "ANY_CHECK": 1,
+        "QUIET_QUIET": 13
+      },
+      "polarity": {
+        "GAIN": 14,
+        "LOSS": 4
+      },
+      "mean_legal_moves": 36
+    }
+  },
+  "support_ladder": {
+    "FULL": {
+      "matched_cells_total": 12,
+      "matched_weight_total": 15,
+      "mean_overlap_mass": 0.16944444444444443,
+      "authority": "PRIMARY"
+    },
+    "CHESS_SEARCH_CORE": {
+      "matched_cells_total": 15,
+      "matched_weight_total": 18,
+      "mean_overlap_mass": 0.20277777777777778,
+      "authority": "SECONDARY_ROBUSTNESS_ONLY"
+    },
+    "SEARCH_CORE": {
+      "matched_cells_total": 18,
+      "matched_weight_total": 42,
+      "mean_overlap_mass": 0.47777777777777775,
+      "authority": "SUPPORT_DIAGNOSTIC_ONLY"
+    }
+  },
+  "chess_interpretation": {
+    "strongest_descriptive_pattern": "Cross-engine defect activation is more concentrated in WIDE than MEDIUM legal-branching positions in the pooled ecology.",
+    "caution": "This is source-confounded descriptive structure; exact FULL-context support is insufficient for a conditional source-drift claim.",
+    "next_design_implication": "Acquire or reconstruct context-balanced chess positions prospectively rather than rely on issue-level source composition."
+  },
+  "canonical_artifacts": {
+    "constitution_preseal_commit": "3cbd1873ea932085ae481195031d1da6bd2c070b",
+    "analyzer_commit": "08c6a695e73ef149906dbf6ccf2482dd05305e3e",
+    "workflow_commit": "03753288e7fea66d8fe95c8bcba37948d0fe154b",
+    "primary_run": 37032856034,
+    "primary_artifact_id": 11238490917,
+    "primary_json_sha256": "47f2d0fcec67a747aa8863fe63f42c47c9138eaf1cc9ef3f2f9288c21a33d6f4",
+    "atlas_run": 37033167977,
+    "atlas_artifact_id": 11238496582,
+    "atlas_json_sha256": "fcdf7654f4933fa70b1d62b15047164f4cba2138fd7056c82b1d38cda2514f6e"
+  },
+  "waiting_registry": {
+    "active": [
+      "G10-P2 September Lichess broadcast source",
+      "G10-P10 TWIC 1665/1666 fresh replication",
+      "Explanation Track I8 human-utility world contact"
+    ]
+  },
+  "automation_identity": {
+    "actions_writeback": false,
+    "bot_author_hits_at_closure": 0,
+    "bot_committer_hits_at_closure": 0,
+    "canonical_promotion_actor": "WhoSia"
+  }
+}
