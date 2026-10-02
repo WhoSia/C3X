@@ -1,0 +1,162 @@
+{
+  "schema": "c3x-g10-p10-closure-v1",
+  "stage": "C3X 0.8.0-G10-P10 — Prospective Certificate-Opportunity Surface Factorization, Outcome-Blind Search-Susceptibility Instrumentation, Board-Geometry×Search-Topology Interaction, Opportunity-Matched Family-Distance Challenge, Fresh-Source/Engine Replication, Sparse-Certificate Regime Identification & Causal Opportunity Experiment",
+  "status": "CLOSED_HOLD",
+  "official_verdict": "HOLD_FRESH_CONFIRMATION_SUPPORT_INSUFFICIENT",
+  "development_result": "PASS_STRUCTURE_IDENTIFIED_NO_CONFIRMATORY_AUTHORITY",
+  "closure_reason": "All currently available development data have been exhausted. Fresh issue-level confirmation on TWIC 1665/1666 is unavailable at closure time and is moved to a deferred dependency rather than keeping P10 open.",
+  "established": {
+    "opportunity_surface": {
+      "worlds": 144,
+      "active_worlds": 73,
+      "coarse_counts": {
+        "NO_COMMON_BOUND": 16,
+        "ONE_COMMON_BOUND": 54,
+        "TWO_COMMON_BOUNDS": 3
+      },
+      "distinct_case_signatures": 29,
+      "signature_entropy_bits": 4.23082473794802
+    },
+    "geometry_opportunity_separation": {
+      "mutual_information_bits": 0.06841666741465866,
+      "pearson_family_distance_vs_opportunity_ordinal": 0.0443864340279527,
+      "opportunity_matched_cells_with_family_distance_variation": 12,
+      "deterministic_recoding_rejected": true
+    },
+    "quotient_fiber_transport": {
+      "multi_engine_positions": 30,
+      "coarse_class_unanimous_positions": 20,
+      "pairwise_coarse_class_agreement": 0.8035714285714286,
+      "exact_signature_unanimous_positions": 0,
+      "interpretation": "Coarse opportunity quotient partially transports; fine fibers are engine-conditioned."
+    },
+    "necessity_ladder": {
+      "units": 156,
+      "counts": {
+        "L0": 156,
+        "L1": 64,
+        "L2": 7,
+        "L3": 1,
+        "L4": 1,
+        "L5": 1,
+        "L6": 1,
+        "L7": 0
+      },
+      "converse_failures": [
+        "L0_NOT_L1",
+        "L1_NOT_L2",
+        "L2_NOT_L3",
+        "L6_NOT_L7"
+      ]
+    },
+    "engine_board_interaction": {
+      "squares": 60,
+      "noncommuting_squares": 33,
+      "fraction": 0.55,
+      "pair_fractions": {
+        "berserk|ethereal": 0.375,
+        "berserk|stockfish_19": 0.65,
+        "ethereal|stockfish_19": 0.5833333333333334
+      }
+    },
+    "transition_algebra": {
+      "chain_rows": 78,
+      "target": {
+        "distinct_edges": 14,
+        "change_fraction": 0.47435897435897434,
+        "entropy_bits": 3.2117032202465334,
+        "forbidden_edges": [
+          [
+            "00",
+            "01"
+          ],
+          [
+            "00",
+            "11"
+          ]
+        ]
+      },
+      "subset": {
+        "distinct_edges": 12,
+        "change_fraction": 0.358974358974359,
+        "entropy_bits": 2.8913783289573565,
+        "forbidden_edges": [
+          [
+            "00",
+            "01"
+          ],
+          [
+            "01",
+            "00"
+          ],
+          [
+            "10",
+            "00"
+          ],
+          [
+            "11",
+            "00"
+          ]
+        ]
+      },
+      "sham": {
+        "distinct_edges": 13,
+        "change_fraction": 0.3717948717948718,
+        "entropy_bits": 2.969776122897104,
+        "forbidden_edges": [
+          [
+            "00",
+            "01"
+          ],
+          [
+            "01",
+            "00"
+          ],
+          [
+            "11",
+            "00"
+          ]
+        ]
+      },
+      "exact_transition_unanimity_fraction_multi_engine_groups": 0.03125,
+      "stockfish_operator_divergence": {
+        "berserk_target_tv": 0.9545454545454545,
+        "ethereal_target_tv": 0.9615384615384616
+      }
+    }
+  },
+  "not_established": [
+    "Monotone opportunity-to-certificate law",
+    "Universal cross-engine opportunity transition law",
+    "Mechanism-family admission",
+    "Fresh-source replication",
+    "Objective chess truth",
+    "Human cognition or utility"
+  ],
+  "canonical_artifacts": {
+    "constitution_commit": "e38bea09186de8acae0e9d006dc0f236b28795a0",
+    "development_run": 37015671080,
+    "development_json_sha256": "f0f6876a41f2ea30ee7b5e22a13a0bfba07b8fbcdd4282352c935847e7e6c6a9",
+    "cartography_run": 37017758755,
+    "cartography_json_sha256": "aeeb53d8ea6b152e7fe681661dd8c15dff17f1275833b3ea4c68bcf13963b995",
+    "ladder_transport_run": 37018016489,
+    "ladder_transport_json_sha256": "0dc3568c0a2656868f1661bf3e2d32fa4df00dae3ce8d7b42869ce8717b5fd28",
+    "transition_algebra_run": 37027528461,
+    "transition_algebra_json_sha256": "9ca8b3e1b06fc40d1c0da33822d02ff8c25f9a046bbe8190d9fee51bad68797e",
+    "theory_document": "docs/G10_P10_OPPORTUNITY_THEORY.md"
+  },
+  "deferred_dependency": {
+    "sources": [
+      "P10_SRC_TWIC_1665",
+      "P10_SRC_TWIC_1666"
+    ],
+    "state": "WAITING_OUTSIDE_CLOSED_P10",
+    "reopening_rule": "Do not reopen or reinterpret P10. Any future use of these sources must enter through a new explicitly authorized mainline stage or replication artifact preserving the frozen P10 definitions."
+  },
+  "automation_identity": {
+    "actions_writeback": false,
+    "bot_author_hits_at_closure": 0,
+    "bot_committer_hits_at_closure": 0,
+    "canonical_promotion_actor": "WhoSia"
+  }
+}
