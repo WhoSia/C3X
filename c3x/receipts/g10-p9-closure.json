@@ -1,0 +1,16 @@
+{
+  "authority_ceiling": [
+    "Graded recoverability/acquisition evidence only",
+    "No mechanism-family admission",
+    "No transportable law",
+    "No objective chess truth or human cognition/utility claim"
+  ],
+  "experiment_result_sha256": "6079c8281a942b098b2c9cf77950cf6e9dcc15c22acb166185549c559f6e8487",
+  "mechanism_family_admission_opened": false,
+  "preoutcome_firewall_pass": true,
+  "preoutcome_verdict": "PASS_PREOUTCOME_GRADED_SELECTOR_POSITIVITY",
+  "schema": "c3x-g10-p9-closure-v1",
+  "status": "CLOSED",
+  "transportable_pattern_instantiated": false,
+  "verdict": "PASS_GRADED_SELECTOR_DISCRIMINATIVE_NO_YIELD_ENRICHMENT"
+}
