@@ -1,0 +1,27 @@
+{
+  "schema": "c3x-g10-p5-run-authority-v1",
+  "canonical_scientific_run": 36951016134,
+  "canonical_head": "88d6f7b8732e01a3cccba7c4c5499dd801f2b79b",
+  "non_authoritative_runs": [
+    {
+      "run_id": 36950799621,
+      "reason": "PRECANONICAL_WORKFLOW_PLUMBING_FAILURE"
+    },
+    {
+      "run_id": 36950853453,
+      "reason": "PRECANONICAL_WORKFLOW_EXPRESSION_FAILURE"
+    },
+    {
+      "run_id": 36951012457,
+      "reason": "PRECANONICAL_PROVENANCE_BINDING_WORKFLOW_FAILURE"
+    },
+    {
+      "run_id": 36953897862,
+      "head": "d824994a0d37fdfe358e4bc3db0dd723d8b392dc",
+      "reason": "POST_OUTCOME_TEST_ONLY_CHANGE_TRIGGERED_DUPLICATE_HEAVY_RUN",
+      "read_outputs": false,
+      "promote_outputs": false
+    }
+  ],
+  "policy": "Only canonical run 36951016134 may determine P5 fresh-ecology scientific outcomes. Later duplicate heavy runs are verification-ineligible for science authority."
+}
