@@ -1,0 +1,30 @@
+{
+  "schema": "c3x-g10-p4-closure-v1",
+  "status": "CLOSED_PASS",
+  "verdict": "PASS_EXECUTABLE_EVIDENCE_PROMOTION_CALCULUS",
+  "precommit_head": "ff674ae52f94f9b9198ef24a5a9d4f9bac30a788",
+  "court_impl_head": "e1a0a777851885d1a2fe94af901f17d1f518d3dd",
+  "workflow_head": "bc1e786940abee95a07e30597d079bb4dc45f8d1",
+  "run_id": 36949229192,
+  "artifact_id": 11203580573,
+  "artifact_digest": "sha256:c7b4bf17e05df23a1e73f42376d4512e38120d280972f22edb85cebf807f04e9",
+  "drive_file_id": "1B8g9kAR5IHcAVH9Rqrtsa3OSfrszvYrA",
+  "scientific_result": {
+    "executable_promotion_graph": true,
+    "promotion_debt": true,
+    "causal_wording_gate": true,
+    "counterexample_closure": true,
+    "competitor_novelty_survives_bounded_ecology": true,
+    "empirical_composition_instantiated": false,
+    "empirical_composition_reason": "Only one complete LOCAL_ONLY certificate exists in sealed evidence.",
+    "transportable_pattern_instantiated": false
+  },
+  "authority_ceiling": [
+    "No new local causal witness created",
+    "P16 remains LOCAL_ONLY",
+    "P18 transport failure unchanged",
+    "No empirical composition candidate instantiated",
+    "No universal novelty claim"
+  ],
+  "p2_status": "PARKED_SOURCE_DEPENDENCY_UNCHANGED"
+}

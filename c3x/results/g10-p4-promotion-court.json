@@ -1,0 +1,53 @@
+{
+  "schema": "c3x-g10-p4-court-v1",
+  "stage": "C3X 0.8.0-G10-P4 — Prospective Evidence-Promotion Calculus, Typed Witness Necessity↔Sufficiency, Measurement→Surface→Causal Authority Lifting, Intervention-Preserving Abstraction, Counterexample-Closed Promotion Rules, Local-Certificate Composition & Explanation-Authority Transition Court",
+  "verdict": "PASS_EXECUTABLE_EVIDENCE_PROMOTION_CALCULUS",
+  "run": {
+    "id": 36949229192,
+    "head": "bc1e786940abee95a07e30597d079bb4dc45f8d1",
+    "conclusion": "success"
+  },
+  "regression": "PASS",
+  "counterexample_closure": true,
+  "competitor_novelty": {
+    "frozen_public_ecology_count": 8,
+    "equivalent_public_typed_promotion_contract_found": false,
+    "novelty_survives_frozen_public_ecology": true,
+    "scope": "bounded public-evidence search only; not a universal nonexistence claim"
+  },
+  "promotion_architecture": {
+    "states": [
+      "MEASUREMENT_ROUTING",
+      "CHESS_NATIVE_SURFACE",
+      "MECHANISM_CANDIDATE",
+      "LOCAL_CAUSAL_EXPLANATION",
+      "COMPOSITION_CANDIDATE",
+      "TRANSPORTABLE_CAUSAL_PATTERN"
+    ],
+    "principles": [
+      "Evidence accumulation is not authority accumulation",
+      "Failed promotions emit promotion debt",
+      "Causal wording is authority-gated",
+      "Composition does not imply transport"
+    ]
+  },
+  "empirical_status": {
+    "actual_complete_local_certificates": 1,
+    "empirical_composition_allowed": false,
+    "empirical_composition_debt": [
+      "AT_LEAST_TWO_LOCAL_CERTIFICATES"
+    ],
+    "empirical_composition_status": "COMPOSITION_NOT_INSTANTIATED_ONE_LOCAL_CERTIFICATE",
+    "transportable_pattern_instantiated": false
+  },
+  "preserved_boundaries": {
+    "p16": "LOCAL_ONLY",
+    "p18_transport_failure": "UNCHANGED",
+    "new_causal_witnesses": 0
+  },
+  "artifact": {
+    "github_artifact_id": 11203580573,
+    "digest": "sha256:c7b4bf17e05df23a1e73f42376d4512e38120d280972f22edb85cebf807f04e9",
+    "drive_file_id": "1B8g9kAR5IHcAVH9Rqrtsa3OSfrszvYrA"
+  }
+}
