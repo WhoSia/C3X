@@ -95,43 +95,43 @@ jobs:
             sha256sum "data/twic${issue}.pgn" > "data/twic${issue}.pgn.sha256"
           done
       - uses: actions/download-artifact@v4
-        with: {name: g95-p1-precommit-sealed, path: hist/p1, repository: WhoSia/C3X, run-id: ${{ env.P1_RUN }}, github-token: ${{ github.token }}}
+        with: {name: g95-p1-precommit-sealed, path: hist/p1, repository: WhoSia/C3X, run-id: "\${{ env.P1_RUN }}", github-token: "\${{ github.token }}"}
       - uses: actions/download-artifact@v4
-        with: {name: g95-p2-precommit-sealed, path: hist/p2, repository: WhoSia/C3X, run-id: ${{ env.P2_RUN }}, github-token: ${{ github.token }}}
+        with: {name: g95-p2-precommit-sealed, path: hist/p2, repository: WhoSia/C3X, run-id: "\${{ env.P2_RUN }}", github-token: "\${{ github.token }}"}
       - uses: actions/download-artifact@v4
-        with: {name: g95-p3-corpus-sealed, path: hist/p3, repository: WhoSia/C3X, run-id: ${{ env.P3_RUN }}, github-token: ${{ github.token }}}
+        with: {name: g95-p3-corpus-sealed, path: hist/p3, repository: WhoSia/C3X, run-id: "\${{ env.P3_RUN }}", github-token: "\${{ github.token }}"}
       - uses: actions/download-artifact@v4
-        with: {name: g95-p4-corpus-sealed, path: hist/p4, repository: WhoSia/C3X, run-id: ${{ env.P4_RUN }}, github-token: ${{ github.token }}}
+        with: {name: g95-p4-corpus-sealed, path: hist/p4, repository: WhoSia/C3X, run-id: "\${{ env.P4_RUN }}", github-token: "\${{ github.token }}"}
       - uses: actions/download-artifact@v4
-        with: {name: g95-p5-corpus-sealed, path: hist/p5, repository: WhoSia/C3X, run-id: ${{ env.P5_OLD_RUN }}, github-token: ${{ github.token }}}
+        with: {name: g95-p5-corpus-sealed, path: hist/p5, repository: WhoSia/C3X, run-id: "\${{ env.P5_OLD_RUN }}", github-token: "\${{ github.token }}"}
       - uses: actions/download-artifact@v4
-        with: {name: g95-p6-corpus-sealed, path: hist/p6, repository: WhoSia/C3X, run-id: ${{ env.P6_RUN }}, github-token: ${{ github.token }}}
+        with: {name: g95-p6-corpus-sealed, path: hist/p6, repository: WhoSia/C3X, run-id: "\${{ env.P6_RUN }}", github-token: "\${{ github.token }}"}
       - uses: actions/download-artifact@v4
-        with: {name: g95-p7-corpus-sealed, path: hist/p7, repository: WhoSia/C3X, run-id: ${{ env.P7_RUN }}, github-token: ${{ github.token }}}
+        with: {name: g95-p7-corpus-sealed, path: hist/p7, repository: WhoSia/C3X, run-id: "\${{ env.P7_RUN }}", github-token: "\${{ github.token }}"}
       - uses: actions/download-artifact@v4
-        with: {name: g95-p8-corpus-sealed, path: hist/p8, repository: WhoSia/C3X, run-id: ${{ env.P8_RUN }}, github-token: ${{ github.token }}}
+        with: {name: g95-p8-corpus-sealed, path: hist/p8, repository: WhoSia/C3X, run-id: "\${{ env.P8_RUN }}", github-token: "\${{ github.token }}"}
       - uses: actions/download-artifact@v4
-        with: {name: g95-p9-corpus-sealed, path: hist/p9, repository: WhoSia/C3X, run-id: ${{ env.P9_RUN }}, github-token: ${{ github.token }}}
+        with: {name: g95-p9-corpus-sealed, path: hist/p9, repository: WhoSia/C3X, run-id: "\${{ env.P9_RUN }}", github-token: "\${{ github.token }}"}
       - uses: actions/download-artifact@v4
-        with: {name: g95-p10-corpus-sealed, path: hist/p10, repository: WhoSia/C3X, run-id: ${{ env.P10_RUN }}, github-token: ${{ github.token }}}
+        with: {name: g95-p10-corpus-sealed, path: hist/p10, repository: WhoSia/C3X, run-id: "\${{ env.P10_RUN }}", github-token: "\${{ github.token }}"}
       - uses: actions/download-artifact@v4
-        with: {name: g95-p12-corpus-sealed, path: hist/p12, repository: WhoSia/C3X, run-id: ${{ env.P12_RUN }}, github-token: ${{ github.token }}}
+        with: {name: g95-p12-corpus-sealed, path: hist/p12, repository: WhoSia/C3X, run-id: "\${{ env.P12_RUN }}", github-token: "\${{ github.token }}"}
       - uses: actions/download-artifact@v4
-        with: {name: g95-p13-corpus-sealed, path: hist/p13, repository: WhoSia/C3X, run-id: ${{ env.P13_RUN }}, github-token: ${{ github.token }}}
+        with: {name: g95-p13-corpus-sealed, path: hist/p13, repository: WhoSia/C3X, run-id: "\${{ env.P13_RUN }}", github-token: "\${{ github.token }}"}
       - uses: actions/download-artifact@v4
-        with: {name: g95-p14-corpus-sealed, path: hist/p14, repository: WhoSia/C3X, run-id: ${{ env.P14_RUN }}, github-token: ${{ github.token }}}
+        with: {name: g95-p14-corpus-sealed, path: hist/p14, repository: WhoSia/C3X, run-id: "\${{ env.P14_RUN }}", github-token: "\${{ github.token }}"}
       - uses: actions/download-artifact@v4
-        with: {name: g95-p15-corpus-sealed, path: hist/p15, repository: WhoSia/C3X, run-id: ${{ env.P15_RUN }}, github-token: ${{ github.token }}}
+        with: {name: g95-p15-corpus-sealed, path: hist/p15, repository: WhoSia/C3X, run-id: "\${{ env.P15_RUN }}", github-token: "\${{ github.token }}"}
       - uses: actions/download-artifact@v4
-        with: {name: g95-p16-final-minimal-structure, path: hist/p16, repository: WhoSia/C3X, run-id: ${{ env.P16_RUN }}, github-token: ${{ github.token }}}
+        with: {name: g95-p16-final-minimal-structure, path: hist/p16, repository: WhoSia/C3X, run-id: "\${{ env.P16_RUN }}", github-token: "\${{ github.token }}"}
       - uses: actions/download-artifact@v4
-        with: {name: g95-p17-corpus-sealed, path: hist/p17, repository: WhoSia/C3X, run-id: ${{ env.P17_RUN }}, github-token: ${{ github.token }}}
+        with: {name: g95-p17-corpus-sealed, path: hist/p17, repository: WhoSia/C3X, run-id: "\${{ env.P17_RUN }}", github-token: "\${{ github.token }}"}
       - uses: actions/download-artifact@v4
-        with: {name: g95-p18-corpus-sealed, path: hist/p18-corpus, repository: WhoSia/C3X, run-id: ${{ env.P18_RUN }}, github-token: ${{ github.token }}}
+        with: {name: g95-p18-corpus-sealed, path: hist/p18-corpus, repository: WhoSia/C3X, run-id: "\${{ env.P18_RUN }}", github-token: "\${{ github.token }}"}
       - uses: actions/download-artifact@v4
-        with: {name: g95-p18-pair-pool-sealed, path: hist/p18-pair, repository: WhoSia/C3X, run-id: ${{ env.P18_RUN }}, github-token: ${{ github.token }}}
+        with: {name: g95-p18-pair-pool-sealed, path: hist/p18-pair, repository: WhoSia/C3X, run-id: "\${{ env.P18_RUN }}", github-token: "\${{ github.token }}"}
       - uses: actions/download-artifact@v4
-        with: {name: g95-p18-confirmation-freeze-sealed, path: hist/p18-conf, repository: WhoSia/C3X, run-id: ${{ env.P18_RUN }}, github-token: ${{ github.token }}}
+        with: {name: g95-p18-confirmation-freeze-sealed, path: hist/p18-conf, repository: WhoSia/C3X, run-id: "\${{ env.P18_RUN }}", github-token: "\${{ github.token }}"}
       - name: Freeze fresh P16-contract corpus before engine outcomes
         run: |
           set -euxo pipefail
@@ -175,8 +175,8 @@ jobs:
           pattern: g95-p16-build-*
           path: builds
           repository: WhoSia/C3X
-          run-id: ${{ env.P16_RUN }}
-          github-token: ${{ github.token }}
+          run-id: "\${{ env.P16_RUN }}"
+          github-token: "\${{ github.token }}"
       - run: python3 -m pip install --disable-pip-version-check python-chess==1.999
       - name: Freeze inherited P16 instrument design
         run: |
@@ -202,8 +202,8 @@ jobs:
           pattern: g95-p16-build-*
           path: builds
           repository: WhoSia/C3X
-          run-id: ${{ env.P16_RUN }}
-          github-token: ${{ github.token }}
+          run-id: "\${{ env.P16_RUN }}"
+          github-token: "\${{ github.token }}"
       - run: python3 -m pip install --disable-pip-version-check python-chess==1.999
       - run: PYTHONPATH=. python3 tools/g10_p5_p16_shard.py --phase qualify --state state/g10-p5-p16-design.json --build-dir builds --shard ${{ matrix.shard }} --shards 12 --out-dir out
       - uses: actions/upload-artifact@v4
@@ -240,8 +240,8 @@ jobs:
           pattern: g95-p16-build-*
           path: builds
           repository: WhoSia/C3X
-          run-id: ${{ env.P16_RUN }}
-          github-token: ${{ github.token }}
+          run-id: "\${{ env.P16_RUN }}"
+          github-token: "\${{ github.token }}"
       - run: python3 -m pip install --disable-pip-version-check python-chess==1.999
       - run: PYTHONPATH=. python3 tools/g10_p5_p16_shard.py --phase chain-qualify --state state/g10-p5-pair-freeze.json --build-dir builds --shard ${{ matrix.shard }} --shards 12 --out-dir out
       - uses: actions/upload-artifact@v4
@@ -278,8 +278,8 @@ jobs:
           pattern: g95-p16-build-*
           path: builds
           repository: WhoSia/C3X
-          run-id: ${{ env.P16_RUN }}
-          github-token: ${{ github.token }}
+          run-id: "\${{ env.P16_RUN }}"
+          github-token: "\${{ github.token }}"
       - run: python3 -m pip install --disable-pip-version-check python-chess==1.999
       - run: PYTHONPATH=. python3 tools/g10_p5_p16_shard.py --phase factorial --state state/g10-p5-chain-freeze.json --build-dir builds --shard ${{ matrix.shard }} --shards 12 --out-dir out
       - uses: actions/upload-artifact@v4
