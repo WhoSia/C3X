@@ -1,0 +1,4417 @@
+{
+  "assignments": [
+    {
+      "control_family": "orbit-2",
+      "control_features": {
+        "active_engines": 3,
+        "chain_bucket": 1,
+        "gap_bucket": 2,
+        "pair_support": 3,
+        "ply_bucket": 0
+      },
+      "control_position_id": "p16:P8_SRC_TWIC_1657:00b88393c79a",
+      "control_score": [
+        3,
+        -1,
+        3,
+        1.0
+      ],
+      "match_distance": 1,
+      "polarity_profile": [
+        "GAIN"
+      ],
+      "source_id": "P8_SRC_TWIC_1657",
+      "target_family": "orbit-2",
+      "target_features": {
+        "active_engines": 3,
+        "chain_bucket": 1,
+        "gap_bucket": 1,
+        "pair_support": 3,
+        "ply_bucket": 0
+      },
+      "target_position_id": "p16:P8_SRC_TWIC_1657:0116094dfd90",
+      "target_score": [
+        4,
+        0,
+        4,
+        1.0
+      ]
+    },
+    {
+      "control_family": "orbit-2",
+      "control_features": {
+        "active_engines": 3,
+        "chain_bucket": 2,
+        "gap_bucket": 2,
+        "pair_support": 3,
+        "ply_bucket": 2
+      },
+      "control_position_id": "p16:P8_SRC_TWIC_1657:00be73d8f64a",
+      "control_score": [
+        3,
+        -1,
+        3,
+        1.0
+      ],
+      "match_distance": 1,
+      "polarity_profile": [
+        "GAIN"
+      ],
+      "source_id": "P8_SRC_TWIC_1657",
+      "target_family": "orbit-2",
+      "target_features": {
+        "active_engines": 3,
+        "chain_bucket": 1,
+        "gap_bucket": 2,
+        "pair_support": 3,
+        "ply_bucket": 2
+      },
+      "target_position_id": "p16:P8_SRC_TWIC_1657:00f9061f02f1",
+      "target_score": [
+        4,
+        0,
+        4,
+        1.0
+      ]
+    },
+    {
+      "control_family": "orbit-2",
+      "control_features": {
+        "active_engines": 3,
+        "chain_bucket": 1,
+        "gap_bucket": 0,
+        "pair_support": 3,
+        "ply_bucket": 2
+      },
+      "control_position_id": "p16:P8_SRC_TWIC_1657:0037e0b78b92",
+      "control_score": [
+        3,
+        -1,
+        3,
+        1.0
+      ],
+      "match_distance": 1,
+      "polarity_profile": [
+        "GAIN"
+      ],
+      "source_id": "P8_SRC_TWIC_1657",
+      "target_family": "orbit-2",
+      "target_features": {
+        "active_engines": 3,
+        "chain_bucket": 1,
+        "gap_bucket": 1,
+        "pair_support": 3,
+        "ply_bucket": 2
+      },
+      "target_position_id": "p16:P8_SRC_TWIC_1657:00cf696971f6",
+      "target_score": [
+        4,
+        0,
+        4,
+        1.0
+      ]
+    },
+    {
+      "control_family": "orbit-2",
+      "control_features": {
+        "active_engines": 3,
+        "chain_bucket": 1,
+        "gap_bucket": 1,
+        "pair_support": 3,
+        "ply_bucket": 1
+      },
+      "control_position_id": "p16:P8_SRC_TWIC_1657:000e6ad65ef3",
+      "control_score": [
+        3,
+        -1,
+        3,
+        1.0
+      ],
+      "match_distance": 2,
+      "polarity_profile": [
+        "GAIN"
+      ],
+      "source_id": "P8_SRC_TWIC_1657",
+      "target_family": "orbit-2",
+      "target_features": {
+        "active_engines": 3,
+        "chain_bucket": 1,
+        "gap_bucket": 3,
+        "pair_support": 3,
+        "ply_bucket": 1
+      },
+      "target_position_id": "p16:P8_SRC_TWIC_1657:006c176829c9",
+      "target_score": [
+        4,
+        0,
+        4,
+        1.0
+      ]
+    },
+    {
+      "control_family": "orbit-2",
+      "control_features": {
+        "active_engines": 3,
+        "chain_bucket": 2,
+        "gap_bucket": 1,
+        "pair_support": 3,
+        "ply_bucket": 1
+      },
+      "control_position_id": "p16:P8_SRC_TWIC_1657:008373f7e76b",
+      "control_score": [
+        3,
+        -1,
+        3,
+        0.5
+      ],
+      "match_distance": 2,
+      "polarity_profile": [
+        "GAIN"
+      ],
+      "source_id": "P8_SRC_TWIC_1657",
+      "target_family": "orbit-2",
+      "target_features": {
+        "active_engines": 3,
+        "chain_bucket": 3,
+        "gap_bucket": 2,
+        "pair_support": 3,
+        "ply_bucket": 1
+      },
+      "target_position_id": "p16:P8_SRC_TWIC_1657:00de3a622eca",
+      "target_score": [
+        4,
+        0,
+        4,
+        0.75
+      ]
+    },
+    {
+      "control_family": "orbit-2",
+      "control_features": {
+        "active_engines": 3,
+        "chain_bucket": 3,
+        "gap_bucket": 0,
+        "pair_support": 3,
+        "ply_bucket": 1
+      },
+      "control_position_id": "p16:P8_SRC_TWIC_1657:01b3bc6e2e07",
+      "control_score": [
+        3,
+        -1,
+        3,
+        0.6666666666666666
+      ],
+      "match_distance": 2,
+      "polarity_profile": [
+        "GAIN"
+      ],
+      "source_id": "P8_SRC_TWIC_1657",
+      "target_family": "orbit-2",
+      "target_features": {
+        "active_engines": 3,
+        "chain_bucket": 3,
+        "gap_bucket": 2,
+        "pair_support": 3,
+        "ply_bucket": 1
+      },
+      "target_position_id": "p16:P8_SRC_TWIC_1657:022264f0024e",
+      "target_score": [
+        4,
+        0,
+        4,
+        0.5
+      ]
+    },
+    {
+      "control_family": "orbit-2",
+      "control_features": {
+        "active_engines": 2,
+        "chain_bucket": 1,
+        "gap_bucket": 1,
+        "pair_support": 2,
+        "ply_bucket": 3
+      },
+      "control_position_id": "p16:P8_SRC_TWIC_1657:00c2c0f440d0",
+      "control_score": [
+        3,
+        -1,
+        3,
+        1.0
+      ],
+      "match_distance": 2,
+      "polarity_profile": [
+        "GAIN"
+      ],
+      "source_id": "P8_SRC_TWIC_1657",
+      "target_family": "orbit-2",
+      "target_features": {
+        "active_engines": 2,
+        "chain_bucket": 2,
+        "gap_bucket": 2,
+        "pair_support": 2,
+        "ply_bucket": 3
+      },
+      "target_position_id": "p16:P8_SRC_TWIC_1657:0031f383a17a",
+      "target_score": [
+        4,
+        0,
+        4,
+        0.5
+      ]
+    },
+    {
+      "control_family": "orbit-2",
+      "control_features": {
+        "active_engines": 3,
+        "chain_bucket": 2,
+        "gap_bucket": 2,
+        "pair_support": 3,
+        "ply_bucket": 2
+      },
+      "control_position_id": "p16:P8_SRC_TWIC_1657:01941e59eeca",
+      "control_score": [
+        3,
+        -1,
+        3,
+        1.0
+      ],
+      "match_distance": 10,
+      "polarity_profile": [
+        "GAIN"
+      ],
+      "source_id": "P8_SRC_TWIC_1657",
+      "target_family": "orbit-2",
+      "target_features": {
+        "active_engines": 2,
+        "chain_bucket": 3,
+        "gap_bucket": 0,
+        "pair_support": 2,
+        "ply_bucket": 2
+      },
+      "target_position_id": "p16:P8_SRC_TWIC_1657:01b96aa8ef74",
+      "target_score": [
+        4,
+        0,
+        4,
+        0.3333333333333333
+      ]
+    },
+    {
+      "control_family": "orbit-2",
+      "control_features": {
+        "active_engines": 3,
+        "chain_bucket": 1,
+        "gap_bucket": 1,
+        "pair_support": 3,
+        "ply_bucket": 1
+      },
+      "control_position_id": "p16:P8_SRC_TWIC_1657:017752aef89a",
+      "control_score": [
+        3,
+        -1,
+        3,
+        1.0
+      ],
+      "match_distance": 10,
+      "polarity_profile": [
+        "GAIN"
+      ],
+      "source_id": "P8_SRC_TWIC_1657",
+      "target_family": "orbit-2",
+      "target_features": {
+        "active_engines": 2,
+        "chain_bucket": 3,
+        "gap_bucket": 2,
+        "pair_support": 2,
+        "ply_bucket": 1
+      },
+      "target_position_id": "p16:P8_SRC_TWIC_1657:02226e810b8b",
+      "target_score": [
+        4,
+        0,
+        4,
+        0.25
+      ]
+    },
+    {
+      "control_family": "orbit-3",
+      "control_features": {
+        "active_engines": 2,
+        "chain_bucket": 1,
+        "gap_bucket": 2,
+        "pair_support": 2,
+        "ply_bucket": 0
+      },
+      "control_position_id": "p16:P8_SRC_TWIC_1657:003bac31cc31",
+      "control_score": [
+        -2,
+        -2,
+        2,
+        1.0
+      ],
+      "match_distance": 2,
+      "polarity_profile": [
+        "LOSS"
+      ],
+      "source_id": "P8_SRC_TWIC_1657",
+      "target_family": "orbit-3",
+      "target_features": {
+        "active_engines": 2,
+        "chain_bucket": 1,
+        "gap_bucket": 2,
+        "pair_support": 2,
+        "ply_bucket": 1
+      },
+      "target_position_id": "p16:P8_SRC_TWIC_1657:02237625a060",
+      "target_score": [
+        1,
+        0,
+        4,
+        1.0
+      ]
+    },
+    {
+      "control_family": "orbit-3",
+      "control_features": {
+        "active_engines": 3,
+        "chain_bucket": 2,
+        "gap_bucket": 3,
+        "pair_support": 3,
+        "ply_bucket": 2
+      },
+      "control_position_id": "p16:P8_SRC_TWIC_1657:022681fee23f",
+      "control_score": [
+        -2,
+        -2,
+        2,
+        1.0
+      ],
+      "match_distance": 4,
+      "polarity_profile": [
+        "LOSS"
+      ],
+      "source_id": "P8_SRC_TWIC_1657",
+      "target_family": "orbit-3",
+      "target_features": {
+        "active_engines": 3,
+        "chain_bucket": 2,
+        "gap_bucket": 3,
+        "pair_support": 3,
+        "ply_bucket": 0
+      },
+      "target_position_id": "p16:P8_SRC_TWIC_1657:0129303bff98",
+      "target_score": [
+        1,
+        0,
+        4,
+        1.0
+      ]
+    },
+    {
+      "control_family": "orbit-3",
+      "control_features": {
+        "active_engines": 2,
+        "chain_bucket": 2,
+        "gap_bucket": 2,
+        "pair_support": 2,
+        "ply_bucket": 2
+      },
+      "control_position_id": "p16:P8_SRC_TWIC_1657:008a6717be13",
+      "control_score": [
+        0,
+        -1,
+        3,
+        1.0
+      ],
+      "match_distance": 4,
+      "polarity_profile": [
+        "LOSS"
+      ],
+      "source_id": "P8_SRC_TWIC_1657",
+      "target_family": "orbit-3",
+      "target_features": {
+        "active_engines": 2,
+        "chain_bucket": 3,
+        "gap_bucket": 3,
+        "pair_support": 2,
+        "ply_bucket": 1
+      },
+      "target_position_id": "p16:P8_SRC_TWIC_1657:00379030593f",
+      "target_score": [
+        1,
+        -1,
+        3,
+        0.75
+      ]
+    },
+    {
+      "control_family": "orbit-2",
+      "control_features": {
+        "active_engines": 3,
+        "chain_bucket": 2,
+        "gap_bucket": 2,
+        "pair_support": 3,
+        "ply_bucket": 1
+      },
+      "control_position_id": "p16:P8_SRC_TWIC_1658:00197cbebd39",
+      "control_score": [
+        3,
+        -1,
+        3,
+        0.5
+      ],
+      "match_distance": 0,
+      "polarity_profile": [
+        "GAIN"
+      ],
+      "source_id": "P8_SRC_TWIC_1658",
+      "target_family": "orbit-2",
+      "target_features": {
+        "active_engines": 3,
+        "chain_bucket": 2,
+        "gap_bucket": 2,
+        "pair_support": 3,
+        "ply_bucket": 1
+      },
+      "target_position_id": "p16:P8_SRC_TWIC_1658:00cdc4a24bd6",
+      "target_score": [
+        4,
+        0,
+        4,
+        1.0
+      ]
+    },
+    {
+      "control_family": "orbit-2",
+      "control_features": {
+        "active_engines": 2,
+        "chain_bucket": 2,
+        "gap_bucket": 3,
+        "pair_support": 2,
+        "ply_bucket": 1
+      },
+      "control_position_id": "p16:P8_SRC_TWIC_1658:00af60046393",
+      "control_score": [
+        3,
+        -1,
+        3,
+        1.0
+      ],
+      "match_distance": 1,
+      "polarity_profile": [
+        "GAIN"
+      ],
+      "source_id": "P8_SRC_TWIC_1658",
+      "target_family": "orbit-2",
+      "target_features": {
+        "active_engines": 2,
+        "chain_bucket": 2,
+        "gap_bucket": 2,
+        "pair_support": 2,
+        "ply_bucket": 1
+      },
+      "target_position_id": "p16:P8_SRC_TWIC_1658:02085788f96a",
+      "target_score": [
+        4,
+        0,
+        4,
+        1.0
+      ]
+    },
+    {
+      "control_family": "orbit-2",
+      "control_features": {
+        "active_engines": 3,
+        "chain_bucket": 3,
+        "gap_bucket": 2,
+        "pair_support": 3,
+        "ply_bucket": 1
+      },
+      "control_position_id": "p16:P8_SRC_TWIC_1658:01eed8a1bae8",
+      "control_score": [
+        3,
+        -1,
+        3,
+        0.3333333333333333
+      ],
+      "match_distance": 3,
+      "polarity_profile": [
+        "GAIN"
+      ],
+      "source_id": "P8_SRC_TWIC_1658",
+      "target_family": "orbit-2",
+      "target_features": {
+        "active_engines": 3,
+        "chain_bucket": 1,
+        "gap_bucket": 3,
+        "pair_support": 3,
+        "ply_bucket": 1
+      },
+      "target_position_id": "p16:P8_SRC_TWIC_1658:00705ec7a8e6",
+      "target_score": [
+        4,
+        0,
+        4,
+        1.0
+      ]
+    },
+    {
+      "control_family": "orbit-2",
+      "control_features": {
+        "active_engines": 2,
+        "chain_bucket": 1,
+        "gap_bucket": 2,
+        "pair_support": 2,
+        "ply_bucket": 2
+      },
+      "control_position_id": "p16:P8_SRC_TWIC_1658:007df1671e6f",
+      "control_score": [
+        3,
+        -1,
+        3,
+        1.0
+      ],
+      "match_distance": 4,
+      "polarity_profile": [
+        "GAIN"
+      ],
+      "source_id": "P8_SRC_TWIC_1658",
+      "target_family": "orbit-2",
+      "target_features": {
+        "active_engines": 2,
+        "chain_bucket": 1,
+        "gap_bucket": 0,
+        "pair_support": 2,
+        "ply_bucket": 3
+      },
+      "target_position_id": "p16:P8_SRC_TWIC_1658:022dcc771225",
+      "target_score": [
+        4,
+        0,
+        4,
+        1.0
+      ]
+    },
+    {
+      "control_family": "orbit-2",
+      "control_features": {
+        "active_engines": 3,
+        "chain_bucket": 3,
+        "gap_bucket": 1,
+        "pair_support": 3,
+        "ply_bucket": 1
+      },
+      "control_position_id": "p16:P8_SRC_TWIC_1658:01cdff616703",
+      "control_score": [
+        3,
+        -1,
+        3,
+        0.5
+      ],
+      "match_distance": 3,
+      "polarity_profile": [
+        "GAIN"
+      ],
+      "source_id": "P8_SRC_TWIC_1658",
+      "target_family": "orbit-2",
+      "target_features": {
+        "active_engines": 3,
+        "chain_bucket": 3,
+        "gap_bucket": 2,
+        "pair_support": 3,
+        "ply_bucket": 2
+      },
+      "target_position_id": "p16:P8_SRC_TWIC_1658:0036cdfae703",
+      "target_score": [
+        4,
+        0,
+        4,
+        0.8571428571428571
+      ]
+    },
+    {
+      "control_family": "orbit-2",
+      "control_features": {
+        "active_engines": 3,
+        "chain_bucket": 2,
+        "gap_bucket": 2,
+        "pair_support": 3,
+        "ply_bucket": 0
+      },
+      "control_position_id": "p16:P8_SRC_TWIC_1658:0011ccb2208d",
+      "control_score": [
+        3,
+        -1,
+        3,
+        1.0
+      ],
+      "match_distance": 7,
+      "polarity_profile": [
+        "GAIN"
+      ],
+      "source_id": "P8_SRC_TWIC_1658",
+      "target_family": "orbit-2",
+      "target_features": {
+        "active_engines": 3,
+        "chain_bucket": 3,
+        "gap_bucket": 0,
+        "pair_support": 3,
+        "ply_bucket": 2
+      },
+      "target_position_id": "p16:P8_SRC_TWIC_1658:01ff8f09e117",
+      "target_score": [
+        4,
+        0,
+        4,
+        0.8
+      ]
+    },
+    {
+      "control_family": "orbit-2",
+      "control_features": {
+        "active_engines": 2,
+        "chain_bucket": 2,
+        "gap_bucket": 1,
+        "pair_support": 2,
+        "ply_bucket": 2
+      },
+      "control_position_id": "p16:P8_SRC_TWIC_1658:020ad930ce60",
+      "control_score": [
+        3,
+        -1,
+        3,
+        0.5
+      ],
+      "match_distance": 3,
+      "polarity_profile": [
+        "GAIN"
+      ],
+      "source_id": "P8_SRC_TWIC_1658",
+      "target_family": "orbit-2",
+      "target_features": {
+        "active_engines": 2,
+        "chain_bucket": 3,
+        "gap_bucket": 1,
+        "pair_support": 2,
+        "ply_bucket": 3
+      },
+      "target_position_id": "p16:P8_SRC_TWIC_1658:00f5817dc6c7",
+      "target_score": [
+        4,
+        0,
+        4,
+        0.42857142857142855
+      ]
+    },
+    {
+      "control_family": "orbit-2",
+      "control_features": {
+        "active_engines": 2,
+        "chain_bucket": 3,
+        "gap_bucket": 1,
+        "pair_support": 2,
+        "ply_bucket": 0
+      },
+      "control_position_id": "p16:P8_SRC_TWIC_1658:00a3f9db3021",
+      "control_score": [
+        3,
+        -1,
+        3,
+        0.6666666666666666
+      ],
+      "match_distance": 2,
+      "polarity_profile": [
+        "GAIN"
+      ],
+      "source_id": "P8_SRC_TWIC_1658",
+      "target_family": "orbit-2",
+      "target_features": {
+        "active_engines": 2,
+        "chain_bucket": 1,
+        "gap_bucket": 1,
+        "pair_support": 2,
+        "ply_bucket": 0
+      },
+      "target_position_id": "p16:P8_SRC_TWIC_1658:0191de008dc7",
+      "target_score": [
+        3,
+        -1,
+        3,
+        1.0
+      ]
+    },
+    {
+      "control_family": "orbit-2",
+      "control_features": {
+        "active_engines": 3,
+        "chain_bucket": 3,
+        "gap_bucket": 3,
+        "pair_support": 3,
+        "ply_bucket": 0
+      },
+      "control_position_id": "p16:P8_SRC_TWIC_1658:00162acaf72c",
+      "control_score": [
+        3,
+        -1,
+        3,
+        0.4
+      ],
+      "match_distance": 9,
+      "polarity_profile": [
+        "GAIN"
+      ],
+      "source_id": "P8_SRC_TWIC_1658",
+      "target_family": "orbit-2",
+      "target_features": {
+        "active_engines": 3,
+        "chain_bucket": 1,
+        "gap_bucket": 2,
+        "pair_support": 3,
+        "ply_bucket": 3
+      },
+      "target_position_id": "p16:P8_SRC_TWIC_1658:01a0bd894298",
+      "target_score": [
+        3,
+        -1,
+        3,
+        1.0
+      ]
+    },
+    {
+      "control_family": "orbit-3",
+      "control_features": {
+        "active_engines": 2,
+        "chain_bucket": 1,
+        "gap_bucket": 1,
+        "pair_support": 2,
+        "ply_bucket": 1
+      },
+      "control_position_id": "p16:P8_SRC_TWIC_1658:0012f51c5f2a",
+      "control_score": [
+        -2,
+        -2,
+        2,
+        1.0
+      ],
+      "match_distance": 1,
+      "polarity_profile": [
+        "LOSS"
+      ],
+      "source_id": "P8_SRC_TWIC_1658",
+      "target_family": "orbit-3",
+      "target_features": {
+        "active_engines": 2,
+        "chain_bucket": 2,
+        "gap_bucket": 1,
+        "pair_support": 2,
+        "ply_bucket": 1
+      },
+      "target_position_id": "p16:P8_SRC_TWIC_1658:0249c517d59b",
+      "target_score": [
+        1,
+        0,
+        4,
+        1.0
+      ]
+    },
+    {
+      "control_family": "orbit-3",
+      "control_features": {
+        "active_engines": 3,
+        "chain_bucket": 2,
+        "gap_bucket": 1,
+        "pair_support": 3,
+        "ply_bucket": 2
+      },
+      "control_position_id": "p16:P8_SRC_TWIC_1658:003e436e8c0b",
+      "control_score": [
+        0,
+        -1,
+        3,
+        1.0
+      ],
+      "match_distance": 1,
+      "polarity_profile": [
+        "LOSS"
+      ],
+      "source_id": "P8_SRC_TWIC_1658",
+      "target_family": "orbit-3",
+      "target_features": {
+        "active_engines": 3,
+        "chain_bucket": 2,
+        "gap_bucket": 0,
+        "pair_support": 3,
+        "ply_bucket": 2
+      },
+      "target_position_id": "p16:P8_SRC_TWIC_1658:02351526dd36",
+      "target_score": [
+        1,
+        0,
+        4,
+        1.0
+      ]
+    },
+    {
+      "control_family": "orbit-3",
+      "control_features": {
+        "active_engines": 3,
+        "chain_bucket": 1,
+        "gap_bucket": 3,
+        "pair_support": 3,
+        "ply_bucket": 1
+      },
+      "control_position_id": "p16:P8_SRC_TWIC_1658:00c7b96f7647",
+      "control_score": [
+        -2,
+        -2,
+        2,
+        1.0
+      ],
+      "match_distance": 3,
+      "polarity_profile": [
+        "LOSS"
+      ],
+      "source_id": "P8_SRC_TWIC_1658",
+      "target_family": "orbit-3",
+      "target_features": {
+        "active_engines": 3,
+        "chain_bucket": 1,
+        "gap_bucket": 0,
+        "pair_support": 3,
+        "ply_bucket": 1
+      },
+      "target_position_id": "p16:P8_SRC_TWIC_1658:007c766a8d4b",
+      "target_score": [
+        1,
+        0,
+        4,
+        1.0
+      ]
+    }
+  ],
+  "certificate_outcomes_opened": false,
+  "chain_qualification_opened": false,
+  "factorial_outcomes_opened": false,
+  "families": {
+    "orbit-2": {
+      "members": [
+        "HOLDOUT_c64ae837e530ff9822621fc3",
+        "P5_1664_ETHEREAL"
+      ]
+    },
+    "orbit-3": {
+      "members": [
+        "HOLDOUT_f05f7fbd9afcec6d80016f8b",
+        "P5_1663_ETHEREAL"
+      ]
+    }
+  },
+  "family_admission_opened": false,
+  "firewall_pass": true,
+  "forbidden_outcomes_consulted": [],
+  "grammar": [
+    "C",
+    "S",
+    "E"
+  ],
+  "nonfamily_prototypes": [
+    "P16_BASE",
+    "P5_1663_BERSERK"
+  ],
+  "pair_freeze_run": 36980730341,
+  "position_scores": {
+    "p16:P8_SRC_TWIC_1657:000e6ad65ef3": {
+      "all_chain_scores": [
+        {
+          "best_family": "orbit-2",
+          "chain_id": "e3g5::SHAM::e3g1",
+          "family_distance": 1,
+          "family_distances": {
+            "orbit-2": 1,
+            "orbit-3": 99
+          },
+          "family_margin": 3,
+          "family_specificity": 3,
+          "polarity_profile": [
+            "GAIN"
+          ],
+          "rival_distance": 99
+        }
+      ],
+      "best_family": "orbit-2",
+      "chain_candidate_count": 1,
+      "chain_id": "e3g5::SHAM::e3g1",
+      "family_consensus": 1.0,
+      "family_distance": 1,
+      "family_distances": {
+        "orbit-2": 1,
+        "orbit-3": 99
+      },
+      "family_margin": 3,
+      "family_specificity": 3,
+      "polarity_profile": [
+        "GAIN"
+      ],
+      "position_id": "p16:P8_SRC_TWIC_1657:000e6ad65ef3",
+      "rank_tuple": [
+        3,
+        -1,
+        3,
+        1.0
+      ],
+      "rival_distance": 99
+    },
+    "p16:P8_SRC_TWIC_1657:001af79e90ef": {
+      "all_chain_scores": [
+        {
+          "best_family": "orbit-2",
+          "chain_id": "e2g1::SHAM::e2c1",
+          "family_distance": 1,
+          "family_distances": {
+            "orbit-2": 1,
+            "orbit-3": 99
+          },
+          "family_margin": 3,
+          "family_specificity": 3,
+          "polarity_profile": [
+            "GAIN"
+          ],
+          "rival_distance": 99
+        }
+      ],
+      "best_family": "orbit-2",
+      "chain_candidate_count": 1,
+      "chain_id": "e2g1::SHAM::e2c1",
+      "family_consensus": 1.0,
+      "family_distance": 1,
+      "family_distances": {
+        "orbit-2": 1,
+        "orbit-3": 99
+      },
+      "family_margin": 3,
+      "family_specificity": 3,
+      "polarity_profile": [
+        "GAIN"
+      ],
+      "position_id": "p16:P8_SRC_TWIC_1657:001af79e90ef",
+      "rank_tuple": [
+        3,
+        -1,
+        3,
+        1.0
+      ],
+      "rival_distance": 99
+    },
+    "p16:P8_SRC_TWIC_1657:0031f383a17a": {
+      "all_chain_scores": [
+        {
+          "best_family": "orbit-2",
+          "chain_id": "c1d1::SHAM::c1b1",
+          "family_distance": 0,
+          "family_distances": {
+            "orbit-2": 0,
+            "orbit-3": 99
+          },
+          "family_margin": 4,
+          "family_specificity": 4,
+          "polarity_profile": [
+            "GAIN"
+          ],
+          "rival_distance": 99
+        },
+        {
+          "best_family": "orbit-3",
+          "chain_id": "e7f6::SHAM::e7d6",
+          "family_distance": 0,
+          "family_distances": {
+            "orbit-2": 99,
+            "orbit-3": 0
+          },
+          "family_margin": 0,
+          "family_specificity": 4,
+          "polarity_profile": [
+            "LOSS"
+          ],
+          "rival_distance": 0
+        }
+      ],
+      "best_family": "orbit-2",
+      "chain_candidate_count": 2,
+      "chain_id": "c1d1::SHAM::c1b1",
+      "family_consensus": 0.5,
+      "family_distance": 0,
+      "family_distances": {
+        "orbit-2": 0,
+        "orbit-3": 99
+      },
+      "family_margin": 4,
+      "family_specificity": 4,
+      "polarity_profile": [
+        "GAIN"
+      ],
+      "position_id": "p16:P8_SRC_TWIC_1657:0031f383a17a",
+      "rank_tuple": [
+        4,
+        0,
+        4,
+        0.5
+      ],
+      "rival_distance": 99
+    },
+    "p16:P8_SRC_TWIC_1657:00379030593f": {
+      "all_chain_scores": [
+        {
+          "best_family": "orbit-3",
+          "chain_id": "g4h5::SHAM::g4f5",
+          "family_distance": 1,
+          "family_distances": {
+            "orbit-2": 99,
+            "orbit-3": 1
+          },
+          "family_margin": 1,
+          "family_specificity": 3,
+          "polarity_profile": [
+            "LOSS"
+          ],
+          "rival_distance": 2
+        },
+        {
+          "best_family": "orbit-3",
+          "chain_id": "c4b5::SHAM::c4d5",
+          "family_distance": 0,
+          "family_distances": {
+            "orbit-2": 99,
+            "orbit-3": 0
+          },
+          "family_margin": 0,
+          "family_specificity": 4,
+          "polarity_profile": [
+            "LOSS"
+          ],
+          "rival_distance": 0
+        },
+        {
+          "best_family": "orbit-3",
+          "chain_id": "c4a6::SHAM::c4e6",
+          "family_distance": 0,
+          "family_distances": {
+            "orbit-2": 99,
+            "orbit-3": 0
+          },
+          "family_margin": 0,
+          "family_specificity": 4,
+          "polarity_profile": [
+            "LOSS"
+          ],
+          "rival_distance": 0
+        },
+        {
+          "best_family": "orbit-2",
+          "chain_id": "c4e2::c4a6::c4e6",
+          "family_distance": 99,
+          "family_distances": {
+            "orbit-2": 99,
+            "orbit-3": 99
+          },
+          "family_margin": 0,
+          "family_specificity": 0,
+          "polarity_profile": [
+            "GAIN",
+            "LOSS"
+          ],
+          "rival_distance": 99
+        }
+      ],
+      "best_family": "orbit-3",
+      "chain_candidate_count": 4,
+      "chain_id": "g4h5::SHAM::g4f5",
+      "family_consensus": 0.75,
+      "family_distance": 1,
+      "family_distances": {
+        "orbit-2": 99,
+        "orbit-3": 1
+      },
+      "family_margin": 1,
+      "family_specificity": 3,
+      "polarity_profile": [
+        "LOSS"
+      ],
+      "position_id": "p16:P8_SRC_TWIC_1657:00379030593f",
+      "rank_tuple": [
+        1,
+        -1,
+        3,
+        0.75
+      ],
+      "rival_distance": 2
+    },
+    "p16:P8_SRC_TWIC_1657:0037e0b78b92": {
+      "all_chain_scores": [
+        {
+          "best_family": "orbit-2",
+          "chain_id": "b4c5::SHAM::b4a5",
+          "family_distance": 1,
+          "family_distances": {
+            "orbit-2": 1,
+            "orbit-3": 99
+          },
+          "family_margin": 3,
+          "family_specificity": 3,
+          "polarity_profile": [
+            "GAIN"
+          ],
+          "rival_distance": 99
+        }
+      ],
+      "best_family": "orbit-2",
+      "chain_candidate_count": 1,
+      "chain_id": "b4c5::SHAM::b4a5",
+      "family_consensus": 1.0,
+      "family_distance": 1,
+      "family_distances": {
+        "orbit-2": 1,
+        "orbit-3": 99
+      },
+      "family_margin": 3,
+      "family_specificity": 3,
+      "polarity_profile": [
+        "GAIN"
+      ],
+      "position_id": "p16:P8_SRC_TWIC_1657:0037e0b78b92",
+      "rank_tuple": [
+        3,
+        -1,
+        3,
+        1.0
+      ],
+      "rival_distance": 99
+    },
+    "p16:P8_SRC_TWIC_1657:003bac31cc31": {
+      "all_chain_scores": [
+        {
+          "best_family": "orbit-3",
+          "chain_id": "g2h1::SHAM::g2h3",
+          "family_distance": 2,
+          "family_distances": {
+            "orbit-2": 99,
+            "orbit-3": 2
+          },
+          "family_margin": -2,
+          "family_specificity": 2,
+          "polarity_profile": [
+            "LOSS"
+          ],
+          "rival_distance": 0
+        }
+      ],
+      "best_family": "orbit-3",
+      "chain_candidate_count": 1,
+      "chain_id": "g2h1::SHAM::g2h3",
+      "family_consensus": 1.0,
+      "family_distance": 2,
+      "family_distances": {
+        "orbit-2": 99,
+        "orbit-3": 2
+      },
+      "family_margin": -2,
+      "family_specificity": 2,
+      "polarity_profile": [
+        "LOSS"
+      ],
+      "position_id": "p16:P8_SRC_TWIC_1657:003bac31cc31",
+      "rank_tuple": [
+        -2,
+        -2,
+        2,
+        1.0
+      ],
+      "rival_distance": 0
+    },
+    "p16:P8_SRC_TWIC_1657:006c176829c9": {
+      "all_chain_scores": [
+        {
+          "best_family": "orbit-2",
+          "chain_id": "g7h6::SHAM::g7h8",
+          "family_distance": 0,
+          "family_distances": {
+            "orbit-2": 0,
+            "orbit-3": 99
+          },
+          "family_margin": 4,
+          "family_specificity": 4,
+          "polarity_profile": [
+            "GAIN"
+          ],
+          "rival_distance": 99
+        }
+      ],
+      "best_family": "orbit-2",
+      "chain_candidate_count": 1,
+      "chain_id": "g7h6::SHAM::g7h8",
+      "family_consensus": 1.0,
+      "family_distance": 0,
+      "family_distances": {
+        "orbit-2": 0,
+        "orbit-3": 99
+      },
+      "family_margin": 4,
+      "family_specificity": 4,
+      "polarity_profile": [
+        "GAIN"
+      ],
+      "position_id": "p16:P8_SRC_TWIC_1657:006c176829c9",
+      "rank_tuple": [
+        4,
+        0,
+        4,
+        1.0
+      ],
+      "rival_distance": 99
+    },
+    "p16:P8_SRC_TWIC_1657:008373f7e76b": {
+      "all_chain_scores": [
+        {
+          "best_family": "orbit-2",
+          "chain_id": "g7h6::SHAM::g7h8",
+          "family_distance": 1,
+          "family_distances": {
+            "orbit-2": 1,
+            "orbit-3": 99
+          },
+          "family_margin": 3,
+          "family_specificity": 3,
+          "polarity_profile": [
+            "GAIN"
+          ],
+          "rival_distance": 99
+        },
+        {
+          "best_family": "orbit-3",
+          "chain_id": "g2h1::SHAM::g2h3",
+          "family_distance": 2,
+          "family_distances": {
+            "orbit-2": 99,
+            "orbit-3": 2
+          },
+          "family_margin": -2,
+          "family_specificity": 2,
+          "polarity_profile": [
+            "LOSS"
+          ],
+          "rival_distance": 0
+        }
+      ],
+      "best_family": "orbit-2",
+      "chain_candidate_count": 2,
+      "chain_id": "g7h6::SHAM::g7h8",
+      "family_consensus": 0.5,
+      "family_distance": 1,
+      "family_distances": {
+        "orbit-2": 1,
+        "orbit-3": 99
+      },
+      "family_margin": 3,
+      "family_specificity": 3,
+      "polarity_profile": [
+        "GAIN"
+      ],
+      "position_id": "p16:P8_SRC_TWIC_1657:008373f7e76b",
+      "rank_tuple": [
+        3,
+        -1,
+        3,
+        0.5
+      ],
+      "rival_distance": 99
+    },
+    "p16:P8_SRC_TWIC_1657:008a6717be13": {
+      "all_chain_scores": [
+        {
+          "best_family": "orbit-3",
+          "chain_id": "b7a8::SHAM::b7a6",
+          "family_distance": 1,
+          "family_distances": {
+            "orbit-2": 99,
+            "orbit-3": 1
+          },
+          "family_margin": 0,
+          "family_specificity": 3,
+          "polarity_profile": [
+            "LOSS"
+          ],
+          "rival_distance": 1
+        },
+        {
+          "best_family": "orbit-3",
+          "chain_id": "e7d6::SHAM::e7f6",
+          "family_distance": 2,
+          "family_distances": {
+            "orbit-2": 99,
+            "orbit-3": 2
+          },
+          "family_margin": -2,
+          "family_specificity": 2,
+          "polarity_profile": [
+            "LOSS"
+          ],
+          "rival_distance": 0
+        }
+      ],
+      "best_family": "orbit-3",
+      "chain_candidate_count": 2,
+      "chain_id": "b7a8::SHAM::b7a6",
+      "family_consensus": 1.0,
+      "family_distance": 1,
+      "family_distances": {
+        "orbit-2": 99,
+        "orbit-3": 1
+      },
+      "family_margin": 0,
+      "family_specificity": 3,
+      "polarity_profile": [
+        "LOSS"
+      ],
+      "position_id": "p16:P8_SRC_TWIC_1657:008a6717be13",
+      "rank_tuple": [
+        0,
+        -1,
+        3,
+        1.0
+      ],
+      "rival_distance": 1
+    },
+    "p16:P8_SRC_TWIC_1657:00b88393c79a": {
+      "all_chain_scores": [
+        {
+          "best_family": "orbit-2",
+          "chain_id": "c4d5::SHAM::c4b3",
+          "family_distance": 1,
+          "family_distances": {
+            "orbit-2": 1,
+            "orbit-3": 99
+          },
+          "family_margin": 3,
+          "family_specificity": 3,
+          "polarity_profile": [
+            "GAIN"
+          ],
+          "rival_distance": 99
+        }
+      ],
+      "best_family": "orbit-2",
+      "chain_candidate_count": 1,
+      "chain_id": "c4d5::SHAM::c4b3",
+      "family_consensus": 1.0,
+      "family_distance": 1,
+      "family_distances": {
+        "orbit-2": 1,
+        "orbit-3": 99
+      },
+      "family_margin": 3,
+      "family_specificity": 3,
+      "polarity_profile": [
+        "GAIN"
+      ],
+      "position_id": "p16:P8_SRC_TWIC_1657:00b88393c79a",
+      "rank_tuple": [
+        3,
+        -1,
+        3,
+        1.0
+      ],
+      "rival_distance": 99
+    },
+    "p16:P8_SRC_TWIC_1657:00be73d8f64a": {
+      "all_chain_scores": [
+        {
+          "best_family": "orbit-2",
+          "chain_id": "f3g4::SHAM::f3e2",
+          "family_distance": 1,
+          "family_distances": {
+            "orbit-2": 1,
+            "orbit-3": 99
+          },
+          "family_margin": 3,
+          "family_specificity": 3,
+          "polarity_profile": [
+            "GAIN"
+          ],
+          "rival_distance": 99
+        },
+        {
+          "best_family": "orbit-2",
+          "chain_id": "c8c7::SHAM::c8b8",
+          "family_distance": 1,
+          "family_distances": {
+            "orbit-2": 1,
+            "orbit-3": 99
+          },
+          "family_margin": 3,
+          "family_specificity": 3,
+          "polarity_profile": [
+            "GAIN"
+          ],
+          "rival_distance": 99
+        }
+      ],
+      "best_family": "orbit-2",
+      "chain_candidate_count": 2,
+      "chain_id": "f3g4::SHAM::f3e2",
+      "family_consensus": 1.0,
+      "family_distance": 1,
+      "family_distances": {
+        "orbit-2": 1,
+        "orbit-3": 99
+      },
+      "family_margin": 3,
+      "family_specificity": 3,
+      "polarity_profile": [
+        "GAIN"
+      ],
+      "position_id": "p16:P8_SRC_TWIC_1657:00be73d8f64a",
+      "rank_tuple": [
+        3,
+        -1,
+        3,
+        1.0
+      ],
+      "rival_distance": 99
+    },
+    "p16:P8_SRC_TWIC_1657:00c2c0f440d0": {
+      "all_chain_scores": [
+        {
+          "best_family": "orbit-2",
+          "chain_id": "f6g5::SHAM::f6e7",
+          "family_distance": 1,
+          "family_distances": {
+            "orbit-2": 1,
+            "orbit-3": 99
+          },
+          "family_margin": 3,
+          "family_specificity": 3,
+          "polarity_profile": [
+            "GAIN"
+          ],
+          "rival_distance": 99
+        }
+      ],
+      "best_family": "orbit-2",
+      "chain_candidate_count": 1,
+      "chain_id": "f6g5::SHAM::f6e7",
+      "family_consensus": 1.0,
+      "family_distance": 1,
+      "family_distances": {
+        "orbit-2": 1,
+        "orbit-3": 99
+      },
+      "family_margin": 3,
+      "family_specificity": 3,
+      "polarity_profile": [
+        "GAIN"
+      ],
+      "position_id": "p16:P8_SRC_TWIC_1657:00c2c0f440d0",
+      "rank_tuple": [
+        3,
+        -1,
+        3,
+        1.0
+      ],
+      "rival_distance": 99
+    },
+    "p16:P8_SRC_TWIC_1657:00cf696971f6": {
+      "all_chain_scores": [
+        {
+          "best_family": "orbit-2",
+          "chain_id": "c1c2::SHAM::c1d1",
+          "family_distance": 0,
+          "family_distances": {
+            "orbit-2": 0,
+            "orbit-3": 99
+          },
+          "family_margin": 4,
+          "family_specificity": 4,
+          "polarity_profile": [
+            "GAIN"
+          ],
+          "rival_distance": 99
+        }
+      ],
+      "best_family": "orbit-2",
+      "chain_candidate_count": 1,
+      "chain_id": "c1c2::SHAM::c1d1",
+      "family_consensus": 1.0,
+      "family_distance": 0,
+      "family_distances": {
+        "orbit-2": 0,
+        "orbit-3": 99
+      },
+      "family_margin": 4,
+      "family_specificity": 4,
+      "polarity_profile": [
+        "GAIN"
+      ],
+      "position_id": "p16:P8_SRC_TWIC_1657:00cf696971f6",
+      "rank_tuple": [
+        4,
+        0,
+        4,
+        1.0
+      ],
+      "rival_distance": 99
+    },
+    "p16:P8_SRC_TWIC_1657:00de3a622eca": {
+      "all_chain_scores": [
+        {
+          "best_family": "orbit-2",
+          "chain_id": "c4d3::SHAM::c4b5",
+          "family_distance": 0,
+          "family_distances": {
+            "orbit-2": 0,
+            "orbit-3": 99
+          },
+          "family_margin": 4,
+          "family_specificity": 4,
+          "polarity_profile": [
+            "GAIN"
+          ],
+          "rival_distance": 99
+        },
+        {
+          "best_family": "orbit-2",
+          "chain_id": "d2e3::SHAM::d2c1",
+          "family_distance": 1,
+          "family_distances": {
+            "orbit-2": 1,
+            "orbit-3": 99
+          },
+          "family_margin": 3,
+          "family_specificity": 3,
+          "polarity_profile": [
+            "GAIN"
+          ],
+          "rival_distance": 99
+        },
+        {
+          "best_family": "orbit-2",
+          "chain_id": "d2c3::SHAM::d2c1",
+          "family_distance": 1,
+          "family_distances": {
+            "orbit-2": 1,
+            "orbit-3": 99
+          },
+          "family_margin": 3,
+          "family_specificity": 3,
+          "polarity_profile": [
+            "GAIN"
+          ],
+          "rival_distance": 99
+        },
+        {
+          "best_family": "orbit-3",
+          "chain_id": "f5h3::SHAM::f5d3",
+          "family_distance": 1,
+          "family_distances": {
+            "orbit-2": 99,
+            "orbit-3": 1
+          },
+          "family_margin": 1,
+          "family_specificity": 3,
+          "polarity_profile": [
+            "LOSS"
+          ],
+          "rival_distance": 2
+        }
+      ],
+      "best_family": "orbit-2",
+      "chain_candidate_count": 4,
+      "chain_id": "c4d3::SHAM::c4b5",
+      "family_consensus": 0.75,
+      "family_distance": 0,
+      "family_distances": {
+        "orbit-2": 0,
+        "orbit-3": 99
+      },
+      "family_margin": 4,
+      "family_specificity": 4,
+      "polarity_profile": [
+        "GAIN"
+      ],
+      "position_id": "p16:P8_SRC_TWIC_1657:00de3a622eca",
+      "rank_tuple": [
+        4,
+        0,
+        4,
+        0.75
+      ],
+      "rival_distance": 99
+    },
+    "p16:P8_SRC_TWIC_1657:00f9061f02f1": {
+      "all_chain_scores": [
+        {
+          "best_family": "orbit-2",
+          "chain_id": "b1d2::SHAM::b1a3",
+          "family_distance": 0,
+          "family_distances": {
+            "orbit-2": 0,
+            "orbit-3": 99
+          },
+          "family_margin": 4,
+          "family_specificity": 4,
+          "polarity_profile": [
+            "GAIN"
+          ],
+          "rival_distance": 99
+        }
+      ],
+      "best_family": "orbit-2",
+      "chain_candidate_count": 1,
+      "chain_id": "b1d2::SHAM::b1a3",
+      "family_consensus": 1.0,
+      "family_distance": 0,
+      "family_distances": {
+        "orbit-2": 0,
+        "orbit-3": 99
+      },
+      "family_margin": 4,
+      "family_specificity": 4,
+      "polarity_profile": [
+        "GAIN"
+      ],
+      "position_id": "p16:P8_SRC_TWIC_1657:00f9061f02f1",
+      "rank_tuple": [
+        4,
+        0,
+        4,
+        1.0
+      ],
+      "rival_distance": 99
+    },
+    "p16:P8_SRC_TWIC_1657:0116094dfd90": {
+      "all_chain_scores": [
+        {
+          "best_family": "orbit-2",
+          "chain_id": "b8a6::SHAM::b8d7",
+          "family_distance": 0,
+          "family_distances": {
+            "orbit-2": 0,
+            "orbit-3": 99
+          },
+          "family_margin": 4,
+          "family_specificity": 4,
+          "polarity_profile": [
+            "GAIN"
+          ],
+          "rival_distance": 99
+        }
+      ],
+      "best_family": "orbit-2",
+      "chain_candidate_count": 1,
+      "chain_id": "b8a6::SHAM::b8d7",
+      "family_consensus": 1.0,
+      "family_distance": 0,
+      "family_distances": {
+        "orbit-2": 0,
+        "orbit-3": 99
+      },
+      "family_margin": 4,
+      "family_specificity": 4,
+      "polarity_profile": [
+        "GAIN"
+      ],
+      "position_id": "p16:P8_SRC_TWIC_1657:0116094dfd90",
+      "rank_tuple": [
+        4,
+        0,
+        4,
+        1.0
+      ],
+      "rival_distance": 99
+    },
+    "p16:P8_SRC_TWIC_1657:0122c1f954f6": {
+      "all_chain_scores": [
+        {
+          "best_family": "orbit-3",
+          "chain_id": "e7f8::SHAM::e7f6",
+          "family_distance": 1,
+          "family_distances": {
+            "orbit-2": 99,
+            "orbit-3": 1
+          },
+          "family_margin": 0,
+          "family_specificity": 3,
+          "polarity_profile": [
+            "LOSS"
+          ],
+          "rival_distance": 1
+        },
+        {
+          "best_family": "orbit-3",
+          "chain_id": "e7d6::SHAM::e7f6",
+          "family_distance": 1,
+          "family_distances": {
+            "orbit-2": 99,
+            "orbit-3": 1
+          },
+          "family_margin": 0,
+          "family_specificity": 3,
+          "polarity_profile": [
+            "LOSS"
+          ],
+          "rival_distance": 1
+        }
+      ],
+      "best_family": "orbit-3",
+      "chain_candidate_count": 2,
+      "chain_id": "e7f8::SHAM::e7f6",
+      "family_consensus": 1.0,
+      "family_distance": 1,
+      "family_distances": {
+        "orbit-2": 99,
+        "orbit-3": 1
+      },
+      "family_margin": 0,
+      "family_specificity": 3,
+      "polarity_profile": [
+        "LOSS"
+      ],
+      "position_id": "p16:P8_SRC_TWIC_1657:0122c1f954f6",
+      "rank_tuple": [
+        0,
+        -1,
+        3,
+        1.0
+      ],
+      "rival_distance": 1
+    },
+    "p16:P8_SRC_TWIC_1657:0129303bff98": {
+      "all_chain_scores": [
+        {
+          "best_family": "orbit-3",
+          "chain_id": "b5c6::SHAM::b5c4",
+          "family_distance": 0,
+          "family_distances": {
+            "orbit-2": 99,
+            "orbit-3": 0
+          },
+          "family_margin": 1,
+          "family_specificity": 4,
+          "polarity_profile": [
+            "LOSS"
+          ],
+          "rival_distance": 1
+        },
+        {
+          "best_family": "orbit-3",
+          "chain_id": "b5a4::SHAM::b5c4",
+          "family_distance": 0,
+          "family_distances": {
+            "orbit-2": 99,
+            "orbit-3": 0
+          },
+          "family_margin": 1,
+          "family_specificity": 4,
+          "polarity_profile": [
+            "LOSS"
+          ],
+          "rival_distance": 1
+        }
+      ],
+      "best_family": "orbit-3",
+      "chain_candidate_count": 2,
+      "chain_id": "b5c6::SHAM::b5c4",
+      "family_consensus": 1.0,
+      "family_distance": 0,
+      "family_distances": {
+        "orbit-2": 99,
+        "orbit-3": 0
+      },
+      "family_margin": 1,
+      "family_specificity": 4,
+      "polarity_profile": [
+        "LOSS"
+      ],
+      "position_id": "p16:P8_SRC_TWIC_1657:0129303bff98",
+      "rank_tuple": [
+        1,
+        0,
+        4,
+        1.0
+      ],
+      "rival_distance": 1
+    },
+    "p16:P8_SRC_TWIC_1657:017752aef89a": {
+      "all_chain_scores": [
+        {
+          "best_family": "orbit-2",
+          "chain_id": "d6e7::SHAM::d6e5",
+          "family_distance": 1,
+          "family_distances": {
+            "orbit-2": 1,
+            "orbit-3": 99
+          },
+          "family_margin": 3,
+          "family_specificity": 3,
+          "polarity_profile": [
+            "GAIN"
+          ],
+          "rival_distance": 99
+        }
+      ],
+      "best_family": "orbit-2",
+      "chain_candidate_count": 1,
+      "chain_id": "d6e7::SHAM::d6e5",
+      "family_consensus": 1.0,
+      "family_distance": 1,
+      "family_distances": {
+        "orbit-2": 1,
+        "orbit-3": 99
+      },
+      "family_margin": 3,
+      "family_specificity": 3,
+      "polarity_profile": [
+        "GAIN"
+      ],
+      "position_id": "p16:P8_SRC_TWIC_1657:017752aef89a",
+      "rank_tuple": [
+        3,
+        -1,
+        3,
+        1.0
+      ],
+      "rival_distance": 99
+    },
+    "p16:P8_SRC_TWIC_1657:01832fdbcbac": {
+      "all_chain_scores": [
+        {
+          "best_family": "orbit-3",
+          "chain_id": "d8c7::SHAM::d8d7",
+          "family_distance": 1,
+          "family_distances": {
+            "orbit-2": 99,
+            "orbit-3": 1
+          },
+          "family_margin": 0,
+          "family_specificity": 3,
+          "polarity_profile": [
+            "LOSS"
+          ],
+          "rival_distance": 1
+        }
+      ],
+      "best_family": "orbit-3",
+      "chain_candidate_count": 1,
+      "chain_id": "d8c7::SHAM::d8d7",
+      "family_consensus": 1.0,
+      "family_distance": 1,
+      "family_distances": {
+        "orbit-2": 99,
+        "orbit-3": 1
+      },
+      "family_margin": 0,
+      "family_specificity": 3,
+      "polarity_profile": [
+        "LOSS"
+      ],
+      "position_id": "p16:P8_SRC_TWIC_1657:01832fdbcbac",
+      "rank_tuple": [
+        0,
+        -1,
+        3,
+        1.0
+      ],
+      "rival_distance": 1
+    },
+    "p16:P8_SRC_TWIC_1657:01941e59eeca": {
+      "all_chain_scores": [
+        {
+          "best_family": "orbit-2",
+          "chain_id": "f4d2::SHAM::f4h6",
+          "family_distance": 1,
+          "family_distances": {
+            "orbit-2": 1,
+            "orbit-3": 99
+          },
+          "family_margin": 3,
+          "family_specificity": 3,
+          "polarity_profile": [
+            "GAIN"
+          ],
+          "rival_distance": 99
+        },
+        {
+          "best_family": "orbit-2",
+          "chain_id": "d1d2::SHAM::d1c1",
+          "family_distance": 1,
+          "family_distances": {
+            "orbit-2": 1,
+            "orbit-3": 99
+          },
+          "family_margin": 3,
+          "family_specificity": 3,
+          "polarity_profile": [
+            "GAIN"
+          ],
+          "rival_distance": 99
+        }
+      ],
+      "best_family": "orbit-2",
+      "chain_candidate_count": 2,
+      "chain_id": "f4d2::SHAM::f4h6",
+      "family_consensus": 1.0,
+      "family_distance": 1,
+      "family_distances": {
+        "orbit-2": 1,
+        "orbit-3": 99
+      },
+      "family_margin": 3,
+      "family_specificity": 3,
+      "polarity_profile": [
+        "GAIN"
+      ],
+      "position_id": "p16:P8_SRC_TWIC_1657:01941e59eeca",
+      "rank_tuple": [
+        3,
+        -1,
+        3,
+        1.0
+      ],
+      "rival_distance": 99
+    },
+    "p16:P8_SRC_TWIC_1657:01af731ce612": {
+      "all_chain_scores": [
+        {
+          "best_family": "orbit-2",
+          "chain_id": "g7f6::SHAM::g7h8",
+          "family_distance": 1,
+          "family_distances": {
+            "orbit-2": 1,
+            "orbit-3": 99
+          },
+          "family_margin": 3,
+          "family_specificity": 3,
+          "polarity_profile": [
+            "GAIN"
+          ],
+          "rival_distance": 99
+        }
+      ],
+      "best_family": "orbit-2",
+      "chain_candidate_count": 1,
+      "chain_id": "g7f6::SHAM::g7h8",
+      "family_consensus": 1.0,
+      "family_distance": 1,
+      "family_distances": {
+        "orbit-2": 1,
+        "orbit-3": 99
+      },
+      "family_margin": 3,
+      "family_specificity": 3,
+      "polarity_profile": [
+        "GAIN"
+      ],
+      "position_id": "p16:P8_SRC_TWIC_1657:01af731ce612",
+      "rank_tuple": [
+        3,
+        -1,
+        3,
+        1.0
+      ],
+      "rival_distance": 99
+    },
+    "p16:P8_SRC_TWIC_1657:01b3bc6e2e07": {
+      "all_chain_scores": [
+        {
+          "best_family": "orbit-2",
+          "chain_id": "d8c8::SHAM::d8c7",
+          "family_distance": 1,
+          "family_distances": {
+            "orbit-2": 1,
+            "orbit-3": 99
+          },
+          "family_margin": 3,
+          "family_specificity": 3,
+          "polarity_profile": [
+            "GAIN"
+          ],
+          "rival_distance": 99
+        },
+        {
+          "best_family": "orbit-2",
+          "chain_id": "b1d2::SHAM::b1a3",
+          "family_distance": 1,
+          "family_distances": {
+            "orbit-2": 1,
+            "orbit-3": 99
+          },
+          "family_margin": 3,
+          "family_specificity": 3,
+          "polarity_profile": [
+            "GAIN"
+          ],
+          "rival_distance": 99
+        },
+        {
+          "best_family": "orbit-3",
+          "chain_id": "e1f1::SHAM::e1e2",
+          "family_distance": 1,
+          "family_distances": {
+            "orbit-2": 99,
+            "orbit-3": 1
+          },
+          "family_margin": 0,
+          "family_specificity": 3,
+          "polarity_profile": [
+            "LOSS"
+          ],
+          "rival_distance": 1
+        }
+      ],
+      "best_family": "orbit-2",
+      "chain_candidate_count": 3,
+      "chain_id": "d8c8::SHAM::d8c7",
+      "family_consensus": 0.6666666666666666,
+      "family_distance": 1,
+      "family_distances": {
+        "orbit-2": 1,
+        "orbit-3": 99
+      },
+      "family_margin": 3,
+      "family_specificity": 3,
+      "polarity_profile": [
+        "GAIN"
+      ],
+      "position_id": "p16:P8_SRC_TWIC_1657:01b3bc6e2e07",
+      "rank_tuple": [
+        3,
+        -1,
+        3,
+        0.6666666666666666
+      ],
+      "rival_distance": 99
+    },
+    "p16:P8_SRC_TWIC_1657:01b602a1f57b": {
+      "all_chain_scores": [
+        {
+          "best_family": "orbit-2",
+          "chain_id": "b2a3::SHAM::b2a1",
+          "family_distance": 1,
+          "family_distances": {
+            "orbit-2": 1,
+            "orbit-3": 99
+          },
+          "family_margin": 3,
+          "family_specificity": 3,
+          "polarity_profile": [
+            "GAIN"
+          ],
+          "rival_distance": 99
+        }
+      ],
+      "best_family": "orbit-2",
+      "chain_candidate_count": 1,
+      "chain_id": "b2a3::SHAM::b2a1",
+      "family_consensus": 1.0,
+      "family_distance": 1,
+      "family_distances": {
+        "orbit-2": 1,
+        "orbit-3": 99
+      },
+      "family_margin": 3,
+      "family_specificity": 3,
+      "polarity_profile": [
+        "GAIN"
+      ],
+      "position_id": "p16:P8_SRC_TWIC_1657:01b602a1f57b",
+      "rank_tuple": [
+        3,
+        -1,
+        3,
+        1.0
+      ],
+      "rival_distance": 99
+    },
+    "p16:P8_SRC_TWIC_1657:01b96aa8ef74": {
+      "all_chain_scores": [
+        {
+          "best_family": "orbit-2",
+          "chain_id": "d3e2::SHAM::d3c4",
+          "family_distance": 0,
+          "family_distances": {
+            "orbit-2": 0,
+            "orbit-3": 99
+          },
+          "family_margin": 4,
+          "family_specificity": 4,
+          "polarity_profile": [
+            "GAIN"
+          ],
+          "rival_distance": 99
+        },
+        {
+          "best_family": "orbit-3",
+          "chain_id": "e6d5::SHAM::e6f5",
+          "family_distance": 1,
+          "family_distances": {
+            "orbit-2": 99,
+            "orbit-3": 1
+          },
+          "family_margin": 0,
+          "family_specificity": 3,
+          "polarity_profile": [
+            "LOSS"
+          ],
+          "rival_distance": 1
+        },
+        {
+          "best_family": "orbit-3",
+          "chain_id": "e6b3::SHAM::e6h3",
+          "family_distance": 1,
+          "family_distances": {
+            "orbit-2": 99,
+            "orbit-3": 1
+          },
+          "family_margin": 0,
+          "family_specificity": 3,
+          "polarity_profile": [
+            "LOSS"
+          ],
+          "rival_distance": 1
+        }
+      ],
+      "best_family": "orbit-2",
+      "chain_candidate_count": 3,
+      "chain_id": "d3e2::SHAM::d3c4",
+      "family_consensus": 0.3333333333333333,
+      "family_distance": 0,
+      "family_distances": {
+        "orbit-2": 0,
+        "orbit-3": 99
+      },
+      "family_margin": 4,
+      "family_specificity": 4,
+      "polarity_profile": [
+        "GAIN"
+      ],
+      "position_id": "p16:P8_SRC_TWIC_1657:01b96aa8ef74",
+      "rank_tuple": [
+        4,
+        0,
+        4,
+        0.3333333333333333
+      ],
+      "rival_distance": 99
+    },
+    "p16:P8_SRC_TWIC_1657:022264f0024e": {
+      "all_chain_scores": [
+        {
+          "best_family": "orbit-2",
+          "chain_id": "e2d3::SHAM::e2f1",
+          "family_distance": 0,
+          "family_distances": {
+            "orbit-2": 0,
+            "orbit-3": 99
+          },
+          "family_margin": 4,
+          "family_specificity": 4,
+          "polarity_profile": [
+            "GAIN"
+          ],
+          "rival_distance": 99
+        },
+        {
+          "best_family": "orbit-2",
+          "chain_id": "b6a4::SHAM::b6c8",
+          "family_distance": 1,
+          "family_distances": {
+            "orbit-2": 1,
+            "orbit-3": 99
+          },
+          "family_margin": 3,
+          "family_specificity": 3,
+          "polarity_profile": [
+            "GAIN"
+          ],
+          "rival_distance": 99
+        },
+        {
+          "best_family": "orbit-3",
+          "chain_id": "f5g4::SHAM::f5e4",
+          "family_distance": 1,
+          "family_distances": {
+            "orbit-2": 99,
+            "orbit-3": 1
+          },
+          "family_margin": 1,
+          "family_specificity": 3,
+          "polarity_profile": [
+            "LOSS"
+          ],
+          "rival_distance": 2
+        },
+        {
+          "best_family": "orbit-3",
+          "chain_id": "f5e6::SHAM::f5e4",
+          "family_distance": 1,
+          "family_distances": {
+            "orbit-2": 99,
+            "orbit-3": 1
+          },
+          "family_margin": 1,
+          "family_specificity": 3,
+          "polarity_profile": [
+            "LOSS"
+          ],
+          "rival_distance": 2
+        }
+      ],
+      "best_family": "orbit-2",
+      "chain_candidate_count": 4,
+      "chain_id": "e2d3::SHAM::e2f1",
+      "family_consensus": 0.5,
+      "family_distance": 0,
+      "family_distances": {
+        "orbit-2": 0,
+        "orbit-3": 99
+      },
+      "family_margin": 4,
+      "family_specificity": 4,
+      "polarity_profile": [
+        "GAIN"
+      ],
+      "position_id": "p16:P8_SRC_TWIC_1657:022264f0024e",
+      "rank_tuple": [
+        4,
+        0,
+        4,
+        0.5
+      ],
+      "rival_distance": 99
+    },
+    "p16:P8_SRC_TWIC_1657:02226e810b8b": {
+      "all_chain_scores": [
+        {
+          "best_family": "orbit-2",
+          "chain_id": "d2e3::SHAM::d2d1",
+          "family_distance": 0,
+          "family_distances": {
+            "orbit-2": 0,
+            "orbit-3": 99
+          },
+          "family_margin": 4,
+          "family_specificity": 4,
+          "polarity_profile": [
+            "GAIN"
+          ],
+          "rival_distance": 99
+        },
+        {
+          "best_family": "orbit-2",
+          "chain_id": "f5d7::SHAM::f5h3",
+          "family_distance": 1,
+          "family_distances": {
+            "orbit-2": 1,
+            "orbit-3": 99
+          },
+          "family_margin": 3,
+          "family_specificity": 3,
+          "polarity_profile": [
+            "GAIN"
+          ],
+          "rival_distance": 99
+        },
+        {
+          "best_family": "orbit-3",
+          "chain_id": "f4h6::SHAM::f4h2",
+          "family_distance": 1,
+          "family_distances": {
+            "orbit-2": 99,
+            "orbit-3": 1
+          },
+          "family_margin": 1,
+          "family_specificity": 3,
+          "polarity_profile": [
+            "LOSS"
+          ],
+          "rival_distance": 2
+        },
+        {
+          "best_family": "orbit-3",
+          "chain_id": "f4g5::SHAM::f4g3",
+          "family_distance": 1,
+          "family_distances": {
+            "orbit-2": 99,
+            "orbit-3": 1
+          },
+          "family_margin": 1,
+          "family_specificity": 3,
+          "polarity_profile": [
+            "LOSS"
+          ],
+          "rival_distance": 2
+        },
+        {
+          "best_family": "orbit-3",
+          "chain_id": "f4e3::SHAM::f4g3",
+          "family_distance": 1,
+          "family_distances": {
+            "orbit-2": 99,
+            "orbit-3": 1
+          },
+          "family_margin": 1,
+          "family_specificity": 3,
+          "polarity_profile": [
+            "LOSS"
+          ],
+          "rival_distance": 2
+        },
+        {
+          "best_family": "orbit-3",
+          "chain_id": "f5e4::SHAM::f5g4",
+          "family_distance": 0,
+          "family_distances": {
+            "orbit-2": 99,
+            "orbit-3": 0
+          },
+          "family_margin": 0,
+          "family_specificity": 4,
+          "polarity_profile": [
+            "LOSS"
+          ],
+          "rival_distance": 0
+        },
+        {
+          "best_family": "orbit-3",
+          "chain_id": "b5c4::SHAM::b5a4",
+          "family_distance": 2,
+          "family_distances": {
+            "orbit-2": 99,
+            "orbit-3": 2
+          },
+          "family_margin": -1,
+          "family_specificity": 2,
+          "polarity_profile": [
+            "LOSS"
+          ],
+          "rival_distance": 1
+        },
+        {
+          "best_family": "orbit-3",
+          "chain_id": "b5a6::SHAM::b5a4",
+          "family_distance": 2,
+          "family_distances": {
+            "orbit-2": 99,
+            "orbit-3": 2
+          },
+          "family_margin": -1,
+          "family_specificity": 2,
+          "polarity_profile": [
+            "LOSS"
+          ],
+          "rival_distance": 1
+        }
+      ],
+      "best_family": "orbit-2",
+      "chain_candidate_count": 8,
+      "chain_id": "d2e3::SHAM::d2d1",
+      "family_consensus": 0.25,
+      "family_distance": 0,
+      "family_distances": {
+        "orbit-2": 0,
+        "orbit-3": 99
+      },
+      "family_margin": 4,
+      "family_specificity": 4,
+      "polarity_profile": [
+        "GAIN"
+      ],
+      "position_id": "p16:P8_SRC_TWIC_1657:02226e810b8b",
+      "rank_tuple": [
+        4,
+        0,
+        4,
+        0.25
+      ],
+      "rival_distance": 99
+    },
+    "p16:P8_SRC_TWIC_1657:02237625a060": {
+      "all_chain_scores": [
+        {
+          "best_family": "orbit-3",
+          "chain_id": "c7b8::SHAM::c7c8",
+          "family_distance": 0,
+          "family_distances": {
+            "orbit-2": 99,
+            "orbit-3": 0
+          },
+          "family_margin": 1,
+          "family_specificity": 4,
+          "polarity_profile": [
+            "LOSS"
+          ],
+          "rival_distance": 1
+        }
+      ],
+      "best_family": "orbit-3",
+      "chain_candidate_count": 1,
+      "chain_id": "c7b8::SHAM::c7c8",
+      "family_consensus": 1.0,
+      "family_distance": 0,
+      "family_distances": {
+        "orbit-2": 99,
+        "orbit-3": 0
+      },
+      "family_margin": 1,
+      "family_specificity": 4,
+      "polarity_profile": [
+        "LOSS"
+      ],
+      "position_id": "p16:P8_SRC_TWIC_1657:02237625a060",
+      "rank_tuple": [
+        1,
+        0,
+        4,
+        1.0
+      ],
+      "rival_distance": 1
+    },
+    "p16:P8_SRC_TWIC_1657:022681fee23f": {
+      "all_chain_scores": [
+        {
+          "best_family": "orbit-3",
+          "chain_id": "c5d4::SHAM::c5b4",
+          "family_distance": 2,
+          "family_distances": {
+            "orbit-2": 99,
+            "orbit-3": 2
+          },
+          "family_margin": -2,
+          "family_specificity": 2,
+          "polarity_profile": [
+            "LOSS"
+          ],
+          "rival_distance": 0
+        },
+        {
+          "best_family": "orbit-3",
+          "chain_id": "c5b6::SHAM::c5b4",
+          "family_distance": 2,
+          "family_distances": {
+            "orbit-2": 99,
+            "orbit-3": 2
+          },
+          "family_margin": -2,
+          "family_specificity": 2,
+          "polarity_profile": [
+            "LOSS"
+          ],
+          "rival_distance": 0
+        }
+      ],
+      "best_family": "orbit-3",
+      "chain_candidate_count": 2,
+      "chain_id": "c5d4::SHAM::c5b4",
+      "family_consensus": 1.0,
+      "family_distance": 2,
+      "family_distances": {
+        "orbit-2": 99,
+        "orbit-3": 2
+      },
+      "family_margin": -2,
+      "family_specificity": 2,
+      "polarity_profile": [
+        "LOSS"
+      ],
+      "position_id": "p16:P8_SRC_TWIC_1657:022681fee23f",
+      "rank_tuple": [
+        -2,
+        -2,
+        2,
+        1.0
+      ],
+      "rival_distance": 0
+    },
+    "p16:P8_SRC_TWIC_1658:0011ccb2208d": {
+      "all_chain_scores": [
+        {
+          "best_family": "orbit-2",
+          "chain_id": "g2f1::SHAM::g2h1",
+          "family_distance": 1,
+          "family_distances": {
+            "orbit-2": 1,
+            "orbit-3": 99
+          },
+          "family_margin": 3,
+          "family_specificity": 3,
+          "polarity_profile": [
+            "GAIN"
+          ],
+          "rival_distance": 99
+        },
+        {
+          "best_family": "orbit-2",
+          "chain_id": "b1d2::SHAM::b1a3",
+          "family_distance": 1,
+          "family_distances": {
+            "orbit-2": 1,
+            "orbit-3": 99
+          },
+          "family_margin": 3,
+          "family_specificity": 3,
+          "polarity_profile": [
+            "GAIN"
+          ],
+          "rival_distance": 99
+        }
+      ],
+      "best_family": "orbit-2",
+      "chain_candidate_count": 2,
+      "chain_id": "g2f1::SHAM::g2h1",
+      "family_consensus": 1.0,
+      "family_distance": 1,
+      "family_distances": {
+        "orbit-2": 1,
+        "orbit-3": 99
+      },
+      "family_margin": 3,
+      "family_specificity": 3,
+      "polarity_profile": [
+        "GAIN"
+      ],
+      "position_id": "p16:P8_SRC_TWIC_1658:0011ccb2208d",
+      "rank_tuple": [
+        3,
+        -1,
+        3,
+        1.0
+      ],
+      "rival_distance": 99
+    },
+    "p16:P8_SRC_TWIC_1658:0012f51c5f2a": {
+      "all_chain_scores": [
+        {
+          "best_family": "orbit-3",
+          "chain_id": "d1e1::SHAM::d1d2",
+          "family_distance": 2,
+          "family_distances": {
+            "orbit-2": 99,
+            "orbit-3": 2
+          },
+          "family_margin": -2,
+          "family_specificity": 2,
+          "polarity_profile": [
+            "LOSS"
+          ],
+          "rival_distance": 0
+        }
+      ],
+      "best_family": "orbit-3",
+      "chain_candidate_count": 1,
+      "chain_id": "d1e1::SHAM::d1d2",
+      "family_consensus": 1.0,
+      "family_distance": 2,
+      "family_distances": {
+        "orbit-2": 99,
+        "orbit-3": 2
+      },
+      "family_margin": -2,
+      "family_specificity": 2,
+      "polarity_profile": [
+        "LOSS"
+      ],
+      "position_id": "p16:P8_SRC_TWIC_1658:0012f51c5f2a",
+      "rank_tuple": [
+        -2,
+        -2,
+        2,
+        1.0
+      ],
+      "rival_distance": 0
+    },
+    "p16:P8_SRC_TWIC_1658:00162acaf72c": {
+      "all_chain_scores": [
+        {
+          "best_family": "orbit-2",
+          "chain_id": "g7f6::SHAM::g7h8",
+          "family_distance": 1,
+          "family_distances": {
+            "orbit-2": 1,
+            "orbit-3": 99
+          },
+          "family_margin": 3,
+          "family_specificity": 3,
+          "polarity_profile": [
+            "GAIN"
+          ],
+          "rival_distance": 99
+        },
+        {
+          "best_family": "orbit-3",
+          "chain_id": "f4h6::SHAM::f4h2",
+          "family_distance": 1,
+          "family_distances": {
+            "orbit-2": 99,
+            "orbit-3": 1
+          },
+          "family_margin": 1,
+          "family_specificity": 3,
+          "polarity_profile": [
+            "LOSS"
+          ],
+          "rival_distance": 2
+        },
+        {
+          "best_family": "orbit-3",
+          "chain_id": "f4e3::SHAM::f4g3",
+          "family_distance": 1,
+          "family_distances": {
+            "orbit-2": 99,
+            "orbit-3": 1
+          },
+          "family_margin": 1,
+          "family_specificity": 3,
+          "polarity_profile": [
+            "LOSS"
+          ],
+          "rival_distance": 2
+        },
+        {
+          "best_family": "orbit-3",
+          "chain_id": "g7h6::SHAM::g7h8",
+          "family_distance": 1,
+          "family_distances": {
+            "orbit-2": 99,
+            "orbit-3": 1
+          },
+          "family_margin": 0,
+          "family_specificity": 3,
+          "polarity_profile": [
+            "LOSS"
+          ],
+          "rival_distance": 1
+        },
+        {
+          "best_family": "orbit-2",
+          "chain_id": "f4g5::f4e3::f4g3",
+          "family_distance": 99,
+          "family_distances": {
+            "orbit-2": 99,
+            "orbit-3": 99
+          },
+          "family_margin": 0,
+          "family_specificity": 0,
+          "polarity_profile": [
+            "GAIN",
+            "LOSS"
+          ],
+          "rival_distance": 99
+        }
+      ],
+      "best_family": "orbit-2",
+      "chain_candidate_count": 5,
+      "chain_id": "g7f6::SHAM::g7h8",
+      "family_consensus": 0.4,
+      "family_distance": 1,
+      "family_distances": {
+        "orbit-2": 1,
+        "orbit-3": 99
+      },
+      "family_margin": 3,
+      "family_specificity": 3,
+      "polarity_profile": [
+        "GAIN"
+      ],
+      "position_id": "p16:P8_SRC_TWIC_1658:00162acaf72c",
+      "rank_tuple": [
+        3,
+        -1,
+        3,
+        0.4
+      ],
+      "rival_distance": 99
+    },
+    "p16:P8_SRC_TWIC_1658:00197cbebd39": {
+      "all_chain_scores": [
+        {
+          "best_family": "orbit-2",
+          "chain_id": "e6d7::SHAM::e6f5",
+          "family_distance": 1,
+          "family_distances": {
+            "orbit-2": 1,
+            "orbit-3": 99
+          },
+          "family_margin": 3,
+          "family_specificity": 3,
+          "polarity_profile": [
+            "GAIN"
+          ],
+          "rival_distance": 99
+        },
+        {
+          "best_family": "orbit-3",
+          "chain_id": "d8c8::SHAM::d8d7",
+          "family_distance": 1,
+          "family_distances": {
+            "orbit-2": 99,
+            "orbit-3": 1
+          },
+          "family_margin": 0,
+          "family_specificity": 3,
+          "polarity_profile": [
+            "LOSS"
+          ],
+          "rival_distance": 1
+        }
+      ],
+      "best_family": "orbit-2",
+      "chain_candidate_count": 2,
+      "chain_id": "e6d7::SHAM::e6f5",
+      "family_consensus": 0.5,
+      "family_distance": 1,
+      "family_distances": {
+        "orbit-2": 1,
+        "orbit-3": 99
+      },
+      "family_margin": 3,
+      "family_specificity": 3,
+      "polarity_profile": [
+        "GAIN"
+      ],
+      "position_id": "p16:P8_SRC_TWIC_1658:00197cbebd39",
+      "rank_tuple": [
+        3,
+        -1,
+        3,
+        0.5
+      ],
+      "rival_distance": 99
+    },
+    "p16:P8_SRC_TWIC_1658:0036cdfae703": {
+      "all_chain_scores": [
+        {
+          "best_family": "orbit-2",
+          "chain_id": "e2c4::SHAM::e2g4",
+          "family_distance": 0,
+          "family_distances": {
+            "orbit-2": 0,
+            "orbit-3": 99
+          },
+          "family_margin": 4,
+          "family_specificity": 4,
+          "polarity_profile": [
+            "GAIN"
+          ],
+          "rival_distance": 99
+        },
+        {
+          "best_family": "orbit-2",
+          "chain_id": "e3d2::SHAM::e3f4",
+          "family_distance": 1,
+          "family_distances": {
+            "orbit-2": 1,
+            "orbit-3": 99
+          },
+          "family_margin": 3,
+          "family_specificity": 3,
+          "polarity_profile": [
+            "GAIN"
+          ],
+          "rival_distance": 99
+        },
+        {
+          "best_family": "orbit-2",
+          "chain_id": "e2d3::SHAM::e2f3",
+          "family_distance": 1,
+          "family_distances": {
+            "orbit-2": 1,
+            "orbit-3": 99
+          },
+          "family_margin": 3,
+          "family_specificity": 3,
+          "polarity_profile": [
+            "GAIN"
+          ],
+          "rival_distance": 99
+        },
+        {
+          "best_family": "orbit-2",
+          "chain_id": "d8d7::SHAM::d8c7",
+          "family_distance": 1,
+          "family_distances": {
+            "orbit-2": 1,
+            "orbit-3": 99
+          },
+          "family_margin": 3,
+          "family_specificity": 3,
+          "polarity_profile": [
+            "GAIN"
+          ],
+          "rival_distance": 99
+        },
+        {
+          "best_family": "orbit-2",
+          "chain_id": "d1d2::SHAM::d1c1",
+          "family_distance": 1,
+          "family_distances": {
+            "orbit-2": 1,
+            "orbit-3": 99
+          },
+          "family_margin": 3,
+          "family_specificity": 3,
+          "polarity_profile": [
+            "GAIN"
+          ],
+          "rival_distance": 99
+        },
+        {
+          "best_family": "orbit-2",
+          "chain_id": "d1e1::d1d2::d1c1",
+          "family_distance": 99,
+          "family_distances": {
+            "orbit-2": 99,
+            "orbit-3": 99
+          },
+          "family_margin": 0,
+          "family_specificity": 0,
+          "polarity_profile": [
+            "GAIN",
+            "LOSS"
+          ],
+          "rival_distance": 99
+        },
+        {
+          "best_family": "orbit-3",
+          "chain_id": "g6h5::SHAM::g6f5",
+          "family_distance": 2,
+          "family_distances": {
+            "orbit-2": 99,
+            "orbit-3": 2
+          },
+          "family_margin": -1,
+          "family_specificity": 2,
+          "polarity_profile": [
+            "LOSS"
+          ],
+          "rival_distance": 1
+        }
+      ],
+      "best_family": "orbit-2",
+      "chain_candidate_count": 7,
+      "chain_id": "e2c4::SHAM::e2g4",
+      "family_consensus": 0.8571428571428571,
+      "family_distance": 0,
+      "family_distances": {
+        "orbit-2": 0,
+        "orbit-3": 99
+      },
+      "family_margin": 4,
+      "family_specificity": 4,
+      "polarity_profile": [
+        "GAIN"
+      ],
+      "position_id": "p16:P8_SRC_TWIC_1658:0036cdfae703",
+      "rank_tuple": [
+        4,
+        0,
+        4,
+        0.8571428571428571
+      ],
+      "rival_distance": 99
+    },
+    "p16:P8_SRC_TWIC_1658:003e436e8c0b": {
+      "all_chain_scores": [
+        {
+          "best_family": "orbit-3",
+          "chain_id": "d1d3::SHAM::d1f1",
+          "family_distance": 1,
+          "family_distances": {
+            "orbit-2": 99,
+            "orbit-3": 1
+          },
+          "family_margin": 0,
+          "family_specificity": 3,
+          "polarity_profile": [
+            "LOSS"
+          ],
+          "rival_distance": 1
+        },
+        {
+          "best_family": "orbit-3",
+          "chain_id": "a1a2::SHAM::a1b1",
+          "family_distance": 1,
+          "family_distances": {
+            "orbit-2": 99,
+            "orbit-3": 1
+          },
+          "family_margin": 0,
+          "family_specificity": 3,
+          "polarity_profile": [
+            "LOSS"
+          ],
+          "rival_distance": 1
+        }
+      ],
+      "best_family": "orbit-3",
+      "chain_candidate_count": 2,
+      "chain_id": "d1d3::SHAM::d1f1",
+      "family_consensus": 1.0,
+      "family_distance": 1,
+      "family_distances": {
+        "orbit-2": 99,
+        "orbit-3": 1
+      },
+      "family_margin": 0,
+      "family_specificity": 3,
+      "polarity_profile": [
+        "LOSS"
+      ],
+      "position_id": "p16:P8_SRC_TWIC_1658:003e436e8c0b",
+      "rank_tuple": [
+        0,
+        -1,
+        3,
+        1.0
+      ],
+      "rival_distance": 1
+    },
+    "p16:P8_SRC_TWIC_1658:004bf7bcf428": {
+      "all_chain_scores": [
+        {
+          "best_family": "orbit-3",
+          "chain_id": "d3c2::SHAM::d3e2",
+          "family_distance": 1,
+          "family_distances": {
+            "orbit-2": 99,
+            "orbit-3": 1
+          },
+          "family_margin": 1,
+          "family_specificity": 3,
+          "polarity_profile": [
+            "LOSS"
+          ],
+          "rival_distance": 2
+        },
+        {
+          "best_family": "orbit-3",
+          "chain_id": "d3b1::SHAM::d3f1",
+          "family_distance": 1,
+          "family_distances": {
+            "orbit-2": 99,
+            "orbit-3": 1
+          },
+          "family_margin": 1,
+          "family_specificity": 3,
+          "polarity_profile": [
+            "LOSS"
+          ],
+          "rival_distance": 2
+        }
+      ],
+      "best_family": "orbit-3",
+      "chain_candidate_count": 2,
+      "chain_id": "d3c2::SHAM::d3e2",
+      "family_consensus": 1.0,
+      "family_distance": 1,
+      "family_distances": {
+        "orbit-2": 99,
+        "orbit-3": 1
+      },
+      "family_margin": 1,
+      "family_specificity": 3,
+      "polarity_profile": [
+        "LOSS"
+      ],
+      "position_id": "p16:P8_SRC_TWIC_1658:004bf7bcf428",
+      "rank_tuple": [
+        1,
+        -1,
+        3,
+        1.0
+      ],
+      "rival_distance": 2
+    },
+    "p16:P8_SRC_TWIC_1658:00705ec7a8e6": {
+      "all_chain_scores": [
+        {
+          "best_family": "orbit-2",
+          "chain_id": "g7h6::SHAM::g7f8",
+          "family_distance": 0,
+          "family_distances": {
+            "orbit-2": 0,
+            "orbit-3": 99
+          },
+          "family_margin": 4,
+          "family_specificity": 4,
+          "polarity_profile": [
+            "GAIN"
+          ],
+          "rival_distance": 99
+        }
+      ],
+      "best_family": "orbit-2",
+      "chain_candidate_count": 1,
+      "chain_id": "g7h6::SHAM::g7f8",
+      "family_consensus": 1.0,
+      "family_distance": 0,
+      "family_distances": {
+        "orbit-2": 0,
+        "orbit-3": 99
+      },
+      "family_margin": 4,
+      "family_specificity": 4,
+      "polarity_profile": [
+        "GAIN"
+      ],
+      "position_id": "p16:P8_SRC_TWIC_1658:00705ec7a8e6",
+      "rank_tuple": [
+        4,
+        0,
+        4,
+        1.0
+      ],
+      "rival_distance": 99
+    },
+    "p16:P8_SRC_TWIC_1658:007c4525da7b": {
+      "all_chain_scores": [
+        {
+          "best_family": "orbit-3",
+          "chain_id": "b5a4::SHAM::b5c4",
+          "family_distance": 0,
+          "family_distances": {
+            "orbit-2": 99,
+            "orbit-3": 0
+          },
+          "family_margin": 1,
+          "family_specificity": 4,
+          "polarity_profile": [
+            "LOSS"
+          ],
+          "rival_distance": 1
+        }
+      ],
+      "best_family": "orbit-3",
+      "chain_candidate_count": 1,
+      "chain_id": "b5a4::SHAM::b5c4",
+      "family_consensus": 1.0,
+      "family_distance": 0,
+      "family_distances": {
+        "orbit-2": 99,
+        "orbit-3": 0
+      },
+      "family_margin": 1,
+      "family_specificity": 4,
+      "polarity_profile": [
+        "LOSS"
+      ],
+      "position_id": "p16:P8_SRC_TWIC_1658:007c4525da7b",
+      "rank_tuple": [
+        1,
+        0,
+        4,
+        1.0
+      ],
+      "rival_distance": 1
+    },
+    "p16:P8_SRC_TWIC_1658:007c766a8d4b": {
+      "all_chain_scores": [
+        {
+          "best_family": "orbit-3",
+          "chain_id": "f4g5::SHAM::f4g3",
+          "family_distance": 0,
+          "family_distances": {
+            "orbit-2": 99,
+            "orbit-3": 0
+          },
+          "family_margin": 1,
+          "family_specificity": 4,
+          "polarity_profile": [
+            "LOSS"
+          ],
+          "rival_distance": 1
+        }
+      ],
+      "best_family": "orbit-3",
+      "chain_candidate_count": 1,
+      "chain_id": "f4g5::SHAM::f4g3",
+      "family_consensus": 1.0,
+      "family_distance": 0,
+      "family_distances": {
+        "orbit-2": 99,
+        "orbit-3": 0
+      },
+      "family_margin": 1,
+      "family_specificity": 4,
+      "polarity_profile": [
+        "LOSS"
+      ],
+      "position_id": "p16:P8_SRC_TWIC_1658:007c766a8d4b",
+      "rank_tuple": [
+        1,
+        0,
+        4,
+        1.0
+      ],
+      "rival_distance": 1
+    },
+    "p16:P8_SRC_TWIC_1658:007df1671e6f": {
+      "all_chain_scores": [
+        {
+          "best_family": "orbit-2",
+          "chain_id": "a6b4::SHAM::a6b8",
+          "family_distance": 1,
+          "family_distances": {
+            "orbit-2": 1,
+            "orbit-3": 99
+          },
+          "family_margin": 3,
+          "family_specificity": 3,
+          "polarity_profile": [
+            "GAIN"
+          ],
+          "rival_distance": 99
+        }
+      ],
+      "best_family": "orbit-2",
+      "chain_candidate_count": 1,
+      "chain_id": "a6b4::SHAM::a6b8",
+      "family_consensus": 1.0,
+      "family_distance": 1,
+      "family_distances": {
+        "orbit-2": 1,
+        "orbit-3": 99
+      },
+      "family_margin": 3,
+      "family_specificity": 3,
+      "polarity_profile": [
+        "GAIN"
+      ],
+      "position_id": "p16:P8_SRC_TWIC_1658:007df1671e6f",
+      "rank_tuple": [
+        3,
+        -1,
+        3,
+        1.0
+      ],
+      "rival_distance": 99
+    },
+    "p16:P8_SRC_TWIC_1658:008fd7af7560": {
+      "all_chain_scores": [
+        {
+          "best_family": "orbit-3",
+          "chain_id": "d3f1::SHAM::d3b1",
+          "family_distance": 1,
+          "family_distances": {
+            "orbit-2": 99,
+            "orbit-3": 1
+          },
+          "family_margin": 1,
+          "family_specificity": 3,
+          "polarity_profile": [
+            "LOSS"
+          ],
+          "rival_distance": 2
+        },
+        {
+          "best_family": "orbit-3",
+          "chain_id": "d3e2::SHAM::d3c2",
+          "family_distance": 1,
+          "family_distances": {
+            "orbit-2": 99,
+            "orbit-3": 1
+          },
+          "family_margin": 1,
+          "family_specificity": 3,
+          "polarity_profile": [
+            "LOSS"
+          ],
+          "rival_distance": 2
+        }
+      ],
+      "best_family": "orbit-3",
+      "chain_candidate_count": 2,
+      "chain_id": "d3f1::SHAM::d3b1",
+      "family_consensus": 1.0,
+      "family_distance": 1,
+      "family_distances": {
+        "orbit-2": 99,
+        "orbit-3": 1
+      },
+      "family_margin": 1,
+      "family_specificity": 3,
+      "polarity_profile": [
+        "LOSS"
+      ],
+      "position_id": "p16:P8_SRC_TWIC_1658:008fd7af7560",
+      "rank_tuple": [
+        1,
+        -1,
+        3,
+        1.0
+      ],
+      "rival_distance": 2
+    },
+    "p16:P8_SRC_TWIC_1658:00a3f9db3021": {
+      "all_chain_scores": [
+        {
+          "best_family": "orbit-2",
+          "chain_id": "c5b6::SHAM::c5d4",
+          "family_distance": 1,
+          "family_distances": {
+            "orbit-2": 1,
+            "orbit-3": 99
+          },
+          "family_margin": 3,
+          "family_specificity": 3,
+          "polarity_profile": [
+            "GAIN"
+          ],
+          "rival_distance": 99
+        },
+        {
+          "best_family": "orbit-3",
+          "chain_id": "c5d6::SHAM::c5d4",
+          "family_distance": 1,
+          "family_distances": {
+            "orbit-2": 99,
+            "orbit-3": 1
+          },
+          "family_margin": 0,
+          "family_specificity": 3,
+          "polarity_profile": [
+            "LOSS"
+          ],
+          "rival_distance": 1
+        },
+        {
+          "best_family": "orbit-2",
+          "chain_id": "c5b4::c5d6::c5d4",
+          "family_distance": 99,
+          "family_distances": {
+            "orbit-2": 99,
+            "orbit-3": 99
+          },
+          "family_margin": 0,
+          "family_specificity": 0,
+          "polarity_profile": [
+            "GAIN",
+            "LOSS"
+          ],
+          "rival_distance": 99
+        }
+      ],
+      "best_family": "orbit-2",
+      "chain_candidate_count": 3,
+      "chain_id": "c5b6::SHAM::c5d4",
+      "family_consensus": 0.6666666666666666,
+      "family_distance": 1,
+      "family_distances": {
+        "orbit-2": 1,
+        "orbit-3": 99
+      },
+      "family_margin": 3,
+      "family_specificity": 3,
+      "polarity_profile": [
+        "GAIN"
+      ],
+      "position_id": "p16:P8_SRC_TWIC_1658:00a3f9db3021",
+      "rank_tuple": [
+        3,
+        -1,
+        3,
+        0.6666666666666666
+      ],
+      "rival_distance": 99
+    },
+    "p16:P8_SRC_TWIC_1658:00af60046393": {
+      "all_chain_scores": [
+        {
+          "best_family": "orbit-2",
+          "chain_id": "f1e1::SHAM::f1g1",
+          "family_distance": 1,
+          "family_distances": {
+            "orbit-2": 1,
+            "orbit-3": 99
+          },
+          "family_margin": 3,
+          "family_specificity": 3,
+          "polarity_profile": [
+            "GAIN"
+          ],
+          "rival_distance": 99
+        },
+        {
+          "best_family": "orbit-2",
+          "chain_id": "e7d6::SHAM::e7f8",
+          "family_distance": 1,
+          "family_distances": {
+            "orbit-2": 1,
+            "orbit-3": 99
+          },
+          "family_margin": 3,
+          "family_specificity": 3,
+          "polarity_profile": [
+            "GAIN"
+          ],
+          "rival_distance": 99
+        }
+      ],
+      "best_family": "orbit-2",
+      "chain_candidate_count": 2,
+      "chain_id": "f1e1::SHAM::f1g1",
+      "family_consensus": 1.0,
+      "family_distance": 1,
+      "family_distances": {
+        "orbit-2": 1,
+        "orbit-3": 99
+      },
+      "family_margin": 3,
+      "family_specificity": 3,
+      "polarity_profile": [
+        "GAIN"
+      ],
+      "position_id": "p16:P8_SRC_TWIC_1658:00af60046393",
+      "rank_tuple": [
+        3,
+        -1,
+        3,
+        1.0
+      ],
+      "rival_distance": 99
+    },
+    "p16:P8_SRC_TWIC_1658:00c7b96f7647": {
+      "all_chain_scores": [
+        {
+          "best_family": "orbit-3",
+          "chain_id": "g2h3::SHAM::g2f3",
+          "family_distance": 2,
+          "family_distances": {
+            "orbit-2": 99,
+            "orbit-3": 2
+          },
+          "family_margin": -2,
+          "family_specificity": 2,
+          "polarity_profile": [
+            "LOSS"
+          ],
+          "rival_distance": 0
+        }
+      ],
+      "best_family": "orbit-3",
+      "chain_candidate_count": 1,
+      "chain_id": "g2h3::SHAM::g2f3",
+      "family_consensus": 1.0,
+      "family_distance": 2,
+      "family_distances": {
+        "orbit-2": 99,
+        "orbit-3": 2
+      },
+      "family_margin": -2,
+      "family_specificity": 2,
+      "polarity_profile": [
+        "LOSS"
+      ],
+      "position_id": "p16:P8_SRC_TWIC_1658:00c7b96f7647",
+      "rank_tuple": [
+        -2,
+        -2,
+        2,
+        1.0
+      ],
+      "rival_distance": 0
+    },
+    "p16:P8_SRC_TWIC_1658:00cdc4a24bd6": {
+      "all_chain_scores": [
+        {
+          "best_family": "orbit-2",
+          "chain_id": "f1d1::SHAM::f1f3",
+          "family_distance": 0,
+          "family_distances": {
+            "orbit-2": 0,
+            "orbit-3": 99
+          },
+          "family_margin": 4,
+          "family_specificity": 4,
+          "polarity_profile": [
+            "GAIN"
+          ],
+          "rival_distance": 99
+        },
+        {
+          "best_family": "orbit-2",
+          "chain_id": "e7b4::SHAM::e7h4",
+          "family_distance": 1,
+          "family_distances": {
+            "orbit-2": 1,
+            "orbit-3": 99
+          },
+          "family_margin": 3,
+          "family_specificity": 3,
+          "polarity_profile": [
+            "GAIN"
+          ],
+          "rival_distance": 99
+        }
+      ],
+      "best_family": "orbit-2",
+      "chain_candidate_count": 2,
+      "chain_id": "f1d1::SHAM::f1f3",
+      "family_consensus": 1.0,
+      "family_distance": 0,
+      "family_distances": {
+        "orbit-2": 0,
+        "orbit-3": 99
+      },
+      "family_margin": 4,
+      "family_specificity": 4,
+      "polarity_profile": [
+        "GAIN"
+      ],
+      "position_id": "p16:P8_SRC_TWIC_1658:00cdc4a24bd6",
+      "rank_tuple": [
+        4,
+        0,
+        4,
+        1.0
+      ],
+      "rival_distance": 99
+    },
+    "p16:P8_SRC_TWIC_1658:00d5def5e543": {
+      "all_chain_scores": [
+        {
+          "best_family": "orbit-3",
+          "chain_id": "d3e2::SHAM::d3c2",
+          "family_distance": 1,
+          "family_distances": {
+            "orbit-2": 99,
+            "orbit-3": 1
+          },
+          "family_margin": 0,
+          "family_specificity": 3,
+          "polarity_profile": [
+            "LOSS"
+          ],
+          "rival_distance": 1
+        },
+        {
+          "best_family": "orbit-3",
+          "chain_id": "d3c4::SHAM::d3c2",
+          "family_distance": 1,
+          "family_distances": {
+            "orbit-2": 99,
+            "orbit-3": 1
+          },
+          "family_margin": 0,
+          "family_specificity": 3,
+          "polarity_profile": [
+            "LOSS"
+          ],
+          "rival_distance": 1
+        }
+      ],
+      "best_family": "orbit-3",
+      "chain_candidate_count": 2,
+      "chain_id": "d3e2::SHAM::d3c2",
+      "family_consensus": 1.0,
+      "family_distance": 1,
+      "family_distances": {
+        "orbit-2": 99,
+        "orbit-3": 1
+      },
+      "family_margin": 0,
+      "family_specificity": 3,
+      "polarity_profile": [
+        "LOSS"
+      ],
+      "position_id": "p16:P8_SRC_TWIC_1658:00d5def5e543",
+      "rank_tuple": [
+        0,
+        -1,
+        3,
+        1.0
+      ],
+      "rival_distance": 1
+    },
+    "p16:P8_SRC_TWIC_1658:00edc96d680a": {
+      "all_chain_scores": [
+        {
+          "best_family": "orbit-2",
+          "chain_id": "c4a6::SHAM::c4e2",
+          "family_distance": 1,
+          "family_distances": {
+            "orbit-2": 1,
+            "orbit-3": 99
+          },
+          "family_margin": 3,
+          "family_specificity": 3,
+          "polarity_profile": [
+            "GAIN"
+          ],
+          "rival_distance": 99
+        }
+      ],
+      "best_family": "orbit-2",
+      "chain_candidate_count": 1,
+      "chain_id": "c4a6::SHAM::c4e2",
+      "family_consensus": 1.0,
+      "family_distance": 1,
+      "family_distances": {
+        "orbit-2": 1,
+        "orbit-3": 99
+      },
+      "family_margin": 3,
+      "family_specificity": 3,
+      "polarity_profile": [
+        "GAIN"
+      ],
+      "position_id": "p16:P8_SRC_TWIC_1658:00edc96d680a",
+      "rank_tuple": [
+        3,
+        -1,
+        3,
+        1.0
+      ],
+      "rival_distance": 99
+    },
+    "p16:P8_SRC_TWIC_1658:00f5817dc6c7": {
+      "all_chain_scores": [
+        {
+          "best_family": "orbit-2",
+          "chain_id": "e6f7::SHAM::e6d5",
+          "family_distance": 0,
+          "family_distances": {
+            "orbit-2": 0,
+            "orbit-3": 99
+          },
+          "family_margin": 4,
+          "family_specificity": 4,
+          "polarity_profile": [
+            "GAIN"
+          ],
+          "rival_distance": 99
+        },
+        {
+          "best_family": "orbit-2",
+          "chain_id": "e6g8::SHAM::e6g4",
+          "family_distance": 1,
+          "family_distances": {
+            "orbit-2": 1,
+            "orbit-3": 99
+          },
+          "family_margin": 3,
+          "family_specificity": 3,
+          "polarity_profile": [
+            "GAIN"
+          ],
+          "rival_distance": 99
+        },
+        {
+          "best_family": "orbit-2",
+          "chain_id": "e6f5::SHAM::e6d5",
+          "family_distance": 1,
+          "family_distances": {
+            "orbit-2": 1,
+            "orbit-3": 99
+          },
+          "family_margin": 3,
+          "family_specificity": 3,
+          "polarity_profile": [
+            "GAIN"
+          ],
+          "rival_distance": 99
+        },
+        {
+          "best_family": "orbit-3",
+          "chain_id": "d2e1::SHAM::d2c1",
+          "family_distance": 1,
+          "family_distances": {
+            "orbit-2": 99,
+            "orbit-3": 1
+          },
+          "family_margin": 1,
+          "family_specificity": 3,
+          "polarity_profile": [
+            "LOSS"
+          ],
+          "rival_distance": 2
+        },
+        {
+          "best_family": "orbit-3",
+          "chain_id": "d2c3::SHAM::d2c1",
+          "family_distance": 1,
+          "family_distances": {
+            "orbit-2": 99,
+            "orbit-3": 1
+          },
+          "family_margin": 1,
+          "family_specificity": 3,
+          "polarity_profile": [
+            "LOSS"
+          ],
+          "rival_distance": 2
+        },
+        {
+          "best_family": "orbit-3",
+          "chain_id": "d2b4::SHAM::d2f4",
+          "family_distance": 1,
+          "family_distances": {
+            "orbit-2": 99,
+            "orbit-3": 1
+          },
+          "family_margin": 1,
+          "family_specificity": 3,
+          "polarity_profile": [
+            "LOSS"
+          ],
+          "rival_distance": 2
+        },
+        {
+          "best_family": "orbit-3",
+          "chain_id": "d2a5::SHAM::d2g5",
+          "family_distance": 1,
+          "family_distances": {
+            "orbit-2": 99,
+            "orbit-3": 1
+          },
+          "family_margin": 1,
+          "family_specificity": 3,
+          "polarity_profile": [
+            "LOSS"
+          ],
+          "rival_distance": 2
+        }
+      ],
+      "best_family": "orbit-2",
+      "chain_candidate_count": 7,
+      "chain_id": "e6f7::SHAM::e6d5",
+      "family_consensus": 0.42857142857142855,
+      "family_distance": 0,
+      "family_distances": {
+        "orbit-2": 0,
+        "orbit-3": 99
+      },
+      "family_margin": 4,
+      "family_specificity": 4,
+      "polarity_profile": [
+        "GAIN"
+      ],
+      "position_id": "p16:P8_SRC_TWIC_1658:00f5817dc6c7",
+      "rank_tuple": [
+        4,
+        0,
+        4,
+        0.42857142857142855
+      ],
+      "rival_distance": 99
+    },
+    "p16:P8_SRC_TWIC_1658:01804aa77911": {
+      "all_chain_scores": [
+        {
+          "best_family": "orbit-2",
+          "chain_id": "g2f1::SHAM::g2h1",
+          "family_distance": 1,
+          "family_distances": {
+            "orbit-2": 1,
+            "orbit-3": 99
+          },
+          "family_margin": 3,
+          "family_specificity": 3,
+          "polarity_profile": [
+            "GAIN"
+          ],
+          "rival_distance": 99
+        }
+      ],
+      "best_family": "orbit-2",
+      "chain_candidate_count": 1,
+      "chain_id": "g2f1::SHAM::g2h1",
+      "family_consensus": 1.0,
+      "family_distance": 1,
+      "family_distances": {
+        "orbit-2": 1,
+        "orbit-3": 99
+      },
+      "family_margin": 3,
+      "family_specificity": 3,
+      "polarity_profile": [
+        "GAIN"
+      ],
+      "position_id": "p16:P8_SRC_TWIC_1658:01804aa77911",
+      "rank_tuple": [
+        3,
+        -1,
+        3,
+        1.0
+      ],
+      "rival_distance": 99
+    },
+    "p16:P8_SRC_TWIC_1658:0191de008dc7": {
+      "all_chain_scores": [
+        {
+          "best_family": "orbit-2",
+          "chain_id": "e3g5::SHAM::e3c1",
+          "family_distance": 1,
+          "family_distances": {
+            "orbit-2": 1,
+            "orbit-3": 99
+          },
+          "family_margin": 3,
+          "family_specificity": 3,
+          "polarity_profile": [
+            "GAIN"
+          ],
+          "rival_distance": 99
+        }
+      ],
+      "best_family": "orbit-2",
+      "chain_candidate_count": 1,
+      "chain_id": "e3g5::SHAM::e3c1",
+      "family_consensus": 1.0,
+      "family_distance": 1,
+      "family_distances": {
+        "orbit-2": 1,
+        "orbit-3": 99
+      },
+      "family_margin": 3,
+      "family_specificity": 3,
+      "polarity_profile": [
+        "GAIN"
+      ],
+      "position_id": "p16:P8_SRC_TWIC_1658:0191de008dc7",
+      "rank_tuple": [
+        3,
+        -1,
+        3,
+        1.0
+      ],
+      "rival_distance": 99
+    },
+    "p16:P8_SRC_TWIC_1658:01a0bd894298": {
+      "all_chain_scores": [
+        {
+          "best_family": "orbit-2",
+          "chain_id": "b2c1::SHAM::b2a3",
+          "family_distance": 1,
+          "family_distances": {
+            "orbit-2": 1,
+            "orbit-3": 99
+          },
+          "family_margin": 3,
+          "family_specificity": 3,
+          "polarity_profile": [
+            "GAIN"
+          ],
+          "rival_distance": 99
+        }
+      ],
+      "best_family": "orbit-2",
+      "chain_candidate_count": 1,
+      "chain_id": "b2c1::SHAM::b2a3",
+      "family_consensus": 1.0,
+      "family_distance": 1,
+      "family_distances": {
+        "orbit-2": 1,
+        "orbit-3": 99
+      },
+      "family_margin": 3,
+      "family_specificity": 3,
+      "polarity_profile": [
+        "GAIN"
+      ],
+      "position_id": "p16:P8_SRC_TWIC_1658:01a0bd894298",
+      "rank_tuple": [
+        3,
+        -1,
+        3,
+        1.0
+      ],
+      "rival_distance": 99
+    },
+    "p16:P8_SRC_TWIC_1658:01cdff616703": {
+      "all_chain_scores": [
+        {
+          "best_family": "orbit-2",
+          "chain_id": "g7f6::SHAM::g7h8",
+          "family_distance": 1,
+          "family_distances": {
+            "orbit-2": 1,
+            "orbit-3": 99
+          },
+          "family_margin": 3,
+          "family_specificity": 3,
+          "polarity_profile": [
+            "GAIN"
+          ],
+          "rival_distance": 99
+        },
+        {
+          "best_family": "orbit-2",
+          "chain_id": "f4g5::SHAM::f4e3",
+          "family_distance": 1,
+          "family_distances": {
+            "orbit-2": 1,
+            "orbit-3": 99
+          },
+          "family_margin": 3,
+          "family_specificity": 3,
+          "polarity_profile": [
+            "GAIN"
+          ],
+          "rival_distance": 99
+        },
+        {
+          "best_family": "orbit-3",
+          "chain_id": "c4d3::SHAM::c4d5",
+          "family_distance": 1,
+          "family_distances": {
+            "orbit-2": 99,
+            "orbit-3": 1
+          },
+          "family_margin": 1,
+          "family_specificity": 3,
+          "polarity_profile": [
+            "LOSS"
+          ],
+          "rival_distance": 2
+        },
+        {
+          "best_family": "orbit-3",
+          "chain_id": "c4b5::SHAM::c4d5",
+          "family_distance": 1,
+          "family_distances": {
+            "orbit-2": 99,
+            "orbit-3": 1
+          },
+          "family_margin": 1,
+          "family_specificity": 3,
+          "polarity_profile": [
+            "LOSS"
+          ],
+          "rival_distance": 2
+        }
+      ],
+      "best_family": "orbit-2",
+      "chain_candidate_count": 4,
+      "chain_id": "g7f6::SHAM::g7h8",
+      "family_consensus": 0.5,
+      "family_distance": 1,
+      "family_distances": {
+        "orbit-2": 1,
+        "orbit-3": 99
+      },
+      "family_margin": 3,
+      "family_specificity": 3,
+      "polarity_profile": [
+        "GAIN"
+      ],
+      "position_id": "p16:P8_SRC_TWIC_1658:01cdff616703",
+      "rank_tuple": [
+        3,
+        -1,
+        3,
+        0.5
+      ],
+      "rival_distance": 99
+    },
+    "p16:P8_SRC_TWIC_1658:01eed8a1bae8": {
+      "all_chain_scores": [
+        {
+          "best_family": "orbit-2",
+          "chain_id": "b8c8::SHAM::b8a8",
+          "family_distance": 1,
+          "family_distances": {
+            "orbit-2": 1,
+            "orbit-3": 99
+          },
+          "family_margin": 3,
+          "family_specificity": 3,
+          "polarity_profile": [
+            "GAIN"
+          ],
+          "rival_distance": 99
+        },
+        {
+          "best_family": "orbit-3",
+          "chain_id": "f4g5::SHAM::f4e5",
+          "family_distance": 0,
+          "family_distances": {
+            "orbit-2": 99,
+            "orbit-3": 0
+          },
+          "family_margin": 1,
+          "family_specificity": 4,
+          "polarity_profile": [
+            "LOSS"
+          ],
+          "rival_distance": 1
+        },
+        {
+          "best_family": "orbit-3",
+          "chain_id": "f4e3::SHAM::f4e5",
+          "family_distance": 0,
+          "family_distances": {
+            "orbit-2": 99,
+            "orbit-3": 0
+          },
+          "family_margin": 1,
+          "family_specificity": 4,
+          "polarity_profile": [
+            "LOSS"
+          ],
+          "rival_distance": 1
+        }
+      ],
+      "best_family": "orbit-2",
+      "chain_candidate_count": 3,
+      "chain_id": "b8c8::SHAM::b8a8",
+      "family_consensus": 0.3333333333333333,
+      "family_distance": 1,
+      "family_distances": {
+        "orbit-2": 1,
+        "orbit-3": 99
+      },
+      "family_margin": 3,
+      "family_specificity": 3,
+      "polarity_profile": [
+        "GAIN"
+      ],
+      "position_id": "p16:P8_SRC_TWIC_1658:01eed8a1bae8",
+      "rank_tuple": [
+        3,
+        -1,
+        3,
+        0.3333333333333333
+      ],
+      "rival_distance": 99
+    },
+    "p16:P8_SRC_TWIC_1658:01ff8f09e117": {
+      "all_chain_scores": [
+        {
+          "best_family": "orbit-2",
+          "chain_id": "e7d8::SHAM::e7d6",
+          "family_distance": 0,
+          "family_distances": {
+            "orbit-2": 0,
+            "orbit-3": 99
+          },
+          "family_margin": 4,
+          "family_specificity": 4,
+          "polarity_profile": [
+            "GAIN"
+          ],
+          "rival_distance": 99
+        },
+        {
+          "best_family": "orbit-2",
+          "chain_id": "e7c5::SHAM::e7g5",
+          "family_distance": 0,
+          "family_distances": {
+            "orbit-2": 0,
+            "orbit-3": 99
+          },
+          "family_margin": 4,
+          "family_specificity": 4,
+          "polarity_profile": [
+            "GAIN"
+          ],
+          "rival_distance": 99
+        },
+        {
+          "best_family": "orbit-2",
+          "chain_id": "f4e3::SHAM::f4g3",
+          "family_distance": 1,
+          "family_distances": {
+            "orbit-2": 1,
+            "orbit-3": 99
+          },
+          "family_margin": 3,
+          "family_specificity": 3,
+          "polarity_profile": [
+            "GAIN"
+          ],
+          "rival_distance": 99
+        },
+        {
+          "best_family": "orbit-2",
+          "chain_id": "d1c2::SHAM::d1e1",
+          "family_distance": 1,
+          "family_distances": {
+            "orbit-2": 1,
+            "orbit-3": 99
+          },
+          "family_margin": 3,
+          "family_specificity": 3,
+          "polarity_profile": [
+            "GAIN"
+          ],
+          "rival_distance": 99
+        },
+        {
+          "best_family": "orbit-3",
+          "chain_id": "f8f7::SHAM::f8e8",
+          "family_distance": 2,
+          "family_distances": {
+            "orbit-2": 99,
+            "orbit-3": 2
+          },
+          "family_margin": -2,
+          "family_specificity": 2,
+          "polarity_profile": [
+            "LOSS"
+          ],
+          "rival_distance": 0
+        }
+      ],
+      "best_family": "orbit-2",
+      "chain_candidate_count": 5,
+      "chain_id": "e7d8::SHAM::e7d6",
+      "family_consensus": 0.8,
+      "family_distance": 0,
+      "family_distances": {
+        "orbit-2": 0,
+        "orbit-3": 99
+      },
+      "family_margin": 4,
+      "family_specificity": 4,
+      "polarity_profile": [
+        "GAIN"
+      ],
+      "position_id": "p16:P8_SRC_TWIC_1658:01ff8f09e117",
+      "rank_tuple": [
+        4,
+        0,
+        4,
+        0.8
+      ],
+      "rival_distance": 99
+    },
+    "p16:P8_SRC_TWIC_1658:02085788f96a": {
+      "all_chain_scores": [
+        {
+          "best_family": "orbit-2",
+          "chain_id": "c5d4::SHAM::c5d6",
+          "family_distance": 0,
+          "family_distances": {
+            "orbit-2": 0,
+            "orbit-3": 99
+          },
+          "family_margin": 4,
+          "family_specificity": 4,
+          "polarity_profile": [
+            "GAIN"
+          ],
+          "rival_distance": 99
+        },
+        {
+          "best_family": "orbit-2",
+          "chain_id": "c5b4::SHAM::c5d6",
+          "family_distance": 0,
+          "family_distances": {
+            "orbit-2": 0,
+            "orbit-3": 99
+          },
+          "family_margin": 4,
+          "family_specificity": 4,
+          "polarity_profile": [
+            "GAIN"
+          ],
+          "rival_distance": 99
+        }
+      ],
+      "best_family": "orbit-2",
+      "chain_candidate_count": 2,
+      "chain_id": "c5d4::SHAM::c5d6",
+      "family_consensus": 1.0,
+      "family_distance": 0,
+      "family_distances": {
+        "orbit-2": 0,
+        "orbit-3": 99
+      },
+      "family_margin": 4,
+      "family_specificity": 4,
+      "polarity_profile": [
+        "GAIN"
+      ],
+      "position_id": "p16:P8_SRC_TWIC_1658:02085788f96a",
+      "rank_tuple": [
+        4,
+        0,
+        4,
+        1.0
+      ],
+      "rival_distance": 99
+    },
+    "p16:P8_SRC_TWIC_1658:020ad930ce60": {
+      "all_chain_scores": [
+        {
+          "best_family": "orbit-2",
+          "chain_id": "b6a7::SHAM::b6c5",
+          "family_distance": 1,
+          "family_distances": {
+            "orbit-2": 1,
+            "orbit-3": 99
+          },
+          "family_margin": 3,
+          "family_specificity": 3,
+          "polarity_profile": [
+            "GAIN"
+          ],
+          "rival_distance": 99
+        },
+        {
+          "best_family": "orbit-3",
+          "chain_id": "e8e7::SHAM::e8f8",
+          "family_distance": 1,
+          "family_distances": {
+            "orbit-2": 99,
+            "orbit-3": 1
+          },
+          "family_margin": 0,
+          "family_specificity": 3,
+          "polarity_profile": [
+            "LOSS"
+          ],
+          "rival_distance": 1
+        }
+      ],
+      "best_family": "orbit-2",
+      "chain_candidate_count": 2,
+      "chain_id": "b6a7::SHAM::b6c5",
+      "family_consensus": 0.5,
+      "family_distance": 1,
+      "family_distances": {
+        "orbit-2": 1,
+        "orbit-3": 99
+      },
+      "family_margin": 3,
+      "family_specificity": 3,
+      "polarity_profile": [
+        "GAIN"
+      ],
+      "position_id": "p16:P8_SRC_TWIC_1658:020ad930ce60",
+      "rank_tuple": [
+        3,
+        -1,
+        3,
+        0.5
+      ],
+      "rival_distance": 99
+    },
+    "p16:P8_SRC_TWIC_1658:022dcc771225": {
+      "all_chain_scores": [
+        {
+          "best_family": "orbit-2",
+          "chain_id": "e6c8::SHAM::e6g4",
+          "family_distance": 0,
+          "family_distances": {
+            "orbit-2": 0,
+            "orbit-3": 99
+          },
+          "family_margin": 4,
+          "family_specificity": 4,
+          "polarity_profile": [
+            "GAIN"
+          ],
+          "rival_distance": 99
+        }
+      ],
+      "best_family": "orbit-2",
+      "chain_candidate_count": 1,
+      "chain_id": "e6c8::SHAM::e6g4",
+      "family_consensus": 1.0,
+      "family_distance": 0,
+      "family_distances": {
+        "orbit-2": 0,
+        "orbit-3": 99
+      },
+      "family_margin": 4,
+      "family_specificity": 4,
+      "polarity_profile": [
+        "GAIN"
+      ],
+      "position_id": "p16:P8_SRC_TWIC_1658:022dcc771225",
+      "rank_tuple": [
+        4,
+        0,
+        4,
+        1.0
+      ],
+      "rival_distance": 99
+    },
+    "p16:P8_SRC_TWIC_1658:023456b46b33": {
+      "all_chain_scores": [
+        {
+          "best_family": "orbit-3",
+          "chain_id": "h1h2::SHAM::h1g1",
+          "family_distance": 2,
+          "family_distances": {
+            "orbit-2": 99,
+            "orbit-3": 2
+          },
+          "family_margin": -2,
+          "family_specificity": 2,
+          "polarity_profile": [
+            "LOSS"
+          ],
+          "rival_distance": 0
+        }
+      ],
+      "best_family": "orbit-3",
+      "chain_candidate_count": 1,
+      "chain_id": "h1h2::SHAM::h1g1",
+      "family_consensus": 1.0,
+      "family_distance": 2,
+      "family_distances": {
+        "orbit-2": 99,
+        "orbit-3": 2
+      },
+      "family_margin": -2,
+      "family_specificity": 2,
+      "polarity_profile": [
+        "LOSS"
+      ],
+      "position_id": "p16:P8_SRC_TWIC_1658:023456b46b33",
+      "rank_tuple": [
+        -2,
+        -2,
+        2,
+        1.0
+      ],
+      "rival_distance": 0
+    },
+    "p16:P8_SRC_TWIC_1658:02351526dd36": {
+      "all_chain_scores": [
+        {
+          "best_family": "orbit-3",
+          "chain_id": "b5c4::SHAM::b5a4",
+          "family_distance": 0,
+          "family_distances": {
+            "orbit-2": 99,
+            "orbit-3": 0
+          },
+          "family_margin": 1,
+          "family_specificity": 4,
+          "polarity_profile": [
+            "LOSS"
+          ],
+          "rival_distance": 1
+        },
+        {
+          "best_family": "orbit-3",
+          "chain_id": "b5a6::SHAM::b5a4",
+          "family_distance": 0,
+          "family_distances": {
+            "orbit-2": 99,
+            "orbit-3": 0
+          },
+          "family_margin": 1,
+          "family_specificity": 4,
+          "polarity_profile": [
+            "LOSS"
+          ],
+          "rival_distance": 1
+        }
+      ],
+      "best_family": "orbit-3",
+      "chain_candidate_count": 2,
+      "chain_id": "b5c4::SHAM::b5a4",
+      "family_consensus": 1.0,
+      "family_distance": 0,
+      "family_distances": {
+        "orbit-2": 99,
+        "orbit-3": 0
+      },
+      "family_margin": 1,
+      "family_specificity": 4,
+      "polarity_profile": [
+        "LOSS"
+      ],
+      "position_id": "p16:P8_SRC_TWIC_1658:02351526dd36",
+      "rank_tuple": [
+        1,
+        0,
+        4,
+        1.0
+      ],
+      "rival_distance": 1
+    },
+    "p16:P8_SRC_TWIC_1658:0249c517d59b": {
+      "all_chain_scores": [
+        {
+          "best_family": "orbit-3",
+          "chain_id": "d1e2::SHAM::d1d2",
+          "family_distance": 0,
+          "family_distances": {
+            "orbit-2": 99,
+            "orbit-3": 0
+          },
+          "family_margin": 1,
+          "family_specificity": 4,
+          "polarity_profile": [
+            "LOSS"
+          ],
+          "rival_distance": 1
+        },
+        {
+          "best_family": "orbit-3",
+          "chain_id": "g5h4::SHAM::g5f4",
+          "family_distance": 1,
+          "family_distances": {
+            "orbit-2": 99,
+            "orbit-3": 1
+          },
+          "family_margin": 1,
+          "family_specificity": 3,
+          "polarity_profile": [
+            "LOSS"
+          ],
+          "rival_distance": 2
+        }
+      ],
+      "best_family": "orbit-3",
+      "chain_candidate_count": 2,
+      "chain_id": "d1e2::SHAM::d1d2",
+      "family_consensus": 1.0,
+      "family_distance": 0,
+      "family_distances": {
+        "orbit-2": 99,
+        "orbit-3": 0
+      },
+      "family_margin": 1,
+      "family_specificity": 4,
+      "polarity_profile": [
+        "LOSS"
+      ],
+      "position_id": "p16:P8_SRC_TWIC_1658:0249c517d59b",
+      "rank_tuple": [
+        1,
+        0,
+        4,
+        1.0
+      ],
+      "rival_distance": 1
+    }
+  },
+  "schema": "c3x-g10-p9-preoutcome-census-v1",
+  "source_stats": {
+    "P8_SRC_TWIC_1657": {
+      "chain_eligible_positions": 29,
+      "distinct_rank_tuples": 12,
+      "matched_rank_separated_pairs": 12,
+      "polarity_counts": {
+        "GAIN": 21,
+        "LOSS": 8
+      },
+      "rank_variation": true
+    },
+    "P8_SRC_TWIC_1658": {
+      "chain_eligible_positions": 31,
+      "distinct_rank_tuples": 13,
+      "matched_rank_separated_pairs": 12,
+      "polarity_counts": {
+        "GAIN": 20,
+        "LOSS": 11
+      },
+      "rank_variation": true
+    }
+  },
+  "verdict": "PASS_PREOUTCOME_GRADED_SELECTOR_POSITIVITY"
+}
