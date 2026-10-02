@@ -47,7 +47,9 @@
       "chain_candidate_count_bucket",
       "pair_gap_bucket"
     ],
-    "causal_outcomes_before_assignment": false
+    "causal_outcomes_before_assignment": false,
+    "decision_rule": "TARGETED_ACQUISITION_ENRICHED iff target positive-position count > control positive-position count AND target-only matched discordance > control-only discordance. Exact paired binomial p is reported but is not an authority threshold.",
+    "null_rule": "If both arms yield zero complete-certificate positions, verdict is NULL_YIELD_BOTH_ARMS rather than a negative targeting claim."
   },
   "primary_estimand": "position-level any-complete-certificate yield TARGET minus matched CONTROL",
   "family_admission": {

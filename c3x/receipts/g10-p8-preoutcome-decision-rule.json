@@ -1,0 +1,11 @@
+{
+  "schema": "c3x-g10-p8-preoutcome-decision-rule-v1",
+  "parent_precommit_head": "6dde62afe229e8953e624122802c4e77c1961149",
+  "source_bytes_opened": false,
+  "pair_qualification_opened": false,
+  "chain_qualification_opened": false,
+  "factorial_outcomes_opened": false,
+  "decision_rule": "TARGETED_ACQUISITION_ENRICHED iff target positive-position count > control positive-position count AND target-only matched discordance > control-only discordance. Exact paired binomial p is reported but is not an authority threshold.",
+  "null_rule": "If both arms yield zero complete-certificate positions, verdict is NULL_YIELD_BOTH_ARMS rather than a negative targeting claim.",
+  "family_admission_unchanged": true
+}
