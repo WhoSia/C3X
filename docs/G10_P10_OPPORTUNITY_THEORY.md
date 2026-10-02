@@ -79,3 +79,62 @@ Residual family-distance variation inside O-matched cells is the key support con
 
 ## 5. Authority firewall
 This artifact derives only structural implications from the frozen implementation and native opportunity observables. It does not use P9 certificate labels to redefine opportunity, change thresholds, or alter the C/S/E grammar.
+
+## 6. Opportunity quotient and engine-conditioned fibers
+Let the fine native-opportunity state be
+`Omega = {0,1}^8`
+with coordinates `(B0_U,B0_L,T_U,T_L,S_U,S_L,H_U,H_L)`.
+
+Define the coarse projection
+`q: Omega -> {0,1,2}`
+by the number of bounds jointly addressable on B0 and TARGET.
+
+Development cartography shows a striking separation:
+- 29 distinct case-level fine signatures among 73 active worlds;
+- fine-signature entropy = 4.2308 bits;
+- among 30 positions with multiple active engines, exact 8-bit signature unanimity = 0/30;
+- coarse opportunity-class unanimity = 20/30;
+- pairwise coarse-class agreement = 0.8036.
+
+Thus engine transport is substantially more stable after quotienting than inside the fine-signature fibers. P10 therefore distinguishes:
+1. **quotient stability** — approximate cross-engine preservation of coarse addressability class;
+2. **fiber instability** — engine-conditional rearrangement of the detailed board×bound topology.
+
+This is descriptive structure, not yet a transport law.
+
+## 7. Engine × board opportunity interaction
+For engines e1,e2 and board states B0,TARGET, compare the engine-difference bit vectors before and after the same board edit.
+
+A descriptive square is called noncommuting when:
+`Delta_engine(B0) != Delta_engine(TARGET)`.
+
+Development finds 33/60 = 0.55 noncommuting engine-board squares:
+- Berserk↔Ethereal: 0.375;
+- Berserk↔Stockfish 19: 0.65;
+- Ethereal↔Stockfish 19: 0.5833.
+
+Interpretation: the effect of changing engine on native opportunity topology often depends on whether the board edit has already been applied. This is an engine-conditioned board-opportunity interaction, not a causal operator-algebra claim.
+
+## 8. Development necessity ladder readout
+Across 156 chain×bound units:
+`L0=156 -> L1=64 -> L2=7 -> L3=1 -> L4=1 -> L5=1 -> L6=1 -> L7=0`.
+
+Observed strict converse failures:
+- L0 without L1: yes;
+- L1 without L2: yes;
+- L2 without L3: yes;
+- L6 without L7: yes.
+
+No L3-without-L4 or L4-without-L5 witness appears in this development ecology, so those converse failures remain unestablished rather than assumed.
+
+This empirically separates:
+- admissible design;
+- semantic opportunity;
+- native board reversal;
+- intervention collapse;
+- sham exclusion;
+- subset minimality;
+- local causal certificate;
+- replicated structural authority.
+
+The single local certificate therefore cannot be promoted into a family law.
