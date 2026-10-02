@@ -1,0 +1,326 @@
+name: c3x-g10-p5-self-correcting-authority-court
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - "c3x_g10/authority_dynamics.py"
+      - "tests/test_g10_p5.py"
+      - "tools/g10_p5_p16_shard.py"
+      - "tools/g10_p5_adjudicate.py"
+      - "c3x/data/g10-p5-source-manifest.json"
+      - "c3x/ontology/g10-p5-constitution.json"
+      - "c3x/receipts/g10-p5-precommit.json"
+      - "c3x/receipts/g10-p5-preoutcome-amendment.json"
+      - ".github/workflows/g10-p5.yml"
+
+permissions:
+  contents: read
+  actions: read
+
+env:
+  P1_RUN: "36219611294"
+  P2_RUN: "36223570067"
+  P3_RUN: "36231281653"
+  P4_RUN: "36233574663"
+  P5_OLD_RUN: "36249500693"
+  P6_RUN: "36381217698"
+  P7_RUN: "36385972623"
+  P8_RUN: "36396781932"
+  P9_RUN: "36502126530"
+  P10_RUN: "36504724602"
+  P12_RUN: "36520161374"
+  P13_RUN: "36524147020"
+  P14_RUN: "36528079999"
+  P15_RUN: "36533275067"
+  P16_RUN: "36544344858"
+  P17_RUN: "36647199414"
+  P18_RUN: "36675388073"
+
+jobs:
+  static:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 -m pip install --disable-pip-version-check python-chess==1.999 pytest
+      - name: P5 and full G10 regression
+        run: PYTHONPATH=. pytest -q tests/test_g10_p5.py tests/test_g10_p4.py tests/test_g10_p3.py tests/test_g10_p2.py tests/test_g10_p1.py tests/test_g10_p0.py tests/test_c3x_explain.py
+      - name: Pre-outcome constitution gates
+        run: |
+          python3 - <<'PY'
+          import json
+          p=json.load(open("c3x/receipts/g10-p5-precommit.json"))
+          a=json.load(open("c3x/receipts/g10-p5-preoutcome-amendment.json"))
+          c=json.load(open("c3x/ontology/g10-p5-constitution.json"))
+          assert p["source_bytes_opened"] is False
+          assert p["fresh_causal_outcomes_opened"] is False
+          assert a["source_bytes_opened"] is False
+          assert a["causal_outcomes_opened"] is False
+          assert c["fresh_ecology"]["sources"]==["TWIC 1663","TWIC 1664"]
+          assert c["fresh_ecology"]["source_independence"]=="ISSUE_LEVEL_INDEPENDENT"
+          assert c["fresh_ecology"]["no_post_outcome_contract_refit"] is True
+          print("G10_P5_PREOUTCOME_PASS")
+          PY
+
+  source:
+    needs: static
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+      - run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq unzip
+          python3 -m pip install --disable-pip-version-check python-chess==1.999
+          mkdir -p data hist
+      - name: Download fresh TWIC issues
+        run: |
+          set -euxo pipefail
+          for issue in 1663 1664; do
+            curl -fL --retry 4 "https://theweekinchess.com/zips/twic${issue}g.zip" -o "data/twic${issue}g.zip"
+            mkdir -p "data/u${issue}"
+            unzip -o "data/twic${issue}g.zip" -d "data/u${issue}"
+            SRC="$(find "data/u${issue}" -type f -iname '*.pgn' | head -n1)"
+            test -n "$SRC"
+            ISSUE="$issue" SRC="$SRC" python3 - <<'PY'
+          import os
+          from pathlib import Path
+          src=Path(os.environ["SRC"]);issue=os.environ["ISSUE"]
+          b=src.read_bytes()
+          try:s=b.decode("utf-8")
+          except UnicodeDecodeError:s=b.decode("latin-1")
+          Path(f"data/twic{issue}.pgn").write_text(s,encoding="utf-8")
+          PY
+            sha256sum "data/twic${issue}g.zip" > "data/twic${issue}g.zip.sha256"
+            sha256sum "data/twic${issue}.pgn" > "data/twic${issue}.pgn.sha256"
+          done
+      - uses: actions/download-artifact@v4
+        with: {name: g95-p1-precommit-sealed, path: hist/p1, repository: WhoSia/C3X, run-id: ${{ env.P1_RUN }}, github-token: ${{ github.token }}}
+      - uses: actions/download-artifact@v4
+        with: {name: g95-p2-precommit-sealed, path: hist/p2, repository: WhoSia/C3X, run-id: ${{ env.P2_RUN }}, github-token: ${{ github.token }}}
+      - uses: actions/download-artifact@v4
+        with: {name: g95-p3-corpus-sealed, path: hist/p3, repository: WhoSia/C3X, run-id: ${{ env.P3_RUN }}, github-token: ${{ github.token }}}
+      - uses: actions/download-artifact@v4
+        with: {name: g95-p4-corpus-sealed, path: hist/p4, repository: WhoSia/C3X, run-id: ${{ env.P4_RUN }}, github-token: ${{ github.token }}}
+      - uses: actions/download-artifact@v4
+        with: {name: g95-p5-corpus-sealed, path: hist/p5, repository: WhoSia/C3X, run-id: ${{ env.P5_OLD_RUN }}, github-token: ${{ github.token }}}
+      - uses: actions/download-artifact@v4
+        with: {name: g95-p6-corpus-sealed, path: hist/p6, repository: WhoSia/C3X, run-id: ${{ env.P6_RUN }}, github-token: ${{ github.token }}}
+      - uses: actions/download-artifact@v4
+        with: {name: g95-p7-corpus-sealed, path: hist/p7, repository: WhoSia/C3X, run-id: ${{ env.P7_RUN }}, github-token: ${{ github.token }}}
+      - uses: actions/download-artifact@v4
+        with: {name: g95-p8-corpus-sealed, path: hist/p8, repository: WhoSia/C3X, run-id: ${{ env.P8_RUN }}, github-token: ${{ github.token }}}
+      - uses: actions/download-artifact@v4
+        with: {name: g95-p9-corpus-sealed, path: hist/p9, repository: WhoSia/C3X, run-id: ${{ env.P9_RUN }}, github-token: ${{ github.token }}}
+      - uses: actions/download-artifact@v4
+        with: {name: g95-p10-corpus-sealed, path: hist/p10, repository: WhoSia/C3X, run-id: ${{ env.P10_RUN }}, github-token: ${{ github.token }}}
+      - uses: actions/download-artifact@v4
+        with: {name: g95-p12-corpus-sealed, path: hist/p12, repository: WhoSia/C3X, run-id: ${{ env.P12_RUN }}, github-token: ${{ github.token }}}
+      - uses: actions/download-artifact@v4
+        with: {name: g95-p13-corpus-sealed, path: hist/p13, repository: WhoSia/C3X, run-id: ${{ env.P13_RUN }}, github-token: ${{ github.token }}}
+      - uses: actions/download-artifact@v4
+        with: {name: g95-p14-corpus-sealed, path: hist/p14, repository: WhoSia/C3X, run-id: ${{ env.P14_RUN }}, github-token: ${{ github.token }}}
+      - uses: actions/download-artifact@v4
+        with: {name: g95-p15-corpus-sealed, path: hist/p15, repository: WhoSia/C3X, run-id: ${{ env.P15_RUN }}, github-token: ${{ github.token }}}
+      - uses: actions/download-artifact@v4
+        with: {name: g95-p16-final-minimal-structure, path: hist/p16, repository: WhoSia/C3X, run-id: ${{ env.P16_RUN }}, github-token: ${{ github.token }}}
+      - uses: actions/download-artifact@v4
+        with: {name: g95-p17-corpus-sealed, path: hist/p17, repository: WhoSia/C3X, run-id: ${{ env.P17_RUN }}, github-token: ${{ github.token }}}
+      - uses: actions/download-artifact@v4
+        with: {name: g95-p18-corpus-sealed, path: hist/p18-corpus, repository: WhoSia/C3X, run-id: ${{ env.P18_RUN }}, github-token: ${{ github.token }}}
+      - uses: actions/download-artifact@v4
+        with: {name: g95-p18-pair-pool-sealed, path: hist/p18-pair, repository: WhoSia/C3X, run-id: ${{ env.P18_RUN }}, github-token: ${{ github.token }}}
+      - uses: actions/download-artifact@v4
+        with: {name: g95-p18-confirmation-freeze-sealed, path: hist/p18-conf, repository: WhoSia/C3X, run-id: ${{ env.P18_RUN }}, github-token: ${{ github.token }}}
+      - name: Freeze fresh P16-contract corpus before engine outcomes
+        run: |
+          set -euxo pipefail
+          EX=()
+          while IFS= read -r f; do EX+=(--exclude "$f"); done < <(find c3x hist -name '*.json' -type f | sort)
+          S63="$(cut -d' ' -f1 data/twic1663g.zip.sha256)"
+          S64="$(cut -d' ' -f1 data/twic1664g.zip.sha256)"
+          python3 harness/g95_p16_corpus.py             --source "P5_SRC_TWIC_1663|data/twic1663.pgn|twic1663.pgn|${S63}"             --source "P5_SRC_TWIC_1664|data/twic1664.pgn|twic1664.pgn|${S64}"             "${EX[@]}" --out g10-p5-p16-compatible-corpus.json
+          python3 - <<'PY'
+          import hashlib,json
+          from pathlib import Path
+          c=json.load(open("g10-p5-p16-compatible-corpus.json"))
+          lock={"schema":"c3x-g10-p5-source-lock-v1","source_bytes_opened":True,"causal_outcomes_opened":False,
+            "twic1663_zip_sha256":hashlib.sha256(Path("data/twic1663g.zip").read_bytes()).hexdigest(),
+            "twic1664_zip_sha256":hashlib.sha256(Path("data/twic1664g.zip").read_bytes()).hexdigest(),
+            "twic1663_games":sum(1 for l in Path("data/twic1663.pgn").read_text(encoding="utf-8").splitlines() if l.startswith("[Event ")),
+            "twic1664_games":sum(1 for l in Path("data/twic1664.pgn").read_text(encoding="utf-8").splitlines() if l.startswith("[Event ")),
+            "positions":len(c["positions"]),"historical_candidate_hashes_excluded":c["selection"]["historical_candidate_hashes_excluded"]}
+          Path("g10-p5-source-lock.json").write_text(json.dumps(lock,indent=2,sort_keys=True)+"\n")
+          print("G10_P5_SOURCE_LOCK",lock)
+          PY
+          sha256sum g10-p5-p16-compatible-corpus.json g10-p5-source-lock.json > g10-p5-source-sha256.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: g10-p5-source-corpus-sealed
+          path: |
+            g10-p5-p16-compatible-corpus.json
+            g10-p5-source-lock.json
+            g10-p5-source-sha256.txt
+          retention-days: 90
+
+  design:
+    needs: source
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with: {name: g10-p5-source-corpus-sealed, path: corpus}
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: g95-p16-build-*
+          path: builds
+          repository: WhoSia/C3X
+          run-id: ${{ env.P16_RUN }}
+          github-token: ${{ github.token }}
+      - run: python3 -m pip install --disable-pip-version-check python-chess==1.999
+      - name: Freeze inherited P16 instrument design
+        run: |
+          python3 harness/g95_p16_court.py design             --constitution c3x/ontology/g95-p16-constitution.json             --corpus corpus/g10-p5-p16-compatible-corpus.json             --p15-closure c3x/receipts/g95-p15-closure.json             --build-dir builds --out g10-p5-p16-design.json
+          sha256sum g10-p5-p16-design.json > g10-p5-p16-design.sha256
+      - uses: actions/upload-artifact@v4
+        with: {name: g10-p5-design-sealed, path: "g10-p5-p16-design*"}
+
+  qualify:
+    needs: design
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+    strategy:
+      fail-fast: false
+      max-parallel: 12
+      matrix: {shard: [0,1,2,3,4,5,6,7,8,9,10,11]}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with: {name: g10-p5-design-sealed, path: state}
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: g95-p16-build-*
+          path: builds
+          repository: WhoSia/C3X
+          run-id: ${{ env.P16_RUN }}
+          github-token: ${{ github.token }}
+      - run: python3 -m pip install --disable-pip-version-check python-chess==1.999
+      - run: PYTHONPATH=. python3 tools/g10_p5_p16_shard.py --phase qualify --state state/g10-p5-p16-design.json --build-dir builds --shard ${{ matrix.shard }} --shards 12 --out-dir out
+      - uses: actions/upload-artifact@v4
+        with: {name: "g10-p5-qualify-${{ matrix.shard }}", path: out/, retention-days: 90}
+
+  pair-freeze:
+    needs: qualify
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with: {name: g10-p5-design-sealed, path: state}
+      - uses: actions/download-artifact@v4
+        with: {pattern: "g10-p5-qualify-*", path: qualifications}
+      - run: python3 -m pip install --disable-pip-version-check python-chess==1.999
+      - run: python3 harness/g95_p16_court.py pair-freeze --design state/g10-p5-p16-design.json --qualifications qualifications --out g10-p5-pair-freeze.json
+      - uses: actions/upload-artifact@v4
+        with: {name: g10-p5-pair-freeze-sealed, path: g10-p5-pair-freeze.json, retention-days: 90}
+
+  chain-qualify:
+    needs: pair-freeze
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+    strategy:
+      fail-fast: false
+      max-parallel: 12
+      matrix: {shard: [0,1,2,3,4,5,6,7,8,9,10,11]}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with: {name: g10-p5-pair-freeze-sealed, path: state}
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: g95-p16-build-*
+          path: builds
+          repository: WhoSia/C3X
+          run-id: ${{ env.P16_RUN }}
+          github-token: ${{ github.token }}
+      - run: python3 -m pip install --disable-pip-version-check python-chess==1.999
+      - run: PYTHONPATH=. python3 tools/g10_p5_p16_shard.py --phase chain-qualify --state state/g10-p5-pair-freeze.json --build-dir builds --shard ${{ matrix.shard }} --shards 12 --out-dir out
+      - uses: actions/upload-artifact@v4
+        with: {name: "g10-p5-chainqual-${{ matrix.shard }}", path: out/, retention-days: 90}
+
+  chain-freeze:
+    needs: chain-qualify
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with: {name: g10-p5-pair-freeze-sealed, path: state}
+      - uses: actions/download-artifact@v4
+        with: {pattern: "g10-p5-chainqual-*", path: chainquals}
+      - run: python3 -m pip install --disable-pip-version-check python-chess==1.999
+      - run: python3 harness/g95_p16_court.py chain-freeze --freeze state/g10-p5-pair-freeze.json --chain-qualifications chainquals --out g10-p5-chain-freeze.json
+      - uses: actions/upload-artifact@v4
+        with: {name: g10-p5-chain-freeze-sealed, path: g10-p5-chain-freeze.json, retention-days: 90}
+
+  factorial:
+    needs: chain-freeze
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+    strategy:
+      fail-fast: false
+      max-parallel: 12
+      matrix: {shard: [0,1,2,3,4,5,6,7,8,9,10,11]}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with: {name: g10-p5-chain-freeze-sealed, path: state}
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: g95-p16-build-*
+          path: builds
+          repository: WhoSia/C3X
+          run-id: ${{ env.P16_RUN }}
+          github-token: ${{ github.token }}
+      - run: python3 -m pip install --disable-pip-version-check python-chess==1.999
+      - run: PYTHONPATH=. python3 tools/g10_p5_p16_shard.py --phase factorial --state state/g10-p5-chain-freeze.json --build-dir builds --shard ${{ matrix.shard }} --shards 12 --out-dir out
+      - uses: actions/upload-artifact@v4
+        with: {name: "g10-p5-factorial-${{ matrix.shard }}", path: out/, retention-days: 90}
+
+  court:
+    needs: factorial
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with: {name: g10-p5-chain-freeze-sealed, path: state}
+      - uses: actions/download-artifact@v4
+        with: {pattern: "g10-p5-factorial-*", path: worlds}
+      - uses: actions/download-artifact@v4
+        with: {name: g10-p5-source-corpus-sealed, path: source}
+      - run: python3 -m pip install --disable-pip-version-check python-chess==1.999 pytest
+      - name: Inherited P16 certificate adjudication
+        run: |
+          mkdir -p out
+          python3 harness/g95_p16_court.py adjudicate --freeze state/g10-p5-chain-freeze.json --worlds worlds --out out/p5-fresh-p16-adjudication.json --markdown out/p5-fresh-certificates.md
+          go run tools/p16_exact_verify.go out/p5-fresh-p16-adjudication.json | tee out/p16-go-verification.txt
+          node tools/p16-verify.mjs out/p5-fresh-p16-adjudication.json | tee out/p16-js-verification.txt
+      - name: Authority dynamics and ecology Court
+        run: |
+          PYTHONPATH=. python3 tools/g10_p5_adjudicate.py             --fresh out/p5-fresh-p16-adjudication.json             --p16 c3x/receipts/g95-p16-closure.json             --p18 c3x/receipts/g95-p18-closure.json             --p4 c3x/receipts/g10-p4-closure.json             --out out/g10-p5-court.json
+          PYTHONPATH=. pytest -q tests/test_g10_p5.py tests/test_g10_p4.py tests/test_g10_p3.py tests/test_g10_p0.py
+          cp state/g10-p5-chain-freeze.json out/
+          cp source/g10-p5-source-lock.json out/
+          python3 - <<'PY'
+          import json
+          r=json.load(open("out/g10-p5-court.json"))
+          assert r["transportable_pattern_instantiated"] is False
+          print("G10_P5_FINAL",r["verdict"])
+          print("G10_P5_DYNAMICS",r["authority_dynamics_verdict"])
+          print("G10_P5_FRESH_CERTS",r["fresh_local_certificate_count"])
+          print("G10_P5_COMPOSITION",len(r["empirical_composition_candidates"]))
+          PY
+          sha256sum out/* | sort > out/final-sha256.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: g10-p5-self-correcting-authority-court-sealed
+          path: out/
+          retention-days: 90
