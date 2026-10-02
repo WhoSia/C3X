@@ -1,0 +1,21 @@
+{
+  "schema": "c3x-g10-p6-precommit-v1",
+  "stage": "C3X 0.8.0-G10-P6 — Prospective Multi-Certificate Constitutive Mechanism Identity, Cross-Instance Correspondence Reconstruction, Context↔Mechanism Factorization, Same-Cause/Different-Manifestation vs Different-Cause/Same-Consequence Adjudication, Conflict/Compatibility Geometry, Minimal Composition-Witness Identification & Lawful Causal-Composition Court",
+  "parent_main_head": "3995f164d9ac8a8df68238cef1472280eac77340",
+  "notion_stage_page_id": "3edef561-cf92-81f7-8b51-e1f4c799ab07",
+  "development_outcomes_opened": true,
+  "development_authority": "P16/P5_SEALED_OUTCOMES_ONLY",
+  "holdout_source_bytes_opened": false,
+  "holdout_causal_outcomes_opened": false,
+  "correspondence_rule_refit_allowed": false,
+  "frozen_constitutive_core": [
+    "relation_delta",
+    "response_topology"
+  ],
+  "drive": {
+    "source": "1r3dgIu2GTwoafy09baMeSZW_2Dxm_4iS",
+    "runtime": "1m0A9kcyYJJBlYc54BKtRHdmc97UUNu-4",
+    "results": "11BnuUQOlQcA-hk7TbtwLbRLyYEyOvT2Z"
+  },
+  "authority_ceiling": "COMPOSITION_CANDIDATE_ONLY"
+}

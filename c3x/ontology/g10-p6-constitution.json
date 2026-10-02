@@ -1,0 +1,62 @@
+{
+  "schema": "c3x-g10-p6-constitution-v1",
+  "stage": "C3X 0.8.0-G10-P6 — Prospective Multi-Certificate Constitutive Mechanism Identity, Cross-Instance Correspondence Reconstruction, Context↔Mechanism Factorization, Same-Cause/Different-Manifestation vs Different-Cause/Same-Consequence Adjudication, Conflict/Compatibility Geometry, Minimal Composition-Witness Identification & Lawful Causal-Composition Court",
+  "type": "COURT",
+  "parent": {
+    "stage": "G10-P5",
+    "verdict": "PASS_AUTHORITY_DYNAMICS_FRESH_ECOLOGY_NO_COMPOSITION",
+    "closure_head": "b86e18fe77abe34c9438c2c8c3efea255c0511a4"
+  },
+  "development": {
+    "evidence": "c3x/data/g10-p6-development-ecology.json",
+    "authority": "IDENTITY_RULE_DEVELOPMENT_ONLY",
+    "killed_universal_rules": [
+      "EXACT_SIGNATURE_ONLY",
+      "RELATION_DELTA_ONLY",
+      "RESPONSE_TOPOLOGY_ONLY"
+    ],
+    "frozen_constitutive_core": [
+      "relation_delta",
+      "response_topology"
+    ],
+    "falsifier_minimality": "REQUIRED_AUTHORITY_OBLIGATION"
+  },
+  "holdout": {
+    "sources": [
+      {
+        "id": "P6_SRC_TWIC_1661",
+        "date": "2026-09-07",
+        "games": 7670,
+        "url": "https://theweekinchess.com/zips/twic1661g.zip"
+      },
+      {
+        "id": "P6_SRC_TWIC_1662",
+        "date": "2026-09-14",
+        "games": 6671,
+        "url": "https://theweekinchess.com/zips/twic1662g.zip"
+      }
+    ],
+    "positions": 36,
+    "positions_per_source": 18,
+    "instrument_contract": "G9.5-P16 exact-event minimal FULL_BRIDGE",
+    "mapping_refit_after_outcome": false
+  },
+  "composition": {
+    "requires": [
+      "same frozen constitutive core",
+      "complete local certificates",
+      "falsifier/minimality compatibility",
+      "distinct positions",
+      "independent source provenance"
+    ],
+    "grants_at_most": "COMPOSITION_CANDIDATE",
+    "transport_authority": false
+  },
+  "verdict_space": [
+    "PASS_CONSTITUTIVE_MECHANISM_IDENTITY_NO_COMPOSITION",
+    "PASS_LAWFUL_CAUSAL_COMPOSITION_CANDIDATE",
+    "HOLD_HOLDOUT_CERTIFICATE_SUPPORT_INSUFFICIENT",
+    "FAIL_CONSTITUTIVE_IDENTITY_COUNTEREXAMPLE",
+    "FAIL_COMPOSITION_CORRESPONDENCE_LAUNDERING"
+  ]
+}

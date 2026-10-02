@@ -1,0 +1,272 @@
+{
+  "schema": "c3x-g10-p6-development-ecology-v1",
+  "authority": "DEVELOPMENT_ONLY_NO_COMPOSITION_AUTHORITY",
+  "sources": {
+    "p16": {
+      "run": 36544344858,
+      "certificate_id": "398eca8d6adf00525e6d5bf7"
+    },
+    "p5": {
+      "run": 36951016134,
+      "artifact_id": 11206035497,
+      "chain_freeze_artifact_id": 11205381652
+    }
+  },
+  "certificates": [
+    {
+      "id": "P16_BASE",
+      "certificate_id": "398eca8d6adf00525e6d5bf7",
+      "source_id": "P16_SRC_LICHESS_2026_08",
+      "position_id": "p16:P16_SRC_LICHESS_2026_08:00846cca2171",
+      "engine": "ethereal",
+      "bound": "LOWER",
+      "exact_signature": "OWN|DISPREFERRED_FROM_LOSS|LOWER|MINIMAL_FULL_BRIDGE",
+      "context": {
+        "pair_id": "d6d5::e8g8",
+        "physical_edit_id": "d8c7"
+      },
+      "board_trigger": {
+        "moved_side_role": "OWN",
+        "target_atom": "B_FROM_LOSS",
+        "relation_before": [
+          true,
+          false,
+          true,
+          false
+        ],
+        "relation_after": [
+          true,
+          false,
+          false,
+          false
+        ]
+      },
+      "response_topology": {
+        "B0": {
+          "state": "EVENT_PAIR_REVERSAL",
+          "native": "A",
+          "t_only": "B"
+        },
+        "TARGET": {
+          "state": "EVENT_NULL",
+          "native": "B",
+          "t_only": "B"
+        },
+        "SUBSET": {
+          "state": "EVENT_PAIR_REVERSAL",
+          "native": "B",
+          "t_only": "A"
+        },
+        "SHAM": {
+          "state": "EVENT_PAIR_REVERSAL",
+          "native": "B",
+          "t_only": "A"
+        }
+      },
+      "falsifier": {
+        "subset_reproduced": false,
+        "sham_reproduced": false,
+        "chain_relative_minimality": true
+      },
+      "surface": {
+        "board_native_transition": "A_TO_B"
+      }
+    },
+    {
+      "id": "P5_1664_ETHEREAL",
+      "certificate_id": "a7ac671f044a298b6a09b806",
+      "source_id": "P5_SRC_TWIC_1664",
+      "position_id": "p16:P5_SRC_TWIC_1664:00a9042a032c",
+      "engine": "ethereal",
+      "bound": "LOWER",
+      "exact_signature": "OWN|PREFERRED_FROM_GAIN|LOWER|MINIMAL_FULL_BRIDGE",
+      "context": {
+        "pair_id": "b8d7::f6h7",
+        "physical_edit_id": "d8c7"
+      },
+      "board_trigger": {
+        "moved_side_role": "OWN",
+        "target_atom": "A_FROM_GAIN",
+        "relation_before": [
+          false,
+          true,
+          false,
+          false
+        ],
+        "relation_after": [
+          true,
+          true,
+          false,
+          false
+        ]
+      },
+      "response_topology": {
+        "B0": {
+          "state": "EVENT_PAIR_REVERSAL",
+          "native": "A",
+          "t_only": "B"
+        },
+        "TARGET": {
+          "state": "EVENT_NULL",
+          "native": "B",
+          "t_only": "B"
+        },
+        "SUBSET": {
+          "state": "NO_EVENT",
+          "native": null,
+          "t_only": null
+        },
+        "SHAM": {
+          "state": "NO_EVENT",
+          "native": null,
+          "t_only": null
+        }
+      },
+      "falsifier": {
+        "subset_reproduced": false,
+        "sham_reproduced": false,
+        "chain_relative_minimality": true
+      },
+      "surface": {
+        "board_native_transition": "A_TO_B"
+      }
+    },
+    {
+      "id": "P5_1663_BERSERK",
+      "certificate_id": "641c2220b2fb915000d5e846",
+      "source_id": "P5_SRC_TWIC_1663",
+      "position_id": "p16:P5_SRC_TWIC_1663:0004041a98da",
+      "engine": "berserk",
+      "bound": "UPPER",
+      "exact_signature": "OWN|PREFERRED_TO_LOSS|UPPER|MINIMAL_FULL_BRIDGE",
+      "context": {
+        "pair_id": "e7c6::e7g6",
+        "physical_edit_id": "c7d8"
+      },
+      "board_trigger": {
+        "moved_side_role": "OWN",
+        "target_atom": "A_TO_LOSS",
+        "relation_before": [
+          true,
+          true,
+          true,
+          false
+        ],
+        "relation_after": [
+          true,
+          false,
+          true,
+          false
+        ]
+      },
+      "response_topology": {
+        "B0": {
+          "state": "EVENT_PAIR_REVERSAL",
+          "native": "A",
+          "t_only": "B"
+        },
+        "TARGET": {
+          "state": "EVENT_NULL",
+          "native": "B",
+          "t_only": "B"
+        },
+        "SUBSET": {
+          "state": "NO_EVENT",
+          "native": null,
+          "t_only": null
+        },
+        "SHAM": {
+          "state": "NO_EVENT",
+          "native": null,
+          "t_only": null
+        }
+      },
+      "falsifier": {
+        "subset_reproduced": false,
+        "sham_reproduced": false,
+        "chain_relative_minimality": true
+      },
+      "surface": {
+        "board_native_transition": "A_TO_B"
+      }
+    },
+    {
+      "id": "P5_1663_ETHEREAL",
+      "certificate_id": "705e9ae0f449cf0ed3842b79",
+      "source_id": "P5_SRC_TWIC_1663",
+      "position_id": "p16:P5_SRC_TWIC_1663:0004041a98da",
+      "engine": "ethereal",
+      "bound": "UPPER",
+      "exact_signature": "OWN|PREFERRED_TO_LOSS|UPPER|MINIMAL_FULL_BRIDGE",
+      "context": {
+        "pair_id": "e7c6::e7g6",
+        "physical_edit_id": "c7d8"
+      },
+      "board_trigger": {
+        "moved_side_role": "OWN",
+        "target_atom": "A_TO_LOSS",
+        "relation_before": [
+          true,
+          true,
+          true,
+          false
+        ],
+        "relation_after": [
+          true,
+          false,
+          true,
+          false
+        ]
+      },
+      "response_topology": {
+        "B0": {
+          "state": "EVENT_NULL",
+          "native": "A",
+          "t_only": "A"
+        },
+        "TARGET": {
+          "state": "EVENT_PAIR_REVERSAL",
+          "native": "B",
+          "t_only": "A"
+        },
+        "SUBSET": {
+          "state": "EVENT_NULL",
+          "native": "B",
+          "t_only": "B"
+        },
+        "SHAM": {
+          "state": "EVENT_NULL",
+          "native": "B",
+          "t_only": "B"
+        }
+      },
+      "falsifier": {
+        "subset_reproduced": false,
+        "sham_reproduced": false,
+        "chain_relative_minimality": true
+      },
+      "surface": {
+        "board_native_transition": "A_TO_B"
+      }
+    }
+  ],
+  "mandated_negative_pairs": [
+    {
+      "a": "P5_1663_BERSERK",
+      "b": "P5_1663_ETHEREAL",
+      "reason": "same exact signature and board trigger, different response topology"
+    },
+    {
+      "a": "P5_1664_ETHEREAL",
+      "b": "P5_1663_BERSERK",
+      "reason": "same normalized response topology, different board trigger"
+    }
+  ],
+  "holdout": {
+    "sources": [
+      "TWIC 1661",
+      "TWIC 1662"
+    ],
+    "prior_repo_use_search": "NO_MATCH_BEFORE_P6_PRECOMMIT"
+  }
+}
