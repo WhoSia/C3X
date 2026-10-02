@@ -15,6 +15,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - run: python3 -m pip install --disable-pip-version-check python-chess==1.999
       - uses: actions/download-artifact@v4
         with:
           name: g10-p7-mechanism-family-court-sealed
