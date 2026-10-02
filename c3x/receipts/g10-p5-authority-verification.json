@@ -1,0 +1,21 @@
+{
+  "schema": "c3x-g10-p5-authority-verification-v1",
+  "scientific_stage": "C3X 0.8.0-G10-P5",
+  "role": "VERIFICATION_ONLY",
+  "run_id": 36954099956,
+  "head": "1fa628faa96b9152746f782d0a07442a79051f9e",
+  "conclusion": "success",
+  "tests_passed": 18,
+  "verifies": [
+    "semantic evidence-set confluence",
+    "irreversible provenance invalidation",
+    "demotion vs retraction semantics",
+    "restoration after resolved suspension",
+    "certificate conflict classification",
+    "transitive dependency-propagated withdrawal",
+    "stale causal wording prohibition"
+  ],
+  "fresh_chess_outcomes_opened": false,
+  "canonical_fresh_ecology_run": 36951016134,
+  "authority": "IMPLEMENTATION_VERIFICATION_ONLY"
+}
