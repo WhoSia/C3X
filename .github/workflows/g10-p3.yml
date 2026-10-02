@@ -1,0 +1,58 @@
+name: c3x-g10-p3-explanation-invariant-court
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - "c3x_g10/invariant_lattice.py"
+      - "tests/test_g10_p3.py"
+      - "tools/g10_p3_court.py"
+      - "c3x/data/g10-p3-metrology-evidence.json"
+      - "c3x/ontology/g10-p3-constitution.json"
+      - "c3x/receipts/g10-p3-precommit.json"
+      - ".github/workflows/g10-p3.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  court:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 -m pip install --disable-pip-version-check pytest
+      - name: P3 + G10 regression
+        run: PYTHONPATH=. pytest -q tests/test_g10_p3.py tests/test_g10_p2.py tests/test_g10_p1.py tests/test_g10_p0.py tests/test_c3x_explain.py
+      - name: Strict precommit parse
+        run: |
+          python3 - <<'PY'
+          import json
+          c=json.load(open("c3x/ontology/g10-p3-constitution.json"))
+          p=json.load(open("c3x/receipts/g10-p3-precommit.json"))
+          assert c["sealed_evidence_only"] is True
+          assert c["p2_outcomes_used"] is False
+          assert c["fresh_causal_outcomes_opened"] is False
+          assert p["fresh_causal_outcomes_opened"] is False
+          print("C3X_G10_P3_PRECOMMIT_PASS")
+          PY
+      - name: Execute sealed-evidence invariant Court
+        run: |
+          mkdir -p out
+          PYTHONPATH=. python3 tools/g10_p3_court.py             --metrology c3x/data/g10-p3-metrology-evidence.json             --p12 c3x/receipts/g95-p12-closure.json             --p16 c3x/receipts/g95-p16-closure.json             --out out/g10-p3-court.json
+          python3 - <<'PY'
+          import json
+          r=json.load(open("out/g10-p3-court.json"))
+          assert r["authority_ceiling"]
+          assert r["adjudication"]["single_universal_quotient_rejected"] is True
+          print("G10_P3_VERDICT",r["verdict"])
+          print("G10_P3_ROUTING",r["adjudication"]["measurement_routing_object"]["representation"])
+          print("G10_P3_SURFACE",r["adjudication"]["explanation_surface_object"]["representation"])
+          print("G10_P3_CAUSAL",r["adjudication"]["causal_authority_object"]["representation"])
+          print("G10_P3_COUNTEREXAMPLES",len(r["counterexamples"]))
+          PY
+          sha256sum out/g10-p3-court.json > out/sha256sums.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: g10-p3-invariant-court-sealed
+          path: out/
+          retention-days: 90
