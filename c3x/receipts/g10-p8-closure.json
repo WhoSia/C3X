@@ -1,0 +1,66 @@
+{
+  "schema": "c3x-g10-p8-closure-v1",
+  "status": "CLOSED_HOLD",
+  "verdict": "HOLD_ORBIT_TARGET_SUPPORT_INSUFFICIENT",
+  "precommit_head": "6dde62afe229e8953e624122802c4e77c1961149",
+  "decision_rule_head": "4334d7723bcc6ec2b3c696c71d8909e35a078fd2",
+  "pair_freeze_run": 36980730341,
+  "repaired_selection_head": "42fc5a24d3347846e0b7d38ec67575a419d78106",
+  "repaired_selection_run": 36982080255,
+  "scientific_result": {
+    "selection_bias_firewall_pass": true,
+    "target_predicate_saturates_chain_eligible_space": true,
+    "matched_control_support": false,
+    "acquisition_efficacy_identified": false,
+    "causal_outcomes_opened": false,
+    "mechanism_family_candidate_instantiated": false,
+    "transportable_pattern_instantiated": false
+  },
+  "source_stats": {
+    "P8_SRC_TWIC_1657": {
+      "chain_eligible_positions": 29,
+      "target_eligible_positions": 29,
+      "control_eligible_positions": 0,
+      "matched_pairs": 0,
+      "requested_targets": 12
+    },
+    "P8_SRC_TWIC_1658": {
+      "chain_eligible_positions": 31,
+      "target_eligible_positions": 31,
+      "control_eligible_positions": 0,
+      "matched_pairs": 0,
+      "requested_targets": 12
+    }
+  },
+  "custody": {
+    "source_pool": {
+      "artifact_id": 11214324724,
+      "digest": "sha256:dffc68755b3bf75386985720e5c2cb9c50a1bdd0cacd8f2f03fce2b0f4725624",
+      "drive_file_id": "1av61MoiLE7hLbZ1D5u0clDKT3oxn-2Fe"
+    },
+    "pair_freeze": [
+      {
+        "batch": 0,
+        "artifact_id": 11216260445,
+        "digest": "sha256:083481de1fd48a3bbf664ac2c2f974b3e13da72ab4283118ac63ac16b0d05825"
+      },
+      {
+        "batch": 1,
+        "artifact_id": 11216300321,
+        "digest": "sha256:a528e6cb6210a3c628cb5c5cb42a166568eb97e3871cf9d538a4c86f76c60aae"
+      },
+      {
+        "batch": 2,
+        "artifact_id": 11215587318,
+        "digest": "sha256:6664cd3337717c9fb7f37630809fb33c990f128793c43cbf5e02b5cb1505f833"
+      }
+    ],
+    "repaired_reselection": {
+      "artifact_id": 11216156656,
+      "digest": "sha256:e627ee8682a9352ed7780f203acfd2f9f785d125cd97d7a2364a9ccba91b3ed6",
+      "drive_file_id": "1PP3gTcRRw2gCtF5aCf_D0s0d428dj8ef"
+    }
+  },
+  "p2_status": "PARKED_SOURCE_DEPENDENCY_UNCHANGED",
+  "next_scientific_implication": "P7 board-trigger orbit membership is too broad to serve as a discriminative acquisition target on the P8 chain-eligible population. A successor should prospectively refine pre-outcome recoverability into a graded or contrastive acquisition score that preserves matched untargeted support, rather than opening causal outcomes under a saturated selector."
+}

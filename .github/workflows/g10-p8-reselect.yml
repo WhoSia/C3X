@@ -2,12 +2,6 @@ name: c3x-g10-p8-preoutcome-selection-repair
 
 on:
   workflow_dispatch:
-  push:
-    paths:
-      - "c3x_g10/acquisition_policy.py"
-      - "c3x/receipts/g10-p8-run-authority.json"
-      - "c3x/receipts/g10-p8-preoutcome-selection-repair.json"
-      - ".github/workflows/g10-p8-reselect.yml"
 
 permissions:
   contents: read

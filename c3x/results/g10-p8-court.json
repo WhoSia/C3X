@@ -1,0 +1,87 @@
+{
+  "schema": "c3x-g10-p8-court-v1",
+  "stage": "C3X 0.8.0-G10-P8",
+  "verdict": "HOLD_ORBIT_TARGET_SUPPORT_INSUFFICIENT",
+  "reason": "PREOUTCOME_BOARD_TRIGGER_ORBIT_PROJECTION_SATURATES_CHAIN_ELIGIBLE_SPACE_NO_MATCHED_UNTARGETED_CONTROL",
+  "parent": {
+    "stage": "G10-P7",
+    "verdict": "PASS_ADMISSIBLE_MORPHISM_GRAMMAR_NO_HOLDOUT_FAMILY",
+    "closure_head": "c28e8990ab7d637ed07c5f4b2619e1f488c8b6db"
+  },
+  "preoutcome_evidence": {
+    "canonical_pair_freeze_run": 36980730341,
+    "canonical_pair_freeze_head": "5da0dbff680f19cf5f62d891c1e3de9a3088ce84",
+    "repaired_selection_run": 36982080255,
+    "repaired_selection_head": "42fc5a24d3347846e0b7d38ec67575a419d78106",
+    "source_pool_positions": 108,
+    "source_pool_per_source": 54,
+    "source_stats": {
+      "P8_SRC_TWIC_1657": {
+        "chain_eligible_positions": 29,
+        "target_eligible_positions": 29,
+        "control_eligible_positions": 0,
+        "matched_pairs": 0,
+        "requested_targets": 12
+      },
+      "P8_SRC_TWIC_1658": {
+        "chain_eligible_positions": 31,
+        "target_eligible_positions": 31,
+        "control_eligible_positions": 0,
+        "matched_pairs": 0,
+        "requested_targets": 12
+      }
+    },
+    "target_count": 0,
+    "control_count": 0,
+    "support_pass": false,
+    "causal_outcomes_consulted": false,
+    "chain_qualification_opened": false,
+    "factorial_outcomes_opened": false,
+    "certificate_outcomes_opened": false
+  },
+  "interpretation": {
+    "p7_grammar_status": "UNCHANGED_VALID",
+    "acquisition_efficacy_identified": false,
+    "targeted_yield_claim_authorized": false,
+    "negative_targeting_claim_authorized": false,
+    "mechanism_family_candidate_instantiated": false,
+    "transportable_pattern_instantiated": false
+  },
+  "selection_bias_firewall_pass": true,
+  "artifacts": {
+    "source_pool": {
+      "artifact_id": 11214324724,
+      "digest": "sha256:dffc68755b3bf75386985720e5c2cb9c50a1bdd0cacd8f2f03fce2b0f4725624",
+      "drive_file_id": "1av61MoiLE7hLbZ1D5u0clDKT3oxn-2Fe"
+    },
+    "pair_freeze": [
+      {
+        "batch": 0,
+        "artifact_id": 11216260445,
+        "digest": "sha256:083481de1fd48a3bbf664ac2c2f974b3e13da72ab4283118ac63ac16b0d05825"
+      },
+      {
+        "batch": 1,
+        "artifact_id": 11216300321,
+        "digest": "sha256:a528e6cb6210a3c628cb5c5cb42a166568eb97e3871cf9d538a4c86f76c60aae"
+      },
+      {
+        "batch": 2,
+        "artifact_id": 11215587318,
+        "digest": "sha256:6664cd3337717c9fb7f37630809fb33c990f128793c43cbf5e02b5cb1505f833"
+      }
+    ],
+    "repaired_reselection": {
+      "artifact_id": 11216156656,
+      "digest": "sha256:e627ee8682a9352ed7780f203acfd2f9f785d125cd97d7a2364a9ccba91b3ed6",
+      "drive_file_id": "1PP3gTcRRw2gCtF5aCf_D0s0d428dj8ef"
+    }
+  },
+  "authority_ceiling": [
+    "P7 C/S/E grammar remains valid",
+    "No acquisition-efficacy estimate identified",
+    "No mechanism-family admission",
+    "No transportable causal pattern",
+    "No objective chess truth or human cognition/utility claim"
+  ]
+}
