@@ -20,7 +20,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - run: python3 -m pip install --disable-pip-version-check pytest
+      - run: python3 -m pip install --disable-pip-version-check python-chess==1.999 pytest
       - name: P3 + G10 regression
         run: PYTHONPATH=. pytest -q tests/test_g10_p3.py tests/test_g10_p2.py tests/test_g10_p1.py tests/test_g10_p0.py tests/test_c3x_explain.py
       - name: Strict precommit parse
