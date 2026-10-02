@@ -55,3 +55,4 @@ jobs:
             g10-p10-cartography.json
             g10-p10-cartography.sha256
           retention-days: 90
+# trigger-retry-after-self-check-fix
