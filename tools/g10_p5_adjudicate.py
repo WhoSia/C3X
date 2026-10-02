@@ -15,9 +15,11 @@ def norm_old(p16):
       "mechanism_signature":c["structural_signature"],"falsifier_contradiction":False
     }
 def norm_fresh(c):
+    source=str(c.get("source_id",""))
+    provenance="TWIC1663" if source.endswith("1663") else "TWIC1664" if source.endswith("1664") else source
     return {
       "certificate_id":c["certificate_id"],"authority":"LOCAL_CAUSAL_EXPLANATION","scope":"LOCAL_ONLY",
-      "world_id":c["position_id"],"provenance_id":"TWIC1664",
+      "world_id":c["position_id"],"provenance_id":provenance,
       "intervention_grammar":"P16_EXACT_EVENT_FULL_BRIDGE","consequence_schema":"ROOT_CHOICE_TRANSITION",
       "correspondence_id":"P16_FULL_BRIDGE_CONTRACT_V1","context_signature":c["engine"]+"|"+c["bound"],
       "mechanism_signature":c["structural_signature"],"falsifier_contradiction":False,
