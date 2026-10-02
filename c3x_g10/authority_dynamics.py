@@ -21,6 +21,7 @@ AUTHORITY_ORDER=[
 ]
 
 CONSTITUTIVE_INVALIDATORS={"PROVENANCE_INVALID","CORRESPONDENCE_INVALID","CONSTITUTIVE_FALSIFIER_CONTRADICTION"}
+IRREVERSIBLE_INVALIDATORS={"PROVENANCE_INVALID","CORRESPONDENCE_INVALID"}
 SUSPENDERS={"UNRESOLVED_DIRECT_CONTRADICTION","DEPENDENCY_SUSPENDED"}
 DEMOTION_SIGNALS={"LOCAL_MINIMALITY_LOST","FALSIFIER_SUPPORT_LOST","REPLICATION_SCOPE_LOST"}
 BRANCH_SIGNALS={"CONTEXT_CONDITION_DISCOVERED","COMPATIBLE_CONTEXT_SPLIT"}
@@ -70,7 +71,8 @@ def apply_evidence(claim:Claim,atoms:Iterable[str],event_id:str,procedural_phase
     return claim
 
 def resolve_atoms(claim:Claim,remove:Iterable[str],add:Iterable[str],event_id:str)->Claim:
-    claim.evidence-=set(remove);claim.evidence|=set(add)
+    removable=set(remove)-IRREVERSIBLE_INVALIDATORS
+    claim.evidence-=removable;claim.evidence|=set(add)
     old={"status":claim.status.value,"authority":claim.authority}
     new=canonical_status(claim.original_authority or claim.authority,claim.evidence)
     if old["status"] in {ClaimStatus.SUSPENDED.value,ClaimStatus.DEMOTED.value} and new["status"]==ClaimStatus.ACTIVE.value:
