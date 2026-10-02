@@ -1,0 +1,61 @@
+name: c3x-g10-p10-ladder-transport
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'tools/g10_p10_ladder_transport.py'
+      - '.github/workflows/g10-p10-ladder-transport.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+env:
+  OPPORTUNITY_RUN: "37015671080"
+  FACTORIAL_RUN: "37007062196"
+
+jobs:
+  ladder-transport:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: g10-p10-opportunity-*
+          path: opportunity
+          repository: WhoSia/C3X
+          run-id: ${{ env.OPPORTUNITY_RUN }}
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: g10-p9-factorial-*
+          path: factorial
+          repository: WhoSia/C3X
+          run-id: ${{ env.FACTORIAL_RUN }}
+          github-token: ${{ github.token }}
+      - name: Necessity ladder and engine-board interaction
+        run: |
+          python3 tools/g10_p10_ladder_transport.py             --opportunity opportunity             --factorial factorial             --out g10-p10-ladder-transport.json
+          python3 - <<'PY'
+          import json
+          r=json.load(open("g10-p10-ladder-transport.json"))
+          assert r["status"]=="DEVELOPMENT_ONLY_NO_CONFIRMATORY_AUTHORITY"
+          assert r["firewall"]["confirmatory_authority"] is False
+          assert r["firewall"]["opportunity_definition_refit"] is False
+          assert r["ladder"]["all_forward_implications_respected"] is True
+          print("G10_P10_LADDER_TRANSPORT_VERIFIED")
+          print("LADDER",r["ladder"]["counts"])
+          print("STRICT",{k:len(v) for k,v in r["ladder"]["strict_converse_failure_witnesses"].items()})
+          print("L6_NOT_L7",len(r["ladder"]["L6_NOT_L7_witnesses"]))
+          print("ENGINE_BOARD",r["engine_board_opportunity_interaction"])
+          PY
+          sha256sum g10-p10-ladder-transport.json > g10-p10-ladder-transport.sha256
+      - uses: actions/upload-artifact@v4
+        with:
+          name: g10-p10-ladder-transport-sealed
+          path: |
+            g10-p10-ladder-transport.json
+            g10-p10-ladder-transport.sha256
+          retention-days: 90
