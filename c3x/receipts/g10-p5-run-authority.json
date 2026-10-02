@@ -23,5 +23,13 @@
       "promote_outputs": false
     }
   ],
-  "policy": "Only canonical run 36951016134 may determine P5 fresh-ecology scientific outcomes. Later duplicate heavy runs are verification-ineligible for science authority."
+  "policy": "Only canonical run 36951016134 may determine P5 fresh-ecology scientific outcomes. Later duplicate heavy runs are verification-ineligible for science authority.",
+  "canonical_completion": {
+    "conclusion": "success",
+    "completed_at": "2026-10-02T02:16:10Z",
+    "final_verdict": "PASS_AUTHORITY_DYNAMICS_FRESH_ECOLOGY_NO_COMPOSITION",
+    "final_artifact_id": 11206035497,
+    "final_artifact_digest": "sha256:a2f065d333bc46eebeaf3fa83d96077d4ac3ec0c185b4afffd80d2d809a10188",
+    "drive_file_id": "1bwfvH0X_BogcWH6dIe_2Nyjat44OFP1a"
+  }
 }

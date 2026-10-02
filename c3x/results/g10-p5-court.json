@@ -1,0 +1,106 @@
+{
+  "schema": "c3x-g10-p5-court-v1",
+  "stage": "C3X 0.8.0-G10-P5 — Prospective Explanation-Authority Dynamics, Promotion↔Suspension↔Demotion↔Retraction Calculus, Conflicting-Certificate Adjudication, Evidence-Arrival Noncommutativity, Dependency-Propagated Revision, Fresh Local-Certificate Ecology Expansion, Composition Stress Testing & Self-Correcting Explanation Authority Court",
+  "verdict": "PASS_AUTHORITY_DYNAMICS_FRESH_ECOLOGY_NO_COMPOSITION",
+  "authority_dynamics_verdict": "PASS_SELF_CORRECTING_AUTHORITY_DYNAMICS",
+  "canonical_scientific_run": 36951016134,
+  "canonical_workflow_head": "88d6f7b8732e01a3cccba7c4c5499dd801f2b79b",
+  "run_conclusion": "success",
+  "source_freeze": {
+    "sources": [
+      {
+        "id": "P5_SRC_TWIC_1663",
+        "issue": 1663,
+        "games": 10030,
+        "zip_sha256": "36ac4a1324a21674649f7b5eb12e0ef21167b18288917cce6aba3d8120669dd9"
+      },
+      {
+        "id": "P5_SRC_TWIC_1664",
+        "issue": 1664,
+        "games": 9114,
+        "zip_sha256": "e760b3419af0e441d74dad500130b2d585e3dfff6f3954244b957e61b3d3572a"
+      }
+    ],
+    "historical_candidate_hashes_excluded": 1979,
+    "frozen_positions": 36,
+    "positions_per_source": 18,
+    "causal_outcomes_opened_at_freeze": false,
+    "receipt_head": "619406b69a917db8f6db34ccf9eabde708f0cb02"
+  },
+  "inherited_p16_ecology": {
+    "admitted_pair_positions": 30,
+    "active_engine_worlds": 74,
+    "pre_chain_candidate_positions": 17,
+    "chain_positions": 12,
+    "selected_chain_count": 12,
+    "active_chain_engine_worlds": 29,
+    "active_engines": [
+      "berserk",
+      "ethereal",
+      "stockfish_19"
+    ],
+    "sources": [
+      "P5_SRC_TWIC_1663",
+      "P5_SRC_TWIC_1664"
+    ],
+    "worlds_with_any_fired_semantic_target": 29,
+    "address_misses": 0,
+    "fresh_instrument_verdict": "P16_LOCAL_MINIMAL_FULL_BRIDGE_ONLY",
+    "minimal_full_bridge_records": 3,
+    "all_full_bridge_records": 3,
+    "replicated_exact_structural_signatures": 0,
+    "replicated_coarse_full_bridge_signatures": 0,
+    "fresh_local_certificate_count": 3,
+    "fresh_certificate_authority": "LOCAL_ONLY"
+  },
+  "composition": {
+    "frozen_old_p16_to_fresh_candidates": 0,
+    "empirical_composition_instantiated": false,
+    "note": "Three fresh LOCAL_ONLY certificates were found, but none satisfied the frozen P4/P5 empirical composition rule against the existing P16 certificate.",
+    "transportable_pattern_instantiated": false
+  },
+  "authority_dynamics": {
+    "verification_run": 36954099956,
+    "verification_head": "1fa628faa96b9152746f782d0a07442a79051f9e",
+    "verification_conclusion": "success",
+    "tests_passed": 18,
+    "dependency_revision_stress": true,
+    "stale_causal_wording_withdrawal": true,
+    "provenance_invalidation_irreversible": true,
+    "ordinary_evidence_set_confluence": true,
+    "prospective_order_noncommutativity": true
+  },
+  "exact_verification": {
+    "go": "PASS",
+    "js_claim_firewall": "PASS",
+    "regression_tests_passed": 28
+  },
+  "authority_ceiling": [
+    "All three fresh certificates remain LOCAL_ONLY.",
+    "No empirical composition candidate was instantiated under the frozen comparator.",
+    "No transportable causal pattern was instantiated.",
+    "P18 transport failure remains unchanged.",
+    "P2 remains parked and un-imputed."
+  ],
+  "artifacts": {
+    "final": {
+      "id": 11206035497,
+      "digest": "sha256:a2f065d333bc46eebeaf3fa83d96077d4ac3ec0c185b4afffd80d2d809a10188",
+      "drive_file_id": "1bwfvH0X_BogcWH6dIe_2Nyjat44OFP1a"
+    },
+    "chain_freeze": {
+      "id": 11205381652,
+      "digest": "sha256:bc1af3f572e8cdc46e22a81f531d3c2b3f7221180c2c8dfd10ea2fed57f57077",
+      "drive_file_id": "11XBh9Qtr7I9xF7NMKxw7a71BBPDOJJEy"
+    },
+    "pair_freeze": {
+      "id": 11204717753,
+      "digest": "sha256:2e7f2cdca4beda4b3686d979f20c5637124b4697b6684a9aa5dbde6d31f4c756"
+    },
+    "source": {
+      "id": 11204511076,
+      "digest": "sha256:a5d21293ca7fff1982af8a276e3ca94cb9b486c37ad5842c5e5f291fc215a7f6",
+      "drive_file_id": "1vSQf3VhhYQrIqIQ38bB3QKTtND7py5ON"
+    }
+  }
+}

@@ -1,0 +1,54 @@
+name: c3x-g10-p5-closure-verification
+
+on:
+  push:
+    paths:
+      - "c3x/results/g10-p5-court.json"
+      - "c3x/receipts/g10-p5-closure.json"
+      - "c3x/receipts/g10-p5-run-authority.json"
+      - "docs/G10_P5_COURT.md"
+      - ".github/workflows/g10-p5-closure.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 -m pip install --disable-pip-version-check python-chess==1.999 pytest
+      - name: Verify closure facts and G10 regression
+        run: |
+          PYTHONPATH=. pytest -q tests/test_g10_p5.py tests/test_g10_p4.py tests/test_g10_p3.py tests/test_g10_p2.py tests/test_g10_p1.py tests/test_g10_p0.py tests/test_c3x_explain.py
+          python3 - <<'PY'
+          import json
+          r=json.load(open("c3x/results/g10-p5-court.json"))
+          c=json.load(open("c3x/receipts/g10-p5-closure.json"))
+          a=json.load(open("c3x/receipts/g10-p5-run-authority.json"))
+          assert r["verdict"]=="PASS_AUTHORITY_DYNAMICS_FRESH_ECOLOGY_NO_COMPOSITION"
+          assert r["authority_dynamics_verdict"]=="PASS_SELF_CORRECTING_AUTHORITY_DYNAMICS"
+          assert r["inherited_p16_ecology"]["fresh_local_certificate_count"]==3
+          assert r["inherited_p16_ecology"]["replicated_exact_structural_signatures"]==0
+          assert r["composition"]["empirical_composition_instantiated"] is False
+          assert r["composition"]["transportable_pattern_instantiated"] is False
+          assert c["status"]=="CLOSED_PASS"
+          assert c["scientific_result"]["fresh_local_certificates"]==3
+          assert a["canonical_scientific_run"]==36951016134
+          assert a["canonical_completion"]["conclusion"]=="success"
+          print("C3X_G10_P5_CLOSURE_VERIFY_PASS")
+          PY
+      - name: Seal closure capsule
+        run: |
+          mkdir -p out
+          cp c3x/results/g10-p5-court.json out/
+          cp c3x/receipts/g10-p5-closure.json out/
+          cp c3x/receipts/g10-p5-run-authority.json out/
+          cp docs/G10_P5_COURT.md out/
+          sha256sum out/* | sort > out/sha256sums.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: g10-p5-closure-capsule
+          path: out/
+          retention-days: 90
