@@ -1,0 +1,116 @@
+{
+  "schema": "c3x-g10-p12-constitution-v1",
+  "stage": "C3X 0.8.0-G10-P12 — Prospective Nonconjugacy Obstruction-Basis Reconstruction, Edge-Minimal Search-Topology Defect Certificates, Engine-Pair Conditional Transition Residuals, Board-Edit Obstruction Localization, Source-Stable Defect Recurrence, Shared-Core+Sparse-Defect Factorization, Counterfactual Defect Removal & Search-Topology Difference Experiment",
+  "type": "EXPERIMENT",
+  "parent": {
+    "stage": "G10-P11",
+    "status": "CLOSED_PASS",
+    "inherited_facts": [
+      "No engine pair is exactly conjugate under semantic relabeling.",
+      "No engine pair is exactly conjugate even under full S4.",
+      "The pooled parity quotient is source-fragile and fiber-inconsistent.",
+      "The surviving object is engine-pair-specific nonconjugacy obstruction geometry."
+    ]
+  },
+  "explanandum": "Can each engine-pair nonconjugacy obstruction be represented as a small, source-recurrent basis of signed edit×edge defects on top of a shared transition-support core, rather than as unstructured global difference?",
+  "alignment_freeze": {
+    "rule": "Use the P11 pooled best semantic map for each engine pair; no map may be reselected using P12 sparsity or recurrence.",
+    "maps": {
+      "berserk|ethereal": "IDENTITY",
+      "berserk|stockfish_19": "SWAP_UPPER_LOWER",
+      "ethereal|stockfish_19": "SWAP_UPPER_LOWER"
+    }
+  },
+  "residual_tensor": {
+    "dimensions": [
+      "engine_pair",
+      "source",
+      "edit_operator",
+      "directed_4state_edge",
+      "sign"
+    ],
+    "edits": [
+      "TARGET",
+      "SUBSET",
+      "SHAM"
+    ],
+    "edges": "16 directed edges on {00,01,10,11}",
+    "signs": [
+      "LEFT_ONLY_AFTER_ALIGNMENT",
+      "RIGHT_ONLY"
+    ],
+    "shared_core": "Support-edge intersection after frozen P11 semantic alignment.",
+    "residual": "Signed symmetric difference after frozen P11 semantic alignment."
+  },
+  "primary_basis": {
+    "name": "SIGNED_BOOLEAN_RECTANGLE_DEFECT_BASIS",
+    "construction": "For each engine pair and sign separately, form a 3×16 binary residual matrix with rows TARGET/SUBSET/SHAM and columns directed edges. Enumerate all maximal all-1 rectangles indexed by a nonempty edit subset and its compatible edge set. Find the exact minimum-cardinality rectangle cover of every residual 1-cell.",
+    "why_nontrivial": "A rectangle generator may explain several edit×edge residual atoms jointly. Atomic one-cell toggles are retained only as the trivial upper bound.",
+    "exhaustive": true,
+    "no_learned_weights": true,
+    "outputs": [
+      "minimum basis size",
+      "all minimum covers",
+      "essential generators present in every minimum cover",
+      "atomic residual count",
+      "compression ratio atomic_count/min_basis_size"
+    ]
+  },
+  "source_stability": {
+    "sources": [
+      "P8_SRC_TWIC_1657",
+      "P8_SRC_TWIC_1658"
+    ],
+    "pooled_role": "Development discovery only.",
+    "stable_atom": "Same signed edit×edge residual occurs in both sources under the frozen alignment.",
+    "stable_generator": "Every atom covered by the pooled generator is stable in both sources.",
+    "source_recurrence_metrics": [
+      "stable residual atom count / pooled residual atom count",
+      "stable minimum-basis generator count",
+      "source-specific minimum basis sizes",
+      "overlap of essential generator signatures"
+    ],
+    "authority_rule": "A sparse pooled basis with poor source recurrence cannot support a stable defect-family claim."
+  },
+  "counterfactual_removal": {
+    "full_basis_check": "Applying all generators of any minimum exact cover must remove every pooled support obstruction by construction; this is an implementation validity check, not scientific evidence.",
+    "stable_only_test": "Apply only source-stable pooled generators to source-specific residual matrices. Measure remaining obstruction mass.",
+    "leave_one_generator_out": "For each essential pooled generator, omit it and report residual obstruction mass; this tests generator necessity inside the frozen grammar."
+  },
+  "cross_pair_structure": {
+    "canonical_generator_signature": [
+      "sign",
+      "edit_subset",
+      "edge_set"
+    ],
+    "report_shared_signatures": true,
+    "claim_ceiling": "Cross-pair recurrence is descriptive unless the same generator is source-stable in each participating pair."
+  },
+  "sparsity_interpretation": {
+    "strong_candidate": "Minimum basis is substantially smaller than atomic residual count AND a nontrivial fraction of essential generators is source-stable.",
+    "weak_candidate": "Pooled compression exists but source-stable coverage is low.",
+    "failure": "Minimum basis is near-atomic or source recurrence collapses."
+  },
+  "verdict_space": [
+    "DEVELOPMENT_SOURCE_STABLE_SPARSE_DEFECT_BASIS",
+    "DEVELOPMENT_POOLED_SPARSE_SOURCE_FRAGILE_DEFECT_BASIS",
+    "DEVELOPMENT_PAIR_SPECIFIC_LOW_COMPRESSION_DEFECT_ECOLOGY",
+    "DEVELOPMENT_NO_SHARED_CORE_SPARSE_FACTORIZATION",
+    "HOLD_RESIDUAL_SUPPORT_INSUFFICIENT",
+    "FAIL_P11_ALIGNMENT_INHERITANCE"
+  ],
+  "claim_ceiling": [
+    "Development-level defect-factorization structure only.",
+    "No universal engine mechanism claim.",
+    "No cross-engine transport law.",
+    "No causal engine-internals claim from support residuals alone.",
+    "No objective chess truth or human utility claim."
+  ],
+  "automation_identity": {
+    "contents_permission": "read",
+    "actions_permission": "read",
+    "repository_writeback": false,
+    "bot_authorship_forbidden": true,
+    "canonical_promotion": "WhoSia-authored only after artifact inspection."
+  }
+}
