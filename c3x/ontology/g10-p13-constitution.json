@@ -122,5 +122,49 @@
     "actions_permission": "read",
     "repository_writeback": false,
     "canonical_promotion": "WhoSia after artifact inspection"
+  },
+  "context_resolution_ladder": {
+    "frozen_before_outcome": true,
+    "levels": [
+      {
+        "name": "FULL",
+        "fields": [
+          "material_phase",
+          "material_imbalance",
+          "legal_branching",
+          "in_check",
+          "candidate_tactical_mode",
+          "polarity_profile",
+          "chain_type",
+          "engine_pair_preedit_state_pair",
+          "family_distance_bucket"
+        ],
+        "authority": "PRIMARY"
+      },
+      {
+        "name": "CHESS_SEARCH_CORE",
+        "fields": [
+          "material_phase",
+          "legal_branching",
+          "candidate_tactical_mode",
+          "polarity_profile",
+          "chain_type",
+          "engine_pair_preedit_state_pair",
+          "family_distance_bucket"
+        ],
+        "authority": "SECONDARY_ROBUSTNESS_ONLY"
+      },
+      {
+        "name": "SEARCH_CORE",
+        "fields": [
+          "polarity_profile",
+          "chain_type",
+          "engine_pair_preedit_state_pair",
+          "family_distance_bucket"
+        ],
+        "authority": "SUPPORT_DIAGNOSTIC_ONLY"
+      }
+    ],
+    "no_post_outcome_custom_coarsening": true
   }
 }
