@@ -15,12 +15,13 @@ def main():
     dev=load(a.development);hold=load(a.holdout)
     dres=development_adjudication(dev)
     dc=dev["certificates"];hc=hold.get("certificates",[])
+    holdout_ids={x["id"] for x in hc}
     pairs=[];families=[]
     for x,y in itertools.combinations(dc+hc,2):
         w=morphism_witness(x,y)
         rec={"a":x["id"],"b":y["id"],"witness":w,"independent_provenance":independent(x,y)}
         pairs.append(rec)
-        if w["isomorphic"] and independent(x,y) and (x["id"].startswith("HOLDOUT_") or y["id"].startswith("HOLDOUT_")):
+        if w["isomorphic"] and independent(x,y) and (x["id"] in holdout_ids or y["id"] in holdout_ids):
             gens=set(w["minimal_generators"] or [])
             substantive=bool(gens & {"S","E"})
             if substantive:
@@ -40,6 +41,7 @@ def main():
       "holdout_support":hold.get("support"),
       "holdout_instrument_verdict":hold.get("fresh_instrument_verdict"),
       "holdout_certificate_count":len(hc),
+      "holdout_certificate_ids":sorted(holdout_ids),
       "pairwise_morphism_geometry":pairs,
       "mechanism_family_candidates":families,
       "frozen_grammar":["C","S","E"],
