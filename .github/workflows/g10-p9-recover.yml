@@ -8,7 +8,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: write
+  contents: read
   actions: read
 
 env:
@@ -66,13 +66,3 @@ jobs:
           name: g10-p9-experiment-recovered-sealed
           path: out/
           retention-days: 90
-      - name: Bind recovered result
-        run: |
-          cp out/g10-p9-experiment.json c3x/results/g10-p9-experiment.json
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add c3x/results/g10-p9-experiment.json
-          git diff --cached --quiet && exit 0
-          VERDICT="$(python3 -c 'import json;print(json.load(open("out/g10-p9-experiment.json"))["verdict"])')"
-          git commit -m "C3X G10-P9: bind recovered experiment $VERDICT"
-          git push
