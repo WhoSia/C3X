@@ -22,14 +22,22 @@
     "stale_causal_language_forbidden": true
   },
   "fresh_ecology": {
-    "source": "TWIC 1664",
-    "source_url": "https://theweekinchess.com/zips/twic1664g.zip",
     "positions": 36,
     "strata": 2,
     "positions_per_stratum": 18,
     "inherited_instrument_contract": "G9.5-P16 exact-event minimal FULL_BRIDGE",
     "engine_binaries_from_canonical_p16_run": 36544344858,
-    "no_post_outcome_contract_refit": true
+    "no_post_outcome_contract_refit": true,
+    "sources": [
+      "TWIC 1663",
+      "TWIC 1664"
+    ],
+    "source_urls": [
+      "https://theweekinchess.com/zips/twic1663g.zip",
+      "https://theweekinchess.com/zips/twic1664g.zip"
+    ],
+    "positions_per_source": 18,
+    "source_independence": "ISSUE_LEVEL_INDEPENDENT"
   },
   "composition": {
     "empirical_min_complete_local_certificates": 2,

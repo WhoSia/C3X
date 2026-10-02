@@ -1,24 +1,38 @@
 {
   "schema": "c3x-g10-p5-source-manifest-v1",
-  "status": "PRECOMMITTED_BEFORE_SOURCE_BYTES_AND_CAUSAL_OUTCOMES",
-  "primary_source": {
-    "provider": "The Week in Chess",
-    "issue": 1664,
-    "issue_date": "2026-09-28",
-    "public_archive_evidence": "TWIC archive lists issue 1664 with 9114 games",
-    "download_url": "https://theweekinchess.com/zips/twic1664g.zip",
-    "expected_pgn_pattern": "*.pgn"
-  },
+  "status": "PREOUTCOME_AMENDED_BEFORE_SOURCE_BYTES",
   "freshness": {
     "repo_search_for_1664_prior_use": "NO_MATCH_BEFORE_P5_PRECOMMIT",
     "exclude_recoverable_historical_candidate_hashes": true,
     "p16_certificate_may_vote": false,
-    "p2_september_monthly_outcomes_used": false
+    "p2_september_monthly_outcomes_used": false,
+    "repo_search_for_1663_1664_prior_use": "NO_MATCH_BEFORE_SOURCE_OPEN"
   },
   "stratification": {
-    "method": "deterministic game-header hash parity",
-    "purpose": "two outcome-blind sample strata for inherited P16 18+18 position contract",
-    "independent_provenance": false
+    "method": "one issue per inherited P16 source arm",
+    "purpose": "preserve original P16 min_sources=2 semantics",
+    "independent_provenance": true
   },
-  "authority_ceiling": "FRESH_LOCAL_CERTIFICATE_SEARCH_ONLY"
+  "authority_ceiling": "FRESH_LOCAL_CERTIFICATE_SEARCH_ONLY",
+  "primary_sources": [
+    {
+      "provider": "The Week in Chess",
+      "issue": 1663,
+      "issue_date": "2026-09-21",
+      "games": 10030,
+      "download_url": "https://theweekinchess.com/zips/twic1663g.zip"
+    },
+    {
+      "provider": "The Week in Chess",
+      "issue": 1664,
+      "issue_date": "2026-09-28",
+      "games": 9114,
+      "download_url": "https://theweekinchess.com/zips/twic1664g.zip"
+    }
+  ],
+  "amendment": {
+    "reason": "Static pre-outcome audit rejected splitting one issue into pseudo-independent source arms.",
+    "source_bytes_opened_before_amendment": false,
+    "causal_outcomes_opened_before_amendment": false
+  }
 }

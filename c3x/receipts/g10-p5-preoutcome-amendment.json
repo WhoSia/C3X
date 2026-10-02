@@ -1,0 +1,17 @@
+{
+  "schema": "c3x-g10-p5-preoutcome-amendment-v1",
+  "parent_precommit_head": "f8b8cb69695c18372f0ba24370123b527d4f3f1b",
+  "reason": "Static audit found that deterministic A/B splitting of one TWIC issue would falsely satisfy P16 min_sources=2. Replace with independent TWIC issues 1663 and 1664 before any source bytes or causal outcomes are opened.",
+  "prior_use_search": {
+    "twic1663": "NO_MATCH",
+    "twic1664": "NO_MATCH"
+  },
+  "source_bytes_opened": false,
+  "causal_outcomes_opened": false,
+  "amended_sources": [
+    "TWIC 1663",
+    "TWIC 1664"
+  ],
+  "instrument_contract_changed": false,
+  "authority_rules_changed": false
+}

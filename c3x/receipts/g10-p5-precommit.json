@@ -9,10 +9,18 @@
     "runtime": "1X5nT21LRrjj1-zFj6utTCEVBcH6MZRgt",
     "results": "1FfHeUnHzYXY8dneBlOP-aMyqDz0BwUAy"
   },
-  "source": "TWIC 1664",
   "source_bytes_opened": false,
   "fresh_causal_outcomes_opened": false,
   "p16_contract_refit_allowed": false,
   "p2_outcomes_used": false,
-  "transport_authority_allowed": false
+  "transport_authority_allowed": false,
+  "sources": [
+    "TWIC 1663",
+    "TWIC 1664"
+  ],
+  "preoutcome_amendment": {
+    "reason": "Preserve P16 two-source support semantics; one-issue A/B pseudo-source split rejected before bytes/outcomes.",
+    "source_bytes_opened": false,
+    "causal_outcomes_opened": false
+  }
 }
