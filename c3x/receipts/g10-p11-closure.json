@@ -1,0 +1,83 @@
+{
+  "schema": "c3x-g10-p11-closure-v1",
+  "stage": "C3X 0.8.0-G10-P11 — Prospective Engine-Relative Opportunity Conjugacy, Minimal Common Quotient Reconstruction, Fine-Fiber State Relabeling, Board-Edit Transition-Operator Alignment, Cross-Engine Nonconjugacy Obstruction Localization, Quotient Sufficiency Falsification, Search-Topology Transport Law Identification & Opportunity-Transport Experiment",
+  "status": "CLOSED_PASS",
+  "primary_verdict": "DEVELOPMENT_FINE_NONCONJUGATE_COMMON_QUOTIENT_EXISTS",
+  "adversarial_audit_verdict": "POOLED_ONLY_SOURCE_FRAGILE",
+  "final_authority": "NO_CROSS_ENGINE_OPPORTUNITY_TRANSPORT_LAW",
+  "conclusion": {
+    "exact_semantic_conjugacy": false,
+    "exact_S4_conjugacy": false,
+    "pooled_nontrivial_common_support_quotient": {
+      "exists": true,
+      "partition": [
+        [
+          "00",
+          "11"
+        ],
+        [
+          "01",
+          "10"
+        ]
+      ],
+      "hamming_weight_quotient": false,
+      "interpretation": "Unique pooled support quotient only; not a robust dynamical quotient."
+    },
+    "source_split": {
+      "P8_SRC_TWIC_1657_nontrivial_exact_common_support_quotients": 0,
+      "P8_SRC_TWIC_1658_nontrivial_exact_common_support_quotients": 0
+    },
+    "fiber_consistency": {
+      "testable_fibers": 6,
+      "support_failures": 3,
+      "probability_equality_failures": 6,
+      "untestable_missing_row_fibers": 12
+    }
+  },
+  "engine_pair_obstructions": {
+    "berserk|ethereal": {
+      "best_semantic_support_obstruction": 16,
+      "best_S4_support_obstruction": 12,
+      "best_semantic_map": "IDENTITY"
+    },
+    "berserk|stockfish_19": {
+      "best_semantic_support_obstruction": 4,
+      "best_S4_support_obstruction": 4,
+      "best_semantic_map": "SWAP_UPPER_LOWER"
+    },
+    "ethereal|stockfish_19": {
+      "best_semantic_support_obstruction": 16,
+      "best_S4_support_obstruction": 16,
+      "best_semantic_map": "SWAP_UPPER_LOWER"
+    }
+  },
+  "interpretation": [
+    "Fine opportunity transition systems are not related by a common semantic coordinate relabeling.",
+    "Failure persists even under arbitrary S4 state permutations, so the obstruction is not merely a naming artifact.",
+    "The unique pooled parity-like quotient disappears under source separation and violates observed fiber-consistency conditions.",
+    "Therefore P11 identifies engine-relative nonconjugacy as the surviving scientific object; no universal opportunity-transport law is earned."
+  ],
+  "canonical_artifacts": {
+    "constitution_commit": "bc76000d8c1c53e18dba613bad0379293bcd7862",
+    "conjugacy_run": 37028931039,
+    "conjugacy_artifact_id": 11236202764,
+    "conjugacy_json_sha256": "8a600ecdb4eb8b5298ffcd8b59c4ce31250023cb3547b7834651d5a689fdb29f",
+    "quotient_audit_run": 37029713708,
+    "quotient_audit_artifact_id": 11236503688,
+    "quotient_audit_json_sha256": "6d8fea9ae2bf67695b128a48cbce70f0eca539571f913a06c8c1fae19fb1cafd",
+    "quotient_audit_protocol": "docs/G10_P11_QUOTIENT_SUFFICIENCY_AUDIT.md"
+  },
+  "deferred_dependencies": {
+    "p10_fresh_sources": [
+      "P10_SRC_TWIC_1665",
+      "P10_SRC_TWIC_1666"
+    ],
+    "state": "UNCHANGED_WAITING_OUTSIDE_P11"
+  },
+  "automation_identity": {
+    "actions_writeback": false,
+    "bot_author_hits_at_closure": 0,
+    "bot_committer_hits_at_closure": 0,
+    "canonical_promotion_actor": "WhoSia"
+  }
+}
