@@ -1,0 +1,49 @@
+name: c3x-g10-p16-posthold-atlas
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'tools/g10_p16_posthold_atlas.py'
+      - '.github/workflows/g10-p16-posthold-atlas.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+env:
+  VALIDATION_RUN: "37122711715"
+
+jobs:
+  atlas:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: g10-p16-router-validation-sealed
+          path: validation
+          repository: WhoSia/C3X
+          run-id: ${{ env.VALIDATION_RUN }}
+          github-token: ${{ github.token }}
+      - run: |
+          python3 tools/g10_p16_posthold_atlas.py             --validation validation/g10-p16-router-validation.json             --out g10-p16-posthold-atlas.json
+          python3 - <<'PY'
+          import json
+          r=json.load(open("g10-p16-posthold-atlas.json"))
+          assert r["status"]=="POST_HOLD_DEMOTION_ONLY"
+          assert r["can_strengthen_primary"] is False
+          print("G10_P16_POSTHOLD_ATLAS_VERIFIED",r["primary_verdict"])
+          print("GRAMMAR",r["by_router_grammar"])
+          print("ROUTED_ONLY",r["routed_only_positions"])
+          print("G2_ONLY",r["g2_only_positions"])
+          PY
+          sha256sum g10-p16-posthold-atlas.json > g10-p16-posthold-atlas.sha256
+      - uses: actions/upload-artifact@v4
+        with:
+          name: g10-p16-posthold-atlas-sealed
+          path: |
+            g10-p16-posthold-atlas.json
+            g10-p16-posthold-atlas.sha256
+          retention-days: 90
