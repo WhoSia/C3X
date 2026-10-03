@@ -1,0 +1,133 @@
+{
+  "schema": "c3x-g10-p14-closure-v1",
+  "stage": "C3X 0.8.0-G10-P14 — Prospective Context-Balanced Chess-State Ecology Constitution, Phase×Branching×Tactical-Mode Stratified Position Acquisition, Engine-Blind Candidate Harvest, Search-State Positivity Targeting, Source-Independent Matched Chess Worlds, Frozen Cross-Engine Defect Replay Allocation, Context-Transport Identifiability & Balanced Chess Ecology Experiment",
+  "status": "CLOSED_HOLD",
+  "official_verdict": "HOLD_BALANCED_SEARCH_STATE_POSITIVITY_INSUFFICIENT",
+  "stage_a": {
+    "verdict": "PASS_BALANCED_CHESS_ECOLOGY_POSITIVITY",
+    "canonical_run": 37115470170,
+    "artifact_id": 11271505516,
+    "frozen_positions": 168,
+    "admissible_context_cells": 21,
+    "phase_levels": [
+      "REDUCED",
+      "RICH",
+      "TRANSITIONAL"
+    ],
+    "branching_levels": [
+      "MEDIUM",
+      "NARROW",
+      "WIDE"
+    ],
+    "tactical_levels": [
+      "FORCED_CHECK",
+      "QUIET_SURFACE",
+      "TACTICAL_AVAILABLE"
+    ]
+  },
+  "stage_b": {
+    "verdict": "HOLD_BALANCED_SEARCH_STATE_POSITIVITY_INSUFFICIENT",
+    "canonical_run": 37118007899,
+    "canonical_head": "1fe4ecd748334f933234b6903078ca74b38566e0",
+    "artifact_id": 11272571456,
+    "artifact_zip_sha256": "a8a65f29f8fc5a094f11baad15e807772e293d800c51f07dc6b65b1c555557f8",
+    "pair_positions": 102,
+    "total_positions": 168,
+    "pair_fraction": 0.6071428571428571,
+    "chain_positions": 18,
+    "chain_fraction_of_pairs": 0.17647058823529413,
+    "context_cells_with_chain_support": 12,
+    "active_engines_all_sources": [
+      "stockfish_19",
+      "berserk",
+      "ethereal"
+    ],
+    "failed_gate": "min_chain_position_fraction_of_pairs >= 0.35",
+    "passed_gates": [
+      "pair_fraction >= 0.45",
+      "active_engines_per_source >= 2",
+      "context_cells_with_chain_support >= 6"
+    ]
+  },
+  "stage_c": {
+    "opened": false,
+    "allocation_positions": 0,
+    "defect_outcomes_consulted": false,
+    "reason": "Stage B failed prospectively; Stage C authority never opened."
+  },
+  "failure_geometry": {
+    "interpretation": "Balanced chess-state acquisition succeeds and near-equal A/B search pairs remain common, but the inherited P16 relation-preserving board-intervention chain is not broadly realizable across the balanced ecology.",
+    "source_chain_rate_given_pair": {
+      "P14_SRC_TWIC_1659": 0.04,
+      "P14_SRC_TWIC_1660": 0.19230769230769232,
+      "P14_SRC_TWIC_1663": 0.25925925925925924,
+      "P14_SRC_TWIC_1664": 0.20833333333333334
+    },
+    "strongest_cells": [
+      {
+        "context": "REDUCED|MEDIUM|TACTICAL_AVAILABLE",
+        "chain_rate_given_pair": 0.5
+      },
+      {
+        "context": "TRANSITIONAL|MEDIUM|TACTICAL_AVAILABLE",
+        "chain_rate_given_pair": 0.5
+      },
+      {
+        "context": "RICH|WIDE|QUIET_SURFACE",
+        "pair_rate": 1,
+        "chain_rate_given_pair": 0.375
+      }
+    ],
+    "zero_chain_examples": [
+      "REDUCED|NARROW|FORCED_CHECK",
+      "REDUCED|NARROW|QUIET_SURFACE",
+      "REDUCED|NARROW|TACTICAL_AVAILABLE",
+      "RICH|NARROW|FORCED_CHECK",
+      "TRANSITIONAL|NARROW|FORCED_CHECK"
+    ]
+  },
+  "recovery_provenance": {
+    "original_failed_run": 37115769095,
+    "failure": "Search-gate context join expected candidate_sha256 on nonadmitted P16 rows.",
+    "repair_commit": "1480767d3bdb90207d76c79fa2027659c3f9e259",
+    "recovery_run": 37118007899,
+    "sealed_design_qualification_pair_chain_artifacts_reused": true,
+    "pair_or_chain_outcomes_recomputed": false,
+    "thresholds_changed": false,
+    "intervention_or_defect_outcomes_opened": false,
+    "redundant_full_rerun": 37117961337,
+    "redundant_run_authority": "NONCANONICAL regardless of outcome"
+  },
+  "diagnostic_atlas": {
+    "run": 37118084659,
+    "artifact_id": 11271978643,
+    "artifact_zip_sha256": "3d90490563a185c4f9ce75a26af643e9c12cc9c1c92b4d929d68d457e45a7ddc",
+    "authority": "DEMOTION_ONLY"
+  },
+  "authority": {
+    "earned": [
+      "Prospective balanced chess-context acquisition feasibility",
+      "Balanced-context near-equal A/B pair positivity"
+    ],
+    "not_earned": [
+      "Balanced-context intervention-chain positivity",
+      "Context-balanced defect replay",
+      "Context-transport identifiability",
+      "Fresh-source replication",
+      "Universal engine mechanism"
+    ]
+  },
+  "waiting_registry": {
+    "active": [
+      "G10-P2 September Lichess broadcast source",
+      "G10-P10 TWIC 1665/1666 fresh replication",
+      "Explanation Track I8 human-utility world contact"
+    ]
+  },
+  "automation_identity": {
+    "actions_writeback": false,
+    "bot_author_hits_at_closure": 0,
+    "bot_committer_hits_at_closure": 0,
+    "canonical_promotion_actor": "WhoSia"
+  }
+}
