@@ -1,0 +1,56 @@
+{
+  "schema": "c3x-g10-p15-stage-a-receipt-v1",
+  "stage": "C3X 0.9.0-G10-P15",
+  "status": "STAGE_A_CLOSED_PASS",
+  "verdict": "PASS_MINIMAL_RELAXATION_STRUCTURAL_REALIZABILITY",
+  "canonical_run": 37118943324,
+  "artifact_id": 11272750832,
+  "artifact_zip_sha256": "b437cd1e1bd6d6da2b2cc042a6cf2c9f509dcb659bc62f4c3c84f198ac19e256",
+  "admitted_pair_positions": 102,
+  "grammar_summary": {
+    "G0_LEGACY_PHYSICAL": {
+      "chain_positions": 43,
+      "fraction": 0.4215686274509804,
+      "context_cells": 17,
+      "pass": false
+    },
+    "G1_SAME_PIECE_COLLATERAL": {
+      "chain_positions": 48,
+      "fraction": 0.47058823529411764,
+      "context_cells": 17,
+      "pass": false
+    },
+    "G2_SAME_TYPE_SIDE_COLLATERAL": {
+      "chain_positions": 60,
+      "fraction": 0.5882352941176471,
+      "context_cells": 17,
+      "pass": true
+    },
+    "G3_SIDE_ROLE_COLLATERAL": {
+      "chain_positions": 64,
+      "fraction": 0.6274509803921569,
+      "context_cells": 17,
+      "pass": true
+    },
+    "G4_GLOBAL_COLLATERAL": {
+      "chain_positions": 70,
+      "fraction": 0.6862745098039216,
+      "context_cells": 18,
+      "pass": true
+    }
+  },
+  "selected_grammar": "G2_SAME_TYPE_SIDE_COLLATERAL",
+  "selection_reason": "First grammar in the preregistered relaxation ladder meeting every structural gate.",
+  "stage_b_allocation_positions": 60,
+  "firewall": {
+    "engine_execution": false,
+    "intervention_outcomes_consulted": false,
+    "defect_outcomes_consulted": false,
+    "looser_passing_grammars_ignored": true
+  },
+  "scientific_readout": "Physical identity is too restrictive, but preserving piece type, side-to-move ownership role, and collateral profile recovers balanced structural chain realizability without requiring broader side-only or global matching.",
+  "automation_identity": {
+    "actions_writeback": false,
+    "canonical_promotion_actor": "WhoSia"
+  }
+}
