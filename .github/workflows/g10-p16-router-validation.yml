@@ -1,0 +1,132 @@
+name: c3x-g10-p16-router-validation
+
+on:
+  workflow_run:
+    workflows: ["c3x-g10-p16-heldout-pair-gate"]
+    types: [completed]
+
+permissions:
+  contents: read
+  actions: read
+
+env:
+  HELDOUT_RUN: "37120231398"
+  ROUTER_RUN: "37120074387"
+  P16_BUILD_RUN: "36544344858"
+
+jobs:
+  prepare:
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    runs-on: ubuntu-latest
+    outputs:
+      run_validation: ${{ steps.gate.outputs.run_validation }}
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: g10-p16-pair-gate-sealed
+          path: gate
+          repository: WhoSia/C3X
+          run-id: ${{ github.event.workflow_run.id }}
+          github-token: ${{ github.token }}
+      - id: gate
+        run: |
+          python3 - <<'PY' >> "$GITHUB_OUTPUT"
+          import json
+          r=json.load(open("gate/g10-p16-pair-gate.json"))
+          print("run_validation="+("true" if r["verdict"]=="PASS_HELDOUT_PAIR_POSITIVITY" else "false"))
+          print("PAIR_GATE",r["verdict"],r["admitted_pair_positions"],r["pair_fraction"])
+          PY
+
+  validate:
+    needs: prepare
+    if: ${{ needs.prepare.outputs.run_validation == 'true' }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      max-parallel: 12
+      matrix:
+        shard: [0,1,2,3,4,5,6,7,8,9,10,11]
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 -m pip install --disable-pip-version-check python-chess==1.999
+      - uses: actions/download-artifact@v4
+        with:
+          name: g10-p16-pair-freeze-sealed
+          path: pair
+          repository: WhoSia/C3X
+          run-id: ${{ github.event.workflow_run.id }}
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: g10-p16-heldout-corpus-sealed
+          path: corpus
+          repository: WhoSia/C3X
+          run-id: ${{ env.HELDOUT_RUN }}
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: g10-p16-router-freeze-sealed
+          path: router
+          repository: WhoSia/C3X
+          run-id: ${{ env.ROUTER_RUN }}
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: g95-p16-build-*
+          path: builds
+          repository: WhoSia/C3X
+          run-id: ${{ env.P16_BUILD_RUN }}
+          github-token: ${{ github.token }}
+      - run: |
+          python3 tools/g10_p16_router_validation.py run             --corpus corpus/g10-p16-heldout-corpus.json             --pair-freeze pair/g10-p16-pair-freeze.json             --router router/g10-p16-router-freeze.json             --build-dir builds             --shard ${{ matrix.shard }} --shards 12             --out-dir out
+      - uses: actions/upload-artifact@v4
+        with:
+          name: g10-p16-router-worlds-${{ matrix.shard }}
+          path: out/*.json
+          retention-days: 90
+
+  aggregate:
+    needs: validate
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: g10-p16-pair-freeze-sealed
+          path: pair
+          repository: WhoSia/C3X
+          run-id: ${{ github.event.workflow_run.id }}
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: g10-p16-heldout-corpus-sealed
+          path: corpus
+          repository: WhoSia/C3X
+          run-id: ${{ env.HELDOUT_RUN }}
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: g10-p16-router-worlds-*
+          path: worlds
+      - run: |
+          python3 tools/g10_p16_router_validation.py aggregate             --corpus corpus/g10-p16-heldout-corpus.json             --pair-freeze pair/g10-p16-pair-freeze.json             --worlds worlds             --out g10-p16-router-validation.json
+          python3 - <<'PY'
+          import json
+          r=json.load(open("g10-p16-router-validation.json"))
+          assert r["edited_native_choice_consulted"] is False
+          assert r["search_event_outcomes_consulted"] is False
+          assert r["defect_outcomes_consulted"] is False
+          print("G10_P16_ROUTER_VALIDATION_VERIFIED",r["verdict"])
+          print("POS",r["preference_positive_positions"],r["preference_positive_fraction"])
+          print("PAIRED",r["paired_categories"])
+          print("CELLS",r["routed_positive_context_cells"])
+          print("SOURCE",r["by_source"])
+          PY
+          sha256sum g10-p16-router-validation.json > g10-p16-router-validation.sha256
+      - uses: actions/upload-artifact@v4
+        with:
+          name: g10-p16-router-validation-sealed
+          path: |
+            g10-p16-router-validation.json
+            g10-p16-router-validation.sha256
+          retention-days: 90
