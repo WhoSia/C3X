@@ -1,0 +1,70 @@
+name: c3x-g10-p17-transparent-calibration
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'c3x/ontology/g10-p17-constitution.json'
+      - 'tools/g10_p17_transparent_susceptibility.py'
+      - '.github/workflows/g10-p17-transparent-calibration.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+env:
+  P16_PAIR_GATE_RUN: "37122446885"
+  P16_HELDOUT_RUN: "37120231398"
+  P16_VALIDATION_RUN: "37122544550"
+
+jobs:
+  calibrate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 -m pip install --disable-pip-version-check python-chess==1.999
+      - uses: actions/download-artifact@v4
+        with:
+          name: g10-p16-pair-freeze-sealed
+          path: pair
+          repository: WhoSia/C3X
+          run-id: ${{ env.P16_PAIR_GATE_RUN }}
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: g10-p16-heldout-corpus-sealed
+          path: corpus
+          repository: WhoSia/C3X
+          run-id: ${{ env.P16_HELDOUT_RUN }}
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: g10-p16-router-worlds-*
+          path: worlds
+          repository: WhoSia/C3X
+          run-id: ${{ env.P16_VALIDATION_RUN }}
+          github-token: ${{ github.token }}
+      - name: Transparent leave-source-out calibration
+        run: |
+          python3 tools/g10_p17_transparent_susceptibility.py             --pair-freeze pair/g10-p16-pair-freeze.json             --corpus corpus/g10-p16-heldout-corpus.json             --worlds worlds             --dataset-out g10-p17-development-table.json             --out g10-p17-transparent-calibration.json
+          python3 - <<'PY'
+          import json
+          r=json.load(open("g10-p17-transparent-calibration.json"))
+          assert r["black_box_models_used"] is False
+          print("G10_P17_CALIBRATION_VERIFIED",r["verdict"],r["selected_family"])
+          print("ROWS",r["development_rows"],"POS",r["positive_rows"])
+          for k,v in r["families"].items():
+              print("FAMILY",k,"STRUCTURE_IDENTICAL",v["structure_identical"],"COVERAGE",v["combined_coverage"],"PASS",v["gate_pass"])
+              for f in v["folds"]:
+                  print("FOLD",f["train_source"],f["test_source"],f["test"])
+          PY
+          sha256sum g10-p17-development-table.json g10-p17-transparent-calibration.json > g10-p17-transparent-calibration.sha256
+      - uses: actions/upload-artifact@v4
+        with:
+          name: g10-p17-transparent-calibration-sealed
+          path: |
+            g10-p17-development-table.json
+            g10-p17-transparent-calibration.json
+            g10-p17-transparent-calibration.sha256
+          retention-days: 90
