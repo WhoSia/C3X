@@ -1,0 +1,120 @@
+name: c3x-g10-p14-stage-c
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'c3x/receipts/g10-p14-stage-b.json'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+env:
+  P16_RUN: "36544344858"
+
+jobs:
+  freeze:
+    runs-on: ubuntu-latest
+    outputs:
+      stage_b_run: ${{ steps.meta.outputs.run_id }}
+    steps:
+      - uses: actions/checkout@v4
+      - id: meta
+        run: |
+          python3 - <<'PY' >> "$GITHUB_OUTPUT"
+          import json
+          r=json.load(open("c3x/receipts/g10-p14-stage-b.json"))
+          print("run_id="+str(r["canonical_run"]))
+          PY
+      - uses: actions/download-artifact@v4
+        with:
+          name: g10-p14-search-positivity-sealed
+          path: stageb
+          repository: WhoSia/C3X
+          run-id: ${{ steps.meta.outputs.run_id }}
+          github-token: ${{ github.token }}
+      - name: Freeze Stage-C allocation
+        run: |
+          python3 tools/g10_p14_filter_chain.py             --chain-freeze stageb/g10-p14-chain-freeze.json             --search-gate stageb/g10-p14-search-positivity.json             --out g10-p14-stage-c-chain-freeze.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: g10-p14-stage-c-chain-freeze-sealed
+          path: g10-p14-stage-c-chain-freeze.json
+          retention-days: 90
+
+  opportunity:
+    needs: freeze
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      max-parallel: 12
+      matrix:
+        shard: [0,1,2,3,4,5,6,7,8,9,10,11]
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 -m pip install --disable-pip-version-check python-chess==1.999
+      - uses: actions/download-artifact@v4
+        with:
+          name: g10-p14-stage-c-chain-freeze-sealed
+          path: state
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: g95-p16-build-*
+          path: builds
+          repository: WhoSia/C3X
+          run-id: ${{ env.P16_RUN }}
+          github-token: ${{ github.token }}
+      - name: Outcome-blind opportunity replay
+        run: |
+          PYTHONPATH=. python3 tools/g10_p10_opportunity_probe.py             --chain-freeze state/g10-p14-stage-c-chain-freeze.json             --build-dir builds             --shard ${{ matrix.shard }} --shards 12             --out-dir out
+      - uses: actions/upload-artifact@v4
+        with:
+          name: g10-p14-opportunity-${{ matrix.shard }}
+          path: out/*.json
+          retention-days: 90
+
+  adjudicate:
+    needs: [freeze,opportunity]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - id: meta
+        run: |
+          python3 - <<'PY' >> "$GITHUB_OUTPUT"
+          import json
+          r=json.load(open("c3x/receipts/g10-p14-stage-b.json"))
+          print("run_id="+str(r["canonical_run"]))
+          PY
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: g10-p14-opportunity-*
+          path: worlds
+      - uses: actions/download-artifact@v4
+        with:
+          name: g10-p14-search-positivity-sealed
+          path: stageb
+          repository: WhoSia/C3X
+          run-id: ${{ steps.meta.outputs.run_id }}
+          github-token: ${{ github.token }}
+      - name: Compile balanced defect table and adjudicate
+        run: |
+          python3 tools/g10_p14_balanced_defects.py             --worlds worlds             --search-gate stageb/g10-p14-search-positivity.json             --out g10-p14-balanced-defects.json
+          python3 tools/g10_p14_stage_c_adjudicate.py             --defects g10-p14-balanced-defects.json             --policy c3x/ontology/g10-p14-stage-c-policy.json             --out g10-p14-stage-c-readout.json
+          python3 - <<'PY'
+          import json
+          r=json.load(open("g10-p14-stage-c-readout.json"))
+          print("G10_P14_STAGE_C_VERDICT",r["verdict"])
+          print("SUPPORT",r["support_cells"],r["distinct_contexts"],r["engine_pairs"])
+          print("RECURRENT",r["recurrent_cells"],r["recurrent_contexts"],r["recurrent_engine_pairs"])
+          PY
+          sha256sum g10-p14-balanced-defects.json g10-p14-stage-c-readout.json > g10-p14-stage-c-sha256.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: g10-p14-stage-c-sealed
+          path: |
+            g10-p14-balanced-defects.json
+            g10-p14-stage-c-readout.json
+            g10-p14-stage-c-sha256.txt
+          retention-days: 90
