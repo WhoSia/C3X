@@ -141,5 +141,11 @@
     "initial_run": 37115017968,
     "authority": "NONAUTHORITATIVE",
     "selection_or_gate_changed": false
+  },
+  "authority_split": {
+    "stage_a": "Balanced chess-context acquisition feasibility only.",
+    "stage_b": "Search-state positivity and frozen replay allocation only; no defect outcome authority.",
+    "stage_c": "Development-level context-balanced defect comparison under frozen allocation.",
+    "noncompensation": "No later stage can retroactively repair a failed earlier gate, and no earlier PASS substitutes for a later gate."
   }
 }
