@@ -45,9 +45,10 @@
     "ply_lo": 12,
     "ply_hi": 160,
     "at_most_one_position_per_game_per_context_cell": true,
-    "max_pool_per_source_cell": 64,
+    "max_pool_per_source_cell": null,
     "standard_chess_only": true,
-    "nonterminal_only": true
+    "nonterminal_only": true,
+    "retain_all_candidates_for_exact_global_lexicographic_selection": true
   },
   "context_lattice": {
     "phase": {
@@ -133,5 +134,12 @@
     "actions": "read",
     "repository_writeback": false,
     "canonical_promotion": "WhoSia after artifact inspection"
+  },
+  "implementation_repair": {
+    "status": "PREOUTCOME",
+    "reason": "Initial harvester bounded each source-cell pool before lexical selection, which could differ from the constitution's global lexical tie-break. No Stage-A result was inspected or promoted.",
+    "initial_run": 37115017968,
+    "authority": "NONAUTHORITATIVE",
+    "selection_or_gate_changed": false
   }
 }
