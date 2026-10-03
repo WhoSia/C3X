@@ -1,0 +1,134 @@
+{
+  "schema": "c3x-g10-p15-closure-v1",
+  "stage": "C3X 0.9.0-G10-P15 — Prospective Chess-Context-Adaptive Intervention Grammar Reconstruction, Relation-Preserving Board-Edit Family Enumeration, Phase×Branching×Tactical Realizability Surfaces, Minimal-Collateral Perturbation Synthesis, Pair-Legality/Preference-Support Preservation, Engine-Blind Chain-Positivity Recovery, Frozen Defect-Replay Re-entry & Intervention-Realizability Experiment",
+  "status": "CLOSED_HOLD",
+  "official_verdict": "HOLD_PREFERENCE_SUPPORT_COLLAPSES_AFTER_STRUCTURAL_RECOVERY",
+  "version_boundary": {
+    "prior_terminal": "C3X 0.8.0-G10-P14",
+    "current_opening": "C3X 0.9.0-G10-P15",
+    "semantic_bump_validated": true,
+    "rationale": "P15 materially changed the intervention-control grammar architecture while preserving G10/P lineage."
+  },
+  "stage_a": {
+    "verdict": "PASS_MINIMAL_RELAXATION_STRUCTURAL_REALIZABILITY",
+    "selected_grammar": "G2_SAME_TYPE_SIDE_COLLATERAL",
+    "canonical_run": 37118943324,
+    "artifact_id": 11272750832,
+    "artifact_zip_sha256": "b437cd1e1bd6d6da2b2cc042a6cf2c9f509dcb659bc62f4c3c84f198ac19e256",
+    "grammar_results": {
+      "G0": {
+        "chain_positions": 43,
+        "fraction": 0.4215686274509804,
+        "pass": false
+      },
+      "G1": {
+        "chain_positions": 48,
+        "fraction": 0.47058823529411764,
+        "pass": false
+      },
+      "G2": {
+        "chain_positions": 60,
+        "fraction": 0.5882352941176471,
+        "pass": true
+      },
+      "G3": {
+        "chain_positions": 64,
+        "fraction": 0.6274509803921569,
+        "pass": true,
+        "looser_than_selected": true
+      },
+      "G4": {
+        "chain_positions": 70,
+        "fraction": 0.6862745098039216,
+        "pass": true,
+        "looser_than_selected": true
+      }
+    },
+    "interpretation": "Physical-piece identity was too restrictive; preserving piece type, side-to-move ownership role, and collateral profile was the minimal preregistered relaxation restoring structural realizability."
+  },
+  "stage_b": {
+    "verdict": "HOLD_PREFERENCE_SUPPORT_COLLAPSES_AFTER_STRUCTURAL_RECOVERY",
+    "measurement_run": 37119099754,
+    "aggregate_recovery_run": 37119211481,
+    "artifact_id": 11272118490,
+    "artifact_zip_sha256": "78607ad054f12ac2c8bf1d9dfd6c8ab0ae6789083ce82c0cbc34cf6a532c55c6",
+    "structural_positions": 60,
+    "preference_supported_positions": 24,
+    "conditional_preservation_fraction": 0.4,
+    "pair_denominator": 102,
+    "chain_fraction_of_pairs": 0.23529411764705882,
+    "context_cells_with_chain_support": 12,
+    "all_three_engines_supported_in_all_sources": true,
+    "frozen_chain_gate": 0.35,
+    "failed_gate": "chain_fraction_of_pairs"
+  },
+  "context_surface": {
+    "by_phase": {
+      "REDUCED": 0.3125,
+      "RICH": 0.5384615384615384,
+      "TRANSITIONAL": 0.2777777777777778
+    },
+    "by_branching": {
+      "MEDIUM": 0.45,
+      "NARROW": 0.21428571428571427,
+      "WIDE": 0.46153846153846156
+    },
+    "by_tactical_surface": {
+      "QUIET_SURFACE": 0.4375,
+      "TACTICAL_AVAILABLE": 0.35714285714285715
+    },
+    "strongest_examples": [
+      {
+        "context": "RICH|WIDE|TACTICAL_AVAILABLE",
+        "preservation": 0.8
+      },
+      {
+        "context": "RICH|MEDIUM|TACTICAL_AVAILABLE",
+        "preservation": 0.75
+      },
+      {
+        "context": "TRANSITIONAL|WIDE|QUIET_SURFACE",
+        "preservation": 0.6666666666666666
+      }
+    ],
+    "zero_examples": [
+      "REDUCED|WIDE|TACTICAL_AVAILABLE",
+      "TRANSITIONAL|NARROW|QUIET_SURFACE",
+      "TRANSITIONAL|NARROW|TACTICAL_AVAILABLE",
+      "TRANSITIONAL|WIDE|TACTICAL_AVAILABLE"
+    ],
+    "atlas_run": 37119293490,
+    "atlas_artifact_id": 11273040863,
+    "atlas_zip_sha256": "a0d1a9d23cafb014ee382485be2d36d88cdace070c1346d3676a0f2c46dc2f4b"
+  },
+  "stage_c": {
+    "opened": false,
+    "defect_outcomes_consulted": false,
+    "reason": "Stage-B preference-support gate failed; no post-hoc G3/G4 rescue is admissible."
+  },
+  "scientific_conclusion": [
+    "P15 validates the 0.9.0 architectural move: control-equivalence grammar is scientifically load-bearing.",
+    "A single global G2 grammar is not sufficient across the balanced chess ecology.",
+    "Preference-support preservation is strongly context-dependent, especially by phase and branching regime.",
+    "The next scientific object is prospective context-to-grammar routing, not further global relaxation."
+  ],
+  "forbidden_next_moves": [
+    "Do not promote G3/G4 based on observed Stage-B failure.",
+    "Do not lower the 35% chain gate.",
+    "Do not delete low-preservation context cells post hoc.",
+    "Do not open Stage C defect replay under P15."
+  ],
+  "waiting_registry": {
+    "active": [
+      "G10-P2 September Lichess broadcast source",
+      "G10-P10 TWIC 1665/1666 fresh replication",
+      "Explanation Track I8 human-utility world contact"
+    ]
+  },
+  "automation_identity": {
+    "actions_writeback": false,
+    "bot_author_hits_at_closure": 0,
+    "bot_committer_hits_at_closure": 0,
+    "canonical_promotion_actor": "WhoSia"
+  }
+}
