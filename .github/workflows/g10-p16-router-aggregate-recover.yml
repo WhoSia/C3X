@@ -1,0 +1,68 @@
+name: c3x-g10-p16-router-aggregate-recover
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/g10-p16-router-aggregate-recover.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+env:
+  VALIDATION_RUN: "37122544550"
+  PAIR_GATE_RUN: "37122446885"
+  HELDOUT_RUN: "37120231398"
+
+jobs:
+  aggregate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 -m pip install --disable-pip-version-check python-chess==1.999
+      - uses: actions/download-artifact@v4
+        with:
+          name: g10-p16-pair-freeze-sealed
+          path: pair
+          repository: WhoSia/C3X
+          run-id: ${{ env.PAIR_GATE_RUN }}
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: g10-p16-heldout-corpus-sealed
+          path: corpus
+          repository: WhoSia/C3X
+          run-id: ${{ env.HELDOUT_RUN }}
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: g10-p16-router-worlds-*
+          path: worlds
+          repository: WhoSia/C3X
+          run-id: ${{ env.VALIDATION_RUN }}
+          github-token: ${{ github.token }}
+      - run: |
+          python3 tools/g10_p16_router_validation.py aggregate             --corpus corpus/g10-p16-heldout-corpus.json             --pair-freeze pair/g10-p16-pair-freeze.json             --worlds worlds             --out g10-p16-router-validation.json
+          python3 - <<'PY'
+          import json
+          r=json.load(open("g10-p16-router-validation.json"))
+          assert r["edited_native_choice_consulted"] is False
+          assert r["search_event_outcomes_consulted"] is False
+          assert r["defect_outcomes_consulted"] is False
+          print("G10_P16_ROUTER_AGGREGATE_RECOVER",r["verdict"])
+          print("POS",r["preference_positive_positions"],r["preference_positive_fraction"])
+          print("PAIRED",r["paired_categories"])
+          print("CELLS",r["routed_positive_context_cells"])
+          print("DIFF",r["superiority_difference_positions"])
+          print("SOURCE",r["by_source"])
+          PY
+          sha256sum g10-p16-router-validation.json > g10-p16-router-validation.sha256
+      - uses: actions/upload-artifact@v4
+        with:
+          name: g10-p16-router-validation-sealed
+          path: |
+            g10-p16-router-validation.json
+            g10-p16-router-validation.sha256
+          retention-days: 90
