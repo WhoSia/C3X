@@ -8,9 +8,10 @@ TYPE_ORDER={
     "tactical_contrast":3,
     "concept_proxy_delta":4,
     "verified_line_evidence":5,
-    "causal_contrast":6,
-    "retrieval_reference":7,
-    "material_snapshot":8,
+    "intervention_admissibility":6,
+    "causal_contrast":7,
+    "retrieval_reference":8,
+    "material_snapshot":9,
 }
 
 def _sentence_role(claim:dict[str,Any])->str:
@@ -22,6 +23,7 @@ def _sentence_role(claim:dict[str,Any])->str:
         "tactical_contrast":"tactical_comparison",
         "concept_proxy_delta":"positional_proxy_comparison",
         "verified_line_evidence":"verified_line",
+        "intervention_admissibility":"counterfactual_admissibility",
         "causal_contrast":"causal_scope",
         "retrieval_reference":"retrieval_context",
         "material_snapshot":"material_context",
