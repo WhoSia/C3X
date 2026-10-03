@@ -1,0 +1,64 @@
+name: c3x-explain-i9
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'c3x_explain/**'
+      - 'tests/test_c3x_explain.py'
+      - 'docs/EXPLANATION_I9.md'
+      - '.github/workflows/c3x-explain-i9.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 -m pip install --disable-pip-version-check pytest python-chess==1.999
+      - name: Explanation regression
+        run: pytest -q tests/test_c3x_explain.py
+      - name: CLI smoke with transparent abstention packet
+        run: |
+          cat > smoke.pgn <<'PGN'
+          [Event "I9 Smoke"]
+          [Result "*"]
+
+          1. e4 e5 2. Nf3 Nc6 *
+          PGN
+          python3 - <<'PY'
+          import chess,json
+          p={
+            "schema":"c3x-transparent-susceptibility-decision-v1",
+            "position_fen":chess.Board().fen(),
+            "decision":"ABSTAIN",
+            "family_id":"T2_ORDERED_RULE_LIST",
+            "trace":{"fired_rule":None},
+            "abstention_reason":"no frozen transparent rule cleared the admission gate",
+            "feature_values":{"phase":"RICH"},
+            "source_stage":"C3X 0.9.0-G10-P17"
+          }
+          json.dump(p,open("sus.json","w"),indent=2)
+          PY
+          python3 -m c3x_explain             --pgn smoke.pgn             --susceptibility sus.json             --json-out commentary.json             --markdown-out commentary.md
+          python3 - <<'PY'
+          import json
+          x=json.load(open("commentary.json"))
+          assert x["susceptibility_packet_count"]==1
+          atoms=[a for m in x["moments"] for a in m["atoms"] if a["type"]=="intervention_admissibility"]
+          assert len(atoms)==1 and atoms[0]["claim"]["decision"]=="ABSTAIN"
+          assert x["evaluation_packet"]["firewall_failed_moments"]==0
+          assert "C3X abstains" in open("commentary.md").read()
+          print("C3X_EXPLAIN_I9_CLI_PASS",x["moment_count"],len(atoms))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: c3x-explain-i9-smoke
+          path: |
+            commentary.json
+            commentary.md
+          retention-days: 30
