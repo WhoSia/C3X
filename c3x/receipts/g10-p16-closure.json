@@ -1,0 +1,83 @@
+{
+  "schema": "c3x-g10-p16-closure-v1",
+  "stage": "C3X 0.9.0-G10-P16 — Prospective Chess-Context-Conditional Intervention Router, Frozen Context→Grammar Assignment, Phase×Branching×Tactical Policy Partition, Grammar-Specific Structural/Preference Positivity, Global-vs-Routed Grammar Falsification, Held-Out Balanced Chess-Ecology Validation, Cross-Source Routing Stability, Frozen Defect-Replay Re-entry & Context-Adaptive Intervention Policy Experiment",
+  "status": "CLOSED_HOLD",
+  "official_verdict": "HOLD_ROUTER_PREFERENCE_SUPPORT_INSUFFICIENT",
+  "scientific_conclusion": [
+    "A structural-only chess-context router can be frozen without preference-outcome leakage and transfers to repo-unseen held-out TWIC arms.",
+    "The router improves preference-supported intervention yield directionally over GLOBAL_G2 on the identical held-out pair denominator: 9 vs 7 positions, with 3 ROUTED_ONLY and 1 G2_ONLY.",
+    "The improvement replicates in sign across both held-out sources (+1 position in TWIC 1655 and +1 in TWIC 1656).",
+    "However absolute routed positivity remains insufficient: 21.43% overall, 22.73% in TWIC 1655, and 20.0% in TWIC 1656, below the frozen 35% overall and 25% per-source gates.",
+    "The router's net gain is entirely produced by stricter G0 assignments in rich contexts; G1/G2 produce no net paired gain and G3 produces no positive held-out positions.",
+    "Therefore the missing object is not simply more context-specific grammar relaxation. Structural realizability is an insufficient routing criterion for preference-preserving intervention."
+  ],
+  "key_results": {
+    "frozen_router_cells": 13,
+    "heldout_positions": 52,
+    "heldout_pair_positions": 42,
+    "pair_fraction": 0.8076923076923077,
+    "routed_positive": 9,
+    "global_g2_positive": 7,
+    "routed_fraction": 0.21428571428571427,
+    "global_g2_fraction": 0.16666666666666666,
+    "paired": {
+      "ROUTED_ONLY": 3,
+      "G2_ONLY": 1,
+      "BOTH": 6,
+      "NEITHER": 32
+    },
+    "routed_positive_context_cells": 6,
+    "source_results": {
+      "TWIC_1655": {
+        "routed": 5,
+        "g2": 4,
+        "n": 22
+      },
+      "TWIC_1656": {
+        "routed": 4,
+        "g2": 3,
+        "n": 20
+      }
+    }
+  },
+  "surviving_structure": {
+    "positive": "Context routing can improve held-out yield without relaxing the grammar globally.",
+    "negative": "Phase×branching×tactical structural coverage alone does not identify a router with sufficient preference preservation.",
+    "strongest_signal": "G0 tightening in selected RICH contexts creates all net routed-only gain.",
+    "hardest_regime": "REDUCED held-out positions have 0 positive interventions under both ROUTED and GLOBAL_G2 in this validation ecology."
+  },
+  "forbidden_next_moves": [
+    "Do not lower the 35% overall or 25% per-source positivity gates.",
+    "Do not open Stage C defect replay under P16.",
+    "Do not select router assignments using held-out preference outcomes.",
+    "Do not promote G0 globally from its local held-out gains.",
+    "Do not delete REDUCED or other hard contexts post hoc."
+  ],
+  "next_question": "Which pre-outcome chess/search variables predict whether a structurally legal chain will preserve A/B preference support, and can those variables support a prospective intervention-admissibility classifier that generalizes across context/source without using edited-board outcomes?",
+  "canonical_artifacts": {
+    "constitution_preseal": "eefdfd4c247993dbf4d60f2d2ebe10feaab41b4e",
+    "acquisition_gate_commit": "21fe1cf2abc9c2891cd425cf20e72e12eaf792e5",
+    "pair_gate_commit": "017ff01bdf342b3116858c8dce652db47e80c28c",
+    "router_run": 37120074387,
+    "heldout_acquisition_run": 37120231398,
+    "pair_qualification_run": 37122155839,
+    "pair_gate_run": 37122446885,
+    "validation_measurement_run": 37122544550,
+    "validation_aggregate_run": 37122711715,
+    "posthold_atlas_run": 37122829657,
+    "validation_receipt_commit": "648e2ce1f8c74342ee84b9c0863240647c309a5c"
+  },
+  "waiting_registry": {
+    "active": [
+      "G10-P2 September Lichess broadcast source",
+      "G10-P10 TWIC 1665/1666 fresh replication",
+      "Explanation Track I8 human-utility world contact"
+    ]
+  },
+  "automation_identity": {
+    "actions_writeback": false,
+    "bot_author_hits_at_closure": 0,
+    "bot_committer_hits_at_closure": 0,
+    "canonical_promotion_actor": "WhoSia"
+  }
+}
