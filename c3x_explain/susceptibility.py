@@ -43,11 +43,11 @@ def admissibility_atom(packet:dict[str,Any])->dict[str,Any]:
     reason=_trace_text(packet)
     if decision=="ADMIT":
         text=(f"A transparent pre-edit intervention screen admits this counterfactual candidate: {reason}. "
-              "This is only an intervention-admissibility prediction; it is not a causal certificate or objective chess truth.")
+              "This is only an intervention-admissibility prediction; it does not authorize mechanism claims or objective chess truth.")
     else:
         why=packet.get("abstention_reason") or "the transparent admission rule was not satisfied"
         text=(f"C3X abstains from claiming a stable counterfactual intervention here: {reason}; {why}. "
-              "Abstention is not evidence that the chess idea is bad or that no causal mechanism exists.")
+              "Abstention is not evidence that the chess idea is bad or that no mechanism exists.")
     claim={
       "decision":decision,"family_id":family,"trace":trace,
       "feature_values":packet.get("feature_values") or {},
