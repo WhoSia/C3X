@@ -1,0 +1,50 @@
+name: c3x-g10-p17-posthold-atlas
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'tools/g10_p17_posthold_primitive_atlas.py'
+      - '.github/workflows/g10-p17-posthold-atlas.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+env:
+  CALIBRATION_RUN: "37137006367"
+
+jobs:
+  atlas:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: g10-p17-transparent-calibration-sealed
+          path: calibration
+          repository: WhoSia/C3X
+          run-id: ${{ env.CALIBRATION_RUN }}
+          github-token: ${{ github.token }}
+      - run: |
+          python3 tools/g10_p17_posthold_primitive_atlas.py             --dataset calibration/g10-p17-development-table.json             --out g10-p17-posthold-primitive-atlas.json
+          python3 - <<'PY'
+          import json
+          r=json.load(open("g10-p17-posthold-primitive-atlas.json"))
+          assert r["status"]=="POST_HOLD_DEMOTION_ONLY"
+          assert r["can_strengthen_primary"] is False
+          print("G10_P17_POSTHOLD_ATLAS_VERIFIED")
+          print("SOURCE",r["source_summary"])
+          print("STABLE",r["stable_same_sign_indicators"])
+          print("REVERSAL",r["sign_reversal_indicators"])
+          print("UNDEFINED",r["undefined_effect_indicators"])
+          PY
+          sha256sum g10-p17-posthold-primitive-atlas.json > g10-p17-posthold-primitive-atlas.sha256
+      - uses: actions/upload-artifact@v4
+        with:
+          name: g10-p17-posthold-primitive-atlas-sealed
+          path: |
+            g10-p17-posthold-primitive-atlas.json
+            g10-p17-posthold-primitive-atlas.sha256
+          retention-days: 90
