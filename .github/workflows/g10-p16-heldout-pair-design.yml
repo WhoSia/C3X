@@ -1,0 +1,40 @@
+name: c3x-g10-p16-heldout-pair-design
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+env:
+  HELDOUT_RUN: "37120231398"
+  P16_BUILD_RUN: "36544344858"
+
+jobs:
+  design:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 -m pip install --disable-pip-version-check python-chess==1.999
+      - uses: actions/download-artifact@v4
+        with:
+          name: g10-p16-heldout-corpus-sealed
+          path: corpus
+          repository: WhoSia/C3X
+          run-id: ${{ env.HELDOUT_RUN }}
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: g95-p16-build-*
+          path: builds
+          repository: WhoSia/C3X
+          run-id: ${{ env.P16_BUILD_RUN }}
+          github-token: ${{ github.token }}
+      - run: |
+          python3 tools/g10_p16_design_adapter.py             --heldout-corpus corpus/g10-p16-heldout-corpus.json             --legacy-p16-constitution c3x/ontology/g95-p16-constitution.json             --build-dir builds             --out g10-p16-design.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: g10-p16-design-sealed
+          path: g10-p16-design.json
+          retention-days: 90
