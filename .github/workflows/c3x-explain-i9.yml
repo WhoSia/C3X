@@ -21,8 +21,12 @@ jobs:
       - uses: actions/checkout@v4
       - run: python3 -m pip install --disable-pip-version-check pytest python-chess==1.999
       - name: Explanation regression
+        env:
+          PYTHONPATH: .
         run: pytest -q tests/test_c3x_explain.py
       - name: CLI smoke with transparent abstention packet
+        env:
+          PYTHONPATH: .
         run: |
           cat > smoke.pgn <<'PGN'
           [Event "I9 Smoke"]
