@@ -5,9 +5,6 @@ on:
     branches: [main]
     paths:
       - 'c3x/receipts/g10-p14-stage-a.json'
-      - 'tools/g10_p14_design_adapter.py'
-      - 'tools/g10_p14_search_gate.py'
-      - '.github/workflows/g10-p14-search-positivity.yml'
   workflow_dispatch:
 
 permissions:
@@ -15,7 +12,7 @@ permissions:
   actions: read
 
 env:
-  STAGE_A_RUN: "37115017968"
+  STAGE_A_RUN: "37115470170"
   P16_RUN: "36544344858"
 
 jobs:
