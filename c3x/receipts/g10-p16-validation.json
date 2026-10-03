@@ -1,0 +1,156 @@
+{
+  "schema": "c3x-g10-p16-validation-receipt-v1",
+  "stage": "C3X 0.9.0-G10-P16",
+  "status": "HELDOUT_VALIDATION_CLOSED_HOLD",
+  "official_verdict": "HOLD_ROUTER_PREFERENCE_SUPPORT_INSUFFICIENT",
+  "router": {
+    "frozen_run": 37120074387,
+    "artifact_id": 11273211797,
+    "artifact_zip_sha256": "16e0deb9dec4cf533783ba52b0c95207bb62d55a260c1591aba293e4c10e113f",
+    "routed_cells": 13,
+    "grammar_cell_counts": {
+      "G0_LEGACY_PHYSICAL": 7,
+      "G1_SAME_PIECE_COLLATERAL": 4,
+      "G2_SAME_TYPE_SIDE_COLLATERAL": 1,
+      "G3_SIDE_ROLE_COLLATERAL": 1
+    },
+    "source_bytes_read_before_freeze": false,
+    "p15_stage_b_read_before_freeze": false
+  },
+  "heldout_acquisition": {
+    "run": 37120231398,
+    "artifact_id": 11272788097,
+    "artifact_zip_sha256": "074f3a80b6d0682540141047fe1ef8ced92b7b16c99f2bddd41dc1c3b8162046",
+    "verdict": "PASS_HELDOUT_ROUTED_ECOLOGY_POSITIVITY",
+    "positions": 52,
+    "routed_cells": 13,
+    "source_zip_sha256": {
+      "P16_SRC_TWIC_1655": "b2428e98bce0bba27041c16476c5574355c91bf8a3337647288e9ca15a32e092",
+      "P16_SRC_TWIC_1656": "2970ae7fb943cf67d535ca89489e0bd4e57ec0d1375b4b5220e5946777a04df7"
+    }
+  },
+  "pair_gate": {
+    "qualification_run": 37122155839,
+    "gate_run": 37122446885,
+    "artifact_id": 11273412436,
+    "artifact_zip_sha256": "cd67d64fcaef990000e3fca419158ffd19a76e99c35921d5f3b2de77fcc7cdb1",
+    "verdict": "PASS_HELDOUT_PAIR_POSITIVITY",
+    "admitted_pair_positions": 42,
+    "total_positions": 52,
+    "pair_fraction": 0.8076923076923077,
+    "pair_supported_context_cells": 13,
+    "all_three_engines_in_both_sources": true
+  },
+  "paired_validation": {
+    "measurement_run": 37122544550,
+    "aggregate_recovery_run": 37122711715,
+    "artifact_id": 11274006773,
+    "artifact_zip_sha256": "018004e6dc3e18b41002c8ae8d932d3c57249a6b78d2957a5a9bd7b47242f471",
+    "json_sha256": "e7f91c680fd9193fa0db226055928ff538d2692021aa42f90597415353259ec9",
+    "denominator": 42,
+    "preference_positive_positions": {
+      "ROUTED": 9,
+      "GLOBAL_G2": 7
+    },
+    "preference_positive_fraction": {
+      "ROUTED": 0.21428571428571427,
+      "GLOBAL_G2": 0.16666666666666666
+    },
+    "paired_categories": {
+      "ROUTED_ONLY": 3,
+      "G2_ONLY": 1,
+      "BOTH": 6,
+      "NEITHER": 32
+    },
+    "routed_positive_context_cells": 6,
+    "superiority_difference_positions": 2,
+    "by_source": {
+      "P16_SRC_TWIC_1655": {
+        "ROUTED": {
+          "positive": 5,
+          "n": 22,
+          "fraction": 0.22727272727272727
+        },
+        "GLOBAL_G2": {
+          "positive": 4,
+          "n": 22,
+          "fraction": 0.18181818181818182
+        }
+      },
+      "P16_SRC_TWIC_1656": {
+        "ROUTED": {
+          "positive": 4,
+          "n": 20,
+          "fraction": 0.2
+        },
+        "GLOBAL_G2": {
+          "positive": 3,
+          "n": 20,
+          "fraction": 0.15
+        }
+      }
+    },
+    "failed_frozen_gates": [
+      "ROUTED overall preference-supported pair fraction >= 0.35",
+      "ROUTED per-source pair fraction >= 0.25 in each held-out source"
+    ],
+    "passed_components": [
+      "ROUTED has strictly more positive held-out positions than GLOBAL_G2",
+      "ROUTED positive context cells >= 6",
+      "Both held-out sources represented",
+      "At least two active engines per source"
+    ]
+  },
+  "posthold_atlas": {
+    "run": 37122829657,
+    "artifact_id": 11273801998,
+    "artifact_zip_sha256": "23145e04855ce5183960e82d499ba076097a23e06ae1cfa7865457964abe7d40",
+    "router_grammar_summary": {
+      "G0": {
+        "n": 23,
+        "routed": 4,
+        "g2": 2,
+        "routed_only": 3,
+        "g2_only": 1,
+        "both": 1
+      },
+      "G1": {
+        "n": 12,
+        "routed": 3,
+        "g2": 3,
+        "both": 3
+      },
+      "G2": {
+        "n": 4,
+        "routed": 2,
+        "g2": 2,
+        "both": 2
+      },
+      "G3": {
+        "n": 3,
+        "routed": 0,
+        "g2": 0
+      }
+    },
+    "interpretation": "The router's net +2 held-out gain is entirely concentrated in G0-assigned contexts; looser routed grammars do not contribute net held-out gain."
+  },
+  "implementation_recovery": {
+    "first_validation_prepare_run": 37122476715,
+    "first_failure": "GITHUB_OUTPUT formatting bug before measurement worlds opened.",
+    "measurement_run_aggregate_failure": "python-chess missing in aggregate job only; 12/12 measurement shards succeeded.",
+    "aggregate_recovery_reused_sealed_worlds": true,
+    "measurement_recomputed": false,
+    "router_or_threshold_changed": false
+  },
+  "stage_c": {
+    "opened": false,
+    "defect_replay_authorized": false,
+    "reason": "Held-out router positivity gate failed despite paired directional superiority."
+  },
+  "automation_identity": {
+    "actions_writeback": false,
+    "bot_author_hits_at_promotion": 0,
+    "bot_committer_hits_at_promotion": 0,
+    "canonical_promotion_actor": "WhoSia"
+  }
+}
