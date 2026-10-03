@@ -1,0 +1,70 @@
+name: c3x-g10-p14-stage-b-recover
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/g10-p14-stage-b-recover.yml'
+      - 'tools/g10_p14_search_gate.py'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+env:
+  FAILED_STAGE_B_RUN: "37115769095"
+  STAGE_A_RUN: "37115470170"
+
+jobs:
+  recover:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 -m pip install --disable-pip-version-check python-chess==1.999
+      - uses: actions/download-artifact@v4
+        with:
+          name: g10-p14-pair-freeze-sealed
+          path: pair
+          repository: WhoSia/C3X
+          run-id: ${{ env.FAILED_STAGE_B_RUN }}
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: g10-p14-chainqual-*
+          path: chainquals
+          repository: WhoSia/C3X
+          run-id: ${{ env.FAILED_STAGE_B_RUN }}
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: g10-p14-balanced-corpus-sealed
+          path: corpus
+          repository: WhoSia/C3X
+          run-id: ${{ env.STAGE_A_RUN }}
+          github-token: ${{ github.token }}
+      - name: Recover Stage-B gate from sealed preoutcome artifacts
+        run: |
+          PYTHONPATH=. python3 harness/g95_p16_court.py chain-freeze             --freeze pair/g10-p14-pair-freeze.json             --chain-qualifications chainquals             --out g10-p14-chain-freeze.json
+          python3 tools/g10_p14_search_gate.py             --balanced-corpus corpus/g10-p14-balanced-corpus.json             --pair-freeze pair/g10-p14-pair-freeze.json             --chain-freeze g10-p14-chain-freeze.json             --out g10-p14-search-positivity.json
+          python3 - <<'PY'
+          import json
+          r=json.load(open("g10-p14-search-positivity.json"))
+          assert r["intervention_outcomes_consulted"] is False
+          assert r["defect_outcomes_consulted"] is False
+          print("G10_P14_STAGE_B_RECOVER_VERDICT",r["verdict"])
+          print("PAIR",r["pair_positions"],r["total_positions"],r["pair_fraction"])
+          print("CHAIN",r["chain_positions"],r["chain_fraction_of_pairs"])
+          print("CELLS",r["context_cells_with_chain_support"])
+          print("ALLOC",len(r["stage_c_position_ids"]))
+          print("ENGINES",r["active_engines_by_source"])
+          PY
+          sha256sum g10-p14-search-positivity.json g10-p14-chain-freeze.json > g10-p14-search-sha256.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: g10-p14-search-positivity-sealed
+          path: |
+            g10-p14-chain-freeze.json
+            g10-p14-search-positivity.json
+            g10-p14-search-sha256.txt
+          retention-days: 90
