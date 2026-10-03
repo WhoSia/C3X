@@ -1,0 +1,61 @@
+name: c3x-g10-p15-grammar-census
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'c3x/ontology/g10-p15-constitution.json'
+      - 'tools/g10_p15_grammar_census.py'
+      - '.github/workflows/g10-p15-grammar-census.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+env:
+  P14_PAIR_RUN: "37115769095"
+  P14_STAGE_A_RUN: "37115470170"
+
+jobs:
+  census:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 -m pip install --disable-pip-version-check python-chess==1.999
+      - uses: actions/download-artifact@v4
+        with:
+          name: g10-p14-pair-freeze-sealed
+          path: pair
+          repository: WhoSia/C3X
+          run-id: ${{ env.P14_PAIR_RUN }}
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: g10-p14-balanced-corpus-sealed
+          path: corpus
+          repository: WhoSia/C3X
+          run-id: ${{ env.P14_STAGE_A_RUN }}
+          github-token: ${{ github.token }}
+      - name: Engine-free intervention grammar census
+        run: |
+          python3 tools/g10_p15_grammar_census.py             --pair-freeze pair/g10-p14-pair-freeze.json             --balanced-corpus corpus/g10-p14-balanced-corpus.json             --out g10-p15-stage-a.json
+          python3 - <<'PY'
+          import json
+          r=json.load(open("g10-p15-stage-a.json"))
+          assert r["engine_execution"] is False
+          assert r["intervention_outcomes_consulted"] is False
+          assert r["defect_outcomes_consulted"] is False
+          print("G10_P15_STAGE_A_VERIFIED",r["verdict"],r["selected_grammar"])
+          for g,z in r["grammar_summary"].items():
+              print("GRAMMAR",g,z["chain_positions"],z["chain_fraction_of_pairs"],z["context_cells_with_chain_support"],z["structural_gate_pass"])
+          print("STAGE_B_ALLOC",len(r["stage_b_allocation"]))
+          PY
+          sha256sum g10-p15-stage-a.json > g10-p15-stage-a.sha256
+      - uses: actions/upload-artifact@v4
+        with:
+          name: g10-p15-stage-a-sealed
+          path: |
+            g10-p15-stage-a.json
+            g10-p15-stage-a.sha256
+          retention-days: 90
