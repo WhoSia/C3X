@@ -1,0 +1,139 @@
+{
+  "schema": "c3x-g10-p16-constitution-v1",
+  "stage": "C3X 0.9.0-G10-P16 — Prospective Chess-Context-Conditional Intervention Router, Frozen Context→Grammar Assignment, Phase×Branching×Tactical Policy Partition, Grammar-Specific Structural/Preference Positivity, Global-vs-Routed Grammar Falsification, Held-Out Balanced Chess-Ecology Validation, Cross-Source Routing Stability, Frozen Defect-Replay Re-entry & Context-Adaptive Intervention Policy Experiment",
+  "type": "EXPERIMENT",
+  "parent": {
+    "stage": "C3X 0.9.0-G10-P15",
+    "verdict": "HOLD_PREFERENCE_SUPPORT_COLLAPSES_AFTER_STRUCTURAL_RECOVERY"
+  },
+  "question": "Can a context-routed intervention policy, frozen from P15 engine-free structural feasibility alone, outperform the single global G2 grammar on repo-unseen held-out balanced chess worlds without using P15 preference outcomes to choose the route?",
+  "development_router": {
+    "input_artifact": "P15 Stage-A only",
+    "forbidden_inputs": [
+      "P15 Stage-B preference-support worlds",
+      "P15 Stage-B atlas",
+      "defect outcomes",
+      "edited native bestmove",
+      "search-event outcomes"
+    ],
+    "context_key": [
+      "phase",
+      "branching",
+      "tactical_surface"
+    ],
+    "grammar_order": [
+      "G0_LEGACY_PHYSICAL",
+      "G1_SAME_PIECE_COLLATERAL",
+      "G2_SAME_TYPE_SIDE_COLLATERAL",
+      "G3_SIDE_ROLE_COLLATERAL",
+      "G4_GLOBAL_COLLATERAL"
+    ],
+    "cell_min_development_pairs": 3,
+    "structural_coverage_threshold": 0.5,
+    "route_rule": "Within each context cell having >=3 P15 admitted pair positions, choose the first grammar in G0→G4 whose structural chain availability fraction is >=0.50. If none qualifies, ABSTAIN. No coarser backoff.",
+    "validation_domain": "Only cells assigned a non-ABSTAIN grammar before held-out source acquisition.",
+    "complexity_order_is_binding": true
+  },
+  "comparator": {
+    "name": "GLOBAL_G2",
+    "grammar": "G2_SAME_TYPE_SIDE_COLLATERAL",
+    "reason": "P15 minimal global structural grammar; fixed before held-out validation."
+  },
+  "heldout_sources": [
+    {
+      "id": "P16_SRC_TWIC_1655",
+      "issue": 1655,
+      "url": "https://theweekinchess.com/zips/twic1655g.zip",
+      "role": "REPO_UNSEEN_HELDOUT_VALIDATION"
+    },
+    {
+      "id": "P16_SRC_TWIC_1656",
+      "issue": 1656,
+      "url": "https://theweekinchess.com/zips/twic1656g.zip",
+      "role": "REPO_UNSEEN_HELDOUT_VALIDATION"
+    }
+  ],
+  "source_firewall": {
+    "repo_prior_reference_search_before_preseal": {
+      "1655": 0,
+      "1656": 0
+    },
+    "source_bytes_open_after_router_freeze": true,
+    "zip_sha256_bound_on_first_acquisition_before_engine_outcomes": true,
+    "no_validation_outcome_can_change_router": true
+  },
+  "acquisition": {
+    "scan_games_per_source": 6144,
+    "ply_lo": 12,
+    "ply_hi": 160,
+    "standard_nonterminal_only": true,
+    "route_domain_cells_only": true,
+    "min_candidates_per_source_cell": 3,
+    "positions_per_source_cell": 2,
+    "cross_source_duplicate_fens_excluded": true,
+    "historical_recoverable_candidate_hashes_excluded": true,
+    "tie_break": "lexicographic SHA256(source_id|game_index|ply|canonical_fen)",
+    "engine_outcomes_forbidden": true
+  },
+  "pair_freeze": {
+    "instrument": "Inherited P14/P16 baseline qualification and unordered near-equal pair rule.",
+    "engines": [
+      "stockfish_19",
+      "berserk",
+      "ethereal"
+    ],
+    "pair_rule": "At least two engines stably score both A/B within 50cp and contextual baseline bestmove belongs to pair.",
+    "no_pair_reselection_by_router": true
+  },
+  "dual_policy_test": {
+    "unit": "held-out admitted pair position",
+    "policies": [
+      "ROUTED",
+      "GLOBAL_G2"
+    ],
+    "structural_chain_generation": "Same P15 edit universe and collateral caps; only control-matching grammar differs.",
+    "preference_support": "TARGET/SUBSET/SHAM all preserve legal A/B and repeated isolated non-mate gap <=50cp for >=2 active engines.",
+    "same_position_comparison": true,
+    "router_primary_metric": "preference-supported positions / all held-out admitted pair positions",
+    "comparator_metric": "same denominator for GLOBAL_G2",
+    "paired_outcomes": [
+      "ROUTED_ONLY",
+      "G2_ONLY",
+      "BOTH",
+      "NEITHER"
+    ],
+    "no_post_outcome_cell_deletion": true
+  },
+  "success_gate": {
+    "routed_min_chain_fraction_of_pairs": 0.35,
+    "routed_min_context_cells": 6,
+    "routed_min_sources": 2,
+    "routed_min_active_engines_per_source": 2,
+    "superiority_rule": "ROUTED must have strictly more preference-supported held-out positions than GLOBAL_G2; report exact paired discordance counts without post-hoc significance threshold.",
+    "cross_source_stability": "ROUTED chain fraction must be >=0.25 separately in each held-out source."
+  },
+  "stage_c": {
+    "opens_only_if_router_gate_and_superiority_pass": true,
+    "allocation": "At most one ROUTED-positive position per context cell×source, prioritize more supporting engines then lower collateral then lexical id.",
+    "measurement": "Frozen P10/P11 opportunity-transition measurement and P11 semantic alignments.",
+    "no_router_or_grammar_refit": true
+  },
+  "verdict_space": [
+    "PASS_CONTEXT_ROUTER_HELDOUT_SUPERIORITY_DEFECT_REPLAY_REENTRY",
+    "PASS_ROUTER_POSITIVITY_NO_GLOBAL_G2_SUPERIORITY",
+    "HOLD_HELDOUT_PAIR_SUPPORT_INSUFFICIENT",
+    "HOLD_ROUTER_PREFERENCE_SUPPORT_INSUFFICIENT",
+    "FAIL_ROUTER_FREEZE_OR_SOURCE_FIREWALL"
+  ],
+  "claim_ceiling": [
+    "Development-plus-heldout validation of context-conditioned intervention policy.",
+    "Repo-unseen held-out source arms are not automatically external fresh-confirmation authority.",
+    "No objective chess truth, human cognition, or engine-internals mechanism claim."
+  ],
+  "automation_identity": {
+    "contents": "read",
+    "actions": "read",
+    "repository_writeback": false,
+    "canonical_promotion": "WhoSia after artifact inspection"
+  }
+}
