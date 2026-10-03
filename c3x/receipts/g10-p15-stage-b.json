@@ -1,0 +1,108 @@
+{
+  "schema": "c3x-g10-p15-stage-b-receipt-v1",
+  "stage": "C3X 0.9.0-G10-P15",
+  "status": "STAGE_B_CLOSED_HOLD",
+  "verdict": "HOLD_PREFERENCE_SUPPORT_COLLAPSES_AFTER_STRUCTURAL_RECOVERY",
+  "canonical_measurement_run": 37119099754,
+  "canonical_aggregate_recovery_run": 37119211481,
+  "aggregate_recovery_head": "2e64574507375ba91b56025be4a6184084706b40",
+  "artifact_id": 11272118490,
+  "artifact_zip_sha256": "78607ad054f12ac2c8bf1d9dfd6c8ab0ae6789083ce82c0cbc34cf6a532c55c6",
+  "selected_grammar": "G2_SAME_TYPE_SIDE_COLLATERAL",
+  "gate": {
+    "structural_positions": 60,
+    "preference_supported_chain_positions": 24,
+    "admitted_pair_positions": 102,
+    "conditional_preservation_fraction": 0.4,
+    "chain_fraction_of_pairs": 0.23529411764705882,
+    "context_cells_with_chain_support": 12,
+    "min_chain_position_fraction_of_pairs": 0.35,
+    "min_context_cells_with_chain_support": 6,
+    "source_engine_support": {
+      "P14_SRC_TWIC_1659": [
+        "berserk",
+        "ethereal",
+        "stockfish_19"
+      ],
+      "P14_SRC_TWIC_1660": [
+        "berserk",
+        "ethereal",
+        "stockfish_19"
+      ],
+      "P14_SRC_TWIC_1663": [
+        "berserk",
+        "ethereal",
+        "stockfish_19"
+      ],
+      "P14_SRC_TWIC_1664": [
+        "berserk",
+        "ethereal",
+        "stockfish_19"
+      ]
+    },
+    "failed_components": [
+      "chain_fraction_of_pairs"
+    ],
+    "passed_components": [
+      "context_cells_with_chain_support",
+      "active_engines_per_source"
+    ]
+  },
+  "context_atlas": {
+    "run": 37119293490,
+    "artifact_id": 11273040863,
+    "artifact_zip_sha256": "a0d1a9d23cafb014ee382485be2d36d88cdace070c1346d3676a0f2c46dc2f4b",
+    "by_phase": {
+      "REDUCED": 0.3125,
+      "RICH": 0.5384615384615384,
+      "TRANSITIONAL": 0.2777777777777778
+    },
+    "by_branching": {
+      "MEDIUM": 0.45,
+      "NARROW": 0.21428571428571427,
+      "WIDE": 0.46153846153846156
+    },
+    "by_tactical_surface": {
+      "QUIET_SURFACE": 0.4375,
+      "TACTICAL_AVAILABLE": 0.35714285714285715
+    },
+    "strongest_context": "RICH|WIDE|TACTICAL_AVAILABLE",
+    "strongest_context_preservation": 0.8,
+    "zero_context_examples": [
+      "REDUCED|WIDE|TACTICAL_AVAILABLE",
+      "TRANSITIONAL|NARROW|QUIET_SURFACE",
+      "TRANSITIONAL|NARROW|TACTICAL_AVAILABLE",
+      "TRANSITIONAL|WIDE|TACTICAL_AVAILABLE"
+    ]
+  },
+  "recovery": {
+    "measurement_shards_reused": true,
+    "aggregate_failure": "python-chess missing only in aggregate job",
+    "aggregate_recovery_only": true,
+    "measurement_recomputed": false,
+    "thresholds_changed": false,
+    "grammar_changed": false
+  },
+  "stage_c": {
+    "opened": false,
+    "allocation_positions": 0,
+    "reason": "Stage-B preference-support gate failed prospectively."
+  },
+  "authority": {
+    "earned": [
+      "G2 structural grammar selection",
+      "Context-dependent preference-support preservation surface"
+    ],
+    "not_earned": [
+      "Balanced preference-supported chain positivity",
+      "Stage-C defect replay",
+      "Universal context-independent intervention grammar"
+    ]
+  },
+  "automation_identity": {
+    "actions_writeback": false,
+    "bot_author_hits_at_promotion": 0,
+    "bot_committer_hits_at_promotion": 0,
+    "canonical_promotion_actor": "WhoSia"
+  }
+}
