@@ -227,5 +227,70 @@
     "actions": "read",
     "repository_writeback": false,
     "canonical_promotion": "WhoSia after artifact inspection"
+  },
+  "implementation_preseal": {
+    "frozen_indicator_library": [
+      "pair_consensus_orientation",
+      "preferred_move_full_agreement",
+      "median_gap_le_10",
+      "median_gap_le_25",
+      "max_gap_le_25",
+      "gap_dispersion_le_5",
+      "gap_dispersion_le_15",
+      "phase_RICH",
+      "phase_REDUCED",
+      "branching_NARROW",
+      "branching_WIDE",
+      "tactical_QUIET_SURFACE",
+      "grammar_complexity_le_1",
+      "chain_ATOMIC",
+      "target_atom_singleton",
+      "target_endpoint_FROM",
+      "target_polarity_GAIN",
+      "side_role_OWN",
+      "piece_minor",
+      "legal_delta_LOW",
+      "attack_symdiff_LOW",
+      "total_collateral_le_12",
+      "total_collateral_le_20"
+    ],
+    "T1_algorithm": {
+      "method": "deterministic forward integer scorecard",
+      "start": "intercept 0, empty term set",
+      "candidate_coefficients": [
+        -2,
+        -1,
+        1,
+        2
+      ],
+      "max_terms": 6,
+      "each_step": "add the unused indicator/coefficient giving lexicographically highest (training admitted precision, training admitted positives, training admitted n, -L1, lexical term id) across all integer score thresholds",
+      "threshold_search": "all integer values from min score through max score; require at least 3 admitted training rows",
+      "stop": "no candidate improves the lexicographic objective",
+      "authority_trace": "threshold plus ordered term/coefficient/contribution list"
+    },
+    "T2_algorithm": {
+      "method": "deterministic ordered rule list",
+      "rule_conditions": "one or two positive/negative indicator literals from the frozen library",
+      "max_rules": 4,
+      "min_training_rule_support": 3,
+      "each_step": "among uncovered rows choose rule maximizing (positive precision, positive count, support, lexical rule); append only if precision >= 0.5",
+      "decision": "ACCEPT on first fired rule, otherwise ABSTAIN",
+      "authority_trace": "fired rule and its frozen literals"
+    },
+    "T3_algorithm": {
+      "method": "Laplace-smoothed sparse interaction table",
+      "interaction_order": [
+        "pair_geometry × gap_dispersion_cp",
+        "phase × branching",
+        "relation_atom_family × side_role",
+        "grammar_complexity × total_collateral"
+      ],
+      "max_tables": 2,
+      "selection": "on training source choose first two interactions whose best supported cell (n>=3) has Laplace survival >=0.5; preserve interaction order",
+      "decision": "ACCEPT if any selected table cell has Laplace survival >=0.5 and training cell n>=3, else ABSTAIN",
+      "authority_trace": "interaction name, cell values, train successes/n and Laplace estimate"
+    },
+    "immutable_after_commit": true
   }
 }
