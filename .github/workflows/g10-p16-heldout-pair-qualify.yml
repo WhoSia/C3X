@@ -1,0 +1,49 @@
+name: c3x-g10-p16-heldout-pair-qualify
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/g10-p16-heldout-pair-qualify.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+env:
+  DESIGN_RUN: "37120471661"
+  P16_BUILD_RUN: "36544344858"
+
+jobs:
+  qualify:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      max-parallel: 12
+      matrix:
+        shard: [0,1,2,3,4,5,6,7,8,9,10,11]
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 -m pip install --disable-pip-version-check python-chess==1.999
+      - uses: actions/download-artifact@v4
+        with:
+          name: g10-p16-design-sealed
+          path: state
+          repository: WhoSia/C3X
+          run-id: ${{ env.DESIGN_RUN }}
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: g95-p16-build-*
+          path: builds
+          repository: WhoSia/C3X
+          run-id: ${{ env.P16_BUILD_RUN }}
+          github-token: ${{ github.token }}
+      - run: |
+          PYTHONPATH=. python3 tools/g10_p5_p16_shard.py             --phase qualify             --state state/g10-p16-design.json             --build-dir builds             --shard ${{ matrix.shard }} --shards 12             --out-dir out
+      - uses: actions/upload-artifact@v4
+        with:
+          name: g10-p16-qualify-${{ matrix.shard }}
+          path: out/
+          retention-days: 90
