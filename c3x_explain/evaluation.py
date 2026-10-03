@@ -12,7 +12,7 @@ def evaluation_packet(moments:list[dict[str,Any]],rating_band:str)->dict[str,Any
       "tactic":{"evidence":sum(a.get("type") in {"tactical_fact","tactical_contrast"} for a in atoms)},
       "planning_line":{"evidence":sum(a.get("type")=="verified_line_evidence" for a in atoms)},
       "position_judgment":{"evidence":sum(a.get("type")=="candidate_contrast" for a in atoms)},
-      "semantic":{"evidence":sum(a.get("type") in {"concept_proxy_delta","retrieval_reference","causal_contrast"} for a in atoms)},
+      "semantic":{"evidence":sum(a.get("type") in {"concept_proxy_delta","retrieval_reference","intervention_admissibility","causal_contrast"} for a in atoms)},
       "contrastiveness":{"evidence":sum(a.get("type") in {"candidate_contrast","tactical_contrast","concept_proxy_delta","causal_contrast"} for a in atoms)},
       "provenance":{"evidence":sum(bool(a.get("provenance") and a.get("authority")) for a in atoms)}
     }
