@@ -15,14 +15,13 @@ def main():
     a=ap.parse_args()
     corp=load(a.balanced_corpus);pf=load(a.pair_freeze);cf=load(a.chain_freeze)
     if corp.get("verdict")!="PASS_BALANCED_CHESS_ECOLOGY_POSITIVITY":raise SystemExit("P14_ECOLOGY_NOT_PASS")
-    ctx={(z["source_id"],z["candidate_sha256"]):z["cell"] for z in corp["positions"]}
+    ctx={f"p14:{z['source_id']}:{z['trajectory_hash'][:12]}":z["cell"] for z in corp["positions"]}
     pos_total=len(pf["positions"])
     admitted=[z for z in pf["positions"].values() if z.get("admitted")]
     chain_pos=[pid for pid,z in cf["selected_chains"].items() if z]
     bysource_eng=defaultdict(set);cells=set();rows=[]
     for pid,z in pf["positions"].items():
-        key=(z["source_id"],z["candidate_sha256"])
-        c=ctx.get(key)
+        c=ctx.get(pid)
         if c is None:raise SystemExit("P14_CONTEXT_JOIN_"+pid)
         active=sorted(e for e,v in z.get("engine_views",{}).items() if v.get("active"))
         for e in active:bysource_eng[z["source_id"]].add(e)
@@ -44,7 +43,7 @@ def main():
     for pid,z in pf["positions"].items():
         chains=cf["selected_chains"].get(pid,[])
         if not chains:continue
-        key=(z["source_id"],z["candidate_sha256"]);c=ctx[key]
+        c=ctx[pid]
         support=max((x["support_count"] for x in chains),default=0)
         maxgap=min((x["max_gap_cp_abs"] for x in chains),default=999)
         candidates.append((c["phase"],c["branching"],c["tactical_surface"],z["source_id"],-support,maxgap,pid))
