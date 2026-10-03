@@ -1,0 +1,137 @@
+{
+  "schema": "c3x-g10-p14-constitution-v1",
+  "stage": "C3X 0.8.0-G10-P14 — Prospective Context-Balanced Chess-State Ecology Constitution, Phase×Branching×Tactical-Mode Stratified Position Acquisition, Engine-Blind Candidate Harvest, Search-State Positivity Targeting, Source-Independent Matched Chess Worlds, Frozen Cross-Engine Defect Replay Allocation, Context-Transport Identifiability & Balanced Chess Ecology Experiment",
+  "type": "EXPERIMENT",
+  "parent": {
+    "stage": "G10-P13",
+    "verdict": "HOLD_CONTEXT_OVERLAP_INSUFFICIENT"
+  },
+  "question": "Can C3X prospectively construct a source-independent, chess-context-balanced ecology with sufficient pair/search positivity to identify cross-engine defect behavior within the same chess regimes rather than inherit issue-level composition?",
+  "acquisition_sources": [
+    {
+      "id": "P14_SRC_TWIC_1659",
+      "issue": 1659,
+      "url": "https://theweekinchess.com/zips/twic1659g.zip",
+      "zip_sha256": "67462b854b974e5425216d6ad1387489d9e34a61850c8fde84f637aefcda53f6"
+    },
+    {
+      "id": "P14_SRC_TWIC_1660",
+      "issue": 1660,
+      "url": "https://theweekinchess.com/zips/twic1660g.zip",
+      "zip_sha256": "f46e172fa2ed5fe53cc465e44f3c8f321685d123006e32b6f531b95dafffc263"
+    },
+    {
+      "id": "P14_SRC_TWIC_1663",
+      "issue": 1663,
+      "url": "https://theweekinchess.com/zips/twic1663g.zip",
+      "zip_sha256": "36ac4a1324a21674649f7b5eb12e0ef21167b18288917cce6aba3d8120669dd9"
+    },
+    {
+      "id": "P14_SRC_TWIC_1664",
+      "issue": 1664,
+      "url": "https://theweekinchess.com/zips/twic1664g.zip",
+      "zip_sha256": "e760b3419af0e441d74dad500130b2d585e3dfff6f3954244b957e61b3d3572a"
+    }
+  ],
+  "freshness": {
+    "role": "DEVELOPMENT_ACQUISITION_FRAME_NOT_FRESH_CONFIRMATION",
+    "exclude_all_recoverable_repo_candidate_hashes": true,
+    "exclude_prior_P5_P7_selected_hashes_from_sealed_source_corpora": true,
+    "exclude_cross_source_duplicate_fens": true,
+    "historical_engine_or_certificate_outcomes_forbidden_in_selection": true
+  },
+  "scan": {
+    "source_prefix_games": 6144,
+    "ply_lo": 12,
+    "ply_hi": 160,
+    "at_most_one_position_per_game_per_context_cell": true,
+    "max_pool_per_source_cell": 64,
+    "standard_chess_only": true,
+    "nonterminal_only": true
+  },
+  "context_lattice": {
+    "phase": {
+      "formula": "N=1,B=1,R=2,Q=4 over both sides; starting total=24",
+      "RICH": "17..24",
+      "TRANSITIONAL": "9..16",
+      "REDUCED": "0..8"
+    },
+    "branching": {
+      "NARROW": "<=20",
+      "MEDIUM": "21..35",
+      "WIDE": "36+"
+    },
+    "tactical_surface": {
+      "FORCED_CHECK": "side to move is in check",
+      "TACTICAL_AVAILABLE": "not in check and at least one legal capture or checking move exists",
+      "QUIET_SURFACE": "not in check and no legal capture or checking move exists"
+    },
+    "total_cells": 27
+  },
+  "balanced_selection": {
+    "cell_admissibility": "After historical and cross-source deduplication, every one of the four sources has at least 3 candidates in the cell.",
+    "positions_per_source_per_admissible_cell": 2,
+    "tie_break": "lexicographically smallest SHA256(source_id|game_index|ply|canonical_fen)",
+    "no_manual_cell_deletion": true,
+    "no_engine_outcomes": true
+  },
+  "chess_ecology_gate": {
+    "min_admissible_cells": 9,
+    "min_phase_levels_represented": 2,
+    "min_branching_levels_represented": 3,
+    "min_tactical_surface_levels_represented": 2,
+    "min_frozen_positions": 72,
+    "verdict_pass": "PASS_BALANCED_CHESS_ECOLOGY_POSITIVITY",
+    "verdict_hold": "HOLD_BALANCED_CHESS_ECOLOGY_SUPPORT_INSUFFICIENT"
+  },
+  "stage_b_search_state": {
+    "opens_only_after_chess_ecology_pass": true,
+    "inherited_instrument": "G9.5-P16 baseline qualification and unordered near-equal pair freeze; intervention outcomes forbidden.",
+    "engines": [
+      "stockfish_19",
+      "berserk",
+      "ethereal"
+    ],
+    "pair_rule": "At least two engines stably score both A/B within 50 cp and baseline bestmove belongs to pair.",
+    "chain_rule": "Inherited legal-pair-preserving P16 chain construction.",
+    "search_positivity_gate": {
+      "min_admitted_pair_fraction": 0.45,
+      "min_chain_position_fraction_of_pairs": 0.35,
+      "min_active_engines_per_source": 2,
+      "min_context_cells_with_chain_support": 6
+    }
+  },
+  "stage_c_allocation": {
+    "opens_only_after_search_positivity_pass": true,
+    "outcome_blind": true,
+    "allocation_unit": "context_cell × source",
+    "max_replay_positions_per_cell_per_source": 1,
+    "selection_priority": [
+      "chain support across more engines",
+      "smaller maximum A/B gap",
+      "lexicographic position_id"
+    ],
+    "defect_replay": "Frozen P10/P11 opportunity-transition measurement and P11 semantic alignments; no threshold refit."
+  },
+  "verdict_space": [
+    "PASS_BALANCED_CHESS_ECOLOGY_POSITIVITY",
+    "PASS_BALANCED_SEARCH_STATE_POSITIVITY_REPLAY_FROZEN",
+    "DEVELOPMENT_CONTEXT_BALANCED_DEFECT_TRANSPORT_IDENTIFIED",
+    "DEVELOPMENT_CONTEXT_BALANCED_ENGINE_RELATIVE_DEFECTS_PERSIST",
+    "HOLD_BALANCED_CHESS_ECOLOGY_SUPPORT_INSUFFICIENT",
+    "HOLD_BALANCED_SEARCH_STATE_POSITIVITY_INSUFFICIENT",
+    "FAIL_ENGINE_BLIND_SELECTION_FIREWALL"
+  ],
+  "claim_ceiling": [
+    "Development-level context-balanced engine-search comparison.",
+    "No fresh-source replication claim because all four issue bytes are historically opened in C3X.",
+    "No objective chess truth or human cognition claim.",
+    "No engine-internals mechanism claim beyond exact intervention measurements."
+  ],
+  "automation_identity": {
+    "contents": "read",
+    "actions": "read",
+    "repository_writeback": false,
+    "canonical_promotion": "WhoSia after artifact inspection"
+  }
+}
