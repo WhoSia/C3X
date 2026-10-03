@@ -1,0 +1,62 @@
+name: c3x-g10-p15-stage-b-atlas
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'tools/g10_p15_stage_b_atlas.py'
+      - '.github/workflows/g10-p15-stage-b-atlas.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+env:
+  STAGE_A_RUN: "37118943324"
+  STAGE_B_RUN: "37119211481"
+
+jobs:
+  atlas:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: g10-p15-stage-a-sealed
+          path: stagea
+          repository: WhoSia/C3X
+          run-id: ${{ env.STAGE_A_RUN }}
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: g10-p15-stage-b-sealed
+          path: stageb
+          repository: WhoSia/C3X
+          run-id: ${{ env.STAGE_B_RUN }}
+          github-token: ${{ github.token }}
+      - name: Demotion-only preference attrition atlas
+        run: |
+          python3 tools/g10_p15_stage_b_atlas.py             --stage-a stagea/g10-p15-stage-a.json             --stage-b stageb/g10-p15-stage-b.json             --out g10-p15-stage-b-atlas.json
+          python3 - <<'PY'
+          import json
+          r=json.load(open("g10-p15-stage-b-atlas.json"))
+          assert r["status"]=="POST_HOLD_DEMOTION_ONLY"
+          assert r["can_strengthen_stage_b"] is False
+          print("G10_P15_STAGE_B_ATLAS_VERIFIED",r["stage_b_verdict"])
+          print("GLOBAL",r["global"])
+          print("SOURCE",r["by_source"])
+          print("PHASE",r["by_phase"])
+          print("BRANCH",r["by_branching"])
+          print("TACT",r["by_tactical_surface"])
+          print("LOW",r["lowest_preservation_cells"])
+          print("HIGH",r["highest_preservation_cells"])
+          PY
+          sha256sum g10-p15-stage-b-atlas.json > g10-p15-stage-b-atlas.sha256
+      - uses: actions/upload-artifact@v4
+        with:
+          name: g10-p15-stage-b-atlas-sealed
+          path: |
+            g10-p15-stage-b-atlas.json
+            g10-p15-stage-b-atlas.sha256
+          retention-days: 90
