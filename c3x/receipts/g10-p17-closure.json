@@ -1,0 +1,157 @@
+{
+  "schema": "c3x-g10-p17-closure-v1",
+  "stage": "C3X 0.9.0-G10-P17 — Prospective Preference-Preservation Susceptibility Field, Pre-Edit Pair-Margin×Cross-Engine Agreement×Relation-Atom×Collateral Geometry, Structural-Chain Survival Modeling, Outcome-Blind Intervention-Admissibility Score, Leave-Source-Out Calibration, Hard-Regime Abstention, Fresh Balanced-Ecology Validation & Preference-Stable Counterfactual Acquisition Experiment",
+  "status": "CLOSED_HOLD",
+  "official_verdict": "HOLD_NO_TRANSPARENT_FAMILY_CALIBRATES",
+  "black_box_firewall": {
+    "black_box_models_used": false,
+    "transparent_families_only": [
+      "T1_INTEGER_SCORECARD",
+      "T2_ORDERED_RULE_LIST",
+      "T3_SPARSE_INTERACTION_TABLE"
+    ],
+    "fresh_confirmation_opened": false,
+    "unopened_confirmation_sources": [
+      "P17_SRC_TWIC_1650",
+      "P17_SRC_TWIC_1654"
+    ]
+  },
+  "development": {
+    "run": 37137006367,
+    "artifact_id": 11279145193,
+    "artifact_zip_sha256": "fe8c2c588808e585f66b5ebfa0c2d211902a71a0673e72c23b8e601cda441750",
+    "unique_position_chain_rows": 30,
+    "positive_rows": 11,
+    "source_rows": {
+      "P16_SRC_TWIC_1655": {
+        "n": 18,
+        "positive": 6,
+        "rate": 0.3333333333333333
+      },
+      "P16_SRC_TWIC_1656": {
+        "n": 12,
+        "positive": 5,
+        "rate": 0.4166666666666667
+      }
+    }
+  },
+  "family_results": {
+    "T1_INTEGER_SCORECARD": {
+      "structure_identical": false,
+      "combined_coverage": 0.36666666666666664,
+      "pass": false,
+      "folds": [
+        {
+          "train": "P16_SRC_TWIC_1655",
+          "test": "P16_SRC_TWIC_1656",
+          "admitted": 0,
+          "precision": null,
+          "coverage": 0
+        },
+        {
+          "train": "P16_SRC_TWIC_1656",
+          "test": "P16_SRC_TWIC_1655",
+          "admitted": 11,
+          "positive": 5,
+          "precision": 0.45454545454545453,
+          "coverage": 0.6111111111111112
+        }
+      ]
+    },
+    "T2_ORDERED_RULE_LIST": {
+      "structure_identical": false,
+      "combined_coverage": 0.4,
+      "pass": false,
+      "folds": [
+        {
+          "train": "P16_SRC_TWIC_1655",
+          "test": "P16_SRC_TWIC_1656",
+          "admitted": 2,
+          "positive": 2,
+          "precision": 1,
+          "coverage": 0.16666666666666666
+        },
+        {
+          "train": "P16_SRC_TWIC_1656",
+          "test": "P16_SRC_TWIC_1655",
+          "admitted": 10,
+          "positive": 4,
+          "precision": 0.4,
+          "coverage": 0.5555555555555556
+        }
+      ]
+    },
+    "T3_SPARSE_INTERACTION_TABLE": {
+      "structure_identical": false,
+      "combined_coverage": 0.06666666666666667,
+      "pass": false,
+      "folds": [
+        {
+          "train": "P16_SRC_TWIC_1655",
+          "test": "P16_SRC_TWIC_1656",
+          "admitted": 1,
+          "positive": 1,
+          "precision": 1,
+          "coverage": 0.08333333333333333
+        },
+        {
+          "train": "P16_SRC_TWIC_1656",
+          "test": "P16_SRC_TWIC_1655",
+          "admitted": 1,
+          "positive": 0,
+          "precision": 0,
+          "coverage": 0.05555555555555555
+        }
+      ]
+    }
+  },
+  "posthold_primitive_atlas": {
+    "run": 37137436155,
+    "artifact_id": 11279455448,
+    "artifact_zip_sha256": "dab8f0861628443250e74ded1fbfdc4d62cad3a95af1da1cdea68be71bda5d93",
+    "stable_same_sign_indicators": [
+      "branching_NARROW",
+      "grammar_complexity_le_1",
+      "legal_delta_LOW",
+      "max_gap_le_25",
+      "median_gap_le_10",
+      "median_gap_le_25",
+      "pair_consensus_orientation",
+      "phase_REDUCED",
+      "piece_minor",
+      "preferred_move_full_agreement",
+      "side_role_OWN",
+      "total_collateral_le_12"
+    ],
+    "sign_reversal_indicators": [
+      "branching_WIDE",
+      "gap_dispersion_le_15",
+      "tactical_QUIET_SURFACE",
+      "target_endpoint_FROM",
+      "target_polarity_GAIN"
+    ],
+    "undefined_effect_indicators": [
+      "attack_symdiff_LOW",
+      "chain_ATOMIC",
+      "target_atom_singleton"
+    ]
+  },
+  "scientific_conclusion": [
+    "No preregistered transparent family survives leave-source-out calibration with stable structure and the frozen precision/yield gates.",
+    "Several simple primitives retain the same marginal direction across sources, but five important primitives reverse sign across source arms.",
+    "The failure therefore cannot be repaired by making the predictor more opaque without abandoning the scientific aim.",
+    "Current evidence rejects a single source-invariant scalar susceptibility field under the P17 representation.",
+    "The next mainline should factor preference survival at engine level and separate support-intersection failure from engine-specific instability before attempting any new aggregate score."
+  ],
+  "claim_ceiling": [
+    "No fresh confirmation claim because P17_SRC_TWIC_1650/1654 bytes were never opened.",
+    "No opaque predictor receives scientific authority.",
+    "No engine-internal mechanism, objective chess truth, or human-utility claim."
+  ],
+  "automation_identity": {
+    "actions_writeback": false,
+    "bot_author_hits_at_closure": 0,
+    "bot_committer_hits_at_closure": 0,
+    "canonical_promotion_actor": "WhoSia"
+  }
+}
