@@ -135,5 +135,14 @@
     "actions": "read",
     "repository_writeback": false,
     "canonical_promotion": "WhoSia after artifact inspection"
+  },
+  "acquisition_gate": {
+    "min_admissible_routed_cells": 8,
+    "min_phase_levels_represented": 2,
+    "min_branching_levels_represented": 3,
+    "min_tactical_levels_represented": 2,
+    "min_frozen_positions": 32,
+    "verdict_pass": "PASS_HELDOUT_ROUTED_ECOLOGY_POSITIVITY",
+    "verdict_hold": "HOLD_HELDOUT_ROUTED_ECOLOGY_SUPPORT_INSUFFICIENT"
   }
 }
