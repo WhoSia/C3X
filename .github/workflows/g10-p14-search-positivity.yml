@@ -1,0 +1,182 @@
+name: c3x-g10-p14-search-positivity
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'c3x/receipts/g10-p14-stage-a.json'
+      - 'tools/g10_p14_design_adapter.py'
+      - 'tools/g10_p14_search_gate.py'
+      - '.github/workflows/g10-p14-search-positivity.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+env:
+  STAGE_A_RUN: "37115017968"
+  P16_RUN: "36544344858"
+
+jobs:
+  design:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 -m pip install --disable-pip-version-check python-chess==1.999
+      - uses: actions/download-artifact@v4
+        with:
+          name: g10-p14-balanced-corpus-sealed
+          path: corpus
+          repository: WhoSia/C3X
+          run-id: ${{ env.STAGE_A_RUN }}
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: g95-p16-build-*
+          path: builds
+          repository: WhoSia/C3X
+          run-id: ${{ env.P16_RUN }}
+          github-token: ${{ github.token }}
+      - name: Create P16-compatible balanced design
+        run: |
+          python3 - <<'PY'
+          import json
+          r=json.load(open("corpus/g10-p14-balanced-corpus.json"))
+          assert r["verdict"]=="PASS_BALANCED_CHESS_ECOLOGY_POSITIVITY"
+          assert r["selection"]["engine_outcomes_consulted"] is False
+          PY
+          PYTHONPATH=. python3 tools/g10_p14_design_adapter.py             --balanced-corpus corpus/g10-p14-balanced-corpus.json             --p16-constitution c3x/ontology/g95-p16-constitution.json             --build-dir builds             --out g10-p14-design.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: g10-p14-design-sealed
+          path: g10-p14-design.json
+          retention-days: 90
+
+  qualify:
+    needs: design
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      max-parallel: 12
+      matrix:
+        shard: [0,1,2,3,4,5,6,7,8,9,10,11]
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 -m pip install --disable-pip-version-check python-chess==1.999
+      - uses: actions/download-artifact@v4
+        with:
+          name: g10-p14-design-sealed
+          path: state
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: g95-p16-build-*
+          path: builds
+          repository: WhoSia/C3X
+          run-id: ${{ env.P16_RUN }}
+          github-token: ${{ github.token }}
+      - run: |
+          PYTHONPATH=. python3 tools/g10_p5_p16_shard.py             --phase qualify --state state/g10-p14-design.json             --build-dir builds --shard ${{ matrix.shard }} --shards 12 --out-dir out
+      - uses: actions/upload-artifact@v4
+        with:
+          name: g10-p14-qualify-${{ matrix.shard }}
+          path: out/
+          retention-days: 90
+
+  pair-freeze:
+    needs: qualify
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 -m pip install --disable-pip-version-check python-chess==1.999
+      - uses: actions/download-artifact@v4
+        with:
+          name: g10-p14-design-sealed
+          path: state
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: g10-p14-qualify-*
+          path: quals
+      - run: |
+          PYTHONPATH=. python3 harness/g95_p16_court.py pair-freeze             --design state/g10-p14-design.json             --qualifications quals             --out g10-p14-pair-freeze.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: g10-p14-pair-freeze-sealed
+          path: g10-p14-pair-freeze.json
+          retention-days: 90
+
+  chain-qualify:
+    needs: pair-freeze
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      max-parallel: 12
+      matrix:
+        shard: [0,1,2,3,4,5,6,7,8,9,10,11]
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 -m pip install --disable-pip-version-check python-chess==1.999
+      - uses: actions/download-artifact@v4
+        with:
+          name: g10-p14-pair-freeze-sealed
+          path: state
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: g95-p16-build-*
+          path: builds
+          repository: WhoSia/C3X
+          run-id: ${{ env.P16_RUN }}
+          github-token: ${{ github.token }}
+      - run: |
+          PYTHONPATH=. python3 tools/g10_p5_p16_shard.py             --phase chain-qualify --state state/g10-p14-pair-freeze.json             --build-dir builds --shard ${{ matrix.shard }} --shards 12 --out-dir out
+      - uses: actions/upload-artifact@v4
+        with:
+          name: g10-p14-chainqual-${{ matrix.shard }}
+          path: out/
+          retention-days: 90
+
+  search-gate:
+    needs: chain-qualify
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 -m pip install --disable-pip-version-check python-chess==1.999
+      - uses: actions/download-artifact@v4
+        with:
+          name: g10-p14-pair-freeze-sealed
+          path: pair
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: g10-p14-chainqual-*
+          path: chainquals
+      - uses: actions/download-artifact@v4
+        with:
+          name: g10-p14-balanced-corpus-sealed
+          path: corpus
+          repository: WhoSia/C3X
+          run-id: ${{ env.STAGE_A_RUN }}
+          github-token: ${{ github.token }}
+      - name: Freeze chains and evaluate search positivity
+        run: |
+          PYTHONPATH=. python3 harness/g95_p16_court.py chain-freeze             --freeze pair/g10-p14-pair-freeze.json             --chain-qualifications chainquals             --out g10-p14-chain-freeze.json
+          python3 tools/g10_p14_search_gate.py             --balanced-corpus corpus/g10-p14-balanced-corpus.json             --pair-freeze pair/g10-p14-pair-freeze.json             --chain-freeze g10-p14-chain-freeze.json             --out g10-p14-search-positivity.json
+          python3 - <<'PY'
+          import json
+          r=json.load(open("g10-p14-search-positivity.json"))
+          assert r["intervention_outcomes_consulted"] is False
+          assert r["defect_outcomes_consulted"] is False
+          print("G10_P14_SEARCH_VERDICT",r["verdict"])
+          print("PAIR",r["pair_positions"],r["total_positions"],r["pair_fraction"])
+          print("CHAIN",r["chain_positions"],r["chain_fraction_of_pairs"])
+          print("CELLS",r["context_cells_with_chain_support"])
+          print("ALLOC",len(r["stage_c_position_ids"]))
+          PY
+          sha256sum g10-p14-search-positivity.json g10-p14-chain-freeze.json > g10-p14-search-sha256.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: g10-p14-search-positivity-sealed
+          path: |
+            g10-p14-chain-freeze.json
+            g10-p14-search-positivity.json
+            g10-p14-search-sha256.txt
+          retention-days: 90
