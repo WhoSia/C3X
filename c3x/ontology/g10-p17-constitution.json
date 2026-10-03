@@ -1,0 +1,231 @@
+{
+  "schema": "c3x-g10-p17-constitution-v1",
+  "stage": "C3X 0.9.0-G10-P17 — Prospective Preference-Preservation Susceptibility Field, Pre-Edit Pair-Margin×Cross-Engine Agreement×Relation-Atom×Collateral Geometry, Structural-Chain Survival Modeling, Outcome-Blind Intervention-Admissibility Score, Leave-Source-Out Calibration, Hard-Regime Abstention, Fresh Balanced-Ecology Validation & Preference-Stable Counterfactual Acquisition Experiment",
+  "type": "EXPERIMENT",
+  "parent": {
+    "stage": "C3X 0.9.0-G10-P16",
+    "verdict": "HOLD_ROUTER_PREFERENCE_SUPPORT_INSUFFICIENT"
+  },
+  "question": "Which pre-edit chess/search and structural-chain properties transparently identify whether a legal counterfactual chain will preserve the frozen A/B preference relation, and can an interpretable abstention policy prospectively enrich preference-stable interventions on repo-unseen balanced sources?",
+  "black_box_firewall": {
+    "scientific_authority": "TRANSPARENT_ONLY",
+    "forbidden_authority_models": [
+      "random forest",
+      "gradient boosting",
+      "neural network",
+      "opaque embedding model",
+      "LLM classifier",
+      "post-hoc surrogate of an opaque predictor"
+    ],
+    "optional_baseline": "No opaque baseline is required. If added later, it is falsifier-only and can never select features, thresholds, policy, or scientific verdict.",
+    "explanation_requirement": "Every score/admission decision must decompose into named feature bins, integer contributions or ordered rules, and an explicit abstention reason."
+  },
+  "development_data": {
+    "source_arms": [
+      "P16_SRC_TWIC_1655",
+      "P16_SRC_TWIC_1656"
+    ],
+    "unit": "unique position × structural chain signature from P16 ROUTED/GLOBAL_G2 validation worlds",
+    "outcome": "preference-supported on TARGET/SUBSET/SHAM for at least two frozen active engines",
+    "role": "DEVELOPMENT_ONLY",
+    "duplicate_rule": "If ROUTED and GLOBAL_G2 choose the same chain signature on one position, deduplicate before fitting/evaluation."
+  },
+  "pre_edit_features": {
+    "position_pair": [
+      "active_engine_count",
+      "pair_support_count",
+      "pair_geometry: CONSENSUS_ORIENTATION vs SPLIT_ORIENTATION",
+      "median_gap_cp",
+      "max_gap_cp",
+      "gap_dispersion_cp = max(active engine gap)-min(active engine gap)",
+      "preferred_move_agreement_count"
+    ],
+    "chess_context": [
+      "phase",
+      "branching",
+      "tactical_surface"
+    ],
+    "chain_structure": [
+      "grammar_complexity G0=0..G4=4",
+      "chain_type atomic/composite",
+      "target_atom_count",
+      "deleted_atom_count",
+      "relation_atom_family",
+      "target piece_type",
+      "target side_role OWN/OPPONENT",
+      "abs(target legal_move_count_delta)",
+      "target attack_set_symmetric_difference",
+      "total_collateral",
+      "target/subset/sham collateral-profile equality"
+    ],
+    "forbidden": [
+      "any edited-board engine score",
+      "any TARGET/SUBSET/SHAM support outcome",
+      "edited native bestmove",
+      "search-event response",
+      "defect/certificate outcome"
+    ]
+  },
+  "frozen_bins": {
+    "median_gap_cp": [
+      "0-10",
+      "11-25",
+      "26-50"
+    ],
+    "max_gap_cp": [
+      "0-10",
+      "11-25",
+      "26-50"
+    ],
+    "gap_dispersion_cp": [
+      "0-5",
+      "6-15",
+      "16+"
+    ],
+    "total_collateral": [
+      "0-12",
+      "13-20",
+      "21+"
+    ],
+    "attack_symdiff": [
+      "0-3",
+      "4-6",
+      "7-10"
+    ],
+    "legal_move_delta_abs": [
+      "0-2",
+      "3-4",
+      "5-6"
+    ]
+  },
+  "transparent_families": [
+    {
+      "id": "T1_INTEGER_SCORECARD",
+      "form": "integer additive points over frozen categorical/binned features",
+      "coefficient_domain": [
+        -2,
+        -1,
+        0,
+        1,
+        2
+      ],
+      "max_nonzero_terms": 6,
+      "fit_rule": "exhaustive/branch-and-bound on one development source only; tie-break fewer terms, smaller L1, lexical feature order",
+      "trace": "list every nonzero term and contribution"
+    },
+    {
+      "id": "T2_ORDERED_RULE_LIST",
+      "form": "ordered if/then accept-abstain rules",
+      "max_rules": 4,
+      "max_conditions_per_rule": 2,
+      "conditions": "only frozen feature bins/equalities",
+      "fit_rule": "greedy on one development source with minimum rule support 3; tie-break precision then support then lexical",
+      "trace": "first fired rule or explicit default abstain"
+    },
+    {
+      "id": "T3_SPARSE_INTERACTION_TABLE",
+      "form": "at most two predeclared two-way interaction tables plus one main-effect table",
+      "allowed_interactions": [
+        "pair_geometry × gap_dispersion_cp",
+        "phase × branching",
+        "relation_atom_family × side_role",
+        "grammar_complexity × total_collateral"
+      ],
+      "fit_rule": "empirical Laplace-smoothed cell survival from one development source; no hidden representation",
+      "trace": "named table cells and counts"
+    }
+  ],
+  "leave_source_out": {
+    "folds": [
+      {
+        "train": "P16_SRC_TWIC_1655",
+        "test": "P16_SRC_TWIC_1656"
+      },
+      {
+        "train": "P16_SRC_TWIC_1656",
+        "test": "P16_SRC_TWIC_1655"
+      }
+    ],
+    "model_selection": "For each family, fit independently in each fold. A family is eligible only if its admission rule is identical under the frozen tie-break grammar across both training arms OR differs only in numeric integer coefficients while feature/rule structure is identical.",
+    "primary_metrics": [
+      "admitted_precision",
+      "admitted_yield",
+      "coverage",
+      "abstention_rate"
+    ],
+    "promotion_gate": {
+      "min_test_precision_each_fold": 0.5,
+      "min_test_admitted_each_fold": 3,
+      "min_combined_coverage": 0.2,
+      "no_fold_precision_below_global_P16_ROUTED_rate": 0.21428571428571427
+    },
+    "selection": "First family in T1→T3 meeting every gate; no post-hoc feature additions."
+  },
+  "hard_regime_abstention": {
+    "binding": true,
+    "principle": "No pressure to cover every chess context. If transparent evidence does not clear the frozen admission threshold, ABSTAIN is the scientifically correct action.",
+    "reported_by": [
+      "phase",
+      "branching",
+      "tactical_surface",
+      "source",
+      "grammar"
+    ]
+  },
+  "confirmation_sources": [
+    {
+      "id": "P17_SRC_TWIC_1650",
+      "issue": 1650,
+      "url": "https://theweekinchess.com/zips/twic1650g.zip",
+      "repo_prior_reference_count": 0
+    },
+    {
+      "id": "P17_SRC_TWIC_1654",
+      "issue": 1654,
+      "url": "https://theweekinchess.com/zips/twic1654g.zip",
+      "repo_prior_reference_count": 0
+    }
+  ],
+  "confirmation_firewall": {
+    "source_bytes_open_only_after_family_and_admission_rule_freeze": true,
+    "balanced_acquisition": "reuse P16 routed-domain chess ecology where possible, but score/admission may not use source identity",
+    "pair_freeze": "same frozen near-equal A/B qualification",
+    "chain_generation": "enumerate frozen G0-G4 structural chains; susceptibility policy selects/abstains before edited-board engine outcomes",
+    "success_gate": {
+      "min_admitted_positions_total": 8,
+      "min_admitted_positions_per_source": 3,
+      "min_preference_survival_precision_total": 0.5,
+      "min_preference_survival_precision_each_source": 0.4,
+      "strictly_above_unfiltered_structural_chain_baseline": true
+    }
+  },
+  "explanation_track": {
+    "independent_product_authority": true,
+    "scientific_vote": false,
+    "new_atom_type": "intervention_admissibility",
+    "provenance": "CONVENTIONAL_HEURISTIC_COMMENTARY",
+    "authority": "c3x_transparent_preoutcome_susceptibility",
+    "required_surface": [
+      "admit/abstain",
+      "transparent family id",
+      "rule/score trace",
+      "feature values",
+      "authority ceiling",
+      "explicit statement that admissibility is not objective chess truth or a causal certificate"
+    ]
+  },
+  "verdict_space": [
+    "PASS_TRANSPARENT_SUSCEPTIBILITY_FAMILY_LEAVE_SOURCE_OUT",
+    "PASS_PREFERENCE_STABLE_COUNTERFACTUAL_ENRICHMENT",
+    "HOLD_NO_TRANSPARENT_FAMILY_CALIBRATES",
+    "HOLD_FRESH_BALANCED_ECOLOGY_SUPPORT_INSUFFICIENT",
+    "HOLD_CONFIRMATION_ENRICHMENT_NOT_REPLICATED",
+    "FAIL_BLACK_BOX_OR_OUTCOME_FIREWALL"
+  ],
+  "automation_identity": {
+    "contents": "read",
+    "actions": "read",
+    "repository_writeback": false,
+    "canonical_promotion": "WhoSia after artifact inspection"
+  }
+}
