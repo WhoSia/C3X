@@ -1,0 +1,80 @@
+name: c3x-g10-p16-heldout-pair-gate
+
+on:
+  workflow_run:
+    workflows: ["c3x-g10-p16-heldout-pair-qualify"]
+    types: [completed]
+
+permissions:
+  contents: read
+  actions: read
+
+env:
+  DESIGN_RUN: "37120471661"
+  HELDOUT_RUN: "37120231398"
+
+jobs:
+  pair-freeze:
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 -m pip install --disable-pip-version-check python-chess==1.999
+      - uses: actions/download-artifact@v4
+        with:
+          name: g10-p16-design-sealed
+          path: state
+          repository: WhoSia/C3X
+          run-id: ${{ env.DESIGN_RUN }}
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: g10-p16-qualify-*
+          path: quals
+          repository: WhoSia/C3X
+          run-id: ${{ github.event.workflow_run.id }}
+          github-token: ${{ github.token }}
+      - run: |
+          PYTHONPATH=. python3 harness/g95_p16_court.py pair-freeze             --design state/g10-p16-design.json             --qualifications quals             --out g10-p16-pair-freeze.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: g10-p16-pair-freeze-sealed
+          path: g10-p16-pair-freeze.json
+          retention-days: 90
+
+  pair-gate:
+    needs: pair-freeze
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: g10-p16-pair-freeze-sealed
+          path: pair
+      - uses: actions/download-artifact@v4
+        with:
+          name: g10-p16-heldout-corpus-sealed
+          path: corpus
+          repository: WhoSia/C3X
+          run-id: ${{ env.HELDOUT_RUN }}
+          github-token: ${{ github.token }}
+      - run: |
+          python3 tools/g10_p16_pair_gate.py             --corpus corpus/g10-p16-heldout-corpus.json             --pair-freeze pair/g10-p16-pair-freeze.json             --out g10-p16-pair-gate.json
+          python3 - <<'PY'
+          import json
+          r=json.load(open("g10-p16-pair-gate.json"))
+          assert r["intervention_outcomes_consulted"] is False
+          assert r["defect_outcomes_consulted"] is False
+          print("G10_P16_PAIR_VERIFIED",r["verdict"])
+          print("PAIR",r["admitted_pair_positions"],r["total_positions"],r["pair_fraction"])
+          print("CELLS",r["pair_supported_context_cells"])
+          print("ENGINES",r["active_engines_by_source"])
+          PY
+          sha256sum g10-p16-pair-gate.json > g10-p16-pair-gate.sha256
+      - uses: actions/upload-artifact@v4
+        with:
+          name: g10-p16-pair-gate-sealed
+          path: |
+            g10-p16-pair-gate.json
+            g10-p16-pair-gate.sha256
+          retention-days: 90
