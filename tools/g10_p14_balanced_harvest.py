@@ -65,7 +65,6 @@ def source_candidates(path,source_id,excluded,game_limit,ply_lo,ply_hi):
                 cell,nlegal=cell_of(b)
                 if cell in seen_cells:continue
                 seen_cells.add(cell)
-                if len(pools[cell])>=max_pool:continue
                 fen=canonical_fen(b);h=sha(fen)
                 if h in excluded:continue
                 traj=sha(f"{source_id}|{gi}|{ply}|{fen}")
