@@ -213,3 +213,18 @@ Conversely, Track A can publish a novel mechanism result even if the commentator
 Implementation development may proceed alongside later C3X science, but must never modify a frozen scientific constitution to improve commentary coverage.
 
 The beyond-chess axis remains off until the chess science and this PGN pipeline each reach credible completion.
+
+
+### I9 — Transparent Admissibility-Aware Commentator — CLOSED / PASS
+
+I9 extends the executable PGN commentary stack with a transparent `intervention_admissibility` evidence type.
+
+- provenance remains `CONVENTIONAL_HEURISTIC_COMMENTARY`;
+- authority is `c3x_transparent_preoutcome_susceptibility`;
+- ADMIT/ABSTAIN decisions expose the exact score/rule/table trace and feature values;
+- typed graph, bounded renderer and constrained realization preserve the authority firewall;
+- `python -m c3x_explain` now emits JSON evidence graphs and Markdown commentary;
+- free-form LLM generation is not required;
+- CI run `37137361882`: **22/22 tests PASS**, CLI smoke PASS, zero firewall-failed moments.
+
+I9 does not change the Explain-I8 human-utility HOLD and cannot promote Track B output into Track A scientific authority.
