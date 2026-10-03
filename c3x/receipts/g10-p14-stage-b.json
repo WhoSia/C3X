@@ -1,0 +1,97 @@
+{
+  "schema": "c3x-g10-p14-stage-b-receipt-v1",
+  "stage": "C3X 0.8.0-G10-P14",
+  "status": "STAGE_B_CLOSED_HOLD",
+  "verdict": "HOLD_BALANCED_SEARCH_STATE_POSITIVITY_INSUFFICIENT",
+  "canonical_run": 37118007899,
+  "canonical_head": "1fe4ecd748334f933234b6903078ca74b38566e0",
+  "artifact_id": 11272571456,
+  "artifact_zip_sha256": "a8a65f29f8fc5a094f11baad15e807772e293d800c51f07dc6b65b1c555557f8",
+  "stage_a": {
+    "verdict": "PASS_BALANCED_CHESS_ECOLOGY_POSITIVITY",
+    "frozen_positions": 168,
+    "admissible_context_cells": 21
+  },
+  "gate": {
+    "pair_positions": 102,
+    "total_positions": 168,
+    "pair_fraction": 0.6071428571428571,
+    "chain_positions": 18,
+    "chain_fraction_of_pairs": 0.17647058823529413,
+    "context_cells_with_chain_support": 12,
+    "active_engines_by_source": {
+      "P14_SRC_TWIC_1659": [
+        "berserk",
+        "ethereal",
+        "stockfish_19"
+      ],
+      "P14_SRC_TWIC_1660": [
+        "berserk",
+        "ethereal",
+        "stockfish_19"
+      ],
+      "P14_SRC_TWIC_1663": [
+        "berserk",
+        "ethereal",
+        "stockfish_19"
+      ],
+      "P14_SRC_TWIC_1664": [
+        "berserk",
+        "ethereal",
+        "stockfish_19"
+      ]
+    },
+    "frozen_thresholds": {
+      "min_admitted_pair_fraction": 0.45,
+      "min_chain_position_fraction_of_pairs": 0.35,
+      "min_active_engines_per_source": 2,
+      "min_context_cells_with_chain_support": 6
+    },
+    "failed_components": [
+      "chain_position_fraction_of_pairs"
+    ],
+    "passed_components": [
+      "admitted_pair_fraction",
+      "active_engines_per_source",
+      "context_cells_with_chain_support"
+    ]
+  },
+  "stage_c": {
+    "opened": false,
+    "allocation_positions": 0,
+    "reason": "Stage B gate failed prospectively; defect replay is forbidden."
+  },
+  "recovery": {
+    "reason": "Original run 37115769095 completed design, qualification, pair-freeze and chain-qualification successfully but search-gate context join failed on missing candidate_sha256 for nonadmitted P16 rows.",
+    "repair_commit": "1480767d3bdb90207d76c79fa2027659c3f9e259",
+    "recovery_workflow_commit": "1fe4ecd748334f933234b6903078ca74b38566e0",
+    "sealed_preoutcome_artifacts_reused": true,
+    "pair_or_chain_recomputed": false,
+    "gate_or_threshold_changed": false,
+    "outcome_fields_opened": false
+  },
+  "diagnostic_atlas": {
+    "run": 37118084659,
+    "artifact_id": 11271978643,
+    "artifact_zip_sha256": "3d90490563a185c4f9ce75a26af643e9c12cc9c1c92b4d929d68d457e45a7ddc",
+    "can_strengthen_stage_b": false
+  },
+  "authority": {
+    "earned": [
+      "Balanced chess-context acquisition feasibility from Stage A",
+      "Near-equal A/B pair positivity across balanced chess contexts"
+    ],
+    "not_earned": [
+      "Balanced chain-preserving intervention positivity",
+      "Stage C defect replay authority",
+      "Context-balanced defect transport result",
+      "Fresh-source replication"
+    ]
+  },
+  "automation_identity": {
+    "actions_writeback": false,
+    "bot_author_hits_at_promotion": 0,
+    "bot_committer_hits_at_promotion": 0,
+    "canonical_promotion_actor": "WhoSia"
+  }
+}
