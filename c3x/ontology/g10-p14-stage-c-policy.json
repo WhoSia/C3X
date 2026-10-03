@@ -1,0 +1,43 @@
+{
+  "schema": "c3x-g10-p14-stage-c-policy-v1",
+  "stage": "C3X 0.8.0-G10-P14",
+  "frozen_before_stage_b_or_c_outcomes": true,
+  "measurement": {
+    "input": "Stage-B frozen allocation + P10 native opportunity probe only",
+    "p11_semantic_maps": {
+      "berserk|ethereal": "IDENTITY",
+      "berserk|stockfish_19": "SWAP_UPPER_LOWER",
+      "ethereal|stockfish_19": "SWAP_UPPER_LOWER"
+    },
+    "intervention_remove_set_runs": 0,
+    "defect": "aligned engine-pair B0→edit opportunity transition edges differ"
+  },
+  "identifiability_gate": {
+    "min_context_enginepair_edit_cells_with_at_least_3_sources": 6,
+    "min_distinct_context_cells": 3,
+    "min_engine_pairs_represented": 2,
+    "verdict_hold": "HOLD_CONTEXT_BALANCED_DEFECT_SUPPORT_INSUFFICIENT"
+  },
+  "recurrence": {
+    "cell_definition": "phase × branching × tactical_surface × engine_pair × edit",
+    "source_support": "at least 3 source issues represented",
+    "recurrent_cell": "each represented source contains at least one defect-positive comparable row",
+    "strong_candidate": {
+      "min_recurrent_cells": 3,
+      "min_distinct_chess_contexts": 2,
+      "min_engine_pairs": 2
+    }
+  },
+  "verdict_space": [
+    "DEVELOPMENT_CONTEXT_BALANCED_DEFECT_RECURRENCE",
+    "DEVELOPMENT_CONTEXT_BALANCED_ENGINE_RELATIVE_DEFECTS_PERSIST",
+    "DEVELOPMENT_CONTEXT_BALANCED_DEFECTS_COLLAPSE",
+    "HOLD_CONTEXT_BALANCED_DEFECT_SUPPORT_INSUFFICIENT"
+  ],
+  "interpretation_rules": [
+    "Recurrent defect cells are context-level structural recurrence, not same-position replication.",
+    "No fresh-source authority because source bytes were historically opened.",
+    "No engine-internals mechanism claim from opportunity transitions alone.",
+    "A null/collapse result cannot retroactively invalidate P11/P12 pooled development facts."
+  ]
+}
