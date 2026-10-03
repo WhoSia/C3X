@@ -1,0 +1,81 @@
+{
+  "schema": "c3x-g10-p14-stage-a-receipt-v1",
+  "stage": "C3X 0.8.0-G10-P14",
+  "status": "STAGE_A_CLOSED_PASS",
+  "verdict": "PASS_BALANCED_CHESS_ECOLOGY_POSITIVITY",
+  "canonical_run": 37115470170,
+  "canonical_head": "d7aa39a1e24770cb50e2a0d39aa1967a8a0eb239",
+  "artifact_id": 11271505516,
+  "json_sha256": "6caaa20335ce18a4fcff4e263da90b172f12a9d90511f87b389528a61d3f56a8",
+  "gate": {
+    "admissible_cells": 21,
+    "frozen_positions": 168,
+    "phase_levels": [
+      "REDUCED",
+      "RICH",
+      "TRANSITIONAL"
+    ],
+    "branching_levels": [
+      "MEDIUM",
+      "NARROW",
+      "WIDE"
+    ],
+    "tactical_levels": [
+      "FORCED_CHECK",
+      "QUIET_SURFACE",
+      "TACTICAL_AVAILABLE"
+    ]
+  },
+  "source_census": {
+    "P14_SRC_TWIC_1659": {
+      "games_scanned": 6144,
+      "candidates_recorded": 48712
+    },
+    "P14_SRC_TWIC_1660": {
+      "games_scanned": 6144,
+      "candidates_recorded": 48430
+    },
+    "P14_SRC_TWIC_1663": {
+      "games_scanned": 6144,
+      "candidates_recorded": 48946
+    },
+    "P14_SRC_TWIC_1664": {
+      "games_scanned": 6144,
+      "candidates_recorded": 50419
+    }
+  },
+  "exclusions": {
+    "historical_candidate_hashes": 296,
+    "cross_source_duplicate_fens": 5650
+  },
+  "authority": {
+    "earned": "Balanced chess-ecology acquisition feasibility only",
+    "stage_b_open": true,
+    "engine_outcomes_consulted": false,
+    "certificate_outcomes_consulted": false
+  },
+  "nonauthoritative_runs": [
+    {
+      "run": 37115017968,
+      "reason": "preoutcome implementation mismatch: bounded source-cell pool before global lexical tie-break"
+    },
+    {
+      "run": 37115339595,
+      "reason": "stale --max-pool CLI after script repair"
+    },
+    {
+      "run": 37115408521,
+      "reason": "stale max_pool reference NameError"
+    },
+    {
+      "run": 37115433883,
+      "reason": "same preoutcome implementation failure family"
+    }
+  ],
+  "automation_identity": {
+    "actions_writeback": false,
+    "bot_author_hits_at_promotion": 0,
+    "bot_committer_hits_at_promotion": 0,
+    "canonical_promotion_actor": "WhoSia"
+  }
+}
