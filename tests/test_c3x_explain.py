@@ -295,3 +295,54 @@ def test_i8_trial_bank_manifest_has_no_human_outcome_bytes():
     assert m["understanding_trial_count"]==1
     assert m["human_outcomes_included"] is False
     assert len(m["public_identity_sha256"])==64
+
+
+def test_i9_transparent_admissibility_atom_is_traceable_and_bounded():
+    import chess
+    packet={
+      "schema":"c3x-transparent-susceptibility-decision-v1",
+      "position_fen":chess.Board().fen(),
+      "decision":"ADMIT",
+      "family_id":"T1_INTEGER_SCORECARD",
+      "trace":{
+        "score":3,"threshold":2,
+        "terms":[
+          {"indicator":"pair_consensus_orientation","value":True,"coefficient":2,"contribution":2},
+          {"indicator":"gap_dispersion_le_5","value":True,"coefficient":1,"contribution":1}
+        ]
+      },
+      "feature_values":{"pair_geometry":"CONSENSUS_ORIENTATION","gap_dispersion_cp":4},
+      "source_stage":"C3X 0.9.0-G10-P17"
+    }
+    out=analyze_pgn(PGN,susceptibility_packets=[packet])
+    atoms=[a for m in out["moments"] for a in m["atoms"] if a["type"]=="intervention_admissibility"]
+    assert len(atoms)==1
+    a=atoms[0]
+    assert a["provenance"]==HEURISTIC
+    assert a["authority"]=="c3x_transparent_preoutcome_susceptibility"
+    assert a["claim"]["decision"]=="ADMIT"
+    assert "mechanism claims" in a["text"]
+    m=next(m for m in out["moments"] if a["atom_id"] in {x["atom_id"] for x in m["atoms"]})
+    assert m["firewall"]["pass"]
+    assert any(n["node_type"]=="evidence_atom" and n["payload"]["type"]=="intervention_admissibility"
+               for n in m["typed_graph"]["nodes"])
+    assert any(s["role"]=="counterfactual_admissibility" for s in m["realization_packet"]["sentences"])
+
+def test_i9_abstention_is_surfaceable_without_negative_chess_claim():
+    import chess
+    packet={
+      "schema":"c3x-transparent-susceptibility-decision-v1",
+      "position_fen":chess.Board().fen(),
+      "decision":"ABSTAIN",
+      "family_id":"T2_ORDERED_RULE_LIST",
+      "trace":{"fired_rule":None},
+      "abstention_reason":"no frozen transparent rule cleared the admission gate",
+      "feature_values":{},
+      "source_stage":"C3X 0.9.0-G10-P17"
+    }
+    out=analyze_pgn(PGN,susceptibility_packets=[packet])
+    atom=next(a for m in out["moments"] for a in m["atoms"] if a["type"]=="intervention_admissibility")
+    assert atom["claim"]["decision"]=="ABSTAIN"
+    assert "abstains" in atom["text"]
+    assert "chess idea is bad" in atom["text"]
+    assert all(m["firewall"]["pass"] for m in out["moments"])
