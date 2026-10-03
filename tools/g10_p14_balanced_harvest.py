@@ -51,7 +51,7 @@ def exclusions(paths):
             try:walk_hashes(json.loads(f.read_text()),out)
             except Exception:pass
     return out
-def source_candidates(path,source_id,excluded,game_limit,ply_lo,ply_hi,max_pool):
+def source_candidates(path,source_id,excluded,game_limit,ply_lo,ply_hi):
     pools=defaultdict(list);games=0;visited=0
     with open(path,encoding="utf-8",errors="strict") as f:
         for gi in range(game_limit):
@@ -99,7 +99,7 @@ def main():
     if len(specs)!=4:raise SystemExit("P14_SOURCE_COUNT")
     pools={};aud={}
     for sid,path,zsha in specs:
-        pools[sid],aud[sid]=source_candidates(path,sid,ex,a.game_limit,a.ply_lo,a.ply_hi,a.max_pool)
+        pools[sid],aud[sid]=source_candidates(path,sid,ex,a.game_limit,a.ply_lo,a.ply_hi)
     # Cross-source duplicate FENs are removed from all source pools.
     fen_sources=defaultdict(set)
     for sid,p in pools.items():
