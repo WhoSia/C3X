@@ -54,7 +54,7 @@ jobs:
           unzip -p data/twic1664g.zip > data/twic1664.pgn
       - name: Engine-blind balanced harvest
         run: |
-          python3 tools/g10_p14_balanced_harvest.py             --source "P14_SRC_TWIC_1659|data/twic1659.pgn|67462b854b974e5425216d6ad1387489d9e34a61850c8fde84f637aefcda53f6"             --source "P14_SRC_TWIC_1660|data/twic1660.pgn|f46e172fa2ed5fe53cc465e44f3c8f321685d123006e32b6f531b95dafffc263"             --source "P14_SRC_TWIC_1663|data/twic1663.pgn|36ac4a1324a21674649f7b5eb12e0ef21167b18288917cce6aba3d8120669dd9"             --source "P14_SRC_TWIC_1664|data/twic1664.pgn|e760b3419af0e441d74dad500130b2d585e3dfff6f3954244b957e61b3d3572a"             --exclude c3x --exclude hist             --game-limit 6144 --ply-lo 12 --ply-hi 160 --max-pool 64             --min-cell-support 3 --per-source-cell 2             --out g10-p14-balanced-corpus.json
+          python3 tools/g10_p14_balanced_harvest.py             --source "P14_SRC_TWIC_1659|data/twic1659.pgn|67462b854b974e5425216d6ad1387489d9e34a61850c8fde84f637aefcda53f6"             --source "P14_SRC_TWIC_1660|data/twic1660.pgn|f46e172fa2ed5fe53cc465e44f3c8f321685d123006e32b6f531b95dafffc263"             --source "P14_SRC_TWIC_1663|data/twic1663.pgn|36ac4a1324a21674649f7b5eb12e0ef21167b18288917cce6aba3d8120669dd9"             --source "P14_SRC_TWIC_1664|data/twic1664.pgn|e760b3419af0e441d74dad500130b2d585e3dfff6f3954244b957e61b3d3572a"             --exclude c3x --exclude hist             --game-limit 6144 --ply-lo 12 --ply-hi 160             --min-cell-support 3 --per-source-cell 2             --out g10-p14-balanced-corpus.json
           python3 - <<'PY'
           import json
           r=json.load(open("g10-p14-balanced-corpus.json"))
