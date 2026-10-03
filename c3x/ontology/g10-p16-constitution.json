@@ -144,5 +144,13 @@
     "min_frozen_positions": 32,
     "verdict_pass": "PASS_HELDOUT_ROUTED_ECOLOGY_POSITIVITY",
     "verdict_hold": "HOLD_HELDOUT_ROUTED_ECOLOGY_SUPPORT_INSUFFICIENT"
+  },
+  "heldout_pair_gate": {
+    "min_admitted_pair_fraction": 0.45,
+    "min_admitted_pair_positions": 16,
+    "min_pair_supported_context_cells": 6,
+    "min_active_engines_per_source": 2,
+    "verdict_pass": "PASS_HELDOUT_PAIR_POSITIVITY",
+    "verdict_hold": "HOLD_HELDOUT_PAIR_SUPPORT_INSUFFICIENT"
   }
 }
