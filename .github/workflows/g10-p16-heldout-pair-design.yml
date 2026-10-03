@@ -1,6 +1,10 @@
 name: c3x-g10-p16-heldout-pair-design
 
 on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/g10-p16-heldout-pair-design.yml'
   workflow_dispatch:
 
 permissions:
