@@ -1,0 +1,184 @@
+{
+  "schema": "c3x-g10-p15-constitution-v1",
+  "stage": "C3X 0.9.0-G10-P15 — Prospective Chess-Context-Adaptive Intervention Grammar Reconstruction, Relation-Preserving Board-Edit Family Enumeration, Phase×Branching×Tactical Realizability Surfaces, Minimal-Collateral Perturbation Synthesis, Pair-Legality/Preference-Support Preservation, Engine-Blind Chain-Positivity Recovery, Frozen Defect-Replay Re-entry & Intervention-Realizability Experiment",
+  "type": "EXPERIMENT",
+  "version_boundary": {
+    "prior_terminal": "C3X 0.8.0-G10-P14",
+    "current_opening": "C3X 0.9.0-G10-P15",
+    "generation_reset": false,
+    "p_reset": false,
+    "rationale": "P15 changes the intervention grammar architecture itself after P14 isolated intervention realizability as the dominant bottleneck."
+  },
+  "parent": {
+    "stage": "G10-P14",
+    "verdict": "HOLD_BALANCED_SEARCH_STATE_POSITIVITY_INSUFFICIENT",
+    "inherited_facts": {
+      "balanced_positions": 168,
+      "admitted_pair_positions": 102,
+      "pair_fraction": 0.6071428571428571,
+      "legacy_chain_positions": 18,
+      "legacy_chain_fraction_of_pairs": 0.17647058823529413,
+      "chain_supported_context_cells": 12
+    }
+  },
+  "question": "Can a prospectively ordered, chess-semantic relaxation of control matching recover relation-preserving intervention chains across the balanced P14 ecology without weakening pair legality, collateral bounds, or post-outcome firewalls?",
+  "stage_a": {
+    "name": "STRUCTURAL_GRAMMAR_REALIZABILITY",
+    "engine_execution": false,
+    "intervention_outcomes": false,
+    "defect_outcomes": false,
+    "population": "The 102 P14 admitted near-equal pair positions only; pair identity frozen from P14.",
+    "edit_universe": {
+      "unit": "quiet relocation of one non-king non-pawn piece not used as A/B moving piece",
+      "eligible_piece_types": [
+        "KNIGHT",
+        "BISHOP",
+        "ROOK",
+        "QUEEN"
+      ],
+      "destination": "empty square attacked by the moved piece on B0",
+      "forbidden_touch": "source/destination cannot equal A/B source/destination",
+      "material_delta": 0,
+      "edited_board": "valid, nonterminal, side-to-move not in check",
+      "pair_legality": "A and B must both remain legal",
+      "max_abs_legal_root_move_count_delta": 6,
+      "max_moved_piece_attack_set_symmetric_difference": 10
+    },
+    "relation_atoms": [
+      "A_FROM_GAIN",
+      "A_FROM_LOSS",
+      "A_TO_GAIN",
+      "A_TO_LOSS",
+      "B_FROM_GAIN",
+      "B_FROM_LOSS",
+      "B_TO_GAIN",
+      "B_TO_LOSS"
+    ],
+    "target": "nonempty asymmetric relation-atom set",
+    "subset": "nonempty strict atom subset of target for composite chains; sham serves as the proper subset for atomic chains",
+    "sham": "empty relation-atom set",
+    "collateral_profile": {
+      "legal_move_delta_abs_bins": {
+        "LOW": "0..2",
+        "MID": "3..4",
+        "HIGH": "5..6"
+      },
+      "moved_piece_attack_symdiff_bins": {
+        "LOW": "0..3",
+        "MID": "4..6",
+        "HIGH": "7..10"
+      },
+      "target_subset_sham_match": "same two collateral bins"
+    },
+    "grammar_ladder": [
+      {
+        "id": "G0_LEGACY_PHYSICAL",
+        "control_match": [
+          "same physical moved piece",
+          "same Chebyshev distance"
+        ],
+        "note": "Exact P16 inherited grammar; diagnostic baseline."
+      },
+      {
+        "id": "G1_SAME_PIECE_COLLATERAL",
+        "control_match": [
+          "same physical moved piece",
+          "same collateral profile"
+        ],
+        "note": "Relaxes exact displacement distance but preserves intervention carrier identity."
+      },
+      {
+        "id": "G2_SAME_TYPE_SIDE_COLLATERAL",
+        "control_match": [
+          "same piece type",
+          "same side-to-move ownership role",
+          "same collateral profile"
+        ],
+        "note": "Allows physically different pieces with the same chess piece type and OWN/OPP role."
+      },
+      {
+        "id": "G3_SIDE_ROLE_COLLATERAL",
+        "control_match": [
+          "same side-to-move ownership role",
+          "same collateral profile"
+        ],
+        "note": "Allows different nonpawn piece types but preserves which side's structure is perturbed."
+      },
+      {
+        "id": "G4_GLOBAL_COLLATERAL",
+        "control_match": [
+          "same collateral profile"
+        ],
+        "note": "Maximal preregistered relaxation; diagnostic ceiling."
+      }
+    ],
+    "selection_rule": {
+      "ordered_minimal_relaxation": true,
+      "structural_gate": {
+        "min_chain_position_fraction_of_pairs": 0.5,
+        "min_context_cells_with_chain_support": 12,
+        "min_phase_levels_with_support": 3,
+        "min_branching_levels_with_support": 3,
+        "min_tactical_levels_with_support": 2
+      },
+      "choose": "The first grammar in G0→G4 meeting every structural gate. If none passes, Stage B remains closed.",
+      "no_manual_family_deletion": true,
+      "no_engine_outcome_based_family_selection": true
+    }
+  },
+  "stage_b": {
+    "name": "PREFERENCE_SUPPORT_PRESERVATION",
+    "opens_only_if_stage_a_selects_family": true,
+    "family_frozen_from_stage_a": true,
+    "engines": [
+      "stockfish_19",
+      "berserk",
+      "ethereal"
+    ],
+    "original_pair": "Reuse P14 frozen A/B pair and original-board qualification; no pair reselection.",
+    "edited_board_support": "For TARGET/SUBSET/SHAM, both A and B legal and exactly repeated non-mate isolated cp gap <=50 for an engine.",
+    "repeats": 2,
+    "confirm_nodes": 20000,
+    "chain_admission": "same structural chain preference-supported by at least two engines active on original P14 pair",
+    "positivity_gate": {
+      "min_chain_position_fraction_of_pairs": 0.35,
+      "min_context_cells_with_chain_support": 6,
+      "min_active_engines_per_source": 2
+    },
+    "intervention_outcomes_forbidden": true,
+    "defect_outcomes_forbidden": true
+  },
+  "stage_c": {
+    "name": "FROZEN_DEFECT_REPLAY_REENTRY",
+    "opens_only_if_stage_b_passes": true,
+    "allocation": "At most one chain-positive position per context cell × source; more supporting engines → lower total collateral → lexical IDs.",
+    "measurement": "Frozen P10/P11 opportunity-transition measurement and P11 semantic alignments.",
+    "no_threshold_or_grammar_refit": true
+  },
+  "chess_science_outputs": [
+    "Context-by-grammar intervention realizability surface.",
+    "Which chess contexts require relaxing physical identity while preserving semantic collateral.",
+    "Whether pair legality is common but preference-support preservation is the limiting layer.",
+    "Whether a single minimal relaxation family transports across phase/branching/tactical regimes."
+  ],
+  "verdict_space": [
+    "PASS_MINIMAL_RELAXATION_STRUCTURAL_REALIZABILITY",
+    "PASS_CONTEXT_ADAPTIVE_PREFERENCE_SUPPORTED_CHAIN_RECOVERY",
+    "DEVELOPMENT_CONTEXT_BALANCED_DEFECT_REPLAY_REENTERED",
+    "HOLD_NO_STRUCTURAL_GRAMMAR_RECOVERS_BALANCED_CHAIN_SUPPORT",
+    "HOLD_PREFERENCE_SUPPORT_COLLAPSES_AFTER_STRUCTURAL_RECOVERY",
+    "FAIL_GRAMMAR_SELECTION_FIREWALL"
+  ],
+  "claim_ceiling": [
+    "Development-level intervention-realizability structure.",
+    "No engine-internals mechanism claim from grammar feasibility.",
+    "No objective chess truth or human cognition claim.",
+    "No fresh-source replication claim; P14 source arms are historically opened development data."
+  ],
+  "automation_identity": {
+    "contents": "read",
+    "actions": "read",
+    "repository_writeback": false,
+    "canonical_promotion": "WhoSia after artifact inspection"
+  }
+}
