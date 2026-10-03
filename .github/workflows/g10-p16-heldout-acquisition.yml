@@ -1,0 +1,66 @@
+name: c3x-g10-p16-heldout-acquisition
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'c3x/ontology/g10-p16-constitution.json'
+      - 'tools/g10_p16_heldout_harvest.py'
+      - '.github/workflows/g10-p16-heldout-acquisition.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+env:
+  ROUTER_RUN: "37120074387"
+
+jobs:
+  acquire:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 -m pip install --disable-pip-version-check python-chess==1.999
+      - uses: actions/download-artifact@v4
+        with:
+          name: g10-p16-router-freeze-sealed
+          path: router
+          repository: WhoSia/C3X
+          run-id: ${{ env.ROUTER_RUN }}
+          github-token: ${{ github.token }}
+      - name: Acquire repo-unseen TWIC held-out sources
+        run: |
+          curl -fsSL https://theweekinchess.com/zips/twic1655g.zip -o twic1655g.zip
+          curl -fsSL https://theweekinchess.com/zips/twic1656g.zip -o twic1656g.zip
+          python3 - <<'PY'
+          import zipfile
+          for n in (1655,1656):
+              z=f"twic{n}g.zip"
+              with zipfile.ZipFile(z) as f:
+                  names=[x for x in f.namelist() if x.lower().endswith(".pgn")]
+                  assert len(names)>=1,(z,f.namelist())
+                  open(f"twic{n}.pgn","wb").write(f.read(names[0]))
+          PY
+          sha256sum twic1655g.zip twic1656g.zip
+      - name: Freeze held-out routed ecology
+        run: |
+          python3 tools/g10_p16_heldout_harvest.py             --router router/g10-p16-router-freeze.json             --source 'P16_SRC_TWIC_1655|twic1655.pgn|twic1655g.zip|https://theweekinchess.com/zips/twic1655g.zip'             --source 'P16_SRC_TWIC_1656|twic1656.pgn|twic1656g.zip|https://theweekinchess.com/zips/twic1656g.zip'             --exclude-root .             --out g10-p16-heldout-corpus.json
+          python3 - <<'PY'
+          import json
+          r=json.load(open("g10-p16-heldout-corpus.json"))
+          assert r["selection"]["engine_outcomes_consulted"] is False
+          assert r["selection"]["router_frozen_before_source_bytes"] is True
+          print("G10_P16_HELDOUT_VERIFIED",r["verdict"])
+          print("HASHES",{k:v["zip_sha256"] for k,v in r["source_audit"].items()})
+          print("GATE",r["gate"])
+          print("CELLS",r["admissible_cells"])
+          PY
+          sha256sum g10-p16-heldout-corpus.json > g10-p16-heldout-corpus.sha256
+      - uses: actions/upload-artifact@v4
+        with:
+          name: g10-p16-heldout-corpus-sealed
+          path: |
+            g10-p16-heldout-corpus.json
+            g10-p16-heldout-corpus.sha256
+          retention-days: 90
