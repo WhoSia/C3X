@@ -1,0 +1,49 @@
+name: c3x-g10-p18-demotion-audit
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'tools/g10_p18_demotion_audit.py'
+      - '.github/workflows/g10-p18-demotion-audit.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+env:
+  P18_RUN: "37189244495"
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: g10-p18-engine-tensor-sealed
+          path: p18
+          repository: WhoSia/C3X
+          run-id: ${{ env.P18_RUN }}
+          github-token: ${{ github.token }}
+      - run: |
+          python3 tools/g10_p18_demotion_audit.py             --tensor p18/g10-p18-engine-tensor.json             --analysis p18/g10-p18-engine-analysis.json             --out g10-p18-demotion-audit.json
+          python3 - <<'PY'
+          import json
+          r=json.load(open("g10-p18-demotion-audit.json"))
+          assert r["status"]=="POST_PRIMARY_DEMOTION_ONLY"
+          assert r["can_strengthen_primary"] is False
+          print("G10_P18_DEMOTION_AUDIT_VERIFIED",r["demoted_verdict"])
+          print("NONTRIVIAL_SUFF",r["nontrivial_sufficient_engines"])
+          print("EXACT_REL",r["exact_zero_violation_relations"])
+          print("ORDERS",r["exact_three_engine_orders"])
+          PY
+          sha256sum g10-p18-demotion-audit.json > g10-p18-demotion-audit.sha256
+      - uses: actions/upload-artifact@v4
+        with:
+          name: g10-p18-demotion-audit-sealed
+          path: |
+            g10-p18-demotion-audit.json
+            g10-p18-demotion-audit.sha256
+          retention-days: 90
