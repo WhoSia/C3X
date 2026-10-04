@@ -50,6 +50,27 @@ Manski-style monotone-response reasoning is a second useful donor: monotonicity 
 
 A future P20 may then ask for a minimal multidimensional mediator basis rather than merely fitting a softer ranking.
 
+## Ferrers / chain-graph formulation
+
+The same hypothesis has a representation that does not rely on psychometric language.
+
+Construct a bipartite graph with engine vertices on one side and jointly-active intervention/world rows on the other. Connect engine e to world x exactly when S_e(x)=1. Under H1, the engine neighborhoods are linearly ordered by set inclusion:
+
+N(stockfish19) ⊆ N(berserk) ⊆ N(ethereal).
+
+A bipartite graph whose neighborhoods form such an inclusion chain is a chain graph, also called a Ferrers bigraph. Equivalently, exact full nestedness excludes the induced 2K2 obstruction.
+
+For the fixed three-engine order used in P19, the primary adjacent inversion witnesses are the directed order violations. More generally, incomparable engine neighborhoods would generate a 2K2 witness: there exist worlds x,y such that engine a survives x but not y while engine b survives y but not x.
+
+This gives P19 two related but distinct scientific tests:
+
+- **frozen directed order test:** the preregistered Stockfish→Berserk→Ethereal inclusion;
+- **order-free dimensionality diagnostic:** whether the engine×world survival relation is Ferrers/chain at all.
+
+The second diagnostic is demotion-only in P19 because the engine order was frozen prospectively. It may explain *how* H1 failed but cannot substitute a newly discovered order after outcomes.
+
+If the relation is not chain/Ferrers, a natural next object is its neighborhood-poset width or the number of chain components required to cover the observed response structure. That is a principled route from “one scalar robustness coordinate” toward minimal multidimensional susceptibility without immediately fitting a black-box model.
+
 ## Frozen Ethereal candidate
 
 The P18 candidate is carried forward without literal search:
