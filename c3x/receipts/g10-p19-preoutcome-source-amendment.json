@@ -1,27 +1,43 @@
 {
-  "schema": "c3x-g10-p19-preoutcome-source-amendment-v1",
+  "schema": "c3x-g10-p19-preoutcome-source-amendment-v2",
   "stage": "C3X 0.9.0-G10-P19",
   "status": "FROZEN_BEFORE_P19_ENGINE_OUTCOMES",
   "parent_preseal_head": "9f40e90507a149aa7a62138b8902c68dfc0c49bd",
-  "reason": "Do not make P19 authority depend on the future publication of TWIC 1665/1666. Add a completed-event, non-TWIC confirmation lane while preserving the already-frozen H1/H2 hypotheses and adjudication thresholds.",
+  "reason": "Do not make P19 authority depend on future TWIC 1665/1666 publication. Add completed-event, non-TWIC confirmation worlds while preserving the already-frozen H1/H2 hypotheses and adjudication thresholds.",
+  "acquisition_repair": {
+    "failed_run": 37196973012,
+    "failure_class": "SOURCE_LOCATOR_GROUP_ID_NOT_TOURNAMENT_ID",
+    "observed": "Lichess group overview IDs returned HTTP 404 at the all-rounds PGN endpoint.",
+    "scientific_outcomes_opened": false,
+    "selection_outputs_materialized": false,
+    "repair_scope": "Replace group locator IDs with child broadcast tournament IDs only. H1/H2, thresholds, geometry cells, quotas and freshness rules remain unchanged."
+  },
   "source_lane": {
     "provider": "Lichess official broadcast API",
     "provider_reuse_note": "Lichess as a provider has appeared in earlier C3X stages. P19 therefore does not claim provider independence. Freshness is event-identity plus exact-world disjointness plus prospective engine-outcome sealing.",
     "sources": [
       {
         "id": "P19_SRC_LICHESS_CANDIDATES_2026",
-        "event": "FIDE Candidates 2026",
-        "broadcast_id": "oe4JqS3R",
+        "event": "FIDE Candidates 2026 — Open",
+        "group_id": "oe4JqS3R",
+        "tournament_ids": ["BLA70Vds"],
         "overview_url": "https://lichess.org/broadcast/fide-candidates-2026/oe4JqS3R",
-        "pgn_api_url": "https://lichess.org/api/broadcast/oe4JqS3R.pgn",
+        "pgn_api_urls": ["https://lichess.org/api/broadcast/BLA70Vds.pgn"],
         "prior_repo_event_identity_search": "NO_MATCH_BEFORE_P19_SOURCE_AMENDMENT"
       },
       {
         "id": "P19_SRC_LICHESS_OLYMPIAD_2026",
-        "event": "46th FIDE Chess Olympiad Samarkand 2026",
-        "broadcast_id": "32sSzO6S",
+        "event": "46th FIDE Chess Olympiad Samarkand 2026 — Open",
+        "group_id": "32sSzO6S",
+        "tournament_ids": ["n1pPI5Q0","MSQXIzkK","Uvg2Lyjt","sfWvd9Pd","MyBFv3Ha"],
         "overview_url": "https://lichess.org/broadcast/46th-fide-chess-olympiad-samarkand-2026/32sSzO6S",
-        "pgn_api_url": "https://lichess.org/api/broadcast/32sSzO6S.pgn",
+        "pgn_api_urls": [
+          "https://lichess.org/api/broadcast/n1pPI5Q0.pgn",
+          "https://lichess.org/api/broadcast/MSQXIzkK.pgn",
+          "https://lichess.org/api/broadcast/Uvg2Lyjt.pgn",
+          "https://lichess.org/api/broadcast/sfWvd9Pd.pgn",
+          "https://lichess.org/api/broadcast/MyBFv3Ha.pgn"
+        ],
         "prior_repo_event_identity_search": "NO_MATCH_BEFORE_P19_SOURCE_AMENDMENT"
       }
     ]
@@ -38,7 +54,7 @@
   },
   "selection_contract": {
     "unit": "event source × game × exact pre-engine FEN",
-    "ply_range": [12, 160],
+    "ply_range": [12,160],
     "cell": "phase × branching × tactical_surface",
     "cell_support_min_per_source": 4,
     "positions_per_source_per_cell": 2,
