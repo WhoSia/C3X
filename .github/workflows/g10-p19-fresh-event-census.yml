@@ -1,0 +1,63 @@
+name: c3x-g10-p19-fresh-event-census
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'c3x/receipts/g10-p19-preoutcome-source-amendment.json'
+      - 'tools/g10_p19_source_census.py'
+      - '.github/workflows/g10-p19-fresh-event-census.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  census:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install chess parser
+        run: python3 -m pip install --disable-pip-version-check python-chess==1.999
+
+      - name: Acquire frozen completed-event PGNs
+        run: |
+          set -euo pipefail
+          mkdir -p data
+          curl -fL --retry 4 --retry-all-errors             -H 'Accept: application/x-chess-pgn'             'https://lichess.org/api/broadcast/oe4JqS3R.pgn?clocks=false&comments=false'             -o data/candidates2026.pgn
+          curl -fL --retry 4 --retry-all-errors             -H 'Accept: application/x-chess-pgn'             'https://lichess.org/api/broadcast/32sSzO6S.pgn?clocks=false&comments=false'             -o data/olympiad2026.pgn
+          test -s data/candidates2026.pgn
+          test -s data/olympiad2026.pgn
+          sha256sum data/candidates2026.pgn data/olympiad2026.pgn | tee source.sha256
+          printf 'Candidates games: '; grep -c '^\[Event ' data/candidates2026.pgn || true
+          printf 'Olympiad games: '; grep -c '^\[Event ' data/olympiad2026.pgn || true
+
+      - name: Build outcome-blind fresh-world census
+        run: |
+          set -euo pipefail
+          CAND_SHA="$(sha256sum data/candidates2026.pgn | cut -d' ' -f1)"
+          OLY_SHA="$(sha256sum data/olympiad2026.pgn | cut -d' ' -f1)"
+          python3 tools/g10_p19_source_census.py             --source "P19_SRC_LICHESS_CANDIDATES_2026|data/candidates2026.pgn|https://lichess.org/api/broadcast/oe4JqS3R.pgn|${CAND_SHA}"             --source "P19_SRC_LICHESS_OLYMPIAD_2026|data/olympiad2026.pgn|https://lichess.org/api/broadcast/32sSzO6S.pgn|${OLY_SHA}"             --history-root .             --min-cell-support 4             --per-source-cell 2             --max-common-cells 12             --out g10-p19-fresh-event-census.json
+          python3 - <<'PY'
+          import json
+          r=json.load(open("g10-p19-fresh-event-census.json"))
+          assert r["selection"]["engine_outcomes_consulted"] is False
+          assert r["selection"]["counterfactual_outcomes_consulted"] is False
+          assert r["selection"]["historical_fen_and_candidate_hashes_excluded"] is True
+          assert r["selection"]["provider_independence_claimed"] is False
+          print("G10_P19_CENSUS_VERDICT",r["verdict"])
+          print("G10_P19_CENSUS_GATE",json.dumps(r["gate"],sort_keys=True))
+          print("G10_P19_SELECTED_CELLS",json.dumps(r["selected_cells"],sort_keys=True))
+          PY
+          sha256sum g10-p19-fresh-event-census.json > g10-p19-fresh-event-census.sha256
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: g10-p19-fresh-event-census
+          path: |
+            g10-p19-fresh-event-census.json
+            g10-p19-fresh-event-census.sha256
+            source.sha256
+          retention-days: 90
