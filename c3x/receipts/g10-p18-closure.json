@@ -1,0 +1,155 @@
+{
+  "schema": "c3x-g10-p18-closure-v1",
+  "stage": "C3X 0.9.0-G10-P18 — Prospective Engine-Resolved Preference-Support Tensor Reconstruction, Pair-Margin Orientation×Engine Identity×Relation-Atom Factorization, Support-Intersection vs Engine-Specific Failure Separation, Source-Invariant Primitive Search, Transparent Necessary/Sufficient Rule Recovery, Cross-Engine Susceptibility Transport Obstruction, Abstention Geometry & Mechanism-Readable Counterfactual Experiment",
+  "status": "CLOSED_PASS",
+  "official_verdict": "PASS_ENGINE_SPECIFIC_RULES_CROSS_ENGINE_OBSTRUCTION",
+  "authority_scope": "retrospective-development reconstruction of sealed P16 engine-resolved worlds under a prospectively frozen P18 analysis; not fresh outcome generation",
+  "preseal": {
+    "constitution_commit": "3030c8ea91ab8088475bdf7025324f622c0cdbe9",
+    "eligibility_correction_commit": "7eeec1c386060620818952afb58f15fa86b4b37f",
+    "correction_reason": "source-level three-engine coverage was not per-position simultaneous activity; inactive engines are NA, never failure"
+  },
+  "canonical_tensor": {
+    "run": 37189244495,
+    "artifact_id": 11297744837,
+    "artifact_zip_sha256": "b61af61fc5ef043d5e3cb1399befb6807bf21f77bbcdce2b8fc9460675a5e391",
+    "unique_chain_rows": 30,
+    "nominal_engine_tensor_cells": 90,
+    "support_count_distribution": {
+      "0": 14,
+      "1": 5,
+      "2": 8,
+      "3": 3
+    },
+    "aggregate_ge2_positive": 11,
+    "support_intersection_failures": 5,
+    "universal_failures": 14,
+    "universal_survivals_among_active_engines": 11,
+    "source_engine_rates": {
+      "P16_SRC_TWIC_1655": {
+        "berserk": {
+          "n": 11,
+          "positive": 4,
+          "rate": 0.36363636363636365
+        },
+        "ethereal": {
+          "n": 16,
+          "positive": 7,
+          "rate": 0.4375
+        },
+        "stockfish_19": {
+          "n": 18,
+          "positive": 6,
+          "rate": 0.3333333333333333
+        }
+      },
+      "P16_SRC_TWIC_1656": {
+        "berserk": {
+          "n": 7,
+          "positive": 3,
+          "rate": 0.42857142857142855
+        },
+        "ethereal": {
+          "n": 10,
+          "positive": 5,
+          "rate": 0.5
+        },
+        "stockfish_19": {
+          "n": 11,
+          "positive": 5,
+          "rate": 0.45454545454545453
+        }
+      }
+    },
+    "pairwise_common_active": {
+      "stockfish_19__berserk": {
+        "n": 17,
+        "both": 5,
+        "stockfish_only": 0,
+        "berserk_only": 2,
+        "neither": 10
+      },
+      "stockfish_19__ethereal": {
+        "n": 25,
+        "both": 9,
+        "stockfish_only": 0,
+        "ethereal_only": 3,
+        "neither": 13
+      },
+      "berserk__ethereal": {
+        "n": 14,
+        "both": 3,
+        "berserk_only": 0,
+        "ethereal_only": 2,
+        "neither": 9
+      }
+    }
+  },
+  "transparent_rule_result": {
+    "common_sufficient_rule": false,
+    "common_necessary_rule_primary_search": true,
+    "common_necessary_rule_authority_after_audit": "DEMOTED_AS_POTENTIALLY_DEGENERATE_DESIGN_PREVALENCE",
+    "engine_specific_nontrivial_sufficient": {
+      "engine": "ethereal",
+      "rule": "grammar_complexity_le_1 & NOT_phase_REDUCED",
+      "source_results": {
+        "P16_SRC_TWIC_1655": {
+          "support": 7,
+          "positive": 5,
+          "precision": 0.7142857142857143
+        },
+        "P16_SRC_TWIC_1656": {
+          "support": 4,
+          "positive": 3,
+          "precision": 0.75
+        }
+      },
+      "combined_coverage": 0.36666666666666664,
+      "interpretation": "low-complexity intervention grammar outside REDUCED phase is a source-stable sufficient candidate for Ethereal preference preservation in the frozen development ecology"
+    },
+    "stockfish_nontrivial_sufficient": null,
+    "berserk_nontrivial_sufficient": null
+  },
+  "demotion_audit": {
+    "run": 37189366419,
+    "artifact_id": 11298313702,
+    "artifact_zip_sha256": "467f22d2f40d24378b1fe191c65b6bb7d88fcd37117bc21f5dfbb76f2ab1c9d3",
+    "can_strengthen_primary": false,
+    "nontrivial_sufficient_engines": [
+      "ethereal"
+    ],
+    "exact_zero_violation_relations": [
+      "stockfish_19 survival subset of berserk survival",
+      "stockfish_19 survival subset of ethereal survival",
+      "berserk survival subset of ethereal survival"
+    ],
+    "exact_three_engine_order": [
+      "stockfish_19",
+      "berserk",
+      "ethereal"
+    ],
+    "nesting_authority": "DESCRIPTIVE_CANDIDATE_ONLY_POSTHOC_ORDER_SEARCH"
+  },
+  "scientific_conclusion": [
+    "P17's aggregate >=2-engine label hid five partial-support chains in addition to fourteen universal failures and eleven aggregate positives.",
+    "The aggregate failure therefore mixes universal intervention failure with support-intersection failure.",
+    "No nontrivial source-stable sufficient rule is shared across engines under the frozen rule family.",
+    "Ethereal alone admits a nontrivial source-stable sufficient rule: grammar complexity <=1 and phase != REDUCED.",
+    "Common-active survival sets show exact zero-violation nesting Stockfish ⊆ Berserk ⊆ Ethereal in both source arms, but this ordering was discovered post hoc and has descriptive-candidate authority only.",
+    "The correct next object is prospective confirmation of engine-survival partial order and engine-specific rule transport on fresh worlds, not re-aggregation into one scalar."
+  ],
+  "forbidden_promotions": [
+    "Do not call the observed engine nesting a transport law before prospective fresh confirmation.",
+    "Do not promote high-prevalence necessary predicates as mechanism laws.",
+    "Do not treat Ethereal sufficiency as engine-internal source-code mechanism.",
+    "Do not collapse inactive engine cells to failure."
+  ],
+  "fresh_confirmation_opened": false,
+  "black_box_models_used": false,
+  "automation_identity": {
+    "actions_writeback": false,
+    "bot_author_hits_at_closure": 0,
+    "bot_committer_hits_at_closure": 0,
+    "canonical_promotion_actor": "WhoSia"
+  }
+}
