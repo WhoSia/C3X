@@ -1,0 +1,61 @@
+{
+  "schema": "c3x-g10-p19-preoutcome-source-amendment-v1",
+  "stage": "C3X 0.9.0-G10-P19",
+  "status": "FROZEN_BEFORE_P19_ENGINE_OUTCOMES",
+  "parent_preseal_head": "9f40e90507a149aa7a62138b8902c68dfc0c49bd",
+  "reason": "Do not make P19 authority depend on the future publication of TWIC 1665/1666. Add a completed-event, non-TWIC confirmation lane while preserving the already-frozen H1/H2 hypotheses and adjudication thresholds.",
+  "source_lane": {
+    "provider": "Lichess official broadcast API",
+    "provider_reuse_note": "Lichess as a provider has appeared in earlier C3X stages. P19 therefore does not claim provider independence. Freshness is event-identity plus exact-world disjointness plus prospective engine-outcome sealing.",
+    "sources": [
+      {
+        "id": "P19_SRC_LICHESS_CANDIDATES_2026",
+        "event": "FIDE Candidates 2026",
+        "broadcast_id": "oe4JqS3R",
+        "overview_url": "https://lichess.org/broadcast/fide-candidates-2026/oe4JqS3R",
+        "pgn_api_url": "https://lichess.org/api/broadcast/oe4JqS3R.pgn",
+        "prior_repo_event_identity_search": "NO_MATCH_BEFORE_P19_SOURCE_AMENDMENT"
+      },
+      {
+        "id": "P19_SRC_LICHESS_OLYMPIAD_2026",
+        "event": "46th FIDE Chess Olympiad Samarkand 2026",
+        "broadcast_id": "32sSzO6S",
+        "overview_url": "https://lichess.org/broadcast/46th-fide-chess-olympiad-samarkand-2026/32sSzO6S",
+        "pgn_api_url": "https://lichess.org/api/broadcast/32sSzO6S.pgn",
+        "prior_repo_event_identity_search": "NO_MATCH_BEFORE_P19_SOURCE_AMENDMENT"
+      }
+    ]
+  },
+  "freshness_contract": {
+    "hypotheses_and_thresholds_frozen_before_source_bytes": true,
+    "engine_outcomes_opened_before_amendment": false,
+    "exclude_every_recoverable_historical_candidate_hash": true,
+    "exclude_every_recoverable_historical_fen_hash": true,
+    "exclude_cross_source_duplicate_fens": true,
+    "selection_uses_only_pre_engine_chess_geometry": true,
+    "freshness_claim": "EVENT_NEW_WORLD_DISJOINT_PROSPECTIVE_ENGINE_OUTCOME",
+    "forbidden_claim": "PROVIDER_INDEPENDENT_REPLICATION"
+  },
+  "selection_contract": {
+    "unit": "event source × game × exact pre-engine FEN",
+    "ply_range": [12, 160],
+    "cell": "phase × branching × tactical_surface",
+    "cell_support_min_per_source": 4,
+    "positions_per_source_per_cell": 2,
+    "max_common_cells": 12,
+    "minimum_common_cells": 6,
+    "minimum_total_positions": 24,
+    "minimum_phase_levels": 2,
+    "minimum_branching_levels": 2,
+    "minimum_tactical_levels": 2,
+    "tie_break": "trajectory_hash then candidate_sha256",
+    "no_engine_or_counterfactual_outcome_selection": true
+  },
+  "twic_1665_1666_lane": "WAITING_ONLY_NOT_REQUIRED_FOR_P19_PRIMARY_CLOSURE",
+  "actions_identity": {
+    "contents_permission": "read",
+    "repository_writeback": false,
+    "artifact_only_execution": true,
+    "canonical_promotion_actor": "WhoSia after artifact inspection"
+  }
+}
