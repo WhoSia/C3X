@@ -25,9 +25,16 @@ jobs:
       - name: Acquire frozen completed-event PGNs
         run: |
           set -euo pipefail
-          mkdir -p data
-          curl -fL --retry 4 --retry-all-errors             -H 'Accept: application/x-chess-pgn'             'https://lichess.org/api/broadcast/oe4JqS3R.pgn?clocks=false&comments=false'             -o data/candidates2026.pgn
-          curl -fL --retry 4 --retry-all-errors             -H 'Accept: application/x-chess-pgn'             'https://lichess.org/api/broadcast/32sSzO6S.pgn?clocks=false&comments=false'             -o data/olympiad2026.pgn
+          mkdir -p data/olympiad
+          curl -fL --retry 4 --retry-all-errors             -H 'Accept: application/x-chess-pgn'             'https://lichess.org/api/broadcast/BLA70Vds.pgn?clocks=false&comments=false'             -o data/candidates2026.pgn
+
+          : > data/olympiad2026.pgn
+          for id in n1pPI5Q0 MSQXIzkK Uvg2Lyjt sfWvd9Pd MyBFv3Ha; do
+            curl -fL --retry 4 --retry-all-errors               -H 'Accept: application/x-chess-pgn'               "https://lichess.org/api/broadcast/${id}.pgn?clocks=false&comments=false"               -o "data/olympiad/${id}.pgn"
+            cat "data/olympiad/${id}.pgn" >> data/olympiad2026.pgn
+            printf '\n\n' >> data/olympiad2026.pgn
+          done
+
           test -s data/candidates2026.pgn
           test -s data/olympiad2026.pgn
           sha256sum data/candidates2026.pgn data/olympiad2026.pgn | tee source.sha256
@@ -39,7 +46,7 @@ jobs:
           set -euo pipefail
           CAND_SHA="$(sha256sum data/candidates2026.pgn | cut -d' ' -f1)"
           OLY_SHA="$(sha256sum data/olympiad2026.pgn | cut -d' ' -f1)"
-          python3 tools/g10_p19_source_census.py             --source "P19_SRC_LICHESS_CANDIDATES_2026|data/candidates2026.pgn|https://lichess.org/api/broadcast/oe4JqS3R.pgn|${CAND_SHA}"             --source "P19_SRC_LICHESS_OLYMPIAD_2026|data/olympiad2026.pgn|https://lichess.org/api/broadcast/32sSzO6S.pgn|${OLY_SHA}"             --history-root .             --min-cell-support 4             --per-source-cell 2             --max-common-cells 12             --out g10-p19-fresh-event-census.json
+          python3 tools/g10_p19_source_census.py             --source "P19_SRC_LICHESS_CANDIDATES_2026|data/candidates2026.pgn|https://lichess.org/api/broadcast/BLA70Vds.pgn|${CAND_SHA}"             --source "P19_SRC_LICHESS_OLYMPIAD_2026|data/olympiad2026.pgn|https://lichess.org/broadcast/46th-fide-chess-olympiad-samarkand-2026/32sSzO6S|${OLY_SHA}"             --history-root .             --min-cell-support 4             --per-source-cell 2             --max-common-cells 12             --out g10-p19-fresh-event-census.json
           python3 - <<'PY'
           import json
           r=json.load(open("g10-p19-fresh-event-census.json"))
