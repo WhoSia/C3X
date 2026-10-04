@@ -1,0 +1,73 @@
+{
+  "schema": "c3x-g10-p19-constitution-v1",
+  "stage": "C3X 0.9.0-G10-P19 — Prospective Engine-Survival Partial-Order Confirmation, Frozen Stockfish≤Berserk≤Ethereal Inclusion Hypothesis, Ethereal-Specific Low-Complexity×Non-Reduced Sufficiency Replication, Pairwise Common-Activity Positivity, Inclusion-Violation Localization, Source/Engine Transport Separation, Fresh-World Falsification & Engine-Relative Preference-Stability Law Experiment",
+  "status": "PRESEALED_AWAITING_FRESH_WORLD",
+  "parent": {
+    "stage": "C3X 0.9.0-G10-P18",
+    "closure_commit": "6a323076b737564807dc0946501ecb6680643b2f",
+    "verdict": "PASS_ENGINE_SPECIFIC_RULES_CROSS_ENGINE_OBSTRUCTION"
+  },
+  "authority": {
+    "hypotheses_frozen_before_new_outcomes": true,
+    "p18_engine_order_authority": "DESCRIPTIVE_CANDIDATE_ONLY_POSTHOC_ORDER_SEARCH",
+    "p18_ethereal_rule_authority": "RETROSPECTIVE_DEVELOPMENT_CANDIDATE",
+    "fresh_confirmation_required": true,
+    "prior_used_twic_issues_forbidden_as_fresh": [1655,1656,1657,1658,1659,1660,1661,1662,1663,1664],
+    "eligible_next_twic_issues": [1665,1666],
+    "alternative_source_allowed": "Only an independently acquired source whose selection/outcomes were not opened in prior C3X stages, with source identity frozen before outcome reconstruction."
+  },
+  "engines": ["stockfish_19","berserk","ethereal"],
+  "primary_hypotheses": {
+    "H1_partial_order": {
+      "statement": "On jointly-active rows: S_stockfish19 subseteq S_berserk subseteq S_ethereal.",
+      "violations": {
+        "stockfish_to_berserk": "stockfish_19=1 AND berserk=0",
+        "berserk_to_ethereal": "berserk=1 AND ethereal=0"
+      },
+      "strict_rule": "Any eligible violation falsifies the corresponding strict inclusion relation.",
+      "nonvacuity": {
+        "min_common_active_per_relation_pooled": 10,
+        "min_antecedent_positive_per_relation_pooled": 3,
+        "min_common_active_per_source_when_two_sources": 5,
+        "require_at_least_one_both_positive_per_relation": true
+      }
+    },
+    "H2_ethereal_rule": {
+      "rule": "grammar_complexity_le_1 AND phase_NOT_REDUCED",
+      "interpretation": "Empirical source-stable sufficient candidate; not logical sufficiency and not an engine-internal source-code mechanism.",
+      "replication_gate": {
+        "min_rule_support_per_source": 3,
+        "min_precision_per_source": 0.70,
+        "min_combined_coverage": 0.15
+      },
+      "strict_counterexample_recording": true
+    }
+  },
+  "secondary_estimands": {
+    "pairwise_common_activity": true,
+    "source_stratified_survival_rates": true,
+    "inclusion_violation_localization": ["source","position_id","chain_signature","phase","grammar_complexity","relation_atoms"],
+    "abstention": "Inactive engine cells remain NA and never become failure.",
+    "soft_order_after_strict_falsification": "Descriptive only; may report violation rates but cannot rescue H1."
+  },
+  "outcome_firewall": {
+    "no_threshold_refit_after_outcome_open": true,
+    "no_engine_reordering_after_outcome_open": true,
+    "no_rule_literal_changes_after_outcome_open": true,
+    "no_posthoc_source_relabeling": true,
+    "no_strength_or_elo_explanation": true
+  },
+  "explanation_contract": {
+    "authority_source": "Machine-readable evidence graph only.",
+    "llm_free_generation_is_not_evidence": true,
+    "required_fields": ["claim_type","engine_relation","source_id","witness_rows","counterexample_rows","authority_level"],
+    "allowed_authority_levels": ["PROSPECTIVE_CONFIRMED","PROSPECTIVE_FALSIFIED","UNDERPOWERED","DESCRIPTIVE_ONLY"]
+  },
+  "closure_logic": {
+    "PASS": "H1 both adjacent inclusions prospectively survive nonvacuity gates AND H2 replicates on all frozen fresh sources.",
+    "PARTIAL_PASS": "At least one frozen primary hypothesis passes while another is prospectively falsified or underpowered; exact split must be reported.",
+    "FAIL": "Fresh eligible evidence falsifies both primary hypotheses under their frozen gates.",
+    "HOLD": "Fresh-world eligibility or nonvacuity/support gates are not met."
+  },
+  "black_box_models_used_for_primary_adjudication": false
+}
