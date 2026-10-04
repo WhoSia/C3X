@@ -1,0 +1,128 @@
+{
+  "schema": "c3x-g10-p18-constitution-v1",
+  "stage": "C3X 0.9.0-G10-P18 — Prospective Engine-Resolved Preference-Support Tensor Reconstruction, Pair-Margin Orientation×Engine Identity×Relation-Atom Factorization, Support-Intersection vs Engine-Specific Failure Separation, Source-Invariant Primitive Search, Transparent Necessary/Sufficient Rule Recovery, Cross-Engine Susceptibility Transport Obstruction, Abstention Geometry & Mechanism-Readable Counterfactual Experiment",
+  "type": "ENGINE_RESOLVED_RECONSTRUCTION_EXPERIMENT",
+  "parent": {
+    "stage": "C3X 0.9.0-G10-P17",
+    "verdict": "HOLD_NO_TRANSPARENT_FAMILY_CALIBRATES"
+  },
+  "authority_note": "P16 engine-resolved outcomes already exist in sealed artifacts. P18 prospectively freezes the decomposition and rule-search analysis before opening those engine-resolved labels for this stage; it is retrospective-development evidence, not fresh outcome generation.",
+  "question": "Does the failed aggregate >=2-engine susceptibility label decompose into stable engine-specific survival laws or stable cross-engine obstruction classes, and can any transparent single-/two-literal rules be necessary or sufficient across both source arms?",
+  "data": {
+    "frozen_world_run": 37122544550,
+    "pair_gate_run": 37122446885,
+    "heldout_corpus_run": 37120231398,
+    "sources": [
+      "P16_SRC_TWIC_1655",
+      "P16_SRC_TWIC_1656"
+    ],
+    "engines": [
+      "stockfish_19",
+      "berserk",
+      "ethereal"
+    ],
+    "unit": "unique position × structural chain × engine",
+    "chain_deduplication": "same as P17: identical position+chain signature across ROUTED/GLOBAL_G2 is one chain row",
+    "engine_label": "1 iff that engine independently preserves A/B support on TARGET, SUBSET and SHAM for the frozen chain",
+    "aggregate_label": "diagnostic only; sum(engine labels)>=2"
+  },
+  "tensor_outputs": {
+    "required": [
+      "30-ish unique position×chain rows × 3 engines",
+      "engine-specific survival rate by source",
+      "support-count distribution 0/1/2/3",
+      "engine-pair disagreement matrix",
+      "source×engine interaction residuals",
+      "chain-level all-engine / partial-engine / no-engine classes"
+    ],
+    "no_scalar_collapse_before_tensor_audit": true
+  },
+  "primitive_library": {
+    "inherited_from_p17": true,
+    "indicators": [
+      "pair_consensus_orientation",
+      "preferred_move_full_agreement",
+      "median_gap_le_10",
+      "median_gap_le_25",
+      "max_gap_le_25",
+      "gap_dispersion_le_5",
+      "gap_dispersion_le_15",
+      "phase_RICH",
+      "phase_REDUCED",
+      "branching_NARROW",
+      "branching_WIDE",
+      "tactical_QUIET_SURFACE",
+      "grammar_complexity_le_1",
+      "chain_ATOMIC",
+      "target_atom_singleton",
+      "target_endpoint_FROM",
+      "target_polarity_GAIN",
+      "side_role_OWN",
+      "piece_minor",
+      "legal_delta_LOW",
+      "attack_symdiff_LOW",
+      "total_collateral_le_12",
+      "total_collateral_le_20"
+    ],
+    "literal_space": "positive or negated primitive literals only; conjunction size <=2"
+  },
+  "transparent_rule_search": {
+    "rule_family": "single literal or conjunction of two literals",
+    "support_floor_per_source_engine": 3,
+    "source_invariant_sufficiency": {
+      "min_precision_each_source": 0.7,
+      "min_combined_coverage": 0.15,
+      "same_rule_required": true
+    },
+    "source_invariant_necessity": {
+      "min_recall_among_positive_each_source": 0.7,
+      "same_rule_required": true
+    },
+    "cross_engine_common_rule": {
+      "definition": "identical literal/conjunction qualifies as sufficient or necessary for at least two engines",
+      "stronger_commonality": "all three engines"
+    },
+    "tie_break": "fewer literals, higher worst-source precision/recall, higher minimum support, lexical rule"
+  },
+  "obstruction_analysis": {
+    "source_transport_obstruction": "engine has materially different survival rate or primitive effect direction across 1655 vs 1656",
+    "engine_transport_obstruction": "same source+primitive has opposite effect direction across engines",
+    "support_intersection_failure": "aggregate negative but >=1 engine positive",
+    "universal_failure": "0/3 engines survive",
+    "universal_survival": "3/3 engines survive",
+    "hard_abstention": "no rule meets frozen sufficiency/necessity gates"
+  },
+  "black_box_firewall": {
+    "forbidden": [
+      "random forest",
+      "boosting",
+      "neural network",
+      "embedding",
+      "LLM classifier",
+      "latent opaque score"
+    ],
+    "reason": "P18 tests whether the failure is representational/factorization-related, not whether a flexible predictor can fit 90 cells."
+  },
+  "verdict_space": [
+    "PASS_ENGINE_RESOLVED_COMMON_TRANSPARENT_RULE",
+    "PASS_ENGINE_SPECIFIC_RULES_CROSS_ENGINE_OBSTRUCTION",
+    "PASS_SUPPORT_INTERSECTION_DECOMPOSITION_NO_RULE",
+    "HOLD_ENGINE_RESOLVED_SUPPORT_TOO_SPARSE",
+    "FAIL_ANALYSIS_PRESEAL_OR_BLACK_BOX_FIREWALL"
+  ],
+  "fresh_confirmation": {
+    "opened_in_initial_p18": false,
+    "rule": "Only if a stable rule/obstruction candidate is earned; source must be frozen afterward and cannot be P17-unopened sources unless explicitly promoted under a new confirmation constitution."
+  },
+  "claim_ceiling": [
+    "engine-specific preference-survival structure in frozen P16 counterfactual worlds",
+    "transparent rule/obstruction claims only if frozen criteria pass",
+    "no objective chess truth, human cognition, or engine-source-code mechanism claim"
+  ],
+  "automation_identity": {
+    "contents": "read",
+    "actions": "read",
+    "repository_writeback": false,
+    "canonical_promotion": "WhoSia after artifact inspection"
+  }
+}
