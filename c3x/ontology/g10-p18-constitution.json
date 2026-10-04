@@ -124,5 +124,18 @@
     "actions": "read",
     "repository_writeback": false,
     "canonical_promotion": "WhoSia after artifact inspection"
+  },
+  "eligibility_correction": {
+    "reason": "P16 pair gate guaranteed three-engine representation at source level, not per-position simultaneous activity.",
+    "inactive_engine_semantics": "MISSING_BY_DESIGN / NA, never failure=0",
+    "engine_specific_denominator": "only unique chains where that engine was active in the frozen P16 pair qualification",
+    "pairwise_denominator": "only chains where both engines were active",
+    "support_count": "number of surviving engines among active engines only",
+    "universal_survival": "all active engines survive, with active_engine_count reported",
+    "universal_failure": "zero surviving engines among active engines",
+    "aggregate_ge2": "diagnostic P17 criterion remains >=2 surviving active engines",
+    "rule_gates_unchanged": true,
+    "thresholds_unchanged": true,
+    "correction_timing": "after schema failure and before any valid P18 tensor verdict"
   }
 }
