@@ -1,0 +1,43 @@
+{
+  "schema": "c3x-g10-p19-fresh-event-census-receipt-v1",
+  "stage": "C3X 0.9.0-G10-P19",
+  "status": "FRESH_EVENT_WORLD_ECOLOGY_READY",
+  "run": 37197074729,
+  "head": "c2920c3eef4b4b2ebbfb322107ee2bfc0ae34c86",
+  "artifact_id": 11300464866,
+  "artifact_zip_sha256": "816632fc4c2997287631f182a668e97a1eca15cd92a068e11455474aeb8bfe62",
+  "verdict": "PASS_FRESH_EVENT_WORLD_ECOLOGY_READY",
+  "sources": {
+    "P19_SRC_LICHESS_CANDIDATES_2026": {
+      "games_scanned": 56,
+      "eligible_pre_dedup": 450,
+      "source_sha256": "b0e35829184f9ce9e95d584131ac0e0b48b8031f1fd236ff2740c3a1ccee23b7"
+    },
+    "P19_SRC_LICHESS_OLYMPIAD_2026": {
+      "games_scanned": 4514,
+      "eligible_pre_dedup": 36972,
+      "source_sha256": "732f30fc3f7bf416eded762f72e1c8bc94e479df7a6715db7cada5d0bd3bc242"
+    }
+  },
+  "gate": {
+    "common_cells": 12,
+    "positions": 48,
+    "phase_levels": ["RICH","TRANSITIONAL"],
+    "branching_levels": ["MEDIUM","NARROW","WIDE"],
+    "tactical_levels": ["FORCED_CHECK","QUIET_SURFACE","TACTICAL_AVAILABLE"],
+    "cross_source_duplicate_fens_excluded": 45,
+    "history_hashes_excluded": 11,
+    "history_json_files_scanned": 209
+  },
+  "notes": {
+    "engine_outcomes_opened": false,
+    "counterfactual_outcomes_opened": false,
+    "provider_independence_claimed": false,
+    "pgn_parse_warning": "One Olympiad PGN game emitted an illegal SAN 0-0 parser warning and was not used beyond parser-valid traversal; workflow completed and frozen selection gate passed.",
+    "next_admissible_action": "Apply the already-frozen P16 context router to the 48 frozen worlds before any engine outcome, then test routed-world positivity without relaxing thresholds."
+  },
+  "automation_identity": {
+    "actions_writeback": false,
+    "canonical_promotion_actor": "WhoSia"
+  }
+}
