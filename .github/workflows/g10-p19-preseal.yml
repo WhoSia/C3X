@@ -1,0 +1,57 @@
+name: c3x-g10-p19-preseal
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'c3x/ontology/g10-p19-constitution.json'
+      - 'tools/g10_p19_adjudicate.py'
+      - 'docs/G10_P19_THEORY.md'
+      - '.github/workflows/g10-p19-preseal.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  preseal:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate frozen constitution
+        run: |
+          python3 - <<'PY'
+          import json
+          c=json.load(open("c3x/ontology/g10-p19-constitution.json"))
+          assert c["status"]=="PRESEALED_AWAITING_FRESH_WORLD"
+          assert c["parent"]["closure_commit"]=="6a323076b737564807dc0946501ecb6680643b2f"
+          assert c["primary_hypotheses"]["H1_partial_order"]["strict_rule"].startswith("Any eligible violation")
+          assert c["primary_hypotheses"]["H2_ethereal_rule"]["rule"]=="grammar_complexity_le_1 AND phase_NOT_REDUCED"
+          assert c["outcome_firewall"]["no_threshold_refit_after_outcome_open"] is True
+          assert c["black_box_models_used_for_primary_adjudication"] is False
+          print("G10_P19_CONSTITUTION_VALID")
+          PY
+      - name: Adjudicator self-test
+        run: python3 tools/g10_p19_adjudicate.py --selftest
+      - name: Seal pre-outcome manifest
+        run: |
+          python3 - <<'PY'
+          import hashlib,json,pathlib
+          paths=[
+            "c3x/ontology/g10-p19-constitution.json",
+            "tools/g10_p19_adjudicate.py",
+            "docs/G10_P19_THEORY.md"
+          ]
+          out={"schema":"c3x-g10-p19-preseal-manifest-v1","files":{},"outcomes_opened":False}
+          for p in paths:
+            b=pathlib.Path(p).read_bytes()
+            out["files"][p]=hashlib.sha256(b).hexdigest()
+          pathlib.Path("g10-p19-preseal-manifest.json").write_text(json.dumps(out,indent=2,sort_keys=True)+"\n")
+          print(json.dumps(out,sort_keys=True))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: g10-p19-preseal
+          path: g10-p19-preseal-manifest.json
+          retention-days: 90
