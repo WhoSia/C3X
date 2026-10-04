@@ -44,8 +44,8 @@ def build(pair_freeze,corpus,worlds):
             if not ch:continue
             g=(p17.GRAMMAR_COMPLEXITY[w["router_grammar"]] if policy=="ROUTED" else 2)
             sig=pid+"|"+p17.chain_sig(ch)
-            labels={e:bool(w["engines"][e][policy]["supported"]) for e in ENGINES if e in w["engines"]}
-            if set(labels)!=set(ENGINES):raise SystemExit("P18_ENGINE_SET "+sig+" "+repr(labels))
+            labels={e:(bool(w["engines"][e][policy]["supported"]) if e in w["engines"] else None) for e in ENGINES}
+            if sum(v is not None for v in labels.values())<2:raise SystemExit("P18_ACTIVE_ENGINE_LT2 "+sig+" "+repr(labels))
             if sig not in acc:
                 raw,ind=p17.make_features(pos,meta[pid],ch,g)
                 acc[sig]={
@@ -63,11 +63,13 @@ def build(pair_freeze,corpus,worlds):
                     acc[sig]["raw"]=raw;acc[sig]["indicators"]=ind
     rows=sorted(acc.values(),key=lambda r:r["row_id"])
     for r in rows:
-        r["support_count"]=sum(r["engine_survival"].values())
+        vals=[v for v in r["engine_survival"].values() if v is not None]
+        r["active_engine_count"]=len(vals)
+        r["support_count"]=sum(vals)
         r["aggregate_ge2"]=r["support_count"]>=2
         r["support_class"]=(
-          "UNIVERSAL_SURVIVAL" if r["support_count"]==3 else
-          "PARTIAL_SUPPORT" if r["support_count"] in (1,2) else
+          "UNIVERSAL_SURVIVAL" if vals and all(vals) else
+          "PARTIAL_SUPPORT" if r["support_count"]>=1 else
           "UNIVERSAL_FAILURE"
         )
     return rows
@@ -80,7 +82,7 @@ def tensor_summary(rows):
         srceng[s]={}
         for e in ENGINES:
             rr=[r for r in rows if r["source_id"]==s]
-            ys=[int(r["engine_survival"][e]) for r in rr]
+            ys=[int(r["engine_survival"][e]) for r in rr if r["engine_survival"][e] is not None]
             srceng[s][e]={"n":len(ys),"positive":sum(ys),"rate":rate(ys)}
     support_count=Counter(r["support_count"] for r in rows)
     pairwise={}
@@ -88,11 +90,12 @@ def tensor_summary(rows):
         c=Counter()
         for r in rows:
             x,y=r["engine_survival"][a],r["engine_survival"][b]
-            c["BOTH"]+=int(x and y);c[a+"_ONLY"]+=int(x and not y);c[b+"_ONLY"]+=int(y and not x);c["NEITHER"]+=int(not x and not y)
+            if x is None or y is None:continue
+            c["N"]+=1;c["BOTH"]+=int(x and y);c[a+"_ONLY"]+=int(x and not y);c[b+"_ONLY"]+=int(y and not x);c["NEITHER"]+=int(not x and not y)
         pairwise[a+"__"+b]=dict(c)
-    grand=rate([int(r["engine_survival"][e]) for r in rows for e in ENGINES])
-    source_mean={s:rate([int(r["engine_survival"][e]) for r in rows if r["source_id"]==s for e in ENGINES]) for s in SOURCES}
-    engine_mean={e:rate([int(r["engine_survival"][e]) for r in rows]) for e in ENGINES}
+    grand=rate([int(r["engine_survival"][e]) for r in rows for e in ENGINES if r["engine_survival"][e] is not None])
+    source_mean={s:rate([int(r["engine_survival"][e]) for r in rows if r["source_id"]==s for e in ENGINES if r["engine_survival"][e] is not None]) for s in SOURCES}
+    engine_mean={e:rate([int(r["engine_survival"][e]) for r in rows if r["engine_survival"][e] is not None]) for e in ENGINES}
     residual={}
     for s in SOURCES:
         residual[s]={}
@@ -101,11 +104,12 @@ def tensor_summary(rows):
     return {
       "source_engine":srceng,
       "support_count_distribution":{str(k):v for k,v in sorted(support_count.items())},
+      "active_engine_count_distribution":dict(Counter(str(r["active_engine_count"]) for r in rows)),
       "support_classes":dict(Counter(r["support_class"] for r in rows)),
       "aggregate_ge2_positive":sum(r["aggregate_ge2"] for r in rows),
       "support_intersection_failures":sum((not r["aggregate_ge2"]) and r["support_count"]>=1 for r in rows),
       "universal_failures":sum(r["support_count"]==0 for r in rows),
-      "universal_survivals":sum(r["support_count"]==3 for r in rows),
+      "universal_survivals":sum(r["support_class"]=="UNIVERSAL_SURVIVAL" for r in rows),
       "pairwise":pairwise,
       "grand_rate":grand,"source_mean":source_mean,"engine_mean":engine_mean,
       "source_engine_interaction_residual":residual
@@ -124,8 +128,8 @@ def primitive_effects(rows):
                 rr=[r for r in rows if r["source_id"]==s]
                 t=[r for r in rr if r["indicators"][ind]]
                 f=[r for r in rr if not r["indicators"][ind]]
-                rt=rate([int(r["engine_survival"][e]) for r in t])
-                rf=rate([int(r["engine_survival"][e]) for r in f])
+                rt=rate([int(r["engine_survival"][e]) for r in t if r["engine_survival"][e] is not None])
+                rf=rate([int(r["engine_survival"][e]) for r in f if r["engine_survival"][e] is not None])
                 d=None if rt is None or rf is None else rt-rf
                 sg=None if d is None else (1 if d>1e-12 else -1 if d<-1e-12 else 0)
                 effects[ind][e][s]={"true_n":len(t),"true_rate":rt,"false_n":len(f),"false_rate":rf,"delta":d,"sign":sg}
@@ -142,10 +146,10 @@ def primitive_effects(rows):
 def eval_rule(rows,e,rule):
     bysrc={}
     for s in SOURCES:
-        rr=[r for r in rows if r["source_id"]==s]
+        rr=[r for r in rows if r["source_id"]==s and r["engine_survival"][e] is not None]
         hit=[r for r in rr if rule_ok(r,rule)]
-        pos=[r for r in rr if r["engine_survival"][e]]
-        hp=sum(r["engine_survival"][e] for r in hit)
+        pos=[r for r in rr if r["engine_survival"][e] is True]
+        hp=sum(bool(r["engine_survival"][e]) for r in hit)
         rec=sum(rule_ok(r,rule) for r in pos)/len(pos) if pos else None
         bysrc[s]={
           "support":len(hit),"positive_in_rule":hp,
