@@ -13,7 +13,11 @@
     "research_os_current_entry_reloaded": true,
     "cross_lab_current_doctrine_reloaded": true,
     "c3x_root_and_two_track_constitution_reloaded": true,
-    "drive_chat_archive_recovered": ["C3X 13.md","C3X 14.md","C3X 15.md"],
+    "drive_chat_archive_recovered": [
+      "C3X 13.md",
+      "C3X 14.md",
+      "C3X 15.md"
+    ],
     "origin_lock": "Why one near-equal legal move is marginally preferred over another beyond obvious tactical dominance.",
     "track_b_firewall": "Explanation implementation cannot promote scientific authority."
   },
@@ -23,9 +27,20 @@
     "census_artifact_zip_sha256": "816632fc4c2997287631f182a668e97a1eca15cd92a068e11455474aeb8bfe62",
     "positions_frozen": 48,
     "common_cells": 12,
-    "phase_levels": ["RICH","TRANSITIONAL"],
-    "branching_levels": ["NARROW","MEDIUM","WIDE"],
-    "tactical_levels": ["FORCED_CHECK","TACTICAL_AVAILABLE","QUIET_SURFACE"],
+    "phase_levels": [
+      "RICH",
+      "TRANSITIONAL"
+    ],
+    "branching_levels": [
+      "NARROW",
+      "MEDIUM",
+      "WIDE"
+    ],
+    "tactical_levels": [
+      "FORCED_CHECK",
+      "TACTICAL_AVAILABLE",
+      "QUIET_SURFACE"
+    ],
     "freshness_claim": "EVENT_NEW_WORLD_DISJOINT_PROSPECTIVE_ENGINE_OUTCOME",
     "provider_independence_claimed": false,
     "human_receipt_commit": "dd6a738735ed1cef37c7aa188641a58e6566a5ed"
@@ -54,18 +69,50 @@
     "engine_tensor_sha256": "dd800c79e8e895fd02b485e46d229d8225971f2e2a6330f5204cca624ed05e37",
     "adjudication_sha256": "31657bd7bafec041cd6814eca65cb0096d96911455d1416ede5290dfc299cc7a",
     "unique_chain_rows": 29,
-    "support_count_distribution": {"0":11,"1":7,"2":4,"3":7},
-    "active_engine_count_distribution": {"2":13,"3":16},
+    "support_count_distribution": {
+      "0": 11,
+      "1": 7,
+      "2": 4,
+      "3": 7
+    },
+    "active_engine_count_distribution": {
+      "2": 13,
+      "3": 16
+    },
     "engine_survival": {
       "P19_SRC_LICHESS_CANDIDATES_2026": {
-        "stockfish_19": {"positive":5,"n":11,"rate":0.45454545454545453},
-        "berserk": {"positive":5,"n":10,"rate":0.5},
-        "ethereal": {"positive":9,"n":14,"rate":0.6428571428571429}
+        "stockfish_19": {
+          "positive": 5,
+          "n": 11,
+          "rate": 0.45454545454545453
+        },
+        "berserk": {
+          "positive": 5,
+          "n": 10,
+          "rate": 0.5
+        },
+        "ethereal": {
+          "positive": 9,
+          "n": 14,
+          "rate": 0.6428571428571429
+        }
       },
       "P19_SRC_LICHESS_OLYMPIAD_2026": {
-        "stockfish_19": {"positive":5,"n":15,"rate":0.3333333333333333},
-        "berserk": {"positive":6,"n":13,"rate":0.46153846153846156},
-        "ethereal": {"positive":6,"n":11,"rate":0.5454545454545454}
+        "stockfish_19": {
+          "positive": 5,
+          "n": 15,
+          "rate": 0.3333333333333333
+        },
+        "berserk": {
+          "positive": 6,
+          "n": 13,
+          "rate": 0.46153846153846156
+        },
+        "ethereal": {
+          "positive": 6,
+          "n": 11,
+          "rate": 0.5454545454545454
+        }
       }
     }
   },
@@ -93,9 +140,17 @@
     "rule": "grammar_complexity_le_1 AND phase_NOT_REDUCED",
     "status": "PROSPECTIVE_FALSIFIED",
     "combined_coverage": 0.3103448275862069,
-    "candidates": {"positive":3,"support":5,"precision":0.6},
-    "olympiad": {"positive":3,"support":4,"precision":0.75},
-    "frozen_precision_threshold": 0.70,
+    "candidates": {
+      "positive": 3,
+      "support": 5,
+      "precision": 0.6
+    },
+    "olympiad": {
+      "positive": 3,
+      "support": 4,
+      "precision": 0.75
+    },
+    "frozen_precision_threshold": 0.7,
     "counterexample_count": 3,
     "phase_literal_contrast_tested": false,
     "conclusion": "The rule already fails on the observed non-REDUCED domain because Candidates precision is below the frozen threshold; lack of REDUCED worlds therefore does not rescue H2."
@@ -123,7 +178,7 @@
     "Do not rescue H1 by reordering engines or tolerating a small violation rate post hoc.",
     "Do not rescue H2 by changing literals or thresholds."
   ],
-  "presentation_note": "The canonical adjudication artifact's H2 authority_note contains stale conditional wording saying sufficiency is 'only confirmed' on the non-REDUCED domain. The decisive status and metrics are unambiguous: H2 is PROSPECTIVE_FALSIFIED because Candidates precision is 0.60. This wording defect is nondecisive and no scientific rerun is authorized.",
+  "presentation_note": "The canonical adjudication artifact contains a stale H2 authority-note phrase saying sufficiency is 'only confirmed' on the non-REDUCED domain. The decisive status and metrics are unambiguous: H2 is PROSPECTIVE_FALSIFIED because Candidates precision is 0.60. No scientific rerun is authorized. Future-rendering wording only was corrected post-closure in commit 07fb00cb55d6f62cbe370e9890f5d7325c0b2e53.",
   "version_court": {
     "decision": "PROMOTE_NEXT_MAINLINE_TO_0.10.0",
     "do_not_retroactively_rename_p19": true,
@@ -148,5 +203,11 @@
     "bot_author_hits_latest_100_before_closure": 0,
     "bot_committer_hits_latest_100_before_closure": 0,
     "canonical_promotion_actor": "WhoSia"
+  },
+  "postclosure_presentation_correction": {
+    "commit": "07fb00cb55d6f62cbe370e9890f5d7325c0b2e53",
+    "scope": "explanatory wording only",
+    "scientific_logic_changed": false,
+    "canonical_artifact_rerun": false
   }
 }
