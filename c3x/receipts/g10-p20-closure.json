@@ -1,0 +1,211 @@
+{
+  "schema": "c3x-g10-p20-closure-v1",
+  "scientific_stage": "C3X 0.10.0-G10-P20",
+  "title": "Prospective Engine×World Preference-Susceptibility Basis Reconstruction, Ferrers-Obstruction & Inversion-Witness Localization, TT-Use×Bound/Window×Reduction×Move-Ordering Search-State Mediation, Minimal Multidimensional Near-Equal Preference Representation, Cross-Engine Mechanism Transport & Evidence-Grounded Contrastive Explanation Experiment",
+  "status": "CLOSED_HOLD",
+  "official_verdict": "HOLD_EXACT_EVENT_ADDRESSABILITY_UNIVERSE_EXCEEDS_PRESEALED_BUDGET__CLASS_LEVEL_MULTIDIMENSIONAL_MEDIATION_DEVELOPMENT_ONLY",
+  "parent": {
+    "stage": "C3X 0.9.0-G10-P19",
+    "closure_head": "f1d07281e4d63beebfef47c833a3d03206aceae7",
+    "verdict": "FALSIFIED_STRICT_ENGINE_PARTIAL_ORDER_AND_ETHEREAL_SUFFICIENCY__NON_FERRERS_ENGINE_WORLD_INTERACTION"
+  },
+  "constitution": {
+    "commit": "feb99e155c36a9ab9b4a551f19acccc514e29f17",
+    "phase_c_support_commit": "6db81d678eb7e2faa5db287408ea01b61aa2a7a6",
+    "max_addresses_per_cell": 2048,
+    "address_frontiers": [
+      0,
+      1,
+      2,
+      4,
+      8
+    ],
+    "forbidden_rescue": [
+      "post-census address-budget increase",
+      "post-census frontier reinterpretation",
+      "outcome-based event truncation",
+      "engine reordering",
+      "soft scalar rescue"
+    ]
+  },
+  "phase_A": {
+    "direct_reduction_instrumentation": "PASS",
+    "reduction_locus_run": 37416308159,
+    "reduction_context_run": 37416385176,
+    "engines": [
+      "stockfish_19",
+      "berserk",
+      "ethereal"
+    ],
+    "result": "Direct LMR/reduction decision sites instrumentable on all three frozen source locks; reduction proxies were not used."
+  },
+  "phase_B": {
+    "status": "CLOSED_PASS",
+    "receipt_commit": "660b44908f7c6f62678248c64dd4b82e22ef620f",
+    "base_rows": 74,
+    "base_identity_mismatches": 0,
+    "intervention_run": 37417855987,
+    "intervention_shards_success": "12/12",
+    "aggregate_repair_run": 37418678693,
+    "artifact_id": 11391128768,
+    "artifact_zip_sha256": "6614528f0405dc5e565bc5a338a2fe1b760a49782e4780df19c3d930b12e2c3f",
+    "verdict": "PASS_CLASS_SCREEN",
+    "support_changes": {
+      "NO_MOVE": 12,
+      "NO_CUTOFF": 9,
+      "NO_REDUCTION": 8,
+      "NO_EVAL": 6
+    },
+    "obstruction_effects": [
+      "SF>B Olympiad 000baab...: NO_MOVE collapsed contrast +1→0.",
+      "B>SF Olympiad 0000175...: NO_MOVE, NO_EVAL and NO_REDUCTION each collapsed contrast -1→0.",
+      "B>E Candidates 1906b4...: NO_MOVE collapsed +1→0; NO_CUTOFF reversed +1→-1 with both engine sides changing.",
+      "E>B Candidates 01f2b6...: NO_CUTOFF collapsed -1→0."
+    ],
+    "interpretation": "P19 Ferrers obstructions are search-state mediated in a heterogeneous, multidimensional manner at class level. No single universal mediator class is supported."
+  },
+  "phase_C": {
+    "status": "HOLD_ADDRESSABILITY",
+    "run": 37419447937,
+    "build_engines_success": "3/3",
+    "census_cells": "8/8 completed",
+    "exact_event_localization_outcomes_opened": false,
+    "all_base_identity": true,
+    "all_address_repeatable": true,
+    "pass_count": 0,
+    "cells": [
+      {
+        "id": "P20C01",
+        "engine": "stockfish_19",
+        "family": "MOVE_ORDER",
+        "addresses": 18911,
+        "frontiers": {
+          "0": 0,
+          "1": 422,
+          "2": 3791,
+          "4": 8719,
+          "8": 18911
+        }
+      },
+      {
+        "id": "P20C02",
+        "engine": "stockfish_19",
+        "family": "MOVE_ORDER",
+        "addresses": 12674,
+        "frontiers": {
+          "0": 0,
+          "1": 171,
+          "2": 1146,
+          "4": 3745,
+          "8": 12674
+        }
+      },
+      {
+        "id": "P20C03",
+        "engine": "stockfish_19",
+        "family": "EVAL",
+        "addresses": 31832,
+        "frontiers": {
+          "0": 286,
+          "1": 561,
+          "2": 3339,
+          "4": 9125,
+          "8": 31832
+        }
+      },
+      {
+        "id": "P20C04",
+        "engine": "stockfish_19",
+        "family": "REDUCTION",
+        "addresses": 10597,
+        "frontiers": {
+          "0": 0,
+          "1": 1021,
+          "2": 1664,
+          "4": 4578,
+          "8": 10597
+        }
+      },
+      {
+        "id": "P20C05",
+        "engine": "berserk",
+        "family": "CUTOFF",
+        "addresses": 8274,
+        "frontiers": {
+          "0": 0,
+          "1": 0,
+          "2": 578,
+          "4": 2692,
+          "8": 8274
+        }
+      },
+      {
+        "id": "P20C06",
+        "engine": "ethereal",
+        "family": "CUTOFF",
+        "addresses": 9847,
+        "frontiers": {
+          "0": 0,
+          "1": 1,
+          "2": 623,
+          "4": 4450,
+          "8": 9847
+        }
+      },
+      {
+        "id": "P20C07",
+        "engine": "berserk",
+        "family": "MOVE_ORDER",
+        "addresses": 13829,
+        "frontiers": {
+          "0": 0,
+          "1": 241,
+          "2": 1319,
+          "4": 5023,
+          "8": 13829
+        }
+      },
+      {
+        "id": "P20C08",
+        "engine": "ethereal",
+        "family": "CUTOFF",
+        "addresses": 12174,
+        "frontiers": {
+          "0": 0,
+          "1": 1,
+          "2": 1518,
+          "4": 5104,
+          "8": 12174
+        }
+      }
+    ],
+    "interpretation": [
+      "The HOLD is not caused by BASE drift or event nonrepeatability; both passed in all eight cells.",
+      "Raw exact-event universes are one to two orders of magnitude above the presealed 2048-address budget.",
+      "Several shallow frontiers fall below 2048, but changing the gate from total <=8 universe to a chosen shallow frontier after observing these counts would be an unauthorized midstream rescue.",
+      "No ddmin, exact necessity/sufficiency, minimal event-set or Phase-D basis result is authorized."
+    ]
+  },
+  "scientific_conclusion": [
+    "P20 positively establishes heterogeneous class-level search-state mediation of P19 engine×world inversion witnesses on the development ecology.",
+    "P20 does not identify a minimal exact-event mediator basis because the prospectively admitted exact-event universes exceed the frozen addressability budget in every Phase-C cell.",
+    "The failure mode is representational/combinatorial rather than instrumentation drift: exact addresses are stable but too numerous.",
+    "A successor must change the representation/evidence class prospectively—e.g. an intervention-stable structural quotient or event-fiber representation—rather than merely increasing the P20 budget."
+  ],
+  "claim_ceiling": [
+    "Do not call Phase-B class effects exact event-level mechanisms.",
+    "Do not claim a minimal multidimensional basis.",
+    "Do not claim fresh P20 transport or Phase-E confirmation.",
+    "Do not retroactively use shallow-frontier counts to rescue P20.",
+    "Do not infer human cognition, objective chess truth or Elo/strength ordering."
+  ],
+  "successor": {
+    "proposed_stage": "C3X 0.10.0-G10-P21",
+    "proposed_title": "Prospective Search-Event Quotient & Intervention-Stable Mediator-Fiber Reconstruction, Root-Child×Key-Lineage×Window/Reduction-State Structural Equivalence, Budget-Bounded Causal Compression of TT/Move-Ordering/Evaluation/LMR Event Universes, Ferrers-Obstruction Mediation Recovery, Cross-Engine Quotient Transport & Evidence-Authority Preservation Experiment",
+    "core_question": "Can the raw exact-event universe be compressed prospectively into intervention-stable structural mediator fibers that preserve the P20 class-level inversion effects and admit bounded causal localization without outcome-based truncation?"
+  },
+  "automation_identity": {
+    "actions_writeback": false,
+    "human_authored_promotions": true
+  }
+}
