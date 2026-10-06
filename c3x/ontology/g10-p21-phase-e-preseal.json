@@ -1,0 +1,23 @@
+{
+  "schema":"c3x-g10-p21-phase-e-preseal-v1",
+  "stage":"C3X 0.10.0-G10-P21",
+  "status":"FROZEN_BEFORE_FRESH_PGN_AND_INTERVENTION_OUTCOMES",
+  "sources":[
+    {"id":"P21_WOMEN_CANDIDATES_2026","broadcast_id":"xj4qM8Nw","url":"https://lichess.org/broadcast/fide-candidates-2026-women/xj4qM8Nw"},
+    {"id":"P21_WOMEN_OLYMPIAD_2026","broadcast_id":"HtMn014k","url":"https://lichess.org/broadcast/46th-fide-chess-olympiad-samarkand-2026-women-i/HtMn014k"}
+  ],
+  "freshness":"event-new + exact-world-disjoint + prospective P21 intervention outcomes; provider independence not claimed",
+  "selection":{"exclude_all_recoverable_historical_FEN_and_candidate_hashes":true,"exclude_cross_source_duplicate_FENs":true,"ply_range":[12,160],"cell":"phase×branching×tactical_surface","min_cell_support_per_source":4,"positions_per_source_per_cell":2,"max_common_cells":8,"min_total_positions":24},
+  "quotient_level":"Q0",
+  "frozen_positive_keys":[
+    ["MOVE_ORDER","MAIN","SHAM","A","2","5-8"],
+    ["MOVE_ORDER","MAIN","SUBSET","A","2","5-8"],
+    ["CUTOFF","MAIN","SHAM","B","3-4","1-4"],
+    ["CUTOFF","MAIN","TARGET","B","5-8","1-4"],
+    ["MOVE_ORDER","MAIN","SHAM","A","3-4","5-8"],
+    ["MOVE_ORDER","MAIN","SUBSET","A","3-4","5-8"],
+    ["CUTOFF","MAIN","TARGET","A","5-8","1-4"]
+  ],
+  "fresh_endpoint":"For each eligible engine/world/family cell, compare BASE, full frozen class intervention, and removal of matching frozen Q0 fiber(s). Primary success requires recovery of class-effect direction when the class changes support, with no post-outcome key refit.",
+  "minimums":{"sources":2,"positions":24,"engine_pair_cells":12}
+}
