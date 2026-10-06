@@ -1,0 +1,42 @@
+{
+  "schema": "c3x-g10-p21-phase-e-chain-preseal-v1",
+  "stage": "C3X 0.10.0-G10-P21",
+  "parent_preseal": "c3x/ontology/g10-p21-phase-e-preseal.json",
+  "qualification_run": 37441256076,
+  "pair_gate": "PASS_PHASE_E_PAIR_POSITIVITY",
+  "selected_worlds_pre_router": 32,
+  "admitted_positions": 14,
+  "engine_pair_cells": 34,
+  "rules": {
+    "chain_policy": "ROUTED only; deterministic first chain from the frozen P16 grammar. GLOBAL_G2 is excluded from confirmatory vote.",
+    "engines": "Only engines active in the frozen fresh pair qualification.",
+    "families": [
+      "MOVE_ORDER",
+      "CUTOFF"
+    ],
+    "carrier": "A fresh engine×world×family cell is eligible iff at least one BASE exact event in TARGET/SUBSET/SHAM × A/B matches one of the seven presealed Q0 positive keys for that family.",
+    "outcomes_forbidden_in_carrier_selection": [
+      "full-class intervention",
+      "Q0-fiber removal",
+      "support change under either intervention"
+    ],
+    "baseline_support": "May be true or false; the prospective endpoint is whether class and frozen-fiber interventions agree in support-change direction.",
+    "duplicate_vote": "At most one ROUTED chain per fresh world. Each engine×world×family contributes one cell."
+  },
+  "carrier_gate": {
+    "min_sources": 2,
+    "min_total_cells": 12,
+    "min_engines": 2,
+    "require_both_families": true
+  },
+  "endpoint": {
+    "class_effect": "FULL_CLASS support differs from BASE.",
+    "fiber_recovery": "FROZEN_Q0 support equals FULL_CLASS and differs from BASE.",
+    "primary_rate": "fiber_recovery / class_effect among carrier cells",
+    "pass": "At least one fresh recovery in each P19 obstruction family (SF/B and B/E), across both source ecologies collectively, with no Q0-key refit.",
+    "partial": "Fresh recovery exists but only one obstruction family or one source ecology carries it.",
+    "fail": "Class effects occur on fresh carriers but frozen Q0 fibers recover none.",
+    "hold": "Carrier or fresh class-effect support is insufficient."
+  },
+  "p21_intervention_outcomes_consulted": false
+}
