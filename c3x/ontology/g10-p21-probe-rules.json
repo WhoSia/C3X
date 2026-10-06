@@ -1,0 +1,13 @@
+{
+  "schema":"c3x-g10-p21-probe-rules-v1",
+  "stage":"C3X 0.10.0-G10-P21",
+  "quotient_level":"Q0",
+  "cells":"exactly P20C01-P20C08",
+  "probe_budget_per_cell":32,
+  "ranking":["larger baseline fiber membership","shallower median ply","lexicographic Q0 key"],
+  "intervention":"neutralize every frozen exact event address belonging to the selected Q0 fiber when that address is reached; never remap an unreachable downstream member",
+  "measurement":"rerun only the affected forced-search context twice and combine it with the five sealed BASE contexts to re-adjudicate the exact P20 support label",
+  "positive":"re-adjudicated support equals the frozen P20 class-level intervention support and differs from BASE",
+  "negative":"re-adjudicated support remains BASE",
+  "forbidden":["Q0 refit","new bucket","address remapping","probe-order change after outcomes","more than 32 probes per cell"]
+}
