@@ -1,0 +1,135 @@
+name: c3x-g10-p21-phase-e-carrier-gate
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/g10-p21-phase-e-carrier-gate.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+env:
+  PROJECT_RUN: '37440495029'
+  QUAL_RUN: '37441256076'
+  P16_BUILD_RUN: '36544344858'
+  P20C_RUN: '37419447937'
+
+jobs:
+  chain:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      max-parallel: 8
+      matrix:
+        shard: [0,1,2,3,4,5,6,7]
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 -m pip install --disable-pip-version-check python-chess==1.999
+      - uses: actions/download-artifact@v4
+        with:
+          name: g10-p21-phase-e-projected
+          path: corpus
+          repository: WhoSia/C3X
+          run-id: ${{ env.PROJECT_RUN }}
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: g10-p21-phase-e-pair-sealed
+          path: pair
+          repository: WhoSia/C3X
+          run-id: ${{ env.QUAL_RUN }}
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: g95-p16-build-*
+          path: p16-builds
+          repository: WhoSia/C3X
+          run-id: ${{ env.P16_BUILD_RUN }}
+          github-token: ${{ github.token }}
+      - name: Freeze fresh ROUTED chains and P16 BASE support
+        run: |
+          mkdir -p chain
+          python3 tools/g10_p21_phase_e_chain.py             --corpus corpus/g10-p21-phase-e-projected.json             --pair-freeze pair/g10-p21-phase-e-pair-freeze.json             --build-dir p16-builds --shard ${{ matrix.shard }} --shards 8 --out-dir chain
+      - uses: actions/upload-artifact@v4
+        with:
+          name: g10-p21-phase-e-chain-${{ matrix.shard }}
+          path: chain/*.json
+          retention-days: 60
+
+  carrier:
+    needs: chain
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      max-parallel: 8
+      matrix:
+        shard: [0,1,2,3,4,5,6,7]
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 -m pip install --disable-pip-version-check python-chess==1.999
+      - uses: actions/download-artifact@v4
+        with:
+          name: g10-p21-phase-e-chain-${{ matrix.shard }}
+          path: chain
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: g10-p20c-build-*
+          path: p20c-builds
+          repository: WhoSia/C3X
+          run-id: ${{ env.P20C_RUN }}
+          github-token: ${{ github.token }}
+      - name: Census instrumented BASE identity and frozen-Q0 carriers
+        run: |
+          mkdir -p out
+          for f in chain/*.json; do
+            b="$(basename "$f" .json)"
+            python3 tools/g10_p21_phase_e_carrier.py               --row "$f" --build-dir p20c-builds               --preseal c3x/ontology/g10-p21-phase-e-preseal.json               --out "out/${b}.json"
+          done
+      - uses: actions/upload-artifact@v4
+        with:
+          name: g10-p21-phase-e-carrier-${{ matrix.shard }}
+          path: out/*.json
+          retention-days: 60
+
+  gate:
+    needs: carrier
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: g10-p21-phase-e-carrier-*
+          path: rows
+          merge-multiple: true
+      - name: Adjudicate pre-intervention carrier gate
+        run: |
+          python3 - <<'PY'
+          import glob,json
+          xs=[json.load(open(p)) for p in sorted(glob.glob('rows/*.json'))]
+          cells=[dict(c,position_id=x['position_id'],source_id=x['source_id']) for x in xs for c in x['cells']]
+          carriers=[c for c in cells if c['carrier']]
+          mism=[c for c in cells if not c['base_identity'] or not c['stable']]
+          src=sorted({c['source_id'] for c in carriers})
+          eng=sorted({c['engine'] for c in carriers})
+          fam=sorted({c['family'] for c in carriers})
+          passed=(not mism and len(carriers)>=12 and len(src)>=2 and len(eng)>=2 and set(fam)=={'CUTOFF','MOVE_ORDER'})
+          out={'schema':'c3x-g10-p21-phase-e-carrier-gate-v1','stage':'C3X 0.10.0-G10-P21',
+               'verdict':'PASS_PHASE_E_Q0_CARRIER_GATE' if passed else 'HOLD_PHASE_E_Q0_CARRIER_GATE',
+               'worlds':len(xs),'measured_cells':len(cells),'carrier_cells':len(carriers),
+               'base_identity_or_stability_failures':len(mism),'sources':src,'engines':eng,'families':fam,
+               'carriers':carriers,'p21_intervention_outcomes_consulted':False}
+          open('g10-p21-phase-e-carrier-gate.json','w').write(json.dumps(out,indent=2,sort_keys=True)+'\n')
+          print(json.dumps({k:v for k,v in out.items() if k!='carriers'},indent=2,sort_keys=True))
+          if not passed: raise SystemExit('P21_PHASE_E_CARRIER_HOLD')
+          PY
+          sha256sum g10-p21-phase-e-carrier-gate.json > g10-p21-phase-e-carrier-gate.sha256
+      - uses: actions/upload-artifact@v4
+        with:
+          name: g10-p21-phase-e-carrier-gate
+          path: |
+            g10-p21-phase-e-carrier-gate.json
+            g10-p21-phase-e-carrier-gate.sha256
+          retention-days: 60
