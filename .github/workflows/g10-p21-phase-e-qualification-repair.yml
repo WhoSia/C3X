@@ -3,7 +3,9 @@ name: c3x-g10-p21-phase-e-qualification-repair
 on:
   push:
     branches: [main]
-    paths: ['.github/workflows/g10-p21-phase-e-qualification-repair.yml']
+    paths:
+      - '.github/workflows/g10-p21-phase-e-qualification-repair.yml'
+      - 'tools/g10_p21_phase_e_design.py'
   workflow_dispatch:
 
 permissions:
