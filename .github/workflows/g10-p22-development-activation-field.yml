@@ -1,0 +1,146 @@
+name: c3x-g10-p22-development-activation-field
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/g10-p22-development-activation-field.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+env:
+  P19_RUN: '37414042064'
+  P20_BASE_RUN: '37417122634'
+  P20_INT_RUN: '37417855987'
+  P20C_RUN: '37419447937'
+  P21_PROJECT_RUN: '37440495029'
+  P21_CHAIN_RUN: '37442242511'
+  P21_FINAL_RUN: '37546249402'
+
+jobs:
+  profile:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      max-parallel: 16
+      matrix:
+        shard: [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15]
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 -m pip install --disable-pip-version-check python-chess==1.999
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: g10-p20-base-*
+          path: p20base
+          merge-multiple: true
+          repository: WhoSia/C3X
+          run-id: ${{ env.P20_BASE_RUN }}
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: g10-p19-router-projection
+          path: p19proj
+          repository: WhoSia/C3X
+          run-id: ${{ env.P19_RUN }}
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: g10-p21-phase-e-chain-*
+          path: p21chain
+          merge-multiple: true
+          repository: WhoSia/C3X
+          run-id: ${{ env.P21_CHAIN_RUN }}
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: g10-p21-phase-e-projected
+          path: p21proj
+          repository: WhoSia/C3X
+          run-id: ${{ env.P21_PROJECT_RUN }}
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: g10-p21-phase-e-carrier-gate
+          path: p21carrier
+          repository: WhoSia/C3X
+          run-id: ${{ env.P21_CHAIN_RUN }}
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: g10-p20c-build-*
+          path: builds
+          repository: WhoSia/C3X
+          run-id: ${{ env.P20C_RUN }}
+          github-token: ${{ github.token }}
+      - name: Measure label-blind BASE activation profiles
+        run: |
+          mkdir -p out
+          python3 harness/g10_p22_profile_census.py             --p20-base p20base             --p19-projection p19proj/g10-p19-router-projection.json             --p21-chain p21chain             --p21-projection p21proj/g10-p21-phase-e-projected.json             --p21-carrier p21carrier/g10-p21-phase-e-carrier-gate.json             --build-dir builds             --shard ${{ matrix.shard }} --shards 16 --out-dir out
+      - uses: actions/upload-artifact@v4
+        with:
+          name: g10-p22-profile-${{ matrix.shard }}
+          path: out/*.json
+          retention-days: 90
+
+  join:
+    needs: profile
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: g10-p22-profile-*
+          path: profiles
+          merge-multiple: true
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: g10-p20-intervention-*
+          path: p20int
+          merge-multiple: true
+          repository: WhoSia/C3X
+          run-id: ${{ env.P20_INT_RUN }}
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: g10-p21-phase-e-intervention-*
+          path: p21int
+          merge-multiple: true
+          repository: WhoSia/C3X
+          run-id: ${{ env.P21_FINAL_RUN }}
+          github-token: ${{ github.token }}
+      - name: Join sealed historical activation labels
+        run: |
+          python3 tools/g10_p22_join_labels.py             --profiles profiles --p20-int p20int --p21-int p21int             --out g10-p22-development-dataset.json
+          sha256sum g10-p22-development-dataset.json > g10-p22-development-dataset.sha256
+      - uses: actions/upload-artifact@v4
+        with:
+          name: g10-p22-development-dataset
+          path: |
+            g10-p22-development-dataset.json
+            g10-p22-development-dataset.sha256
+          retention-days: 90
+
+  fit:
+    needs: join
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 -m pip install --disable-pip-version-check scikit-learn==1.7.2 numpy==2.3.3
+      - uses: actions/download-artifact@v4
+        with:
+          name: g10-p22-development-dataset
+          path: data
+      - name: Fit frozen rival family
+        run: |
+          python3 tools/g10_p22_fit_activation.py             --dataset data/g10-p22-development-dataset.json             --out g10-p22-development-activation-field.json
+          sha256sum g10-p22-development-activation-field.json > g10-p22-development-activation-field.sha256
+      - uses: actions/upload-artifact@v4
+        with:
+          name: g10-p22-development-activation-field
+          path: |
+            g10-p22-development-activation-field.json
+            g10-p22-development-activation-field.sha256
+          retention-days: 90
