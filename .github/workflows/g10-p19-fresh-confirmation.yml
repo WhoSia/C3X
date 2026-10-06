@@ -1,0 +1,221 @@
+name: c3x-g10-p19-fresh-confirmation
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/g10-p19-fresh-confirmation.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+env:
+  CENSUS_RUN: "37197074729"
+  ROUTER_RUN: "37120074387"
+  P16_BUILD_RUN: "36544344858"
+
+jobs:
+  project:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: g10-p19-fresh-event-census
+          path: census
+          repository: WhoSia/C3X
+          run-id: ${{ env.CENSUS_RUN }}
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: g10-p16-router-freeze-sealed
+          path: router
+          repository: WhoSia/C3X
+          run-id: ${{ env.ROUTER_RUN }}
+          github-token: ${{ github.token }}
+      - name: Project frozen router
+        run: |
+          python3 tools/g10_p19_router_project.py             --census census/g10-p19-fresh-event-census.json             --router router/g10-p16-router-freeze.json             --out g10-p19-router-projection.json
+          sha256sum g10-p19-router-projection.json > g10-p19-router-projection.sha256
+      - uses: actions/upload-artifact@v4
+        with:
+          name: g10-p19-router-projection
+          path: |
+            g10-p19-router-projection.json
+            g10-p19-router-projection.sha256
+          retention-days: 90
+
+  design:
+    needs: project
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 -m pip install --disable-pip-version-check python-chess==1.999
+      - uses: actions/download-artifact@v4
+        with:
+          name: g10-p19-router-projection
+          path: state
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: g95-p16-build-*
+          path: builds
+          repository: WhoSia/C3X
+          run-id: ${{ env.P16_BUILD_RUN }}
+          github-token: ${{ github.token }}
+      - name: Build P19 measurement design
+        run: |
+          python3 tools/g10_p19_design_adapter.py             --projected state/g10-p19-router-projection.json             --legacy-p16-constitution c3x/ontology/g95-p16-constitution.json             --build-dir builds             --out g10-p19-design.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: g10-p19-design-sealed
+          path: g10-p19-design.json
+          retention-days: 90
+
+  qualify:
+    needs: design
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      max-parallel: 12
+      matrix:
+        shard: [0,1,2,3,4,5,6,7,8,9,10,11]
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 -m pip install --disable-pip-version-check python-chess==1.999
+      - uses: actions/download-artifact@v4
+        with:
+          name: g10-p19-design-sealed
+          path: state
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: g95-p16-build-*
+          path: builds
+          repository: WhoSia/C3X
+          run-id: ${{ env.P16_BUILD_RUN }}
+          github-token: ${{ github.token }}
+      - name: Near-equal pair qualification
+        run: |
+          PYTHONPATH=. python3 tools/g10_p5_p16_shard.py             --phase qualify --state state/g10-p19-design.json --build-dir builds             --shard ${{ matrix.shard }} --shards 12 --out-dir out
+      - uses: actions/upload-artifact@v4
+        with:
+          name: g10-p19-qualify-${{ matrix.shard }}
+          path: out/
+          retention-days: 90
+
+  pair:
+    needs: qualify
+    runs-on: ubuntu-latest
+    outputs:
+      run_measure: ${{ steps.gate.outputs.run_measure }}
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 -m pip install --disable-pip-version-check python-chess==1.999
+      - uses: actions/download-artifact@v4
+        with:
+          name: g10-p19-design-sealed
+          path: state
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: g10-p19-qualify-*
+          path: quals
+      - uses: actions/download-artifact@v4
+        with:
+          name: g10-p19-router-projection
+          path: corpus
+      - name: Freeze pair and evaluate inherited positivity
+        id: gate
+        run: |
+          PYTHONPATH=. python3 harness/g95_p16_court.py pair-freeze             --design state/g10-p19-design.json --qualifications quals --out g10-p19-pair-freeze.json
+          python3 tools/g10_p19_pair_gate.py             --corpus corpus/g10-p19-router-projection.json             --pair-freeze g10-p19-pair-freeze.json             --out g10-p19-pair-gate.json
+          python3 - <<'PY' >> "$GITHUB_OUTPUT"
+          import json
+          x=json.load(open("g10-p19-pair-gate.json"))
+          print("run_measure="+("true" if x["verdict"]=="PASS_FRESH_PAIR_POSITIVITY" else "false"))
+          PY
+          sha256sum g10-p19-pair-freeze.json g10-p19-pair-gate.json > g10-p19-pair.sha256
+      - uses: actions/upload-artifact@v4
+        with:
+          name: g10-p19-pair-sealed
+          path: |
+            g10-p19-pair-freeze.json
+            g10-p19-pair-gate.json
+            g10-p19-pair.sha256
+          retention-days: 90
+
+  measure:
+    needs: pair
+    if: ${{ needs.pair.outputs.run_measure == 'true' }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      max-parallel: 12
+      matrix:
+        shard: [0,1,2,3,4,5,6,7,8,9,10,11]
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 -m pip install --disable-pip-version-check python-chess==1.999
+      - uses: actions/download-artifact@v4
+        with:
+          name: g10-p19-router-projection
+          path: corpus
+      - uses: actions/download-artifact@v4
+        with:
+          name: g10-p19-pair-sealed
+          path: pair
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: g95-p16-build-*
+          path: builds
+          repository: WhoSia/C3X
+          run-id: ${{ env.P16_BUILD_RUN }}
+          github-token: ${{ github.token }}
+      - name: Measure engine-resolved preference support
+        run: |
+          python3 tools/g10_p19_engine_support.py             --corpus corpus/g10-p19-router-projection.json             --pair-freeze pair/g10-p19-pair-freeze.json             --build-dir builds --shard ${{ matrix.shard }} --shards 12 --out-dir out
+      - uses: actions/upload-artifact@v4
+        with:
+          name: g10-p19-worlds-${{ matrix.shard }}
+          path: out/*.json
+          retention-days: 90
+
+  adjudicate:
+    needs: measure
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 -m pip install --disable-pip-version-check python-chess==1.999
+      - uses: actions/download-artifact@v4
+        with:
+          name: g10-p19-router-projection
+          path: corpus
+      - uses: actions/download-artifact@v4
+        with:
+          name: g10-p19-pair-sealed
+          path: pair
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: g10-p19-worlds-*
+          path: worlds
+      - name: Reconstruct tensor and adjudicate frozen hypotheses
+        run: |
+          python3 tools/g10_p19_engine_tensor.py             --pair-freeze pair/g10-p19-pair-freeze.json             --corpus corpus/g10-p19-router-projection.json             --worlds worlds --out g10-p19-engine-tensor.json
+          python3 tools/g10_p19_adjudicate.py             --tensor g10-p19-engine-tensor.json --out g10-p19-adjudication.json
+          python3 - <<'PY'
+          import json
+          a=json.load(open("g10-p19-adjudication.json"))
+          print("P19_FINAL",a["verdict"],a["H1_partial_order"],a["H2_ethereal_rule"]["status"],a["ferrers_diagnostic"]["status"])
+          for r in a["relations"]: print("REL",r["relation"],r["status"],r["pooled"])
+          print("H2",a["H2_ethereal_rule"])
+          print("FERRERS",a["ferrers_diagnostic"])
+          PY
+          sha256sum g10-p19-engine-tensor.json g10-p19-adjudication.json > g10-p19-final.sha256
+      - uses: actions/upload-artifact@v4
+        with:
+          name: g10-p19-final
+          path: |
+            g10-p19-engine-tensor.json
+            g10-p19-adjudication.json
+            g10-p19-final.sha256
+          retention-days: 90
