@@ -1,0 +1,25 @@
+{
+  "schema": "c3x-g10-p21-phase-e-intervention-amendment-v1",
+  "stage": "C3X 0.10.0-G10-P21",
+  "carrier_run": 37442242511,
+  "carrier_artifact_id": 11401269354,
+  "carrier_verdict": "PASS_PHASE_E_Q0_CARRIER_GATE",
+  "frozen_before_fresh_intervention_outcomes": true,
+  "primary_arms": {
+    "BASE": "Instrumented BASE.",
+    "FULL_CLASS": "NO_MOVE for MOVE_ORDER; NO_CUTOFF for CUTOFF.",
+    "FROZEN_Q0": "Remove the union of all raw exact addresses in the cell whose Q0 key matches any presealed positive key for that same family."
+  },
+  "rationale": "Union removal prevents outcome-adaptive choice among multiple fresh matching positive keys.",
+  "repetitions": 2,
+  "nodes": 20000,
+  "support": "TARGET/SUBSET/SHAM all have stable A/B forced-score gap <=50cp.",
+  "adjudication": {
+    "class_effect": "FULL_CLASS != BASE",
+    "recovered": "class_effect and FROZEN_Q0 == FULL_CLASS",
+    "opposed": "class_effect and FROZEN_Q0 differs from both BASE and FULL_CLASS",
+    "no_effect": "FULL_CLASS == BASE",
+    "cell_vote": "One engine×world×family cell."
+  },
+  "authority": "Fresh confirmation only if frozen Q0 recovery is observed without key refit. No individual-address necessity claim."
+}
