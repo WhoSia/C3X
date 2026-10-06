@@ -1,0 +1,24 @@
+{
+  "schema": "c3x-g10-p21-phase-e-final-adjudication-v1",
+  "stage": "C3X 0.10.0-G10-P21",
+  "frozen_before_fresh_intervention_outcomes": true,
+  "engine_pairs": [
+    [
+      "stockfish_19",
+      "berserk"
+    ],
+    [
+      "berserk",
+      "ethereal"
+    ]
+  ],
+  "grouping": "same fresh position_id × family; both engine cells must be frozen carriers",
+  "contrast": "D_ab = support(a)-support(b) for BASE, FULL_CLASS, FROZEN_Q0",
+  "pair_class_effect": "D_class != D_base",
+  "pair_recovery": "pair_class_effect AND D_q0 == D_class",
+  "pass": "At least one pair_recovery for SF/B and at least one for B/E, and the set of recovered pair witnesses spans both fresh source ecologies.",
+  "partial_pass": "Recovery exists but only one obstruction pair family or only one fresh source ecology.",
+  "fail": "Both obstruction pair families exhibit fresh class effects but frozen Q0 recovers neither family.",
+  "hold": "Fresh pair-class-effect support is absent/insufficient to adjudicate both obstruction families.",
+  "secondary": "Cell-level recovery rates are descriptive support only; final authority is pair-level."
+}
