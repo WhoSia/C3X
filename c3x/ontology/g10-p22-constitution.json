@@ -48,7 +48,6 @@
       "family_event_count_target",
       "family_event_count_subset",
       "family_event_count_sham",
-      "frozen_q0_match_count",
       "event_ply_median",
       "event_depth_median",
       "event_scope_balance",
@@ -78,7 +77,8 @@
     "fresh outcome-derived coordinate",
     "source/event identity as a predictive feature",
     "player identity",
-    "tournament sex/category label"
+    "tournament sex/category label",
+    "P21 development-positive Q0 key membership/match count during activation-field discovery"
   ],
   "frozen_rivals": [
     {
@@ -154,7 +154,8 @@
   "q0_authority_routing": {
     "rule": "Q0-fiber causal explanations may be queried only in cells predicted ACTIVE by the frozen P22 activation field and only where P21/P22 downstream evidence separately licenses the fiber.",
     "inactive": "Return ABSTAIN_PARENT_CLASS_INACTIVE; do not attempt fiber-level mechanism attribution.",
-    "uncertain": "Return ABSTAIN_ACTIVATION_SCOPE_UNCERTAIN."
+    "uncertain": "Return ABSTAIN_ACTIVATION_SCOPE_UNCERTAIN.",
+    "note": "Q0 positive-key information is downstream of P20/P21 development outcomes and is excluded from P22 activation-field discovery. It re-enters only after an activation prediction is sealed."
   },
   "closure_logic": {
     "PASS": "A frozen activation field transports prospectively under held-out thresholds and yields an authority-routing rule.",
@@ -169,5 +170,11 @@
     "No source/event identity leakage.",
     "No human cognition, objective chess truth or Elo-strength ordering."
   ],
-  "status": "OPEN_PREOUTCOME_DEVELOPMENT_FIELD_CONSTRUCTION"
+  "status": "OPEN_PREOUTCOME_DEVELOPMENT_FIELD_CONSTRUCTION",
+  "p22_preanalysis_amendment": {
+    "reason": "Leakage audit before any P22 development table/model outcome: P21 positive Q0 keys were selected using P20/P21 development intervention outcomes, so their match count cannot be an activation predictor on the same historical ecology.",
+    "development_outcomes_opened_under_p22": false,
+    "thresholds_changed": false,
+    "rival_order_changed": false
+  }
 }
