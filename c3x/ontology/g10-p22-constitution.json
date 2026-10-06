@@ -121,7 +121,9 @@
     "secondary": "Penalized logistic model on the same frozen feature block for calibration diagnostics only.",
     "no_black_box": true,
     "selection": "Choose the simplest rival whose leave-one-ecology-out balanced accuracy improves by >=0.10 over all simpler rivals and whose positive-class recall is nonzero in at least two historical ecologies containing positives. Otherwise retain the simpler rival.",
-    "source_identity_forbidden": true
+    "source_identity_forbidden": true,
+    "single_class_ecology_rule": "For leave-one-ecology-out folds whose held-out ecology contains only one activation class, report that available-class recall (e.g. specificity for all-negative folds) separately; do not fabricate the missing-class recall. Rival selection's positive-recall condition is evaluated only on ecologies containing positives.",
+    "loeo_summary": "Primary internal development score = mean of fold balanced accuracy when both classes occur, otherwise available-class recall; retain per-ecology metrics explicitly."
   },
   "support_gate": {
     "minimum_positive_activation_cells": 8,
