@@ -1,0 +1,74 @@
+name: c3x-g10-p21-phase-e-census
+
+on:
+  push:
+    branches: [main]
+    paths: ['.github/workflows/g10-p21-phase-e-census.yml']
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+env:
+  P18_RUN: '37189244495'
+  P19_RUN: '37414042064'
+
+jobs:
+  census:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 -m pip install --disable-pip-version-check python-chess==1.999
+      - uses: actions/download-artifact@v4
+        with:
+          name: g10-p18-engine-tensor-sealed
+          path: history/p18
+          repository: WhoSia/C3X
+          run-id: ${{ env.P18_RUN }}
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: g10-p19-worlds-*
+          path: history/p19
+          repository: WhoSia/C3X
+          run-id: ${{ env.P19_RUN }}
+          github-token: ${{ github.token }}
+      - name: Acquire frozen fresh PGNs
+        run: |
+          set -euo pipefail
+          mkdir -p data
+          curl -fL --retry 4 --retry-all-errors -H 'Accept: application/x-chess-pgn' \
+            'https://lichess.org/api/broadcast/xj4qM8Nw.pgn?clocks=false&comments=false' -o data/women-candidates.pgn
+          curl -fL --retry 4 --retry-all-errors -H 'Accept: application/x-chess-pgn' \
+            'https://lichess.org/api/broadcast/HtMn014k.pgn?clocks=false&comments=false' -o data/women-olympiad.pgn
+          test -s data/women-candidates.pgn
+          test -s data/women-olympiad.pgn
+          sha256sum data/*.pgn | tee source.sha256
+          printf 'Candidates Women games: '; grep -c '^\[Event ' data/women-candidates.pgn || true
+          printf 'Olympiad Women games: '; grep -c '^\[Event ' data/women-olympiad.pgn || true
+      - name: Select outcome-blind fresh worlds
+        run: |
+          CAND_SHA="$(sha256sum data/women-candidates.pgn | cut -d' ' -f1)"
+          OLY_SHA="$(sha256sum data/women-olympiad.pgn | cut -d' ' -f1)"
+          python3 tools/g10_p19_source_census.py \
+            --source "P21_WOMEN_CANDIDATES_2026|data/women-candidates.pgn|https://lichess.org/broadcast/fide-candidates-2026-women/xj4qM8Nw|${CAND_SHA}" \
+            --source "P21_WOMEN_OLYMPIAD_2026|data/women-olympiad.pgn|https://lichess.org/broadcast/46th-fide-chess-olympiad-samarkand-2026-women-i/HtMn014k|${OLY_SHA}" \
+            --history-root history --min-cell-support 4 --per-source-cell 2 --max-common-cells 8 \
+            --out g10-p21-phase-e-census.json
+          python3 - <<'PY'
+          import json
+          x=json.load(open('g10-p21-phase-e-census.json'))
+          print('P21_PHASE_E_CENSUS',x['verdict'],x['gate'])
+          assert x['selection']['engine_outcomes_consulted'] is False
+          assert x['selection']['counterfactual_outcomes_consulted'] is False
+          PY
+          sha256sum g10-p21-phase-e-census.json > g10-p21-phase-e-census.sha256
+      - uses: actions/upload-artifact@v4
+        with:
+          name: g10-p21-phase-e-census
+          path: |
+            g10-p21-phase-e-census.json
+            g10-p21-phase-e-census.sha256
+            source.sha256
+          retention-days: 60
