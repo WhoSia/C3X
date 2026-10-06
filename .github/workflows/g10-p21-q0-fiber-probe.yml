@@ -1,0 +1,100 @@
+name: c3x-g10-p21-q0-fiber-probe
+
+on:
+  push:
+    branches: [main]
+    paths: ['.github/workflows/g10-p21-q0-fiber-probe.yml']
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+env:
+  P19_RUN: '37414042064'
+  P20C_RUN: '37419447937'
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        cell: [P20C01,P20C02,P20C03,P20C04,P20C05,P20C06,P20C07,P20C08]
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 -m pip install --disable-pip-version-check python-chess==1.999
+      - uses: actions/download-artifact@v4
+        with:
+          name: g10-p19-final
+          path: p19
+          repository: WhoSia/C3X
+          run-id: ${{ env.P19_RUN }}
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: g10-p19-worlds-*
+          path: worlds
+          repository: WhoSia/C3X
+          run-id: ${{ env.P19_RUN }}
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: g10-p20c-build-*
+          path: builds
+          repository: WhoSia/C3X
+          run-id: ${{ env.P20C_RUN }}
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: g10-p20c-census-${{ matrix.cell }}
+          path: census
+          repository: WhoSia/C3X
+          run-id: ${{ env.P20C_RUN }}
+          github-token: ${{ github.token }}
+      - name: Probe frozen Q0 fibers
+        run: |
+          mkdir -p out
+          python3 harness/g10_p21_fiber_probe.py \
+            --support c3x/ontology/g10-p20-phase-c-support.json \
+            --cell-id '${{ matrix.cell }}' \
+            --census 'census/${{ matrix.cell }}.json' \
+            --tensor p19/g10-p19-engine-tensor.json \
+            --worlds worlds --build-dir builds \
+            --out 'out/${{ matrix.cell }}.json'
+      - uses: actions/upload-artifact@v4
+        with:
+          name: g10-p21-q0-${{ matrix.cell }}
+          path: out/
+          retention-days: 60
+
+  aggregate:
+    needs: probe
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: g10-p21-q0-*
+          path: rows
+          merge-multiple: true
+      - name: Compile development mediation
+        run: |
+          python3 - <<'PY'
+          import glob,json
+          xs=[json.load(open(p)) for p in sorted(glob.glob('rows/*.json'))]
+          out={'schema':'c3x-g10-p21-q0-summary-v1','stage':'C3X 0.10.0-G10-P21','cells':len(xs),
+               'positive_cells':sum(x['positive_count']>0 for x in xs),
+               'results':[{'id':x['cell']['id'],'engine':x['cell']['engine'],'family':x['cell']['family'],'verdict':x['verdict'],'positive_count':x['positive_count'],'first_positive_rank':x['first_positive_rank']} for x in xs]}
+          out['verdict']='PASS_DEVELOPMENT_FIBER_LOCALIZATION' if out['positive_cells']==8 else 'PARTIAL_DEVELOPMENT_FIBER_LOCALIZATION' if out['positive_cells'] else 'FAIL_DEVELOPMENT_FIBER_LOCALIZATION'
+          open('g10-p21-q0-summary.json','w').write(json.dumps(out,indent=2,sort_keys=True)+'\n')
+          print(json.dumps(out,indent=2,sort_keys=True))
+          PY
+          sha256sum g10-p21-q0-summary.json > g10-p21-q0-summary.sha256
+      - uses: actions/upload-artifact@v4
+        with:
+          name: g10-p21-q0-summary
+          path: |
+            g10-p21-q0-summary.json
+            g10-p21-q0-summary.sha256
+          retention-days: 60
