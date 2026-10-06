@@ -1,0 +1,56 @@
+name: c3x-g10-p20-class-screen-aggregate-repair
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/g10-p20-class-screen-aggregate-repair.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+env:
+  P19_RUN: "37414042064"
+  BASE_RUN: "37417122634"
+  INTERVENTION_RUN: "37417855987"
+
+jobs:
+  aggregate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 -m pip install --disable-pip-version-check python-chess==1.999
+      - uses: actions/download-artifact@v4
+        with:
+          name: g10-p19-final
+          path: p19
+          repository: WhoSia/C3X
+          run-id: ${{ env.P19_RUN }}
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: g10-p20-base-*
+          path: base
+          repository: WhoSia/C3X
+          run-id: ${{ env.BASE_RUN }}
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: g10-p20-intervention-*
+          path: rows
+          repository: WhoSia/C3X
+          run-id: ${{ env.INTERVENTION_RUN }}
+          github-token: ${{ github.token }}
+      - name: Compile sealed class-level susceptibility response
+        run: |
+          python3 harness/g10_p20_class_screen.py aggregate             --adjudication p19/g10-p19-adjudication.json             --base-rows base --rows rows --out g10-p20-class-screen.json
+          sha256sum g10-p20-class-screen.json > g10-p20-class-screen.sha256
+      - uses: actions/upload-artifact@v4
+        with:
+          name: g10-p20-class-screen
+          path: |
+            g10-p20-class-screen.json
+            g10-p20-class-screen.sha256
+          retention-days: 60
