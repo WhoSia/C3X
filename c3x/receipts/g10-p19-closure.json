@@ -1,0 +1,152 @@
+{
+  "schema": "c3x-g10-p19-closure-v1",
+  "stage": "C3X 0.9.0-G10-P19 — Prospective Engine-Survival Partial-Order Confirmation, Frozen Stockfish≤Berserk≤Ethereal Inclusion Hypothesis, Ethereal-Specific Low-Complexity×Non-Reduced Sufficiency Replication, Pairwise Common-Activity Positivity, Inclusion-Violation Localization, Source/Engine Transport Separation, Fresh-World Falsification & Engine-Relative Preference-Stability Law Experiment",
+  "status": "CLOSED_FAIL",
+  "official_verdict": "FALSIFIED_STRICT_ENGINE_PARTIAL_ORDER_AND_ETHEREAL_SUFFICIENCY__NON_FERRERS_ENGINE_WORLD_INTERACTION",
+  "interpretation_of_fail": "The prospectively frozen scientific hypotheses failed on fresh worlds. The execution, provenance and falsification machinery passed; FAIL is a substantive negative result, not an execution failure.",
+  "parent": {
+    "stage": "C3X 0.9.0-G10-P18",
+    "closure_commit": "6a323076b737564807dc0946501ecb6680643b2f",
+    "verdict": "PASS_ENGINE_SPECIFIC_RULES_CROSS_ENGINE_OBSTRUCTION"
+  },
+  "bootstrap_and_lineage": {
+    "research_os_current_entry_reloaded": true,
+    "cross_lab_current_doctrine_reloaded": true,
+    "c3x_root_and_two_track_constitution_reloaded": true,
+    "drive_chat_archive_recovered": ["C3X 13.md","C3X 14.md","C3X 15.md"],
+    "origin_lock": "Why one near-equal legal move is marginally preferred over another beyond obvious tactical dominance.",
+    "track_b_firewall": "Explanation implementation cannot promote scientific authority."
+  },
+  "pre_outcome_fresh_ecology": {
+    "census_run": 37197074729,
+    "census_artifact_id": 11300464866,
+    "census_artifact_zip_sha256": "816632fc4c2997287631f182a668e97a1eca15cd92a068e11455474aeb8bfe62",
+    "positions_frozen": 48,
+    "common_cells": 12,
+    "phase_levels": ["RICH","TRANSITIONAL"],
+    "branching_levels": ["NARROW","MEDIUM","WIDE"],
+    "tactical_levels": ["FORCED_CHECK","TACTICAL_AVAILABLE","QUIET_SURFACE"],
+    "freshness_claim": "EVENT_NEW_WORLD_DISJOINT_PROSPECTIVE_ENGINE_OUTCOME",
+    "provider_independence_claimed": false,
+    "human_receipt_commit": "dd6a738735ed1cef37c7aa188641a58e6566a5ed"
+  },
+  "measurement_admission": {
+    "canonical_run": 37414042064,
+    "workflow_head": "da9cb15b1f6a34b78335fbd2cbcfe4beb023b52c",
+    "workflow_conclusion": "success",
+    "router_projection": "PASS",
+    "design_cases": 144,
+    "pair_gate": {
+      "verdict": "PASS_FRESH_PAIR_POSITIVITY",
+      "admitted_pair_positions": 28,
+      "routed_positions": 32,
+      "pair_fraction": 0.875,
+      "pair_supported_context_cells": 8,
+      "all_three_engines_represented_in_both_sources": true,
+      "pair_artifact_id": 11390093009,
+      "pair_artifact_zip_sha256": "b91ae7dec095ab82006257bc8fbba97a04c52b17611d8f20ada05910526e3cdc"
+    }
+  },
+  "canonical_final": {
+    "run": 37414042064,
+    "artifact_id": 11390891495,
+    "artifact_zip_sha256": "9f6856061e76627a522c0bef73aeeb0fe7a42b65941215f949a045e95f8f8d39",
+    "engine_tensor_sha256": "dd800c79e8e895fd02b485e46d229d8225971f2e2a6330f5204cca624ed05e37",
+    "adjudication_sha256": "31657bd7bafec041cd6814eca65cb0096d96911455d1416ede5290dfc299cc7a",
+    "unique_chain_rows": 29,
+    "support_count_distribution": {"0":11,"1":7,"2":4,"3":7},
+    "active_engine_count_distribution": {"2":13,"3":16},
+    "engine_survival": {
+      "P19_SRC_LICHESS_CANDIDATES_2026": {
+        "stockfish_19": {"positive":5,"n":11,"rate":0.45454545454545453},
+        "berserk": {"positive":5,"n":10,"rate":0.5},
+        "ethereal": {"positive":9,"n":14,"rate":0.6428571428571429}
+      },
+      "P19_SRC_LICHESS_OLYMPIAD_2026": {
+        "stockfish_19": {"positive":5,"n":15,"rate":0.3333333333333333},
+        "berserk": {"positive":6,"n":13,"rate":0.46153846153846156},
+        "ethereal": {"positive":6,"n":11,"rate":0.5454545454545454}
+      }
+    }
+  },
+  "H1_partial_order": {
+    "status": "PROSPECTIVE_FALSIFIED",
+    "stockfish_subset_berserk": {
+      "common_active": 20,
+      "antecedent_positive": 8,
+      "both_positive": 7,
+      "violation_count": 1,
+      "violation_source": "P19_SRC_LICHESS_OLYMPIAD_2026",
+      "violation_row_id": "p19:P19_SRC_LICHESS_OLYMPIAD_2026:000baab56173|b2c3|b2a1|b2a1|A_TO_GAIN|"
+    },
+    "berserk_subset_ethereal": {
+      "common_active": 19,
+      "antecedent_positive": 10,
+      "both_positive": 9,
+      "violation_count": 1,
+      "violation_source": "P19_SRC_LICHESS_CANDIDATES_2026",
+      "violation_row_id": "p19:P19_SRC_LICHESS_CANDIDATES_2026:1906b4b7db70|a8b8|f8d8|f8d8|A_FROM_LOSS|"
+    },
+    "conclusion": "The P18 zero-violation order does not prospectively transport as an exact partial-order law."
+  },
+  "H2_ethereal_rule": {
+    "rule": "grammar_complexity_le_1 AND phase_NOT_REDUCED",
+    "status": "PROSPECTIVE_FALSIFIED",
+    "combined_coverage": 0.3103448275862069,
+    "candidates": {"positive":3,"support":5,"precision":0.6},
+    "olympiad": {"positive":3,"support":4,"precision":0.75},
+    "frozen_precision_threshold": 0.70,
+    "counterexample_count": 3,
+    "phase_literal_contrast_tested": false,
+    "conclusion": "The rule already fails on the observed non-REDUCED domain because Candidates precision is below the frozen threshold; lack of REDUCED worlds therefore does not rescue H2."
+  },
+  "ferrers_diagnostic": {
+    "status": "NON_FERRERS_OBSTRUCTION_FOUND",
+    "authority": "SECONDARY_DEMOTION_ONLY_ORDER_FREE_DIAGNOSTIC",
+    "stockfish_berserk_incomparable": true,
+    "berserk_ethereal_incomparable": true,
+    "stockfish_ethereal_incomparable": false,
+    "obstruction_witness_count": 2,
+    "conclusion": "The fresh engine×world survival relation is not representable as a single nested chain under any total ordering of all three engine neighborhoods. The deterministic one-scalar world-difficulty plus globally ordered engine-threshold rival is rejected on the observed fresh ecology."
+  },
+  "scientific_conclusion": [
+    "P18's exact Stockfish⊆Berserk⊆Ethereal nesting was a development-ecology regularity, not a transportable exact law.",
+    "Fresh inversion witnesses occur in different source ecologies: Stockfish-only over Berserk in Olympiad and Berserk-only over Ethereal in Candidates.",
+    "The Ethereal low-complexity non-REDUCED sufficient candidate fails prospectively because Candidates precision is 0.60 < 0.70.",
+    "Order-free Ferrers diagnostics also fail for Stockfish/Berserk and Berserk/Ethereal, so changing the engine order after seeing outcomes cannot rescue a one-dimensional exact nesting model.",
+    "The appropriate successor is mechanism-level localization of inversion witnesses and reconstruction of the smallest context/search-state susceptibility basis, not a softer post-hoc scalar ranking."
+  ],
+  "claim_ceiling": [
+    "Do not infer Elo/playing-strength order from preference-survival rates.",
+    "Do not infer that all engine susceptibility is intrinsically multidimensional in every ecology; P19 rejects the tested exact one-dimensional ordered-threshold representation on these fresh event worlds.",
+    "Do not treat Ferrers obstruction as identification of an internal search mechanism.",
+    "Do not rescue H1 by reordering engines or tolerating a small violation rate post hoc.",
+    "Do not rescue H2 by changing literals or thresholds."
+  ],
+  "presentation_note": "The canonical adjudication artifact's H2 authority_note contains stale conditional wording saying sufficiency is 'only confirmed' on the non-REDUCED domain. The decisive status and metrics are unambiguous: H2 is PROSPECTIVE_FALSIFIED because Candidates precision is 0.60. This wording defect is nondecisive and no scientific rerun is authorized.",
+  "version_court": {
+    "decision": "PROMOTE_NEXT_MAINLINE_TO_0.10.0",
+    "do_not_retroactively_rename_p19": true,
+    "rationale": [
+      "P19 establishes a reusable prospective fresh-event engine-resolved falsification pipeline rather than a patch-level repair.",
+      "Exact inversion-witness ledgers and an order-free Ferrers obstruction diagnostic create a new scientific authority layer.",
+      "The result changes the model class required by the mainline: global scalar ordered-threshold susceptibility is no longer admissible for the tested ecology.",
+      "1.0.0 remains premature because public stable contracts, broad independent replication and final explanation validation are not yet established."
+    ]
+  },
+  "successor": {
+    "version": "0.10.0",
+    "stage": "G10-P20",
+    "type": "Experiment",
+    "proposed_title": "C3X 0.10.0-G10-P20 — Prospective Engine×World Preference-Susceptibility Basis Reconstruction, Ferrers-Obstruction & Inversion-Witness Localization, TT-Use×Bound/Window×Reduction×Move-Ordering Search-State Mediation, Minimal Multidimensional Near-Equal Preference Representation, Cross-Engine Mechanism Transport & Evidence-Grounded Contrastive Explanation Experiment",
+    "core_question": "Which minimal engine-internal and chess-context mediator coordinates explain the prospectively observed inversion witnesses, and can they recover a transportable low-dimensional representation of near-equal preference survival without post-hoc scalar rescue?"
+  },
+  "automation_identity": {
+    "actions_writeback": false,
+    "repository_hygiene_run": 37414042070,
+    "repository_hygiene_conclusion": "success",
+    "bot_author_hits_latest_100_before_closure": 0,
+    "bot_committer_hits_latest_100_before_closure": 0,
+    "canonical_promotion_actor": "WhoSia"
+  }
+}
