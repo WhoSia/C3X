@@ -1,0 +1,116 @@
+name: c3x-g10-p21-phase-e-qualification-repair
+
+on:
+  push:
+    branches: [main]
+    paths: ['.github/workflows/g10-p21-phase-e-qualification-repair.yml']
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+env:
+  PROJECT_RUN: '37440495029'
+  P16_BUILD_RUN: '36544344858'
+
+jobs:
+  design:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 -m pip install --disable-pip-version-check python-chess==1.999
+      - uses: actions/download-artifact@v4
+        with:
+          name: g10-p21-phase-e-projected
+          path: state
+          repository: WhoSia/C3X
+          run-id: ${{ env.PROJECT_RUN }}
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: g95-p16-build-*
+          path: builds
+          repository: WhoSia/C3X
+          run-id: ${{ env.P16_BUILD_RUN }}
+          github-token: ${{ github.token }}
+      - run: |
+          python3 tools/g10_p21_phase_e_design.py \
+            --projected state/g10-p21-phase-e-projected.json \
+            --legacy-p16-constitution c3x/ontology/g95-p16-constitution.json \
+            --build-dir builds --out g10-p21-phase-e-design.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: g10-p21-phase-e-design
+          path: g10-p21-phase-e-design.json
+          retention-days: 60
+
+  qualify:
+    needs: design
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      max-parallel: 8
+      matrix:
+        shard: [0,1,2,3,4,5,6,7]
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 -m pip install --disable-pip-version-check python-chess==1.999
+      - uses: actions/download-artifact@v4
+        with:
+          name: g10-p21-phase-e-design
+          path: state
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: g95-p16-build-*
+          path: builds
+          repository: WhoSia/C3X
+          run-id: ${{ env.P16_BUILD_RUN }}
+          github-token: ${{ github.token }}
+      - run: |
+          PYTHONPATH=. python3 tools/g10_p5_p16_shard.py \
+            --phase qualify --state state/g10-p21-phase-e-design.json --build-dir builds \
+            --shard ${{ matrix.shard }} --shards 8 --out-dir out
+      - uses: actions/upload-artifact@v4
+        with:
+          name: g10-p21-phase-e-qualify-${{ matrix.shard }}
+          path: out/
+          retention-days: 60
+
+  pair:
+    needs: qualify
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 -m pip install --disable-pip-version-check python-chess==1.999
+      - uses: actions/download-artifact@v4
+        with:
+          name: g10-p21-phase-e-design
+          path: state
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: g10-p21-phase-e-qualify-*
+          path: quals
+      - uses: actions/download-artifact@v4
+        with:
+          name: g10-p21-phase-e-projected
+          path: corpus
+          repository: WhoSia/C3X
+          run-id: ${{ env.PROJECT_RUN }}
+          github-token: ${{ github.token }}
+      - run: |
+          PYTHONPATH=. python3 harness/g95_p16_court.py pair-freeze \
+            --design state/g10-p21-phase-e-design.json --qualifications quals --out g10-p21-phase-e-pair-freeze.json
+          python3 tools/g10_p21_phase_e_pair_gate.py \
+            --corpus corpus/g10-p21-phase-e-projected.json --pair-freeze g10-p21-phase-e-pair-freeze.json \
+            --out g10-p21-phase-e-pair-gate.json
+          cat g10-p21-phase-e-pair-gate.json
+          sha256sum g10-p21-phase-e-pair-freeze.json g10-p21-phase-e-pair-gate.json > g10-p21-phase-e-pair.sha256
+      - uses: actions/upload-artifact@v4
+        with:
+          name: g10-p21-phase-e-pair-sealed
+          path: |
+            g10-p21-phase-e-pair-freeze.json
+            g10-p21-phase-e-pair-gate.json
+            g10-p21-phase-e-pair.sha256
+          retention-days: 60
