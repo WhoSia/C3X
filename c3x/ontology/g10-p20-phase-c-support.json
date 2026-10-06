@@ -1,0 +1,107 @@
+{
+  "schema": "c3x-g10-p20-phase-c-support-v1",
+  "stage": "C3X 0.10.0-G10-P20",
+  "parent_phase_b_commit": "660b44908f7c6f62678248c64dd4b82e22ef620f",
+  "phase_b_artifact": {
+    "run": 37418678693,
+    "id": 11391128768,
+    "zip_sha256": "6614528f0405dc5e565bc5a338a2fe1b760a49782e4780df19c3d930b12e2c3f"
+  },
+  "outcomes_used": "Only frozen Phase-B class-level support labels and P19 obstruction membership, as authorized by the predeclared B→C gate.",
+  "contexts": [
+    "TARGET:A",
+    "TARGET:B",
+    "SUBSET:A",
+    "SUBSET:B",
+    "SHAM:A",
+    "SHAM:B"
+  ],
+  "address_frontiers": [
+    0,
+    1,
+    2,
+    4,
+    8
+  ],
+  "max_addresses_per_cell": 2048,
+  "no_board_arm_selection": true,
+  "cells": [
+    {
+      "id": "P20C01",
+      "row_id": "p19:P19_SRC_LICHESS_OLYMPIAD_2026:000baab56173|b2c3|b2a1|b2a1|A_TO_GAIN|",
+      "engine": "stockfish_19",
+      "family": "MOVE_ORDER",
+      "base_support": true,
+      "class_support": false
+    },
+    {
+      "id": "P20C02",
+      "row_id": "p19:P19_SRC_LICHESS_OLYMPIAD_2026:0000175022d5|d3a6|d3g6|d3g6|B_FROM_LOSS|",
+      "engine": "stockfish_19",
+      "family": "MOVE_ORDER",
+      "base_support": false,
+      "class_support": true
+    },
+    {
+      "id": "P20C03",
+      "row_id": "p19:P19_SRC_LICHESS_OLYMPIAD_2026:0000175022d5|d3a6|d3g6|d3g6|B_FROM_LOSS|",
+      "engine": "stockfish_19",
+      "family": "EVAL",
+      "base_support": false,
+      "class_support": true
+    },
+    {
+      "id": "P20C04",
+      "row_id": "p19:P19_SRC_LICHESS_OLYMPIAD_2026:0000175022d5|d3a6|d3g6|d3g6|B_FROM_LOSS|",
+      "engine": "stockfish_19",
+      "family": "REDUCTION",
+      "base_support": false,
+      "class_support": true
+    },
+    {
+      "id": "P20C05",
+      "row_id": "p19:P19_SRC_LICHESS_CANDIDATES_2026:1906b4b7db70|a8b8|f8d8|f8d8|A_FROM_LOSS|",
+      "engine": "berserk",
+      "family": "CUTOFF",
+      "base_support": true,
+      "class_support": false
+    },
+    {
+      "id": "P20C06",
+      "row_id": "p19:P19_SRC_LICHESS_CANDIDATES_2026:1906b4b7db70|a8b8|f8d8|f8d8|A_FROM_LOSS|",
+      "engine": "ethereal",
+      "family": "CUTOFF",
+      "base_support": false,
+      "class_support": true
+    },
+    {
+      "id": "P20C07",
+      "row_id": "p19:P19_SRC_LICHESS_CANDIDATES_2026:1906b4b7db70|a8b8|f8d8|f8d8|A_FROM_LOSS|",
+      "engine": "berserk",
+      "family": "MOVE_ORDER",
+      "base_support": true,
+      "class_support": false
+    },
+    {
+      "id": "P20C08",
+      "row_id": "p19:P19_SRC_LICHESS_CANDIDATES_2026:01f2b6c3a16c|e7d6|e7c5|e7c5|B_FROM_GAIN|",
+      "engine": "ethereal",
+      "family": "CUTOFF",
+      "base_support": true,
+      "class_support": false
+    }
+  ],
+  "census_gate": {
+    "require_base_identity": true,
+    "require_nonempty_address_universe": true,
+    "require_total_addresses_lte": 2048,
+    "reduction_requires_direct_D_events": true,
+    "semantic_requires_exact_P32_addresses": true
+  },
+  "localization_after_gate": {
+    "algorithm": "frontier ladder 0→1→2→4→8; first frontier whose all-address removal reaches the frozen class_support target; then ddmin + leave-one-out within that frozen frontier.",
+    "max_replay_evaluations_per_cell": 128,
+    "unreachable_targets": "recorded; never remapped",
+    "authority": "DEVELOPMENT_LOCALIZED only until Phase-E fresh confirmation"
+  }
+}
