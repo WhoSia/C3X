@@ -1,0 +1,173 @@
+{
+  "schema": "c3x-g10-p22-constitution-v1",
+  "scientific_stage": "C3X 0.10.0-G10-P22",
+  "title": "Prospective Mediator-Class Activation Field & Context-Gated Preference-Susceptibility Transport, Pre-Intervention Search-Ecology Conditioning, Class-Effect Onset/Extinction Boundary Reconstruction, Engine×World Regime Partition, Held-Out Activation Prediction, Q0-Fiber Authority Routing & Contrastive Explanation Scope Experiment",
+  "stage_type": "Experiment",
+  "parent": {
+    "stage": "C3X 0.10.0-G10-P21",
+    "closure_commit": "939c422c7085614746bf4af433ee9bc026df2bea",
+    "verdict": "HOLD_FRESH_CLASS_EFFECT_SUPPORT_ABSENT__DEVELOPMENT_Q0_MEDIATION_PRESERVED__FRESH_FIBER_TRANSPORT_UNADJUDICABLE"
+  },
+  "origin_lock": "Why does an engine prefer one near-equal legal move over another beyond obvious tactical dominance?",
+  "primary_outcome": {
+    "unit": "engine × world × mediator family",
+    "families": [
+      "MOVE_ORDER",
+      "CUTOFF"
+    ],
+    "definition": "A_f(e,x)=1 iff FULL_CLASS support differs from BASE support under the frozen three-arm TARGET/SUBSET/SHAM near-equal support protocol.",
+    "note": "Activation is a parent class-effect endpoint. Q0-fiber outcomes are downstream and excluded from activation-field discovery."
+  },
+  "genealogy_boundary": {
+    "g95_p2": "Context-indexed singleton ROOT_CHANGE transport. P22 does not predict singleton exact-event outcomes or use intervention-response fiber identity.",
+    "g10_p10": "Opportunity/addressability cartography. P22 may use pre-intervention opportunity/load coordinates but its endpoint is realized class-effect activation, not addressability or certificate opportunity.",
+    "g10_p13": "Source-conditioned cross-engine defect activation. P22 targets within-engine mediator-class activation and held-out activation prediction, not engine-pair opportunity-transition disagreement.",
+    "p21": "Q0 representation survives development; P22 asks when the parent class intervention is active before Q0 authority is queried."
+  },
+  "development_authority": {
+    "historical_ecologies": [
+      "P20 Candidates 2026 Open",
+      "P20 Olympiad 2026 Open",
+      "P21 Women Candidates 2026",
+      "P21 Women Olympiad 2026"
+    ],
+    "use": "Model/rival development only; all intervention labels are already historical/open.",
+    "internal_validation": "Leave-one-ecology-out diagnostics are descriptive model-selection support only and cannot create transport authority."
+  },
+  "pre_intervention_feature_blocks": {
+    "B0_boundary": [
+      "base_target_gap_cp",
+      "base_subset_gap_cp",
+      "base_sham_gap_cp",
+      "base_max_gap_cp",
+      "base_min_slack_to_50cp",
+      "base_support_pattern"
+    ],
+    "B1_carrier_load": [
+      "family_event_count_total",
+      "family_event_count_target",
+      "family_event_count_subset",
+      "family_event_count_sham",
+      "frozen_q0_match_count",
+      "event_ply_median",
+      "event_depth_median",
+      "event_scope_balance",
+      "candidate_side_event_imbalance"
+    ],
+    "B2_chess_context": [
+      "phase",
+      "legal_branching",
+      "tactical_surface",
+      "material_imbalance",
+      "in_check",
+      "candidate_tactical_mode",
+      "relation_atom_family",
+      "chain_type"
+    ],
+    "B3_engine_search_context": [
+      "engine_id",
+      "family_x_engine",
+      "base_activity_bucket",
+      "base_qshare_bucket"
+    ]
+  },
+  "forbidden_features": [
+    "FULL_CLASS score/support/result",
+    "Q0-fiber intervention result",
+    "post-intervention PV/WDL/score",
+    "fresh outcome-derived coordinate",
+    "source/event identity as a predictive feature",
+    "player identity",
+    "tournament sex/category label"
+  ],
+  "frozen_rivals": [
+    {
+      "id": "R0_BOUNDARY_ONLY",
+      "predictors": [
+        "B0_boundary"
+      ],
+      "claim": "Activation is primarily support-threshold proximity; search ecology adds no transportable information."
+    },
+    {
+      "id": "R1_BOUNDARY_PLUS_LOAD",
+      "predictors": [
+        "B0_boundary",
+        "B1_carrier_load"
+      ],
+      "claim": "Pre-intervention mediator opportunity/load adds activation information beyond threshold proximity."
+    },
+    {
+      "id": "R2_CONTEXT_GATED",
+      "predictors": [
+        "B0_boundary",
+        "B1_carrier_load",
+        "B2_chess_context"
+      ],
+      "claim": "Chess/search-world context defines activation regimes beyond boundary and carrier load."
+    },
+    {
+      "id": "R3_ENGINE_CONDITIONAL",
+      "predictors": [
+        "B0_boundary",
+        "B1_carrier_load",
+        "B2_chess_context",
+        "B3_engine_search_context"
+      ],
+      "claim": "Activation transport requires engine-conditioned regime terms."
+    }
+  ],
+  "model_class": {
+    "primary": "Small depth-limited decision rule/decision tree with deterministic tie-breaks, max_depth=3, min_leaf=4.",
+    "secondary": "Penalized logistic model on the same frozen feature block for calibration diagnostics only.",
+    "no_black_box": true,
+    "selection": "Choose the simplest rival whose leave-one-ecology-out balanced accuracy improves by >=0.10 over all simpler rivals and whose positive-class recall is nonzero in at least two historical ecologies containing positives. Otherwise retain the simpler rival.",
+    "source_identity_forbidden": true
+  },
+  "support_gate": {
+    "minimum_positive_activation_cells": 8,
+    "minimum_negative_cells": 24,
+    "minimum_positive_engines": 2,
+    "minimum_positive_sources": 2,
+    "family_requirement": "At least one family must have >=4 positives; family-specific models are allowed only if both families independently meet >=4 positives."
+  },
+  "heldout_confirmation": {
+    "required_for_transport_authority": true,
+    "source_selection": "New exact-world-disjoint ecology/ecologies chosen and frozen after development model freeze but before held-out FULL_CLASS outcomes.",
+    "minimum_positions": 24,
+    "minimum_active_cells": 36,
+    "minimum_engines": 2,
+    "endpoint": "Predict activation/abstention from BASE-only features, seal predictions, then open FULL_CLASS outcomes.",
+    "primary_metrics": [
+      "balanced_accuracy",
+      "positive_recall",
+      "negative_specificity"
+    ],
+    "pass": {
+      "balanced_accuracy_min": 0.7,
+      "positive_recall_min": 0.5,
+      "negative_specificity_min": 0.7,
+      "require_positive_outcomes": true
+    },
+    "hold": "No positive activation occurs in held-out support, or active-cell/sample minima fail.",
+    "fail": "Held-out positives exist with adequate support but frozen activation field misses the pass thresholds."
+  },
+  "q0_authority_routing": {
+    "rule": "Q0-fiber causal explanations may be queried only in cells predicted ACTIVE by the frozen P22 activation field and only where P21/P22 downstream evidence separately licenses the fiber.",
+    "inactive": "Return ABSTAIN_PARENT_CLASS_INACTIVE; do not attempt fiber-level mechanism attribution.",
+    "uncertain": "Return ABSTAIN_ACTIVATION_SCOPE_UNCERTAIN."
+  },
+  "closure_logic": {
+    "PASS": "A frozen activation field transports prospectively under held-out thresholds and yields an authority-routing rule.",
+    "PARTIAL_PASS": "Development activation field is identifiable and held-out discrimination is mixed but above random in a bounded subset/family.",
+    "FAIL": "Adequate held-out positive support exists but frozen activation field fails prospective prediction.",
+    "HOLD": "Development support is inadequate or held-out positive activation/support is absent."
+  },
+  "claim_ceiling": [
+    "Activation prediction is query-specific to the frozen support definition and node/search protocol.",
+    "Pre-intervention predictors are licensing variables, not automatically causal mechanisms.",
+    "Engine identity may enter only in R3 after simpler rivals are tested.",
+    "No source/event identity leakage.",
+    "No human cognition, objective chess truth or Elo-strength ordering."
+  ],
+  "status": "OPEN_PREOUTCOME_DEVELOPMENT_FIELD_CONSTRUCTION"
+}
