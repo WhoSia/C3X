@@ -12,11 +12,30 @@
     "p18_engine_order_authority": "DESCRIPTIVE_CANDIDATE_ONLY_POSTHOC_ORDER_SEARCH",
     "p18_ethereal_rule_authority": "RETROSPECTIVE_DEVELOPMENT_CANDIDATE",
     "fresh_confirmation_required": true,
-    "prior_used_twic_issues_forbidden_as_fresh": [1655,1656,1657,1658,1659,1660,1661,1662,1663,1664],
-    "eligible_next_twic_issues": [1665,1666],
-    "alternative_source_allowed": "Only an independently acquired source whose selection/outcomes were not opened in prior C3X stages, with source identity frozen before outcome reconstruction."
+    "prior_used_twic_issues_forbidden_as_fresh": [
+      1655,
+      1656,
+      1657,
+      1658,
+      1659,
+      1660,
+      1661,
+      1662,
+      1663,
+      1664
+    ],
+    "eligible_next_twic_issues": [
+      1665,
+      1666
+    ],
+    "alternative_source_allowed": "Only an independently acquired source whose selection/outcomes were not opened in prior C3X stages, with source identity frozen before outcome reconstruction.",
+    "pre_engine_ecology_amendment": "H2 full replication requires phase literal contrast; frozen rule and thresholds unchanged."
   },
-  "engines": ["stockfish_19","berserk","ethereal"],
+  "engines": [
+    "stockfish_19",
+    "berserk",
+    "ethereal"
+  ],
   "primary_hypotheses": {
     "H1_partial_order": {
       "statement": "On jointly-active rows: S_stockfish19 subseteq S_berserk subseteq S_ethereal.",
@@ -37,16 +56,28 @@
       "interpretation": "Empirical source-stable sufficient candidate; not logical sufficiency and not an engine-internal source-code mechanism.",
       "replication_gate": {
         "min_rule_support_per_source": 3,
-        "min_precision_per_source": 0.70,
+        "min_precision_per_source": 0.7,
         "min_combined_coverage": 0.15
       },
-      "strict_counterexample_recording": true
+      "strict_counterexample_recording": true,
+      "ecology_adequacy": {
+        "phase_literal_contrast_required_for_full_replication": true,
+        "domain_restricted_status_if_absent": "PROSPECTIVE_CONFIRMED_DOMAIN_RESTRICTED",
+        "note": "Added before P19 engine-survival outcomes after pre-engine census revealed no REDUCED selected worlds; this does not alter the rule or its precision/support thresholds."
+      }
     }
   },
   "secondary_estimands": {
     "pairwise_common_activity": true,
     "source_stratified_survival_rates": true,
-    "inclusion_violation_localization": ["source","position_id","chain_signature","phase","grammar_complexity","relation_atoms"],
+    "inclusion_violation_localization": [
+      "source",
+      "position_id",
+      "chain_signature",
+      "phase",
+      "grammar_complexity",
+      "relation_atoms"
+    ],
     "abstention": "Inactive engine cells remain NA and never become failure.",
     "soft_order_after_strict_falsification": "Descriptive only; may report violation rates but cannot rescue H1."
   },
@@ -60,12 +91,25 @@
   "explanation_contract": {
     "authority_source": "Machine-readable evidence graph only.",
     "llm_free_generation_is_not_evidence": true,
-    "required_fields": ["claim_type","engine_relation","source_id","witness_rows","counterexample_rows","authority_level"],
-    "allowed_authority_levels": ["PROSPECTIVE_CONFIRMED","PROSPECTIVE_FALSIFIED","UNDERPOWERED","DESCRIPTIVE_ONLY"]
+    "required_fields": [
+      "claim_type",
+      "engine_relation",
+      "source_id",
+      "witness_rows",
+      "counterexample_rows",
+      "authority_level"
+    ],
+    "allowed_authority_levels": [
+      "PROSPECTIVE_CONFIRMED",
+      "PROSPECTIVE_CONFIRMED_DOMAIN_RESTRICTED",
+      "PROSPECTIVE_FALSIFIED",
+      "UNDERPOWERED",
+      "DESCRIPTIVE_ONLY"
+    ]
   },
   "closure_logic": {
     "PASS": "H1 both adjacent inclusions prospectively survive nonvacuity gates AND H2 replicates on all frozen fresh sources.",
-    "PARTIAL_PASS": "At least one frozen primary hypothesis passes while another is prospectively falsified or underpowered; exact split must be reported.",
+    "PARTIAL_PASS": "At least one frozen primary hypothesis passes while another is prospectively falsified, domain-restricted, or otherwise not fully confirmed; exact split must be reported.",
     "FAIL": "Fresh eligible evidence falsifies both primary hypotheses under their frozen gates.",
     "HOLD": "Fresh-world eligibility or nonvacuity/support gates are not met."
   },
