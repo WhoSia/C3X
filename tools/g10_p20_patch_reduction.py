@@ -17,6 +17,8 @@ def stockfish(r):
  s=one(s,'Depth d = std::max(1, std::min(newDepth - r / 1024, newDepth + 2)) + PvNode;\n\n            ss->reduction = newDepth - d;',
  '''Depth d = std::max(1, std::min(newDepth - r / 1024, newDepth + 2)) + PvNode;
             c3x_p20_reduction_decision("MAIN",ss->ply,(int)depth,moveCount,(int)(r/1024),(int)newDepth,(int)d,(int)alpha,(int)beta,!capture);
+            if (c3x_p20_target_reduction(ss->ply,(int)depth,moveCount,(int)(r/1024),(int)newDepth,(int)d))
+                d = newDepth;
 
             ss->reduction = newDepth - d;''',"SF_DECISION")
  s=one(s,'if (newDepth > d)\n                    value = -search<NonPV>(pos, ss + 1, -(alpha + 1), -alpha, newDepth, !cutNode);',
@@ -35,6 +37,10 @@ def berserk(r):
  s=one(s,'int lmrDepth = newDepth - R;\n      score        = -Negamax(-alpha - 1, -alpha, lmrDepth, 1, thread, &childPv, ss + 1);',
  '''int lmrDepth = newDepth - R;
       c3x_p20_reduction_decision("MAIN",ss->ply,depth,legalMoves,R,newDepth,lmrDepth,alpha,beta,!IsCap(move));
+      if (c3x_p20_target_reduction(ss->ply,depth,legalMoves,R,newDepth,lmrDepth)) {
+        R = 1;
+        lmrDepth = newDepth - 1;
+      }
       score        = -Negamax(-alpha - 1, -alpha, lmrDepth, 1, thread, &childPv, ss + 1);''',"BE_DECISION")
  s=one(s,'if (newDepth - 1 > lmrDepth)\n          score = -Negamax(-alpha - 1, -alpha, newDepth - 1, !cutnode, thread, &childPv, ss + 1);',
  '''if (newDepth - 1 > lmrDepth) {
@@ -49,6 +55,8 @@ def ethereal(r):
  s=one(s,'// Perform reduced depth search on a Null Window\n            value = -search(thread, &lpv, -alpha-1, -alpha, newDepth-R, true);',
  '''// Perform reduced depth search on a Null Window
             c3x_p20_reduction_decision("MAIN",thread->height,depth,played,R,newDepth,newDepth-R,alpha,beta,isQuiet);
+            if (c3x_p20_target_reduction(thread->height,depth,played,R,newDepth,newDepth-R))
+                R = 1;
             value = -search(thread, &lpv, -alpha-1, -alpha, newDepth-R, true);''',"ET_DECISION")
  s=one(s,'if (newDepth - 1 > lmrDepth)\n                    value = -search(thread, &lpv, -alpha-1, -alpha, newDepth-1, !cutnode);',
  '''if (newDepth - 1 > lmrDepth) {
@@ -62,7 +70,7 @@ def main():
  if h!=LOCKS[a.engine]:raise SystemExit(f"SOURCE_LOCK {h}")
  edit={"stockfish_19":stockfish,"berserk":berserk,"ethereal":ethereal}[a.engine](r)
  subprocess.check_call(["git","diff","--check"],cwd=r)
- m={"schema":"c3x-g10-p20-reduction-instrument-v1","stage":"C3X 0.10.0-G10-P20","engine":a.engine,"source_commit":h,"modes":["BASE","NO_REDUCTION"],"direct_lmr_decision":True,"proxy_reduction":False,"edit":edit}
+ m={"schema":"c3x-g10-p20-reduction-instrument-v1","stage":"C3X 0.10.0-G10-P20","engine":a.engine,"source_commit":h,"modes":["BASE","NO_REDUCTION","TARGET_REMOVE"],"direct_lmr_decision":True,"proxy_reduction":False,"edit":edit}
  Path(a.manifest).parent.mkdir(parents=True,exist_ok=True);Path(a.manifest).write_text(json.dumps(m,indent=2,sort_keys=True)+"\n")
  print(json.dumps(m,sort_keys=True))
 if __name__=="__main__":main()
