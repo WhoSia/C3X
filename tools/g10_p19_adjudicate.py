@@ -94,7 +94,7 @@ def ethereal_rule(rows):
     return {"rule":"grammar_complexity_le_1 AND phase_NOT_REDUCED","status":status,"by_source":bysrc,
       "combined_coverage":coverage,"counterexample_row_ids":counterexamples,
       "phase_literal_contrast_tested":phase_contrast,
-      "authority_note":None if phase_contrast else "Fresh bank contains no within-source REDUCED/non-REDUCED contrast; sufficiency is only confirmed on the observed non-REDUCED domain."}
+      "authority_note":None if phase_contrast else "Fresh bank contains no within-source REDUCED/non-REDUCED contrast; the phase literal itself is not directly adjudicated. Rule status is determined by the frozen support/precision criteria within the observed non-REDUCED domain."}
 
 def adjudicate(rows):
     rels=[relation(rows,a,b) for a,b in ORDER]
