@@ -1,0 +1,17 @@
+{
+  "schema":"c3x-g10-p21-phase-e-census-receipt-v1",
+  "stage":"C3X 0.10.0-G10-P21",
+  "status":"FRESH_PHASE_E_WORLD_ECOLOGY_READY",
+  "run":37439787214,
+  "artifact_id":11401031504,
+  "artifact_zip_sha256":"8d4781962e1c5e13914f682be85d75c8a99cdd16b2f896b8bdcad84e243750cb",
+  "sources":{
+    "P21_WOMEN_CANDIDATES_2026":{"games":56,"source_sha256":"41f18f0cd3c4fa6cdc56cfceb91e6f05d11851d95ccdc5b74e507bad792edd40"},
+    "P21_WOMEN_OLYMPIAD_2026":{"games":1100,"source_sha256":"755bc0d114496a844292e6512cc3a46ad41375d9487d3e1ff0f0cf0bd99746f3"}
+  },
+  "gate":{"positions":32,"common_cells":8,"phase_levels":["RICH","TRANSITIONAL"],"branching_levels":["NARROW","MEDIUM","WIDE"],"tactical_levels":["FORCED_CHECK","QUIET_SURFACE","TACTICAL_AVAILABLE"],"history_hashes_excluded":52,"cross_source_duplicate_fens_excluded":30},
+  "engine_outcomes_opened":false,
+  "counterfactual_outcomes_opened":false,
+  "provider_independence_claimed":false,
+  "next":"Project frozen P16 router and qualify near-equal pairs before any P21 fresh intervention outcome."
+}
