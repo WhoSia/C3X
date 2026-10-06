@@ -2,7 +2,7 @@ name: c3x-g10-p20-class-mediator-screen
 
 on:
   workflow_run:
-    workflows: ["c3x-g10-p20-instrument-build-and-base"]
+    workflows: ["c3x-g10-p20-instrument-build-and-base", "c3x-g10-p20-base-identity-repair"]
     types: [completed]
 
 permissions:
@@ -11,6 +11,7 @@ permissions:
 
 env:
   P19_RUN: "37414042064"
+  BASE_RUN: "37417122634"
 
 jobs:
   intervene:
@@ -58,7 +59,7 @@ jobs:
           pattern: g10-p20-build-*
           path: builds
           repository: WhoSia/C3X
-          run-id: ${{ github.event.workflow_run.id }}
+          run-id: ${{ env.BASE_RUN }}
           github-token: ${{ github.token }}
       - name: Execute frozen singleton mediator arms
         run: |
@@ -86,7 +87,7 @@ jobs:
           pattern: g10-p20-base-*
           path: base
           repository: WhoSia/C3X
-          run-id: ${{ github.event.workflow_run.id }}
+          run-id: ${{ env.BASE_RUN }}
           github-token: ${{ github.token }}
       - uses: actions/download-artifact@v4
         with:
