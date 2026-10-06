@@ -1,0 +1,105 @@
+name: c3x-g10-p20-class-mediator-screen
+
+on:
+  workflow_run:
+    workflows: ["c3x-g10-p20-instrument-build-and-base"]
+    types: [completed]
+
+permissions:
+  contents: read
+  actions: read
+
+env:
+  P19_RUN: "37414042064"
+
+jobs:
+  intervene:
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      max-parallel: 12
+      matrix:
+        shard: [0,1,2,3,4,5,6,7,8,9,10,11]
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 -m pip install --disable-pip-version-check python-chess==1.999
+      - uses: actions/download-artifact@v4
+        with:
+          name: g10-p20-base-transparency
+          path: gate
+          repository: WhoSia/C3X
+          run-id: ${{ github.event.workflow_run.id }}
+          github-token: ${{ github.token }}
+      - name: Re-assert BASE gate before outcome opening
+        run: |
+          python3 - <<'PY'
+          import json
+          x=json.load(open("gate/g10-p20-base-transparency.json"))
+          assert x["verdict"]=="PASS", x
+          assert x["mediator_outcomes_consulted"] is False
+          PY
+      - uses: actions/download-artifact@v4
+        with:
+          name: g10-p19-final
+          path: p19
+          repository: WhoSia/C3X
+          run-id: ${{ env.P19_RUN }}
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: g10-p19-worlds-*
+          path: p19-worlds
+          repository: WhoSia/C3X
+          run-id: ${{ env.P19_RUN }}
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: g10-p20-build-*
+          path: builds
+          repository: WhoSia/C3X
+          run-id: ${{ github.event.workflow_run.id }}
+          github-token: ${{ github.token }}
+      - name: Execute frozen singleton mediator arms
+        run: |
+          python3 harness/g10_p20_class_screen.py run             --tensor p19/g10-p19-engine-tensor.json             --worlds p19-worlds --build-dir builds             --shard ${{ matrix.shard }} --shards 12             --arms NO_CUTOFF,NO_MOVE,NO_EVAL,NO_REDUCTION --out-dir out
+      - uses: actions/upload-artifact@v4
+        with:
+          name: g10-p20-intervention-${{ matrix.shard }}
+          path: out/*.json
+          retention-days: 60
+
+  aggregate:
+    needs: intervene
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: g10-p19-final
+          path: p19
+          repository: WhoSia/C3X
+          run-id: ${{ env.P19_RUN }}
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: g10-p20-base-*
+          path: base
+          repository: WhoSia/C3X
+          run-id: ${{ github.event.workflow_run.id }}
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: g10-p20-intervention-*
+          path: rows
+      - name: Compile class-level susceptibility response
+        run: |
+          python3 harness/g10_p20_class_screen.py aggregate             --adjudication p19/g10-p19-adjudication.json             --base-rows base --rows rows --out g10-p20-class-screen.json
+          sha256sum g10-p20-class-screen.json > g10-p20-class-screen.sha256
+      - uses: actions/upload-artifact@v4
+        with:
+          name: g10-p20-class-screen
+          path: |
+            g10-p20-class-screen.json
+            g10-p20-class-screen.sha256
+          retention-days: 60
