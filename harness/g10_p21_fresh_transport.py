@@ -48,16 +48,20 @@ def main():
     for bn,fen in boards.items():
      vals,sup=measure_arm(b,protocol,fen,A,B,'BASE',Path(a.out_dir)/f'.b-{my_index}-{e}-{family}-{bn}');base[bn]={'pair':vals,'supported':sup};base_ok &= sup
      vals2,sup2=measure_arm(b,protocol,fen,A,B,arm,Path(a.out_dir)/f'.c-{my_index}-{e}-{family}-{bn}');klass[bn]={'pair':vals2,'supported':sup2};class_ok &= sup2
-    matched={};fiber=copy.deepcopy(base);matched_n=0;stable=True;capacity_hold=False
+    matched={};fiber=copy.deepcopy(base);matched_n=0;stable=True;capacity_hold=False;unions={}
     for key in [k for k in KEYS if k[0]==family]:
      _,scope,bn,slot,pb0,db0=key;move=A if slot=='A' else B;ev=catalog(b,protocol,boards[bn],move,family,Path(a.out_dir)/f'.cat-{my_index}-{e}-{family}-{bn}-{slot}')
      addrs=[dict(x['address']) for x in ev if x['scope']==scope and pb(x['ply'])==pb0 and db(x['depth'])==db0]
      if not addrs:continue
-     matched_n+=len(addrs)
+     matched_n+=len(addrs);matched['|'.join(key)]={'addresses':len(addrs)}
+     unions.setdefault((bn,slot),[]).extend(addrs)
+    for (bn,slot),addrs in sorted(unions.items()):
+     move=A if slot=='A' else B
      if len(addrs)>4096:
-      capacity_hold=True;matched['|'.join(key)]={'addresses':len(addrs),'target_capacity_hold':True};continue
+      capacity_hold=True;matched[f'UNION|{bn}|{slot}']={'addresses':len(addrs),'target_capacity_hold':True};continue
      scores=[targeted.run(b,protocol,boards[bn],move,family,addrs,Path(a.out_dir)/f'.f-{my_index}-{e}-{family}-{bn}-{slot}-{r}') for r in range(2)]
-     ok=None not in scores and scores[0]==scores[1];stable &= ok;matched['|'.join(key)]={'addresses':len(addrs),'stable':ok,'score':scores[0] if ok else None}
+     ok=None not in scores and scores[0]==scores[1];stable &= ok
+     matched[f'UNION|{bn}|{slot}']={'addresses':len(addrs),'stable':ok,'score':scores[0] if ok else None}
      if ok:fiber[bn]['pair'][move]['cp']=scores[0]
     fiber_ok=None
     if matched_n and stable and not capacity_hold:
