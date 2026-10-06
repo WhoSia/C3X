@@ -1,0 +1,46 @@
+name: c3x-g10-p20-base-identity-repair
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/g10-p20-base-identity-repair.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+env:
+  BASE_RUN: "37417122634"
+
+jobs:
+  identity:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 -m pip install --disable-pip-version-check python-chess==1.999
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: g10-p20-base-*
+          path: rows
+          repository: WhoSia/C3X
+          run-id: ${{ env.BASE_RUN }}
+          github-token: ${{ github.token }}
+      - name: Re-adjudicate sealed BASE artifacts only
+        run: |
+          python3 harness/g10_p20_class_screen.py basecheck             --rows rows --out g10-p20-base-transparency.json
+          python3 - <<'PY'
+          import json
+          x=json.load(open("g10-p20-base-transparency.json"))
+          assert x["verdict"]=="PASS", x
+          assert x["mediator_outcomes_consulted"] is False
+          PY
+          sha256sum g10-p20-base-transparency.json > g10-p20-base-transparency.sha256
+      - uses: actions/upload-artifact@v4
+        with:
+          name: g10-p20-base-transparency
+          path: |
+            g10-p20-base-transparency.json
+            g10-p20-base-transparency.sha256
+          retention-days: 60
