@@ -1,0 +1,52 @@
+name: c3x-g10-p20-reduction-context-probe
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/g10-p20-reduction-context-probe.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  context:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - engine: stockfish_19
+            repo: https://github.com/official-stockfish/Stockfish.git
+            commit: edb0d9db6731067ec50ce619ff372b463bc4dd5d
+            file: src/search.cpp
+            lo: 1290
+            hi: 1420
+          - engine: berserk
+            repo: https://github.com/jhonnold/berserk.git
+            commit: 32628515050b83805bab4afa1026dd2bcaa93f55
+            file: src/search.c
+            lo: 720
+            hi: 795
+          - engine: ethereal
+            repo: https://github.com/AndyGrant/Ethereal.git
+            commit: 0e47e9b67f345c75eb965d9fb3e2493b6a11d09a
+            file: src/search.c
+            lo: 665
+            hi: 745
+    steps:
+      - uses: actions/checkout@v4
+      - run: |
+          git clone "${{ matrix.repo }}" src
+          git -C src checkout --detach "${{ matrix.commit }}"
+          test "$(git -C src rev-parse HEAD)" = "${{ matrix.commit }}"
+          mkdir -p out
+          sed -n "${{ matrix.lo }},${{ matrix.hi }}p" "src/${{ matrix.file }}" > "out/${{ matrix.engine }}-reduction-context.txt"
+          sha256sum "out/${{ matrix.engine }}-reduction-context.txt" > "out/${{ matrix.engine }}-reduction-context.sha256"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: g10-p20-reduction-context-${{ matrix.engine }}
+          path: out/
+          retention-days: 30
