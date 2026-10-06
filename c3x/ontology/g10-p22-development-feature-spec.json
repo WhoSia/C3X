@@ -41,5 +41,17 @@
     "case_id",
     "event/tournament identity"
   ],
-  "q0_positive_key_features_forbidden": true
+  "q0_positive_key_features_forbidden": true,
+  "measurement_gate": {
+    "base_semantic_repetitions": 2,
+    "require_exact_family_event_signature_repeatability": true,
+    "signature": [
+      "scope",
+      "class",
+      "ply",
+      "depth"
+    ],
+    "unstable_cell_policy": "HOLD_FEATURE_MEASUREMENT; do not silently drop or average unstable cells",
+    "intervention_labels_not_used_during_measurement": true
+  }
 }
