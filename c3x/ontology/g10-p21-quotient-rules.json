@@ -1,0 +1,21 @@
+{
+  "schema":"c3x-g10-p21-quotient-rules-v1",
+  "stage":"C3X 0.10.0-G10-P21",
+  "source":"sealed P20 Phase-C BASE census only",
+  "identity_excludes":["exact address id","raw key value","raw move value","engine/source identity","P19/P20 labels","P21 outcomes"],
+  "levels":{
+    "Q0":["family","scope","board_arm","pair_slot","ply_bucket","depth_bucket"],
+    "Q1":["Q0","key_lineage_shape","move_present"],
+    "Q2":["Q1","bound","payload_sign","reduction_bucket","depth_delta_bucket"],
+    "Q3":["Q2","occurrence_bucket"]
+  },
+  "buckets":{
+    "ply":["0","1","2","3-4","5-8"],
+    "depth":["<=0","1-4","5-8","9-12","13+"],
+    "occurrence":["1","2","3-4","5+"],
+    "reduction":["<=1","2","3","4+"],
+    "depth_delta":["<=1","2","3+"]
+  },
+  "gates":{"max_fibers":256,"min_compression":0.90,"min_non_singleton_fraction":0.50,"max_single_fiber_share":0.50,"all_8_cells":true},
+  "selection":"first Q0-Q3 passing every gate in all eight cells before any P21 micro-intervention"
+}
