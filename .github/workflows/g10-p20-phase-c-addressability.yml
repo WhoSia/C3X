@@ -1,0 +1,159 @@
+name: c3x-g10-p20-phase-c-addressability
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/g10-p20-phase-c-addressability.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+env:
+  P19_RUN: "37414042064"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - engine: stockfish_19
+            repo: https://github.com/official-stockfish/Stockfish.git
+            commit: edb0d9db6731067ec50ce619ff372b463bc4dd5d
+            policy: OFF
+          - engine: berserk
+            repo: https://github.com/jhonnold/berserk.git
+            commit: 32628515050b83805bab4afa1026dd2bcaa93f55
+            policy: OFF
+          - engine: ethereal
+            repo: https://github.com/AndyGrant/Ethereal.git
+            commit: 0e47e9b67f345c75eb965d9fb3e2493b6a11d09a
+            policy: ON
+    steps:
+      - uses: actions/checkout@v4
+      - name: Resolve exact engine source
+        run: |
+          git clone "${{ matrix.repo }}" src
+          git -C src checkout --detach "${{ matrix.commit }}"
+          test "$(git -C src rev-parse HEAD)" = "${{ matrix.commit }}"
+          mkdir -p out
+      - name: Materialize inherited semantic and exact-event surfaces
+        run: |
+          if [ "${{ matrix.engine }}" = stockfish_19 ]; then
+            python3 tools/materialize_p15.py --stockfish src --target stockfish_19
+          elif [ "${{ matrix.engine }}" = berserk ]; then
+            python3 tools/p20_patch_berserk.py --root src --variant instrument --manifest out/p20-adapter.json
+          else
+            python3 tools/p20_patch_ethereal.py --root src --variant instrument --manifest out/p20-adapter.json
+          fi
+          python3 tools/p27_patch_age.py --root src --engine "${{ matrix.engine }}" --policy "${{ matrix.policy }}" --manifest out/p27.json
+          python3 tools/p29_patch_tttrace.py --root src --engine "${{ matrix.engine }}" --policy "${{ matrix.policy }}" --manifest out/p29.json
+          python3 tools/p30_patch_victim.py --root src --engine "${{ matrix.engine }}" --manifest out/p30.json
+          python3 tools/p31_patch_semantics.py --root src --engine "${{ matrix.engine }}" --manifest out/p31.json
+          python3 tools/p32_patch_event_target.py --root src --engine "${{ matrix.engine }}" --manifest out/p32.json
+          python3 tools/g10_p20_patch_semantic_override.py --root src --engine "${{ matrix.engine }}" --manifest out/p20-semantic-override.json
+          python3 tools/g10_p20_patch_event_override.py --root src --engine "${{ matrix.engine }}" --manifest out/p20-event-override.json
+          python3 tools/g10_p20_patch_reduction.py --root src --engine "${{ matrix.engine }}" --manifest out/p20-reduction.json
+          git -C src diff --check
+      - name: Build exact-event engine
+        run: |
+          if [ "${{ matrix.engine }}" = stockfish_19 ]; then
+            make -C src/src -j2 build ARCH=x86-64
+            cp src/src/stockfish "out/c3x-p20c-${{ matrix.engine }}"
+          elif [ "${{ matrix.engine }}" = berserk ]; then
+            make -C src/src ARCH=x86-64 build
+            cp src/src/berserk "out/c3x-p20c-${{ matrix.engine }}"
+          else
+            ECFLAGS="-O3 -std=gnu11 -Wall -Wextra -Wshadow -DNDEBUG -flto -DUSE_NNUE=0 -march=x86-64 -msse2"
+            make -C src/src basic CFLAGS="$ECFLAGS"
+            cp src/src/Ethereal "out/c3x-p20c-${{ matrix.engine }}"
+          fi
+          chmod +x "out/c3x-p20c-${{ matrix.engine }}"
+          sha256sum "out/c3x-p20c-${{ matrix.engine }}" > "out/p20c-binary-sha256-${{ matrix.engine }}.txt"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: g10-p20c-build-${{ matrix.engine }}
+          path: out/
+          retention-days: 60
+
+  census:
+    needs: build
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        cell: [P20C01,P20C02,P20C03,P20C04,P20C05,P20C06,P20C07,P20C08]
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 -m pip install --disable-pip-version-check python-chess==1.999
+      - uses: actions/download-artifact@v4
+        with:
+          name: g10-p19-final
+          path: p19
+          repository: WhoSia/C3X
+          run-id: ${{ env.P19_RUN }}
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: g10-p19-worlds-*
+          path: p19-worlds
+          repository: WhoSia/C3X
+          run-id: ${{ env.P19_RUN }}
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: g10-p20c-build-*
+          path: builds
+      - name: Census exact event universe
+        run: |
+          mkdir -p out
+          python3 harness/g10_p20_phase_c_census.py             --support c3x/ontology/g10-p20-phase-c-support.json             --cell-id "${{ matrix.cell }}"             --tensor p19/g10-p19-engine-tensor.json             --worlds p19-worlds --build-dir builds             --out "out/${{ matrix.cell }}.json"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: g10-p20c-census-${{ matrix.cell }}
+          path: out/
+          retention-days: 60
+
+  gate:
+    needs: census
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: g10-p20c-census-*
+          path: census
+          merge-multiple: true
+      - name: Seal addressability gate
+        run: |
+          python3 - <<'PY'
+          import glob,json,hashlib
+          rows=[json.load(open(p)) for p in sorted(glob.glob("census/*.json"))]
+          assert len(rows)==8, len(rows)
+          out={
+            "schema":"c3x-g10-p20-phase-c-addressability-v1",
+            "stage":"C3X 0.10.0-G10-P20",
+            "cell_count":len(rows),
+            "pass_count":sum(x["verdict"]=="PASS_ADDRESSABILITY" for x in rows),
+            "all_pass":all(x["verdict"]=="PASS_ADDRESSABILITY" for x in rows),
+            "cells":[{"id":x["cell"]["id"],"engine":x["cell"]["engine"],"family":x["cell"]["family"],"verdict":x["verdict"],
+                      "base_identity":x["base_identity"],"repeatable":x["repeatable"],"address_count":x["address_count"],
+                      "address_count_by_frontier":x["address_count_by_frontier"]} for x in rows],
+            "event_localization_outcomes_consulted":False
+          }
+          open("g10-p20c-addressability.json","w").write(json.dumps(out,indent=2,sort_keys=True)+"\n")
+          print(json.dumps(out,indent=2,sort_keys=True))
+          if not out["all_pass"]: raise SystemExit("P20C_ADDRESSABILITY_HOLD")
+          PY
+          sha256sum g10-p20c-addressability.json > g10-p20c-addressability.sha256
+      - uses: actions/upload-artifact@v4
+        with:
+          name: g10-p20c-addressability
+          path: |
+            g10-p20c-addressability.json
+            g10-p20c-addressability.sha256
+          retention-days: 60
