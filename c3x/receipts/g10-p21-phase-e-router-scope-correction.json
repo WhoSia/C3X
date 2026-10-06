@@ -1,0 +1,13 @@
+{
+  "schema":"c3x-g10-p21-phase-e-router-scope-correction-v1",
+  "stage":"C3X 0.10.0-G10-P21",
+  "status":"PRE_ENGINE_OUTCOME_INSTRUMENTATION_CORRECTION",
+  "failed_run":37440495029,
+  "engine_outcomes_opened":false,
+  "counterfactual_outcomes_opened":false,
+  "observed_projection":{"selected_worlds":32,"router_assigned_worlds":16,"router_abstentions":16,"assigned_cells":4,"assigned_per_source":8},
+  "cause":"The reused P19 router projector bundled P19-specific confirmation-power and H2 gates with the frozen P16 grammar assignment policy. Those gates were never adopted by the P21 Phase-E preseal.",
+  "correction":"Use the frozen P16 router only as a grammar assignment function. Router ABSTAIN worlds remain ineligible for routed chain construction; assigned worlds proceed to near-equal qualification without importing P19 H1/H2 power gates.",
+  "unchanged_P21_gates":{"fresh_selected_positions":24,"fresh_sources":2,"final_engine_pair_cells":12,"Q_level":"Q0","prediction_keys":"unchanged"},
+  "forbidden":"No router policy, grammar assignment, source, Q0 key, pair threshold or final P21 minimum may be changed after this correction."
+}
