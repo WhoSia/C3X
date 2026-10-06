@@ -1,0 +1,185 @@
+{
+  "schema": "c3x-g10-p20-phase-b-receipt-v1",
+  "stage": "C3X 0.10.0-G10-P20",
+  "status": "PHASE_B_CLOSED_PASS",
+  "constitution_commit": "feb99e155c36a9ab9b4a551f19acccc514e29f17",
+  "base": {
+    "original_run": 37417122634,
+    "identity_repair_run": 37417836844,
+    "verdict": "PASS",
+    "rows": 74,
+    "mismatches": 0,
+    "mediator_outcomes_consulted": false,
+    "note": "BASE identity repair re-adjudicated sealed BASE artifacts only."
+  },
+  "intervention": {
+    "run": 37417855987,
+    "shard_jobs_success": 12,
+    "shard_jobs_total": 12,
+    "aggregate_job_failure_reason": "Missing python-chess import dependency in aggregation job only; all scientific intervention shards succeeded.",
+    "scientific_rerun": false
+  },
+  "aggregate_repair": {
+    "run": 37418678693,
+    "conclusion": "success",
+    "artifact_id": 11391128768,
+    "artifact_zip_sha256": "6614528f0405dc5e565bc5a338a2fe1b760a49782e4780df19c3d930b12e2c3f",
+    "verdict": "PASS_CLASS_SCREEN",
+    "rows": 74
+  },
+  "family_support_changes": {
+    "NO_CUTOFF": {
+      "changed": 9,
+      "engines": {
+        "ethereal": 6,
+        "stockfish_19": 2,
+        "berserk": 1
+      },
+      "sources": {
+        "candidates": 5,
+        "olympiad": 4
+      }
+    },
+    "NO_MOVE": {
+      "changed": 12,
+      "engines": {
+        "berserk": 6,
+        "stockfish_19": 5,
+        "ethereal": 1
+      },
+      "sources": {
+        "candidates": 5,
+        "olympiad": 7
+      }
+    },
+    "NO_EVAL": {
+      "changed": 6,
+      "engines": {
+        "stockfish_19": 5,
+        "berserk": 1
+      },
+      "sources": {
+        "candidates": 3,
+        "olympiad": 3
+      }
+    },
+    "NO_REDUCTION": {
+      "changed": 8,
+      "engines": {
+        "stockfish_19": 3,
+        "berserk": 3,
+        "ethereal": 2
+      },
+      "sources": {
+        "candidates": 4,
+        "olympiad": 4
+      }
+    }
+  },
+  "obstruction_results": [
+    {
+      "row_id": "p19:P19_SRC_LICHESS_OLYMPIAD_2026:000baab56173|b2c3|b2a1|b2a1|A_TO_GAIN|",
+      "engine_pair": [
+        "stockfish_19",
+        "berserk"
+      ],
+      "base_contrast": 1,
+      "effects": {
+        "NO_MOVE": "COLLAPSE_TO_0"
+      }
+    },
+    {
+      "row_id": "p19:P19_SRC_LICHESS_OLYMPIAD_2026:0000175022d5|d3a6|d3g6|d3g6|B_FROM_LOSS|",
+      "engine_pair": [
+        "stockfish_19",
+        "berserk"
+      ],
+      "base_contrast": -1,
+      "effects": {
+        "NO_EVAL": "COLLAPSE_TO_0",
+        "NO_MOVE": "COLLAPSE_TO_0",
+        "NO_REDUCTION": "COLLAPSE_TO_0"
+      }
+    },
+    {
+      "row_id": "p19:P19_SRC_LICHESS_CANDIDATES_2026:1906b4b7db70|a8b8|f8d8|f8d8|A_FROM_LOSS|",
+      "engine_pair": [
+        "berserk",
+        "ethereal"
+      ],
+      "base_contrast": 1,
+      "effects": {
+        "NO_CUTOFF": "REVERSE_TO_-1",
+        "NO_MOVE": "COLLAPSE_TO_0"
+      }
+    },
+    {
+      "row_id": "p19:P19_SRC_LICHESS_CANDIDATES_2026:01f2b6c3a16c|e7d6|e7c5|e7c5|B_FROM_GAIN|",
+      "engine_pair": [
+        "berserk",
+        "ethereal"
+      ],
+      "base_contrast": -1,
+      "effects": {
+        "NO_CUTOFF": "COLLAPSE_TO_0"
+      }
+    }
+  ],
+  "interpretation": [
+    "All four frozen mediator families alter at least one P19 support label on both fresh-event source ecologies.",
+    "The P19 Ferrers obstructions are not controlled by one universal class: different inversion witnesses respond to move-order, cutoff/eval, and reduction interventions.",
+    "Class-level effects authorize exact-event localization but do not identify event-level mechanisms."
+  ],
+  "phase_c_authority": {
+    "rule": "Apply the constitution's predeclared B→C admission rule only to frozen P19 obstruction witnesses. For every obstruction-changing family, include every engine-side case whose support label changed under that family. No board-arm selection is allowed; TARGET/SUBSET/SHAM × A/B are all included in the exact-event universe.",
+    "cells": [
+      {
+        "row": "p19:P19_SRC_LICHESS_OLYMPIAD_2026:000baab56173|b2c3|b2a1|b2a1|A_TO_GAIN|",
+        "engine": "stockfish_19",
+        "family": "MOVE_ORDER"
+      },
+      {
+        "row": "p19:P19_SRC_LICHESS_OLYMPIAD_2026:0000175022d5|d3a6|d3g6|d3g6|B_FROM_LOSS|",
+        "engine": "stockfish_19",
+        "family": "MOVE_ORDER"
+      },
+      {
+        "row": "p19:P19_SRC_LICHESS_OLYMPIAD_2026:0000175022d5|d3a6|d3g6|d3g6|B_FROM_LOSS|",
+        "engine": "stockfish_19",
+        "family": "EVAL"
+      },
+      {
+        "row": "p19:P19_SRC_LICHESS_OLYMPIAD_2026:0000175022d5|d3a6|d3g6|d3g6|B_FROM_LOSS|",
+        "engine": "stockfish_19",
+        "family": "REDUCTION"
+      },
+      {
+        "row": "p19:P19_SRC_LICHESS_CANDIDATES_2026:1906b4b7db70|a8b8|f8d8|f8d8|A_FROM_LOSS|",
+        "engine": "berserk",
+        "family": "CUTOFF"
+      },
+      {
+        "row": "p19:P19_SRC_LICHESS_CANDIDATES_2026:1906b4b7db70|a8b8|f8d8|f8d8|A_FROM_LOSS|",
+        "engine": "ethereal",
+        "family": "CUTOFF"
+      },
+      {
+        "row": "p19:P19_SRC_LICHESS_CANDIDATES_2026:1906b4b7db70|a8b8|f8d8|f8d8|A_FROM_LOSS|",
+        "engine": "berserk",
+        "family": "MOVE_ORDER"
+      },
+      {
+        "row": "p19:P19_SRC_LICHESS_CANDIDATES_2026:01f2b6c3a16c|e7d6|e7c5|e7c5|B_FROM_GAIN|",
+        "engine": "ethereal",
+        "family": "CUTOFF"
+      }
+    ],
+    "note": "The NO_CUTOFF reversal at the 1906... obstruction requires localization on both engine sides; therefore Phase C has eight engine×row×family cells, not seven."
+  },
+  "authority_ceiling": [
+    "Phase B is development localization on P19 worlds, not fresh P20 confirmation.",
+    "No family is a universal mechanism from these counts.",
+    "Exact-event authority is unopened until Phase C."
+  ],
+  "actions_writeback": false
+}
