@@ -1,0 +1,141 @@
+name: c3x-g10-p21-phase-e-final
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/g10-p21-phase-e-final.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+env:
+  PROJECT_RUN: '37440495029'
+  QUAL_RUN: '37441256076'
+  CARRIER_RUN: '37442242511'
+  P20C_RUN: '37419447937'
+
+jobs:
+  intervene:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      max-parallel: 8
+      matrix:
+        shard: [0,1,2,3,4,5,6,7]
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 -m pip install --disable-pip-version-check python-chess==1.999
+      - uses: actions/download-artifact@v4
+        with:
+          name: g10-p21-phase-e-projected
+          path: corpus
+          repository: WhoSia/C3X
+          run-id: ${{ env.PROJECT_RUN }}
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: g10-p21-phase-e-pair-sealed
+          path: pair
+          repository: WhoSia/C3X
+          run-id: ${{ env.QUAL_RUN }}
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: g10-p20c-build-*
+          path: builds
+          repository: WhoSia/C3X
+          run-id: ${{ env.P20C_RUN }}
+          github-token: ${{ github.token }}
+      - name: Run frozen fresh class and Q0-union interventions
+        run: |
+          mkdir -p out
+          python3 harness/g10_p21_fresh_transport.py             --corpus corpus/g10-p21-phase-e-projected.json             --pair-freeze pair/g10-p21-phase-e-pair-freeze.json             --build-dir builds             --shard ${{ matrix.shard }} --shards 8 --out-dir out
+      - uses: actions/upload-artifact@v4
+        with:
+          name: g10-p21-phase-e-intervention-${{ matrix.shard }}
+          path: out/*.json
+          retention-days: 90
+
+  adjudicate:
+    needs: intervene
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: g10-p21-phase-e-intervention-*
+          path: rows
+          merge-multiple: true
+      - uses: actions/download-artifact@v4
+        with:
+          name: g10-p21-phase-e-carrier-gate
+          path: carrier
+          repository: WhoSia/C3X
+          run-id: ${{ env.CARRIER_RUN }}
+          github-token: ${{ github.token }}
+      - name: Adjudicate frozen cell and pair endpoints
+        run: |
+          python3 - <<'PY'
+          import glob,json
+          rows=[]
+          for p in sorted(glob.glob('rows/*.json')):
+            try: x=json.load(open(p))
+            except: continue
+            if x.get('schema')=='c3x-g10-p21-fresh-transport-cell-v1': rows.append(x)
+          gate=json.load(open('carrier/g10-p21-phase-e-carrier-gate.json'))
+          carrier={(c['position_id'],c['engine'],c['family']) for c in gate['carriers']}
+          rr={(r['position_id'],r['engine'],r['family']):r for r in rows}
+          missing=sorted(carrier-set(rr))
+          cells=[rr[k] for k in sorted(carrier) if k in rr]
+          status_counts={}
+          for r in cells: status_counts[r['status']]=status_counts.get(r['status'],0)+1
+          class_effect=[r for r in cells if r['class_support']!=r['base_support']]
+          recovered=[r for r in class_effect if r['fiber_support']==r['class_support']]
+          pairs=[]
+          for a,b in [('stockfish_19','berserk'),('berserk','ethereal')]:
+            for pos in sorted({r['position_id'] for r in cells}):
+              for fam in ('MOVE_ORDER','CUTOFF'):
+                x=rr.get((pos,a,fam));y=rr.get((pos,b,fam))
+                if not x or not y or (pos,a,fam) not in carrier or (pos,b,fam) not in carrier: continue
+                if x['fiber_support'] is None or y['fiber_support'] is None: continue
+                db=int(x['base_support'])-int(y['base_support'])
+                dc=int(x['class_support'])-int(y['class_support'])
+                dq=int(x['fiber_support'])-int(y['fiber_support'])
+                ce=dc!=db; rec=ce and dq==dc
+                pairs.append({'engine_pair':[a,b],'position_id':pos,'source_id':x['source_id'],'family':fam,
+                  'D_base':db,'D_class':dc,'D_q0':dq,'pair_class_effect':ce,'pair_recovery':rec})
+          bypair={}
+          for a,b in [('stockfish_19','berserk'),('berserk','ethereal')]:
+            key=f'{a}__{b}';xs=[z for z in pairs if z['engine_pair']==[a,b]]
+            ce=[z for z in xs if z['pair_class_effect']];rc=[z for z in xs if z['pair_recovery']]
+            bypair[key]={'paired_carriers':len(xs),'class_effects':len(ce),'recoveries':len(rc),'recovery_rows':rc}
+          sf=	bypair['stockfish_19__berserk'];be=bypair['berserk__ethereal']
+          recs=sf['recovery_rows']+be['recovery_rows'];src=sorted({z['source_id'] for z in recs})
+          if missing:
+            verdict='HOLD_MISSING_CARRIER_RESULTS'
+          elif sf['class_effects']==0 or be['class_effects']==0:
+            verdict='HOLD_FRESH_PAIR_CLASS_EFFECT_SUPPORT'
+          elif sf['recoveries']>0 and be['recoveries']>0 and len(src)>=2:
+            verdict='PASS_FRESH_Q0_PAIR_TRANSPORT'
+          elif sf['recoveries']>0 or be['recoveries']>0:
+            verdict='PARTIAL_PASS_FRESH_Q0_PAIR_TRANSPORT'
+          else:
+            verdict='FAIL_FRESH_Q0_PAIR_TRANSPORT'
+          out={'schema':'c3x-g10-p21-phase-e-final-v1','stage':'C3X 0.10.0-G10-P21','verdict':verdict,
+            'carrier_cells':len(carrier),'returned_carrier_cells':len(cells),'missing_carrier_results':[list(x) for x in missing],
+            'cell_status_counts':status_counts,'cell_class_effects':len(class_effect),'cell_recoveries':len(recovered),
+            'pair_results':bypair,'recovered_sources':src,'frozen_q0_refit':False}
+          open('g10-p21-phase-e-final.json','w').write(json.dumps(out,indent=2,sort_keys=True)+'\n')
+          print(json.dumps(out,indent=2,sort_keys=True))
+          PY
+          sha256sum g10-p21-phase-e-final.json > g10-p21-phase-e-final.sha256
+      - uses: actions/upload-artifact@v4
+        with:
+          name: g10-p21-phase-e-final
+          path: |
+            g10-p21-phase-e-final.json
+            g10-p21-phase-e-final.sha256
+          retention-days: 90
