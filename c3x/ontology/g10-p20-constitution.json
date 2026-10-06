@@ -1,0 +1,182 @@
+{
+  "schema": "c3x-g10-p20-constitution-v1",
+  "scientific_stage": "C3X 0.10.0-G10-P20",
+  "title": "Prospective Engine×World Preference-Susceptibility Basis Reconstruction, Ferrers-Obstruction & Inversion-Witness Localization, TT-Use×Bound/Window×Reduction×Move-Ordering Search-State Mediation, Minimal Multidimensional Near-Equal Preference Representation, Cross-Engine Mechanism Transport & Evidence-Grounded Contrastive Explanation Experiment",
+  "stage_type": "Experiment",
+  "parent": {
+    "stage": "C3X 0.9.0-G10-P19",
+    "sealed_closure_head": "f1d07281e4d63beebfef47c833a3d03206aceae7",
+    "verdict": "FALSIFIED_STRICT_ENGINE_PARTIAL_ORDER_AND_ETHEREAL_SUFFICIENCY__NON_FERRERS_ENGINE_WORLD_INTERACTION",
+    "canonical_run": 37414042064,
+    "final_artifact_id": 11390891495
+  },
+  "founding_question": "Why does an engine prefer one near-equal legal move over another beyond obvious tactical dominance?",
+  "p20_question": "Which minimal engine-internal and chess-context mediator coordinates explain the prospectively observed engine×world inversion witnesses, and can they recover a transportable low-dimensional representation of near-equal preference survival without post-hoc scalar rescue?",
+  "authority_separation": {
+    "p19_labels": "Known case-selection / target labels. They are not new P20 outcomes.",
+    "p20_outcomes": "Prospective search-state intervention responses acquired only after this constitution is sealed.",
+    "explanation_track": "May compile only from typed evidence/provenance. Natural-language plausibility never promotes Track-A scientific authority."
+  },
+  "development_support": {
+    "source": "P19 final engine tensor",
+    "unit": "engine × unique structural chain row",
+    "rows": 29,
+    "primary_obstruction_witnesses": 4,
+    "use": "mechanism localization and basis discovery only; not fresh confirmation"
+  },
+  "primary_contrast": {
+    "definition": "For adjacent engine pair (a,b), D_ab(x)=S_a(x)-S_b(x) on jointly-active P19 support labels. P19 inversion witnesses have D_ab=+1 or -1.",
+    "intervention_response": "For frozen search-state intervention z, recompute S_a^z,S_b^z under the exact P19 pair/chain support protocol and D_ab^z=S_a^z-S_b^z.",
+    "contrast_breaking": "D_ab^z != D_ab",
+    "contrast_collapsing": "D_ab^z = 0",
+    "contrast_reversing": "sign(D_ab^z) = -sign(D_ab)"
+  },
+  "mediator_families": {
+    "tt_semantic_use": {
+      "classes": [
+        "CUTOFF",
+        "MOVE_ORDER_SEED",
+        "EVAL_REUSE",
+        "TT_VALUE_AS_EVAL"
+      ],
+      "inherited_surface": "G9.4-P31/P32",
+      "primary_class_arms": [
+        "NO_CUTOFF",
+        "NO_MOVE",
+        "NO_EVAL"
+      ],
+      "tt_value_as_eval": "typed inside EVAL family for class screen; separable only at exact-event localization"
+    },
+    "bound_window": {
+      "observables": [
+        "scope",
+        "ply",
+        "depth",
+        "alpha",
+        "beta",
+        "window_width",
+        "window_class",
+        "bound",
+        "fail_relation",
+        "same_key_revisit",
+        "re_search_proxy"
+      ],
+      "inherited_surface": "G9.5-P11/P12",
+      "role": "typed mediator coordinates and exact-event stratification; no post-outcome threshold tuning"
+    },
+    "reduction": {
+      "observables": [
+        "scope",
+        "ply",
+        "depth",
+        "move_index",
+        "reduction_amount",
+        "reduced_depth",
+        "full_depth_research",
+        "candidate_root_child"
+      ],
+      "status": "MUST_PASS_DIRECT_INSTRUMENTATION_GATE_BEFORE_SCIENTIFIC_OUTCOME",
+      "forbidden_proxy": "Do not relabel generic depth loss, node count, or search exposure as LMR/reduction."
+    },
+    "move_ordering": {
+      "observables": [
+        "exact MOVE_ORDER_SEED event",
+        "candidate root-child identity when mappable",
+        "event order",
+        "PV incumbent transition"
+      ],
+      "inherited_surface": "G9.5-P13 plus G9.4-P31/P32"
+    }
+  },
+  "sequential_design": {
+    "phase_A": "Direct instrumentation/transparency gate. No P20 mediator outcomes.",
+    "phase_B": "Prospective class-level interventions on all eligible P19 development rows using frozen arms.",
+    "phase_C": "Exact-event localization only for family×engine×row cells satisfying the predeclared class-level positive rule.",
+    "phase_D": "Minimal basis reconstruction under frozen complexity order and leave-one-source validation.",
+    "phase_E": "Fresh holdout world confirmation using worlds disjoint from P18/P19/P20-development support.",
+    "adaptive_rule": "Only the explicitly predeclared Phase-B→C gate may use earlier P20 outcomes. No new family, threshold, source, engine order, or target grammar may be added after Phase B opens."
+  },
+  "phase_B_positive_rule": {
+    "family_cell_positive": "A class-level intervention changes at least one of: support label S_e, pairwise inversion contrast D_ab, frozen pair orientation, or root candidate fate on TARGET/SUBSET/SHAM while the exact pair remains legal.",
+    "event_localization_admission": "At least one primary obstruction witness or one matched non-obstruction control is family-cell positive.",
+    "no_rate_threshold_refit": true
+  },
+  "basis_search": {
+    "candidate_coordinates": [
+      "semantic_class",
+      "bound_sign",
+      "window_class",
+      "re_search_proxy",
+      "reduction_bin",
+      "scope",
+      "ply_band",
+      "root_child_role",
+      "phase",
+      "branching",
+      "tactical_surface",
+      "relation_atom_family"
+    ],
+    "complexity_order": [
+      "1 coordinate",
+      "2 coordinates",
+      "3 coordinates"
+    ],
+    "objective": "smallest coordinate set that separates observed inversion vs non-inversion survival response patterns under leave-one-source validation",
+    "strict_ceiling": "Discovery adequacy is not confirmation. Fresh Phase-E contact is required for transport authority.",
+    "forbidden": [
+      "engine reorder rescue",
+      "soft violation tolerance chosen post hoc",
+      "unbounded interaction search",
+      "black-box embedding as primary mechanism",
+      "Elo/strength explanation"
+    ]
+  },
+  "fresh_confirmation": {
+    "required": true,
+    "source_rule": "world-disjoint from every P18/P19 development row and selected before P20 mediator outcomes are opened for those worlds",
+    "provider_independence_not_required": true,
+    "minimums": {
+      "sources": 2,
+      "positions": 12,
+      "jointly_active_pair_rows": 12
+    },
+    "exact_prediction_preseal": "basis coordinates and predicted engine-pair contrast class must be frozen before holdout mediator intervention"
+  },
+  "explanation_contract": {
+    "evidence_graph_fields": [
+      "claim_type",
+      "engine_pair",
+      "world_id",
+      "board_arm",
+      "mediator_family",
+      "event_address_or_class",
+      "native_response",
+      "counterfactual_response",
+      "contrast_delta",
+      "authority_level"
+    ],
+    "authority_levels": [
+      "DEVELOPMENT_LOCALIZED",
+      "FRESH_CONFIRMED",
+      "FRESH_FALSIFIED",
+      "UNDERPOWERED",
+      "DESCRIPTIVE_ONLY"
+    ],
+    "language_rule": "Rendered explanation must be deterministically compiled from evidence graph plus verified chess facts; free generation is commentary only."
+  },
+  "closure_logic": {
+    "PASS": "At least one minimal basis survives fresh holdout confirmation across frozen source/engine gates and materially explains at least one P19 Ferrers obstruction family.",
+    "PARTIAL_PASS": "Development localization succeeds but fresh transport is mixed, or only one obstruction family transports.",
+    "FAIL": "Prospectively measured mediator families fail to localize the inversion contrasts and fresh holdout supplies no basis support.",
+    "HOLD": "Direct reduction instrumentation, support, exact-event addressability, or fresh-world positivity gates are not met."
+  },
+  "claim_ceiling": [
+    "P20 can identify search-state mediation of engine preference-survival contrasts under frozen computational regimes; it cannot infer human cognition or objective chess truth.",
+    "Known P19 inversion labels do not constitute fresh P20 confirmation.",
+    "A class-level effect is not an event-level causal mechanism until exact-event localization succeeds.",
+    "A minimal observed basis is not unique unless competing same-complexity bases are prospectively separated.",
+    "Reduction claims require direct reduction-decision instrumentation; proxies are forbidden."
+  ],
+  "status": "OPEN_PREOUTCOME_INSTRUMENTATION_GATE",
+  "mediator_outcomes_consulted": false
+}
