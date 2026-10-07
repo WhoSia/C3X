@@ -1,0 +1,131 @@
+{
+  "schema": "c3x-g10-p25-constitution-v1",
+  "scientific_stage": "C3X 0.10.0-G10-P25",
+  "title": "Prospective Executable-Support Selection Geometry, Source-Failure-Aware Cohort Reconstitution, Conditional Activation-Transport Identification, Source-Disjoint Calibration Replication & Authority-Gated Contrastive Explanation Experiment",
+  "stage_type": "Experiment",
+  "entry_boundary": {
+    "parent": "C3X 0.10.0-G10-P24",
+    "parent_closure_commit": "3bd64ee3768c2839dd977b98fcf81d3ddd38cee2",
+    "parent_verdict": "CLOSED_ADMINISTRATIVE_HOLD_SOURCE_PRESEAL_INCOMPLETE__CALIBRATION_AND_TRANSFER_OUTCOMES_UNOPENED__NO_SCIENTIFIC_TRANSPORT_ADJUDICATION",
+    "historical_negative_result": "P23 FAIL_P23_ACTIVATION_TRANSPORT remains binding",
+    "no_P24_scientific_support_result": true
+  },
+  "main_question": "Can an auditable source-identity and executable-support selection process distinguish source-accrual failure, structural intervention ineligibility, and conditional activation transport, then yield prospective source-disjoint calibration evidence without turning selection into an outcome-conditioned search?",
+  "novelty_boundary": {
+    "not_new": "generic dataset shift, positivity, outcome-blind sampling, logistic calibration or causal transportability",
+    "candidate_contribution": "typed executable-support selection as a measurable pre-outcome experimental object whose attrition and transport target are recorded independently of the mediator activation endpoint, with a causal-authority firewall in the PGN implementation",
+    "not_P24_repeat": "P24 never acquired a complete six-source cohort or opened outcomes. P25 treats source identity and support-selection geometry as distinct research objects before testing a frozen transport model.",
+    "track_A": "scientific near-equal engine move preference and mechanism activation",
+    "track_B": "GitHub compiler + PGN explanation authority routing with no Track B-to-A promotion"
+  },
+  "estimands": {
+    "source_realisability": "I_s=1 iff event/section identity, completed status, section-scope PGN and exact raw-byte SHA are independently evidenced",
+    "executable_support": "R(e,x,f)=1 iff pair qualifies and all frozen routed TARGET/SUBSET/SHAM BASE arms are legal and repeatably measurable",
+    "selection_yield": "P(R=1|I_s=1,source ecology,engine,family) measured before activation outcomes; descriptive and selection-design-only",
+    "primary_activation": "P(A_f=1|R=1,z) on a source-disjoint target population; not all chess worlds",
+    "activation": "A_f=1 iff FULL_CLASS support differs from BASE under frozen grammar"
+  },
+  "phase_A_source_identity": {
+    "current_sources": {
+      "calibration": [
+        "2026 Charlotte Spring Norm Invitational — GM [replacement candidate only]",
+        "2026 NZ South Island Championship",
+        "Golders Green FIDE Rapidplay — September 2026 — Open"
+      ],
+      "transfer": [
+        "IM VII Round Robin, Chess Club Radnicki Kovin",
+        "1st Berjaya Global Chess Open — Masters",
+        "6th Milton Keynes FIDE Rapid Tournament"
+      ]
+    },
+    "frozen_conditions": [
+      "Exact section-tournament parent locator, scope and finished status verified",
+      "Raw PGN bytes, SHA-256 and Drive custody captured",
+      "Historical recoverable exact-world/FEN collision audit",
+      "Calibration vs transfer exact-world duplicate removal under predeclared deterministic rule",
+      "Source role and accrual order frozen before inspecting any R yield or A outcome"
+    ],
+    "replacement_rule": "Only identity/completeness/bytes failure before source-support inspection. A replacement needs another human-reviewed pre-outcome amendment; no yield-based substitution.",
+    "frozen_cohort_quota": {
+      "sources_per_cohort": 3,
+      "ecologies_per_cohort": 3,
+      "routed_chain_positions_min": 18,
+      "engine_world_family_cells_min": 54,
+      "cells_per_source_min": 12,
+      "engines_min": 2,
+      "source_cell_balance_max_ratio": 2
+    }
+  },
+  "phase_B_selection_geometry": {
+    "must_record": [
+      "source candidates and exact failure reasons",
+      "historical FEN exclusion counts",
+      "pair admissibility counts",
+      "ROUTED-chain construction rates",
+      "stable BASE measurement counts per engine/source/family",
+      "support conditioning distribution shifts in pre-outcome context features"
+    ],
+    "firewall": "Do not use activation labels or any predicted ACTIVE rate in selection or quota stopping.",
+    "interpretation": "Conditioned sample pertains only to executable-support-qualified target worlds; selection-on-R is not population representativeness.",
+    "stop": "If either cohort misses support quota, HOLD; never lower quotas or source-swap based on yield."
+  },
+  "phase_C_activation_transport": {
+    "inherited_rivals": [
+      "C0_GLOBAL",
+      "C1_ENGINE",
+      "C2_ECOLOGY",
+      "C3_ENGINE_ECOLOGY"
+    ],
+    "feature_ban": [
+      "source ID",
+      "tournament name",
+      "player identity",
+      "event one-hot",
+      "post-treatment features",
+      "Q0 outcomes"
+    ],
+    "l2_penalty_grid": [
+      0.1,
+      1,
+      10
+    ],
+    "threshold_grid": [
+      0.2,
+      0.25,
+      0.3,
+      0.35,
+      0.4,
+      0.45,
+      0.5
+    ],
+    "selection": "Calibration cohort leave-one-source-out log loss; choose lowest-complexity candidate within 0.01 of best; within candidate minimum log loss penalty, tie larger penalty; threshold max held-out BA, tie higher threshold; seal model coefficients/comparator/hash before transfer.",
+    "comparator": "Same-calibration-cohort-fitted C0_GLOBAL",
+    "gates": {
+      "balanced_accuracy_min": 0.7,
+      "positive_recall_min": 0.5,
+      "negative_specificity_min": 0.7,
+      "source_BA_min": 0.6,
+      "source_BA_count_min": 2
+    },
+    "verdicts": [
+      "PASS_ECOLOGY_ENGINE_TRANSPORT",
+      "PASS_GLOBAL_RECALIBRATION_ONLY",
+      "PARTIAL_PASS",
+      "FAIL",
+      "HOLD"
+    ]
+  },
+  "authority": {
+    "q0": "DENIED until prospective transport PASS with supported predicted ACTIVE cells, then separate Q0 local evidence gate",
+    "track_B": "ABSTAIN_ECOLOGY_CALIBRATION_UNVERIFIED until positive scientific receipt; no certificate without independent evidence",
+    "github": "No github-actions[bot] author or committer; Actions artifact-only, contents:read",
+    "execution": "CHAT_MODE_ONLY"
+  },
+  "publication": {
+    "manuscript": "paper/C3X_EXECUTABLE_SUPPORT_ACTIVATION_TRANSPORT.md",
+    "claim_ceiling": "P24 closure is administrative HOLD, not an empirical transport failure; report it as a source-identification constraint, not positive or negative activation evidence",
+    "figures": "evidence ladder, source→pair→chain selection flow, sealed cohort/calibration transfer, abstention router",
+    "results_rule": "Never write P25 results until exact artifacts establish them"
+  },
+  "state": "OPEN_PREOUTCOME_SOURCE_RECONSTITUTION"
+}
