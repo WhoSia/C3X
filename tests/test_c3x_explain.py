@@ -346,3 +346,32 @@ def test_i9_abstention_is_surfaceable_without_negative_chess_claim():
     assert "abstains" in atom["text"]
     assert "chess idea is bad" in atom["text"]
     assert all(m["firewall"]["pass"] for m in out["moments"])
+
+
+def test_p23_chain_unavailable_blocks_causal_certificate_surface():
+    import chess,chess.pgn,io
+    g=chess.pgn.read_game(io.StringIO(PGN));b=g.board()
+    cert={"schema":"c3x-causal-contrast-certificate-v1","fen":b.fen(),"certificate_id":"p23-blocked",
+          "pair_id":"e2e4::d2d4","bound":"LOWER","family":"OWN|DISPREFERRED_FROM_LOSS","collapse_to":"e2e4"}
+    route={"schema":"c3x-explanation-authority-route-v1","position_fen":b.fen(),
+           "state":"ABSTAIN_CHAIN_REALIZABILITY_UNAVAILABLE","source_stage":"C3X 0.10.0-G10-P23"}
+    out=analyze_pgn(PGN,certificates=[cert],authority_packets=[route])
+    causal=[a for m in out["moments"] for a in m["atoms"] if a["provenance"]==CAUSAL]
+    routing=[a for m in out["moments"] for a in m["atoms"] if a["type"]=="mechanism_authority_route"]
+    assert causal==[]
+    assert routing and routing[0]["claim"]["state"]=="ABSTAIN_CHAIN_REALIZABILITY_UNAVAILABLE"
+    assert out["causal_authority_blocked_moments"]>=1
+    assert all(m["firewall"]["pass"] for m in out["moments"])
+
+
+def test_p23_supported_route_preserves_bounded_causal_certificate():
+    import chess,chess.pgn,io
+    g=chess.pgn.read_game(io.StringIO(PGN));b=g.board()
+    cert={"schema":"c3x-causal-contrast-certificate-v1","fen":b.fen(),"certificate_id":"p23-supported",
+          "pair_id":"e2e4::d2d4","bound":"LOWER","family":"OWN|DISPREFERRED_FROM_LOSS","collapse_to":"e2e4"}
+    route={"schema":"c3x-explanation-authority-route-v1","position_fen":b.fen(),
+           "state":"SUPPORTED","source_stage":"C3X 0.10.0-G10-P23"}
+    out=analyze_pgn(PGN,certificates=[cert],authority_packets=[route])
+    causal=[a for m in out["moments"] for a in m["atoms"] if a["provenance"]==CAUSAL]
+    assert causal and causal[0]["claim"]["certificate_id"]=="p23-supported"
+    assert out["authority_packet_count"]==1
