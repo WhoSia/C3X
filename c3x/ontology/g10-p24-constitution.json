@@ -1,0 +1,144 @@
+{
+  "schema": "c3x-g10-p24-constitution-v1",
+  "scientific_stage": "C3X 0.10.0-G10-P24",
+  "title": "Prospective Ecology-Calibrated Activation Transport, Frozen Source-Shift & Engine-Conditional Regime Decomposition, Support-Preserving Domain-Shift Falsification, Cross-Ecology Calibration Transfer, Q0 Re-entry Reauthorization & Authority-Safe Mechanism Routing Experiment",
+  "stage_type": "Experiment",
+  "parent": {
+    "stage": "C3X 0.10.0-G10-P23",
+    "closure_commit": "81a50f11dd3531f0cd2174c1c9fcb78b87d8794d",
+    "verdict": "FAIL_P23_ACTIVATION_TRANSPORT__EXECUTABLE_SUPPORT_PASS__FRESH_CALIBRATION_SHIFT__Q0_REENTRY_DENIED"
+  },
+  "scientific_question": "Can a prospectively frozen, low-dimensional engine/ecology calibration layer restore activation transport across executable-support-qualified worlds and then transfer to new source identities, without source memorization, support relaxation, or post-outcome rescue?",
+  "estimand": {
+    "population": "R(e,x)=1 executable-support-qualified engine×world×family cells only",
+    "endpoint": "A_f(e,x)=1 iff FULL_CLASS_f support differs from BASE support under the frozen TARGET/SUBSET/SHAM protocol",
+    "primary": "Prospective transfer performance of a calibration layer frozen on a calibration cohort and evaluated on a separately sealed transfer cohort.",
+    "authority_boundary": "P24 does not estimate population-wide chess activation outside R=1."
+  },
+  "anti_memorization": {
+    "forbidden_predictors": [
+      "source_id",
+      "tournament_name",
+      "broadcast_id",
+      "player identity",
+      "round number as source proxy",
+      "event-specific one-hot",
+      "post-intervention score/PV/WDL",
+      "Q0 outcome"
+    ],
+    "allowed_context": [
+      "engine identity",
+      "time_control_class",
+      "field_structure_class",
+      "frozen P22 R1 prediction",
+      "frozen P22 BASE-only feature block"
+    ],
+    "rule": "Every calibration predictor must be computable before FULL_CLASS outcomes and must have a semantic definition that can be applied unchanged to a new source identity."
+  },
+  "cohort_design": {
+    "source_ecology_cells": [
+      "CLASSICAL_ROUND_ROBIN_OR_CLOSED",
+      "CLASSICAL_OPEN_OR_SWISS",
+      "RAPID_OPEN_OR_ROUND_ROBIN"
+    ],
+    "calibration_cohort": "One fresh, presealed source per ecology cell. Outcomes may open only after both cohorts' source identities, acquisition rules and support quotas are frozen.",
+    "transfer_cohort": "A disjoint fresh source identity per ecology cell. FULL_CLASS outcomes remain unopened until the calibration model, coefficients and classification threshold are sealed.",
+    "provider_independence_claim": false,
+    "exact_world_disjoint": true,
+    "historical_fen_exclusion": true,
+    "source_identity_disjoint": true
+  },
+  "executable_support": {
+    "reuse": "P23 outcome-blind executable-support acquisition machinery and router grammar without changing chain semantics.",
+    "per_cohort_min": {
+      "sources": 3,
+      "ecologies": 3,
+      "routed_chain_positions": 18,
+      "engine_world_family_cells": 54,
+      "cells_per_source": 12,
+      "engines": 2,
+      "max_source_balance_ratio": 2
+    },
+    "firewall": "Support selection is completed separately in calibration and transfer cohorts before any FULL_CLASS outcome for that cohort is consulted."
+  },
+  "calibration_family": {
+    "base_object": "P22 R1_BOUNDARY_PLUS_LOAD remains the parent activation signal; P24 calibrates its transport rather than rewriting P23.",
+    "candidates": [
+      {
+        "id": "C0_GLOBAL",
+        "features": [
+          "R1 prediction"
+        ],
+        "complexity": 0
+      },
+      {
+        "id": "C1_ENGINE",
+        "features": [
+          "R1 prediction",
+          "engine identity"
+        ],
+        "complexity": 1
+      },
+      {
+        "id": "C2_ECOLOGY",
+        "features": [
+          "R1 prediction",
+          "time_control_class",
+          "field_structure_class"
+        ],
+        "complexity": 1
+      },
+      {
+        "id": "C3_ENGINE_ECOLOGY",
+        "features": [
+          "R1 prediction",
+          "engine identity",
+          "time_control_class",
+          "field_structure_class"
+        ],
+        "complexity": 2
+      }
+    ],
+    "model": "Penalized logistic recalibration; no source-identity coefficient and no source-specific intercept.",
+    "penalty": "L2 only on non-intercept calibration coefficients; penalty grid frozen before calibration outcomes.",
+    "selection": "Calibration-cohort leave-one-source-out log loss primary, balanced accuracy secondary; choose the lowest-complexity candidate within 0.01 mean log loss of the best candidate. Classification threshold is selected inside calibration data only from a frozen finite grid and then sealed.",
+    "forbidden": [
+      "post-transfer refit",
+      "drop a transfer source",
+      "add an event-specific coefficient",
+      "change ecology labels after outcomes",
+      "family-specific rescue of the primary verdict"
+    ]
+  },
+  "primary_transfer": {
+    "frozen_endpoints": {
+      "log_loss": "Must improve over uncalibrated R1 on the transfer cohort.",
+      "brier": "Must improve over uncalibrated R1 on the transfer cohort.",
+      "balanced_accuracy_min": 0.7,
+      "positive_recall_min": 0.5,
+      "negative_specificity_min": 0.7,
+      "source_robustness": "BA >= 0.60 in at least two transfer sources with both classes."
+    },
+    "verdicts": {
+      "PASS": "Calibration and discrimination gates pass prospectively on the locked transfer cohort.",
+      "PARTIAL_PASS": "Calibration improves but discrimination or cross-source robustness misses a frozen gate.",
+      "FAIL": "Adequate support/positive outcomes exist but calibration fails to improve or pooled discrimination fails materially.",
+      "HOLD": "A cohort fails support quotas or the transfer cohort has no positive activation."
+    }
+  },
+  "q0_reentry": {
+    "condition": "Only after P24 primary PASS may Q0 re-enter, and only for transfer-cohort cells classified ACTIVE by the sealed calibration layer with executable support.",
+    "otherwise": "ABSTAIN_ECOLOGY_CALIBRATION_UNVERIFIED"
+  },
+  "track_b": {
+    "new_state": "ABSTAIN_ECOLOGY_CALIBRATION_UNVERIFIED",
+    "semantics": "Product routing may preserve or reduce causal-language authority based on P24 calibration scope but cannot create scientific authority.",
+    "pass_requirement": "A future P24 PASS receipt is required before any calibrated activation route can become SUPPORTED."
+  },
+  "manuscript": {
+    "central_claim_candidate": "Executable support and activation transport are distinct; after support is prospectively guaranteed, a low-dimensional ecology/engine calibration layer can be tested for genuine cross-source transfer under a source-memorization firewall.",
+    "negative_result_value": "If P24 fails, the paper identifies regime instability that persists even after support control and explicit prospective calibration.",
+    "contribution_boundary": "No claim of inventing transportability, domain adaptation, calibration, or mechanistic interpretability causal identification."
+  },
+  "status": "OPEN_PREOUTCOME_CALIBRATION_AND_TRANSFER_PRESEAL"
+}
