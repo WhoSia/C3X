@@ -1,0 +1,55 @@
+name: c3x-g10-p23-secondary-transport-diagnostic
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/g10-p23-secondary-transport-diagnostic.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+env:
+  FINAL_RUN: '37556938151'
+  PREDICTION_RUN: '37556593357'
+
+jobs:
+  diagnose:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: g10-p23-full-class-*
+          path: rows
+          merge-multiple: true
+          repository: WhoSia/C3X
+          run-id: ${{ env.FINAL_RUN }}
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: g10-p23-final-adjudication
+          path: primary
+          repository: WhoSia/C3X
+          run-id: ${{ env.FINAL_RUN }}
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: g10-p23-activation-prediction-seal
+          path: prediction
+          repository: WhoSia/C3X
+          run-id: ${{ env.PREDICTION_RUN }}
+          github-token: ${{ github.token }}
+      - name: Compile post-primary transport diagnostics
+        run: |
+          python3 tools/g10_p23_secondary_diagnostic.py             --full-rows rows             --prediction-seal prediction/g10-p23-activation-prediction-seal.json             --primary primary/g10-p23-final-adjudication.json             --out g10-p23-secondary-diagnostic.json
+          sha256sum g10-p23-secondary-diagnostic.json > g10-p23-secondary-diagnostic.sha256
+      - uses: actions/upload-artifact@v4
+        with:
+          name: g10-p23-secondary-diagnostic
+          path: |
+            g10-p23-secondary-diagnostic.json
+            g10-p23-secondary-diagnostic.sha256
+          retention-days: 90
