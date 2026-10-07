@@ -1,0 +1,147 @@
+{
+  "schema": "c3x-g10-p23-closure-v1",
+  "scientific_stage": "C3X 0.10.0-G10-P23",
+  "title": "Prospective Chain-Realizability-Constrained Activation Validation, Outcome-Blind World Acquisition under Routed-Chain Support Quotas, Activation-Field External Replication, Support-Selection Bias Firewall, Cross-Ecology Regime Calibration & Q0 Authority Re-entry Experiment",
+  "status": "CLOSED_FAIL",
+  "official_verdict": "FAIL_P23_ACTIVATION_TRANSPORT__EXECUTABLE_SUPPORT_PASS__FRESH_CALIBRATION_SHIFT__Q0_REENTRY_DENIED",
+  "primary_machine_verdict": "FAIL_P23_ACTIVATION_TRANSPORT",
+  "parent": {
+    "stage": "C3X 0.10.0-G10-P22",
+    "closure_commit": "37d873351a8efdd6eb6d2c328323664cd63a689a",
+    "verdict": "HOLD_HELDOUT_ROUTED_CHAIN_SUPPORT_INSUFFICIENT__DEVELOPMENT_R1_ACTIVATION_FIELD_FROZEN__FULL_CLASS_OUTCOMES_UNOPENED"
+  },
+  "preseal": {
+    "constitution_commit": "c08aaa500849c303b57d3117758c14c3a423aedc",
+    "source_preseal_commit": "089075b0e32b1459059c49f31daa26d97037f861",
+    "balanced_prefix_commit": "1a206efa02cc04a01b399dc338b33cba2e595271",
+    "sample_size_amendment_commit": "faafa7faa236cb6a4dead8f11ed0ceeb26ca86e6",
+    "paper_spine_commit": "d435ea63f5df996082e11f768e173b49a7a396a6",
+    "literature_boundary_commit": "b0ae8ac7f98784a58e4de7509273078596234468"
+  },
+  "executable_support": {
+    "run": 37555378804,
+    "workflow_head": "5e65bf62aba0b1c24d204a569b50ac79d1f86b5d",
+    "receipt_commit": "938eb49285e88223bcf28577c7f60adc975096f8",
+    "artifact_id": 11455150854,
+    "artifact_zip_sha256": "7e7e5085e593969ba99ff57556004f9c756fe20504bbafa114327d1e700166e9",
+    "verdict": "PASS_P23_EXECUTABLE_SUPPORT",
+    "sealed_cycle": 23,
+    "routed_chain_positions": 20,
+    "engine_world_family_cells": 100,
+    "cells_by_source": {
+      "P23_PRAGUE_MASTERS_2026": 34,
+      "P23_BIEL_OPEN_MASTERS_2026": 36,
+      "P23_SAINT_LOUIS_RAPID_2026": 30
+    },
+    "source_balance_ratio": 1.2,
+    "engines": ["stockfish_19", "berserk", "ethereal"],
+    "activation_predictions_consulted_before_seal": false,
+    "full_class_outcomes_consulted_before_seal": false,
+    "q0_outcomes_consulted_before_seal": false
+  },
+  "prediction_seal": {
+    "run": 37556593357,
+    "seal_commit": "d183fbbad95eee521959df88abbd00f46aa16cf9",
+    "artifact_id": 11455581050,
+    "artifact_zip_sha256": "726494449e6f5e10ddde37dff805afc28cce80b2812caac59d5ef2412f069fd8",
+    "field": "P22 R1_BOUNDARY_PLUS_LOAD",
+    "refit_before_primary_outcomes": false,
+    "predicted_active_rate": 0.36
+  },
+  "primary": {
+    "run": 37556938151,
+    "outcome_open_commit": "8efdb6ca507919cfcdbb398a9cad3b5b282b7f18",
+    "artifact_id": 11455591446,
+    "artifact_zip_sha256": "bc7330279d9e5093601afc8c0f6ac13aa782a798a9787b494a4dc951484eac4d",
+    "row_count": 100,
+    "base_identity_failures": 0,
+    "q0_outcomes_consulted": false,
+    "positives": 20,
+    "negatives": 80,
+    "tp": 12,
+    "tn": 56,
+    "fp": 24,
+    "fn": 8,
+    "balanced_accuracy": 0.65,
+    "positive_recall": 0.60,
+    "negative_specificity": 0.70,
+    "frozen_thresholds": {
+      "balanced_accuracy_min": 0.70,
+      "positive_recall_min": 0.50,
+      "negative_specificity_min": 0.70,
+      "source_balanced_accuracy_min": 0.60,
+      "sources_required": 2
+    },
+    "source_metrics": {
+      "P23_BIEL_OPEN_MASTERS_2026": {"n": 36, "positives": 11, "balanced_accuracy": 0.7636363636363637, "positive_recall": 0.7272727272727273, "negative_specificity": 0.8},
+      "P23_PRAGUE_MASTERS_2026": {"n": 34, "positives": 4, "balanced_accuracy": 0.5666666666666667, "positive_recall": 0.5, "negative_specificity": 0.6333333333333333},
+      "P23_SAINT_LOUIS_RAPID_2026": {"n": 30, "positives": 5, "balanced_accuracy": 0.54, "positive_recall": 0.4, "negative_specificity": 0.68}
+    },
+    "sources_passing_robustness": ["P23_BIEL_OPEN_MASTERS_2026"],
+    "verdict": "FAIL_P23_ACTIVATION_TRANSPORT"
+  },
+  "post_primary_diagnostic": {
+    "run": 37557146513,
+    "head": "fe297c2f5081dbf74da9e103f7ba4a069ef52b46",
+    "artifact_id": 11455012019,
+    "artifact_zip_sha256": "e8c9093890e70edb62a8758da75bcd2f666cf10c7c29e0f2f2cbc7d4b341c179",
+    "authority": "POST_PRIMARY_DIAGNOSTIC_ONLY_NO_RESCUE",
+    "observed_activation_rate": 0.20,
+    "predicted_active_rate": 0.36,
+    "activation_calibration_offset": -0.16,
+    "by_engine_balanced_accuracy": {
+      "stockfish_19": 0.7171428571428571,
+      "berserk": 0.5336538461538461,
+      "ethereal": 0.7448275862068966
+    },
+    "by_family_balanced_accuracy": {
+      "MOVE_ORDER": 0.65,
+      "CUTOFF": 0.65
+    },
+    "interpretation": "The frozen field systematically overpredicted activation. Failure is not rescued by mediator-family partition; source/ecology and engine heterogeneity remain the dominant diagnostic structure."
+  },
+  "track_b": {
+    "authority_router_receipt_commit": "962861b1e8ea15fe8da2fe23f377a4aea2b4905b",
+    "states": ["SUPPORTED", "ABSTAIN_CHAIN_REALIZABILITY_UNAVAILABLE", "ABSTAIN_PARENT_CLASS_INACTIVE", "ABSTAIN_ACTIVATION_SCOPE_UNCERTAIN"],
+    "ci": {
+      "i9_run": 37555625843,
+      "i9_verify": "success",
+      "implementation_run": 37555626757,
+      "unit": "success",
+      "pinned_stockfish_smoke": "success"
+    },
+    "scientific_authority": "NONE",
+    "effect": "The product can preserve or reduce causal-language authority from machine-readable support state, but cannot create scientific authority."
+  },
+  "scientific_conclusion": [
+    "P23 prospectively removed the P22 executable-support bottleneck without consulting activation outcomes.",
+    "With 100 support-sealed fresh cells and 20 observed positive activations, the frozen P22 R1 activation field failed its pooled balanced-accuracy threshold and its cross-source robustness condition.",
+    "Therefore P22-style activation transport failure cannot be attributed to missing routed-chain support in P23.",
+    "The frozen field systematically overpredicted activation in fresh supported worlds; the largest diagnostic shifts were source/ecology and engine dependent, while MOVE_ORDER and CUTOFF had identical aggregate performance.",
+    "Q0 fiber authority does not re-enter because primary activation transport failed.",
+    "The Track-B authority router operationalizes the same support distinction as an abstention firewall without promoting product success into scientific evidence."
+  ],
+  "paper_status": {
+    "manuscript_ready_for_drafting": true,
+    "reason": "The P19-P23 sequence now contains prospective falsification, support-vs-model separation, fresh multi-ecology evidence, explicit negative-result value, and a non-leaking implementation consequence.",
+    "recommended_core_result": "Executable-support conditioning solved the experimental-support problem but did not rescue the frozen activation field; activation transport remained ecology- and engine-sensitive."
+  },
+  "claim_ceiling": [
+    "Do not refit R1 inside P23 or upgrade the primary FAIL from diagnostic subsets.",
+    "Do not claim Q0 fresh authority re-entry.",
+    "Do not treat executable-support conditioning as population representativeness.",
+    "Do not claim family-specific rescue from post-primary diagnostics.",
+    "Do not infer human cognition, objective chess truth, or universal activation thresholds.",
+    "Do not use Track-B CI or commentary usefulness as Track-A validation."
+  ],
+  "successor": {
+    "proposed_stage": "C3X 0.10.0-G10-P24",
+    "proposed_title": "Prospective Ecology-Calibrated Activation Transport, Frozen Source-Shift & Engine-Conditional Regime Decomposition, Support-Preserving Domain-Shift Falsification, Cross-Ecology Calibration Transfer, Q0 Re-entry Reauthorization & Authority-Safe Mechanism Routing Experiment",
+    "core_question": "Can a prospectively frozen, low-dimensional ecology/engine calibration layer repair activation transport across executable-support-qualified worlds without source-identity memorization or post-hoc rescue?"
+  },
+  "automation_identity": {
+    "actions_writeback": false,
+    "canonical_promotion_actor": "WhoSia",
+    "github_actions_bot_hits_latest_100": 0
+  }
+}
