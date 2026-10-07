@@ -1,0 +1,82 @@
+{
+  "schema": "c3x-g10-p22-heldout-preseal-v1",
+  "stage": "C3X 0.10.0-G10-P22",
+  "status": "FROZEN_BEFORE_HELDOUT_PGN_SELECTION_AND_FULL_CLASS_OUTCOMES",
+  "development_field": {
+    "receipt_commit": "c2471cd966fca3d0307e96a7b94389657b2367d9",
+    "selected_rival": "R1_BOUNDARY_PLUS_LOAD",
+    "prediction_rule": {
+      "inactive_if": "base_max_gap_cp > 74.5",
+      "low_gap_active_if": "base_max_gap_cp <= 30.5 AND candidate_side_event_imbalance > 0.19",
+      "mid_gap_active_if": "30.5 < base_max_gap_cp <= 74.5 AND family_event_count_target > 1926.5"
+    }
+  },
+  "sources": [
+    {
+      "id": "P22_NORWAY_CHESS_OPEN_2026",
+      "provider": "Lichess broadcast",
+      "tournament_id": "kDQUxYbE",
+      "group_id": "rF2jvwIS",
+      "url": "https://lichess.org/broadcast/norway-chess-2026-open/kDQUxYbE",
+      "ecology": "small elite round-robin",
+      "completed": true,
+      "repo_exact_name_match_preseal": false
+    },
+    {
+      "id": "P22_EUROPEAN_INDIVIDUAL_2026_B1_66",
+      "provider": "Lichess broadcast",
+      "tournament_id": "JWIgkNkS",
+      "group_id": "NQrZXq3k",
+      "url": "https://lichess.org/broadcast/european-individual-chess-championship-2026-boards-1-66/JWIgkNkS",
+      "ecology": "large Swiss, boards 1-66",
+      "completed": true,
+      "repo_exact_name_match_preseal": false
+    }
+  ],
+  "freshness": "event-new + recoverable-exact-world-disjoint + prospective held-out FULL_CLASS outcomes; provider independence not claimed",
+  "source_selection_basis": [
+    "Both events completed before P22 held-out selection.",
+    "No exact event-name or frozen Lichess ID match was found in the C3X repository before source freeze.",
+    "Competition ecologies differ materially (elite round-robin vs large Swiss).",
+    "No P22 held-out activation or FULL_CLASS outcome was consulted."
+  ],
+  "geometry_selection": {
+    "exclude_all_recoverable_historical_fen_and_candidate_hashes": true,
+    "exclude_cross_source_duplicate_fens": true,
+    "ply_range": [
+      12,
+      160
+    ],
+    "cell": "phase × branching × tactical_surface",
+    "min_cell_support_per_source": 4,
+    "positions_per_source_per_cell": 2,
+    "max_common_cells": 8,
+    "min_common_cells": 6,
+    "min_total_positions": 24,
+    "min_phase_levels": 2,
+    "min_branching_levels": 2,
+    "min_tactical_levels": 2,
+    "tie_break": "cell order then trajectory_hash then candidate_sha256",
+    "prediction_blind": true,
+    "engine_outcome_blind": true
+  },
+  "post_census_sequence": [
+    "Frozen P16-compatible deterministic pair qualification and ROUTED chain construction.",
+    "BASE-only R1 profile measurement with exact repeatability gate.",
+    "Seal ACTIVE/INACTIVE predictions before any FULL_CLASS intervention.",
+    "Open NO_MOVE/NO_CUTOFF outcomes only after prediction seal.",
+    "Adjudicate held-out balanced accuracy, positive recall and negative specificity."
+  ],
+  "heldout_gate": {
+    "min_positions": 24,
+    "min_active_engine_family_cells": 36,
+    "min_engines": 2,
+    "balanced_accuracy_min": 0.7,
+    "positive_recall_min": 0.5,
+    "negative_specificity_min": 0.7,
+    "positive_activation_required": true,
+    "no_positive_activation": "HOLD_HELDOUT_ACTIVATION_SUPPORT_ABSENT"
+  },
+  "q0_rule": "Do not run or inspect Q0-fiber interventions unless held-out activation-field transport first earns authority.",
+  "outcomes_opened": false
+}
