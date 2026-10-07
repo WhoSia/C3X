@@ -6,7 +6,8 @@ SUPPORTED="SUPPORTED"
 ABSTAIN_CHAIN="ABSTAIN_CHAIN_REALIZABILITY_UNAVAILABLE"
 ABSTAIN_PARENT="ABSTAIN_PARENT_CLASS_INACTIVE"
 ABSTAIN_SCOPE="ABSTAIN_ACTIVATION_SCOPE_UNCERTAIN"
-VALID={SUPPORTED,ABSTAIN_CHAIN,ABSTAIN_PARENT,ABSTAIN_SCOPE}
+ABSTAIN_CALIBRATION="ABSTAIN_ECOLOGY_CALIBRATION_UNVERIFIED"
+VALID={SUPPORTED,ABSTAIN_CHAIN,ABSTAIN_PARENT,ABSTAIN_SCOPE,ABSTAIN_CALIBRATION}
 
 def canonical_fen(fen:str)->str:
     return " ".join(str(fen).split()[:4])
@@ -41,12 +42,15 @@ def authority_atom(packet:dict[str,Any])->dict[str,Any]:
     elif state==ABSTAIN_PARENT:
         text=("C3X withholds downstream mechanism attribution here because the parent mediator class is outside "
               "the currently authorized active regime.")
-    else:
+    elif state==ABSTAIN_SCOPE:
         text=("C3X withholds downstream mechanism attribution here because activation-scope authority is uncertain.")
+    else:
+        text=("C3X withholds downstream mechanism attribution here because the ecology-calibrated activation route "
+              "has not earned prospective transfer authority on a source-disjoint cohort.")
     return {
       "type":"mechanism_authority_route","provenance":HEURISTIC,
       "authority":"c3x_precausal_authority_router",
-      "claim":{"state":state,"source_stage":packet.get("source_stage","C3X 0.10.0-G10-P23"),
+      "claim":{"state":state,"source_stage":packet.get("source_stage","C3X 0.10.0-G10-P24"),
                "support_receipt":packet.get("support_receipt"),"authority_ceiling":"routing/abstention only"},
       "text":text
     }
