@@ -1,0 +1,92 @@
+name: c3x-g10-p23-prospective-activation-adjudication
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/g10-p23-prospective-activation-adjudication.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+env:
+  SUPPORT_RUN: '37555378804'
+  PREDICTION_RUN: '37556593357'
+  P20_BASE_RUN: '37417122634'
+
+jobs:
+  intervene:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      max-parallel: 12
+      matrix:
+        shard: [0,1,2,3,4,5,6,7,8,9,10,11]
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 -m pip install --disable-pip-version-check python-chess==1.999
+      - uses: actions/download-artifact@v4
+        with:
+          name: g10-p23-activation-prediction-seal
+          path: prediction
+          repository: WhoSia/C3X
+          run-id: ${{ env.PREDICTION_RUN }}
+          github-token: ${{ github.token }}
+      - name: Assert prediction seal before opening outcomes
+        run: |
+          python3 - <<'PY'
+          import json
+          x=json.load(open('prediction/g10-p23-activation-prediction-seal.json'))
+          assert x['verdict']=='PASS_P23_PREDICTION_SEAL',x
+          assert x['rows']==100,x
+          assert x['full_class_outcomes_opened'] is False,x
+          assert not x['unstable_profiles'],x
+          PY
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: g10-p23-support-*
+          path: support
+          merge-multiple: true
+          repository: WhoSia/C3X
+          run-id: ${{ env.SUPPORT_RUN }}
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: g10-p20-build-*
+          path: builds
+          repository: WhoSia/C3X
+          run-id: ${{ env.P20_BASE_RUN }}
+          github-token: ${{ github.token }}
+      - name: Open frozen FULL_CLASS outcomes
+        run: |
+          mkdir -p out
+          python3 harness/g10_p23_full_class.py             --prediction-seal prediction/g10-p23-activation-prediction-seal.json             --support-root support --build-dir builds             --shard ${{ matrix.shard }} --shards 12 --out-dir out
+      - uses: actions/upload-artifact@v4
+        with:
+          name: g10-p23-full-class-${{ matrix.shard }}
+          path: out/*.json
+          retention-days: 90
+
+  adjudicate:
+    needs: intervene
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: g10-p23-full-class-*
+          path: rows
+          merge-multiple: true
+      - name: Apply frozen prospective adjudicator
+        run: |
+          python3 tools/g10_p23_adjudicate.py             --rows rows --out g10-p23-final-adjudication.json
+          sha256sum g10-p23-final-adjudication.json > g10-p23-final-adjudication.sha256
+      - uses: actions/upload-artifact@v4
+        with:
+          name: g10-p23-final-adjudication
+          path: |
+            g10-p23-final-adjudication.json
+            g10-p23-final-adjudication.sha256
+          retention-days: 90
