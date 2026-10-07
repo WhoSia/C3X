@@ -1,0 +1,169 @@
+{
+  "schema": "c3x-g10-p24-human-authored-drive-custody-receipt-v1",
+  "stage": "C3X 0.10.0-G10-P24",
+  "authority": "BYTE_CUSTODY_ONLY_NO_SOURCE_PRESEAL_OR_SCIENTIFIC_AUTHORITY",
+  "signed_by": "authenticated GitHub connector account",
+  "canonical_drive_folder": {
+    "name": "01_SOURCE_ACCRUAL_RAW",
+    "id": "170YFzQhSIMKBAypCdk2QaJHdms15uG2x",
+    "url": "https://drive.google.com/drive/folders/170YFzQhSIMKBAypCdk2QaJHdms15uG2x"
+  },
+  "package_folder": {
+    "name": "G10_P24_SOURCE_IDENTITY_HOLD_20261007",
+    "id": "1psO5i7Z3ZJ67R03wZlnv3sp5GaKP2CGx",
+    "url": "https://drive.google.com/drive/folders/1psO5i7Z3ZJ67R03wZlnv3sp5GaKP2CGx"
+  },
+  "drive_manifest": {
+    "file_id": "1_8P_q5OlkYPq8AyS5Y_rNO1xPoImjJ01",
+    "sha256": "DD9F0F36542F5920548F5C229D8CFB527F4698318A4DD62F585A432A32F5A1F9",
+    "url": "https://drive.google.com/file/d/1_8P_q5OlkYPq8AyS5Y_rNO1xPoImjJ01/view?usp=drivesdk"
+  },
+  "sealed_zip": {
+    "file_id": "19t0sis5U-Pa1Qje7EPnstYSoEoxTovJX",
+    "sha256": "cdda1eb7645d6eaa338f238ac8e369469765fa2e958697337dce2d42cebc583f"
+  },
+  "remote_verification": "PASS_ALL_16_FILES_SHA256_EXACT_MATCH",
+  "files": [
+    {
+      "name": "P24_SOURCE_IDENTITY_HOLD_20261007.zip",
+      "drive_file_id": "19t0sis5U-Pa1Qje7EPnstYSoEoxTovJX",
+      "bytes": 385547,
+      "sha256": "cdda1eb7645d6eaa338f238ac8e369469765fa2e958697337dce2d42cebc583f",
+      "remote_sha256": "cdda1eb7645d6eaa338f238ac8e369469765fa2e958697337dce2d42cebc583f",
+      "remote_verified": true
+    },
+    {
+      "name": "artifact_index.json",
+      "drive_file_id": "1VVkzTFHvNpczS7lVN_oGL-1c0pQI2mcm",
+      "bytes": 1320,
+      "sha256": "3e38aa3f5fb279cc7fa607ee92ea390a5785e7d51cad3f78bb8d711f42a31217",
+      "remote_sha256": "3e38aa3f5fb279cc7fa607ee92ea390a5785e7d51cad3f78bb8d711f42a31217",
+      "remote_verified": true
+    },
+    {
+      "name": "Berjaya_Masters.metadata.json",
+      "drive_file_id": "1oom3sCbNLbtFZqh2UpKou0XB6EPTlm74",
+      "bytes": 7491,
+      "sha256": "8b2e7ec41751e12500d55c7d6218f278c62ecc3d77411f7428653a0557381d28",
+      "remote_sha256": "8b2e7ec41751e12500d55c7d6218f278c62ecc3d77411f7428653a0557381d28",
+      "remote_verified": true
+    },
+    {
+      "name": "Berjaya_Masters.pgn",
+      "drive_file_id": "1QRuUSiB77us1DvjadYc_Zw9NxG9qMm8N",
+      "bytes": 722478,
+      "sha256": "a6778cfea89596cbe9ebf2a45c594c352a2e279f3cd9c1fc04ead9dc20625ba9",
+      "remote_sha256": "a6778cfea89596cbe9ebf2a45c594c352a2e279f3cd9c1fc04ead9dc20625ba9",
+      "remote_verified": true
+    },
+    {
+      "name": "Bratislava_IM_A.metadata.json",
+      "drive_file_id": "1iJZJg1Wyd6jkda7YWWt70get0j4NMk2k",
+      "bytes": 3297,
+      "sha256": "33b655b82c0a6454fad9ae44cfb955f8fc347791c41f412d8f4253448471d371",
+      "remote_sha256": "33b655b82c0a6454fad9ae44cfb955f8fc347791c41f412d8f4253448471d371",
+      "remote_verified": true
+    },
+    {
+      "name": "Golders.metadata.json",
+      "drive_file_id": "1qU_GS3EgaZ6Br8uGDYxM-EbL5PHYf7l1",
+      "bytes": 2811,
+      "sha256": "dcd56866cdb921c0b9f209763244afa75198e27fb6bb3a1ddb927d9d028b6d4c",
+      "remote_sha256": "dcd56866cdb921c0b9f209763244afa75198e27fb6bb3a1ddb927d9d028b6d4c",
+      "remote_verified": true
+    },
+    {
+      "name": "Golders.pgn",
+      "drive_file_id": "1OY6TmAB26lXvqJueADhZzSLzZ9PtNC_k",
+      "bytes": 322663,
+      "sha256": "596374245025a1eee7242b451c12014d7d5f1f9ccfaf1f5625329a0945b59a57",
+      "remote_sha256": "596374245025a1eee7242b451c12014d7d5f1f9ccfaf1f5625329a0945b59a57",
+      "remote_verified": true
+    },
+    {
+      "name": "identity_audit_receipt.json",
+      "drive_file_id": "1tx1eH9hniNEro_UogZ-sQY3-NX1tpCbX",
+      "bytes": 18687,
+      "sha256": "0a417fa1feb286f0d487c72cd32b2199dab3744fca90c1ac816930b219eaa374",
+      "remote_sha256": "0a417fa1feb286f0d487c72cd32b2199dab3744fca90c1ac816930b219eaa374",
+      "remote_verified": true
+    },
+    {
+      "name": "Milton.metadata.json",
+      "drive_file_id": "1AEeYRg-xJ0OKQCoGWyCTPHbhyivPVWy4",
+      "bytes": 2385,
+      "sha256": "1d985d091845fd0cfbd2877f5303d4562f9034d72ab89cb3517588382c59abdc",
+      "remote_sha256": "1d985d091845fd0cfbd2877f5303d4562f9034d72ab89cb3517588382c59abdc",
+      "remote_verified": true
+    },
+    {
+      "name": "Milton.pgn",
+      "drive_file_id": "19sRB8kM7Nw-1AQ2f_yB7y1MYpdRZ1ePl",
+      "bytes": 150444,
+      "sha256": "c0e8e8a322d8e444824168dcd3c47283b7bce66e9041b30cc92b7e2a4d52a19e",
+      "remote_sha256": "c0e8e8a322d8e444824168dcd3c47283b7bce66e9041b30cc92b7e2a4d52a19e",
+      "remote_verified": true
+    },
+    {
+      "name": "NZ.metadata.json",
+      "drive_file_id": "1xMFRnIEstPbIl841pK6pj9KLeHkAwIo3",
+      "bytes": 2510,
+      "sha256": "8c9cd688cba34636ff779dc8a5c65e3a0c9d6cbe0fe18d730b700602e0722cec",
+      "remote_sha256": "8c9cd688cba34636ff779dc8a5c65e3a0c9d6cbe0fe18d730b700602e0722cec",
+      "remote_verified": true
+    },
+    {
+      "name": "NZ.pgn",
+      "drive_file_id": "1bWIh2DAqfxQkCCTOnoXHPEmT0hG37AMj",
+      "bytes": 413158,
+      "sha256": "32475990f7c7a62a73379104189c61628a4b2014ddb287ad125c0b2a372993f8",
+      "remote_sha256": "32475990f7c7a62a73379104189c61628a4b2014ddb287ad125c0b2a372993f8",
+      "remote_verified": true
+    },
+    {
+      "name": "Radnicki.metadata.json",
+      "drive_file_id": "1WJ5t_Cx_tRg4HjDXUXEjNIBlzmRBhYsZ",
+      "bytes": 3196,
+      "sha256": "1dd6704b0eb59fcca167f0c81ace81b73a35325095d7a6731325cb1f5105dfcd",
+      "remote_sha256": "1dd6704b0eb59fcca167f0c81ace81b73a35325095d7a6731325cb1f5105dfcd",
+      "remote_verified": true
+    },
+    {
+      "name": "Radnicki.pgn",
+      "drive_file_id": "1KQg7gjeDZamIb_GW3tHPj6LYPANPhFaf",
+      "bytes": 165520,
+      "sha256": "2f2a9a9608418d831e6bdcfc71b586abd1472af7fafca14fd9e5d8e2af3716ae",
+      "remote_sha256": "2f2a9a9608418d831e6bdcfc71b586abd1472af7fafca14fd9e5d8e2af3716ae",
+      "remote_verified": true
+    },
+    {
+      "name": "search_Bratislava.json",
+      "drive_file_id": "1M4j-MTl_aND4Host9U6JFIJWGldAXTxI",
+      "bytes": 8905,
+      "sha256": "75fa2f964ec08002ab8115ae419aaa5eb37e1c907d3c48260a3e8fad45cf32a1",
+      "remote_sha256": "75fa2f964ec08002ab8115ae419aaa5eb37e1c907d3c48260a3e8fad45cf32a1",
+      "remote_verified": true
+    },
+    {
+      "name": "search_Norm_Week.json",
+      "drive_file_id": "1ViZMoCZFAzWBwyzPa-HeIDbHKYAa2TK3",
+      "bytes": 3214,
+      "sha256": "1cd60f41226d6bd75a4910bca73ed8864719c1b8fe6c55d8fed44715438ed410",
+      "remote_sha256": "1cd60f41226d6bd75a4910bca73ed8864719c1b8fe6c55d8fed44715438ed410",
+      "remote_verified": true
+    }
+  ],
+  "scientific_state": {
+    "p23": "CLOSED_FAIL",
+    "p24": "OPEN_PRE_OUTCOME",
+    "q0": "DENIED",
+    "support_yield_inspected": false,
+    "full_class_opened": false
+  },
+  "source_hold": "Bratislava GM identity unresolved; no replacement/source preseal/support/outcomes authorized",
+  "notion_pages": [
+    "3c4ef561-cf92-817a-b76b-cab15e7d1faf",
+    "3f2ef561-cf92-8113-8531-cc832c0f3285",
+    "3f2ef561-cf92-81bb-bc44-ee01e85375bd"
+  ]
+}
