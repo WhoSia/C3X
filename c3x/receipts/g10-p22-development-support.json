@@ -1,0 +1,75 @@
+{
+  "schema": "c3x-g10-p22-development-support-v1",
+  "stage": "C3X 0.10.0-G10-P22",
+  "status": "DEVELOPMENT_SUPPORT_PASS_MODEL_SELECTION_PENDING",
+  "constitution_commit": "ad1ac1fd786dda80f4531076094471baa7f94335",
+  "feature_spec_commit": "e8b06a25ffde0acfe26752a67d9fddf5c4647e5f",
+  "development_run": 37549218801,
+  "dataset_artifact_id": 11452051467,
+  "dataset_artifact_zip_sha256": "559c31ecb386a6787ca91a0b02c6e2b4760a631414a038d9b06f780185c36b57",
+  "profile_cells": 180,
+  "profile_unique_uids": 180,
+  "feature_repeatability_failures": 0,
+  "missing_labels": 0,
+  "positives": 21,
+  "negatives": 159,
+  "family_counts": {
+    "MOVE_ORDER": {
+      "positive": 12,
+      "negative": 78
+    },
+    "CUTOFF": {
+      "positive": 9,
+      "negative": 81
+    }
+  },
+  "engine_counts": {
+    "berserk": {
+      "positive": 7,
+      "negative": 49
+    },
+    "ethereal": {
+      "positive": 7,
+      "negative": 55
+    },
+    "stockfish_19": {
+      "positive": 7,
+      "negative": 55
+    }
+  },
+  "ecology_counts": {
+    "P19_SRC_LICHESS_CANDIDATES_2026": {
+      "positive": 10,
+      "negative": 60
+    },
+    "P19_SRC_LICHESS_OLYMPIAD_2026": {
+      "positive": 11,
+      "negative": 67
+    },
+    "P21_WOMEN_CANDIDATES_2026": {
+      "positive": 0,
+      "negative": 20
+    },
+    "P21_WOMEN_OLYMPIAD_2026": {
+      "positive": 0,
+      "negative": 12
+    }
+  },
+  "verdict": "PASS_DEVELOPMENT_SUPPORT",
+  "profile_target_firewall": true,
+  "q0_positive_key_predictor_forbidden": true,
+  "model_selection": {
+    "status": "PENDING_CANONICAL_FIT_REPAIR",
+    "run": 37549716246,
+    "scientific_rules_changed": false,
+    "sealed_dataset_reused": true
+  },
+  "authority_ceiling": [
+    "No activation-field rival is selected by this receipt.",
+    "No held-out transport authority.",
+    "Historical ecologies are development support only."
+  ],
+  "automation_identity": {
+    "actions_writeback": false
+  }
+}
