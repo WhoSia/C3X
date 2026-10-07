@@ -1,0 +1,76 @@
+{
+  "schema": "c3x-g10-p24-source-candidate-registry-v1",
+  "stage": "C3X 0.10.0-G10-P24",
+  "authority": "CANDIDATE_ONLY_NOT_SOURCE_PRESEAL",
+  "created_before_p24_full_class_outcomes": true,
+  "exact_name_repo_search_hits_zero_for_all": true,
+  "design": [
+    {
+      "ecology": "CLASSICAL_ROUND_ROBIN_OR_CLOSED",
+      "calibration_candidate": {
+        "name": "Bratislava Norm Week GM",
+        "date_range": "2026-09-05/2026-09-11",
+        "format": "10-player, 9-round single round robin",
+        "time_control": "90m+30s increment",
+        "broadcast_evidence": "Lichess September 2026 past broadcast; exact parent locator pending",
+        "repo_exact_name_hits": 0
+      },
+      "transfer_candidate": {
+        "name": "Radnicki CC IM 7 2026",
+        "date_range": "2026-09-08/2026-09-14",
+        "format": "10-player, 9-round single round robin",
+        "time_control": "90m+30s increment",
+        "broadcast_evidence": "Public completed event; Lichess parent locator must be independently verified before preseal",
+        "repo_exact_name_hits": 0
+      }
+    },
+    {
+      "ecology": "CLASSICAL_OPEN_OR_SWISS",
+      "calibration_candidate": {
+        "name": "2026 NZ South Island Championship",
+        "date_range": "2026-09-29/2026-10-03",
+        "format": "8-round Swiss",
+        "time_control": "90m+30s increment",
+        "broadcast_evidence": "Lichess tournament page observed; exact parent locator pending",
+        "repo_exact_name_hits": 0
+      },
+      "transfer_candidate": {
+        "name": "1st Berjaya Global Chess Open 2026 - Masters",
+        "date_range": "2026-09-08/2026-09-13",
+        "format": "9-round Swiss",
+        "time_control": "90m+30s increment",
+        "broadcast_evidence": "Lichess broadcast/calendar evidence; exact parent locator pending",
+        "repo_exact_name_hits": 0
+      }
+    },
+    {
+      "ecology": "RAPID_OPEN_OR_ROUND_ROBIN",
+      "calibration_candidate": {
+        "name": "Golders Green FIDE Rapidplay - September 2026 - Open",
+        "date_range": "2026-09-12/2026-09-12",
+        "format": "6-round Swiss",
+        "time_control": "20m+5s increment",
+        "broadcast_evidence": "Lichess past broadcast observed; exact parent locator pending",
+        "repo_exact_name_hits": 0
+      },
+      "transfer_candidate": {
+        "name": "6th Milton Keynes FIDE Rapid Tournament",
+        "date_range": "2026-10-03/2026-10-03",
+        "format": "6-round Swiss",
+        "time_control": "15m+10s increment",
+        "broadcast_evidence": "Lichess tournament page observed; exact parent locator pending",
+        "repo_exact_name_hits": 0
+      }
+    }
+  ],
+  "preseal_blockers": [
+    "Resolve each exact Lichess parent broadcast/tournament identifier; child round IDs are insufficient.",
+    "Download source PGN bytes and record SHA-256 before geometry/support selection.",
+    "Run repository-wide recoverable historical FEN-hash exclusion and cross-cohort duplicate-FEN exclusion.",
+    "Verify all six events are complete at acquisition time.",
+    "Freeze calibration/transfer role assignment before support census.",
+    "Do not replace a source because its support yield is poor after the first source-specific yield is observed unless a presealed source-failure rule authorizes replacement."
+  ],
+  "provider_independence_claim": false,
+  "interpretation": "Candidate matching is based only on pre-outcome event descriptors and public event metadata. No P24 activation endpoint has been opened, and these names do not yet authorize acquisition."
+}
