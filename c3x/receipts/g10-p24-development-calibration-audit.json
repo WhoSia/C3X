@@ -1,0 +1,125 @@
+{
+  "schema": "c3x-g10-p24-development-calibration-audit-receipt-v1",
+  "stage": "C3X 0.10.0-G10-P24",
+  "authority": "DEVELOPMENT_DIAGNOSTIC_ONLY_NO_P24_SCIENTIFIC_AUTHORITY",
+  "constitution_commit": "301074cc08ee5b8e9766304d087757f883a3bb24",
+  "tool_commit": "e74cf67540ce1b4c6e5017ef1f990c719bea1c4b",
+  "inputs": {
+    "p23_prediction_artifact": {
+      "id": 11455581050,
+      "sha256": "726494449e6f5e10ddde37dff805afc28cce80b2812caac59d5ef2412f069fd8"
+    },
+    "p23_full_class_artifacts": [
+      [
+        11454449593,
+        "deb2d17f695877251cac765a3b4f64eaf2a4cc97f42a44af6738b92783d309d5"
+      ],
+      [
+        11454479250,
+        "451fc59fd3d4643c0b0659fad2d1941749b013f944e71e7fa13543e0e8faeb10"
+      ],
+      [
+        11454489163,
+        "29b1145b362a95bd22cdef74030d7aba72ec843d2c4500c0db3da89acc98ecc7"
+      ],
+      [
+        11454588752,
+        "ff9d13bd1351424f092b24bc8c6ec4f2ca462188f083a3410c0425f2b85a81d7"
+      ],
+      [
+        11454683302,
+        "3134b578acc9081210135aa6726f9d4e32fe887a84bff5dcfed82517afd5cbb7"
+      ],
+      [
+        11455247547,
+        "6a83ca56de83f17a181bba25edc635095904c00faf7861dd7070f6f442e6fe9b"
+      ],
+      [
+        11455451363,
+        "9281347884eff93d0c15704d71fd24483bee991d59dbd35c23baf5313c214fd5"
+      ],
+      [
+        11455471347,
+        "cfcfd29a94d26a3ee2d1130f61cab74d1f643ab136538f153d4d27c8fea942c2"
+      ],
+      [
+        11455476164,
+        "b6144b647cd84523d94155cc53018101696c8f01e40420e3ff3d9ec3c3901c7f"
+      ],
+      [
+        11455596330,
+        "3cd85b9017e5b86b6c8cb7866c9c3739e1026fd4642541f12e579195fe77ad7a"
+      ],
+      [
+        11455651137,
+        "5ffa4545528c8dc0fb97176b05f70f82a985b1da1844339f7dfb85c0c90fc764"
+      ],
+      [
+        11455656019,
+        "34c1d6cc778a663c2ffcac250e691b5199495434509dcb841f3a38c6d89ce4ea"
+      ]
+    ],
+    "joined_rows": 100
+  },
+  "allowed_predictors": [
+    "P22 R1 prediction",
+    "engine identity",
+    "time_control_class",
+    "field_structure_class"
+  ],
+  "source_identity_predictor_used": false,
+  "leave_one_source_out": {
+    "best_raw": {
+      "candidate": "C0_GLOBAL",
+      "l2_penalty": 1,
+      "mean_log_loss": 0.5259034698327362
+    },
+    "near_best": [
+      {
+        "candidate": "C2_ECOLOGY",
+        "l2_penalty": 10,
+        "mean_log_loss": 0.5267620109529899
+      },
+      {
+        "candidate": "C0_GLOBAL",
+        "l2_penalty": 10,
+        "mean_log_loss": 0.5270807551528306
+      },
+      {
+        "candidate": "C0_GLOBAL",
+        "l2_penalty": 0.1,
+        "mean_log_loss": 0.5289883759624306
+      },
+      {
+        "candidate": "C2_ECOLOGY",
+        "l2_penalty": 1,
+        "mean_log_loss": 0.5313131883481311
+      },
+      {
+        "candidate": "C3_ENGINE_ECOLOGY",
+        "l2_penalty": 10,
+        "mean_log_loss": 0.5318957082252459
+      },
+      {
+        "candidate": "C1_ENGINE",
+        "l2_penalty": 10,
+        "mean_log_loss": 0.5323485005808508
+      }
+    ],
+    "fold_log_loss_C0_global_lambda_1": {
+      "P23_BIEL_OPEN_MASTERS_2026": 0.6762745736255109,
+      "P23_PRAGUE_MASTERS_2026": 0.4205516240842992,
+      "P23_SAINT_LOUIS_RAPID_2026": 0.4648569037963014
+    }
+  },
+  "frozen_complexity_rule_result": "C0_GLOBAL would win on P23 development data because C2_ECOLOGY is within 0.01 log loss but is more complex.",
+  "threshold_diagnostic": {
+    "note": "For the P23-only development audit, C0_GLOBAL thresholding does not recover the P23 prospective discrimination gate; BA is at most 0.50 on the frozen threshold grid.",
+    "scientific_use": "This is diagnostic only and is not a P24 transfer verdict."
+  },
+  "interpretation": [
+    "P23 heterogeneity is visible in source/engine subsets, but a richer source-blind ecology/engine recalibration does not improve leave-one-source-out log loss enough to defeat the minimum-complexity rule.",
+    "P24 must therefore not presuppose that ecology calibration will succeed.",
+    "The P24 calibration cohort is required to select and fit the final calibration layer; P23 coefficients are forbidden for transfer adjudication."
+  ]
+}
