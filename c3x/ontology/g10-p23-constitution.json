@@ -1,0 +1,128 @@
+{
+  "schema": "c3x-g10-p23-constitution-v1",
+  "scientific_stage": "C3X 0.10.0-G10-P23",
+  "title": "Prospective Chain-Realizability-Constrained Activation Validation, Outcome-Blind World Acquisition under Routed-Chain Support Quotas, Activation-Field External Replication, Support-Selection Bias Firewall, Cross-Ecology Regime Calibration & Q0 Authority Re-entry Experiment",
+  "stage_type": "Experiment",
+  "parent": {
+    "stage": "C3X 0.10.0-G10-P22",
+    "closure_commit": "37d873351a8efdd6eb6d2c328323664cd63a689a",
+    "verdict": "HOLD_HELDOUT_ROUTED_CHAIN_SUPPORT_INSUFFICIENT__DEVELOPMENT_R1_ACTIVATION_FIELD_FROZEN__FULL_CLASS_OUTCOMES_UNOPENED"
+  },
+  "two_track": {
+    "track_A_terminal_question": "Why this near-equal legal move rather than that one, beyond obvious tactical dominance?",
+    "track_A_novelty": "Executable causal support is treated as a first-class prospective transport condition: fresh worlds are admitted using outcome-blind ROUTED-chain realizability and quota rules before activation outcomes.",
+    "track_B_implementation": "GitHub must expose the same support state machine to explanation routing so unsupported PGN positions abstain before mechanism language is generated.",
+    "firewall": "Track-B coverage or UX gains cannot promote Track-A authority; Track-A PASS only authorizes evidence labels consumed by Track B."
+  },
+  "scientific_object": {
+    "activation": "A_f(e,x)=1 iff FULL_CLASS_f support differs from BASE support under the frozen TARGET/SUBSET/SHAM protocol.",
+    "support": "R(e,x)=1 iff frozen pair qualification is active and the frozen router grammar deterministically yields a legal three-arm ROUTED chain for engine e on world x before any FULL_CLASS outcome.",
+    "estimand": "Prospective prediction of A_f(e,x) conditional on R(e,x)=1, with acquisition quotas defined entirely from outcome-blind world/pair/chain information.",
+    "transport_target": "The frozen P22 R1_BOUNDARY_PLUS_LOAD field; no refit before primary held-out adjudication."
+  },
+  "live_rivals": [
+    {
+      "id": "H_SUPPORT_ONLY",
+      "claim": "P22 failed only because support was underpowered; once R=1 quotas are guaranteed, the frozen R1 field transports without recalibration."
+    },
+    {
+      "id": "H_SUPPORT_PLUS_SHIFT",
+      "claim": "Adequate R=1 support is necessary but not sufficient; source/ecology shift changes activation calibration even after support is guaranteed."
+    },
+    {
+      "id": "H_FIELD_FAILURE",
+      "claim": "Adequate support exists but the frozen R1 field fails the preregistered prospective thresholds."
+    }
+  ],
+  "acquisition": {
+    "outcome_blind": true,
+    "forbidden_during_acquisition": [
+      "FULL_CLASS outcome",
+      "activation label",
+      "Q0 fiber outcome",
+      "post-intervention score/PV/WDL",
+      "P22 provisional predictions"
+    ],
+    "allowed": [
+      "FEN/history exclusion",
+      "geometry cell",
+      "pair qualification",
+      "router grammar",
+      "ROUTED-chain structural realizability",
+      "BASE-only support/activity",
+      "engine source lock"
+    ],
+    "source_count_min": 3,
+    "source_ecology_min": 2,
+    "routed_chain_positions_min": 18,
+    "routed_engine_family_cells_min": 54,
+    "per_source_engine_family_cells_min": 12,
+    "engines_min": 2,
+    "pairwise_source_balance_ratio_max": 2,
+    "stop_rule": "Scan frozen sources in predeclared order and stop at the first prefix satisfying all support quotas. Never continue to improve predicted activation balance."
+  },
+  "selection_bias_firewall": {
+    "principle": "Condition on executability, not on treatment response.",
+    "audit": [
+      "No activation/FULL_CLASS/Q0 outcome read before acquisition seal.",
+      "Routed-chain eligibility is computed identically for ACTIVE- and INACTIVE-predicted cells.",
+      "Prediction distribution is inspected only after the acquisition prefix is sealed.",
+      "No source replacement, quota relaxation, or world extension after prediction distribution is seen."
+    ],
+    "diagnostic_only": [
+      "Compare acquired geometry/context distribution with the full source candidate pool.",
+      "Report R=1 yield by source/engine/family.",
+      "Report P22 R1 predicted ACTIVE fraction after seal."
+    ]
+  },
+  "frozen_field": {
+    "source_stage": "C3X 0.10.0-G10-P22",
+    "selected_rival": "R1_BOUNDARY_PLUS_LOAD",
+    "rules": [
+      "base_max_gap_cp > 74.5 => INACTIVE",
+      "base_max_gap_cp <= 30.5 AND candidate_side_event_imbalance > 0.19 => ACTIVE else INACTIVE",
+      "30.5 < base_max_gap_cp <= 74.5 AND family_event_count_target > 1926.5 => ACTIVE else INACTIVE"
+    ],
+    "refit_before_primary_adjudication": false
+  },
+  "primary_adjudication": {
+    "minimum_cells": 54,
+    "require_positive_activation": true,
+    "metrics": {
+      "balanced_accuracy_min": 0.7,
+      "positive_recall_min": 0.5,
+      "negative_specificity_min": 0.7
+    },
+    "source_robustness": "Primary PASS additionally requires balanced accuracy >=0.60 in at least two distinct held-out source ecologies with both classes present; single-class sources are reported but do not count toward this condition.",
+    "verdicts": {
+      "PASS": "All primary pooled thresholds pass and source-robustness condition passes.",
+      "PARTIAL_PASS": "Pooled thresholds pass but source robustness fails, or only a predeclared family-specific subset passes with adequate support.",
+      "FAIL": "Adequate support and positive outcomes exist but pooled thresholds fail.",
+      "HOLD": "Support quotas fail or no positive activation occurs."
+    }
+  },
+  "secondary_calibration": {
+    "opens_only_after_primary": true,
+    "purpose": "Diagnose H_SUPPORT_PLUS_SHIFT after frozen-field adjudication; may estimate source calibration offsets but cannot rescue the primary verdict.",
+    "no_refit_rescue": true
+  },
+  "q0_reentry": {
+    "condition": "Only cells prospectively predicted ACTIVE by a primary-PASS activation field may enter downstream Q0 fiber testing.",
+    "inactive_route": "ABSTAIN_PARENT_CLASS_INACTIVE",
+    "unsupported_route": "ABSTAIN_CHAIN_REALIZABILITY_UNAVAILABLE",
+    "uncertain_route": "ABSTAIN_ACTIVATION_SCOPE_UNCERTAIN"
+  },
+  "paper_program": {
+    "central_claim_candidate": "Executable intervention support can be prospectively separated from mediator activation and used as an outcome-blind sampling constitution for external causal-mechanism validation.",
+    "negative_result_value": "If R1 fails after support is guaranteed, P23 cleanly distinguishes model nontransport from support failure.",
+    "implementation_claim": "The same machine-readable support state can govern explanation abstention in the PGN product without upgrading heuristic commentary to causal authority."
+  },
+  "claim_ceiling": [
+    "Routed-chain conditioning is an experimental support condition, not proof of population representativeness.",
+    "R1 thresholds are frozen empirical rules, not universal chess constants.",
+    "Do not condition source/world acquisition on predicted or observed activation.",
+    "Do not claim human cognition or objective chess truth.",
+    "Do not use Track-B usefulness as evidence for Track-A causal validity."
+  ],
+  "status": "OPEN_PREOUTCOME_CHAIN_REALIZABILITY_ACQUISITION"
+}
