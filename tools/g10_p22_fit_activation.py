@@ -50,12 +50,13 @@ def fold_metric(y,p):
     else:score=tnr
     return {"score":score,"positive_recall":tpr,"negative_specificity":tnr,"tp":tp,"fn":fn,"tn":tn,"fp":fp}
 def pipe(spec,kind):
-    num=spec["num"];cat=spec["cat"]
-    tr=ColumnTransformer([("num",StandardScaler() if kind=="logistic" else "passthrough",num),
-                          ("cat",OneHotEncoder(handle_unknown="ignore",sparse_output=False),cat)],remainder="drop")
+    num=spec["num"];cat=spec["cat"];cols=num+cat
+    ni=list(range(len(num)));ci=list(range(len(num),len(cols)))
+    tr=ColumnTransformer([("num",StandardScaler() if kind=="logistic" else "passthrough",ni),
+                          ("cat",OneHotEncoder(handle_unknown="ignore",sparse_output=False),ci)],remainder="drop")
     if kind=="tree":m=DecisionTreeClassifier(max_depth=3,min_samples_leaf=4,class_weight="balanced",random_state=0)
     else:m=LogisticRegression(C=1.0,class_weight="balanced",max_iter=5000,solver="liblinear",random_state=0)
-    return Pipeline([("prep",tr),("model",m)]),num+cat
+    return Pipeline([("prep",tr),("model",m)]),cols
 def loeo(rows,spec,kind):
     ec=sorted({r["source_id"] for r in rows});folds=[]
     for hold in ec:
@@ -82,7 +83,7 @@ def main():
             break
     spec=RIVALS[selected];cols=spec["num"]+spec["cat"];X=matrix(rows,cols);y=[r["activation"] for r in rows]
     model,_=pipe(spec,"tree");model.fit(X,y)
-    prep=model.named_steps["prep"];names=list(prep.get_feature_names_out());tree=model.named_steps["model"]
+    prep=model.named_steps["prep"];names=list(prep.get_feature_names_out(input_features=cols));tree=model.named_steps["model"]
     rules=export_text(tree,feature_names=names,max_depth=3)
     importances=sorted([{"feature":n,"importance":float(v)} for n,v in zip(names,tree.feature_importances_) if v>0],key=lambda z:-z["importance"])
     positive_sources=sorted({r["source_id"] for r in rows if r["activation"]})
