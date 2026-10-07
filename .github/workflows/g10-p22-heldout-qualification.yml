@@ -5,6 +5,9 @@ on:
     branches: [main]
     paths:
       - '.github/workflows/g10-p22-heldout-qualification.yml'
+      - 'tools/g10_p22_router_project.py'
+      - 'tools/g10_p22_design_adapter.py'
+      - 'tools/g10_p22_pair_gate.py'
   workflow_dispatch:
 
 permissions:
