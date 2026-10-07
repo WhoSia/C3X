@@ -1,0 +1,21 @@
+{
+  "schema": "c3x-g10-p23-acquisition-order-amendment-v1",
+  "stage": "C3X 0.10.0-G10-P23",
+  "parent_source_preseal_commit": "089075b0e32b1459059c49f31daa26d97037f861",
+  "timing": "BEFORE_PGN_ACQUISITION_PAIR_QUALIFICATION_CHAIN_SUPPORT_OR_ACTIVATION_OUTCOMES",
+  "issue": "A source-major concatenation could conflict mechanically with the independently frozen pairwise source-balance ratio <=2.0.",
+  "clarification": {
+    "source_order": [
+      "P23_PRAGUE_MASTERS_2026",
+      "P23_BIEL_OPEN_MASTERS_2026",
+      "P23_SAINT_LOUIS_RAPID_2026"
+    ],
+    "prefix_semantics": "CYCLIC_BALANCED_PREFIX",
+    "algorithm": "Within cycle k, consume at most the kth frozen candidate from source 1, then source 2, then source 3. After each completed cycle, evaluate support quotas. Seal the first completed cycle satisfying every quota.",
+    "within_source_order": "Unchanged frozen geometry-cell canonical order then trajectory_hash then candidate_sha256.",
+    "quotas_changed": false,
+    "sources_changed": false,
+    "outcome_conditioning_added": false
+  },
+  "outcomes_opened": false
+}
