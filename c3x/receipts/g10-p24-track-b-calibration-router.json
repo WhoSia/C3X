@@ -1,0 +1,40 @@
+{
+  "schema": "c3x-g10-p24-track-b-calibration-authority-router-v1",
+  "stage": "C3X 0.10.0-G10-P24",
+  "authority": "IMPLEMENTATION_ONLY_NO_TRACK_A_SCIENTIFIC_AUTHORITY",
+  "implementation": {
+    "router_commit": "fa45d5e82fd6d144cdafade2dcceefd88d38b072",
+    "test_commit": "ba21b628ec0f812479426c9da44187288b55633c",
+    "compatibility_commit": "94ac86d4f8d45fbce7c28fb5977035437b68a730",
+    "new_state": "ABSTAIN_ECOLOGY_CALIBRATION_UNVERIFIED",
+    "semantics": "An otherwise valid causal certificate is suppressed from surface explanation when P24 ecology-calibration transfer authority has not been earned.",
+    "legacy_default_stage": "C3X 0.10.0-G10-P23"
+  },
+  "ci": {
+    "firewall_head": "ba21b628ec0f812479426c9da44187288b55633c",
+    "firewall_repository_hygiene_run": 37572153427,
+    "firewall_explanation_implementation_run": 37572153378,
+    "firewall_explain_i9_run": 37572153307,
+    "firewall_results": [
+      "repository-hygiene SUCCESS",
+      "c3x-explanation-implementation SUCCESS",
+      "c3x-explain-i9 SUCCESS"
+    ],
+    "compatibility_head": "94ac86d4f8d45fbce7c28fb5977035437b68a730",
+    "compatibility_repository_hygiene_run": 37572343971,
+    "compatibility_explanation_implementation_run": 37572343864,
+    "compatibility_explain_i9_run": 37572343908,
+    "compatibility_results": [
+      "repository-hygiene SUCCESS",
+      "c3x-explanation-implementation SUCCESS",
+      "c3x-explain-i9 SUCCESS"
+    ]
+  },
+  "authority_firewall": [
+    "Track B may preserve or reduce causal-language authority but may not create Track A scientific authority.",
+    "No P24 calibration packet may route SUPPORTED solely because product tests pass.",
+    "P24 primary scientific PASS remains required for calibrated activation authority."
+  ],
+  "actions_writeback": false,
+  "canonical_promotion_actor": "WhoSia"
+}
