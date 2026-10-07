@@ -1,0 +1,214 @@
+name: c3x-g10-p23-support-acquisition
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/g10-p23-support-acquisition.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+env:
+  ROUTER_RUN: '37120074387'
+  P16_BUILD_RUN: '36544344858'
+
+jobs:
+  census:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 -m pip install --disable-pip-version-check python-chess==1.999
+      - name: Acquire frozen P23 broadcasts
+        run: |
+          mkdir -p src
+          curl -fL --retry 3 --retry-all-errors 'https://lichess.org/api/broadcast/6u6ftFhp.pgn?clocks=false&comments=false' -o src/prague.pgn
+          curl -fL --retry 3 --retry-all-errors 'https://lichess.org/api/broadcast/RC1kNWka.pgn?clocks=false&comments=false' -o src/biel.pgn
+          curl -fL --retry 3 --retry-all-errors 'https://lichess.org/api/broadcast/sM3C0X6U.pgn?clocks=false&comments=false' -o src/stl-rapid.pgn
+          test -s src/prague.pgn
+          test -s src/biel.pgn
+          test -s src/stl-rapid.pgn
+          sha256sum src/*.pgn | tee src/source-sha256.txt
+      - name: Build outcome-blind candidate pool
+        run: |
+          P="$(sha256sum src/prague.pgn | awk '{print $1}')"
+          B="$(sha256sum src/biel.pgn | awk '{print $1}')"
+          S="$(sha256sum src/stl-rapid.pgn | awk '{print $1}')"
+          python3 tools/g10_p23_candidate_census.py             --source "P23_PRAGUE_MASTERS_2026|src/prague.pgn|https://lichess.org/broadcast/prague-international-chess-festival-2026-masters/6u6ftFhp|$P|1|elite classical round-robin"             --source "P23_BIEL_OPEN_MASTERS_2026|src/biel.pgn|https://lichess.org/broadcast/59th-biel-international-chess-festival-2026-open-masters-mto/RC1kNWka|$B|2|large classical open/Swiss"             --source "P23_SAINT_LOUIS_RAPID_2026|src/stl-rapid.pgn|https://lichess.org/broadcast/gct-saint-louis-rapid-blitz-2026-rapid/sM3C0X6U|$S|3|elite rapid round-robin"             --history-root . --ply-lo 12 --ply-hi 160 --per-source-cell-cap 4 --max-positions-per-source 48             --out g10-p23-candidate-census.json
+          sha256sum g10-p23-candidate-census.json > g10-p23-candidate-census.sha256
+      - uses: actions/upload-artifact@v4
+        with:
+          name: g10-p23-candidate-census
+          path: |
+            g10-p23-candidate-census.json
+            g10-p23-candidate-census.sha256
+            src/source-sha256.txt
+          retention-days: 90
+
+  project:
+    needs: census
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: g10-p23-candidate-census
+          path: census
+      - uses: actions/download-artifact@v4
+        with:
+          name: g10-p16-router-freeze-sealed
+          path: router
+          repository: WhoSia/C3X
+          run-id: ${{ env.ROUTER_RUN }}
+          github-token: ${{ github.token }}
+      - run: |
+          python3 tools/g10_p23_router_project.py             --census census/g10-p23-candidate-census.json             --router router/g10-p16-router-freeze.json             --out g10-p23-projected.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: g10-p23-projected
+          path: g10-p23-projected.json
+          retention-days: 90
+
+  design:
+    needs: project
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 -m pip install --disable-pip-version-check python-chess==1.999
+      - uses: actions/download-artifact@v4
+        with:
+          name: g10-p23-projected
+          path: state
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: g95-p16-build-*
+          path: builds
+          repository: WhoSia/C3X
+          run-id: ${{ env.P16_BUILD_RUN }}
+          github-token: ${{ github.token }}
+      - run: |
+          python3 tools/g10_p23_design_adapter.py             --projected state/g10-p23-projected.json             --legacy-p16-constitution c3x/ontology/g95-p16-constitution.json             --build-dir builds --out g10-p23-design.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: g10-p23-design
+          path: g10-p23-design.json
+          retention-days: 90
+
+  qualify:
+    needs: design
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      max-parallel: 12
+      matrix:
+        shard: [0,1,2,3,4,5,6,7,8,9,10,11]
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 -m pip install --disable-pip-version-check python-chess==1.999
+      - uses: actions/download-artifact@v4
+        with:
+          name: g10-p23-design
+          path: state
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: g95-p16-build-*
+          path: builds
+          repository: WhoSia/C3X
+          run-id: ${{ env.P16_BUILD_RUN }}
+          github-token: ${{ github.token }}
+      - run: |
+          mkdir -p out
+          PYTHONPATH=. python3 tools/g10_p5_p16_shard.py             --phase qualify --state state/g10-p23-design.json --build-dir builds             --shard ${{ matrix.shard }} --shards 12 --out-dir out
+      - uses: actions/upload-artifact@v4
+        with:
+          name: g10-p23-qualify-${{ matrix.shard }}
+          path: out/
+          retention-days: 90
+
+  pair:
+    needs: qualify
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 -m pip install --disable-pip-version-check python-chess==1.999
+      - uses: actions/download-artifact@v4
+        with:
+          name: g10-p23-design
+          path: state
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: g10-p23-qualify-*
+          path: quals
+      - run: |
+          PYTHONPATH=. python3 harness/g95_p16_court.py pair-freeze             --design state/g10-p23-design.json --qualifications quals             --out g10-p23-pair-freeze.json
+          sha256sum g10-p23-pair-freeze.json > g10-p23-pair-freeze.sha256
+      - uses: actions/upload-artifact@v4
+        with:
+          name: g10-p23-pair-freeze
+          path: |
+            g10-p23-pair-freeze.json
+            g10-p23-pair-freeze.sha256
+          retention-days: 90
+
+  support:
+    needs: pair
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      max-parallel: 12
+      matrix:
+        shard: [0,1,2,3,4,5,6,7,8,9,10,11]
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 -m pip install --disable-pip-version-check python-chess==1.999
+      - uses: actions/download-artifact@v4
+        with:
+          name: g10-p23-projected
+          path: corpus
+      - uses: actions/download-artifact@v4
+        with:
+          name: g10-p23-pair-freeze
+          path: pair
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: g95-p16-build-*
+          path: builds
+          repository: WhoSia/C3X
+          run-id: ${{ env.P16_BUILD_RUN }}
+          github-token: ${{ github.token }}
+      - run: |
+          mkdir -p out
+          python3 harness/g10_p23_executable_support.py             --corpus corpus/g10-p23-projected.json             --pair-freeze pair/g10-p23-pair-freeze.json             --build-dir builds --shard ${{ matrix.shard }} --shards 12 --out-dir out
+      - uses: actions/upload-artifact@v4
+        with:
+          name: g10-p23-support-${{ matrix.shard }}
+          path: out/*.json
+          retention-days: 90
+
+  seal:
+    needs: support
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: g10-p23-candidate-census
+          path: census
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: g10-p23-support-*
+          path: support
+          merge-multiple: true
+      - name: Seal first balanced executable-support prefix
+        run: |
+          python3 tools/g10_p23_support_seal.py             --candidate-census census/g10-p23-candidate-census.json             --support-root support             --out g10-p23-executable-support-seal.json
+          sha256sum g10-p23-executable-support-seal.json > g10-p23-executable-support-seal.sha256
+      - uses: actions/upload-artifact@v4
+        with:
+          name: g10-p23-executable-support-seal
+          path: |
+            g10-p23-executable-support-seal.json
+            g10-p23-executable-support-seal.sha256
+          retention-days: 90
