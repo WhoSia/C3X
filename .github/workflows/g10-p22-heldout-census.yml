@@ -1,0 +1,41 @@
+name: c3x-g10-p22-heldout-census
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/g10-p22-heldout-census.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  census:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 -m pip install --disable-pip-version-check python-chess==1.999
+      - name: Acquire frozen held-out broadcasts
+        run: |
+          mkdir -p src
+          curl -fL --retry 3 --retry-all-errors             'https://lichess.org/api/broadcast/kDQUxYbE.pgn?clocks=false&comments=false'             -o src/norway-open.pgn
+          curl -fL --retry 3 --retry-all-errors             'https://lichess.org/api/broadcast/JWIgkNkS.pgn?clocks=false&comments=false'             -o src/europe-b1-66.pgn
+          sha256sum src/norway-open.pgn src/europe-b1-66.pgn | tee src/source-sha256.txt
+          test -s src/norway-open.pgn
+          test -s src/europe-b1-66.pgn
+      - name: Run geometry-only held-out census
+        run: |
+          N_SHA="$(sha256sum src/norway-open.pgn | awk '{print $1}')"
+          E_SHA="$(sha256sum src/europe-b1-66.pgn | awk '{print $1}')"
+          python3 tools/g10_p22_heldout_census.py             --source "P22_NORWAY_CHESS_OPEN_2026|src/norway-open.pgn|https://lichess.org/broadcast/norway-chess-2026-open/kDQUxYbE|$N_SHA"             --source "P22_EUROPEAN_INDIVIDUAL_2026_B1_66|src/europe-b1-66.pgn|https://lichess.org/broadcast/european-individual-chess-championship-2026-boards-1-66/JWIgkNkS|$E_SHA"             --history-root . --ply-lo 12 --ply-hi 160             --min-cell-support 4 --per-source-cell 2 --max-common-cells 8             --out g10-p22-heldout-census.json
+          sha256sum g10-p22-heldout-census.json > g10-p22-heldout-census.sha256
+      - uses: actions/upload-artifact@v4
+        with:
+          name: g10-p22-heldout-census
+          path: |
+            g10-p22-heldout-census.json
+            g10-p22-heldout-census.sha256
+            src/source-sha256.txt
+          retention-days: 90
