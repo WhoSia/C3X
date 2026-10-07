@@ -1,0 +1,119 @@
+name: c3x-g10-p22-heldout-prediction-seal
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/g10-p22-heldout-prediction-seal.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+env:
+  QUAL_RUN: '37551014813'
+  P16_BUILD_RUN: '36544344858'
+  P20C_RUN: '37419447937'
+
+jobs:
+  profile:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      max-parallel: 8
+      matrix:
+        shard: [0,1,2,3,4,5,6,7]
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 -m pip install --disable-pip-version-check python-chess==1.999
+      - uses: actions/download-artifact@v4
+        with:
+          name: g10-p22-heldout-projected
+          path: corpus
+          repository: WhoSia/C3X
+          run-id: ${{ env.QUAL_RUN }}
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: g10-p22-heldout-pair-sealed
+          path: pair
+          repository: WhoSia/C3X
+          run-id: ${{ env.QUAL_RUN }}
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: g95-p16-build-*
+          path: p16builds
+          repository: WhoSia/C3X
+          run-id: ${{ env.P16_BUILD_RUN }}
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: g10-p20c-build-*
+          path: p20cbuilds
+          repository: WhoSia/C3X
+          run-id: ${{ env.P20C_RUN }}
+          github-token: ${{ github.token }}
+      - name: Measure BASE-only profiles and compile frozen R1 predictions
+        run: |
+          mkdir -p out
+          python3 harness/g10_p22_heldout_profile.py             --corpus corpus/g10-p22-heldout-projected.json             --pair-freeze pair/g10-p22-heldout-pair-freeze.json             --p16-build-dir p16builds --p20c-build-dir p20cbuilds             --shard ${{ matrix.shard }} --shards 8 --out-dir out
+      - uses: actions/upload-artifact@v4
+        with:
+          name: g10-p22-heldout-profile-${{ matrix.shard }}
+          path: out/*.json
+          retention-days: 90
+
+  seal:
+    needs: profile
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: g10-p22-heldout-profile-*
+          path: rows
+          merge-multiple: true
+      - name: Seal held-out predictions without FULL_CLASS outcomes
+        run: |
+          python3 - <<'PY'
+          import glob,json,collections
+          rows=[]
+          for p in sorted(glob.glob('rows/*.json')):
+            x=json.load(open(p))
+            if x.get('schema')=='c3x-g10-p22-heldout-profile-v1': rows.append(x)
+          assert len(rows)==58, len(rows)
+          unstable=[x['uid'] for x in rows if not x['feature_repeatable']]
+          opened=[x['uid'] for x in rows if x.get('full_class_outcome_opened')]
+          pred=collections.Counter(int(x['prediction']) for x in rows)
+          bysrc=collections.defaultdict(lambda:collections.Counter())
+          byfam=collections.defaultdict(lambda:collections.Counter())
+          byeng=collections.defaultdict(lambda:collections.Counter())
+          for x in rows:
+            bysrc[x['source_id']][int(x['prediction'])]+=1
+            byfam[x['family']][int(x['prediction'])]+=1
+            byeng[x['engine']][int(x['prediction'])]+=1
+          out={'schema':'c3x-g10-p22-heldout-prediction-seal-v1','stage':'C3X 0.10.0-G10-P22',
+            'selected_rival':'R1_BOUNDARY_PLUS_LOAD','rows':len(rows),'unstable_profiles':unstable,
+            'full_class_outcomes_opened':bool(opened),'prediction_counts':dict(pred),
+            'prediction_counts_by_source':{k:dict(v) for k,v in bysrc.items()},
+            'prediction_counts_by_family':{k:dict(v) for k,v in byfam.items()},
+            'prediction_counts_by_engine':{k:dict(v) for k,v in byeng.items()},
+            'predictions':[{'uid':x['uid'],'position_id':x['position_id'],'source_id':x['source_id'],'engine':x['engine'],
+              'family':x['family'],'prediction':int(x['prediction']),'base_max_gap_cp':x['base_max_gap_cp'],
+              'candidate_side_event_imbalance':x['candidate_side_event_imbalance'],
+              'family_event_count_target':x['family_event_count_target']} for x in rows],
+            'verdict':'PASS_PREDICTION_SEAL' if not unstable and not opened else 'HOLD_PREDICTION_SEAL'}
+          open('g10-p22-heldout-prediction-seal.json','w').write(json.dumps(out,indent=2,sort_keys=True)+'\n')
+          print(json.dumps({k:out[k] for k in ['rows','unstable_profiles','full_class_outcomes_opened','prediction_counts','prediction_counts_by_source','prediction_counts_by_family','prediction_counts_by_engine','verdict']},indent=2,sort_keys=True))
+          if out['verdict']!='PASS_PREDICTION_SEAL': raise SystemExit('P22_PREDICTION_SEAL_HOLD')
+          PY
+          sha256sum g10-p22-heldout-prediction-seal.json > g10-p22-heldout-prediction-seal.sha256
+      - uses: actions/upload-artifact@v4
+        with:
+          name: g10-p22-heldout-prediction-seal
+          path: |
+            g10-p22-heldout-prediction-seal.json
+            g10-p22-heldout-prediction-seal.sha256
+          retention-days: 90
