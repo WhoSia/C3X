@@ -375,3 +375,20 @@ def test_p23_supported_route_preserves_bounded_causal_certificate():
     causal=[a for m in out["moments"] for a in m["atoms"] if a["provenance"]==CAUSAL]
     assert causal and causal[0]["claim"]["certificate_id"]=="p23-supported"
     assert out["authority_packet_count"]==1
+
+
+def test_p24_unverified_ecology_calibration_blocks_causal_certificate_surface():
+    import chess,chess.pgn,io
+    g=chess.pgn.read_game(io.StringIO(PGN));b=g.board()
+    cert={"schema":"c3x-causal-contrast-certificate-v1","fen":b.fen(),"certificate_id":"p24-blocked",
+          "pair_id":"e2e4::d2d4","bound":"LOWER","family":"OWN|DISPREFERRED_FROM_LOSS","collapse_to":"e2e4"}
+    route={"schema":"c3x-explanation-authority-route-v1","position_fen":b.fen(),
+           "state":"ABSTAIN_ECOLOGY_CALIBRATION_UNVERIFIED","source_stage":"C3X 0.10.0-G10-P24"}
+    out=analyze_pgn(PGN,certificates=[cert],authority_packets=[route])
+    causal=[a for m in out["moments"] for a in m["atoms"] if a["provenance"]==CAUSAL]
+    routing=[a for m in out["moments"] for a in m["atoms"] if a["type"]=="mechanism_authority_route"]
+    assert causal==[]
+    assert routing and routing[0]["claim"]["state"]=="ABSTAIN_ECOLOGY_CALIBRATION_UNVERIFIED"
+    assert "source-disjoint cohort" in routing[0]["text"]
+    assert out["causal_authority_blocked_moments"]>=1
+    assert all(m["firewall"]["pass"] for m in out["moments"])
