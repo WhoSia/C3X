@@ -1,0 +1,40 @@
+name: c3x-g10-p22-development-fit-repair
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/g10-p22-development-fit-repair.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+env:
+  DATA_RUN: '37549218801'
+
+jobs:
+  fit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 -m pip install --disable-pip-version-check scikit-learn==1.7.2 numpy==2.3.3
+      - uses: actions/download-artifact@v4
+        with:
+          name: g10-p22-development-dataset
+          path: data
+          repository: WhoSia/C3X
+          run-id: ${{ env.DATA_RUN }}
+          github-token: ${{ github.token }}
+      - name: Fit frozen rival family on sealed dataset
+        run: |
+          python3 tools/g10_p22_fit_activation.py             --dataset data/g10-p22-development-dataset.json             --out g10-p22-development-activation-field.json
+          sha256sum g10-p22-development-activation-field.json > g10-p22-development-activation-field.sha256
+      - uses: actions/upload-artifact@v4
+        with:
+          name: g10-p22-development-activation-field
+          path: |
+            g10-p22-development-activation-field.json
+            g10-p22-development-activation-field.sha256
+          retention-days: 90
