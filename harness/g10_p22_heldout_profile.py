@@ -38,7 +38,9 @@ def main():
  for idx,(p,z) in enumerate(admitted):
   if idx%a.shards!=a.shard:continue
   m=meta[p];pair=z["pair"];route=m["router_grammar"];ch=p19.choose_chain(m["fen"],pair,route)
-  if ch is None:raise SystemExit("P22_CHAIN_NONE "+p)
+  if ch is None:
+   (out/f"{idx:03d}-STRUCTURAL-ABSTAIN.json").write_text(json.dumps({"schema":"c3x-g10-p22-heldout-structural-abstention-v1","stage":"C3X 0.10.0-G10-P22","position_id":p,"source_id":z["source_id"],"reason":"ROUTED_CHAIN_UNAVAILABLE","activation_outcomes_opened":False},indent=2,sort_keys=True)+"\n")
+   continue
   A=pair["A"]["uci"];B=pair["B"]["uci"]
   for e,v in sorted(z["engine_views"].items()):
    if not v.get("active"):continue
