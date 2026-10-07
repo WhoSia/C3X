@@ -1,0 +1,105 @@
+{
+  "schema": "c3x-g10-p22-closure-v1",
+  "scientific_stage": "C3X 0.10.0-G10-P22",
+  "title": "Prospective Mediator-Class Activation Field & Context-Gated Preference-Susceptibility Transport, Pre-Intervention Search-Ecology Conditioning, Class-Effect Onset/Extinction Boundary Reconstruction, Engine×World Regime Partition, Held-Out Activation Prediction, Q0-Fiber Authority Routing & Contrastive Explanation Scope Experiment",
+  "status": "CLOSED_HOLD",
+  "official_verdict": "HOLD_HELDOUT_ROUTED_CHAIN_SUPPORT_INSUFFICIENT__DEVELOPMENT_R1_ACTIVATION_FIELD_FROZEN__FULL_CLASS_OUTCOMES_UNOPENED",
+  "parent": {
+    "stage": "C3X 0.10.0-G10-P21",
+    "closure_commit": "939c422c7085614746bf4af433ee9bc026df2bea",
+    "verdict": "HOLD_FRESH_CLASS_EFFECT_SUPPORT_ABSENT__DEVELOPMENT_Q0_MEDIATION_PRESERVED__FRESH_FIBER_TRANSPORT_UNADJUDICABLE"
+  },
+  "development": {
+    "support_receipt_commit": "0a99ef93ee2c92a3b2f1b507767e82a85373ef6e",
+    "field_receipt_commit": "c2471cd966fca3d0307e96a7b94389657b2367d9",
+    "rows": 180,
+    "positives": 21,
+    "negatives": 159,
+    "selected_rival": "R1_BOUNDARY_PLUS_LOAD",
+    "tree_loeo": {
+      "R0_BOUNDARY_ONLY": 0.48217718227046585,
+      "R1_BOUNDARY_PLUS_LOAD": 0.5892215061058345,
+      "R2_CONTEXT_GATED": 0.6005851424694708,
+      "R3_ENGINE_CONDITIONAL": 0.5892215061058345
+    },
+    "selected_rule": [
+      "If base_max_gap_cp > 74.5: INACTIVE.",
+      "If base_max_gap_cp <= 30.5 and candidate_side_event_imbalance > 0.19: ACTIVE; otherwise INACTIVE.",
+      "If 30.5 < base_max_gap_cp <= 74.5 and family_event_count_target > 1926.5: ACTIVE; otherwise INACTIVE."
+    ],
+    "interpretation": "Boundary proximity alone was insufficient under the frozen rival-selection criterion; mediator-family BASE search-load geometry added the only qualifying >=0.10 LOEO improvement. Broader chess context and engine identity did not clear incremental selection gates.",
+    "authority": "DEVELOPMENT_ONLY"
+  },
+  "heldout": {
+    "preseal_commit": "97e6a024d463f2e860303e782b1a5747c1fa6f3e",
+    "census": {
+      "run": 37550371354,
+      "receipt_commit": "cef0877a35c999514f667eac9375746d6acadfaf",
+      "positions": 32,
+      "common_cells": 8,
+      "sources": [
+        "P22_NORWAY_CHESS_OPEN_2026",
+        "P22_EUROPEAN_INDIVIDUAL_2026_B1_66"
+      ],
+      "verdict": "PASS_HELDOUT_WORLD_ECOLOGY_READY"
+    },
+    "corrected_pair_qualification": {
+      "run": 37551014813,
+      "head": "083bcbd469f68e7d44f61104b96c56a60492b1b4",
+      "admitted_positions": 11,
+      "active_engine_family_cells_before_chain": 58,
+      "source_cells": {
+        "P22_EUROPEAN_INDIVIDUAL_2026_B1_66": 30,
+        "P22_NORWAY_CHESS_OPEN_2026": 28
+      },
+      "verdict": "PASS_HELDOUT_PAIR_SUPPORT"
+    },
+    "prediction_seal_attempt": {
+      "run": 37553900449,
+      "workflow_head": "3d43756ef2af6fc17b245aab7cb700751796760c",
+      "full_class_outcomes_opened": false,
+      "routed_chain_structural_abstentions": 6,
+      "realized_profile_cells": 28,
+      "presealed_minimum_cells": 36,
+      "sources": [
+        "P22_EUROPEAN_INDIVIDUAL_2026_B1_66",
+        "P22_NORWAY_CHESS_OPEN_2026"
+      ],
+      "engines": [
+        "stockfish_19",
+        "berserk",
+        "ethereal"
+      ],
+      "feature_repeatability_failures": 0,
+      "provisional_prediction_counts": {
+        "INACTIVE": 18,
+        "ACTIVE": 10
+      },
+      "verdict": "HOLD_PREDICTION_SEAL_SUPPORT_INSUFFICIENT",
+      "note": "Predictions were mechanically computed on 28 structurally eligible cells but receive no held-out scientific vote because the presealed support minimum failed before outcome opening."
+    }
+  },
+  "scientific_conclusion": [
+    "P22 identifies a development activation-field candidate in which BASE boundary geometry plus mediator-family search load outperforms boundary-only prediction under the frozen LOEO criterion.",
+    "Prospective external validation cannot open because deterministic ROUTED-chain construction reduces the held-out evaluation surface from 58 pair-qualified cells to 28 cells, below the frozen minimum of 36.",
+    "The HOLD is upstream of activation outcomes: no held-out FULL_CLASS intervention was opened.",
+    "Therefore the development R1 field is neither confirmed nor falsified by P22.",
+    "The limiting object is now support constitution: activation-field validation requires an acquisition rule that prospectively guarantees enough ROUTED-chain-realizable engine×world×family cells without conditioning on activation outcomes."
+  ],
+  "claim_ceiling": [
+    "Do not claim held-out activation transport.",
+    "Do not score the 28 provisional predictions against FULL_CLASS outcomes.",
+    "Do not lower the 36-cell gate or add worlds within P22 after seeing chain support.",
+    "Do not interpret the R1 tree thresholds as universal constants or causal mechanisms.",
+    "Do not route Q0-fiber authority from the development field."
+  ],
+  "successor": {
+    "proposed_stage": "C3X 0.10.0-G10-P23",
+    "proposed_title": "Prospective Chain-Realizability-Constrained Activation Validation, Outcome-Blind World Acquisition under Routed-Chain Support Quotas, Activation-Field External Replication, Support-Selection Bias Firewall, Cross-Ecology Regime Calibration & Q0 Authority Re-entry Experiment",
+    "core_question": "Can a fresh world-acquisition design that freezes ROUTED-chain realizability/support quotas before activation outcomes produce an adequately powered external test of the frozen P22 R1 activation field without selecting on mediator-class effects?"
+  },
+  "automation_identity": {
+    "actions_writeback": false,
+    "canonical_promotion_actor": "WhoSia"
+  }
+}
