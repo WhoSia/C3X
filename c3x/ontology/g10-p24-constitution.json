@@ -101,13 +101,27 @@
     ],
     "model": "Penalized logistic recalibration; no source-identity coefficient and no source-specific intercept.",
     "penalty": "L2 only on non-intercept calibration coefficients; penalty grid frozen before calibration outcomes.",
-    "selection": "Calibration-cohort leave-one-source-out log loss primary, balanced accuracy secondary; choose the lowest-complexity candidate within 0.01 mean log loss of the best candidate. Classification threshold is selected inside calibration data only from a frozen finite grid and then sealed.",
+    "selection": "Calibration-cohort leave-one-source-out log loss primary, balanced accuracy secondary; jointly select candidate+L2 penalty by mean held-out log loss, then choose the lowest-complexity candidate within 0.01 log loss of the best. Within that chosen candidate/penalty, choose the threshold from the frozen grid maximizing held-out balanced accuracy, breaking ties toward the higher threshold. Freeze model, coefficients and threshold before transfer outcomes.",
     "forbidden": [
       "post-transfer refit",
       "drop a transfer source",
       "add an event-specific coefficient",
       "change ecology labels after outcomes",
       "family-specific rescue of the primary verdict"
+    ],
+    "penalty_grid": [
+      0.1,
+      1,
+      10
+    ],
+    "threshold_grid": [
+      0.2,
+      0.25,
+      0.3,
+      0.35,
+      0.4,
+      0.45,
+      0.5
     ]
   },
   "primary_transfer": {
