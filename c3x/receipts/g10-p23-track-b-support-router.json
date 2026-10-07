@@ -1,0 +1,41 @@
+{
+  "schema": "c3x-g10-p23-track-b-support-router-receipt-v1",
+  "stage": "C3X 0.10.0-G10-P23",
+  "track": "B_EXPLANATION_IMPLEMENTATION",
+  "scientific_authority": "NONE",
+  "commits": {
+    "authority_router": "acc462c27c230db8d2933421432e95c03b52c5ce",
+    "core_integration": "69d03db2f4ae3d4dd6f31393923436f7969f81e9",
+    "regression_tests": "17a5121a77035a54fbc07396ccbaea7eeed5fb38"
+  },
+  "behavior": {
+    "states": [
+      "SUPPORTED",
+      "ABSTAIN_CHAIN_REALIZABILITY_UNAVAILABLE",
+      "ABSTAIN_PARENT_CLASS_INACTIVE",
+      "ABSTAIN_ACTIVATION_SCOPE_UNCERTAIN"
+    ],
+    "backward_compatibility": "No authority packet => LEGACY_UNSCOPED; existing certificate behavior preserved.",
+    "causal_gate": "When an applicable authority packet abstains, C3X causal certificate atoms are not surfaced.",
+    "supported_route": "SUPPORTED preserves bounded certificate-based causal contrast.",
+    "provenance": "Authority-route atoms are CONVENTIONAL_HEURISTIC_COMMENTARY with routing/abstention authority only."
+  },
+  "ci": {
+    "i9": {
+      "run": 37555625843,
+      "job": "verify",
+      "conclusion": "success"
+    },
+    "explanation_implementation": {
+      "run": 37555626757,
+      "unit": "success",
+      "pinned_stockfish_smoke": "success"
+    }
+  },
+  "firewall": [
+    "Track B PASS does not promote Track A science.",
+    "Support routing can only preserve or reduce causal-language authority; it cannot create a causal certificate.",
+    "ABSTAIN states make no negative claim about chess quality or human intent."
+  ],
+  "purpose": "Bind P23 executable-support science to a deployable machine-readable causal-language authority router without scientific leakage."
+}
