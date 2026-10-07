@@ -1,0 +1,48 @@
+{
+  "schema": "c3x-g10-p22-heldout-census-receipt-v1",
+  "stage": "C3X 0.10.0-G10-P22",
+  "status": "HELDOUT_WORLD_ECOLOGY_READY",
+  "preseal_commit": "97e6a024d463f2e860303e782b1a5747c1fa6f3e",
+  "run": 37550371354,
+  "artifact_id": 11452267966,
+  "artifact_zip_sha256": "fb89eca219004979f445648055cff044da40a673f3a317a2a2958387d88d0586",
+  "sources": {
+    "P22_NORWAY_CHESS_OPEN_2026": {
+      "games": 45,
+      "positions_selected": 16,
+      "source_sha256": "3ce7720d99dc8be5d682bf606897895da62c8ae4febcc50c812ed0d03dbbfc71"
+    },
+    "P22_EUROPEAN_INDIVIDUAL_2026_B1_66": {
+      "games": 726,
+      "positions_selected": 16,
+      "source_sha256": "8cf998959e945e67726dc549aba57a3d6a1edd3f77ed5240b7d04265b9a17df6"
+    }
+  },
+  "gate": {
+    "positions": 32,
+    "common_cells": 8,
+    "phase_levels": [
+      "RICH",
+      "TRANSITIONAL"
+    ],
+    "branching_levels": [
+      "MEDIUM",
+      "NARROW",
+      "WIDE"
+    ],
+    "tactical_levels": [
+      "FORCED_CHECK",
+      "QUIET_SURFACE",
+      "TACTICAL_AVAILABLE"
+    ],
+    "history_hashes_excluded": 11,
+    "history_json_files_scanned": 232,
+    "cross_source_duplicate_fens_excluded": 18
+  },
+  "activation_predictions_consulted": false,
+  "engine_outcomes_opened": false,
+  "full_class_outcomes_opened": false,
+  "provider_independence_claimed": false,
+  "verdict": "PASS_HELDOUT_WORLD_ECOLOGY_READY",
+  "next": "Frozen near-equal pair qualification and ROUTED chain construction before BASE-only R1 profiling."
+}
