@@ -1,0 +1,90 @@
+{
+  "schema": "c3x-g10-p23-source-preseal-v1",
+  "stage": "C3X 0.10.0-G10-P23",
+  "constitution_commit": "c08aaa500849c303b57d3117758c14c3a423aedc",
+  "status": "FROZEN_BEFORE_FRESH_PGN_ACQUISITION_AND_ANY_ACTIVATION_OUTCOME",
+  "sources": [
+    {
+      "order": 1,
+      "id": "P23_PRAGUE_MASTERS_2026",
+      "provider": "Lichess broadcast",
+      "tournament_id": "6u6ftFhp",
+      "group_id": "SYA5eoQt",
+      "url": "https://lichess.org/broadcast/prague-international-chess-festival-2026-masters/6u6ftFhp",
+      "ecology": "elite classical round-robin",
+      "completed": true,
+      "repo_exact_name_match_preseal": false
+    },
+    {
+      "order": 2,
+      "id": "P23_BIEL_OPEN_MASTERS_2026",
+      "provider": "Lichess broadcast",
+      "tournament_id": "RC1kNWka",
+      "group_id": "yqkWayAW",
+      "url": "https://lichess.org/broadcast/59th-biel-international-chess-festival-2026-open-masters-mto/RC1kNWka",
+      "ecology": "large classical open/Swiss",
+      "completed": true,
+      "repo_exact_name_match_preseal": false
+    },
+    {
+      "order": 3,
+      "id": "P23_SAINT_LOUIS_RAPID_2026",
+      "provider": "Lichess broadcast",
+      "tournament_id": "sM3C0X6U",
+      "group_id": "PT0AX6St",
+      "url": "https://lichess.org/broadcast/gct-saint-louis-rapid-blitz-2026-rapid/sM3C0X6U",
+      "ecology": "elite rapid round-robin",
+      "completed": true,
+      "repo_exact_name_match_preseal": false
+    }
+  ],
+  "source_order_binding": true,
+  "provider_independence_claimed": false,
+  "freshness": "event-new + recoverable exact-world-disjoint + prospective activation outcome; provider independence not claimed",
+  "candidate_pool": {
+    "historical_fen_and_candidate_hash_exclusion": true,
+    "cross_source_duplicate_fen_exclusion": true,
+    "ply_range": [
+      12,
+      160
+    ],
+    "geometry_cell": "phase × branching × tactical_surface",
+    "per_source_cell_cap": 4,
+    "max_positions_per_source": 32,
+    "min_geometry_levels": {
+      "phase": 2,
+      "branching": 2,
+      "tactical_surface": 2
+    },
+    "ordering": "geometry-cell canonical order, then trajectory_hash, then candidate_sha256",
+    "engine_outcome_blind": true,
+    "activation_prediction_blind": true,
+    "full_class_outcome_blind": true
+  },
+  "acquisition_support": {
+    "support_unit": "engine × world × family",
+    "families": [
+      "MOVE_ORDER",
+      "CUTOFF"
+    ],
+    "frozen_router": "G10-P16 router freeze",
+    "pair_qualification": "G9.5-P16 deterministic pair qualification",
+    "chain_realizability": "deterministic choose_chain(world,pair,router_grammar) != null and all three arms legal/measurable",
+    "quotas": {
+      "source_count_min": 3,
+      "ecology_count_min": 2,
+      "routed_chain_positions_min": 18,
+      "routed_engine_family_cells_min": 54,
+      "per_source_engine_family_cells_min": 12,
+      "engines_min": 2,
+      "pairwise_source_balance_ratio_max": 2
+    },
+    "prefix_stop": "Process sources in order 1→2→3 and worlds in frozen candidate order. Seal the first prefix that satisfies every quota. Do not continue to improve R1 predicted ACTIVE balance."
+  },
+  "forbidden_before_support_seal": [
+    "P22 R1 ACTIVE/INACTIVE prediction on candidate worlds",
+    "FULL_CLASS MOVE_ORDER/CUTOFF outcome",
+    "Q0 fiber intervention",
+    "post-intervention PV/WDL/score"
+  ]
+}
