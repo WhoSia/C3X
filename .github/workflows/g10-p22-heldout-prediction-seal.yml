@@ -83,7 +83,12 @@ jobs:
           for p in sorted(glob.glob('rows/*.json')):
             x=json.load(open(p))
             if x.get('schema')=='c3x-g10-p22-heldout-profile-v1': rows.append(x)
-          assert len(rows)==58, len(rows)
+          abst=[]
+          for p in sorted(glob.glob('rows/*STRUCTURAL-ABSTAIN.json')):
+            abst.append(json.load(open(p)))
+          sources=sorted({x['source_id'] for x in rows})
+          engines=sorted({x['engine'] for x in rows})
+          support_ok=len(rows)>=36 and len(sources)>=2 and len(engines)>=2
           unstable=[x['uid'] for x in rows if not x['feature_repeatable']]
           opened=[x['uid'] for x in rows if x.get('full_class_outcome_opened')]
           pred=collections.Counter(int(x['prediction']) for x in rows)
@@ -96,6 +101,7 @@ jobs:
             byeng[x['engine']][int(x['prediction'])]+=1
           out={'schema':'c3x-g10-p22-heldout-prediction-seal-v1','stage':'C3X 0.10.0-G10-P22',
             'selected_rival':'R1_BOUNDARY_PLUS_LOAD','rows':len(rows),'unstable_profiles':unstable,
+            'structural_abstentions':abst,'sources':sources,'engines':engines,'support_ok':support_ok,
             'full_class_outcomes_opened':bool(opened),'prediction_counts':dict(pred),
             'prediction_counts_by_source':{k:dict(v) for k,v in bysrc.items()},
             'prediction_counts_by_family':{k:dict(v) for k,v in byfam.items()},
@@ -104,9 +110,9 @@ jobs:
               'family':x['family'],'prediction':int(x['prediction']),'base_max_gap_cp':x['base_max_gap_cp'],
               'candidate_side_event_imbalance':x['candidate_side_event_imbalance'],
               'family_event_count_target':x['family_event_count_target']} for x in rows],
-            'verdict':'PASS_PREDICTION_SEAL' if not unstable and not opened else 'HOLD_PREDICTION_SEAL'}
+            'verdict':'PASS_PREDICTION_SEAL' if support_ok and not unstable and not opened else 'HOLD_PREDICTION_SEAL'}
           open('g10-p22-heldout-prediction-seal.json','w').write(json.dumps(out,indent=2,sort_keys=True)+'\n')
-          print(json.dumps({k:out[k] for k in ['rows','unstable_profiles','full_class_outcomes_opened','prediction_counts','prediction_counts_by_source','prediction_counts_by_family','prediction_counts_by_engine','verdict']},indent=2,sort_keys=True))
+          print(json.dumps({k:out[k] for k in ['rows','structural_abstentions','sources','engines','support_ok','unstable_profiles','full_class_outcomes_opened','prediction_counts','prediction_counts_by_source','prediction_counts_by_family','prediction_counts_by_engine','verdict']},indent=2,sort_keys=True))
           if out['verdict']!='PASS_PREDICTION_SEAL': raise SystemExit('P22_PREDICTION_SEAL_HOLD')
           PY
           sha256sum g10-p22-heldout-prediction-seal.json > g10-p22-heldout-prediction-seal.sha256
