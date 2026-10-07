@@ -101,7 +101,7 @@
     ],
     "model": "Penalized logistic recalibration; no source-identity coefficient and no source-specific intercept.",
     "penalty": "L2 only on non-intercept calibration coefficients; penalty grid frozen before calibration outcomes.",
-    "selection": "Calibration-cohort leave-one-source-out log loss primary, balanced accuracy secondary; jointly select candidate+L2 penalty by mean held-out log loss, then choose the lowest-complexity candidate within 0.01 log loss of the best. Within that chosen candidate/penalty, choose the threshold from the frozen grid maximizing held-out balanced accuracy, breaking ties toward the higher threshold. Freeze model, coefficients and threshold before transfer outcomes.",
+    "selection": "Calibration-cohort leave-one-source-out log loss primary, balanced accuracy secondary. First identify all candidate+penalty pairs within 0.01 mean held-out log loss of the global best; choose the lowest-complexity candidate represented in that set. Within that chosen candidate choose the penalty with the lowest mean held-out log loss, breaking exact ties toward the larger penalty. Then choose the threshold from the frozen grid maximizing held-out balanced accuracy, breaking ties toward the higher threshold. Freeze candidate, penalty, coefficients and threshold before transfer outcomes.",
     "forbidden": [
       "post-transfer refit",
       "drop a transfer source",
@@ -154,5 +154,13 @@
     "negative_result_value": "If P24 fails, the paper identifies regime instability that persists even after support control and explicit prospective calibration.",
     "contribution_boundary": "No claim of inventing transportability, domain adaptation, calibration, or mechanistic interpretability causal identification."
   },
-  "status": "OPEN_PREOUTCOME_CALIBRATION_AND_TRANSFER_PRESEAL"
+  "status": "OPEN_PREOUTCOME_CALIBRATION_AND_TRANSFER_PRESEAL",
+  "preoutcome_reconciliations": [
+    {
+      "issue": "Penalty tie-break was implicit in the initial P24 preseal.",
+      "resolution": "Within the selected minimum-complexity candidate, choose the penalty with minimum held-out log loss; exact tie -> larger penalty.",
+      "timing": "Before any P24 calibration- or transfer-cohort FULL_CLASS outcome is opened.",
+      "scientific_degree_of_freedom_changed": false
+    }
+  ]
 }
