@@ -1,0 +1,78 @@
+{
+  "schema": "c3x-g10-p23-executable-support-receipt-v1",
+  "stage": "C3X 0.10.0-G10-P23",
+  "status": "EXECUTABLE_SUPPORT_SEALED_ACTIVATION_OUTCOMES_UNOPENED",
+  "constitution_commit": "c08aaa500849c303b57d3117758c14c3a423aedc",
+  "source_preseal_commit": "089075b0e32b1459059c49f31daa26d97037f861",
+  "balanced_prefix_amendment_commit": "1a206efa02cc04a01b399dc338b33cba2e595271",
+  "sample_size_amendment_commit": "faafa7faa236cb6a4dead8f11ed0ceeb26ca86e6",
+  "execution": {
+    "run": 37555378804,
+    "workflow_head": "5e65bf62aba0b1c24d204a569b50ac79d1f86b5d",
+    "candidate_pool": {
+      "total": 144,
+      "per_source": 48
+    },
+    "router": {
+      "routed": 89,
+      "abstained": 55,
+      "by_source": {
+        "P23_PRAGUE_MASTERS_2026": 29,
+        "P23_BIEL_OPEN_MASTERS_2026": 32,
+        "P23_SAINT_LOUIS_RAPID_2026": 28
+      }
+    },
+    "pair_freeze": {
+      "pairs": 73,
+      "active_engine_views": 183,
+      "chain_positions": 32
+    },
+    "qualification_shards": "12/12 SUCCESS",
+    "support_shards": "12/12 SUCCESS",
+    "support_artifact_id": 11455150854,
+    "support_artifact_zip_sha256": "7e7e5085e593969ba99ff57556004f9c756fe20504bbafa114327d1e700166e9"
+  },
+  "seal": {
+    "verdict": "PASS_P23_EXECUTABLE_SUPPORT",
+    "sealed_cycle": 23,
+    "routed_chain_positions": 20,
+    "engine_family_cells": 100,
+    "engines": [
+      "stockfish_19",
+      "berserk",
+      "ethereal"
+    ],
+    "cells_by_source": {
+      "P23_PRAGUE_MASTERS_2026": 34,
+      "P23_BIEL_OPEN_MASTERS_2026": 36,
+      "P23_SAINT_LOUIS_RAPID_2026": 30
+    },
+    "source_balance_ratio": 1.2,
+    "frozen_quotas": {
+      "routed_chain_positions_min": 18,
+      "engine_family_cells_min": 54,
+      "per_source_engine_family_cells_min": 12,
+      "engines_min": 2,
+      "source_balance_ratio_max": 2
+    }
+  },
+  "scientific_result": [
+    "P23 prospectively obtained adequate executable intervention support under an outcome-blind source/world acquisition rule.",
+    "The support population was sealed before any P22-R1 activation prediction distribution, FULL_CLASS response, or Q0 intervention outcome was consulted.",
+    "This resolves the specific support-constitution failure that stopped P22, without changing the P22 activation field or P23 activation thresholds."
+  ],
+  "authority": "SUPPORT_CONSTITUTION_ONLY",
+  "activation_predictions_consulted": false,
+  "full_class_outcomes_consulted": false,
+  "q0_outcomes_consulted": false,
+  "claim_ceiling": [
+    "No activation transport claim yet.",
+    "No statement that R=1 support population represents all chess positions.",
+    "No Q0 authority re-entry yet.",
+    "Track-B support-router PASS creates no Track-A scientific authority."
+  ],
+  "automation_identity": {
+    "actions_writeback": false,
+    "canonical_promotion_actor": "WhoSia"
+  }
+}
