@@ -1,0 +1,31 @@
+{
+  "schema": "c3x-g10-p22-heldout-router-scope-correction-v1",
+  "stage": "C3X 0.10.0-G10-P22",
+  "failed_run": 37550844235,
+  "failed_job": "project",
+  "observed_projection": {
+    "routed_positions": 16,
+    "abstained_positions": 16,
+    "routed_cells": 4,
+    "positions_by_source": {
+      "P22_EUROPEAN_INDIVIDUAL_2026_B1_66": 8,
+      "P22_NORWAY_CHESS_OPEN_2026": 8
+    }
+  },
+  "scientific_outcomes_opened": false,
+  "activation_predictions_opened": false,
+  "pair_qualification_outcomes_opened": false,
+  "full_class_outcomes_opened": false,
+  "defect": "The P22 router adapter introduced a post-router 24-position/6-cell support gate copied conceptually from earlier confirmation stages, although P22's held-out preseal assigns support authority to the already-passed 24-position geometry census and the downstream >=36 active engine×world×family pair gate.",
+  "correction": "Router projection becomes grammar-assignment-only. It may proceed when each frozen source contributes at least one routed world. No routed-position/cell/level threshold is scientific authority in P22.",
+  "unchanged": [
+    "held-out sources",
+    "32-position geometry corpus",
+    "P16 frozen router policy",
+    "pair qualification rules",
+    ">=36 active engine×world×family final support minimum",
+    "R1 activation field",
+    "held-out accuracy/recall/specificity thresholds"
+  ],
+  "rationale": "The correction removes an unauthorized extra gate before any engine or activation outcome is opened; it does not relax any frozen P22 scientific threshold."
+}
