@@ -1,0 +1,28 @@
+{
+  "schema": "c3x-g10-p24-chat-mode-only-execution-policy-v1",
+  "stage": "C3X 0.10.0-G10-P24",
+  "authority": "EXECUTION_GOVERNANCE_ONLY_NO_SCIENTIFIC_VERDICT_CHANGE",
+  "decision": "P24 will no longer use Work Mode. All remaining P24 scientific judgment and execution will continue in Chat Mode.",
+  "rationale": [
+    "The critical remaining work is authority-sensitive: replacement-source selection, source preseal, FEN-disjointness audit interpretation, support-seal adjudication, calibration model sealing, transfer opening, and Q0 re-entry judgment.",
+    "Keeping these steps in one Chat preserves a single visible decision surface and reduces handoff ambiguity.",
+    "The prior Work Mode handoff artifact remains historical provenance only and is not active authorization."
+  ],
+  "preserved_state": {
+    "p23": "CLOSED_FAIL",
+    "p24": "OPEN_PRE_OUTCOME",
+    "q0": "DENIED",
+    "bratislava": "SOURCE_IDENTITY_UNRESOLVED_PREOUTCOME_REPLACEMENT_AUTHORIZED",
+    "support_yield_inspected": false,
+    "full_class_opened": false
+  },
+  "hard_rules": [
+    "No post-outcome source replacement.",
+    "No github-actions[bot] authored or committed history.",
+    "Track B cannot create Track A authority.",
+    "Negative P19-P23 verdicts remain binding.",
+    "Drive custody remains byte custody only, not source preseal."
+  ],
+  "supersedes_operationally": "The prepared P24 Work Mode handoff prompt is retained as historical documentation but will not be used for P24.",
+  "authored_by": "WhoSia via authenticated GitHub connector"
+}
