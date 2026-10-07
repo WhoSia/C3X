@@ -1,0 +1,81 @@
+{
+  "schema": "c3x-g10-p23-activation-prediction-receipt-v1",
+  "stage": "C3X 0.10.0-G10-P23",
+  "status": "PREDICTIONS_SEALED_FULL_CLASS_UNOPENED",
+  "support_receipt_commit": "938eb49285e88223bcf28577c7f60adc975096f8",
+  "frozen_field": {
+    "source_stage": "C3X 0.10.0-G10-P22",
+    "selected_rival": "R1_BOUNDARY_PLUS_LOAD",
+    "refit": false
+  },
+  "execution": {
+    "run": 37556593357,
+    "workflow_head": "539fafd721dd05646fd6b788bfacc56c886fb950",
+    "profile_shards": "12/12 SUCCESS",
+    "artifact_id": 11455581050,
+    "artifact_zip_sha256": "726494449e6f5e10ddde37dff805afc28cce80b2812caac59d5ef2412f069fd8"
+  },
+  "seal": {
+    "verdict": "PASS_P23_PREDICTION_SEAL",
+    "rows": 100,
+    "feature_repeatability_failures": 0,
+    "predictions": {
+      "ACTIVE": 36,
+      "INACTIVE": 64
+    },
+    "by_source": {
+      "P23_BIEL_OPEN_MASTERS_2026": {
+        "ACTIVE": 13,
+        "INACTIVE": 23
+      },
+      "P23_PRAGUE_MASTERS_2026": {
+        "ACTIVE": 13,
+        "INACTIVE": 21
+      },
+      "P23_SAINT_LOUIS_RAPID_2026": {
+        "ACTIVE": 10,
+        "INACTIVE": 20
+      }
+    },
+    "by_family": {
+      "CUTOFF": {
+        "ACTIVE": 18,
+        "INACTIVE": 32
+      },
+      "MOVE_ORDER": {
+        "ACTIVE": 18,
+        "INACTIVE": 32
+      }
+    },
+    "by_engine": {
+      "berserk": {
+        "ACTIVE": 11,
+        "INACTIVE": 23
+      },
+      "ethereal": {
+        "ACTIVE": 13,
+        "INACTIVE": 21
+      },
+      "stockfish_19": {
+        "ACTIVE": 12,
+        "INACTIVE": 20
+      }
+    }
+  },
+  "full_class_outcomes_opened": false,
+  "q0_outcomes_opened": false,
+  "scientific_rules_frozen_before_distribution": [
+    "FULL_CLASS runner commit 37d1e5b6908933cb969ab8ae2cf9cfb7213e1d8c",
+    "prospective adjudicator commit 6b483f1f7e44c8d9e1cdf7241d5049a668c5b592"
+  ],
+  "authority": "PREDICTION_SEAL_ONLY",
+  "claim_ceiling": [
+    "No prospective accuracy or transport claim until FULL_CLASS outcomes open.",
+    "Prediction distribution cannot be used to alter sample, sources, thresholds, runner, or adjudicator.",
+    "Q0 authority remains closed."
+  ],
+  "automation_identity": {
+    "actions_writeback": false,
+    "canonical_promotion_actor": "WhoSia"
+  }
+}
