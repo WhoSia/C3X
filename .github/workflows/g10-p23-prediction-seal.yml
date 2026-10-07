@@ -1,0 +1,111 @@
+name: c3x-g10-p23-prediction-seal
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/g10-p23-prediction-seal.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+env:
+  SUPPORT_RUN: '37555378804'
+  P20C_RUN: '37419447937'
+
+jobs:
+  profile:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      max-parallel: 12
+      matrix:
+        shard: [0,1,2,3,4,5,6,7,8,9,10,11]
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 -m pip install --disable-pip-version-check python-chess==1.999
+      - uses: actions/download-artifact@v4
+        with:
+          name: g10-p23-executable-support-seal
+          path: seal
+          repository: WhoSia/C3X
+          run-id: ${{ env.SUPPORT_RUN }}
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: g10-p23-support-*
+          path: support
+          merge-multiple: true
+          repository: WhoSia/C3X
+          run-id: ${{ env.SUPPORT_RUN }}
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: g10-p20c-build-*
+          path: builds
+          repository: WhoSia/C3X
+          run-id: ${{ env.P20C_RUN }}
+          github-token: ${{ github.token }}
+      - name: Measure BASE-only R1 features and compile frozen predictions
+        run: |
+          mkdir -p out
+          python3 harness/g10_p23_prediction_profile.py             --seal seal/g10-p23-executable-support-seal.json             --support-root support --build-dir builds             --shard ${{ matrix.shard }} --shards 12 --out-dir out
+      - uses: actions/upload-artifact@v4
+        with:
+          name: g10-p23-prediction-profile-${{ matrix.shard }}
+          path: out/*.json
+          retention-days: 90
+
+  seal:
+    needs: profile
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: g10-p23-prediction-profile-*
+          path: rows
+          merge-multiple: true
+      - name: Seal frozen R1 predictions before FULL_CLASS outcomes
+        run: |
+          python3 - <<'PY'
+          import glob,json,collections
+          rows=[]
+          for p in sorted(glob.glob('rows/*.json')):
+            x=json.load(open(p))
+            if x.get('schema')=='c3x-g10-p23-activation-prediction-profile-v1':rows.append(x)
+          assert len(rows)==100,len(rows)
+          unstable=[x['uid'] for x in rows if not x['feature_repeatable']]
+          opened=[x['uid'] for x in rows if x.get('full_class_outcome_opened') or x.get('q0_outcome_opened')]
+          pred=collections.Counter(int(x['prediction']) for x in rows)
+          bysrc=collections.defaultdict(collections.Counter);byfam=collections.defaultdict(collections.Counter);byeng=collections.defaultdict(collections.Counter)
+          for x in rows:
+            bysrc[x['source_id']][int(x['prediction'])]+=1
+            byfam[x['family']][int(x['prediction'])]+=1
+            byeng[x['engine']][int(x['prediction'])]+=1
+          out={'schema':'c3x-g10-p23-activation-prediction-seal-v1','stage':'C3X 0.10.0-G10-P23',
+               'support_receipt_commit':'938eb49285e88223bcf28577c7f60adc975096f8',
+               'selected_rival':'R1_BOUNDARY_PLUS_LOAD','rows':len(rows),'unstable_profiles':unstable,
+               'full_class_outcomes_opened':bool(opened),'prediction_counts':dict(pred),
+               'prediction_counts_by_source':{k:dict(v) for k,v in bysrc.items()},
+               'prediction_counts_by_family':{k:dict(v) for k,v in byfam.items()},
+               'prediction_counts_by_engine':{k:dict(v) for k,v in byeng.items()},
+               'predictions':[{'uid':x['uid'],'position_id':x['position_id'],'source_id':x['source_id'],'engine':x['engine'],'family':x['family'],
+                               'prediction':int(x['prediction']),'base_max_gap_cp':x['base_max_gap_cp'],
+                               'candidate_side_event_imbalance':x['candidate_side_event_imbalance'],
+                               'family_event_count_target':x['family_event_count_target']} for x in rows],
+               'verdict':'PASS_P23_PREDICTION_SEAL' if not unstable and not opened else 'HOLD_P23_PREDICTION_SEAL'}
+          open('g10-p23-activation-prediction-seal.json','w').write(json.dumps(out,indent=2,sort_keys=True)+'\n')
+          print(json.dumps({k:out[k] for k in ['rows','unstable_profiles','full_class_outcomes_opened','prediction_counts','prediction_counts_by_source','prediction_counts_by_family','prediction_counts_by_engine','verdict']},indent=2,sort_keys=True))
+          if out['verdict']!='PASS_P23_PREDICTION_SEAL':raise SystemExit('P23_PREDICTION_SEAL_HOLD')
+          PY
+          sha256sum g10-p23-activation-prediction-seal.json > g10-p23-activation-prediction-seal.sha256
+      - uses: actions/upload-artifact@v4
+        with:
+          name: g10-p23-activation-prediction-seal
+          path: |
+            g10-p23-activation-prediction-seal.json
+            g10-p23-activation-prediction-seal.sha256
+          retention-days: 90
