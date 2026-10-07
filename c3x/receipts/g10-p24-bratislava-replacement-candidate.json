@@ -1,0 +1,29 @@
+{
+  "schema": "c3x-g10-p24-bratislava-replacement-candidate-v1",
+  "stage": "C3X 0.10.0-G10-P24",
+  "authority": "PRE_OUTCOME_CANDIDATE_ONLY_NO_SOURCE_PRESEAL",
+  "replaces": "Bratislava Norm Week GM (unresolved GM vs IM A/B identity)",
+  "candidate": "2026 Charlotte Spring Norm Invitational — GM",
+  "ecology": "CLASSICAL_ROUND_ROBIN_OR_CLOSED",
+  "event_start": "2026-03-18",
+  "event_end": "2026-03-22",
+  "format": "10-player, 9-round single round-robin",
+  "time_control": "90 minutes plus 30 seconds increment",
+  "verified_public_evidence": [
+    "https://lichess.org/broadcast/2026-charlotte-spring-norm-invitational/3hq9MXIq",
+    "https://lichess.org/broadcast/2026-charlotte-spring-norm-invitational--gm/round-9/UxSO2MGW",
+    "https://chess.stream/Invitational/Pairings/Games?PGNFileID=13719",
+    "https://theweekinchess.com/html/twic1637.html"
+  ],
+  "github_exact_name_check": "No matching code-search results for Charlotte Spring in WhoSia/C3X at time of candidate court; this is not proof of FEN/world freshness.",
+  "not_verified": [
+    "GM-section tournament parent ID",
+    "exact raw PGN bytes and SHA256",
+    "historical FEN overlap",
+    "cross-cohort disjointness",
+    "frozen calibration source-role promotion",
+    "executable-support yield"
+  ],
+  "prohibited_inference": "Do not interpret candidate eligibility as source preseal or P24 calibration confirmation.",
+  "outcomes_opened": false
+}
