@@ -50,7 +50,7 @@ def authority_atom(packet:dict[str,Any])->dict[str,Any]:
     return {
       "type":"mechanism_authority_route","provenance":HEURISTIC,
       "authority":"c3x_precausal_authority_router",
-      "claim":{"state":state,"source_stage":packet.get("source_stage","C3X 0.10.0-G10-P24"),
+      "claim":{"state":state,"source_stage":packet.get("source_stage","C3X 0.10.0-G10-P23"),
                "support_receipt":packet.get("support_receipt"),"authority_ceiling":"routing/abstention only"},
       "text":text
     }
