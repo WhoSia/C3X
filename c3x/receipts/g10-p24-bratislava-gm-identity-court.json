@@ -1,0 +1,67 @@
+{
+  "court": "C3X G10-P24 Bratislava Norm Week GM — Final Bounded Source-Identity Court",
+  "recorded_date": "2026-10-07",
+  "status": "SOURCE_IDENTITY_UNRESOLVED_PREOUTCOME_REPLACEMENT_AUTHORIZED",
+  "authority_scope": "Pre-outcome source-identity determination only. This receipt does not freeze or preseal any P24 source and does not authorize an autonomous replacement choice.",
+  "candidate": {
+    "intended_source": "Bratislava Norm Week GM",
+    "intended_event_window": "2026-09-05 through 2026-09-11",
+    "cohort_role": "calibration candidate"
+  },
+  "identity_evidence": [
+    {
+      "source": "https://lichess.org/broadcast/calendar/2026/9",
+      "observation": "The September 5 calendar entry labelled Bratislava Norm Week GM (Pacher GM, Volosin GM, Kraus) resolves through its linked round to IM A Round 1, not to a GM parent."
+    },
+    {
+      "source": "https://lichess.org/broadcast/bratislava-norm-week-im-a/round-1/5UAuxN9L",
+      "observation": "Calendar-linked child round 5UAuxN9L is titled Bratislava Norm Week - IM A, Round 1."
+    },
+    {
+      "source": "https://lichess.org/api/broadcast/cWFvNWrm",
+      "observation": "Parent cWFvNWrm is Bratislava Norm Week - IM A. Its standings metadata points to Chess-Results TNR 1453532. Its rounds are marked finished."
+    },
+    {
+      "source": "https://lichess.org/api/broadcast/YOPnkvvJ",
+      "observation": "Parent YOPnkvvJ is Bratislava Norm Week - IM B. Both IM A and IM B belong to group 7PCAd5wq; the group exposes only those two tours."
+    },
+    {
+      "source": "https://s1.chess-results.com/tnr1453532.aspx?lan=1&art=0",
+      "observation": "The live standings page identifies TNR 1453532 as Bratislava Norm Week - IM - A - September."
+    },
+    {
+      "source": "https://s1.chess-results.com/tnr1453538.aspx?lan=1&art=0",
+      "observation": "The previously indexed GM candidate TNR 1453538 currently returns Record not found; the stale/indexed title is not sufficient to bind it to current raw broadcast bytes."
+    }
+  ],
+  "bounded_queries": {
+    "lichess_broadcast_search": [
+      "Bratislava Norm Week GM",
+      "Bratislava Norm Week",
+      "Bratislava GM September 2026",
+      "1453538",
+      "1453532"
+    ],
+    "result": "Current official search exposed IM A and IM B tours but no independently locatable GM parent."
+  },
+  "determination": {
+    "exact_parent_source_established": false,
+    "same_event_or_section_relation_to_available_im_a_im_b_established": false,
+    "deterministic_subset_scope_established": false,
+    "reason": "The official calendar shortcut points to an IM A child round; the available parent group contains only IM A and IM B; the separate GM tournament identifier is not currently resolvable. The evidence does not establish that either IM section, their union, or a deterministic subset corresponds to the intended GM source."
+  },
+  "authorized_consequence": "SOURCE_IDENTITY_UNRESOLVED_PREOUTCOME_REPLACEMENT_AUTHORIZED applies only to replacement for this pre-outcome identity/coverage defect. Replacement identity selection is returned to Chat Mode; none is selected here.",
+  "outcome_boundary": {
+    "routed_chain_support_inspected": false,
+    "activation_outcomes_inspected": false,
+    "pgn_bytes_opened_for_this_court": false,
+    "support_yield_observed": false,
+    "full_class_outcome_opened": false
+  },
+  "stage_state": {
+    "p24": "OPEN / PRE-OUTCOME",
+    "p23": "CLOSED / FAIL",
+    "q0_reentry": "DENIED",
+    "source_preseal": "NOT ESTABLISHED"
+  }
+}
