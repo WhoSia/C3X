@@ -126,17 +126,19 @@
   },
   "primary_transfer": {
     "frozen_endpoints": {
-      "log_loss": "Must improve over uncalibrated R1 on the transfer cohort.",
-      "brier": "Must improve over uncalibrated R1 on the transfer cohort.",
+      "calibration_comparator": "C0_GLOBAL fit on the same frozen calibration cohort under the same penalty-selection procedure; no source identity.",
+      "log_loss": "For a non-C0 selected model, transfer log loss must be strictly lower than the calibration-cohort-fitted C0_GLOBAL comparator. For C0 selection, report global recalibration without claiming ecology/engine calibration gain.",
+      "brier": "For a non-C0 selected model, transfer Brier score must be strictly lower than the calibration-cohort-fitted C0_GLOBAL comparator. For C0 selection, report global recalibration without claiming ecology/engine calibration gain.",
       "balanced_accuracy_min": 0.7,
       "positive_recall_min": 0.5,
       "negative_specificity_min": 0.7,
       "source_robustness": "BA >= 0.60 in at least two transfer sources with both classes."
     },
     "verdicts": {
-      "PASS": "Calibration and discrimination gates pass prospectively on the locked transfer cohort.",
-      "PARTIAL_PASS": "Calibration improves but discrimination or cross-source robustness misses a frozen gate.",
-      "FAIL": "Adequate support/positive outcomes exist but calibration fails to improve or pooled discrimination fails materially.",
+      "PASS_ECOLOGY_ENGINE_TRANSPORT": "A non-C0 candidate is selected and beats C0_GLOBAL on transfer log loss and Brier while all frozen discrimination/source-robustness gates pass.",
+      "PASS_GLOBAL_RECALIBRATION_ONLY": "C0_GLOBAL is selected and all frozen discrimination/source-robustness gates pass. This restores calibrated transport without evidence that ecology/engine terms add transferable value.",
+      "PARTIAL_PASS": "Calibration/discrimination evidence is mixed: e.g. a non-C0 model improves calibration but misses a discrimination/source gate, or C0 improves calibration but misses a frozen gate.",
+      "FAIL": "Adequate support/positive outcomes exist but the sealed selected model fails the frozen prospective transfer requirements.",
       "HOLD": "A cohort fails support quotas or the transfer cohort has no positive activation."
     }
   },
@@ -161,6 +163,12 @@
       "resolution": "Within the selected minimum-complexity candidate, choose the penalty with minimum held-out log loss; exact tie -> larger penalty.",
       "timing": "Before any P24 calibration- or transfer-cohort FULL_CLASS outcome is opened.",
       "scientific_degree_of_freedom_changed": false
+    },
+    {
+      "issue": "Initial wording compared transfer log loss/Brier against raw binary uncalibrated R1, which leaves probability clipping unspecified and makes the calibration comparison ill-posed.",
+      "resolution": "Use a calibration-cohort-fitted C0_GLOBAL model as the probability-calibration comparator. Distinguish PASS_GLOBAL_RECALIBRATION_ONLY from PASS_ECOLOGY_ENGINE_TRANSPORT.",
+      "timing": "Before any P24 calibration- or transfer-cohort FULL_CLASS outcome is opened.",
+      "scientific_degree_of_freedom_changed": "Comparator semantics clarified; no fresh P24 outcomes or source-conditioned results were opened."
     }
   ]
 }
