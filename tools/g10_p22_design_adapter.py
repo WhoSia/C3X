@@ -12,7 +12,7 @@ def sha_file(p):
 def main():
  ap=argparse.ArgumentParser();ap.add_argument("--projected",required=True);ap.add_argument("--legacy-p16-constitution",required=True);ap.add_argument("--build-dir",required=True);ap.add_argument("--out",required=True);a=ap.parse_args()
  corp=load(a.projected);old=load(a.legacy_p16_constitution)
- if corp.get("verdict")!="PASS_HELDOUT_ROUTER_SUPPORT":raise SystemExit("P22_PROJECT_NOT_PASS")
+ if corp.get("verdict")!="PASS_HELDOUT_ROUTER_PROJECTION":raise SystemExit("P22_PROJECT_NOT_PASS")
  if old.get("schema")!="c3x-g95-p16-constitution-v1":raise SystemExit("P22_P16_CONST")
  sys.path.insert(0,str(Path(__file__).resolve().parents[1]/"harness"));import p32_event_court as p32
  engines=("stockfish_19","berserk","ethereal");variants={}
