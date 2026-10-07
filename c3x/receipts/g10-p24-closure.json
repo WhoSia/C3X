@@ -1,0 +1,48 @@
+{
+  "schema": "c3x-g10-p24-closure-v1",
+  "scientific_stage": "C3X 0.10.0-G10-P24",
+  "title": "Prospective Ecology-Calibrated Activation Transport, Frozen Source-Shift & Engine-Conditional Regime Decomposition, Support-Preserving Domain-Shift Falsification, Cross-Ecology Calibration Transfer, Q0 Re-entry Reauthorization & Authority-Safe Mechanism Routing Experiment",
+  "status": "CLOSED_HOLD",
+  "official_verdict": "CLOSED_ADMINISTRATIVE_HOLD_SOURCE_PRESEAL_INCOMPLETE__CALIBRATION_AND_TRANSFER_OUTCOMES_UNOPENED__NO_SCIENTIFIC_TRANSPORT_ADJUDICATION",
+  "closure_kind": "USER_REQUESTED_EARLY_STAGE_CLOSURE_NOT_A_PRESEALED_SUPPORT_GATE_RESULT",
+  "parent_stage": "C3X 0.10.0-G10-P23",
+  "parent_verdict": "FAIL_P23_ACTIVATION_TRANSPORT__EXECUTABLE_SUPPORT_PASS__FRESH_CALIBRATION_SHIFT__Q0_REENTRY_DENIED",
+  "preserved_positive_objects": [
+    "P24 calibration family C0/C1/C2/C3 with pre-outcome grids, tie-breaks, and same-cohort C0 comparator sealed",
+    "P23 historical-development diagnostic: 100 joined cells, best C0_GLOBAL L2=1.0 LOEO log loss 0.525903 (NO P24 authority)",
+    "Track B ABSTAIN_ECOLOGY_CALIBRATION_UNVERIFIED implemented and prior CI passed",
+    "Full P19-P23 manuscript narrative materialized",
+    "Five source PGNs plus custody ZIP hash/remote byte match stored in Drive"
+  ],
+  "source_identity_state": {
+    "bratislava": "SOURCE_IDENTITY_UNRESOLVED_PREOUTCOME_REPLACEMENT_AUTHORIZED",
+    "replacement_candidate": "2026 Charlotte Spring Norm Invitational — GM",
+    "replacement_candidate_receipt_commit": "0168345d842d294d0b321963e9b449501f38c092",
+    "replacement_status": "CANDIDATE_ONLY_NOT_SOURCE_PRESEAL",
+    "other_five": "Parent identities and raw PGN bytes previously byte-custodied; scientific FEN audits not opened",
+    "six_source_preseal": false
+  },
+  "primary_experiment": {
+    "historical_fen_audit_completed": false,
+    "cross_cohort_fen_audit_completed": false,
+    "calibration_executable_support_sealed": false,
+    "transfer_executable_support_sealed": false,
+    "calibration_full_class_outcomes_opened": false,
+    "transfer_full_class_outcomes_opened": false,
+    "calibration_model_frozen": false,
+    "comparator_frozen": false,
+    "transfer_metrics": null,
+    "q0_reentry": "DENIED"
+  },
+  "claim_ceiling": [
+    "Do not claim P24 calibration PASS, PARTIAL PASS, or scientific FAIL.",
+    "Do not call presealed experimental support gate failed: it was never tested.",
+    "Do not treat custody or replacement candidacy as scientific preseal.",
+    "Do not alter the P23 prospective FAIL.",
+    "Do not present provisional model-selection diagnostics as P24 transport evidence."
+  ],
+  "manuscript": "Retain P24 as preregistered-but-not-executed follow-up in methods/limitations; do not invent P24 results.",
+  "execution_mode": "CHAT_MODE_ONLY",
+  "next_stage": "C3X 0.10.0-G10-P25",
+  "automation_history": "NO github-actions[bot] authored history authorized"
+}
