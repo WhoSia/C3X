@@ -1,0 +1,68 @@
+{
+  "schema": "c3x-g10-p22-development-activation-v1",
+  "stage": "C3X 0.10.0-G10-P22",
+  "status": "DEVELOPMENT_FIELD_FROZEN_HELDOUT_UNOPENED",
+  "support_receipt_commit": "0a99ef93ee2c92a3b2f1b507767e82a85373ef6e",
+  "dataset": {
+    "run": 37549218801,
+    "artifact_id": 11452051467,
+    "artifact_zip_sha256": "559c31ecb386a6787ca91a0b02c6e2b4760a631414a038d9b06f780185c36b57",
+    "rows": 180,
+    "positives": 21,
+    "negatives": 159,
+    "feature_repeatability_failures": 0,
+    "missing_labels": 0
+  },
+  "fit": {
+    "repair_run": 37549716246,
+    "artifact_id": 11452590616,
+    "artifact_zip_sha256": "951833366c4e4faaf18c528eb6ed171579e4eb1b9f6219b6eeeff262aed82ec3",
+    "selected_rival": "R1_BOUNDARY_PLUS_LOAD",
+    "tree_loeo_scores": {
+      "R0_BOUNDARY_ONLY": 0.48217718227046585,
+      "R1_BOUNDARY_PLUS_LOAD": 0.5892215061058345,
+      "R2_CONTEXT_GATED": 0.6005851424694708,
+      "R3_ENGINE_CONDITIONAL": 0.5892215061058345
+    },
+    "r1_minus_r0": 0.10704432383536866,
+    "r2_minus_r1": 0.011363636363636354,
+    "r3_minus_r1": 0,
+    "positive_ecologies_with_nonzero_recall": {
+      "R0_BOUNDARY_ONLY": 2,
+      "R1_BOUNDARY_PLUS_LOAD": 2,
+      "R2_CONTEXT_GATED": 2,
+      "R3_ENGINE_CONDITIONAL": 2
+    },
+    "final_tree": {
+      "rules": [
+        "If base_max_gap_cp > 74.5: INACTIVE.",
+        "Else if base_max_gap_cp <= 30.5 and candidate_side_event_imbalance > 0.19: ACTIVE; otherwise INACTIVE.",
+        "Else if 30.5 < base_max_gap_cp <= 74.5 and family_event_count_target > 1926.5: ACTIVE; otherwise INACTIVE."
+      ],
+      "feature_importance": {
+        "base_max_gap_cp": 0.7370270827971943,
+        "candidate_side_event_imbalance": 0.15353906697149458,
+        "family_event_count_target": 0.1094338502313112
+      }
+    }
+  },
+  "interpretation": [
+    "Boundary proximity alone is insufficient under the frozen model-selection criterion.",
+    "Adding family-specific BASE semantic-load geometry clears the +0.10 LOEO improvement gate.",
+    "Adding broader chess context does not clear the incremental gate; engine identity/interaction adds no development gain.",
+    "The minimal selected development field is therefore boundary geometry plus mediator-family BASE search load, not a chess-context or engine-indexed regime."
+  ],
+  "authority": "DEVELOPMENT_ONLY",
+  "heldout_transport_authority": false,
+  "heldout_source_selected": false,
+  "q0_authority": "CLOSED_UNTIL_HELDOUT_ACTIVATION_FIELD_TRANSPORT",
+  "claim_ceiling": [
+    "Do not interpret tree thresholds as universal chess constants.",
+    "Do not interpret feature importance as causal attribution.",
+    "Do not claim held-out activation transport.",
+    "Do not route Q0 explanation authority from development fit alone."
+  ],
+  "automation_identity": {
+    "actions_writeback": false
+  }
+}
