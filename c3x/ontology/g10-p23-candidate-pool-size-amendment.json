@@ -1,0 +1,29 @@
+{
+  "schema": "c3x-g10-p23-candidate-pool-size-amendment-v1",
+  "stage": "C3X 0.10.0-G10-P23",
+  "parent_source_preseal_commit": "089075b0e32b1459059c49f31daa26d97037f861",
+  "timing": "BEFORE_ANY_P23_PGN_ACQUISITION_OR_ENGINE_OUTCOME",
+  "rationale": {
+    "prior_stage": "C3X 0.10.0-G10-P22",
+    "observed_candidate_worlds": 32,
+    "observed_pair_admitted": 11,
+    "observed_routed_chain_realizable_worlds": 5,
+    "approximate_candidate_to_chain_yield": 0.15625,
+    "target_routed_chain_positions": 18,
+    "note": "96 candidates would place the expected executable-world count near/below the frozen target under the prior observed yield; 144 candidates provides a materially safer support margin without consulting any P23 outcome."
+  },
+  "change": {
+    "max_positions_per_source": {
+      "from": 32,
+      "to": 48
+    },
+    "per_source_cell_cap": {
+      "from": 4,
+      "to": 4
+    },
+    "sources_changed": false,
+    "quotas_changed": false,
+    "activation_prediction_conditioning_added": false
+  },
+  "outcomes_opened": false
+}
