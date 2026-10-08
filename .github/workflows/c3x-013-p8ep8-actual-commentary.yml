@@ -1,0 +1,84 @@
+name: C3X 0.13 P8-EP8 Actual PGN Engine-Evidence Integration
+on:
+  push:
+    paths:
+      - '.github/workflows/c3x-013-p8ep8-actual-commentary.yml'
+      - 'c3x_explain/p8_ep8.py'
+      - 'c3x_explain/core.py'
+      - 'c3x_explain/__main__.py'
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  actual-evidence-to-pgn-commentary:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install pinned chess rules
+        run: python -m pip install --disable-pip-version-check chess==1.11.2
+      - uses: actions/download-artifact@v4
+        with:
+          name: c3x-013-p8ep8-tcec-conditional-two-engine
+          path: frozen-parent
+          repository: WhoSia/C3X
+          run-id: '37789322284'
+          github-token: ${{ github.token }}
+      - name: Verify original scientific source bytes and construct FEN-root PGN
+        run: |
+          mkdir -p output
+          python - <<'PY'
+          import hashlib
+          p='frozen-parent/ep8_tcec_conditional.json'
+          assert hashlib.sha256(open(p,'rb').read()).hexdigest()=='d19ef1bec774ffc6e483eabfc22cbe50ddee0a24a900b1c914bbf0750e583933'
+          print('EP8_ACTUAL_PARENT_SHA256_LOCKED')
+          PY
+          cat > output/frozen_tcec.pgn <<'PGN'
+[Event "C3X 0.13 P8-EP8 Actual Evidence"]
+[SetUp "1"]
+[FEN "r5k1/6p1/p5qn/4p2p/2ppP3/3Q3P/1P1B1PP1/R5K1 w - - 0 25"]
+[Result "*"]
+
+25. b3 *
+PGN
+      - name: Convert real two-engine observations into bounded PGN commentary
+        run: |
+          python -m c3x_explain --pgn output/frozen_tcec.pgn --ep8-observation frozen-parent/ep8_tcec_conditional.json --json-out output/EP8_actual_commentary.json --markdown-out output/EP8_actual_commentary.md
+          python - <<'PY'
+          import json
+          p=json.load(open('output/EP8_actual_commentary.json'))
+          assert p['moment_count']==1
+          assert p['ep8_observation_atom_count']==6
+          assert p['evaluation_packet']['causal_atom_count']==0
+          assert p['renderer_benchmark']['renderer_failed_moments']==0
+          assert p['verification_benchmark']['failed_clean_packets']==0
+          ep8=[a for a in p['moments'][0]['atoms'] if a.get('type')=='opponent_reply_observation']
+          assert len(ep8)==6
+          assert sorted({a['claim']['depth'] for a in ep8})==[8,12,16]
+          assert {a['claim']['engine'] for a in ep8}=={'Stockfish','Ethereal_classical'}
+          assert all(a['claim']['free_first_reply']=='c4d3' for a in ep8)
+          assert all(a['claim']['causal_certificate'] is None for a in ep8)
+          assert all(a['provenance']=='CONVENTIONAL_HEURISTIC_COMMENTARY' for a in ep8)
+          assert all(a['claim']['reply_constraint']=='c4b3' for a in ep8)
+          assert all(a['text'] in p['moments'][0]['commentary'] for a in ep8)
+          print('EP8_ACTUAL_TWO_ENGINE_EVIDENCE_TO_PGN_PASS',len(ep8))
+          PY
+      - name: Preserve interpreted evidence and code origin
+        if: always()
+        run: |
+          mkdir -p output
+          cp c3x_explain/p8_ep8.py output/p8_ep8_adapter.py
+          cp c3x_explain/test_p8_ep8.py output/p8_ep8_test.py
+          cp frozen-parent/ep8_tcec_conditional.json output/frozen_parent_EP8_raw.json
+          sha256sum output/* > output/member_sha256.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x-013-p8ep8-actual-engine-to-pgn-commentary
+          path: output/
+          if-no-files-found: error
+          retention-days: 90
