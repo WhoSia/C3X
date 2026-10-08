@@ -1,0 +1,87 @@
+{
+  "schema": "c3x-013-p8-ep5-ep6-scoped-reply-search-and-history-court-v1",
+  "date": "2026-10-08",
+  "stage": "C3X 0.13 P8 (EP5/EP6)",
+  "status": "EP5_REAL_TWO_ENGINE_PV_USAGE_PASS__EP6_HISTORY_LEMMA_PREMISES_PASS__CHESS_CONCEPT_CAUSAL_MEDIATION_HOLD",
+  "original_source": {
+    "provider": "Lichess Broadcast 2026-09 CC BY-SA 4.0",
+    "heldout_ep3_frozen_32_broadcast_groups": "ranks81–112, source archive SHA256 27a39d035767a30901b89602f33f2a7b27d4ab5025842071165fa079f8fff1df",
+    "ep3_group_digest": "240501f203478560f22cd32614ba56b0870749cb0e890f7bc4a219d4ce955796",
+    "groups_with_legal_confluence": 7,
+    "legal_confluence_witnesses": 14,
+    "birth_toggle_witnesses": 4,
+    "strict_birth_toggled_hazard_matched_witnesses": 1,
+    "independent_game_replicates": "at most 7 broadcast groups; competition/player/provider dependencies unverified",
+    "EP4_known_before_EP5": "TCEC rank111 ply48 one of 14"
+  },
+  "ep5": {
+    "workflow_url": "https://github.com/WhoSia/C3X/actions/runs/37774684490",
+    "run_id": 37774684490,
+    "conclusion": "SUCCESS",
+    "real_engines": "Stockfish 16 and source-pinned Ethereal classical 14.40, depths8/12/16, two cold repeats, root POV and actual opponent PV reply",
+    "all_source_witnesses_measured": 14,
+    "full_two_engine_all_depth_PV_first_reply_stability": 13,
+    "events_where_both_engines_same_depth_select_both_converging_replies": 3,
+    "events_where_any_engine_any_depth_uses_capture_in_at_least_one_branch": 9,
+    "stockfish_uses_both_branch_converging_reply_at_any_depth": 4,
+    "ethereal_uses_both_branch_converging_reply_at_any_depth": 5,
+    "birth_toggle_events_where_both_engines_same_depth_select_confluence": 1,
+    "birth_toggle_with_both_engines_convergence_detail": {
+      "source": "III Aberto Do Brasil De Xadrez Rondonia",
+      "ply": 48,
+      "pair": [
+        "f2f3",
+        "f2f4"
+      ],
+      "common_legal_reply": "e4f3 (normal vs en passant)",
+      "actual_both_engine_PV_used_at_depth": [
+        8
+      ],
+      "source_tactical_hazard_equal": false,
+      "engine_root_A_minus_B_cp_depth8": {
+        "Stockfish": 61,
+        "Ethereal_classical": 0
+      },
+      "effect": "Not a strict tactically matched or nonzero stable preference mechanism certificate."
+    },
+    "engine_PV_support_at_all_three_depths_both_engines": {
+      "source": "III Aberto Do Brasil De Xadrez Rondonia",
+      "ply": 48,
+      "pair": [
+        "g2g3",
+        "g2g4"
+      ],
+      "common_reply": "h4g3",
+      "toggles_new_passed_pawn": false,
+      "root_evaluation_gap_sign_stable": false,
+      "claim": "Real engine PV use of convergent reply exists, but not birth-concept mediation."
+    },
+    "artifact_sha256": "ee64cd0bfccd8c423cbce6b60c80207eec40ee936bf8b8cfbb5e248df7415ce8",
+    "drive_url": "https://drive.google.com/file/d/13L211Nss6xz4MaiVKvtvsOZquPjZgXeb/view",
+    "drive_byte_exact_verified": true,
+    "internal_manifest_checks": 8
+  },
+  "ep6": {
+    "workflow_url": "https://github.com/WhoSia/C3X/actions/runs/37775383867",
+    "run_id": 37775383867,
+    "conclusion": "SUCCESS",
+    "tests_passed": 2,
+    "verified_all_EP3_witnesses": 14,
+    "unique_broadcast_groups": 7,
+    "formal_lemma": "For same original mover pawn captures yielding identical full FEN T, prior own pawn count >=N and future own pawn count <=N-1; no prior branch history position can repeat after T, so for equal continuations the repetition-count and halfmove rules agree despite FEN generically lacking repetition history.",
+    "general_FEN_history_counterexample": "Two legal 8-ply knight paths end at same full six-field FEN (halfmove8/fullmove5), but one path has three occurrences of initial board and the other only two.",
+    "mechanical_scope": "Python chess rules verify 14 finite witnesses; deductive lemma in Markdown, no Lean/Coq proof claim.",
+    "caveats": [
+      "conditional on opponent selecting the capture",
+      "not an engine root minimax equivalence",
+      "not equal wall-clock/time control histories or hidden external effects",
+      "same source provider"
+    ],
+    "artifact_sha256": "26a8f8f5e3709b49de53829ab33a5854abda41713dd167e468fcf96ec6a8cb5e",
+    "drive_url": "https://drive.google.com/file/d/18P3oX4DWev-z1gRlZFjbO8doENQTd1vD/view",
+    "drive_byte_exact_verified": true,
+    "internal_manifest_verification": "All 4 listed members agree"
+  },
+  "next": "Remain C3X 0.13 P8 open. EP7/P9 should test independent source-rights-cleared non-Lichess game ecology, precommit opponent replies and explicit concept-targeted SHAM before engine outcomes; neither 0.14 formal name nor opening earned.",
+  "inherited": "C3X 0.12 scoped HOLD; P5/P6/P7 scientific HOLD; P8-R2 original 8 tactic-matched corrected to 7 by EP1; P8-EP2/EP4 natural source chess confluence PASS but engine mechanism HOLD; I8 human utility HOLD"
+}
