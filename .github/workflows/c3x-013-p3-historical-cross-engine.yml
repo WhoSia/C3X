@@ -1,0 +1,54 @@
+name: C3X 0.13 P3 Frozen Historical Cross-Engine Diagnostic
+on:
+  push:
+    paths:
+      - '.github/workflows/c3x-013-p3-historical-cross-engine.yml'
+      - 'harness/c3x_013_p3_historical_cross_engine.py'
+      - 'c3x/ontology/c3x-013-p3-historical-cross-engine-precommit.md'
+      - 'c3x/certificates/g95-p16-local-minimal-full-bridge.json'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  historical-world-descriptive-diagnostic:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install real Stockfish and exact chess rules library
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq stockfish
+          python3 -m pip install --disable-pip-version-check chess==1.11.2
+      - name: Run independent Stockfish binary on P16 archived Ethereal worlds
+        run: |
+          mkdir -p output
+          python3 harness/c3x_013_p3_historical_cross_engine.py --certificate c3x/certificates/g95-p16-local-minimal-full-bridge.json --engine /usr/games/stockfish --out output/historical_cross_engine.json
+          sha256sum /usr/games/stockfish > output/stockfish_binary_sha256.txt
+      - name: Assert actual evidence remains strictly descriptive
+        run: |
+          python3 - <<'PY'
+          import json
+          r=json.load(open('output/historical_cross_engine.json'))
+          assert r['status']=='SECOND_ENGINE_DESCRIPTIVE_DIAGNOSTIC_ONLY'
+          assert r['budget_comparability_to_old_P16'] is False
+          assert r['cross_engine_causal_transport_proven'] is False
+          assert r['chess_native_concept_proven'] is False
+          assert r['human_understanding_proven'] is False
+          assert set(r['worlds'])=={'B0','TARGET','SHAM'}
+          print('P3_CAUSAL_TRANSPORT_CLAIM_REJECTED')
+          PY
+      - name: Write exact source and execution hashes
+        if: always()
+        run: |
+          mkdir -p output
+          sha256sum c3x/certificates/g95-p16-local-minimal-full-bridge.json harness/c3x_013_p3_historical_cross_engine.py > output/source_sha256.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x-013-p3-historical-cross-engine
+          path: output/
+          retention-days: 90
