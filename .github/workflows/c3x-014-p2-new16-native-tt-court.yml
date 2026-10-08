@@ -1,0 +1,85 @@
+name: C3X 0.14 P2 Frozen Sixteen-Game Native SF16 TT Score-Choice Court
+on:
+  push:
+    paths:
+      - '.github/workflows/c3x-014-p2-new16-native-tt-court.yml'
+      - 'harness/c3x_014_p2_new16_native_tt_score_choice_court.py'
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  p2-sixteen-scoreblind-games:
+    runs-on: ubuntu-latest
+    timeout-minutes: 38
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install exact chess-rule library and source compiler
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq make g++ git curl
+          python -m pip install --disable-pip-version-check chess==1.11.2
+          python -m py_compile harness/c3x_014_p2_new16_native_tt_score_choice_court.py
+          mkdir -p source-frozen output
+      - uses: actions/download-artifact@v4
+        with:
+          name: c3x-014-p2-s29-new16-source-frozen-before-scoring
+          path: source-frozen/
+          repository: WhoSia/C3X
+          run-id: '37802177355'
+          github-token: ${{ github.token }}
+      - name: Enforce immutable pre-outcome game source cohort
+        run: |
+          printf '%s  %s\n' 'cb879eaa14bcbf3896c4d069dcb1cf543135c68c5b1fa0ea2eab942613332eeb' 'source-frozen/P2_FROZEN_NEW16_SOURCE.json' | sha256sum -c -
+          grep -q 'No engine scores or TT intervention outcomes' c3x/ontology/c3x-014-p2-prospective-margin-stratified-search-sensitivity-precommit.md || true
+      - name: Compile independently pinned original SF16 and EP9 native cutoff masks
+        run: |
+          git clone -q --single-branch --branch sf_16 https://github.com/official-stockfish/Stockfish.git /tmp/P2_SF16_original
+          test "$(git -C /tmp/P2_SF16_original rev-parse HEAD)" = "68e1e9b3811e16cad014b590d7443b9063b3eb52"
+          cp -a /tmp/P2_SF16_original /tmp/P2_SF16_EP9
+          python tools/c3x_013_p8ep9_patch_sf16_cutoffs.py --source /tmp/P2_SF16_EP9 --out-manifest output/P2_EP9_native_source_manifest.json
+          git -C /tmp/P2_SF16_EP9 diff -- src/search.cpp > output/P2_exact_native_source_patch.diff
+          test -s output/P2_exact_native_source_patch.diff
+          cp /tmp/P2_SF16_original/Copying.txt output/Stockfish_GPLv3.txt
+          make -s -C /tmp/P2_SF16_original/src -j2 build ARCH=x86-64
+          cp /tmp/P2_SF16_original/src/nn-*.nnue /tmp/P2_SF16_EP9/src/ 2>/dev/null || true
+          make -s -C /tmp/P2_SF16_EP9/src -j2 build ARCH=x86-64
+          cp /tmp/P2_SF16_original/src/stockfish /tmp/P2_clean_SF16
+          cp /tmp/P2_SF16_EP9/src/stockfish /tmp/P2_EP9_SF16
+          sha256sum /tmp/P2_clean_SF16 /tmp/P2_EP9_SF16 > output/P2_native_binary_sha256.txt
+          printf 'uci\nquit\n' | /tmp/P2_clean_SF16 > output/P2_clean_UCI_identity.txt
+          printf 'uci\nquit\n' | /tmp/P2_EP9_SF16 > output/P2_EP9_UCI_identity.txt
+      - name: Run ALL sixteen game groups without positive-selection or heldout access
+        run: |
+          python harness/c3x_014_p2_new16_native_tt_score_choice_court.py --frozen-source source-frozen/P2_FROZEN_NEW16_SOURCE.json --clean /tmp/P2_clean_SF16 --ep9 /tmp/P2_EP9_SF16 --out output/P2_REAL_SIXTEEN_GAMES_TT_SCORE_CHOICE_PANEL.json
+          python - <<'PY'
+          import json
+          p=json.load(open('output/P2_REAL_SIXTEEN_GAMES_TT_SCORE_CHOICE_PANEL.json'))
+          assert p['schema']=='c3x-014-p2-real-new16-group-typed-native-tt-score-choice-court-v1'
+          assert len(p['cases'])==64
+          assert p['independent_game_groups']==16
+          assert p['clean_vs_sham_exact_all']
+          assert all(v==32 for v in p['cold_pair_exact_by_arm_out_of_32'].values())
+          assert p['p1_four_holdout_games_opened'] is False
+          assert p['causal_chess_feature_identified'] is False
+          print('P2_NEW16_SCOREBLIND_NATIVE_SF16_FULL_COURT_PASS')
+          PY
+      - name: Preserve full source code, key, methods, native hashes and result
+        if: always()
+        run: |
+          mkdir -p output
+          cp harness/c3x_014_p2_new16_native_tt_score_choice_court.py output/P2_full_driver.py
+          cp source-frozen/P2_FROZEN_NEW16_SOURCE.json output/P2_PRE_OUTCOME_FROZEN_16_SOURCE.json
+          cp c3x/ontology/c3x-014-p2-prospective-margin-stratified-search-sensitivity-precommit.md output/P2_METHODS_PRECOMMIT.md
+          printf '%s\n' 'Engine preference, finite cp and native TT cutoff totals do not establish chess strategy or equal computational work; P1 holdout remains unopened.' > output/P2_SCIENTIFIC_CEILING.txt
+          find output -maxdepth 1 -type f ! -name 'P2_member_sha256.txt' -print0 | sort -z | xargs -0 sha256sum > output/P2_member_sha256.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x-014-p2-sixteen-game-native-SF16-score-choice-panel
+          path: output/
+          if-no-files-found: error
+          retention-days: 90
