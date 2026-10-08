@@ -1,0 +1,89 @@
+{
+  "schema": "c3x-014-p1-official-s29-prospective-source-group-freeze-v1",
+  "phase": "C3X 0.14 P1",
+  "date_local": "2026-10-09",
+  "verdict": "INDEPENDENT_OPENING_GROUP_SOURCE_SELECTION_PASS__HELDOUT_SEALED__NO_ENGINE_CAUSAL_CLAIM",
+  "precommit": "c3x/ontology/c3x-014-p1-tcec-s29-source-disjoint-eligibility-precommit.md",
+  "execution": {
+    "url": "https://github.com/WhoSia/C3X/actions/runs/37800438225",
+    "run_id": 37800438225,
+    "head_sha": "e8cc7e44bb5d4e7657cf5dced242ec2fd350d0d2",
+    "success": true
+  },
+  "source": {
+    "owner": "TCEC-Chess",
+    "repo": "tcecgames",
+    "tag": "S29-final",
+    "commit": "3dd69a40b3cf6ccc74144df7411ef4e8e2140286",
+    "file": "master-archive/TCEC_Season_29_-_Superfinal.pgn",
+    "blob_sha1": "68141d7a9afad301c237106c3b2a3324cb35b130",
+    "full_file_sha256": "e25929eff0d96810335af943fe69b3133156adf60f8171d250ab7d0abb845a06",
+    "original_pgn_size_bytes": 5160096,
+    "publisher": "official TCEC games archive, not Lichess broadcast mirror",
+    "independence_limit": "different games and official file from earlier CECLUB/TCEC Lichess instances, but still same broad TCEC tournament ecosystem"
+  },
+  "eligibility": {
+    "processed_games": 100,
+    "valid_at_fixed_ply18": 100,
+    "games_with_legal_same_pawn_single_and_double_push": 100,
+    "distinct_opening_prefix_FEN_groups_after_12_plies": 52,
+    "selected_development_groups": 4,
+    "selected_procedural_holdout_groups": 4,
+    "selection_without_engine_outcome_scores": true,
+    "dedupe_by_opening": true,
+    "source_game_groups_not_independent_engine_trials": true,
+    "holdout_score_exposure": false,
+    "procedural_seal_not_strong_access_control": true
+  },
+  "development_samples": [
+    {
+      "round": "62.1",
+      "root_pair": [
+        "b2b3",
+        "b2b4"
+      ]
+    },
+    {
+      "round": "20.1",
+      "root_pair": [
+        "a2a3",
+        "a2a4"
+      ]
+    },
+    {
+      "round": "29.1",
+      "root_pair": [
+        "a2a3",
+        "a2a4"
+      ]
+    },
+    {
+      "round": "92.1",
+      "root_pair": [
+        "a2a3",
+        "a2a4"
+      ]
+    }
+  ],
+  "raw_custody": {
+    "development": {
+      "drive_url": "https://drive.google.com/file/d/19W8xG5g00fmpSyHSY-EkznYhocwzz-5h/view",
+      "artifact_id": 11559639726,
+      "zip_sha256": "ce36068d11353b3df129ce3fd982622740e76e369fd1d07a254cc0063fb8b91b",
+      "zip_bytes": 7793,
+      "member_hashes": "5/5",
+      "dev_json_sha256": "bbaef73beda60d9e03c9f83324651db3b130606be4c84cb9f8a170a958a96274"
+    },
+    "holdout": {
+      "drive_url": "https://drive.google.com/file/d/1qV1EIjbwNprt6JxhdlYyg5XKT65_QnRK/view",
+      "artifact_id": 11560406924,
+      "zip_sha256": "54430924f1d7149bd3db31a312f4d510d1fee813d28f1b53914b17a80fc12581",
+      "zip_bytes": 1709,
+      "content_not_read_during_development": true,
+      "artifact_owner_can_read": true
+    },
+    "drive_folder": "1ehjBFtuBYo7WQdfHvQDkVxVmQRZow9h_",
+    "byte_exact_redownloads": true
+  },
+  "scope": "Source-game/opening eligibility and procedural split ONLY; no independent chess concept or TT mechanism claim."
+}
