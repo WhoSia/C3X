@@ -17,6 +17,7 @@ from pathlib import Path
 import chess
 
 TCEC="r5k1/6p1/p5qn/4p2p/2ppP3/3Q3P/1P1B1PP1/R5K1 w - - 0 25"
+CECLUB="2rq1rk1/p4ppp/bp1bnn2/3pN3/2pP3P/1P2PPP1/PB2NRB1/R2Q2K1 w - - 1 17"
 DEPTHS=(8,12)
 MODES=("OFF","MAIN","QSEARCH","BOTH")
 
@@ -31,6 +32,19 @@ def worlds():
         b.push(m)
         assert b.turn==chess.BLACK
         out[label]=b
+    # Historically frozen P7 R1/R2 CECLUB rank40; not a new holdout
+    # Game segment SHA e080dcbf8bcb1c99ac8ec8743673048b7063bbbddff89b9d4442ce431a01981c
+    # Previously observed near-equal root pair f3f4 versus g3g4 at d8/12/16
+    c=chess.Board(CECLUB)
+    assert c.is_valid() and c.turn==chess.WHITE
+    out["CECLUB_ROOT"]=c
+    for label,uci in (("CECLUB_F3F4","f3f4"),("CECLUB_G3G4","g3g4")):
+        t=c.copy(stack=True)
+        m=chess.Move.from_uci(uci)
+        assert m in t.legal_moves
+        t.push(m)
+        assert t.turn==chess.BLACK
+        out[label]=t
     # Independent chess sanity control, not an independent source-game replicate.
     out["INITIAL_POSITION"]=chess.Board()
     return out
@@ -139,11 +153,12 @@ def measure(args):
            "source_and_build_hashes":hashes,
            "depths":list(DEPTHS),"repeats_per_world_depth":2,
            "worlds":len(worlds()),"cells":cells,
+           "historical_CECLUB_origin":{"P7_R1_rank":40,"game_segment_sha256":"e080dcbf8bcb1c99ac8ec8743673048b7063bbbddff89b9d4442ce431a01981c","root_FEN":CECLUB,"pair":["f3f4","g3g4"],"scientifically_fresh":False},
            "observer_noop_exact_all":all_equivalent,
            "masked_runs_authorized":all_equivalent,
            "masked_mode_engagement":engaged,
            "masked_output_changed_cells":changes,
-           "scientific_units":"1 real source game plus one independent artificial initial-position sanity control; repeated trials and both after-root positions NOT independent games",
+           "scientific_units":"2 previously used, distinct Lichess broadcasts (TCEC P8 and CECLUB P7) plus an artificial starting-position control; reused histories, same provider; repeated trials and after-root positions NOT independent games",
            "other_TT_uses_preserved":True,
            "causal_engine_mechanism_established":False,
            "chess_concept_causal_mediation_established":False,
