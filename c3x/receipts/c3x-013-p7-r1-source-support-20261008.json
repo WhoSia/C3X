@@ -1,0 +1,42 @@
+{
+  "schema": "c3x-013-p7-r1-tactical-source-support-court-v1",
+  "date": "2026-10-08",
+  "verdict": "SOURCE_TACTICAL_SUPPORT_CENSUS_PASS_WITH_STRICT_CONCEPT_POSITIVITY_ZERO",
+  "status": "CLOSED_DESCRIPTIVE_SUPPORT_ONLY_NOT_ENGINE_CAUSAL",
+  "source": {
+    "provider": "Lichess",
+    "raw_sha256": "27a39d035767a30901b89602f33f2a7b27d4ab5025842071165fa079f8fff1df",
+    "selection": "32 September broadcast groups ranks17–48, disjoint from P5 first16",
+    "frozen_segment_digest": "e5ca78464ef6bb2e95271c12428c47e8f9535efca9674d1048aed029ef1584c0",
+    "independent_ecology_not_proved": true
+  },
+  "actual_run": {
+    "id": 37727746447,
+    "url": "https://github.com/WhoSia/C3X/actions/runs/37727746447",
+    "conclusion": "SUCCESS",
+    "chess_test_count": 8,
+    "artifact_id": 11527869991,
+    "artifact_sha256": "c03055fc5b68075249a79f7b2eef638b800fcc73c498d1a1e43be9568d2d5c3c",
+    "drive_url": "https://drive.google.com/file/d/1mGPf8bOddOkvIZPOjlX8tbmTDLa5bN8T/view"
+  },
+  "observations": {
+    "source_groups": 32,
+    "legal_worlds": 29,
+    "source_holds": 3,
+    "all_legal_pairs": 22336,
+    "mover_capture_check_promotion_matched_pairs": 3764,
+    "additionally_immediate_recapture_matched_pairs": 1705,
+    "additionally_same_original_square_pairs": 1053,
+    "passed_birth_toggling_pairs_in_matched": 11,
+    "passed_birth_toggling_pairs_in_same_square_strict": 0,
+    "distinct_birth_toggling_broadcast_groups": 3,
+    "per_group_born_contrasts": [
+      2,
+      1,
+      8
+    ]
+  },
+  "interpretation": "Only three broadcast groups supply all eleven relaxed passed-birth contrast pairs; no strict same-original-piece born/not-born comparison exists in this exact 29-world cohort. Source sample insufficiency is not a universal impossibility theorem.",
+  "authority": "CHESS_LEGAL_TAC_EQUIVALENCE_SUPPORT_ONLY_NOT_ENGINE_RESULT",
+  "next": "P7-R2 independently precommitted cold engine root qualification and completed-depth marginality panel, no 0.14 title."
+}
