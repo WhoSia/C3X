@@ -1,0 +1,247 @@
+{
+  "schema": "c3x-014-internal-work-p3-native-search-budget-completion-claim-court-v1",
+  "formal_research_unit": "C3X 0.14 — Transportable Search-Mechanism Evidence, Chess-Concept Mediation & Faithful Explanation Systems",
+  "user_governance": "P1/P2/P3 are only continuous technical research checkpoints within single C3X 0.14 formal phase; NOT separate formal stages, Labs, Notion pages or documents.",
+  "canonical_notion_page": "3c4ef561-cf92-817a-b76b-cab15e7d1faf",
+  "date_kst": "2026-10-09",
+  "overall_verdict": "IN_STAGE_P3_RESEARCH_AND_TYPED_SOFTWARE_PASS__SEARCH_WORK_DEPTH_ANGULAR_CONFOUND_DETECTED__STRATEGIC_CHESS_CAUSALITY_HOLD",
+  "source_scope": {
+    "source": "official TCEC Season29 Superfinal, P2 frozen sixteen already disclosed developmental game/opening-prefix groups",
+    "groups": 16,
+    "new_independent_holdout_games": 0,
+    "prohibited_p1_holdout_four_groups_accessed": false,
+    "source_ecology": "All games from same TCEC tournament source ecology; do not claim cross-provider generalization.",
+    "engine": "official Stockfish 16 sf_16 commit 68e1e9b3811e16cad014b590d7443b9063b3eb52",
+    "native_patch": "Previously pinned C3X EP9 MAIN TT early-return-family mask; additional strictly post-search completion telemetry does not alter search."
+  },
+  "methods_precommit": "c3x/ontology/c3x-014-budget-depth-explanation-internal-p3-precommit.md",
+  "fixed_depth_actual": {
+    "run": "https://github.com/WhoSia/C3X/actions/runs/37806356299",
+    "run_id": 37806356299,
+    "first_failed_run": "https://github.com/WhoSia/C3X/actions/runs/37806052859",
+    "failed_cause": "Python live MultiPV dict indexes are integer 1,2 but first parser looked up string '1'. No results promoted; one-line type correction before full rerun.",
+    "repair_commit_sha": "92434ad07a2d421aa48b5c717f27e868fe309292",
+    "source_panel_sha256": "868b70e5311e2d9cc51f01e8ef50fc78127b1544dd9198c335f7877af335a24b",
+    "actual_groups": 16,
+    "requested_depths": [
+      11,
+      12,
+      13
+    ],
+    "cold_restarts_per_group_depth": 2,
+    "original_vs_observational_sham_exact": "96/96",
+    "cold_repeat_exact_across_original_OFF_MAIN": "48/48",
+    "distinct_games_strict_white_cp_sign_inversion_by_depth": {
+      "11": 3,
+      "12": 2,
+      "13": 2
+    },
+    "distinct_games_UCI_first_choice_change_by_depth": {
+      "11": 4,
+      "12": 3,
+      "13": 2
+    },
+    "all_16_games_actual_nodes_differ_between_modes_at_each_depth": true,
+    "main_treatment_blocks_source_native_early_returns_in_every_game_and_depth": true,
+    "known_game_local_witnesses": {
+      "12.1": {
+        "depth11": [
+          -5,
+          4
+        ],
+        "depth12": [
+          -8,
+          3
+        ],
+        "depth13": [
+          -14,
+          -5
+        ],
+        "strict_depths": [
+          11,
+          12
+        ],
+        "depth11_off_vs_main_rank1_nodes": [
+          57876,
+          64941
+        ],
+        "depth12_nodes": [
+          84657,
+          74794
+        ],
+        "depth13_nodes": [
+          116917,
+          127718
+        ]
+      },
+      "96.1": {
+        "depth11": [
+          5,
+          25
+        ],
+        "depth12": [
+          -8,
+          28
+        ],
+        "depth13": [
+          12,
+          23
+        ],
+        "strict_depths": [
+          12
+        ],
+        "depth12_rank1_nodes_off_main": [
+          87634,
+          124681
+        ]
+      },
+      "95.1": {
+        "depth11": [
+          11,
+          6
+        ],
+        "depth12": [
+          11,
+          0
+        ],
+        "depth13": [
+          12,
+          30
+        ],
+        "strict_depths": [],
+        "UCI_label_changed_at_zero_at_depth12": true
+      }
+    },
+    "scientific_ceiling": "Equal requested depth != equal actual search work, especially TT interruption modifies node visitation. Source is developmental and after prior outcome discovery."
+  },
+  "native_completed_depth_actual": {
+    "official_source_cpp_observation": "Stockfish16 search.cpp only assigns completedDepth = rootDepth if !Threads.stop after MultiPV iteration; UCI::pv can be emitted while stopping and may display previous-iteration scores.",
+    "post_search_patch_code": "tools/c3x_014_patch_native_completed_depth_probe.py",
+    "native_monitor": "harness/c3x_014_native_completed_depth_vs_pv_internal_p3.py",
+    "real_workflow": "https://github.com/WhoSia/C3X/actions/runs/37807422574",
+    "real_run_id": 37807422574,
+    "input_original_node_stress_sha256": "37d6b3bde44e971ee88ae5fbababd63ba88980ce6b48e0bfa80234cebccdbdf1",
+    "native_json_sha256": "cf6f4e5703a3250e7694049978fa3fa541107217a079997674f324f11d254978",
+    "actual_cases": 64,
+    "game_groups": 16,
+    "source_modes": [
+      "OFF",
+      "MAIN"
+    ],
+    "two_cold_restarts": true,
+    "native_cold_repeat_exact": "32/32",
+    "identical_preprobe_UCI_bestmove_cp_gap_reported_depth_nodes": "64/64",
+    "UCI_both_rank_max_reported_depth_differs_native_completedDepth": "46/64",
+    "semantic_fix": "Earlier claim 'completed depth 13 vs 11' was false; that number is the maximum depth reported in both UCI MultiPV rank strings, not the actual Stockfish16 thread.completedDepth.",
+    "known_witnesses": {
+      "12.1": {
+        "reported_PV_depth_OFF_MAIN": [
+          13,
+          13
+        ],
+        "true_native_completedDepth_OFF_MAIN": [
+          12,
+          12
+        ],
+        "last_rootDepth_started_OFF_MAIN": [
+          14,
+          14
+        ]
+      },
+      "96.1": {
+        "reported_PV_depth_OFF_MAIN": [
+          13,
+          11
+        ],
+        "true_native_completedDepth_OFF_MAIN": [
+          12,
+          11
+        ],
+        "last_rootDepth_started_OFF_MAIN": [
+          14,
+          13
+        ],
+        "same_nominal_node_limit": 87634,
+        "uci_bestmove_OFF_MAIN": [
+          "a2a4",
+          "a2a3"
+        ],
+        "white_pair_gap_OFF_MAIN_cp": [
+          -8,
+          25
+        ]
+      },
+      "95.1": {
+        "reported_PV_depth_OFF_MAIN": [
+          13,
+          13
+        ],
+        "true_native_completedDepth_OFF_MAIN": [
+          12,
+          12
+        ],
+        "last_rootDepth_started_OFF_MAIN": [
+          14,
+          14
+        ]
+      }
+    },
+    "source_specific_scope": "The end-of-search-only extra line prints authoritative completedDepth without altering branch code. Even true native completedDepth mismatch is not a causal passed-pawn/strategic explanation."
+  },
+  "software_implementation": {
+    "typed_budget_v1_workflow": "https://github.com/WhoSia/C3X/actions/runs/37806864499",
+    "typed_budget_v1_code": "harness/c3x_014_budget_aware_explanation_claim_gate.py",
+    "note": "Initial V1 incorrectly called max double-PV depth 'completed'. Code was corrected to call it PV-reported depth and then superseded by V2 with authentic native completedDepth.",
+    "native_aware_v2_code": "harness/c3x_014_true_native_completion_explanation_ledger.py",
+    "native_aware_v2_workflow": "https://github.com/WhoSia/C3X/actions/runs/37807925615",
+    "native_aware_v2_run_id": 37807925615,
+    "actual_engine_game_grounded_Korean_claims": 16,
+    "claims_with_strict_cp_sign_inversion_at_some_d11_d12_d13": 5,
+    "claims_without_strict_sign_inversion_all_depths": 11,
+    "source_provenance_and_evidence_tamper_controls_pass": "5/5",
+    "tests": [
+      "invalid source SHA256",
+      "forged native completed depth exceeds rootDepth",
+      "unfaithful source replay",
+      "illegal board FEN",
+      "forged group source identity"
+    ],
+    "strategic_board_chess_concept_causal_claims_authorized": 0,
+    "human_teaching_effect_demonstrated": false
+  },
+  "immutable_evidence_custody": {
+    "drive_folder": "1ehjBFtuBYo7WQdfHvQDkVxVmQRZow9h_",
+    "fixed_depth_panel_zip": {
+      "drive_url": "https://drive.google.com/file/d/11SvaE7WnPC93qmFeyq41NbWQNziheiiu/view",
+      "artifact_id": 11562728497,
+      "zip_sha256": "321e9f3dcca5f00a36a61337e9c8bbebd262b68b140fde7ef8e4f88d574519ff",
+      "bytes": 72321
+    },
+    "native_true_completed_depth_zip": {
+      "drive_url": "https://drive.google.com/file/d/1yHO05ul0AL9T4c-st3-Km9AmUGb5Ka0M/view",
+      "artifact_id": 11563108343,
+      "zip_sha256": "95941059d5dad01c826de67cf75d4064dbfa28fe68661a75803126d6b88e1301",
+      "bytes": 41892
+    },
+    "native_aware_explanation_v2_zip": {
+      "drive_url": "https://drive.google.com/file/d/1OIUry-51t3f84sC61mlhNzHn_htOHMdG/view",
+      "artifact_id": 11563004182,
+      "zip_sha256": "8a93643a416ab571cd7c15ed2618ffdbca12623bf1c325522fc754f3bfe70275",
+      "bytes": 33992
+    },
+    "parent_node_budget_zip": {
+      "drive_url": "https://drive.google.com/file/d/1EOHNgozCID9nc7D4hAhsxpPTvZVpO7vu/view",
+      "artifact_id": 11561299972,
+      "zip_sha256": "99ffa9ee8621ff9139728b41fb224cc2db910964b2954fd295b3988efe1972e2"
+    },
+    "source_Code_and_GPL_patches_and_sha_manifest_retained": true
+  },
+  "forward_limits": [
+    "No P1 holdout unsealing without separate prospective sealed preregistration.",
+    "For controlled mechanism evidence, match actual work and source-native completedDepth, or explicitly record impossibility/partial identification.",
+    "Full SF16 TT signed evaluation path is an implementation effect, not chess semantics.",
+    "Other engine native architecture and source/disjoint provider remain required.",
+    "Blind explanation comprehension study required for pedagogical benefit."
+  ],
+  "repo_governance": "Human WhoSia-authored commits only, never GitHub Actions bot authored commits; read-only CI. No new Notion Lab or children for Pn."
+}
