@@ -1,0 +1,94 @@
+name: C3X 0.13 P8-EP2 Natural En Passant Continuation Confluence
+on:
+  push:
+    paths:
+      - '.github/workflows/c3x-013-p8ep2-confluence.yml'
+      - 'tests/test_c3x_013_p8_ep2_legal_confluence.py'
+      - 'harness/c3x_013_p8ep2_confluence_two_engine.py'
+      - 'c3x/ontology/c3x-013-p8-ep2-continuation-confluence-precommit.md'
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  legal-continuation-fen-merger-and-two-engine-measurement:
+    runs-on: ubuntu-latest
+    timeout-minutes: 17
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install chess rule library real stockfish and pinned engine compiler
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq stockfish build-essential git
+          python3 -m pip install --disable-pip-version-check chess==1.11.2
+      - uses: actions/download-artifact@v4
+        with:
+          name: c3x-013-p7r1-source-disjoint-tactical-support
+          path: original-p7r1
+          repository: WhoSia/C3X
+          run-id: '37727746447'
+          github-token: ${{ github.token }}
+      - name: Check NZ root FEN against pre-correction historical source artifact
+        run: |
+          mkdir -p output
+          python3 - <<'PY'
+          import json
+          source=json.load(open('original-p7r1/p7r1_source_tactical_support.json'))
+          items=[r for r in source['records'] if r['broadcast']=='2026 NZ South Island Championship']
+          assert len(items)==1
+          assert items[0]['fen']=='1r1qk2r/4bppp/QN1pp1b1/2P5/1p2n1P1/4B2P/PPPN1P2/R3K2R w KQk - 1 17'
+          print('HISTORICAL_NZ_P7_FEN_INTACT',items[0]['game_url'])
+          PY
+      - name: Test normal capture vs en passant exact shared full FEN
+        env:
+          PYTHONPATH: .
+        run: |
+          python3 -m unittest discover -s tests -p test_c3x_013_p8_ep_victim_hazard.py -v
+          python3 -m unittest discover -s tests -p test_c3x_013_p8_ep2_legal_confluence.py -v
+      - name: Compile exact independent Ethereal classical source
+        run: |
+          git clone -q https://github.com/AndyGrant/Ethereal.git /tmp/c3x-ep2-ethereal
+          git -C /tmp/c3x-ep2-ethereal checkout -q 0e47e9b67f345c75eb965d9fb3e2493b6a11d09a
+          test "$(git -C /tmp/c3x-ep2-ethereal rev-parse HEAD)" = 0e47e9b67f345c75eb965d9fb3e2493b6a11d09a
+          make -s -C /tmp/c3x-ep2-ethereal/src basic CC=gcc
+          sha256sum /tmp/c3x-ep2-ethereal/src/Ethereal > output/ethereal_bin_sha256.txt
+          sha256sum /usr/games/stockfish > output/stockfish_bin_sha256.txt
+          cp /tmp/c3x-ep2-ethereal/LICENSE output/ethereal_GPLv3.txt
+      - name: Test exact common continuation and both real root scores
+        env:
+          PYTHONPATH: .
+        run: |
+          python3 harness/c3x_013_p8ep2_confluence_two_engine.py \
+            --stockfish /usr/games/stockfish \
+            --ethereal /tmp/c3x-ep2-ethereal/src/Ethereal \
+            --out output/p8ep2_nz_continuation_confluence.json
+          python3 - <<'PY'
+          import json
+          x=json.load(open('output/p8ep2_nz_continuation_confluence.json'))
+          assert x['convergent_identical_full_fen'] is True
+          assert x['after_root_black_passed_count_delta_B_minus_A']==1
+          assert x['after_legal_reply']['a']==x['after_legal_reply']['b']
+          assert not x['causal_mediation_identified']
+          assert not x['independent_chess_game_replication']
+          assert x['C3X_014']=='CANDIDATE_ONLY_NO_NAME'
+          print('P8_EP2_LEGAL_CONFLUENCE_WITHOUT_UNEARNED_CAUSAL_PROMOTION')
+          PY
+      - name: Preserve source identity, chess theorem, results, exact code and license
+        if: always()
+        run: |
+          mkdir -p output
+          cp original-p7r1/p7r1_source_tactical_support.json output/unchanged_P7_historical_source.json
+          cp tests/test_c3x_013_p8_ep2_legal_confluence.py output/exact_confluence_chess_tests.py
+          cp harness/c3x_013_p8ep2_confluence_two_engine.py output/engine_replay_source.py
+          cp c3x/ontology/c3x-013-p8-ep2-continuation-confluence-precommit.md output/confluence_precommit.md
+          printf '%s\n' 'Lichess Broadcast source CC BY-SA 4.0; independent Ethereal classical code Andrew Grant GPLv3 https://github.com/AndyGrant/Ethereal/tree/0e47e9b67f345c75eb965d9fb3e2493b6a11d09a' > output/source_attribution.txt
+          sha256sum output/* > output/integrity_sha256.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x-013-p8ep2-legal-en-passant-continuation-confluence
+          path: output/
+          if-no-files-found: error
