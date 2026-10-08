@@ -4,6 +4,7 @@ on:
     paths:
       - '.github/workflows/c3x-012-six-source-qualification.yml'
       - 'harness/c3x_012_six_source_qualify.py'
+      - 'harness/c3x_012_six_source_board_edits.py'
       - 'c3x/data/c3x-012-six-source-development-seeds.json'
   workflow_dispatch:
 permissions:
@@ -40,6 +41,19 @@ jobs:
           python3 harness/c3x_012_six_source_qualify.py --input c3x/data/c3x-012-six-source-development-seeds.json --engine /usr/games/stockfish --output output/qualification.json
           sha256sum /usr/games/stockfish > output/engine_sha256.txt
           /usr/games/stockfish <<< $'uci\nquit' > output/engine_identity.txt
+      - name: Freeze legal target and sham by source, measure board-contrast evidence
+        run: |
+          python3 harness/c3x_012_six_source_board_edits.py --qualification output/qualification.json --engine /usr/games/stockfish --output output/board_edit_contrasts.json
+          python3 - <<'PY'
+          import json
+          q=json.load(open('output/qualification.json'))
+          c=json.load(open('output/board_edit_contrasts.json'))
+          assert c['explanation_authority'] is False
+          assert len(q['worlds'])==len(c['worlds'])==6
+          assert q['status'].startswith('DEVELOPMENT_ONLY')
+          assert c['status'].startswith('DEVELOPMENT_ONLY')
+          print('C3X_012_SIX_SOURCE_DEVELOPMENT_NO_SCIENCE_PROMOTION')
+          PY
       - name: Upload source-scoped audit, even if a source fails
         if: always()
         uses: actions/upload-artifact@v4
