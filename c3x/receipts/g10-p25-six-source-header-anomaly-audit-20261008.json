@@ -1,0 +1,27 @@
+{
+  "stage": "G10-P25",
+  "scope": "Read-only PGN header audit; not move legality or FEN preseal",
+  "source_file_hashes_verified": true,
+  "game_headers_total": 454,
+  "missing_required_headers": 0,
+  "cross_source_header_identity_collisions": 0,
+  "header_identity_fields": [
+    "White",
+    "Black",
+    "Date",
+    "Round"
+  ],
+  "suspected_date_anomalies": {
+    "Charlotte": {
+      "2026.03.15": 8
+    },
+    "Radnicki": {
+      "2026.08.28": 9
+    },
+    "Milton": {
+      "2026.09.07": 4
+    }
+  },
+  "limitation": "No SAN parsing, four-field P19 canonical FEN, historic JSON corpus collision test, support yield or activation outcome. P25 remains OPEN/SOURCE_PRESEAL_PENDING",
+  "local_receipt": "c3x_p25_header_audit.json"
+}
