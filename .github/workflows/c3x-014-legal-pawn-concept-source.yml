@@ -1,0 +1,75 @@
+name: C3X 0.14 Source-Only Legal Pawn-Concept Alternative Freeze
+on:
+  push:
+    paths:
+      - '.github/workflows/c3x-014-legal-pawn-concept-source.yml'
+      - 'harness/c3x_014_legal_black_reply_concept_source_freeze.py'
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  full-historical-legal-source:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Exact chess-rules library and source directories
+        run: |
+          python -m pip install --disable-pip-version-check chess==1.11.2
+          python -m py_compile harness/c3x_014_legal_black_reply_concept_source_freeze.py
+          mkdir -p p2-cohort official-games output
+      - uses: actions/download-artifact@v4
+        with:
+          name: c3x-014-p2-s29-new16-source-frozen-before-scoring
+          path: p2-cohort/
+          repository: WhoSia/C3X
+          run-id: '37802177355'
+          github-token: ${{ github.token }}
+      - name: Pin original exact official TCEC chess game PGN
+        run: |
+          curl -fLsS --retry 3 'https://raw.githubusercontent.com/TCEC-Chess/tcecgames/3dd69a40b3cf6ccc74144df7411ef4e8e2140286/master-archive/TCEC_Season_29_-_Superfinal.pgn' -o official-games/TCEC_S29.pgn
+          test "$(git hash-object official-games/TCEC_S29.pgn)" = "68141d7a9afad301c237106c3b2a3324cb35b130"
+          printf '%s  %s\n' 'cb879eaa14bcbf3896c4d069dcb1cf543135c68c5b1fa0ea2eab942613332eeb' 'p2-cohort/P2_FROZEN_NEW16_SOURCE.json' | sha256sum -c -
+      - name: Recover exact historical seventeen-ply chess paths and black legal alternative moves
+        run: |
+          python harness/c3x_014_legal_black_reply_concept_source_freeze.py --pgn official-games/TCEC_S29.pgn --cohort p2-cohort/P2_FROZEN_NEW16_SOURCE.json --out output/C3X014_LEGAL_CONCEPT_WORLDS_SOURCE_FROZEN.json
+          python - <<'PY'
+          import json,chess
+          p=json.load(open('output/C3X014_LEGAL_CONCEPT_WORLDS_SOURCE_FROZEN.json'))
+          assert p['formal_stage']=='C3X 0.14' and p['internal_work']
+          assert p['source_group_count']==16 and len(p['cases'])==16
+          assert p['original_games_recovered_with_exact_17_ply_legal_history']==16
+          assert not p['P1_sealed_holdout_read']
+          assert not p['engine_scores_seen_during_source_freeze']
+          for c in p['cases']:
+            old=chess.Board()
+            for m in c['first_17_ply_path_uci']:old.push_uci(m)
+            assert old.fen(en_passant='fen')==c['first_17_ply_fen']
+            for k in ('concept_changing_world','concept_preserving_world'):
+              w=c[k]
+              if w is None:continue
+              b=old.copy()
+              b.push_uci(w['black18_uci'])
+              assert b.fen(en_passant='fen')==w['root_full_FEN']
+          print('C3X014_ALL_CONCEPT_WORLDS_HAVE_GENUINE_LEGAL_CHESS_HISTORY_PASS')
+          PY
+      - name: Retain full deterministic feature extraction and source-frozen world audit
+        if: always()
+        run: |
+          cp harness/c3x_014_legal_black_reply_concept_source_freeze.py output/LEGAL_CONCEPT_SOURCE_FREEZER.py
+          cp c3x/ontology/c3x-014-joint-native-work-completion-and-legal-concept-mediator-precommit.md output/CONCEPT_COURT_PRECOMMIT.md
+          sha256sum official-games/TCEC_S29.pgn > output/OFFICIAL_PGN_SHA256.txt
+          sha256sum p2-cohort/P2_FROZEN_NEW16_SOURCE.json > output/ORIGINAL_COHORT_SHA256.txt
+          printf '%s\n' 'Chess concepts are descriptive proxies; alternate black 18th move affects many competing causes. No isolated chess-mediator causal claim.' > output/FEATURE_AUTHORITY.txt
+          find output -maxdepth 1 -type f ! -name 'MEMBER_SHA256.txt' -print0 | sort -z | xargs -0 sha256sum > output/MEMBER_SHA256.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x-014-legal-historical-chess-concept-worlds-source-only
+          path: output/
+          retention-days: 90
+          if-no-files-found: error
