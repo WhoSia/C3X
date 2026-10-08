@@ -1,0 +1,33 @@
+{
+  "schema": "c3x-0.11-engineering-checkpoint-v1",
+  "stage": "C3X 0.11",
+  "date": "2026-10-08",
+  "verdict": "RAW_CUSTODY_RECHECK_PASS__CI_AND_FEN_AUDIT_RESULT_PENDING",
+  "observations": {
+    "existing_local_raw_preflight_v2": {
+      "source_count": 6,
+      "header_blocks": 454,
+      "sha256_matches": 6,
+      "header_anomalies": 0,
+      "verdict": "RAW_CUSTODY_PASS_ONLY"
+    },
+    "github_commits": {
+      "raw_hardening": "274f3e8110c414108d44442f99b5ab1bed5a3923",
+      "raw_regression": "d215c76f251c5beecca712a8ace23d4892e812bb",
+      "fen_audit": "d8a2ade305976d016bcf1ddd062f9ed2be83c43f",
+      "ci_workflow": "0a107086aca5cdbba0747b4c4b39037c9d8e3825",
+      "fen_negative_controls": "e7d0b845af688b71935ab32c52f7214f9820278b",
+      "ci_update": "57eeb38dd1ccaab58fce928dfb43157edcfc9b4e"
+    }
+  },
+  "execution_status": {
+    "local_raw_custody": "PASS",
+    "remote_ci": "NOT_VERIFIED",
+    "fen_code": "COMMITTED_NOT_EXECUTED_AGAINST_SIX_PGNS",
+    "historical_corpus": "COVERAGE_NOT_CERTIFIED",
+    "scientific_preseal": "DENIED",
+    "activation": "UNOPENED",
+    "q0": "DENIED"
+  },
+  "note": "CI workflow is artifact-only and contents read; never creates github-actions[bot] commits. Python-chess unavailable in local execution environment."
+}
