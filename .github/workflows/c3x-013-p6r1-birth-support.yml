@@ -1,0 +1,56 @@
+name: C3X 0.13 P6-R1 Real Birth Rival Support Census
+on:
+  push:
+    paths:
+      - '.github/workflows/c3x-013-p6r1-birth-support.yml'
+      - 'harness/c3x_013_p6r1_birth_rival_support.py'
+      - 'c3x/ontology/c3x-013-p6r1-birth-event-rival-support-precommit.md'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  exact-legal-rival-support-no-engine-outcome:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Pin chess and exact corpus decompressor
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq zstd
+          python3 -m pip install --disable-pip-version-check chess==1.11.2
+      - name: Acquire original SHA-pinned frozen broadcast source
+        run: |
+          mkdir -p output
+          curl -fL --retry 3 --max-time 120 -o /tmp/lichess_db_broadcast_2026-09.pgn.zst https://database.lichess.org/broadcast/lichess_db_broadcast_2026-09.pgn.zst
+          printf '%s\n' '27a39d035767a30901b89602f33f2a7b27d4ab5025842071165fa079f8fff1df  /tmp/lichess_db_broadcast_2026-09.pgn.zst' | sha256sum -c -
+      - name: Select first natural birth and freeze legal negative-root controls
+        env:
+          PYTHONPATH: .
+        run: |
+          python3 harness/c3x_013_p6r1_birth_rival_support.py --source /tmp/lichess_db_broadcast_2026-09.pgn.zst --output output/p6r1_real_birth_rival_support.json
+          python3 - <<'PY'
+          import json
+          x=json.load(open('output/p6r1_real_birth_rival_support.json'))
+          assert x['original_groups']==16
+          assert not x['causal_concept_explanation'] and x['engine_measurement'] is None
+          assert sum(x['status_counts'].values())==16
+          print('P6R1_UNADAPTED_SOURCE_SUPPORT_RESULT',x['status_counts'])
+          PY
+      - name: Preserve code and frozen method
+        if: always()
+        run: |
+          mkdir -p output
+          cp harness/c3x_013_p6r1_birth_rival_support.py output/p6r1_code.py
+          cp c3x/ontology/c3x-013-p6r1-birth-event-rival-support-precommit.md output/p6r1_precommit.md
+          printf '%s\n' 'Lichess Broadcast database CC BY-SA 4.0 https://database.lichess.org/' > output/source_attribution.txt
+          sha256sum output/* > output/artifact_sha256.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x-013-p6r1-natural-birth-rival-support
+          path: output/
+          if-no-files-found: error
