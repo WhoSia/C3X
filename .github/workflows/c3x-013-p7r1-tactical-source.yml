@@ -1,0 +1,70 @@
+name: C3X 0.13 P7-R1 Frozen 32-Group Tactical Support
+on:
+  push:
+    paths:
+      - '.github/workflows/c3x-013-p7r1-tactical-source.yml'
+      - 'harness/c3x_013_p7r1_tactical_support.py'
+      - 'tests/test_c3x_013_p7r1_tactical_support.py'
+      - 'c3x/ontology/c3x-013-p7-r1-frozen-tactical-support-precommit.md'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  new-groups-preoutcome-legal-tactical-support:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install chess rules and original broadcast decompressor
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq zstd
+          python3 -m pip install --disable-pip-version-check chess==1.11.2
+      - name: Freeze and byte-check September original
+        run: |
+          mkdir -p output
+          curl -fL --retry 3 --max-time 120 -o /tmp/lichess_db_broadcast_2026-09.pgn.zst https://database.lichess.org/broadcast/lichess_db_broadcast_2026-09.pgn.zst
+          printf '%s\n' '27a39d035767a30901b89602f33f2a7b27d4ab5025842071165fa079f8fff1df  /tmp/lichess_db_broadcast_2026-09.pgn.zst' | sha256sum -c -
+      - name: Test real-game recapture and nested tactical gates
+        env:
+          PYTHONPATH: .
+        run: |
+          python3 -m unittest discover -s tests -p test_c3x_013_p7r1_tactical_support.py -v
+          python3 -m unittest discover -s tests -p test_c3x_013_p7_tactical_capture_gate.py -v
+      - name: Enumerate all legal candidate pairs without opening engine outcomes
+        env:
+          PYTHONPATH: .
+        run: |
+          python3 harness/c3x_013_p7r1_tactical_support.py --source /tmp/lichess_db_broadcast_2026-09.pgn.zst --output output/p7r1_source_tactical_support.json
+          python3 - <<'PY'
+          import json
+          x=json.load(open('output/p7r1_source_tactical_support.json'))
+          assert x["new_frozen_broadcast_groups"]==32
+          assert x["prior_p5_group_count"]==16
+          assert x["frozen_segment_digest"]=="e5ca78464ef6bb2e95271c12428c47e8f9535efca9674d1048aed029ef1584c0"
+          assert x["engine_scores_opened"] is False
+          assert x["scientific_concept_causality_authorized"] is False
+          assert len({z["broadcast"] for z in x["records"]})==32
+          c=x["totals"]
+          assert c["all_legal_pairs"]>=c["same_class_capture_check_promotion"]>=c["matched_legal_immediate_recapture"]>=c["matched_and_same_origin"]>=c["passed_birth_toggling_in_strict"]
+          print("P7R1_PREOUTCOME_TACTICAL_SUPPORT_ONLY")
+          PY
+      - name: Preserve frozen source specification, executable, and attribution
+        if: always()
+        run: |
+          mkdir -p output
+          cp harness/c3x_013_p7r1_tactical_support.py output/source_tactical_support_code.py
+          cp tests/test_c3x_013_p7r1_tactical_support.py output/tactical_support_tests.py
+          cp c3x/ontology/c3x-013-p7-r1-frozen-tactical-support-precommit.md output/source_precommit.md
+          printf '%s\n' 'Lichess broadcast database CC BY-SA 4.0 https://database.lichess.org/' > output/source_attribution.txt
+          sha256sum output/* > output/file_integrity_sha256.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x-013-p7r1-source-disjoint-tactical-support
+          path: output/
+          if-no-files-found: error
+          retention-days: 90
