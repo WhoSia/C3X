@@ -1,0 +1,49 @@
+{
+  "schema": "c3x-g10-p25-closure-v1",
+  "stage": "C3X 0.10.0-G10-P25",
+  "verdict": "CLOSED_ADMINISTRATIVE_HOLD_SOURCE_CUSTODY_COMPLETE__FEN_PRESEAL_AND_SUPPORT_ACTIVATION_TRANSPORT_UNEXECUTED",
+  "closure_type": "administrative stop; not scientific PASS or empirical FAIL",
+  "requested_by": "PI 2026-10-08 explicitly asked for P25 closure and P26 formal name",
+  "grounded_receipts": [
+    "c3x/receipts/g10-p25-six-source-raw-custody-audit-20261008.json",
+    "c3x/receipts/g10-p25-six-source-header-anomaly-audit-20261008.json"
+  ],
+  "verified": {
+    "sources": 6,
+    "game_headers": 454,
+    "raw_sha256_count": 6,
+    "drive_charlotte_custody": true
+  },
+  "not_verified": [
+    "complete chess.pgn parsing and SAN move legality",
+    "P19 exact historical canonical FEN collision scan",
+    "cross-cohort four-field FEN disjointness",
+    "frozen source-preseal",
+    "routed-chain support yields and minimum quotas",
+    "FULL_CLASS activation",
+    "calibration fitted model seal",
+    "one-shot transfer"
+  ],
+  "blocker": "python-chess missing from local runtime; pip DNS failure. No verified alternate remote run or full historic corpus attached.",
+  "historical_invariants": [
+    "P23 empirical transport FAIL remains binding",
+    "P24 administrative HOLD, never an empirical FAIL",
+    "Q0 DENIED",
+    "Track B ABSTAIN_ECOLOGY_CALIBRATION_UNVERIFIED",
+    "No outcome-conditioned cohort substitution"
+  ],
+  "next": {
+    "stage": "C3X 0.10.0-G10-P26",
+    "type": "Experiment",
+    "formal_name": "Prospective Source-Disjoint Executable-Support Reconstitution, Historical-FEN-Excluded Cohort Preseal, Conditional Activation Calibration & Cross-Ecology Transport Experiment",
+    "entry_state": "PROPOSED_NOT_EXECUTED",
+    "entry_requirements": [
+      "precommit acquisition and corpus-scope before yield",
+      "freeze original six source identities or prospectively justify replacements",
+      "exact P19 canonical FEN and full history audit",
+      "read-only reproducible legal-PGN test",
+      "no activation before support preseal"
+    ],
+    "rationale": "P26 is a new prospective experiment with a new precommitted validation sequence, not a fictional continuation of unopened P25 results."
+  }
+}
