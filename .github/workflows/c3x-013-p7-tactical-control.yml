@@ -1,0 +1,37 @@
+name: C3X 0.13 P7 Tactical Matching Controls
+on:
+  push:
+    paths:
+      - '.github/workflows/c3x-013-p7-tactical-control.yml'
+      - 'tests/test_c3x_013_p7_tactical_capture_gate.py'
+      - 'c3x/ontology/c3x-013-p7-tactical-equivalence-root-support-precommit.md'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  exact-chess-legal-recapture-controls:
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Confirm pawn recapture risk and reject tactically unmatched root pair
+        env:
+          PYTHONPATH: .
+        run: |
+          python3 -m pip install --disable-pip-version-check chess==1.11.2
+          python3 -m unittest discover -s tests -p test_c3x_013_p7_tactical_capture_gate.py -v
+      - name: Preserve negative control and stage authority
+        run: |
+          mkdir -p output
+          cp tests/test_c3x_013_p7_tactical_capture_gate.py output/p7_tactical_control_tests.py
+          cp c3x/ontology/c3x-013-p7-tactical-equivalence-root-support-precommit.md output/p7_tactical_precommit.md
+          printf '%s\n' '{"stage":"C3X 0.13 P7","status":"SYNTACTIC_TACTICAL_CONTROL_ONLY","tactically_unmatched_natural_pair":["f4c7","f4h6"],"root_contrast_score_at_depth16_cp":1082,"science_causal_reason_granted":false}' > output/verdict.json
+          sha256sum output/* > output/integrity_sha256.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: c3x-013-p7-tactical-equivalence-boundary
+          path: output/
+          if-no-files-found: error
