@@ -1,0 +1,88 @@
+name: C3X 0.13 P8-EP9 Stockfish 16 Native TT Cutoff Micro-Interventions
+on:
+  push:
+    paths:
+      - '.github/workflows/c3x-013-p8ep9-sf16-tt-cutoffs.yml'
+      - 'tools/c3x_013_p8ep9_patch_sf16_cutoffs.py'
+      - 'harness/c3x_013_p8ep9_stockfish_tt_native.py'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  stockfish16-main-vs-qsearch-tt-cutoff:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install exact legal chess library and source build dependencies
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq git curl make g++
+          python -m pip install --disable-pip-version-check chess==1.11.2
+          mkdir -p output
+          python -m py_compile tools/c3x_013_p8ep9_patch_sf16_cutoffs.py harness/c3x_013_p8ep9_stockfish_tt_native.py
+      - name: Resolve official Stockfish 16 release source twice
+        run: |
+          git clone -q --branch sf_16 --single-branch https://github.com/official-stockfish/Stockfish.git /tmp/ep9_sf16_base
+          cp -a /tmp/ep9_sf16_base /tmp/ep9_sf16_trace
+          test "$(git -C /tmp/ep9_sf16_base rev-parse HEAD)" = "$(git -C /tmp/ep9_sf16_trace rev-parse HEAD)"
+          git -C /tmp/ep9_sf16_base rev-parse HEAD > output/upstream_sf16_commit.txt
+          git -C /tmp/ep9_sf16_base status --short > output/upstream_initial_diff.txt
+          cp /tmp/ep9_sf16_base/Copying.txt output/Stockfish_GPLv3.txt || cp /tmp/ep9_sf16_base/Copying.txt output/Stockfish_LICENSE.txt
+      - name: Apply anchor-exact observational and TT cutoff patch
+        run: |
+          python tools/c3x_013_p8ep9_patch_sf16_cutoffs.py --source /tmp/ep9_sf16_trace --out-manifest output/EP9_patch_manifest.json
+          git -C /tmp/ep9_sf16_trace diff -- src/search.cpp > output/EP9_source_intervention.patch
+          test -s output/EP9_source_intervention.patch
+          sha256sum /tmp/ep9_sf16_base/src/search.cpp /tmp/ep9_sf16_trace/src/search.cpp > output/search_cpp_sha256.txt
+      - name: Compile identical upstream release and separately instrumented build
+        run: |
+          make -s -C /tmp/ep9_sf16_base/src -j2 build ARCH=x86-64
+          cp /tmp/ep9_sf16_base/src/nn-*.nnue /tmp/ep9_sf16_trace/src/ 2>/dev/null || true
+          make -s -C /tmp/ep9_sf16_trace/src -j2 build ARCH=x86-64
+          cp /tmp/ep9_sf16_base/src/stockfish output/sf16_baseline
+          cp /tmp/ep9_sf16_trace/src/stockfish output/sf16_trace
+          chmod +x output/sf16_baseline output/sf16_trace
+          sha256sum output/sf16_baseline output/sf16_trace > output/binaries_sha256.txt
+          printf 'uci\nquit\n' | output/sf16_baseline > output/upstream_UCI_identity.txt
+          printf 'uci\nquit\n' | output/sf16_trace > output/trace_UCI_identity.txt
+      - name: Execute source-native OFF, MAIN, QSEARCH and BOTH depth panels
+        run: |
+          python harness/c3x_013_p8ep9_stockfish_tt_native.py --baseline output/sf16_baseline --instrumented output/sf16_trace --output output/EP9_real_native_tt_cutoff_panel.json
+          python - <<'PY'
+          import json
+          p=json.load(open('output/EP9_real_native_tt_cutoff_panel.json'))
+          assert p['schema']=='c3x-013-p8ep9-stockfish16-native-tt-cutoff-path-intervention-v1'
+          assert p['observer_noop_exact_all']
+          assert p['masked_runs_authorized']
+          assert len(p['cells'])==16
+          assert all(set(r['modes'])=={'MAIN','QSEARCH','BOTH'} for r in p['cells'])
+          assert not p['causal_engine_mechanism_established']
+          assert not p['chess_concept_causal_mediation_established']
+          print('EP9_SF16_NATIVE_EXPERIMENT_SCIENTIFIC_FIREWALL_PASS')
+          PY
+      - name: Preserve source intervention and raw engine metadata without GitHub writeback
+        if: always()
+        run: |
+          mkdir -p output
+          cp tools/c3x_013_p8ep9_patch_sf16_cutoffs.py output/EP9_patch_script.py
+          cp harness/c3x_013_p8ep9_stockfish_tt_native.py output/EP9_harness.py
+          find output -maxdepth 1 -type f ! -name 'sf16_baseline' ! -name 'sf16_trace' -print0 | sort -z | xargs -0 sha256sum > output/member_manifest_sha256.txt
+          printf '%s\n' 'Descriptive source-conditional engine search intervention only, no chess concept causal proof. No bot commits or pushes.' > output/SCIENTIFIC_AUTHORITY.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x-013-p8ep9-sf16-native-tt-cutoff
+          path: |
+            output/EP9*
+            output/*identity.txt
+            output/*sha256.txt
+            output/SCIENTIFIC_AUTHORITY.txt
+            output/upstream_sf16_commit.txt
+            output/Stockfish_GPLv3.txt
+            output/Stockfish_LICENSE.txt
+          if-no-files-found: warn
+          retention-days: 90
