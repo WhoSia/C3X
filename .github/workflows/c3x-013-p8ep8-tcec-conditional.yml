@@ -4,6 +4,10 @@ on:
     paths:
       - '.github/workflows/c3x-013-p8ep8-tcec-conditional.yml'
       - 'harness/c3x_013_p8ep8_tcec_conditional_uci.py'\n      - 'harness/test_c3x_013_p8ep8.py'
+      - 'c3x_explain/p8_ep8.py'
+      - 'c3x_explain/test_p8_ep8.py'
+      - 'c3x_explain/core.py'
+      - 'c3x_explain/__main__.py'
   workflow_dispatch:
 permissions:
   contents: read
@@ -33,7 +37,8 @@ jobs:
         env:
           PYTHONPATH: .
         run: |
-          python -m unittest harness.test_c3x_013_p8ep8 -v\n          python - <<'PY'
+          python -m unittest harness.test_c3x_013_p8ep8 -v
+          python -m unittest c3x_explain.test_p8_ep8 -v\n          python - <<'PY'
           from harness.c3x_013_p8ep8_tcec_conditional_uci import worlds
           w=worlds()
           assert len(w)==2
