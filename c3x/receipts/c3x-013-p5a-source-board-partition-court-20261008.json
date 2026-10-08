@@ -1,0 +1,52 @@
+{
+  "schema": "c3x-013-p5a-frozen-source-factual-court-v1",
+  "stage": "C3X 0.13 P5-A",
+  "date": "2026-10-08",
+  "status": "CLOSED_DESCRIPTIVE_PARTITION_ONLY__NO_CONCEPT_OR_CAUSAL_AUTHORITY",
+  "frozen_acquisition": "c3x/receipts/c3x-013-p5-frozen-september-source-acquisition-20261008.md",
+  "source": {
+    "drive_file_id": "1GTQWzz33Cp0FFaTKIkLyaxRWGFh1fUGh",
+    "origin": "https://database.lichess.org/broadcast/lichess_db_broadcast_2026-09.pgn.zst",
+    "license": "Lichess broadcast CC BY-SA 4.0",
+    "compressed_sha256": "27a39d035767a30901b89602f33f2a7b27d4ab5025842071165fa079f8fff1df",
+    "compressed_bytes": 18414369,
+    "total_scanned_game_headers": 28638,
+    "distinct_broadcasts": 299,
+    "selected_preoutcome_groups": 16,
+    "selection_sha256": "7f9e865ced89aa47ed06aac5fa0d40ff02481f8ff4e696f12769fdcffbc9fa1b"
+  },
+  "run": {
+    "id": 37721703364,
+    "url": "https://github.com/WhoSia/C3X/actions/runs/37721703364",
+    "commit": "5530b7aeeb472a729e5a79017f120350a0a89095",
+    "result": "SUCCESS",
+    "artifact_id": 11526366929,
+    "artifact_sha256": "1d9fc32d718c5199c58a4d1cf06c6b597c3a6421cfc561c01f9028974684af82",
+    "artifact_bytes": 9789,
+    "drive_file_id": "1escxgMkdn7l82TgtNWB4Kf7h3FHRg94z",
+    "drive_url": "https://drive.google.com/file/d/1escxgMkdn7l82TgtNWB4Kf7h3FHRg94z/view"
+  },
+  "legal_replay": {
+    "legal_nonterminal_ply32_board_count": 14,
+    "short_or_ineligible_board_hold": 1,
+    "PGN_variant_mismatch_hold": 1,
+    "position_collision_with_012_six": false,
+    "source_provider_distinct": false
+  },
+  "descriptive_predicates": {
+    "own_center_occupancy_positive": 12,
+    "own_center_occupancy_negative": 2,
+    "own_isolated_pawn_positive": 2,
+    "own_isolated_pawn_negative": 12,
+    "own_passed_pawn_positive": 0,
+    "own_passed_pawn_negative": 14
+  },
+  "claim_ceiling": [
+    "Chess legal replay and exact rule-defined board snapshot values only",
+    "Center occupancy and isolated pawn predicates have both classes in 14 boards but minority class count only 2",
+    "Passed-pawn predicate has no positive source example and cannot be evaluated for class distinction",
+    "Same Lichess provider; 16 distinct broadcast groups are not independently proven chess ecologies",
+    "No empirical move preference, engine explanation, causal intervention, opponent continuation, cross-engine concept or human utility PASS in P5-A"
+  ],
+  "next": "P5-B preregistered cold 10k/30k/80k near-equal qualifying pairs and separate fixed-depth12 descriptive feature predictions; zero mechanistic and human authority permitted."
+}
