@@ -1,0 +1,73 @@
+{
+  "schema": "c3x-0.11-preoutcome-source-accrual-plan-v1",
+  "stage": "C3X 0.11",
+  "legacy_stage": "C3X 0.10.0-G10-P26",
+  "state": "OPEN_PREOUTCOME_ACQUISITION_AND_HISTORICAL_RECONCILIATION",
+  "provenance_only_not_prospective_result": true,
+  "question": "Can preselected source-disjoint PGN event ecologies support reproducible routed interventions and conditional activation transport across unseen source/engine contexts?",
+  "sources": {
+    "calibration": [
+      "Charlotte Spring Norm 2026 GM",
+      "NZ South Island Championship 2026",
+      "Golders Green September Rapid 2026"
+    ],
+    "transfer": [
+      "Radnicki IM VII",
+      "Berjaya Global Open Masters",
+      "Milton Keynes Rapid"
+    ],
+    "role_lock": "Inherited exact six source roles from P25, pending source identity/legality and FEN preseal; no outcome-conditioned substitution."
+  },
+  "historical_sources": [
+    {
+      "type": "official broadcast",
+      "object": "2026-07 Lichess broadcast PGN archive",
+      "authority": "Previously used, historical exclusion only",
+      "manifest": "c3x/data/g10-p0-source-manifest.json"
+    },
+    {
+      "type": "early original",
+      "object": "STS1-STS15_LAN_v6.epd",
+      "authority": "FEN-only historical collision ledger; bm and scores not admitted"
+    },
+    {
+      "type": "opening extraction",
+      "objects": [
+        "extracted_persaperturas_CANONICAL_5500_2026-08-09.csv",
+        "extracted_persaperturas_extended_strict_5287_2026-08-09.csv"
+      ],
+      "authority": "Earlier exploratory opening corpus, historical collision only; not independent PGN confirmation"
+    },
+    {
+      "type": "early experiment output",
+      "objects": [
+        "ROOT_QUALIFICATION_CORPUS.jsonl",
+        "BRPP_ENRICHED_CORPUS.jsonl",
+        "STRICT_CORPUS_20.jsonl"
+      ],
+      "authority": "Find and type historical candidate FEN/hash identities; avoid outcome import"
+    },
+    {
+      "type": "legacy sample PGN",
+      "drive_folder": "1ZDvJHnELF1aie_mmu9Avh9qdK0HdBJ2m",
+      "authority": "Primarily historical fixtures including non-standard variants; do not count as new six-source ecologies"
+    }
+  ],
+  "execution_gates": [
+    "verify six raw SHA and PGN legality",
+    "apply P19 canonical_fen(board.fen(en_passant='fen') first four fields plus '0 1') exactly",
+    "historical JSON and source-world hash census",
+    "cross-calibration/transfer FEN exclusion and identity disjointness",
+    "source eligibility and balance preseal",
+    "outcome-blind executable chain quota",
+    "calibration C0-C3 model freeze then one-shot transfer"
+  ],
+  "invariants": [
+    "P23 empirical FAIL",
+    "P24 and P25 administrative HOLD",
+    "Q0 DENIED",
+    "No bot-authored commits",
+    "No work mode",
+    "No output fishing"
+  ]
+}
