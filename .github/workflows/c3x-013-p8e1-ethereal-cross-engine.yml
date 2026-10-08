@@ -1,0 +1,92 @@
+name: C3X 0.13 P8-E1 Pinned Ethereal Cross-Architecture Diagnostic
+on:
+  push:
+    paths:
+      - '.github/workflows/c3x-013-p8e1-ethereal-cross-engine.yml'
+      - 'harness/c3x_013_p8e1_pinned_ethereal.py'
+      - 'c3x/ontology/c3x-013-p8-e1-ethereal-classical-precommit.md'
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  freeze-p7-and-measure-independent-architecture:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Pin engine controls and human-readable source licenses
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq build-essential git
+          python3 -m pip install --disable-pip-version-check chess==1.11.2
+      - uses: actions/download-artifact@v4
+        with:
+          name: c3x-013-p7r2-new32-cold-tactical-depth-qualification
+          path: p7-original
+          repository: WhoSia/C3X
+          run-id: '37727921874'
+          github-token: ${{ github.token }}
+      - name: Freeze verified P7 root selection and original FEN authority
+        run: |
+          mkdir -p output
+          python3 - <<'PY'
+          import hashlib,json
+          a=open("p7-original/p7r1_same_source_tactical_support.json","rb").read()
+          b=open("p7-original/p7r2_tactical_cold_root_results.json","rb").read()
+          p=json.loads(b)
+          q=json.loads(a)
+          assert p["source_r1_exact_sha256"]==hashlib.sha256(a).hexdigest()
+          assert p["nested_support_counts"]["P7_tactically_filtered"]==8
+          assert q["frozen_segment_digest"]=="e5ca78464ef6bb2e95271c12428c47e8f9535efca9674d1048aed029ef1584c0"
+          assert p["source_groups_frozen"]==32
+          print("P8_E1_P7_DATA_PRECOMMITTED",hashlib.sha256(a).hexdigest(),hashlib.sha256(b).hexdigest())
+          PY
+      - name: Compile genuine independent Ethereal classical at pinned source commit
+        run: |
+          git clone -q https://github.com/AndyGrant/Ethereal.git /tmp/c3x-p8-ethereal
+          git -C /tmp/c3x-p8-ethereal checkout -q 0e47e9b67f345c75eb965d9fb3e2493b6a11d09a
+          test "$(git -C /tmp/c3x-p8-ethereal rev-parse HEAD)" = '0e47e9b67f345c75eb965d9fb3e2493b6a11d09a'
+          make -s -C /tmp/c3x-p8-ethereal/src basic CC=gcc
+          test -x /tmp/c3x-p8-ethereal/src/Ethereal
+          sha256sum /tmp/c3x-p8-ethereal/src/Ethereal > output/ethereal_binary_sha256.txt
+          git -C /tmp/c3x-p8-ethereal show -s --format='%H %an %ad %s' HEAD > output/ethereal_source_commit.txt
+          cp /tmp/c3x-p8-ethereal/LICENSE output/ethereal_gpl3_license.txt
+          printf 'uci\nquit\n' | /tmp/c3x-p8-ethereal/src/Ethereal > output/ethereal_uci_identity_and_options.txt
+      - name: Run two independent cold Ethereal trials at depths 8 12 16
+        run: |
+          python3 harness/c3x_013_p8e1_pinned_ethereal.py \
+            --p7-source p7-original/p7r1_same_source_tactical_support.json \
+            --p7-outcome p7-original/p7r2_tactical_cold_root_results.json \
+            --engine /tmp/c3x-p8-ethereal/src/Ethereal \
+            --out output/p8e1_cross_architecture_directional_results.json
+          python3 - <<'PY'
+          import json
+          r=json.load(open('output/p8e1_cross_architecture_directional_results.json'))
+          assert r['source_cohort']==32 and r['inherited_tactical_pairs']==8
+          assert not r['chess_concept_causal_certificates']
+          assert not r['human_utility_measured']
+          assert r['C3X_014']=='CANDIDATE_ONLY_UNOPENED'
+          print('P8_E1_ONLY_DESCRIPTIVE_TWO_ENGINE_DIRECTIONS')
+          PY
+      - name: Seal code, original P7 inputs and revision hash ledger
+        if: always()
+        run: |
+          mkdir -p output
+          cp harness/c3x_013_p8e1_pinned_ethereal.py output/frozen_cross_engine_harness.py
+          cp c3x/ontology/c3x-013-p8-e1-ethereal-classical-precommit.md output/p8e1_precommit.md
+          cp p7-original/p7r1_same_source_tactical_support.json output/parent_P7_source_court.json
+          cp p7-original/p7r2_tactical_cold_root_results.json output/parent_P7_outcome_court.json
+          printf '%s\n' 'Ethereal (Andrew Grant) GPLv3. Exact public source https://github.com/AndyGrant/Ethereal/tree/0e47e9b67f345c75eb965d9fb3e2493b6a11d09a ; Stockfish source and binary IDs inherited from P7 frozen results. No Ethereal binary redistributed.' > output/engine_license_and_source_attribution.txt
+          sha256sum output/* > output/artifact_contents_sha256.txt
+      - name: Upload both success and failure provenance without repo writeback
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: c3x-013-p8e1-independent-ethereal-classical
+          path: output/
+          if-no-files-found: error
+          retention-days: 90
