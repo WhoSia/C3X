@@ -1,0 +1,96 @@
+name: C3X 0.13 P8-EP1 En Passant Tactical Support Rejudgment
+on:
+  push:
+    paths:
+      - '.github/workflows/c3x-013-p8ep1-en-passant-audit.yml'
+      - 'harness/c3x_013_p8ep1_impact_audit.py'
+      - 'tests/test_c3x_013_p8_ep_victim_hazard.py'
+      - 'c3x/ontology/c3x-013-p8-ep1-recapture-victim-identity-correction.md'
+      - 'harness/c3x_013_p7r1_tactical_support.py'
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  chess-en-passant-victim-identity-and-historical-support-delta:
+    runs-on: ubuntu-latest
+    timeout-minutes: 16
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install unchanged chess-rule dependency
+        run: |
+          python3 -m pip install --disable-pip-version-check chess==1.11.2
+      - uses: actions/download-artifact@v4
+        with:
+          name: c3x-013-p7r1-source-disjoint-tactical-support
+          repository: WhoSia/C3X
+          run-id: '37727746447'
+          github-token: ${{ github.token }}
+          path: original-p7r1
+      - uses: actions/download-artifact@v4
+        with:
+          name: c3x-013-p7r2-new32-cold-tactical-depth-qualification
+          repository: WhoSia/C3X
+          run-id: '37727921874'
+          github-token: ${{ github.token }}
+          path: original-p7r2
+      - uses: actions/download-artifact@v4
+        with:
+          name: c3x-013-p8r1-fresh32-legal-tactical-genesis-support
+          repository: WhoSia/C3X
+          run-id: '37732629116'
+          github-token: ${{ github.token }}
+          path: original-p8r1
+      - uses: actions/download-artifact@v4
+        with:
+          name: c3x-013-p8r2-eight-frozen-birth-contrast-two-engines
+          repository: WhoSia/C3X
+          run-id: '37733047681'
+          github-token: ${{ github.token }}
+          path: original-p8r2
+      - name: Execute exact en passant victim-square regression tests
+        env:
+          PYTHONPATH: .
+        run: |
+          mkdir -p output
+          python3 -m unittest discover -s tests -p test_c3x_013_p8_ep_victim_hazard.py -v
+          python3 -m unittest discover -s tests -p test_c3x_013_p7r1_tactical_support.py -v
+      - name: Compare originally frozen chess-root support under corrected capture semantics
+        env:
+          PYTHONPATH: .
+        run: |
+          python3 harness/c3x_013_p8ep1_impact_audit.py \
+            --p7r1 original-p7r1/p7r1_source_tactical_support.json \
+            --p7r2 original-p7r2/p7r2_tactical_cold_root_results.json \
+            --p8r1 original-p8r1/p8r1_fresh32_phase_support.json \
+            --p8r2 original-p8r2/p8r2_all_frozen_birth_contrasts.json \
+            --out output/p8ep1_original_to_corrected_tactical_support.json
+          python3 - <<'PY'
+          import json
+          d=json.load(open('output/p8ep1_original_to_corrected_tactical_support.json'))
+          assert d["chess_engine_scores_recomputed"] is False
+          assert d["old_source_results_overwritten"] is False
+          assert d["causal_explanation_granted"] is False
+          assert d["C3X_014"]=="CANDIDATE_ONLY_UNOPENED"
+          print("P8EP1_FROZEN_ORIGINAL_SOURCE_PRESERVED")
+          PY
+      - name: Seal original and corrected source with SHA256 ledger
+        if: always()
+        run: |
+          mkdir -p output
+          cp original-p7r1/source_tactical_support_code.py output/historical_buggy_root_hazard_code.py
+          cp harness/c3x_013_p7r1_tactical_support.py output/corrected_en_passant_root_hazard_code.py
+          cp harness/c3x_013_p8ep1_impact_audit.py output/frozen_correction_audit_code.py
+          cp tests/test_c3x_013_p8_ep_victim_hazard.py output/en_passant_regression_test_code.py
+          cp c3x/ontology/c3x-013-p8-ep1-recapture-victim-identity-correction.md output/bugfix_scope_precommit.md
+          sha256sum output/* > output/internal_sha256_ledger.txt
+      - name: Upload both adverse findings and complete repaired source evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: c3x-013-p8ep1-en-passant-victim-recapture-audit
+          path: output/
+          if-no-files-found: error
