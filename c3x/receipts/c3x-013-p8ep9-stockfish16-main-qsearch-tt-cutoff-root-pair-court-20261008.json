@@ -1,0 +1,200 @@
+{
+  "schema": "c3x-013-p8ep9-sf16-tt-cutoff-source-native-direct-root-court-v1",
+  "date": "2026-10-08",
+  "stage": "C3X 0.13 P8-EP9",
+  "title": "Stockfish 16 Native Main-Search and Quiescence TT Early-Return Microinterventions, No-Op Equivalence, Depth-Conditioned Root Pair Flip, and Search-Path Interaction",
+  "verdict": "SHAM_EQUIVALENCE_PASS__SF16_LOCAL_MAIN_TT_CUTOFF_ROOT_PAIR_FLIP_DEPTH8__CHESS_CONCEPT_CAUSAL_HOLD",
+  "authority": "EXACT_SOURCE_VERSION_LOCAL_SEARCH_CONTROL_INTERVENTION_ONLY",
+  "execution": {
+    "run_id": 37792544422,
+    "url": "https://github.com/WhoSia/C3X/actions/runs/37792544422",
+    "head_sha": "cd2848627c0559552d946e0b5463eb579ebb2e67",
+    "conclusion": "SUCCESS",
+    "upstream": "official-stockfish/Stockfish",
+    "upstream_tag": "sf_16",
+    "upstream_commit": "68e1e9b3811e16cad014b590d7443b9063b3eb52",
+    "source_file": "src/search.cpp",
+    "source_patch_script": "tools/c3x_013_p8ep9_patch_sf16_cutoffs.py",
+    "driver": "harness/c3x_013_p8ep9_stockfish_tt_native.py",
+    "direct_pair_driver": "harness/c3x_013_p8ep9_ceclub_root_multipv.py",
+    "builds": "separately compiled unmodified and counter-instrumented sf_16; equivalent source and net before patch",
+    "threads": 1,
+    "hash_mib": 16,
+    "depths": [
+      8,
+      12
+    ],
+    "cold_trials_per_world_depth": 2,
+    "intervention_modes": [
+      "OFF",
+      "MAIN",
+      "QSEARCH",
+      "BOTH"
+    ],
+    "tt_scope": "Guard early TT-value return at main search and qsearch independently; TT probes, TT move ordering, TT-value evaluation, and TT writes remain functional. Not a full TT knockout."
+  },
+  "preexisting_worlds": {
+    "source_games": 2,
+    "provider": "Lichess broadcast; same provider, previously examined in C3X",
+    "worlds_including_subpositions_and_synthetic_control": 7,
+    "TCEC": {
+      "frozen_stage": "C3X 0.13 P8-EP3/EP4",
+      "rank": 111,
+      "source": "TCEC S30",
+      "FEN": "r5k1/6p1/p5qn/4p2p/2ppP3/3Q3P/1P1B1PP1/R5K1 w - - 0 25",
+      "post_root_moves": [
+        "b2b3",
+        "b2b4"
+      ],
+      "scientifically_fresh": false
+    },
+    "CECLUB": {
+      "frozen_stage": "C3X 0.13 P7-R1/R2",
+      "rank": 40,
+      "source": "CECLUB Primera Division Linares 2026",
+      "source_game_url": "https://lichess.org/broadcast/ceclub-primera-division-linares-2026/round-6/HLnCaWdO/0YxrjUCr",
+      "source_segment_sha256": "e080dcbf8bcb1c99ac8ec8743673048b7063bbbddff89b9d4442ce431a01981c",
+      "FEN": "2rq1rk1/p4ppp/bp1bnn2/3pN3/2pP3P/1P2PPP1/PB2NRB1/R2Q2K1 w - - 1 17",
+      "previously_frozen_root_pair": [
+        "f3f4",
+        "g3g4"
+      ],
+      "previously_reported_depth_gaps_cp": {
+        "8": 29,
+        "12": 31,
+        "16": 42
+      },
+      "scientifically_fresh": false
+    },
+    "negative_control": "standard chess initial board; artificial, not source game"
+  },
+  "instrumented_separate_subposition_panel": {
+    "cells": 28,
+    "unmodified_vs_instrumented_OFF_exact": 28,
+    "result_definition": "Masked_output_changed_cells compares complete UCI semantics including nodes and PV, NOT bestmove flip counts.",
+    "TT_early_return_masks_fired_main_total": 25270,
+    "TT_early_return_masks_fired_qsearch_total": 43278,
+    "warning": "Counts add recurrent deep-search events across both depths, both cold repeats and multiple source-related boards; not independent events or games.",
+    "masked_output_changed_cells": {
+      "MAIN": 24,
+      "QSEARCH": 28,
+      "BOTH": 28
+    },
+    "CECLUB_root_depth12": {
+      "OFF": {
+        "bestmove": "f3f4",
+        "white_cp": 38
+      },
+      "MAIN": {
+        "bestmove": "b3c4",
+        "white_cp": 22
+      },
+      "QSEARCH": {
+        "bestmove": "b3c4",
+        "white_cp": 28
+      },
+      "BOTH": {
+        "bestmove": "f3f4",
+        "white_cp": -1
+      }
+    },
+    "interpretation": "Combined intervention can restore the previous root choice despite either individual intervention redirecting it. This reflects nonadditive adaptive search-path feedback, not an identified single causal TT event."
+  },
+  "direct_root_multiPV_pair": {
+    "design": "MultiPV=2, go depth D searchmoves f3f4 g3g4; same exact root and legal restricted candidate set in each cold engine process; both depth 8 and 12 twice.",
+    "unmodified_counter_sham_exact": 4,
+    "full_pair_cases": 4,
+    "cold_repeats_exact": true,
+    "depth8": {
+      "OFF": {
+        "bestmove": "f3f4",
+        "a_cp": 30,
+        "b_cp": 1,
+        "gap_a_minus_b_cp": 29
+      },
+      "MAIN": {
+        "bestmove": "g3g4",
+        "a_cp": 42,
+        "b_cp": 47,
+        "gap_a_minus_b_cp": -5,
+        "main_cutoff_blocked": 215
+      },
+      "QSEARCH": {
+        "bestmove": "f3f4",
+        "a_cp": 29,
+        "b_cp": 16,
+        "gap_a_minus_b_cp": 13,
+        "qsearch_cutoff_blocked": 211
+      },
+      "BOTH": {
+        "bestmove": "g3g4",
+        "a_cp": 37,
+        "b_cp": 47,
+        "gap_a_minus_b_cp": -10,
+        "main_cutoff_blocked": 133,
+        "qsearch_cutoff_blocked": 245
+      }
+    },
+    "depth12": {
+      "OFF": {
+        "bestmove": "f3f4",
+        "a_cp": 26,
+        "b_cp": -5,
+        "gap_a_minus_b_cp": 31
+      },
+      "MAIN": {
+        "bestmove": "f3f4",
+        "a_cp": 6,
+        "b_cp": 3,
+        "gap_a_minus_b_cp": 3,
+        "main_cutoff_blocked": 4248
+      },
+      "QSEARCH": {
+        "bestmove": "f3f4",
+        "a_cp": 19,
+        "b_cp": 0,
+        "gap_a_minus_b_cp": 19,
+        "qsearch_cutoff_blocked": 3619
+      },
+      "BOTH": {
+        "bestmove": "f3f4",
+        "a_cp": 44,
+        "b_cp": 19,
+        "gap_a_minus_b_cp": 25,
+        "main_cutoff_blocked": 2989,
+        "qsearch_cutoff_blocked": 6352
+      }
+    },
+    "per_root_pair_first_move_flip_counts_across_4_cells": {
+      "MAIN": 2,
+      "QSEARCH": 0,
+      "BOTH": 2
+    },
+    "inference": "Source-level family knockout of MAIN early TT returns can flip a previously frozen marginal root pair at completed depth8, reproducibly. At depth12 the preference does not flip. Effects are depth-conditional and change search paths and nodes; not an individual event necessary/sufficient certificate."
+  },
+  "source_custody": {
+    "github_artifact_id": 11557301120,
+    "github_workflow_run": 37792544422,
+    "drive_url": "https://drive.google.com/file/d/1vWieStVge4a7K02GMy8VUYaSeB7WUMIL/view",
+    "drive_folder_id": "1ehjBFtuBYo7WQdfHvQDkVxVmQRZow9h_",
+    "zip_size_bytes": 36011,
+    "zip_sha256": "0546768fe6cdc80dd1ece895a6a1bd86633470505fc9b799233d3feb537b4103",
+    "manifest_members_verified": 13,
+    "manifest_self_referential_bug_fixed": true,
+    "archive_download_byte_exact_confirmed": true,
+    "panel_json_sha256": "ece866ca9e08f5758046dddf07f9b2fec62cb9458c3e1cd3f911c363a948db4c",
+    "direct_pair_json_sha256": "d200234b9d523c73094ca026ae3a453d6a15086829b732c8ffa9cece64c92986"
+  },
+  "claim_ceiling": [
+    "G9.5-P13/14/15 prior search-event causality/transport mechanisms remain ancestral, not rediscovered or superseded by coarse TT cutoff family knockout.",
+    "CECLUB and TCEC are previously observed Lichess games, not new independent holdouts or separate provider ecology.",
+    "SF16 native TT cutoff mask is not a general chess concept nor a complete TT shutdown.",
+    "Search path and node counts change when an early cutoff is disabled; scores are compared under equal named depth, NOT equal computation/TT state.",
+    "CP are within Stockfish only; finite search output is not minimax or objective chess truth.",
+    "Depth8 local root pair switch is not a depth12 or other-engine replicated mechanism.",
+    "No passed-pawn causal mediation, human educational effectiveness, or authorized C3X causal explanation certificate.",
+    "No 0.14 opening or name licensed."
+  ],
+  "next_target": "Prospectively identify individual TT cutoff events along candidate roots, test sham and one-event necessity/sufficiency with adversarial and null controls; jointly test independent engine and source when viable; connect to Explain as bounded search observation until full certificate.",
+  "github_committer_contract": "All GitHub commits by authenticated WhoSia; Actions contents:read and never writes repository refs."
+}
