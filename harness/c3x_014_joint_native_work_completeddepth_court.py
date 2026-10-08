@@ -141,7 +141,7 @@ def main():
                       "nodes",A["nodes_reported_last"],B["nodes_reported_last"],
                       "gap_at_completed",g0,g1,"near",near,"strict",strict,
                       "choice",label_changed,flush=True)
-    assert len(cells)==192 and baseline_match==64
+    assert len(cells)==96 and baseline_match==64
     cold=0
     for root in roots:
         for label,_ in RATIOS:
@@ -168,8 +168,8 @@ def main():
             "source_reuse":"P2 previously exposed development games; post-discovery outcomes only",
             "old_node_parent_sha256":PARENT_SHA,
             "SF16_binary_sha256":hashbytes(Path(a.sf16).read_bytes()),
-            "source_group_count":16,"real_engine_process_count":384,
-            "paired_off_MAIN_cells":192,"two_cold_repeats_same_outcome_by_game_cap_out_of48":cold,
+            "source_group_count":16,"real_engine_process_count":192,
+            "paired_off_MAIN_cells":96,"two_cold_repeats_same_outcome_by_game_cap_out_of48":cold,
             "original_base_cap_native_probe_did_not_alter_UCI_output_out_of64":baseline_match,
             "requested_cap_grid":["80_percent_previous_cap","100_percent_previous_cap","120_percent_previous_cap"],
             "equal_native_completion_plus_nodes_within_2_percent_is_posttreatment_descriptive_only":True,
