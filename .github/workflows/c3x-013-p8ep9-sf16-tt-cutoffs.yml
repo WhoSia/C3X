@@ -5,6 +5,7 @@ on:
       - '.github/workflows/c3x-013-p8ep9-sf16-tt-cutoffs.yml'
       - 'tools/c3x_013_p8ep9_patch_sf16_cutoffs.py'
       - 'harness/c3x_013_p8ep9_stockfish_tt_native.py'
+      - 'harness/c3x_013_p8ep9_ceclub_root_multipv.py'
   workflow_dispatch:
 permissions:
   contents: read
@@ -23,7 +24,7 @@ jobs:
           sudo apt-get install -y -qq git curl make g++
           python -m pip install --disable-pip-version-check chess==1.11.2
           mkdir -p output
-          python -m py_compile tools/c3x_013_p8ep9_patch_sf16_cutoffs.py harness/c3x_013_p8ep9_stockfish_tt_native.py
+          python -m py_compile tools/c3x_013_p8ep9_patch_sf16_cutoffs.py harness/c3x_013_p8ep9_stockfish_tt_native.py harness/c3x_013_p8ep9_ceclub_root_multipv.py
       - name: Resolve official Stockfish 16 release source twice
         run: |
           git clone -q --branch sf_16 --single-branch https://github.com/official-stockfish/Stockfish.git /tmp/ep9_sf16_base
@@ -66,12 +67,27 @@ jobs:
           assert not p['chess_concept_causal_mediation_established']
           print('EP9_SF16_NATIVE_EXPERIMENT_SCIENTIFIC_FIREWALL_PASS')
           PY
+      - name: Measure previously frozen CECLUB direct root legal pair with MultiPV2
+        run: |
+          python harness/c3x_013_p8ep9_ceclub_root_multipv.py --baseline output/sf16_baseline --instrumented output/sf16_trace --output output/EP9_CECLUB_direct_root_multipv.json
+          python - <<'PY'
+          import json
+          x=json.load(open('output/EP9_CECLUB_direct_root_multipv.json'))
+          assert x['unmodified_vs_counter_sham_exact']
+          assert len(x['cells'])==4
+          assert x['historical_P7_reused'] and not x['independent_holdout']
+          assert all(set(z['masks'])=={'MAIN','QSEARCH','BOTH'} for z in x['cells'])
+          assert all(set(z['sham']['pair_scores_white_cp'])=={'f3f4','g3g4'} for z in x['cells'])
+          assert x['chess_concept_caused_engine_preference'] is False
+          print('EP9_DIRECT_PAIR_FIREWALL_PASS')
+          PY
       - name: Preserve source intervention and raw engine metadata without GitHub writeback
         if: always()
         run: |
           mkdir -p output
           cp tools/c3x_013_p8ep9_patch_sf16_cutoffs.py output/EP9_patch_script.py
           cp harness/c3x_013_p8ep9_stockfish_tt_native.py output/EP9_harness.py
+          cp harness/c3x_013_p8ep9_ceclub_root_multipv.py output/EP9_ceclub_root_multipv.py
           find output -maxdepth 1 -type f ! -name 'sf16_baseline' ! -name 'sf16_trace' ! -name 'member_manifest_sha256.txt' ! -name 'upstream_initial_diff.txt' -print0 | sort -z | xargs -0 sha256sum > output/member_manifest_sha256.txt
           printf '%s\n' 'Descriptive source-conditional engine search intervention only, no chess concept causal proof. No bot commits or pushes.' > output/SCIENTIFIC_AUTHORITY.txt
       - uses: actions/upload-artifact@v4
