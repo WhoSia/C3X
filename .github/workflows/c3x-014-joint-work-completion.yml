@@ -1,0 +1,77 @@
+name: C3X 0.14 Single-Stage Joint Native Work And CompletedDepth Court
+on:
+  push:
+    paths:
+      - '.github/workflows/c3x-014-joint-work-completion.yml'
+      - 'harness/c3x_014_joint_native_work_completeddepth_court.py'
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  native-work-completion:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Prepare pinned Python chess and SF16 source build
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq make g++ git
+          python -m pip install --disable-pip-version-check chess==1.11.2
+          python -m py_compile harness/c3x_014_joint_native_work_completeddepth_court.py
+          mkdir -p raw-parent output
+      - uses: actions/download-artifact@v4
+        with:
+          name: c3x-014-p2-sixteen-group-node-cap-hash-root-order-postdiscovery
+          path: raw-parent/
+          repository: WhoSia/C3X
+          run-id: '37804219196'
+          github-token: ${{ github.token }}
+      - name: Check previously frozen original development source
+        run: |
+          printf '%s  %s\n' '37d6b3bde44e971ee88ae5fbababd63ba88980ce6b48e0bfa80234cebccdbdf1' 'raw-parent/P2_POST_DISCOVERY_NODE_CAP_ORDER_HASH_PANEL.json' | sha256sum -c -
+      - name: Build source-pinned SF16 EP9 plus end-of-search true completion probe
+        run: |
+          git clone -q --single-branch --branch sf_16 https://github.com/official-stockfish/Stockfish.git /tmp/c3x_014_joint_sf16
+          test "$(git -C /tmp/c3x_014_joint_sf16 rev-parse HEAD)" = "68e1e9b3811e16cad014b590d7443b9063b3eb52"
+          python tools/c3x_013_p8ep9_patch_sf16_cutoffs.py --source /tmp/c3x_014_joint_sf16 --out-manifest output/JOINT_EP9_PATCH_MANIFEST.json
+          python tools/c3x_014_patch_native_completed_depth_probe.py --source /tmp/c3x_014_joint_sf16 --out-manifest output/JOINT_COMPLETION_PATCH_MANIFEST.json
+          git -C /tmp/c3x_014_joint_sf16 diff -- src/search.cpp > output/JOINT_NATIVE_SOURCE_DIFF.patch
+          cp /tmp/c3x_014_joint_sf16/Copying.txt output/Stockfish_GPLv3.txt
+          make -s -C /tmp/c3x_014_joint_sf16/src -j2 build ARCH=x86-64
+          cp /tmp/c3x_014_joint_sf16/src/stockfish /tmp/c3x_014_joint_sf16_bin
+          sha256sum /tmp/c3x_014_joint_sf16_bin > output/JOINT_NATIVE_BINARY_SHA256.txt
+      - name: Run whole 16-game developmental cohort three node limits times two restarts
+        run: |
+          python harness/c3x_014_joint_native_work_completeddepth_court.py --old-node-panel raw-parent/P2_POST_DISCOVERY_NODE_CAP_ORDER_HASH_PANEL.json --sf16 /tmp/c3x_014_joint_sf16_bin --out output/C3X014_JOINT_WORK_COMPLETION_PANEL.json
+          python - <<'PY'
+          import json
+          r=json.load(open('output/C3X014_JOINT_WORK_COMPLETION_PANEL.json'))
+          assert r['formal_research_stage']=='C3X 0.14' and r['internal_work_only']
+          assert r['source_group_count']==16 and len(r['actual_cases'])==96
+          assert r['real_engine_process_count']==192
+          assert r['original_base_cap_native_probe_did_not_alter_UCI_output_out_of64']==64
+          assert r['two_cold_repeats_same_outcome_by_game_cap_out_of48']==48
+          assert r['sealed_holdout_accessed'] is False
+          assert r['cannot_identify_pure_TT_direct_effect_by_posttreatment_conditioning']
+          print('C3X014_JOINT_WORK_COMPLETION_SOURCE_FIREWALL_PASS')
+          PY
+      - name: Freeze all raw evidence, source license, no authored Actions git commits
+        if: always()
+        run: |
+          cp harness/c3x_014_joint_native_work_completeddepth_court.py output/JOINT_ACTUAL_ENGINE_DRIVER.py
+          cp c3x/ontology/c3x-014-joint-native-work-completion-and-legal-concept-mediator-precommit.md output/JOINT_CONSTITUTION.md
+          cp raw-parent/P2_POST_DISCOVERY_NODE_CAP_ORDER_HASH_PANEL.json output/JOINED_SOURCE_ORIGINAL_PANEL.json
+          printf '%s\n' 'Same previously exposed sixteen source groups; conditioning on achieved depth and nodes is not pure direct causal identification. No chess strategy claim.' > output/CAUSAL_CEILING.txt
+          find output -maxdepth 1 -type f ! -name 'JOINT_MEMBER_SHA256.txt' -print0 | sort -z | xargs -0 sha256sum > output/JOINT_MEMBER_SHA256.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x-014-joint-work-and-true-completed-depth
+          path: output/
+          retention-days: 90
+          if-no-files-found: error
