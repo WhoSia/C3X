@@ -1,0 +1,123 @@
+{
+  "schema": "c3x-013-p8ep10-root-order-permutation-falsifier-court-v1",
+  "stage": "C3X 0.13 P8-EP10",
+  "date": "2026-10-08",
+  "verdict": "SAME_POSITION_CANDIDATE_ORDER_PERMUTATION_ROBUST_SINGLE_ORDINAL_RETURN_EFFECT__INVARIANT_EVENT_IDENTITY_HOLD",
+  "authority": "POST_DISCOVERY_SAME_POSITION_ROBUSTNESS_ONLY",
+  "precommit": "c3x/ontology/c3x-013-p8ep10-root-order-permutation-falsifier-precommit.md",
+  "script": "harness/c3x_013_p8ep10_root_order_permutation.py",
+  "workflow": "https://github.com/WhoSia/C3X/actions/runs/37795943619",
+  "head_sha": "8a784786f05fd5d6f0f61a34c2bcffdb180b1b53",
+  "source": {
+    "frozen_game": "CECLUB Primera Division Linares 2026, reused P7 R1/R2",
+    "same_source_as_discovery": true,
+    "game_url": "https://lichess.org/broadcast/ceclub-primera-division-linares-2026/round-6/HLnCaWdO/0YxrjUCr",
+    "FEN": "2rq1rk1/p4ppp/bp1bnn2/3pN3/2pP3P/1P2PPP1/PB2NRB1/R2Q2K1 w - - 1 17",
+    "root_pair": [
+      "f3f4",
+      "g3g4"
+    ],
+    "root_candidate_orders": [
+      [
+        "f3f4",
+        "g3g4"
+      ],
+      [
+        "g3g4",
+        "f3f4"
+      ]
+    ],
+    "source_fresh": false,
+    "engine": "Stockfish16, sf_16 same EP9 source-level instrumentation plus EP10 single-event patch"
+  },
+  "experiment": {
+    "depths": [
+      8,
+      12
+    ],
+    "cold_repeats_per_order_depth": 2,
+    "independent_games": 1,
+    "positive_main_event_ordinal": 32,
+    "neighbor_controls": [
+      "MAIN:31",
+      "MAIN:33",
+      "QSEARCH:32"
+    ],
+    "sentinel": "MAIN:1000000000",
+    "sham": "EP9 OFF vs EP10 NONE, exact MultiPV/score/PV/nodes",
+    "sham_controls_all_exact": true,
+    "sentinel_controls_all_exact": true,
+    "cell_count": 8,
+    "event_witness_tuple_fields": [
+      "native_site",
+      "ordinal",
+      "ply",
+      "depth",
+      "alpha",
+      "beta",
+      "tt_return_value"
+    ],
+    "event_witness_tuple_both_orders_both_depths": [
+      1,
+      32,
+      2,
+      2,
+      99,
+      100,
+      108
+    ]
+  },
+  "results": {
+    "depth8": {
+      "original_order": {
+        "baseline_preferred": "f3f4",
+        "main_32_preferred": "f3f4",
+        "cold_repeat_flips": 0
+      },
+      "reverse_order": {
+        "baseline_preferred": "f3f4",
+        "main_32_preferred": "f3f4",
+        "cold_repeat_flips": 0
+      }
+    },
+    "depth12": {
+      "original_order": {
+        "baseline_preferred": "f3f4",
+        "main_32_preferred": "g3g4",
+        "cold_repeat_flips": 2
+      },
+      "reverse_order": {
+        "baseline_preferred": "f3f4",
+        "main_32_preferred": "g3g4",
+        "cold_repeat_flips": 2
+      }
+    },
+    "conclusion": "Under reversing only UCI root searchmoves list order, ordinal32 appears at identical reported witness-tuple and still reverses the root-pair choice at depth12. The tuple is not a persistent TT-key or full call stack certificate.",
+    "same_instrumentation_and_FEN": true,
+    "TT_keys_persistently_identical_proven": false,
+    "independent_source_or_engine_transport": false,
+    "human_strategic_chess_cause_proven": false
+  },
+  "custody": {
+    "github_artifact_id": 11558616751,
+    "raw_zip_sha256": "c9f682802d273409d756df4aaeb81e5c7d7dfe98e8f11f2144b262daf82386ef",
+    "raw_zip_bytes": 30185,
+    "member_manifest": "14/14 PASS",
+    "raw_json_sha256": "96f616c65695f2f1391d361585ffcbf0d2c3f9ef26c804b81623e984de3efefd",
+    "drive_url": "https://drive.google.com/file/d/1_7dLE060NsKQKKilmEPaqzZadbAB1TEz/view",
+    "drive_folder_id": "1ehjBFtuBYo7WQdfHvQDkVxVmQRZow9h_",
+    "drive_redownload_byte_exact": true
+  },
+  "discipline": {
+    "identity_limit": "An execution ordinal can index distinct native events after a changed root path; identical shallow event tuple (without TT key and full context) does not prove identity.",
+    "multiple_testing_limit": "Target ordinal32 was selected after the prior 16-ordinal exploratory screen. The permutation test is same-position post-discovery robustness, not validation on a new game.",
+    "methodological_rivals": [
+      "Martin et al. 2025 metamorphic chess engine replication - search ordering and depth",
+      "Geiger et al. 2025 causal abstraction - stable high-level variable mapping",
+      "Zhang & Nanda 2024 activation patching - metrics and intervention sensitivity"
+    ],
+    "stage_C3X_013": "P8_OPEN_STRATEGIC_CONCEPT_HOLD",
+    "stage_C3X_014": "UNOPENED_UNNAMED",
+    "action_policy": "Human WhoSia GitHub commits, Actions read-only no GitHub ref writes"
+  }
+}
