@@ -1,0 +1,178 @@
+{
+  "schema": "c3x-013-p8ep11-native-tt-position-key-exact-legal-ancestry-and-scoped-phase-closure-v1",
+  "stage": "C3X 0.13 P8-EP11",
+  "formal_title": "Source-Native TT Bound-Return Position Attribution, Keyed-Context Replays, Exact Legal Search-Line Recovery & Scoped Causal-Explanation Closure",
+  "date_local": "2026-10-09",
+  "scientific_verdict": "SOURCE_NATIVE_LOCAL_EVENT_PROVENANCE_PASS__SAME_GAME_KEYED_REPLAY_PASS__CHESS_CONCEPT_AND_GENERALIZATION_HOLD",
+  "frozen_sources": {
+    "parent_scientific_stages": [
+      "C3X 0.13 P8-EP9",
+      "C3X 0.13 P8-EP10",
+      "C3X G9.4 TT instrumentation",
+      "C3X G9.5 P13-P15 event-level root pair mechanisms"
+    ],
+    "historical_source": "CECLUB Primera Division Linares 2026 P7-R1/R2 same game, NOT new holdout",
+    "source_url": "https://lichess.org/broadcast/ceclub-primera-division-linares-2026/round-6/HLnCaWdO/0YxrjUCr",
+    "source_fen": "2rq1rk1/p4ppp/bp1bnn2/3pN3/2pP3P/1P2PPP1/PB2NRB1/R2Q2K1 w - - 1 17",
+    "engine": "Stockfish 16 sf_16",
+    "upstream_git_commit": "68e1e9b3811e16cad014b590d7443b9063b3eb52",
+    "upstream_license": "GPL-3.0-or-later",
+    "TT_probe_implementation": "src/tt.cpp probes cluster and compares only low 16 bits key16; full pos.key() was not a full stored 64bit TT tag",
+    "source_code": [
+      "tools/c3x_013_p8ep9_patch_sf16_cutoffs.py",
+      "tools/c3x_013_p8ep10_patch_single_tt_return.py",
+      "tools/c3x_013_p8ep11_patch_event_fingerprint.py"
+    ],
+    "precommit": "c3x/ontology/c3x-013-p8ep11-native-tt-key-and-context-replay-precommit.md"
+  },
+  "native_intervention": {
+    "real_engine_run": "https://github.com/WhoSia/C3X/actions/runs/37798752854",
+    "run_id": 37798752854,
+    "pinned_execution_head_sha": "29fe2b50ff59f21127218f8c6683e1fcb88cd4be",
+    "conclusion": "SUCCESS",
+    "candidate_pair": [
+      "f3f4",
+      "g3g4"
+    ],
+    "legal_root_orders": [
+      [
+        "f3f4",
+        "g3g4"
+      ],
+      [
+        "g3g4",
+        "f3f4"
+      ]
+    ],
+    "depths": [
+      8,
+      12
+    ],
+    "cold_trials_per_order_depth": 2,
+    "count_sham_exact": 8,
+    "count_original_EP10_ordinal_vs_new_EP11_ordinal_exact": 8,
+    "count_nonexistent_key_sentinel_noop": 8,
+    "keyed_replay_same_full_FEN_at_depth12": 4,
+    "keyed_replay_same_UCI_output_as_ordinal_intervention_at_depth12": 4,
+    "keyed_replay_same_UCI_output_as_ordinal_intervention_at_depth8": 4,
+    "prior_comparison": {
+      "site": "MAIN",
+      "execution_ordinal": 32,
+      "depth12_baseline": {
+        "bestmove": "f3f4",
+        "f3f4_minus_g3g4_white_cp": 31
+      },
+      "depth12_one_return_prevented": {
+        "bestmove": "g3g4",
+        "f3f4_minus_g3g4_white_cp": -8
+      },
+      "depth8_baseline": {
+        "bestmove": "f3f4",
+        "f3f4_minus_g3g4_white_cp": 29
+      },
+      "depth8_one_return_prevented": {
+        "bestmove": "f3f4",
+        "f3f4_minus_g3g4_white_cp": 29
+      },
+      "cold_repeat_and_input_order_stable": true
+    },
+    "event": {
+      "retrieved_full_position_zobrist_key_hex": "5794315daed72c1b",
+      "native_main_ordinal": 32,
+      "actual_board_full_six_field_fen": "2r2rk1/p1q2ppp/bp1bnn2/3pN3/2pP1P1P/1P2P1P1/PB2NRB1/R2Q2K1 w - - 1 18",
+      "node_ply": 2,
+      "node_remaining_depth": 2,
+      "TT_entry_stored_depth": 4,
+      "TT_bound_type": 2,
+      "TT_bound_name": "BOUND_LOWER",
+      "alpha": 99,
+      "beta": 100,
+      "TT_return_value": 108,
+      "rule50": 1,
+      "qualitative_inference": "At this exact execution TT lower bound 108 exceeded beta 100, enabling main-search non-PV early return. Suppression changed the depth12 finite root pair choice in same-game tests.",
+      "key_identity_limit": "The returned 64bit key identifies the board under lookup in this build. TT stores low16 signature and can theoretically alias; does not prove identical stored entry's historical provenance."
+    },
+    "raw_panel_sha256": "40e389cbd2a4b68782d7b211f5db5e44c9bf1a04dc6d78d1df08910a07155c48",
+    "reporter": "harness/c3x_013_p8ep11_tt_key_replay.py",
+    "constraints": "Threads1, Hash16MiB, MultiPV2, searchmoves pair; independent cold processes per condition and no clock limit"
+  },
+  "legal_path_court": {
+    "run": "https://github.com/WhoSia/C3X/actions/runs/37799330912",
+    "run_id": 37799330912,
+    "run_head_sha": "74f22fd521c65a7c3ac03c8e3be2f91fb00ef8e4",
+    "verifier": "harness/c3x_013_p8ep11_legal_event_origin.py",
+    "exactly_one_legal_two_ply_path": [
+      "f3f4",
+      "d8c7"
+    ],
+    "SAN_line": "17. f4 Qc7",
+    "root_candidate_subtree": "f3f4",
+    "alternative_root_candidate": "g3g4, not an ancestry path to this exact full FEN",
+    "original_panel_sha256_gate": true,
+    "legal_output_json_sha256": "26a2c882cbc9a2d3594b8ba3ccfc6693212308e7551d67e8a7e0bddba1156410",
+    "event_ancestry_validated": true
+  },
+  "custody": {
+    "source_zip": {
+      "github_artifact_id": 11558828911,
+      "github_zip_digest_sha256": "d2def15413d301449bac9ee29a5f3931edaf5f9a2bfa6dee9fe2a81754c91d14",
+      "bytes": 33218,
+      "member_sha256_pass": "15/15",
+      "drive_id": "1QmtE9N7VcVPahWrtLiA25vTW27RIMFwe",
+      "drive_url": "https://drive.google.com/file/d/1QmtE9N7VcVPahWrtLiA25vTW27RIMFwe/view",
+      "drive_redownload_exact_sha256": true
+    },
+    "legal_path_zip": {
+      "github_artifact_id": 11559778341,
+      "github_zip_digest_sha256": "6691bf8b467b3a6648c7ff27185e129e17f9022838cd8cadc67d603336390ee5",
+      "bytes": 7855,
+      "member_sha256_pass": "4/4",
+      "drive_id": "1O-M9UGpJISboil0Pv4FHTheEePLhAwV0",
+      "drive_url": "https://drive.google.com/file/d/1O-M9UGpJISboil0Pv4FHTheEePLhAwV0/view",
+      "drive_redownload_exact_sha256": true
+    },
+    "raw_folder_id": "1ehjBFtuBYo7WQdfHvQDkVxVmQRZow9h_",
+    "no_bot_commit": true
+  },
+  "literature_added_and_normalized": [
+    {
+      "citation": "Méndez, Benito-Parejo, Ibias & Núñez (2023) Metamorphic Testing of Chess Engines",
+      "doi": "10.1016/j.infsof.2023.107263",
+      "drive_id": "1jMrLzQEycFkCMIUSL2iLT1NdR1Td3ros",
+      "bytes": 4361647,
+      "originality": "Original chess engine metamorphic testing, not per se a certified bug"
+    },
+    {
+      "citation": "Clark, Foster, Walkinshaw & Hierons (2023) Metamorphic Testing with Causal Graphs",
+      "doi": "10.1109/ICST57152.2023.00023",
+      "drive_id": "185mXmiUfuKiOCcMvFixhMMtdAQsbFpS3",
+      "bytes": 4302798,
+      "originality": "Uses causal graphs to derive metamorphic tests; does not certify a causal chess DAG for C3X"
+    }
+  ],
+  "scholarly_novelty_vs_prior_art": {
+    "source_side": "Concrete instrumentation lineage and within-SF16 same-game key+legal-path identification, not unique first use of native chess search instrumentations",
+    "novelty_candidate": "Technical causal search-event witness attached to a legal human-readable chess line and bounded source-dependent commentary, requiring prospective independent transport and domain-concept mediation",
+    "cannot_claim": [
+      "this proves that f4 is strategically optimal",
+      "stored TT entry's complete history is known",
+      "a unique semantic TT event across versions or hidden repetition histories",
+      "one or two chess source games give independent generalization",
+      "a finite depth engine output is exact chess minimax",
+      "LLM explanation is faithful without an external evidence contract",
+      "any new 0.14 experiment has already been run"
+    ]
+  },
+  "phase_gate": {
+    "C3X_013": "SCOPED_COMPLETE_WITH_STRATEGIC_CAUSAL_HOLD_CARRYOVER",
+    "P8": "EP11_EVIDENCE_FROZEN__STRATEGIC_CAUSAL_UNRESOLVED",
+    "successor": "C3X 0.14 authorized by user for focused independent transport and application evaluation",
+    "carryover_HOLDs": [
+      "source-disjoint replication",
+      "different engine native equivalent mechanism",
+      "same-event history completeness and TT collision safeguards",
+      "board-concept intervention mediation",
+      "human explanation quality and learning utility"
+    ]
+  }
+}
