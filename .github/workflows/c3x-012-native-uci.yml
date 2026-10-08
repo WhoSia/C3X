@@ -1,0 +1,37 @@
+name: C3X 0.12 Native UCI Boundary Checks
+on:
+  push:
+    paths:
+      - 'tools/c3x_012_uci_*.cpp'
+      - 'tools/testdata/c3x_012_mock_engine.sh'
+      - '.github/workflows/c3x-012-native-uci.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  native-protocol-boundaries:
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    steps:
+      - uses: actions/checkout@v4
+      - name: Compile native C++ tools
+        run: |
+          g++ -std=c++17 -O2 -Wall -Wextra -Werror tools/c3x_012_uci_probe.cpp -o /tmp/c3x_012_probe
+          g++ -std=c++17 -O2 -Wall -Wextra -Werror tools/c3x_012_uci_score_gate.cpp -o /tmp/c3x_012_gate
+      - name: Confirm synthetic protocol only
+        run: |
+          cp tools/testdata/c3x_012_mock_engine.sh /tmp/c3x_012_mock_engine
+          chmod 700 /tmp/c3x_012_mock_engine
+          /tmp/c3x_012_probe /tmp/c3x_012_mock_engine 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1' e2e4 d2d4 | grep 'RAW_UCI_OBSERVATION_ONLY'
+      - name: Positive score comparability fixture
+        run: |
+          printf 'info depth 8 multipv 1 score cp 12 pv e2e4\ninfo depth 8 multipv 2 score cp 7 pv d2d4\nbestmove e2e4\n' | /tmp/c3x_012_gate e2e4 d2d4 | grep 'SYNTACTICALLY_COMPARABLE_CP_ONLY'
+      - name: Negative score comparability fixtures
+        run: |
+          set -e
+          if printf 'info depth 8 multipv 1 score cp 12 pv e2e4\ninfo depth 7 multipv 2 score cp 7 pv d2d4\nbestmove e2e4\n' | /tmp/c3x_012_gate e2e4 d2d4; then exit 1; fi
+          if printf 'info depth 8 multipv 1 score mate 2 pv e2e4\ninfo depth 8 multipv 2 score cp 7 pv d2d4\nbestmove e2e4\n' | /tmp/c3x_012_gate e2e4 d2d4; then exit 1; fi
+          if printf 'info depth 8 multipv 1 score cp 12 pv e2e4\ninfo depth 8 multipv 2 score cp 7 pv d2d4\nbestmove g1f3\n' | /tmp/c3x_012_gate e2e4 d2d4; then exit 1; fi
+      - name: Scientific authority firewall
+        run: |
+          printf '%s\n' 'SYNTHETIC_ONLY: no legal SAN, original engine binary, strategic reason, or real intervention outcome verified.'
