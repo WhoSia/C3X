@@ -1,0 +1,49 @@
+{
+  "schema": "c3x-g10-p25-charlotte-gm-parent-export-probe-v1",
+  "stage": "C3X 0.10.0-G10-P25",
+  "authority": "PARENT_ID_AND_EXPORT_ENDPOINT_CONFIRMED__RAW_BYTES_NOT_CUSTODIED__NO_SOURCE_PRESEAL",
+  "event": "2026 Charlotte Spring Norm Invitational | GM",
+  "group_id": "3hq9MXIq",
+  "section_parent_tournament_id": "0zfikbXR",
+  "round1_child": "Tlf7nmRe",
+  "round9_child": "UxSO2MGW",
+  "section_page": "https://lichess.org/broadcast/2026-charlotte-spring-norm-invitational-gm/0zfikbXR",
+  "exact_section_pgn_download": "https://lichess.org/api/broadcast/0zfikbXR.pgn",
+  "evidence": {
+    "group_html_direct_link": "https://lichess.org/broadcast/2026-charlotte-spring-norm-invitational/3hq9MXIq",
+    "event_organizer": "https://app.charlottechesscenter.org/events/spring-norm/instances/127",
+    "rendered_export_games": 45,
+    "rendered_export_rounds": 9,
+    "rendered_export_unique_PGN_Date_tags": [
+      "2026.03.15",
+      "2026.03.18",
+      "2026.03.19",
+      "2026.03.20",
+      "2026.03.21",
+      "2026.03.22"
+    ],
+    "organizer_schedule": "2026-03-18 through 2026-03-22",
+    "anomaly": "Some PGN Date headers read 2026.03.15, three days prior to organizer's official Round 1 schedule; origin requires verification before scientific source preseal."
+  },
+  "download_attempts": {
+    "lichess_export_scrape": "SUCCESS_CONTENT_RETURNED_AS_TRANSFORMED_MARKDOWN",
+    "raw_byte_direct_download": "BLOCKED_IN_CURRENT_RUNTIME",
+    "exact_raw_bytes_saved": false,
+    "exact_raw_sha256": null
+  },
+  "preseal_blockers": [
+    "Exact untransformed downloaded PGN bytes and SHA256",
+    "Reconcile March 15 PGN date tags against event schedule",
+    "Drive byte custody",
+    "Historical canonical-FEN exclusion under P19 compatibility",
+    "Cross-cohort canonical-FEN exclusion",
+    "Freeze six-source roles prior to any support yield"
+  ],
+  "cohort_role": "CALIBRATION_CLASSICAL_CLOSED_CANDIDATE_ONLY",
+  "outcome_status": {
+    "support_yield_inspected": false,
+    "full_class_opened": false,
+    "calibration_model_frozen": false
+  },
+  "human_pgn_note": "Personal games offered by PI are potential independent exploratory source, not automatically eligible for presealed matched-ecology confirmation."
+}
