@@ -1,0 +1,83 @@
+name: C3X 0.14 In-Stage Budget-Indexed Fixed-Depth Search Court
+on:
+  push:
+    paths:
+      - '.github/workflows/c3x-014-budget-indexed-depth-court.yml'
+      - 'harness/c3x_014_budget_indexed_depth_internal_p3.py'
+      - 'c3x/ontology/c3x-014-budget-depth-explanation-internal-p3-precommit.md'
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  internal-depth-response:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Pin chess legality and native source dependencies
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq make g++ git
+          python -m pip install --disable-pip-version-check chess==1.11.2
+          python -m py_compile harness/c3x_014_budget_indexed_depth_internal_p3.py
+          mkdir -p parent output
+      - uses: actions/download-artifact@v4
+        with:
+          name: c3x-014-p2-sixteen-game-native-SF16-score-choice-panel
+          path: parent/
+          repository: WhoSia/C3X
+          run-id: '37802939136'
+          github-token: ${{ github.token }}
+      - name: Verify source-native parent panel exact SHA
+        run: |
+          printf '%s  %s\n' '0fd87345c9cc4b0e23f8fac6c669ec328254178da424268303e99ee6159f81e3' 'parent/P2_REAL_SIXTEEN_GAMES_TT_SCORE_CHOICE_PANEL.json' | sha256sum -c -
+      - name: Compile original and patched source-pinned Stockfish16 independently
+        run: |
+          git clone -q --single-branch --branch sf_16 https://github.com/official-stockfish/Stockfish.git /tmp/C3X_014_original
+          test "$(git -C /tmp/C3X_014_original rev-parse HEAD)" = "68e1e9b3811e16cad014b590d7443b9063b3eb52"
+          cp -a /tmp/C3X_014_original /tmp/C3X_014_trace
+          python tools/c3x_013_p8ep9_patch_sf16_cutoffs.py --source /tmp/C3X_014_trace --out-manifest output/P3_engine_source_patch_manifest.json
+          git -C /tmp/C3X_014_trace diff -- src/search.cpp > output/P3_exact_native_engine_patch.diff
+          test -s output/P3_exact_native_engine_patch.diff
+          cp /tmp/C3X_014_original/Copying.txt output/Stockfish_GPLv3.txt
+          make -s -C /tmp/C3X_014_original/src -j2 build ARCH=x86-64
+          cp /tmp/C3X_014_original/src/nn-*.nnue /tmp/C3X_014_trace/src/ 2>/dev/null || true
+          make -s -C /tmp/C3X_014_trace/src -j2 build ARCH=x86-64
+          cp /tmp/C3X_014_original/src/stockfish /tmp/C3X_014_sf16_clean
+          cp /tmp/C3X_014_trace/src/stockfish /tmp/C3X_014_sf16_trace
+          sha256sum /tmp/C3X_014_sf16_clean /tmp/C3X_014_sf16_trace > output/P3_native_engine_sha256.txt
+      - name: Execute all 16 games at exact requested depths 11, 12, 13
+        run: |
+          python harness/c3x_014_budget_indexed_depth_internal_p3.py --p2-source-panel parent/P2_REAL_SIXTEEN_GAMES_TT_SCORE_CHOICE_PANEL.json --clean /tmp/C3X_014_sf16_clean --ep9 /tmp/C3X_014_sf16_trace --out output/P3_GENUINE_NATIVE_DEPTH_MEDIATION_DIAGNOSTIC.json
+          python - <<'PY'
+          import json
+          s=json.load(open('output/P3_GENUINE_NATIVE_DEPTH_MEDIATION_DIAGNOSTIC.json'))
+          assert s['one_formal_research_stage']=='C3X 0.14' and s['P3_is_internal_not_formal_stage']
+          assert s['sham_exact_every_cell']
+          assert s['two_cold_runs_equal_group_depth_out_of_48']==48
+          assert s['source_game_groups']==16 and s['all_cells']==96
+          assert not s['P1_holdout_opened']
+          assert not any('strategy causation established' in x for x in s['stronger_claims_blocked'])
+          print('C3X_014_SAME_STAGE_DEPTH_SURFACE_PASS')
+          PY
+      - name: Preserve bounded negative results and pinned native source
+        if: always()
+        run: |
+          mkdir -p output
+          cp harness/c3x_014_budget_indexed_depth_internal_p3.py output/P3_full_actual_engine_driver.py
+          cp harness/c3x_014_p2_new16_native_tt_score_choice_court.py output/P2_native_UCI_dependency.py
+          cp c3x/ontology/c3x-014-budget-depth-explanation-internal-p3-precommit.md output/C3X_014_IN_STAGE_PRECOMMIT.md
+          cp parent/P2_REAL_SIXTEEN_GAMES_TT_SCORE_CHOICE_PANEL.json output/P2_parent_signed_raw_engine_panel.json
+          printf '%s\n' 'Internal pass of single C3X 0.14 study, same P2 source games. Not new heldout or independent causal strategy experiment.' > output/P3_AUTHORITY.txt
+          find output -maxdepth 1 -type f ! -name 'P3_member_sha256.txt' -print0 | sort -z | xargs -0 sha256sum > output/P3_member_sha256.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x-014-internal-depth-indexed-search-court
+          path: output/
+          retention-days: 90
+          if-no-files-found: error
