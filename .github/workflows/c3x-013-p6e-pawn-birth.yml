@@ -1,0 +1,56 @@
+name: C3X 0.13 P6-E Pawn Birth Blocker Set Court
+on:
+  push:
+    paths:
+      - '.github/workflows/c3x-013-p6e-pawn-birth.yml'
+      - 'harness/c3x_013_p6e_pawn_birth_events.py'
+      - 'c3x/ontology/c3x-013-p6e-passed-pawn-birth-event-precommit.md'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  exact-source-passed-pawn-birth-proof:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install original source decoder and chess rules
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq zstd
+          python3 -m pip install --disable-pip-version-check chess==1.11.2
+      - name: Obtain identical previously frozen Lichess source
+        run: |
+          mkdir -p output
+          curl -fL --retry 3 --max-time 120 -o /tmp/lichess_db_broadcast_2026-09.pgn.zst https://database.lichess.org/broadcast/lichess_db_broadcast_2026-09.pgn.zst
+          printf '%s\n' '27a39d035767a30901b89602f33f2a7b27d4ab5025842071165fa079f8fff1df  /tmp/lichess_db_broadcast_2026-09.pgn.zst' | sha256sum -c -
+      - name: Reconstruct newly passed pawn blocker witnesses from legal chess histories
+        env:
+          PYTHONPATH: .
+        run: |
+          python3 harness/c3x_013_p6e_pawn_birth_events.py --source /tmp/lichess_db_broadcast_2026-09.pgn.zst --output output/p6e_pawn_birth_events.json
+          python3 - <<'PY'
+          import json
+          x=json.load(open('output/p6e_pawn_birth_events.json'))
+          assert x['total_frozen_groups']==16 and x['causal_explanation_granted'] is False
+          assert x['engine_preference_measured'] is False
+          print('P6_E_SOURCE_LOCKED_CHESS_PAWN_BIRTH_AUDIT_PASS')
+          PY
+      - name: Include precommit, code and source credit
+        if: always()
+        run: |
+          mkdir -p output
+          cp harness/c3x_013_p6e_pawn_birth_events.py output/p6e_code.py
+          cp c3x/ontology/c3x-013-p6e-passed-pawn-birth-event-precommit.md output/p6e_precommit.md
+          printf '%s\n' 'Lichess Broadcast database CC BY-SA 4.0 https://database.lichess.org/' > output/source_attribution.txt
+          sha256sum output/* > output/contents_sha256.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x-013-p6e-pawn-birth-events
+          path: output/
+          if-no-files-found: error
+          retention-days: 90
