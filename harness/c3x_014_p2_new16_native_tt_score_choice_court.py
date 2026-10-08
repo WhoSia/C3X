@@ -139,9 +139,9 @@ def main():
         same=0
         for grp in gs:
             for dep in DEPTHS:
-                a,b=[x for x in cases if x["group"]==grp["opening_group_hash"] and x["depth"]==dep]
-                aa=a["clean"] if mode=="CLEAN" else a["off"] if mode=="OFF" else a["arms"].get(mode)
-                bb=b["clean"] if mode=="CLEAN" else b["off"] if mode=="OFF" else b["arms"].get(mode)
+                first,second=[x for x in cases if x["group"]==grp["opening_group_hash"] and x["depth"]==dep]
+                aa=first["clean"] if mode=="CLEAN" else first["off"] if mode=="OFF" else first["arms"].get(mode)
+                bb=second["clean"] if mode=="CLEAN" else second["off"] if mode=="OFF" else second["arms"].get(mode)
                 if aa is not None and bb is not None and eq(aa)==eq(bb):same+=1
         cold[mode]=same
     depth12_group_main=[]
