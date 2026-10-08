@@ -1,0 +1,13 @@
+# C3X 0.13 P7-R2 — Precision Root Qualification and Tactical Equivalence
+
+Status: PRECOMMITTED BEFORE ALL P7-R2 ENGINE SCORES. C3X 0.13 DEVELOPMENT ONLY. No C3X 0.14 opening or formal title.
+
+Sources are exactly P7-R1's 32 Lichess September 2026 broadcasts at ranks 17–48 (no replacements). Original archive SHA256 27a39d035767a30901b89602f33f2a7b27d4ab5025842071165fa079f8fff1df, ordered source-segment SHA digest e5ca78464ef6bb2e95271c12428c47e8f9535efca9674d1048aed029ef1584c0. All legal-replay, Chess960, duplicates and source corruption HOLDs are preserved. One provider does not establish independent engine/competition ecology.
+
+Run Stockfish16 cold 10k nodes on every legal root; top eight cp nonmate ordered by -score then UCI. For each, use two separate cold 30k nodes engine restarts and require exact centipawn repeat. Cold contextual 80k yields the anchor bestmove; anchor must be one of eight cold exact-score roots. Candidate peer pairs contain anchor and have <=50 cp cold gap; sort (absolute margin, UCI).
+
+In ONE prospectively fixed step freeze three nested pair choices before opening any new completed-depth result: BASE is first qualifying pair, FILTERED is first qualifying pair matching full source-only P7 tactical signature (mover piece type, captured piece class, check, promotion, castling, immediate LEGAL opponent recapture aggressor-type multiset), STRICT is same FILTERED rule plus identical original mover square. Report yields separately. Neither a missing FILTERED nor a missing STRICT may be rescued by searching new games, moves or thresholds after engine outcomes.
+
+For FILTERED pair only, freeze chess feature differences BEFORE depth outcomes, then run two independent Stockfish16 completed depth8/12/16 MultiPV2 evaluations of both candidate roots under the SAME FEN. Preserve engine binary SHA, full FEN, cp POV of original mover, PV, depth, mate/missing/unequal depth HOLD. Strict descriptive marginality requires abs(cp_a-cp_b)<=50 in all three depth panels, exact repeated gap, and nonzero consistent sign; otherwise HOLD. The relevant estimand is group-level source/qualification/filtered/depth-stable SUPPORT YIELD, not the causal advantage of passing filter.
+
+Candidate chess concepts remain ordinary predicates; test whether a delta exists without interpreting association as cause. Same-root tactical hazard equivalence is necessary, not sufficient to exclude all chess tactical differences. No causal certificate, human educational effect, independent cross-engine generality or 0.14 authority is conferred.
