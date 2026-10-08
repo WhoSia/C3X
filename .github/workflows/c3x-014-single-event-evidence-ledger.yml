@@ -61,7 +61,7 @@ jobs:
           cp native/C3X014_ONE_MAIN_RIVAL_MECHANISM_PANEL.json output/ACTUAL_224_NATIVE_ENGINE_RUNS.json
           cp c3x/ontology/c3x-014-single-main-tt-return-and-search-path-rivals-precommit.md output/SOURCE_EVENT_PRECOMMIT.md
           cp native/EXACT_FIRST_TT_EVENT_NATIVE_SOURCE.diff output/ACTUAL_PINNED_SF16_CPP_SOURCE_PATCH.diff
-          printf '%s\n' 'All forty? Only 28 world-level observations from 14 source groups. A single earliest TT return intervention is causal for local software behavior when changed, but history/LMR/NNUE/alpha-beta and chess concept not independently identified.' > output/SCIENCE_AUTHORITY_CEILING.txt
+          printf '%s\n' 'Exactly 28 world-level observations from 14 source groups. A single earliest TT return intervention is causal for local software behavior when changed, but history/LMR/NNUE/alpha-beta and chess concept not independently identified.' > output/SCIENCE_AUTHORITY_CEILING.txt
           find output -maxdepth 1 -type f ! -name 'MEMBER_SHA256.txt' -print0 | sort -z | xargs -0 sha256sum > output/MEMBER_SHA256.txt
       - uses: actions/upload-artifact@v4
         if: always()
