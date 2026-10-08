@@ -1,0 +1,61 @@
+{
+  "schema": "c3x-0.11-six-source-provenance-observation-v1",
+  "stage": "C3X 0.11",
+  "measurement_type": "OUTCOME_BLIND_METADATA_ONLY",
+  "data_custody": "local six original PGN files SHA already locked by P25",
+  "counts": {
+    "total_game_headers": 454,
+    "calibration_games": 222,
+    "transfer_games": 232,
+    "cross_source_same_event_date_round_playerpair_keys": 0
+  },
+  "per_source": {
+    "Charlotte": {
+      "games": 45,
+      "unique_players": 10,
+      "eval_annotations": 44,
+      "clock_annotations": 45
+    },
+    "NZ": {
+      "games": 96,
+      "unique_players": 37,
+      "eval_annotations": 96,
+      "clock_annotations": 96
+    },
+    "Golders": {
+      "games": 81,
+      "unique_players": 36,
+      "eval_annotations": 81,
+      "clock_annotations": 53
+    },
+    "Radnicki": {
+      "games": 45,
+      "unique_players": 10,
+      "eval_annotations": 44,
+      "clock_annotations": 40
+    },
+    "Berjaya": {
+      "games": 153,
+      "unique_players": 66,
+      "eval_annotations": 152,
+      "clock_annotations": 152
+    },
+    "Milton": {
+      "games": 34,
+      "unique_players": 21,
+      "eval_annotations": 33,
+      "clock_annotations": 33
+    }
+  },
+  "interpretation": [
+    "The six frozen section-PGN source files yield 454 headers with 222/232 allocation",
+    "Metadata identity collision scan found zero identical event/date/round/unordered-playerpair identities across source IDs",
+    "Many games contain provided eval annotations; these must never be treated as exogenous engine intervention measurements",
+    "Player counts are within-source only and MUST NOT be summed as unique people globally",
+    "No legal SAN parsing, historical FEN duplicate exclusion, or engine experiment was performed"
+  ],
+  "tool": "tools/c3x_011_provenance_census.py",
+  "next": "Reconcile same-world transpositions with legal PGN replay; classify archived 2026 June/August/September broadcast dumps as historical discovery not independent confirmatory transfer.",
+  "scientific_source_preseal": false,
+  "activation_outcomes_opened": false
+}
