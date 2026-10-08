@@ -48,8 +48,8 @@ def main():
                 offgap=off["signed_white_cp_gap"];maingap=main["signed_white_cp_gap"]
                 strict=(offgap is not None and maingap is not None and offgap*maingap<0)
                 boundary_tie=(offgap is not None and maingap is not None and (offgap==0 or maingap==0))
-                nodes_off=off["final_MultiPV"]["1"]["nodes"]
-                nodes_main=main["final_MultiPV"]["1"]["nodes"]
+                nodes_off=off["final_MultiPV"][1]["nodes"]
+                nodes_main=main["final_MultiPV"][1]["nodes"]
                 case={
                     "source_group_hash":source["group"],
                     "source_game_id":source["game"],
