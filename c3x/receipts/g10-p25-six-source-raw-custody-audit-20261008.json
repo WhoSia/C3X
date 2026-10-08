@@ -1,0 +1,67 @@
+{
+  "stage": "C3X 0.10.0-G10-P25",
+  "date": "2026-10-08",
+  "status": "RAW_BYTE_CUSTODY_PASS_SOURCE_PRESEAL_PENDING",
+  "scope": "Six original PGN byte hashes and header inventories only. No legal move replay, canonical FEN disjointness, source preseal, routed support, activation, calibration or transfer outcomes.",
+  "sources": [
+    {
+      "name": "Charlotte",
+      "games": 45,
+      "size_bytes": 219288,
+      "sha256": "642da2f6fe6e6989af299c603056b3e821bc8c4001d53561ff10be5a06a52028"
+    },
+    {
+      "name": "NZ",
+      "games": 96,
+      "size_bytes": 413158,
+      "sha256": "32475990f7c7a62a73379104189c61628a4b2014ddb287ad125c0b2a372993f8"
+    },
+    {
+      "name": "Golders",
+      "games": 81,
+      "size_bytes": 322663,
+      "sha256": "596374245025a1eee7242b451c12014d7d5f1f9ccfaf1f5625329a0945b59a57"
+    },
+    {
+      "name": "Radnicki",
+      "games": 45,
+      "size_bytes": 165520,
+      "sha256": "2f2a9a9608418d831e6bdcfc71b586abd1472af7fafca14fd9e5d8e2af3716ae"
+    },
+    {
+      "name": "Berjaya",
+      "games": 153,
+      "size_bytes": 722478,
+      "sha256": "a6778cfea89596cbe9ebf2a45c594c352a2e279f3cd9c1fc04ead9dc20625ba9"
+    },
+    {
+      "name": "Milton",
+      "games": 34,
+      "size_bytes": 150444,
+      "sha256": "c0e8e8a322d8e444824168dcd3c47283b7bce66e9041b30cc92b7e2a4d52a19e"
+    }
+  ],
+  "total_games": 454,
+  "charlotte": {
+    "drive_file_id": "12t9pJG40SXISwGpvW9sLePC3DJeLeldH",
+    "moved_to_folder_id": "170YFzQhSIMKBAypCdk2QaJHdms15uG2x",
+    "parent_broadcast_id": "0zfikbXR",
+    "date_tag_issue": {
+      "2026.03.15": 8,
+      "2026.03.18": 4,
+      "2026.03.19": 8,
+      "2026.03.20": 8,
+      "2026.03.21": 8,
+      "2026.03.22": 9
+    },
+    "date_discrepancy": "March 15 tags conflict with published March 18–22 schedule; metadata remains unaltered."
+  },
+  "binding_constraints": [
+    "P23 FAIL",
+    "P24 administrative HOLD, no empirical FAIL",
+    "Q0 DENIED",
+    "P19 legacy canonical four-field FEN collision exclusion unchanged",
+    "No outcome-conditioned filtering"
+  ],
+  "next_gate": "Run source identity and game legality, exact P19 canonical FEN historical + cross-cohort audit, then frozen source preseal"
+}
