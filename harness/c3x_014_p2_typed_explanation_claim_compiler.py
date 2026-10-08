@@ -74,7 +74,16 @@ def make_row(cell,arm="MAIN"):
     observed=(f"{cell['pair'][0]}−{cell['pair'][1]} 백 관점 차이가 "
               f"{before['signed_white_cp_gap']:+d}cp에서 {after['signed_white_cp_gap']:+d}cp로 바뀌었다."
               if delta is not None else "하나 이상의 결과가 메이트 또는 경계형 점수라 정확한 cp 차이를 주장하지 않는다.")
-    move=("최선수 표시는 달라졌다." if before["bestmove"]!=after["bestmove"] else "최선수 표시는 유지됐다.")
+    p=before["signed_white_cp_gap"];q=after["signed_white_cp_gap"]
+    strict_inversion=(p is not None and q is not None and p*q<0)
+    tie_transition=(p is not None and q is not None and (p==0 or q==0))
+    if strict_inversion:
+        move="두 후보 간 cp 평가차의 부호가 엄격히 역전됐다. "
+    elif tie_transition:
+        move="두 후보 간 cp 평가차 중 하나는 0으로, 엄격한 우열 역전이라고 말할 수 없다. "
+    else:
+        move=""
+    move+=("UCI 최선수 표시는 달라졌다." if before["bestmove"]!=after["bestmove"] else "UCI 최선수 표시는 유지됐다.")
     language=(f"{origin}의 동일 원시 국면에서 {arm} TT 조기 반환 차단 {cutoff_counts}회가 계측됐다. "
               +observed+" "+move+
               " 이 수치는 탐색 구현에 대한 국소 반응이며, 폰 구조의 전략적 인과 설명이나 원래 체스의 최선수 증명이 아니다.")
@@ -85,6 +94,9 @@ def make_row(cell,arm="MAIN"):
       "before_signed_white_cp_gap":before["signed_white_cp_gap"],
       "after_signed_white_cp_gap":after["signed_white_cp_gap"],
       "numeric_cp_gap_shift":delta,
+      "strict_signed_cp_preference_inversion":strict_inversion,
+      "tie_endpoint_detected":tie_transition,
+      "uci_bestmove_label_changed":before["bestmove"]!=after["bestmove"],
       "authority_label":claim,
       "chess_semantic_causal_claim_allowed":False,
       "human_learning_benefit_proven":False,
