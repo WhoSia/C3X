@@ -1,0 +1,62 @@
+name: C3X 0.13 P8-R1 Fresh Source Tactical Birth Support
+on:
+  push:
+    paths:
+      - '.github/workflows/c3x-013-p8r1-fresh-support.yml'
+      - 'harness/c3x_013_p8r1_fresh_phase_support.py'
+      - 'c3x/ontology/c3x-013-p8-r1-new-cohort-phase-support-precommit.md'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  fresh-midgame-lategame-legal-support:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Pin chess rule library and Lichess original zstd decoder
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq zstd
+          python3 -m pip install --disable-pip-version-check chess==1.11.2
+      - name: Retrieve original byte-pinned September broadcast source
+        run: |
+          mkdir -p output
+          curl -fL --retry 3 --max-time 120 -o /tmp/lichess_db_broadcast_2026-09.pgn.zst https://database.lichess.org/broadcast/lichess_db_broadcast_2026-09.pgn.zst
+          printf '%s\n' '27a39d035767a30901b89602f33f2a7b27d4ab5025842071165fa079f8fff1df  /tmp/lichess_db_broadcast_2026-09.pgn.zst' | sha256sum -c -
+      - name: Run original recapture regression and prospective phase support census
+        env:
+          PYTHONPATH: .
+        run: |
+          python3 -m unittest discover -s tests -p test_c3x_013_p7r1_tactical_support.py -v
+          python3 harness/c3x_013_p8r1_fresh_phase_support.py --source /tmp/lichess_db_broadcast_2026-09.pgn.zst --out output/p8r1_fresh32_phase_support.json
+          python3 - <<'PY'
+          import json
+          a=json.load(open("output/p8r1_fresh32_phase_support.json"))
+          assert a["fresh_frozen_group_count"]==a["source_group_denominator"]==32
+          assert a["prior_P5_P7_groups"]==48
+          assert a["experimental_engine_evaluation"] is None
+          assert not a["causal_explanation_claim"]
+          assert a["C3X_014"]=="CANDIDATE_ONLY_NO_FORMAL_NAME"
+          assert {r["source_rank"] for r in a["records"]}==set(range(49,81))
+          print("P8R1_CHESS_SOURCE_ONLY_NO_ENGINE_CLAIM")
+          PY
+      - name: Preserve precommit executable and source attribution
+        if: always()
+        run: |
+          mkdir -p output
+          cp harness/c3x_013_p8r1_fresh_phase_support.py output/frozen_p8r1_source_support_code.py
+          cp c3x/ontology/c3x-013-p8-r1-new-cohort-phase-support-precommit.md output/source_selection_precommit.md
+          printf '%s\n' 'Lichess Broadcast database CC BY-SA 4.0 https://database.lichess.org/' > output/source_license_and_attribution.txt
+          sha256sum output/* > output/internal_sha256.txt
+      - name: Save entire source and denominator evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: c3x-013-p8r1-fresh32-legal-tactical-genesis-support
+          path: output/
+          if-no-files-found: error
+          retention-days: 90
