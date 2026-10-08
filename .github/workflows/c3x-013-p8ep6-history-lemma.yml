@@ -1,0 +1,48 @@
+name: C3X 0.13 P8-EP6 Pawn History Lemma
+on:
+  push:
+    paths:
+      - '.github/workflows/c3x-013-p8ep6-history-lemma.yml'
+      - 'harness/c3x_013_p8ep6_pawn_irreversibility.py'
+      - 'tests/test_c3x_013_p8ep6_full_fen_repetition_history.py'
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  pawn-count-history:
+    runs-on: ubuntu-latest
+    timeout-minutes: 7
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python3 -m pip install chess==1.11.2
+      - uses: actions/download-artifact@v4
+        with:
+          name: c3x-013-p8ep3-fresh32-legal-confluence
+          path: source
+          repository: WhoSia/C3X
+          run-id: '37734948527'
+          github-token: ${{ github.token }}
+      - name: Check FEN history limitations and exact source legal premises
+        env:
+          PYTHONPATH: .
+        run: |
+          mkdir -p output
+          python3 -m unittest discover -s tests -p test_c3x_013_p8ep6_full_fen_repetition_history.py -v
+          python3 harness/c3x_013_p8ep6_pawn_irreversibility.py --source source/p8ep3_new32_confluence_census.json --output output/history_pawn_confluence.json
+      - name: Preserve theorem and scripts
+        if: always()
+        run: |
+          mkdir -p output
+          cp c3x/ontology/c3x-013-p8-ep6-history-safe-confluence-lemma.md output/mathematical_lemma.md
+          cp harness/c3x_013_p8ep6_pawn_irreversibility.py output/source.py
+          cp tests/test_c3x_013_p8ep6_full_fen_repetition_history.py output/tests.py
+          sha256sum output/* > output/checksums.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x-013-p8ep6-history-safe-pawn-proof
+          path: output/
