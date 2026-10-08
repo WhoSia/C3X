@@ -1,0 +1,87 @@
+name: C3X 0.14 Native First TT Return and Search Path Rival Court
+on:
+  push:
+    paths:
+      - '.github/workflows/c3x-014-single-native-tt-event.yml'
+      - 'harness/c3x_014_single_TT_event_pathway_court.py'
+      - 'tools/c3x_014_native_one_main_event_mechanism_patch.py'
+      - 'c3x/ontology/c3x-014-single-main-tt-return-and-search-path-rivals-precommit.md'
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  exact-single-event-native:
+    runs-on: ubuntu-latest
+    timeout-minutes: 32
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Exact chess-rule and compiler prerequisites
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq make g++ git
+          python -m pip install --disable-pip-version-check chess==1.11.2
+          python -m py_compile tools/c3x_014_native_one_main_event_mechanism_patch.py harness/c3x_014_single_TT_event_pathway_court.py
+          mkdir -p source-panel output
+      - uses: actions/download-artifact@v4
+        with:
+          name: c3x-014-legal-historical-chess-concept-worlds-source-only
+          path: source-panel/
+          repository: WhoSia/C3X
+          run-id: '37809811541'
+          github-token: ${{ github.token }}
+      - name: Verify actual source-only legal chess worlds, no outcome selection
+        run: |
+          printf '%s  %s\n' '0080f4f108471137f8d9d0908e3c879e33351ad8bdd4fbf0fdda83d47f6075b2' 'source-panel/C3X014_LEGAL_CONCEPT_WORLDS_SOURCE_FROZEN.json' | sha256sum -c -
+      - name: Compile truly original source and surgical native first TT return patch independently
+        run: |
+          git clone -q --single-branch --branch sf_16 https://github.com/official-stockfish/Stockfish.git /tmp/C3X014_single_original
+          test "$(git -C /tmp/C3X014_single_original rev-parse HEAD)" = "68e1e9b3811e16cad014b590d7443b9063b3eb52"
+          cp -a /tmp/C3X014_single_original /tmp/C3X014_single_trace
+          python tools/c3x_013_p8ep9_patch_sf16_cutoffs.py --source /tmp/C3X014_single_trace --out-manifest output/ORIGINAL_EP9_PATCH.json
+          python tools/c3x_014_patch_native_completed_depth_probe.py --source /tmp/C3X014_single_trace --out-manifest output/NATIVE_COMPLETED_DEPTH_PATCH.json
+          python tools/c3x_014_native_one_main_event_mechanism_patch.py --source /tmp/C3X014_single_trace --out-manifest output/FIRST_EVENT_SEARCH_PATH_PATCH.json
+          git -C /tmp/C3X014_single_trace diff -- src/search.cpp > output/EXACT_FIRST_TT_EVENT_NATIVE_SOURCE.diff
+          test -s output/EXACT_FIRST_TT_EVENT_NATIVE_SOURCE.diff
+          cp /tmp/C3X014_single_original/Copying.txt output/Stockfish_GPLv3.txt
+          make -s -C /tmp/C3X014_single_original/src -j2 build ARCH=x86-64
+          make -s -C /tmp/C3X014_single_trace/src -j2 build ARCH=x86-64
+          cp /tmp/C3X014_single_original/src/stockfish /tmp/C3X014_single_original_bin
+          cp /tmp/C3X014_single_trace/src/stockfish /tmp/C3X014_single_trace_bin
+          sha256sum /tmp/C3X014_single_original_bin /tmp/C3X014_single_trace_bin > output/NATIVE_BINARY_SHA256.txt
+      - name: Run all 14 source semantic-sham pairs and surgical event arms with cold replication
+        run: |
+          python harness/c3x_014_single_TT_event_pathway_court.py --frozen-source source-panel/C3X014_LEGAL_CONCEPT_WORLDS_SOURCE_FROZEN.json --clean /tmp/C3X014_single_original_bin --patched /tmp/C3X014_single_trace_bin --out output/C3X014_ONE_MAIN_RIVAL_MECHANISM_PANEL.json
+          python - <<'PY'
+          import json
+          p=json.load(open('output/C3X014_ONE_MAIN_RIVAL_MECHANISM_PANEL.json'))
+          assert p['formal_unit']=='C3X 0.14' and p['one_formal_C3X_study_no_P_substage']
+          assert p['source_game_groups']==14 and p['distinct_source_history_worlds']==28
+          assert p['actual_engine_processes']==224 and len(p['all_raw_native_run_cells'])==56
+          assert p['source_worlds_two_cold_identical_all_arms']==28
+          assert p['clean_vs_OFF_control_exact_all_56']
+          assert p['ONE_MAIN_blocked_event_count_per_run_max']==1
+          assert p['ONE_MAIN_runs_with_exactly_one_blocked_event']==56
+          assert not p['P1_sealed_four_games_opened']
+          assert not p['causal_chess_concept_mediation_identified']
+          print('C3X014_SINGLE_EVENT_NATIVE_FALSIFICATION_GATES_PASS')
+          PY
+      - name: Preserve source-scoped negative and positive results and original methods
+        if: always()
+        run: |
+          cp tools/c3x_014_native_one_main_event_mechanism_patch.py output/FIRST_EVENT_PATCH_SOURCE.py
+          cp harness/c3x_014_single_TT_event_pathway_court.py output/SINGLE_EVENT_REAL_ENGINE_HARNESS.py
+          cp c3x/ontology/c3x-014-single-main-tt-return-and-search-path-rivals-precommit.md output/SINGLE_EVENT_PRECOMMIT.md
+          cp source-panel/C3X014_LEGAL_CONCEPT_WORLDS_SOURCE_FROZEN.json output/CHESS_WORLDS_SOURCE_ONLY_FROZEN.json
+          printf '%s\n' 'Single earliest actual TT return suppression is within a fixed chess world; counters of LMR/history/NNUE/alpha-beta are descriptive, not independently identified causal mediators.' > output/ONE_EVENT_AUTHORITY_LIMITS.txt
+          find output -maxdepth 1 -type f ! -name 'SINGLE_EVENT_MEMBER_SHA256.txt' -print0 | sort -z | xargs -0 sha256sum > output/SINGLE_EVENT_MEMBER_SHA256.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x-014-single-native-TT-event-provenance-mechanism-court
+          path: output/
+          retention-days: 90
+          if-no-files-found: error
