@@ -1,0 +1,155 @@
+{
+  "schema": "c3x-012-six-source-development-review-v1",
+  "date": "2026-10-08",
+  "stage": "C3X 0.12",
+  "status": "ENGINEERING_EXECUTION_PASS__DEVELOPMENT_EVIDENCE_ONLY__SCIENTIFIC_MECHANISM_HOLD",
+  "frozen_source_commit": "2db6e815fe9675eb4482ab06b023f256ac7f722b",
+  "source_snapshot": "c3x/data/c3x-012-six-source-development-seeds.json",
+  "source_selection": "First PGN game of each of six source files, first 32 SAN plies, frozen before new C3X0.12 engine outcome",
+  "source_original_raw_drive": "C3X/01_SOURCE_ACCRUAL_RAW: G10_P24_SOURCE_IDENTITY_HOLD_20261007 holds NZ, Golders, Radnicki, Berjaya, Milton; Charlotte source at parent; all preserved separately without promoting 0.11 preseal",
+  "actual_github_actions": {
+    "qualification_run": 37718539002,
+    "initial_edit_run": 37718610607,
+    "post_pilot_complete_depth12_run": 37718875256,
+    "reply_development_run": 37718926095,
+    "canonical_run": 37718978736,
+    "canonical_head": "93bde645aa353311c8b45eabc4ce96b862dbc7e6",
+    "canonical_result": "SUCCESS",
+    "real_engine": "Stockfish 16 (ubuntu distribution)",
+    "native_engine_sha256": "00628bd9c9855c1b7ff93d7f8d51b413586cdc6336fe637f9a14a61531a05aca",
+    "run_url": "https://github.com/WhoSia/C3X/actions/runs/37718978736",
+    "artifact_id": 11524124459,
+    "artifact_zip_sha256": "420baca28146eeda56607c9ba290d28843d1f75e27b211cab90ed0d8f3cf6147",
+    "artifact_contents_count_with_matching_sha256": 10,
+    "permissions": "contents:read, no CI commit/push"
+  },
+  "qualification": {
+    "method": "cold per legal root 10k nodes; top 8; two cold 30k exact centipawn confirmations; cold contextual 80k; <=50cp pair including contextual bestmove",
+    "count_sources": 6,
+    "pair_frozen_dev_only": 3,
+    "hold_no_stable_pair": 3,
+    "worlds": [
+      {
+        "source": "NZ",
+        "pair": "e2f3::f2f4",
+        "cold_gap_cp": 0
+      },
+      {
+        "source": "GOLDERS",
+        "pair": "c3b5::h4g6",
+        "cold_gap_cp": 0
+      },
+      {
+        "source": "RADNICKI",
+        "status": "HOLD_NO_STABLE_PAIR"
+      },
+      {
+        "source": "BERJAYA",
+        "status": "HOLD_NO_STABLE_PAIR"
+      },
+      {
+        "source": "MILTON",
+        "status": "HOLD_NO_STABLE_PAIR"
+      },
+      {
+        "source": "CHARLOTTE",
+        "pair": "d3d4::h2h3",
+        "cold_gap_cp": 23
+      }
+    ]
+  },
+  "edited_board_development": {
+    "initial_pilot": "80k-node MultiPV final root lines had unequal completed depths in some worlds; all 3 HOLD_INCOMPARABLE_SCORE, archived",
+    "post_outcome_method_change": "Declared in c3x/ontology/c3x-012-post-pilot-depth-regime-revision.md before depth-12 rerun. These are development results, NOT prospective confirmation.",
+    "fixed_depth": 12,
+    "measurements_per_world": 2,
+    "worlds_with_legal_matched_target_sham": 3,
+    "count_qualification_worlds_with_pair_margin_at_most50cp_in_ALL_B0_TARGET_SHAM": 1,
+    "data": [
+      {
+        "source": "NZ",
+        "pair": "e2f3::f2f4",
+        "mover_cp_gap_B0": -82,
+        "mover_cp_gap_TARGET": -174,
+        "mover_cp_gap_SHAM": 4,
+        "delta_TARGET_minus_SHAM": -178,
+        "repeated_exact": true,
+        "all_worlds_within_50cp": false,
+        "role": "NEGATIVE_SUPPORT_EXAMPLE_NOT_MECHANISM"
+      },
+      {
+        "source": "GOLDERS",
+        "pair": "c3b5::h4g6",
+        "mover_cp_gap_B0": -21,
+        "mover_cp_gap_TARGET": 106,
+        "mover_cp_gap_SHAM": 99,
+        "delta_TARGET_minus_SHAM": 7,
+        "repeated_exact": true,
+        "all_worlds_within_50cp": false,
+        "role": "EDITED_WORLD_PREFERENCE_SUPPORT_LOSS"
+      },
+      {
+        "source": "CHARLOTTE",
+        "pair": "d3d4::h2h3",
+        "mover_cp_gap_B0": 44,
+        "mover_cp_gap_TARGET": -11,
+        "mover_cp_gap_SHAM": 1,
+        "delta_TARGET_minus_SHAM": -12,
+        "repeated_exact": true,
+        "all_worlds_within_50cp": true,
+        "role": "EXPLORATORY_FULL_WORLD_MARGIN_PRESERVED_BUT_REASON_UNIDENTIFIED"
+      }
+    ],
+    "strong_confounder_warning": "Chess-board edit changes many features simultaneously; a measured preference difference cannot prove that the named pair-local relational atom is its necessary or sufficient mediator."
+  },
+  "alternative_reply_development": {
+    "source_worlds_with_reply_values": 3,
+    "reply_selection": "LEXICAL_FIRST and LEXICAL_MEDIAN legal opponent replies per candidate; not opponent-optimal, not matched reply identity across candidates, not primary continuation falsification",
+    "repeats_per_branch": 2,
+    "source_games_with_no_stable_pair": 3,
+    "scientific_authority": false
+  },
+  "drive_custody": {
+    "canonical_folder": "https://drive.google.com/drive/folders/1suNG40-5CoD65oCX2x22Zg1gGbKEqg21",
+    "canonical_archive": "https://drive.google.com/file/d/1iUSW8P10DS9KX_Gl4jQIiFSGq5TAtlUk/view",
+    "canonical_file_id": "1iUSW8P10DS9KX_Gl4jQIiFSGq5TAtlUk",
+    "canonical_bytes": 17740,
+    "canonical_sha256_remote_verified": "420baca28146eeda56607c9ba290d28843d1f75e27b211cab90ed0d8f3cf6147",
+    "other_remote_verified_artifacts": [
+      [
+        "C3X_0.12 real Stockfish smoke",
+        "1n6FCH_ziUjtHDJeeDjXUkftKQzGPkx-8"
+      ],
+      [
+        "Explain I9 CLI trust regression",
+        "1AAXf3Rky9m0U7EsVZNDrQAJ7fp2I1Y1W"
+      ],
+      [
+        "Six-source qualification pilot",
+        "10zbnRfrEthZSnhlLa34rtnfHCPmXnYIn"
+      ],
+      [
+        "Six-source board edit node-limit HOLD",
+        "1BAbr35OCDo3jgsoYzGDasKE_2FS1nb1I"
+      ],
+      [
+        "Fixed-depth12 developer contrast",
+        "1LZk2FNp1LvuLOMRCY3DfrpwaJOAASiwH"
+      ],
+      [
+        "Alternative reply developer probe",
+        "1YJ8g15QG-q5izlVkGgH2rggglZOUOpgD"
+      ]
+    ]
+  },
+  "legacy_authority_unchanged": "P23 empirical FAIL; P24/P25 administrative HOLD; 0.11 closed technical HOLD; Q0 denied; I8 human-utility HOLD",
+  "scientific_conclusion": "One matched-margin development world (CHARLOTTE) remains after cross-budget support audit; NO minimal mediator identification, no independently replicated chess strategy reason, no cross-engine transport and no human-world understanding experiment. No 0.12 SCIENCE PASS.",
+  "next_required": [
+    "Freeze truly source-disjoint chess ecology and full margin positivity controls before outcomes",
+    "Use search-budget-comparable and completed-depth engine score regimes with independent source replication",
+    "Replace lexical opponent replies with predeclared plausible reply controls and retain an anti-cherry-pick sham",
+    "Compare independent engine architectures rather than promoting Stockfish 16 only",
+    "Link only fully signed bounded reason certificates into existing Explain I9 and later blinded human utility study"
+  ],
+  "next_stage": "C3X 0.13 proposed name only, cannot open until 0.12 has a defensible science court or explicitly closed scoped HOLD."
+}
