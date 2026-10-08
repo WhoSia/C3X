@@ -1,0 +1,87 @@
+name: C3X 0.13 P8-EP4 Heldout TCEC Two-Engine Confluence
+on:
+  push:
+    paths:
+      - '.github/workflows/c3x-013-p8ep4-tcec-two-engine.yml'
+      - 'harness/c3x_013_p8ep4_tcec_two_engine_confluence.py'
+      - 'tests/test_c3x_013_p8ep4_tcec_source_confluence.py'
+      - 'c3x/ontology/c3x-013-p8-ep4-tcec-heldout-engine-confluence-precommit.md'
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  heldout-chess-confluence-root-preference-falsification:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install exact chess rules and native engines
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq stockfish build-essential git
+          python3 -m pip install --disable-pip-version-check chess==1.11.2
+      - uses: actions/download-artifact@v4
+        with:
+          name: c3x-013-p8ep3-fresh32-legal-confluence
+          path: p8ep3-original
+          repository: WhoSia/C3X
+          run-id: '37734948527'
+          github-token: ${{ github.token }}
+      - name: Verify precise TCEC source and six separate chess-law assertions
+        env:
+          PYTHONPATH: .
+        run: |
+          mkdir -p output
+          python3 -m unittest discover -s tests -p test_c3x_013_p8ep4_tcec_source_confluence.py -v
+      - name: Build exact classical Ethereal pin and preserve licenses
+        run: |
+          git clone -q https://github.com/AndyGrant/Ethereal.git /tmp/c3x-ep4-ethereal
+          git -C /tmp/c3x-ep4-ethereal checkout -q 0e47e9b67f345c75eb965d9fb3e2493b6a11d09a
+          test "$(git -C /tmp/c3x-ep4-ethereal rev-parse HEAD)" = 0e47e9b67f345c75eb965d9fb3e2493b6a11d09a
+          make -s -C /tmp/c3x-ep4-ethereal/src basic CC=gcc
+          sha256sum /usr/games/stockfish > output/stockfish_sha256.txt
+          sha256sum /tmp/c3x-ep4-ethereal/src/Ethereal > output/ethereal_sha256.txt
+          cp /tmp/c3x-ep4-ethereal/LICENSE output/ethereal_gpl3_license.txt
+          printf 'uci\nquit\n' | /tmp/c3x-ep4-ethereal/src/Ethereal > output/ethereal_uci_id.txt
+          printf 'uci\nquit\n' | /usr/games/stockfish > output/stockfish_uci_id.txt
+      - name: Test all 32 prior source cases and the ONLY admissible strict root with both engines
+        env:
+          PYTHONPATH: .
+        run: |
+          python3 harness/c3x_013_p8ep4_tcec_two_engine_confluence.py \
+            --source-court p8ep3-original/p8ep3_new32_confluence_census.json \
+            --stockfish /usr/games/stockfish \
+            --ethereal /tmp/c3x-ep4-ethereal/src/Ethereal \
+            --output output/p8ep4_heldout_TCEC_exact_legal_confluence_engine.json
+          python3 - <<'PY'
+          import json
+          r=json.load(open("output/p8ep4_heldout_TCEC_exact_legal_confluence_engine.json"))
+          assert r['source_rank']==111 and r['source_ply']==48
+          assert r['frozen_source_groups']==32 and r['exact_legal_confluence_witnesses']==14
+          assert r['eligible_birth_toggled_tactical_matched']==1
+          assert r['exact_equal_six_field_converged_fen']=='r5k1/6p1/p5qn/4p2p/3pP3/1p1Q3P/3B1PP1/R5K1 w - - 0 26'
+          assert not r['identifiable_engine_caused_by_passer']
+          assert r['C3X_014']=='CANDIDATE_ONLY_UNOPENED'
+          print('P8EP4_TYPED_CONVERGENCE_NO_CAUSAL_PROMOTION')
+          PY
+      - name: Preserve original source witness, exact executable, tests and precommit
+        if: always()
+        run: |
+          mkdir -p output
+          cp p8ep3-original/p8ep3_new32_confluence_census.json output/unchanged_parent_p8ep3_32_groups.json
+          cp harness/c3x_013_p8ep4_tcec_two_engine_confluence.py output/engine_observation_source.py
+          cp tests/test_c3x_013_p8ep4_tcec_source_confluence.py output/heldout_chess_law_tests.py
+          cp c3x/ontology/c3x-013-p8-ep4-tcec-heldout-engine-confluence-precommit.md output/p8ep4_frozen_source_protocol.md
+          printf '%s\n' 'Lichess broadcast data CC BY-SA 4.0 https://database.lichess.org/; Ethereal Andrew Grant GPLv3 https://github.com/AndyGrant/Ethereal/tree/0e47e9b67f345c75eb965d9fb3e2493b6a11d09a' > output/license_provenance.txt
+          sha256sum output/* > output/output_sha256_integrity.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x-013-p8ep4-heldout-tcec-legal-confluence-engine
+          path: output/
+          if-no-files-found: error
+          retention-days: 90
