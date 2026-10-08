@@ -54,6 +54,8 @@ jobs:
           cp /tmp/c3x-p8r2-ethereal/LICENSE output/ethereal_gplv3_license.txt
           printf 'uci\nquit\n' | /tmp/c3x-p8r2-ethereal/src/Ethereal > output/ethereal_uci_identity.txt
       - name: Real two-engine depth 8 12 16 repeat trials for every frozen birth root
+        env:
+          PYTHONPATH: .
         run: |
           python3 harness/c3x_013_p8r2_two_engine_pawn_birth.py \
             --p8-source p8r1-original/p8r1_fresh32_phase_support.json \
