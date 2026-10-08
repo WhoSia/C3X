@@ -20,17 +20,18 @@ evidence-carrying explanation
 
 C3X does **not** equate engine strength, Stockfish agreement, search depth, probe accuracy, saliency, or fluent chess language with mechanistic understanding.
 
-## C3X 0.12 current research and custody (2026-10-08)
+## C3X 0.12 scoped closure and C3X 0.13 current frontier (2026-10-08)
 
-**Stage:** OPEN / DEVELOPMENT ENGINEERING PASS / SCIENTIFIC REASON IDENTIFICATION HOLD (not a 0.12 scientific PASS). Six pre-outcome source-game worlds from archived provider PGNs: 3/6 cold qualified pairs, 3/3 target/sham board edits measured at post-pilot fixed depth 12 with exact repeats. Cross-budget near-equal support across B0, TARGET and SHAM survived only 1/3, and no unique chess-strategic mediator or cross-engine transport was identified. Non-mainline opponent replies were legal but lexical developer controls, not validated best-response falsifiers.
+**C3X 0.12:** CLOSED_SCOPED_HOLD. Real Stockfish 16 development evidence: 3/6 cold-qualified pairs, 3 matched legal target/sham edits, only one with near-equal margins throughout. No independent minimal strategic reason, credible rival continuation falsification or cross-engine causal transport earned. [Scoped closure receipt](c3x/receipts/c3x-012-scoped-closure-20261008.json), [full development court](c3x/receipts/c3x-012-six-source-development-review-20261008.json) and [verified source-execution archive](https://drive.google.com/file/d/1iUSW8P10DS9KX_Gl4jQIiFSGq5TAtlUk/view).
 
-- [Canonical 0.12 evidence and Drive custody receipt](c3x/receipts/c3x-012-six-source-development-review-20261008.json)
-- [Six-source frozen development seeds](c3x/data/c3x-012-six-source-development-seeds.json)
-- [Read-only Stockfish CI](.github/workflows/c3x-012-six-source-qualification.yml)
-- [Drive verified final evidence archive](https://drive.google.com/file/d/1iUSW8P10DS9KX_Gl4jQIiFSGq5TAtlUk/view)
-- [0.13 formal-name proposal only — NOT OPENED](c3x/ontology/c3x-013-formal-name-proposal-only.md)
+**C3X 0.13:** OPEN — [Constitution](c3x/ontology/c3x-013-constitution.md), [formal named-stage proposal](c3x/ontology/c3x-013-formal-name-proposal-only.md) (historical proposal preserved). Its first four *development* courts passed execution, NOT scientific causal explanation:
 
-Explain I9 commentary is a separate Track B implementation (37 recent regression tests PASS); it cannot upgrade chess-science authority. P23 FAIL, P24/P25 HOLD, Q0 DENIED unchanged. No bot-authored commits or CI writeback permitted.
+- P1: replayed P16 queen attack-map vectors. A boolean attack on e8 was to a friendly black king, not hostile pressure. 8 adversarial tests PASS.
+- P2: occupancy-relative chess semantic gate; 18 combined regressions PASS, withhold concept / mechanism / human authority.
+- P3: independent Stockfish16 depth12 raw measurement on P16 Ethereal worlds: original mover A-minus-B B0=-1, TARGET=+12, SHAM=+3 cp; directions opposite historical Ethereal, with unequal budgets.
+- P4: Stockfish depth8/10/12/14/16, 2 independent repeats on each of three P16 worlds: B0 and SHAM flip move-preference sign across depths; TARGET does not. No cross-engine causal transport inferred.
+
+[Official P1-P4 scientific-ceiling court](c3x/receipts/c3x-013-p1-p4-opening-development-court-20261008.json). [Read-only evidence archives on Drive](https://drive.google.com/drive/folders/1ehjBFtuBYo7WQdfHvQDkVxVmQRZow9h_). Explain I9 remains the separate PGN commentary product; old I8 genuine human utility HOLD is not reopened. Historical P23 FAIL, P24/P25 HOLD and Q0 DENIED unchanged. No bot-authored commits or CI writeback.
 
 ## Current scientific frontier
 
