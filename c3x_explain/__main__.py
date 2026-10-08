@@ -1,5 +1,5 @@
 from __future__ import annotations
-import argparse,json
+import argparse,json,hashlib
 from pathlib import Path
 from typing import Any
 from .core import analyze_pgn
@@ -60,6 +60,7 @@ def main()->None:
     ap.add_argument("--certificate",action="append",default=[])
     ap.add_argument("--susceptibility",action="append",default=[],help="Transparent admissibility packet JSON")
     ap.add_argument("--ep8-observation",action="append",default=[],help="P8 EP8 descriptive engine panel; never a causal certificate")
+    ap.add_argument("--ep10-observation",action="append",default=[],help="Exact byte-hash-frozen EP10 local search-path diagnostic; never strategic causal authority")
     ap.add_argument("--json-out",required=True)
     ap.add_argument("--markdown-out")
     a=ap.parse_args()
@@ -69,9 +70,16 @@ def main()->None:
     certs=admitted_certificates(a.certificate)
     packets=load_packets(a.susceptibility)
     ep8=load_packets(a.ep8_observation)
+    from .p8_ep10 import ANCHOR_SHA
+    ep10=[]
+    for file in a.ep10_observation:
+        b=Path(file).read_bytes()
+        if hashlib.sha256(b).hexdigest()!=ANCHOR_SHA:
+            raise ValueError('EP10 raw observation SHA-256 does not match the verified experiment artifact')
+        ep10.append(json.loads(b))
     out=analyze_pgn(
       pgn,engine_path=a.engine,multipv=a.multipv,nodes=a.nodes,
-      certificates=certs,rating_band=a.rating_band,susceptibility_packets=packets,ep8_observation_packets=ep8
+      certificates=certs,rating_band=a.rating_band,susceptibility_packets=packets,ep8_observation_packets=ep8,ep10_observation_packets=ep10
     )
     Path(a.json_out).write_text(json.dumps(out,indent=2,ensure_ascii=False)+"\n",encoding="utf-8")
     if a.markdown_out:
