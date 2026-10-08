@@ -1,0 +1,59 @@
+{
+  "schema": "c3x-013-p8ep8-real-pgn-engine-observation-integration-court-v1",
+  "stage": "C3X 0.13 P8-EP8 Track B",
+  "date": "2026-10-08",
+  "verdict": "REAL_ENGINE_DATA_TO_PGN_COMMENTARY_PASS__CAUSAL_AUTHORITY_ZERO",
+  "provenance": {
+    "github_run": "https://github.com/WhoSia/C3X/actions/runs/37790118143",
+    "run_id": 37790118143,
+    "head_commit": "cde07ff5ccb4d14853131fe2106f6a5655c12a56",
+    "source_parent_run_id": 37789322284,
+    "frozen_parent_json_sha256": "d19ef1bec774ffc6e483eabfc22cbe50ddee0a24a900b1c914bbf0750e583933",
+    "source_scientific_receipt": "c3x/receipts/c3x-013-p8ep8-three-arm-confluence-and-reply-relevance-court-20261008.json",
+    "exact_root_FEN": "r5k1/6p1/p5qn/4p2p/2ppP3/3Q3P/1P1B1PP1/R5K1 w - - 0 25",
+    "actual_game_url": "https://lichess.org/broadcast/tcec-s30-playoff-swiss-10-playoff-cat-2/round-1/kpZI9MVi/1oANqqKQ",
+    "test_PGN": "FEN-root local fixture with legal 25.b3; not a replay of full original PGN"
+  },
+  "executable_results": {
+    "engine_observations_attached": 6,
+    "observation_coverage": "Stockfish and Ethereal classical at depth8/12/16, two equal cold repeats each; one original root move",
+    "first_free_opponent_reply_all_six": "c4d3",
+    "forced_black_reply_all_six": "c4b3",
+    "bounded_provenance_class": "CONVENTIONAL_HEURISTIC_COMMENTARY",
+    "provenance_authority": "developmental_engine_conditional_search_observation",
+    "renderer_failed_moments": 0,
+    "verification_failed_clean_packets": 0,
+    "engine_causal_atoms": 0,
+    "cause_certificates_injected": 0,
+    "pgn_moments": 1,
+    "successful_actual_evidence_CI": true,
+    "product_limited_to_single_frozen_FEN": true,
+    "general_PGN_quality_not_tested": true,
+    "human_learning_score": null
+  },
+  "custody": {
+    "zip_sha256": "b427e03afd854775da0ee47e8619a200a548ada7e88a85bb9586f7f34263a0f2",
+    "bytes": 11136,
+    "member_manifest_entries": 6,
+    "member_hashes_all_verified": true,
+    "github_artifact_id": 11556251833,
+    "drive_url": "https://drive.google.com/file/d/1CFohwLnn8Q-GGXKQOyH5n5KG0zkcod66/view",
+    "drive_folder_id": "1ehjBFtuBYo7WQdfHvQDkVxVmQRZow9h_",
+    "drive_download_byte_exact_verified": true
+  },
+  "interpretation": {
+    "status": "EXECUTABLE PRODUCT INTEGRATION ONLY; NO NEW CHESS CAUSAL MECHANISM",
+    "prior_scientific_EP8": "Real free reply c4d3 captures the queen; convergent c4b3 is rejected in each engine/depth/branch",
+    "no_concept_certification": true,
+    "P8": "OPEN_CAUSAL_HOLD",
+    "C3X_014": "UNOPENED_UNNAMED"
+  },
+  "governance": {
+    "git_author_committer": "WhoSia, human-authored",
+    "workflow_permissions": [
+      "contents:read",
+      "actions:read"
+    ],
+    "actions_writebacks_forbidden": true
+  }
+}
