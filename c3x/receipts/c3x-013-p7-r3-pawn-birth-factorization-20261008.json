@@ -1,0 +1,68 @@
+{
+  "schema": "c3x-013-p7-r3-pawn-birth-factorization-court-v1",
+  "date": "2026-10-08",
+  "stage": "C3X 0.13 P7-R3",
+  "status": "CLOSED_MATHEMATICAL_BOARD_FACT_ONLY__STRATEGIC_ENGINE_CAUSAL_HOLD",
+  "formal_definition": "For persistent pawn p with original x, final y, prior enemy pawn configuration E0 and final E1, form p(x,E0)=0, p(y,E0), p(x,E1), p(y,E1)=1 using the existing same-or-adjacent-file strict-ahead empty-blocker predicate. These are formal hybrid variable states, not legal-move or reachable position claims.",
+  "truth_table": {
+    "1_0": "POSITION_ALONE_SUFFICIENT",
+    "0_1": "OPPONENT_CONFIGURATION_ALONE_SUFFICIENT",
+    "1_1": "EITHER_FACTOR_SUFFICIENT",
+    "0_0": "JOINT_NECESSARY"
+  },
+  "discrete_interaction": "kappa=p(y,E1)-p(y,E0)-p(x,E1)+p(x,E0)=1-a-b. If a=b=1, kappa=-1 redundant alternative sufficient factors; if a=b=0, kappa=+1 jointly necessary. This is BOARD PREDICATE interaction, not engine score interaction.",
+  "source": {
+    "provider": "Lichess same P5/P6 frozen first 16 September broadcasts",
+    "raw_sha256": "27a39d035767a30901b89602f33f2a7b27d4ab5025842071165fa079f8fff1df",
+    "total_frozen_groups": 16,
+    "full_replay_valid_games": 15,
+    "Chess960_hold": 1,
+    "prior_events_in_9_games": 19
+  },
+  "empirical_math_counts": {
+    "position_alone_sufficient": 5,
+    "enemy_configuration_alone_sufficient": 12,
+    "either_factor_sufficient": 2,
+    "joint_necessary": 0
+  },
+  "historic_taxonomy_cross_table": [
+    {
+      "old": "BLOCKER_CAPTURED",
+      "new": "OPPONENT_CONFIGURATION_ALONE_SUFFICIENT",
+      "count": 10
+    },
+    {
+      "old": "OPPONENT_PAWN_MOVED_OUT_OF_BAND",
+      "new": "OPPONENT_CONFIGURATION_ALONE_SUFFICIENT",
+      "count": 2
+    },
+    {
+      "old": "PAWN_ADVANCE_THRESHOLD",
+      "new": "POSITION_ALONE_SUFFICIENT",
+      "count": 2
+    },
+    {
+      "old": "MIXED_CAPTURE_AND_ADVANCE",
+      "new": "POSITION_ALONE_SUFFICIENT",
+      "count": 3
+    },
+    {
+      "old": "MIXED_CAPTURE_AND_ADVANCE",
+      "new": "EITHER_FACTOR_SUFFICIENT",
+      "count": 2
+    }
+  ],
+  "actual": {
+    "run_id": 37728072602,
+    "url": "https://github.com/WhoSia/C3X/actions/runs/37728072602",
+    "conclusion": "SUCCESS",
+    "artifact_id": 11528915651,
+    "sha256": "47b58277915f96ada6f1f162e6572e15313d2b0f798afc74fa9d7cabd83f32fa",
+    "drive_url": "https://drive.google.com/file/d/1QSyvU5pqadkg8NWgQ_s07qERfXLmCumF/view",
+    "remote_sha256_verified": true,
+    "zip_member_hash_checks_passed": true
+  },
+  "claim_ceiling": "Mathematically exact binary pawn predicate decomposition conditional on source events. No independent causal engine preference, no chess-legal hybrid worlds, no cross-engine transfer, no human understanding gain, no P7 overall science pass.",
+  "inherited_limits": "0.12 CLOSED_SCOPED_HOLD, P5 concept predictivity HOLD, P6 scoped HOLD, P16 LOCAL_ONLY, P23 FAIL, Q0 DENIED.",
+  "next": "P7-R2 prospectively cold-qualified actual engine root-pair selection and completed-depth outcome pending; C3X 0.14 name and opening are deliberately deferred."
+}
