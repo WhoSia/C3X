@@ -58,7 +58,9 @@ jobs:
           assert p['schema']=='c3x-013-p8ep9-stockfish16-native-tt-cutoff-path-intervention-v1'
           assert p['observer_noop_exact_all']
           assert p['masked_runs_authorized']
-          assert len(p['cells'])==16
+          assert len(p['cells'])==28
+          assert p['worlds']==7
+          assert p['historical_CECLUB_origin']['pair']==['f3f4','g3g4']
           assert all(set(r['modes'])=={'MAIN','QSEARCH','BOTH'} for r in p['cells'])
           assert not p['causal_engine_mechanism_established']
           assert not p['chess_concept_causal_mediation_established']
@@ -70,7 +72,7 @@ jobs:
           mkdir -p output
           cp tools/c3x_013_p8ep9_patch_sf16_cutoffs.py output/EP9_patch_script.py
           cp harness/c3x_013_p8ep9_stockfish_tt_native.py output/EP9_harness.py
-          find output -maxdepth 1 -type f ! -name 'sf16_baseline' ! -name 'sf16_trace' -print0 | sort -z | xargs -0 sha256sum > output/member_manifest_sha256.txt
+          find output -maxdepth 1 -type f ! -name 'sf16_baseline' ! -name 'sf16_trace' ! -name 'member_manifest_sha256.txt' ! -name 'upstream_initial_diff.txt' -print0 | sort -z | xargs -0 sha256sum > output/member_manifest_sha256.txt
           printf '%s\n' 'Descriptive source-conditional engine search intervention only, no chess concept causal proof. No bot commits or pushes.' > output/SCIENTIFIC_AUTHORITY.txt
       - uses: actions/upload-artifact@v4
         if: always()
