@@ -1,0 +1,40 @@
+name: C3X 0.13 P6 Chess Concept Grammar Support
+on:
+  push:
+    paths:
+      - '.github/workflows/c3x-013-p6-grammar-support.yml'
+      - 'tests/test_c3x_013_p6_grammar_support.py'
+      - 'c3x/ontology/c3x-013-p6-intervention-compatible-concept-precommit.md'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  pair-safe-grammar-invariance:
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install chess rules and run hard negative grammar tests
+        env:
+          PYTHONPATH: .
+        run: |
+          python3 -m pip install --disable-pip-version-check chess==1.11.2
+          python3 -m unittest discover -s tests -p test_c3x_013_p6_grammar_support.py -v
+      - name: Record exact method, historical citation, and claim ceiling
+        run: |
+          mkdir -p output
+          cp c3x/ontology/c3x-013-p6-intervention-compatible-concept-precommit.md output/p6_precommit.md
+          cp tests/test_c3x_013_p6_grammar_support.py output/p6_grammar_tests.py
+          cat > output/verdict.json <<'JSON'
+          {"schema":"c3x-013-p6-grammar-invariance-v1","authority":"STRUCTURAL_PAWN_INVARIANCE_ONLY","concept_causal_authority":false,"historical_p16_replication_status":"LOCAL_ONLY","human_outcomes":null,"target_vs_sham_measured":false}
+          JSON
+          sha256sum output/* > output/contents_sha256.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: c3x-013-p6-chess-grammar-lemma
+          path: output/
+          if-no-files-found: error
+          retention-days: 90
