@@ -2,7 +2,7 @@
   "schema": "c3x-014-p2-actual-s29-sixteen-source-group-native-tt-choice-score-and-explanation-license-v1",
   "official_title": "C3X 0.14 P2 — Prospective Margin-Stratified Search-Path Sensitivity, Independent-Game Replication & Explanation-Authority Calibration",
   "date_kst": "2026-10-09",
-  "status": "P2_DEVELOPMENT_COURT_CLOSED_PASS__EXECUTED_SOURCE_DISJOINT_GROUP_EVIDENCE__BOARD_CONCEPT_MEDIATION_HOLD",
+  "status": "P2_DEVELOPMENT_COURTS_CLOSED_PASS_WITH_CONDITIONAL_BUDGET_SENSITIVITY__STRATEGY_MEDIATION_HOLD",
   "phase": "C3X 0.14 OPEN",
   "evidence_lock": {
     "sampling_precommit": "c3x/ontology/c3x-014-p2-prospective-margin-stratified-search-sensitivity-precommit.md",
@@ -231,5 +231,79 @@
     "github_actions_contents_read_only": true,
     "git_bot_commits_forbidden": true
   },
-  "next_phase": "Remain in C3X 0.14. P3 should budget-match depth-vs-node resources, root order perturb, fresh cross-provider studies, and only then unseal P1 holdout according to separate precommit. Do NOT promote chess concept causation or human learning benefits."
+  "next_phase": "Remain within C3X 0.14 and explicitly separate TT cutoff mechanism from achieved depth, work, search move ordering, and board-chess concepts; independently replicate in source-disjoint/engine-independent frozen holdout only after separate prespecified validation contract.",
+  "postdiscovery_node_cap_root_order_hash_stress": {
+    "experimental_scientific_status": "SAME_SIXTEEN_SCORED_DEVELOPMENT_GAMES__POSTDISCOVERY_TECHNICAL_STRESS__NOT_INDEPENDENT_REPLICATION",
+    "precommit": "c3x/ontology/c3x-014-p2-node-budget-hash-order-postdiscovery-stress-precommit.md",
+    "workflow": "https://github.com/WhoSia/C3X/actions/runs/37804219196",
+    "run_id": 37804219196,
+    "run_conclusion": "SUCCESS",
+    "parent_native_json_sha256": "0fd87345c9cc4b0e23f8fac6c669ec328254178da424268303e99ee6159f81e3",
+    "predefined_method": "N=max(1024, parent CLEAN depth12 cold1 first-PV final nodes), the same requested UCI go nodes N for EP9 OFF and MAIN, all 16 scored source groups, two move-list orders, Hash 16 or 64 MiB, two cold repeats. Same requested cap is not exact same work nor equal completed depth.",
+    "source_game_groups": 16,
+    "actual_off_vs_main_pair_cells": 128,
+    "root_choice_label_changes": 8,
+    "strict_cp_sign_inversions": 8,
+    "completely_reported_pv_cases": 128,
+    "preknown_three_source_round_results": {
+      "12.1": {
+        "total_cells": 8,
+        "bestmove_flip": 0,
+        "strict_sign_flip": 0,
+        "baseline_target_original_cp_gap": -8,
+        "masked_cp_gap": 0,
+        "completed_pv_depth_original": 13,
+        "completed_pv_depth_masked": 13,
+        "node_cap": 84657,
+        "last_actual_nodes_off": 84701,
+        "last_actual_nodes_main": 84690,
+        "note": "The previously positive depth12 equal-depth result did not survive same node-cap stopping condition; before choice a2a4 stays a2a4."
+      },
+      "96.1": {
+        "total_cells": 8,
+        "bestmove_flip": 8,
+        "strict_sign_flip": 8,
+        "baseline_target_original_cp_gap": -8,
+        "masked_cp_gap": 25,
+        "original_bestmove": "a2a4",
+        "masked_bestmove": "a2a3",
+        "node_cap": 87634,
+        "last_actual_nodes_off": 87749,
+        "last_actual_nodes_main": 87717,
+        "completed_pv_depth_original": 13,
+        "completed_pv_depth_masked": 11,
+        "note": "Robust to tested move-list order and hash size but NOT a same-completed-depth witness; search-completion mediates comparison."
+      },
+      "95.1": {
+        "total_cells": 8,
+        "bestmove_flip": 0,
+        "strict_sign_flip": 0,
+        "baseline_target_original_cp_gap": 11,
+        "masked_cp_gap": 4,
+        "node_cap": 102755,
+        "last_actual_nodes_off": 102879,
+        "last_actual_nodes_main": 102853,
+        "completed_pv_depth_original": 13,
+        "completed_pv_depth_masked": 13,
+        "note": "Earlier depth12 bestmove relabel at 0cp was not transported under cap; same candidate a2a3 is selected."
+      }
+    },
+    "all_other_thirteen_games_under_stress_choice_flips": 0,
+    "no_new_source_generalization_or_strategic_causal_support": true,
+    "scientific_restrictions": [
+      "post-discovery on original already-scored sixteen new official TCEC game groups",
+      "two cold repeats and four environment cells for same game do not count as independent cases",
+      "go nodes cap equal does not ensure exact equal nodes, and P2 Round96.1 actually reached different full depths 13 versus 11",
+      "this experiment cannot isolate source TT-cutoff direct effect without affecting search work/depth"
+    ],
+    "custody": {
+      "github_artifact_id": 11561299972,
+      "github_zip_sha256": "99ffa9ee8621ff9139728b41fb224cc2db910964b2954fd295b3988efe1972e2",
+      "panel_json_sha256": "37d6b3bde44e971ee88ae5fbababd63ba88980ce6b48e0bfa80234cebccdbdf1",
+      "archive_member_sha256": "9/9 PASS",
+      "drive_id": "1EOHNgozCID9nc7D4hAhsxpPTvZVpO7vu",
+      "drive_url": "https://drive.google.com/file/d/1EOHNgozCID9nc7D4hAhsxpPTvZVpO7vu/view",
+      "zip_bytes": 58670
+    }
+  }
 }
