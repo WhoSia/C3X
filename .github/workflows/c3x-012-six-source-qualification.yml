@@ -5,6 +5,7 @@ on:
       - '.github/workflows/c3x-012-six-source-qualification.yml'
       - 'harness/c3x_012_six_source_qualify.py'
       - 'harness/c3x_012_six_source_board_edits.py'
+      - 'harness/c3x_012_alternative_reply_probe.py'
       - 'c3x/data/c3x-012-six-source-development-seeds.json'
   workflow_dispatch:
 permissions:
@@ -53,6 +54,16 @@ jobs:
           assert q['status'].startswith('DEVELOPMENT_ONLY')
           assert c['status'].startswith('POST_PILOT_FIXED_DEPTH12_DEVELOPMENT')
           print('C3X_012_SIX_SOURCE_DEVELOPMENT_NO_SCIENCE_PROMOTION')
+          PY
+      - name: Measure frozen non-mainline opponent replies under original-mover score
+        run: |
+          python3 harness/c3x_012_alternative_reply_probe.py --qualification output/qualification.json --engine /usr/games/stockfish --output output/alternative_reply_branches.json
+          python3 - <<'PY'
+          import json
+          d=json.load(open('output/alternative_reply_branches.json'))
+          assert len(d['worlds'])==6
+          assert d['claim_authority'] is False
+          print('DEVELOPMENT_ONLY_LEGAL_OPPONENT_REPLY_BANK_PASS',d['counts'])
           PY
       - name: Upload source-scoped audit, even if a source fails
         if: always()
