@@ -16,6 +16,7 @@ from .verification import attach_verification,verification_benchmark
 from .susceptibility import susceptibility_index,atoms_for_fen
 from .authority_support import authority_index,atoms_for_fen as authority_atoms_for_fen,route_for_fen
 from .p8_ep8 import observation_index,observation_atoms_for_board
+from .p8_ep10 import mechanism_index,mechanism_atoms_for_board
 
 CAUSAL="C3X_CAUSAL_CONTRAST"
 HEURISTIC="CONVENTIONAL_HEURISTIC_COMMENTARY"
@@ -95,6 +96,7 @@ def route_categories(atoms:list[dict[str,Any]])->list[str]:
     if "intervention_admissibility" in types:cats.append("intervention_admissibility")
     if "mechanism_authority_route" in types:cats.append("mechanism_authority")
     if "opponent_reply_observation" in types:cats.append("opponent_reply_observation")
+    if "engine_path_sensitivity_observation" in types:cats.append("engine_path_sensitivity_observation")
     return cats
 
 def graph_audit(moments:list[dict[str,Any]])->dict[str,Any]:
@@ -224,12 +226,12 @@ def _retrieval_query_tags(atoms:list[dict[str,Any]])->list[str]:
             tags.update(str(x) for x in c.get("alternative_only_kinds",[]))
     return sorted(tags)
 
-def analyze_pgn(pgn_text:str,engine_path:str|None=None,multipv:int=3,nodes:int=20000,certificates:Iterable[dict[str,Any]]=(),threshold_cp:int|None=None,rating_band:str="advanced",retrieval_records:Iterable[dict[str,Any]]=(),retrieval_top_k:int=3,susceptibility_packets:Iterable[dict[str,Any]]=(),authority_packets:Iterable[dict[str,Any]]=(),ep8_observation_packets:Iterable[dict[str,Any]]=())->dict[str,Any]:
+def analyze_pgn(pgn_text:str,engine_path:str|None=None,multipv:int=3,nodes:int=20000,certificates:Iterable[dict[str,Any]]=(),threshold_cp:int|None=None,rating_band:str="advanced",retrieval_records:Iterable[dict[str,Any]]=(),retrieval_top_k:int=3,susceptibility_packets:Iterable[dict[str,Any]]=(),authority_packets:Iterable[dict[str,Any]]=(),ep8_observation_packets:Iterable[dict[str,Any]]=(),ep10_observation_packets:Iterable[dict[str,Any]]=())->dict[str,Any]:
     game=chess.pgn.read_game(io.StringIO(pgn_text))
     if game is None:raise ValueError("No PGN game found")
     if rating_band not in RATING_THRESHOLDS:raise ValueError(f"Unknown rating band: {rating_band}")
     effective_threshold=RATING_THRESHOLDS[rating_band] if threshold_cp is None else int(threshold_cp)
-    board=game.board();certs=cert_index(certificates);sidx=susceptibility_index(susceptibility_packets);aidx=authority_index(authority_packets);oidx=observation_index(ep8_observation_packets);moments=[];eng=None
+    board=game.board();certs=cert_index(certificates);sidx=susceptibility_index(susceptibility_packets);aidx=authority_index(authority_packets);oidx=observation_index(ep8_observation_packets);midx=mechanism_index(ep10_observation_packets);moments=[];eng=None
     if engine_path:eng=chess.engine.SimpleEngine.popen_uci(engine_path)
     try:
         for ply,move in enumerate(game.mainline_moves(),1):
@@ -237,6 +239,7 @@ def analyze_pgn(pgn_text:str,engine_path:str|None=None,multipv:int=3,nodes:int=2
             facts=move_facts(board,move);cands=candidate_packet(eng,board,multipv,nodes) if eng else []
             local_sus=sidx.get(key,[]);local_auth=authority_atoms_for_fen(aidx,fen);aroute=route_for_fen(aidx,fen)
             local_ep8=observation_atoms_for_board(oidx,board,move.uci())
+            local_ep10=mechanism_atoms_for_board(midx,board,move.uci())
             selected,reasons=choose_moment(board,move,cands,facts,local_certs,effective_threshold)
             if local_sus:
                 selected=True
@@ -247,8 +250,11 @@ def analyze_pgn(pgn_text:str,engine_path:str|None=None,multipv:int=3,nodes:int=2
             if local_ep8:
                 selected=True
                 reasons=list(reasons)+["source_frozen_developmental_engine_observation"]
+            if local_ep10:
+                selected=True
+                reasons=list(reasons)+["exploratory_source_local_search_path_observation"]
             if selected:
-                atoms=heuristic_atoms(board,move,cands,facts)+atoms_for_fen(sidx,fen)+local_auth+local_ep8
+                atoms=heuristic_atoms(board,move,cands,facts)+atoms_for_fen(sidx,fen)+local_auth+local_ep8+local_ep10
                 if aroute["allow_causal"]:
                     atoms+=causal_atoms(board,local_certs)
                 rpacket=retrieve(_retrieval_query_tags(atoms),retrieval_records,retrieval_top_k)
