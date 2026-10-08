@@ -31,9 +31,9 @@ def main():
     a=p.parse_args()
     if a.expect_history_json_min<1: p.error("INVALID_HISTORY_COVERAGE_LOWER_BOUND")
     if not a.history_root.is_dir(): p.error("HISTORY_ROOT_MISSING")
-    historic=list(a.history_root.rglob("*.json"))
+    historic=[p for p in a.history_root.rglob("*") if p.is_file() and p.suffix.lower() in (".json",".jsonl",".epd")]
     if len(historic)<a.expect_history_json_min:
-        p.error("HISTORICAL_JSON_INVENTORY_BELOW_PRECOMMITTED_MINIMUM")
+        p.error("HISTORICAL_WORLD_FILE_INVENTORY_BELOW_PRECOMMITTED_MINIMUM")
     sources = {}
     for name in SOURCE_NAMES:
         path=a.pgn_dir/SOURCE_FILES[name]
@@ -56,7 +56,7 @@ def main():
         "stage":"C3X 0.11", "type":"ACTUAL_SIX_SOURCE_PREOUTCOME_AUDIT",
         "raw_custody_verdict":"RAW_CUSTODY_PASS_ONLY",
         "fen_audit_verdict":data["verdict"],
-        "history_json_inventory_present":len(historic),
+        "historical_world_file_inventory_present":len(historic),
         "history_coverage_certified":False,
         "source_preseal_granted":False,
         "activation_outcomes_opened":False,
