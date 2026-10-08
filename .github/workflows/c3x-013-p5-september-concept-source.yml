@@ -4,6 +4,8 @@ on:
     paths:
       - '.github/workflows/c3x-013-p5-september-concept-source.yml'
       - 'harness/c3x_013_p5_source_partition.py'
+      - 'harness/c3x_013_p5b_concept_prediction.py'
+      - 'c3x/ontology/c3x-013-p5b-predictive-rival-precommit.md'
       - 'c3x/receipts/c3x-013-p5-frozen-september-source-acquisition-20261008.md'
   workflow_dispatch:
 permissions:
@@ -20,7 +22,7 @@ jobs:
       - name: Install pinned chess rules and archive decoder
         run: |
           sudo apt-get update -qq
-          sudo apt-get install -y -qq zstd
+          sudo apt-get install -y -qq zstd stockfish
           python3 -m pip install --disable-pip-version-check python-chess==1.999
       - name: Retrieve exact public September Lichess broadcast original
         run: |
@@ -52,11 +54,26 @@ jobs:
           assert all('causal' not in r for r in x['records'])
           print('P5_CHESS_RULE_NEGATIVE_CONTROLS_PASS')
           PY
+      - name: Test outcome-locked move-pair semantic predictions at new search depth
+        env:
+          PYTHONPATH: .
+        run: |
+          python3 harness/c3x_013_p5b_concept_prediction.py --p5a output/p5_source_chess_partition.json --engine /usr/games/stockfish --output output/p5b_concept_predictions.json
+          python3 - <<'PY'
+          import json
+          d=json.load(open("output/p5b_concept_predictions.json"))
+          assert len(d["samples"])==16
+          assert d["authority"]=="DEVELOPMENT_PREDICTION_ONLY_NOT_CAUSAL_CONCEPT"
+          print("P5B_NO_CAUSAL_PROMOTION",d["status_counts"])
+          PY
       - name: Freeze executable and stage references in artifact
         if: always()
         run: |
           mkdir -p output
           cp harness/c3x_013_p5_source_partition.py output/p5_source_partition_code.py
+          cp harness/c3x_013_p5b_concept_prediction.py output/p5b_concept_prediction_code.py
+          cp c3x/ontology/c3x-013-p5b-predictive-rival-precommit.md output/p5b_prediction_precommit.md
+          sha256sum /usr/games/stockfish > output/stockfish_binary_sha256.txt
           cp c3x/ontology/c3x-013-p5-independent-concept-precommit.md output/p5_precommit.md
           cp c3x/receipts/c3x-013-p5-frozen-september-source-acquisition-20261008.md output/source_custody_precommit.md
           sha256sum output/* > output/integrity_sha256.txt
