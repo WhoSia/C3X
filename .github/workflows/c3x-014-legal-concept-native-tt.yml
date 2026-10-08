@@ -1,0 +1,80 @@
+name: C3X 0.14 Legal Chess History Concept Versus Native TT Search Court
+on:
+  push:
+    paths:
+      - '.github/workflows/c3x-014-legal-concept-native-tt.yml'
+      - 'harness/c3x_014_legal_chess_concept_native_tt_world_court.py'
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  frozen-legally-branching-chess-worlds:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Exact legal chess and original engine C++ environment
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq make g++ git
+          python -m pip install --disable-pip-version-check chess==1.11.2
+          python -m py_compile harness/c3x_014_legal_chess_concept_native_tt_world_court.py
+          mkdir -p frozen output
+      - uses: actions/download-artifact@v4
+        with:
+          name: c3x-014-legal-historical-chess-concept-worlds-source-only
+          path: frozen/
+          repository: WhoSia/C3X
+          run-id: '37809811541'
+          github-token: ${{ github.token }}
+      - name: Check prospective source-only game world file bytes and study identity
+        run: |
+          printf '%s  %s\n' '0080f4f108471137f8d9d0908e3c879e33351ad8bdd4fbf0fdda83d47f6075b2' 'frozen/C3X014_LEGAL_CONCEPT_WORLDS_SOURCE_FROZEN.json' | sha256sum -c -
+      - name: Compile two independent SF16 source builds clean and EP9 plus native completion observation
+        run: |
+          git clone -q --single-branch --branch sf_16 https://github.com/official-stockfish/Stockfish.git /tmp/C3X014_semantic_original
+          test "$(git -C /tmp/C3X014_semantic_original rev-parse HEAD)" = "68e1e9b3811e16cad014b590d7443b9063b3eb52"
+          cp -a /tmp/C3X014_semantic_original /tmp/C3X014_semantic_trace
+          python tools/c3x_013_p8ep9_patch_sf16_cutoffs.py --source /tmp/C3X014_semantic_trace --out-manifest output/SEMANTIC_EP9_PATCH_MANIFEST.json
+          python tools/c3x_014_patch_native_completed_depth_probe.py --source /tmp/C3X014_semantic_trace --out-manifest output/SEMANTIC_COMPLETION_PATCH_MANIFEST.json
+          git -C /tmp/C3X014_semantic_trace diff -- src/search.cpp > output/SEMANTIC_NATIVE_SOURCE_PATCH.diff
+          cp /tmp/C3X014_semantic_original/Copying.txt output/Stockfish_GPLv3.txt
+          make -s -C /tmp/C3X014_semantic_original/src -j2 build ARCH=x86-64
+          make -s -C /tmp/C3X014_semantic_trace/src -j2 build ARCH=x86-64
+          cp /tmp/C3X014_semantic_original/src/stockfish /tmp/C3X014_semantic_clean
+          cp /tmp/C3X014_semantic_trace/src/stockfish /tmp/C3X014_semantic_trace_bin
+          sha256sum /tmp/C3X014_semantic_clean /tmp/C3X014_semantic_trace_bin > output/SEMANTIC_ENGINE_BINARY_SHA256.txt
+      - name: Real legal full-historical PGN chess concept changes plus TT path intervention
+        run: |
+          python harness/c3x_014_legal_chess_concept_native_tt_world_court.py --concept-source frozen/C3X014_LEGAL_CONCEPT_WORLDS_SOURCE_FROZEN.json --clean /tmp/C3X014_semantic_clean --instrumented /tmp/C3X014_semantic_trace_bin --out output/C3X014_FULL_HISTORY_CONCEPT_AND_TT_ENGINE_PANEL.json
+          python - <<'PY'
+          import json
+          p=json.load(open('output/C3X014_FULL_HISTORY_CONCEPT_AND_TT_ENGINE_PANEL.json'))
+          assert p['formal_study']=='C3X 0.14' and p['internal_checkpoint_not_formal_substage']
+          assert p['source_groups']==16 and p['concept_change_source_groups']==14
+          assert p['legal_world_count']==60 and p['total_real_native_engine_processes']==360
+          assert p['cold_exact_pairs_out_of60']==60
+          assert p['original_vs_OFF_sham_exact_out_of120']==120
+          assert not p['P1_sealed_holdout_accessed']
+          assert not p['chess_domain_mediation_causally_identified']
+          print('C3X014_FULL_HISTORY_CHESS_CONCEPT_TT_CAUSAL_FIREWALL_PASS')
+          PY
+      - name: Preserve all raw source game paths, engine source, controls and hashes
+        if: always()
+        run: |
+          cp harness/c3x_014_legal_chess_concept_native_tt_world_court.py output/SEMANTIC_REAL_ENGINE_DRIVER.py
+          cp frozen/C3X014_LEGAL_CONCEPT_WORLDS_SOURCE_FROZEN.json output/SEMANTIC_WORLD_SOURCE_ONLY_FROZEN.json
+          cp c3x/ontology/c3x-014-joint-native-work-completion-and-legal-concept-mediator-precommit.md output/SEMANTIC_METHOD_CONSTITUTION.md
+          printf '%s\n' 'All source worlds are genuine legal black 18th-ply alternatives, engine tests use full history. Not isolated pawn concept causation; different black moves change other factors.' > output/SEMANTIC_AUTHORITY_LIMITS.txt
+          find output -maxdepth 1 -type f ! -name 'MEMBER_SHA256.txt' -print0 | sort -z | xargs -0 sha256sum > output/MEMBER_SHA256.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x-014-native-TT-court-on-legal-full-history-concept-worlds
+          path: output/
+          if-no-files-found: error
+          retention-days: 90
