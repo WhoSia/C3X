@@ -18,38 +18,48 @@ EXPECTED = {
 TAG = re.compile(r'^\[([A-Za-z][A-Za-z0-9_]*)\s+"((?:\\.|[^"\\])*)"\]\s*$')
 REQUIRED = ("Event", "White", "Black", "Result")
 def inspect(path: Path):
-    digest = hashlib.sha256()
-    count = 0
-    missing = []
-    headers = {}
-    issues = []
-    begun = False
+    data = path.read_bytes()
+    text = data.decode("utf-8-sig", errors="replace")
+    games, current, seen_moves = [], {}, False
+    malformed, duplicate = [], []
+
     def finish():
-        nonlocal count, headers, begun
-        if begun:
-            count += 1
-            absent = [x for x in REQUIRED if not headers.get(x)]
-            if absent:
-                missing.append({"game": count, "missing": absent})
-            headers = {}
-            begun = False
-    with path.open("rb") as f:
-        for raw in f:
-            digest.update(raw)
-            line = raw.decode("utf-8-sig", errors="replace").strip()
-            if line.startswith("[") and line.endswith("]"):
-                match = TAG.fullmatch(line)
-                if match:
-                    key, val = match.groups()
-                    if key == "Event" and begun and headers.get("Event"):
-                        finish()
-                    headers[key] = val
-                    begun = True
-                else:
-                    issues.append("MALFORMED_TAG")
+        nonlocal current, seen_moves
+        if current:
+            games.append((current, seen_moves))
+        current, seen_moves = {}, False
+
+    for lineno, raw in enumerate(text.splitlines(), 1):
+        line = raw.strip()
+        if not line:
+            continue
+        if line.startswith("["):
+            match = TAG.fullmatch(line)
+            if match is None:
+                malformed.append(lineno)
+                continue
+            key, value = match.groups()
+            if seen_moves:
+                finish()
+            if key in current:
+                duplicate.append({"game": len(games)+1, "key": key, "line": lineno})
+            current[key] = value
+        elif current:
+            seen_moves = True
+        else:
+            malformed.append(lineno)
     finish()
-    return {"sha256": digest.hexdigest(), "game_header_blocks": count,
-            "required_header_missing": missing[:20], "malformed_tag_count": len(issues)}
+    missing = [{"game": i, "missing": [key for key in REQUIRED if not tags.get(key)]}
+               for i, (tags, _) in enumerate(games, 1)
+               if any(not tags.get(key) for key in REQUIRED)]
+    without_moves = [i for i, (_, has_moves) in enumerate(games, 1) if not has_moves]
+    return {"sha256": hashlib.sha256(data).hexdigest(),
+            "bytes": len(data), "game_header_blocks": len(games),
+            "required_header_missing": missing,
+            "duplicate_header_tags": duplicate,
+            "malformed_lines": malformed,
+            "no_movetext_games": without_moves,
+            "decode_replacement_chars": text.count("\ufffd")}
 def main():
     p = argparse.ArgumentParser()
     p.add_argument("--source", action="append", required=True, help="SOURCE_ID=PATH")
@@ -67,8 +77,7 @@ def main():
         record["raw_bytes_sha256_match"] = (record["sha256"] == EXPECTED[sid][0])
         results[sid] = record
     custody_pass = all(r["raw_bytes_sha256_match"] and
-                      not r["required_header_missing"] and
-                      r["malformed_tag_count"] == 0 for r in results.values())
+                      not any(r[k] for k in ("required_header_missing", "duplicate_header_tags", "malformed_lines", "no_movetext_games", "decode_replacement_chars")) for r in results.values())
     report = {"schema": "c3x-0.11-raw-preflight-v1", "legacy": "G10-P26",
               "verdict": "RAW_CUSTODY_PASS_ONLY" if custody_pass else "RAW_CUSTODY_HOLD",
               "source_roles_inherited": True, "outcomes_opened": False,
