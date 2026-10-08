@@ -1,0 +1,13 @@
+# C3X 0.13 P8-R4 — Frozen Two-Reply Conditional Preference Matrix
+
+Status: DEVELOPMENTAL FOLLOW-UP after P8-R2's observed 8/8 cross-engine directional concordance and P8-R3's retrospective naive pawn-passer sign-rule 5/8. These facts were already known; do not call this independent preregistration. No C3X 0.14 title or opening.
+
+Use ALL eight exactly frozen P8-R2 born/not-born root pairs (four broadcast groups, same September Lichess provider). Preserve source 32-group denominator, root pair, original FEN, and limitations: all eight change mover squares, six change additional monitored chess-rule features, other unmeasured chess geometry always differs.
+
+For EACH candidate root independently, run two fresh pinned Ethereal 14.40 CLASSICAL instances at completed depth6 MultiPV2 from its legal after-root board, no restricted reply roots. Require exact agreement in two reply UCI identities and score cp across the two selector runs. The highest-ranked opponent reply is STRONG, next RIVAL. A RIVAL is plausible only when the local Ethereal difference between strongest and second reply is at most 100cp, and both are nonmate scored. Otherwise HOLD, no substitute reply. Both candidate successor boards are DIFFERENT; never assume identical UCI replies.
+
+For each accepted root/reply 2-ply successor, run Stockfish16 and the same pinned classical Ethereal separately at completed depth10 with two independent cold process repetitions, 1 thread, 16MB hash. Report scores in ORIGINAL root mover perspective. Reject mate scores, incomplete depth and repeat discrepancies. If both candidates have supported STRONG and RIVAL, construct 2x2 signed preference matrix of V(A,STRONG) minus V(B,STRONG), V(A,RIVAL) minus V(B,RIVAL), plus two cross combinations. These are conditional legal continuation sensitivities, NOT root minimax scores or causal effect of passed-pawn birth.
+
+Primary yields: supported pairs in both branches, exact engine-repeat pairs, groups with any sign reversal in four conditional reply combinations, per-engine analysis. The Ethereal-based reply selector is NOT randomized or independent of subsequent Ethereal evaluation; this is DEVELOPMENTAL. No source/engine ecological replication or human outcome.
+
+HOLD if plausible RIVAL support is zero; no modified thresholds or after-outcome rescued candidates. P8 root preference 8/8 cross-engine directional agreement cannot be turned into identified concept mediation through opponent reply matrices. 0.14 remains candidate only, with no title proposal now.
