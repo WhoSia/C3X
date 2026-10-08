@@ -1,0 +1,25 @@
+# C3X 0.13 P8 — Event-Conditioned Strategic Concept Mediation, Search-Regime-Indexed Explanation Authority, Tactical Support Fibers, Matched Continuation Falsification & Cross-Engine Transport Court
+
+Stage status: P8 OPEN FOR RESEARCH CONSTITUTION AND EXPERIMENT DESIGN; NO P8 SCIENTIFIC PASS, NO EXECUTED P8 INTERVENTION. C3X 0.14 remains a CANDIDATE PARADIGM ONLY. **Do not propose a formal 0.14 name or open stage 0.14 here.**
+
+## Why P7 requires this change
+The new P7 September 32-broadcast source cohort had 29 legal chess worlds, with 17 cold-qualifying BASE root pairs, 8 additionally equal immediate-recapture tactical hazard, 5 matched original piece square, and only ONE depth8/12/16 consistent sign, <=50cp stable pair (CECLUB f3f4/g3g4, +29/+31/+42cp). The other seven filtered roots comprised five real depth preference reversals and two marginality losses, despite two identical repeats per depth. None identified passed-pawn genesis mediation. In 29 chess worlds, 11 born/not-born tactically matched pairs were clustered in just three broadcasts; zero had a common original piece square. P7-R4 phase exploration showed no strict birth root match at ply32,64,80 in their source-supported denominators. A P7-R3 four-cell board predicate theorem partitions the earlier 19 real pawn births as position-only=5, enemy-configuration-only=12, either=2, joint=0; those hybrid pawn geometries are not legal chess root interventions.
+
+## P8 explanandum and types
+Fix source game/world S, legal candidate pair (a,b), engine lineage E, complete search budget B, and legal opponent-reply regime R. Explain the signed comparative root value only if source/engine/budget context is explicit. Let D_C(S,a,b) be chess-board or typed pawn genesis contrast and D_N be all monitored nuisance features; causal mediation is never inferred from D_C !=0 and an engine-score gap alone.
+
+Six gates are independently adjudicated:
+1. SOURCE: previously unseen competition/game/group with immutable PGN GameURL, raw segment hash, ply and full-FEN identity, clustering by actual tournament and player if identifiable. No adaptive replacement after chess support, engine or human outcome.
+2. LEGAL/TACTICAL FIBER: both roots legal, equal moving piece class, capture kind, promotion/check, opponent's immediate LEGAL recapture aggressor multiset; same-origin is a separate STRICT stratum, never rescued by a looser match.
+3. CONCEPT SUPPORT: explicit pawn blocker-set birth, opponent-configuration and pawn-coordinate factors, plus matched no-birth or no-toggle control and board-validity/actual legal-history type; report all collider/collateral features and nonempty-support denominators. If no root pair toggles concept, HOLD, do not claim mechanism.
+4. SEARCH: reproducibly compare Stockfish and at least one independently implemented chess engine with source-version+binary hash; within each engine, two cold repeats at depth8/12/16 and node-cap panel with separate estimands. Cross-engine cp values are not numerically interchangeable; compare preference directions, support and legality, not raw uncalibrated differences.
+5. CONTINUATION: freeze at least two plausible legal opponent replies per candidate (including a strong opponent reply and a control) BEFORE interpreting PVs. Replies after a and b are in distinct successor chess positions; no imaginary same-uci matched reply.
+6. AUTHORITY: a bounded concept certificate can be admitted to existing Explain I9 only after independent source support, control, falsifier and cross-engine evidence passes; otherwise attach abstention reason. Actual human learning and trust outcomes must be separately measured later.
+
+## Outcome-independent execution routing
+First freeze a fresh disjoint source cohort at midgame/late-game preselected ply landmarks, including source HOLDs. Run legal/tactical/genesis SUPPORT CENSUS before any engine outcomes. Freeze comparison pair and rival explanation before search. If strict root-support is zero, close SUPPORT_HOLD and study admissible alternative intervention families WITHOUT outcome-directed filtering. Only then run native UCI engines and predeclared completed-depth panels. Do not choose 0.14 based solely on methodology, new terminology or a single successful game.
+
+## Mathematical witness required for a paradigm shift
+A genuine transition would show that typed event-genesis conditions predict and survive matched chess-intervention/continuation falsifiers better than static scalar features across independently source- and engine-disjoint environments, with honest non-recoverable HOLDS. No P8 data have yet satisfied this.
+
+Parent authority: P23 empirical FAIL; P24/P25 HOLD; C3X 0.12 CLOSED_SCOPED_HOLD; 0.13 P5/P6/P7 scoped scientific HOLD; P16 local-only; Explain I8 human learning HOLD. Work Mode is not used and all CI Actions are read-only.
