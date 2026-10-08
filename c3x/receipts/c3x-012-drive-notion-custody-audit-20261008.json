@@ -1,0 +1,63 @@
+{
+  "schema": "c3x-012-drive-and-notion-custody-audit-v1",
+  "date": "2026-10-08",
+  "scope": "Current C3X 0.12 real-engine downloadable artifact and latest research-status narration",
+  "drive": {
+    "root_folder": "1eWHPdlKM1Jlesec7Iu87LlHbuNER0b95",
+    "results_folder": "1edVUOsnelnHQEmBmB5HOXraJ6ojHGNkx",
+    "stage_folder": "1suNG40-5CoD65oCX2x22Zg1gGbKEqg21",
+    "stage_folder_url": "https://drive.google.com/drive/folders/1suNG40-5CoD65oCX2x22Zg1gGbKEqg21",
+    "uploaded_artifacts": [
+      {
+        "name": "C3X_0.12__REAL_STOCKFISH16_UCI_DEPTH8_SMOKE__RUN37716518717.zip",
+        "id": "1n6FCH_ziUjtHDJeeDjXUkftKQzGPkx-8",
+        "url": "https://drive.google.com/file/d/1n6FCH_ziUjtHDJeeDjXUkftKQzGPkx-8/view",
+        "size_bytes": 3322,
+        "remote_sha256": "6d08b9dc5000f08421b5cd51c55a107fb14e44ff9961ba00dd672258d48ff73a",
+        "source_github_artifact_id": 11523967315,
+        "source_workflow_run_id": 37716518717,
+        "byte_equal_verified": true
+      }
+    ]
+  },
+  "notion": {
+    "hub_url": "https://app.notion.com/p/3c4ef561cf92817ab76bcab15e7d1faf",
+    "verified_existing_sections": [
+      "First REAL Stockfish Run and Explain I9 Regression Now Verified",
+      "Historical Return & Causal Certificate CLI Admission Audit",
+      "Drive chat archive 1–16 re-read"
+    ],
+    "meaning": "Substantive summaries, experiment evidence, negative claims, source links and research-gate statuses exist; NOT full word-for-word ChatGPT transcript storage"
+  },
+  "science": {
+    "stockfish_engine": "Stockfish 16",
+    "repeat_count": 2,
+    "depth": 8,
+    "uci_pair": [
+      "c1e3",
+      "c1g5"
+    ],
+    "final_cp_white_pov": [
+      64,
+      60
+    ],
+    "delta_cp": 4,
+    "depth_ranking_instability": true,
+    "authority": "PROTOCOL_EXECUTION_PASS_ONLY_NO_CAUSAL_EXPLANATION",
+    "explain_i9": {
+      "ci_run_id": 37716557297,
+      "pytest_pass": 25,
+      "trust_unittest_pass": 12,
+      "total": 37,
+      "unreviewed_certificate_rejected": true
+    }
+  },
+  "incomplete": {
+    "all_C3X_prior_downloads_uploaded_to_Drive": "NOT_YET_AUDITED",
+    "github_source_and_receipt_files_mirrored_in_Drive": "NOT_AUTOMATIC",
+    "every_chat_paragraph_verbatim_in_Notion": false,
+    "scientific_intervention_and_transport": "NOT_RUN"
+  },
+  "custody_policy_next": "For each future locally created scientific output: choose C3X Drive 01_RAW vs 03_RUNTIME vs 04_RESULTS; upload and SHA-256 readback; record Drive file ID/URL/source-run/digest in GitHub receipt and concise, reusable Notion status. Repository code remains canonical in GitHub; do not claim it has a Drive copy without one.",
+  "legacy_state": "P23 FAIL / P24-P25 HOLD / 0.11 technical HOLD / Q0 DENIED unchanged"
+}
