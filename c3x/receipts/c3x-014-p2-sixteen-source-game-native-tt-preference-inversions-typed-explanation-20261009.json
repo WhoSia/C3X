@@ -244,7 +244,6 @@
     "actual_off_vs_main_pair_cells": 128,
     "root_choice_label_changes": 8,
     "strict_cp_sign_inversions": 8,
-    "completely_reported_pv_cases": 128,
     "preknown_three_source_round_results": {
       "12.1": {
         "total_cells": 8,
@@ -252,12 +251,19 @@
         "strict_sign_flip": 0,
         "baseline_target_original_cp_gap": -8,
         "masked_cp_gap": 0,
-        "completed_pv_depth_original": 13,
-        "completed_pv_depth_masked": 13,
         "node_cap": 84657,
         "last_actual_nodes_off": 84701,
         "last_actual_nodes_main": 84690,
-        "note": "The previously positive depth12 equal-depth result did not survive same node-cap stopping condition; before choice a2a4 stays a2a4."
+        "note": "The previously positive depth12 equal-depth result did not survive same node-cap stopping condition; before choice a2a4 stays a2a4.",
+        "UCI_both_rank_max_reported_depth_OFF_MAIN": [
+          13,
+          13
+        ],
+        "SF16_native_completedDepth_OFF_MAIN": [
+          12,
+          12
+        ],
+        "native_completion_verification_run": "https://github.com/WhoSia/C3X/actions/runs/37807422574"
       },
       "96.1": {
         "total_cells": 8,
@@ -270,9 +276,16 @@
         "node_cap": 87634,
         "last_actual_nodes_off": 87749,
         "last_actual_nodes_main": 87717,
-        "completed_pv_depth_original": 13,
-        "completed_pv_depth_masked": 11,
-        "note": "Robust to tested move-list order and hash size but NOT a same-completed-depth witness; search-completion mediates comparison."
+        "note": "Robust to tested move-list order and hash size but NOT a same-completed-depth witness; search-completion mediates comparison.",
+        "UCI_both_rank_max_reported_depth_OFF_MAIN": [
+          13,
+          11
+        ],
+        "SF16_native_completedDepth_OFF_MAIN": [
+          12,
+          11
+        ],
+        "native_completion_verification_run": "https://github.com/WhoSia/C3X/actions/runs/37807422574"
       },
       "95.1": {
         "total_cells": 8,
@@ -283,9 +296,16 @@
         "node_cap": 102755,
         "last_actual_nodes_off": 102879,
         "last_actual_nodes_main": 102853,
-        "completed_pv_depth_original": 13,
-        "completed_pv_depth_masked": 13,
-        "note": "Earlier depth12 bestmove relabel at 0cp was not transported under cap; same candidate a2a3 is selected."
+        "note": "Earlier depth12 bestmove relabel at 0cp was not transported under cap; same candidate a2a3 is selected.",
+        "UCI_both_rank_max_reported_depth_OFF_MAIN": [
+          13,
+          13
+        ],
+        "SF16_native_completedDepth_OFF_MAIN": [
+          12,
+          12
+        ],
+        "native_completion_verification_run": "https://github.com/WhoSia/C3X/actions/runs/37807422574"
       }
     },
     "all_other_thirteen_games_under_stress_choice_flips": 0,
@@ -294,7 +314,8 @@
       "post-discovery on original already-scored sixteen new official TCEC game groups",
       "two cold repeats and four environment cells for same game do not count as independent cases",
       "go nodes cap equal does not ensure exact equal nodes, and P2 Round96.1 actually reached different full depths 13 versus 11",
-      "this experiment cannot isolate source TT-cutoff direct effect without affecting search work/depth"
+      "this experiment cannot isolate source TT-cutoff direct effect without affecting search work/depth",
+      "Correction 2026-10-09: a two-rank UCI PV reported depth is NOT the internal Stockfish Thread::completedDepth. Round96.1 reports OFF13/MAIN11 while native completion is OFF12/MAIN11; 12.1 and 95.1 report 13/13 but native completion is 12/12."
     ],
     "custody": {
       "github_artifact_id": 11561299972,
@@ -304,6 +325,10 @@
       "drive_id": "1EOHNgozCID9nc7D4hAhsxpPTvZVpO7vu",
       "drive_url": "https://drive.google.com/file/d/1EOHNgozCID9nc7D4hAhsxpPTvZVpO7vu/view",
       "zip_bytes": 58670
-    }
+    },
+    "reported_two_rank_UCI_depth_is_native_completion": false,
+    "completedDepth_semantic_correction": "The previous P2 stress harness field max_completed_both_pv_depth counted the highest depth with UCI PV info lines for both ranks. The name was misleading: source-native Thread::completedDepth actually differed in 46/64 direct replay cases. See canonical C3X 0.14 internal P3 true native completed depth receipt.",
+    "canonical_correction_receipt": "c3x/receipts/c3x-014-internal-p3-budget-indexed-native-completion-claim-court-20261009.json",
+    "two_rank_UCI_depth_info_cases_despite_possible_partial_iteration": 128
   }
 }
