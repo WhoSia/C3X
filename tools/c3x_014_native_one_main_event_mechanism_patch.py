@@ -57,8 +57,8 @@ def instrument(original):
               '      c3x_ep9_stats = C3XEp9Stats{};\n      c3x014_trace = C3X014TraceCounters{};','COUNTER_RESET')
     s=once(s,'      else if (!std::strcmp(env,"BOTH")) c3x_ep9_mode=3;',
         '      else if (!std::strcmp(env,"BOTH")) c3x_ep9_mode=3;\n      else if (!std::strcmp(env,"ONE_MAIN")) c3x_ep9_mode=4;','MODE')
-    s=once(s,'  c3x_ep9_dump();\n  sync_cout << "bestmove "',
-              '  c3x_ep9_dump();\n  c3x014_dump_mechanism();\n  sync_cout << "bestmove "','DUMP')
+    s=once(s,'  c3x_ep9_dump();',
+              '  c3x_ep9_dump();\n  c3x014_dump_mechanism();','DUMP')
     # Exact EP9 return condition; counting and native cause-custody only inside the actual return.
     s=once(s,'''            if (c3x_ep9_mode & 1)
                 ++c3x_ep9_stats.main_cutoff_blocked;
