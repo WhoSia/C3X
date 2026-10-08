@@ -70,11 +70,11 @@ jobs:
               src=Path(f'output/uci_depth8_repeat{index}.json')
               if not src.is_file():
                   Path(f'output/comparability_repeat{index}.json').write_text(
-                      json.dumps({'verdict':'NO_RAW_PACKET','explanation_granted':False})+'\\n')
+                      json.dumps({'verdict':'NO_RAW_PACKET','explanation_granted':False})+'\n')
                   continue
               data=json.loads(src.read_text())
               lines=data.get('info_lines',[])
-              text='\\n'.join(lines+['bestmove '+data.get('bestmove','(none)')])+'\\n'
+              text='\n'.join(lines+['bestmove '+data.get('bestmove','(none)')])+'\n'
               result=subprocess.run(['/tmp/c3x_012_uci_score_gate','c1e3','c1g5'],
                                     input=text,text=True,capture_output=True,timeout=5)
               record={'verdict':'SYNTACTICALLY_COMPARABLE_CP_ONLY' if result.returncode==0
@@ -85,7 +85,7 @@ jobs:
                       'engine_identity_verified':False,
                       'explanation_granted':False,
                       'scientific_preseal':False}
-              Path(f'output/comparability_repeat{index}.json').write_text(json.dumps(record,indent=2)+'\\n')
+              Path(f'output/comparability_repeat{index}.json').write_text(json.dumps(record,indent=2)+'\n')
               print(index,record['verdict'])
           PY
       - name: Validate SQL evidence schema with negative controls
