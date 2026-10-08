@@ -1,0 +1,108 @@
+{
+  "schema": "c3x-013-p5-scope-limited-closure-v1",
+  "date": "2026-10-08",
+  "stage": "C3X 0.13 P5",
+  "title": "Source-Disjoint Chess Concept Partition, Budget-Aware Rival Explanations & Adversarial Transfer Gate",
+  "status": "CLOSED_WITH_SCIENTIFIC_HOLD",
+  "verdict": "CHESS_BOARD_RULE_FACTS_REPLAY_PASS__CONCEPT_PREFERENCE_PREDICTIVE_SUPPORT_INSUFFICIENT",
+  "authority": "DESCRIPTIVE_CHESS_RULE_AND_WITHIN_STOCKFISH_DEVELOPMENT_OUTCOME_ONLY",
+  "precommits": [
+    "c3x/ontology/c3x-013-p5-independent-concept-precommit.md",
+    "c3x/receipts/c3x-013-p5-frozen-september-source-acquisition-20261008.md",
+    "c3x/ontology/c3x-013-p5b-predictive-rival-precommit.md"
+  ],
+  "source": {
+    "corpus": "lichess_db_broadcast_2026-09.pgn.zst",
+    "provider": "Lichess",
+    "license": "CC BY-SA 4.0",
+    "drive_original_id": "1GTQWzz33Cp0FFaTKIkLyaxRWGFh1fUGh",
+    "compressed_sha256": "27a39d035767a30901b89602f33f2a7b27d4ab5025842071165fa079f8fff1df",
+    "selection_sha256": "7f9e865ced89aa47ed06aac5fa0d40ff02481f8ff4e696f12769fdcffbc9fa1b",
+    "independent_broadcast_groups_frozen": 16,
+    "nonindependence_caveat": "Same Lichess provider; two Polish league broadcast groups may belong to the same underlying competition. Broadcast-group independence is not institutional/ecology independence."
+  },
+  "p5a": {
+    "run_id": 37721703364,
+    "status": "SUCCESS",
+    "accepted_chess_positions": 14,
+    "hold_short_ineligible": 1,
+    "hold_PGN_variant_960": 1,
+    "count_board_center_positive_negative": [
+      12,
+      2
+    ],
+    "count_isolated_pawn_positive_negative": [
+      2,
+      12
+    ],
+    "count_passed_pawn_positive_negative": [
+      0,
+      14
+    ],
+    "remote_drive_id": "1escxgMkdn7l82TgtNWB4Kf7h3FHRg94z",
+    "remote_zip_sha256": "1d9fc32d718c5199c58a4d1cf06c6b597c3a6421cfc561c01f9028974684af82"
+  },
+  "p5b": {
+    "run_id": 37721969770,
+    "run_url": "https://github.com/WhoSia/C3X/actions/runs/37721969770",
+    "status": "SUCCESS",
+    "head_sha": "031e4eb3653b1525feac3b6f089ab9b2758c0081",
+    "stockfish_binary_sha256": "00628bd9c9855c1b7ff93d7f8d51b413586cdc6336fe637f9a14a61531a05aca",
+    "depth12_after_cold_10k_30k_80k": true,
+    "selected_pair_qualifying_worlds": 8,
+    "no_pair_HOLD_worlds": 6,
+    "source_HOLD_worlds": 2,
+    "factual_deltas_frozen_prior_to_depth12": true,
+    "repeats_exact_per_world": 2,
+    "development_predictive_rivals": {
+      "CENTER": {
+        "tested_groups": 3,
+        "agreements": 1,
+        "disagreements": 2,
+        "positive_feature_direction": 2,
+        "negative_feature_direction": 1,
+        "precommit_min_support_met": false
+      },
+      "ISOLATION": {
+        "tested_groups": 1,
+        "agreements": 1,
+        "disagreements": 0,
+        "positive_feature_direction": 0,
+        "negative_feature_direction": 1,
+        "precommit_min_support_met": false
+      },
+      "PASSED": {
+        "tested_groups": 1,
+        "agreements": 1,
+        "disagreements": 0,
+        "positive_feature_direction": 1,
+        "negative_feature_direction": 0,
+        "precommit_min_support_met": false
+      }
+    },
+    "interpretation": "Two of three testable naive center-occupancy directional predictions contradicted the fixed-depth12 engine outcome. Isolation/passed had only one testable case each. Features without a candidate-move contrast are not successes. No replicated cross-ecology concept law.",
+    "remote_drive_id": "1ok13bW7FtX1rH2VYZTwxKADKeplc0nw9",
+    "remote_drive_url": "https://drive.google.com/file/d/1ok13bW7FtX1rH2VYZTwxKADKeplc0nw9/view",
+    "remote_zip_sha256": "ee59b27fabe6bf1b273cdbd07242653bf8e98e7817099f8c38a6ae5b56280bf0",
+    "remote_zip_bytes": 15692,
+    "source_p5a_payload_sha256": "be06adddd75ff89ac29d810e5531daa8e84e9d41461bfb439e216012ec5881a3",
+    "predictive_json_sha256": "1dccde31516ecb6457f269a7a9965c9c91e3501fae87280086a463e01e6407ac"
+  },
+  "not_earned": [
+    "human-name concept beyond chess rule predicates",
+    "intervention-sufficient strategic explanation",
+    "source-disjoint independently replicated causal mediator",
+    "cross-engine search-budget calibrated transport",
+    "opponent continuation robustness",
+    "actual randomized human learning gain"
+  ],
+  "strict_parent_conditions": [
+    "C3X 0.12 CLOSED_SCOPED_HOLD",
+    "Historic P16 LOCAL_ONLY",
+    "P23 FAIL",
+    "P24/P25 HOLD",
+    "Q0 DENIED",
+    "I8 HUMAN UTILITY HOLD"
+  ],
+  "next_research": "Within C3X 0.13, adjudicate intervention family transport and alternate-response effect using pre-outcome freeze of candidate pairs/partition definitions; add an independent engine architecture and calibrated budget probes, and keep all three concept hypotheses as candidates, not approved causal labels."
+}
