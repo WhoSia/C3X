@@ -5,6 +5,7 @@ on:
       - '.github/workflows/c3x-012-real-uci-smoke.yml'
       - 'tools/c3x_012_uci_probe.cpp'
       - 'tools/c3x_012_uci_score_gate.cpp'
+      - 'c3x/schema/c3x-012-uci-measurements.sql'
   workflow_dispatch:
 permissions:
   contents: read
