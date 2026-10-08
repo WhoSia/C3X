@@ -48,10 +48,10 @@ class NZLegalConfluence(unittest.TestCase):
         root,p=branches()
         a,b=[chess.Move.from_uci(x) for x in ("a2a3","a2a4")]
         self.assertEqual(births(root,a),[])
-        self.assertTrue(any(e["color"]=="black" and e["pawn_after"]=="b4"
+        self.assertTrue(any(e["color"]=="white" and e["pawn_after"]=="a4"
                             for e in births(root,b)))
-        white_a=snapshot(p["A"]["post_root"],chess.BLACK)
-        white_b=snapshot(p["B"]["post_root"],chess.BLACK)
+        white_a=snapshot(p["A"]["post_root"],chess.WHITE)
+        white_b=snapshot(p["B"]["post_root"],chess.WHITE)
         self.assertEqual(white_b["own_passed_pawn_count"]-white_a["own_passed_pawn_count"],1)
     def test_corrected_pawn_capture_hazard_matches(self):
         root,_=branches()
