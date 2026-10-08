@@ -1,0 +1,213 @@
+{
+  "schema": "c3x-014-single-stage-joint-native-completion-and-legally-branched-chess-concept-court-v1",
+  "date_kst": "2026-10-09",
+  "formal_unit": "C3X 0.14 — Transportable Search-Mechanism Evidence, Chess-Concept Mediation & Faithful Explanation Systems",
+  "governance": "ONE FORMAL RESEARCH PHASE ONLY; P1/P2/P3/Pn are internal work checkpoints, never separate research stages or Notion child pages. Canonical existing C3X Notion Lab id 3c4ef561-cf92-817a-b76b-cab15e7d1faf.",
+  "status": "C3X_0_14_OPEN__JOINT_NATIVE_BUDGET_METHOD_PASS__LEGAL_CHESS_CONCEPT_CHALLENGE_PASS__ISOLATED_CONCEPT_MEDIATION_HOLD",
+  "underlying_earlier_sources": {
+    "engine": "Stockfish16 sf_16, commit 68e1e9b3811e16cad014b590d7443b9063b3eb52",
+    "games": "TCEC-Chess/tcecgames official S29-final Superfinal game file immutable commit 3dd69a40b3cf6ccc74144df7411ef4e8e2140286 and git blob 68141d7a9afad301c237106c3b2a3324cb35b130",
+    "P2_16_game_source_SHA256": "cb879eaa14bcbf3896c4d069dcb1cf543135c68c5b1fa0ea2eab942613332eeb",
+    "P2_16_game_node_stress_JSON_SHA256": "37d6b3bde44e971ee88ae5fbababd63ba88980ce6b48e0bfa80234cebccdbdf1",
+    "parent_frozen_research_context": "All 16 are previously exposed development groups of same broad TCEC ecology, not new independent validation. P1 four-game procedural holdout remains untouched."
+  },
+  "precommit": "c3x/ontology/c3x-014-joint-native-work-completion-and-legal-concept-mediator-precommit.md",
+  "arm_A_joint_nodes_completedDepth": {
+    "workflow": "https://github.com/WhoSia/C3X/actions/runs/37809616882",
+    "run_id": 37809616882,
+    "code": "harness/c3x_014_joint_native_work_completeddepth_court.py",
+    "source_JSON_sha256": "e4197b24b520fce4c61bbe4589e9c82c09cd658e28a8644d794521b0590db60c",
+    "design": "N0 from prior CLEAN SF16 depth12 original root node report, caps floor(.8N0), N0, ceil(1.2N0), each all 16 groups, OFF/MAIN and two cold restarts, Threads1 Hash16MiB MultiPV2, real SF16 source-native post-search bestThread->completedDepth.",
+    "actual_engine_processes": 192,
+    "off_main_paired_cells": 96,
+    "native_original_base_cap_reference_output_matches": 64,
+    "cold_pair_identical_group_cap_conditions": 48,
+    "posttreatment_node_discrepancy_near_criterion": "absolute actual reported nodes difference over maximum reported nodes <= 0.02, and actual source-native completedDepth equal. Not a causal direct effect after conditioning on mediator.",
+    "per_cap_first_cold": {
+      "LOW_80pct": {
+        "games": 16,
+        "same_true_completedDepth": 5,
+        "joint_near_depth_and_work": 5,
+        "strict_signed_cp_gap_inversions": 3,
+        "joint_near_and_strict_inversions": 1,
+        "UCI_bestmove_changes": 3
+      },
+      "BASE_100pct": {
+        "games": 16,
+        "same_true_completedDepth": 8,
+        "joint_near_depth_and_work": 8,
+        "strict_signed_cp_gap_inversions": 2,
+        "joint_near_and_strict_inversions": 1,
+        "UCI_bestmove_changes": 1
+      },
+      "HIGH_120pct": {
+        "games": 16,
+        "same_true_completedDepth": 5,
+        "joint_near_depth_and_work": 5,
+        "strict_signed_cp_gap_inversions": 2,
+        "joint_near_and_strict_inversions": 1,
+        "UCI_bestmove_changes": 1
+      }
+    },
+    "discovered_source_round_96_1": {
+      "LOW": {
+        "true_completedDepth_OFF_MAIN": [
+          11,
+          10
+        ],
+        "paired_white_cp_gaps_at_true_completed_depth": [
+          5,
+          -24
+        ],
+        "strict_signed_gap_inversion": true,
+        "near_work_depth_certificate": false
+      },
+      "BASE": {
+        "true_completedDepth_OFF_MAIN": [
+          12,
+          11
+        ],
+        "paired_white_cp_gaps_at_true_completed_depth": [
+          -8,
+          25
+        ],
+        "strict_signed_gap_inversion": true,
+        "near_work_depth_certificate": false
+      },
+      "HIGH": {
+        "true_completedDepth_OFF_MAIN": [
+          12,
+          11
+        ],
+        "paired_white_cp_gaps_at_true_completed_depth": [
+          -8,
+          25
+        ],
+        "strict_signed_gap_inversion": true,
+        "near_work_depth_certificate": false
+      }
+    },
+    "limits": [
+      "Native completedDepth is not UCI last printed PV depth, which previously mismatched in 46/64 tests.",
+      "Equal requested node cap does not mean exact achieved work or depth.",
+      "Comparing arms conditional on achieved completedDepth/nodes is posttreatment conditioning; no pure TT direct effect is identified.",
+      "No independent provider/engine, chess concept causation or human learning efficacy is proven."
+    ],
+    "artifact": {
+      "github_id": 11563863817,
+      "url": "https://drive.google.com/file/d/1LNmObPxpdjOZPusGNR2TLfuJ_oyj9Ypc/view",
+      "zip_sha256": "49ecbb21d2a7f71b080153b3afd30af153e906d2e5329b41be8ba8e8e764845b",
+      "internal_SHA256_manifest": "10/10 PASS"
+    }
+  },
+  "arm_B_legally_reached_concept_source_only": {
+    "workflow": "https://github.com/WhoSia/C3X/actions/runs/37809811541",
+    "run_id": 37809811541,
+    "code": "harness/c3x_014_legal_black_reply_concept_source_freeze.py",
+    "original_JSON_sha256": "0080f4f108471137f8d9d0908e3c879e33351ad8bdd4fbf0fdda83d47f6075b2",
+    "verified_games": 16,
+    "original_exact_17_ply_legal_predecessor_replays": 16,
+    "legal_quiet_black18_alternative_that_changes_frozen_chess_concept_contrast": 14,
+    "legal_quiet_black18_alternative_that_preserves_frozen_chess_concept_contrast": 14,
+    "source_games_with_both_alternatives": 14,
+    "concept_feature_change_count_by_source_group": {
+      "enemy_pawn_attacks_square": 11,
+      "immediate_legal_capture_reply": 12,
+      "legal_en_passant_reply": 2,
+      "white_pawn_attacks_enemy_nonpawn_piece": 2
+    },
+    "passed_pawn_delta_eligible_worlds": 0,
+    "all_selected_before_engine_world_scores": true,
+    "sources_of_confounding": "Different black legal move changes full tactical configuration, piece activity, sometimes NNUE, source Zobrist position and search move ordering, rather than isolating a single chess concept.",
+    "artifact": {
+      "github_id": 11565061106,
+      "url": "https://drive.google.com/file/d/1pFGCjU9u1s3Y1WM8lBciuvQUspQtKjeb/view",
+      "zip_sha256": "078c25126fe8cbce93d4496a92b9b4e72ebf24d9d70dd6a5559e5367b172790c",
+      "internal_SHA256_manifest": "6/6 PASS"
+    }
+  },
+  "arm_B_actual_engine_intervention": {
+    "workflow": "https://github.com/WhoSia/C3X/actions/runs/37810326739",
+    "run_id": 37810326739,
+    "code": "harness/c3x_014_legal_chess_concept_native_tt_world_court.py",
+    "actual_full_engine_panel_sha256": "7a797b9530ed24cf4eed5f3fcd821eb5d468298f36c661e9fa0a842c9365080d",
+    "world_design": "PLAYED_HISTORY 16 + CONCEPT_CHANGE_HISTORY 14 + CONCEPT_SHAM_HISTORY 14 + PLAYED_FEN_ONLY 16, all game history paths exact to black 18th move, alternative FEN-only history dropped negative control; root pair same legal one/double white pawn advances.",
+    "worlds": 60,
+    "cold_twice_each_world": true,
+    "original_clean_vs_native_off_sham_exact": "120/120",
+    "all_60_world_cold_repeat_identical": "60/60",
+    "actual_native_engine_processes": 360,
+    "official_depth": 12,
+    "FEN_only_vs_full_history_original_OFF_output_changed_source_groups": 0,
+    "FEN_only_vs_full_history_original_MAIN_output_changed_source_groups": 0,
+    "note": "No observed effect of dropping history at this depth/set; no claim general history irrelevance.",
+    "concept_change_world_minus_original_MAIN_TT_sensitivity_cp": {
+      "groups": 14,
+      "nonzero": 14,
+      "mean_signed": 1.2857142857142858,
+      "median_absolute": 22
+    },
+    "semantic_sham_world_minus_original_MAIN_TT_sensitivity_cp": {
+      "groups": 14,
+      "nonzero": 13,
+      "mean_signed": 10.642857142857142,
+      "median_absolute": 30
+    },
+    "concept_change_world_minus_semantic_sham_MAIN_TT_sensitivity_cp": {
+      "groups": 14,
+      "nonzero": 13,
+      "mean_signed": -9.357142857142858,
+      "median_absolute": 25
+    },
+    "posthoc_paired_absolute_change_comparison": {
+      "concept_change_stronger_groups": 4,
+      "semantic_sham_stronger_groups": 7,
+      "equal_magnitude_groups": 3,
+      "note": "Exploratory post-outcome tabulation, not preregistered independent causal contrast test."
+    },
+    "interpretation": "Chess-domain opponent capture/pawn-attack contrast change did NOT show preferentially larger native TT response under this frozen legal-last-move comparator than measured concept-preserving sham. Therefore no isolated pawn-concept causal mediator is identified; competing tactics, full positional state, NNUE, TT keys, move order and work remain unresolved.",
+    "artifact": {
+      "github_id": 11565525015,
+      "url": "https://drive.google.com/file/d/1cISBLkP_-yzyz71-QY87yD876e92U5z4/view",
+      "zip_sha256": "b3822ab6f35351006e51ee0fbd2404a80a1a05c33463443d5c4e454a6d4d63a3",
+      "internal_SHA256_manifest": "10/10 PASS"
+    }
+  },
+  "software_evidence_license": {
+    "code": "harness/c3x_014_legal_concept_mechanism_evidence_compiler.py",
+    "workflow": "https://github.com/WhoSia/C3X/actions/runs/37810845579",
+    "run_id": 37810845579,
+    "real_ledger_sha256": "c6a45e5bb2a7a00d09a1c627fbd12e8aac2ab1bb86699d4b374532a2d8b2a3a7",
+    "real_source_grounded_Korean_explanations": 16,
+    "tests_rejected": "5/5",
+    "falsifiers": [
+      "unjustified chess-concept causal promotion",
+      "fabricated intervention score difference",
+      "illegal historical move path",
+      "forged pawn concept feature",
+      "wrong native TT measurement site"
+    ],
+    "concept_causal_certificates": 0,
+    "human_learning_certificates": 0,
+    "artifact": {
+      "github_id": 11563994203,
+      "url": "https://drive.google.com/file/d/1WzSSTKfKSgV8e6CC4ZAIOhX04d3rB_CC/view",
+      "zip_sha256": "135f62e4b94d601fe62216db91bae61bb098839d9af7a4940196804c2f223982",
+      "internal_SHA256_manifest": "7/7 PASS"
+    }
+  },
+  "data_custody": {
+    "existing_C3X_Drive_folder": "1ehjBFtuBYo7WQdfHvQDkVxVmQRZow9h_",
+    "all_four_archive_byte_SHA_matched_Actions_and_Drive_redownload": true,
+    "all_four_internal_hash_manifests_valid": true,
+    "original_Stockfish_GPL_license_archived": true,
+    "no_bot_authored_git_commits": true,
+    "no_new_Notion_Lab": true,
+    "P1_procedurally_sealed_four_games_unopened": true
+  },
+  "forward_inference_and_experiment": {
+    "next_test": "Build source-native event-level attribution of TT insertion/lookup provenance, alternative TT collision + move-order + NNUE + alpha-beta/reduction workload explanations. Seek real chess minimal contrast with invariant immediate tactical alternatives, preserve full history and exact engine transcript; test separate independent engine and fresh-provider source only with upfront commitment.",
+    "no_strategic_chess_causal_law_claim": true,
+    "no_independent_validation_promotion": true
+  }
+}
