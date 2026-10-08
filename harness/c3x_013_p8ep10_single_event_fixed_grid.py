@@ -18,7 +18,7 @@ NEGATIVE=1000000000
 def sha(path):
     return hashlib.sha256(Path(path).read_bytes()).hexdigest()
 
-def analyze(binary,depth,site="NONE",ordinal=0):
+def analyze(binary,depth,site="NONE",ordinal=0,require_ep10=False):
     b=chess.Board(FEN)
     assert b.is_valid() and all(chess.Move.from_uci(x) in b.legal_moves for x in PAIR)
     env=dict(os.environ,C3X_P8_EP9_BLOCK_CUTOFF="OFF",
@@ -59,9 +59,7 @@ def analyze(binary,depth,site="NONE",ordinal=0):
     if len(best)!=1 or best[0]!=infos[1]["move"]:
         raise ValueError("Incorrect bestmove")
     ep10=[x for x in logs if x.startswith("info string c3x_p8_ep10 ")]
-    if (len(ep10)!=1)==("ep10" in Path(binary).name.lower()):
-        pass # No filename-authority inference; explicit telemetry validated below.
-    if len(ep10)>1 or (site!="NONE" and len(ep10)!=1):
+    if len(ep10)>1 or (require_ep10 and len(ep10)!=1):
         raise ValueError("EP10 telemetry absent/ambiguous")
     tt={}
     if ep10:
@@ -86,16 +84,16 @@ def run(args):
     for depth in DEPTHS:
         for repeat in (1,2):
             base=analyze(args.ep9,depth)
-            sham=analyze(args.ep10,depth)
+            sham=analyze(args.ep10,depth,require_ep10=True)
             baseline_equal=meaning(base)==meaning(sham)
             negatives={}
             scans={}
             if baseline_equal:
                 for site in SITES:
-                    neg=analyze(args.ep10,depth,site,NEGATIVE)
+                    neg=analyze(args.ep10,depth,site,NEGATIVE,require_ep10=True)
                     negatives[site]=neg
                     for ordinal in ORDINALS:
-                        result=analyze(args.ep10,depth,site,ordinal)
+                        result=analyze(args.ep10,depth,site,ordinal,require_ep10=True)
                         scans[f"{site}:{ordinal}"]=result
             row={"depth":depth,"repeat":repeat,"ep9_OFF":base,"ep10_NONE":sham,
                  "sham_exact":baseline_equal,"negative_controls":negatives,"scan":scans}
