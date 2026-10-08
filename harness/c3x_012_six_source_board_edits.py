@@ -56,7 +56,7 @@ def score(exe,fen,pair):
     if any(m not in b.legal_moves for m in roots):return {"status":"ILLEGAL_PAIR"}
     with chess.engine.SimpleEngine.popen_uci(exe,timeout=20) as engine:
         engine.configure({"Threads":1,"Hash":16})
-        res=engine.analyse(b,chess.engine.Limit(nodes=80000),multipv=2,root_moves=roots)
+        res=engine.analyse(b,chess.engine.Limit(depth=12),multipv=2,root_moves=roots)
     by_move={}
     for r in res:
         if not r.get("pv") or not r.get("score"):continue
