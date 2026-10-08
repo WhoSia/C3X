@@ -1,0 +1,92 @@
+{
+  "schema": "c3x-014-p1-official-s29-dev-four-source-group-native-tt-family-court-v1",
+  "phase": "C3X 0.14 P1",
+  "date_local": "2026-10-09",
+  "verdict": "ACTUAL_SOURCE_DISJOINT_DEVELOPMENT_PANEL_PASS__ALL_CAUSAL_CHESS_CONCEPT_TRANSPORT_HOLD__ZERO_CHOICE_REVERSALS",
+  "precommit": "c3x/ontology/c3x-014-p1-s29-dev-source-native-tt-family-transfer-precommit.md",
+  "execution": {
+    "url": "https://github.com/WhoSia/C3X/actions/runs/37800898994",
+    "run_id": 37800898994,
+    "head_sha": "9adcdc3c2c3995e3d0491b8f993b3e34cdb70fce",
+    "conclusion": "SUCCESS",
+    "read_only_actions": true
+  },
+  "design": {
+    "engine": "native original Stockfish 16 release sf_16 versus independently compiled identical source EP9 TT bound-return instrumented sham",
+    "engine_source_commit": "68e1e9b3811e16cad014b590d7443b9063b3eb52",
+    "developer_games": "4 official TCEC S29 distinct opening-prefix groups, previously unseen in CECLUB root event search",
+    "input_json_sha256": "bbaef73beda60d9e03c9f83324651db3b130606be4c84cb9f8a170a958a96274",
+    "full_input_game_source_sha256": "e25929eff0d96810335af943fe69b3133156adf60f8171d250ab7d0abb845a06",
+    "fixed_depths": [
+      8,
+      12
+    ],
+    "two_cold_process_repeats": true,
+    "total_cells": 16,
+    "legal_root_pair": "two legal pushes from one white pawn on the original rank",
+    "UCI": "go depth D searchmoves <single> <double>; MultiPV2, Threads1, Hash16MiB",
+    "arms": [
+      "clean",
+      "observational_sham",
+      "MAIN early TT return family suppressed",
+      "QSEARCH early TT return family suppressed",
+      "BOTH early TT return families suppressed"
+    ],
+    "all_clean_vs_sham_exact_cells": 16,
+    "all_cold_repeat_exact_within_world_depth_and_mode": "8/8 across OFF, MAIN, QSEARCH, BOTH",
+    "original_choice_and_gap": "white-oriented candidate single minus candidate double cp",
+    "original_vs_treated_same_chess_truth_not_asserted": true
+  },
+  "findings": {
+    "main_first_choice_flips": "0/16",
+    "qsearch_first_choice_flips": "0/16",
+    "both_first_choice_flips": "0/16",
+    "distinct_source_games_with_main_flip": "0/4",
+    "node_level_treatments_actual": {
+      "MAIN_blocked_returns_total_across_dependent_cold_repeats": 20784,
+      "QSEARCH_blocked_returns_total": 20034,
+      "BOTH_main_blocked_total": 16068,
+      "BOTH_qsearch_blocked_total": 24954,
+      "counts_are_not_independent_source_events": true
+    },
+    "empirical_case": "S29 Round29.1 depth8 OFF white pair a2a3-a2a4 margin +54cp, MAIN mask +0cp but tie break still a2a3; same bestmove despite score pathway effect",
+    "causal_conclusion": "A CECLUB source-local event response did not transport as a root-choice flip to four prospectively and outcome-blind selected pawn-push development groups under coarse early-return-family interventions; not a proof TT has no effect and not population-generalizable.",
+    "primary_negative_result": true,
+    "differences_from_CECLUB": [
+      "prior CECLUB root pair selected for marginal preference and mechanism study",
+      "new four games selected solely from source and legal pawn move eligibility",
+      "new TCEC official games not independent from all broad chess ecosystem structures"
+    ],
+    "hard_HOLD": [
+      "unopened holdout four games",
+      "cross-engine/native Ethereal intervention",
+      "cross-provider ecology beyond broader TCEC",
+      "board-concept mediation",
+      "human explanatory usefulness"
+    ]
+  },
+  "raw_custody": {
+    "drive_url": "https://drive.google.com/file/d/1vXEddoMihq6aNzoSyBpP8rsUDqclZBNX/view",
+    "artifact_id": 11560521835,
+    "zip_sha256": "2838db8fafb5f79640304340c8507e267fd7f32255d6994e6694bc7f9a0e31a6",
+    "zip_bytes": 30916,
+    "panel_sha256": "3b0bad700201988309f13b08aa41a2d7013cf14d6dde5ebeb5256163aadfa4d1",
+    "internal_manifest_pass": "11/11",
+    "drive_redownload_exact_sha256": true,
+    "original_Stockfish_GPLv3_retained": true,
+    "sources_and_native_patch_in_raw_zip": true,
+    "holdout_manifest_not_downloaded_by_this_CI": true
+  },
+  "method_lineage": [
+    "Méndez et al. 2023 original chess MT",
+    "Martin et al. 2025 search-depth and game realism replication",
+    "Clark et al. 2023 DAG-generated MRs",
+    "G9.4/G9.5 original C3X TT event-level mechanisms",
+    "C3X 0.13 EP11 full FEN/key event attribution"
+  ],
+  "phase_gate": {
+    "C3X_014": "P1_ACTIVE_DEVELOPMENT_ANALYSIS_COMPLETE_HELDOUT_SEALED",
+    "C3X_013": "SCOPED_HANDOFF",
+    "strategic_chess_causal_claim_authorized": false
+  }
+}
