@@ -1,0 +1,46 @@
+{
+  "schema": "c3x-0.11-historical-source-recovery-status-v1",
+  "stage": "C3X 0.11",
+  "type": "pre-outcome source recovery audit",
+  "current_six_pgn": "SHA256_MATCH_6_OF_6_GAME_HEADERS_454",
+  "early_assets": [
+    {
+      "name": "STS1-STS15_LAN_v6.epd",
+      "state": "FILE_BYTES_NOT_LOCATED",
+      "role": "historical FEN-only exclusion"
+    },
+    {
+      "name": "extracted_persaperturas_CANONICAL_5500_2026-08-09.csv",
+      "state": "FILE_BYTES_NOT_LOCATED",
+      "role": "historical opening-world census"
+    },
+    {
+      "name": "extracted_persaperturas_extended_strict_5287_2026-08-09.csv",
+      "state": "FILE_BYTES_NOT_LOCATED",
+      "role": "historical opening-world census"
+    },
+    {
+      "name": "ROOT_QUALIFICATION_CORPUS.jsonl",
+      "state": "FILE_BYTES_NOT_LOCATED",
+      "role": "historical candidate-world exclusion"
+    },
+    {
+      "name": "BRPP_ENRICHED_CORPUS.jsonl",
+      "state": "FILE_BYTES_NOT_LOCATED",
+      "role": "historical candidate-world exclusion"
+    },
+    {
+      "name": "STRICT_CORPUS_20.jsonl",
+      "state": "FILE_BYTES_NOT_LOCATED",
+      "role": "historical candidate-world exclusion"
+    }
+  ],
+  "acquisition_request": "User may upload recovered original files or lossless ZIP into Research OS 00_INTAKE, preserving filenames and bytes.",
+  "limits": [
+    "Search absence is not evidence of global absence",
+    "No replacement of six prospective sources",
+    "No support or activation outcomes were opened",
+    "No historical FEN disjointness claim"
+  ],
+  "environment": "python-chess module unavailable locally; original implementation requires chess.pgn. Remote execution needs independently verified CI before result authority."
+}
