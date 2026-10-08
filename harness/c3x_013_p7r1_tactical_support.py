@@ -44,7 +44,7 @@ def freeze_source(path):
     return first,selected
 
 def hazard(board,move):
-    """Immediate legal opponent captures of the moved piece on its destination."""
+    """Immediate legal opponent capture of the moved piece, including en passant victim square."""
     if move not in board.legal_moves:raise ValueError("ILLEGAL_MOVE")
     mover=board.piece_at(move.from_square)
     if not mover:raise ValueError("MISSING_MOVER")
@@ -58,9 +58,17 @@ def hazard(board,move):
     recapture=[]
     if occupant:
         for reply in after.legal_moves:
-            if reply.to_square==move.to_square and after.is_capture(reply):
+            if not after.is_capture(reply):
+                continue
+            captured_square=reply.to_square
+            if after.is_en_passant(reply):
+                # En passant captures the pawn on its FINAL SQUARE, not the
+                # en passant capturing pawn's landing square.
+                captured_square += -8 if after.turn==chess.WHITE else 8
+            if captured_square==move.to_square:
                 attacker=after.piece_at(reply.from_square)
-                if attacker:recapture.append(chess.piece_name(attacker.piece_type))
+                if attacker:
+                    recapture.append(chess.piece_name(attacker.piece_type))
     signature={
         "mover":chess.piece_name(mover.piece_type),
         "captured":chess.piece_name(victim.piece_type) if victim else "NONE",
