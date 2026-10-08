@@ -1,0 +1,61 @@
+name: C3X 0.13 P8-R3 Adversarial Pawn Concept Rival Audit
+on:
+  push:
+    paths:
+      - '.github/workflows/c3x-013-p8r3-adversarial-rival.yml'
+      - 'harness/c3x_013_p8r3_adversarial_rival_audit.py'
+      - 'c3x/ontology/c3x-013-p8-r3-adversarial-pawn-concept-audit-precommit.md'
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  unpromotable-postoutcome-concept-rival-audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 7
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install pinned chess rules
+        run: |
+          python3 -m pip install --disable-pip-version-check chess==1.11.2
+      - uses: actions/download-artifact@v4
+        with:
+          name: c3x-013-p8r2-eight-frozen-birth-contrast-two-engines
+          path: p8r2-original
+          repository: WhoSia/C3X
+          run-id: '37733047681'
+          github-token: ${{ github.token }}
+      - name: Reconstruct exact rule feature collateral and rival predictions
+        env:
+          PYTHONPATH: .
+        run: |
+          mkdir -p output
+          python3 harness/c3x_013_p8r3_adversarial_rival_audit.py --p8r2-result p8r2-original/p8r2_all_frozen_birth_contrasts.json --out output/p8r3_adversarial_concept_rival_audit.json
+          python3 - <<'PY'
+          import json
+          x=json.load(open('output/p8r3_adversarial_concept_rival_audit.json'))
+          assert x['source_group_denominator']==32
+          assert x['observed_pair_rows']==8
+          assert x['status']=='RETROSPECTIVE_AFTER_P8R2_OUTCOME_NOT_CONFIRMATORY'
+          assert x['no_causal_mechanism_identified']
+          assert not x['human_outcome_measured']
+          assert x['C3X_014']=='CANDIDATE_ONLY_NO_NAME'
+          print('P8R3_ADVERSARIAL_POSTHOC_WITHOUT_CONCEPT_PROMOTION')
+          PY
+      - name: Preserve exact original scores precommit and audit code
+        if: always()
+        run: |
+          mkdir -p output
+          cp p8r2-original/p8r2_all_frozen_birth_contrasts.json output/unchanged_p8r2_engine_source.json
+          cp harness/c3x_013_p8r3_adversarial_rival_audit.py output/frozen_concept_rival_code.py
+          cp c3x/ontology/c3x-013-p8-r3-adversarial-pawn-concept-audit-precommit.md output/retrospective_method.txt
+          sha256sum output/* > output/member_integrity_sha256.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x-013-p8r3-adversarial-pawn-concept-rival
+          path: output/
+          if-no-files-found: error
