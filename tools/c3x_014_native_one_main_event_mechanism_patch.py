@@ -115,16 +115,18 @@ def instrument(original):
     }
 
     assert(bestValue > -VALUE_INFINITE''','TT_SAVE_B')
-    s=once(s,'''    // update_quiet_stats() updates move sorting heuristics
-    void update_quiet_stats(const Position& pos, Stack* ss, Move move, int bonus) {
+    s=once(s,'''  // update_quiet_stats() updates move sorting heuristics
+
+  void update_quiet_stats(const Position& pos, Stack* ss, Move move, int bonus) {
 ''',
-       '''    // update_quiet_stats() updates move sorting heuristics
-    void update_quiet_stats(const Position& pos, Stack* ss, Move move, int bonus) {
+       '''  // update_quiet_stats() updates move sorting heuristics
+
+  void update_quiet_stats(const Position& pos, Stack* ss, Move move, int bonus) {
       ++c3x014_trace.history_quiet_update;
 ''','QUIET_HISTORY')
-    s=once(s,'''    void update_continuation_histories(Stack* ss, Piece pc, Square to, int bonus) {
+    s=once(s,'''  void update_continuation_histories(Stack* ss, Piece pc, Square to, int bonus) {
 ''',
-       '''    void update_continuation_histories(Stack* ss, Piece pc, Square to, int bonus) {
+       '''  void update_continuation_histories(Stack* ss, Piece pc, Square to, int bonus) {
       ++c3x014_trace.history_continuation_update;
 ''','CONT_HISTORY')
     return s
