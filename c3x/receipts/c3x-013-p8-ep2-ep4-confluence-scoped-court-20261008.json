@@ -1,0 +1,132 @@
+{
+  "schema": "c3x-013-p8-ep2-ep4-exact-legal-continuation-confluence-v1",
+  "date": "2026-10-08",
+  "stage": "C3X 0.13 P8 (EP2, EP3, EP4)",
+  "status": "EP2_EP3_EP4_EXECUTION_PASS__BOARD_CONFLUENCE_VALID__STRATEGIC_CAUSAL_MEDIATION_HOLD",
+  "explanation_ceiling": "Same full six-field chess FEN is a legal 2-ply continuation identity under two distinct legal pawn pushes and an opponent capturing response. Does not imply opponent chooses that response, same minimax root score, passed pawn causal value or human understanding.",
+  "ep2": {
+    "broadcast": "2026 NZ South Island Championship",
+    "frozen_ply": 32,
+    "historical_original_source_game": "https://lichess.org/broadcast/2026-nz-south-island-championship/round-1/X4ld49yN/08elgROJ",
+    "root_fen": "1r1qk2r/4bppp/QN1pp1b1/2P5/1p2n1P1/4B2P/PPPN1P2/R3K2R w KQk - 1 17",
+    "root_pair": [
+      "a2a3",
+      "a2a4"
+    ],
+    "ordinary_capture_reply": "b4a3 after a2a3",
+    "en_passant_reply": "b4a3 after a2a4",
+    "newly_passed_pawn_under_second_root": "WHITE a4 (NOT black b4)",
+    "identical_full_fen_after_common_reply": "1r1qk2r/4bppp/QN1pp1b1/2P5/4n1P1/p3B2P/1PPN1P2/R3K2R w KQk - 0 18",
+    "stable_source": "P7 source ranks17–48, pre-correction historic source original unmodified",
+    "engines": [
+      "Stockfish16",
+      "Ethereal14.40 classical"
+    ],
+    "depth_8_12_16_root_score_gap_first_minus_second_cp": {
+      "Stockfish": [
+        19,
+        25,
+        -42
+      ],
+      "Ethereal_classical": [
+        -44,
+        -29,
+        -70
+      ]
+    },
+    "selected_b4a3_as_first_black_PV_reply": {
+      "Stockfish": false,
+      "Ethereal_classical": false
+    },
+    "real_run": 37734544343,
+    "run_url": "https://github.com/WhoSia/C3X/actions/runs/37734544343",
+    "historical_pre_engine_failed_runs": [
+      37734244870,
+      37734380536,
+      37734398330,
+      37734418070,
+      37734440391
+    ],
+    "erratum": "First attempted proof incorrectly named Black b4 as passed; actual white a4 birth fixed and tested before engine execution. Another failed replay involved stale assertion variable. Failures preserved, not hidden.",
+    "artifact_sha256": "ddca45c7fd8d5a772106cde8f84121c0a849323de129cef4412118bb7aad8249",
+    "internal_file_hashes_checked": 9,
+    "verified_remote_drive": "https://drive.google.com/file/d/1Jcze7QNg2QrP50WnHc5xBqWPtlvTd_o9/view"
+  },
+  "ep3": {
+    "selection": "September same-provider rank81–112 newly frozen 32 broadcasts before legal source replay, not independent method discovery",
+    "source_digest": "240501f203478560f22cd32614ba56b0870749cb0e890f7bc4a219d4ce955796",
+    "full_denominator_groups": 32,
+    "observed_halfmoves": [
+      16,
+      32,
+      48,
+      64
+    ],
+    "source_legal_positions_by_ply": [
+      29,
+      27,
+      24,
+      20
+    ],
+    "eligible_one_or_two_pawn_push_candidates_by_ply": [
+      105,
+      69,
+      54,
+      26
+    ],
+    "full_six_field_FEN_legal_confluences_by_ply": [
+      1,
+      4,
+      6,
+      3
+    ],
+    "exact_events_total": 14,
+    "distinct_broadcast_groups": 7,
+    "exact_normal_vs_en_passant_same_UCI_replies": 14,
+    "cases_toggling_new_passed_pawn_while_hazard_equal": 1,
+    "all_birth_toggle_events_any_hazard_match": 4,
+    "extra_source_independence": "Same Lichess provider; 14 dependent events in seven games and repeated positions, not independent n=14.",
+    "actual_run": 37734948527,
+    "run_url": "https://github.com/WhoSia/C3X/actions/runs/37734948527",
+    "artifact_sha256": "5d2803f86c1ebb15451b54d270b74701dfaf18884668f36b65c2654a5dff8683",
+    "internal_file_hashes_checked": 5,
+    "verified_remote_drive": "https://drive.google.com/file/d/19m91rBBT3wj8bcoSAGgC44LW2WU4SOYL/view"
+  },
+  "ep4": {
+    "status": "ONE_TYPED_HELDOUT_STRICT_BIRTH_CASE_MEASURED",
+    "group": "TCEC S30: Playoff & Swiss 10 | Playoff | Cat 2",
+    "source_rank": 111,
+    "game_url": "https://lichess.org/broadcast/tcec-s30-playoff-swiss-10-playoff-cat-2/round-1/kpZI9MVi/1oANqqKQ",
+    "source_halfmove": 48,
+    "source_fen": "r5k1/6p1/p5qn/4p2p/2ppP3/3Q3P/1P1B1PP1/R5K1 w - - 0 25",
+    "root_pair": [
+      "b2b3",
+      "b2b4"
+    ],
+    "newly_passed_pawn_under_second_root": "BLACK c4",
+    "shared_legal_black_capture_reply": "c4b3 (normal capture on b2b3, en passant on b2b4)",
+    "exact_common_fen": "r5k1/6p1/p5qn/4p2p/3pP3/1p1Q3P/3B1PP1/R5K1 w - - 0 26",
+    "root_gap_first_minus_second_depth8_12_16_cp": {
+      "Stockfish": [
+        -59,
+        -32,
+        -9
+      ],
+      "Ethereal_classical": [
+        -47,
+        -100,
+        -55
+      ]
+    },
+    "engine_both_prefer_double_push_b2b4": true,
+    "engines_both_first_black_PV_reply": "c4d3 (NOT common capture c4b3) at all 3 tested depths",
+    "real_run": 37774268851,
+    "run_url": "https://github.com/WhoSia/C3X/actions/runs/37774268851",
+    "artifact_sha256": "e0a94ab6c14077f4de0627b292df1451874316f3f96be8f492c3c321646e5d11",
+    "internal_file_hashes_checked": 11,
+    "verified_remote_drive": "https://drive.google.com/file/d/1JT6jr6ycfxBp-cwFCgr3whjaqHyT7gJu/view"
+  },
+  "source_lineage": "Stockfish16 OS binary vs pinned Andrew Grant Ethereal 14.40 classical source Git commit 0e47e9b67f345c75eb965d9fb3e2493b6a11d09a, one thread hash16 MultiPV2 depth8/12/16, two cold repeats. No raw cp cross-engine calibration.",
+  "current_frontier": "P8-EP5 frozen 14-event PV-use audit precommitted, stage P8 remains OPEN; no independent causally verified chess concept, no 0.14 title/opening.",
+  "inherited": "0.12 scoped HOLD; P5/P6/P7 scoped HOLD; P8-R2 old 8-pair tactical counterexample corrected to 7 admissible under EP1; P23 FAIL, Explain I8 human outcome HOLD"
+}
