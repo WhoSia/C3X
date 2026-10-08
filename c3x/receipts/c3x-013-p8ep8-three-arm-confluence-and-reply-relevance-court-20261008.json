@@ -1,0 +1,167 @@
+{
+  "schema": "c3x-013-p8ep8-three-arm-confluence-and-reply-relevance-court-v1",
+  "stage": "C3X 0.13 P8-EP8",
+  "date": "2026-10-08",
+  "verdict": "REAL_TWO_ENGINE_THREE_ARM_OBSERVATION_PASS__PAWN_CAUSAL_MEDIATION_HOLD",
+  "experiment": {
+    "github_run": "https://github.com/WhoSia/C3X/actions/runs/37789322284",
+    "run_id": 37789322284,
+    "head_sha": "ee01e5b7184f490c0274dc6a5d6dd9b43f2abb6c",
+    "independent_unit": "ONE held-out TCEC broadcast event, rank111 ply48; both branches share same original game and are not independent observations",
+    "game_url": "https://lichess.org/broadcast/tcec-s30-playoff-swiss-10-playoff-cat-2/round-1/kpZI9MVi/1oANqqKQ",
+    "fen": "r5k1/6p1/p5qn/4p2p/2ppP3/3Q3P/1P1B1PP1/R5K1 w - - 0 25",
+    "root_alternatives": [
+      "b2b3",
+      "b2b4"
+    ],
+    "possible_common_reply": "c4b3",
+    "full_six_field_converged_fen": "r5k1/6p1/p5qn/4p2p/3pP3/1p1Q3P/3B1PP1/R5K1 w - - 0 26",
+    "arms": [
+      "free_after_root_reply",
+      "go_searchmoves_c4b3_restricted_after_root_reply",
+      "cold_search_identical_endpoint_at_depth_minus_one"
+    ],
+    "depths": [
+      8,
+      12,
+      16
+    ],
+    "cold_repeats_per_depth": 2,
+    "external_licenses": "Ethereal GPLv3 and Lichess broadcasts CC BY-SA 4.0 origin metadata retained in original ZIP"
+  },
+  "engine_identity": {
+    "Stockfish": {
+      "uci": "Stockfish 16",
+      "binary_sha256": "00628bd9c9855c1b7ff93d7f8d51b413586cdc6336fe637f9a14a61531a05aca"
+    },
+    "Ethereal_classical": {
+      "uci": "Ethereal 14.40 (PEXT)",
+      "source_commit": "0e47e9b67f345c75eb965d9fb3e2493b6a11d09a",
+      "binary_sha256": "8fca1217b72e7436ae0663fa4a239e7f98e6e8a8d24b3db28170638d19705490"
+    }
+  },
+  "results": {
+    "complete_legal_confluence_unit_tests": 3,
+    "complete_pgn_provenance_unit_tests": 5,
+    "all_24_free_reply_selections": "c4d3; Black pawn on c4 captures White queen on d3",
+    "free_reply_is_convergent_capture_count": 0,
+    "denominator_free_reply_searches": 24,
+    "forced_reply_is_c4b3_count": 24,
+    "forced_reply_searches": 24,
+    "identical_converged_FEN_cold_result_panels": 12,
+    "denominator_cold_panels": 12,
+    "repeat_exact": "all three arms at every engine/depth/root branch, two cold runs",
+    "score_orientation": "white centipawns after original root move; NOT original root pair minimax",
+    "depth_panel_by_engine_white_cp": {
+      "Stockfish": {
+        "8": {
+          "a": {
+            "free": -565,
+            "forced": -53,
+            "endpoint": 20
+          },
+          "b": {
+            "free": -565,
+            "forced": -53,
+            "endpoint": 20
+          }
+        },
+        "12": {
+          "a": {
+            "free": -603,
+            "forced": -16,
+            "endpoint": -3
+          },
+          "b": {
+            "free": -601,
+            "forced": 0,
+            "endpoint": -3
+          }
+        },
+        "16": {
+          "a": {
+            "free": -647,
+            "forced": 0,
+            "endpoint": 6
+          },
+          "b": {
+            "free": -630,
+            "forced": 0,
+            "endpoint": 6
+          }
+        }
+      },
+      "Ethereal_classical": {
+        "8": {
+          "a": {
+            "free": -890,
+            "forced": 104,
+            "endpoint": 129
+          },
+          "b": {
+            "free": -868,
+            "forced": 104,
+            "endpoint": 129
+          }
+        },
+        "12": {
+          "a": {
+            "free": -936,
+            "forced": 68,
+            "endpoint": -10
+          },
+          "b": {
+            "free": -912,
+            "forced": 68,
+            "endpoint": -10
+          }
+        },
+        "16": {
+          "a": {
+            "free": -1017,
+            "forced": 13,
+            "endpoint": 0
+          },
+          "b": {
+            "free": -951,
+            "forced": 13,
+            "endpoint": 0
+          }
+        }
+      }
+    }
+  },
+  "epistemic_interpretation": {
+    "finding": "The legal convergent reply is not the free-search preferred opponent reply. Black instead captures the queen at d3 in both alternatives at all depths with both engines.",
+    "claim": "Convergence provides a conditionally identical descendant but does not determine the opponent's optimal selected reply or original move preference.",
+    "forbidden_inferences": [
+      "This event establishes passed-pawn genesis as the engine's causal reason",
+      "The board concept is absent from Stockfish internal evaluation",
+      "Two engine cp scales are comparable",
+      "Depth-limited scores equal exact minimax",
+      "A single Lichess event supplies independent source ecology"
+    ],
+    "causal_pawn_concept_proven": false,
+    "causal_engine_TT_history_proven": false,
+    "current_stages": {
+      "C3X_013": "P8_OPEN_CAUSAL_HOLD",
+      "C3X_014": "CANDIDATE_ONLY_UNOPENED_UNNAMED"
+    }
+  },
+  "source_custody": {
+    "drive_url": "https://drive.google.com/file/d/17mFrhEKVVZwkLU0d2HcA2I95174gDlhv/view",
+    "folder_id": "1ehjBFtuBYo7WQdfHvQDkVxVmQRZow9h_",
+    "github_artifact_id": 11556375376,
+    "zip_sha256": "f0c7eafb7ffddec0c98b3f87361ac9217d2e158ea4a523a799ae38584817da1e",
+    "zip_bytes": 18608,
+    "source_json_sha256": "d19ef1bec774ffc6e483eabfc22cbe50ddee0a24a900b1c914bbf0750e583933",
+    "original_member_manifest_sha256_verified": 6,
+    "drive_download_byte_exact_verified": true
+  },
+  "audit": {
+    "github_author_committer": "WhoSia / WhoSia (human), not github-actions[bot]",
+    "workflow_permissions": "contents: read",
+    "no_action_git_writeback": true,
+    "Research_OS_context": "Zhang & Nanda (2024) patching method sensitivity: conditional search arm distinguished from endpoint-restart arm; no activation-patching identity asserted"
+  }
+}
