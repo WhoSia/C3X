@@ -1,0 +1,64 @@
+{
+  "schema": "c3x-013-p8-e1-two-engine-directional-development-v1",
+  "date": "2026-10-08",
+  "stage": "C3X 0.13 P8-E1",
+  "status": "CLOSED_DEVELOPMENT_TWO_ENGINE_MEASUREMENT_PASS__CONCEPT_CAUSAL_HOLD",
+  "engine_lineages": {
+    "reference": {
+      "name": "Stockfish 16",
+      "role": "Original P7 complete-depth engine",
+      "binary_sha256": "00628bd9c9855c1b7ff93d7f8d51b413586cdc6336fe637f9a14a61531a05aca",
+      "selection": "P7 prior 10k/30k/80k qualification"
+    },
+    "other": {
+      "name": "Ethereal 14.40 (PEXT) classical",
+      "author": "Andrew Grant (and contributors)",
+      "source_commit": "0e47e9b67f345c75eb965d9fb3e2493b6a11d09a",
+      "license": "GPL-3.0",
+      "build": "src/makefile basic CC=gcc with USE_NNUE=0",
+      "binary_sha256": "65e79c30aa918ba510d97307842b7d9d8180ff0694c1b76131dd2dcf31143195",
+      "uci_controls": "Threads=1 Hash=16 MultiPV=2; no Syzygy"
+    }
+  },
+  "cohort": "ALL original 32 P7 September Lichess broadcast groups, 29 chess-legal at ply32; exactly 8 frozen tactic-matched root pairs, 24 source/tactical support HOLDs. No post-outcome new pair or rescue.",
+  "actual": {
+    "run": 37732425494,
+    "url": "https://github.com/WhoSia/C3X/actions/runs/37732425494",
+    "conclusion": "SUCCESS",
+    "source_head": "7c01e27d46a439766c2ad5db9f3e62e72b87de14",
+    "artifact_id": 11530816091,
+    "artifact_zip_sha256": "1963e44575c6a68f738b4a9c38a1c5a368e3bbe1e83d6deb6c09f58871b6946a",
+    "drive_url": "https://drive.google.com/file/d/1XXB7lYAViy3pW_p55Lpcpg-K76SxGXPJ/view",
+    "drive_verified_byte_exact": true,
+    "internal_member_hashes_checked": 10,
+    "internal_mismatch_count": 0
+  },
+  "development_results": {
+    "measured_all_frozen_pairs": 8,
+    "Ethereal_exact_repeats_at_depths_8_12_16": 8,
+    "Ethereal_same_nonzero_sign_all_three_depths": 2,
+    "BOTH_engine_same_nonzero_sign_at_all_three_depths": 1,
+    "agreed_pair": "CECLUB Primera Division Linares 2026: f3f4 versus g3g4",
+    "stockfish_white_mover_cp_gaps": [
+      29,
+      31,
+      42
+    ],
+    "ethereal_white_mover_cp_gaps": [
+      72,
+      46,
+      29
+    ],
+    "note": "Ethereal depth8 gap72cp, whereas P7 Stockfish depth8 gap29cp. CP magnitudes are engine-specific, depth numbers are not matched search cost and cross-engine cp values cannot be subtracted as a calibrated effect.",
+    "other_7_pairs": "No across-all-three-depth directional concordance",
+    "conclusion": "A stable descriptive root preference orientation appears for one previously selected source pair, but no event-based birth concept, causal strategic mediator, transport theorem or independent chess world replication was identified."
+  },
+  "primary_sources": [
+    "c3x/ontology/c3x-013-p8-e1-ethereal-classical-precommit.md",
+    "harness/c3x_013_p8e1_pinned_ethereal.py",
+    "https://github.com/WhoSia/C3X/actions/runs/37727921874"
+  ],
+  "claim_ceiling": "ACTUAL_TWO_ENGINE_DESCRIPTIVE_DIRECTIONAL_DIAGNOSTIC_ONLY__NO_CONCEPT_CAUSALITY",
+  "inherited_authority": "0.12 scoped HOLD, P5/P6/P7 scoped scientific HOLD, P16 local-only, P23 FAIL, I8 human utility HOLD",
+  "next": "P8-R1 new 32 source-group chess rule positivity at plies 32/64/80 must be separately registered and checked before opening any fresh engine score. P8 continuation and concept-targeted SHAM must be independent. C3X 0.14 UNOPENED and its title not yet proposed."
+}
