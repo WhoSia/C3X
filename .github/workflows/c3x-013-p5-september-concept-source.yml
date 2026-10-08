@@ -1,0 +1,70 @@
+name: C3X 0.13 P5 Frozen September Concept Source Court
+on:
+  push:
+    paths:
+      - '.github/workflows/c3x-013-p5-september-concept-source.yml'
+      - 'harness/c3x_013_p5_source_partition.py'
+      - 'c3x/receipts/c3x-013-p5-frozen-september-source-acquisition-20261008.md'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  legal-source-and-semantic-falsifiers:
+    runs-on: ubuntu-latest
+    timeout-minutes: 18
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install pinned chess rules and archive decoder
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq zstd
+          python3 -m pip install --disable-pip-version-check python-chess==1.999
+      - name: Retrieve exact public September Lichess broadcast original
+        run: |
+          mkdir -p output
+          curl -fL --retry 3 --max-time 120 -o /tmp/lichess_db_broadcast_2026-09.pgn.zst https://database.lichess.org/broadcast/lichess_db_broadcast_2026-09.pgn.zst
+          printf '%s\n' '27a39d035767a30901b89602f33f2a7b27d4ab5025842071165fa079f8fff1df  /tmp/lichess_db_broadcast_2026-09.pgn.zst' | sha256sum -c -
+          printf '%s\n' 'Lichess official broadcast PGNs, CC BY-SA 4.0, https://database.lichess.org/' > output/source_license_and_attribution.txt
+      - name: Replay 16 outcome-blind selected games and adversarial chess predicates
+        env:
+          PYTHONPATH: .
+        run: |
+          python3 harness/c3x_013_p5_source_partition.py --source /tmp/lichess_db_broadcast_2026-09.pgn.zst --output output/p5_source_chess_partition.json
+          python3 - <<'PY'
+          import chess,json
+          from c3x_explain.concepts import snapshot
+          x=json.load(open('output/p5_source_chess_partition.json'))
+          assert x['sampled_events']==16
+          assert x['authority']=='BOARD_RULE_ONLY_NO_CAUSAL_OR_HUMAN_CLAIM'
+          assert sum(x['counts'].values())==16
+          assert x['source_sha256']=='27a39d035767a30901b89602f33f2a7b27d4ab5025842071165fa079f8fff1df'
+          assert len({a['broadcast'] for a in x['records']})==16
+          initial=snapshot(chess.Board(),chess.WHITE)
+          assert initial['own_center_occupancy_count']==0
+          assert initial['own_isolated_pawn_count']==0
+          assert initial['own_passed_pawn_count']==0
+          b=chess.Board(); b.push_san('e4')
+          assert snapshot(b,chess.WHITE)['own_center_occupancy_count']==1
+          # Nonterminal chess legal-world abstentions never license a human strategy claim.
+          assert all('causal' not in r for r in x['records'])
+          print('P5_CHESS_RULE_NEGATIVE_CONTROLS_PASS')
+          PY
+      - name: Freeze executable and stage references in artifact
+        if: always()
+        run: |
+          mkdir -p output
+          cp harness/c3x_013_p5_source_partition.py output/p5_source_partition_code.py
+          cp c3x/ontology/c3x-013-p5-independent-concept-precommit.md output/p5_precommit.md
+          cp c3x/receipts/c3x-013-p5-frozen-september-source-acquisition-20261008.md output/source_custody_precommit.md
+          sha256sum output/* > output/integrity_sha256.txt
+      - name: Upload evidence and negative-result audit
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: c3x-013-p5-september-concept-source-court
+          path: output/
+          if-no-files-found: error
+          retention-days: 90
