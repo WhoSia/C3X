@@ -1,0 +1,52 @@
+name: C3X 0.13 P4 Frozen Depth Sensitivity
+on:
+  push:
+    paths:
+      - '.github/workflows/c3x-013-p4-depth-sensitivity.yml'
+      - 'harness/c3x_013_p4_depth_sensitivity.py'
+      - 'c3x/ontology/c3x-013-p4-depth-regime-precommit.md'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  multi-depth-root-pair:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install Stockfish and legal chess rules
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq stockfish
+          python3 -m pip install --disable-pip-version-check chess==1.11.2
+      - name: Measure frozen P16 B0 TARGET SHAM under five complete depths
+        run: |
+          mkdir -p output
+          python3 harness/c3x_013_p4_depth_sensitivity.py --certificate c3x/certificates/g95-p16-local-minimal-full-bridge.json --engine /usr/games/stockfish --out output/depth_sensitivity.json
+      - name: Preserve negative results and scientific claim ceiling
+        run: |
+          python3 - <<'PY'
+          import json
+          x=json.load(open('output/depth_sensitivity.json'))
+          assert x['status']=='DEVELOPMENT_ONLY_NOT_CROSS_ENGINE_CAUSAL_TRANSFER'
+          assert x['concept_certified'] is False
+          assert x['human_benefit_certified'] is False
+          assert x['causal_transport_certified'] is False
+          assert x['depths']==[8,10,12,14,16]
+          print('P4_SEARCH_DEPTH_RIVAL_ADJUDICATION',x['any_depth_direction_switch'])
+          PY
+      - name: Exact input and executable identity audit
+        if: always()
+        run: |
+          mkdir -p output
+          sha256sum c3x/certificates/g95-p16-local-minimal-full-bridge.json harness/c3x_013_p4_depth_sensitivity.py > output/source_sha256.txt
+          if test -x /usr/games/stockfish; then sha256sum /usr/games/stockfish > output/engine_sha256.txt; fi
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x-013-p4-depth-sensitivity
+          path: output/
+          retention-days: 90
