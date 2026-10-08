@@ -1,0 +1,12 @@
+{
+  "schema": "c3x-012-causal-certificate-trust-manifest-v1",
+  "version": "0.12",
+  "authority": "REPOSITORY_REVIEWED_FILE_DIGEST_ONLY",
+  "approval_policy": "Human-reviewed exact file SHA-256, declared certificate identifiers and source stage. Empty list means no causal input admission. This is not a scientific proof of the contents.",
+  "approved": [],
+  "notes": [
+    "Previous C3X P15/P16/P32 scientific achievements remain historically valid within their recorded scopes; they are not automatically admitted as 0.12 certificates.",
+    "Raw UCI smoke packets and synthetic fixtures have no causal explanation authority.",
+    "Repository human review of a certificate must preserve scope, source, engine and local-only limitations before it is allowlisted."
+  ]
+}
