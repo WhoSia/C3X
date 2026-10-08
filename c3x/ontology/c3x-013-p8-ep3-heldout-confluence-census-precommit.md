@@ -1,0 +1,18 @@
+# C3X 0.13 P8-EP3 — Held-Out Exact Legal Continuation Confluence Census
+
+**Status:** Outcome-blind SOURCE-SAMPLING PRECOMMIT after P8-EP2 successfully proved the natural NZ case. The NZ discovery motivated this follow-up; this is development replication and NOT independent confirmation of a pre-EP2 theory. Keep C3X 0.14 an UNNAMED, UNOPENED candidate.
+
+Original PGN: Lichess broadcast September 2026 Zstandard archive, SHA256 27a39d035767a30901b89602f33f2a7b27d4ab5025842071165fa079f8fff1df, CC BY-SA 4.0. Deterministic first lexicographic GameURL per Standard-tagged September BroadcastName; order SHA256(BroadcastName),GameURL. Previously P5 selected ranks1–16, P7 ranks17–48, P8 ranks49–80. **Select ranks81–112 inclusive (32 new broadcast groups)** NOW, before checking any games or support conditions. Verify historical prefix segment-hash digests P5 7f9e865ced89aa47ed06aac5fa0d40ff02481f8ff4e696f12769fdcffbc9fa1b, P7 e5ca78464ef6bb2e95271c12428c47e8f9535efca9674d1048aed029ef1584c0, P8 c5a18fdb71f752d37ceae740990937499d95c5dc6bf7981e7c672fdfeef659de. No replacement if short, parser-invalid, 960, duplicated FEN or terminal.
+
+Frozen source-side observation plies (half-moves): **16,32,48,64**. Each valid chess position is fully legally replayed before inspecting candidate support. Do NOT choose a new ply after seeing motif counts. Separate all 32 group denominator, valid boards per ply, and within-game correlated repeated observations; de-duplicate four-field FEN across earlier 80 groups at those plies and within current 32 groups. Source remains ONE provider with unverified competition/player independence.
+
+### Two-root continuation-confluence definition
+For each legal nonpromoting quiet pawn SINGLE push (one rank) and DOUBLE push (two ranks) of the SAME original pawn starting from initial pawn rank (White rank2, Black rank7), require both moves legal. For each branch separately, enumerate LEGAL immediate opponent captures of the newly moved pawn, including normal pawn captures and en passant, by identifying **captured victim square**, not capture landing square. Record the fully legal two-ply final FEN, capture reply UCI, and capture kind. A continuation CONFLUENCE witness exists iff the two branches have at least one common EXACT full six-field FEN after such legal replies (not a mere four-field board or equal score).
+
+Report a strictly typed subclass:
+- each branch uses exactly the SAME opponent reply UCI, and one is NORMAL pawn capture while the other is EN PASSANT (the NZ model);
+- opponent piece and destination may differ for more general confluence, but must still yield exact full FEN.
+
+Record whether the same-origin one-vs-two root pair toggles newborn passed-pawn status, including color and identity; whether corrected immediate opponent capture aggressor-signature is equal; all source FEN/reply witnesses. Do not condition cohort selection on favorable results. Count exact motif events and unique broadcasts separately.
+
+The fact that one opponent reply can erase root pawn concept difference is a CHESS-LEGAL continuation theorem only. It does not say that opponent WILL play it, does not make two root minimax values equal, does not identify Stockfish/Ethereal causal preference reasons, and does not justify human teaching. Any later engine test must separately freeze the newly discovered root witnesses before scores, include both engine architectures and adversarial alternative replies, maintain opponent actual PV support, and keep all original 32 source denominator HOLDS. No formal C3X 0.14 name or opening until transport and causal mechanism evidence, not just new vocabulary.
