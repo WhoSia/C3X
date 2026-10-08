@@ -1,0 +1,40 @@
+{
+  "schema": "c3x-012-scoped-closure-v1",
+  "stage": "C3X 0.12",
+  "date": "2026-10-08",
+  "status": "CLOSED_SCOPED_HOLD",
+  "verdict": "DEVELOPMENT_EXECUTED_MINIMAL_STRATEGIC_CAUSAL_EXPLANATION_UNIDENTIFIED",
+  "authority": "ENGINEERING_AND_DESCRIPTIVE_CHESS_MEASUREMENT_ONLY",
+  "evidence": {
+    "real_run": 37718978736,
+    "real_run_conclusion": "success",
+    "frozen_source_count": 6,
+    "cold_qualifying_pairs": 3,
+    "source_pair_holds": 3,
+    "legal_target_sham_worlds": 3,
+    "all_world_50cp_positive": 1,
+    "source_precommit": "2db6e815fe9675eb4482ab06b023f256ac7f722b",
+    "canonical_archive_sha256": "420baca28146eeda56607c9ba290d28843d1f75e27b211cab90ed0d8f3cf6147",
+    "drive_archive": "https://drive.google.com/file/d/1iUSW8P10DS9KX_Gl4jQIiFSGq5TAtlUk/view",
+    "scientific_receipt": "c3x/receipts/c3x-012-six-source-development-review-20261008.json"
+  },
+  "unearned": [
+    "minimal_intervention_sufficient_reason",
+    "independent_source_replication",
+    "alternative_reply_falsification",
+    "cross_engine_transport",
+    "human_utility"
+  ],
+  "preserved": [
+    "earlier node-limit MultiPV mismatch HOLD",
+    "post-pilot depth-12 change is development only",
+    "NZ and Golders edited-world marginality failures",
+    "Charlotte local witness not causal mechanism",
+    "P23 FAIL",
+    "P24/P25 HOLD",
+    "Q0 DENIED",
+    "0.11 technical HOLD",
+    "I8 human utility HOLD"
+  ],
+  "next_stage_permission": "0.13 MAY OPEN METHODOLOGY AND CHESS-CONCEPT NEGATIVE CONTROLS ONLY. Causal strategic reason and human outcome authority BLOCKED until earned."
+}
