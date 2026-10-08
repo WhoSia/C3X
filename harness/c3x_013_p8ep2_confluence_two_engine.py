@@ -84,7 +84,7 @@ def main():
             "raw_root_measurements":{},"merged_world_evaluations":{},
             "causal_mediation_identified":False,"independent_chess_game_replication":False,
             "C3X_014":"CANDIDATE_ONLY_NO_NAME"}
-    assert result["after_root_black_passed_count_delta_B_minus_A"]==1
+    assert result["after_root_white_passed_count_delta_B_minus_A"]==1
     pairs={"a":ROOTS["a"],"b":ROOTS["b"]}
     for name,exe in (("Stockfish",a.stockfish),("Ethereal_classical",a.ethereal)):
         by_depth={}
