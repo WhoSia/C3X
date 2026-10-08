@@ -1,0 +1,29 @@
+{
+  "schema": "c3x-0.11-historical-world-format-restoration-v1",
+  "date": "2026-10-08",
+  "stage": "C3X 0.11",
+  "finding": "P19 historical_hashes loads *.json only, while original C3X ROOT_QUALIFICATION_CORPUS.jsonl, BRPP_ENRICHED_CORPUS.jsonl, STRICT_CORPUS_20.jsonl were omitted; STS EPD also omitted.",
+  "risk": "FALSE_DISJOINTNESS_DUE_TO_INCOMPLETE_HISTORY_FORMAT_COVERAGE",
+  "implementation": {
+    "loader": "tools/c3x_011_historical_world_loader.py",
+    "loader_commit": "f31071ece748a368f5e5b878b760689e5fba401f",
+    "audit_update": "3a408826bb93a3539043f1761645bbcb88c78a16",
+    "runner_update": "8672234996ea8f0c57f3392215fc9a06aa1aa5ad",
+    "regression": "c40afe57b97bb492eed3c4047dfb5be0d13f05d7",
+    "ci_update": "f7983969ff92f5ae8442589b43aac8701a4d9661"
+  },
+  "new_guards": [
+    "walk_history traverses each nonempty JSONL line",
+    "EPD only first four FEN fields are canonicalized and SHA256-hashed; semantic labels ignored",
+    "per-source raw SHA256 and unique hashes recorded",
+    "unparseable JSON, JSONL, invalid EPD, missing folder and entirely empty history inventory abort"
+  ],
+  "limits": [
+    "Local python-chess not installed, pip DNS resolution failed",
+    "New CI workflow regression committed but run status not verified",
+    "Full historical corpus bytes unavailable in local execution environment",
+    "No actual 454-game FEN disjointness measured",
+    "No scientific preseal or activation outcome"
+  ],
+  "status": "IMPLEMENTED_NOT_VERIFIED_BY_CI"
+}
