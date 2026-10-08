@@ -1,0 +1,42 @@
+{
+  "schema": "c3x-version-lineage-alias-policy-v1",
+  "effective_date": "2026-10-08",
+  "public_stage_name": "C3X 0.11 — Prospective Source-Disjoint Executable-Support Reconstitution, Historical-FEN-Excluded Cohort Preseal, Conditional Activation Calibration & Cross-Ecology Transport Experiment",
+  "legacy_identifier": "C3X 0.10.0-G10-P26",
+  "status": "ACTIVE_CONSTITUTION_PRESEAL_PENDING",
+  "rules": {
+    "display": "Use C3X 0.11 for active public-facing scientific mainline",
+    "historical": "Never rewrite previously published stages, historical page headings, JSON paths, receipts, links, checksums or commits",
+    "lineage": "Retain generation G10 and mainline P26 in Notion lineage and machine-readable legacy aliases",
+    "increment": "Advance 0.12 for a substantively new scientific stage; 0.11.1 only for a versioned correction/reseal of the same scientific question, not for minor tool work",
+    "operations": "CI runs, audit scripts, receipts and patches do not consume scientific versions",
+    "scientific": "No novelty or evidentiary authority from renaming alone"
+  },
+  "early_source_findings": [
+    {
+      "id": "G10-P0",
+      "source": "Lichess official 2026-07 broadcast monthly .pgn.zst",
+      "sha256": "714d0eb99f99fca8d791142038b6c59b5ca6a51b3339bd3891a92f4bdffcbf0c",
+      "role": "historical contamination screening, not independent prospective data",
+      "manifest": "c3x/data/g10-p0-source-manifest.json"
+    },
+    {
+      "id": "early-private-games",
+      "drive_folder_id": "1nKt0ADGpKgY_YWmhvszUxywF_237vEOI",
+      "role": "archival candidates, eligibility unadjudicated"
+    },
+    {
+      "id": "legacy-recovery",
+      "drive_folder_id": "1vxP3GOSaKJL8ItRBTyCWzXOB4kz7BNkY",
+      "role": "historical custody; avoid wholesale reclassification"
+    }
+  ],
+  "preseal_invariants": [
+    "P23 empirical FAIL",
+    "P24 administrative HOLD",
+    "P25 administrative HOLD",
+    "Q0 DENIED",
+    "P19 FEN canonicalization preserved",
+    "No outcome conditioned sample selection"
+  ]
+}
