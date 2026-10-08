@@ -1,0 +1,61 @@
+name: C3X 0.14 P2 Outcome-Blind Sixteen-Game Source Freeze
+on:
+  push:
+    paths:
+      - '.github/workflows/c3x-014-p2-scoreblind-source.yml'
+      - 'harness/c3x_014_p2_new16_scoreblind_source.py'
+      - 'c3x/ontology/c3x-014-p2-prospective-margin-stratified-search-sensitivity-precommit.md'
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  p2-source-only:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Exact chess legality dependency
+        run: |
+          python -m pip install --disable-pip-version-check chess==1.11.2
+          python -m py_compile harness/c3x_014_p1_tcec_s29_source_intake.py harness/c3x_014_p2_new16_scoreblind_source.py
+          mkdir -p output p1-parent source
+      - uses: actions/download-artifact@v4
+        with:
+          name: c3x-014-p1-public-development-s29-source-frozen
+          path: p1-parent/
+          repository: WhoSia/C3X
+          run-id: '37800438225'
+          github-token: ${{ github.token }}
+      - name: Pin immutable official TCEC archive and freeze new group IDs without evaluations
+        run: |
+          curl -fLsS --retry 3 'https://raw.githubusercontent.com/TCEC-Chess/tcecgames/3dd69a40b3cf6ccc74144df7411ef4e8e2140286/master-archive/TCEC_Season_29_-_Superfinal.pgn' -o source/TCEC_S29_Superfinal.pgn
+          test "$(git hash-object source/TCEC_S29_Superfinal.pgn)" = "68141d7a9afad301c237106c3b2a3324cb35b130"
+          python harness/c3x_014_p2_new16_scoreblind_source.py --pgn source/TCEC_S29_Superfinal.pgn --p1-public p1-parent/P1_source_eligible_development.json --out output/P2_FROZEN_NEW16_SOURCE.json
+          python - <<'PY'
+          import json
+          x=json.load(open('output/P2_FROZEN_NEW16_SOURCE.json'))
+          assert len(x['selected_16_game_groups'])==16
+          assert x['excluded_p1_dev_and_opaque_holdout_group_count']==8
+          assert not x['engine_scores_read']
+          assert not x['hidden_p1_holdout_game_details_read']
+          print('P2_NO_ENGINE_SCORE_NO_HOLDOUT_SOURCE_FREEZE_PASS')
+          PY
+          sha256sum output/P2_FROZEN_NEW16_SOURCE.json > output/P2_source_sha256.txt
+          sha256sum source/TCEC_S29_Superfinal.pgn > output/P2_TCEC_original_sha256.txt
+      - name: Keep source-only immutable receipt
+        if: always()
+        run: |
+          cp harness/c3x_014_p2_new16_scoreblind_source.py output/P2_source_freezer.py
+          cp c3x/ontology/c3x-014-p2-prospective-margin-stratified-search-sensitivity-precommit.md output/P2_PRECOMMIT.md
+          find output -maxdepth 1 -type f ! -name 'P2_member_sha256.txt' -print0 | sort -z | xargs -0 sha256sum > output/P2_member_sha256.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x-014-p2-s29-new16-source-frozen-before-scoring
+          path: output/
+          if-no-files-found: error
+          retention-days: 90
