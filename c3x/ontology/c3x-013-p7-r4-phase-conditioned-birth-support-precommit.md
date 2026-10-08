@@ -1,0 +1,11 @@
+# C3X 0.13 P7-R4 — Phase-Conditioned Pawn Birth Positivity Without Survivor Bias
+
+Status: EXPLORATORY_POST_P7R1_SOURCE_SUPPORT_SEEN (not preregistered before all P7 outcomes). No chess engine evaluation and no scientific concept mediation claim.
+
+Keep the exact same 32 frozen Lichess broadcast groups at September selection ranks 17–48 (original source SHA256 27a39d035767a30901b89602f33f2a7b27d4ab5025842071165fa079f8fff1df; source selection digest e5ca78464ef6bb2e95271c12428c47e8f9535efca9674d1048aed029ef1584c0). P7-R1 at ply32 found 11 tactically matched passed-pawn birth toggling candidate pairs (only 3 groups) and zero same-origin strictly matched such pairs; those observations motivated THIS follow-up, not an independent confirmatory hypothesis.
+
+Independently legally replay each of the same 32 selected games, without replacements, at fixed ply landmarks 32, 64 and 80 (half-moves). At each available legal nonterminal board, run the SAME P7-R1 exact legal-move tactical signature and passed-birth toggling census; never modify gate or threshold. Positions after missing game plies or invalid chess/960 variant are HOLD, never silently recorded as zero. Avoid future game results, [%eval], Stockfish or other engine outcome labels.
+
+Primary presentation: observed legal denominator at each ply and group-level any matched birth contrast / any STRICT same-origin matched birth contrast. Because games ending before ply80 are not a random population sample, additionally compute paired comparison WITHIN the subgroup whose ply80 board exists, reporting their ply32/64/80 support side by side. Treat every game as one dependent trajectory and every candidate pair within game as clustered (not independent 1000+ samples).
+
+No new provider independence is proven. A later landmark with more candidate birth toggles would describe *support geometry* and potential sample selection, not establish a chess strategy cause, causal mediation, or human-explanation gain. 0.14 remains only a candidate paradigm and receives no name.
