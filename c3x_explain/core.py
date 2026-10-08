@@ -15,6 +15,7 @@ from .realization import attach_realizations,realization_benchmark
 from .verification import attach_verification,verification_benchmark
 from .susceptibility import susceptibility_index,atoms_for_fen
 from .authority_support import authority_index,atoms_for_fen as authority_atoms_for_fen,route_for_fen
+from .p8_ep8 import observation_index,observation_atoms_for_board
 
 CAUSAL="C3X_CAUSAL_CONTRAST"
 HEURISTIC="CONVENTIONAL_HEURISTIC_COMMENTARY"
@@ -93,6 +94,7 @@ def route_categories(atoms:list[dict[str,Any]])->list[str]:
     if "verified_line_evidence" in types:cats.append("verified_line")
     if "intervention_admissibility" in types:cats.append("intervention_admissibility")
     if "mechanism_authority_route" in types:cats.append("mechanism_authority")
+    if "opponent_reply_observation" in types:cats.append("opponent_reply_observation")
     return cats
 
 def graph_audit(moments:list[dict[str,Any]])->dict[str,Any]:
@@ -222,18 +224,19 @@ def _retrieval_query_tags(atoms:list[dict[str,Any]])->list[str]:
             tags.update(str(x) for x in c.get("alternative_only_kinds",[]))
     return sorted(tags)
 
-def analyze_pgn(pgn_text:str,engine_path:str|None=None,multipv:int=3,nodes:int=20000,certificates:Iterable[dict[str,Any]]=(),threshold_cp:int|None=None,rating_band:str="advanced",retrieval_records:Iterable[dict[str,Any]]=(),retrieval_top_k:int=3,susceptibility_packets:Iterable[dict[str,Any]]=(),authority_packets:Iterable[dict[str,Any]]=())->dict[str,Any]:
+def analyze_pgn(pgn_text:str,engine_path:str|None=None,multipv:int=3,nodes:int=20000,certificates:Iterable[dict[str,Any]]=(),threshold_cp:int|None=None,rating_band:str="advanced",retrieval_records:Iterable[dict[str,Any]]=(),retrieval_top_k:int=3,susceptibility_packets:Iterable[dict[str,Any]]=(),authority_packets:Iterable[dict[str,Any]]=(),ep8_observation_packets:Iterable[dict[str,Any]]=())->dict[str,Any]:
     game=chess.pgn.read_game(io.StringIO(pgn_text))
     if game is None:raise ValueError("No PGN game found")
     if rating_band not in RATING_THRESHOLDS:raise ValueError(f"Unknown rating band: {rating_band}")
     effective_threshold=RATING_THRESHOLDS[rating_band] if threshold_cp is None else int(threshold_cp)
-    board=game.board();certs=cert_index(certificates);sidx=susceptibility_index(susceptibility_packets);aidx=authority_index(authority_packets);moments=[];eng=None
+    board=game.board();certs=cert_index(certificates);sidx=susceptibility_index(susceptibility_packets);aidx=authority_index(authority_packets);oidx=observation_index(ep8_observation_packets);moments=[];eng=None
     if engine_path:eng=chess.engine.SimpleEngine.popen_uci(engine_path)
     try:
         for ply,move in enumerate(game.mainline_moves(),1):
             fen=board.fen();key=" ".join(fen.split()[:4]);local_certs=certs.get(key,[])
             facts=move_facts(board,move);cands=candidate_packet(eng,board,multipv,nodes) if eng else []
             local_sus=sidx.get(key,[]);local_auth=authority_atoms_for_fen(aidx,fen);aroute=route_for_fen(aidx,fen)
+            local_ep8=observation_atoms_for_board(oidx,board,move.uci())
             selected,reasons=choose_moment(board,move,cands,facts,local_certs,effective_threshold)
             if local_sus:
                 selected=True
@@ -241,8 +244,11 @@ def analyze_pgn(pgn_text:str,engine_path:str|None=None,multipv:int=3,nodes:int=2
             if local_auth:
                 selected=True
                 reasons=list(reasons)+["precausal_authority_route"]
+            if local_ep8:
+                selected=True
+                reasons=list(reasons)+["source_frozen_developmental_engine_observation"]
             if selected:
-                atoms=heuristic_atoms(board,move,cands,facts)+atoms_for_fen(sidx,fen)+local_auth
+                atoms=heuristic_atoms(board,move,cands,facts)+atoms_for_fen(sidx,fen)+local_auth+local_ep8
                 if aroute["allow_causal"]:
                     atoms+=causal_atoms(board,local_certs)
                 rpacket=retrieve(_retrieval_query_tags(atoms),retrieval_records,retrieval_top_k)
@@ -274,6 +280,7 @@ def analyze_pgn(pgn_text:str,engine_path:str|None=None,multipv:int=3,nodes:int=2
             "retrieval_corpus_audit":audit_retrieval_corpus(retrieval_records),
             "susceptibility_packet_count":sum(len(v) for v in sidx.values()),
             "authority_packet_count":sum(len(v) for v in aidx.values()),
+            "ep8_observation_atom_count":sum(a.get("type")=="opponent_reply_observation" for m in moments for a in m.get("atoms",[])),
             "causal_authority_blocked_moments":sum(1 for m in moments if any(a.get("type")=="mechanism_authority_route" and a.get("claim",{}).get("state")!="SUPPORTED" for a in m.get("atoms",[]))),
             "authority_note":"Useful commentary is not automatically causal. Causal wording requires both a C3X certificate and any applicable precausal authority route to permit it."}
 
