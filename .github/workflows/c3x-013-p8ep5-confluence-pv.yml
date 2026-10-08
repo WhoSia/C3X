@@ -1,0 +1,89 @@
+name: C3X 0.13 P8-EP5 Confluence PV Search Usage Court
+on:
+  push:
+    paths:
+      - '.github/workflows/c3x-013-p8ep5-confluence-pv.yml'
+      - 'harness/c3x_013_p8ep5_all_confluences_pv.py'
+      - 'c3x/ontology/c3x-013-p8-ep5-confluence-search-relevance-precommit.md'
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  evaluate-all-fourteen-legally-convergent-root-pairs:
+    runs-on: ubuntu-latest
+    timeout-minutes: 23
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install pinned legal chess verifier, genuine Stockfish and independent C engine toolchain
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq stockfish git build-essential
+          python3 -m pip install --disable-pip-version-check chess==1.11.2
+      - uses: actions/download-artifact@v4
+        with:
+          name: c3x-013-p8ep3-fresh32-legal-confluence
+          path: parent-frozen
+          repository: WhoSia/C3X
+          run-id: '37734948527'
+          github-token: ${{ github.token }}
+      - name: Verify exact old source and pinned alternate engine source
+        run: |
+          mkdir -p output
+          git clone -q https://github.com/AndyGrant/Ethereal.git /tmp/c3x-p8ep5-ethereal
+          git -C /tmp/c3x-p8ep5-ethereal checkout -q 0e47e9b67f345c75eb965d9fb3e2493b6a11d09a
+          test "$(git -C /tmp/c3x-p8ep5-ethereal rev-parse HEAD)" = 0e47e9b67f345c75eb965d9fb3e2493b6a11d09a
+          make -s -C /tmp/c3x-p8ep5-ethereal/src basic CC=gcc
+          sha256sum /tmp/c3x-p8ep5-ethereal/src/Ethereal > output/Ethereal_sha256.txt
+          sha256sum /usr/games/stockfish > output/Stockfish_sha256.txt
+          cp /tmp/c3x-p8ep5-ethereal/LICENSE output/Ethereal_GPLv3.txt
+          python3 - <<'PY'
+          import json
+          x=json.load(open("parent-frozen/p8ep3_new32_confluence_census.json"))
+          assert x['frozen_new_segment_list_sha256']=='240501f203478560f22cd32614ba56b0870749cb0e890f7bc4a219d4ce955796'
+          assert x['frozen_heldout_groups']==32
+          assert sum(a['census']['exact_legal_reply_confluence_count']
+                     for z in x['records'] for a in z['worlds'].values()
+                     if a.get('status')=='LEGAL_SOURCE_SUPPORT')==14
+          print('P8EP5_ALL_FROZEN_CONFLUENCES_RETAINED')
+          PY
+      - name: Independently restart both engines at all complete depths on all 14 source pairs
+        env:
+          PYTHONPATH: .
+        run: |
+          python3 harness/c3x_013_p8ep5_all_confluences_pv.py \
+            --parent parent-frozen/p8ep3_new32_confluence_census.json \
+            --stockfish /usr/games/stockfish \
+            --ethereal /tmp/c3x-p8ep5-ethereal/src/Ethereal \
+            --output output/p8ep5_all_14_actual_pv_choices.json
+          python3 - <<'PY'
+          import json
+          r=json.load(open("output/p8ep5_all_14_actual_pv_choices.json"))
+          assert r['source_groups_total']==32
+          assert r['source_legal_confluence_events']==14
+          assert r['source_birth_toggled_events']==4
+          assert r['strict_birth_toggle_and_same_hazard_events']==1
+          assert r['historically_ep4_engine_scored_events']==1
+          assert r['chess_concept_causal_mediation_proven'] is False
+          assert r['C3X_014']=='CANDIDATE_ONLY_UNOPENED'
+          print('P8EP5_DESCRIPTIVE_PV_USAGE_WITHOUT_014')
+          PY
+      - name: Preserve legal source, executable and original development qualification
+        if: always()
+        run: |
+          mkdir -p output
+          cp parent-frozen/p8ep3_new32_confluence_census.json output/unchanged_parent_EP3_source_court.json
+          cp harness/c3x_013_p8ep5_all_confluences_pv.py output/EP5_engine_PV_code.py
+          cp c3x/ontology/c3x-013-p8-ep5-confluence-search-relevance-precommit.md output/EP5_precommitted_method.md
+          printf '%s\n' 'Lichess broadcast CC BY-SA 4.0 https://database.lichess.org/; Ethereal Andrew Grant GPLv3 https://github.com/AndyGrant/Ethereal/tree/0e47e9b67f345c75eb965d9fb3e2493b6a11d09a' > output/licenses_and_sources.txt
+          sha256sum output/* > output/member_sha256.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x-013-p8ep5-14-heldout-confluences-two-engine-pvs
+          path: output/
+          if-no-files-found: error
+          retention-days: 90
