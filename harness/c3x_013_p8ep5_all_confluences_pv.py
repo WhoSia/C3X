@@ -40,7 +40,7 @@ def witnesses(blob):
                 assert found[0]==found[1]==w["exact_common_full_fen"]
                 births_a,births_b=births(root,a),births(root,b)
                 assert births_a==w["passed_birth_single"] and births_b==w["passed_birth_double"]
-                assert bool(births_a)!=bool(births_b) is w["passed_birth_toggled"]
+                assert (bool(births_a)!=bool(births_b))==w["passed_birth_toggled"]
                 matched=hazard(root,a)["recapture_types"]==hazard(root,b)["recapture_types"]
                 assert matched==w["root_capture_hazard_equal"]
                 out.append({"source_rank":group["source_rank"],
