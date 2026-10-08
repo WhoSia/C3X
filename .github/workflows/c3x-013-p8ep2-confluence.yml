@@ -69,7 +69,7 @@ jobs:
           import json
           x=json.load(open('output/p8ep2_nz_continuation_confluence.json'))
           assert x['convergent_identical_full_fen'] is True
-          assert x['after_root_black_passed_count_delta_B_minus_A']==1
+          assert x['after_root_white_passed_count_delta_B_minus_A']==1
           assert x['after_legal_reply']['a']==x['after_legal_reply']['b']
           assert not x['causal_mediation_identified']
           assert not x['independent_chess_game_replication']
