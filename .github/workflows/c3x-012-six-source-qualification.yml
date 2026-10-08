@@ -51,7 +51,7 @@ jobs:
           assert c['explanation_authority'] is False
           assert len(q['worlds'])==len(c['worlds'])==6
           assert q['status'].startswith('DEVELOPMENT_ONLY')
-          assert c['status'].startswith('DEVELOPMENT_ONLY')
+          assert c['status'].startswith('POST_PILOT_FIXED_DEPTH12_DEVELOPMENT')
           print('C3X_012_SIX_SOURCE_DEVELOPMENT_NO_SCIENCE_PROMOTION')
           PY
       - name: Upload source-scoped audit, even if a source fails
