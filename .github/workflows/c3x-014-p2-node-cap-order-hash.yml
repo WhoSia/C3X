@@ -1,0 +1,76 @@
+name: C3X 0.14 P2 Post-Discovery Node-Cap Hash And Root Order Stress
+on:
+  push:
+    paths:
+      - '.github/workflows/c3x-014-p2-node-cap-order-hash.yml'
+      - 'harness/c3x_014_p2_node_cap_root_order_hash_stress.py'
+      - 'c3x/ontology/c3x-014-p2-node-budget-hash-order-postdiscovery-stress-precommit.md'
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  bounded-native-sf16-node-cap:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install pinned chess rules and compiler
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq make g++ git curl
+          python -m pip install --disable-pip-version-check chess==1.11.2
+          python -m py_compile harness/c3x_014_p2_node_cap_root_order_hash_stress.py
+          mkdir -p parent-panel output
+      - uses: actions/download-artifact@v4
+        with:
+          name: c3x-014-p2-sixteen-game-native-SF16-score-choice-panel
+          path: parent-panel/
+          repository: WhoSia/C3X
+          run-id: '37802939136'
+          github-token: ${{ github.token }}
+      - name: Verify parent original 16-game panel was immutable and selected before sensitivity
+        run: |
+          printf '%s  %s\n' '0fd87345c9cc4b0e23f8fac6c669ec328254178da424268303e99ee6159f81e3' 'parent-panel/P2_REAL_SIXTEEN_GAMES_TT_SCORE_CHOICE_PANEL.json' | sha256sum -c -
+      - name: Compile native source-pinned SF16 with EP9 early-return family mask
+        run: |
+          git clone -q --single-branch --branch sf_16 https://github.com/official-stockfish/Stockfish.git /tmp/P2_NODES_SF16
+          test "$(git -C /tmp/P2_NODES_SF16 rev-parse HEAD)" = "68e1e9b3811e16cad014b590d7443b9063b3eb52"
+          python tools/c3x_013_p8ep9_patch_sf16_cutoffs.py --source /tmp/P2_NODES_SF16 --out-manifest output/P2_node_cap_instrument_manifest.json
+          git -C /tmp/P2_NODES_SF16 diff -- src/search.cpp > output/P2_node_cap_source_patch.diff
+          cp /tmp/P2_NODES_SF16/Copying.txt output/Stockfish_GPLv3.txt
+          make -s -C /tmp/P2_NODES_SF16/src -j2 build ARCH=x86-64
+          cp /tmp/P2_NODES_SF16/src/stockfish /tmp/P2_NODES_SF16_bin
+          sha256sum /tmp/P2_NODES_SF16_bin > output/P2_node_cap_binary_sha256.txt
+      - name: Run all original 16 development group node caps both orders two hash sizes
+        run: |
+          python harness/c3x_014_p2_node_cap_root_order_hash_stress.py --parent-panel parent-panel/P2_REAL_SIXTEEN_GAMES_TT_SCORE_CHOICE_PANEL.json --ep9 /tmp/P2_NODES_SF16_bin --out output/P2_POST_DISCOVERY_NODE_CAP_ORDER_HASH_PANEL.json
+          python - <<'PY'
+          import json
+          r=json.load(open('output/P2_POST_DISCOVERY_NODE_CAP_ORDER_HASH_PANEL.json'))
+          assert len(r['cells'])==128
+          assert r['source_group_count']==16
+          assert not r['P1_heldout_opened']
+          assert len(r['preknown_three_rounds'])==3
+          assert not r['chess_strategy_causal_conclusion']
+          print('P2_NODE_CAP_POST_DISCOVERY_SCOPE_AND_RAW_PANEL_PASS')
+          PY
+      - name: Keep complete raw evidence and source with checksum
+        if: always()
+        run: |
+          mkdir -p output
+          cp harness/c3x_014_p2_node_cap_root_order_hash_stress.py output/P2_stress_driver.py
+          cp c3x/ontology/c3x-014-p2-node-budget-hash-order-postdiscovery-stress-precommit.md output/P2_stress_precommit.md
+          cp parent-panel/P2_REAL_SIXTEEN_GAMES_TT_SCORE_CHOICE_PANEL.json output/P2_parent_16groups_for_custody.json
+          printf '%s\n' 'Post-discovery same-source stress. Requested node cap is not guaranteed identical actual work. No chess strategy causation or source-independent replication.' > output/P2_NODE_STRESS_CEILING.txt
+          find output -maxdepth 1 -type f ! -name 'P2_member_sha256.txt' -print0 | sort -z | xargs -0 sha256sum > output/P2_member_sha256.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x-014-p2-sixteen-group-node-cap-hash-root-order-postdiscovery
+          path: output/
+          if-no-files-found: error
+          retention-days: 90
