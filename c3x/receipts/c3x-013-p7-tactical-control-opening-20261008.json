@@ -1,0 +1,44 @@
+{
+  "schema": "c3x-013-p7-opening-tactical-equivalence-court-v1",
+  "date": "2026-10-08",
+  "stage": "C3X 0.13 P7",
+  "status": "OPEN_DEVELOPMENT_GATE_TESTED__STRATEGIC_CAUSAL_EXPLANATION_HOLD",
+  "precommit": "c3x/ontology/c3x-013-p7-tactical-equivalence-root-support-precommit.md",
+  "source_parent": "c3x/receipts/c3x-013-p6-pawn-concept-genesis-scoped-closure-20261008.json",
+  "adverse_example": {
+    "origin": "First natural passed-pawn birth with matched same-queen captured-pawn pair in one of 16 frozen source games",
+    "fen": "1r3nk1/1pp1bqp1/6pp/p7/3PNQ2/2P4P/PP3PP1/4RRK1 w - - 0 27",
+    "pair": [
+      "f4c7",
+      "f4h6"
+    ],
+    "move_a_birth": 1,
+    "move_b_birth": 0,
+    "stockfish_white_cp_deltas_8_12_16": [
+      1201,
+      1085,
+      1082
+    ],
+    "near_equal_support": false,
+    "critical_tactic": "After f4h6 Black has legal g7h6 pawn recapture of moved white queen. f4c7 lacks same immediate pawn recapture.",
+    "inference": "Capturing pawn with same queen does not match tactical root support; original difference cannot estimate value of passed-pawn birth."
+  },
+  "real_regression": {
+    "workflow_run": 37724106993,
+    "conclusion": "SUCCESS",
+    "chess_rule_tests": 4,
+    "chess_rule_failures": 0,
+    "archive_sha256": "dd1f853cf66d584ca765f9c58442a7df044d02c535ffb593745993c53a3308d8",
+    "remote_sha256_verified": true,
+    "drive": "https://drive.google.com/file/d/1CT_gbibKw3RH7zxHa1atzczxqpHJF5C1/view"
+  },
+  "authority": "TACTICAL_NEGATIVE_CONTROL_ONLY",
+  "not_earned": [
+    "independent root pair support",
+    "conditional concept mediation",
+    "source/ecology replication",
+    "cross-engine search transport",
+    "human understanding improvement"
+  ],
+  "paradigm_watch": "Event-structured blocker genesis plus opponent recapture equivalence are candidate components of a new conceptual representation; NOT a confirmed 0.14 scientific paradigm or an opened stage."
+}
