@@ -67,6 +67,17 @@ class CausalAdmissionTest(unittest.TestCase):
         self.trust.write_text('{"schema":"wrong","approved":[]}')
         with self.assertRaisesRegex(ValueError,"INVALID_CAUSAL_TRUST_MANIFEST"):
             m.admitted_certificates([str(self.cert)],self.trust)
+    def test_same_file_cannot_count_twice(self):
+        self.manifest([self.allow])
+        with self.assertRaisesRegex(ValueError,"DUPLICATE_CAUSAL_CERTIFICATE_FILE"):
+            m.admitted_certificates([str(self.cert),str(self.cert)],self.trust)
+    def test_same_certificate_id_in_two_approved_files_fails(self):
+        second=self.dir/"second.json"
+        second.write_text(json.dumps({**self.payload,"bound":"UPPER"}))
+        second_entry={**self.allow,"sha256":hashlib.sha256(second.read_bytes()).hexdigest()}
+        self.manifest([self.allow,second_entry])
+        with self.assertRaisesRegex(ValueError,"DUPLICATE_CAUSAL_CERTIFICATE_ID"):
+            m.admitted_certificates([str(self.cert),str(second)],self.trust)
     def test_missing_identity_fails(self):
         self.cert.write_text(json.dumps({k:v for k,v in self.payload.items() if k!="certificate_id"}))
         self.allow["sha256"]=hashlib.sha256(self.cert.read_bytes()).hexdigest()
