@@ -1,0 +1,119 @@
+{
+  "schema": "c3x-013-p8ep10-single-main-tt-return-ordinal-local-preference-reversal-court-v1",
+  "title": "Source-Native Single Execution-Occurrence TT Bound Cutoff Sensitivity, Frozen Legal-Pair Preference Reversal, Sham and Sentinel Controls",
+  "date": "2026-10-08",
+  "stage": "C3X 0.13 P8-EP10",
+  "verdict": "EP10_SINGLE_MAIN_RETURN_EXECUTION_OCCURRENCE_LOCAL_FLIP__STRATEGIC_CONCEPT_HOLD",
+  "authority": "DETERMINISTIC_LOCAL_SOURCE_EVENT_INTERVENTION_DISCOVERY_ONLY__MULTIPLE_TESTS_NO_INDEPENDENT_HOLDOUT",
+  "scientific_explanandum": {
+    "source": "CECLUB Primera Division Linares 2026, previously examined C3X P7, Lichess broadcast",
+    "source_url": "https://lichess.org/broadcast/ceclub-primera-division-linares-2026/round-6/HLnCaWdO/0YxrjUCr",
+    "original_segment_sha256": "e080dcbf8bcb1c99ac8ec8743673048b7063bbbddff89b9d4442ce431a01981c",
+    "full_fen": "2rq1rk1/p4ppp/bp1bnn2/3pN3/2pP3P/1P2PPP1/PB2NRB1/R2Q2K1 w - - 1 17",
+    "root_pair_uci": [
+      "f3f4",
+      "g3g4"
+    ],
+    "new_source_group": false,
+    "runtime": "Stockfish 16 source sf_16 with previously sham-certified EP9 TT cutoff counters, EP10 adds one executable-return suppression by site-ordinal; MultiPV=2, go depth 8 and 12, Threads=1, Hash=16MiB; two independent cold processes each cell"
+  },
+  "precommit": {
+    "path": "c3x/ontology/c3x-013-p8ep10-single-tt-cutoff-occurrence-precommit.md",
+    "submitted_before_outcomes": true,
+    "sites": [
+      "MAIN",
+      "QSEARCH"
+    ],
+    "ordinals": [
+      1,
+      2,
+      4,
+      8,
+      16,
+      32,
+      64,
+      128
+    ],
+    "depths": [
+      8,
+      12
+    ],
+    "cold_repeats": 2,
+    "sham": "EP9 counter-only OFF versus EP10 event selector NONE",
+    "negative_control": "target ordinal 1,000,000,000 per site; no event may fire",
+    "multiple_testing_note": "16 distinct site-by-ordinal intervention candidates, two depths and two deterministic repetitions; any discovered single-cell flip is exploratory, not independent scientific replication",
+    "locator": "1-based chronological order of would-take TT early bound returns within the exact one-thread root-search history; not TT key or cross-budget invariant"
+  },
+  "execution": {
+    "github_actions_run_id": 37794566744,
+    "url": "https://github.com/WhoSia/C3X/actions/runs/37794566744",
+    "head_commit": "c3cbe4154ee0c84590599d1f57591389cbc8ff82",
+    "conclusion": "SUCCESS",
+    "real_native_patch_compiled": true,
+    "all_4_sham_pairs_exact": true,
+    "all_8_sentinel_negative_controls_exact": true,
+    "main_events_blocked_across_grid_repetitions": 30,
+    "qsearch_events_blocked_across_grid_repetitions": 32,
+    "main_first_move_changed_runs": 2,
+    "qsearch_first_move_changed_runs": 0,
+    "raw_member_manifest_verification": "13/13 PASS"
+  },
+  "event_witness": {
+    "selection": {
+      "site": "MAIN",
+      "ordinal": 32,
+      "depth": 12
+    },
+    "cold_repeats": 2,
+    "baseline": {
+      "preferred": "f3f4",
+      "white_pair_gap_cp": 31
+    },
+    "intervention": {
+      "preferred": "g3g4",
+      "white_pair_gap_cp": -8
+    },
+    "comparison": "sign flip of f3f4 minus g3g4 within Stockfish 16; no mate scores",
+    "native_event_probe": {
+      "blocked_count": 1,
+      "actual_site": 1,
+      "actual_ordinal": 32,
+      "actual_ply": 2,
+      "actual_depth": 2,
+      "alpha": 99,
+      "beta": 100,
+      "tt_bound_return_value": 108,
+      "node_orientation_note": "alpha, beta, ttValue expressed in the internal node's score orientation, not automatically White-centipawn quantities"
+    },
+    "repeats_same_numeric_result": true,
+    "independent_validation": false,
+    "event_mechanism_identity": "An ordinal execution occurrence. When root move ordering or budget changes, ordinal 32 might refer to another TT event; a board/key-invariant mechanism has NOT been identified."
+  },
+  "controls_and_limits": {
+    "EP9_baseline_noop_exact": true,
+    "EP10_sentinel_noop_exact": true,
+    "one_actual_early_bound_return_suppressed_per_selected_run": true,
+    "other_tt_reads_static_eval_moves_ordering_and_writes_preserved": true,
+    "post_intervention_search_tree_budget_and_tt_updates_can_change": true,
+    "effect_not_transportable_across_depths_or_engines_proven": false,
+    "chess_native_concept_mediation_proven": false,
+    "human_explanation_faithfulness_proven": false,
+    "pair_used_to_select_original_EP9_mechanism": true,
+    "multiple_interventions_explored": true,
+    "p8": "OPEN__CONCEPT_CAUSAL_HOLD",
+    "C3X_014": "UNOPENED_UNNAMED"
+  },
+  "custody": {
+    "raw_zip_github_artifact_id": 11557233719,
+    "zip_sha256": "98c1ecc1162b8da9d929648f2359fac32e5325c0f163417bfb46e52637412f30",
+    "archive_bytes": 30612,
+    "raw_grid_json_sha256": "9a228208c1692e096300d92f25ac9f087dfec3de99485921a071592d5d184077",
+    "drive_url": "https://drive.google.com/file/d/1I7nxO8QJjBeLpNffcJ-2HFU1wn0kLICb/view",
+    "drive_folder_id": "1ehjBFtuBYo7WQdfHvQDkVxVmQRZow9h_",
+    "manifest_member_hashes_verified": 13,
+    "source_license": "Stockfish GPLv3 in archive"
+  },
+  "prior_art": "Geiger et al 2025 causal abstraction already in Drive; Zhang & Nanda 2024 activation patching metrics; Martin et al 2025 chess-engine metamorphic replication in canonical 10_PAPERS: DOI 10.1016/j.infsof.2025.107679. G9.4/G9.5 prior C3X exact event proofs are ancestors, not superseded.",
+  "next_falsifier": "Independently source-frozen or root-order-transformed target, check event occurrence identity, both named-depth and nodes budget, direct legal pair comparison, sham and contextual rivals before causal mechanism certificate",
+  "governance": "Only authenticated human WhoSia GitHub author/committer; GitHub Actions has contents:read and no writeback; no bot commits."
+}
