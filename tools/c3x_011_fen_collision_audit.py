@@ -13,6 +13,7 @@ from pathlib import Path
 import chess
 import chess.pgn
 from g10_p19_source_census import canonical_fen, historical_hashes
+from c3x_011_raw_preflight import EXPECTED
 
 def sha(text: str) -> str:
     return hashlib.sha256(text.encode("utf-8")).hexdigest()
@@ -48,6 +49,8 @@ def read_source(sid: str, path: Path, lo: int, hi: int):
                 digest = sha(fen)
                 hashes.add(digest)
                 sample.setdefault(digest, {"game": stats["games"],"ply":ply,"fen":fen})
+    if stats["games"] == 0:
+        raise ValueError(f"EMPTY_PGN:{sid}")
     return hashes, dict(stats), sample
 
 def audit(inputs, historical, lo, hi):
@@ -101,6 +104,10 @@ def main():
     expected = {"Charlotte","NZ","Golders","Radnicki","Berjaya","Milton"}
     if set(specs) != expected:
         parser.error("SIX_FROZEN_SOURCE_IDENTITIES_REQUIRED")
+    for sid, path in specs.items():
+        observed = hashlib.sha256(path.read_bytes()).hexdigest()
+        if observed != EXPECTED[sid][0]:
+            parser.error(f"RAW_SOURCE_SHA_MISMATCH:{sid}")
     root = Path(args.history_root)
     if not root.is_dir():
         parser.error("MISSING_HISTORY_ROOT")
@@ -109,6 +116,7 @@ def main():
         parser.error("EMPTY_HISTORY_JSON_CORPUS_FAIL_CLOSED")
     result = audit(specs, historical, args.ply_lo, args.ply_hi)
     result["history_json_files_scanned"] = files_seen
+    result["six_raw_source_hashes_verified"] = True
     Path(args.out).write_text(json.dumps(result,indent=2,sort_keys=True)+"\n",encoding="utf-8")
     print(result["verdict"],"historical=",len(historical),
           "cross_source_shared_worlds=",result["cross_source_shared_worlds"])
