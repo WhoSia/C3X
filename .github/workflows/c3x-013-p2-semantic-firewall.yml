@@ -1,0 +1,54 @@
+name: C3X 0.13 P2 Chess-Concept Semantic Firewall
+on:
+  push:
+    paths:
+      - '.github/workflows/c3x-013-p2-semantic-firewall.yml'
+      - 'harness/c3x_013_p1_concept_grounding.py'
+      - 'harness/c3x_013_p2_semantic_firewall.py'
+      - 'tests/test_c3x_013_p1_concept_grounding.py'
+      - 'tests/test_c3x_013_p2_semantic_firewall.py'
+      - 'c3x/ontology/c3x-013-p2-semantic-predicate-precommit.md'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  descriptive-concept-negative-controls:
+    runs-on: ubuntu-latest
+    timeout-minutes: 7
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install chess rule library
+        run: python3 -m pip install --disable-pip-version-check chess==1.11.2
+      - name: Construct and classify historic board occupancy contacts
+        run: |
+          mkdir -p output
+          python3 harness/c3x_013_p2_semantic_firewall.py --certificate c3x/certificates/g95-p16-local-minimal-full-bridge.json --out output/chess_semantic_firewall.json
+      - name: Run historical reproduction and adversarial semantic regressions
+        run: |
+          python3 -m unittest discover -s tests -p test_c3x_013_p1_concept_grounding.py -v
+          python3 -m unittest discover -s tests -p test_c3x_013_p2_semantic_firewall.py -v
+      - name: Enforce proof authority ceiling
+        run: |
+          python3 - <<'PY'
+          import json
+          d=json.load(open('output/chess_semantic_firewall.json'))
+          assert d['concept_label_authorized'] is False
+          assert d['causal_explanation_authorized'] is False
+          assert d['human_understanding_claim_authorized'] is False
+          assert all(d['negative_control_results'].values())
+          print('C3X_013_P2_FACT_ONLY_CLAIM_GATE_PASS')
+          PY
+      - name: Input provenance
+        if: always()
+        run: |
+          mkdir -p output
+          sha256sum c3x/certificates/g95-p16-local-minimal-full-bridge.json harness/c3x_013_p1_concept_grounding.py harness/c3x_013_p2_semantic_firewall.py > output/input_sha256.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x-013-p2-concept-semantic-firewall
+          path: output/
+          retention-days: 90
