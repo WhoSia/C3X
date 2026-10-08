@@ -1,0 +1,54 @@
+name: C3X 0.13 P1 Historical Concept Grounding Court
+on:
+  push:
+    paths:
+      - '.github/workflows/c3x-013-p1-concept-grounding.yml'
+      - 'harness/c3x_013_p1_concept_grounding.py'
+      - 'tests/test_c3x_013_p1_concept_grounding.py'
+      - 'c3x/certificates/g95-p16-local-minimal-full-bridge.json'
+      - 'c3x/ontology/c3x-013-constitution.md'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  concept-semantics-development:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Chess legal rules prerequisite
+        run: python3 -m pip install --disable-pip-version-check chess==1.11.2
+      - name: Reconstruct P16 attack relations without science promotion
+        run: |
+          mkdir -p output
+          python3 harness/c3x_013_p1_concept_grounding.py --certificate c3x/certificates/g95-p16-local-minimal-full-bridge.json --out output/concept_grounding.json
+      - name: Run semantically adversarial tests
+        run: python3 -m unittest discover -s tests -p test_c3x_013_p1_concept_grounding.py -v
+      - name: Verify output cannot promote old mechanism into concept or human benefit
+        run: |
+          python3 - <<'PY'
+          import json
+          x=json.load(open('output/concept_grounding.json'))
+          assert x['development_only'] is True
+          assert x['semantic_counterexample']['verdict']=='FALSIFIED'
+          assert x['all_archived_attack_vectors_reproduced'] is True
+          assert x['causal_mechanism_certified'] is False
+          assert x['human_understanding_improved'] is False
+          assert x['named_chess_concept_certified'] is False
+          assert x['cross_engine_transport_certified'] is False
+          print('C3X_013_P1_EVIDENCE_AUTHORITY_FAIL_CLOSED')
+          PY
+      - name: Produce byte provenance and read-only artifact
+        if: always()
+        run: |
+          mkdir -p output
+          sha256sum c3x/certificates/g95-p16-local-minimal-full-bridge.json harness/c3x_013_p1_concept_grounding.py tests/test_c3x_013_p1_concept_grounding.py > output/input_file_sha256.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x-013-p1-concept-grounding
+          path: output/
+          retention-days: 90
