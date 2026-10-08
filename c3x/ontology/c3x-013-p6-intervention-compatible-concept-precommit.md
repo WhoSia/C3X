@@ -5,6 +5,9 @@
 ## Why P5 forces a methodological change
 P5 legal chess board facts passed, but the naive directional center occupancy reason failed in 2 of 3 testable development cases; isolated-pawn and passed-pawn predictions had one testable example each. No predicate cleared preregistered support gates. Old P15 board-edit grammar moves only non-king non-pawn pieces. Under that admissible grammar a pawn-based concept such as isolated or passed pawn count CANNOT generally be switched: claiming causal sufficiency from such an edit would violate the intervention's support conditions.
 
+## Invariance lemma before experiment
+Let PawnPositions(s) encode the color and square of every pawn. The isolated-pawn count and passed-pawn count from the current chess-concept code are functions only of PawnPositions(s). Therefore any old P15 one-non-pawn-piece edit fixing all pawns necessarily preserves **both** predicates, regardless of any engine score change. Furthermore, isolated-pawn counts depend on the set of occupied pawn files, so a noncapturing forward pawn move on its existing file also cannot toggle isolation. A capture may change pawn file but also changes material. Hence P6 must not pretend an ordinary one-piece or same-file pawn push can identify the isolated-pawn mediator. A material-preserving pawn trans-file relocation defines an **artificial FEN edit**, not a reachable one-move causal history; report that distinction without exception.
+
 ## New question
 Does there exist a **chess-rule-valid and pair-preserving intervention family** that changes exactly the predeclared concept predicate C while keeping A/B legally comparable, and does that change have a reproducible contrast relative to a genuinely non-toggling matched sham across source groups, opponent continuations and engine/search regimes?
 
