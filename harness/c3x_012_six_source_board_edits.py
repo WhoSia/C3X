@@ -81,7 +81,9 @@ def main():
     assert q["schema"]=="c3x-012-six-source-development-qualification-v1"
     out={"schema":"c3x-012-six-source-board-edit-contrast-v1",
          "source_qualification_sha256":hashlib.sha256(source.read_bytes()).hexdigest(),
-         "status":"DEVELOPMENT_ONLY_NOT_MECHANISM_IDENTIFICATION",
+         "status":"POST_PILOT_FIXED_DEPTH12_DEVELOPMENT_NOT_MECHANISM_IDENTIFICATION",
+         "measurement_method_change":"FROZEN_AFTER_OBSERVING_FAILED_NODES_MULTIPV_DEPTH_MISMATCH",
+         "science_claim_permission":False,
          "worlds":[],"explanation_authority":False}
     for w in q["worlds"]:
         row={"source_id":w["source_id"],"source_fen_sha256":w.get("fen_sha256")}
