@@ -1,0 +1,87 @@
+name: C3X 0.13 P8-R2 Frozen Pawn Birth Two-Engine Court
+on:
+  push:
+    paths:
+      - '.github/workflows/c3x-013-p8r2-two-engine-birth.yml'
+      - 'harness/c3x_013_p8r2_two_engine_pawn_birth.py'
+      - 'c3x/ontology/c3x-013-p8-r2-fresh-birth-two-engine-precommit.md'
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  evaluate-all-eight-preregistered-legal-birth-controls:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install chess rule library stockfish and compiler
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq stockfish build-essential git
+          python3 -m pip install --disable-pip-version-check chess==1.11.2
+      - uses: actions/download-artifact@v4
+        with:
+          name: c3x-013-p8r1-fresh32-legal-tactical-genesis-support
+          path: p8r1-original
+          repository: WhoSia/C3X
+          run-id: '37732629116'
+          github-token: ${{ github.token }}
+      - name: Verify original previously frozen source support and all eight chosen pairs
+        run: |
+          mkdir -p output
+          python3 - <<'PY'
+          import json,hashlib
+          raw=open('p8r1-original/p8r1_fresh32_phase_support.json','rb').read()
+          d=json.loads(raw)
+          assert d['schema']=='c3x-013-p8-r1-source-only-phase-positivity-v1'
+          assert d['new_group_digest']=='c5a18fdb71f752d37ceae740990937499d95c5dc6bf7981e7c672fdfeef659de'
+          assert len(d['records'])==32
+          assert sum(len(w.get('pre_engine_birth_pair_examples',[])) for r in d['records'] for w in r['worlds'].values())==8
+          print('P8R2_EIGHT_ROOTS_FROZEN_BEFORE_ENGINE',hashlib.sha256(raw).hexdigest())
+          PY
+      - name: Build pinned independent Ethereal classical implementation
+        run: |
+          git clone -q https://github.com/AndyGrant/Ethereal.git /tmp/c3x-p8r2-ethereal
+          git -C /tmp/c3x-p8r2-ethereal checkout -q 0e47e9b67f345c75eb965d9fb3e2493b6a11d09a
+          test "$(git -C /tmp/c3x-p8r2-ethereal rev-parse HEAD)" = 0e47e9b67f345c75eb965d9fb3e2493b6a11d09a
+          make -s -C /tmp/c3x-p8r2-ethereal/src basic CC=gcc
+          sha256sum /tmp/c3x-p8r2-ethereal/src/Ethereal > output/ethereal_binary_sha256.txt
+          sha256sum /usr/games/stockfish > output/stockfish_binary_sha256.txt
+          cp /tmp/c3x-p8r2-ethereal/LICENSE output/ethereal_gplv3_license.txt
+          printf 'uci\nquit\n' | /tmp/c3x-p8r2-ethereal/src/Ethereal > output/ethereal_uci_identity.txt
+      - name: Real two-engine depth 8 12 16 repeat trials for every frozen birth root
+        run: |
+          python3 harness/c3x_013_p8r2_two_engine_pawn_birth.py \
+            --p8-source p8r1-original/p8r1_fresh32_phase_support.json \
+            --stockfish /usr/games/stockfish \
+            --ethereal /tmp/c3x-p8r2-ethereal/src/Ethereal \
+            --out output/p8r2_all_frozen_birth_contrasts.json
+          python3 - <<'PY'
+          import json
+          d=json.load(open("output/p8r2_all_frozen_birth_contrasts.json"))
+          assert d['counts']['pairs_original']==8 and d['original_sampled_groups']==32
+          assert d['causal_chess_concept_certificate'] is None
+          assert d['C3X_014']=='CANDIDATE_NO_TITLE_UNOPENED'
+          print('P8R2_DESCRIPTIVE_TWO_ENGINE_CONTRAST_ONLY',d['counts'])
+          PY
+      - name: Include original R1 code frozen outcome and license in audit bundle
+        if: always()
+        run: |
+          mkdir -p output
+          cp p8r1-original/p8r1_fresh32_phase_support.json output/frozen_prior_source_support.json
+          cp harness/c3x_013_p8r2_two_engine_pawn_birth.py output/p8r2_frozen_engine_harness.py
+          cp c3x/ontology/c3x-013-p8-r2-fresh-birth-two-engine-precommit.md output/preoutcome_method.md
+          printf '%s\n' 'Ethereal source and license https://github.com/AndyGrant/Ethereal/tree/0e47e9b67f345c75eb965d9fb3e2493b6a11d09a GPLv3. Lichess broadcast source CC BY-SA 4.0 https://database.lichess.org/. Binary not redistributed.' > output/source_attribution.txt
+          sha256sum output/* > output/internal_manifest_sha256.txt
+      - name: Upload failure and result evidence without any repository writeback
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: c3x-013-p8r2-eight-frozen-birth-contrast-two-engines
+          path: output/
+          if-no-files-found: error
+          retention-days: 90
