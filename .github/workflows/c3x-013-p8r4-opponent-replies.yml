@@ -1,0 +1,77 @@
+name: C3X 0.13 P8-R4 Plausible Opponent Reply Continuation Court
+on:
+  push:
+    paths:
+      - '.github/workflows/c3x-013-p8r4-opponent-replies.yml'
+      - 'harness/c3x_013_p8r4_opponent_reply_matrix.py'
+      - 'c3x/ontology/c3x-013-p8-r4-opponent-reply-conditional-precommit.md'
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  source-locked-opponent-reply-sensitivity:
+    runs-on: ubuntu-latest
+    timeout-minutes: 22
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install chess rules real Stockfish and source compiler
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq stockfish build-essential git
+          python3 -m pip install --disable-pip-version-check chess==1.11.2
+      - uses: actions/download-artifact@v4
+        with:
+          name: c3x-013-p8r2-eight-frozen-birth-contrast-two-engines
+          path: p8r2-parent
+          repository: WhoSia/C3X
+          run-id: '37733047681'
+          github-token: ${{ github.token }}
+      - name: Build the identical classical Ethereal lineage
+        run: |
+          mkdir -p output
+          git clone -q https://github.com/AndyGrant/Ethereal.git /tmp/c3x-p8r4-ethereal
+          git -C /tmp/c3x-p8r4-ethereal checkout -q 0e47e9b67f345c75eb965d9fb3e2493b6a11d09a
+          test "$(git -C /tmp/c3x-p8r4-ethereal rev-parse HEAD)" = 0e47e9b67f345c75eb965d9fb3e2493b6a11d09a
+          make -s -C /tmp/c3x-p8r4-ethereal/src basic CC=gcc
+          sha256sum /tmp/c3x-p8r4-ethereal/src/Ethereal > output/ethereal_binary_sha256.txt
+          sha256sum /usr/games/stockfish > output/stockfish_binary_sha256.txt
+          cp /tmp/c3x-p8r4-ethereal/LICENSE output/ethereal_gpl3_license.txt
+      - name: Freeze two plausible replies per branch then assess conditional 2x2 worlds
+        env:
+          PYTHONPATH: .
+        run: |
+          python3 harness/c3x_013_p8r4_opponent_reply_matrix.py \
+            --p8r2-source p8r2-parent/p8r2_all_frozen_birth_contrasts.json \
+            --stockfish /usr/games/stockfish \
+            --ethereal /tmp/c3x-p8r4-ethereal/src/Ethereal \
+            --out output/p8r4_opponent_reply_continuation_matrix.json
+          python3 - <<'PY'
+          import json
+          x=json.load(open('output/p8r4_opponent_reply_continuation_matrix.json'))
+          assert x['source_cohort_denominator']==32
+          assert x['frozen_pawn_birth_root_pairs']==8
+          assert x['no_randomized_replies'] is True
+          assert x['no_identified_causal_concept'] is True
+          assert x['C3X_014']=='CANDIDATE_ONLY_NO_TITLE'
+          print('P8R4_NO_CONCEPT_CAUSAL_PROMOTION',x['support_counts'])
+          PY
+      - name: Preserve prior real data code method and origin hash ledger
+        if: always()
+        run: |
+          mkdir -p output
+          cp p8r2-parent/p8r2_all_frozen_birth_contrasts.json output/frozen_parent_p8r2_data.json
+          cp harness/c3x_013_p8r4_opponent_reply_matrix.py output/frozen_reply_matrix_code.py
+          cp c3x/ontology/c3x-013-p8-r4-opponent-reply-conditional-precommit.md output/p8r4_protocol.md
+          printf '%s\n' 'Ethereal (Andrew Grant) GPLv3 public source at https://github.com/AndyGrant/Ethereal/tree/0e47e9b67f345c75eb965d9fb3e2493b6a11d09a; original PGN Lichess broadcast CC BY-SA 4.0.' > output/licensing.txt
+          sha256sum output/* > output/file_hashes_sha256.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x-013-p8r4-two-reply-continuation-matrix
+          path: output/
+          if-no-files-found: error
+          retention-days: 90
