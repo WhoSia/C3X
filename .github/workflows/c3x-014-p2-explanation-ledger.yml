@@ -1,0 +1,65 @@
+name: C3X 0.14 P2 Typed Engine-Evidence Chess Explanation Compiler
+on:
+  push:
+    paths:
+      - '.github/workflows/c3x-014-p2-explanation-ledger.yml'
+      - 'harness/c3x_014_p2_typed_explanation_claim_compiler.py'
+      - 'c3x/ontology/c3x-014-p2-typed-explanation-evidence-compiler-precommit.md'
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  full-real-panel-explanation-compiler:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Load chess legality library and pinned authentic P2 real native experiment
+        run: |
+          python -m pip install --disable-pip-version-check chess==1.11.2
+          python -m py_compile harness/c3x_014_p2_typed_explanation_claim_compiler.py
+          mkdir -p authentic-panel output
+      - uses: actions/download-artifact@v4
+        with:
+          name: c3x-014-p2-sixteen-game-native-SF16-score-choice-panel
+          path: authentic-panel/
+          repository: WhoSia/C3X
+          run-id: '37802939136'
+          github-token: ${{ github.token }}
+      - name: Enforce actual raw engine panel byte-level custody
+        run: |
+          printf '%s  %s\n' '0fd87345c9cc4b0e23f8fac6c669ec328254178da424268303e99ee6159f81e3' 'authentic-panel/P2_REAL_SIXTEEN_GAMES_TT_SCORE_CHOICE_PANEL.json' | sha256sum -c -
+          cp authentic-panel/P2_REAL_SIXTEEN_GAMES_TT_SCORE_CHOICE_PANEL.json output/P2_original_signed_engine_panel.json
+      - name: Compile 96 licensed evidence claims and run six tamper falsifiers
+        run: |
+          python harness/c3x_014_p2_typed_explanation_claim_compiler.py --panel authentic-panel/P2_REAL_SIXTEEN_GAMES_TT_SCORE_CHOICE_PANEL.json --sha256 0fd87345c9cc4b0e23f8fac6c669ec328254178da424268303e99ee6159f81e3 --json-out output/P2_verified_evidence_claim_ledger.json --markdown-out output/P2_evidence_bound_chess_engine_explanations.md
+          python - <<'PY'
+          import json
+          x=json.load(open('output/P2_verified_evidence_claim_ledger.json'))
+          assert x['schema']=='c3x-014-p2-typed-chess-claim-ledger-v1'
+          assert x['number_of_actual_engine_arm_statements']==96
+          assert x['falsification_tests_passed']==6
+          assert x['all_chess_semantic_claims_denied']
+          assert sum(r['strict_signed_cp_preference_inversion'] for r in x['rows'] if r['arm']=='MAIN')>=2
+          assert any(r['tie_endpoint_detected'] and r['uci_bestmove_label_changed'] for r in x['rows'])
+          print('P2_REAL_ENGINE_TYPED_CLAIM_AUTHORITY_FIREWALL_PASS')
+          PY
+      - name: Preserve claim licenses, source panel and verifier code
+        if: always()
+        run: |
+          mkdir -p output
+          cp harness/c3x_014_p2_typed_explanation_claim_compiler.py output/P2_licensed_claim_compiler.py
+          cp c3x/ontology/c3x-014-p2-typed-explanation-evidence-compiler-precommit.md output/P2_CLAIM_METHODS_PRECOMMIT.md
+          printf '%s\n' 'The native engine changes allow only bounded implementation-path claims, never independent chess strategy causal explanations.' > output/P2_claim_authority_warning.txt
+          find output -maxdepth 1 -type f ! -name 'P2_member_sha256.txt' -print0 | sort -z | xargs -0 sha256sum > output/P2_member_sha256.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x-014-p2-ninety-six-typed-verified-explanation-claims
+          path: output/
+          if-no-files-found: error
+          retention-days: 90
