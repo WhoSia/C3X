@@ -7,7 +7,7 @@ from pathlib import Path
 import chess.pgn
 from g10_p19_source_census import canonical_fen
 
-def audit(path):
+def audit(path, ply_lo=12, ply_hi=160):
     raw = Path(path).read_bytes()
     seen = set()
     with open(path, encoding="utf-8-sig") as stream:
@@ -15,10 +15,12 @@ def audit(path):
             if game.errors:
                 raise ValueError("PGN_PARSE_ERROR")
             board = game.board()
-            for move in game.mainline_moves():
+            for ply, move in enumerate(game.mainline_moves(), start=1):
                 board.push(move)
-                seen.add(hashlib.sha256(canonical_fen(board).encode()).hexdigest())
+                if ply_lo <= ply <= ply_hi and board.is_valid() and not board.chess960 and not board.is_game_over(claim_draw=False):
+                    seen.add(hashlib.sha256(canonical_fen(board).encode()).hexdigest())
     return {"pgn_sha256": hashlib.sha256(raw).hexdigest(),
+            "ply_range": [ply_lo, ply_hi],
             "canonical_fen_hashes": sorted(seen)}
 
 if __name__ == "__main__":
