@@ -3,7 +3,8 @@ on:
   push:
     paths:
       - '.github/workflows/c3x-013-p8ep8-tcec-conditional.yml'
-      - 'harness/c3x_013_p8ep8_tcec_conditional_uci.py'\n      - 'harness/test_c3x_013_p8ep8.py'
+      - 'harness/c3x_013_p8ep8_tcec_conditional_uci.py'
+      - 'harness/test_c3x_013_p8ep8.py'
       - 'c3x_explain/p8_ep8.py'
       - 'c3x_explain/test_p8_ep8.py'
       - 'c3x_explain/core.py'
@@ -38,7 +39,8 @@ jobs:
           PYTHONPATH: .
         run: |
           python -m unittest harness.test_c3x_013_p8ep8 -v
-          python -m unittest c3x_explain.test_p8_ep8 -v\n          python - <<'PY'
+          python -m unittest c3x_explain.test_p8_ep8 -v
+          python - <<'PY'
           from harness.c3x_013_p8ep8_tcec_conditional_uci import worlds
           w=worlds()
           assert len(w)==2
@@ -50,14 +52,18 @@ jobs:
           python - <<'PY'
           import json
           r=json.load(open('output/ep8_tcec_conditional.json'))
-          assert r['source_events']==1
-          assert r['status']=='DEVELOPMENTAL_REAL_ENGINE_COMPARISON_NOT_CAUSAL'\n          assert len(r['condition_names'])==3\n          assert 'go searchmoves' in r['forced_UCI_semantics']
+          assert r['source']['rank']==111 and r['source']['ply']==48
+          assert r['status']=='DEVELOPMENTAL_REAL_ENGINE_COMPARISON_NOT_CAUSAL'
+          assert len(r['condition_names'])==3
+          assert 'go searchmoves' in r['forced_UCI_semantics']
           assert len(r['engines'])==2
           for x in r['engines'].values():
               assert sorted(x['depths'])==['12','16','8']
               for d in x['depths'].values():
                   assert len(d['trials'])==2
-                  assert all(set(t['branches'])=={'a','b'} for t in d['trials'])\n                  assert all(set(t['branches'][k]) >= {'free_opponent_reply','forced_convergence_reply_via_go_searchmoves','cold_equal_FEN_after_capture_depth_minus_one'} for t in d['trials'] for k in ('a','b'))\n                  assert all(t['branches'][k]['forced_convergence_reply_via_go_searchmoves']['root_reply_constrained'] for t in d['trials'] for k in ('a','b'))
+                  assert all(set(t['branches'])=={'a','b'} for t in d['trials'])
+                  assert all(set(t['branches'][k]) >= {'free_opponent_reply','forced_convergence_reply_via_go_searchmoves','cold_equal_FEN_after_capture_depth_minus_one'} for t in d['trials'] for k in ('a','b'))
+                  assert all(t['branches'][k]['forced_convergence_reply_via_go_searchmoves']['root_reply_constrained'] for t in d['trials'] for k in ('a','b'))
           print('EP8_NO_CAUSAL_PROMOTION')
           PY
       - name: Preserve provenance and source hashes
@@ -66,7 +72,9 @@ jobs:
           mkdir -p output
           cp harness/c3x_013_p8ep8_tcec_conditional_uci.py output/EP8_source.py
           printf '%s\n' 'Ethereal commit 0e47e9b67f345c75eb965d9fb3e2493b6a11d09a; Stockfish from runner apt. Source PGN: TCEC S30 Playoff Cat 2 through Lichess broadcasts CC BY-SA 4.0. No concept causality claimed.' > output/provenance.txt
-          printf 'uci\\nquit\\n' | /usr/games/stockfish | head -12 > output/Stockfish_UCI_identity.txt\n          printf 'uci\\nquit\\n' | /tmp/c3x-ep8-ethereal/src/Ethereal | head -12 > output/Ethereal_UCI_identity.txt\n          sha256sum output/* > output/member_sha256.txt
+          printf 'uci\nquit\n' | /usr/games/stockfish | head -12 > output/Stockfish_UCI_identity.txt
+          printf 'uci\nquit\n' | /tmp/c3x-ep8-ethereal/src/Ethereal | head -12 > output/Ethereal_UCI_identity.txt
+          sha256sum output/* > output/member_sha256.txt
       - uses: actions/upload-artifact@v4
         if: always()
         with:
