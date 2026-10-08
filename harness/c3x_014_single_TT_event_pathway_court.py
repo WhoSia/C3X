@@ -149,8 +149,8 @@ def main():
     cold=0
     for g in groups:
         for world in ("PLAYED_HISTORY","CONCEPT_SHAM_HISTORY"):
-            a,b=[x for x in cases if x["group"]==g["source_group"] and x["world"]==world]
-            if a["arms"]==b["arms"]:cold+=1
+            cold_first,cold_second=[x for x in cases if x["group"]==g["source_group"] and x["world"]==world]
+            if cold_first["arms"]==cold_second["arms"]:cold+=1
     assert cold==28,("COLD_EVENT_OR_SOURCE_OUTPUT_NOT_REPRODUCIBLE",cold)
     first=[c for c in cases if c["cold_repeat"]==1]
     groupsummary=[]
