@@ -1,0 +1,66 @@
+name: C3X 0.12 Real UCI Transport Smoke
+on:
+  push:
+    paths:
+      - '.github/workflows/c3x-012-real-uci-smoke.yml'
+      - 'tools/c3x_012_uci_probe.cpp'
+      - 'tools/c3x_012_uci_score_gate.cpp'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  bounded-real-engine-probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install distribution Stockfish and pinned chess rules
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq stockfish
+          python3 -m pip install --disable-pip-version-check chess==1.11.2
+      - name: Compile native C++ UCI probe
+        run: g++ -std=c++17 -O2 -Wall -Wextra -Werror tools/c3x_012_uci_probe.cpp -o /tmp/c3x_012_uci_probe
+      - name: Frozen opening fixture and legal move-pair validation
+        run: |
+          mkdir -p output
+          python3 - <<'PY'
+          import chess, hashlib, json
+          b=chess.Board()
+          for san in ['e4','c5','Nf3','d6','d4','cxd4','Nxd4','Nf6','Nc3','a6']:
+              b.push_san(san)
+          moves=('c1e3','c1g5')
+          assert all(chess.Move.from_uci(m) in b.legal_moves for m in moves)
+          fen=b.fen(en_passant="fen")
+          identity={'stage':'C3X 0.12','mode':'REAL_ENGINE_PROTOCOL_ONLY',
+                    'fen':fen,'fen_sha256':hashlib.sha256(fen.encode()).hexdigest(),
+                    'legal_moves':list(moves),'legality_verified':True,
+                    'explanation_granted':False,'scientific_preseal':False}
+          open('output/frozen_fixture.json','w').write(json.dumps(identity,indent=2)+'\n')
+          open('output/fen.txt','w').write(fen+'\n')
+          print(identity)
+          PY
+      - name: Execute actual installed engine twice with bounded search
+        run: |
+          command -v /usr/games/stockfish
+          sha256sum /usr/games/stockfish > output/engine_binary_sha256.txt
+          /usr/games/stockfish <<< $'uci\nquit' > output/engine_uci_identity.txt
+          FEN="$(cat output/fen.txt)"
+          /tmp/c3x_012_uci_probe /usr/games/stockfish "$FEN" c1e3 c1g5 > output/uci_depth8_repeat1.json
+          /tmp/c3x_012_uci_probe /usr/games/stockfish "$FEN" c1e3 c1g5 > output/uci_depth8_repeat2.json
+          python3 - <<'PY'
+          import json
+          for index in (1,2):
+              record=json.load(open(f'output/uci_depth8_repeat{index}.json'))
+              assert record['status']=='RAW_UCI_OBSERVATION_ONLY'
+              assert not record['legality_verified'] and not record['explanation_granted']
+              assert record['bestmove'].split()[0] in ('c1e3','c1g5')
+              print('REAL_UCI_DATA_COLLECTED_NOT_EXPLANATION',index,len(record['info_lines']))
+          PY
+      - name: Upload read-only real-engine execution artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: c3x-012-real-uci-smoke
+          path: output/
+          if-no-files-found: error
