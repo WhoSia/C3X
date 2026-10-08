@@ -1,0 +1,124 @@
+{
+  "schema": "c3x-012-first-real-uci-artifact-adjudication-v1",
+  "timestamp_utc": "2026-10-08",
+  "stage": "C3X 0.12",
+  "status": "EXECUTION_PASS_PROTOCOL_ONLY_EXPLANATION_NOT_TESTED",
+  "source": {
+    "workflow": "C3X 0.12 Real UCI Transport Smoke",
+    "run_id": 37716518717,
+    "run_url": "https://github.com/WhoSia/C3X/actions/runs/37716518717",
+    "head_sha": "095a0d48f85d948105247c951d11109d9698927f",
+    "artifact_id": 11523967315,
+    "artifact_name": "c3x-012-real-uci-smoke",
+    "archive_sha256": "6d08b9dc5000f08421b5cd51c55a107fb14e44ff9961ba00dd672258d48ff73a",
+    "binary_sha256": "00628bd9c9855c1b7ff93d7f8d51b413586cdc6336fe637f9a14a61531a05aca",
+    "engine_identity": "Stockfish 16",
+    "platform": "GitHub Actions ubuntu-latest; distro stockfish 16-1build1; default MultiPV 2; native C++ probe",
+    "source_population": "SYNTHETICALLY_SELECTED_OPENING_FIXTURE_NOT_PROSPECTIVE_SOURCE_DISJOINT_COHORT"
+  },
+  "fixture": {
+    "opening": "Sicilian Najdorf (after 1.e4 c5 2.Nf3 d6 3.d4 cxd4 4.Nxd4 Nf6 5.Nc3 a6)",
+    "fen": "rnbqkb1r/1p2pppp/p2p1n2/8/3NP3/2N5/PPP2PPP/R1BQKB1R w KQkq - 0 6",
+    "fen_sha256": "fa84aa1b1a8d5f5b7a7f720c3a60686fdf3a9d1c4ab9288d5f9ba981502e3d61",
+    "side_to_move": "WHITE",
+    "legal_pair": {
+      "a": "c1e3",
+      "a_san": "Be3",
+      "b": "c1g5",
+      "b_san": "Bg5"
+    },
+    "legality_verified_by": "python-chess chess==1.11.2 in frozen fixture"
+  },
+  "measurement": {
+    "requested_depth": 8,
+    "repeats": 2,
+    "raw_score_perspective": "root mover (white) for this frozen position",
+    "final_each_repeat": {
+      "cp_a": 64,
+      "cp_b": 60,
+      "delta_a_minus_b_cp": 4,
+      "bestmove": "c1e3"
+    },
+    "repeated_final_agreement": true,
+    "comparability_gate": "SYNTACTICALLY_COMPARABLE_CP_ONLY for both repeats",
+    "depth_profile_each_repeat": [
+      {
+        "depth": 1,
+        "a_cp": 9,
+        "b_cp": 7,
+        "delta_cp": 2
+      },
+      {
+        "depth": 2,
+        "a_cp": 9,
+        "b_cp": 7,
+        "delta_cp": 2
+      },
+      {
+        "depth": 3,
+        "a_cp": 9,
+        "b_cp": 7,
+        "delta_cp": 2
+      },
+      {
+        "depth": 4,
+        "a_cp": 55,
+        "b_cp": 65,
+        "delta_cp": -10
+      },
+      {
+        "depth": 5,
+        "a_cp": -1,
+        "b_cp": 73,
+        "delta_cp": -74
+      },
+      {
+        "depth": 6,
+        "a_cp": 2,
+        "b_cp": 78,
+        "delta_cp": -76
+      },
+      {
+        "depth": 7,
+        "a_cp": 8,
+        "b_cp": 42,
+        "delta_cp": -34
+      },
+      {
+        "depth": 8,
+        "a_cp": 64,
+        "b_cp": 60,
+        "delta_cp": 4
+      }
+    ],
+    "depth_ranking_reversals": true,
+    "search_budget": "go depth 8 searchmoves c1e3 c1g5; not cold 10k / 30k / 80k qualified protocol"
+  },
+  "scientific_adjudication": {
+    "full_engine_protocol": "PASS",
+    "measured_narrow_depth8_margin": "REAL_OBSERVATION_4_CP",
+    "robust_preference_under_depth": "NOT_ESTABLISHED; Bg5 preferred at depths 4–7 in the logged iterative analysis",
+    "prospective_near_equal_pair_qualification": "NOT_RUN",
+    "counterfactual_chess_intervention": "NOT_RUN",
+    "minimal_strategic_reason": "NOT_IDENTIFIED",
+    "cross_engine_transport": "NOT_RUN",
+    "human_utility": "NOT_RUN",
+    "source_disjoint_causal_evidence": "NONE",
+    "parent_authority": "P23 FAIL; P24/P25 HOLD; Q0 DENIED; C3X 0.11 CLOSED_TECHNICAL_HOLD, unchanged",
+    "note": "A stable identical depth-8 repeat is a low-budget native UCI smoke result, not validated sufficiency, chess position novelty, robust preference or engine-version-independent explanation."
+  },
+  "explanation_product": {
+    "workflow": "c3x-explain-i9",
+    "run_id": 37716557297,
+    "run_url": "https://github.com/WhoSia/C3X/actions/runs/37716557297",
+    "commit": "44a2aa47afc46be381034c7c1a4c52ba0fa6f61f",
+    "conclusion": "SUCCESS",
+    "existing_pytest_passed": 25,
+    "new_certificate_trust_unittest_passed": 12,
+    "negative_public_cli_certificate_case": "PASS (rejected)",
+    "total_regression_tests": 37,
+    "not_a_scientific_result": true
+  },
+  "authority": "REAL_PROTOCOL_EXECUTION_WITH_LIMITED_DESCRIPTIVE_MEASUREMENT_ONLY",
+  "next": "Use existing P15 pair-qualification protocol with independent fresh worlds; freeze rival strategic reasons and legal non-mainline continuation before a cross-engine causal intervention experiment."
+}
