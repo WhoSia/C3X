@@ -1,0 +1,66 @@
+name: C3X 0.13 P7-R2 Tactical Cold Root and Depth Qualification
+on:
+  push:
+    paths:
+      - '.github/workflows/c3x-013-p7r2-tactical-engine.yml'
+      - 'harness/c3x_013_p7r2_tactical_engine_pair.py'
+      - 'c3x/ontology/c3x-013-p7-r2-precision-root-qualification-precommit.md'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  prequalified-tactically-matched-root-court:
+    runs-on: ubuntu-latest
+    timeout-minutes: 26
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install pinned rule parser original decompressor real stockfish
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq zstd stockfish
+          python3 -m pip install --disable-pip-version-check chess==1.11.2
+      - name: Recover same 32 original source groups before engine measurement
+        env:
+          PYTHONPATH: .
+        run: |
+          mkdir -p output
+          curl -fL --retry 3 --max-time 120 -o /tmp/lichess_db_broadcast_2026-09.pgn.zst https://database.lichess.org/broadcast/lichess_db_broadcast_2026-09.pgn.zst
+          printf '%s\n' '27a39d035767a30901b89602f33f2a7b27d4ab5025842071165fa079f8fff1df  /tmp/lichess_db_broadcast_2026-09.pgn.zst' | sha256sum -c -
+          python3 harness/c3x_013_p7r1_tactical_support.py --source /tmp/lichess_db_broadcast_2026-09.pgn.zst --output output/p7r1_same_source_tactical_support.json
+      - name: Execute real cold all-legal root and independent depth comparisons
+        env:
+          PYTHONPATH: .
+        run: |
+          python3 harness/c3x_013_p7r2_tactical_engine_pair.py --source-court output/p7r1_same_source_tactical_support.json --engine /usr/games/stockfish --output output/p7r2_tactical_cold_root_results.json
+          /usr/games/stockfish <<< $'uci\nquit' > output/engine_identity.txt
+          sha256sum /usr/games/stockfish > output/engine_binary_sha256.txt
+          python3 - <<'PY'
+          import json
+          x=json.load(open("output/p7r2_tactical_cold_root_results.json"))
+          assert len(x["records"])==x["source_groups_frozen"]==32
+          assert x["nested_support_counts"]["P5_style_cold_base"]>=x["nested_support_counts"]["P7_tactically_filtered"]>=x["nested_support_counts"]["same_origin_strict"]
+          assert x["causal_strategic_certificate"] is None
+          assert x["0_14_status"]=="UNOPENED_CANDIDATE_ONLY"
+          print("P7R2_NO_MECHANISM_PROMOTION_SUCCESS")
+          PY
+      - name: Seal frozen evidence and executable provenance even on HOLD
+        if: always()
+        run: |
+          mkdir -p output
+          cp harness/c3x_013_p7r1_tactical_support.py output/source_tactical_code.py
+          cp harness/c3x_013_p7r2_tactical_engine_pair.py output/cold_engine_court_code.py
+          cp c3x/ontology/c3x-013-p7-r1-frozen-tactical-support-precommit.md output/r1_precommit.md
+          cp c3x/ontology/c3x-013-p7-r2-precision-root-qualification-precommit.md output/r2_precommit.md
+          printf '%s\n' 'Lichess broadcast database CC BY-SA 4.0 https://database.lichess.org/' > output/source_attribution.txt
+          sha256sum output/* > output/internal_file_sha256.txt
+      - name: Upload all success and negative audit evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: c3x-013-p7r2-new32-cold-tactical-depth-qualification
+          path: output/
+          if-no-files-found: error
+          retention-days: 90
