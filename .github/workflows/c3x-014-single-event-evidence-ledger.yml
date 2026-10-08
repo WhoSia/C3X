@@ -1,0 +1,72 @@
+name: C3X 0.14 One TT Event Source-Verified Explanation and Rival Path Ledger
+on:
+  push:
+    paths:
+      - '.github/workflows/c3x-014-single-event-evidence-ledger.yml'
+      - 'harness/c3x_014_single_TT_event_evidence_claim_compiler.py'
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  real-first-tt-event-authority:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install exact chess rules, compile verification program
+        run: |
+          python -m pip install --disable-pip-version-check chess==1.11.2
+          python -m py_compile harness/c3x_014_single_TT_event_evidence_claim_compiler.py
+          mkdir -p source-only native output
+      - uses: actions/download-artifact@v4
+        with:
+          name: c3x-014-legal-historical-chess-concept-worlds-source-only
+          path: source-only/
+          repository: WhoSia/C3X
+          run-id: '37809811541'
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: c3x-014-single-native-TT-event-provenance-mechanism-court
+          path: native/
+          repository: WhoSia/C3X
+          run-id: '37812752876'
+          github-token: ${{ github.token }}
+      - name: Verify byte-exact original 14-game source and actual 224-run native court
+        run: |
+          printf '%s  %s\n' '0080f4f108471137f8d9d0908e3c879e33351ad8bdd4fbf0fdda83d47f6075b2' 'source-only/C3X014_LEGAL_CONCEPT_WORLDS_SOURCE_FROZEN.json' | sha256sum -c -
+          printf '%s  %s\n' 'afd48ceb040668c53609d8d5bd78d7a9b781243044cd4187a87896929ef0dd6b' 'native/C3X014_ONE_MAIN_RIVAL_MECHANISM_PANEL.json' | sha256sum -c -
+      - name: Compile 28 native TT event-grounded chess explanations and five tamper falsifiers
+        run: |
+          python harness/c3x_014_single_TT_event_evidence_claim_compiler.py --legal-world-source source-only/C3X014_LEGAL_CONCEPT_WORLDS_SOURCE_FROZEN.json --native-panel native/C3X014_ONE_MAIN_RIVAL_MECHANISM_PANEL.json --native-sha afd48ceb040668c53609d8d5bd78d7a9b781243044cd4187a87896929ef0dd6b --out-json output/C3X014_ONE_TT_EVENT_COMPETING_PATHS_LEDGER.json --out-md output/C3X014_ONE_TT_EVENT_GROUNDED_KOREAN_EXPLANATIONS.md
+          python - <<'PY'
+          import json
+          r=json.load(open('output/C3X014_ONE_TT_EVENT_COMPETING_PATHS_LEDGER.json'))
+          assert r['one_formal_research_unit']=='C3X 0.14' and r['P_checkpoints_not_formal_substages']
+          assert r['source_groups']==14 and r['grounded_chess_worlds']==28 and len(r['rows'])==28
+          assert r['falsifiers_passed']==5
+          assert r['chess_strategy_concept_mediation_certified']==0
+          assert r['separate_rival_path_causal_certificates']==0
+          print('C3X014_ONE_TT_EVENT_RIVAL_CAUSAL_CLAIM_FIREWALL_PASS')
+          PY
+      - name: Preserve absolute source, native data and complete certified output
+        if: always()
+        run: |
+          cp harness/c3x_014_single_TT_event_evidence_claim_compiler.py output/ONE_EVENT_EVIDENCE_VERIFIER_SOURCE.py
+          cp source-only/C3X014_LEGAL_CONCEPT_WORLDS_SOURCE_FROZEN.json output/ORIGINAL_LEGAL_SOURCE_GAMES.json
+          cp native/C3X014_ONE_MAIN_RIVAL_MECHANISM_PANEL.json output/ACTUAL_224_NATIVE_ENGINE_RUNS.json
+          cp c3x/ontology/c3x-014-single-main-tt-return-and-search-path-rivals-precommit.md output/SOURCE_EVENT_PRECOMMIT.md
+          cp native/EXACT_FIRST_TT_EVENT_NATIVE_SOURCE.diff output/ACTUAL_PINNED_SF16_CPP_SOURCE_PATCH.diff
+          printf '%s\n' 'All forty? Only 28 world-level observations from 14 source groups. A single earliest TT return intervention is causal for local software behavior when changed, but history/LMR/NNUE/alpha-beta and chess concept not independently identified.' > output/SCIENCE_AUTHORITY_CEILING.txt
+          find output -maxdepth 1 -type f ! -name 'MEMBER_SHA256.txt' -print0 | sort -z | xargs -0 sha256sum > output/MEMBER_SHA256.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x-014-first-TT-return-rival-path-verified-explanations
+          path: output/
+          if-no-files-found: error
+          retention-days: 90
