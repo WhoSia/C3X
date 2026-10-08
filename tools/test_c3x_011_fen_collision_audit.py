@@ -42,6 +42,10 @@ class P19CollisionRegression(unittest.TestCase):
         result = audit({"A":self.root/"one.pgn"},set(hashes),1,160)
         self.assertEqual(result["source"]["A"]["historical_collision_worlds"],12)
         self.assertEqual(result["source"]["A"]["unique_worlds_remaining"],0)
+    def test_empty_pgn_fails_closed(self):
+        (self.root/"one.pgn").write_text("", encoding="utf-8")
+        with self.assertRaisesRegex(ValueError, "EMPTY_PGN"):
+            read_source("A",self.root/"one.pgn",1,160)
     def test_illegal_san_fails_closed(self):
         (self.root/"one.pgn").write_text(PGN.replace("1. e4 e5","1. e5 e5"))
         with self.assertRaisesRegex(ValueError, "ILLEGAL_OR_UNPARSABLE_PGN"):
