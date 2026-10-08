@@ -1,0 +1,59 @@
+name: C3X 0.13 P7-R3 Pawn Birth Factorization Court
+on:
+  push:
+    paths:
+      - '.github/workflows/c3x-013-p7r3-birth-factorization.yml'
+      - 'harness/c3x_013_p7r3_birth_factorization.py'
+      - 'c3x/ontology/c3x-013-p7-r3-pawn-birth-factorization-precommit.md'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  sixteen-group-pawn-geometry-two-factor-court:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install pinned chess rule evaluator and Lichess archive decoder
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq zstd
+          python3 -m pip install --disable-pip-version-check chess==1.11.2
+      - name: Recover exact frozen P6 original source bytes
+        run: |
+          mkdir -p output
+          curl -fL --retry 3 --max-time 120 -o /tmp/lichess_db_broadcast_2026-09.pgn.zst https://database.lichess.org/broadcast/lichess_db_broadcast_2026-09.pgn.zst
+          printf '%s\n' '27a39d035767a30901b89602f33f2a7b27d4ab5025842071165fa079f8fff1df  /tmp/lichess_db_broadcast_2026-09.pgn.zst' | sha256sum -c -
+      - name: Certify 19 exact blocker-set births with four-cell algebra
+        env:
+          PYTHONPATH: .
+        run: |
+          python3 harness/c3x_013_p7r3_birth_factorization.py --source /tmp/lichess_db_broadcast_2026-09.pgn.zst --output output/p7r3_pawn_birth_factorization.json
+          python3 - <<'PY'
+          import json
+          x=json.load(open("output/p7r3_pawn_birth_factorization.json"))
+          assert x["original_frozen_broadcast_groups"]==16
+          assert x["historical_P6E_birth_events"]==19
+          assert sum(x["factor_event_counts"].values())==19
+          assert x["chess_engine_evaluation"] is None
+          assert x["human_utility_evaluation"] is None
+          assert x["0_14_status"]=="CANDIDATE_ONLY_UNOPENED"
+          print("P7R3_BOARD_PREDICATE_ALGEBRA_ONLY_PASS")
+          PY
+      - name: Preserve original code, method and source attribution
+        if: always()
+        run: |
+          mkdir -p output
+          cp harness/c3x_013_p7r3_birth_factorization.py output/factorization_harness.py
+          cp c3x/ontology/c3x-013-p7-r3-pawn-birth-factorization-precommit.md output/factorization_precommit.md
+          printf '%s\n' 'Lichess broadcast database CC BY-SA 4.0 https://database.lichess.org/' > output/source_attribution.txt
+          sha256sum output/* > output/artifact_integrity_sha256.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x-013-p7r3-four-cell-pawn-birth-factorization
+          path: output/
+          if-no-files-found: error
