@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Proof-of-interface tests: P8 engine observations never become causal claims."""
 import unittest
+from copy import deepcopy
 import chess
 from c3x_explain.p8_ep8 import observation_index,observation_atoms_for_board
 from c3x_explain.renderer import render_packet
@@ -22,7 +23,7 @@ def packet():
             "status":"DEVELOPMENTAL_REAL_ENGINE_COMPARISON_NOT_CAUSAL",
             "root_fen":ROOT,
             "source":{"rank":111,"ply":48,"game_url":"https://lichess.org/broadcast/tcec-s30-playoff-swiss-10-playoff-cat-2/round-1/kpZI9MVi/1oANqqKQ"},
-            "engines":{name:{"binary_sha256":"a"*64,"depths":depths}
+            "engines":{name:{"binary_sha256":"a"*64,"depths":deepcopy(depths)}
                        for name in ("Stockfish","Ethereal_classical")}}
 
 class P8EP8BridgeTests(unittest.TestCase):
