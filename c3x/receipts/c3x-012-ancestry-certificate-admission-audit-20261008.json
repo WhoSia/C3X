@@ -1,0 +1,37 @@
+{
+  "schema": "c3x-012-ancestry-certificate-admission-audit-v1",
+  "date": "2026-10-08",
+  "status": "ENGINEERING_GUARD_LOCALLY_VERIFIED_NO_SCIENCE_PROMOTION",
+  "founding_context": "Near-equal legal candidate preference explanation and prospective strategic falsification; separate from PGN commentary Track B.",
+  "inherited_science": {
+    "p32": "TT event causal replay at exact frozen runtime; not universal strategic explanation",
+    "p15": "Replicated structure-to-search susceptibility, one local full bridge, not replicated full preference mediation",
+    "p16": "One chain-relative local minimum full bridge; no replicated minimal equivalence law",
+    "p17": "Exposure-support HOLD, no confirmatory mechanism verdict",
+    "p23": "Activation transport FAIL and Q0 DENIED"
+  },
+  "existing_product": "C3X Explain I9 already provides legal PGN replay, MultiPV, evidence graph and bounded commentary. I8 human utility claim remains HOLD.",
+  "defect": "Public CLI loaded arbitrary user supplied certificate JSON whose identity, source bytes and science authority were not checked by a canonical trust manifest; direct analyze_pgn library fixtures were intended to be permissive.",
+  "remedy": {
+    "trust_manifest": "c3x/ontology/c3x-012-causal-certificate-trust.json",
+    "admission_code": "c3x_explain/certificate_trust.py",
+    "cli": "c3x_explain/__main__.py",
+    "regression": "tests/test_c3x_012_certificate_trust.py",
+    "ci": ".github/workflows/c3x-explain-i9.yml",
+    "trusted_certificates_count": 0,
+    "policy": "Reject all unreviewed certificate files; subsequent admission requires repository-reviewed exact file digest, certificate IDs, source stage and review receipt; reject duplicate file/ID evidence"
+  },
+  "local_verification": {
+    "module_git_blob": "40d074a6c4813aaf41c62f1c63fa114be39cc0f9",
+    "tests_git_blob": "640c3fef73827bdda0102d38ce6a965e1bfc001d",
+    "tests_passed": 12,
+    "tests_failed": 0,
+    "cli_git_blob": "18e197c9f58df63a85da089fdd2bfcd8da772e2a",
+    "cli_stubbed_core_control": "unreviewed fake certificate rejected, exit 1, no resulting output file; no-certificate control passed",
+    "whole_c3x_explain_suite": "NOT_RUN_LOCALLY_MISSING_PYTHON_CHESS",
+    "synthetic_only": true
+  },
+  "action_status": "New 0.12 and patched I9 push-workflow runs NOT VERIFIABLE using available PR-filtered commit-run connector. Historical I9 run 37137361882 job verify was SUCCESS; cannot reuse that for new patches.",
+  "scope_limit": "Direct analyze_pgn(certificates=...) legacy library entrypoint still permits fixture certificates. Strict CLI admission does NOT independently adjudicate scientific truth and does not turn I9 success into Track A authority.",
+  "next": "Obtain new Actions build outcomes, inspect real Stockfish artifact, then attach externally reviewed causal evidence to existing commentary without corpus/source or authority leakage."
+}
