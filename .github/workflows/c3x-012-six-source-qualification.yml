@@ -1,0 +1,50 @@
+name: C3X 0.12 Six-Source Cold Pair Qualification
+on:
+  push:
+    paths:
+      - '.github/workflows/c3x-012-six-source-qualification.yml'
+      - 'harness/c3x_012_six_source_qualify.py'
+      - 'c3x/data/c3x-012-six-source-development-seeds.json'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  outcome-separated-qualification:
+    runs-on: ubuntu-latest
+    timeout-minutes: 18
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install real engine and chess rule library
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq stockfish
+          python3 -m pip install --disable-pip-version-check python-chess==1.999
+      - name: Preflight frozen original source identities
+        run: |
+          python3 - <<'PY'
+          import hashlib,json
+          p='c3x/data/c3x-012-six-source-development-seeds.json'
+          x=json.load(open(p))
+          assert x['status']=='DEVELOPMENT_ONLY_SOURCE_SCORES_UNOPENED'
+          assert len(x['sources'])==len({z['source_id'] for z in x['sources']})==6
+          assert all(len(z['san_first32'])==32 for z in x['sources'])
+          assert all(len(z['full_pgn_sha256'])==64 for z in x['sources'])
+          print('OUTCOME_BLIND_SIX_SOURCE_FROZEN',hashlib.sha256(open(p,'rb').read()).hexdigest())
+          PY
+      - name: Measure cold per-root eligibility without causal promotion
+        run: |
+          mkdir -p output
+          python3 harness/c3x_012_six_source_qualify.py --input c3x/data/c3x-012-six-source-development-seeds.json --engine /usr/games/stockfish --output output/qualification.json
+          sha256sum /usr/games/stockfish > output/engine_sha256.txt
+          /usr/games/stockfish <<< $'uci\nquit' > output/engine_identity.txt
+      - name: Upload source-scoped audit, even if a source fails
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: c3x-012-six-source-qualification
+          path: output/
+          if-no-files-found: warn
+          retention-days: 90
