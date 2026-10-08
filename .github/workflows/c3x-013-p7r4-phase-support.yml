@@ -1,0 +1,58 @@
+name: C3X 0.13 P7-R4 Phase-Conditioned Pawn Birth Support
+on:
+  push:
+    paths:
+      - '.github/workflows/c3x-013-p7r4-phase-support.yml'
+      - 'harness/c3x_013_p7r4_phase_support.py'
+      - 'c3x/ontology/c3x-013-p7-r4-phase-conditioned-birth-support-precommit.md'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  same-source-trajectory-and-survivorship-court:
+    runs-on: ubuntu-latest
+    timeout-minutes: 14
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install pinned chess and broadcast decoder
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq zstd
+          python3 -m pip install --disable-pip-version-check chess==1.11.2
+      - name: Download and verify same pre-frozen source
+        run: |
+          mkdir -p output
+          curl -fL --retry 3 --max-time 120 -o /tmp/lichess_db_broadcast_2026-09.pgn.zst https://database.lichess.org/broadcast/lichess_db_broadcast_2026-09.pgn.zst
+          printf '%s\n' '27a39d035767a30901b89602f33f2a7b27d4ab5025842071165fa079f8fff1df  /tmp/lichess_db_broadcast_2026-09.pgn.zst' | sha256sum -c -
+      - name: Compare fixed ply32 64 80 legal pair support within same games
+        env:
+          PYTHONPATH: .
+        run: |
+          python3 harness/c3x_013_p7r4_phase_support.py --source /tmp/lichess_db_broadcast_2026-09.pgn.zst --output output/p7r4_pawn_birth_phase_support.json
+          python3 - <<'PY'
+          import json
+          x=json.load(open('output/p7r4_pawn_birth_phase_support.json'))
+          assert x['frozen_group_count']==32
+          assert x['landmarks_halfmoves']==[32,64,80]
+          assert x['engine_scores'] is None
+          assert x['0_14']=='UNOPENED_CANDIDATE_ONLY'
+          assert not x['causal_strategic_authority']
+          print('P7R4_NO_CAUSAL_OR_HUMAN_CLAIMS')
+          PY
+      - name: Preserve exact executable and post-R1 exploratory status
+        if: always()
+        run: |
+          mkdir -p output
+          cp harness/c3x_013_p7r4_phase_support.py output/exact_phase_code.py
+          cp c3x/ontology/c3x-013-p7-r4-phase-conditioned-birth-support-precommit.md output/exploratory_precommit.md
+          printf '%s\n' 'Lichess broadcast database CC BY-SA 4.0 https://database.lichess.org/' > output/source_attribution.txt
+          sha256sum output/* > output/artifact_sha256.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x-013-p7r4-phase-support-survival
+          path: output/
+          if-no-files-found: error
