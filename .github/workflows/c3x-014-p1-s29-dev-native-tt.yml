@@ -1,0 +1,84 @@
+name: C3X 0.14 P1 Official S29 Development-Only Native TT Susceptibility
+on:
+  push:
+    paths:
+      - '.github/workflows/c3x-014-p1-s29-dev-native-tt.yml'
+      - 'harness/c3x_014_p1_s29_dev_native_tt_court.py'
+      - 'c3x/ontology/c3x-014-p1-s29-dev-source-native-tt-family-transfer-precommit.md'
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  source-game-disjoint-development:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install pinned chess legality and compiler
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq make g++ git curl
+          python -m pip install --disable-pip-version-check chess==1.11.2
+          python -m py_compile harness/c3x_014_p1_s29_dev_native_tt_court.py
+          mkdir -p output
+      - uses: actions/download-artifact@v4
+        with:
+          name: c3x-014-p1-public-development-s29-source-frozen
+          path: public-parent
+          repository: WhoSia/C3X
+          run-id: '37800438225'
+          github-token: ${{ github.token }}
+      - name: Pin original SF16 and apply EP9 family observer only
+        run: |
+          git clone -q --single-branch --branch sf_16 https://github.com/official-stockfish/Stockfish.git /tmp/p1_sf16_orig
+          test "$(git -C /tmp/p1_sf16_orig rev-parse HEAD)" = "68e1e9b3811e16cad014b590d7443b9063b3eb52"
+          cp -a /tmp/p1_sf16_orig /tmp/p1_sf16_trace
+          python tools/c3x_013_p8ep9_patch_sf16_cutoffs.py --source /tmp/p1_sf16_trace --out-manifest output/P1_EP9_patch_source.json
+          git -C /tmp/p1_sf16_trace diff -- src/search.cpp > output/P1_native_source_intervention.patch
+          test -s output/P1_native_source_intervention.patch
+          cp /tmp/p1_sf16_trace/Copying.txt output/Stockfish_GPLv3.txt
+      - name: Compile independent unmodified and instrumented native builds
+        run: |
+          make -s -C /tmp/p1_sf16_orig/src -j2 build ARCH=x86-64
+          cp /tmp/p1_sf16_orig/src/nn-*.nnue /tmp/p1_sf16_trace/src/ 2>/dev/null || true
+          make -s -C /tmp/p1_sf16_trace/src -j2 build ARCH=x86-64
+          cp /tmp/p1_sf16_orig/src/stockfish /tmp/P1_clean_sf16
+          cp /tmp/p1_sf16_trace/src/stockfish /tmp/P1_instrumented_sf16
+          sha256sum /tmp/P1_clean_sf16 /tmp/P1_instrumented_sf16 > output/P1_binary_sha256.txt
+          printf 'uci\nquit\n' | /tmp/P1_clean_sf16 > output/P1_clean_identity.txt
+          printf 'uci\nquit\n' | /tmp/P1_instrumented_sf16 > output/P1_instrumented_identity.txt
+      - name: Measure source-disjoint development games without opening holdout
+        run: |
+          python harness/c3x_014_p1_s29_dev_native_tt_court.py --development public-parent/P1_source_eligible_development.json --clean /tmp/P1_clean_sf16 --instrumented /tmp/P1_instrumented_sf16 --output output/P1_real_development_TT_panel.json
+          python - <<'PY'
+          import json
+          r=json.load(open('output/P1_real_development_TT_panel.json'))
+          assert r['schema']=='c3x-014-p1-real-s29-develop-tt-cutoff-susceptibility-v1'
+          assert r['all_sham_exact']
+          assert len(r['cells'])==16
+          assert r['independent_source_game_groups']==4
+          assert not r['holdout_used']
+          assert all(set(x['modes'])=={'MAIN','QSEARCH','BOTH'} for x in r['cells'])
+          assert r['root_score_is_not_causal_concept_evidence']
+          print('P1_S29_DEVELOPMENT_NATIVE_TT_FIREWALL_PASS')
+          PY
+      - name: Archive scoped raw evidence without opening heldout source or writing git refs
+        if: always()
+        run: |
+          mkdir -p output
+          cp harness/c3x_014_p1_s29_dev_native_tt_court.py output/P1_development_driver.py
+          cp c3x/ontology/c3x-014-p1-s29-dev-source-native-tt-family-transfer-precommit.md output/P1_precommit.md
+          cp public-parent/P1_source_eligible_development.json output/P1_development_source_frozen.json
+          printf '%s\n' 'Four development game groups only. Heldout artifact never downloaded. Broad TT family masking, no strategy mediation or source-independent universal causal claim.' > output/P1_AUTHORITY.txt
+          find output -maxdepth 1 -type f ! -name 'P1_member_sha256.txt' -print0 | sort -z | xargs -0 sha256sum > output/P1_member_sha256.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x-014-p1-s29-four-game-native-tt-development
+          path: output/
+          if-no-files-found: error
+          retention-days: 90
