@@ -34,7 +34,7 @@ def root_worlds():
     assert worlds["b"]["reply_is_en_passant"] is True
     assert worlds["a"]["after_reply"].fen(en_passant="fen")==worlds["b"]["after_reply"].fen(en_passant="fen")
     assert not births(board,chess.Move.from_uci(ROOTS["a"]))
-    assert any(z["color"]=="black" and z["pawn_after"]=="b4"
+    assert any(z["color"]=="white" and z["pawn_after"]=="a4"
                for z in births(board,chess.Move.from_uci(ROOTS["b"])))
     assert hazard(board,chess.Move.from_uci(ROOTS["a"]))==hazard(
         board,chess.Move.from_uci(ROOTS["b"]))
@@ -70,14 +70,14 @@ def main():
             "after_root":{
                 k:{"fen":v["after_root"].fen(en_passant="fen"),
                    "opponent_reply_is_en_passant":v["reply_is_en_passant"],
-                   "black_passed_pawn_count":snapshot(v["after_root"],chess.BLACK)["own_passed_pawn_count"]}
+                   "white_passed_pawn_count":snapshot(v["after_root"],chess.WHITE)["own_passed_pawn_count"]}
                 for k,v in worlds.items()},
             "after_legal_reply":{
                 k:v["after_reply"].fen(en_passant="fen") for k,v in worlds.items()},
             "convergent_identical_full_fen":True,"common_terminal_of_two_moves":convergence,
-            "after_root_black_passed_count_delta_B_minus_A":
-                snapshot(worlds["b"]["after_root"],chess.BLACK)["own_passed_pawn_count"]
-                -snapshot(worlds["a"]["after_root"],chess.BLACK)["own_passed_pawn_count"],
+            "after_root_white_passed_count_delta_B_minus_A":
+                snapshot(worlds["b"]["after_root"],chess.WHITE)["own_passed_pawn_count"]
+                -snapshot(worlds["a"]["after_root"],chess.WHITE)["own_passed_pawn_count"],
             "stockfish_binary_sha256":hashlib.sha256(Path(a.stockfish).read_bytes()).hexdigest(),
             "ethereal_binary_sha256":hashlib.sha256(Path(a.ethereal).read_bytes()).hexdigest(),
             "ethereal_source_commit":"0e47e9b67f345c75eb965d9fb3e2493b6a11d09a",
