@@ -1,0 +1,65 @@
+name: C3X 0.13 P6 Exact Pawn-Concept Geometry and Real Engine
+on:
+  push:
+    paths:
+      - '.github/workflows/c3x-013-p6-pawn-concept.yml'
+      - 'tests/test_c3x_013_p6_pawn_geometry.py'
+      - 'harness/c3x_013_p6_legal_pawn_concept_engine.py'
+      - 'c3x/ontology/c3x-013-p6-pawn-concept-geometry-mathematical-precommit.md'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  chess-law-and-engine-boundaries:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install chess rules and distribution engine
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq stockfish
+          python3 -m pip install --disable-pip-version-check chess==1.11.2
+      - name: Execute mathematical chess-rule counterexamples
+        env:
+          PYTHONPATH: .
+        run: |
+          python3 -m unittest discover -s tests -p test_c3x_013_p6_pawn_geometry.py -v
+          python3 -m unittest discover -s tests -p test_c3x_013_p6_grammar_support.py -v
+      - name: Observe legally distinct concept toggles with real fixed-depth Stockfish
+        env:
+          PYTHONPATH: .
+        run: |
+          mkdir -p output
+          python3 harness/c3x_013_p6_legal_pawn_concept_engine.py --engine /usr/games/stockfish --output output/p6_legal_pawn_engine_observations.json
+          /usr/games/stockfish <<< $'uci\nquit' > output/stockfish_uci_identity.txt
+          sha256sum /usr/games/stockfish > output/stockfish_binary_sha256.txt
+          python3 - <<'PY'
+          import json
+          x=json.load(open('output/p6_legal_pawn_engine_observations.json'))
+          assert len(x['results'])==2
+          assert x['causal_mediator_identified'] is False
+          assert x['source_independent_replication'] is False
+          assert x['depths']==[8,12,16]
+          assert all(len(r['measurements'])==3 for r in x['results'])
+          print('P6_REAL_ENGINE_ONLY_SCIENTIFIC_CAUSAL_HOLD')
+          PY
+      - name: Preserve preregistered source and executable proof
+        if: always()
+        run: |
+          mkdir -p output
+          cp harness/c3x_013_p6_legal_pawn_concept_engine.py output/exact_engine_harness.py
+          cp tests/test_c3x_013_p6_pawn_geometry.py output/chess_rule_test_source.py
+          cp c3x/ontology/c3x-013-p6-pawn-concept-geometry-mathematical-precommit.md output/mathematical_precommit.md
+          sha256sum output/* > output/integrity_sha256.txt
+      - name: Upload raw evidence, including failed experiments
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: c3x-013-p6-legal-pawn-concept-engine
+          path: output/
+          if-no-files-found: error
+          retention-days: 90
