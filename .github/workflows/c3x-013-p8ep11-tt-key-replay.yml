@@ -1,0 +1,83 @@
+name: C3X 0.13 P8-EP11 Native TT Position-Context Keyed Replay
+on:
+  push:
+    paths:
+      - '.github/workflows/c3x-013-p8ep11-tt-key-replay.yml'
+      - 'tools/c3x_013_p8ep11_patch_event_fingerprint.py'
+      - 'harness/c3x_013_p8ep11_tt_key_replay.py'
+      - 'c3x/ontology/c3x-013-p8ep11-native-tt-key-and-context-replay-precommit.md'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  source-native-identity-and-replay:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install chess rules and compile requirements
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq git make g++ curl
+          python -m pip install --disable-pip-version-check chess==1.11.2
+          python -m py_compile tools/c3x_013_p8ep9_patch_sf16_cutoffs.py tools/c3x_013_p8ep10_patch_single_tt_return.py tools/c3x_013_p8ep11_patch_event_fingerprint.py harness/c3x_013_p8ep11_tt_key_replay.py
+          mkdir -p output
+      - name: Build strictly pinned three-layer SF16 source family
+        run: |
+          git clone -q --single-branch --branch sf_16 https://github.com/official-stockfish/Stockfish.git /tmp/ep11_parent
+          test "$(git -C /tmp/ep11_parent rev-parse HEAD)" = "68e1e9b3811e16cad014b590d7443b9063b3eb52"
+          git -C /tmp/ep11_parent rev-parse HEAD > output/UPSTREAM_COMMIT.txt
+          python tools/c3x_013_p8ep9_patch_sf16_cutoffs.py --source /tmp/ep11_parent --out-manifest output/EP11_parent_EP9_manifest.json
+          cp -a /tmp/ep11_parent /tmp/ep11_ep10
+          python tools/c3x_013_p8ep10_patch_single_tt_return.py --search-cpp /tmp/ep11_ep10/src/search.cpp --out-manifest output/EP11_parent_EP10_manifest.json
+          cp -a /tmp/ep11_ep10 /tmp/ep11_key
+          python tools/c3x_013_p8ep11_patch_event_fingerprint.py --search-cpp /tmp/ep11_key/src/search.cpp --manifest output/EP11_identity_patch_manifest.json
+          git -C /tmp/ep11_key diff -- src/search.cpp > output/EP11_FULL_sf16_source.patch
+          test -s output/EP11_FULL_sf16_source.patch
+          cp /tmp/ep11_key/Copying.txt output/Stockfish_GPLv3.txt
+          sha256sum /tmp/ep11_parent/src/search.cpp /tmp/ep11_ep10/src/search.cpp /tmp/ep11_key/src/search.cpp > output/EP11_CPP_sha256.txt
+      - name: Compile EP10 ordinal-control and new EP11 context fingerprints separately
+        run: |
+          make -s -C /tmp/ep11_ep10/src -j2 build ARCH=x86-64
+          cp /tmp/ep11_ep10/src/nn-*.nnue /tmp/ep11_key/src/ 2>/dev/null || true
+          make -s -C /tmp/ep11_key/src -j2 build ARCH=x86-64
+          cp /tmp/ep11_ep10/src/stockfish /tmp/EP11_EP10_ordinal_binary
+          cp /tmp/ep11_key/src/stockfish /tmp/EP11_key_context_binary
+          sha256sum /tmp/EP11_EP10_ordinal_binary /tmp/EP11_key_context_binary > output/EP11_Binary_sha256.txt
+          printf 'uci\nquit\n' | /tmp/EP11_EP10_ordinal_binary > output/EP11_EP10_UCI_identity.txt
+          printf 'uci\nquit\n' | /tmp/EP11_key_context_binary > output/EP11_Key_UCI_identity.txt
+      - name: Run signed TT key FEN context and exact keyed replay court
+        run: |
+          python harness/c3x_013_p8ep11_tt_key_replay.py --ep10 /tmp/EP11_EP10_ordinal_binary --ep11 /tmp/EP11_key_context_binary --output output/EP11_real_native_tt_key_replay.json
+          python - <<'PY'
+          import json
+          p=json.load(open('output/EP11_real_native_tt_key_replay.json'))
+          assert p['schema']=='c3x-013-p8ep11-tt-key-fen-context-replay-v1'
+          assert p['controls_all_pass']
+          assert len(p['cells'])==8
+          assert p['event_anchor']['node_full_fen']
+          assert all(x['sham_equivalent'] and x['ordinal_intervention_equivalent']
+                     and x['impossible_key_control_pass'] for x in p['cells'])
+          assert p['chess_concept_caused_preference'] is False
+          assert p['C3X_014']=='UNOPENED_UNNAMED'
+          print('EP11_SOURCE_NATIVE_VERIFICATION_SUCCESS')
+          PY
+      - name: Preserve original source code, origin and hashes without writeback
+        if: always()
+        run: |
+          mkdir -p output
+          cp tools/c3x_013_p8ep11_patch_event_fingerprint.py output/EP11_native_fingerprint_patch.py
+          cp harness/c3x_013_p8ep11_tt_key_replay.py output/EP11_driver.py
+          cp c3x/ontology/c3x-013-p8ep11-native-tt-key-and-context-replay-precommit.md output/EP11_precommit.md
+          printf '%s\n' 'This result identifies only a local SF16 TT return occurrence and keyed single-event replay, not a chess-strategy mediator or new source-game replication.' > output/EP11_SCOPED_AUTHORITY.txt
+          find output -maxdepth 1 -type f ! -name 'EP11_manifest_sha256.txt' -print0 | sort -z | xargs -0 sha256sum > output/EP11_manifest_sha256.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x-013-p8ep11-sf16-native-tt-key-identity
+          path: output/
+          if-no-files-found: error
+          retention-days: 90
