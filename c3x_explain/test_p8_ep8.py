@@ -58,7 +58,7 @@ class P8EP8BridgeTests(unittest.TestCase):
         self.assertFalse(observation_atoms_for_board(observation_index([packet()]),b,"b2b3"))
 
     def test_end_to_end_pgn_uses_noncausal_claims(self):
-        pgn=f'[Event "C3X frozen EP8 adapter test"]\\n[SetUp "1"]\\n[FEN "{ROOT}"]\\n\\n25. b3 *\\n'
+        pgn=f'[Event "C3X frozen EP8 adapter test"]\n[SetUp "1"]\n[FEN "{ROOT}"]\n\n25. b3 *\n'
         out=analyze_pgn(pgn,ep8_observation_packets=[packet()])
         self.assertEqual(out["moment_count"],1)
         self.assertEqual(out["ep8_observation_atom_count"],6)
