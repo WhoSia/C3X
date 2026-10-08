@@ -1,0 +1,42 @@
+{
+  "schema": "c3x-013-p6-intervention-grammar-court-v1",
+  "date": "2026-10-08",
+  "stage": "C3X 0.13 P6",
+  "status": "OPEN_INTERVENTION_GRAMMAR_PRECOMMIT__LEMMAS_TESTED__ENGINE_CAUSAL_COURT_NOT_RUN",
+  "title": "Intervention-Compatible Chess Concepts, Pawn-Structure Edit Grammar, Root-Pair Positivity, Matched Sham Controls & Factorial Engine-Budget-Continuation Falsification",
+  "source": {
+    "historical": "c3x/certificates/g95-p16-local-minimal-full-bridge.json",
+    "parent_stage": "C3X 0.13 P5 CLOSED_WITH_SCIENTIFIC_HOLD",
+    "precommit": "c3x/ontology/c3x-013-p6-intervention-compatible-concept-precommit.md",
+    "commit": "6f53a3dfacd4a28199457676fc8d0a579453b74b"
+  },
+  "theorem": "Isolated and passed pawn counts in the current C3X chess-concept implementation depend only on pawn-square/color arrangements. Any P15 one-non-pawn edit leaves all pawn arrangements fixed, hence cannot toggle either. A pawn's ordinary noncapture forward move remains on its pawn file, so cannot toggle isolated-pawn status; it can change passed-pawn status when passing enemy-pawn ranks. A material-preserving diagonal empty-square pawn translocation may produce a valid board but is not a legal one-move trajectory.",
+  "proof_boundary": "Mathematical invariance of coded pawn-only feature functions, not a universal legal chess-board causal theorem or explanation of engine behavior.",
+  "actual_test": {
+    "run_id": 37722538602,
+    "url": "https://github.com/WhoSia/C3X/actions/runs/37722538602",
+    "conclusion": "SUCCESS",
+    "unittest_pass": 4,
+    "test_cases": [
+      "P16 historical B0/TARGET/SHAM preserve exact pawn-square/color signatures and pawn features",
+      "Legal forward pawn move toggles passed status while leaving isolation invariant",
+      "Synthetic isolation-changing file translocation yields a valid board but NOT a legal move",
+      "Historical P16 concept_label null and local-only replication retained"
+    ],
+    "artifact_id": 11526243805,
+    "archive_sha256": "f56beb24291aaf5eba226abb6a12608ea0067d6fc7b61922e11f22891f993863",
+    "archive_bytes": 4227,
+    "drive_id": "1U2hptKGrNPSSccJrkKWW9ddRyzkIc3Yj",
+    "drive_url": "https://drive.google.com/file/d/1U2hptKGrNPSSccJrkKWW9ddRyzkIc3Yj/view",
+    "remote_sha256_verified": true
+  },
+  "not_earned": [
+    "P6 legal matched target/sham engine preference reversal",
+    "pawn isolation mechanism in genuinely legal move histories",
+    "source independent causal chess concept",
+    "cross-engine budget transport",
+    "opponent reply falsification",
+    "human understanding gain"
+  ],
+  "next": "Construct source-disjoint root-pair-preserving target/sham grammar stratified by nonpawn and pawn-structure edits. Explicitly distinguish synthetic legal-board edits from real one-move/real-game reachability; if no admissible intervention toggles concept, issue SUPPORT_HOLD rather than causal explanation."
+}
