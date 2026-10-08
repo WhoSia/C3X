@@ -38,13 +38,13 @@ jobs:
           print('EP8_ACTUAL_PARENT_SHA256_LOCKED')
           PY
           cat > output/frozen_tcec.pgn <<'PGN'
-[Event "C3X 0.13 P8-EP8 Actual Evidence"]
-[SetUp "1"]
-[FEN "r5k1/6p1/p5qn/4p2p/2ppP3/3Q3P/1P1B1PP1/R5K1 w - - 0 25"]
-[Result "*"]
+          [Event "C3X 0.13 P8-EP8 Actual Evidence"]
+          [SetUp "1"]
+          [FEN "r5k1/6p1/p5qn/4p2p/2ppP3/3Q3P/1P1B1PP1/R5K1 w - - 0 25"]
+          [Result "*"]
 
-25. b3 *
-PGN
+          25. b3 *
+          PGN
       - name: Convert real two-engine observations into bounded PGN commentary
         run: |
           python -m c3x_explain --pgn output/frozen_tcec.pgn --ep8-observation frozen-parent/ep8_tcec_conditional.json --json-out output/EP8_actual_commentary.json --markdown-out output/EP8_actual_commentary.md
