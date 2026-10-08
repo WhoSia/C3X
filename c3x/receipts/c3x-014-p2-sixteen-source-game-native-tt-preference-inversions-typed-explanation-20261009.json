@@ -1,0 +1,235 @@
+{
+  "schema": "c3x-014-p2-actual-s29-sixteen-source-group-native-tt-choice-score-and-explanation-license-v1",
+  "official_title": "C3X 0.14 P2 — Prospective Margin-Stratified Search-Path Sensitivity, Independent-Game Replication & Explanation-Authority Calibration",
+  "date_kst": "2026-10-09",
+  "status": "P2_DEVELOPMENT_COURT_CLOSED_PASS__EXECUTED_SOURCE_DISJOINT_GROUP_EVIDENCE__BOARD_CONCEPT_MEDIATION_HOLD",
+  "phase": "C3X 0.14 OPEN",
+  "evidence_lock": {
+    "sampling_precommit": "c3x/ontology/c3x-014-p2-prospective-margin-stratified-search-sensitivity-precommit.md",
+    "source_freezer": "harness/c3x_014_p2_new16_scoreblind_source.py",
+    "source_workflow": "https://github.com/WhoSia/C3X/actions/runs/37802177355",
+    "source_run_id": 37802177355,
+    "new_cohort_input_sha256": "cb879eaa14bcbf3896c4d069dcb1cf543135c68c5b1fa0ea2eab942613332eeb",
+    "selection": "TCEC official S29-final exact commit 3dd69a40b3cf6ccc74144df7411ef4e8e2140286 and git blob 68141d7a9afad301c237106c3b2a3324cb35b130; score-blind SHA sorted selection of 16 distinct opening-prefix groups from 44 not reserved by P1.",
+    "games_read": 100,
+    "distinct_group_count": 52,
+    "p1_dev_or_opaque_holdout_groups_excluded": 8,
+    "available_unused_group_count": 44,
+    "selected_group_count": 16,
+    "source_rounds": [
+      "9.1",
+      "24.1",
+      "47.1",
+      "12.1",
+      "96.1",
+      "2.1",
+      "13.1",
+      "67.1",
+      "72.1",
+      "8.1",
+      "37.1",
+      "21.1",
+      "26.1",
+      "35.1",
+      "54.1",
+      "95.1"
+    ],
+    "heldout_file_or_games_accessed": false,
+    "study_population_limit": "Same official TCEC Season 29 Superfinal provider/tournament ecology; independently grouped source games not IID or independent chess ecosystems."
+  },
+  "science": {
+    "engine_workflow": "https://github.com/WhoSia/C3X/actions/runs/37802939136",
+    "engine_run_id": 37802939136,
+    "successful_commit_sha": "025c408584d805cd52be9b10da6211664c754e8e",
+    "upstream": "official Stockfish 16 sf_16 git 68e1e9b3811e16cad014b590d7443b9063b3eb52",
+    "arms": [
+      "unmodified",
+      "independently compiled EP9 observational OFF",
+      "MAIN early TT return family block",
+      "QSEARCH early TT return family block",
+      "BOTH early TT return families block"
+    ],
+    "conditions": "one-square vs two-square legal SAME original white pawn after exact ply18, Threads1, Hash16MiB, MultiPV2, depth8/12, two cold independent processes each",
+    "distinct_games": 16,
+    "game_depth_repeat_cells": 64,
+    "independent_game_depth_conditions": 32,
+    "sham_exact_count": "64/64",
+    "cold_equal_by_arm_out_of_32": {
+      "CLEAN": 32,
+      "OFF": 32,
+      "MAIN": 32,
+      "QSEARCH": 32,
+      "BOTH": 32
+    },
+    "first_move_changed_with_cold_repeat_dependence": {
+      "MAIN": "14/64",
+      "QSEARCH": "8/64",
+      "BOTH": "8/64"
+    },
+    "distinct_depth12_source_groups_with_both_cold_MAIN_choice_change": "3/16",
+    "baseline_depth12_cp_margin_bins_first_cold": {
+      "NEAR_abs_leq_25": {
+        "count": 9,
+        "main_changed": 3
+      },
+      "MID_25_to_60": {
+        "count": 4,
+        "main_changed": 0
+      },
+      "FAR_above_60": {
+        "count": 3,
+        "main_changed": 0
+      },
+      "BOUND_OR_MATE": {
+        "count": 0
+      }
+    },
+    "score_cp_gap_shift": {
+      "MAIN": {
+        "observed_cells": 64,
+        "shift_nonzero": 64,
+        "mean_abs_cp": 21.8125,
+        "max_abs_cp": 95
+      },
+      "QSEARCH": {
+        "observed_cells": 64,
+        "shift_nonzero": 50,
+        "mean_abs_cp": 12.21875,
+        "max_abs_cp": 57
+      },
+      "BOTH": {
+        "observed_cells": 64,
+        "shift_nonzero": 62,
+        "mean_abs_cp": 16.40625,
+        "max_abs_cp": 43
+      }
+    },
+    "exact_root_preference_vs_UCI_label": {
+      "MAIN_strict_cp_sign_inversions_cold1": "6/32",
+      "MAIN_UCI_label_change_at_zero_margin_cold1": "1/32",
+      "QSEARCH_strict_cp_inversions_cold1": "4/32",
+      "BOTH_strict_cp_inversions_cold1": "4/32"
+    },
+    "depth12_strict_cp_sign_inverted_groups": [
+      "12.1",
+      "96.1"
+    ],
+    "depth12_tie_end_with_UCI_choice_change": [
+      "95.1"
+    ],
+    "chess_observation_examples": [
+      {
+        "source_round": "12.1",
+        "depth": 12,
+        "candidate_pair": [
+          "a2a3",
+          "a2a4"
+        ],
+        "original_white_cp_gap": -8,
+        "main_suppressed_white_cp_gap": 3,
+        "original_bestmove": "a2a4",
+        "suppressed_bestmove": "a2a3",
+        "strict_preference_inversion": true,
+        "original_top_rank_nodes": 84657,
+        "suppressed_top_rank_nodes": 74794,
+        "main_early_TT_returns_blocked": 5577
+      },
+      {
+        "source_round": "95.1",
+        "depth": 12,
+        "candidate_pair": [
+          "a2a3",
+          "a2a4"
+        ],
+        "original_white_cp_gap": 11,
+        "main_suppressed_white_cp_gap": 0,
+        "original_bestmove": "a2a3",
+        "suppressed_bestmove": "a2a4",
+        "strict_preference_inversion": false,
+        "tie_endpoint": true,
+        "main_early_TT_returns_blocked": 5440
+      },
+      {
+        "source_round": "95.1",
+        "depth": 8,
+        "candidate_pair": [
+          "a2a3",
+          "a2a4"
+        ],
+        "original_white_cp_gap": -18,
+        "main_suppressed_white_cp_gap": 11,
+        "original_bestmove": "a2a4",
+        "suppressed_bestmove": "a2a3",
+        "strict_preference_inversion": true,
+        "main_early_TT_returns_blocked": 100
+      }
+    ],
+    "validity_ceiling": [
+      "Root choice label change != mathematically strict cp sign inversion; cp tie ranking is a separate case.",
+      "Same nominal depth implies different actual nodes/search work between masked and original native engine; intervention includes resulting search effort changes.",
+      "The causal intervention is source implementation TT early-return pathway masking, not isolated pawn structure treatment; strategy mediation and independent chess truth remain unproven.",
+      "Multiple repeated cold UCI processes are determinism checks, not statistically independent source games.",
+      "Baseline margin bins are prescribed before P2 outcome results and are descriptive effect modifiers, not randomized treatments.",
+      "No independent-engine or human comprehension experiments were executed.",
+      "Prior P1 four development games 0/16 root flips remains valid as result for that selected set; P2 16 groups separately selected score-blind have nonzero flips."
+    ]
+  },
+  "failure_handling": {
+    "first_engine_run_id": 37802475709,
+    "first_run_conclusion": "FAILED_AGGREGATION_CODE_ONLY_AFTER_ALL_64_NATIVE_MEASUREMENTS",
+    "failure_cause": "Loop variables a,b shadowed argparse Namespace a; AttributeError before saving final panel",
+    "repair_commit": "025c408584d805cd52be9b10da6211664c754e8e",
+    "scope_of_repair": "Rename only local aggregation variables to first,second; no source cohort, masks, engine version or outcomes selection changes",
+    "retested_pinned_grid_result": "SUCCESS"
+  },
+  "product": {
+    "precommit": "c3x/ontology/c3x-014-p2-typed-explanation-evidence-compiler-precommit.md",
+    "compiler": "harness/c3x_014_p2_typed_explanation_claim_compiler.py",
+    "actual_workflow": "https://github.com/WhoSia/C3X/actions/runs/37803494500",
+    "run_id": 37803494500,
+    "status": "ACTUAL_NATIVE_ENGINE_DATA_LICENSED_96_UTTERANCES_PASS",
+    "native_responsive_utterances": 88,
+    "native_masked_utterances_without_observable_score_or_move_change": 8,
+    "claims_certifying_strategic_chess_concept": 0,
+    "claims_certifying_human_learning": 0,
+    "tamper_falsifiers_passed": 6,
+    "falsifiers": [
+      "raw SHA mismatch",
+      "illegal FEN",
+      "illegal root move",
+      "signed cp difference corruption",
+      "wrong TT site mode",
+      "bounded numeric cp contamination"
+    ],
+    "actual_compiled_ledger_sha256": "e40fb4ffa5193fca8c82ed478e6bdda73aa3e8d288d9b730b4c51af00fc96bf4"
+  },
+  "custody": {
+    "drive_experiment_folder": "1ehjBFtuBYo7WQdfHvQDkVxVmQRZow9h_",
+    "source_zip": {
+      "artifact_id": 11561306887,
+      "github_sha256": "53872f41ec2d122479992d8deb5cb22bfbf6b1d198579bf93c0f9bcd1aec3fc9",
+      "manifest_pass": "5/5",
+      "drive_id": "1Ye84NHZNGZecMY5LhqM2QUzb4ASbFkqP",
+      "url": "https://drive.google.com/file/d/1Ye84NHZNGZecMY5LhqM2QUzb4ASbFkqP/view"
+    },
+    "native_zip": {
+      "artifact_id": 11562170454,
+      "github_sha256": "77d45608a9dfe771b9bcf0c617bf35bc37aa76a4e3453218574f3cad5ea2eca9",
+      "manifest_pass": "11/11",
+      "panel_json_sha256": "0fd87345c9cc4b0e23f8fac6c669ec328254178da424268303e99ee6159f81e3",
+      "drive_id": "1iuwFNy3pv3t9PeFYifTCGKZ6a2TmDVbo",
+      "url": "https://drive.google.com/file/d/1iuwFNy3pv3t9PeFYifTCGKZ6a2TmDVbo/view"
+    },
+    "compiler_zip": {
+      "artifact_id": 11560729867,
+      "github_sha256": "ce9b1cfa946d41ea5dfdda807a1d224bffca8f6a868aa2cbdb6c60111eacf88b",
+      "manifest_pass": "6/6",
+      "drive_id": "1VdJ5btvyQzh3uLeOiY6RZBn2yBcOKD_u",
+      "url": "https://drive.google.com/file/d/1VdJ5btvyQzh3uLeOiY6RZBn2yBcOKD_u/view"
+    },
+    "exact_drive_byte_redownload_sha_verified": true,
+    "github_actions_contents_read_only": true,
+    "git_bot_commits_forbidden": true
+  },
+  "next_phase": "Remain in C3X 0.14. P3 should budget-match depth-vs-node resources, root order perturb, fresh cross-provider studies, and only then unseal P1 holdout according to separate precommit. Do NOT promote chess concept causation or human learning benefits."
+}
