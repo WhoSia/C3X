@@ -1,0 +1,98 @@
+name: C3X 0.13 P8-EP10 Actual Single-Event Diagnostic To PGN
+on:
+  push:
+    paths:
+      - '.github/workflows/c3x-013-p8ep10-to-pgn.yml'
+      - 'c3x_explain/p8_ep10.py'
+      - 'c3x_explain/core.py'
+      - 'c3x_explain/__main__.py'
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  authentic-source-to-bounded-commentary:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install exact chess legality implementation
+        run: python -m pip install --disable-pip-version-check chess==1.11.2
+      - uses: actions/download-artifact@v4
+        with:
+          name: c3x-013-p8ep10-stockfish16-single-return-events
+          path: frozen
+          repository: WhoSia/C3X
+          run-id: '37794566744'
+          github-token: ${{ github.token }}
+      - name: Verify exact raw engine artifact and create actual legal PGN
+        run: |
+          mkdir -p output
+          python - <<'PY'
+          from pathlib import Path
+          import hashlib,chess,chess.pgn
+          p=Path('frozen/EP10_real_event_grid.json')
+          assert hashlib.sha256(p.read_bytes()).hexdigest()=='9a228208c1692e096300d92f25ac9f087dfec3de99485921a071592d5d184077'
+          from c3x_explain.p8_ep10 import FEN
+          b=chess.Board(FEN)
+          assert b.is_valid() and b.turn==chess.WHITE
+          move=chess.Move.from_uci('f3f4')
+          assert move in b.legal_moves
+          game=chess.pgn.Game.from_board(b)
+          game.headers['Event']='C3X P8-EP10 genuine engine diagnostic source test'
+          game.add_variation(move)
+          Path('output/EP10_frozen_CECLUB.pgn').write_text(str(game)+'\n')
+          print('EP10_AUTHENTIC_PARENT_AND_LEGAL_PGN_VERIFIED')
+          PY
+      - name: Render authentic ordinal event observation without strategic-authority promotion
+        run: |
+          python -m c3x_explain --pgn output/EP10_frozen_CECLUB.pgn --ep10-observation frozen/EP10_real_event_grid.json --json-out output/EP10_PGN_commentary.json --markdown-out output/EP10_PGN_commentary.md
+          python - <<'PY'
+          import json
+          r=json.load(open('output/EP10_PGN_commentary.json'))
+          assert r['moment_count']==1
+          atoms=[a for a in r['moments'][0]['atoms'] if a['type']=='engine_path_sensitivity_observation']
+          assert len(atoms)==1
+          atom=atoms[0]
+          assert atom['provenance']=='CONVENTIONAL_HEURISTIC_COMMENTARY'
+          assert atom['claim']['depth12']==['f3f4',31,'g3g4',-8]
+          assert atom['claim']['human_chess_concept_certificate'] is None
+          assert r['evaluation_packet']['causal_atom_count']==0
+          assert r['renderer_benchmark']['renderer_failed_moments']==0
+          assert r['verification_benchmark']['failed_clean_packets']==0
+          assert atom['text'] in r['moments'][0]['commentary']
+          print('EP10_AUTHENTIC_OBSERVATION_TO_PGN_PASS',len(atoms))
+          PY
+      - name: Test altered engine data is rejected by byte-exact CLI gate
+        run: |
+          python - <<'PY'
+          import pathlib,subprocess
+          raw=pathlib.Path('frozen/EP10_real_event_grid.json').read_bytes()
+          tampered=pathlib.Path('output/TAMPERED_DO_NOT_USE.json')
+          tampered.write_bytes(raw.replace(b'"sham_exact_all": true',b'"sham_exact_all": false',1))
+          assert tampered.read_bytes()!=raw
+          p=subprocess.run(['python','-m','c3x_explain','--pgn','output/EP10_frozen_CECLUB.pgn',
+              '--ep10-observation',str(tampered),'--json-out','output/UNTRUSTED.json'],
+              capture_output=True,text=True)
+          assert p.returncode!=0 and 'SHA-256' in p.stderr, p.stderr
+          tampered.unlink()
+          print('EP10_TAMPERED_RECEIPT_REJECTED')
+          PY
+      - name: Preserve source, code and hash evidence
+        if: always()
+        run: |
+          mkdir -p output
+          cp c3x_explain/p8_ep10.py output/EP10_explainer_adapter.py
+          cp frozen/EP10_real_event_grid.json output/EP10_frozen_raw.json
+          printf '%s\n' 'The original observational EP10 source-local TT path witness has NO accepted chess strategic causal certificate.' > output/SCIENTIFIC_LIMIT.txt
+          find output -maxdepth 1 -type f ! -name 'EP10_member_sha256.txt' -print0 | sort -z | xargs -0 sha256sum > output/EP10_member_sha256.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x-013-p8ep10-authentic-tt-event-to-pgn
+          path: output/
+          if-no-files-found: error
+          retention-days: 90
