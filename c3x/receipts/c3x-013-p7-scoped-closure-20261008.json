@@ -1,0 +1,111 @@
+{
+  "schema": "c3x-013-p7-scoped-closure-v1",
+  "date": "2026-10-08",
+  "title": "C3X 0.13 P7 — Tactical-Equivalence Root Support, Pawn-Birth Boolean Factorization, Completed-Depth Preference Robustness & Phase-Conditioned Identifiability",
+  "status": "CLOSED_SCOPED_HOLD_NOT_CAUSAL_CONCEPT_PASS",
+  "source_lock": {
+    "source_sha256": "27a39d035767a30901b89602f33f2a7b27d4ab5025842071165fa079f8fff1df",
+    "new_p7_frozen_groups": 32,
+    "new_p7_selected_segment_digest": "e5ca78464ef6bb2e95271c12428c47e8f9535efca9674d1048aed029ef1584c0",
+    "historical_p5_p6_groups": 16,
+    "provider": "Lichess CC BY-SA 4.0",
+    "independent_provider_ecology": false,
+    "competition_player_independence_not_established": true
+  },
+  "r1": {
+    "run": 37727746447,
+    "source_legal": 29,
+    "source_hold": 3,
+    "all_unordered_pairs": 22336,
+    "mover_capture_check_matched": 3764,
+    "immediate_recapture_matched": 1705,
+    "same_origin_tactically_matched": 1053,
+    "passed_birth_toggling_matched": 11,
+    "passed_birth_toggling_strict_same_origin": 0,
+    "independent_broadcast_groups_with_birth_toggling_pairs": 3,
+    "drive_url": "https://drive.google.com/file/d/1mGPf8bOddOkvIZPOjlX8tbmTDLa5bN8T/view",
+    "artifact_sha256": "c03055fc5b68075249a79f7b2eef638b800fcc73c498d1a1e43be9568d2d5c3c"
+  },
+  "r2": {
+    "run": 37727921874,
+    "engine": "Stockfish 16",
+    "source_denominator": 32,
+    "source_legal": 29,
+    "cold10k_2x30k_context80k_baseline_pair": 17,
+    "tactically_matched_cold_pair": 8,
+    "same_origin_strict_cold_pair": 5,
+    "completed_depths": [
+      8,
+      12,
+      16
+    ],
+    "two_exact_engine_repeats_each": true,
+    "opposite_preference_sign_over_depth": 5,
+    "outside_50cp_at_least_one_depth": 2,
+    "stable_within50cp_same_sign_all_depths": 1,
+    "only_stable_group": "CECLUB Primera Division Linares 2026",
+    "only_stable_pair": [
+      "f3f4",
+      "g3g4"
+    ],
+    "stable_cold_gap_cp": 30,
+    "stable_depth_gap_cp": [
+      29,
+      31,
+      42
+    ],
+    "stable_feature_difference": {
+      "own_center_control_count": 1
+    },
+    "pawn_birth_mediator_identified": false,
+    "drive_url": "https://drive.google.com/file/d/1441oB6hzWiniFcX80zwrWvG4EJ2UYgnw/view",
+    "artifact_sha256": "376216403ff83988c582b9515c96ee618867de01f52347b9c56e5ca46e5b4bce"
+  },
+  "r3": {
+    "run": 37728072602,
+    "original_p5_frozen_16_not_new_p7_groups": true,
+    "valid_games": 15,
+    "real_pawn_birth_events": 19,
+    "position_only_sufficient": 5,
+    "opponent_configuration_only_sufficient": 12,
+    "either_factor_sufficient": 2,
+    "joint_necessary": 0,
+    "formal_boolean_interaction": "kappa=1-a-b; when either factor separately sufficient (a=b=1), interaction -1, but this is a non-legal intermediate predicate algebra, not engine effect",
+    "drive_url": "https://drive.google.com/file/d/1QSyvU5pqadkg8NWgQ_s07qERfXLmCumF/view",
+    "artifact_sha256": "47b58277915f96ada6f1f162e6572e15313d2b0f798afc74fa9d7cabd83f32fa"
+  },
+  "r4": {
+    "run": 37728436390,
+    "exploratory_after_r1": true,
+    "source_groups": 32,
+    "at_ply32": {
+      "eligible": 29,
+      "matched_birth_groups": 3,
+      "strict_birth_groups": 0
+    },
+    "at_ply64": {
+      "eligible": 15,
+      "matched_birth_groups": 0,
+      "strict_birth_groups": 0
+    },
+    "at_ply80": {
+      "eligible": 10,
+      "matched_birth_groups": 1,
+      "strict_birth_groups": 0
+    },
+    "paired_ply80_survivor_groups": 10,
+    "within_survivors_matched_birth_groups_by_ply": {
+      "32": 1,
+      "64": 0,
+      "80": 1
+    },
+    "survival_conditioning_bias": true,
+    "drive_url": "https://drive.google.com/file/d/13Vg4EvuLz2Htuv4L_p5Sl4Q1hNmY7TyK/view",
+    "artifact_sha256": "f7115e403868ec607d2d2863905164536a755ad87042162d59c843f37185a4d8"
+  },
+  "integrity": "All four ZIPs uploaded to Drive, downloaded back, exact Actions ZIP SHA256 and internal artifact member manifests verified.",
+  "core_inference": "Tactical equivalence filtering is a necessary support control but does not produce independent passed-pawn birth mediation. Even score-near-equal rooted pairs mostly reverse preference direction over depth. Pawn birth geometry has a validated noncausal four-cell mathematical decomposition, not an identified cause of engine root preference.",
+  "claim_ceiling": "CHESS_LEGAL_ROOT_SUPPORT_PASS_MATH_PAWN_PREDICATE_PASS_ENGINE_DESCRIPTIVE_SCORES_PASS__STRATEGIC_CAUSALITY_HOLD",
+  "inherited": "C3X 0.12 CLOSED_SCOPED_HOLD, P16 local-only, P23 empirical FAIL, P24/P25 HOLD, P5 concept-predictivity HOLD, P6 scoped HOLD, I8 human utility HOLD; no promotions",
+  "next": "C3X 0.13 P8 source-independent engine lineage and carefully matched high-support concept-birth/falsifier experimental design, no C3X 0.14 opening or formal title in this turn."
+}
