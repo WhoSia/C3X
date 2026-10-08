@@ -1,0 +1,118 @@
+{
+  "schema": "c3x-013-p1-p4-opening-development-court-v1",
+  "stage": "C3X 0.13",
+  "date": "2026-10-08",
+  "status": "OPEN_P1_P4_DEVELOPMENT_CLOSED_WITH_ADVERSE_FINDINGS",
+  "formal_name": "Mechanism-to-Concept Chess Explanation, Intervention-Certified Strategic Reasons, Counterfactual Continuation Robustness, Cross-Engine Calibration & Blind Human Move-Understanding Validation",
+  "entry_gate": {
+    "prior_stage": "C3X 0.12",
+    "prior_closure": "c3x/receipts/c3x-012-scoped-closure-20261008.json",
+    "prior_verdict": "CLOSED_SCOPED_HOLD__NO_CAUSAL_STRATEGIC_REASON",
+    "constitution": "c3x/ontology/c3x-013-constitution.md"
+  },
+  "historical_fixture": {
+    "source": "c3x/certificates/g95-p16-local-minimal-full-bridge.json",
+    "engine": "Ethereal",
+    "pair": [
+      "d6d5",
+      "e8g8"
+    ],
+    "worlds": [
+      "B0",
+      "TARGET",
+      "SHAM"
+    ],
+    "sham_same_FEN_as_subset": true,
+    "source_concept_label": null
+  },
+  "p1": {
+    "run": 37719917238,
+    "result": "SUCCESS",
+    "unittest_pass": 8,
+    "chess_rule_vectors_reproduced": true,
+    "negative": "B0 queen d8 attacks own black king e8; pseudolegal attack is NOT enemy-king pressure",
+    "zip_drive": "https://drive.google.com/file/d/1WBSVZ2_Eump0tjJn52r-r9yk99ZHmT6z/view",
+    "zip_sha256": "4a845d90d0c58c5939d626ff7b6746a2eedb1cad01084216debf4ee2d94650f1"
+  },
+  "p2": {
+    "run": 37720138435,
+    "result": "SUCCESS",
+    "unit_tests": 18,
+    "semantic_negative_controls": 3,
+    "claim_ceiling": "BOARD_FACT_ONLY; HOSTILE_PRESSURE/STRATEGIC_CONCEPT/CAUSAL/HUMAN_CLAIMS_BLOCKED",
+    "zip_drive": "https://drive.google.com/file/d/16GoudXkW5qKeYU9i0sfLtlOMuTnXmU1M/view",
+    "zip_sha256": "cd94f9f78a3313c7d2ec876c435717c5cdc6b030a57ca6e4734887c568750deb"
+  },
+  "p3": {
+    "run": 37720291738,
+    "result": "SUCCESS",
+    "new_engine": "Stockfish 16",
+    "depth": 12,
+    "two_independent_runs_each": true,
+    "deltas_A_minus_B_cp": {
+      "B0": -1,
+      "TARGET": 12,
+      "SHAM": 3
+    },
+    "margin_abs_at_most50_all": true,
+    "opposite_Ethereal_historic_bestmove_all_three": true,
+    "cross_engine_budget_calibrated": false,
+    "zip_drive": "https://drive.google.com/file/d/12eB9kaNQwfLRQkIOVr0rYh8HnA8mw_EJ/view",
+    "zip_sha256": "ef5c02223ef6e4177cc1fe3624d460ce4edb4e3a3946441c6f12dd4a5839aa6c"
+  },
+  "p4": {
+    "run": 37720423315,
+    "result": "SUCCESS",
+    "engine": "Stockfish 16",
+    "depths": [
+      8,
+      10,
+      12,
+      14,
+      16
+    ],
+    "worlds": 3,
+    "independent_repeats_per_world_depth": 2,
+    "all_repeat_exact": true,
+    "depth_delta_cp_A_minus_B": {
+      "B0": [
+        21,
+        -3,
+        -1,
+        9,
+        23
+      ],
+      "TARGET": [
+        16,
+        4,
+        12,
+        21,
+        21
+      ],
+      "SHAM": [
+        0,
+        4,
+        3,
+        -16,
+        -1
+      ]
+    },
+    "within50_all_true": true,
+    "sign_switches": {
+      "B0": true,
+      "TARGET": false,
+      "SHAM": true
+    },
+    "zip_drive": "https://drive.google.com/file/d/1T93BM_Z4kwziKlOh2Qfai39EqcPqvLpQ/view",
+    "zip_sha256": "85934d4eeba80506a962bc34eefdd10033cc1299f255826aea24894abafdf69a"
+  },
+  "scientific_authority": "DEVELOPMENT_ADVERSARIAL_CHESS_SEMANTIC_AND_DEPTH_DIAGNOSTICS_ONLY",
+  "not_earned": [
+    "source_disjoint_approved_chess_concept_partition",
+    "causal_strategic_reason",
+    "matched_cross_engine_transport",
+    "opponent_reply_robustness",
+    "actual_human_move_understanding_gain"
+  ],
+  "next": "P5 fresh source-disjoint chess-concept partition with precommitted semantic negatives and paired engine-budget control; then bounded Explain I9 realization and truly randomized human understanding assessment. Preserve failures and do not rebrand attack-map facts as chess semantics."
+}
