@@ -5,7 +5,7 @@ This same CECLUB game was used for the original discovery; NOT new-source valida
 """
 import argparse, json
 from pathlib import Path
-from harness import c3x_013_p8ep10_single_event_fixed_grid as ep10
+import c3x_013_p8ep10_single_event_fixed_grid as ep10
 
 ORDERS=(("f3f4","g3g4"),("g3g4","f3f4"))
 TARGETS=(("MAIN",31),("MAIN",32),("MAIN",33),("QSEARCH",32))
