@@ -1,0 +1,71 @@
+name: C3X 0.14 Legal Concept And Native TT Evidence-Bound Explanation Gate
+on:
+  push:
+    paths:
+      - '.github/workflows/c3x-014-legal-concept-explanation-gate.yml'
+      - 'harness/c3x_014_legal_concept_mechanism_evidence_compiler.py'
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  source-legal-concept-explanation:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Legal chess and source integrity library
+        run: |
+          python -m pip install --disable-pip-version-check chess==1.11.2
+          python -m py_compile harness/c3x_014_legal_concept_mechanism_evidence_compiler.py
+          mkdir -p preselected-concepts native-tt output
+      - uses: actions/download-artifact@v4
+        with:
+          name: c3x-014-legal-historical-chess-concept-worlds-source-only
+          path: preselected-concepts
+          repository: WhoSia/C3X
+          run-id: '37809811541'
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: c3x-014-native-TT-court-on-legal-full-history-concept-worlds
+          path: native-tt
+          repository: WhoSia/C3X
+          run-id: '37810326739'
+          github-token: ${{ github.token }}
+      - name: Enforce independently frozen concept worlds and genuine engine output bytes
+        run: |
+          printf '%s  %s\n' '0080f4f108471137f8d9d0908e3c879e33351ad8bdd4fbf0fdda83d47f6075b2' 'preselected-concepts/C3X014_LEGAL_CONCEPT_WORLDS_SOURCE_FROZEN.json' | sha256sum -c -
+          printf '%s  %s\n' '7a797b9530ed24cf4eed5f3fcd821eb5d468298f36c661e9fa0a842c9365080d' 'native-tt/C3X014_FULL_HISTORY_CONCEPT_AND_TT_ENGINE_PANEL.json' | sha256sum -c -
+      - name: Produce complete group-level observations and reject five causal claim forgeries
+        run: |
+          python harness/c3x_014_legal_concept_mechanism_evidence_compiler.py --concepts preselected-concepts/C3X014_LEGAL_CONCEPT_WORLDS_SOURCE_FROZEN.json --native-panel native-tt/C3X014_FULL_HISTORY_CONCEPT_AND_TT_ENGINE_PANEL.json --native-sha 7a797b9530ed24cf4eed5f3fcd821eb5d468298f36c661e9fa0a842c9365080d --out-json output/C3X014_LEGAL_CONCEPT_TT_EVIDENCE_LEDGER.json --out-md output/C3X014_LEGAL_HISTORY_ENGINE_EXPLANATIONS_KO.md
+          python - <<'PY'
+          import json
+          p=json.load(open('output/C3X014_LEGAL_CONCEPT_TT_EVIDENCE_LEDGER.json'))
+          assert p['formal_stage']=='C3X 0.14' and p['P_labels_are_internal_checkpoints_only']
+          assert p['game_groups']==16 and p['cases_with_concept_changes']==14
+          assert p['tampering_and_causal_promotion_rejections']==5
+          assert not p['isolated_chess_concept_causality_established']
+          assert not p['educational_benefit_demonstrated']
+          print('C3X014_FULL_HISTORY_ENGINE_CONCEPT_LEDGER_PASS')
+          PY
+      - name: Preserve source provenance and verified human explanations
+        if: always()
+        run: |
+          cp harness/c3x_014_legal_concept_mechanism_evidence_compiler.py output/ENGINE_CONCEPT_EVIDENCE_COMPILER.py
+          cp harness/c3x_014_legal_black_reply_concept_source_freeze.py output/SOURCE_CONCEPT_FEATURE_DEFINITIONS.py
+          cp preselected-concepts/C3X014_LEGAL_CONCEPT_WORLDS_SOURCE_FROZEN.json output/SOURCE_ONLY_LEGAL_WORLDS.json
+          cp native-tt/C3X014_FULL_HISTORY_CONCEPT_AND_TT_ENGINE_PANEL.json output/REAL_NATIVE_ENGINE_RESULTS.json
+          printf '%s\n' 'Descriptive legal chess feature vs native TT response. NO isolated conceptual causal mediation certificate; negative semantic sham results preserved.' > output/AUTHORITY_FIREWALL.txt
+          find output -maxdepth 1 -type f ! -name 'MEMBER_SHA256.txt' -print0 | sort -z | xargs -0 sha256sum > output/MEMBER_SHA256.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x-014-history-legal-concept-native-tt-verified-evidence-ledger
+          path: output/
+          if-no-files-found: error
+          retention-days: 90
