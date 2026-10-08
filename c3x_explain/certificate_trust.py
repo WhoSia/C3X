@@ -58,6 +58,8 @@ def admitted_certificates(paths:list[str],manifest_path:Path|None=None)->list[di
             raise ValueError("INVALID_CAUSAL_TRUST_ENTRY")
         approved[digest]=item
     out=[]
+    seen_files=set()
+    seen_ids=set()
     for rawpath in paths:
         path=Path(rawpath)
         try:
@@ -65,6 +67,8 @@ def admitted_certificates(paths:list[str],manifest_path:Path|None=None)->list[di
         except OSError as exc:
             raise ValueError("CAUSAL_CERTIFICATE_FILE_UNREADABLE") from exc
         digest=hashlib.sha256(blob).hexdigest()
+        if digest in seen_files:
+            raise ValueError("DUPLICATE_CAUSAL_CERTIFICATE_FILE")
         item=approved.get(digest)
         if item is None:
             raise ValueError("UNREVIEWED_CAUSAL_CERTIFICATE_FILE:"+digest)
@@ -77,5 +81,9 @@ def admitted_certificates(paths:list[str],manifest_path:Path|None=None)->list[di
             or sorted(ids)!=sorted(item["certificate_ids"])
             or any(z.get("scientific_stage")!=item["scientific_stage"] for z in records)):
             raise ValueError("CAUSAL_CERTIFICATE_MANIFEST_IDENTITY_MISMATCH")
+        if any(i in seen_ids for i in ids):
+            raise ValueError("DUPLICATE_CAUSAL_CERTIFICATE_ID")
+        seen_files.add(digest)
+        seen_ids.update(ids)
         out.extend(records)
     return out
