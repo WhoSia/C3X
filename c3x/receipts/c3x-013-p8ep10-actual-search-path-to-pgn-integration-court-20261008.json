@@ -1,0 +1,72 @@
+{
+  "schema": "c3x-013-p8ep10-real-single-tt-event-pgn-explanation-bridge-v1",
+  "stage": "C3X 0.13 P8-EP10 — Track B",
+  "date": "2026-10-08",
+  "verdict": "ACTUAL_SOURCE_NATIVE_TT_EVENT_OBSERVATION_TO_PGN_INTEGRATION_PASS__CHESS_STRATEGIC_CAUSAL_AUTHORITY_ZERO",
+  "authority": "AUTHENTIC_SEARCH_PATH_DIAGNOSTIC_ONLY",
+  "upstream_science": {
+    "primary_run_id": 37794566744,
+    "canonical_receipt": "c3x/receipts/c3x-013-p8ep10-single-tt-return-local-root-preference-reversal-court-20261008.json",
+    "raw_event_grid_sha256": "9a228208c1692e096300d92f25ac9f087dfec3de99485921a071592d5d184077",
+    "game_source": "Previously studied CECLUB Primera Division Linares 2026 P7; not a fresh sample",
+    "immutable_pair": [
+      "f3f4",
+      "g3g4"
+    ],
+    "source_fen": "2rq1rk1/p4ppp/bp1bnn2/3pN3/2pP3P/1P2PPP1/PB2NRB1/R2Q2K1 w - - 1 17",
+    "one_return_occurrence": "Stockfish16 MAIN chronological ordinal32 at depth12",
+    "effect": "pair preference f3f4(+31cp gap) to g3g4(-8cp gap), two cold repeats",
+    "limits": "16 predeclared sites×ordinals screened and two depths; exploratory local event, not independent source or mechanistic chess-strategy cause"
+  },
+  "implementation": {
+    "adapter": "c3x_explain/p8_ep10.py",
+    "wiring": [
+      "c3x_explain/core.py",
+      "c3x_explain/__main__.py"
+    ],
+    "cli_flag": "--ep10-observation",
+    "accepted_raw_sha256": "9a228208c1692e096300d92f25ac9f087dfec3de99485921a071592d5d184077",
+    "read_only": "Never emits an inferred strategic causal certificate",
+    "evidence_type": "engine_path_sensitivity_observation",
+    "provenance": "CONVENTIONAL_HEURISTIC_COMMENTARY",
+    "single_atom_summarizes_two_depths": true,
+    "falsifies_untrusted_modified_input": true
+  },
+  "genuine_ci": {
+    "github_run": "https://github.com/WhoSia/C3X/actions/runs/37796474311",
+    "run_id": 37796474311,
+    "head_sha": "34cefedb9f953837fb561ee7dcbcfaa4d32fb2ad",
+    "conclusion": "SUCCESS",
+    "actual_raw_SHA_verified": true,
+    "legal_CECLUB_FEN_root_PGN": true,
+    "moments_selected": 1,
+    "engine_diagnostic_atoms": 1,
+    "renderer_failed_moments": 0,
+    "verifier_failed_clean_packets": 0,
+    "causal_claim_atoms": 0,
+    "altered_raw_receipt_rejected_by_CLI_SHA256": true,
+    "human_learning_quality_measured": false,
+    "full_game_generalization_measured": false
+  },
+  "raw_custody": {
+    "artifact_id": 11558249462,
+    "zip_sha256": "d7413c9a0a9aeca2fc77c533b16de5edb28e6551b28d7e6d7d977baa165fbdc2",
+    "zip_bytes": 11244,
+    "hashed_members": "6/6_PASS",
+    "drive_url": "https://drive.google.com/file/d/16AU5cL-NF7mdEBWq9bEC64sqeZ3ihATQ/view",
+    "drive_folder_id": "1ehjBFtuBYo7WQdfHvQDkVxVmQRZow9h_",
+    "drive_redownload_byte_exact_verified": true
+  },
+  "epistemic_notes": [
+    "This is an instrument-sensitive explanatory technology demonstration, not a mechanism-invariant causal abstraction.",
+    "The experimental observation is safe only at its specified source, engine, score orientation, depth, TT occurrence, searchmoves selection and restart conditions.",
+    "The adapter deliberately labels observations as conventional commentary, not certificate-level chess concept mechanisms.",
+    "This product integration does not make an LLM or human chess explanation faithful or pedagogically good."
+  ],
+  "governance": {
+    "c3x_013": "P8_OPEN",
+    "c3x_014": "UNOPENED_UNNAMED",
+    "committer": "WhoSia human",
+    "actions": "contents:read/actions:read, no bot commits or pushes"
+  }
+}
