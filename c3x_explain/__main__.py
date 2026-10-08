@@ -63,7 +63,9 @@ def main()->None:
     ap.add_argument("--markdown-out")
     a=ap.parse_args()
     pgn=Path(a.pgn).read_text(encoding="utf-8")
-    # The public CLI never accepts unsigned/unreviewed causal certificate files.\n    # Direct library calls retain historical fixture compatibility, not 0.12 authority.\n    certs=admitted_certificates(a.certificate)
+    # The public CLI never accepts unsigned/unreviewed causal certificate files.
+    # Direct library calls retain historical fixture compatibility, not 0.12 authority.
+    certs=admitted_certificates(a.certificate)
     packets=load_packets(a.susceptibility)
     out=analyze_pgn(
       pgn,engine_path=a.engine,multipv=a.multipv,nodes=a.nodes,
