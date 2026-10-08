@@ -1,0 +1,60 @@
+name: C3X 0.13 P6-T Frozen Natural Pawn Trajectories
+on:
+  push:
+    paths:
+      - '.github/workflows/c3x-013-p6t-pawn-trajectory.yml'
+      - 'harness/c3x_013_p6t_pawn_trajectory.py'
+      - 'c3x/ontology/c3x-013-p6t-pawn-trajectory-coactivation-precommit.md'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  fixed-sixteen-broadcast-game-pawn-geometry:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Pin chess replay rules and original source decoder
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq zstd
+          python3 -m pip install --disable-pip-version-check chess==1.11.2
+      - name: Retrieve and byte-verify original September broadcasts
+        run: |
+          mkdir -p output
+          curl -fL --retry 3 --max-time 120 -o /tmp/lichess_db_broadcast_2026-09.pgn.zst https://database.lichess.org/broadcast/lichess_db_broadcast_2026-09.pgn.zst
+          printf '%s\n' '27a39d035767a30901b89602f33f2a7b27d4ab5025842071165fa079f8fff1df  /tmp/lichess_db_broadcast_2026-09.pgn.zst' | sha256sum -c -
+      - name: Replay original full games and audit pawn movement invariants
+        env:
+          PYTHONPATH: .
+        run: |
+          python3 harness/c3x_013_p6t_pawn_trajectory.py --source /tmp/lichess_db_broadcast_2026-09.pgn.zst --output output/p6t_pawn_trajectories.json
+          python3 - <<'PY'
+          import json
+          d=json.load(open('output/p6t_pawn_trajectories.json'))
+          assert d['denominator_original_groups']==16
+          assert not d['causal_explanation_authority'] and d['human_outcome'] is None
+          assert d['eligible_quiet_pawn_pushes']>=0
+          assert not d['invariance_violations']
+          assert all(z['any_side_passed']<=z['observed_games'] for z in d['landmarks'].values())
+          print('P6_T_SOURCE_REPLAY_AND_MATHEMATICAL_INVARIANCE_PASS')
+          PY
+      - name: Preserve source rule and code for independent review
+        if: always()
+        run: |
+          mkdir -p output
+          cp harness/c3x_013_p6t_pawn_trajectory.py output/trajectory_harness.py
+          cp c3x/ontology/c3x-013-p6t-pawn-trajectory-coactivation-precommit.md output/pawn_trajectory_precommit.md
+          printf '%s\n' 'Lichess Broadcast database: CC BY-SA 4.0 https://database.lichess.org/' > output/source_attribution_and_license.txt
+          sha256sum output/* > output/artifact_content_sha256.txt
+      - name: Save positive and negative observations, no repository writeback
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: c3x-013-p6t-natural-pawn-trajectory
+          path: output/
+          if-no-files-found: error
+          retention-days: 90
