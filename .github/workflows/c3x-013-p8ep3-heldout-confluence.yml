@@ -1,0 +1,68 @@
+name: C3X 0.13 P8-EP3 Frozen Heldout Confluence Census
+on:
+  push:
+    paths:
+      - '.github/workflows/c3x-013-p8ep3-heldout-confluence.yml'
+      - 'harness/c3x_013_p8ep3_heldout_confluence_census.py'
+      - 'tests/test_c3x_013_p8ep3_confluence_heldout.py'
+      - 'c3x/ontology/c3x-013-p8-ep3-heldout-confluence-census-precommit.md'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  frozen-original-32-source-two-ply-chess-confluence:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install exact chess rules and Lichess archive decoder
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq zstd
+          python3 -m pip install --disable-pip-version-check chess==1.11.2
+      - name: Run known independent chess-rule confluence regression
+        env:
+          PYTHONPATH: .
+        run: |
+          python3 -m unittest discover -s tests -p test_c3x_013_p8ep3_confluence_heldout.py -v
+      - name: Retrieve and verify unmodified original September broadcast source
+        run: |
+          mkdir -p output
+          curl -fL --retry 3 --max-time 120 -o /tmp/lichess_db_broadcast_2026-09.pgn.zst https://database.lichess.org/broadcast/lichess_db_broadcast_2026-09.pgn.zst
+          printf '%s\n' '27a39d035767a30901b89602f33f2a7b27d4ab5025842071165fa079f8fff1df  /tmp/lichess_db_broadcast_2026-09.pgn.zst' | sha256sum -c -
+      - name: Freeze exact new 32 groups and census legal two-move common-FEN witness
+        env:
+          PYTHONPATH: .
+        run: |
+          python3 harness/c3x_013_p8ep3_heldout_confluence_census.py --source /tmp/lichess_db_broadcast_2026-09.pgn.zst --out output/p8ep3_new32_confluence_census.json
+          python3 - <<'PY'
+          import json
+          x=json.load(open('output/p8ep3_new32_confluence_census.json'))
+          assert x['source_denominator']==32 and x['frozen_heldout_groups']==32
+          assert x['prior_broadcast_groups']==80
+          assert set(x['summary'])=={'16','32','48','64'}
+          assert x['engine_scores_opened'] is False
+          assert x['causal_concept_certificates']==[]
+          assert x['C3X_014']=='CANDIDATE_ONLY_NO_NAME'
+          assert {a['source_rank'] for a in x['records']}==set(range(81,113))
+          print('P8EP3_NO_ENGINE_CAUSAL_CLAIM')
+          PY
+      - name: Preserve frozen source, executable, test and attribution for audit
+        if: always()
+        run: |
+          mkdir -p output
+          cp harness/c3x_013_p8ep3_heldout_confluence_census.py output/p8ep3_source_code.py
+          cp tests/test_c3x_013_p8ep3_confluence_heldout.py output/nz_regression_code.py
+          cp c3x/ontology/c3x-013-p8-ep3-heldout-confluence-census-precommit.md output/preoutcome_source_precommit.md
+          printf '%s\n' 'Lichess broadcast data: CC BY-SA 4.0 https://database.lichess.org/' > output/source_attribution.txt
+          sha256sum output/* > output/file_integrity_sha256.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x-013-p8ep3-fresh32-legal-confluence
+          path: output/
+          if-no-files-found: error
+          retention-days: 90
