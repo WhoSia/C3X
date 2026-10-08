@@ -76,10 +76,10 @@ def main():
         label="THREE_DEPTH_LOCAL_SIGN_INVERSION" if len(sr)==3 else "DEPTH_CONDITIONAL_ENGINE_RESPONSE" if sr else "NO_STRICT_SIGN_INVERSION"
         msg=(f"Stockfish16, TCEC S29 {cs[0]['round']} 경기 후보 {cs[0]['legal_pair'][0]} / {cs[0]['legal_pair'][1]}; "
              f"동일 요청 깊이 비교 {summary}. 엄격한 부호 역전 d={sr}, UCI 최선수 변경 d={labels}. "
-             f"동일 요청 노드 한도 실험의 양쪽 완료 깊이는 {complete[0]} 대 {complete[1]}. "
+             f"동일 요청 노드 한도 실험에서 두 PV 순위 모두 출력된 최대 표기 깊이는 {complete[0]} 대 {complete[1]}이며, 엔진 내부 completedDepth는 별도 확인이 필요하다. "
              "이는 내부 탐색 경로의 국소적 반응이며 전략적 체스 개념의 인과성이 입증된 것은 아니다.")
         rows.append({"round":cs[0]["round"],"group":key,"authority":label,"strict_sign_depths":sr,
-            "uci_label_change_depths":labels,"node_cap_completed_depths":complete,
+            "uci_label_change_depths":labels,"node_cap_reported_pv_depths_NOT_NATIVE_COMPLETION":complete,
             "node_cap_depth_discordant":complete[0]!=complete[1],
             "chess_concept_causality_certified":False,"language_ko":msg})
     tests=0
