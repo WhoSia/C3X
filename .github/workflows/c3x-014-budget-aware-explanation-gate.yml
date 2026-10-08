@@ -1,0 +1,70 @@
+name: C3X 0.14 In-Stage Budget-Aware Chess Explanation Gate
+on:
+  push:
+    paths:
+      - '.github/workflows/c3x-014-budget-aware-explanation-gate.yml'
+      - 'harness/c3x_014_budget_aware_explanation_claim_gate.py'
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  typed-source-and-budget-aware-explanation:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Exact chess legality and byte-level provenance prerequisites
+        run: |
+          python -m pip install --disable-pip-version-check chess==1.11.2
+          python -m py_compile harness/c3x_014_budget_aware_explanation_claim_gate.py
+          mkdir -p depth-parent node-parent output
+      - uses: actions/download-artifact@v4
+        with:
+          name: c3x-014-internal-depth-indexed-search-court
+          path: depth-parent/
+          repository: WhoSia/C3X
+          run-id: '37806356299'
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: c3x-014-p2-sixteen-group-node-cap-hash-root-order-postdiscovery
+          path: node-parent/
+          repository: WhoSia/C3X
+          run-id: '37804219196'
+          github-token: ${{ github.token }}
+      - name: Ensure both native original source records are unchanged
+        run: |
+          printf '%s  %s\n' '868b70e5311e2d9cc51f01e8ef50fc78127b1544dd9198c335f7877af335a24b' 'depth-parent/P3_GENUINE_NATIVE_DEPTH_MEDIATION_DIAGNOSTIC.json' | sha256sum -c -
+          printf '%s  %s\n' '37d6b3bde44e971ee88ae5fbababd63ba88980ce6b48e0bfa80234cebccdbdf1' 'node-parent/P2_POST_DISCOVERY_NODE_CAP_ORDER_HASH_PANEL.json' | sha256sum -c -
+      - name: Compile actual sixteen game budget-aware typed explanations and five falsifiers
+        run: |
+          python harness/c3x_014_budget_aware_explanation_claim_gate.py --depth depth-parent/P3_GENUINE_NATIVE_DEPTH_MEDIATION_DIAGNOSTIC.json --depth-sha 868b70e5311e2d9cc51f01e8ef50fc78127b1544dd9198c335f7877af335a24b --node node-parent/P2_POST_DISCOVERY_NODE_CAP_ORDER_HASH_PANEL.json --json-out output/P3_BUDGET_AWARE_ENGINE_EVIDENCE_LEDGER.json --md-out output/P3_BUDGET_AWARE_GAME_EXPLANATIONS_KO.md
+          python - <<'PY'
+          import json
+          p=json.load(open('output/P3_BUDGET_AWARE_ENGINE_EVIDENCE_LEDGER.json'))
+          assert p['formal_stage']=='C3X 0.14' and p['P3_internal_only']
+          assert p['game_groups']==16 and p['mutations_rejected']==5
+          assert p['chess_concept_causal_claims_certified']==0
+          assert not p['user_learning_benefit_proven']
+          assert next(x for x in p['rows'] if x['round']=='96.1')['strict_sign_depths']==[12]
+          print('C3X_014_BUDGET_INDEXED_EXPLANATION_RIGHTS_PASS')
+          PY
+      - name: Archive source-verified ledger and code
+        if: always()
+        run: |
+          cp harness/c3x_014_budget_aware_explanation_claim_gate.py output/P3_BUDGET_AUTHORITY_COMPILER.py
+          cp depth-parent/P3_GENUINE_NATIVE_DEPTH_MEDIATION_DIAGNOSTIC.json output/P3_FIXED_DEPTH_SOURCE_JSON.json
+          cp node-parent/P2_POST_DISCOVERY_NODE_CAP_ORDER_HASH_PANEL.json output/P2_NODE_LIMIT_SOURCE_JSON.json
+          printf '%s\n' 'ONE C3X 0.14 research project. P3 only a checkpoint; no external independence, matched work, chess strategy causation or human teaching benefit certified.' > output/P3_LICENSE_SCOPE.txt
+          find output -maxdepth 1 -type f ! -name 'P3_member_sha256.txt' -print0 | sort -z | xargs -0 sha256sum > output/P3_member_sha256.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x-014-instage-budget-indexed-typed-explanation
+          path: output/
+          if-no-files-found: error
+          retention-days: 90
