@@ -21,7 +21,9 @@ jobs:
           sudo apt-get install -y -qq stockfish
           python3 -m pip install --disable-pip-version-check chess==1.11.2
       - name: Compile native C++ UCI probe
-        run: g++ -std=c++17 -O2 -Wall -Wextra -Werror tools/c3x_012_uci_probe.cpp -o /tmp/c3x_012_uci_probe
+        run: |
+          g++ -std=c++17 -O2 -Wall -Wextra -Werror tools/c3x_012_uci_probe.cpp -o /tmp/c3x_012_uci_probe
+          g++ -std=c++17 -O2 -Wall -Wextra -Werror tools/c3x_012_uci_score_gate.cpp -o /tmp/c3x_012_uci_score_gate
       - name: Frozen opening fixture and legal move-pair validation
         run: |
           mkdir -p output
@@ -57,6 +59,34 @@ jobs:
               assert not record['legality_verified'] and not record['explanation_granted']
               assert record['bestmove'].split()[0] in ('c1e3','c1g5')
               print('REAL_UCI_DATA_COLLECTED_NOT_EXPLANATION',index,len(record['info_lines']))
+          PY
+      - name: Classify real raw UCI packets without promoting explanation authority
+        if: always()
+        run: |
+          python3 - <<'PY'
+          import json, subprocess
+          from pathlib import Path
+          for index in (1,2):
+              src=Path(f'output/uci_depth8_repeat{index}.json')
+              if not src.is_file():
+                  Path(f'output/comparability_repeat{index}.json').write_text(
+                      json.dumps({'verdict':'NO_RAW_PACKET','explanation_granted':False})+'\\n')
+                  continue
+              data=json.loads(src.read_text())
+              lines=data.get('info_lines',[])
+              text='\\n'.join(lines+['bestmove '+data.get('bestmove','(none)')])+'\\n'
+              result=subprocess.run(['/tmp/c3x_012_uci_score_gate','c1e3','c1g5'],
+                                    input=text,text=True,capture_output=True,timeout=5)
+              record={'verdict':'SYNTACTICALLY_COMPARABLE_CP_ONLY' if result.returncode==0
+                      else 'COMPARABILITY_HOLD',
+                      'score_gate_exit_code':result.returncode,
+                      'score_gate_stdout':result.stdout.strip(),
+                      'score_gate_stderr':result.stderr.strip(),
+                      'engine_identity_verified':False,
+                      'explanation_granted':False,
+                      'scientific_preseal':False}
+              Path(f'output/comparability_repeat{index}.json').write_text(json.dumps(record,indent=2)+'\\n')
+              print(index,record['verdict'])
           PY
       - name: Validate SQL evidence schema with negative controls
         run: |
