@@ -1,0 +1,78 @@
+name: C3X 0.14 In-Stage Native SF16 CompletedDepth Versus UCI PV
+on:
+  push:
+    paths:
+      - '.github/workflows/c3x-014-native-completed-depth-probe.yml'
+      - 'tools/c3x_014_patch_native_completed_depth_probe.py'
+      - 'harness/c3x_014_native_completed_depth_vs_pv_internal_p3.py'
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  sf16-native-post-search-completion-trace:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Prepare exact chess library and compilation
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq make g++ git
+          python -m pip install --disable-pip-version-check chess==1.11.2
+          python -m py_compile tools/c3x_014_patch_native_completed_depth_probe.py harness/c3x_014_native_completed_depth_vs_pv_internal_p3.py
+          mkdir -p stress-parent output
+      - uses: actions/download-artifact@v4
+        with:
+          name: c3x-014-p2-sixteen-group-node-cap-hash-root-order-postdiscovery
+          path: stress-parent
+          repository: WhoSia/C3X
+          run-id: '37804219196'
+          github-token: ${{ github.token }}
+      - name: Verify exact 16-game original node-limit data
+        run: |
+          printf '%s  %s\n' '37d6b3bde44e971ee88ae5fbababd63ba88980ce6b48e0bfa80234cebccdbdf1' 'stress-parent/P2_POST_DISCOVERY_NODE_CAP_ORDER_HASH_PANEL.json' | sha256sum -c -
+      - name: Compile SF16 EP9 with source-native post-search completion logger
+        run: |
+          git clone -q --single-branch --branch sf_16 https://github.com/official-stockfish/Stockfish.git /tmp/C3X_014_SF16_completion
+          test "$(git -C /tmp/C3X_014_SF16_completion rev-parse HEAD)" = "68e1e9b3811e16cad014b590d7443b9063b3eb52"
+          python tools/c3x_013_p8ep9_patch_sf16_cutoffs.py --source /tmp/C3X_014_SF16_completion --out-manifest output/ORIGINAL_EP9_SOURCE_PATCH.json
+          python tools/c3x_014_patch_native_completed_depth_probe.py --source /tmp/C3X_014_SF16_completion --out-manifest output/POST_SEARCH_COMPLETION_PROBE_PATCH.json
+          git -C /tmp/C3X_014_SF16_completion diff -- src/search.cpp > output/P3_NATIVE_COMPLETED_DEPTH_EXACT_SOURCE_PATCH.diff
+          test -s output/P3_NATIVE_COMPLETED_DEPTH_EXACT_SOURCE_PATCH.diff
+          cp /tmp/C3X_014_SF16_completion/Copying.txt output/Stockfish_GPLv3.txt
+          make -s -C /tmp/C3X_014_SF16_completion/src -j2 build ARCH=x86-64
+          cp /tmp/C3X_014_SF16_completion/src/stockfish /tmp/C3X_014_SF16_completion_bin
+          sha256sum /tmp/C3X_014_SF16_completion_bin > output/P3_SF16_Native_Completion_Binary_SHA256.txt
+      - name: Observe actual bestThread completedDepth and rootDepth for all 16 games
+        run: |
+          python harness/c3x_014_native_completed_depth_vs_pv_internal_p3.py --stress-parent stress-parent/P2_POST_DISCOVERY_NODE_CAP_ORDER_HASH_PANEL.json --native-binary /tmp/C3X_014_SF16_completion_bin --out output/P3_SOURCE_NATIVE_COMPLETED_DEPTH_VS_PV.json
+          python - <<'PY'
+          import json
+          x=json.load(open('output/P3_SOURCE_NATIVE_COMPLETED_DEPTH_VS_PV.json'))
+          assert x['one_formal_stage']=='C3X 0.14'
+          assert x['engine_runs']==64 and x['source_games']==16
+          assert x['cold_pair_equal_out_of32']==32
+          assert x['exact_same_parent_stress_uci_output_count_out_of64']==64
+          assert x['no_chess_concept_inference']
+          print('C3X014_NATIVE_COMPLETED_DEPTH_ACTUAL_SOURCE_COURT_PASS')
+          PY
+      - name: Preserve full source and result, no bot commits
+        if: always()
+        run: |
+          cp tools/c3x_014_patch_native_completed_depth_probe.py output/P3_POST_SEARCH_SOURCE_PATCHER.py
+          cp harness/c3x_014_native_completed_depth_vs_pv_internal_p3.py output/P3_NATIVE_COMPLETION_AUDIT_CODE.py
+          cp c3x/ontology/c3x-014-budget-depth-explanation-internal-p3-precommit.md output/P3_FROZEN_AND_ADDED_METHODS.md
+          cp stress-parent/P2_POST_DISCOVERY_NODE_CAP_ORDER_HASH_PANEL.json output/P2_SOURCE_NODE_CAP_PARENT_RAW.json
+          printf '%s\n' 'Native Stockfish16 completedDepth, unlike UCI two-PV latest info depth, is assigned only after noninterrupted iteration. C3X 0.14 same stage; no strategic causal promotion.' > output/NATIVE_SOURCE_CEILING.txt
+          find output -maxdepth 1 -type f ! -name 'P3_manifest_sha256.txt' -print0 | sort -z | xargs -0 sha256sum > output/P3_manifest_sha256.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x-014-instage-native-SF16-true-completed-depth
+          path: output/
+          if-no-files-found: error
+          retention-days: 90
