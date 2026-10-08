@@ -73,7 +73,7 @@ def admitted_certificates(paths:list[str],manifest_path:Path|None=None)->list[di
         except (UnicodeError,json.JSONDecodeError) as exc:
             raise ValueError("INVALID_CAUSAL_CERTIFICATE_JSON") from exc
         ids=[z.get("certificate_id") for z in records]
-        if (len(ids)!=len(set(ids)) or sorted(ids)!=sorted(item["certificate_ids"])
+        if (any(not isinstance(i,str) or not i for i in ids) or len(ids)!=len(set(ids))\n            or sorted(ids)!=sorted(item["certificate_ids"])
             or any(z.get("scientific_stage")!=item["scientific_stage"] for z in records)):
             raise ValueError("CAUSAL_CERTIFICATE_MANIFEST_IDENTITY_MISMATCH")
         out.extend(records)
