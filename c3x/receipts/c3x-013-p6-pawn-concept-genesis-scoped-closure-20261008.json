@@ -1,0 +1,107 @@
+{
+  "schema": "c3x-013-p6-scoped-scientific-court-v1",
+  "date": "2026-10-08",
+  "stage": "C3X 0.13 P6",
+  "status": "CLOSED_SCOPED_HOLD",
+  "verdict": "PAWN_CONCEPT_BIRTH_GEOMETRY_EXACT__STRATEGIC_PREFERENCE_MEDIATOR_UNIDENTIFIED__ROOT_SUPPORT_FAILURE",
+  "mathematical_results": {
+    "isolation": "sum over own pawn files f of n_f times indicator that adjacent own pawn files f-1 and f+1 are empty; counts doubled isolated pawns separately",
+    "passed": "each own pawn is passed iff no enemy pawn lies strictly forward in its own and adjacent files; equivalently WHITE rank>=max enemy rank; BLACK rank<=min enemy rank",
+    "quiet_push_lemma": "noncapturing, nonpromoting pawn pushes preserve own isolation, may increase own and opponent passed counts but cannot decrease either in the fixed-replay step; promotion excluded",
+    "genesis": "persistent pawn passes iff exact opposing forward blocker set changes nonempty -> empty",
+    "identifiability": "one rank-1 root contrast co-toggling nuisance predicates cannot isolate the passed-pawn or isolated-pawn contribution"
+  },
+  "real_runs": {
+    "legal_synthetic_pawn_roots": {
+      "run": 37723043444,
+      "tests_passed": 10,
+      "engine": "Stockfish 16",
+      "depths": [
+        8,
+        12,
+        16
+      ],
+      "passed_boundary_cp": [
+        -345,
+        -538,
+        -595
+      ],
+      "isolation_capture_cp": [
+        70,
+        140,
+        124
+      ],
+      "exact_repeats": true
+    },
+    "nuisance_gate": {
+      "run": 37723228468,
+      "both_fixtures": "CONFOUNDED_CONCEPT_HOLD",
+      "drive": "https://drive.google.com/file/d/1cccrBSsobC1EN5oPsIZOPRjUFjVRZKxE/view",
+      "sha256": "36cbdf820c4dc9e2078e0b00e34c962395cf0f3a72bc714bc3c61a91a7fb4e78"
+    },
+    "game_trajectories": {
+      "run": 37723344181,
+      "frozen_broadcast_groups": 16,
+      "legal_games": 15,
+      "source_hold_960": 1,
+      "quiet_nonpromoting_pushes": 210,
+      "own_passed_activation_pushes": 0,
+      "opponent_passed_activation_pushes": 1,
+      "invariance_violations": 0,
+      "late_ply80_any_passed": "5/5 surviving games, duration selection caution",
+      "drive": "https://drive.google.com/file/d/1nxKMnJi4PYIVvbn2FAk8d5ZucYDCYiKv/view",
+      "sha256": "42a6e2c17bad11c429b3611d101dc72dc0b68f07894298a68dcc9bea982bfde1"
+    },
+    "exact_birth_events": {
+      "run": 37723540768,
+      "total_pawn_births": 19,
+      "birth_bearing_groups": 9,
+      "classes": {
+        "blocker_captured": 10,
+        "mixed_capture_advance": 5,
+        "opponent_blocker_moved": 2,
+        "pawn_advanced_threshold": 2
+      },
+      "drive": "https://drive.google.com/file/d/1loZIg8QVeG7qt8M3xevBZTESPaRdFGQi/view",
+      "sha256": "74c258e49c0ea02704a81513a4c6b78ee612f5aaa17562e3bd65fc4e53ca4fed"
+    },
+    "rival_support": {
+      "run": 37723713140,
+      "first_birth_event_groups": 9,
+      "strict_legal_alternative_groups": 1,
+      "no_matched_alternative_groups": 8,
+      "no_birth_groups": 6,
+      "source_hold_groups": 1,
+      "drive": "https://drive.google.com/file/d/1U9MF5TnTrxp6adqhS77wh1ZK1oAn1yvL/view",
+      "sha256": "f8936b723e8d966f69180221aa99cb98d76486fc9dc4bf3eafc072badda4cc00"
+    },
+    "real_game_one_pair": {
+      "run": 37723893776,
+      "fen": "1r3nk1/1pp1bqp1/6pp/p7/3PNQ2/2P4P/PP3PP1/4RRK1 w - - 0 27",
+      "pair": [
+        "f4c7",
+        "f4h6"
+      ],
+      "engine": "Stockfish 16",
+      "depths": [
+        8,
+        12,
+        16
+      ],
+      "white_move_a_minus_b_cp": [
+        1201,
+        1085,
+        1082
+      ],
+      "same_cp_repeated": true,
+      "all_depth_marginality_under50": false,
+      "adverse_PV": "After Qxh6, black pawn g7h6 legally takes the white queen",
+      "drive": "https://drive.google.com/file/d/1gBylYh9YvRjf6kiHiu8Z884RBuhsYjUD/view",
+      "sha256": "4d55b10dc664c1cc3b09309745295e0d760ebf67ee2b7a9527d47ae81183443b"
+    }
+  },
+  "source_ownership": "Same frozen 16 Lichess broadcast group sample as P5. Later full-game tracking was development after observing ply32 passed-pawn paucity. Multiple plies/events per game are NOT independent replications.",
+  "claim_ceiling": "Mathematical pawn-feature invariants plus descriptive exact chess legal replay and measured Stockfish ranking; no unique strategic mechanism, no near-equal natural-event root pair, no cross-engine/budget causal transport, no actual human utility",
+  "preserved": "C3X 0.12 CLOSED_SCOPED_HOLD, P16 local-only, P23 FAIL, P24/P25 HOLD, Q0 DENIED, P5 concept preference HOLD and I8 human utility HOLD",
+  "next_stage": "C3X 0.13 P7 tactical recapture equivalence filter opened, not C3X 0.14."
+}
