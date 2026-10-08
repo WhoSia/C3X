@@ -1,0 +1,193 @@
+{
+  "schema": "c3x-014-single-main-TT-return-surgical-event-and-rival-search-path-court-v1",
+  "date_kst": "2026-10-09",
+  "formal_research_unit": "C3X 0.14 — Transportable Search-Mechanism Evidence, Chess-Concept Mediation & Faithful Explanation Systems",
+  "status": "C3X_0_14_OPEN__SINGLE_TT_RETURN_LOCAL_CAUSAL_RESPONSE_PASS__RIVAL_PATH_AGGREGATE_OBSERVED__SEPARATE_MEDIATOR_AND_CHESS_CAUSALITY_HOLD",
+  "single_research_unit_governance": "P1/P2/P3/Pn refer ONLY to internal work checkpoints within C3X 0.14, not formal stages, separate Lab files or independent Notion pages.",
+  "existing_single_notion_lab": "3c4ef561-cf92-817a-b76b-cab15e7d1faf",
+  "precommitted_protocol": "c3x/ontology/c3x-014-single-main-tt-return-and-search-path-rivals-precommit.md",
+  "software": {
+    "sf16_upstream_commit": "68e1e9b3811e16cad014b590d7443b9063b3eb52",
+    "native_source_patch": "tools/c3x_014_native_one_main_event_mechanism_patch.py",
+    "actual_engine_harness": "harness/c3x_014_single_TT_event_pathway_court.py",
+    "source_only_legal_world_cohort_SHA256": "0080f4f108471137f8d9d0908e3c879e33351ad8bdd4fbf0fdda83d47f6075b2",
+    "modes": [
+      "CLEAN original source",
+      "EP9 observational OFF sham",
+      "ONE_MAIN one earliest actual main TT bound return suppressed",
+      "MAIN entire family of main TT bound returns suppressed"
+    ],
+    "native_event_site": "The existing SF16 nonPV main-search early TT return under original depth/bound, ttValue and rule50<90 conditions. ONE_MAIN only blocks the first actual would-return event; quiet history adjustments executed before return are retained; TT probes, ttMove ordering, NNUE and other returns are not globally disabled.",
+    "native_event_identity": [
+      "pos.key() 64bit",
+      "ss->ply",
+      "search depth",
+      "TTEntry bound",
+      "TT value",
+      "beta"
+    ],
+    "passive_provenance_channels": [
+      "main TT probes and hits",
+      "MovePicker nonzero TT-move input",
+      "LMR branch count and reduced-depth count",
+      "quiet and continuation history update calls",
+      "main evaluate(pos) call sites as proxy for NNUE static evaluation, not direct NNUE internal operation count",
+      "TT cached static evaluation read",
+      "ordinary main alpha-beta move cutoff counts",
+      "terminal main TT write count",
+      "source-native Stockfish Thread::completedDepth",
+      "UCI node report and exact cp/bound/mate"
+    ],
+    "producer_limit": "Per-event transposition key and consumer-return context observed. The exact insertion/replacement producer for that eventual TT entry is NOT traced in this run. Next should instrument TTEntry::save and replacement lineage under a separately frozen source-specific watch without overclaiming a match."
+  },
+  "source_population": {
+    "official_source": "TCEC official Season29 Superfinal, 16 already studied development source groups; only 14 with both legally reached source-world and concept-preserving comparison",
+    "game_groups": 14,
+    "per_source_worlds": [
+      "PLAYED_HISTORY",
+      "CONCEPT_SHAM_HISTORY"
+    ],
+    "full_legal_18ply_history_pinned": true,
+    "same_chess_board_pawn_concept_and_game_history_per_tt_intervention": true,
+    "different_black_move_alternatives_between_worlds_not_independent_games": true,
+    "P1_procedurally_sealed_four_games_accessed": false,
+    "fresh_independent_chess_ecosystem": false
+  },
+  "native_court": {
+    "run_id": 37812752876,
+    "url": "https://github.com/WhoSia/C3X/actions/runs/37812752876",
+    "conclusion": "SUCCESS",
+    "source_worlds": 28,
+    "cold_restarts_per_source_world": 2,
+    "actual_native_engine_process_count": 224,
+    "world_cold_cases": 56,
+    "observational_clean_vs_ep9_off_sham_exact": "56/56",
+    "all_arms_cold_output_and_counter_repeats": "28/28",
+    "surgical_ONE_MAIN_blocked_exactly_one_would_return_event_in_every_trial": "56/56",
+    "source_worlds_first_cold_ONE_MAIN_changes_signed_cp_gap": "17/28",
+    "source_worlds_first_cold_ONE_MAIN_root_bestmove_label_changed": "3/28",
+    "source_worlds_first_cold_MAIN_family_root_bestmove_label_changed": "3/28",
+    "source_worlds_first_cold_ONE_MAIN_strict_nonzero_white_cp_gap_sign_inversion": "2/28",
+    "source_worlds_first_cold_MAIN_strict_nonzero_white_cp_gap_sign_inversion": "3/28",
+    "same_exact_ONE_MAIN_vs_MAIN_candidate_gap_shift_in_first_cold_worlds": "0/28",
+    "source_game_pairs_same_FIRST_early_tt_return_key": "0/14",
+    "first_key_comparison_note": "The black last-move differs across compared chess worlds, so a different Zobrist and first encountered transposition key is expected and is NOT extraordinary evidence of a previously unknown search effect.",
+    "same_chess_position_one_return_local_program_effect": "PASS conditional on exact pinned SF16 and experiment configuration, with valid nonintervention sham",
+    "causation_for_distinct_rival_path_counters": "NOT identified; counting downstream events does not isolate each causal mediator",
+    "examples": [
+      {
+        "round": "12.1",
+        "world": "PLAYED_HISTORY",
+        "white_gap_off_one_main_cp": [
+          -8,
+          0,
+          3
+        ],
+        "ONE_MAIN_label_flipped": true,
+        "MAIN_label_flipped": true,
+        "ONE_MAIN_strict_nonzero_inversion": false,
+        "comment": "Tied cp candidate gap after one event, not strict sign inversion."
+      },
+      {
+        "round": "13.1",
+        "world": "PLAYED_HISTORY",
+        "white_gap_off_one_main_cp": [
+          1,
+          -8,
+          3
+        ],
+        "ONE_MAIN_label_flipped": true,
+        "MAIN_label_flipped": false,
+        "ONE_MAIN_strict_nonzero_inversion": true,
+        "comment": "One-return blocking reverses score; all-return blocking leaves original strict direction."
+      },
+      {
+        "round": "67.1",
+        "world": "CONCEPT_SHAM_HISTORY",
+        "white_gap_off_one_main_cp": [
+          -13,
+          3,
+          4
+        ],
+        "ONE_MAIN_label_flipped": true,
+        "MAIN_label_flipped": true,
+        "ONE_MAIN_strict_nonzero_inversion": true
+      },
+      {
+        "round": "8.1",
+        "world": "CONCEPT_SHAM_HISTORY",
+        "ONE_MAIN_label_flipped": false,
+        "MAIN_label_flipped": true,
+        "comment": "Family-wide blocking can change choice when first one-event blocking does not."
+      }
+    ],
+    "paths_changed_by_one_tt_return_under_28_first_cold_worlds": {
+      "main_tt_move_supplied_to_MovePicker": "23/28",
+      "LMR_branches_invoked": "18/28",
+      "LMR_reduction_cases": "18/28",
+      "quiet_history_updates": "19/28",
+      "continuation_history_updates": "23/28",
+      "main_evaluate_pos_function_calls": "17/28",
+      "TT_cached_static_eval_reads": "28/28",
+      "regular_alpha_beta_move_cutoffs": "23/28",
+      "terminal_main_tt_saves": "24/28"
+    },
+    "root_output_and_mechanism_counters_limitation": "All counter changes are descriptive potential mediating path responses; no independent factorial randomization of LMR, history, TT insertion, move ordering, NNUE or alpha-beta. Different search node work can occur despite requested depth12 fixed."
+  },
+  "failed_run_and_repair_transparency": [
+    {
+      "run_id": 37812176461,
+      "failed": "C++ source logger output adjacency anchor forgot native completedDepth line; corrected exact anchor, no experiment-selection change."
+    },
+    {
+      "run_id": 37812277513,
+      "failed": "Quiet and continuation history SF16 function declaration whitespace anchor wrong; original upstream file consulted, corrected anchors."
+    },
+    {
+      "run_id": 37812380263,
+      "failed": "All 224 engine processes measured, but Python last aggregate reused argparse Namespace name a for dict, failed before JSON receipt saved; renamed local variables, entire grid replayed."
+    }
+  ],
+  "typed_evidence_compiler": {
+    "code": "harness/c3x_014_single_TT_event_evidence_claim_compiler.py",
+    "run_id": 37813276100,
+    "url": "https://github.com/WhoSia/C3X/actions/runs/37813276100",
+    "result": "SUCCESS",
+    "legally_reached_source_grounded_Korean_explanations": 28,
+    "actual_machine_ledger_sha256": "14e1063c86737be040b9900e9a96203e7d93089542daed180d0216d4f3cb03ed",
+    "tamper_falsifiers_passed": "5/5",
+    "falsifiers": [
+      "unsupported claim that single-return implies chess-concept mediation",
+      "ONE_MAIN more than exactly one blocked return",
+      "illegal full game history",
+      "forged root cp ranking/score",
+      "false pawn-feature vector preservation"
+    ],
+    "separate_mechanism_causal_certificates": 0,
+    "chess_strategy_concept_causal_certificates": 0,
+    "human_explanation_learning_effect_certificates": 0
+  },
+  "data_provenance": {
+    "existing_C3X_drive_evidence_folder": "1ehjBFtuBYo7WQdfHvQDkVxVmQRZow9h_",
+    "native_actual_complete_raw": {
+      "github_workflow_artifact_id": 11565094771,
+      "github_artifact_sha256": "b5489e856c1c5dd88092947610890c11cf0fd1e455ba2737bd7c755000996fa4",
+      "Drive_file_id": "1t4uOcqIkUSoia22inw7kVwPDBPT6b77b",
+      "Drive_url": "https://drive.google.com/file/d/1t4uOcqIkUSoia22inw7kVwPDBPT6b77b/view",
+      "panel_JSON_SHA256": "afd48ceb040668c53609d8d5bd78d7a9b781243044cd4187a87896929ef0dd6b",
+      "internal_files_manifest": "12/12 PASS"
+    },
+    "typed_evidence_product": {
+      "github_workflow_artifact_id": 11565822159,
+      "github_artifact_sha256": "b431f83a55a31bbe5aeda45786f54cb3bf7fb7f110661f355ca3921398d9597f",
+      "Drive_file_id": "1M0A9TvowOKn0exCfWeCf8vkk85fhi9Ux",
+      "Drive_url": "https://drive.google.com/file/d/1M0A9TvowOKn0exCfWeCf8vkk85fhi9Ux/view",
+      "ledger_SHA256": "14e1063c86737be040b9900e9a96203e7d93089542daed180d0216d4f3cb03ed",
+      "internal_files_manifest": "8/8 PASS"
+    },
+    "Drive_redownload_zip_sha_equals_original_for_both": true,
+    "artifacts_include_original_cpp_diff_native_bin_hashes_and_Stockfish_GPL": true
+  },
+  "next_target": "Still inside C3X 0.14: now isolate provenance of single consumed TT entry by watching TTEntry insertion/update at the exact same key/slot and original producer context. Disentangle quiet pre-return history side effect and LMR/order/NNUE/alpha-beta with fresh source-pinned orthogonal local controls, not regress counts into independent causes. Later only independently preregister source/provider + engine transport, then board-feature exclusion-validated mediation and human explanation fidelity.",
+  "governance_note": "Only WhoSia human-authored GitHub commits; GitHub Actions read-only artifact runners. One existing Notion C3X Lab page, no new child, four P1 holdout games still unopened."
+}
