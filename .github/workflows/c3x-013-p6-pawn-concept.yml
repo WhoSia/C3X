@@ -5,6 +5,8 @@ on:
       - '.github/workflows/c3x-013-p6-pawn-concept.yml'
       - 'tests/test_c3x_013_p6_pawn_geometry.py'
       - 'harness/c3x_013_p6_legal_pawn_concept_engine.py'
+      - 'harness/c3x_013_p6_identifiability_gate.py'
+      - 'c3x/ontology/c3x-013-p6-intervention-identifiability-and-feature-fibers.md'
       - 'c3x/ontology/c3x-013-p6-pawn-concept-geometry-mathematical-precommit.md'
   workflow_dispatch:
 permissions:
@@ -47,12 +49,26 @@ jobs:
           assert all(len(r['measurements'])==3 for r in x['results'])
           print('P6_REAL_ENGINE_ONLY_SCIENTIFIC_CAUSAL_HOLD')
           PY
+      - name: Adjudicate co-toggled chess concepts and block unique causal mediator claims
+        run: |
+          python3 harness/c3x_013_p6_identifiability_gate.py --raw output/p6_legal_pawn_engine_observations.json --out output/p6_feature_identifiability_verdict.json
+          python3 - <<'PY'
+          import json
+          x=json.load(open("output/p6_feature_identifiability_verdict.json"))
+          assert x["all_holds"] is True
+          assert len(x["rows"])==2
+          assert not x["unique_concept_mediator_certificates"]
+          assert all(len(r["nuisance_deltas"])>=1 for r in x["rows"])
+          print("P6_CONFOUNDING_FIREWALL_PASS")
+          PY
       - name: Preserve preregistered source and executable proof
         if: always()
         run: |
           mkdir -p output
           cp harness/c3x_013_p6_legal_pawn_concept_engine.py output/exact_engine_harness.py
           cp tests/test_c3x_013_p6_pawn_geometry.py output/chess_rule_test_source.py
+          cp harness/c3x_013_p6_identifiability_gate.py output/identifiability_gate_code.py
+          cp c3x/ontology/c3x-013-p6-intervention-identifiability-and-feature-fibers.md output/identifiability_precommit.md
           cp c3x/ontology/c3x-013-p6-pawn-concept-geometry-mathematical-precommit.md output/mathematical_precommit.md
           sha256sum output/* > output/integrity_sha256.txt
       - name: Upload raw evidence, including failed experiments
