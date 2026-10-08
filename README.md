@@ -20,6 +20,18 @@ evidence-carrying explanation
 
 C3X does **not** equate engine strength, Stockfish agreement, search depth, probe accuracy, saliency, or fluent chess language with mechanistic understanding.
 
+## C3X 0.12 current research and custody (2026-10-08)
+
+**Stage:** OPEN / DEVELOPMENT ENGINEERING PASS / SCIENTIFIC REASON IDENTIFICATION HOLD (not a 0.12 scientific PASS). Six pre-outcome source-game worlds from archived provider PGNs: 3/6 cold qualified pairs, 3/3 target/sham board edits measured at post-pilot fixed depth 12 with exact repeats. Cross-budget near-equal support across B0, TARGET and SHAM survived only 1/3, and no unique chess-strategic mediator or cross-engine transport was identified. Non-mainline opponent replies were legal but lexical developer controls, not validated best-response falsifiers.
+
+- [Canonical 0.12 evidence and Drive custody receipt](c3x/receipts/c3x-012-six-source-development-review-20261008.json)
+- [Six-source frozen development seeds](c3x/data/c3x-012-six-source-development-seeds.json)
+- [Read-only Stockfish CI](.github/workflows/c3x-012-six-source-qualification.yml)
+- [Drive verified final evidence archive](https://drive.google.com/file/d/1iUSW8P10DS9KX_Gl4jQIiFSGq5TAtlUk/view)
+- [0.13 formal-name proposal only — NOT OPENED](c3x/ontology/c3x-013-formal-name-proposal-only.md)
+
+Explain I9 commentary is a separate Track B implementation (37 recent regression tests PASS); it cannot upgrade chess-science authority. P23 FAIL, P24/P25 HOLD, Q0 DENIED unchanged. No bot-authored commits or CI writeback permitted.
+
 ## Current scientific frontier
 
 **G9.5** is now returning the mechanism programme to C3X's founding chess question: explaining marginal preference between near-equal legal moves.
