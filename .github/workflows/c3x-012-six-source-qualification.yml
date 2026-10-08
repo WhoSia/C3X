@@ -65,6 +65,16 @@ jobs:
           assert d['claim_authority'] is False
           print('DEVELOPMENT_ONLY_LEGAL_OPPONENT_REPLY_BANK_PASS',d['counts'])
           PY
+      - name: Preserve source frozen before outcome and executable revision
+        if: always()
+        run: |
+          mkdir -p output
+          cp c3x/data/c3x-012-six-source-development-seeds.json output/frozen_six_source_development_seeds.json
+          cp c3x/ontology/c3x-012-post-pilot-depth-regime-revision.md output/post_pilot_regime_revision.md
+          cp harness/c3x_012_six_source_qualify.py output/frozen_qualification_code.py
+          cp harness/c3x_012_six_source_board_edits.py output/frozen_board_edit_code.py
+          cp harness/c3x_012_alternative_reply_probe.py output/frozen_reply_probe_code.py
+          sha256sum output/* > output/artifact_contents_sha256.txt
       - name: Upload source-scoped audit, even if a source fails
         if: always()
         uses: actions/upload-artifact@v4
