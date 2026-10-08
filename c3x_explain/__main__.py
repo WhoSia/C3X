@@ -59,6 +59,7 @@ def main()->None:
     ap.add_argument("--nodes",type=int,default=20000)
     ap.add_argument("--certificate",action="append",default=[])
     ap.add_argument("--susceptibility",action="append",default=[],help="Transparent admissibility packet JSON")
+    ap.add_argument("--ep8-observation",action="append",default=[],help="P8 EP8 descriptive engine panel; never a causal certificate")
     ap.add_argument("--json-out",required=True)
     ap.add_argument("--markdown-out")
     a=ap.parse_args()
@@ -67,9 +68,10 @@ def main()->None:
     # Direct library calls retain historical fixture compatibility, not 0.12 authority.
     certs=admitted_certificates(a.certificate)
     packets=load_packets(a.susceptibility)
+    ep8=load_packets(a.ep8_observation)
     out=analyze_pgn(
       pgn,engine_path=a.engine,multipv=a.multipv,nodes=a.nodes,
-      certificates=certs,rating_band=a.rating_band,susceptibility_packets=packets
+      certificates=certs,rating_band=a.rating_band,susceptibility_packets=packets,ep8_observation_packets=ep8
     )
     Path(a.json_out).write_text(json.dumps(out,indent=2,ensure_ascii=False)+"\n",encoding="utf-8")
     if a.markdown_out:
