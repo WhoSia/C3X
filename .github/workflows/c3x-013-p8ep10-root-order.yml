@@ -1,0 +1,80 @@
+name: C3X 0.13 P8-EP10 Root Order Permutation Falsifier
+on:
+  push:
+    paths:
+      - '.github/workflows/c3x-013-p8ep10-root-order.yml'
+      - 'tools/c3x_013_p8ep10_patch_single_tt_return.py'
+      - 'harness/c3x_013_p8ep10_root_order_permutation.py'
+      - 'c3x/ontology/c3x-013-p8ep10-root-order-permutation-falsifier-precommit.md'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  stockfish16-single-early-return:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install exact chess rules and source build prerequisites
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq make g++ git curl
+          python -m pip install --disable-pip-version-check chess==1.11.2
+          python -m py_compile tools/c3x_013_p8ep9_patch_sf16_cutoffs.py tools/c3x_013_p8ep10_patch_single_tt_return.py harness/c3x_013_p8ep10_single_event_fixed_grid.py harness/c3x_013_p8ep10_root_order_permutation.py
+          mkdir -p output
+      - name: Resolve frozen sf16 and construct EP9 and EP10 same-source arms
+        run: |
+          git clone -q --branch sf_16 --single-branch https://github.com/official-stockfish/Stockfish.git /tmp/ep10_ep9
+          test "$(git -C /tmp/ep10_ep9 rev-parse HEAD)" = "68e1e9b3811e16cad014b590d7443b9063b3eb52"
+          python tools/c3x_013_p8ep9_patch_sf16_cutoffs.py --source /tmp/ep10_ep9 --out-manifest output/EP10_parent_EP9_manifest.json
+          cp -a /tmp/ep10_ep9 /tmp/ep10_one
+          python tools/c3x_013_p8ep10_patch_single_tt_return.py --search-cpp /tmp/ep10_one/src/search.cpp --out-manifest output/EP10_single_event_patch_manifest.json
+          git -C /tmp/ep10_one diff -- src/search.cpp > output/EP10_combined_sf16.patch
+          test -s output/EP10_combined_sf16.patch
+          sha256sum /tmp/ep10_ep9/src/search.cpp /tmp/ep10_one/src/search.cpp > output/EP10_source_sha256.txt
+          cp /tmp/ep10_ep9/Copying.txt output/Stockfish_GPLv3.txt
+      - name: Compile independently patched Stockfish binaries
+        run: |
+          make -s -C /tmp/ep10_ep9/src -j2 build ARCH=x86-64
+          cp /tmp/ep10_ep9/src/nn-*.nnue /tmp/ep10_one/src/ 2>/dev/null || true
+          make -s -C /tmp/ep10_one/src -j2 build ARCH=x86-64
+          cp /tmp/ep10_ep9/src/stockfish /tmp/ep10_ep9_bin
+          cp /tmp/ep10_one/src/stockfish /tmp/ep10_one_bin
+          sha256sum /tmp/ep10_ep9_bin /tmp/ep10_one_bin > output/EP10_binary_sha256.txt
+          printf 'uci\nquit\n' | /tmp/ep10_ep9_bin > output/EP10_parent_uci_identity.txt
+          printf 'uci\nquit\n' | /tmp/ep10_one_bin > output/EP10_event_uci_identity.txt
+      - name: Test same-position source-native ordinal under reversed legal candidate ordering
+        run: |
+          python harness/c3x_013_p8ep10_root_order_permutation.py --ep9 /tmp/ep10_ep9_bin --ep10 /tmp/ep10_one_bin --out output/EP10_root_order_falsifier.json
+          python - <<'PY'
+          import json
+          r=json.load(open('output/EP10_root_order_falsifier.json'))
+          assert r['schema']=='c3x-013-p8ep10-root-order-permutation-falsifier-v1'
+          assert r['all_shams_and_sentinels_exact']
+          assert len(r['cells'])==8
+          assert len(r['fixed_targets'])==4
+          assert r['event_ordinal_identity_not_proven_even_if_tuple_matches']
+          assert not r['causal_chess_concept_certificate']
+          assert r['C3X_014']=='UNOPENED_UNNAMED'
+          print('EP10_ORDER_FALSIFIER_FIREWALL_PASS')
+          PY
+      - name: Preserve entire science record without repository writes
+        if: always()
+        run: |
+          mkdir -p output
+          cp tools/c3x_013_p8ep10_patch_single_tt_return.py output/EP10_exact_patch.py
+          cp harness/c3x_013_p8ep10_single_event_fixed_grid.py output/EP10_driver.py
+          cp harness/c3x_013_p8ep10_root_order_permutation.py output/EP10_order_driver.py
+          cp c3x/ontology/c3x-013-p8ep10-root-order-permutation-falsifier-precommit.md output/EP10_PRECOMMIT.md
+          printf '%s\n' 'Only one deterministic SF16 TT early-return EXECUTION OCCURRENCE may be blocked. Frozen development set; no chess-strategic explanation or independent replication.' > output/EP10_AUTHORITY.txt
+          find output -maxdepth 1 -type f ! -name 'EP10_member_sha256.txt' -print0 | sort -z | xargs -0 sha256sum > output/EP10_member_sha256.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x-013-p8ep10-root-order-falsifier
+          path: output/
+          if-no-files-found: error
+          retention-days: 90
