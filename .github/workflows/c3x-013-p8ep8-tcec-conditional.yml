@@ -1,0 +1,71 @@
+name: C3X 0.13 P8-EP8 Frozen TCEC Conditional Engine Observation
+on:
+  push:
+    paths:
+      - '.github/workflows/c3x-013-p8ep8-tcec-conditional.yml'
+      - 'harness/c3x_013_p8ep8_tcec_conditional_uci.py'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  tcec-two-engine-conditional-replies:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install chess library and Stockfish
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq stockfish git build-essential
+          python -m pip install --disable-pip-version-check chess==1.11.2
+      - name: Build historical Ethereal classical implementation
+        run: |
+          mkdir -p output
+          git clone -q https://github.com/AndyGrant/Ethereal.git /tmp/c3x-ep8-ethereal
+          git -C /tmp/c3x-ep8-ethereal checkout -q 0e47e9b67f345c75eb965d9fb3e2493b6a11d09a
+          test "$(git -C /tmp/c3x-ep8-ethereal rev-parse HEAD)" = 0e47e9b67f345c75eb965d9fb3e2493b6a11d09a
+          make -s -C /tmp/c3x-ep8-ethereal/src basic CC=gcc
+          cp /tmp/c3x-ep8-ethereal/LICENSE output/Ethereal_GPLv3.txt
+      - name: Verify legal exact-FEN confluence before scoring
+        env:
+          PYTHONPATH: .
+        run: |
+          python - <<'PY'
+          from harness.c3x_013_p8ep8_tcec_conditional_uci import worlds
+          w=worlds()
+          assert len(w)==2
+          print('EP8_LEGAL_CONFLUENCE_VERIFIED')
+          PY
+      - name: Run genuine frozen UCI two-engine depth panel
+        run: |
+          python harness/c3x_013_p8ep8_tcec_conditional_uci.py --stockfish /usr/games/stockfish --ethereal /tmp/c3x-ep8-ethereal/src/Ethereal --output output/ep8_tcec_conditional.json
+          python - <<'PY'
+          import json
+          r=json.load(open('output/ep8_tcec_conditional.json'))
+          assert r['source_events']==1
+          assert r['scientific_status']=='DEVELOPMENTAL_ENGINE_OBSERVATION_NOT_CAUSAL'
+          assert len(r['engines'])==2
+          for x in r['engines'].values():
+              assert sorted(x['depths'])==['12','16','8']
+              for d in x['depths'].values():
+                  assert len(d['trials'])==2
+                  assert all(set(t)=={'a','b'} for t in d['trials'])
+          print('EP8_NO_CAUSAL_PROMOTION')
+          PY
+      - name: Preserve provenance and source hashes
+        if: always()
+        run: |
+          mkdir -p output
+          cp harness/c3x_013_p8ep8_tcec_conditional_uci.py output/EP8_source.py
+          printf '%s\n' 'Ethereal commit 0e47e9b67f345c75eb965d9fb3e2493b6a11d09a; Stockfish from runner apt. Source PGN: TCEC S30 Playoff Cat 2 through Lichess broadcasts CC BY-SA 4.0. No concept causality claimed.' > output/provenance.txt
+          sha256sum output/* > output/member_sha256.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x-013-p8ep8-tcec-conditional-two-engine
+          path: output/
+          if-no-files-found: error
+          retention-days: 90
