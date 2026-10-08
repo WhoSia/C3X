@@ -57,6 +57,28 @@ jobs:
               assert record['bestmove'].split()[0] in ('c1e3','c1g5')
               print('REAL_UCI_DATA_COLLECTED_NOT_EXPLANATION',index,len(record['info_lines']))
           PY
+      - name: Validate SQL evidence schema with negative controls
+        run: |
+          python3 - <<'PY'
+          import sqlite3
+          from pathlib import Path
+          db=sqlite3.connect(':memory:')
+          db.executescript(Path('c3x/schema/c3x-012-uci-measurements.sql').read_text())
+          h='0'*64
+          db.execute('INSERT INTO source_world VALUES(?,?,?,?,?)',('fixture','synthetic',h,'SYNTHETIC_FIXTURE','fixture'))
+          params=('r1','fixture','e2e4','d2d4',h,'synthetic',1,8,8,'SIDE_TO_MOVE',12,7,'COMPARABLE_CP')
+          db.execute('INSERT INTO measurement(measurement_id,world_id,move_a,move_b,engine_sha256,uci_id,run_index,requested_depth,emitted_depth,score_perspective,a_cp,b_cp,status) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)',params)
+          assert db.execute('SELECT repeats FROM paired_repeats').fetchone()[0]==1
+          try:
+              db.execute("UPDATE measurement SET explanation_authority=1 WHERE measurement_id='r1'")
+          except sqlite3.IntegrityError: pass
+          else: raise AssertionError('EXPLANATION_AUTHORITY_PROMOTION_WAS_NOT_BLOCKED')
+          try:
+              db.execute("UPDATE measurement SET emitted_depth=7 WHERE measurement_id='r1'")
+          except sqlite3.IntegrityError: pass
+          else: raise AssertionError('DEPTH_MISMATCH_WAS_NOT_BLOCKED')
+          print('SYNTHETIC_SQL_CONSTRAINTS_PASS')
+          PY
       - name: Upload read-only real-engine execution artifacts
         if: always()
         uses: actions/upload-artifact@v4
