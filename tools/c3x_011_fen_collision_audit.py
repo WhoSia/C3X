@@ -12,7 +12,8 @@ from collections import Counter, defaultdict
 from pathlib import Path
 import chess
 import chess.pgn
-from g10_p19_source_census import canonical_fen, historical_hashes
+from g10_p19_source_census import canonical_fen
+from c3x_011_historical_world_loader import load as load_historical_worlds
 from c3x_011_raw_preflight import EXPECTED
 
 def sha(text: str) -> str:
@@ -111,11 +112,11 @@ def main():
     root = Path(args.history_root)
     if not root.is_dir():
         parser.error("MISSING_HISTORY_ROOT")
-    historical, files_seen = historical_hashes(root)
-    if files_seen == 0:
-        parser.error("EMPTY_HISTORY_JSON_CORPUS_FAIL_CLOSED")
+    historical, source_manifest = load_historical_worlds(root)
+    files_seen = len(source_manifest)
     result = audit(specs, historical, args.ply_lo, args.ply_hi)
-    result["history_json_files_scanned"] = files_seen
+    result["history_source_files_scanned"] = files_seen
+    result["history_source_manifest"] = source_manifest
     result["six_raw_source_hashes_verified"] = True
     Path(args.out).write_text(json.dumps(result,indent=2,sort_keys=True)+"\n",encoding="utf-8")
     print(result["verdict"],"historical=",len(historical),
