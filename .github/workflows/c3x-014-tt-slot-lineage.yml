@@ -1,0 +1,106 @@
+name: C3X 0.14 Native TT Physical Slot Producer–Consumer Court
+on:
+  push:
+    paths:
+      - '.github/workflows/c3x-014-tt-slot-lineage.yml'
+      - 'tools/c3x_014_native_TT_slot_lineage_patch.py'
+      - 'harness/c3x_014_native_TT_slot_lineage_court.py'
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  pinned-sf16-tt-slot-source-custody:
+    runs-on: ubuntu-latest
+    timeout-minutes: 38
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install C++ and pinned chess prerequisites
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq make g++ git
+          python -m pip install --disable-pip-version-check chess==1.11.2
+          python -m py_compile tools/c3x_014_native_TT_slot_lineage_patch.py harness/c3x_014_native_TT_slot_lineage_court.py harness/c3x_014_single_TT_event_pathway_court.py
+          mkdir -p output source-only parent-real
+      - uses: actions/download-artifact@v4
+        with:
+          name: c3x-014-legal-historical-chess-concept-worlds-source-only
+          path: source-only/
+          repository: WhoSia/C3X
+          run-id: '37809811541'
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: c3x-014-single-native-TT-event-provenance-mechanism-court
+          path: parent-real/
+          repository: WhoSia/C3X
+          run-id: '37812752876'
+          github-token: ${{ github.token }}
+      - name: Verify both original immutable scientific sources before compiling
+        run: |
+          printf '%s  %s\n' '0080f4f108471137f8d9d0908e3c879e33351ad8bdd4fbf0fdda83d47f6075b2' 'source-only/C3X014_LEGAL_CONCEPT_WORLDS_SOURCE_FROZEN.json' | sha256sum -c -
+          printf '%s  %s\n' 'afd48ceb040668c53609d8d5bd78d7a9b781243044cd4187a87896929ef0dd6b' 'parent-real/C3X014_ONE_MAIN_RIVAL_MECHANISM_PANEL.json' | sha256sum -c -
+      - name: Build true original Stockfish16 and provenance sidecar source separately
+        run: |
+          git clone -q --single-branch --branch sf_16 https://github.com/official-stockfish/Stockfish.git /tmp/C3X014_TT_prov_original
+          test "$(git -C /tmp/C3X014_TT_prov_original rev-parse HEAD)" = "68e1e9b3811e16cad014b590d7443b9063b3eb52"
+          cp -a /tmp/C3X014_TT_prov_original /tmp/C3X014_TT_prov_patched
+          python tools/c3x_013_p8ep9_patch_sf16_cutoffs.py --source /tmp/C3X014_TT_prov_patched --out-manifest output/ORIGINAL_EP9_CUTOFF_MASK_MANIFEST.json
+          python tools/c3x_014_patch_native_completed_depth_probe.py --source /tmp/C3X014_TT_prov_patched --out-manifest output/NATIVE_COMPLETED_DEPTH_MANIFEST.json
+          python tools/c3x_014_native_one_main_event_mechanism_patch.py --source /tmp/C3X014_TT_prov_patched --out-manifest output/ONE_MAIN_MECHANISM_MANIFEST.json
+          python tools/c3x_014_native_TT_slot_lineage_patch.py --source /tmp/C3X014_TT_prov_patched --out-manifest output/TT_PHYSICAL_SLOT_LAST_WRITER_PATCH_MANIFEST.json
+          git -C /tmp/C3X014_TT_prov_patched diff -- src/search.cpp src/tt.cpp src/tt.h > output/SF16_EXACT_TT_SLOT_WRITER_SOURCE_PATCH.diff
+          test -s output/SF16_EXACT_TT_SLOT_WRITER_SOURCE_PATCH.diff
+          cp /tmp/C3X014_TT_prov_original/Copying.txt output/Stockfish_GPLv3.txt
+          make -s -C /tmp/C3X014_TT_prov_original/src -j2 build ARCH=x86-64
+          make -s -C /tmp/C3X014_TT_prov_patched/src -j2 build ARCH=x86-64
+          cp /tmp/C3X014_TT_prov_original/src/stockfish /tmp/C3X014_TT_prov_clean_bin
+          cp /tmp/C3X014_TT_prov_patched/src/stockfish /tmp/C3X014_TT_prov_sidecar_bin
+          sha256sum /tmp/C3X014_TT_prov_clean_bin /tmp/C3X014_TT_prov_sidecar_bin > output/SF16_BINARIES_SHA256.txt
+      - name: Smoke test true native full-key writer for first two source worlds
+        run: |
+          python harness/c3x_014_native_TT_slot_lineage_court.py --legal-source source-only/C3X014_LEGAL_CONCEPT_WORLDS_SOURCE_FROZEN.json --original-224-panel parent-real/C3X014_ONE_MAIN_RIVAL_MECHANISM_PANEL.json --clean /tmp/C3X014_TT_prov_clean_bin --lineage-bin /tmp/C3X014_TT_prov_sidecar_bin --smoke --out output/TT_SLOT_LINEAGE_ONE_GROUP_SMOKE.json
+          python - <<'PY'
+          import json
+          r=json.load(open('output/TT_SLOT_LINEAGE_ONE_GROUP_SMOKE.json'))
+          assert r['source_game_groups']==1 and r['legally_reached_worlds']==2
+          assert r['actual_engine_processes']==16 and r['complete_all_four_arms_parent_native_exact_equivalence']==16
+          assert r['all_ONE_MAIN_blocked_exactly_one_return']==4
+          print('C3X014_NATIVE_TT_SLOT_LINEAGE_SMOKE_PASS')
+          PY
+      - name: Full 14 source-group physical writer-to-consumer evidence court
+        run: |
+          python harness/c3x_014_native_TT_slot_lineage_court.py --legal-source source-only/C3X014_LEGAL_CONCEPT_WORLDS_SOURCE_FROZEN.json --original-224-panel parent-real/C3X014_ONE_MAIN_RIVAL_MECHANISM_PANEL.json --clean /tmp/C3X014_TT_prov_clean_bin --lineage-bin /tmp/C3X014_TT_prov_sidecar_bin --out output/TT_SLOT_FULL_KEY_LAST_WRITER_CONSUMER_PANEL.json
+          python - <<'PY'
+          import json
+          x=json.load(open('output/TT_SLOT_FULL_KEY_LAST_WRITER_CONSUMER_PANEL.json'))
+          assert x['formal_research_unit']=='C3X 0.14' and x['internal_checkpoint_only']
+          assert x['source_game_groups']==14 and x['legally_reached_worlds']==28
+          assert x['actual_engine_processes']==224
+          assert x['complete_all_four_arms_parent_native_exact_equivalence']==224
+          assert x['technical_cold_repro_worlds']==28
+          assert x['all_ONE_MAIN_blocked_exactly_one_return']==56
+          assert not x['P1_four_sealed_holdout_groups_opened']
+          assert not x['causal_chess_concept_mediation_certified']
+          print('C3X014_NATIVE_TT_PHYSICAL_WRITER_CONSUMER_COURT_PASS')
+          PY
+      - name: Preserve exact source, null cases, and immutable raw evidence; no bot commits
+        if: always()
+        run: |
+          cp tools/c3x_014_native_TT_slot_lineage_patch.py output/TT_SLOT_WRITER_PATCH_SOURCE.py
+          cp harness/c3x_014_native_TT_slot_lineage_court.py output/TT_PHYSICAL_LINEAGE_TEST_DRIVER.py
+          cp c3x/ontology/c3x-014-tt-producer-consumer-slot-lineage-precommit.md output/TT_LAST_WRITER_SCIENTIFIC_PRECOMMIT.md
+          cp source-only/C3X014_LEGAL_CONCEPT_WORLDS_SOURCE_FROZEN.json output/ORIGINAL_CHESS_WORLD_SOURCE_ONLY.json
+          cp parent-real/C3X014_ONE_MAIN_RIVAL_MECHANISM_PANEL.json output/ORIGINAL_ONE_TT_EVENT_PARENT.json
+          printf '%s\n' 'Physical TT last writer is not full causal ancestry. TTEntry stores only key16, sidecar fullkey fidelity must be sham verified. C3X 0.14 one formal unit, prior-development data only.' > output/SCIENCE_AUTHORITY_LIMITS.txt
+          find output -maxdepth 1 -type f ! -name 'MEMBER_SHA256.txt' -print0 | sort -z | xargs -0 sha256sum > output/MEMBER_SHA256.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x-014-SF16-native-TT-slot-full-writer-consumer-provenance
+          path: output/
+          retention-days: 90
+          if-no-files-found: error
