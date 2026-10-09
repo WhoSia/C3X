@@ -1,0 +1,84 @@
+{
+  "schema": "c3x015-P7-upper-bound-TT-return-score-vs-qsearch-continue-two-world-native-v1",
+  "date_kst": "2026-10-09",
+  "status": "P7_TWO_CASES_24_NATIVE_SOURCE_INTERVENTION_SCOPED_PASS",
+  "original_source": "TWIC 1665 original R2 locked source",
+  "source_sha256": "1e932aa881eaef549c770211c078d930cd8d675e5688644e1bc36ab31bae4534",
+  "original_P2_sha256": "e930f0b489301c656690d09f4821583a28eead04e43382b545bda35b71279256",
+  "original_P6S0_preselected_tt_target_sha256": "0dd412cdfad82ea6b042dd3381e07182f2d4f3e52cd3e83c71004b6ecaed6ee1",
+  "original_P6S1_native_sha256": "c04ee3061835babb846fee54b269617da5ab809dc9efe46c1e6cbe9360fefa11",
+  "run": "https://github.com/WhoSia/C3X/actions/runs/37918227188",
+  "github_artifact_id": 11610777469,
+  "source_patch": "tools/c3x_015_P7_exact_TT_return_alpha_vs_qsearch_continue_patch.py",
+  "runner": "harness/c3x_015_P7_two_world_TT_return_score_vs_qsearch_continue_native.py",
+  "actual_native_search_processes": 24,
+  "distinct_original_chess_game_roots": 2,
+  "distinct_original_TT_targets": 2,
+  "cold_pairs": "12/12",
+  "TT_writer_class": "QSEARCH_TERMINAL",
+  "TT_bound": "UPPER",
+  "reader_alpha": 130,
+  "reader_beta": 131,
+  "reader_ply": 4,
+  "artifact_sha256": "610f0da2d2e3581ba1ac8888dbae7a20d3029577ee2dbe3abc646db5f7997740",
+  "native_result_JSON_sha256": "01ea31dcb1d900925ff38ec3d6d5da4afe63bba6c87eccc2eb8563d9440d8c77",
+  "drive_file_id": "19_RK0ivwWemtKt8FU9EyHDLBQcMUfKD7",
+  "drive_url": "https://drive.google.com/file/d/19_RK0ivwWemtKt8FU9EyHDLBQcMUfKD7/view",
+  "bounded_worlds": [
+    {
+      "ordinal": 2,
+      "p6_preselected_fullkey": "4456240012406920917",
+      "tt_original_return_value": 14,
+      "tt_alpha_return_value": 130,
+      "identity": {
+        "SEE_OFF": "d1e2",
+        "SEE_ON": "d1e2"
+      },
+      "return_alpha": {
+        "SEE_OFF": "d1d2",
+        "SEE_ON": "d1e2"
+      },
+      "block_one": {
+        "SEE_OFF": "d1e2",
+        "SEE_ON": "d1d2"
+      },
+      "binary_response": {
+        "identity": 0,
+        "return_alpha": 1,
+        "block_one": 1
+      },
+      "critical": "Equal binary response under RETURN_ALPHA and BLOCK_ONE conceals which SEE arm's bestmove changed; direct mechanism equivalence invalid."
+    },
+    {
+      "ordinal": 29,
+      "p6_preselected_fullkey": "17758216835838653357",
+      "tt_original_return_value": 29,
+      "tt_alpha_return_value": 130,
+      "identity": {
+        "SEE_OFF": "d1e2",
+        "SEE_ON": "f3e5"
+      },
+      "return_alpha": {
+        "SEE_OFF": "f3e5",
+        "SEE_ON": "f3e5"
+      },
+      "block_one": {
+        "SEE_OFF": "f3e5",
+        "SEE_ON": "f3e5"
+      },
+      "binary_response": {
+        "identity": 1,
+        "return_alpha": 0,
+        "block_one": 0
+      },
+      "critical": "Value-only and continuation interventions have matching categorical bestmove rows on this exact world, not guarantee same source-path mechanisms."
+    }
+  ],
+  "claim_ceiling": [
+    "Post-P6 disclosed case-local source-native program causal contrast; not independent prospective discovery",
+    "Returning alpha substitutes a single numeric fail-low TT score but does not enable qsearch continuation",
+    "Blocking one TT early return enables qsearch continuation but not proof of full natural mediation",
+    "Equal response indicator not uniquely identifying underlying mechanism",
+    "No NNUE feature intervention nor broad source/engine transport"
+  ]
+}
