@@ -1,0 +1,86 @@
+{
+  "schema": "c3x-014-tt-slot-last-writer-source-native-evidence-v1",
+  "date_kst": "2026-10-09",
+  "formal_research_unit": "C3X 0.14 — Transportable Search-Mechanism Evidence, Chess-Concept Mediation & Faithful Explanation Systems",
+  "status": "C3X_0_14_OPEN__TT_LAST_WRITER_SOURCE_AND_FULL_KEY_PASS__VALUE_ANCESTRY_AND_DOMAIN_MEDIATION_HOLD",
+  "governance": "Only 0.14 formally open. P labels are internal work checkpoints. 0.15 and 0.16 NOT opened. One existing Notion C3X Lab 3c4ef561-cf92-817a-b76b-cab15e7d1faf.",
+  "immutable_upstream_sf16": "68e1e9b3811e16cad014b590d7443b9063b3eb52",
+  "source_only_chess_worlds_sha256": "0080f4f108471137f8d9d0908e3c879e33351ad8bdd4fbf0fdda83d47f6075b2",
+  "frozen_parent_one_tt_event_panel_sha256": "afd48ceb040668c53609d8d5bd78d7a9b781243044cd4187a87896929ef0dd6b",
+  "methods": "c3x/ontology/c3x-014-tt-producer-consumer-slot-lineage-precommit.md",
+  "native_cpp_patch": "tools/c3x_014_native_TT_slot_lineage_patch.py",
+  "native_court": "harness/c3x_014_native_TT_slot_lineage_court.py",
+  "real_native_CI": "https://github.com/WhoSia/C3X/actions/runs/37882677198",
+  "raw_native_source_panel_sha256": "a152935764727ca5533181fe0c2747b6c1aecf996b87542cb30178f0a39592d2",
+  "source_game_groups": 14,
+  "source_game_worlds": 28,
+  "genuine_Stockfish16_processes": 224,
+  "original_224_engine_output_exact_replay": "224/224",
+  "technical_cold_repeat_identical": "28/28",
+  "exactly_one_return_blocked_each_ONE_MAIN": "56/56",
+  "last_TT_slot_full_key_writer_known": "28/28",
+  "first_TT_consumed_entry_last_full_writer_key_matches_full_requested_key": "28/28",
+  "last_TT_full_record_writer_site": "MAIN_TERMINAL 28/28",
+  "first_consumed_TT_slot_reused_for_distinct_full_key": "0/28",
+  "other_TT_physical_slots_reused_for_different_full_keys_in_one_main_searches": "10/28 worlds",
+  "first_event_depth_distribution": {
+    "1": 12,
+    "2": 12,
+    "3": 4
+  },
+  "first_event_ply_distribution": {
+    "1": 11,
+    "2": 13,
+    "3": 3,
+    "5": 1
+  },
+  "first_event_bound_distribution": {
+    "UPPER": 1,
+    "LOWER": 16,
+    "EXACT": 11
+  },
+  "first_event_writer_sequence_min_max": [
+    16,
+    394
+  ],
+  "single_return_root_score_gap_changed_worlds": 17,
+  "single_return_UCI_bestmove_label_changed_worlds": 3,
+  "single_return_strict_nonzero_cp_gap_sign_reversal_worlds": 2,
+  "TT_entry_source_note": "Native TTEntry holds a 16-bit low-key fingerprint in a 3-entry cluster; full 64-bit writer key recorded in passive sidecar keyed by physical slot. Last full-record writer is NOT a complete transposition-value causal ancestry. Move-only saves may update the move field separately.",
+  "inferential_ceiling": "Only 14 already exposed TCEC source games; 28 nested worlds and two cold repeats are not independent external samples. Depth/bound subgroup tables are POSTHOC descriptive only. The local first-return software intervention is source-proven, but no isolated LMR/history/NNUE/alpha-beta causal mediator or chess-concept strategy causality identified.",
+  "typed_claim_compiler": "harness/c3x_014_TT_slot_last_writer_evidence_compiler.py",
+  "typed_claim_CI": "https://github.com/WhoSia/C3X/actions/runs/37883000606",
+  "type_checked_Korean_game_world_descriptions": 28,
+  "falsified_claims_rejected": "5/5",
+  "typed_evidence_ledger_sha256": "ac9dd458e54485d3f3fc17aee6e7bcdb74251db5943e89842d40be3d38ef1c91",
+  "exploratory_census_code": "harness/c3x_014_TT_event_structural_census.py",
+  "exploratory_census_CI": "https://github.com/WhoSia/C3X/actions/runs/37883300819",
+  "sources_heldout_P1_four_groups_accessed": false,
+  "data_custody": [
+    {
+      "kind": "raw native engine, source code, GPL, patch, manifests",
+      "drive": "https://drive.google.com/file/d/1Z3Vx6XmFz8wfQUJm7TZIQCjsRUlJE98A/view",
+      "github_artifact_sha256": "c00ce0d072e70017b59ac6370309246a078402cb90cdb0edf182f65914017886",
+      "internal_files": "15/15 PASS"
+    },
+    {
+      "kind": "typed evidence compiler, two source panels, Korean descriptions",
+      "drive": "https://drive.google.com/file/d/18a3mnVgA7tVxY1cc33SpW3__JFMpvLxv/view",
+      "github_artifact_sha256": "1ba460d1753daea546afc002b9d8579ca8d004e8b0249d4ff3b7e32bf9bbd374",
+      "internal_files": "8/8 PASS"
+    },
+    {
+      "kind": "event depth/bound/ply exploratory census",
+      "drive": "https://drive.google.com/file/d/1uJCW_reP-sIjYNFnC0b6E68Ezsq_U9If/view",
+      "github_artifact_sha256": "f3f3fcfb450ba503ef35a365954f09804d827c661afc7639ac9f5d3a0ec431d6",
+      "internal_files": "6/6 PASS"
+    }
+  ],
+  "original_and_Drive_redownload_ZIP_SHA256_equal": "3/3 PASS",
+  "technical_failure_transparency": [
+    "Initial native smoke CI 37882538322 failed because live Python integer MultiPV keys were compared to frozen JSON string keys; corrected key normalization without changing sources or intervention grid.",
+    "Initial exploratory census CI 37883255792 failed at unused `chess` import; removed unused import, reran exact pinned source successful 37883300819."
+  ],
+  "next_scientific_question": "Within C3X 0.14, capture writer bound/depth/value and producer node ply and test exact-source-key targeted TT producer suppression; contrast it with first dynamic consumer suppression. Independently intervene quiet TT history and LMR/move ordering to identify individual causal routes. 0.15 requires explicit new formal question and 0.14 closure; 0.16 reserved for another substantive shift such as out-of-ecology engine transport and human explanation testing.",
+  "read_only_CI_and_human_commits_only": true
+}
