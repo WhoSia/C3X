@@ -1,0 +1,133 @@
+{
+  "schema": "c3x-015-P11-exact-root-child-return-consumer-48native-source-causal-court-v1",
+  "date_kst": "2026-10-09",
+  "run": "https://github.com/WhoSia/C3X/actions/runs/37937181303",
+  "status": "SUCCESS",
+  "upstream_stockfish16": "68e1e9b3811e16cad014b590d7443b9063b3eb52",
+  "source_contract": "c3x/ontology/c3x-015-P11-source-exact-root-child-return-relay-causal-gate-precommit.md",
+  "original_P10_R2_raw_sha": "2d74c4edd45700b9ffcbb2763edc4dad94a5bee9f4590dc85d2295f6c38a1c45",
+  "native_processes": 48,
+  "exact_cold_pairs": 24,
+  "sham_original_P10_UCI_regressions": "12/12 exact including bestmove score kind score value nodes PV and root source event traces",
+  "source_frozen_single_site": {
+    "world_ordinal": 2,
+    "full_root_key": "5622551786424219112",
+    "root_depth": 4,
+    "native_move": 1380,
+    "uci": "f3e5",
+    "root_move_ordinal": 42,
+    "root_alpha": 130,
+    "root_beta": 162,
+    "old_child_values_for_regimes": {
+      "I": 14,
+      "V": 130,
+      "B": 0
+    },
+    "artificial_root_consumer_replacement": 14,
+    "maximum_interventions_per_process": 1
+  },
+  "response": {
+    "case2_OFF": {
+      "I": {
+        "sham": [
+          "d1e2",
+          31,
+          111432
+        ],
+        "clamp": [
+          "d1e2",
+          31,
+          111432
+        ],
+        "fired": 0
+      },
+      "V": {
+        "sham": [
+          "d1d2",
+          25,
+          147488
+        ],
+        "clamp": [
+          "d1e2",
+          31,
+          111432
+        ],
+        "fired": 1
+      },
+      "B": {
+        "sham": [
+          "d1e2",
+          43,
+          94796
+        ],
+        "clamp": [
+          "d1e2",
+          43,
+          94796
+        ],
+        "fired": 1
+      }
+    },
+    "case2_SEE_ON": {
+      "I": {
+        "sham": [
+          "d1e2",
+          40,
+          130724
+        ],
+        "clamp": [
+          "d1e2",
+          40,
+          130724
+        ],
+        "fired": 0
+      },
+      "V": {
+        "sham": [
+          "d1e2",
+          35,
+          149011
+        ],
+        "clamp": [
+          "d1e2",
+          40,
+          130724
+        ],
+        "fired": 1
+      },
+      "B": {
+        "sham": [
+          "d1d2",
+          54,
+          65172
+        ],
+        "clamp": [
+          "d1d2",
+          54,
+          65172
+        ],
+        "fired": 1
+      }
+    },
+    "case29_NO_CONTACT": {
+      "all_six_source_condition_types_source_fired_0": true,
+      "original_UCI_unchanged_all_six": true
+    }
+  },
+  "positive_conclusion": "In this fixed historical CEFH world, artificial one-event return relay rescue is sufficient to restore source-native V search's final bestmove/score/nodes to original TT I under both SEE arms; zero-contact cases show exact scoped target. It does not establish that all TT causal influence travels through only this site.",
+  "negative_conclusion": "Case2 source B root relay one-fire leaves final bestmove, cp and nodes exactly unchanged; case29 all relevant source events no-contact and all outcomes unchanged.",
+  "raw_artifact": {
+    "github_actions_artifact_id": 11618663800,
+    "zip_sha256": "daab831866865012dffb6af1b6eef55e431ffd5d759bc712ac12500a5a2b5fbc",
+    "native_json_sha256": "0a296860a26db3b8b5530a23eb7935f6f71f8fd9e809299ea39486133022a2f8",
+    "drive_id": "1Gq9HwSbLdOkC9QziHjRa8UGszrNnHX4m",
+    "drive_url": "https://drive.google.com/file/d/1Gq9HwSbLdOkC9QziHjRa8UGszrNnHX4m/view"
+  },
+  "limits": [
+    "Two post-P6-outcome-exposed original TWIC worlds, not new blind cohort or independent provider",
+    "Artificial root-consumer clamp can show restoration sufficiency but does not prove natural TT-to-root mediation necessity",
+    "This micro-intervention does not certify learned chess motifs or NNUE latent units",
+    "Previous precommitted C1 overall accuracy failure 42/64 versus B0 53/64 remains unchanged"
+  ],
+  "court": "P11_48_NATIVE_EXACT_ROOT_RELAY_RESCUE_SCOPED_PASS / CASE2_V_ROOT_RESCUE_2_OF_2_SEE_ARMS / CASE2_B_ONE_FIRE_BESTMOVE_NON_EFFECT / CASE29_NO_CONTACT_6_OF_6 / NATURAL_TT_FULL_MEDIATION_HOLD / C3X015_LIVE"
+}
