@@ -1,0 +1,71 @@
+name: C3X 0.18 TT Eval Cache vs Value Override
+on:
+  push:
+    paths:
+      - 'tools/c3x_018_tt_eval_consumption_overlay.py'
+      - 'harness/c3x_018_eval_cached_vs_value_override_native.py'
+      - '.github/workflows/c3x-018-TT-eval-route-native.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  competing-eval-route-native:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Strict source code preflight
+        run: |
+          python -m py_compile tools/c3x_018_tt_eval_consumption_overlay.py
+          python -m py_compile harness/c3x_018_eval_cached_vs_value_override_native.py
+      - name: Frozen original P4 baseline
+        uses: actions/download-artifact@v4
+        with:
+          name: c3x-016-P4-12-Lichess-root-order-72-native
+          path: baseline/
+          repository: WhoSia/C3X
+          run-id: '37948775813'
+          github-token: ${{ github.token }}
+      - name: Compile SF16 targeted TT E and V reader gates
+        run: |
+          set -euo pipefail
+          mkdir -p evidence
+          root=/tmp/C3X018_TT_EVAL_COURT
+          git clone -q --single-branch --branch sf_16 https://github.com/official-stockfish/Stockfish.git "$root"
+          test "$(git -C "$root" rev-parse HEAD)" = 68e1e9b3811e16cad014b590d7443b9063b3eb52
+          python tools/c3x_016_P4_independent_12root_source_order_patch.py --source "$root" --out-manifest evidence/P4.json
+          python tools/c3x_018_physical_epoch_lineage_patch.py --source "$root" --out-manifest evidence/TT_EPOCH.json
+          python tools/c3x_018_tt_eval_consumption_overlay.py --source "$root" --out-manifest evidence/EVAL_CONSUMERS.json
+          git -C "$root" diff -- src/search.cpp src/tt.cpp src/tt.h > evidence/SOURCE_DIFF.patch
+          make -s -C "$root/src" -j2 build ARCH=x86-64
+          sha256sum "$root/src/stockfish" > evidence/BINARY_SHA256.txt
+      - name: Native cold E V R W2 and no-contact decoy
+        run: |
+          set -euo pipefail
+          python -u harness/c3x_018_eval_cached_vs_value_override_native.py \
+            --cohort c3x/cohorts/c3x-016-P4-12-independent-Lichess-legal-root-order-sourceonly-frozen.json \
+            --prior baseline/C3X016_P4_12_LICHESS_MULTIMOTIF_ROOT_ORDER_72_NATIVE.json \
+            --engine /tmp/C3X018_TT_EVAL_COURT/src/stockfish \
+            --out evidence/TT_CACHED_EVAL_VS_VALUE_OVERRIDE.json | tee evidence/NATIVE_STDOUT.txt
+          python - <<'PY'
+          import json
+          j=json.load(open('evidence/TT_CACHED_EVAL_VS_VALUE_OVERRIDE.json'))
+          assert [c['id'] for c in j['cases']]==[1,2,5,6,8]
+          assert all(c['E_V_decoy_no_contact_exact'] for c in j['cases'])
+          print('C3X018_TT_EVAL_CONSUMER_NATIVE_PASS')
+          PY
+      - name: Hash source and results
+        if: always()
+        run: |
+          mkdir -p evidence
+          find evidence -maxdepth 1 -type f ! -name MEMBER_SHA256.txt -print0 | sort -z | xargs -0 -r sha256sum > evidence/MEMBER_SHA256.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x-018-TT-eval-cache-vs-value-native
+          path: evidence/
+          retention-days: 90
+          if-no-files-found: error
