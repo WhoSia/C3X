@@ -1,0 +1,98 @@
+{
+  "schema": "c3x-015-P9-A2-CEFH-RISR-first-child-threshold-24-native-v1",
+  "date_kst": "2026-10-09",
+  "run": "https://github.com/WhoSia/C3X/actions/runs/37930348481",
+  "status": "SUCCESS",
+  "failed_technical_attempts": [
+    "https://github.com/WhoSia/C3X/actions/runs/37930072271",
+    "https://github.com/WhoSia/C3X/actions/runs/37930236968"
+  ],
+  "original_stockfish_commit": "68e1e9b3811e16cad014b590d7443b9063b3eb52",
+  "prior_P9_A1_byte_sha256": "0a0a40d891af736491ecbfb92dee145c969b853d6e1ac43495beb202e905ec17",
+  "original_p9a2_native_json_sha256": "4bad3d84225fc97e0053afc9a28adec7e122c9262f50e937bc1c67417e3c3e21",
+  "original_actions_zip_sha256": "eaa414a20c5f8aa8da220cd2e16ceac7a2a5e32643e0b308b6490e4093c7a4b3",
+  "drive_file_id": "1dJ0Z3EAr--K8h9lgf37A1maX-aTk9Ft1",
+  "native_cold_processes": 24,
+  "worlds": 2,
+  "source_only_preselected_p6_targets": true,
+  "threshold_original_qsearch_child_value": -59,
+  "artificial_boundary_values": [
+    129,
+    130,
+    131
+  ],
+  "exact_target_contact": {
+    "world2": {
+      "OFF": 0,
+      "SEE_ON": 0
+    },
+    "world29": {
+      "OFF": 1,
+      "SEE_ON": 1
+    }
+  },
+  "original_root_regression": {
+    "world2": {
+      "OFF": {
+        "bestmove": "d1e2",
+        "score_cp": 43,
+        "nodes": 94796
+      },
+      "SEE_ON": {
+        "bestmove": "d1d2",
+        "score_cp": 54,
+        "nodes": 65172
+      }
+    }
+  },
+  "world29_threshold_results": {
+    "OFF": {
+      "129": {
+        "bestmove": "f3e5",
+        "cp": 4,
+        "nodes": 50516,
+        "first_root_pv_divergence_depth": 4
+      },
+      "130": {
+        "bestmove": "f3e5",
+        "cp": 4,
+        "nodes": 50516,
+        "first_root_pv_divergence_depth": 4
+      },
+      "131": {
+        "bestmove": "f3e5",
+        "cp": 22,
+        "nodes": 77115,
+        "first_root_pv_divergence_depth": 5
+      }
+    },
+    "SEE_ON": {
+      "129": {
+        "bestmove": "f3e5",
+        "cp": 4,
+        "nodes": 60899,
+        "first_root_pv_divergence_depth": 4
+      },
+      "130": {
+        "bestmove": "f3e5",
+        "cp": 4,
+        "nodes": 60899,
+        "first_root_pv_divergence_depth": 4
+      },
+      "131": {
+        "bestmove": "f3e5",
+        "cp": 22,
+        "nodes": 77115,
+        "first_root_pv_divergence_depth": 5
+      }
+    }
+  },
+  "interpretation": "Categorical root move f3e5 invariant under exact one qsearch-child artificial score boundary 129/130/131, while final reported cp (+4 vs +22), PV-depth onset and node counts shift; local move-choice and engine computation/cost/value cannot be conflated. No natural mediation is identified.",
+  "claims_not_permitted": [
+    "P9-A2 artificial child-value substitution is not a plausible chess evaluation and does not identify inherent tactical skill",
+    "A changed score or node count alone does not identify exactly which downstream TT source writer/reader caused it",
+    "Two original disclosed TWIC worlds cannot certify universal engine or strategy transfer",
+    "P1 original C1 primary accuracy 42/64 versus B0 53/64 remained failed"
+  ],
+  "court": "P9_A2_24_NATIVE_SCOPED_PASS / NONCONTACT_WORLD2_PASS / CASE29_BOUNDARY_SEARCH_REGIME_SENSITIVE / CASE29_BESTMOVE_INVARIANT / TT_MEDIATOR_NOT_IDENTIFIED / C3X_0.15_OPEN"
+}
