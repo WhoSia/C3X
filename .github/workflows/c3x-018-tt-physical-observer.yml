@@ -72,6 +72,19 @@ jobs:
               open('evidence/'+name+'_UCI_OUTPUT.txt','w').writelines(transcript)
           assert 'c3x018_tt kind=' not in open('evidence/passive_UCI_OUTPUT.txt').read()
           assert 'c3x018_tt kind=' in open('evidence/trace_UCI_OUTPUT.txt').read()
+          import re
+          def core(name):
+              lines=open('evidence/'+name+'_UCI_OUTPUT.txt').read().splitlines()
+              end=[x for x in lines if x.startswith('bestmove ')]
+              info=[x for x in lines if x.startswith('info depth 5 ') and ' pv ' in x]
+              assert len(end)==1 and info,(name,'NO_FINAL_CORE')
+              t=info[-1]
+              score=re.search(r'\\bscore (cp|mate) (-?\\d+)(?: (lowerbound|upperbound))?',t)
+              nodes=re.search(r'\\bnodes (\\d+)',t)
+              assert score and nodes,(name,'SCORE_OR_NODES_MISSING')
+              return (end[0].split()[1],score.groups(),int(nodes.group(1)),t.split(' pv ',1)[1])
+          assert core('original')==core('passive')==core('trace'), 'TT_OBSERVER_NONINTERFERENCE_FAIL'
+          print('C3X018_TT_UCI_CORE_NONINTERFERENCE_PASS')
           print('C3X018_TT_TELEMETRY_ACTIVATION_SMOKE_PASS')
           PY
       - name: SHA evidence
