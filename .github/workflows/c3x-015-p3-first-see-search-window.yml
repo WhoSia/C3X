@@ -1,0 +1,89 @@
+name: C3X 0.15 P3 CSWP First SEE Site and Alpha-Beta Frame Entry Trace
+on:
+  push:
+    paths:
+      - '.github/workflows/c3x-015-p3-first-see-search-window.yml'
+      - 'tools/c3x_015_CSWP_first_site_window_patch.py'
+      - 'harness/c3x_015_P3_first_eligible_SEE_window_trace.py'
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  p3-post-outcome-mechanism-source-window:
+    runs-on: ubuntu-latest
+    timeout-minutes: 55
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Prepare chess engine source and observed trace patch only
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq git make g++
+          python -m pip install --disable-pip-version-check chess==1.11.2
+          python -m py_compile tools/c3x_015_CSWP_first_site_window_patch.py harness/c3x_015_P3_first_eligible_SEE_window_trace.py
+          mkdir -p locked-source locked-p2 output
+      - uses: actions/download-artifact@v4
+        with:
+          name: c3x-015-twic1665-R2-event-capped-source-pin-matched-nonpin
+          path: locked-source/
+          repository: WhoSia/C3X
+          run-id: '37902655949'
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: c3x-015-TWIC-R2-frozen-64pin-64nonpin-native-SEE-primary
+          path: locked-p2/
+          repository: WhoSia/C3X
+          run-id: '37906181077'
+          github-token: ${{ github.token }}
+      - name: Read-only lock to exact old source and already disclosed P2 outcomes
+        run: |
+          printf '%s  %s\n' '1e932aa881eaef549c770211c078d930cd8d675e5688644e1bc36ab31bae4534' 'locked-source/C3X015_TWIC1665_SCOREBLIND_SOURCE_MANIFEST_R2.json' | sha256sum -c -
+          printf '%s  %s\n' 'e930f0b489301c656690d09f4821583a28eead04e43382b545bda35b71279256' 'locked-p2/C3X015_TWIC1665_R2_P2_PIN64_NONPIN64_PROSPECTIVE_NATIVE_RESULT.json' | sha256sum -c -
+          printf '%s\n' 'P3 is post-outcome mechanism reconstruction. C3X P1 original treatment predictions cannot be refit.' > output/P3_SCOPE.txt
+      - name: Build exact SF16 ROOT_OBJECT SEE original plus observational CSWP window trace
+        run: |
+          git clone -q --single-branch --branch sf_16 https://github.com/official-stockfish/Stockfish.git /tmp/C3X015_CSWP
+          test "$(git -C /tmp/C3X015_CSWP rev-parse HEAD)" = '68e1e9b3811e16cad014b590d7443b9063b3eb52'
+          python tools/c3x_014_patch_native_pin_operators.py --source /tmp/C3X015_CSWP --out-manifest output/BASE_PIN_OBSERVER.json
+          python tools/c3x_014_ROOT_PIN_object_only_SEE_unmask_patch.py --source /tmp/C3X015_CSWP --out-manifest output/ROOT_OBJECT_GUARDED_SEE_PATCH.json
+          python tools/c3x_015_CSWP_first_site_window_patch.py --source /tmp/C3X015_CSWP --out-manifest output/CSWP_NEW_FIRST_SITE_WINDOW_CPP_PATCH.json
+          git -C /tmp/C3X015_CSWP diff -- src/position.cpp src/search.cpp src/evaluate.cpp > output/CSWP_NATIVE_CPP_PATCH.diff
+          test -s output/CSWP_NATIVE_CPP_PATCH.diff
+          make -s -C /tmp/C3X015_CSWP/src -j2 build ARCH=x86-64
+          cp /tmp/C3X015_CSWP/src/stockfish /tmp/C3X015_CSWP_bin
+          sha256sum /tmp/C3X015_CSWP_bin > output/CSWP_INSTRUMENTED_SF16_BINARY_SHA256.txt
+      - name: Measure 256 native OFF and guarded twin runs; enforce old P2 UCI equality
+        run: |
+          python -u harness/c3x_015_P3_first_eligible_SEE_window_trace.py \
+            --source locked-source/C3X015_TWIC1665_SCOREBLIND_SOURCE_MANIFEST_R2.json \
+            --prior-p2 locked-p2/C3X015_TWIC1665_R2_P2_PIN64_NONPIN64_PROSPECTIVE_NATIVE_RESULT.json \
+            --engine /tmp/C3X015_CSWP_bin \
+            --out output/C3X015_CSWP_P3_FIRST_SITE_ENTRY_WINDOW_256_NATIVE.json
+          python - <<'PY'
+          import json
+          d=json.load(open('output/C3X015_CSWP_P3_FIRST_SITE_ENTRY_WINDOW_256_NATIVE.json'))
+          assert d['native_new_processes']==256
+          assert d['cold_pair_exact_128']
+          assert d['pristine_P2_UCI_equivalence_128']
+          assert d['fired_worlds']==51
+          print('C3X015_CSWP_FIRST_SITE_FRAME_OBSERVATION_SCOPED_PASS')
+          PY
+      - name: Keep reproducible observer code and bounded traces, not raw TWIC PGN
+        if: always()
+        run: |
+          cp tools/c3x_015_CSWP_first_site_window_patch.py output/CSWP_EXACT_FIRST_SITE_PATCHER.py
+          cp harness/c3x_015_P3_first_eligible_SEE_window_trace.py output/CSWP_EXACT_256_NATIVE_P3_REPLAY.py
+          cp /tmp/C3X015_CSWP/Copying.txt output/STOCKFISH_GPLv3.txt 2>/dev/null || true
+          printf '%s\n' 'This is after P2 outcome disclosure; search FRAME ENTRY alpha/beta and next 64 search entrances only; not full first-state causal proof, not TT writer-window mediated causal chain or NNUE representation.' > output/STRICT_SCOPED_AUTHORITY.txt
+          find output -maxdepth 1 -type f ! -name MEMBER_SHA256.txt -print0 | sort -z | xargs -0 sha256sum > output/MEMBER_SHA256.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x-015-p3-native-CSWP-source-first-site-and-64-window-suffix
+          path: output/
+          retention-days: 90
+          if-no-files-found: error
