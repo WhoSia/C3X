@@ -6,7 +6,8 @@ static constexpr int c3x017_root_event_limit = 4096;
 void run() {
   c3x017_root_event_count = 0;
               if(c3x017_root_event_count<c3x017_root_event_limit && rootDepth>=1) {
-              sync_cout << "info string c3x017_root_event kind=window_enter seq=" << c3x017_root_event_count
+                  ++c3x017_root_event_count;
+                  sync_cout << "info string c3x017_root_event kind=window_enter seq=" << c3x017_root_event_count
               << "info string c3x017_root_event kind=window_exit seq=" << c3x017_root_event_count
               << "info string c3x017_root_event kind=after_sort seq=" << c3x017_root_event_count
               << "info string c3x017_root_event kind=candidate seq=" << c3x017_root_event_count;
