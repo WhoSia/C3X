@@ -1,0 +1,42 @@
+{
+  "schema": "c3x-016-P0-natural-TT-case-splitting-compiled-go-verification-v1",
+  "active_generation": "C3X 0.16",
+  "closed_predecessor": "C3X 0.15 CLOSED with unresolved natural TT obligations transferred",
+  "original_P11_native_court": "https://github.com/WhoSia/C3X/actions/runs/37937181303",
+  "original_P11_JSON_sha256": "0a296860a26db3b8b5530a23eb7935f6f71f8fd9e809299ea39486133022a2f8",
+  "verified_original_native_JSON_input": "P11 48-native source member, 24 distinct source-regime/SEE/clamp/sham cells across two selected historical worlds",
+  "implemented_language": "Go (standard library, no external dependencies)",
+  "source_main_sha256": "15255cd471cc85ccb417991b278cb5a3bbe698c4678142b1bb50d2d92f60cb11",
+  "source_test_sha256": "7aef84b18669a2b94f7abeea6cb7f2bc36b04203ea5216b92b23f5a5cc5702ec",
+  "machine_receipt_sha256": "8cd1268d684111126adc0ebc38451a7e411bca25403c3cc45109e551d07e5dc3",
+  "bundle_zip_sha256": "85677f92ffa46f7c4df8f4ab68ee7e7eef58da0cfaa291dc05e84db9c24020d2",
+  "bundle_Drive": "https://drive.google.com/file/d/1yjYYlME8EBcyVE7Og6_NiK5hH9oZDLJD/view",
+  "drive_raw_redownload_sha256_verified": true,
+  "test_result": {
+    "Go_unit_tests_with_synthetic_fixture": "6/6 PASS",
+    "original_native_JSON_integration_test": "1/1 PASS with explicit C3X016_P11_JSON_INPUT env; otherwise SKIP",
+    "fail_closed_probes": [
+      "source SHA corruption",
+      "swapped world target identity",
+      "sham event firing",
+      "missing arm",
+      "no-contact arm changes categorical choice"
+    ]
+  },
+  "scientific_split_axis": {
+    "world_2": "checked qsearch, legal check-evasion continuation, child173 beta fail-high, TT original return14",
+    "world_29": "non-check standpat, legal qsearch continuations, recomputed return29 equals TT original29"
+  },
+  "forbidden_partition_reasons": [
+    "post hoc favorable bestmove",
+    "score or node count alone",
+    "unverified chess motif label",
+    "P11 rescue success without preplanned operator contact"
+  ],
+  "validation_authority": "RETROSPECTIVE_SOURCE_MECHANISM_EXPLANATION_ONLY",
+  "no_new_SF16_processes": true,
+  "native_replay_caveat": "Go validates preserved P11 result JSON and does not itself rerun Stockfish or recheck both cold executions separately",
+  "predecessor_failure_inherited": "C3X 0.15 P1 prospective C1 42/64 vs B0 53/64 overall accuracy FAIL",
+  "natural_TT_mediation": "HOLD, not established by artificial root score rescue",
+  "status": "CASE_SPLIT_WARRANT_TYPED_SOURCE_AUDIT_PASS / PROSPECTIVE_016_CAUSAL_VALIDATION_HOLD"
+}
