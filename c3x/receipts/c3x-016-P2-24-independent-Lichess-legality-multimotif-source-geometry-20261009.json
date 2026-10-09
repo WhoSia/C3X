@@ -1,0 +1,64 @@
+{
+  "schema": "c3x-016-P2-Lichess24-independent-provider-SAN-legality-and-typed-geometry-v1",
+  "date_kst": "2026-10-09",
+  "version": "C3X 0.16 ACTIVE",
+  "source": {
+    "provider": "Lichess Broadcast",
+    "month": "2026-06",
+    "original_compressed_sha256": "65905d611c0d78d90ab57cd9edd3821f4119b46c22b5489fd7e265a74c6767b3",
+    "original_archive_size_bytes": 22797518,
+    "original_games_indexed": 36996,
+    "distinct_event_tags": 29013
+  },
+  "source_only_sampling": {
+    "rule": "From Standard PGN headers select smallest SHA-256(GameURL) per Event, then lowest 24 among distinct events, before reading any move text, Result, %eval, time management annotations or native source outcomes",
+    "games_selected": 24,
+    "events_selected": 24,
+    "selection_manifest_sha256": "21e5b06c1da0708bc94400c92952feb1628eb12563c8e17fcce4cd036e6ffaf9"
+  },
+  "chess_law_validation": {
+    "program": "Custom independent Go legal chess generator + SAN-to-legal-move disambiguation",
+    "fully_legal_games": 24,
+    "legal_plies": 2038,
+    "illegal_or_ambiguous_SAN_games": 0,
+    "Go_unit_tests_PASSED": 6,
+    "tests": [
+      "perft",
+      "pinned/check legality",
+      "en passant discovered check",
+      "castling conventional SAN",
+      "en passant, promotion, disambiguation SAN",
+      "reject false checkmate, false check, illegal SAN"
+    ],
+    "live_original_games_not_100percent_validated": true
+  },
+  "actual_game_source_only_geometry": {
+    "new_value_ordered_slider_skewer_ray_contact_plies": 73,
+    "new_skewer_ray_contacts": 74,
+    "interference_geometry_pairs": 17,
+    "defender_removal_geometry_pairs": 136,
+    "open_file_count_change_plies": 73,
+    "isolated_pawn_count_change_plies": 115,
+    "central_pawn_occupation_change_plies": 126,
+    "king_neighborhood_pawn_shelter_change_plies": 260,
+    "meaning": "Counts are raw legal played-move-induced potential ray/defender geometry and elementary strategic board-state proxy differences, not forced tactical wins, strategic plan values or causal SF16 operator response."
+  },
+  "TWIC_overlap_source_only": {
+    "original_TWIC1665_zip_sha256": "23097bbf152d9afed810890456027ce639719f7a4ef4c723898730d391b347b3",
+    "TWIC_game_records": 5766,
+    "TWIC_with_actual_plies": 5704,
+    "TWIC_result_only_no_moves": 62,
+    "Lichess_full_normalized_SAN_sequence_equal_TWIC": 0,
+    "Lichess_first_30_ply_normalized_SAN_sequence_equal_TWIC": 0,
+    "limit": "No shared 30-ply prefix or full sequence is not complete FEN/source-history independence or all-corpus verified legal state."
+  },
+  "limitations": [
+    "Source-only game selection is frozen before any SAN legality or motif opportunity detection; no result/eval-based cohort selection",
+    "All PGN histories are private, public receipt contains only GameURL SHA, source SHA and summary counters",
+    "Custom Go chess rules passed four published perft positions in predecessor P1, but independent third-party legality oracle for all 2038 played plies not yet run",
+    "Skewer rays/defender removal are geometry and pseudo-defender counts, not demonstrated favorable tactic under all legal replies",
+    "Strategy counts are position proxies, not historical plans, strategic utility or long-horizon stable causal effects",
+    "Native source operator intervention on these Lichess games has not yet been executed; no multi-motif operator causal success claim"
+  ],
+  "court": "C3X016_P2_LICHESS24_SOURCE_FROZEN_BEFORE_MOVES / GO_24_OF_24_LEGAL_MAINLINE_2038_PLIES / TWIC_MOVELINE_0_OVERLAP / SKWER_INTERFERENCE_DEFENDER_AND_STRATEGY_GEOMETRY_OBSERVED / EXTERNAL_MOTIF_SOURCE_CAUSAL_NATIVE_HOLD"
+}
