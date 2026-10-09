@@ -1,0 +1,114 @@
+{
+  "schema": "c3x-015-P8-native-qsearch-microevents-with-root-iterative-PV-20261009-v1",
+  "date": "2026-10-09",
+  "generation": "C3X 0.15 OPEN (0.16 NOT OPEN)",
+  "last_successful_run": "https://github.com/WhoSia/C3X/actions/runs/37920098035",
+  "native_run_id": 37920098035,
+  "native_artifact_id": 11611765559,
+  "original_github_artifact_sha256": "1f9689868918d80d1eee6966154cf8ce69bc25637c3e602e3f35679ad989d232",
+  "original_native_result_json_sha256": "bb2af016857dff393a6054bad2b2978d3ecb2d92c527891f578688e513452e22",
+  "drive_id": "15eWG9daEYoa8SY6WaooodR_7H6eBq8X3",
+  "drive_url": "https://drive.google.com/file/d/15eWG9daEYoa8SY6WaooodR_7H6eBq8X3/view",
+  "drive_original_byte_sha256_same_as_github": true,
+  "source_R2_SHA": "1e932aa881eaef549c770211c078d930cd8d675e5688644e1bc36ab31bae4534",
+  "prior_P7_SHA": "01ea31dcb1d900925ff38ec3d6d5da4afe63bba6c87eccc2eb8563d9440d8c77",
+  "native_searches": 24,
+  "cold_pairs": 12,
+  "unchanged_P7_final_UCI_conditions": 12,
+  "source_first_event_match_and_targeted_qsearch_continuation": {
+    "return_identity_or_alpha_arm_target_continuation": false,
+    "one_TT_return_block_arm_target_continuation": true,
+    "source_P6_matching_full_key_ply_4": true
+  },
+  "cases": [
+    {
+      "ordinal": 2,
+      "target_full_key_hex": "3dd7beae5d6596d5",
+      "target_ply": 4,
+      "reader_alpha": 130,
+      "reader_beta": 131,
+      "TT_original_return_value": 14,
+      "BLOCK_EXACT_ONCE_qsearch": {
+        "in_check_inferred_from_init_best_minus_infinite": true,
+        "first_legal_move_encoded": 391,
+        "child_return_value": 173,
+        "beta_cutoff_taken": true,
+        "TT_written_value": 173,
+        "qsearch_return_value": 173,
+        "equally_observed_in_both_SEE_arms": true
+      },
+      "root_first_PV_divergence_depth_vs_original_IDENTITY": {
+        "OFF__RETURN_ALPHA": 6,
+        "OFF__BLOCK_EXACT_ONCE": null,
+        "ON__RETURN_ALPHA": 6,
+        "ON__BLOCK_EXACT_ONCE": 12
+      },
+      "root_final_bestmove_matrix": {
+        "OFF__IDENTITY": "d1e2",
+        "OFF__RETURN_ALPHA": "d1d2",
+        "OFF__BLOCK_EXACT_ONCE": "d1e2",
+        "ON__IDENTITY": "d1e2",
+        "ON__RETURN_ALPHA": "d1e2",
+        "ON__BLOCK_EXACT_ONCE": "d1d2"
+      }
+    },
+    {
+      "ordinal": 29,
+      "target_full_key_hex": "f671dc20088633ad",
+      "target_ply": 4,
+      "reader_alpha": 130,
+      "reader_beta": 131,
+      "TT_original_return_value": 29,
+      "BLOCK_EXACT_ONCE_qsearch": {
+        "standpat_value": 29,
+        "first_candidate_encoded": 729,
+        "first_child_return_value": -59,
+        "legal_moves_considered": 3,
+        "no_beta_fail_high_at_target": true,
+        "terminal_TT_upper_value": 29,
+        "qsearch_return_value": 29,
+        "equally_observed_in_both_SEE_arms": true
+      },
+      "root_first_PV_divergence_depth_vs_original_IDENTITY": {
+        "OFF__RETURN_ALPHA": 4,
+        "OFF__BLOCK_EXACT_ONCE": 12,
+        "ON__RETURN_ALPHA": 4,
+        "ON__BLOCK_EXACT_ONCE": null
+      },
+      "root_final_bestmove_matrix": {
+        "OFF__IDENTITY": "d1e2",
+        "OFF__RETURN_ALPHA": "f3e5",
+        "OFF__BLOCK_EXACT_ONCE": "f3e5",
+        "ON__IDENTITY": "f3e5",
+        "ON__RETURN_ALPHA": "f3e5",
+        "ON__BLOCK_EXACT_ONCE": "f3e5"
+      }
+    }
+  ],
+  "trace_observer_bounds": {
+    "maximum_recorded_event_rows_per_search": 1024,
+    "all_12_conditions_overflow": true,
+    "range_of_truncated_events_over_12_conditions": [
+      167481,
+      514091
+    ],
+    "only_first_100_events_per_native_arm_preserved_in_P8_JSON": true,
+    "per_target_qsearch_microevents_and_iterative_root_depth_are_preserved": true,
+    "no_complete_TT_to_ROOT_causal_mediator_graph": true
+  },
+  "sequence_of_failed_p8_attempts": [
+    {
+      "run": 37919908079,
+      "cause": "strict source instrumentation anchor mismatch: Q_TT_SAVE code originally wrapped by prior P4 TT writer tagging"
+    },
+    {
+      "run": 37919985924,
+      "cause": "the qsearch TT save marker matched both intended four-space line and indented stand-pat comment"
+    },
+    {
+      "run": 37920098035,
+      "status": "SUCCESS and exact P7 UCI+nodes+score+PV"
+    }
+  ],
+  "scientific_limit": "Post-P6-outcome targeted n=2 original source games, not new blind sample. One execution event order plus first PV depth does not certify natural indirect causal mediation or TT necessity. Run scope original SF16 classical Use NNUE=false depth12."
+}
