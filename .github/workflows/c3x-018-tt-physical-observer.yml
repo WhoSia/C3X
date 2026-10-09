@@ -42,7 +42,7 @@ jobs:
           commands=['uci','setoption name Threads value 1','setoption name Hash value 16',
                     'setoption name Use NNUE value false','isready',
                     'position startpos','go depth 5']
-          open('evidence/UCI_SMOKE_COMMANDS.txt','w').write('\\n'.join(commands)+'\\n')
+          open('evidence/UCI_SMOKE_COMMANDS.txt','w').write('\n'.join(commands)+'\n')
           for name,engine,activate in [('original','/tmp/C3X018_TT_ORIGINAL',False),
                                         ('passive','/tmp/C3X018_TT_PATCHED',False),
                                         ('trace','/tmp/C3X018_TT_PATCHED',True)]:
@@ -53,7 +53,7 @@ jobs:
                                      stderr=subprocess.STDOUT,text=True,env=env,bufsize=1)
               transcript=[]
               for command in commands:
-                  proc.stdin.write(command+'\\n');proc.stdin.flush()
+                  proc.stdin.write(command+'\n');proc.stdin.flush()
                   if command=='uci':
                       marker='uciok'
                   elif command=='isready':
@@ -67,7 +67,7 @@ jobs:
                       if not line: raise RuntimeError((name,marker,'PREMATURE_EOF'))
                       transcript.append(line)
                       if line.startswith(marker): break
-              proc.stdin.write('quit\\n');proc.stdin.flush()
+              proc.stdin.write('quit\n');proc.stdin.flush()
               assert proc.wait(timeout=20)==0,name
               open('evidence/'+name+'_UCI_OUTPUT.txt','w').writelines(transcript)
           assert 'c3x018_tt kind=' not in open('evidence/passive_UCI_OUTPUT.txt').read()
@@ -79,8 +79,8 @@ jobs:
               info=[x for x in lines if x.startswith('info depth 5 ') and ' pv ' in x]
               assert len(end)==1 and info,(name,'NO_FINAL_CORE')
               t=info[-1]
-              score=re.search(r'\\bscore (cp|mate) (-?\\d+)(?: (lowerbound|upperbound))?',t)
-              nodes=re.search(r'\\bnodes (\\d+)',t)
+              score=re.search(r'\bscore (cp|mate) (-?\d+)(?: (lowerbound|upperbound))?',t)
+              nodes=re.search(r'\bnodes (\d+)',t)
               assert score and nodes,(name,'SCORE_OR_NODES_MISSING')
               return (end[0].split()[1],score.groups(),int(nodes.group(1)),t.split(' pv ',1)[1])
           assert core('original')==core('passive')==core('trace'), 'TT_OBSERVER_NONINTERFERENCE_FAIL'
