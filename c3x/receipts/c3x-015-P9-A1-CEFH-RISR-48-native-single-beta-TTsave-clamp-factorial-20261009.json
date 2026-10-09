@@ -1,0 +1,209 @@
+{
+  "schema": "c3x015-P9-A1-48-native-CEFH-RISR-exact-beta-TTwrite-local-return-source-court-v1",
+  "date": "2026-10-09",
+  "stage": "P9-A1",
+  "status": "SUCCESS_SCOPED_POST_P6_DISCLOSURE_TWO_WORLD_CAUSAL_COURT",
+  "source_sf16_commit": "68e1e9b3811e16cad014b590d7443b9063b3eb52",
+  "native_workflow_run": "https://github.com/WhoSia/C3X/actions/runs/37926784308",
+  "original_P8_result_sha256": "bb2af016857dff393a6054bad2b2978d3ecb2d92c527891f578688e513452e22",
+  "actual_native_processes": 48,
+  "source_worlds": 2,
+  "SEE_conditions": 2,
+  "regimes": [
+    "I",
+    "V",
+    "B",
+    "G",
+    "W",
+    "L"
+  ],
+  "cold_repeats": 2,
+  "prior_P8_original_conditions_exact": "12/12",
+  "P9_A2_threshold_values_129_130_131": "NOT_EXECUTED",
+  "github_artifact_id": 11614437231,
+  "github_artifact_zip_sha256": "87a787a29fa362ae5db109426ab1cc11c804f3b83b53870ed31c3f84cd0a4813",
+  "native_result_member_sha256": "0a0a40d891af736491ecbfb92dee145c969b853d6e1ac43495beb202e905ec17",
+  "drive_file_id": "1LV-Wgly0lWTW7IJ6d1usaqoCU7tTvrGc",
+  "drive_file_url": "https://drive.google.com/file/d/1LV-Wgly0lWTW7IJ6d1usaqoCU7tTvrGc/view",
+  "drive_raw_byte_sha256_same_as_original_github": true,
+  "native_source_patch": "tools/c3x_015_P9_A1_CEFH_RISR_beta_TTwrite_localreturn_source_patch.py",
+  "independent_runner": "harness/c3x_015_P9_A1_CEFH_RISR_48_native_mediator_court.py",
+  "semantic_arm_dictionary": {
+    "I": "Prior original source TT immediate return",
+    "V": "Early TT return value-only alpha substituted",
+    "B": "One preselected physical TT return blocked",
+    "G": "On B exact case2 beta fail-high loop-break suppressed once",
+    "W": "On B first exact target qsearch terminal TT write skipped once",
+    "L": "On B continuation executed but target-local final qreturn clamped to prior stored TT value"
+  },
+  "case_2": {
+    "original_TT_return": 14,
+    "bypass_target_Q_return": 173,
+    "target_alpha": 130,
+    "target_beta": 131,
+    "OFF": {
+      "I": {
+        "bestmove": "d1e2",
+        "nodes": 111432,
+        "score": 31
+      },
+      "V": {
+        "bestmove": "d1d2",
+        "nodes": 147488,
+        "score": 25
+      },
+      "B": {
+        "bestmove": "d1e2",
+        "nodes": 94796,
+        "score": 43
+      },
+      "G": {
+        "bestmove": "d1e2",
+        "nodes": 94796,
+        "score": 43
+      },
+      "W": {
+        "bestmove": "d1e2",
+        "nodes": 94796,
+        "score": 43
+      },
+      "L": {
+        "bestmove": "d1e2",
+        "nodes": 94848,
+        "score": 43
+      }
+    },
+    "SEE_ON": {
+      "I": {
+        "bestmove": "d1e2",
+        "nodes": 130724,
+        "score": 40
+      },
+      "V": {
+        "bestmove": "d1e2",
+        "nodes": 149011,
+        "score": 35
+      },
+      "B": {
+        "bestmove": "d1d2",
+        "nodes": 65172,
+        "score": 54
+      },
+      "G": {
+        "bestmove": "d1d2",
+        "nodes": 65172,
+        "score": 54
+      },
+      "W": {
+        "bestmove": "d1d2",
+        "nodes": 65172,
+        "score": 54
+      },
+      "L": {
+        "bestmove": "d1d2",
+        "nodes": 60927,
+        "score": 63
+      }
+    },
+    "G_beta_break_suppressed_per_SEE_arm": 1,
+    "W_single_TT_write_suppressed_per_SEE_arm": 1,
+    "L_local_Q_return_clamp_fired_per_SEE_arm": 1,
+    "L_numeric_value_changed_per_SEE_arm": 1,
+    "analysis": "All G,W,L preserve B bestmove. G and W preserve B nodes/score in both arms. L preserves bestmove but changes ON root evaluation score and nodes. No claim G/W side effects are absent everywhere."
+  },
+  "case_29": {
+    "original_TT_return": 29,
+    "bypass_target_Q_return": 29,
+    "target_alpha": 130,
+    "target_beta": 131,
+    "OFF": {
+      "I": {
+        "bestmove": "d1e2",
+        "nodes": 81783,
+        "score": 4
+      },
+      "V": {
+        "bestmove": "f3e5",
+        "nodes": 50516,
+        "score": 4
+      },
+      "B": {
+        "bestmove": "f3e5",
+        "nodes": 75284,
+        "score": 4
+      },
+      "G": {
+        "bestmove": "f3e5",
+        "nodes": 75284,
+        "score": 4
+      },
+      "W": {
+        "bestmove": "f3e5",
+        "nodes": 75284,
+        "score": 4
+      },
+      "L": {
+        "bestmove": "f3e5",
+        "nodes": 75284,
+        "score": 4
+      }
+    },
+    "SEE_ON": {
+      "I": {
+        "bestmove": "f3e5",
+        "nodes": 64658,
+        "score": 3
+      },
+      "V": {
+        "bestmove": "f3e5",
+        "nodes": 67849,
+        "score": 0
+      },
+      "B": {
+        "bestmove": "f3e5",
+        "nodes": 59808,
+        "score": 3
+      },
+      "G": {
+        "bestmove": "f3e5",
+        "nodes": 59808,
+        "score": 3
+      },
+      "W": {
+        "bestmove": "f3e5",
+        "nodes": 59808,
+        "score": 3
+      },
+      "L": {
+        "bestmove": "f3e5",
+        "nodes": 59808,
+        "score": 3
+      }
+    },
+    "G_beta_break_suppressed_per_SEE_arm": 0,
+    "W_single_TT_write_suppressed_per_SEE_arm": 1,
+    "L_local_Q_return_clamp_fired_per_SEE_arm": 1,
+    "L_numeric_value_changed_per_SEE_arm": 0,
+    "analysis": "G is a real null-contact control, whereas W and L contact but leave B endpoints identical. Value preservation TT immediate29 == qsearch computed29 is real; why root changes cannot be attributed to single local value or target terminal write alone."
+  },
+  "failure_history": [
+    {
+      "run": "https://github.com/WhoSia/C3X/actions/runs/37926508376",
+      "status": "TECHNICAL_FAILURE",
+      "cause": "P8 compact JSON does not include exact P7 p6s1 dictionary. Runner wrongly assumed field; fixed to compare frozen original P7 row directly, original study data not altered."
+    },
+    {
+      "run": "https://github.com/WhoSia/C3X/actions/runs/37926784308",
+      "status": "SUCCESS"
+    }
+  ],
+  "caveats": [
+    "Two pre-selected outcome-disclosed source worlds are not independent prospective evidence",
+    "G suppresses a specific branch-break but may be control-flow equivalent when no remaining moves",
+    "W suppresses only one exact target TT terminal save; other TT/history/search effects remain",
+    "L changing delivered Q scalar while maintaining root categorical move does NOT mean numerical evaluation or nodes stayed fixed",
+    "No natural indirect or universal chess tactic causal mediation identified",
+    "NNUE learned concept still HOLD",
+    "Original P1 C1 accuracy 42/64 versus trivial B0 53/64 FAIL remains"
+  ]
+}
