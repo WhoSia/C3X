@@ -1,0 +1,59 @@
+name: C3X 0.18 Blind Independent PGN Source Freeze
+on:
+  push:
+    paths:
+      - 'harness/c3x_018_blind_2025oct_broadcast_PGN_cohort.py'
+      - '.github/workflows/c3x-018-blind-16-broadcast-source-freeze.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  source-only-before-engine:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install independent parser only (no Stockfish)
+        run: |
+          python -m pip install --disable-pip-version-check chess==1.11.2 zstandard==0.25.0
+          python -m py_compile harness/c3x_018_blind_2025oct_broadcast_PGN_cohort.py
+      - name: Retrieve public Lichess broadcast October 2025 source
+        run: |
+          set -euo pipefail
+          mkdir -p evidence /tmp/C3X018_NEW_PGN
+          curl --fail --location --show-error --silent --retry 3 --max-time 180 \
+            https://database.lichess.org/broadcast/lichess_db_broadcast_2025-10.pgn.zst \
+            --output /tmp/C3X018_NEW_PGN/lichess_db_broadcast_2025-10.pgn.zst
+          test -s /tmp/C3X018_NEW_PGN/lichess_db_broadcast_2025-10.pgn.zst
+          sha256sum /tmp/C3X018_NEW_PGN/lichess_db_broadcast_2025-10.pgn.zst > evidence/SOURCE_PGN_SHA256.txt
+      - name: Harvest exactly sixteen source histories without chess engine
+        run: |
+          set -euo pipefail
+          python -u harness/c3x_018_blind_2025oct_broadcast_PGN_cohort.py \
+            --zst /tmp/C3X018_NEW_PGN/lichess_db_broadcast_2025-10.pgn.zst \
+            --prior c3x/cohorts/c3x-016-P4-12-independent-Lichess-legal-root-order-sourceonly-frozen.json \
+            --out evidence/C3X018_INDEPENDENT_BLIND16_PGN_SOURCE.json | tee evidence/SOURCE_ONLY_STDOUT.txt
+          python - <<'PY'
+          import json
+          j=json.load(open('evidence/C3X018_INDEPENDENT_BLIND16_PGN_SOURCE.json'))
+          assert len(j['selected'])==16
+          assert len(set(x["source_game_sha256"] for x in j['selected']))==16
+          assert j["previous_12_FEN_overlap"]==0
+          assert all(x['full_original_mainline_uci'] for x in j['selected'])
+          print('C3X018_16_FULL_HISTORIES_BLIND_SOURCE_ONLY_PASS')
+          PY
+      - name: Hash all source evidence
+        if: always()
+        run: |
+          mkdir -p evidence
+          find evidence -maxdepth 1 -type f ! -name MEMBER_SHA256.txt -print0 | sort -z | xargs -0 -r sha256sum > evidence/MEMBER_SHA256.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x-018-independent-PGN-blind-source-16
+          path: evidence/
+          retention-days: 90
+          if-no-files-found: error
