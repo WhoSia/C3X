@@ -39,7 +39,7 @@ static thread_local int c3x018_root_call_id = 0;""",
         "RESET")
     # Before each invocation of search<Root>, not merely when a bounded
     # observation happens. Thus IDs remain monotonic even beyond event cap.
-    anchor = "              if(c3x017_root_event_count<c3x017_root_event_limit && rootDepth>=1) {"
+    anchor = ("              if(c3x017_root_event_count<c3x017_root_event_limit && rootDepth>=1) {\n"\n              "                  ++c3x017_root_event_count;\n"\n              '                  sync_cout << "info string c3x017_root_event kind=window_enter seq="')
     replacement = """              if (c3x018_last_depth != int(rootDepth)) {
                   c3x018_last_depth = int(rootDepth);
                   c3x018_trial_at_depth = 0;
