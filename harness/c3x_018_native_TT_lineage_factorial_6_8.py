@@ -97,6 +97,11 @@ def play(engine, world, p4_mode, lineage_mode=None, target=None, writer_budget=N
     for line in lines:
         if line.startswith("info string c3x018_write_fingerprint "):
             fingerprints.append({k:int(v) for k,v in parse_fields(line).items()})
+    witnesses=[]
+    for line in lines:
+        if line.startswith("info string c3x018_value_witness "):
+            fields=parse_fields(line)
+            witnesses.append({k:(v if k in ("kind","site") else int(v)) for k,v in fields.items()})
     root_events=[]
     for line in lines:
         if line.startswith("info string c3x017_root_event "):
@@ -121,6 +126,7 @@ def play(engine, world, p4_mode, lineage_mode=None, target=None, writer_budget=N
        "blocks":[e for e in events if e["kind"] in ("writer_block","reader_block")],
        "rescues":[e for e in events if e["kind"]=="writer_rescue"],
        "write_fingerprints":fingerprints,
+       "payload_witnesses":witnesses,
        "root_events":root_events,
        "root_contact":roots[0]}
 
