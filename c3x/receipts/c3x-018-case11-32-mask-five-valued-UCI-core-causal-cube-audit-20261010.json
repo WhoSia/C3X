@@ -1,0 +1,77 @@
+{
+  "schema": "c3x018-case11-32-mask-full-UCI-equivalence-and-Boolean-marginal-influence-receipt",
+  "kind": "ADAPTIVE_RETROSPECTIVE_FINITE_SOURCE_AUDIT",
+  "source_run": 37989712016,
+  "source_native_sha256": "1d2a66fd9d0cefe5ab5320b67caf98edce15f62bb394b50682c0bb5f2c485eed",
+  "math_ci_run": 37992526268,
+  "math_ci_conclusion": "SUCCESS",
+  "artifact_id": 11645981027,
+  "artifact_zip_sha256": "683281178361b9fc30263a6f9725a931a3dfc2f17b5c3b29b5d0dbc4bc166897",
+  "result_sha256": "1712d714adba0a4565e2d707a24c19641a7969a9a85e1b3915f34c85392c1da4",
+  "all_32_masks_cold_and_sha_verified": true,
+  "full_UCI_output_equivalence_classes": [
+    {
+      "masks": "0..15",
+      "bestmove": "b2b3",
+      "score_cp": 86,
+      "nodes": 50765
+    },
+    {
+      "masks": "16..19",
+      "bestmove": "b2b3",
+      "score_cp": 91,
+      "nodes": 51133
+    },
+    {
+      "masks": "20..23",
+      "bestmove": "c1f4",
+      "score_cp": 91,
+      "nodes": 55884
+    },
+    {
+      "masks": "24..25",
+      "bestmove": "c1f4",
+      "score_cp": 90,
+      "nodes": 45191
+    },
+    {
+      "masks": "26..31",
+      "bestmove": "c1f4",
+      "score_cp": 90,
+      "nodes": 40365
+    }
+  ],
+  "categorical_formula": "Y=x13*(x11 OR x12)",
+  "categorical_minimal_interventions": [
+    [
+      11,
+      13
+    ],
+    [
+      12,
+      13
+    ]
+  ],
+  "pivotal_subsets_under_uniform_other_gates": {
+    "9": 0,
+    "10": 0,
+    "11": 4,
+    "12": 4,
+    "13": 12
+  },
+  "Shapley_under_uniform_five_bit_coalition_game": {
+    "9": 0,
+    "10": 0,
+    "11": 0.16666666666666666,
+    "12": 0.16666666666666666,
+    "13": 0.6666666666666666
+  },
+  "critical_scope": "Shapley is a defined finite cooperative-game allocation over synthetic controls, not natural mediator importance. Categorical root response and full UCI core response partitions differ.",
+  "source_intermediate_behavior": "Only gating call13 alone changes reported cp 86→91 and nodes 50765→51133, but not bestmove; adding call11 or call12 shifts categorical move.",
+  "limits": [
+    "No additional independent game evidence",
+    "PVS/root-call position is procedural, not a universal causal variable",
+    "Other source interactions can change node count even when bestmove unchanged",
+    "January independent test preregistered before its holdout run, this receipt is not used for retargeting January selection"
+  ]
+}
