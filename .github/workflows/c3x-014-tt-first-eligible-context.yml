@@ -1,0 +1,109 @@
+name: C3X 0.14 Matched First TT Return Event and Native Writer Context
+on:
+  push:
+    paths:
+      - '.github/workflows/c3x-014-tt-first-eligible-context.yml'
+      - 'tools/c3x_014_tt_first_eligible_writer_context_patch.py'
+      - 'harness/c3x_014_first_eligible_tt_event_writer_context_court.py'
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  matched-native-TT-first-return:
+    runs-on: ubuntu-latest
+    timeout-minutes: 32
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Native SF16 source build prerequisites
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq make g++ git
+          python -m pip install --disable-pip-version-check chess==1.11.2
+          python -m py_compile tools/c3x_014_tt_first_eligible_writer_context_patch.py harness/c3x_014_first_eligible_tt_event_writer_context_court.py
+          mkdir -p original-worlds previous-native output
+      - uses: actions/download-artifact@v4
+        with:
+          name: c3x-014-legal-historical-chess-concept-worlds-source-only
+          path: original-worlds/
+          repository: WhoSia/C3X
+          run-id: '37809811541'
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: c3x-014-native-TT-fullkey-physical-slot-producer-consumer-lineage
+          path: previous-native/
+          repository: WhoSia/C3X
+          run-id: '37884510668'
+          github-token: ${{ github.token }}
+      - name: Verify previous exact frozen 224-process writer-consumer trial
+        run: |
+          printf '%s  %s\n' '0080f4f108471137f8d9d0908e3c879e33351ad8bdd4fbf0fdda83d47f6075b2' 'original-worlds/C3X014_LEGAL_CONCEPT_WORLDS_SOURCE_FROZEN.json' | sha256sum -c -
+          printf '%s  %s\n' '577a19d6fda01350605fa92da2cf33265fd62b356958043e8ac4b853dc1ff5ae' 'previous-native/C3X014_NATIVE_PHYSICAL_TT_PRODUCER_CONSUMER_PANEL.json' | sha256sum -c -
+      - name: Compile minimal additional writer-ply and first-eligible event observer
+        run: |
+          git clone -q --single-branch --branch sf_16 https://github.com/official-stockfish/Stockfish.git /tmp/C3X014_matched
+          test "$(git -C /tmp/C3X014_matched rev-parse HEAD)" = "68e1e9b3811e16cad014b590d7443b9063b3eb52"
+          python tools/c3x_013_p8ep9_patch_sf16_cutoffs.py --source /tmp/C3X014_matched --out-manifest output/FROZEN_EP9.json
+          python tools/c3x_014_patch_native_completed_depth_probe.py --source /tmp/C3X014_matched --out-manifest output/FROZEN_COMPLETION.json
+          python tools/c3x_014_native_one_main_event_mechanism_patch.py --source /tmp/C3X014_matched --out-manifest output/FROZEN_ONE_MAIN.json
+          python tools/c3x_014_tt_producer_slot_lineage_patch.py --source /tmp/C3X014_matched --out-manifest output/FROZEN_FULLKEY_WRITER.json
+          python tools/c3x_014_tt_first_eligible_writer_context_patch.py --source /tmp/C3X014_matched --out-manifest output/NEW_ELIGIBLE_EVENT_AND_PLY_WRITER.json
+          git -C /tmp/C3X014_matched diff -- src/tt.h src/tt.cpp src/search.cpp > output/MATCHED_FIRST_EVENT_CPP_SOURCE_DIFF.patch
+          test -s output/MATCHED_FIRST_EVENT_CPP_SOURCE_DIFF.patch
+          cp /tmp/C3X014_matched/Copying.txt output/Stockfish_GPLv3.txt
+          make -s -C /tmp/C3X014_matched/src -j2 build ARCH=x86-64
+          cp /tmp/C3X014_matched/src/stockfish /tmp/C3X014_matched_bin
+          sha256sum /tmp/C3X014_matched_bin > output/ACTUAL_NATIVE_MATCHED_EVENT_BINARY_SHA256.txt
+      - name: Smoke-test first observed eligible event and actual save no-op partition
+        run: |
+          python - <<'PY'
+          import json,sys
+          sys.path.insert(0,'harness')
+          from c3x_014_single_TT_event_pathway_court import run
+          d=json.load(open('original-worlds/C3X014_LEGAL_CONCEPT_WORLDS_SOURCE_FROZEN.json'))
+          c=next(x for x in d['cases'] if x['concept_changing_world'] and x['concept_preserving_world'])
+          hist=c['first_17_ply_path_uci']+[c['original_black18']]
+          r=run('/tmp/C3X014_matched_bin',c['original_legal_history_root_fen'],c['root_candidate_pair'],hist,'OFF')
+          a,b=r['mechanism_path'],r['slot_writer_summary']
+          assert a['first_eligible_ply']>=0 and a['first_blocked_ply']==-1
+          assert b['saves']==b['full']+b['move_only']+b['no_op']
+          print('C3X014_NATIVE_ELIGIBLE_OFF_AND_TT_NOOP_SMOKE_PASS',
+                a['first_eligible_key'], b['full'],b['move_only'],b['no_op'])
+          PY
+      - name: Repeat exact 28 source-world 168 native arm processes with matched first TT event
+        run: |
+          python harness/c3x_014_first_eligible_tt_event_writer_context_court.py --source original-worlds/C3X014_LEGAL_CONCEPT_WORLDS_SOURCE_FROZEN.json --previous previous-native/C3X014_NATIVE_PHYSICAL_TT_PRODUCER_CONSUMER_PANEL.json --patched-bin /tmp/C3X014_matched_bin --out output/C3X014_MATCHED_FIRST_ELIGIBLE_AND_NATIVE_WRITER_PLY_PANEL.json
+          python - <<'PY'
+          import json
+          a=json.load(open('output/C3X014_MATCHED_FIRST_ELIGIBLE_AND_NATIVE_WRITER_PLY_PANEL.json'))
+          assert a['research_unit']=='C3X 0.14' and a['inside_same_formal_stage']
+          assert a['source_groups']==14 and a['source_worlds']==28
+          assert a['new_native_engine_processes']==168
+          assert a['prior_native_UCI_and_original_path_replayed_exact_arm_count']==168
+          assert a['cold_pair_replay_all_arm_values_out_of28']==28
+          assert a['OFF_ONE_MAIN_MAIN_first_eligible_full_event_identical_in_all_28_worlds']==28
+          assert a['ONE_MAIN_FIRST_BLOCKED_matches_OFF_FIRST_TAKEN_pretreatment_site']==28
+          assert not a['P1_four_game_holdout_opened']
+          print('C3X014_MATCHED_FIRST_ELIGIBLE_NATIVE_TT_EVENT_CAUSAL_AUTHORITY_GATE_PASS')
+          PY
+      - name: Save original test references, full source and real SHA manifest
+        if: always()
+        run: |
+          cp tools/c3x_014_tt_first_eligible_writer_context_patch.py output/MATCHED_EVENT_NATIVE_CPP_PATCHER.py
+          cp harness/c3x_014_first_eligible_tt_event_writer_context_court.py output/MATCHED_EVENT_REAL_NATIVE_HARNESS.py
+          cp c3x/ontology/c3x-014-tt-producer-consumer-slot-lineage-precommit.md output/PRECOMMIT_AND_BEFORE_NEW_EVENT_RESULTS.md
+          cp original-worlds/C3X014_LEGAL_CONCEPT_WORLDS_SOURCE_FROZEN.json output/ORIGINAL_SOURCE_GAME_WORLDS.json
+          cp previous-native/C3X014_NATIVE_PHYSICAL_TT_PRODUCER_CONSUMER_PANEL.json output/PRIOR_224_NATIVE_LAST_WRITER_EVIDENCE.json
+          printf '%s\n' 'Same C3X 0.14 single phase. First eligible TT return matched before action; no isolated LMR/history/NNUE/chess concept causality.' > output/AUTHORITY_CEILING.txt
+          find output -maxdepth 1 -type f ! -name 'MEMBER_SHA256.txt' -print0 | sort -z | xargs -0 sha256sum > output/MEMBER_SHA256.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x-014-first-returnable-TT-event-matched-triad-and-writer-ply
+          path: output/
+          retention-days: 90
+          if-no-files-found: error
