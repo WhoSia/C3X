@@ -1,0 +1,52 @@
+name: C3X 0.17 Frozen Depth8 Root Source Audit
+on:
+  push:
+    paths:
+      - 'harness/c3x017_depth8_semantic_source_audit.py'
+      - 'harness/test_c3x017_depth8_semantic_source_audit.py'
+      - '.github/workflows/c3x-017-depth8-source-evidence-audit.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  independent-source-audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Run synthetic unit negative tests
+        run: |
+          set -euo pipefail
+          python -m unittest discover -s harness -p 'test_c3x017_depth8_semantic_source_audit.py' -v
+      - uses: actions/download-artifact@v4
+        with:
+          name: c3x-016-P4-12-Lichess-root-order-72-native
+          path: original/
+          repository: WhoSia/C3X
+          run-id: '37951814506'
+          github-token: ${{ github.token }}
+      - name: Independently audit original exact SF16 native result
+        run: |
+          set -euo pipefail
+          printf '%s  %s\n' '0c25ff11f28ced23e8d3ead2219861f350d8ba27d93ba457617abe65347da564' 'original/C3X017_ROOT_WINDOW_CANDIDATE_72_NATIVE.json' | sha256sum -c -
+          mkdir -p evidence
+          python harness/c3x017_depth8_semantic_source_audit.py \
+            --native-json original/C3X017_ROOT_WINDOW_CANDIDATE_72_NATIVE.json \
+            --out evidence/C3X017_DEPTH8_FIRST_RETAINED_ROOT_SEMANTIC_EVENTS.json
+          python - <<'PY'
+          import json
+          j=json.load(open('evidence/C3X017_DEPTH8_FIRST_RETAINED_ROOT_SEMANTIC_EVENTS.json'))
+          assert len(j['cases'])==12
+          assert j['cases'][5]['categorical_bestmove_changed']
+          assert j['cases'][7]['categorical_bestmove_changed']
+          assert all(not x['trace_truncated_O'] and not x['trace_truncated_F'] for x in j['cases'])
+          print('C3X017_DEPTH8_SOURCE_NATIVE_REPLAY_SCOPED_PASS')
+          PY
+          sha256sum evidence/* > evidence/MEMBER_SHA256.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: c3x-017-depth8-semantic-source-independent-court
+          path: evidence/
+          if-no-files-found: error
