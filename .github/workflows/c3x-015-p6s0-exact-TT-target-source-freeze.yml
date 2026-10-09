@@ -1,0 +1,91 @@
+name: C3X 0.15 P6-S0 Passive First Exact Fullkey TT Writer-Consumer Target Freeze
+on:
+  push:
+    paths:
+      - '.github/workflows/c3x-015-p6s0-exact-TT-target-source-freeze.yml'
+      - 'tools/c3x_015_P6S0_FIRST_exact_TT_reader_candidate_patch.py'
+      - 'harness/c3x_015_P6S0_OFF_full64_TT_target_freezer.py'
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  original-TWIC64-OFF-only-exact-TT-target-court:
+    runs-on: ubuntu-latest
+    timeout-minutes: 50
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Check original-source chess legality and Python probe syntax
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq git make g++
+          python -m pip install --disable-pip-version-check chess==1.11.2
+          python -m py_compile tools/c3x_015_P6S0_FIRST_exact_TT_reader_candidate_patch.py harness/c3x_015_P6S0_OFF_full64_TT_target_freezer.py
+          mkdir -p source-frozen original-P2 output
+      - uses: actions/download-artifact@v4
+        with:
+          name: c3x-015-twic1665-R2-event-capped-source-pin-matched-nonpin
+          path: source-frozen/
+          repository: WhoSia/C3X
+          run-id: '37902655949'
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: c3x-015-TWIC-R2-frozen-64pin-64nonpin-native-SEE-primary
+          path: original-P2/
+          repository: WhoSia/C3X
+          run-id: '37906181077'
+          github-token: ${{ github.token }}
+      - name: Restore immutable original P0 and earlier outcome integrity before P6-S0 read-only observer
+        run: |
+          printf '%s  %s\n' '1e932aa881eaef549c770211c078d930cd8d675e5688644e1bc36ab31bae4534' 'source-frozen/C3X015_TWIC1665_SCOREBLIND_SOURCE_MANIFEST_R2.json' | sha256sum -c -
+          printf '%s  %s\n' 'e930f0b489301c656690d09f4821583a28eead04e43382b545bda35b71279256' 'original-P2/C3X015_TWIC1665_R2_P2_PIN64_NONPIN64_PROSPECTIVE_NATIVE_RESULT.json' | sha256sum -c -
+          test -s c3x/ontology/c3x-015-P6-exact-TT-return-edge-first-writer-consumer-precommit-NOT-EXECUTED.md
+      - name: Build exact native SF16 and source-observational TT physical fullkey target logger
+        run: |
+          git clone -q --single-branch --branch sf_16 https://github.com/official-stockfish/Stockfish.git /tmp/C3X015_P6S0
+          test "$(git -C /tmp/C3X015_P6S0 rev-parse HEAD)" = 68e1e9b3811e16cad014b590d7443b9063b3eb52
+          python tools/c3x_014_patch_native_pin_operators.py --source /tmp/C3X015_P6S0 --out-manifest output/PASSIVE_PIN_PATCH.json
+          python tools/c3x_014_ROOT_PIN_object_only_SEE_unmask_patch.py --source /tmp/C3X015_P6S0 --out-manifest output/ROOT_OBJECT_GUARD_PATCH.json
+          python tools/c3x_015_CSWP_first_site_window_patch_R2.py --source /tmp/C3X015_P6S0 --out-manifest output/CSWP_SEARCH_FRAME_PATCH.json
+          python tools/c3x_015_CSWP_TT_writer_reader_bound_window_patch.py --source /tmp/C3X015_P6S0 --out-manifest output/P4_TT_WRITER_READER_SOURCE_PATCH.json
+          python tools/c3x_015_P6S0_FIRST_exact_TT_reader_candidate_patch.py --source /tmp/C3X015_P6S0 --out-manifest output/P6S0_FIRST_ACTUAL_RETURN_SOURCE_PATCH.json
+          git -C /tmp/C3X015_P6S0 diff -- src/position.cpp src/search.cpp src/evaluate.cpp src/tt.cpp src/tt.h > output/P6S0_ORIGINAL_NATIVE_CPP_DIFF.patch
+          test -s output/P6S0_ORIGINAL_NATIVE_CPP_DIFF.patch
+          make -s -C /tmp/C3X015_P6S0/src -j2 build ARCH=x86-64
+          cp /tmp/C3X015_P6S0/src/stockfish /tmp/C3X015_P6S0_bin
+          sha256sum /tmp/C3X015_P6S0_bin > output/NATIVE_BINARY_SHA256.txt
+      - name: Observe all 64 native original OFF roots twice and freeze first exact TT writer/reader target
+        run: |
+          python -u harness/c3x_015_P6S0_OFF_full64_TT_target_freezer.py \
+            --source source-frozen/C3X015_TWIC1665_SCOREBLIND_SOURCE_MANIFEST_R2.json \
+            --prior-p2 original-P2/C3X015_TWIC1665_R2_P2_PIN64_NONPIN64_PROSPECTIVE_NATIVE_RESULT.json \
+            --engine /tmp/C3X015_P6S0_bin \
+            --out output/C3X015_P6S0_64_SOURCE_OFF_FIRST_FULLKEY_TT_TARGETS.json
+          python - <<'PY'
+          import json
+          a=json.load(open('output/C3X015_P6S0_64_SOURCE_OFF_FIRST_FULLKEY_TT_TARGETS.json'))
+          assert a['new_native_source_observer_processes']==128
+          assert a['OFF_native_reported_UCI_equal_original_P2']=='64/64'
+          assert a['exact_64_cold_pairs']=='64/64'
+          assert len(a['all64_targets'])==64
+          print('C3X015_P6S0_OFF_ONLY_FULLKEY_TT_TARGET_SOURCE_FREEZE_PASS')
+          PY
+      - name: Preserve exact original native source evidence only, no TT blocking and no TWIC PGN rehost
+        if: always()
+        run: |
+          cp tools/c3x_015_P6S0_FIRST_exact_TT_reader_candidate_patch.py output/P6S0_EXACT_PASSIVE_TARGET_PATCHER.py
+          cp harness/c3x_015_P6S0_OFF_full64_TT_target_freezer.py output/P6S0_SOURCE_TARGET_FREEZE_RUNNER.py
+          cp /tmp/C3X015_P6S0/Copying.txt output/STOCKFISH_GPLv3.txt 2>/dev/null || true
+          printf '%s\n' 'Pure OFF native source observer. No targeted TT return has been bypassed. P6-S1 cannot start until this exact full64 target manifest is SHA-sealed and matched exposure gates are fixed.' > output/P6S0_PREINTERVENTION_CLAIM_BOUND.txt
+          find output -maxdepth 1 -type f ! -name MEMBER_SHA256.txt -print0 | sort -z | xargs -0 sha256sum > output/MEMBER_SHA256.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x-015-P6S0-TWIC-original64-first-exact-fullkey-TT-return-target-freeze
+          path: output/
+          retention-days: 90
+          if-no-files-found: error
