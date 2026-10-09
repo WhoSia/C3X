@@ -1,0 +1,71 @@
+{
+  "schema": "c3x019-Jan14-actual-native-TT-cutoff-return-after-epoch-rewrite-v1",
+  "date": "2026-10-10",
+  "study": "POST_OUTCOME_LAST_EXCEPTION_FROM_31_JANUARY_ARM_USE_AUDIT",
+  "protocol": "c3x/ontology/c3x-019-P1B-january14-true-native-TT-cutoff-versus-eval-precommit.md",
+  "original_sources": {
+    "engine": "Stockfish16 68e1e9b3811e16cad014b590d7443b9063b3eb52",
+    "source_sha256": "5b49818e4678c12d0e5e73eba39eff2d50742b070a0ed870cba1d3e94afe0533",
+    "independent_january_native_sha256": "9d7ff1d8c5e019a5ab5b95441468da0ad49951adc756b8669db7853b82649470"
+  },
+  "native": {
+    "run": 37997851747,
+    "status": "SUCCESS",
+    "artifact_id": 11647646836,
+    "archive_sha256": "7a4b89124cd3160d8a8cb7c940ae5811d78aa595af432a318fad596eaac18b3b",
+    "json_file": "C3X019_JAN14_TRUE_TT_CUTOFF_RETURN.json",
+    "json_sha256": "635666544d94c4bd7561685dfc4020b3b060c9cd91456e7024940386ae3f1a34",
+    "verified_member_hashes": 22,
+    "cold_repeat_per_arm": 2,
+    "original_UCI_six_fields_identical": true
+  },
+  "case": {
+    "id": 14,
+    "selector": "STRICT",
+    "first_source_root_call": 7,
+    "second_source_root_call": 8,
+    "key64": "9126712024987466350",
+    "slot": 0,
+    "old_writer_epoch": 1,
+    "new_writer_epoch": 2,
+    "new_writer_serial": 136,
+    "tt_hit": true,
+    "full64_writer_key_matched": true,
+    "search_depth": 3,
+    "TT_stored_depth": 5,
+    "alpha": 701,
+    "beta": 702,
+    "TT_effective_value": 1794,
+    "TT_raw_bound": "LOWER",
+    "TT_cached_static_eval": -373,
+    "source_site": "main_cutoff",
+    "actual_native_TT_cutoff_return_count": 1,
+    "actual_native_eval_assignment_count": 0,
+    "first_V_source_gate_contacts": [
+      7
+    ],
+    "bestmove": "b1a1"
+  },
+  "verdicts": {
+    "C14_1_MAIN_CUTOFF": "PASS",
+    "C14_2_EXPECTED_NO_EVAL_ASSIGNMENT": "PASS",
+    "C14_3_PRIOR_NATIVE_CORE_AND_GATE": "PASS",
+    "C14_4_ACTUAL_CUTOFF_CONDITIONS": "PASS",
+    "C14_5_NO_GENERALIZATION": "PASS"
+  },
+  "aggregate_correction": {
+    "original_old_writer_version_target_missing_arms": 29,
+    "original_native_TT_eval_assignment_survived": 28,
+    "original_native_TT_cutoff_value_return_survived": 1,
+    "native_value_use_absent_after_epoch_change": 0,
+    "distinct_source_target_cases_where_old_epoch_V_gate_lost": 23,
+    "distinct_source_pairs_where_native_TT_value_use_persisted": 23
+  },
+  "scope_limits": [
+    "28/29 and 1/29 are original preselected January role-arm observations, not independent random samples; 23 distinct affected pairs",
+    "One main cutoff return native use is a different computation than score-as-evaluation substitution; cannot merge their downstream impact labels",
+    "This demonstrates source native TT value use persisted at selected call, not unique natural mediation of final bestmove",
+    "New P0.19 measurements are retrospective; prior prospective January J2 J3 J4 failures remain FAILED",
+    "No cross-engine portability or new-month independent validation yet"
+  ]
+}
