@@ -32,9 +32,11 @@ jobs:
       - name: Generate machine-readable claim ceiling from original Rust evidence
         run: |
           mkdir -p output
-          go run ./cmd/c3x-cswp-authority \
-            locked-rust/C3X015_RUST_P6S1_INDEPENDENT_CAUSAL_EVIDENCE.json \
-            output/C3X015_CSWP_GO_EXPLANATION_AUTHORITY.json
+          cd cmd/c3x-cswp-authority
+          go run . \
+            ../../locked-rust/C3X015_RUST_P6S1_INDEPENDENT_CAUSAL_EVIDENCE.json \
+            ../../output/C3X015_CSWP_GO_EXPLANATION_AUTHORITY.json
+          cd ../..
           python - <<'PY'
           import json
           d=json.load(open('output/C3X015_CSWP_GO_EXPLANATION_AUTHORITY.json'))
