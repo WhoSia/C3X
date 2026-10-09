@@ -38,7 +38,8 @@ def core(raw):
     need(len(best)==1 and best[0]==rows[-1]["pv"][0], "MISSING_BESTMOVE")
     return {"bestmove":best[0],**rows[-1]}
 
-def play(engine, world, p4_mode, lineage_mode=None, target=None, writer_budget=None, rescue_attempt=None, discovery=False, history=False, fen_clocks=None):
+def play(engine, world, p4_mode, lineage_mode=None, target=None, writer_budget=None, rescue_attempt=None, discovery=False, history=False, fen_clocks=None, search_depth=12):
+    need(isinstance(search_depth,int) and 1<=search_depth<=32,"INVALID_SEARCH_DEPTH")
     env = dict(os.environ)
     for name in ("C3X018_TT_MODE", "C3X018_TT_TARGET_KEY64",
                  "C3X018_TT_TARGET_SLOT", "C3X018_TT_TARGET_EPOCH",
@@ -86,14 +87,14 @@ def play(engine, world, p4_mode, lineage_mode=None, target=None, writer_budget=N
             original_moves=world["full_original_mainline_uci"][:world["source_ply_before_original_move"]]
             need(original_moves and world["source_ply_before_original_move"]==len(original_moves),
                  "INCOMPLETE_ORIGINAL_GAME_HISTORY")
-            send("position startpos moves "+" ".join(original_moves),"go depth 12")
+            send("position startpos moves "+" ".join(original_moves),"go depth "+str(search_depth))
         elif fen_clocks is not None:
             half,full=fen_clocks
             need(isinstance(half,int) and half>=0 and isinstance(full,int) and full>=1,
                  "INVALID_SOURCE_FEN_CLOCKS")
-            send("position fen "+world["fen4"]+" "+str(half)+" "+str(full),"go depth 12")
+            send("position fen "+world["fen4"]+" "+str(half)+" "+str(full),"go depth "+str(search_depth))
         else:
-            send("position fen "+world["fen4"]+" 0 1","go depth 12")
+            send("position fen "+world["fen4"]+" 0 1","go depth "+str(search_depth))
         receive("bestmove ",120000)
         send("quit")
         need(proc.wait(timeout=50)==0,"NATIVE_NONZERO_EXIT")
