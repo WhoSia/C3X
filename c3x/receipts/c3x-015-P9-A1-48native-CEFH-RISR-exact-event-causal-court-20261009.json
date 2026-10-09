@@ -1,0 +1,124 @@
+{
+  "schema": "c3x-015-P9-A1-CEFH-RISR-48-native-source-causal-court-v1",
+  "date_kst": "2026-10-09",
+  "generation": "C3X 0.15 OPEN; 0.16 NOT OPEN",
+  "run": "https://github.com/WhoSia/C3X/actions/runs/37926784308",
+  "run_status": "SUCCESS",
+  "previous_failed_run": "https://github.com/WhoSia/C3X/actions/runs/37926508376",
+  "previous_failure_cause": "P9 runner field-name KeyError in baseline audit, corrected without changing original P6/P7/P8 experiment evidence",
+  "source_original_SF16_commit": "68e1e9b3811e16cad014b590d7443b9063b3eb52",
+  "source_frozen_R2_sha": "1e932aa881eaef549c770211c078d930cd8d675e5688644e1bc36ab31bae4534",
+  "P8_baseline_sha": "bb2af016857dff393a6054bad2b2978d3ecb2d92c527891f578688e513452e22",
+  "new_native_processes": 48,
+  "source_chess_game_worlds": 2,
+  "distinct_regimes_per_see": 6,
+  "independent_cold_repeats": 2,
+  "unchanged_P8_conditions": 12,
+  "actions_artifact_id": 11614437231,
+  "github_zip_sha256": "87a787a29fa362ae5db109426ab1cc11c804f3b83b53870ed31c3f84cd0a4813",
+  "raw_p9_json_sha256": "0a0a40d891af736491ecbfb92dee145c969b853d6e1ac43495beb202e905ec17",
+  "drive_file_id": "1iOhgspxO2UOjbtAz01DdZj4bHRoqvKZI",
+  "drive_original_byte_hash_matches_github": true,
+  "source_of_record": "C3X015_P9_A1_CEFH_RISR_EXACT_EVENT_48_NATIVE.json",
+  "worlds": [
+    {
+      "ordinal": 2,
+      "name": "CEFH — Check-Evasion Fail-High Gate",
+      "source_original_tt_score": 14,
+      "blocked_qsearch_beta_cutoff_child_score": 173,
+      "results": {
+        "OFF": {
+          "I": "d1e2",
+          "V": "d1d2",
+          "B": "d1e2",
+          "G": "d1e2",
+          "W": "d1e2",
+          "L": "d1e2"
+        },
+        "SEE_ON": {
+          "I": "d1e2",
+          "V": "d1e2",
+          "B": "d1d2",
+          "G": "d1d2",
+          "W": "d1d2",
+          "L": "d1d2"
+        }
+      },
+      "exposure": {
+        "G_beta_break_suppressed": 1,
+        "W_target_TT_save_suppressed": 1,
+        "L_target_qsearch_return_clamp": 1,
+        "each_see_arm": true
+      },
+      "nodes": {
+        "OFF": {
+          "B": 94796,
+          "G": 94796,
+          "W": 94796,
+          "L": 94848
+        },
+        "SEE_ON": {
+          "B": 65172,
+          "G": 65172,
+          "W": 65172,
+          "L": 60927
+        }
+      },
+      "inference": "None of single specific beta break, target TT write or target return relay intervention was but-for necessary to change completed-depth bestmove relative to prior B in this two-arm world. G and W are in fact behaviorally identical nodes under tested policy."
+    },
+    {
+      "ordinal": 29,
+      "name": "RISR — Return-Invariant Search Reconfiguration",
+      "source_original_tt_score": 29,
+      "blocked_qsearch_return": 29,
+      "results": {
+        "OFF": {
+          "I": "d1e2",
+          "V": "f3e5",
+          "B": "f3e5",
+          "G": "f3e5",
+          "W": "f3e5",
+          "L": "f3e5"
+        },
+        "SEE_ON": {
+          "I": "f3e5",
+          "V": "f3e5",
+          "B": "f3e5",
+          "G": "f3e5",
+          "W": "f3e5",
+          "L": "f3e5"
+        }
+      },
+      "exposure": {
+        "G_beta_break_suppressed": 0,
+        "W_target_TT_save_suppressed": 1,
+        "L_target_qsearch_return_clamp": 1,
+        "each_see_arm": true
+      },
+      "nodes": {
+        "OFF": {
+          "B": 75284,
+          "G": 75284,
+          "W": 75284,
+          "L": 75284
+        },
+        "SEE_ON": {
+          "B": 59808,
+          "G": 59808,
+          "W": 59808,
+          "L": 59808
+        }
+      },
+      "inference": "In this observed world exact TT write suppression and numerically null return clamp did not alter final move or node count, unlike immediate TT early-return. Additional mediator or cumulative search history remains unidentified."
+    }
+  ],
+  "limitations": [
+    "P9-A1 is a post-P6 disclosed two-world mechanism court, not independent prospective strategy validation",
+    "No P9-A2 D129/D130/D131 source trials yet",
+    "One altered source branch is not a proof of natural TT mediation or universal chess strategy",
+    "P1 original C1 accuracy 42/64 vs B0 53/64 remained FAIL",
+    "Categorical bestmove equality does not mean full internal program state equal",
+    "Raw TWIC original is on private Drive and is not included in GitHub artifact"
+  ],
+  "judgment": "P9_A1_48_NATIVE_PASS_SCOPED / G_W_L_TARGET_DELIVERY_PASS / G_W_L_NO_ROOT_CHANGE_OBSERVED / RISR_POST_RETURN_NONSCALAR_MEDIATOR_HOLD / P9_A2_PENDING / C3X015_OPEN"
+}
