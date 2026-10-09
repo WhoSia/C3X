@@ -1,0 +1,125 @@
+{
+  "schema": "c3x-014-root-position-fullkey-pin-site-and-NNUE-PSQ-fallback-native-court-v1",
+  "date_kst": "2026-10-09",
+  "formal_research_unit": "C3X 0.14 — Transportable Search-Mechanism Evidence, Chess-Concept Mediation & Faithful Explanation Systems",
+  "status": "C3X_014_OPEN__ROOT_KEY_NATIVE_OPERATOR_OBSERVABILITY_PASS__PSQ_CLASSICAL_FALLBACK_SOURCE_CONFIRMED__ROOT_PIN_WITHIN_LAW_SUBTYPE_DISCRIMINATION_UNIDENTIFIED_NOT_FALSIFIED",
+  "governance": "One existing Notion Lab C3X 0.14 only. P checkpoints not formal phases. No 0.15 or 0.16 opened. Four sealed P1 holdout games not accessed.",
+  "precommit": "c3x/ontology/c3x-014-bounded-TT-return-census-and-pin-subtypes-precommit.md",
+  "actual_github_action": "https://github.com/WhoSia/C3X/actions/runs/37889525224",
+  "actual_github_run_id": 37889525224,
+  "conclusion": "SUCCESS",
+  "prior_actual_native_search_site_run_id": 37888968410,
+  "raw_prior_actual_CPP_operator_trace_JSON_SHA256": "5f3c64e9ef2ac074786d86be96c404635e269483b1692d3ea1a713f0d0f9e77a",
+  "source_frozen_40_absolute_pin_worlds_SHA256": "cfb2c4b0631959cfcdd5bf1eb098f7b41c40468a7b22e434e95ef8936cc43ead",
+  "sf16_official_commit": "68e1e9b3811e16cad014b590d7443b9063b3eb52",
+  "native_source_frozen_40_worlds": 40,
+  "native_arms": [
+    "Use NNUE true",
+    "Use NNUE false"
+  ],
+  "cold_per_arm": 2,
+  "actual_native_engine_processes": 160,
+  "strict_previous_UCI_and_all_15_operator_counters_exact": "80/80",
+  "true_cold_repeat_operator_and_rootkey_counter_equal": "80/80",
+  "exact_root_key_same_across_both_evaluator_arms": "40/40",
+  "same_law_repeated_subtype_groups": 4,
+  "same_law_distinct_game_positions": 14,
+  "root_key_specific_binary_branch_signature_diversity_in_four_groups": {
+    "NNUE": 0,
+    "CLASSICAL": 0
+  },
+  "root_counter_events_on_40_distinct_positions": {
+    "NNUE": {
+      "root_legal_pinned_checks": {
+        "total_calls": 4,
+        "nonzero_root_worlds": 2
+      },
+      "root_legal_pin_rejects": {
+        "total_calls": 0,
+        "nonzero_root_worlds": 0
+      },
+      "root_SEE_recapture_pinned_mask": {
+        "total_calls": 41,
+        "nonzero_root_worlds": 1
+      },
+      "root_classical_mobility_nonzero_king_blockers": {
+        "total_calls": 1,
+        "nonzero_root_worlds": 1
+      },
+      "root_WeakQueen_hits": {
+        "total_calls": 0,
+        "nonzero_root_worlds": 0
+      }
+    },
+    "CLASSICAL": {
+      "root_legal_pinned_checks": {
+        "total_calls": 3,
+        "nonzero_root_worlds": 1
+      },
+      "root_legal_pin_rejects": {
+        "total_calls": 0,
+        "nonzero_root_worlds": 0
+      },
+      "root_SEE_recapture_pinned_mask": {
+        "total_calls": 47,
+        "nonzero_root_worlds": 1
+      },
+      "root_classical_mobility_nonzero_king_blockers": {
+        "total_calls": 41,
+        "nonzero_root_worlds": 39
+      },
+      "root_WeakQueen_hits": {
+        "total_calls": 4,
+        "nonzero_root_worlds": 4
+      }
+    }
+  },
+  "actual_source_Eval_routing_in_NNUE_setting": {
+    "source_predicate": "bool useClassical = !useNNUE || abs(psq) > 2048;",
+    "total_eval_calls": 606141,
+    "NNUE_evaluator_calls": 586299,
+    "classical_evaluator_calls": 19842,
+    "NNUE_option_PSQ_greater_2048_fallback_calls": 19842,
+    "root_cases_where_some_PSQ_classical_fallback_observed": 40,
+    "classical_share_in_NNUE_mode_about_percent": 3.273
+  },
+  "actual_source_Eval_routing_in_CLASSICAL_setting": {
+    "Eval_calls": 1397520,
+    "NNUE_selected": 0,
+    "classical_selected": 1397520,
+    "NNUE_option_PSQ_classic_fallback": 0
+  },
+  "pin_ontology_truth_limits": [
+    "0/4 root-key binary operational signatures differ DOES NOT falsify computational pin subtypes: precise source sites were scarcely called at the root during live search. E.g. legal rejection never at root and WeakQueen hits only 4/40 classical.",
+    "Original root legal move generation can occur BEFORE the Thread::search() trace reset, thus natural root-key counts can be structurally censored; root events are not an exhaustive explicit per-position source-site examination.",
+    "NNUE setting can dynamically route to classical evaluator from PSQ advantage, which explains earlier nonzero classic WeakQueen/mobility in NNUE mode.",
+    "Root key diagnostic is exact source-native Stockfish key, not human invented semantic feature.",
+    "Evaluator selection by PSQ is not an isolated causal effect of a pin; may reflect other board features.",
+    "Same original 40 source-only pre-selected source games, no new independent provider/engine or human educational evaluation.",
+    "Direct root pin-specific causal category remains NOT IDENTIFIED; no separate 0.15 research version opened."
+  ],
+  "failed_run_and_bounded_repair": {
+    "run_id": 37889463268,
+    "reason": "Source patch exact indentation of bool useClassical matched four spaces but official original sf_16 has two. Source-anchor hard-failed BEFORE engine build; inspected upstream and corrected only indentation.",
+    "successful_replay_run_id": 37889525224
+  },
+  "software": {
+    "initial_site_patcher": "tools/c3x_014_patch_native_pin_operators.py",
+    "new_root_PSQ_patcher": "tools/c3x_014_pin_root_key_and_PSQ_eval_route_patch.py",
+    "root_PSQ_160_run_driver": "harness/c3x_014_native_pin_root_and_PSQ_routing_court.py",
+    "new_root_PSQ_UCI_schema": "harness/c3x_014_pin_root_eval_trace_fields.py",
+    "native_UCI_reader": "harness/c3x_014_official_pin_NNUE_vs_classic_phenotype_court.py"
+  },
+  "artifact": {
+    "github_artifact_id": 11597766031,
+    "sha256": "5b086e5cda1fc13f67551dcfb5854fcf7583f57d6887d369e094d7e464b511cb",
+    "actual_JSON_sha256": "cbddc3a2b963c3d19c76763ee05d70e53da38c504440ba249a2098b3ac7d162a",
+    "internal_member_checksums": "16/16 PASS",
+    "Drive_folder_id": "1ehjBFtuBYo7WQdfHvQDkVxVmQRZow9h_",
+    "Drive_file_id": "1w-Qa2JC33_zQIwgsFIiIBZgdB9TP7NQl",
+    "Drive_url": "https://drive.google.com/file/d/1w-Qa2JC33_zQIwgsFIiIBZgdB9TP7NQl/view",
+    "GitHub_to_Drive_redownload_SHA256_byte_exact": "PASS"
+  },
+  "next": "Stay within C3X 0.14: compare natural root-key call-site observations against a separate explicitly scheduled source-native root probe that evaluates legal pinned moves and classical WeakQueen/SEE for same root without altering normal search; label forced probe separate from natural actual path. For novel engine-native pin subtype causality, require negative controls and matched actual chess positions/new independent source-group test. Then consider substantive 0.15 stage promotion only with formal scientific transition.",
+  "Kakao_prior_chat_reconstruction": "User mentioned prior informal KakaoTalk with junior colleague regarding chess-concept subdivisions. Direct previous ChatGPT conversation search twice errored and canonical C3X Notion page contained no prior Kakao quote; user-provided recollection is motivation only, not misrepresented as checked exact transcript."
+}
