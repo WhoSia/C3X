@@ -1,0 +1,68 @@
+name: C3X 0.18 Cross Depth Physical TT Transport
+on:
+  push:
+    paths:
+      - 'harness/c3x_018_depth_transport_five_source_worlds.py'
+      - '.github/workflows/c3x-018-depth-transport-five-worlds.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  five-world-three-horizon:
+    runs-on: ubuntu-latest
+    timeout-minutes: 55
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Source syntax and path contract
+        run: python -m py_compile harness/c3x_018_depth_transport_five_source_worlds.py
+      - name: Frozen original P4 output court
+        uses: actions/download-artifact@v4
+        with:
+          name: c3x-016-P4-12-Lichess-root-order-72-native
+          path: baseline/
+          repository: WhoSia/C3X
+          run-id: '37948775813'
+          github-token: ${{ github.token }}
+      - name: Pinned SF16 root source, physical shadow, native binary
+        run: |
+          set -euo pipefail
+          mkdir -p evidence
+          root=/tmp/C3X018_HORIZON
+          git clone -q --single-branch --branch sf_16 https://github.com/official-stockfish/Stockfish.git "$root"
+          test "$(git -C "$root" rev-parse HEAD)" = 68e1e9b3811e16cad014b590d7443b9063b3eb52
+          python tools/c3x_016_P4_independent_12root_source_order_patch.py --source "$root" --out-manifest evidence/P4.json
+          python tools/c3x_018_physical_epoch_lineage_patch.py --source "$root" --out-manifest evidence/TT_EPOCH.json
+          git -C "$root" diff -- src/search.cpp src/tt.cpp src/tt.h > evidence/SOURCE_DIFF.patch
+          make -s -C "$root/src" -j2 build ARCH=x86-64
+          sha256sum "$root/src/stockfish" > evidence/BINARY_SHA256.txt
+      - name: Three-horizon fixed-target native transport and no-contact
+        run: |
+          set -euo pipefail
+          python -u harness/c3x_018_depth_transport_five_source_worlds.py \
+            --cohort c3x/cohorts/c3x-016-P4-12-independent-Lichess-legal-root-order-sourceonly-frozen.json \
+            --prior baseline/C3X016_P4_12_LICHESS_MULTIMOTIF_ROOT_ORDER_72_NATIVE.json \
+            --patched /tmp/C3X018_HORIZON/src/stockfish \
+            --out evidence/FIVE_WORLD_DEPTH8_10_12_TT_TRANSPORT.json | tee evidence/NATIVE_STDOUT.txt
+          python - <<'PY'
+          import json
+          j=json.load(open('evidence/FIVE_WORLD_DEPTH8_10_12_TT_TRANSPORT.json'))
+          assert j["summary"]["conditions"]==15
+          assert [c["id"] for c in j["cases"]]==[1,2,5,6,8]
+          assert all(len(c["results"])==3 for c in j["cases"])
+          print('C3X018_NATIVE_DEPTH_TRANSPORT_FULL_DENOMINATOR_PASS')
+          PY
+      - name: Source and result file hashes
+        if: always()
+        run: |
+          mkdir -p evidence
+          find evidence -maxdepth 1 -type f ! -name MEMBER_SHA256.txt -print0 | sort -z | xargs -0 -r sha256sum > evidence/MEMBER_SHA256.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x-018-five-worlds-three-horizon-TT-source
+          path: evidence/
+          retention-days: 90
+          if-no-files-found: error
