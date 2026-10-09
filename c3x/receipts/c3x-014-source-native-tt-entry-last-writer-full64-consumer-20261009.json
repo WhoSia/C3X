@@ -1,0 +1,146 @@
+{
+  "schema": "c3x-014-tt-entry-fullkey-producer-consumer-physical-slot-lineage-v1",
+  "date_kst": "2026-10-09",
+  "formal_research_unit": "C3X 0.14 — Transportable Search-Mechanism Evidence, Chess-Concept Mediation & Faithful Explanation Systems",
+  "user_governance": "Pn checkpoints are sections inside ONE C3X 0.14 phase, not independent formal research stages or Notion pages.",
+  "canonical_existing_notion": "3c4ef561-cf92-817a-b76b-cab15e7d1faf",
+  "status": "C3X_0_14_OPEN__SOURCE_NATIVE_TT_LAST_FULLFIELD_PRODUCER_CONSUMER_PROVENANCE_PASS__FULL_CAUSAL_ANCESTRY_HOLD",
+  "native_toolchain": {
+    "stockfish16_commit": "68e1e9b3811e16cad014b590d7443b9063b3eb52",
+    "cpp_files": [
+      "src/tt.h",
+      "src/tt.cpp",
+      "src/search.cpp"
+    ],
+    "cpp_patcher": "tools/c3x_014_tt_producer_slot_lineage_patch.py",
+    "actual_driver": "harness/c3x_014_tt_producer_consumer_lineage_court.py",
+    "precommit": "c3x/ontology/c3x-014-tt-producer-consumer-slot-lineage-precommit.md",
+    "conditions": "Original SF16/CLEAN, EP9 OFF/ONE_MAIN/MAIN with native completedDepth and search path instrumentation. Source game/fen/white pawn pair fixed. Threads1 Hash16MiB MultiPV2 go depth12 cold engine process.",
+    "source_only_world_JSON_sha256": "0080f4f108471137f8d9d0908e3c879e33351ad8bdd4fbf0fdda83d47f6075b2",
+    "previous_224_run_native_reference_JSON_sha256": "afd48ceb040668c53609d8d5bd78d7a9b781243044cd4187a87896929ef0dd6b",
+    "chess_source_groups": 14,
+    "worlds_per_source_group": 2,
+    "cold_restarts": 2,
+    "prior_p1_four_sealed_heldout_game_groups_opened": false,
+    "native_semantics": "TTEntry occupies 10 bytes, 3 entries per 32 byte cluster; native entry stores key lower16 only, cluster via mul_hi64(fullkey, clusterCount). Separate pointer-keyed sidecar captures last successful FULLFIELD writer full 64bit key, writer class and sequence; not a change to actual TTEntry size. The six native search.cpp TTEntry::save paths are class-labelled.",
+    "tt_writer_class_labels": {
+      "1": "MAIN_TABLEBASE_WRITE",
+      "2": "MAIN_STATIC_EVALUATION",
+      "3": "MAIN_PROBCUT",
+      "4": "MAIN_TERMINAL",
+      "5": "QSEARCH_EARLY",
+      "6": "QSEARCH_TERMINAL"
+    },
+    "surgical_one_return_site": "First dynamically eligible main TT bound early-return event after native safeguards incl rule50<90; score and move sorting history updates before return remain; ONE_MAIN suppresses only first such return."
+  },
+  "actual_run": {
+    "github_url": "https://github.com/WhoSia/C3X/actions/runs/37884510668",
+    "run_id": 37884510668,
+    "conclusion": "SUCCESS",
+    "source_game_groups": 14,
+    "legal_chess_history_worlds": 28,
+    "actual_engine_processes": 224,
+    "original_224_run_UCI_and_native_existing_counter_exact": "224/224",
+    "CLEAN_versus_OFF_exact_in_new_run": "56/56",
+    "two_cold_restarts_exact_all_arms": "28/28",
+    "ONE_MAIN_exactly_one_return_suppressed": "56/56",
+    "source_first_cold_first_consumed_TT_entry_has_known_last_fullfield_writer": "28/28",
+    "source_first_cold_consumed_posKey_matches_last_fullfield_writer_full64key": "28/28",
+    "source_first_cold_last_writer_classes": {
+      "MAIN_TABLEBASE_WRITE": 0,
+      "MAIN_STATIC_EVALUATION": 0,
+      "MAIN_PROBCUT": 0,
+      "MAIN_TERMINAL": 28,
+      "QSEARCH_EARLY": 0,
+      "QSEARCH_TERMINAL": 0
+    },
+    "source_first_cold_producer_slot_reused_by_different_fullkey_before_that_event": "0/28",
+    "source_first_cold_last_slot_touch_no_fullfield_update": "0/28",
+    "source_first_cold_ONE_MAIN_UCI_bestmove_changed": "3/28",
+    "producer_examples": [
+      {
+        "TCEC_round": "12.1",
+        "world": "PLAYED_HISTORY",
+        "first_consumer_poskey": "2057929628722513599",
+        "stable_cluster": 58489,
+        "slot_offset": 0,
+        "writer_class": 4,
+        "writer_save_ordinal": 32,
+        "full_field_overwrites_of_slot": 3,
+        "off_one_main_WHITE_cp_gaps": [
+          -8,
+          0,
+          3
+        ]
+      },
+      {
+        "TCEC_round": "13.1",
+        "world": "PLAYED_HISTORY",
+        "first_consumer_poskey": "13775109829152686975",
+        "stable_cluster": 391512,
+        "slot_offset": 0,
+        "writer_class": 4,
+        "writer_save_ordinal": 146,
+        "full_field_overwrites_of_slot": 2,
+        "off_one_main_WHITE_cp_gaps": [
+          1,
+          -8,
+          3
+        ]
+      },
+      {
+        "TCEC_round": "67.1",
+        "world": "CONCEPT_SHAM_HISTORY",
+        "first_consumer_poskey": "9860092847699796069",
+        "stable_cluster": 280240,
+        "slot_offset": 0,
+        "writer_class": 4,
+        "writer_save_ordinal": 222,
+        "full_field_overwrites_of_slot": 3,
+        "off_one_main_WHITE_cp_gaps": [
+          -13,
+          3,
+          4
+        ]
+      }
+    ],
+    "source_caveat": "A complete 64bit writer-consumer match in sidecar is not proof of no hash collisions elsewhere. Sidecar tracks last fullfield save into concrete physical slot, not all prior search-value ancestry or why writer computed cached score. All examples from same development TCEC ecology; cold technical repeats not independent."
+  },
+  "failed_runs_and_repairs": [
+    {
+      "run_id": 37884189065,
+      "phase": "Full-run reference diff",
+      "root_cause": "Prior frozen JSON MultiPV ranks stored object keys '1','2', live parsed UCI dictionaries use integer indices 1,2. Rank nodes/cp/PV identical but key types compared falsely unequal. Failed closed before result."
+    },
+    {
+      "run_id": 37884338575,
+      "phase": "Diagnosed first rank diff",
+      "root_cause": "Print inspection showed all UCI numbers and PV strings identical; only Python int vs JSON string rank map keys differ."
+    },
+    {
+      "run_id": 37884510668,
+      "phase": "Succeeded after strict canonical dictionary-key-only normalization",
+      "note": "No weakening of PV move/node/score/bound equality or native counters; full grid replayed."
+    }
+  ],
+  "artifacts": {
+    "github_artifact_id": 11596000787,
+    "github_sha256": "1a7b3943e0d792279a38a02bb545413b285dc109c77050cf7a6093a840cb61d5",
+    "Drive_file_id": "1P2-m7cPfiq0iZl8JR_f7xCT5Z6dRpi-1",
+    "Drive_url": "https://drive.google.com/file/d/1P2-m7cPfiq0iZl8JR_f7xCT5Z6dRpi-1/view",
+    "Drive_redownload_sha256_same_as_original": true,
+    "raw_actual_engine_JSON_sha256": "577a19d6fda01350605fa92da2cf33265fd62b356958043e8ac4b853dc1ff5ae",
+    "archive_member_hash_verification": "14/14 PASS",
+    "file_count": 15,
+    "stockfish_GPL_license_and_native_Cplusplus_diff_retained": true
+  },
+  "scientific_limits": [
+    "Writer class 4 MAIN_TERMINAL for all 28 FIRST consumers is a fact about first blocked eligible returned entries in selected worlds, not a statement that all engine TT entries originate at terminal store.",
+    "All 28 first consumer keys match last full-field writers; other TT entries/collisions may differ.",
+    "Label 'move_only' in first sidecar implementation operationally denotes calls with no fullfield write, and can include a no-op when no move bytes are assigned; do not count as literal move16 mutations without a followup recorder correction.",
+    "Same chess concept feature vectors across distinct black-move worlds do not imply same exact TT event or transposition key.",
+    "Direct software intervention ONE_MAIN is validated for local output; exact separate causal mechanisms of LMR/history/move order/NNUE/alpha-beta and chess semantic strategy not yet identified.",
+    "Native SF16 TTEntry::save updated without modifying native TTEntry 10byte layout. Passive recorder may change runtime performance under time control; only fixed depth and strict replay tested."
+  ],
+  "next": "Still C3X 0.14: matched FIRST TT-eligible event across OFF/ONE_MAIN/MAIN as distinct consumer action, add producer ply/bound/depth writer-side context; classify no-fullfield no-op vs real move-only; quantify actual cross-key slot replacement and exact writer-consumer relative interval; isolate quiet history pre-return and LMR with surgical factorial competition. Enter 0.15 only if a new independent question with a separately frozen court is required, not by elapsed time."
+}
