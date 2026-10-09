@@ -1,0 +1,79 @@
+{
+  "schema": "c3x018-TT-cache-reuse-vs-bound-evaluation-override-five-source-native-v1",
+  "verified_date": "2026-10-10",
+  "research_version": "C3X 0.18 ACTIVE",
+  "engine_sha": "68e1e9b3811e16cad014b590d7443b9063b3eb52",
+  "run": 37979547661,
+  "workflow_conclusion": "success",
+  "artifact_id": 11640491541,
+  "artifact_zip_sha256": "aa124a883ebc93a20d946f6b4072edbba7fd84d2ce9688423a990c424b078b7c",
+  "result_json": "TT_CACHED_EVAL_VS_VALUE_OVERRIDE.json",
+  "result_json_sha256": "f9e6e8c5c7c2615cbb0e69c03d6633b5bfed422e691d8b47e409c2bf0bb63631",
+  "all_member_sha256_verified": true,
+  "source_worlds": [
+    1,
+    2,
+    5,
+    6,
+    8
+  ],
+  "summary": {
+    "E_choice_flips": 0,
+    "R_choice_flips": 0,
+    "V_choice_flips": 2,
+    "W2_choice_flips": 5,
+    "E_reader_contacts": {
+      "1": 1,
+      "2": 2,
+      "5": 2,
+      "6": 2,
+      "8": 1
+    },
+    "V_reader_contacts": {
+      "1": 1,
+      "2": 1,
+      "5": 1,
+      "6": 0,
+      "8": 1
+    }
+  },
+  "same_full_final_core_as_W2": [
+    {
+      "case_id": 2,
+      "V_reader_blocks": 1,
+      "bestmove": "a5e1",
+      "score_cp": 0,
+      "nodes": 51979,
+      "W2_writer_blocks": 2,
+      "V_eq_W2_core": true,
+      "original_F_bestmove": "a5b4"
+    },
+    {
+      "case_id": 5,
+      "V_reader_blocks": 1,
+      "bestmove": "d8d4",
+      "score_cp": -209,
+      "nodes": 83219,
+      "W2_writer_blocks": 2,
+      "V_eq_W2_core": true,
+      "original_F_bestmove": "d8d5"
+    }
+  ],
+  "no_V_bestmove_effect_cases": [
+    1,
+    6,
+    8
+  ],
+  "interpretation": [
+    "Bound-conditioned TT score reuse as an improved positional evaluation is one sufficient source-level alternative route to reproduce W2 final UCI output in the selected cases #2 and #5.",
+    "TT static evaluation cache replacement, one targeted early TT cutoff and selected TT-move hint gates did not reproduce the corresponding categorical flips in these cases.",
+    "Alternative operator equivalence of complete final output does not prove same recursive ancestry or unique natural causal writer-reader mediation."
+  ],
+  "limits": [
+    "Five roots preselected for previously observed writer sensitivity and targets selected from treated F; no independent new sample.",
+    "V suppresses only the TT score as evaluation override while leaving TT early cutoff, move hints and other uses unchanged.",
+    "TT write suppression changes entire TTEntry save (including optional move16) and may affect many descendant search decisions.",
+    "No root-call/candidate-level equality between V and W2 yet measured; independent source genealogy court required.",
+    "FEN-only, Stockfish 16 single-thread depth12 Hash16 NNUE disabled, no original repetition-history transport."
+  ]
+}
