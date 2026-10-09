@@ -22,12 +22,19 @@ def filehash(path):return hashlib.sha256(Path(path).read_bytes()).hexdigest()
 def check(ok,why):
     if not ok:raise RuntimeError(why)
 def match_old(old,new,arm):
-    if semantic(old)!=semantic(new):
+    # Frozen JSON encodes MultiPV rank indices as strings; the live UCI
+    # parser retains Python integer keys. Canonicalize ONLY dictionary
+    # keys, never PV moves, node counts, bounds or numerical scores.
+    historical=semantic(old)
+    live=semantic(new)
+    historical["ranks"]={str(k):v for k,v in historical["ranks"].items()}
+    live["ranks"]={str(k):v for k,v in live["ranks"].items()}
+    if historical!=live:
         for field in ("bestmove","signed_white_cp_gap","exact_numeric_cp","ranks"):
-            if old[field]!=new[field]:
-                print("C3X014_BASELINE_DIAGNOSTIC",arm,field,
-                      "historical",json.dumps(old[field],sort_keys=True),
-                      "new",json.dumps(new[field],sort_keys=True),flush=True)
+            if historical[field]!=live[field]:
+                print("C3X014_REAL_SOURCE_DRIFT",arm,field,
+                      "historical",json.dumps(historical[field],sort_keys=True),
+                      "new",json.dumps(live[field],sort_keys=True),flush=True)
         raise RuntimeError("SOURCE_FROZEN_UCI_SHAM_OR_INTERVENTION_OUTPUT_DIFFERS_"+arm)
     if arm!="CLEAN":
         for key in ("native_tt","native_completed"):
