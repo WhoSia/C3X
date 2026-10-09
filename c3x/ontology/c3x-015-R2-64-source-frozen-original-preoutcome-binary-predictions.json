@@ -1,0 +1,12 @@
+{
+  "B0": "0000000000000000000000000000000000000000000000000000000000000000",
+  "B1": "0000000000000100000100000000000000000000000000000000000000000000",
+  "C1": "1101011110110000001100010000100000100101110110101011101010111001",
+  "note": "Existing bitstrings are derived from exact hashed preoutcome P1 prediction manifest before any TWIC outcome readout. Balanced C1 scores not calibrated probabilities.",
+  "ordered_fenhash_join_sha256": "bc85c73229c726a474b1387e36cec00868b1464926bcd327909f357e83ad3904",
+  "original_full_prediction_sha256": "a4ebc45f8ab844e502aa507c64eb78f72371952c0512df676e4b33b0ccc4d172",
+  "original_model_sha256": "70e626898d30d04fc1887d4b863c8c2f28d6af7d70cdc914873c1f6ae230481b",
+  "primary_endpoint": "SF16 classic depth12 root-object SEE unmask bestmove changed vs original OFF",
+  "schema": "c3x-015-R2-original-preoutcome-predictions-compact-64-bit-v1",
+  "source_manifest_sha256": "1e932aa881eaef549c770211c078d930cd8d675e5688644e1bc36ab31bae4534"
+}
