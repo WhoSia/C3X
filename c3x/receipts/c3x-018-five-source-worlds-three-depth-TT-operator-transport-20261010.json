@@ -1,0 +1,122 @@
+{
+  "schema": "c3x018-three-horizon-source-TT-mechanism-falsification-v1",
+  "verified_date": "2026-10-10",
+  "version": "C3X 0.18 ACTIVE",
+  "native_run": 37978870499,
+  "run_conclusion": "success",
+  "head_sha": "731227f78598f60ae73d130fba22144aacffabe5",
+  "artifact_id": 11640021143,
+  "zip_sha256": "027a65353fe0bc037547502a0f97d4d3aed3060871795818127ea008faa53695",
+  "native_json": "FIVE_WORLD_DEPTH8_10_12_TT_TRANSPORT.json",
+  "native_json_sha256": "c746111141d14b882c4e99cdc148d97a87e2e821d467b4609df1de7ea4d2e816",
+  "all_member_sha256_verified": true,
+  "pinned_engine_sha": "68e1e9b3811e16cad014b590d7443b9063b3eb52",
+  "scope": {
+    "source_worlds": [
+      1,
+      2,
+      5,
+      6,
+      8
+    ],
+    "depths": [
+      8,
+      10,
+      12
+    ],
+    "threads": 1,
+    "hash_mb": 16,
+    "nnue": false,
+    "root_orders": [
+      "O",
+      "F",
+      "Z"
+    ],
+    "treatments": [
+      "W1",
+      "W2",
+      "R"
+    ],
+    "decoy_w2_each_condition": true,
+    "repeat_cold_each_condition": 2
+  },
+  "full_denominator": {
+    "world_depths": 15,
+    "W1_bestmove_flips": 4,
+    "W2_bestmove_flips": 9,
+    "R_bestmove_flips": 0,
+    "W2_nonfired": 0
+  },
+  "root6": {
+    "8": {
+      "O": "e4d6",
+      "F": "c3a4",
+      "W1": "c3a4",
+      "W2": "e4d6",
+      "R": "c3a4"
+    },
+    "10": {
+      "O": "e4d6",
+      "F": "c3a4",
+      "W1": "c3a4",
+      "W2": "e4d6",
+      "R": "c3a4"
+    },
+    "12": {
+      "O": "c3a4",
+      "F": "e4d6",
+      "W1": "e4d6",
+      "W2": "c3a4",
+      "R": "e4d6"
+    },
+    "interpretation": "ROOT ORDER EFFECT DIRECTION REVERSES WITH SEARCH DEPTH. TWO SUPPRESSED SOURCE WRITES REPRODUCE THE O BESTMOVE AT ALL TESTED DEPTHS, BUT NOT A FIXED CHESS MOVE."
+  },
+  "root8": {
+    "8": {
+      "O": "e6h3",
+      "F": "e6h3",
+      "W2": "e6h3"
+    },
+    "10": {
+      "O": "e6h3",
+      "F": "e6h3",
+      "W2": "e6h3"
+    },
+    "12": {
+      "O": "e6h3",
+      "F": "h5g7",
+      "W2": "e6h3"
+    },
+    "interpretation": "ORIGINAL ROOT ORDER EFFECT APPEARS AT DEPTH12 ONLY IN TESTED GRID; W2 AT 8/10 IS NOT CAUSALLY REQUIRED TO RESTORE OUTPUT."
+  },
+  "other_focal_depth_changes": {
+    "1": {
+      "depth12_W2": "h3h1",
+      "depth8_W2": "c8a8",
+      "depth10_W2": "c8a8"
+    },
+    "2": {
+      "depth8_F": "a5e1",
+      "depth10_F": "a5b4",
+      "depth12_F": "a5b4",
+      "depth10_W1": "a5e1",
+      "depth12_W1": "a5e1"
+    },
+    "5": {
+      "depth8_F": "b8c8",
+      "depth10_F": "d8d5",
+      "depth12_F": "d8d5",
+      "depth8_W1": "d8d7",
+      "depth12_W1": "d8d4"
+    }
+  },
+  "limits": [
+    "Targets frozen from earlier depth12 F observations; no re-selection at new depth",
+    "All contacts root-local/slot-local and path-dependent after intervention",
+    "R only mutes early TT cutoff, not TT move hints or eval/pruning effects",
+    "Observed horizon effect is a within-engine conditional reproducibility, not an engine-independent law",
+    "All source worlds from same 12 frozen games; no new external population",
+    "Finite depth and standalone FEN, no original repetition history",
+    "No unique natural causal mediation inferred from categorical bestmove reproduction"
+  ]
+}
