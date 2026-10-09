@@ -1,0 +1,2 @@
+"""C3X 0.14 PIN native source trace field schema v1; must match CPP patch."""
+PIN_FIELDS=("legal_normal_tests","legal_pinned_tests","legal_pinned_aligned","legal_pinned_rejected","see_calls","see_pinners_guard","see_masked_recapture_episodes","see_masked_attackers","classical_mobility_calls","classical_mobility_nonzero_pin_blockers","classical_mobility_pin_blocker_piece_count","classical_WeakQueen_tests","classical_WeakQueen_hits","classical_WeakQueen_own_blockers","classical_WeakQueen_enemy_blockers")
