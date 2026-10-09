@@ -18,6 +18,8 @@ def replace_exact(source, anchor, replacement, label):
 
 
 def patch(source):
+    if "static thread_local int c3x018_root_call_id" in source:
+        raise RuntimeError("C3X018_ALREADY_APPLIED")
     source = replace_exact(
         source,
         "static constexpr int c3x017_root_event_limit = 4096;",
