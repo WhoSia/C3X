@@ -1,0 +1,92 @@
+name: C3X 0.18 Chess Halfmove Fullmove and History Court
+on:
+  push:
+    paths:
+      - 'harness/c3x_018_chess_clock_factorial_original_history_native.py'
+      - '.github/workflows/c3x-018-chess-clock-vs-history-factorial.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  original-clock-vs-history:
+    runs-on: ubuntu-latest
+    timeout-minutes: 55
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Legal history and Python source gate
+        run: |
+          python -m pip install --disable-pip-version-check chess==1.11.2
+          python -m py_compile harness/c3x_018_chess_clock_factorial_original_history_native.py
+      - name: Frozen source-only sixteen original game histories
+        uses: actions/download-artifact@v4
+        with:
+          name: c3x-018-independent-PGN-blind-source-16
+          path: source/
+          repository: WhoSia/C3X
+          run-id: '37981820261'
+          github-token: ${{ github.token }}
+      - name: Frozen sixteen standalone chess FEN native results
+        uses: actions/download-artifact@v4
+        with:
+          name: c3x-018-blind16-preregistered-TT-value-court
+          path: baseline/
+          repository: WhoSia/C3X
+          run-id: '37982781383'
+          github-token: ${{ github.token }}
+      - name: Frozen sixteen original chess game-history native results
+        uses: actions/download-artifact@v4
+        with:
+          name: c3x-018-real-game-history-vs-FEN-source
+          path: history/
+          repository: WhoSia/C3X
+          run-id: '37983641417'
+          github-token: ${{ github.token }}
+      - name: Validate source and both previous native SHA
+        run: |
+          set -euo pipefail
+          mkdir -p evidence
+          test "$(sha256sum source/C3X018_INDEPENDENT_BLIND16_PGN_SOURCE.json | cut -d' ' -f1)" = "6520672aabab7f525872169085f19bdd81e27a4473f0c58ba9c9aa428937104c"
+          test "$(sha256sum baseline/INDEPENDENT_16_VALUE_CAUSAL_PREDICTIONS.json | cut -d' ' -f1)" = "519796b24302736da13929076453cfc5278c2402a19c9903270057eee59832eb"
+          test "$(sha256sum history/ORIGINAL_GAME_HISTORY_VS_FEN_16_NATIVE.json | cut -d' ' -f1)" = "d29753ddf6cc292ec7d9e5aeb99464bc75776e2bfbd9bceaf425f03c2bfb82bd"
+      - name: SF16 source-exact root and TT instrumentation compilation
+        run: |
+          set -euo pipefail
+          root=/tmp/C3X018_CHESS_CLOCKS
+          git clone -q --single-branch --branch sf_16 https://github.com/official-stockfish/Stockfish.git "$root"
+          test "$(git -C "$root" rev-parse HEAD)" = 68e1e9b3811e16cad014b590d7443b9063b3eb52
+          python tools/c3x_016_P4_independent_12root_source_order_patch.py --source "$root" --out-manifest evidence/P4.json
+          python tools/c3x_018_physical_epoch_lineage_patch.py --source "$root" --out-manifest evidence/EPOCH.json
+          git -C "$root" diff -- src/search.cpp src/tt.cpp src/tt.h > evidence/SOURCE_DIFF.patch
+          make -s -C "$root/src" -j2 build ARCH=x86-64
+          sha256sum "$root/src/stockfish" > evidence/NATIVE_BINARY_SHA256.txt
+      - name: Chess halfmove fullmove factorial on same sixteen source histories
+        run: |
+          set -euo pipefail
+          python -u harness/c3x_018_chess_clock_factorial_original_history_native.py \
+            --cohort source/C3X018_INDEPENDENT_BLIND16_PGN_SOURCE.json \
+            --standalone baseline/INDEPENDENT_16_VALUE_CAUSAL_PREDICTIONS.json \
+            --history history/ORIGINAL_GAME_HISTORY_VS_FEN_16_NATIVE.json \
+            --engine /tmp/C3X018_CHESS_CLOCKS/src/stockfish \
+            --out evidence/CHESS_CLOCK_RULE50_VS_HISTORY_16.json | tee evidence/NATIVE_STDOUT.txt
+          python - <<'PY'
+          import json
+          j=json.load(open("evidence/CHESS_CLOCK_RULE50_VS_HISTORY_16.json"))
+          assert [c["id"] for c in j["cases"]]==list(range(1,17))
+          assert j["summary"]["completed"]==16
+          print("C3X018_SOURCE_HISTORY_CLOCK_FACTORIAL_NATIVE_PASS")
+          PY
+      - name: SHA256 native source and results
+        if: always()
+        run: |
+          mkdir -p evidence
+          find evidence -maxdepth 1 -type f ! -name MEMBER_SHA256.txt -print0 | sort -z | xargs -0 -r sha256sum > evidence/MEMBER_SHA256.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x-018-sixteen-chess-clock-history-factorial
+          path: evidence/
+          retention-days: 90
+          if-no-files-found: error
