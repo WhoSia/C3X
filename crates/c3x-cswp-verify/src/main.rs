@@ -132,9 +132,13 @@ fn verify(p2: &Value, target: &Value, p6: &Value) -> Result<Value,String> {
              format!("P6S0_BASELINE_OFF_CHANGED {ordinal}"))?;
         let norm=u64::from(normal_off!=normal_see);
         let blocked=u64::from(block_off!=block_see);
+        let off_change=u64::from(normal_off!=block_off);
+        let see_change=u64::from(normal_see!=block_see);
+        // The original native schema distinguishes changes in TT regime within
+        // each SEE arm from SEE response inside the blocked TT regime.
         need(num(b,"original_p2_SEE_root_flip")?==norm &&
-             num(b,"regime_OFF_rootflip")?==norm &&
-             num(b,"regime_SEE_rootflip")?==blocked &&
+             num(b,"regime_OFF_rootflip")?==off_change &&
+             num(b,"regime_SEE_rootflip")?==see_change &&
              num(b,"SEEsensitivity_under_one_edge_block")?==blocked,
              format!("UNTRUSTED_ROW_CAUSAL_EFFECT_SUMMARY {ordinal}"))?;
         let off_del=num(arm(b,"OFF__BLOCK_EXACT_ONCE")?.get("target").unwrap(),"suppressed")?;
@@ -146,8 +150,8 @@ fn verify(p2: &Value, target: &Value, p6: &Value) -> Result<Value,String> {
         joint_exposed+=u64::from(off_del==1 && see_del==1);
         originally_flipped+=norm;blocked_flipped+=blocked;
         flip_effect_mismatch+=u64::from(norm!=blocked);
-        off_root_changes+=u64::from(normal_off!=block_off);
-        see_root_changes+=u64::from(normal_see!=block_see);
+        off_root_changes+=off_change;
+        see_root_changes+=see_change;
         if norm!=blocked {
             cases.push(json!({"ordinal":ordinal,"law":a["law"],
                 "normal_off":normal_off,"normal_see":normal_see,
@@ -209,6 +213,12 @@ fn run() -> Result<(),String> {
     let t=open_sha(&a[2],P6S0_SHA)?;
     let p6=open_sha(&a[3],P6S1_SHA)?;
     let receipt=verify(&p2,&t,&p6)?;
+    // Independent semantic negative control after byte-SHA validation:
+    // alter one truthful arm-regime contrast ONLY IN MEMORY. It must fail.
+    let mut corrupted=p6.clone();
+    corrupted["all_64_native_four_cell_interventions"][19]["regime_OFF_rootflip"]=json!(9);
+    need(verify(&p2,&t,&corrupted).is_err(),"IN_MEMORY_ROW_SEMANTIC_TAMPER_WAS_ACCEPTED")?;
+    println!("C3X015_RUST_IN_MEMORY_CAUSAL_SUMMARY_TAMPER_REJECTED");
     fs::write(&a[4],format!("{}\n",serde_json::to_string_pretty(&receipt).unwrap()))
          .map_err(|e|format!("writing receipt: {e}"))?;
     println!("C3X015_RUST_INDEPENDENT_P6S1_ROW_BY_ROW_SHA_AND_NEGATIVE_CONTROL_PASS");
