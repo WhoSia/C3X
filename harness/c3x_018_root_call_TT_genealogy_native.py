@@ -65,7 +65,7 @@ def main():
         orig=prior["worlds"][case_id-1]["cells"]
         row={"id":case_id,"arms":{}}
         for root_mode,ttmode,dose in (("O","OBS",0),("F","OBS",0),("Z","OBS",0),
-                                       ("F","W",2),("F","W",22 if case_id==6 else 2)):
+                                       ("F","W",2),("F","W",22 if case_id==6 else 74)):
             key=f"{root_mode}_{ttmode}_{dose}"
             target=TARGETS[case_id] if ttmode=="W" else None
             one=play(a.patched,world,root_mode,ttmode,target,
