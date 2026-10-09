@@ -1,0 +1,172 @@
+name: C3X 0.16 P3 Exact TT Writer Reader 2x2 32 Native
+on:
+  push:
+    paths:
+      - '.github/workflows/c3x-016-p3-exact-TT-writer-reader-2x2.yml'
+      - 'tools/c3x_015_P7_exact_TT_return_alpha_vs_qsearch_continue_patch.py'
+      - 'tools/c3x_015_P8_qsearch_post_TT_microevent_observer_patch.py'
+      - 'tools/c3x_015_P9_A1_CEFH_RISR_beta_TTwrite_localreturn_source_patch.py'
+      - 'tools/c3x_015_P10_SF16_root_candidate_aspiration_passive_patch.py'
+      - 'tools/c3x_015_P11_exact_root_child_return_clamp_after_P10.py'
+      - 'tools/c3x_016_P3_exact_physical_TT_writer_reader_2x2_patch.py'
+      - 'harness/c3x_016_P3_TT_writer_reader_2x2_32_native.py'
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  matched-original-single-TT-qsearch-value:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Source-native runtime and static syntax checks
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq git make g++
+          python -m pip install --disable-pip-version-check chess==1.11.2
+          python -m py_compile tools/c3x_016_P3_exact_physical_TT_writer_reader_2x2_patch.py harness/c3x_016_P3_TT_writer_reader_2x2_32_native.py
+          mkdir -p original-source original-p2 original-p6 original-p7 original-p8 original-p9a1 original-p10 original-p11 targets output
+      - uses: actions/download-artifact@v4
+        with:
+          name: c3x-015-twic1665-R2-event-capped-source-pin-matched-nonpin
+          path: original-source/
+          repository: WhoSia/C3X
+          run-id: '37902655949'
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: c3x-015-TWIC-R2-frozen-64pin-64nonpin-native-SEE-primary
+          path: original-p2/
+          repository: WhoSia/C3X
+          run-id: '37906181077'
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: c3x-015-P6S0-TWIC-original64-first-exact-fullkey-TT-return-target-freeze
+          path: targets/
+          repository: WhoSia/C3X
+          run-id: '37912460425'
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: c3x-015-P6S1-TWIC-one-exact-fullkey-TT-return-64x4x2-native
+          path: original-p6/
+          repository: WhoSia/C3X
+          run-id: '37913226690'
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: c3x-015-P7-TWIC-case2-case29-single-TT-return-score-versus-qsearch
+          path: original-p7/
+          repository: WhoSia/C3X
+          run-id: '37918227188'
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: c3x-015-P8-TWIC-case2-case29-qsearch-microevent-root-pv
+          path: original-p8/
+          repository: WhoSia/C3X
+          run-id: '37920098035'
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: c3x-015-P9-A1-TWIC-case2-case29-native-beta-TTsave-return-gates
+          path: original-p9a1/
+          repository: WhoSia/C3X
+          run-id: '37926784308'
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: c3x-015-P10-TWIC-case2-case29-root-candidate-aspiration-48-native
+          path: original-p10/
+          repository: WhoSia/C3X
+          run-id: '37933994251'
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: c3x-015-P11-TWIC-case2-case29-root-value-relay-48-native
+          path: original-p11/
+          repository: WhoSia/C3X
+          run-id: '37937181303'
+          github-token: ${{ github.token }}
+      - name: Verify all original-source and original-native evidence bytes BEFORE new test
+        run: |
+          printf '%s  %s\n' '1e932aa881eaef549c770211c078d930cd8d675e5688644e1bc36ab31bae4534' 'original-source/C3X015_TWIC1665_SCOREBLIND_SOURCE_MANIFEST_R2.json' | sha256sum -c -
+          printf '%s  %s\n' 'e930f0b489301c656690d09f4821583a28eead04e43382b545bda35b71279256' 'original-p2/C3X015_TWIC1665_R2_P2_PIN64_NONPIN64_PROSPECTIVE_NATIVE_RESULT.json' | sha256sum -c -
+          printf '%s  %s\n' '0dd412cdfad82ea6b042dd3381e07182f2d4f3e52cd3e83c71004b6ecaed6ee1' 'targets/C3X015_P6S0_64_SOURCE_OFF_FIRST_FULLKEY_TT_TARGETS.json' | sha256sum -c -
+          printf '%s  %s\n' 'c04ee3061835babb846fee54b269617da5ab809dc9efe46c1e6cbe9360fefa11' 'original-p6/C3X015_P6S1_64_ROOTS_ONE_EXACT_TT_RETURN_512_NATIVE.json' | sha256sum -c -
+          printf '%s  %s\n' '01ea31dcb1d900925ff38ec3d6d5da4afe63bba6c87eccc2eb8563d9440d8c77' 'original-p7/C3X015_P7_TWIC_CASES_2_29_24_NATIVE_RETURN_VALUE_VS_CONTINUE.json' | sha256sum -c -
+          printf '%s  %s\n' 'bb2af016857dff393a6054bad2b2978d3ecb2d92c527891f578688e513452e22' 'original-p8/C3X015_P8_TWIC_CASES_2_29_QSEARCH_AND_ROOT_PV_24_NATIVE.json' | sha256sum -c -
+          printf '%s  %s\n' '0a0a40d891af736491ecbfb92dee145c969b853d6e1ac43495beb202e905ec17' 'original-p9a1/C3X015_P9_A1_CEFH_RISR_EXACT_EVENT_48_NATIVE.json' | sha256sum -c -
+          printf '%s  %s\n' '2d74c4edd45700b9ffcbb2763edc4dad94a5bee9f4590dc85d2295f6c38a1c45' 'original-p10/C3X015_P10_ROOT_CANDIDATE_FIRST_RETAINED_DIFF_48_NATIVE.json' | sha256sum -c -
+          printf '%s  %s\n' '0a296860a26db3b8b5530a23eb7935f6f71f8fd9e809299ea39486133022a2f8' 'original-p11/C3X015_P11_EXACT_ROOT_CHILD_RELAY_48_NATIVE.json' | sha256sum -c -
+          test -s c3x/ontology/c3x-016-natural-TT-writer-reader-root-four-arm-causal-court-precommit.md
+          test -s c3x/ontology/c3x-015-P11-source-exact-root-child-return-relay-causal-gate-precommit.md
+          test -s c3x/ontology/c3x-015-P10-root-candidate-mutation-aspiration-first-divergence-precommit.md
+          test -s c3x/ontology/c3x-015-P9-dual-mechanism-operator-lattice-strategic-transport-precommit.md
+          test -s c3x/ontology/c3x-015-P8-qsearch-microevent-first-root-choice-causal-lineage-PRECOMMIT.md
+          test -s c3x/ontology/c3x-015-P7-single-TT-return-value-vs-qsearch-continuation-precommit.md
+      - name: Build pinned upstream Stockfish 16 with P7 single TT return score-value source code
+        run: |
+          git clone -q --single-branch --branch sf_16 https://github.com/official-stockfish/Stockfish.git /tmp/C3X015_P7
+          test "$(git -C /tmp/C3X015_P7 rev-parse HEAD)" = 68e1e9b3811e16cad014b590d7443b9063b3eb52
+          python tools/c3x_014_patch_native_pin_operators.py --source /tmp/C3X015_P7 --out-manifest output/PASSIVE_PIN_PATCH.json
+          python tools/c3x_014_ROOT_PIN_object_only_SEE_unmask_patch.py --source /tmp/C3X015_P7 --out-manifest output/ROOT_PIN_SEE_SOURCE_PATCH.json
+          python tools/c3x_015_CSWP_first_site_window_patch_R2.py --source /tmp/C3X015_P7 --out-manifest output/CSWP_SEARCH_FRAME_PATCH.json
+          python tools/c3x_015_CSWP_TT_writer_reader_bound_window_patch.py --source /tmp/C3X015_P7 --out-manifest output/PHYSICAL_TT_PROVENANCE_PATCH.json
+          python tools/c3x_015_P6S0_FIRST_exact_TT_reader_candidate_patch.py --source /tmp/C3X015_P7 --out-manifest output/P6S0_TARGET_SOURCE_OBSERVER.json
+          python tools/c3x_015_P6S1_exact_single_TT_return_block_patch.py --source /tmp/C3X015_P7 --out-manifest output/P6S1_ONE_TT_BLOCK_PATCH.json
+          python tools/c3x_015_P7_exact_TT_return_alpha_vs_qsearch_continue_patch.py --source /tmp/C3X015_P7 --out-manifest output/P7_ONE_RETURN_SCORE_PATCH.json
+          python tools/c3x_015_P8_qsearch_post_TT_microevent_observer_patch.py --source /tmp/C3X015_P7 --out-manifest output/P8_PASSIVE_QSEARCH_MICROEVENT_PATCH.json
+          python tools/c3x_015_P9_A1_CEFH_RISR_beta_TTwrite_localreturn_source_patch.py --source /tmp/C3X015_P7 --out-manifest output/P9_A1_PRECISE_SOURCE_MICRO_GATES.json
+          python tools/c3x_015_P10_SF16_root_candidate_aspiration_passive_patch.py --source /tmp/C3X015_P7 --out-manifest output/P10_SF16_ROOT_CANDIDATE_PASSIVE_OBSERVER.json
+          python tools/c3x_015_P11_exact_root_child_return_clamp_after_P10.py --source /tmp/C3X015_P7 --out-manifest output/P11_EXACT_ROOT_SCORE_RELAY_GATE_PATCH.json
+          python tools/c3x_016_P3_exact_physical_TT_writer_reader_2x2_patch.py --source /tmp/C3X015_P7 --out-manifest output/C3X016_P3_TT_WRITER_PATCH.json
+          git -C /tmp/C3X015_P7 diff -- src/position.cpp src/search.cpp src/tt.cpp src/tt.h > output/C3X016_P3_CPP_SOURCE_DIFF.patch
+          test -s output/C3X016_P3_CPP_SOURCE_DIFF.patch
+          make -s -C /tmp/C3X015_P7/src -j2 build ARCH=x86-64
+          cp /tmp/C3X015_P7/src/stockfish /tmp/C3X015_P7_bin
+          sha256sum /tmp/C3X015_P7_bin > output/C3X016_P3_BINARY_SHA256.txt
+      - name: P3 32 cold native original 2x2 writer reader with P11 sham exact
+        run: |
+          python -u harness/c3x_016_P3_TT_writer_reader_2x2_32_native.py \
+            --source original-source/C3X015_TWIC1665_SCOREBLIND_SOURCE_MANIFEST_R2.json \
+            --targets targets/C3X015_P6S0_64_SOURCE_OFF_FIRST_FULLKEY_TT_TARGETS.json \
+            --prior-p2 original-p2/C3X015_TWIC1665_R2_P2_PIN64_NONPIN64_PROSPECTIVE_NATIVE_RESULT.json \
+            --prior-p6 original-p6/C3X015_P6S1_64_ROOTS_ONE_EXACT_TT_RETURN_512_NATIVE.json \
+            --prior-p7 original-p7/C3X015_P7_TWIC_CASES_2_29_24_NATIVE_RETURN_VALUE_VS_CONTINUE.json \
+            --prior-p8 original-p8/C3X015_P8_TWIC_CASES_2_29_QSEARCH_AND_ROOT_PV_24_NATIVE.json \
+            --prior-p9a1 original-p9a1/C3X015_P9_A1_CEFH_RISR_EXACT_EVENT_48_NATIVE.json \
+            --prior-p10 original-p10/C3X015_P10_ROOT_CANDIDATE_FIRST_RETAINED_DIFF_48_NATIVE.json \
+            --prior-p11 original-p11/C3X015_P11_EXACT_ROOT_CHILD_RELAY_48_NATIVE.json \
+            --engine /tmp/C3X015_P7_bin \
+            --out output/C3X016_P3_TT_WRITER_READER_32_NATIVE.json
+          python - <<'PY'
+          import json
+          x=json.load(open('output/C3X016_P3_TT_WRITER_READER_32_NATIVE.json'))
+          assert x['new_native_processes']==32
+          assert x['prior_P11_raw_SHA256']=='0a296860a26db3b8b5530a23eb7935f6f71f8fd9e809299ea39486133022a2f8'
+          assert [z['ordinal'] for z in x['worlds']]==[2,29]
+          assert all(all(c['writer_source']['contact']>=1 for c in w['cells'].values()) for w in x['worlds'])
+          assert all(len(c['cells'])==8 for c in x['worlds'])
+          print('C3X016_P3_TT_WRITER_READER_2X2_32_NATIVE_COURT_PASS')
+          PY
+      - name: Archive raw post-disclosure results without TWIC third-party PGN
+        if: always()
+        run: |
+          cp tools/c3x_016_P3_exact_physical_TT_writer_reader_2x2_patch.py output/C3X016_P3_WRITER_GHOST_SOURCE_PATCHER.py
+          cp harness/c3x_016_P3_TT_writer_reader_2x2_32_native.py output/C3X016_P3_NATIVE_RUNNER.py
+          cp c3x/ontology/c3x-016-natural-TT-writer-reader-root-four-arm-causal-court-precommit.md output/C3X016_P3_FOUR_ARM_CONTRACT.md
+          printf '%s\n' 'P7 targets P6-disclosed worlds 2 and 29; post-outcome mechanism only, not blind generalization or TT natural mediation. Source copyright TWIC original bytes excluded.' > output/SCOPED_AUTHORITY.txt
+          find output -maxdepth 1 -type f ! -name MEMBER_SHA256.txt -print0 | sort -z | xargs -0 sha256sum > output/MEMBER_SHA256.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x-016-P3-natural-TT-writer-reader-2x2-32-native
+          path: output/
+          retention-days: 90
+          if-no-files-found: error
