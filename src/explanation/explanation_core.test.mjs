@@ -1,0 +1,10 @@
+import test from "node:test";import assert from "node:assert/strict";import {explain,LEVEL} from "./explanation_core.mjs";
+const base=()=>({schema:"c3x017-explanation-v1",case_id:"source-6",move:"e4d6",motifs:[{name:"interference",level:LEVEL.GEOMETRY}],engine:{depth:12,build:"SF16 pinned",bestmove:"e4d6"},counterfactual:{source_site:"root order",actual_contact:true,sham_equal:true,cold_replay:true,original_source_baseline:true,before:{bestmove:"c3a4",cp:45,nodes:64459},after:{bestmove:"e4d6",cp:13,nodes:90055}}});
+test("real root order causal effect but not tactic proof",()=>{const t=explain(base());assert.match(t,/changed bestmove, score, nodes/);assert.match(t,/tactic not proved/);});
+test("rejects fake tactic names",()=>{const x=base();x.motifs[0].name="brilliant";assert.throws(()=>explain(x),/UNKNOWN_MOTIF/);});
+test("rejects forcing tactic without defense certificate",()=>{const x=base();x.motifs[0].level=LEVEL.FORCING;assert.throws(()=>explain(x),/FORCING_CERTIFICATE/);});
+test("allows finite horizon checked legal defenses",()=>{const x=base();x.motifs[0].level=LEVEL.FORCING;x.motifs[0].certificate={all_legal_replies:true,horizon:2,refutations:[]};assert.match(explain(x),/all legal replies/);});
+test("rejects unverified source causality",()=>{const x=base();x.counterfactual.sham_equal=false;assert.throws(()=>explain(x),/CAUSAL_GATE/);});
+test("rejects TT explanation without identified path",()=>{const x=base();x.natural_tt_mediation={writer:true,reader:true};assert.throws(()=>explain(x),/TT_MEDIATION_UNPROVED/);});
+test("does not infer engine from geometry",()=>{const x=base();delete x.engine;assert.match(explain(x),/No verified engine/);});
+test("rejects invalid move",()=>{const x=base();x.move="nonsense";assert.throws(()=>explain(x),/MOVE/);});
