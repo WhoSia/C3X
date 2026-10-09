@@ -1,0 +1,55 @@
+{
+  "schema": "c3x018-TT-move-hint-versus-early-cutoff-reader-scope-v1",
+  "date": "2026-10-10",
+  "run": 37979220045,
+  "conclusion": "success",
+  "artifact_id": 11640321335,
+  "zip_sha256": "7814350d8f94a2134323ba6e1f88de2963e503558c9836c762b106d42fea5044",
+  "native_json": "TT_MOVE_VERSUS_CUTOFF_5ROOT.json",
+  "native_json_sha256": "2f79af24103d9d36fd7daf89c32551c96906cfbe9dfd7cf84cfe50b14ad067bf",
+  "all_member_sha256_verified": true,
+  "source_frozen": "68e1e9b3811e16cad014b590d7443b9063b3eb52",
+  "population": "Previously writer-sensitive five roots #1 #2 #5 #6 #8. Outcomes selected from prior, not random sample.",
+  "summary": {
+    "roots": 5,
+    "TT_move_hint_M_choice_flips": 0,
+    "TT_early_cutoff_R_choice_flips": 0,
+    "two_write_W2_choice_flips": 5,
+    "single_write_W1_choice_flips": 2
+  },
+  "fired_M": {
+    "case1": 0,
+    "case2": 0,
+    "case5": 3,
+    "case6": 3,
+    "case8": 0
+  },
+  "fired_R": {
+    "case1": 1,
+    "case2": 1,
+    "case5": 1,
+    "case6": 1,
+    "case8": 1
+  },
+  "fired_W2": {
+    "case1": 2,
+    "case2": 2,
+    "case5": 2,
+    "case6": 2,
+    "case8": 2
+  },
+  "qualifications": [
+    "Many M arms did not fire at all: absence of a root choice difference in those cases is not evidence against a TT move mechanism",
+    "Only case5/case6 yielded targeted M move hint consumption contacts (3 each), with no root choice change",
+    "R matched qsearch or main early TT cutoff one time in each case and never altered bestmove",
+    "W2 is write-source operator, not a single TT consumer mechanism",
+    "TT-move route other heuristic uses may exist and M only acts on a selected physical slot epoch",
+    "Other score bound, static eval and TT-pruning mechanisms remain untested by M/R"
+  ],
+  "limits": [
+    "Source frozen SF16 depth12 Threads1 Hash16 NNUE off",
+    "No unique natural mediation",
+    "No independent target selection",
+    "All negative-sham and cold native controls passed"
+  ]
+}
