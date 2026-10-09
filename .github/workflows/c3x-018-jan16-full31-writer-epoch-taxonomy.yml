@@ -1,0 +1,88 @@
+name: C3X 0.18 January Full 31 TT Writer Epoch Attrition
+on:
+  push:
+    paths:
+      - 'tools/c3x_018_jan_original_key_TT_probe_watch_overlay.py'
+      - 'harness/c3x_018_jan16_physical_TT_writer_epoch_attrition_native.py'
+      - '.github/workflows/c3x-018-jan16-full31-writer-epoch-taxonomy.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  all-thirty-one-probe-vs-writer-version:
+    runs-on: ubuntu-latest
+    timeout-minutes: 58
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Frozen previous source and Python preflight
+        run: |
+          python -m pip install -q chess==1.11.2
+          python -m py_compile tools/c3x_018_jan_original_key_TT_probe_watch_overlay.py
+          python -m py_compile harness/c3x_018_jan16_physical_TT_writer_epoch_attrition_native.py
+      - name: Engine-free January 16-game independent chess source
+        uses: actions/download-artifact@v4
+        with:
+          name: c3x-018-january2026-cross-window-blind16-source
+          path: source/
+          repository: WhoSia/C3X
+          run-id: '37991871987'
+          github-token: ${{ github.token }}
+      - name: Full prior January precommitted causal pair native experiment
+        uses: actions/download-artifact@v4
+        with:
+          name: c3x-018-jan16-physical-TT-cross-window-pair-court
+          path: previous/
+          repository: WhoSia/C3X
+          run-id: '37992496427'
+          github-token: ${{ github.token }}
+      - name: SHA immutable January source and source treatments
+        run: |
+          set -euo pipefail
+          mkdir -p evidence
+          test "$(sha256sum source/C3X018_JAN26_BLIND16_SOURCE.json | cut -d' ' -f1)" = 5b49818e4678c12d0e5e73eba39eff2d50742b070a0ed870cba1d3e94afe0533
+          test "$(sha256sum previous/JAN2026_CROSS_WINDOW_TT_PAIR_HOLDOUT.json | cut -d' ' -f1)" = 9d7ff1d8c5e019a5ab5b95441468da0ad49951adc756b8669db7853b82649470
+      - name: Compile native Stockfish16 with selective TT physical V and independent TT key probe watcher
+        run: |
+          set -euo pipefail
+          root=/tmp/C3X018_JAN_3_PROBE
+          git clone -q --single-branch --branch sf_16 https://github.com/official-stockfish/Stockfish.git "$root"
+          test "$(git -C "$root" rev-parse HEAD)" = 68e1e9b3811e16cad014b590d7443b9063b3eb52
+          python tools/c3x_016_P4_independent_12root_source_order_patch.py --source "$root" --out-manifest evidence/ROOT_ORDER.json
+          python tools/c3x_017_early_depth1_root_window_trace_patch.py --source "$root" --out-manifest evidence/ROOT_WINDOWS.json
+          python tools/c3x_018_trial_call_identity_patch.py --source "$root" --out-manifest evidence/TRIAL.json
+          python tools/c3x_018_physical_epoch_lineage_patch.py --source "$root" --out-manifest evidence/PHYSICAL_TT.json
+          python tools/c3x_018_tt_eval_consumption_overlay.py --source "$root" --out-manifest evidence/V.json
+          python tools/c3x_018_physical_value_witness_overlay.py --source "$root" --out-manifest evidence/V_WRITER_SNAPSHOT.json
+          python tools/c3x_018_root_TT_genealogy_overlay.py --source "$root" --out-manifest evidence/ROOT_TT.json
+          python tools/c3x_018_TT_reader_writer_age_bound_root_feature_overlay.py --source "$root" --out-manifest evidence/AGE_BOUND_ROOT.json
+          python tools/c3x_018_january2048_TT_reader_source_census.py --source "$root" --out-manifest evidence/CENSUS.json
+          python tools/c3x_018_adaptive_writer_age_root_call_V_gate.py --source "$root" --out-manifest evidence/V_AGE_SOURCE.json
+          python tools/c3x_018_january_cross_window_pair_source_gate.py --source "$root" --out-manifest evidence/PAIR_V.json
+          python tools/c3x_018_jan_original_key_TT_probe_watch_overlay.py --source "$root" --out-manifest evidence/TT_PROBE_WATCH.json
+          python tools/c3x_018_jan_TT_probe_physical_writer_epoch_witness.py --source "$root" --out-manifest evidence/TT_PROBE_WRITER_EPOCH.json
+          git -C "$root" diff -- src/ > evidence/SOURCE_DIFF.patch
+          make -s -C "$root/src" -j2 build ARCH=x86-64
+          sha256sum "$root/src/stockfish" > evidence/BINARY_SHA256.txt
+      - name: All original 31 January chess source TT reader proposals: probe, writer epoch and bound consumption
+        run: |
+          set -euo pipefail
+          python -u harness/c3x_018_jan16_physical_TT_writer_epoch_attrition_native.py \
+            --source source/C3X018_JAN26_BLIND16_SOURCE.json \
+            --prior previous/JAN2026_CROSS_WINDOW_TT_PAIR_HOLDOUT.json \
+            --engine /tmp/C3X018_JAN_3_PROBE/src/stockfish \
+            --out evidence/JAN16_FULL31_TT_SHADOW_WRITER_ATTRITION.json | tee evidence/NATIVE_STDOUT.txt
+      - name: SHA256 evidence
+        if: always()
+        run: |
+          mkdir -p evidence
+          find evidence -maxdepth 1 -type f ! -name MEMBER_SHA256.txt -print0 | sort -z | xargs -0 -r sha256sum > evidence/MEMBER_SHA256.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x-018-january-full31-TT-writer-epoch-attribution
+          path: evidence/
+          retention-days: 90
+          if-no-files-found: error
