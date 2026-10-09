@@ -41,10 +41,19 @@ def equal_to_prior(o,n,arm):
         demand(o["mechanism_path"][k]==n["mechanism_path"][k],
                "ORIGINAL_PATH_OR_TT_CONSUMER_CHANGED_"+k+"_"+arm)
     x=o["slot_writer_summary"];y=n["slot_writer_summary"]
-    for k in ("saves","full","recycled","first_key_match","first_unknown",
-              "first_key_mismatch","probes","probe_hits"):
+    for k in ("saves","full","recycled","probes","probe_hits"):
         demand(x[k]==y[k],"SOURCE_TT_WRITE_CENSUS_DRIFT_"+k+"_"+arm)
-    demand(x["move_only"]==y["move_only"]+y["no_op"],"OLD_NOFULL_WRITES_DID_NOT_PARTITION")
+    # The new first-eligible EVENT logger explicitly reads physical-slot
+    # provenance ONCE before any TT return/block decision. This is a sidecar
+    # lookup, NOT a native TranspositionTable::probe or save, and must
+    # increment only the exact-full-key provenance check once per arm.
+    demand(y["first_key_match"]==x["first_key_match"]+1,
+           "FIRST_ELIGIBLE_SIDE_CAR_READ_NOT_EXACTLY_ONE_NEW_FULL64_MATCH")
+    demand(y["first_unknown"]==x["first_unknown"] and
+           y["first_key_mismatch"]==x["first_key_mismatch"],
+           "FIRST_ELIGIBLE_WRITER_OR_KEY_NOT_GROUNDED")
+    demand(x["move_only"]==y["move_only"]+y["no_op"],
+           "OLD_NOFULL_WRITES_DID_NOT_PARTITION")
 
 def test_triads(arms):
     triads=[arms[arm]["mechanism_path"] for arm in ARMS]
