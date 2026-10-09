@@ -1,0 +1,39 @@
+# C3X Drive Data Room — CURRENT Routing (2026-10-09)
+
+**Single-entry lookup**: [C3X Google Drive root](https://drive.google.com/drive/folders/1eWHPdlKM1Jlesec7Iu87LlHbuNER0b95) · [C3X canonical Notion Lab](https://app.notion.com/p/3c4ef561cf92817ab76bcab15e7d1faf). No new top-level branches for each P number. Preserve original Drive file IDs, and keep citations and SHA custody receipts separate from raw file rights.
+
+## Root folders, fixed at eight
+- **00_GOVERNANCE_INDEX**: existing [Data Room Index](https://drive.google.com/drive/folders/1BZg_2o6npPXDy9VAlIeE8XIt-j1TBpf9), canonical maps and rules
+- **01_SOURCE_ACCRUAL_RAW**: [original input root](https://drive.google.com/drive/folders/170YFzQhSIMKBAypCdk2QaJHdms15uG2x), only six immediate children/items as of this audit, not one subfolder per phase
+- **02_BLINDED_ANALYSIS_SAFE**: outcome-blind frozen data, selection plans and train/test separation
+- **03_PATCHES_RUNTIME**: source/runtime/patch packages
+- **04_SEALED_RESULTS_COURTS**: [P0–P9 evidence ZIPs](https://drive.google.com/drive/folders/1Mcx8yKfycxHDpmHhmAFx0AQFrgA3I3z8)
+- **05_PAPERS_REFERENCES_NOTES**: literature notes and manuscript inputs
+- **KEEP-AS-ANALYSIS — LITERATURE (C3X Index; PDFs Centralized)**: index only; original PDFs follow Research OS central literature repository
+- **99_LEGACY_PROVENANCE_ARCHIVE**: historic/empty obsolete intake and exact duplicate delivery files. Never delete originals silently.
+
+## Canonical raw routing (two grouped folders, stable IDs)
+- [C3X_0_15_ORIGINAL_SOURCES](https://drive.google.com/drive/folders/1A7b-yEWOex89pOYQwGVWJvRove81zLku): 3 child collections
+  - [TWIC_1665_PRIVATE_ORIGINAL](https://drive.google.com/drive/folders/1axSyQb4PfyZ1UuImPq8f6YXoZRsyXQL9): original publisher ZIP `twic1665g.zip`, SHA256 `23097bbf152d9afed810890456027ce639719f7a4ef4c723898730d391b347b3`; extracted PGN digest `642f458c6ef8c5661e62a5f056ad225cabf29a4b12c65be0f834a1e60ad610a6`. Rights: personal use; no GitHub rehosting
+  - [LICHESS_BROADCAST_ORIGINAL_SOURCES](https://drive.google.com/drive/folders/1FZkTQ-L2og6ijubRDZyKpsEEMlXsrwzW): authentic June, August, September 2026 broadcast PGN.zst files; new-source evaluation requires cross-overlap audit
+  - [STRATEGIC_TACTICAL_TEST_SUITES](https://drive.google.com/drive/folders/11XQZB1yz4cSdRl7r8G2paw6sG3CNB8gH): STS1–STS15 annotated EPD, source SHA `d7a33ae6cf2fb5f3f18ef1b904cca07dce2cd0458edcf60644f59d4d9e28c07b`, 1500 annotated rows but **1497 distinct 4-field FENs** due 3 cross-category repeats; section 3 has a word-order alias
+- [G10_SOURCE_PHASES](https://drive.google.com/drive/folders/1px5fTu4YjGL3NyRf-I-PcP8kSmJXr45m): previously scattered P0–P8 and P24 G10 source groups; original child folder IDs unchanged
+- HISTORICAL_RECOVERY and standalone early-generation source ZIPs remain under 01 pending authority audit; no speculative mass moves.
+
+## Current C3X 0.15 mechanism receipts and papers
+- [P9 constitution](https://github.com/WhoSia/C3X/blob/main/c3x/ontology/c3x-015-P9-dual-mechanism-operator-lattice-strategic-transport-precommit.md)
+- [P9 A1 native 48 processes / two worlds](https://github.com/WhoSia/C3X/actions/runs/37926784308)
+- [P9 A2 native 24 processes / two worlds](https://github.com/WhoSia/C3X/actions/runs/37930348481)
+- [P9 A2 earlier real independent native run, same 12 condition UCI results](https://github.com/WhoSia/C3X/actions/runs/37927609148)
+- [CSWP v0.6 Choice–Value–Compute](https://github.com/WhoSia/C3X/blob/main/c3x/ontology/c3x-015-CSWP-v0.6-choice-value-compute-causal-fibers.md)
+- [17 evidence ZIP original-byte custody and actual duplicate handling](https://github.com/WhoSia/C3X/blob/main/c3x/receipts/c3x-015-P0-P9-17-drive-verified-zips-source-router-and-A2-double-run-20261009.json)
+- [STS three duplicates and 15 canonical source categories](https://github.com/WhoSia/C3X/blob/main/c3x/receipts/c3x-015-P9-STS-1500-1497-three-cross-category-duplicate-FEN-audit-20261009.json)
+
+## Routing and science hard gates
+1. Put original source bytes **only** under 01; archive result ZIPs under 04; stage reproducible small code on GitHub; put scientific judgment in the existing Notion Lab. New subfolder only when it reduces current siblings or represents a genuinely different custody/right regime.
+2. Original Drive file IDs are stable and parent moves are logged. Keep one primary artifact per exact GitHub ZIP SHA in the active 04 court folder; byte-identical duplicates go to 99 Legacy without deletion. Different ZIP hashes with identical result-level UCI have separate proof value but are not independent PGN samples.
+3. Avoid bot-authored commits. Read-only GitHub Actions build/test/archive. Keep TWIC personal-use source private and avoid public original PGN bytes.
+4. Original C3X 0.15 P1 prospective C1 accuracy FAIL (42/64 versus B0 53/64) always retained. P9 targeted world2/29 successes are post-P6-disclosure mechanistic evidence, not blind generalization.
+5. Theory claim ceiling: verified software interventions only, not universal strategy, full natural TT mediation, perfect chess, or NNUE learned motif labels.
+
+**Verdict:** C3X0.15_ACTIVE / DATA_ROOM_ROUTING_COMPACT_PASS / TWIC_RAW_PRIVATE_SHA_VERIFIED / STS_DUPLICATE_AUDITED / P9_A1_A2_NATIVE_PASS / SCIENTIFIC_GENERALIZATION_HOLD / C3X0.16_NOT_OPEN.
