@@ -67,6 +67,8 @@ def main():
              "PHYSICAL_SOURCE_VALUE_WITNESS_"+str(mask))
     row={"mask":mask,"source_root_calls":allowed(mask),
        "cardinality":mask.bit_count(),
+       "full_source_writer_reader_payload_witnesses":x["payload_witnesses"],
+       "source_physical_writer_payload_verified":(verified_reader_lineage(x)["all_valid"] if blocks else None),
        "UCI":x["UCI"],"actual_blocked_readers":len(blocks),
        "source_reader_blocks":blocks,
        "bestmove_changed":x["UCI"]["bestmove"]!=f["UCI"]["bestmove"],
