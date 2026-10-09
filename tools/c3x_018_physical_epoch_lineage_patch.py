@@ -217,7 +217,8 @@ def main():
        "files": result,
        "modes": ["OBS", "W", "R", "WR"],
        "env": ["C3X018_TT_MODE", "C3X018_TT_TARGET_KEY64",
-               "C3X018_TT_TARGET_SLOT", "C3X018_TT_TARGET_EPOCH",\n               "C3X018_TT_LOG_WRITES"],
+               "C3X018_TT_TARGET_SLOT", "C3X018_TT_TARGET_EPOCH",
+               "C3X018_TT_LOG_WRITES"],
        "limits": [
            "Single-thread cold-process native only for provenance interpretation",
            "TTEntry and Cluster layouts unchanged; shadow sidecar owns epochs",
