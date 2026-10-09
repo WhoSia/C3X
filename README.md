@@ -8,13 +8,11 @@
 
 --- 
 
-**Active research version: C3X 0.17 — Causal Search-Order Interventions Across Chess Concepts: Independent Game Histories, Root Competition & Mechanism Transport**
-
-**Version policy (2026-10-09):** C3X **0.17 ACTIVE / 0.16 CLOSED / 0.15 CLOSED**. All new chess research and development, including inherited natural TT writer–consumer investigation, belongs to **0.17**. Historical 0.16/P4 artifacts retain their original identifiers. Closure does not mean every 0.15 scientific question is solved. Immutable legacy P0–P11 source filenames, native ZIP hashes, Actions links and earlier Git history retain `c3x015` identifiers for reproducibility.
+**Historical 0.17 snapshot (closed, preserved below):** The former 0.17 root-order investigation is retained for provenance. References below to '0.17 ACTIVE' or 'Current Flowing Version' are dated historical statements, not today's project status. New research belongs to 0.18. Frozen 0.16/P4 and 0.15 identifiers remain unchanged.
 
 [**Canonical Notion Lab**](https://app.notion.com/p/3c4ef561cf92817ab76bcab15e7d1faf) · [**Current Drive data-room router**](docs/C3X_DATA_ROOM_ROUTING_CURRENT.md) · [**Flowing Versioning doctrine**](https://app.notion.com/p/3f4ef561cf92818da4d4d92bc949ca15) · [**0.15 formal closure/transfer**](c3x/ontology/c3x-015-CLOSED-20261009-flowing-versioning-transfer-to-c3x016.md)
 
-## C3X 0.17 — Current Flowing Version (2026-10-09)
+## Historical C3X 0.17 — Former Flowing Version (2026-10-09; closed 2026-10-10)
 
 **0.17 OPEN / 0.16 CLOSED WITH OBLIGATIONS INHERITED / 0.15 CLOSED.** The [NOMOS-inspired cross-lab Flowing Versioning doctrine](https://app.notion.com/p/3f4ef561cf92818da4d4d92bc949ca15) advances a version when the *primitive question changes*, not when arbitrary P tickets accumulate or all predecessors magically pass.
 
