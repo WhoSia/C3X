@@ -1,0 +1,71 @@
+name: C3X 0.18 V versus W2 Root Genealogy
+on:
+  push:
+    paths:
+      - 'harness/c3x_018_V_W2_root_genealogy_equivalence_native.py'
+      - '.github/workflows/c3x-018-V-W2-genealogy.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  source-exact-macro-genealogy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Source syntax gate
+        run: python -m py_compile harness/c3x_018_V_W2_root_genealogy_equivalence_native.py
+      - name: Original 12 source P4 native receipt
+        uses: actions/download-artifact@v4
+        with:
+          name: c3x-016-P4-12-Lichess-root-order-72-native
+          path: baseline/
+          repository: WhoSia/C3X
+          run-id: '37948775813'
+          github-token: ${{ github.token }}
+      - name: Build frozen SF16 root windows plus physical TT writer and eval route V
+        run: |
+          set -euo pipefail
+          mkdir -p evidence
+          root=/tmp/C3X018_W2V_ANCESTRY
+          git clone -q --single-branch --branch sf_16 https://github.com/official-stockfish/Stockfish.git "$root"
+          test "$(git -C "$root" rev-parse HEAD)" = 68e1e9b3811e16cad014b590d7443b9063b3eb52
+          python tools/c3x_016_P4_independent_12root_source_order_patch.py --source "$root" --out-manifest evidence/P4.json
+          python tools/c3x_017_early_depth1_root_window_trace_patch.py --source "$root" --out-manifest evidence/017.json
+          python tools/c3x_018_trial_call_identity_patch.py --source "$root" --out-manifest evidence/TRIAL.json
+          python tools/c3x_018_physical_epoch_lineage_patch.py --source "$root" --out-manifest evidence/EPOCH.json
+          python tools/c3x_018_root_TT_genealogy_overlay.py --source "$root" --out-manifest evidence/ROOT_TT_JOIN.json
+          python tools/c3x_018_tt_eval_consumption_overlay.py --source "$root" --out-manifest evidence/TT_V.json
+          git -C "$root" diff -- src/search.cpp src/tt.cpp src/tt.h > evidence/SOURCE_DIFF.patch
+          make -s -C "$root/src" -j2 build ARCH=x86-64
+          sha256sum "$root/src/stockfish" > evidence/BINARY_SHA256.txt
+      - name: Native cold W2 V R full root-call and candidate trace equivalence
+        run: |
+          set -euo pipefail
+          python -u harness/c3x_018_V_W2_root_genealogy_equivalence_native.py \
+            --cohort c3x/cohorts/c3x-016-P4-12-independent-Lichess-legal-root-order-sourceonly-frozen.json \
+            --prior baseline/C3X016_P4_12_LICHESS_MULTIMOTIF_ROOT_ORDER_72_NATIVE.json \
+            --engine /tmp/C3X018_W2V_ANCESTRY/src/stockfish \
+            --out evidence/W2_V_ROOT_SEARCH_GENEALOGY_2_5.json | tee evidence/NATIVE_STDOUT.txt
+          python - <<'PY'
+          import json
+          j=json.load(open("evidence/W2_V_ROOT_SEARCH_GENEALOGY_2_5.json"))
+          assert [c["id"] for c in j["cases"]]==[2,5]
+          assert all(c["W2_V_final_core_exact"] for c in j["cases"])
+          print("C3X018_V_W2_FINAL_CORE_EQUIVALENT_ROOT_GENEALOGY_NATIVE_PASS")
+          PY
+      - name: SHA member evidence
+        if: always()
+        run: |
+          mkdir -p evidence
+          find evidence -maxdepth 1 -type f ! -name MEMBER_SHA256.txt -print0 | sort -z | xargs -0 -r sha256sum > evidence/MEMBER_SHA256.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x-018-V-W2-macro-TT-root-genealogy
+          path: evidence/
+          retention-days: 90
+          if-no-files-found: error
