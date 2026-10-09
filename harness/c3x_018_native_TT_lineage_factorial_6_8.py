@@ -154,10 +154,25 @@ def main():
              "HISTORICAL_FLIP_NOT_REPRODUCED")
         target,basis=select_candidate(controls["O"]["consumer_records"],
                                       controls["F"]["consumer_records"])
+        decoy={"key64":18446744073709551615,"slot":0,"epoch":1}
+        decoys={}
+        for decoy_mode in ("W","R"):
+            negative=play(args.patched,world,"F",decoy_mode,decoy)
+            replay=play(args.patched,world,"F",decoy_mode,decoy)
+            need(negative==replay,"DECOY_COLD_REPLAY_"+str(case_id)+"_"+decoy_mode)
+            need(negative["UCI"]==controls["F"]["UCI"],
+                 "DECOY_CHANGED_FINAL_OUTPUT_"+str(case_id)+"_"+decoy_mode)
+            need(negative["lineage_summary"]["writer_block"]==0 and
+                 negative["lineage_summary"]["reader_block"]==0,
+                 "DECOY_OPERATOR_FIRED_"+str(case_id)+"_"+decoy_mode)
+            decoys[decoy_mode]={
+                "UCI":negative["UCI"],
+                "writer_block":0,"reader_block":0,"contact":"NONE"}
         row={"id":case_id,
              "prior_output":{arm:controls[arm]["UCI"] for arm in controls},
              "observer":{arm:controls[arm]["lineage_summary"] for arm in controls},
              "target_selection":basis,"target":target,
+             "decoy_no_contact":decoys,
              "target_design":"EXPLORATORY_F_ONLY_SELECTION_NOT_INDEPENDENT_PREREGISTRATION",
              "interventions":{}}
         if target:
@@ -190,6 +205,7 @@ def main():
         "Slot epoch is per-slot accepted payload-write ordinal after native TT clear",
         "Writer source ablation may also prevent move16 update; not an isolated score mediator",
         "W and R blocking do not test unique natural mediation; other TT uses remain active",
+        "Exactly one writer suppression; subsequent writes may reuse the vacant slot epoch",
         "Writer suppression may alter future epoch numbering; missing contact is not an effect",
         "Only cases 6 and 8, standalone FEN, SF16 single-thread depth12",
         "Censor gate rejects missing full lineage event buffer",
