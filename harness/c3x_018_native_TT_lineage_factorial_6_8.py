@@ -38,9 +38,13 @@ def core(raw, search_depth=12):
     need(len(best)==1 and best[0]==rows[-1]["pv"][0], "MISSING_BESTMOVE")
     return {"bestmove":best[0],**rows[-1]}
 
-def play(engine, world, p4_mode, lineage_mode=None, target=None, writer_budget=None, rescue_attempt=None, discovery=False, history=False, fen_clocks=None, search_depth=12):
+def play(engine, world, p4_mode, lineage_mode=None, target=None, writer_budget=None, rescue_attempt=None, discovery=False, history=False, fen_clocks=None, search_depth=12, draw_mode=None):
     need(isinstance(search_depth,int) and 1<=search_depth<=32,"INVALID_SEARCH_DEPTH")
     env = dict(os.environ)
+    env.pop("C3X018_EXACT_DRAW_SUPPRESS",None)
+    if draw_mode is not None:
+        need(draw_mode in ("G","D","GD"),"INVALID_DRAW_SUPPRESSION_MODE")
+        env["C3X018_EXACT_DRAW_SUPPRESS"]=draw_mode
     for name in ("C3X018_TT_MODE", "C3X018_TT_TARGET_KEY64",
                  "C3X018_TT_TARGET_SLOT", "C3X018_TT_TARGET_EPOCH",
                  "C3X018_TT_LOG_WRITES", "C3X018_TT_WRITER_BLOCK_BUDGET",
@@ -116,6 +120,11 @@ def play(engine, world, p4_mode, lineage_mode=None, target=None, writer_budget=N
         if line.startswith("info string c3x018_value_witness "):
             fields=parse_fields(line)
             witnesses.append({k:(v if k in ("kind","site") else int(v)) for k,v in fields.items()})
+    draw_gate_contacts=[]
+    for line in lines:
+        if line.startswith("info string c3x018_exact_draw_intervention "):
+            fields=parse_fields(line)
+            draw_gate_contacts.append({k:(v if k=="site" else int(v)) for k,v in fields.items()})
     draw_probes=[]
     for line in lines:
         if line.startswith("info string c3x018_draw_probe "):
@@ -147,6 +156,7 @@ def play(engine, world, p4_mode, lineage_mode=None, target=None, writer_budget=N
        "write_fingerprints":fingerprints,
        "payload_witnesses":witnesses,
        "draw_probes":draw_probes,
+       "draw_gate_contacts":draw_gate_contacts,
        "root_events":root_events,
        "root_contact":roots[0]}
 
