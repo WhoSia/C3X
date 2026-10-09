@@ -1,0 +1,78 @@
+name: C3X 0.18 Trial Call Identity Native Court
+on:
+  push:
+    paths:
+      - 'tools/c3x_018_trial_call_identity_patch.py'
+      - 'tools/test_c3x_018_trial_call_identity_patch.py'
+      - '.github/workflows/c3x-018-trial-call-native.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  native-trial-call:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Source patch regression tests
+        run: |
+          python -m unittest discover -s tools -p 'test_c3x_018_trial_call_identity_patch.py' -v
+          python -m unittest discover -s harness -p 'test_c3x017_early_conservative_alignment.py' -v
+      - uses: actions/download-artifact@v4
+        with:
+          name: c3x-016-P4-12-Lichess-root-order-72-native
+          path: baseline/
+          repository: WhoSia/C3X
+          run-id: '37948775813'
+          github-token: ${{ github.token }}
+      - name: Compile frozen original and instrumented engine
+        run: |
+          set -euo pipefail
+          git clone -q --single-branch --branch sf_16 https://github.com/official-stockfish/Stockfish.git /tmp/C3X018_SF16
+          test "$(git -C /tmp/C3X018_SF16 rev-parse HEAD)" = 68e1e9b3811e16cad014b590d7443b9063b3eb52
+          make -s -C /tmp/C3X018_SF16/src -j2 build ARCH=x86-64
+          cp /tmp/C3X018_SF16/src/stockfish /tmp/C3X018_ORIGINAL
+          mkdir -p evidence
+          python tools/c3x_016_P4_independent_12root_source_order_patch.py --source /tmp/C3X018_SF16 --out-manifest evidence/P4_PATCH.json
+          python tools/c3x_017_early_depth1_root_window_trace_patch.py --source /tmp/C3X018_SF16 --out-manifest evidence/017_OBSERVER.json
+          python tools/c3x_018_trial_call_identity_patch.py --source /tmp/C3X018_SF16 --out-manifest evidence/018_TRIAL_CALL.json
+          git -C /tmp/C3X018_SF16 diff -- src/search.cpp > evidence/C3X018_SOURCE_DIFF.patch
+          test -s evidence/C3X018_SOURCE_DIFF.patch
+          make -s -C /tmp/C3X018_SF16/src -j2 build ARCH=x86-64
+          cp /tmp/C3X018_SF16/src/stockfish /tmp/C3X018_PATCHED
+          sha256sum /tmp/C3X018_ORIGINAL /tmp/C3X018_PATCHED > evidence/BINARY_SHA256.txt
+      - name: Native 12-world exact-core regression with bounded early events
+        run: |
+          set -euo pipefail
+          python -u harness/c3x_017_early_depth1_root_window_72native.py \
+            --source c3x/cohorts/c3x-016-P4-12-independent-Lichess-legal-root-order-sourceonly-frozen.json \
+            --original /tmp/C3X018_ORIGINAL \
+            --patched /tmp/C3X018_PATCHED \
+            --prior-p4 baseline/C3X016_P4_12_LICHESS_MULTIMOTIF_ROOT_ORDER_72_NATIVE.json \
+            --out evidence/C3X018_TRIAL_CALL_72_NATIVE.json
+          python - <<'PY'
+          import json
+          j=json.load(open('evidence/C3X018_TRIAL_CALL_72_NATIVE.json'))
+          assert j['new_native_processes']==72
+          for w in j['worlds']:
+              for arm in ('O','F','Z'):
+                  events=w['cells'][arm]['passive_root_events']
+                  assert events and all(e['trial']>=1 and e['root_call']>=1 for e in events)
+                  assert not w['cells'][arm]['trace_censored'], (w['id'],arm,'TRACE_CENSORED')
+          print('C3X018_TRIAL_CALL_NATIVE_SOURCE_GATE_PASS')
+          PY
+      - name: Upload source and result evidence
+        if: always()
+        run: |
+          mkdir -p evidence
+          find evidence -maxdepth 1 -type f ! -name MEMBER_SHA256.txt -print0 | sort -z | xargs -0 -r sha256sum > evidence/MEMBER_SHA256.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x-018-trial-call-source-native-court
+          path: evidence/
+          retention-days: 90
+          if-no-files-found: error
