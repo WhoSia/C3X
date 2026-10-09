@@ -1,0 +1,53 @@
+{
+  "schema": "c3x017-depth8-root-window-retained-first-event-independent-audit-v1",
+  "date_kst": "2026-10-10",
+  "source": "https://github.com/WhoSia/C3X/actions/runs/37951814506",
+  "source_artifact_sha256": "7b8f38198ce1c37768e185891f2af3f2cfdf7691d6d7af77f4b3dbe49c3caffa",
+  "original_native_json_sha256": "0c25ff11f28ced23e8d3ead2219861f350d8ba27d93ba457617abe65347da564",
+  "n_independent_source_positions": 12,
+  "first_retained_semantic_difference_in_depth8_plus": {
+    "ALPHA_BETA_WINDOW_DIFFERENT": 7,
+    "CHILD_RETURN_DIFFERENT": 3,
+    "NO_RECORDED_DIFFERENCE": 2
+  },
+  "world_ids_by_type": {
+    "ALPHA_BETA_WINDOW_DIFFERENT": [
+      2,
+      3,
+      5,
+      6,
+      8,
+      10,
+      12
+    ],
+    "CHILD_RETURN_DIFFERENT": [
+      1,
+      4,
+      9
+    ],
+    "NO_RECORDED_DIFFERENCE": [
+      7,
+      11
+    ]
+  },
+  "worlds_final_bestmove_changed": [
+    6,
+    8
+  ],
+  "all_first_recorded_depth": 8,
+  "all_12_censored": false,
+  "important_negative": "alpha-beta-window divergence at depth8 occurs in both root-bestmove-flip worlds 6 and 8 AND in five worlds with no final bestmove flip. Thus depth8 window difference is NOT a sufficient predictor of categorical final move change.",
+  "technical_notes": [
+    "These are earliest *retained* per-sequence semantic differences only; depth1-7 unobserved",
+    "Events paired by sequence ordinal are not naturally identifiable after candidate order diverges: do not claim exact first necessary causal edge",
+    "Node count alone excluded from source type because it is a workload measure, not source event identity",
+    "No actual physical TT writer/consumer observed in the depth8 stream, mediator HOLD",
+    "Raw 12 source FEN has incomplete original full game path, cannot claim original game repetition state"
+  ],
+  "source_code": "https://github.com/WhoSia/C3X/blob/main/harness/c3x017_depth8_semantic_source_audit.py",
+  "tests": "https://github.com/WhoSia/C3X/blob/main/harness/test_c3x017_depth8_semantic_source_audit.py",
+  "new_ci": "https://github.com/WhoSia/C3X/actions/runs/37960215178",
+  "new_ci_state_at_write": "QUEUED NOT VERIFIED",
+  "next_required": "Rerun all 12 source FEN at root depth1 and preserve historical 72 native output exact before any candidate-provenance or TT mediation conclusion",
+  "court": "DEPTH8_SCOPED_DESCRIPTIVE_RETAINED_EVENT_AUDIT / NATIVE_ORIGINAL_SHA_CERTIFIED / CAUSAL_FIRST_DIV_HOLD / NATURAL_TT_FULL_MEDIATION_HOLD / C3X017_ACTIVE"
+}
