@@ -1,0 +1,102 @@
+{
+  "schema": "c3x018-full-five-source-TT-W2-V-WV-nonadditive-mechanism-response-v1",
+  "verified_date": "2026-10-10",
+  "engine_source_sha": "68e1e9b3811e16cad014b590d7443b9063b3eb52",
+  "run": 37980449098,
+  "workflow_conclusion": "success",
+  "artifact_id": 11641171599,
+  "artifact_zip_sha256": "fa52c407415f72c3026adbe3eee42d5407b8bede0956d481fb0184b090198e37",
+  "native_json": "FIVE_SOURCE_W2_V_WV_NATIVE.json",
+  "native_json_sha256": "abec4eb5bd6f0be62b95a9a64146660b025c7aa0d65f0f78098e4d1a1d281852",
+  "all_member_sha256_verified": true,
+  "source_cohort": [
+    1,
+    2,
+    5,
+    6,
+    8
+  ],
+  "full_denominator": {
+    "5": 5,
+    "W2_choice_changes": 5,
+    "V_choice_changes": 2,
+    "WV_choice_changes": 4,
+    "WV_actual_targeted_V_reader_contacts": 2
+  },
+  "cases": [
+    {
+      "id": 1,
+      "F": "c8a8",
+      "W": "h3h1",
+      "V": "c8a8",
+      "WV": "h3h1",
+      "WV_W_contacts": 2,
+      "WV_V_contacts": 0
+    },
+    {
+      "id": 2,
+      "F": "a5b4",
+      "W": "a5e1",
+      "V": "a5e1",
+      "WV": "a5e1",
+      "WV_W_contacts": 2,
+      "WV_V_contacts": 1,
+      "pattern": "OR-LIKE_QUARTET"
+    },
+    {
+      "id": 5,
+      "F": "d8d5",
+      "W": "d8d4",
+      "V": "d8d4",
+      "WV": "d8d5",
+      "WV_W_contacts": 2,
+      "WV_V_contacts": 1,
+      "pattern": "XOR-LIKE_QUARTET",
+      "output_scores_cp": {
+        "F": -200,
+        "W": -209,
+        "V": -209,
+        "WV": -203
+      },
+      "output_nodes": {
+        "F": 74259,
+        "W": 83219,
+        "V": 83219,
+        "WV": 83848
+      },
+      "WV_return_to_F_move_only_not_whole_core": true
+    },
+    {
+      "id": 6,
+      "F": "e4d6",
+      "W": "c3a4",
+      "V": "e4d6",
+      "WV": "c3a4",
+      "WV_W_contacts": 2,
+      "WV_V_contacts": 0
+    },
+    {
+      "id": 8,
+      "F": "h5g7",
+      "W": "e6h3",
+      "V": "h5g7",
+      "WV": "e6h3",
+      "WV_W_contacts": 2,
+      "WV_V_contacts": 0
+    }
+  ],
+  "scientific_verdict": [
+    "In the five pre-selected writer-sensitive source roots W2 changes every categorical bestmove, V changes two, and the joint WV changes four.",
+    "Among the two cases where WV's selected V consumer branch actually fires, case2 remains changed under W, V and WV while case5 reverts its bestmove to F under WV despite both operator contacts.",
+    "Case5 WV restores only the F bestmove, not F score/PV/nodes; categorical cancellation does not mean return to original physical search state.",
+    "Case1/case6/case8 WV V reader gate does not fire. Their equal W/WV final tuples therefore do not indicate a realized two-operator interaction.",
+    "Root-source frame selection and TT target selection were exploratory in the same preselected dataset; this is a conditional algorithmic falsifier, not universal engine law or sole natural mediation."
+  ],
+  "limits": [
+    "W2 blocks two target-matched whole TTEntry::save calls; V blocks one bound-conditioned TT score evaluation override if fired.",
+    "Suppression changes search paths and per-slot write ordinals, so numeric key/slot/epoch equality across arms does not identify the same natural event.",
+    "Identical final output under distinct interventions does not imply equal source event genealogy (case5 already falsified).",
+    "Only Stockfish16 Threads1 Hash16 NNUE off depth12 source-frozen FEN, no independent new game corpus/engine or full historic repetition context.",
+    "Physical TT early cutoff and other heuristic paths remain; any claim of unique natural TT mediation HOLD."
+  ]
+}
