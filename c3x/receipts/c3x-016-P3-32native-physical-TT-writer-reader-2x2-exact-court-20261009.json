@@ -171,7 +171,24 @@
     "github_zip_sha256": "f2fb110f4ad7fe0261e3bbb4c14426c0168bf21251fae551e329daf5f5686ca2",
     "native_json_sha256": "61c62218f2fbeee151f64f94a4ed7582d2479e7e758d7d941ad281e4bc2d5ecc",
     "private_google_drive_file_id": "141Ul-2z8V6e4JZ8455wvEplv-HlN2clF",
-    "original_SHA_drive_recheck": "PENDING_AUTHENTICATED_REDOWNLOAD"
+    "original_SHA_drive_recheck": "PASS: authenticated Google Drive original ZIP downloaded and SHA-256 exactly equals GitHub artifact f2fb110f4ad7fe0261e3bbb4c14426c0168bf21251fae551e329daf5f5686ca2"
   },
-  "court": "C3X016_P3_32_NATIVE_PASS / PRESELECTED_PHYSICAL_TT_WRITER_CAUSALLY_CONTROLS_ORIGINAL_READER_MATCH / W0_READER_NONCONTACT / THREE_ARM_UCI_EQUIVALENCE_ALL_4_CELLS / NATURAL_INDIRECT_TT_MEDIATION_NOT_IDENTIFIED"
+  "court": "C3X016_P3_32_NATIVE_PASS / PRESELECTED_PHYSICAL_TT_WRITER_CAUSALLY_CONTROLS_ORIGINAL_READER_MATCH / W0_READER_NONCONTACT / THREE_ARM_UCI_EQUIVALENCE_ALL_4_CELLS / NATURAL_INDIRECT_TT_MEDIATION_NOT_IDENTIFIED",
+  "technical_issues_corrected_before_native_success": [
+    {
+      "run": 37944404216,
+      "type": "strict passive observer anchor applied to incorrect source file",
+      "resolution": "move report insertion to source search.cpp"
+    },
+    {
+      "run": 37944648877,
+      "type": "missing C++ declaration for read-only reporter",
+      "resolution": "add forward declaration in original source header"
+    },
+    {
+      "run": 37944843519,
+      "type": "completed native source test",
+      "conclusion": "SUCCESS_32_REAL_NATIVE"
+    }
+  ]
 }
