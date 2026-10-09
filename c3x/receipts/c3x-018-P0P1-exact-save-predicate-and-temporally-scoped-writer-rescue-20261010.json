@@ -1,0 +1,188 @@
+{
+  "schema": "c3x018-P0P1-native-source-TT-save-decision-writer-lifetime-rescue-v2",
+  "date": "2026-10-10",
+  "status": "ADAPTIVE_NATURAL_ENGINE_STATE_DIAGNOSTIC_COMPLETE",
+  "engine": {
+    "version": "Stockfish16",
+    "commit": "68e1e9b3811e16cad014b590d7443b9063b3eb52",
+    "threads": 1,
+    "hash_mb": 16,
+    "search_depth": 12,
+    "nnue": false
+  },
+  "prior": {
+    "january_source_sha256": "5b49818e4678c12d0e5e73eba39eff2d50742b070a0ed870cba1d3e94afe0533",
+    "prospective_pair_native_sha256": "9d7ff1d8c5e019a5ab5b95441468da0ad49951adc756b8669db7853b82649470",
+    "January31_writer_epoch_attrition_sha256": "db5a780f463f88a87e222868a36c132aef4640020128210fb253d9a9bb323a88",
+    "prospective_J2_J3_J4": "FAIL_RETAINED"
+  },
+  "first_P0P1_run": {
+    "run": 37995253598,
+    "conclusion": "success",
+    "artifact_id": 11647200521,
+    "artifact_zip_sha256": "b2a1270589836523a24461ab32fc3c005fd501ffe74e9822d68548651568c020",
+    "source_native_json_sha256": "848f638528a9fb494b6d2b6d4b1c71ca311c85168b56218ba68e22a855db66c7",
+    "verdicts": {
+      "R0": "PASS",
+      "R1": "PASS",
+      "R2": "PASS",
+      "R3": "PASS",
+      "R4": "PASS",
+      "R5": "FAIL",
+      "R6": "PASS",
+      "R7": "PASS"
+    },
+    "real_R5_failure": "Game6 selected age/slot writer rescue erroneously blocked an unrelated later true TT save at source root call 15, after both selected TT consumption calls 10 and 11; original unbounded writer actuator had no before-second-call guard",
+    "interpretation": "valid failure of original negative control; preserved, not silently relabeled"
+  },
+  "temporal_operator_addendum": "c3x/ontology/c3x-018-P1-before-second-reader-temporal-scope-repair-after-R5-FAIL.md",
+  "corrected_native": {
+    "run": 37995543334,
+    "conclusion": "success",
+    "artifact_id": 11647111173,
+    "zip_sha256": "c6e522ba8920b51424eef0a43c1988480cd945acd65044762cdce18694fbb13f",
+    "native_json_sha256": "889c59b38c9bc7c1a7095b215b28e2b1d8e85004361f95ecaecba0892382a4e1",
+    "internal_artifact_members": 19,
+    "all_members_sha256_verified": true,
+    "cold_duplicate_runs_each_arm": true,
+    "verdicts": {
+      "R0": "PASS",
+      "R1": "PASS",
+      "R2": "PASS",
+      "R3": "PASS",
+      "R4": "PASS",
+      "R5": "PASS_UNDER_REFINED_PRE_SECOND_ACTUATOR",
+      "R6": "PASS",
+      "R7": "PASS"
+    },
+    "precise_delta": "one additional conjunctive root_call <= selected second root call restriction on *writer rescue*; source cohort, TT target, V reader gates, prior tests and source engine pinned unchanged"
+  },
+  "P0_actual_save_predicate": {
+    "game": 2,
+    "selector": "STRICT",
+    "root_call": 4,
+    "root_move_native": 2477,
+    "physical_target": {
+      "key64": "10822490400377030283",
+      "slot": 0,
+      "epoch": 1
+    },
+    "old_writer_serial": 60,
+    "new_writer_serial": 130,
+    "old_depth": 0,
+    "new_depth": 1,
+    "old_raw_value": -89,
+    "new_raw_value": -89,
+    "old_bound": 2,
+    "new_bound": 2,
+    "old_eval": -284,
+    "new_eval": -284,
+    "predicates": {
+      "bound_exact": false,
+      "key16_mismatch": false,
+      "greater_effective_depth": true,
+      "would_payload_write": true
+    },
+    "only_deeper_depth_makes_save_eligible": true,
+    "selected_first_V_consumer_was_actually_blocked_before_writer_save": true,
+    "next_root_call5_TT_probe_baseline_shadow_epoch": 1,
+    "next_root_call5_TT_probe_after_FIRST_V_shadow_epoch": 2,
+    "matched_full64_source_last_writer": true
+  },
+  "P1_source_interventions": {
+    "game": 2,
+    "selector": "STRICT",
+    "root_calls": [
+      4,
+      5
+    ],
+    "baseline_bestmove": "e1e4",
+    "baseline_nodes": 73368,
+    "first_V_only": {
+      "blocked_source_calls": [
+        4
+      ],
+      "slot_epoch_at_second_probe": 2,
+      "writer_serial_at_second_probe": 130,
+      "bestmove": "e1e4",
+      "nodes": 73369
+    },
+    "BOTH_V_unrepaired": {
+      "blocked_source_calls": [
+        4
+      ],
+      "slot_epoch_at_second_probe": 2,
+      "writer_serial_at_second_probe": 130,
+      "bestmove": "e1e4",
+      "nodes": 73369
+    },
+    "BOTH_V_plus_SKIP_NEXT_TRUE_SAVE": {
+      "actual_writer_suppressed_count": 1,
+      "blocked_source_calls": [
+        4,
+        5
+      ],
+      "slot_epoch_at_second_probe": 1,
+      "writer_serial_at_second_probe": 60,
+      "bestmove": "e1e4",
+      "nodes": 73370
+    },
+    "BOTH_V_plus_REINSTATE_AFTER_TRUE_SAVE": {
+      "original_accepted_writer_commits": 1,
+      "synthetic_old_full_TTEntry_and_shadow_reinstate": 1,
+      "blocked_source_calls": [
+        4,
+        5
+      ],
+      "slot_epoch_at_second_probe": 1,
+      "writer_serial_at_second_probe": 60,
+      "bestmove": "e1e4",
+      "nodes": 73370
+    },
+    "FIRST_V_SHAM_impossible_writer_key": {
+      "writer_block_contacts": 0,
+      "block_reader_calls": [
+        4
+      ],
+      "entire_final_UCI_equals_FIRST_only": true
+    },
+    "reader_survival_without_root_choice_flip": true
+  },
+  "negative_original_corrected": {
+    "game": 6,
+    "selector": "BROAD",
+    "root_calls": [
+      10,
+      11
+    ],
+    "original_source_reader_contacts": [
+      10,
+      11
+    ],
+    "original_bestmove": "d8e8",
+    "original_nodes": 45560,
+    "corrected_BOTH_V_plus_SKIP": {
+      "writer_skip_count": 0,
+      "reader_contacts": [
+        10,
+        11
+      ],
+      "bestmove": "d8e8",
+      "nodes": 45560,
+      "full_UCI_equal_unmodified_BOTH": true
+    },
+    "prior_unbounded_late_save": {
+      "root_call": 15,
+      "ignored_under_correction": true
+    }
+  },
+  "limits": [
+    "P0 identifies the actual Stockfish16 TTEntry::save branch predicate and accepted writer ticket, not a unique underlying search score cause",
+    "P1 SKIP omits move-only effect of the selected accepted save; REINSTATE performs a real save then synthetically replaces previous full 10-byte entry and shadow ticket",
+    "Both P1 treatments restore second physical TT consumer contact without changing final root bestmove in this source game",
+    "Root-call numbers are process-local search lineage handles and can change when previous search trajectories differ",
+    "Two selected adaptive January source cases are not a new independent out-of-sample validation",
+    "Original January independent J2/J3/J4 FAIL and original P0/P1 unbounded R5 FAIL remain in permanent evidence",
+    "P1 synthetic preservation is not proof of exclusive or naturally necessary TT mediation of root choice"
+  ]
+}
