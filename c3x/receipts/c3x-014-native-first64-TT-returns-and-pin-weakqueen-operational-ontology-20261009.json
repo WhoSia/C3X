@@ -1,0 +1,238 @@
+{
+  "schema": "c3x-014-first64-native-tt-bound-returns-and-pin-operation-ontology-20261009-v1",
+  "date_kst": "2026-10-09",
+  "canonical_formal_stage": "C3X 0.14 — Transportable Search-Mechanism Evidence, Chess-Concept Mediation & Faithful Explanation Systems",
+  "status": "C3X_0_14_OPEN__NATIVE_TT_ACTUAL_FIRST64_RETURN_CENSUS_PASS__CHESS_LAW_ABSOLUTE_PIN_SUBTYPES_FROZEN__EVALUATOR_PHENOTYPE_PASS__CLASSICAL_WEAKQUEEN_SOURCE_PREDICATE_PASS__LEARNED_LATENT_PIN_SUBTYPES_HOLD",
+  "governance": "Only ONE formal C3X 0.14 study in the existing C3X Notion Lab 3c4ef561-cf92-817a-b76b-cab15e7d1faf. P1/P2/P3/Pn internal checkpoints, never separately formal stages or child pages. 0.15 and 0.16 not started. P1 four game procedural holdout still unopened.",
+  "precommit": "c3x/ontology/c3x-014-bounded-TT-return-census-and-pin-subtypes-precommit.md",
+  "source": {
+    "upstream_Stockfish16_sf16_commit": "68e1e9b3811e16cad014b590d7443b9063b3eb52",
+    "official_TCEC_S29_Superfinal_PGN_commit": "3dd69a40b3cf6ccc74144df7411ef4e8e2140286",
+    "official_PGN_git_blob_SHA1": "68141d7a9afad301c237106c3b2a3324cb35b130",
+    "prior_engine_frozen14game_28worlds_SHA256": "0080f4f108471137f8d9d0908e3c879e33351ad8bdd4fbf0fdda83d47f6075b2",
+    "prior_matched_first_eligible_168_run_panel_SHA256": "742ec105c73c6e7ec28de2c843a452df6fb7d4e95f10e16d3ce90956184e4a7c"
+  },
+  "experiment_A_bounded_native_TT_actual_returns": {
+    "status": "SUCCESS",
+    "github_CI": "https://github.com/WhoSia/C3X/actions/runs/37886364914",
+    "run_id": 37886364914,
+    "frozen_population": "Previous 14 legal chess source-game groups, original or concept-preserving black18 alternative: 28 source worlds. OFF naturally TAKEN main search TT return; first chronological K=64 per world, two independent cold engine runs, Threads1 Hash16MiB MultiPV2 depth12.",
+    "source_code_patch": "tools/c3x_014_native_tt_first64_naturally_taken_return_tape_patch.py",
+    "source_code_driver": "harness/c3x_014_native_first64_TT_taken_return_census.py",
+    "actual_native_engine_runs": 56,
+    "independent_source_games": 14,
+    "legal_source_worlds": 28,
+    "cold_repeat_techically_identical": "28/28",
+    "all_prior_UCI_and_native_search_path_reproduced": "56/56",
+    "actual_naturally_taken_main_TT_returns_all_first_cold_worlds": 63775,
+    "first64_prefix_events_recorded": 1792,
+    "source_last_fullfield_writer_class_across_1792_prefix": {
+      "MAIN_TERMINAL": 1725,
+      "MAIN_PROBCUT": 67,
+      "MAIN_TABLEBASE": 0,
+      "MAIN_STATIC_EVAL": 0,
+      "QSEARCH_EARLY": 0,
+      "QSEARCH_TERMINAL": 0
+    },
+    "TT_consumed_bounds_across_1792_prefix": {
+      "BOUND_EXACT": 76,
+      "BOUND_LOWER": 1580,
+      "BOUND_UPPER": 136
+    },
+    "writer_consumer_full64key_sidecar_match": "1792/1792",
+    "slot_different_full64key_recycle_in_this_1792_prefix": 0,
+    "scientific_limits": [
+      "First K chronological prefix is a convenience audit sample not random from 63,775 returns.",
+      "Distinct TT events within game histories are not independent chess games and cannot support naive event-level significance.",
+      "Producer is last physical-slot fullfield writer, not whole recursive α–β value calculation proof tree.",
+      "Consumers in the MAIN suppression arm may follow different subsequent event sequences."
+    ],
+    "artifacts": {
+      "github_artifact_id": 11595848531,
+      "zip_sha256": "302d2801358f39edff6998420e4bc1b1ed94bf71dc17c42499d4f2ef116751b1",
+      "main_JSON_sha256": "01aa42c9054d3dbf936bea5d3492ff517b084a478abfc23ec1ae43c6bb0a0436",
+      "Drive_file_id": "1u82rUm-oX0vf5UleXzmFgBOrQn_MjpUX",
+      "Drive_url": "https://drive.google.com/file/d/1u82rUm-oX0vf5UleXzmFgBOrQn_MjpUX/view",
+      "zip_member_hashes": "16/16 PASS"
+    }
+  },
+  "experiment_B_chess_law_absolute_pin_census": {
+    "status": "SUCCESS",
+    "github_CI": "https://github.com/WhoSia/C3X/actions/runs/37886383505",
+    "run_id": 37886383505,
+    "source_code": "harness/c3x_014_source_only_official_TCEC_pin_subtype_freeze.py",
+    "actual_official_games": 100,
+    "game_positions_scanned": 10040,
+    "unique_source_game_FEN_piece_king_absolute_pin_witnesses": 702,
+    "unique_games_with_pins": 91,
+    "chess_law_type_count": 31,
+    "pinned_piece_counts": {
+      "PAWN": 555,
+      "BISHOP": 58,
+      "KNIGHT": 42,
+      "ROOK": 42,
+      "QUEEN": 5
+    },
+    "pinning_piece_counts": {
+      "QUEEN": 278,
+      "ROOK": 321,
+      "BISHOP": 103
+    },
+    "type_dimensions": [
+      "pinned piece class",
+      "pinning enemy slider class",
+      "rank/file/diagonal ray",
+      "pinned piece zero/nonzero actual legal move",
+      "legal ability to capture the pinner"
+    ],
+    "sample_40_first_frozen_without_engine_outputs": true,
+    "sample_40_piece_class_composition": {
+      "PAWN": 19,
+      "BISHOP": 6,
+      "KNIGHT": 5,
+      "ROOK": 7,
+      "QUEEN": 3
+    },
+    "scientific_limits": [
+      "Only absolute king pins on side-to-move, not all human relative pins or arbitrary turn-inverted pseudo-legal positions.",
+      "31 labels are chess-law-derived, NOT discovered internal NNUE pin categories.",
+      "Selection diversifies subtype and source games and is not a random population sample."
+    ],
+    "artifacts": {
+      "github_artifact_id": 11596274025,
+      "zip_sha256": "de64b43cfbe812e388082e6e5ead5b6c53f5a0f5bd2a40514f2b6dc48c223513",
+      "main_JSON_sha256": "cfb2c4b0631959cfcdd5bf1eb098f7b41c40468a7b22e434e95ef8936cc43ead",
+      "Drive_file_id": "1ZWpIyZsY4u1hgUmPO-WPS5ihfpSXmXy0",
+      "Drive_url": "https://drive.google.com/file/d/1ZWpIyZsY4u1hgUmPO-WPS5ihfpSXmXy0/view",
+      "member_hashes": "5/5 PASS"
+    }
+  },
+  "experiment_C_frozen_pin_NNUE_vs_classical": {
+    "status": "SUCCESS",
+    "github_CI": "https://github.com/WhoSia/C3X/actions/runs/37886658542",
+    "run_id": 37886658542,
+    "source_code": "harness/c3x_014_official_pin_NNUE_vs_classic_phenotype_court.py",
+    "original_stockfish16_source_unchanged": true,
+    "source_frozen_legal_pin_positions": 40,
+    "independent_cold_repeats_per_arm": 2,
+    "native_engine_processes": 160,
+    "conditions": [
+      "setoption name Use NNUE value true",
+      "setoption name Use NNUE value false"
+    ],
+    "same_source_history_full_legal_moves": true,
+    "Threads": 1,
+    "Hash_MiB": 16,
+    "MultiPV": 1,
+    "requested_depth": 12,
+    "cold_technical_repeat_exact": "80/80",
+    "root_bestmove_different_whole_evaluator_switch": 14,
+    "root_bestmove_changed_by_pinned_piece": {
+      "PAWN": {
+        "cases": 19,
+        "changed": 11
+      },
+      "BISHOP": {
+        "cases": 6,
+        "changed": 1
+      },
+      "KNIGHT": {
+        "cases": 5,
+        "changed": 0
+      },
+      "ROOK": {
+        "cases": 7,
+        "changed": 2
+      },
+      "QUEEN": {
+        "cases": 3,
+        "changed": 0
+      }
+    },
+    "number_of_engine_chosen_moves_originating_at_legally_pinned_piece": {
+      "NNUE": 7,
+      "CLASSICAL": 9
+    },
+    "scientific_limits": [
+      "Switching an entire evaluation implementation has a local software causal effect on the root move in 14/40 sampled legal pin positions, but does not isolate a causal effect of the pin itself.",
+      "SF16 classic evaluator includes WeakQueen and mobility rules; NNUE may represent features differently, but no discrete learned category is verified.",
+      "These 40 cases deliberately span chess-law types; 14/40 cannot be population prevalence nor generalize beyond this old TCEC ecology.",
+      "No human learning outcomes evaluated."
+    ],
+    "artifacts": {
+      "github_artifact_id": 11596781326,
+      "zip_sha256": "7e96aad24cd0293026c1194ad82e085e8ee5796bfbed7d09d2241c6385ca2b2d",
+      "main_JSON_sha256": "2eed2dc94832364345721a66608eb72360d1667c6dc763ff90b4fa6241db4084",
+      "Drive_file_id": "1o_u9RkNe595luKvENkMuwAxekUx06U9m",
+      "Drive_url": "https://drive.google.com/file/d/1o_u9RkNe595luKvENkMuwAxekUx06U9m/view",
+      "member_hashes": "7/7 PASS"
+    }
+  },
+  "experiment_D_WeakQueen_relative_pin_and_discovery_ray": {
+    "status": "SUCCESS",
+    "github_CI": "https://github.com/WhoSia/C3X/actions/runs/37886848073",
+    "run_id": 37886848073,
+    "source_code": "harness/c3x_014_TCEC_WeakQueen_relational_pin_source_ontology.py",
+    "actual_games": 100,
+    "source_positions": 10040,
+    "source_equivalent_weakqueen_one_blocker_ray_witnesses": 1287,
+    "source_game_groups_with_at_least_one_weakqueen_ray_witness": 90,
+    "ray_blocker_relation": {
+      "OWN_QUEEN_SIDE_BLOCKER_RELATIVE_PIN": 557,
+      "ENEMY_ATTACKER_SIDE_BLOCKER_DISCOVERY": 730
+    },
+    "pinner_slider_class": {
+      "BISHOP": 381,
+      "ROOK": 906
+    },
+    "native_source_basis": [
+      "official SF16 src/evaluate.cpp: Evaluation<Tracing>::pieces<QUEEN> WeakQueen condition based on pos.slider_blockers(pos.pieces(Them, ROOK, BISHOP), queen-square, queenPinners)",
+      "official SF16 src/position.cpp: Position::slider_blockers computes one blocker in between ray after removing sniper slider occupancy"
+    ],
+    "scientific_limit": "The role labels are geometry/side-colour interpretation of the SAME classical WeakQueen source predicate; source-only emulation is not a native per-instance branch trace and does not prove a learned latent NNUE label. Do not overstate 'pin' vs 'discovery' categorization as two explicit engine stored classes.",
+    "artifacts": {
+      "github_artifact_id": 11597225189,
+      "zip_sha256": "0b3d59ea883c255a95e027418dee8bce63c8c8cbfbd8f10cba76b93b7749d4c3",
+      "main_JSON_sha256": "382cb0476ecdef6f28267c87d21ae5077bfee34a76cdf516a0ad32578e4b830d",
+      "Drive_file_id": "1xGFrWUOYcdpJSpZvsCnLK21jIpcji2yl",
+      "Drive_url": "https://drive.google.com/file/d/1xGFrWUOYcdpJSpZvsCnLK21jIpcji2yl/view",
+      "member_hashes": "5/5 PASS"
+    }
+  },
+  "operational_concept_morphism": {
+    "human_chess_vocabulary": [
+      "absolute pin",
+      "relative pin",
+      "discovered attack",
+      "exchange tactic"
+    ],
+    "source_native_engine_computational_functions": [
+      "Position::legal absolute king pinned move legality",
+      "Position::see_ge pinned attacker exclusion during capture exchange recursions",
+      "evaluate.cpp mobilityArea excludes king-attack blockers in classical evaluation",
+      "evaluate.cpp WeakQueen penalizes relative queen rays and potential discovered attack rays under shared one-blocker condition",
+      "Stockfish16 UCI Use NNUE true/false evaluation algorithm changes search behaviour"
+    ],
+    "interpretation": "Human pin name maps to multiple engine source paths, while engine classical WeakQueen path merges chess-human relative pin and discovered attacks. This is a measurable many-to-many operational mapping, not an NNUE hidden-feature causal taxonomy.",
+    "claim_gates": {
+      "chess_law_pin_geometry": "PASS",
+      "source_cpp_operational_path_grounding": "PASS",
+      "full_source_native_all_return_writer_producer_ancestry": "HOLD",
+      "engine_evaluator_software_intervention_local_output": "PASS, not pin-specific causal effect",
+      "NNUE_latent_strategy_or_tactical_subclasses_identified": "HOLD",
+      "source_disjoint_or_cross_engine_transport": "HOLD",
+      "faithful_explanation_human_learning": "HOLD"
+    }
+  },
+  "next_in_014": "Measure per-world native Position::see_ge pinned attacker filtering, Position::legal pin-line guarding, classical Evaluation::pieces mobility blocker exclusions and WeakQueen branches to establish ACTUAL runtime operative path signatures; then search prospective new source-disjoint chess histories for same chess law pin labels that diverge in these engine runtime features. Stratify before scoring. Avoid assuming 31 types are learned strategy modules.",
+  "possible_015_transition": "Open C3X 0.15 only once a separate prospectively frozen computational chess concept subtype discovery court with new independent games and cross-evaluator/engine validation is required; close 0.14 with bounded TT and source-native rival paths first.",
+  "possible_016_transition": "After independently validated cross-engine and NNUE latent feature evidence, open a distinct faithful explanation/human evaluation study. No automatic version inflation.",
+  "source_governance": {
+    "one_C3X_Notion_canonical_page_id": "3c4ef561-cf92-817a-b76b-cab15e7d1faf",
+    "one_existing_C3X_Drive_evidence_folder_id": "1ehjBFtuBYo7WQdfHvQDkVxVmQRZow9h_",
+    "actions_read_only": true,
+    "WhoSia_human_authored_commits_only": true,
+    "bot_authored_commit_allowed": false,
+    "previous_P1_heldout_games_touched": false
+  }
+}
