@@ -1,0 +1,83 @@
+name: C3X 0.14 Separate Explicit No-Go Root Pin Opportunity Native Court
+on:
+  push:
+    paths:
+      - '.github/workflows/c3x-014-explicit-root-pin-opportunity.yml'
+      - 'tools/c3x_014_explicit_UCI_root_pin_opportunity_probe.py'
+      - 'harness/c3x_014_explicit_root_pin_opportunity_court.py'
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  source-original-40-explicit-root-opportunity:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Prepare source and chess move validator
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq git make g++
+          python -m pip install --disable-pip-version-check chess==1.11.2
+          python -m py_compile tools/c3x_014_explicit_UCI_root_pin_opportunity_probe.py harness/c3x_014_explicit_root_pin_opportunity_court.py
+          mkdir -p source-only output
+      - uses: actions/download-artifact@v4
+        with:
+          name: c3x-014-TCEC-source-only-chess-pin-law-subtype-witnesses
+          path: source-only/
+          repository: WhoSia/C3X
+          run-id: '37886383505'
+          github-token: ${{ github.token }}
+      - name: Verify source-only original forty chess positions frozen before scores
+        run: |
+          printf '%s  %s\n' 'cfb2c4b0631959cfcdd5bf1eb098f7b41c40468a7b22e434e95ef8936cc43ead' 'source-only/C3X014_OFFICIAL_CHESS_PIN_SUBTYPES_SOURCE_ONLY.json' | sha256sum -c -
+      - name: Compile original SF16 explicit no-search root chess-source operators
+        run: |
+          git clone -q --single-branch --branch sf_16 https://github.com/official-stockfish/Stockfish.git /tmp/C3X014_EXPLICIT_PIN
+          test "$(git -C /tmp/C3X014_EXPLICIT_PIN rev-parse HEAD)" = "68e1e9b3811e16cad014b590d7443b9063b3eb52"
+          python tools/c3x_014_patch_native_pin_operators.py --source /tmp/C3X014_EXPLICIT_PIN --out-manifest output/NATIVE_PIN_OPERATOR_SRC.json
+          python tools/c3x_014_pin_root_key_and_PSQ_eval_route_patch.py --source /tmp/C3X014_EXPLICIT_PIN --out-manifest output/NATIVE_ROOT_KEY_SRC.json
+          python tools/c3x_014_explicit_UCI_root_pin_opportunity_probe.py --source /tmp/C3X014_EXPLICIT_PIN --out-manifest output/FORCED_ROOT_PIN_SRC.json
+          git -C /tmp/C3X014_EXPLICIT_PIN diff -- src/uci.cpp src/position.cpp src/evaluate.cpp src/search.cpp > output/ACTUAL_CPP_ROOT_PROBE_SOURCE_DIFF.patch
+          cp /tmp/C3X014_EXPLICIT_PIN/src/c3x014_pin_trace.h output/ACTUAL_CPP_PIN_COUNTER_SCHEMA.h
+          cp /tmp/C3X014_EXPLICIT_PIN/Copying.txt output/Stockfish_GPLv3.txt
+          test -s output/ACTUAL_CPP_ROOT_PROBE_SOURCE_DIFF.patch
+          make -s -C /tmp/C3X014_EXPLICIT_PIN/src -j2 build ARCH=x86-64
+          cp /tmp/C3X014_EXPLICIT_PIN/src/stockfish /tmp/C3X014_EXPLICIT_BIN
+          sha256sum /tmp/C3X014_EXPLICIT_BIN > output/ACTUAL_COMPILED_SF16_ROOT_PROBE_BINARY_SHA256.txt
+      - name: Source-native post-hoc first 40 roots by 2 independent cold starts and no search
+        run: |
+          python harness/c3x_014_explicit_root_pin_opportunity_court.py --source source-only/C3X014_OFFICIAL_CHESS_PIN_SUBTYPES_SOURCE_ONLY.json --engine /tmp/C3X014_EXPLICIT_BIN --out output/C3X014_FORCED_NO_SEARCH_PIN_40_FROZEN_ROOTS.json
+          python - <<'PY'
+          import json
+          r=json.load(open('output/C3X014_FORCED_NO_SEARCH_PIN_40_FROZEN_ROOTS.json'))
+          assert r['formal_research']=='C3X 0.14'
+          assert r['fresh_native_SF16_processes']==80 and r['actual_engine_searches']==0
+          assert r['cold_repeat_exact_root_operators']=='40/40'
+          assert r['root_legal_moves_match_independent_chess_library']=='40/40'
+          assert r['distinct_legal_pin_law_composite_subtypes']==30
+          assert r['repeated_legal_law_subtype_groups']==4
+          assert not r['causal_pin_specific_engine_search_effect_identified']
+          assert not r['procedural_P1_holdout_game_groups_used']
+          print('C3X014_FORCED_VERSUS_NATURAL_ROOT_PIN_SOURCE_OPERATOR_OPPORTUNITY_GATE_PASS')
+          PY
+      - name: Preserve source and original evidence hashes
+        if: always()
+        run: |
+          cp tools/c3x_014_explicit_UCI_root_pin_opportunity_probe.py output/NONGO_UCI_PIN_CPP_INSTRUMENTER.py
+          cp harness/c3x_014_explicit_root_pin_opportunity_court.py output/EXPLICIT_PIN_80_NATIVE_PROCESS_COURT.py
+          cp source-only/C3X014_OFFICIAL_CHESS_PIN_SUBTYPES_SOURCE_ONLY.json output/ORIGINAL_40_GAME_SOURCE_ONLY_PIN_POSITIONS.json
+          cp c3x/ontology/c3x-014-bounded-TT-return-census-and-pin-subtypes-precommit.md output/PROSPECTIVE_COURT_AND_DISTINCTION.md
+          printf '%s\n' 'This is a FORCED ROOT METHOD OPPORTUNITY PROBE with no GO search. DO NOT imply naturally executed root search sites or chess-pin intervention.' > output/EVIDENCE_AUTHORITY_CEILING.txt
+          find output -maxdepth 1 -type f ! -name 'MEMBER_SHA256.txt' -print0 | sort -z | xargs -0 sha256sum > output/MEMBER_SHA256.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x-014-source-native-explicit-root-pin-operator-opportunity
+          path: output/
+          if-no-files-found: error
+          retention-days: 90
