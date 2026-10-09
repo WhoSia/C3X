@@ -1,7 +1,9 @@
 # C3X 0.16 — Chess Concept–Operator Correspondence: Multi-Motif Causal Identification, Root-Competition Provenance & Cross-Source Transport
 
+**CURRENT VERSION MIGRATION ADDENDUM (2026-10-09 KST):** Explicit PI instruction supersedes the earlier concurrent-version operating assumption. **0.15 is CLOSED as a version; all former unresolved TT/qsearch/root-candidate work is transferred to ACTIVE 0.16**; retain legacy `c3x015` evidence filenames for source SHA. This changes the *status and routing*, not the already executed experiments, original prediction failure or new causal validation gates. [0.15 closure receipt](c3x-015-CLOSED-20261009-flowing-versioning-transfer-to-c3x016.md), [0.16 natural TT case-splitting warrant](c3x-016-natural-TT-case-partition-warrant-v0.1.md).
+
 **Research opening 2026-10-09 (KST): CONCEPTUAL/PROSPECTIVE PROGRAM OPEN; EXTERNAL VALIDATION NOT PASSED.**
-This is the first C3X version opened under the Research OS cross-lab [Flowing Versioning doctrine](https://app.notion.com/p/3f4ef561cf92818da4d4d92bc949ca15). A version marks migration of a primitive question, not completion of the previous one or successful validation. C3X 0.15 remains live, with unresolved exact TT→root mediation, original prospective P1 C1 accuracy FAILURE (42/64 versus null 53/64), qsearch trace truncation, and unvalidated NNUE concepts. No results are silently transferred or renamed.
+This is the first C3X version opened under the Research OS cross-lab [Flowing Versioning doctrine](https://app.notion.com/p/3f4ef561cf92818da4d4d92bc949ca15). A version marks migration of a primitive question, not completion of the previous one or successful validation. C3X 0.15 has now been version-closed with open obligations transferred into C3X 0.16, with unresolved exact TT→root mediation, original prospective P1 C1 accuracy FAILURE (42/64 versus null 53/64), qsearch trace truncation, and unvalidated NNUE concepts. No results are silently transferred or renamed.
 
 ## 1. Primitive question and genuinely new object
 
@@ -39,8 +41,8 @@ For a fixed future disjoint cohort, predefine at least: legal-move/counterplay v
 
 An event edge receives one evidence type: LEGAL_CERTIFIED, GEOMETRY_OPPORTUNITY_ONLY, SOURCE_OBSERVED, MICROINTERVENTION_IDENTIFIED, CONTEXT_ONLY, REFUTED, ABSTAIN. No promotion without separate falsification.
 
-## 5. Parallel unfinished 0.15 root-origin investigation
-The earlier 0.15 track remains concurrently live. P10 will instrument, at the original frozen two root game worlds, root candidate **before and after actual score/move/alpha state update** and root stable sorting/aspiration re-search. At most two cold runs per prior intervention arm at fixed old build. Compare first **aligned causal content change** in candidate scores, not just first UCI PV info-depth change. Sequence-time difference and causal necessity are distinct. Exact observer non-interference on all old P9 results required. This will NOT be represented as a prospective 0.16 out-of-source validation.
+## 5. Parallel unfinished Inherited root-origin investigation (now under active 0.16)
+The earlier 0.15 track remains concurrently live. Historical P10 instrumented, at the original frozen two root game worlds, root candidate **before and after actual score/move/alpha state update** and root stable sorting/aspiration re-search. At most two cold runs per prior intervention arm at fixed old build. Compare first **aligned causal content change** in candidate scores, not just first UCI PV info-depth change. Sequence-time difference and causal necessity are distinct. Exact observer non-interference on all old P9 results required. This will NOT be represented as a prospective 0.16 out-of-source validation.
 
 ## 6. Future P2 scientific confirmation / loss conditions
 Source-disjoint, motif-family-stratified and FEN-disjoint real chess games, different depths and TT hash, HCE/NNUE and separate engine family with available analogous operators. Preserve original 0.15 failure, benchmark always-no-change, geometry-only, source contact-only, context baseline and a multilabel abstaining prediction. Report chosen move sensitivity, score, nodes and first root candidate divergence separately; no aggregate scalar progress score authorized.
@@ -48,6 +50,6 @@ Prior chess search and motif classification literature already exists; claimed n
 
 ## 7. Version status and custody
 **Formal name:** C3X 0.16 — Chess Concept–Operator Correspondence: Multi-Motif Causal Identification, Root-Competition Provenance & Cross-Source Transport.
-**Version transition:** `0.15 (LIVE, P9 scoped native results) → 0.16 (OPEN, new primitive question; P0 source-only audit)`. No implied 0.15 closure, no promotion of TT full mediation, NNUE features, or general transfer.
+**Version transition:** `0.15 (CLOSED as a version; P9/P10/P11 historical native scoped results, TT obligations inherited) → 0.16 (ACTIVE for multi-motif and natural TT causal research)`. No implied 0.15 closure, no promotion of TT full mediation, NNUE features, or general transfer.
 C3X Notion **single existing Lab** for canonical research truth, Drive original data and sealed artifacts, GitHub small code/docs human WhoSia authored, GitHub Actions read-only. No github-actions[bot] commits.
-**Verdict:** `C3X016_PI_QUESTION_MIGRATION_OPEN / P0_SOURCE_ONLY_PRECOMMITTED / CROSS_MOTIF_CAUSAL_VALIDATION_HOLD / C3X015_UNRESOLVED_LIVE`.
+**Verdict:** `C3X016_PI_QUESTION_MIGRATION_OPEN / P0_SOURCE_ONLY_PRECOMMITTED / CROSS_MOTIF_CAUSAL_VALIDATION_HOLD / C3X015_CLOSED_UNRESOLVED_OBLIGATIONS_INHERITED`.
