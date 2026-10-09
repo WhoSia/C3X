@@ -6,7 +6,6 @@ event strata as precommitted causal predictive laws.
 """
 import argparse,hashlib,json,collections
 from pathlib import Path
-import chess
 
 RAW_SHA="a152935764727ca5533181fe0c2747b6c1aecf996b87542cb30178f0a39592d2"
 BOUND={1:"UPPER",2:"LOWER",3:"EXACT"}
