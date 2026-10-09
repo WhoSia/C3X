@@ -3,6 +3,7 @@ on:
   push:
     paths:
       - 'harness/c3x_018_independent16_TT_value_transport_native.py'
+      - 'tools/c3x_018_physical_value_witness_overlay.py'
       - '.github/workflows/c3x-018-independent16-value-transport.yml'
   workflow_dispatch:
 permissions:
