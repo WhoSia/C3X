@@ -1,0 +1,45 @@
+{
+  "schema": "c3x-015-P6S0-post-source-first-real-fullkey-TT-return-targets-20261009-v1",
+  "date": "2026-10-09",
+  "status": "P6S0_SOURCE_NATIVE_OFF_OBSERVER_PASS__P6S1_TARGETED_TT_SUPPRESSION_NOT_EXECUTED",
+  "run": "https://github.com/WhoSia/C3X/actions/runs/37912460425",
+  "original_SF16_commit": "68e1e9b3811e16cad014b590d7443b9063b3eb52",
+  "source_r2_manifest_sha256": "1e932aa881eaef549c770211c078d930cd8d675e5688644e1bc36ab31bae4534",
+  "P2_native_original_SHA256": "e930f0b489301c656690d09f4821583a28eead04e43382b545bda35b71279256",
+  "frozen_P6S0_target_manifest_sha256": "0dd412cdfad82ea6b042dd3381e07182f2d4f3e52cd3e83c71004b6ecaed6ee1",
+  "artifact_zip_sha256": "cef5ed682329f08e7e154c1700811b7b3bb3cfa3dde239f5d261bd66eb273d6b",
+  "members": "12/12_SHA_PASS",
+  "new_native_engine_runs": 128,
+  "source_game_roots": 64,
+  "exact_cold": "64/64",
+  "untreated_original_OFF_UCI_same_as_P2": "64/64",
+  "frozen_exact_fullkey_last_writer_reader_returns": 51,
+  "no_eligible_edge_roots": 13,
+  "writer_class_counts": {
+    "MAIN_TERMINAL": 20,
+    "QSEARCH_TERMINAL": 31
+  },
+  "stored_bound_distribution": {
+    "BOUND_LOWER": 26,
+    "BOUND_UPPER": 25,
+    "BOUND_EXACT": 0
+  },
+  "target_select_rule": "First naturally taken MAIN or QSEARCH TT early-return after first eligible original-root PIN-object SEE source candidate, with last-writer full64-key equality and physical slot offset certified in OFF native run; no P2/P5 response filtering",
+  "target_fields": [
+    "original source game and root SHA256",
+    "TT 64-bit full key",
+    "physical slot offset",
+    "last writer sequence and class",
+    "stored bound and depth",
+    "reader alpha/beta, depth, ply and node type",
+    "root first source SEE candidate position/ordinal"
+  ],
+  "auditable_limits": [
+    "The first eligibility-site candidate is not guaranteed to have changed SEE return semantics",
+    "Fullkey and writer identity selected from OFF only; treated SEE search may not visit the edge",
+    "P6S0 performed NO return suppression and cannot claim necessity of this event",
+    "P6S1 must SHA-lock this manifest and keep 13 no-target controls in denominator",
+    "This is not evidence of new NNUE latent semantics or chess-law operator change",
+    "P2 C1 primary accuracy remains below trivial no-flip baseline"
+  ]
+}
