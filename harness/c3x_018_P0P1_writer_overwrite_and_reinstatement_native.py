@@ -24,12 +24,14 @@ def source_args(role,pair,arm,policy,watch):
         args["p1_writer"]={"key64":IMPOSSIBLE if policy=="SHAM" else physical["key64"],
              "slot":physical["slot"],"epoch":physical["epoch"],
              "first_call":pair["root_calls"][0],
+             "last_call":pair["root_calls"][1],
              "policy":"SKIP" if policy=="SHAM" else policy}
     else:
         # Active P0 log even without any writer actuator.
         physical=pair["physical"]
         args["p1_writer"]={"key64":physical["key64"],"slot":physical["slot"],
                           "epoch":physical["epoch"],"first_call":pair["root_calls"][0],
+                          "last_call":pair["root_calls"][1],
                           "policy":"NONE"}
     return args
 
