@@ -17,6 +17,8 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
+      - name: Install frozen legal chess move history validator
+        run: python -m pip install --disable-pip-version-check chess==1.11.2
       - name: Independent cohort and source scripts syntactic preflight
         run: |
           python -m py_compile tools/c3x_018_physical_value_witness_overlay.py
