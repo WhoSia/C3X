@@ -22,6 +22,7 @@ struct C3X015P9A2 {
     original_score=0,substituted_score=0,source_ply=0,source_move=0;
 };
 static thread_local C3X015P9A2 c3x015_a2;
+bool c3x015_p9_at_target(Key,int); // defined in the preceding P9-A1 source patch
 int c3x015_p9_a2_child_threshold(Key key,int ply,int a,int b,int val,int move) {
  if(!c3x015_p9_at_target(key,ply))return val;
  if(c3x015_a2.caseid!=29 || c3x015_a2.contacts!=0 || val!=-59
