@@ -1,0 +1,167 @@
+{
+  "schema": "c3x-014-native-pin-legality-SEE-mobility-WeakQueen-executed-site-court-v1",
+  "date_kst": "2026-10-09",
+  "formal_stage": "C3X 0.14 — Transportable Search-Mechanism Evidence, Chess-Concept Mediation & Faithful Explanation Systems",
+  "formal_stage_status": "OPEN",
+  "part_of_existing_one_Notion_Lab": "3c4ef561-cf92-817a-b76b-cab15e7d1faf",
+  "status": "NATIVE_PIN_OPERATOR_RUNTIME_SITE_PASS__STRICT_UNPATCHED_UCI_SHAM_PASS__WITHIN_LEGAL_TYPE_SEARCH_SIGNATURE_DIFFERENCE_OBSERVED__ROOT_PIN_SPECIFIC_CAUSAL_MEDIATION_AND_NNUE_LATENT_CATEGORY_HOLD",
+  "previous_pin_law_freeze_JSON_SHA256": "cfb2c4b0631959cfcdd5bf1eb098f7b41c40468a7b22e434e95ef8936cc43ead",
+  "previous_actual_unpatched_original_SF16_NNUE_vs_CLASSICAL_160_runs_JSON_SHA256": "2eed2dc94832364345721a66608eb72360d1667c6dc763ff90b4fa6241db4084",
+  "source_stockfish16_commit": "68e1e9b3811e16cad014b590d7443b9063b3eb52",
+  "precommit": "c3x/ontology/c3x-014-bounded-TT-return-census-and-pin-subtypes-precommit.md",
+  "native_Cplusplus_source_patcher": "tools/c3x_014_patch_native_pin_operators.py",
+  "native_evidence_driver": "harness/c3x_014_native_pin_branch_court.py",
+  "native_UCI_parser": "harness/c3x_014_official_pin_NNUE_vs_classic_phenotype_court.py",
+  "native_trace_schema": "harness/c3x_014_pin_native_trace_fields.py",
+  "actual_workflow_URL": "https://github.com/WhoSia/C3X/actions/runs/37888968410",
+  "actual_workflow_run_id": 37888968410,
+  "actual_workflow_verdict": "SUCCESS",
+  "experiment": {
+    "official_TCEC_S29_games_in_source": 100,
+    "frozen_chess_law_king_absolute_pin_witness_positions": 40,
+    "distinct_frozen_chess_law_subtypes": 30,
+    "independent_source_games_in_frozen40": 40,
+    "repeated_chess_law_subtype_groups": 4,
+    "root_position_repeats_in_those_four_types": 14,
+    "evaluation_modes": [
+      "Stockfish16 Use NNUE true",
+      "Stockfish16 Use NNUE false"
+    ],
+    "cold_repeats_per_source_world_mode": 2,
+    "actual_native_stockfish16_engine_processes": 160,
+    "original_unpatched_source_results_strict_equal": 80,
+    "independent_cold_duplicates_traced_and_exact": 80,
+    "threads": 1,
+    "hash_MiB": 16,
+    "requested_UCI_depth": 12,
+    "exact_original_output_fields_held": [
+      "bestmove",
+      "score kind",
+      "score value root stm",
+      "score bound flag",
+      "PV first16",
+      "UCI nodes",
+      "root FEN",
+      "pinned piece moved"
+    ],
+    "source_level_executed_event_sites": [
+      "Position::legal normal non-king move pinned king-ray guard, aligned or rejected",
+      "Position::see_ge pinned re-capture attacker removal when pinner remains",
+      "Eval::classical Evaluation::initialize mobilityArea excludes blockers_for_king",
+      "Eval::classical Evaluation::pieces<QUEEN> WeakQueen invoked on source-native slider_blockers ray, separated by own/enemy blocker color"
+    ],
+    "counter_scope": "Counters aggregate ACTUAL events across the entire search tree. No evidence that every event arose from the chosen root pinned piece.",
+    "three_layers": [
+      "source-only root chess law labels",
+      "whole-tree runtime operator site signatures",
+      "root UCI outcomes under whole evaluator switch"
+    ],
+    "per_mode_real_original_first_cold_sums": {
+      "NNUE": {
+        "legal_normal_tests": 2235233,
+        "legal_pinned_tests": 39639,
+        "legal_pinned_aligned": 10885,
+        "legal_pinned_rejected": 28754,
+        "see_calls": 1908669,
+        "see_pinners_guard": 149011,
+        "see_masked_recapture_episodes": 12733,
+        "see_masked_attackers": 12815,
+        "classical_mobility_calls": 4182,
+        "classical_mobility_nonzero_pin_blockers": 974,
+        "classical_mobility_pin_blocker_piece_count": 995,
+        "classical_WeakQueen_tests": 2532,
+        "classical_WeakQueen_hits": 128,
+        "classical_WeakQueen_own_blockers": 32,
+        "classical_WeakQueen_enemy_blockers": 97
+      },
+      "CLASSICAL": {
+        "legal_normal_tests": 4494492,
+        "legal_pinned_tests": 65203,
+        "legal_pinned_aligned": 21232,
+        "legal_pinned_rejected": 43971,
+        "see_calls": 3961075,
+        "see_pinners_guard": 305302,
+        "see_masked_recapture_episodes": 24444,
+        "see_masked_attackers": 24467,
+        "classical_mobility_calls": 2710708,
+        "classical_mobility_nonzero_pin_blockers": 538233,
+        "classical_mobility_pin_blocker_piece_count": 551833,
+        "classical_WeakQueen_tests": 1837057,
+        "classical_WeakQueen_hits": 153102,
+        "classical_WeakQueen_own_blockers": 79269,
+        "classical_WeakQueen_enemy_blockers": 78133
+      }
+    },
+    "per_world_nonzero_counters": {
+      "NNUE": {
+        "legal_pinned_rejected": 40,
+        "see_masked_recapture_episodes": 40,
+        "classical_mobility_nonzero_pin_blockers": 35,
+        "classical_WeakQueen_hits": 17
+      },
+      "CLASSICAL": {
+        "legal_pinned_rejected": 40,
+        "see_masked_recapture_episodes": 39,
+        "classical_mobility_nonzero_pin_blockers": 40,
+        "classical_WeakQueen_hits": 35
+      }
+    },
+    "legal_pin_subtype_repeated_groups_divergent_binary_signature": {
+      "NNUE": "3/4",
+      "CLASSICAL": "1/4"
+    },
+    "repeated_law_type_details": [
+      {
+        "type": "PAWN-QUEEN-DIAGONAL-ZERO_LEGAL_MOVES-NO_PINNER_CAPTURE",
+        "source_games": 5,
+        "distinct_binary_signature_NNUE": 2,
+        "distinct_BINARY_signature_CLASSICAL": 1
+      },
+      {
+        "type": "PAWN-QUEEN-FILE-NONZERO_LEGAL_MOVES-NO_PINNER_CAPTURE",
+        "source_games": 4,
+        "distinct_binary_signature_NNUE": 4,
+        "distinct_BINARY_signature_CLASSICAL": 1
+      },
+      {
+        "type": "ROOK-QUEEN-DIAGONAL-ZERO_LEGAL_MOVES-NO_PINNER_CAPTURE",
+        "source_games": 2,
+        "distinct_binary_signature_NNUE": 2,
+        "distinct_BINARY_signature_CLASSICAL": 1
+      },
+      {
+        "type": "PAWN-ROOK-FILE-NONZERO_LEGAL_MOVES-NO_PINNER_CAPTURE",
+        "source_games": 3,
+        "distinct_binary_signature_NNUE": 1,
+        "distinct_BINARY_signature_CLASSICAL": 2
+      }
+    ],
+    "evaluator_NNUE_option_true_did_nonzero_classical": {
+      "40_cases_nonzero_classical_mobility_blockers": 35,
+      "40_cases_nonzero_WeakQueen_hits": 17,
+      "reason_source": "Stockfish16 Eval::evaluate has bool useClassical = !useNNUE || abs(psq) > 2048. NNUE option true is not a guarantee of exclusively neural evaluation; source PSQ advantage triggers classical fallback."
+    },
+    "source_code_witness": "Stockfish sf_16 src/evaluate.cpp Eval::evaluate PSQ fallback; src/position.cpp legal/see_ge; src/evaluate.cpp Evaluation::initialize mobilityArea and pieces<QUEEN> WeakQueen."
+  },
+  "artifact": {
+    "github_workflow_artifact_id": 11597965361,
+    "github_workflow_artifact_digest_sha256": "ced678a8828e8b62bb192ea09e56fc6e3cfc847bb9d72afc662e4d31d69de0c8",
+    "actual_native_JSON_sha256": "5f3c64e9ef2ac074786d86be96c404635e269483b1692d3ea1a713f0d0f9e77a",
+    "internal_ZIP_members_SHA256_pass": "14/14",
+    "drive_evidence_folder_id": "1ehjBFtuBYo7WQdfHvQDkVxVmQRZow9h_",
+    "drive_file_id": "1hKIxFYnTarmQf0Sz7CEJmiRDRT04E8aP",
+    "drive_URL": "https://drive.google.com/file/d/1hKIxFYnTarmQf0Sz7CEJmiRDRT04E8aP/view",
+    "GPLv3_original_stockfish_cplusplus_diff_and_harness_archived": true
+  },
+  "causal_authority": {
+    "original_uninstrumented_native_exact_sham": "PASS",
+    "native_actual_operator_execution": "PASS",
+    "some_same_legal_feature_pin_cases_have_different_whole_tree_binary_operation_signatures": "PASS but descriptive/search-tree-confounded",
+    "the_chess_root_pin_causes_those_subtypes": "NOT_IDENTIFIED",
+    "stockfish_NNUE_holds_discrete_new_pin_strategy_internal_representations": "NOT_IDENTIFIED",
+    "cross_chess_source_engine_transport": "NOT_TESTED",
+    "human_explanation_benefit": "NOT_TESTED",
+    "frozen_P1_heldout_games_opened": false
+  },
+  "next": "Still inside formal C3X0.14, instrument the exact root position key and evaluator-selection PSQ fallback site, then test a source-matched root witness-specific operator/event intervention and source-disjoint cases. Do NOT use whole-tree source operator histograms as root-pin causal representation without joint occurrence/event key."
+}
