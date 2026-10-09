@@ -1,0 +1,39 @@
+{
+  "schema": "c3x018-original-game-history-versus-standalone-chess-FEN-v1",
+  "date": "2026-10-10",
+  "engine_source": "Stockfish16 68e1e9b3811e16cad014b590d7443b9063b3eb52",
+  "run": 37983641417,
+  "conclusion": "success",
+  "artifact_id": 11642631009,
+  "zip_sha256": "53b06affa1bd33f9e1398446598e99130aec96c147a97ac599f6ac180d533394",
+  "result_json_sha256": "d29753ddf6cc292ec7d9e5aeb99464bc75776e2bfbd9bceaf425f03c2bfb82bd",
+  "all_member_sha256_verified": true,
+  "prior_source_freeze_run": 37981820261,
+  "prior_complete_standalone_run": 37982781383,
+  "denominator": 16,
+  "completed": 16,
+  "hold": 0,
+  "F_bestmove_changed": 1,
+  "O_bestmove_changed": 3,
+  "F_full_UCI_changed": 10,
+  "O_full_UCI_changed": 10,
+  "root_order_O_F_bestmove_difference_under_history": 1,
+  "case2": {
+    "standalone_O": "e1d1",
+    "standalone_F": "c2b3",
+    "history_O": "c2b3",
+    "history_F": "c2b3"
+  },
+  "case15": {
+    "standalone_O": "f5e3",
+    "standalone_F": "f5e3",
+    "history_O": "f5h6",
+    "history_F": "f5e3"
+  },
+  "original_failed_run": {
+    "id": 37983479117,
+    "reason": "Root sentinel Z incorrectly required real target contact; fixed in native harness"
+  },
+  "scope": "Secondary exploratory after earlier sixteen-game trial. Same 16 real broadcast game histories and chosen positions. Fixed depth 12, hash16, one thread, NNUE disabled.",
+  "causal_boundary": "History-aware position differs from standalone-FEN because of clock, repetition and prior-state details. Exact source of effect is not isolated and is not TT unique natural mediation."
+}
