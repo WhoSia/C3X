@@ -16,6 +16,16 @@
 
 **0.16 predecessor achievements are retained below** (32 native SF16 TT writer/reader searches; 24 legal Lichess original games and geometry audit). Complete natural TT mediation, profitable tactical proof, NNUE latent understanding, new engine transfer and the previous C1 classifier accuracy failure remain open or negative. New research/development is 0.17 only.
 
+## Chess Explanation Product & Root-Candidate Reverse Engineering (C3X 0.17)
+
+The long-term deliverable is a **source-auditable chess explainer**, not only a detector of tiny search divergences or a named tactic classifier. [C3X 0.17 root-order-to-TT/window provenance and explanation constitution](c3x/ontology/c3x-017-root-order-to-TT-window-provenance-and-explanation-authority.md) formalizes candidate child-return, stored-root-score, aspiration-window, TT writer/reader and final move as separate causal questions.
+
+**Actual first 0.17 source-native evidence:** [frozen 12-Lichess root order 72 patched +12 original SF16 runs](https://github.com/WhoSia/C3X/actions/runs/37948775813), real move-order source contact 12/12, root bestmove changes in interference-ray #6 and defender-removal-ray #8, score/bound changes 8, nodes 11, PV 10. These are **move-order effects**, not proof Stockfish recognizes a named tactic.
+
+**Executable explainer prototype:** [evidence-gated Node core](src/explanation/explanation_core.mjs) plus [8 native tests](src/explanation/explanation_core.test.mjs), run with `node --test src/explanation/explanation_core.test.mjs` or the [read-only Actions workflow](.github/workflows/c3x-017-explanation-core-tests.yml). It keeps four user-facing claims apart: legal chess and opponent defenses; tentative tactical/strategic interpretation; what the engine actually searched; what a tested source-code counterfactual changed. A forcing-puzzle claim requires explicit reply coverage and a stated horizon; a natural TT mediator claim requires proven writer/reader/path-specific intervention. Do not label apparent sacrifices or puzzles 'brilliant' without concrete alternatives and verification.
+
+**Next causal instrument:** passive aligned Stockfish16 per-root-candidate child return / prior-new stored score, root alpha-beta window, aspiration re-search and TT writer-reader lineage in the two changed plus source-frozen unchanged positions. No cherry-picking new cases from engine outcomes; every no-effect comparator remains in the trial. The goal is progressively more useful explanations, not a retrospective narrative that always makes the engine look clever.
+
 ## Historical C3X 0.16 verified results — 2026-10-09
 
 **Two independent evidence tiers; one active version.** C3X 0.15 is **CLOSED / inherited**; immutable previous experiment names remain `C3X015` for source reconstruction. C3X 0.16 combines historically grounded natural TT source-path research with independent non-pin chess concept opportunities.
