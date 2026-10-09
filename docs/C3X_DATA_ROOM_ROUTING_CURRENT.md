@@ -2,6 +2,14 @@
 
 **Single-entry lookup**: [C3X Google Drive root](https://drive.google.com/drive/folders/1eWHPdlKM1Jlesec7Iu87LlHbuNER0b95) · [C3X canonical Notion Lab](https://app.notion.com/p/3c4ef561cf92817ab76bcab15e7d1faf). No new top-level branches for each P number. Preserve original Drive file IDs, and keep citations and SHA custody receipts separate from raw file rights.
 
+## Latest cross-version navigation (2026-10-09)
+
+**Flowing Versioning applies:** [C3X 0.16 research-opening constitution](https://github.com/WhoSia/C3X/blob/main/c3x/ontology/c3x-016-flowing-versioning-multimotif-concept-operator-correspondence-opening.md) is OPEN for a different question; C3X 0.15 TT/qsearch→root provenance is still LIVE. Version movement does not rewrite historic failure or convert a new motif detector into causal proof.
+
+- **0.15 latest native court:** [P10 R2 48 Stockfish16 native searches](https://github.com/WhoSia/C3X/actions/runs/37933994251), [P10 source-root provenance receipt](https://github.com/WhoSia/C3X/blob/main/c3x/receipts/c3x-015-P10-R2-first-root-candidate-child-return-vs-stored-score-48-native-20261009.json). Canonical [Drive P0–P10 evidence](https://drive.google.com/drive/folders/1Mcx8yKfycxHDpmHhmAFx0AQFrgA3I3z8). R1 overbroad root-score classification retained in 99_LEGACY; R2 replaced it after exact 48-native rerun.
+- **0.16 first source-only court:** [0.16 P0 STS Go audit receipt](https://github.com/WhoSia/C3X/blob/main/c3x/receipts/c3x-016-P0-STS-1500-geometric-opportunities-source-only-go-audit-20261009.json). [Drive 0.16 bounded research ZIP](https://drive.google.com/drive/folders/1-w2gcNnL_FK45v9EKZ7nSBi41PzQt5rZ) holds original Go analyzer, unit tests, source-only outcome JSON and claim ceiling. Original STS input remains once in the existing 01 raw STS source folder, not duplicated.
+- **One active Notion Lab:** [C3X canonical](https://app.notion.com/p/3c4ef561cf92817ab76bcab15e7d1faf), with 0.16 new question and 0.15 unresolved live lineage retained.
+
 ## Root folders, fixed at eight
 - **00_GOVERNANCE_INDEX**: existing [Data Room Index](https://drive.google.com/drive/folders/1BZg_2o6npPXDy9VAlIeE8XIt-j1TBpf9), canonical maps and rules
 - **01_SOURCE_ACCRUAL_RAW**: [original input root](https://drive.google.com/drive/folders/170YFzQhSIMKBAypCdk2QaJHdms15uG2x), only six immediate children/items as of this audit, not one subfolder per phase
