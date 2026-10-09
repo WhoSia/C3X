@@ -1,0 +1,94 @@
+name: C3X 0.14 Source-Native Pin Legal SEE Mobility WeakQueen Operator Court
+on:
+  push:
+    paths:
+      - '.github/workflows/c3x-014-real-pin-native-operator-branches.yml'
+      - 'tools/c3x_014_patch_native_pin_operators.py'
+      - 'harness/c3x_014_native_pin_branch_court.py'
+      - 'harness/c3x_014_pin_native_trace_fields.py'
+      - 'harness/c3x_014_official_pin_NNUE_vs_classic_phenotype_court.py'
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  genuine-native-branch-court:
+    runs-on: ubuntu-latest
+    timeout-minutes: 38
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Source and chess rule prerequisites
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq make g++ git
+          python -m pip install --disable-pip-version-check chess==1.11.2
+          python -m py_compile tools/c3x_014_patch_native_pin_operators.py harness/c3x_014_native_pin_branch_court.py harness/c3x_014_pin_native_trace_fields.py harness/c3x_014_official_pin_NNUE_vs_classic_phenotype_court.py
+          mkdir -p fixed worlds output
+      - uses: actions/download-artifact@v4
+        with:
+          name: c3x-014-TCEC-source-only-chess-pin-law-subtype-witnesses
+          path: worlds/
+          repository: WhoSia/C3X
+          run-id: '37886383505'
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: c3x-014-original-SF16-pin-NNUE-vs-classical-search-phenotypes
+          path: fixed/
+          repository: WhoSia/C3X
+          run-id: '37886658542'
+          github-token: ${{ github.token }}
+      - name: Byte verify original chess-worlds and previous 160 actual SF16 searches
+        run: |
+          printf '%s  %s\n' 'cfb2c4b0631959cfcdd5bf1eb098f7b41c40468a7b22e434e95ef8936cc43ead' 'worlds/C3X014_OFFICIAL_CHESS_PIN_SUBTYPES_SOURCE_ONLY.json' | sha256sum -c -
+          printf '%s  %s\n' '2eed2dc94832364345721a66608eb72360d1667c6dc763ff90b4fa6241db4084' 'fixed/C3X014_PIN_STOCKFISH16_NNUE_CLASSIC_NATIVE_OUTCOMES.json' | sha256sum -c -
+      - name: Compile genuine source-native traced SF16 and preserve full source code diff
+        run: |
+          git clone -q --single-branch --branch sf_16 https://github.com/official-stockfish/Stockfish.git /tmp/C3X014_pin_native
+          test "$(git -C /tmp/C3X014_pin_native rev-parse HEAD)" = "68e1e9b3811e16cad014b590d7443b9063b3eb52"
+          python tools/c3x_014_patch_native_pin_operators.py --source /tmp/C3X014_pin_native --out-manifest output/NATIVE_PIN_CPP_PATCH.json
+          git -C /tmp/C3X014_pin_native diff -- src/position.cpp src/evaluate.cpp src/search.cpp > output/EXACT_PIN_CPP_SOURCE_DIFF.patch
+          cp /tmp/C3X014_pin_native/src/c3x014_pin_trace.h output/NEW_PIN_NATIVE_COUNTER_HEADER.h
+          cp /tmp/C3X014_pin_native/Copying.txt output/Stockfish_GPLv3.txt
+          test -s output/EXACT_PIN_CPP_SOURCE_DIFF.patch
+          make -s -C /tmp/C3X014_pin_native/src -j2 build ARCH=x86-64
+          cp /tmp/C3X014_pin_native/src/stockfish /tmp/C3X014_pin_native_bin
+          sha256sum /tmp/C3X014_pin_native_bin > output/NATIVE_PIN_ENGINE_BINARY_SHA256.txt
+      - name: Strict reproducible 160-run actual SF16 pin trace court on all 40 frozen source worlds
+        run: |
+          python harness/c3x_014_native_pin_branch_court.py --source worlds/C3X014_OFFICIAL_CHESS_PIN_SUBTYPES_SOURCE_ONLY.json --prior-160 fixed/C3X014_PIN_STOCKFISH16_NNUE_CLASSIC_NATIVE_OUTCOMES.json --engine /tmp/C3X014_pin_native_bin --out output/C3X014_SF16_NATIVE_PIN_BRANCHES_FROZEN40_REAL.json
+          python - <<'PY'
+          import json
+          r=json.load(open('output/C3X014_SF16_NATIVE_PIN_BRANCHES_FROZEN40_REAL.json'))
+          assert r['formal_research_unit']=='C3X 0.14'
+          assert r['frozen_source_pin_worlds']==40 and r['native_instrumented_SF16_processes']==160
+          assert r['exact_match_against_prior_unmodified_SF16_UCI_cells']==80
+          assert r['identical_full_native_trace_cold_pairs']==80
+          assert r['observed_law_subtype_keys']==30 and r['repeated_legal_law_subtype_groups']==4
+          assert r['eligible_repeated_game_source_cases']==14
+          assert not r['stockfish_learned_latent_pin_subtype_identified']
+          assert not r['causal_root_pin_subtype_identified'] and not r['sealed_P1_four_case_games_accessed']
+          print('C3X014_NATIVE_PIN_OPERATOR_REAL_BRANCH_SHAM_CAUSAL_FIREWALL_PASS')
+          PY
+      - name: Preserve comprehensive original science artifacts and member checksums
+        if: always()
+        run: |
+          cp tools/c3x_014_patch_native_pin_operators.py output/NATIVE_PIN_SOURCE_PATCHER.py
+          cp harness/c3x_014_native_pin_branch_court.py output/NATIVE_PIN_REAL_160_RUN_DRIVER.py
+          cp harness/c3x_014_official_pin_NNUE_vs_classic_phenotype_court.py output/NATIVE_UCI_RUN_PARSER.py
+          cp harness/c3x_014_pin_native_trace_fields.py output/NATIVE_TRACE_COUNTER_SCHEMA.py
+          cp worlds/C3X014_OFFICIAL_CHESS_PIN_SUBTYPES_SOURCE_ONLY.json output/PRE_EVALUATION_FROZEN_40_SOURCE_ONLY.json
+          cp fixed/C3X014_PIN_STOCKFISH16_NNUE_CLASSIC_NATIVE_OUTCOMES.json output/PRIOR_160_UNPATCHED_SF16_UCI_BASELINE.json
+          cp c3x/ontology/c3x-014-bounded-TT-return-census-and-pin-subtypes-precommit.md output/PROSPECTIVE_BRANCH_COURT_PRECOMMIT.md
+          printf '%s\n' 'Counts instrument genuine native code sites across ALL search tree nodes. This does not isolate the root pinned piece or discover a NNUE learned chess concept. Most law subtypes are singletons.' > output/SCIENTIFIC_CAUSAL_CEILING.txt
+          find output -maxdepth 1 -type f ! -name 'MEMBER_SHA256.txt' -print0 | sort -z | xargs -0 sha256sum > output/MEMBER_SHA256.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x-014-SF16-real-pin-legal-SEE-mobility-WeakQueen-branch-court
+          path: output/
+          if-no-files-found: error
+          retention-days: 90
