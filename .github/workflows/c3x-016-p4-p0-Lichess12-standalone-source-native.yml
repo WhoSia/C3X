@@ -1,0 +1,68 @@
+name: C3X 0.16 P4 P0 Independent Lichess Twelve Frozen FEN Original SF16 24 Native
+on:
+  push:
+    paths:
+      - '.github/workflows/c3x-016-p4-p0-Lichess12-standalone-source-native.yml'
+      - 'harness/c3x_016_P4_P0_Lichess12_standalone_originalSF16_24_native.py'
+      - 'c3x/cohorts/c3x-016-P4-Lichess-12-standalone-FEN-source-geometry-3x4-preoutcome.json'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  independent-provider-original-SF16-baseline:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install independent chess-law checker and original source builder
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq git make g++
+          python -m pip install --disable-pip-version-check chess==1.11.2
+          python -m py_compile harness/c3x_016_P4_P0_Lichess12_standalone_originalSF16_24_native.py
+          mkdir -p output
+      - name: Lock independent source-only FEN manifest before search
+        run: |
+          test -s c3x/cohorts/c3x-016-P4-Lichess-12-standalone-FEN-source-geometry-3x4-preoutcome.json
+          sha256sum c3x/cohorts/c3x-016-P4-Lichess-12-standalone-FEN-source-geometry-3x4-preoutcome.json > output/P4_P0_COHORT_SHA256.txt
+          test -s c3x/receipts/c3x-016-P2-24-independent-Lichess-legality-multimotif-source-geometry-20261009.json
+          cp c3x/cohorts/c3x-016-P4-Lichess-12-standalone-FEN-source-geometry-3x4-preoutcome.json output/P4_P0_COHORT_ORIGINAL_SOURCE_FEN.json
+      - name: Build untouched officially locked Stockfish 16
+        run: |
+          git clone -q --single-branch --branch sf_16 https://github.com/official-stockfish/Stockfish.git /tmp/C3X016_P4_SF16
+          test "$(git -C /tmp/C3X016_P4_SF16 rev-parse HEAD)" = 68e1e9b3811e16cad014b590d7443b9063b3eb52
+          make -s -C /tmp/C3X016_P4_SF16/src -j2 build ARCH=x86-64
+          sha256sum /tmp/C3X016_P4_SF16/src/stockfish > output/P4_P0_NATIVE_BINARY_SHA256.txt
+      - name: Search all twelve pre-frozen genuine-source but isolated FENs twice
+        run: |
+          python -u harness/c3x_016_P4_P0_Lichess12_standalone_originalSF16_24_native.py \
+            --cohort c3x/cohorts/c3x-016-P4-Lichess-12-standalone-FEN-source-geometry-3x4-preoutcome.json \
+            --engine /tmp/C3X016_P4_SF16/src/stockfish \
+            --out output/C3X016_P4_P0_LICHESS12_STANDALONE_24_NATIVE.json
+          python - <<'PY'
+          import json
+          p='output/C3X016_P4_P0_LICHESS12_STANDALONE_24_NATIVE.json'
+          x=json.load(open(p))
+          assert x['native_processes']==24
+          assert x['standalone_root_positions']==12
+          assert x['all_cold_replays_exact'] is True
+          assert len(x['records'])==12
+          assert all(z['cold_exact'] for z in x['records'])
+          print('C3X016_P4_P0_UNPATCHED_EXTERNAL_STANDALONE_FEN_NATIVE_24_PASS')
+          PY
+      - name: Seal original reproducible source-only native evidence (no third-party PGN)
+        if: always()
+        run: |
+          cp harness/c3x_016_P4_P0_Lichess12_standalone_originalSF16_24_native.py output/P4_P0_STANDALONE_NATIVE_RUNNER.py
+          printf '%s\n' 'P4-P0 is original Stockfish16 native baseline, NOT named motif SEE/TT causal intervention. Source root FEN deliberately loses authentic historical repetition/rule50; no full PGN or game scores used for sampling. Outcome-neutral SOURCE-ONLY 3 positive types plus geometry-null, exact pre-committed 12 FEN.' > output/P4_P0_CLAIM_CEILING.txt
+          find output -maxdepth 1 -type f ! -name MEMBER_SHA256.txt -print0 | sort -z | xargs -0 sha256sum > output/MEMBER_SHA256.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x-016-P4-P0-Lichess12-original-source-FEN-24-native
+          path: output/
+          retention-days: 90
+          if-no-files-found: error
