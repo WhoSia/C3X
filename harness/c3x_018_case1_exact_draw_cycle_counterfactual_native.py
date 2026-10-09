@@ -65,9 +65,7 @@ def main():
             print("C3X018_CASE1_EXACT_DRAW_GATE",mode,form,gate,
                   "contact",len(contacts),"child",root["child_return"],
                   "nodes",x["UCI"]["nodes"],flush=True)
-        need(row[form+"_BASE"]["UCI"]["bestmove"]==
-             row[form+"_GD"]["UCI"]["bestmove"] or True,
-             "DRAW_COUNTERFACTUAL_UNEXPECTED") # no outcome invariance imposed
+        # No invariance constraint: every gate result is a possible falsifier.
     need(row["HISTORY_BASE"]["UCI"]==original["arms"][mode]["historical_UCI"],
          "HISTORICAL_SOURCE_OUTPUT_DRIFT")
     need(row["FEN6_BASE"]["first_root_candidate_return"]==68,
