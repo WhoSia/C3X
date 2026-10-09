@@ -50,7 +50,7 @@ jobs:
           test "$(git -C /tmp/C3X015_CSWP rev-parse HEAD)" = '68e1e9b3811e16cad014b590d7443b9063b3eb52'
           python tools/c3x_014_patch_native_pin_operators.py --source /tmp/C3X015_CSWP --out-manifest output/BASE_PIN_OBSERVER.json
           python tools/c3x_014_ROOT_PIN_object_only_SEE_unmask_patch.py --source /tmp/C3X015_CSWP --out-manifest output/ROOT_OBJECT_GUARDED_SEE_PATCH.json
-          python tools/c3x_015_CSWP_first_site_window_patch_R2.py tools/c3x_015_CSWP_TT_writer_reader_bound_window_patch.py --source /tmp/C3X015_CSWP --out-manifest output/CSWP_NEW_FIRST_SITE_WINDOW_CPP_PATCH.json
+          python tools/c3x_015_CSWP_first_site_window_patch_R2.py --source /tmp/C3X015_CSWP --out-manifest output/CSWP_NEW_FIRST_SITE_WINDOW_CPP_PATCH.json
           python tools/c3x_015_CSWP_TT_writer_reader_bound_window_patch.py --source /tmp/C3X015_CSWP --out-manifest output/CSWP_PHYSICAL_TT_SOURCE_PATCH.json
           git -C /tmp/C3X015_CSWP diff -- src/position.cpp src/search.cpp src/evaluate.cpp src/tt.cpp src/tt.h > output/CSWP_NATIVE_CPP_PATCH.diff
           test -s output/CSWP_NATIVE_CPP_PATCH.diff
