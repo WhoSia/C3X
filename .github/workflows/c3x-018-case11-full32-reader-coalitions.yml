@@ -1,0 +1,92 @@
+name: C3X 0.18 Case11 Five TT Reader Power Set
+on:
+  push:
+    paths:
+      - 'tools/c3x_018_case11_five_reader_coalition_mask_overlay.py'
+      - 'harness/c3x_018_case11_five_reader_full32_coalitions_native.py'
+      - '.github/workflows/c3x-018-case11-full32-reader-coalitions.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  five-event-power-set:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Source Python and original chess game parser preflight
+        run: |
+          python -m pip install -q chess==1.11.2
+          python -m py_compile tools/c3x_018_case11_five_reader_coalition_mask_overlay.py
+          python -m py_compile harness/c3x_018_case11_five_reader_full32_coalitions_native.py
+      - name: Frozen December Lichess source-only original PGN histories
+        uses: actions/download-artifact@v4
+        with:
+          name: c3x-018-december2025-blind12-source
+          path: source/
+          repository: WhoSia/C3X
+          run-id: '37987794988'
+          github-token: ${{ github.token }}
+      - name: Prior five late reader singleton native source results
+        uses: actions/download-artifact@v4
+        with:
+          name: c3x-018-case11-five-old-reader-root-call-singletons
+          path: previous/
+          repository: WhoSia/C3X
+          run-id: '37988929108'
+          github-token: ${{ github.token }}
+      - name: Immutable source and prior native singleton SHA256
+        run: |
+          set -euo pipefail
+          mkdir -p evidence
+          test "$(sha256sum source/C3X018_DECEMBER12_INDEPENDENT_GAMES.json | cut -d' ' -f1)" = 51366a480fe2631005dbded7992e870443ef6dd2dfd785fd10952d6eeff5e7cd
+          test "$(sha256sum previous/CASE11_OLDER_FIVE_SOURCE_SINGLETONS.json | cut -d' ' -f1)" = 8e1ac0f02e63a9db93564181a7dd86162a552a5cb73493d5053e41573c4cf615
+      - name: Compile fixed Stockfish16 with native exact TT writer, bound, age, root and group mask
+        run: |
+          set -euo pipefail
+          root=/tmp/C3X018_CASE11_ALL_32_SUBSETS
+          git clone -q --single-branch --branch sf_16 https://github.com/official-stockfish/Stockfish.git "$root"
+          test "$(git -C "$root" rev-parse HEAD)" = 68e1e9b3811e16cad014b590d7443b9063b3eb52
+          python tools/c3x_016_P4_independent_12root_source_order_patch.py --source "$root" --out-manifest evidence/P4.json
+          python tools/c3x_017_early_depth1_root_window_trace_patch.py --source "$root" --out-manifest evidence/ROOT.json
+          python tools/c3x_018_trial_call_identity_patch.py --source "$root" --out-manifest evidence/TRIAL.json
+          python tools/c3x_018_physical_epoch_lineage_patch.py --source "$root" --out-manifest evidence/EPOCH.json
+          python tools/c3x_018_tt_eval_consumption_overlay.py --source "$root" --out-manifest evidence/V.json
+          python tools/c3x_018_physical_value_witness_overlay.py --source "$root" --out-manifest evidence/WRITER_VALUE.json
+          python tools/c3x_018_root_TT_genealogy_overlay.py --source "$root" --out-manifest evidence/ROOT_TT.json
+          python tools/c3x_018_TT_reader_writer_age_bound_root_feature_overlay.py --source "$root" --out-manifest evidence/READER_FEATURES.json
+          python tools/c3x_018_adaptive_writer_age_root_call_V_gate.py --source "$root" --out-manifest evidence/EXACT_AGE_GATE.json
+          python tools/c3x_018_case11_five_reader_coalition_mask_overlay.py --source "$root" --out-manifest evidence/FIVE_BIT_MASK_GATE.json
+          git -C "$root" diff -- src/ > evidence/SOURCE_DIFF.patch
+          make -s -C "$root/src" -j2 build ARCH=x86-64
+          sha256sum "$root/src/stockfish" > evidence/BINARY_SHA256.txt
+      - name: Exhaust all 32 masks two cold repeats and no-contact zero mask
+        run: |
+          set -euo pipefail
+          python -u harness/c3x_018_case11_five_reader_full32_coalitions_native.py \
+            --source source/C3X018_DECEMBER12_INDEPENDENT_GAMES.json \
+            --prior-singletons previous/CASE11_OLDER_FIVE_SOURCE_SINGLETONS.json \
+            --engine /tmp/C3X018_CASE11_ALL_32_SUBSETS/src/stockfish \
+            --out evidence/CASE11_EXHAUSTIVE_32_TT_READER_COALITIONS.json | tee evidence/NATIVE_STDOUT.txt
+          python - <<'PY'
+          import json
+          d=json.load(open("evidence/CASE11_EXHAUSTIVE_32_TT_READER_COALITIONS.json"))
+          assert len(d["masks"])==32
+          assert d["summary"]["C5_FULL_COURT"]=="PASS"
+          print("C3X018_32_SUBSET_SOURCE_MASK_COURT_COMPLETE")
+          PY
+      - name: Source and raw evidence SHA256
+        if: always()
+        run: |
+          mkdir -p evidence
+          find evidence -maxdepth 1 -type f ! -name MEMBER_SHA256.txt -print0 | sort -z | xargs -0 -r sha256sum > evidence/MEMBER_SHA256.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x-018-case11-five-tt-reader-32-subsets
+          path: evidence/
+          retention-days: 90
+          if-no-files-found: error
