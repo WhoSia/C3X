@@ -1,0 +1,96 @@
+name: C3X 0.14 Actual Root-Key PIN Sites and NNUE PSQ Fallback Court
+on:
+  push:
+    paths:
+      - '.github/workflows/c3x-014-pin-root-PSQ-native.yml'
+      - 'tools/c3x_014_pin_root_key_and_PSQ_eval_route_patch.py'
+      - 'harness/c3x_014_native_pin_root_and_PSQ_routing_court.py'
+      - 'harness/c3x_014_pin_root_eval_trace_fields.py'
+      - 'harness/c3x_014_official_pin_NNUE_vs_classic_phenotype_court.py'
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  genuine-root-pin-and-psq-evaluation:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Prepare exact source and chess rules
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq make g++ git
+          python -m pip install --disable-pip-version-check chess==1.11.2
+          python -m py_compile tools/c3x_014_pin_root_key_and_PSQ_eval_route_patch.py harness/c3x_014_native_pin_root_and_PSQ_routing_court.py harness/c3x_014_official_pin_NNUE_vs_classic_phenotype_court.py harness/c3x_014_pin_root_eval_trace_fields.py
+          mkdir -p worlds parent output
+      - uses: actions/download-artifact@v4
+        with:
+          name: c3x-014-TCEC-source-only-chess-pin-law-subtype-witnesses
+          path: worlds/
+          repository: WhoSia/C3X
+          run-id: '37886383505'
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: c3x-014-SF16-real-pin-legal-SEE-mobility-WeakQueen-branch-court
+          path: parent/
+          repository: WhoSia/C3X
+          run-id: '37888968410'
+          github-token: ${{ github.token }}
+      - name: Exact prior scientific SHA and prospective cohort verification
+        run: |
+          printf '%s  %s\n' 'cfb2c4b0631959cfcdd5bf1eb098f7b41c40468a7b22e434e95ef8936cc43ead' 'worlds/C3X014_OFFICIAL_CHESS_PIN_SUBTYPES_SOURCE_ONLY.json' | sha256sum -c -
+          printf '%s  %s\n' '5f3c64e9ef2ac074786d86be96c404635e269483b1692d3ea1a713f0d0f9e77a' 'parent/C3X014_SF16_NATIVE_PIN_BRANCHES_FROZEN40_REAL.json' | sha256sum -c -
+      - name: Real source-native official SF16 with root-key and evaluator PSQ branch observability
+        run: |
+          git clone -q --single-branch --branch sf_16 https://github.com/official-stockfish/Stockfish.git /tmp/C3X014_PIN_ROOT
+          test "$(git -C /tmp/C3X014_PIN_ROOT rev-parse HEAD)" = "68e1e9b3811e16cad014b590d7443b9063b3eb52"
+          python tools/c3x_014_patch_native_pin_operators.py --source /tmp/C3X014_PIN_ROOT --out-manifest output/PARENT_PIN_NATIVE_SOURCE_PATCH.json
+          python tools/c3x_014_pin_root_key_and_PSQ_eval_route_patch.py --source /tmp/C3X014_PIN_ROOT --out-manifest output/ROOT_KEY_PSQ_FALLBACK_SOURCE_PATCH.json
+          git -C /tmp/C3X014_PIN_ROOT diff -- src/position.cpp src/evaluate.cpp src/search.cpp > output/ACTUAL_SOURCE_PIN_ROOT_EVENT_FULL_CPP_DIFF.patch
+          cp /tmp/C3X014_PIN_ROOT/src/c3x014_pin_trace.h output/ACTUAL_ROOT_NATIVE_PIN_TRACE_HEADER.h
+          cp /tmp/C3X014_PIN_ROOT/Copying.txt output/Stockfish_GPLv3.txt
+          test -s output/ACTUAL_SOURCE_PIN_ROOT_EVENT_FULL_CPP_DIFF.patch
+          make -s -C /tmp/C3X014_PIN_ROOT/src -j2 build ARCH=x86-64
+          cp /tmp/C3X014_PIN_ROOT/src/stockfish /tmp/C3X014_PIN_ROOT_bin
+          sha256sum /tmp/C3X014_PIN_ROOT_bin > output/NATIVE_ENGINE_SHA256.txt
+      - name: Verify exact 40 worlds and genuine 160 SF16 root-level mechanism reads
+        run: |
+          python harness/c3x_014_native_pin_root_and_PSQ_routing_court.py --source worlds/C3X014_OFFICIAL_CHESS_PIN_SUBTYPES_SOURCE_ONLY.json --previous parent/C3X014_SF16_NATIVE_PIN_BRANCHES_FROZEN40_REAL.json --engine /tmp/C3X014_PIN_ROOT_bin --out output/C3X014_ROOT_PIN_AND_NNUE_PSQ_FALLBACK_NATIVE_160_RUNS.json
+          python - <<'PY'
+          import json
+          r=json.load(open('output/C3X014_ROOT_PIN_AND_NNUE_PSQ_FALLBACK_NATIVE_160_RUNS.json'))
+          assert r['formal_research_unit']=='C3X 0.14'
+          assert r['frozen_source_worlds']==40
+          assert r['actual_native_SF16_new_processes']==160
+          assert r['strict_prior_UCI_and_all_native_site_counters_exact']==80
+          assert r['cold_repeat_all_exact']==80
+          assert r['repeated_source_game_law_subtype_groups']==4
+          assert not r['new_chess_pin_strategy_latent_subtypes_causally_identified']
+          assert not r['four_precommitted_P1_holdout_games_accessed']
+          print('C3X014_ROOT_PIN_NATIVE_PSQ_ROUTE_EXACT_SHAM_SCIENCE_GATE_PASS')
+          PY
+      - name: Preserve original, new C++ source and all 160 native measurements
+        if: always()
+        run: |
+          cp tools/c3x_014_patch_native_pin_operators.py output/PARENT_PIN_NATIVE_CPP_PATCHER.py
+          cp tools/c3x_014_pin_root_key_and_PSQ_eval_route_patch.py output/ROOT_PSQ_CPP_PATCHER.py
+          cp harness/c3x_014_native_pin_root_and_PSQ_routing_court.py output/ROOT_PIN_EXACT_NATIVE_160_RUN_DRIVER.py
+          cp harness/c3x_014_official_pin_NNUE_vs_classic_phenotype_court.py output/GENUINE_NATIVE_UCI_READER.py
+          cp harness/c3x_014_pin_root_eval_trace_fields.py output/ROOT_PSQ_TRACE_FIELD_SCHEMA.py
+          cp worlds/C3X014_OFFICIAL_CHESS_PIN_SUBTYPES_SOURCE_ONLY.json output/FROZEN_40_ABSOLUTE_PIN_WORLDS.json
+          cp parent/C3X014_SF16_NATIVE_PIN_BRANCHES_FROZEN40_REAL.json output/PRIOR_160_NATIVE_PIN_SITE_TRACES.json
+          cp c3x/ontology/c3x-014-bounded-TT-return-census-and-pin-subtypes-precommit.md output/PSQ_ROOTKEY_PROSPECTIVE_COURT_PRECOMMIT.md
+          printf '%s\n' 'Root key native site counters count actual search-time calls only; absence does not imply no root pin. NNUE option can deliberately choose classical when PSQ magnitude exceeds 2048. No root pin causal effect certificate.' > output/SCIENCE_CEILING.txt
+          find output -maxdepth 1 -type f ! -name 'MEMBER_SHA256.txt' -print0 | sort -z | xargs -0 sha256sum > output/MEMBER_SHA256.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x-014-native-rootpin-fullkey-and-NNUE-PSQ-fallback
+          path: output/
+          if-no-files-found: error
+          retention-days: 90
