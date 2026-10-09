@@ -23,7 +23,11 @@ def patch_tt(s):
                         || (std::strcmp(mode, "M") == 0
                             && std::strcmp(site, "tt_move") == 0))
                    && exact_key && c3x018_target(key, slot, epoch);'''
-    return once(s,old,new,"TT_MODE")
+    s=once(s,old,new,"TT_MODE")
+    s=once(s,'    c3x018_event(block ? "reader_block" : "consumer_reached", site,',
+      '    if (std::strcmp(mode, "M") == 0 &&\n        std::strcmp(site, "tt_move") == 0 && !block)\n        return false;\n    c3x018_event(block ? "reader_block" : "consumer_reached", site,',
+      "MOVE_LOG_ONLY_MATCHED")
+    return s
 
 def patch_search(s):
     s=once(s,
@@ -33,6 +37,8 @@ def patch_search(s):
       '''    ttMove =  rootNode ? thisThread->rootMoves[thisThread->pvIdx].pv[0]
             : ss->ttHit    ? tte->move() : MOVE_NONE;
     if (!rootNode && ss->ttHit && ttMove &&
+        std::getenv("C3X018_TT_MODE") &&
+        std::strcmp(std::getenv("C3X018_TT_MODE"), "M") == 0 &&
         c3x018_consumer_gate("tt_move", posKey, tte, ss->ply, depth,
                             int(alpha), int(beta), int(ttMove))
         )
@@ -43,6 +49,8 @@ def patch_search(s):
     pvHit = ss->ttHit && tte->is_pv();''',
        '''    ttMove = ss->ttHit ? tte->move() : MOVE_NONE;
     if (ss->ttHit && ttMove &&
+        std::getenv("C3X018_TT_MODE") &&
+        std::strcmp(std::getenv("C3X018_TT_MODE"), "M") == 0 &&
         c3x018_consumer_gate("tt_move", posKey, tte, ss->ply, ttDepth,
                             int(alpha), int(beta), int(ttMove)))
         ttMove = MOVE_NONE;
