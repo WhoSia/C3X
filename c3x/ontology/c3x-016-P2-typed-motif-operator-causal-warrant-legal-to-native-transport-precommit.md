@@ -1,6 +1,8 @@
 # C3X 0.16 — P2 Multi-Motif Legal Warrant to Native Operator-Contact Transition (PRE-OUTCOME)
 
-**Date** 2026-10-09. This remains inside C3X 0.16, not a new 0.17 version. C3X 0.15 P11 stays live as a previous two-case root-relay mechanism court.
+**VERSION STATUS ADDENDUM (2026-10-09):** `C3X 0.15 CLOSED / C3X 0.16 ACTIVE`. The earlier language treating P11 as an independently live 0.15 project has been superseded by explicit PI version consolidation. All TT writer/reader/root follow-ups are now 0.16 work, while original P11 source artifact names/SHAs remain immutable. [Closure](c3x-015-CLOSED-20261009-flowing-versioning-transfer-to-c3x016.md) · [source-mechanism case-warrant](c3x-016-natural-TT-case-partition-warrant-v0.1.md).
+
+**Date** 2026-10-09. This remains inside C3X 0.16, not a new 0.17 version. The historical C3X 0.15 P11 source court is closed as a versioned predecessor, with TT causal obligations inherited by C3X 0.16.
 
 ## First P1 evidence and its authority
 - STS original 1500 EPD, 1497 unique 4-field FENs, 3 cross-label duplicates, original SHA d7a33ae6cf2fb5f3f18ef1b904cca07dce2cd0458edcf60644f59d4d9e28c07b.
@@ -36,4 +38,4 @@ Never-change baseline (prior C3X 0.15 C1 prospective accuracy 42/64 vs null 53/6
 P1 partial scoped source / legal move response census PASS, source-rights custody SHA PASS, Lichess/TWIC metadata nonoverlap PASS. **Neither broad multi-motif native intervention, full independent PGN legality, nor strategic horizon causal validation has been completed.** Keep P2 as **PRECOMMITTED NOT RUN**.
 
 ## Flowing Versioning
-The original 0.15 source TT→root first-divergence program stays live (P11 exact root-return rescue 48 native), while 0.16 proceeds to separate motif/strategy targets. The versions need not close one another. Do not create new version for cosmetic substeps or inflate P count without a new causal question.
+The original 0.15 source TT→root first-divergence work is an inherited historical 48-native P11 experiment; all further source TT and motif/strategy research now proceeds under active 0.16. The historical predecessor has been closed as a version without claiming scientific problems are solved. Do not create new version for cosmetic substeps or inflate P count without a new causal question.
