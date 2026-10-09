@@ -1,0 +1,82 @@
+{
+  "schema": "c3x018-case6-source-exact-writer-budget-second-transition-fine-grid-v1",
+  "verified_date": "2026-10-10",
+  "head_sha": "e6875eb7f2e7121f0fec54ba1bd6cec82d0c1562",
+  "workflow_run": 37976205349,
+  "workflow_conclusion": "success",
+  "artifact_id": 11639266132,
+  "artifact_zip_sha256": "05652e40e8cb697773b5ac893c39bda76597cd315303d917b6189225cca7b323",
+  "native_json": "CASE6_FINE_GRID_17_23.json",
+  "native_json_sha256": "797606369a3e34502ab0da015aa66e8ca547fe7457777b57a39474de8694fc05",
+  "member_sha256_verified": true,
+  "engine_source": "official-stockfish sf_16 68e1e9b3811e16cad014b590d7443b9063b3eb52",
+  "previous_coarse_dose_receipt": "c3x/receipts/c3x-018-physical-TT-nine-dose-nonmonotone-root-selection-native-20261010.json",
+  "study_status": "ADAPTIVE_SECONDARY_FINDING_COLD_REPLICATED_SINGLE_SOURCE_NOT_INDEPENDENT",
+  "case6": {
+    "key64": "3293258168769270517",
+    "slot": 0,
+    "local_epoch": 2,
+    "root_order_F_bestmove": "e4d6",
+    "original_O_bestmove": "c3a4",
+    "budget_grid": [
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23
+    ],
+    "actual_suppressed": [
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23
+    ],
+    "bestmoves": [
+      "c3a4",
+      "c3a4",
+      "c3a4",
+      "c3a4",
+      "c3a4",
+      "e4d6",
+      "e4d6"
+    ],
+    "scores_cp": [
+      22,
+      45,
+      31,
+      54,
+      17,
+      17,
+      17
+    ],
+    "node_counts": [
+      75391,
+      55189,
+      59860,
+      52935,
+      56532,
+      50645,
+      50645
+    ],
+    "observed_first_reversion_adjacent_pair": [
+      21,
+      22
+    ],
+    "source_noncontact_decoy_core_exact": true,
+    "cold_repeats_each": 2
+  },
+  "central_falsifier": "Root bestmove is nonmonotone under increasing allowed matched TT save suppression budget. More censorship of the same selected writer key does NOT monotonically restore the original root-order outcome.",
+  "limitations": [
+    "Secondary adaptive grid chosen because prior 9-dose observed nonmonotone transition",
+    "Observed transition at 21/22 is scoped to specific source event, depth12, Hash16, 1 thread, SF16 frozen FEN",
+    "Entire TTEntry::save invocation suppressed, including possible move16 update, not score-only mechanism",
+    "Per-slot write epoch can be reallocated by counterfactual search path changes; shared numeric epochs across arms are not necessarily identical causal actors",
+    "Even the exact boundary does not establish a unique natural TT writer-reader mediator",
+    "Two historical bestmove-flip roots and one engine; no concept understanding or transport"
+  ]
+}
