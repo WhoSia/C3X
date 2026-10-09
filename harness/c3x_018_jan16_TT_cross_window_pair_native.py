@@ -103,8 +103,28 @@ def verify_selected_blocks(x,pair,rule,kind):
     need(all(e["root_call"] in allowed
              and all(e[k]==target[k] for k in ("key64","slot","epoch"))
              for e in contacts),"SOURCE_PAIR_ROOT_CALL_OR_PHYSICAL_MISMATCH")
-    need(len(witnesses)>=len(contacts),"V_WITNESS_MISSING")
-    for w in witnesses:
+    # A physical TT triple may be read WITHOUT the event-specific V guard firing.
+    # c3x018_value_witness kind=reader is a pre-gate value snapshot, while
+    # c3x018_lineage kind=reader_block is an actual intervention.
+    # Match source block events to snapshots one-to-one, never validate *all*
+    # physical snapshot reads as if they had been suppressed.
+    def block_identity(evt):
+        return (evt["key64"],evt["slot"],evt["epoch"],
+                evt["root_call"],evt["root_move"],evt["ply"],
+                evt["depth"],evt["alpha"],evt["beta"],evt["value"])
+    def witness_identity(evt):
+        return (evt["key64"],evt["slot"],evt["epoch"],
+                evt["reader_root_call"],evt["reader_root_move"],evt["ply"],
+                evt["depth"],evt["alpha"],evt["beta"],evt["effective_value"])
+    available={}
+    for witness in witnesses:
+        available.setdefault(witness_identity(witness),[]).append(witness)
+    matched=[]
+    for blocked in contacts:
+        choices=available.get(block_identity(blocked),[])
+        need(bool(choices),"ACTUAL_BLOCK_WITHOUT_CORRESPONDING_PRE_GATE_VALUE_SNAPSHOT")
+        matched.append(choices.pop(0))
+    for w in matched:
         need(w["reader_root_call"] in allowed
              and w["reader_root_move"]==pair["root_candidate_native"]
              and w["raw_bound"]==2
@@ -115,12 +135,14 @@ def verify_selected_blocks(x,pair,rule,kind):
              and w["known"]==w["matched"]==1
              and w["key64"]==w["writer_key64"]
              and all(w[k]==target[k] for k in ("key64","slot","epoch")),
-             "REALIZED_EVENT_PROPERTY_CONGRUENCE")
+             "ACTUALLY_BLOCKED_READER_PROPERTY_CONGRUENCE")
     proof=verified_reader_lineage(x)
     need(not contacts or (proof["all_valid"] is True and proof["count"]>=len(contacts)),
          "LAST_PHYSICAL_WRITER_RAW_PAYLOAD")
     return {"blocked":len(contacts),"source_block_events":contacts,
             "physical_reader_payloads":witnesses,
+            "matched_actually_blocked_payloads":matched,
+            "physically_targeted_but_not_blocked_reads":len(witnesses)-len(matched),
             "writer_integrity":proof}
 
 def main():
