@@ -22,6 +22,7 @@ struct C3X015P9A2 {
  int original_value=0,returned_value=0,matching_move=0;
 };
 static thread_local C3X015P9A2 c3x015_p9_a2;
+bool c3x015_p9_at_target(Key,int); // defined in the P9-A1 layer below
 int c3x015_p9_a2_child_score(int score,Key key,int ply,int alpha,int beta,int move){
  if(!c3x015_p9_at_target(key,ply))return score;
  if(c3x015_p9_a2.caseid!=29 || alpha!=130 || beta!=131 ||
