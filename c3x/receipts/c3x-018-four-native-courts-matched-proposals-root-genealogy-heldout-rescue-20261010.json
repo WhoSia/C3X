@@ -1,0 +1,153 @@
+{
+  "schema": "c3x018-four-native-courts-source-matched-fingerprint-root-genealogy-heldout-and-writer-reinstatement-v1",
+  "verified_date": "2026-10-10",
+  "version": "C3X 0.18 ACTIVE",
+  "frozen_engine_commit": "68e1e9b3811e16cad014b590d7443b9063b3eb52",
+  "all_four_status": "COMPLETED_SUCCESS",
+  "all_four_zips_and_member_sha256_verified": true,
+  "courts": [
+    {
+      "subject": "W-vs-P-source-write-proposals",
+      "run": 37977983235,
+      "artifact_id": 11639104091,
+      "zip_sha256": "d4638498956cd01482859d540250362b4e630449c1074cb2ddacad0078f70ba3",
+      "json": "MATCHED_WRITER_PROPOSALS_W_P.json",
+      "json_sha256": "614c37169d6518e29b8ddf905b273cf3eb5493981095d93f0f57918cd88b3dd4",
+      "cases": {
+        "6": {
+          "budgets": [
+            2,
+            21,
+            22,
+            23
+          ],
+          "W_P_common_source_proposal_prefix": [
+            1,
+            1,
+            1,
+            1
+          ],
+          "first_second_contact_field_difference": "prior_move W 0 versus P 3164; other proposal/current-payload fields equal at contact 2",
+          "budget22_W_contacts": 22,
+          "budget22_P_contacts": 21,
+          "root_bestmove_different": true
+        },
+        "8": {
+          "budget2_source_proposals_both_match": true,
+          "budget74_common_proposal_prefix": 4,
+          "fifth_contact_field_difference": "prior_move W 0 versus P 3963",
+          "same_full_depth12_core_at_budget2": true
+        }
+      }
+    },
+    {
+      "subject": "root-aspiration-trial-and-TT-cutoff-genealogy",
+      "run": 37978092749,
+      "artifact_id": 11639139229,
+      "zip_sha256": "4b8637f77ce68ba7d18abcc9ca501794a27e111268f45fdebbc90f81a76051d3",
+      "json": "ROOT_WINDOW_TT_ANCESTRY_6_8.json",
+      "json_sha256": "ed33f62a6cf8a4e350582ed891b13ec6b57fa8c2c0599839fc798ceba255e19c",
+      "within_arm_trial_ancestry": {
+        "case6_F": [
+          33,
+          8969
+        ],
+        "case6_F_W2": [
+          31,
+          4352
+        ],
+        "case6_F_W22": [
+          30,
+          4061
+        ],
+        "case8_F": [
+          26,
+          5009
+        ],
+        "case8_F_W2": [
+          29,
+          4484
+        ]
+      },
+      "all_recorded_cutoff_branches_linked_to_root_call": true,
+      "qualification": "rootcall/candidate is within-arm ancestry, not individual recursive search unique cause or O-F counterfactual identity"
+    },
+    {
+      "subject": "10-other-original-game-histories-nonfocal-falsification",
+      "run": 37978188348,
+      "artifact_id": 11639223974,
+      "zip_sha256": "7a3c32456c22c0ae80675e929130fdfe088933a1964009b1707a861bbcfa29a7",
+      "json": "HELDOUT_TEN_TT_MECHANISM.json",
+      "json_sha256": "5af5385e9491b4e9fe029a364aaea040f9150b5daa96bda474e00f3ddf25765b",
+      "count": {
+        "source_worlds": 10,
+        "fully_tested": 10,
+        "unobserved_or_held": 0,
+        "W2_bestmove_changed": 3,
+        "W1_bestmove_changed": 2,
+        "R_bestmove_changed": 0
+      },
+      "root_flips": {
+        "case1": {
+          "F": "c8a8",
+          "W1": "c8a8",
+          "W2": "h3h1"
+        },
+        "case2": {
+          "F": "a5b4",
+          "W1": "a5e1",
+          "W2": "a5e1"
+        },
+        "case5": {
+          "F": "d8d5",
+          "W1": "d8d4",
+          "W2": "d8d4"
+        }
+      },
+      "qualification": "Different games within the same preselected 12-source cohort. Key/slot/epoch target discovered in each treated F branch. No new external population or unique TT mediation."
+    },
+    {
+      "subject": "second-eligible-original-native-writer-source-reinstatement",
+      "run": 37978342533,
+      "artifact_id": 11639623666,
+      "zip_sha256": "344f7a4b0e0318f9469ce3ee0cde24bc511f076e27f78617064203a02e80fb97",
+      "json": "SELECTIVE_WRITER_REINSTATEMENT.json",
+      "json_sha256": "b37e107a06c41722547a12bf0c2e91f0196091203fc9c22c8028468a8ab106f8",
+      "case6": {
+        "F": "e4d6",
+        "W1": "e4d6",
+        "W2": "c3a4",
+        "S2": "e4d6",
+        "S3_decoy": "c3a4",
+        "S2_actual_blocked_writes": 1,
+        "S2_rescue_contacts": 1,
+        "S2_core_equals_W1": true
+      },
+      "case8": {
+        "F": "h5g7",
+        "W1": "h5g7",
+        "W2": "e6h3",
+        "S2": "h5g7",
+        "S3_decoy": "e6h3",
+        "S2_actual_blocked_writes": 1,
+        "S2_rescue_contacts": 1,
+        "S2_core_equals_W1": true
+      },
+      "qualification": "S2 allows the original source writer call rather than injecting a synthetic payload. Counterfactual future event/epoch structure changes; local operator reinstatement, not unique natural mediation."
+    }
+  ],
+  "mechanistic_verdicts": [
+    "Source write-proposal matching shows first local W-P physical state distinction is prior move16, even when proposed write key and payload agree; in case6 this appears at second targeted attempt.",
+    "Restoring second source write recovers prior F final tuple from W2 in both cases; this is an operator-specific counterfactual rescue, not sole TT mediation.",
+    "Nonfocal game roots show W1 bestmove changes in 2/10, W2 changes in 3/10, R never changes bestmove despite operator contact; effects are not restricted to two root-order bestmove-flip worlds.",
+    "Within-arm root-call search genealogy is native and recorded; a TT branch group and a candidate return joined by call/move do not prove event-level causal parenthood."
+  ],
+  "limits": [
+    "No independent ecosystem or engine",
+    "16-bit physical TT key must be checked against full-key writer shadow; no cross-arm physical pointer identity",
+    "Only TT early cutoff consumption instrumented",
+    "Finite depth 12, Threads=1, Hash16, NNUE off, standalone FEN",
+    "No general causal law of chess concepts",
+    "Historical predictor 42/64 vs baseline 53/64 FAIL retained"
+  ]
+}
