@@ -1,0 +1,82 @@
+{
+  "schema": "c3x019-january31-native-TT-evaluation-use-survival-source-census-v1",
+  "date": "2026-10-10",
+  "study_type": "ADAPTIVE_POST_HOC_FULL_PRIOR_SOURCE_ROLE_COURT_NOT_NEW_HOLDOUT",
+  "original_sources": {
+    "year_month": "2026-01",
+    "engine_blind_games": 16,
+    "source_sha256": "5b49818e4678c12d0e5e73eba39eff2d50742b070a0ed870cba1d3e94afe0533",
+    "independent_native_January_sha256": "9d7ff1d8c5e019a5ab5b95441468da0ad49951adc756b8669db7853b82649470",
+    "prospective_forecasts_J2_J3_J4": "FAIL_RETAINED"
+  },
+  "protocol": "c3x/ontology/c3x-019-P1-january31-native-evaluation-consumer-survival-precommit.md",
+  "native": {
+    "run": 37997351958,
+    "status": "success",
+    "artifact_id": 11647831230,
+    "zip_sha256": "37aaa3bcfb0b7beb8a5eab26623b2a19eb55c53d10f8bd46adbb9e8ad991f804",
+    "json_file": "C3X019_ALL31_JAN_NATIVE_SCORE_USE.json",
+    "json_sha256": "2aa2b177d6fa3ca21270a3b7a7349e6df3c7a72b329fee991366c9ac66ad0cad",
+    "sha256_members_verified": 21,
+    "members_invalid": 0,
+    "cold_repeats_each_arm": 2,
+    "all_original_six_field_UCI_and_actual_V_reader_block_calls_exactly_replayed": true
+  },
+  "denominator": {
+    "prior_games": 16,
+    "STRICT_eligible": 15,
+    "BROAD_eligible": 16,
+    "original_role_arms": 31,
+    "distinct_game_key_slot_epoch_call_pairs": 25,
+    "old_epoch_V_gate_disappeared": 29,
+    "old_epoch_gate_both_contact_arms": 2,
+    "distinct_old_epoch_gate_disappeared": 23
+  },
+  "results": {
+    "actual_native_tt_score_as_evaluation_assignment_survives_despite_old_gate_loss": 28,
+    "out_of_prior_old_epoch_gate_lost": 29,
+    "distinct_native_eval_use_survivors": 22,
+    "out_of_distinct_old_epoch_gate_lost": 23,
+    "assignment_absent_cases": [
+      {
+        "game": 14,
+        "selector": "STRICT",
+        "key64": "9126712024987466350",
+        "slot": 0,
+        "old_epoch": 1,
+        "root_calls": [
+          7,
+          8
+        ],
+        "new_epoch": 2,
+        "tt_hit": true,
+        "raw_bound": 2,
+        "tt_depth": 5,
+        "current_search_depth": 3,
+        "alpha": 701,
+        "beta": 702,
+        "raw_tt_value": 1794,
+        "candidate_native_TT_early_cutoff": true,
+        "actual_cutoff_yet_unverified_at_this_receipt": true
+      }
+    ],
+    "native_eval_use_absent_but_both_V_gates_fired_count": 2,
+    "root_bestmove_changes_due_to_pair_interventions": 0
+  },
+  "adaptive_forecasts": {
+    "A1_NATIVE_SURVIVAL_AT_LEAST20": "PASS",
+    "A2_MATCHED_NATIVE_SCORE": "PASS",
+    "A3_NATURAL_SOURCE_UNCHANGED": "PASS",
+    "A4_DENOMINATOR": "PASS",
+    "A5_DISTINCT_PAIR_COUNTS": "PASS"
+  },
+  "central_result": "An old-writer-epoch-selected V reader_block vanished in 29 January source role arms, but 28 of those still executed an actual native Stockfish TT value-as-evaluation assignment at the same selected second root call. Thus old V gate loss is not naturally equivalent to cached TT evaluation consumption loss. One residual #14 STRICT may instead use native TT early cutoff; source-level return instrumentation separately preregistered.",
+  "limits": [
+    "31 role arms are not statistically independent due to 6 selector overlaps (25 unique pairs); 28/29 counts are arm-level, 22/23 distinct-pair-level",
+    "All original passive TT read enumerations reached cap2048; not an exhaustive distribution over all TT uses",
+    "Genuine eval=ttValue use at a source node is not proof the value changed final categorical root bestmove",
+    "One exceptional case with live TT hit but no evaluation assignment requires source cutoff return check",
+    "All January original J2 J3 J4 prospective failures remain failures",
+    "No universal chess law, no independent new-month or cross-engine replication yet"
+  ]
+}
