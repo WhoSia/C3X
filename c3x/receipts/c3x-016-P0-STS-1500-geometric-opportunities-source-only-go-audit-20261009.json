@@ -1,0 +1,72 @@
+{
+  "schema": "c3x-016-P0-source-only-STS-legal-syntax-geometric-opportunity-court-v1",
+  "date_kst": "2026-10-09",
+  "generation": "C3X 0.16 OPEN under Flowing Versioning; C3X 0.15 remains live",
+  "purpose": "Source-only lexical board validity, independently enumerated geometrical opportunity features, FEN grouping; NOT certified tactics or search causes.",
+  "source": {
+    "name": "STS1-STS15_LAN_v3.epd",
+    "original_drive_id": "1_E9eYKmITOmRO4aeKN8OqCLz2_7iAHmJ",
+    "sha256": "d7a33ae6cf2fb5f3f18ef1b904cca07dce2cd0458edcf60644f59d4d9e28c07b",
+    "byte_count": 288513,
+    "rows": 1500,
+    "distinct_four_field_FEN": 1497,
+    "duplicate_rows": 3,
+    "STS_groups": 15
+  },
+  "run": {
+    "Go_version": "Go compiler, standard library only",
+    "unit_tests": "4/4 PASS",
+    "original_source_SHA_gate": "PASS",
+    "strict_8_rank_and_king_count_syntax": "1500/1500 pass",
+    "chess_reachable_state_legal_move_certificate": "NOT_RUN",
+    "bm_c0_c7_c8_c9_labels_read": false,
+    "engine_search_scores_read": false
+  },
+  "observed_geometry_rows_nonzero": {
+    "king_ray_single_friendly_blocker_pin_geometry": 266,
+    "skewer_ray_high_value_front_low_value_back_opportunity": 467,
+    "pawn_supported_advanced_knight_opportunity": 236,
+    "pawn_isolated_file_geometry": 1058,
+    "passed_pawn_geometry": 493,
+    "open_files_present": 1077,
+    "semiopen_files_present": 1375,
+    "friendly_king_nearby_pawn_shelter": 1496
+  },
+  "feature_event_totals": {
+    "pin_king_ray_geometry": 288,
+    "skewer_xray_value_order_geometry": 582,
+    "open_files": 1711,
+    "semi_open_files": 3779,
+    "isolated_pawns": 2314,
+    "passed_pawns": 737,
+    "pawn_islands": 6871,
+    "pawn_supported_advanced_knights": 250,
+    "king_shelter_pawns": 6158
+  },
+  "overlap_with_existing_chess_source": {
+    "TWIC_R2_pin_roots": 64,
+    "TWIC_R2_nonpin_controls": 64,
+    "distinct_TWIC_R2_four_field_FEN": 128,
+    "exact_FEN_overlap_with_STS": 0,
+    "interpretation": "No identical four-field FEN across these chosen source roots; does NOT prove independent original game sampling / concept transport"
+  },
+  "archive": {
+    "drive_id": "1heyrwm2cRVLb_nQqkP6ObWFV1M0bfTzD",
+    "drive_parent_id": "1-w2gcNnL_FK45v9EKZ7nSBi41PzQt5rZ",
+    "archive_sha256": "ae781a518c572165bd508387f931e5db13e21eea90ed246a6df33aadd8a85d4b",
+    "source_program_sha256": "78f48447dd37cf2be09f552bfb1d3b83062104d8889ca3e983f6b72097b42b13",
+    "zip_CRC": "PASS",
+    "source": "motif_census.go",
+    "tests": "motif_census_test.go",
+    "machine_receipt": "C3X016_P0_STS_GEOMETRY_SOURCE_ONLY.json"
+  },
+  "critical_limits": [
+    "Skewer is VALUE-ORDERED 2-target X-ray geometric opportunity only, not proof of a legal forcing sequence",
+    "Knight outpost is pawn-supported advanced-knight opportunity, not strategically good move",
+    "Open file and pawn shelter counts are raw geometry, not evidence of plans, positional utility or NNUE learned features",
+    "No legal-move generator used for this P0; board syntax validity does not certify legal reachability",
+    "No unblinded outcome trained from the 1500 STS annotations; 0.15 C1 original prospective accuracy FAIL 42/64 vs B0 53/64 preserved",
+    "C3X 0.16 opened as a new primitive question, not as completed cross-source intervention proof"
+  ],
+  "court": "C3X016_P0_SHA_FROZEN_GO_STS_GEOMETRY_AUDIT_PASS / FEN_GROUP_SOURCE_CENSUS_PASS / MULTIMOTIF_CAUSAL_EXPLANATION_HOLD / RUST_CHESS_LAW_INDEPENDENT_CERTIFICATION_PENDING / C3X015_ONGOING"
+}
