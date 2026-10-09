@@ -3,6 +3,7 @@ on:
   push:
     paths:
       - 'tools/c3x_018_P0P1_TT_save_decision_writer_reinstate_overlay.py'
+      - 'tools/c3x_018_P1_pre_second_reader_temporal_scope_overlay.py'
       - 'harness/c3x_018_P0P1_writer_overwrite_and_reinstatement_native.py'
       - '.github/workflows/c3x-018-P0P1-native-writer-rescue.yml'
   workflow_dispatch:
@@ -21,6 +22,7 @@ jobs:
         run: |
           python -m pip install -q chess==1.11.2
           python -m py_compile tools/c3x_018_P0P1_TT_save_decision_writer_reinstate_overlay.py
+          python -m py_compile tools/c3x_018_P1_pre_second_reader_temporal_scope_overlay.py
           python -m py_compile harness/c3x_018_P0P1_writer_overwrite_and_reinstatement_native.py
           python -m py_compile harness/c3x_018_native_TT_lineage_factorial_6_8.py
       - name: Retrieve engine-free January original game source
@@ -74,6 +76,7 @@ jobs:
           python tools/c3x_018_jan_original_key_TT_probe_watch_overlay.py --source "$root" --out-manifest evidence/PROBE.json
           python tools/c3x_018_jan_TT_probe_physical_writer_epoch_witness.py --source "$root" --out-manifest evidence/PROBE_WRITER.json
           python tools/c3x_018_P0P1_TT_save_decision_writer_reinstate_overlay.py --source "$root" --out-manifest evidence/P0_P1_SOURCE_MUTATION.json
+          python tools/c3x_018_P1_pre_second_reader_temporal_scope_overlay.py --source "$root" --out-manifest evidence/P1_PRE_SECOND_TEMPORAL_GATE.json
           git -C "$root" diff -- src/ > evidence/SF16_P0_P1_SOURCE_DIFF.patch
           make -s -C "$root/src" -j2 build ARCH=x86-64
           sha256sum "$root/src/stockfish" > evidence/BINARY_SHA256.txt
