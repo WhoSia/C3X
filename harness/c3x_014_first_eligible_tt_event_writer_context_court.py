@@ -70,8 +70,6 @@ def test_triads(arms):
                "WRITER_SAVE_BOUND_CHANGED_BEFORE_CONSUMPTION_"+mode)
         demand(t["producer_writer_ply"]>=0,"MISSING_NATIVE_WRITER_PLY")
         demand(t["producer_writer_saved_depth"]>=0,"MISSING_SAVED_POSITIVE_DEPTH")
-        demand(t["producer_writer_saved_depth"]>=t["first_blocked_depth"] or True,
-               "DEPRECATED_SAVED_DEPTH_ASSUMPTION")
         demand(t["producer_writer_saved_tt_value"]!=32767,"NONSENSICAL_TT_VALUE")
         demand(t["producer_class"]==ref["first_eligible_writer_tag"],
                "FIRST_ELIGIBLE_WRITER_CLASS_CHANGED")
