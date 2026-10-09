@@ -1,0 +1,136 @@
+{
+  "schema": "c3x019-February-four-adaptive-root-window-candidate-source-genealogy-v1",
+  "date": "2026-10-10",
+  "study_type": "ADAPTIVE_AFTER_INDEPENDENT_F19_5_FAILURE_NOT_PROSPECTIVE_DISCOVERY",
+  "protocol": "c3x/ontology/c3x-019-P3-adaptive-Feb-four-root-flips-first-reader-search-window-court.md",
+  "source": {
+    "engine": "Stockfish16 68e1e9b3811e16cad014b590d7443b9063b3eb52",
+    "frozen_February16_source_sha256": "2942b1933030227f36b669faff41f15ff234c27127dbf2403bf2e8e4f12ebdc8",
+    "independent_February_native_sha256": "2a67839faf37c19ac1749c9b88200546c04f33e2b397159435a4ab97434fee74",
+    "prior_F19_5": "FAIL_3_ROOT_FLIPS_WHERE_FORECAST_AT_MOST2"
+  },
+  "native": {
+    "run": 37998899591,
+    "status": "SUCCESS",
+    "artifact_id": 11647978054,
+    "artifact_zip_sha256": "6a197335190e3dc07dfed21b566b26e88991333291b64ca3b30c11cd8d595baa",
+    "raw_json": "C3X019_FEB4_ROOT_COMPETITION_SOURCE.json",
+    "raw_json_sha256": "6601dc3397ce939ce61a5bd85ec91190292e823a40230978569f5705e717d613",
+    "internal_member_sha256_verified": 23,
+    "invalid_member_hashes": 0,
+    "double_cold_replays_every_arm": true
+  },
+  "cases": [
+    {
+      "id": 3,
+      "role": "STRICT",
+      "original_bestmove": "a1c1",
+      "V_first_bestmove": "e1e3",
+      "source_calls": [
+        4,
+        5
+      ],
+      "old_writer_epoch_V_gate_lost": false,
+      "earliest_semantic_root_event_diff": {
+        "depth": 4,
+        "candidate_move_native": 231,
+        "alpha": -190,
+        "beta": -166,
+        "F_child_return": -1031,
+        "V_first_child_return": -967,
+        "both_candidate_after": -32001
+      },
+      "depth12_root_window_entries": {
+        "F": 1,
+        "V_first": 4
+      }
+    },
+    {
+      "id": 6,
+      "role": "STRICT",
+      "original_bestmove": "g2g4",
+      "V_first_bestmove": "e3d2",
+      "source_calls": [
+        3,
+        4
+      ],
+      "old_writer_epoch_V_gate_lost": true,
+      "earliest_semantic_root_event_diff": {
+        "depth": 10,
+        "candidate_move_native": 1291,
+        "alpha": 94,
+        "beta": 114,
+        "F_child_return": 103,
+        "V_first_child_return": 114
+      },
+      "depth12_root_window_entries": {
+        "F": 4,
+        "V_first": 3
+      }
+    },
+    {
+      "id": 7,
+      "role": "BROAD",
+      "original_bestmove": "g8e7",
+      "V_first_bestmove": "e8f7",
+      "source_calls": [
+        4,
+        5
+      ],
+      "old_writer_epoch_V_gate_lost": true,
+      "earliest_semantic_root_event_diff": {
+        "depth": 4,
+        "candidate_move_native": 2917,
+        "alpha": -343,
+        "beta": -334,
+        "F_child_return": -613,
+        "V_first_child_return": -642,
+        "both_candidate_after": -32001
+      },
+      "depth12_root_window_entries": {
+        "F": 3,
+        "V_first": 5
+      }
+    },
+    {
+      "id": 10,
+      "role": "STRICT",
+      "original_bestmove": "d8b8",
+      "V_first_bestmove": "b7a6",
+      "source_calls": [
+        4,
+        5
+      ],
+      "old_writer_epoch_V_gate_lost": true,
+      "earliest_semantic_root_event_diff": {
+        "depth": 4,
+        "candidate_move_native": 2910,
+        "alpha": 103,
+        "beta": 123,
+        "F_child_return": -459,
+        "V_first_child_return": -892,
+        "both_candidate_after": -32001
+      },
+      "depth12_root_window_entries": {
+        "F": 5,
+        "V_first": 5
+      }
+    }
+  ],
+  "source_risk_verdicts": {
+    "R19_1": "PASS",
+    "R19_2": "PASS",
+    "R19_3": "PASS",
+    "R19_4": "PASS",
+    "R19_5": "PASS_WITH_NO_UNIQUE_MECHANISM_CLAIM"
+  },
+  "claim": "The first physically source-matched TT value-as-evaluation suppression at the fixed selected root call suffices to alter the final bestmove for four observed February role arms. In three of them the second selected old writer-epoch V target is ineligible, and V FIRST and V BOTH produce identical complete final six-field UCI. Root candidate child returns and aspiration search window traces diverge downstream, but source event alignment is path dependent and does not yet identify a unique minimal alpha/beta-to-root mechanism.",
+  "limits": [
+    "These cases were chosen after February outcome inspection and F19.5 failure, so source root traces are exploratory",
+    "The first visible semantically different root event is an observation, not a proven earliest causal intervention point in complete recursive search",
+    "-32001 is an engine fail-low/nonwinning candidate sentinel rather than a meaningful evaluation",
+    "Native source rootcall IDs and event ordinals may no longer mean identical recursive nodes after earlier intervention",
+    "Original prospective February F19.5 and January J2/J3/J4 failures retained",
+    "No specific second engine transport test and no universal chess theory claimed"
+  ]
+}
