@@ -1,0 +1,81 @@
+name: C3X 0.14 Native TT Last-Writer Evidence Rights
+on:
+  push:
+    paths:
+      - '.github/workflows/c3x-014-tt-writer-evidence.yml'
+      - 'harness/c3x_014_TT_slot_last_writer_evidence_compiler.py'
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  verify-same-stage-TT-writer:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Exact chess rules and source-fingerprint prerequisites
+        run: |
+          python -m pip install --disable-pip-version-check chess==1.11.2
+          python -m py_compile harness/c3x_014_TT_slot_last_writer_evidence_compiler.py
+          mkdir -p frozen-world parent-224 writer-224 output
+      - uses: actions/download-artifact@v4
+        with:
+          name: c3x-014-legal-historical-chess-concept-worlds-source-only
+          path: frozen-world/
+          repository: WhoSia/C3X
+          run-id: '37809811541'
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: c3x-014-single-native-TT-event-provenance-mechanism-court
+          path: parent-224/
+          repository: WhoSia/C3X
+          run-id: '37812752876'
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: c3x-014-SF16-native-TT-slot-full-writer-consumer-provenance
+          path: writer-224/
+          repository: WhoSia/C3X
+          run-id: '37882677198'
+          github-token: ${{ github.token }}
+      - name: Verify three exact JSON source hashes and no unsealed games
+        run: |
+          printf '%s  %s\n' '0080f4f108471137f8d9d0908e3c879e33351ad8bdd4fbf0fdda83d47f6075b2' 'frozen-world/C3X014_LEGAL_CONCEPT_WORLDS_SOURCE_FROZEN.json' | sha256sum -c -
+          printf '%s  %s\n' 'afd48ceb040668c53609d8d5bd78d7a9b781243044cd4187a87896929ef0dd6b' 'parent-224/C3X014_ONE_MAIN_RIVAL_MECHANISM_PANEL.json' | sha256sum -c -
+          printf '%s  %s\n' 'a152935764727ca5533181fe0c2747b6c1aecf996b87542cb30178f0a39592d2' 'writer-224/TT_SLOT_FULL_KEY_LAST_WRITER_CONSUMER_PANEL.json' | sha256sum -c -
+      - name: Produce source-certified last-writer explanations with five forced false claims
+        run: |
+          python harness/c3x_014_TT_slot_last_writer_evidence_compiler.py --worlds frozen-world/C3X014_LEGAL_CONCEPT_WORLDS_SOURCE_FROZEN.json --parent parent-224/C3X014_ONE_MAIN_RIVAL_MECHANISM_PANEL.json --lineage writer-224/TT_SLOT_FULL_KEY_LAST_WRITER_CONSUMER_PANEL.json --lineage-sha a152935764727ca5533181fe0c2747b6c1aecf996b87542cb30178f0a39592d2 --out-json output/C3X014_TT_LAST_WRITER_TYPED_EVIDENCE_LEDGER.json --out-md output/C3X014_TT_LAST_WRITER_GROUNDED_EXPLANATIONS_KO.md
+          python - <<'PY'
+          import json
+          x=json.load(open('output/C3X014_TT_LAST_WRITER_TYPED_EVIDENCE_LEDGER.json'))
+          assert x['only_formal_research_unit']=='C3X 0.14' and x['P_checkpoints_are_internal_only']
+          assert x['independent_game_groups']==14 and x['world_descriptions']==28
+          assert x['last_writer_match_world_count']==28
+          assert x['last_writer_mismatch_world_count']==0 and x['last_writer_unknown_world_count']==0
+          assert x['falsification_cases_rejected']==5
+          assert x['chess_concept_causal_certificates']==0
+          print('C3X014_TT_WRITER_CONSUMER_TYPED_RIGHTS_COURT_PASS')
+          PY
+      - name: Archive full input source, compiler, failure cases and hashes without commits
+        if: always()
+        run: |
+          cp harness/c3x_014_TT_slot_last_writer_evidence_compiler.py output/PRODUCER_CONSUMER_EVIDENCE_COMPILER.py
+          cp writer-224/TT_SLOT_FULL_KEY_LAST_WRITER_CONSUMER_PANEL.json output/ACTUAL_224_TT_SLOT_TRACE.json
+          cp parent-224/C3X014_ONE_MAIN_RIVAL_MECHANISM_PANEL.json output/PARENT_224_ONE_RETURN_TRACE.json
+          cp frozen-world/C3X014_LEGAL_CONCEPT_WORLDS_SOURCE_FROZEN.json output/ACTUAL_CHESS_SOURCE_WORLDS.json
+          cp c3x/ontology/c3x-014-tt-producer-consumer-slot-lineage-precommit.md output/TT_PRODUCER_CONSUMER_PRECOMMIT.md
+          printf '%s\n' 'Physical TT last full-record writer is observed, not full causal evaluation ancestry. Sidecar full-key match is source-specific, not chess-concept mediation.' > output/TT_WRITER_CAUSAL_AUTHORITY.txt
+          find output -maxdepth 1 -type f ! -name 'MEMBER_SHA256.txt' -print0 | sort -z | xargs -0 sha256sum > output/MEMBER_SHA256.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x-014-native-TT-slot-writer-consumer-explanation-ledger
+          path: output/
+          retention-days: 90
+          if-no-files-found: error
