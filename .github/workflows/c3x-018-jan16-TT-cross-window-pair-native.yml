@@ -1,0 +1,86 @@
+name: C3X 0.18 January Blind16 TT Cross-Window Pair Transport
+on:
+  push:
+    paths:
+      - 'harness/c3x_018_jan16_TT_cross_window_pair_native.py'
+      - 'tools/c3x_018_january2048_TT_reader_source_census.py'
+      - 'tools/c3x_018_january_cross_window_pair_source_gate.py'
+      - '.github/workflows/c3x-018-jan16-TT-cross-window-pair-native.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  january-16-blind-TT-pair:
+    runs-on: ubuntu-latest
+    timeout-minutes: 58
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Source and chess legality contract
+        run: |
+          python -m pip install -q chess==1.11.2
+          python -m py_compile harness/c3x_018_jan16_TT_cross_window_pair_native.py
+          python -m py_compile tools/c3x_018_january2048_TT_reader_source_census.py
+          python -m py_compile tools/c3x_018_january_cross_window_pair_source_gate.py
+      - name: Retrieve only the pre-outcome January engine-blind source artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: c3x-018-january2026-cross-window-blind16-source
+          path: source/
+          repository: WhoSia/C3X
+          run-id: '37991871987'
+          github-token: ${{ github.token }}
+      - name: Verify immutable original January source and archive SHA
+        run: |
+          set -euo pipefail
+          mkdir -p evidence
+          test "$(sha256sum source/C3X018_JAN26_BLIND16_SOURCE.json | cut -d' ' -f1)" = 5b49818e4678c12d0e5e73eba39eff2d50742b070a0ed870cba1d3e94afe0533
+          cp source/C3X018_JAN26_BLIND16_SOURCE.json evidence/SOURCE_JANUARY16.json
+      - name: Source-pinned SF16 physical TT writer, root ancestry and narrow window pair gate
+        run: |
+          set -euo pipefail
+          root=/tmp/C3X018_JAN_16_CROSS_WINDOW
+          git clone -q --single-branch --branch sf_16 https://github.com/official-stockfish/Stockfish.git "$root"
+          test "$(git -C "$root" rev-parse HEAD)" = 68e1e9b3811e16cad014b590d7443b9063b3eb52
+          python tools/c3x_016_P4_independent_12root_source_order_patch.py --source "$root" --out-manifest evidence/ROOT_ORDER.json
+          python tools/c3x_017_early_depth1_root_window_trace_patch.py --source "$root" --out-manifest evidence/ROOT_CANDIDATE_SEARCH_WINDOW.json
+          python tools/c3x_018_trial_call_identity_patch.py --source "$root" --out-manifest evidence/ASPIRATION_TRIAL_ID.json
+          python tools/c3x_018_physical_epoch_lineage_patch.py --source "$root" --out-manifest evidence/TT_PHYSICAL_WRITER_EPOCH.json
+          python tools/c3x_018_tt_eval_consumption_overlay.py --source "$root" --out-manifest evidence/TT_VALUE_EVAL_CONSUMER.json
+          python tools/c3x_018_physical_value_witness_overlay.py --source "$root" --out-manifest evidence/TT_PHYSICAL_LAST_WRITER_PAYLOAD.json
+          python tools/c3x_018_root_TT_genealogy_overlay.py --source "$root" --out-manifest evidence/ROOT_TT_CONSUMER_ANCESTRY.json
+          python tools/c3x_018_TT_reader_writer_age_bound_root_feature_overlay.py --source "$root" --out-manifest evidence/TT_READER_AGE_BOUND_PLY.json
+          python tools/c3x_018_january2048_TT_reader_source_census.py --source "$root" --out-manifest evidence/JAN_SOURCE_2048_CENSUS.json
+          python tools/c3x_018_adaptive_writer_age_root_call_V_gate.py --source "$root" --out-manifest evidence/PHYSICAL_SOURCE_FILTER_BASE.json
+          python tools/c3x_018_january_cross_window_pair_source_gate.py --source "$root" --out-manifest evidence/DYNAMIC_WINDOW_PAIR_ACTUATOR.json
+          git -C "$root" diff -- src/ > evidence/NATIVE_SOURCE_PATCH.diff
+          make -s -C "$root/src" -j2 build ARCH=x86-64
+          sha256sum "$root/src/stockfish" > evidence/NATIVE_BINARY_SHA256.txt
+      - name: New January games two source-role pair selectors and exact root event tests
+        run: |
+          set -euo pipefail
+          python -u harness/c3x_018_jan16_TT_cross_window_pair_native.py \
+            --source evidence/SOURCE_JANUARY16.json \
+            --engine /tmp/C3X018_JAN_16_CROSS_WINDOW/src/stockfish \
+            --out evidence/JAN2026_CROSS_WINDOW_TT_PAIR_HOLDOUT.json | tee evidence/NATIVE_STDOUT.txt
+          python - <<'PY'
+          import json
+          x=json.load(open('evidence/JAN2026_CROSS_WINDOW_TT_PAIR_HOLDOUT.json'))
+          assert x['summary']['games_total']==x['summary']['games_valid']==16
+          assert x['summary']['J7_DENOMINATOR']=='PASS'
+          print('C3X018_JANUARY_INDEPENDENT_SOURCE_PAIR_COURT_COMPLETE')
+          PY
+      - name: Seal all native source and raw output SHA256
+        if: always()
+        run: |
+          mkdir -p evidence
+          find evidence -maxdepth 1 -type f ! -name MEMBER_SHA256.txt -print0 | sort -z | xargs -0 -r sha256sum > evidence/MEMBER_SHA256.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x-018-jan16-physical-TT-cross-window-pair-court
+          path: evidence/
+          retention-days: 90
+          if-no-files-found: error
