@@ -1,0 +1,84 @@
+name: C3X 0.15 Rust Independent P6 TT Single-Edge Evidence Court
+on:
+  push:
+    paths:
+      - '.github/workflows/c3x-015-p6-rust-independent-court.yml'
+      - 'crates/c3x-cswp-verify/**'
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  independent-rust-evidence-verification:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - name: Fetch immutable P2 original source code intervention evidence
+        uses: actions/download-artifact@v4
+        with:
+          name: c3x-015-TWIC-R2-frozen-64pin-64nonpin-native-SEE-primary
+          repository: WhoSia/C3X
+          run-id: '37906181077'
+          github-token: ${{ github.token }}
+          path: input/p2
+      - name: Fetch P6S0 separately frozen first TT fullkey edge targets
+        uses: actions/download-artifact@v4
+        with:
+          name: c3x-015-P6S0-TWIC-original64-first-exact-fullkey-TT-return-target-freeze
+          repository: WhoSia/C3X
+          run-id: '37912460425'
+          github-token: ${{ github.token }}
+          path: input/p6s0
+      - name: Fetch P6S1 full native 64 x 4 x 2 source code intervention outcomes
+        uses: actions/download-artifact@v4
+        with:
+          name: c3x-015-P6S1-TWIC-one-exact-fullkey-TT-return-64x4x2-native
+          repository: WhoSia/C3X
+          run-id: '37913226690'
+          github-token: ${{ github.token }}
+          path: input/p6s1
+      - name: Rust unit tests and strict compilation
+        run: |
+          cargo test --manifest-path crates/c3x-cswp-verify/Cargo.toml --locked --offline || cargo test --manifest-path crates/c3x-cswp-verify/Cargo.toml
+          cargo build --release --manifest-path crates/c3x-cswp-verify/Cargo.toml
+      - name: Independent source SHA and row-by-row algebraic causal counterfactual recheck
+        run: |
+          mkdir -p output
+          crates/c3x-cswp-verify/target/release/c3x-cswp-verify \
+            input/p2/C3X015_TWIC1665_R2_P2_PIN64_NONPIN64_PROSPECTIVE_NATIVE_RESULT.json \
+            input/p6s0/C3X015_P6S0_64_SOURCE_OFF_FIRST_FULLKEY_TT_TARGETS.json \
+            input/p6s1/C3X015_P6S1_64_ROOTS_ONE_EXACT_TT_RETURN_512_NATIVE.json \
+            output/C3X015_RUST_P6S1_INDEPENDENT_CAUSAL_EVIDENCE.json
+      - name: Deliberately tamper causal result, demand independent Rust failure
+        run: |
+          python - <<'PY'
+          import json
+          d=json.load(open('input/p6s1/C3X015_P6S1_64_ROOTS_ONE_EXACT_TT_RETURN_512_NATIVE.json'))
+          d['all_64_native_four_cell_interventions'][1]['four_native_cold_conditions']['ROOT_OBJECT_SEE_UNMASK__BLOCK_EXACT_ONCE']['UCI']['bestmove']='a1a1'
+          with open('input/P6S1_TAMPERED_NEGATIVE.json','w') as f:json.dump(d,f)
+          PY
+          if crates/c3x-cswp-verify/target/release/c3x-cswp-verify \
+             input/p2/C3X015_TWIC1665_R2_P2_PIN64_NONPIN64_PROSPECTIVE_NATIVE_RESULT.json \
+             input/p6s0/C3X015_P6S0_64_SOURCE_OFF_FIRST_FULLKEY_TT_TARGETS.json \
+             input/P6S1_TAMPERED_NEGATIVE.json output/BAD.json; then
+            echo 'FAIL: altered original P6S1 evidence passed Rust verification'
+            exit 2
+          fi
+          echo 'C3X015_RUST_NEGATIVE_TAMPER_SOURCE_EVIDENCE_REJECTED'
+      - name: Preserve independent Rust evidence and license
+        if: always()
+        run: |
+          mkdir -p output
+          cp crates/c3x-cswp-verify/src/main.rs output/INDEPENDENT_RUST_VERIFIER.rs
+          cp crates/c3x-cswp-verify/Cargo.toml output/RUST_VERIFIER_CARGO.toml
+          printf '%s\n' 'Rust checks original P2/P6S0/P6S1 SHA, source identity, every 4-cell move/PV/node contrast, exact single TT delivery and negative controls. Rust does not prove natural indirect mediation, unseen cold process copies, or native SF16 legality by JSON alone.' > output/CLAIM_CEILING.txt
+          find output -maxdepth 1 -type f ! -name MEMBER_SHA256.txt -print0 | sort -z | xargs -0 sha256sum > output/MEMBER_SHA256.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x-015-p6-Rust-independent-64game-native-tt-counterfactual-court
+          path: output/
+          retention-days: 90
+          if-no-files-found: error
