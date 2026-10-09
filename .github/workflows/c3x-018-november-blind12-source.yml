@@ -1,0 +1,70 @@
+name: C3X 0.18 November Blind Twelve Chess Histories
+on:
+  push:
+    paths:
+      - 'harness/c3x_018_blind_2025nov_broadcast_PGN_cohort.py'
+      - '.github/workflows/c3x-018-november-blind12-source.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  new-month-no-engine-source:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Source parser dependencies only
+        run: |
+          python -m pip install -q chess==1.11.2 zstandard==0.25.0
+          python -m py_compile harness/c3x_018_blind_2025nov_broadcast_PGN_cohort.py
+      - name: Frozen independent October sixteen manifest
+        uses: actions/download-artifact@v4
+        with:
+          name: c3x-018-independent-PGN-blind-source-16
+          path: october/
+          repository: WhoSia/C3X
+          run-id: '37981820261'
+          github-token: ${{ github.token }}
+      - name: Verify independent source month October manifest SHA
+        run: |
+          test "$(sha256sum october/C3X018_INDEPENDENT_BLIND16_PGN_SOURCE.json | cut -d' ' -f1)" = "6520672aabab7f525872169085f19bdd81e27a4473f0c58ba9c9aa428937104c"
+      - name: Download official November Lichess broadcast PGN
+        run: |
+          set -euo pipefail
+          mkdir -p evidence /tmp/C3X018_2025NOV
+          curl -fL --retry 3 --max-time 180 -sS \
+            https://database.lichess.org/broadcast/lichess_db_broadcast_2025-11.pgn.zst \
+            -o /tmp/C3X018_2025NOV/lichess_db_broadcast_2025-11.pgn.zst
+          test -s /tmp/C3X018_2025NOV/lichess_db_broadcast_2025-11.pgn.zst
+          sha256sum /tmp/C3X018_2025NOV/lichess_db_broadcast_2025-11.pgn.zst > evidence/NOVEMBER_PGN_SOURCE_SHA256.txt
+      - name: Freeze twelve source games before any engine search
+        run: |
+          set -euo pipefail
+          python -u harness/c3x_018_blind_2025nov_broadcast_PGN_cohort.py \
+            --zst /tmp/C3X018_2025NOV/lichess_db_broadcast_2025-11.pgn.zst \
+            --prior c3x/cohorts/c3x-016-P4-12-independent-Lichess-legal-root-order-sourceonly-frozen.json \
+            --october october/C3X018_INDEPENDENT_BLIND16_PGN_SOURCE.json \
+            --out evidence/C3X018_NOVEMBER_12_BLIND_GAMES.json | tee evidence/BLIND_SOURCE_STDOUT.txt
+          python - <<'PY'
+          import json
+          j=json.load(open('evidence/C3X018_NOVEMBER_12_BLIND_GAMES.json'))
+          assert len(j['selected'])==12 and j['eligible_games']==512
+          assert len({x['source_game_sha256'] for x in j['selected']})==12
+          assert j['previous_12_and_october16_FEN_overlap']==0
+          print("C3X018_NOVEMBER_TWELVE_BLIND_SOURCE_FREEZE_PASS")
+          PY
+      - name: Hash frozen source evidence
+        if: always()
+        run: |
+          mkdir -p evidence
+          find evidence -maxdepth 1 -type f ! -name MEMBER_SHA256.txt -print0 | sort -z | xargs -0 -r sha256sum > evidence/MEMBER_SHA256.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x-018-november-blind12-chess-source
+          path: evidence/
+          retention-days: 90
+          if-no-files-found: error
