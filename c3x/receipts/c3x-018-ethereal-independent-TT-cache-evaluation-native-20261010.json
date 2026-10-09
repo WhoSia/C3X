@@ -1,0 +1,37 @@
+{
+  "schema": "C3X018-ETHEREAL-INDEPENDENT-TT-CACHE-V1",
+  "engine": "AndyGrant/Ethereal independently authored classical chess search",
+  "engine_pin": "0e47e9b67f345c75eb965d9fb3e2493b6a11d09a",
+  "november_games_sha256": "2971fe617f39fbba6d40fb0b09d8a18ce247d5865dc807fcdab9a594e3473402",
+  "run": 37986799455,
+  "zip_sha256": "5d397bfb5344e3ad144c8d06dfffd754b2228879203f075300b05960b07365e9",
+  "json_sha256": "c02614fe62a777735b1ae2b0dd6811d154aac811bf501419949e0ab277f6a608",
+  "all_member_sha256": true,
+  "game_depth_conditions": 24,
+  "actual_TT_cache_gate_reach": 24,
+  "bestmove_changes": 0,
+  "full_UCI_changes": 2,
+  "changed_nodes_only": [
+    {
+      "world": 2,
+      "depth": 12,
+      "original_nodes": 38563,
+      "cache_bypass_nodes": 38551
+    },
+    {
+      "world": 5,
+      "depth": 12,
+      "original_nodes": 89855,
+      "cache_bypass_nodes": 89850
+    }
+  ],
+  "preregistered": {
+    "I1": "PASS",
+    "I2": "PASS",
+    "I3": "FAIL",
+    "I4": "PASS",
+    "I5": "PASS"
+  },
+  "non_isomorphism": "Ethereal consumes cached TT static eval ttEval, unlike SF16/17 bound-qualified TT search score ttValue as an improved eval. Do not equate interventions.",
+  "limits": "No exclusive causal writer-reader mediation and no replication of SF16 V."
+}
