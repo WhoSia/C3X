@@ -16,7 +16,7 @@ ARMS=("CLEAN","OFF","ONE_MAIN","MAIN")
 REPEATS=(1,2)
 def sha(b):return hashlib.sha256(b).hexdigest()
 
-def run(binary,fen,pair,history,arm):
+def run(binary,fen,pair,history,arm,capture_return_tape=False):
     b=chess.Board()
     for u in history:
         m=chess.Move.from_uci(u)
@@ -96,6 +96,22 @@ def run(binary,fen,pair,history,arm):
                   "main_tt_eval_reads","main_alpha_beta_move_cutoffs","main_tt_save_terminal"):
             if mc[n]<0:raise RuntimeError("Negative engine counter")
         out["native_tt"]=tt;out["native_completed"]=nt;out["mechanism_path"]=mc
+        if capture_return_tape:
+            q=[ln for ln in lines if ln.startswith("info string c3x014_return_census_summary ")]
+            es=[ln for ln in lines if ln.startswith("info string c3x014_return_event ")]
+            if len(q)!=1:raise RuntimeError("NATIVE_TT_RETURN_PREFIX_SUMMARY_MISSING")
+            parse=lambda ln:{k:int(v) for k,v in (token.split("=",1) for token in ln.split()[3:])}
+            summary=parse(q[0])
+            events=[parse(e) for e in es]
+            if summary["prefix_cap"]!=64 or summary["recorded"]!=len(events):
+                raise RuntimeError("BAD_BOUNDED_TT_RETURN_TAPE_LENGTH")
+            if summary["recorded"]!=min(summary["taken_total"],64):
+                raise RuntimeError("BAD_BOUNDED_TT_RETURN_TOTAL")
+            if [e["sequence"] for e in events]!=list(range(1,len(events)+1)):
+                raise RuntimeError("NONMONOTONE_RETURN_EVENT_ORDINAL")
+            if arm!="OFF":raise RuntimeError("ONLY_NATIVE_OFF_NATURAL_RETURNS_ADMISSIBLE")
+            out["tt_natural_return_census"]=summary
+            out["tt_natural_return_prefix"]=events
         lineage=[z for z in lines if z.startswith("info string c3x014_slot_provenance ")]
         if len(lineage)>1:raise RuntimeError("DUPLICATE_TT_SLOT_PROVENANCE")
         if lineage:
