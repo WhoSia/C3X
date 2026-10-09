@@ -38,12 +38,21 @@ jobs:
           repository: WhoSia/C3X
           run-id: '37988929108'
           github-token: ${{ github.token }}
+      - name: Previous exact 64-write-age grouped native source result
+        uses: actions/download-artifact@v4
+        with:
+          name: c3x-018-case11-actual-writer-age-conditional-gate
+          path: grouped/
+          repository: WhoSia/C3X
+          run-id: '37988654788'
+          github-token: ${{ github.token }}
       - name: Immutable source and prior native singleton SHA256
         run: |
           set -euo pipefail
           mkdir -p evidence
           test "$(sha256sum source/C3X018_DECEMBER12_INDEPENDENT_GAMES.json | cut -d' ' -f1)" = 51366a480fe2631005dbded7992e870443ef6dd2dfd785fd10952d6eeff5e7cd
           test "$(sha256sum previous/CASE11_OLDER_FIVE_SOURCE_SINGLETONS.json | cut -d' ' -f1)" = 8e1ac0f02e63a9db93564181a7dd86162a552a5cb73493d5053e41573c4cf615
+          test "$(sha256sum grouped/CASE11_ACTUAL_OLDER_TT_READER_COUNTERFACTUAL.json | cut -d' ' -f1)" = b035c8d184d4c3c474d8592793af442f00fb135276426db1e78d447999609952
       - name: Compile fixed Stockfish16 with native exact TT writer, bound, age, root and group mask
         run: |
           set -euo pipefail
@@ -69,6 +78,7 @@ jobs:
           python -u harness/c3x_018_case11_five_reader_full32_coalitions_native.py \
             --source source/C3X018_DECEMBER12_INDEPENDENT_GAMES.json \
             --prior-singletons previous/CASE11_OLDER_FIVE_SOURCE_SINGLETONS.json \
+            --prior-group grouped/CASE11_ACTUAL_OLDER_TT_READER_COUNTERFACTUAL.json \
             --engine /tmp/C3X018_CASE11_ALL_32_SUBSETS/src/stockfish \
             --out evidence/CASE11_EXHAUSTIVE_32_TT_READER_COALITIONS.json | tee evidence/NATIVE_STDOUT.txt
           python - <<'PY'
