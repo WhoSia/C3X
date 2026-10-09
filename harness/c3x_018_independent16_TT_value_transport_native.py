@@ -7,12 +7,36 @@ All 16 positions retained, including nonfiring/held cases.
 """
 import argparse,hashlib,json
 from pathlib import Path
+import chess
 from c3x_018_native_TT_lineage_factorial_6_8 import play,need
 
 FROZEN_SOURCE_SHA="6520672aabab7f525872169085f19bdd81e27a4473f0c58ba9c9aa428937104c"
 FROZEN_BROADCAST_ZST_SHA="77be4c998ca8d3b303928e1619f0f9dc2a03a71d5ab6a59d02d42291ae0524e3"
 FROZEN_FIRST_SOURCE_RUN=37981820261
 RAW_FIELDS=("raw_value","raw_depth","raw_bound","raw_eval","raw_move")
+
+def canonical_engine_world(original):
+    """Use the actual archived UCI prefix to normalize FEN ep only, all 16."""
+    board=chess.Board()
+    moves=original["full_original_mainline_uci"]
+    ply=original["source_ply_before_original_move"]
+    for uci in moves[:ply]:
+        move=chess.Move.from_uci(uci)
+        need(move in board.legal_moves,"ORIGINAL_PGN_REPLAY_ILLEGAL")
+        board.push(move)
+    raw=" ".join(board.fen(en_passant="fen").split()[:4])
+    legal=" ".join(board.fen(en_passant="legal").split()[:4])
+    need(raw==original["fen4"],"SOURCE_FEN_NOT_REPLAYABLE")
+    if len(moves)>ply:
+        move=chess.Move.from_uci(moves[ply])
+        need(move in board.legal_moves,"ORIGINAL_NEXT_MOVE_ILLEGAL")
+        need(board.legal_moves.count()>=3,"ROOT_HAS_FEWER_THAN_3_LEGAL")
+    need(raw.split()[:3]==legal.split()[:3],"NON_EP_BOARD_CHANGED")
+    w=dict(original)
+    w["fen4"]=legal
+    return w,{"source_fen4":raw,"engine_fen4":legal,
+              "legal_ep_normalization":raw!=legal,
+              "source_history_replayed_plies":ply}
 
 def first_passive_target(row):
     candidates=[e for e in row["payload_witnesses"]
@@ -63,11 +87,14 @@ def main():
        "source_archive_sha256":FROZEN_BROADCAST_ZST_SHA,
        "source_original_full_game_histories":True,
        "source_sample_excluded_from_engine_selection":True,
+       "post_failure_native_ep_normalization_amendment":True,
        "predictions_preregistered":True,"cases":[]}
-    for world in data["selected"]:
-        cid=world["id"]
-        row={"id":cid,"source_game_sha256":world["source_game_sha256"],
-             "source_url":world["game_url"],"fen4":world["fen4"],
+    for original_world in data["selected"]:
+        cid=original_world["id"]
+        world,normalization=canonical_engine_world(original_world)
+        row={"id":cid,"source_game_sha256":original_world["source_game_sha256"],
+             "source_url":original_world["game_url"],"fen4":world["fen4"],
+             "native_input_normalization":normalization,
              "played_original_move":world["played_legal_move_uci"],
              "status":"NOT_RUN","arms":{}}
         try:
@@ -138,6 +165,7 @@ def main():
     }
     result["limits"]=[
       "No new source record chosen after any SF16 output: game source SHA pinned in separate source-only workflow",
+      "Native runtime FEN en-passant canonicalization is a disclosed post-failure input amendment applied to all 16 source histories",
       "Cohort includes all 16 original PGN histories, but native stockfish tests use standalone FEN rather than history-sensitive replay",
       "First eligible V reader chosen from treated F passive observation; not an external intervention-independent position-specific TT marker",
       "Reader eligibility after V intervention may differ or not fire; nonfiring remains denominator",
