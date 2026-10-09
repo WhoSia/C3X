@@ -1,0 +1,68 @@
+{
+  "schema": "c3x-014-original-frozen40-forced-root-pin-operator-source-opportunity-20261009-v1",
+  "status": "C3X014_OPEN__EXPLICIT_ROOT_SOURCE_OPERATORS_PASS__NATURAL_OBSERVER_CENSORING_VERIFIED__PIN_SPECIFIC_CAUSAL_HOLD",
+  "date_kst": "2026-10-09",
+  "formal_study": "C3X 0.14 — Transportable Search-Mechanism Evidence, Chess-Concept Mediation & Faithful Explanation Systems",
+  "method": "Explicit UCI c3x014_root_probe invoked in a FRESH original source-native SF16 process with NO GO command. Full original TCEC PGN move history recovered, no engine score selection; Position::legal on native pseudo candidate moves, Position::see_ge on actual legal captures at thresholds -100, 0, +100, Eval::trace classical static evaluation unless in check. Probe calls are NOT naturally chosen search events.",
+  "actual_run": "https://github.com/WhoSia/C3X/actions/runs/37890914822",
+  "actual_run_id": 37890914822,
+  "verdict": "SUCCESS",
+  "source_sf16_commit": "68e1e9b3811e16cad014b590d7443b9063b3eb52",
+  "source40_SHA256": "cfb2c4b0631959cfcdd5bf1eb098f7b41c40468a7b22e434e95ef8936cc43ead",
+  "source_precommit": "c3x/ontology/c3x-014-bounded-TT-return-census-and-pin-subtypes-precommit.md",
+  "original_40_chess_source_worlds": 40,
+  "actual_native_sf16_processes": 80,
+  "actual_go_search_processes": 0,
+  "cold_exact": "40/40",
+  "independent_chess_library_legal_moves_exact": "40/40",
+  "observed_root_pos_key_operator_source_sites": {
+    "legal_pinned_checks_nonzero_40": 31,
+    "legal_pinned_checks_total": 125,
+    "legal_pinned_reject_nonzero_40": 24,
+    "legal_pinned_reject_total": 93,
+    "SEE_pinned_attacker_masks_nonzero_40": 1,
+    "SEE_pinned_attacker_masks_total": 3,
+    "classical_mobility_king_blocker_nonzero_40": 38,
+    "classical_mobility_king_blocker_total": 80,
+    "classic_WeakQueen_hits_nonzero_40": 4,
+    "classic_WeakQueen_hits_total": 8
+  },
+  "comparison_to_natural_search": {
+    "natural_native_root_pin_legality_checks_in_NNUE_option_worlds": "2/40",
+    "natural_native_root_pin_legality_rejects_in_NNUE_option_worlds": "0/40",
+    "forced_explicit_legality_checks": "31/40",
+    "forced_explicit_legality_rejects": "24/40",
+    "classical_weakqueen_native_root_hits_in_classical_search": "4/40",
+    "forced_classical_root_hit": "4/40",
+    "note": "No pairwise matching of natural/forced call counts assumed. Forced probing establishes that earlier zeros were an opportunity/censoring problem for legal move checks, not proof PIN concepts absent."
+  },
+  "within_law_repeated_groups": {
+    "independent_source_game_law_type_groups": 4,
+    "total_source_cases": 14,
+    "diverse_forced_root_binary_signatures": "1/4",
+    "divergent_group": "PAWN pinned by QUEEN along DIAGONAL, zero legal moves for pinned pawn, cannot legally capture pinner: 5 distinct TCEC source games, two forced root signature patterns",
+    "other_repeated_same_law_groups_have_single_forced_binary_signature": 3
+  },
+  "artifact": {
+    "github_actions_artifact_id": 11597578780,
+    "actual_ZIP_SHA256": "6e725d446ba7129054160f43b2b4b05e6c3de8147152dd07eab2f61b6a5fc875",
+    "member_checksum_validation": "13/13 PASS",
+    "drive_folder_id": "1ehjBFtuBYo7WQdfHvQDkVxVmQRZow9h_",
+    "drive_file_id": "1xMsHGhR1zoohS5P0JZzfBAS44fGNDY2X",
+    "drive_url": "https://drive.google.com/file/d/1xMsHGhR1zoohS5P0JZzfBAS44fGNDY2X/view"
+  },
+  "software": {
+    "explicit_source_patcher": "tools/c3x_014_explicit_UCI_root_pin_opportunity_probe.py",
+    "source_frozen_80_court": "harness/c3x_014_explicit_root_pin_opportunity_court.py",
+    "prior_naturally_observed_root_study": "c3x/receipts/c3x-014-root-pin-fullkey-native-events-and-NNUE-classical-PSQ-routing-20261009.json"
+  },
+  "limitations": [
+    "Root explicit operation diagnostics do not constitute engine's natural decision path and have NO outcome causal role since no search was run.",
+    "Binary signatures of repeated composite law subtype differences are not pins causing differences; other board context varies.",
+    "SEE threshold specific choices -100,0,+100 are diagnostic, not exhaustive static exchange strategy signatures.",
+    "40 original source-selected TCEC chess game worlds with repeated subtype scarcity. No independent prospective cross-source validation.",
+    "Chess king-pin legal condition is nonnegotiable; future interventions only legally safe source SEE/score branches."
+  ],
+  "proposed_next_formal_title_not_opened": "C3X 0.15 — Causal Chess-Concept Fibers, Search-Operator Differentiation & Transportable Tactical Ontologies",
+  "P1_four_sealed_game_holdout_opened": false
+}
