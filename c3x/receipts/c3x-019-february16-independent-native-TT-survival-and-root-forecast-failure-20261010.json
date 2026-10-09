@@ -1,0 +1,110 @@
+{
+  "schema": "c3x019-february2026-independent16-native-TT-consumption-writer-version-transport-v1",
+  "date": "2026-10-10",
+  "study_type": "INDEPENDENT_GAME_MONTH_PREREGISTERED_BEFORE_ENGINE_NATIVE_OUTCOMES",
+  "protocol": "c3x/ontology/c3x-019-P2-february2026-blind16-native-TT-consumption-transport-preregistration.md",
+  "source": {
+    "Lichess_month": "2026-02",
+    "source_only_run": 37998190878,
+    "source_only_result": "SUCCESS",
+    "PGN_original_archive_sha256": "ea977569917718b33940ba5379db2adad77d58876c29084294d357f15fe6a31b",
+    "source_manifest_sha256": "2942b1933030227f36b669faff41f15ff234c27127dbf2403bf2e8e4f12ebdc8",
+    "game_count": 16,
+    "source_PGN_scanned_legal_nonoverlapping_with_previous": true
+  },
+  "engine": {
+    "Stockfish_commit": "68e1e9b3811e16cad014b590d7443b9063b3eb52",
+    "threads": 1,
+    "hash_mb": 16,
+    "NNUE": false,
+    "depth": 12,
+    "original_FEN_clocks": true
+  },
+  "native": {
+    "run": 37998381391,
+    "conclusion": "SUCCESS",
+    "artifact_id": 11647677841,
+    "zip_sha256": "a669300b69e1533246f299466351de47a81a70957f8e22d30b38a2c0aeb3a6a8",
+    "json_name": "C3X019_FEB16_PROSPECTIVE_NATIVE_CONSUMER_COURT.json",
+    "json_sha256": "2a67839faf37c19ac1749c9b88200546c04f33e2b397159435a4ab97434fee74",
+    "verified_member_sha256_count": 23,
+    "members_invalid": 0,
+    "all_16_games_valid": true,
+    "cold_duplicates_every_arm": true,
+    "no_contact_and_UCI_core_controls_pass": true
+  },
+  "denominator": {
+    "games": 16,
+    "strict_pair_eligible_games": 16,
+    "broad_pair_eligible_games": 16,
+    "source_role_arms_total": 32,
+    "old_epoch_V_target_lost_but_selected_second_key_probed_with_new_writer_epoch": 24,
+    "unique_physical_game_target_pairs_in_these_24": 22,
+    "selector_duplicate_overlap_count": 2
+  },
+  "results": {
+    "native_score_as_eval_or_cutoff_use_survives": 24,
+    "out_of_old_epoch_V_target_lost": 24,
+    "native_TT_cutoff_source_arms": 3,
+    "final_root_bestmove_changed_among_old_epoch_V_target_lost": 3,
+    "all_24_V_BOTH_exact_full_UCI_equal_FIRST_ONLY": true,
+    "source_bestmove_change_source_arms": [
+      {
+        "case": 6,
+        "role": "STRICT",
+        "F": "g2g4",
+        "V": "e3d2",
+        "root_calls": [
+          3,
+          4
+        ]
+      },
+      {
+        "case": 7,
+        "role": "BROAD",
+        "F": "g8e7",
+        "V": "e8f7",
+        "root_calls": [
+          4,
+          5
+        ]
+      },
+      {
+        "case": 10,
+        "role": "STRICT",
+        "F": "d8b8",
+        "V": "b7a6",
+        "root_calls": [
+          4,
+          5
+        ]
+      }
+    ],
+    "other_root_bestmove_change_outside_epoch_lost_subset": [
+      {
+        "case": 3,
+        "role": "STRICT",
+        "F": "a1c1",
+        "V": "e1e3"
+      }
+    ]
+  },
+  "preregistered_verdicts": {
+    "F19.1_ELIGIBLE_STRUCTURE": "PASS",
+    "F19.2_OLD_TARGET_ATTRITION": "PASS",
+    "F19.3_NATIVE_VALUE_SURVIVAL": "PASS",
+    "F19.4_DUAL_USE_TAXONOMY": "PASS",
+    "F19.5_ROOT_CHOICE_NONTRANSPORT": "FAIL",
+    "F19.6_SOURCE_PROVENANCE": "PASS"
+  },
+  "key_conclusion": "On a new engine-blind February game month, 24/24 originally selected old-writer-epoch V gate misses retained source-executed native TT value use (eval substitution or early cutoff). Thus old-epoch instrumental target miss cannot stand in for native TT use disappearance. Three of those arms nonetheless changed final bestmove, and exactly matching FIRST-only and BOTH full UCI cores isolate these outcome differences to the first targeted V suppression under the tested gate policy, not to any additional second old-epoch gate suppression.",
+  "limits": [
+    "Feb result is independent ecology by chess game month but same engine/source version, depth, Threads and NNUE policy",
+    "STRICT/BROAD can overlap: 24 role arms represent 22 distinct source physical target pairs",
+    "No target selection after observing new Feb outcomes; all NO_CONTACT and case denominators retained",
+    "The original January independent J2/J3/J4 bestmove transport forecasts failed and remain failed",
+    "Current root flips do not yet have complete child value, alpha window and root competition chain explanation",
+    "Full game repetition-state histories not reconstructed; use source-original FEN with clock",
+    "A particular TT value-as-eval or cutoff use being recorded does not demonstrate it caused a final root bestmove choice"
+  ]
+}
