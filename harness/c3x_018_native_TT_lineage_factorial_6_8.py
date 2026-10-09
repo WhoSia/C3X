@@ -38,9 +38,22 @@ def core(raw, search_depth=12):
     need(len(best)==1 and best[0]==rows[-1]["pv"][0], "MISSING_BESTMOVE")
     return {"bestmove":best[0],**rows[-1]}
 
-def play(engine, world, p4_mode, lineage_mode=None, target=None, writer_budget=None, rescue_attempt=None, discovery=False, history=False, fen_clocks=None, search_depth=12, draw_mode=None, tt_reader_filters=None, probe_watch=None, p1_writer=None):
+def play(engine, world, p4_mode, lineage_mode=None, target=None, writer_budget=None, rescue_attempt=None, discovery=False, history=False, fen_clocks=None, search_depth=12, draw_mode=None, tt_reader_filters=None, probe_watch=None, p1_writer=None, native_use_watch=None, passive_second_call=None):
     need(isinstance(search_depth,int) and 1<=search_depth<=32,"INVALID_SEARCH_DEPTH")
     env = dict(os.environ)
+    for key in ("C3X019_NATIVE_USE_WATCH_KEY64","C3X019_NATIVE_USE_WATCH_ROOT_CALL","C3X019_PASSIVE_SECOND_ROOT_CALL"):
+        env.pop(key,None)
+    if native_use_watch is not None:
+        need(isinstance(native_use_watch,dict) and set(native_use_watch)=={"key64","root_call"},
+             "INVALID_C3X019_NATIVE_USE_WATCH")
+        need(all(isinstance(v,int) and v>0 for v in native_use_watch.values()),
+             "INVALID_NATIVE_USE_WATCH_PARAMETER")
+        env["C3X019_NATIVE_USE_WATCH_KEY64"]=str(native_use_watch["key64"])
+        env["C3X019_NATIVE_USE_WATCH_ROOT_CALL"]=str(native_use_watch["root_call"])
+    if passive_second_call is not None:
+        need(isinstance(passive_second_call,int) and passive_second_call>0,
+             "INVALID_C3X019_PASSIVE_SECOND_CALL")
+        env["C3X019_PASSIVE_SECOND_ROOT_CALL"]=str(passive_second_call)
     for key in ("C3X018_P1_WRITER_KEY64","C3X018_P1_WRITER_SLOT",
                 "C3X018_P1_WRITER_EPOCH","C3X018_P1_FIRST_CALL",
                 "C3X018_P1_LAST_CALL",
@@ -50,7 +63,7 @@ def play(engine, world, p4_mode, lineage_mode=None, target=None, writer_budget=N
         need(isinstance(p1_writer,dict) and
              set(p1_writer)=={"key64","slot","epoch","first_call","last_call","policy"},
              "INVALID_P1_WRITER_EXACT_SCHEMA")
-        need(p1_writer["policy"] in ("NONE","SKIP","REINSTATE"),
+        need(p1_writer["policy"] in ("NONE","SKIP","REINSTATE","BYTES_ONLY","SHADOW_ONLY"),
              "P1_INVALID_WRITE_POLICY")
         for name in ("key64","slot","epoch","first_call","last_call"):
             need(isinstance(p1_writer[name],int) and p1_writer[name]>=0,
@@ -163,6 +176,11 @@ def play(engine, world, p4_mode, lineage_mode=None, target=None, writer_budget=N
         if line.startswith("info string c3x018_p1_save "):
             fields=parse_fields(line)
             p0_save_events.append({k:(v if k=="kind" else int(v)) for k,v in fields.items()})
+    native_tt_value_uses=[]
+    for line in lines:
+        if line.startswith("info string c3x019_native_use "):
+            fields=parse_fields(line)
+            native_tt_value_uses.append({k:(v if k in ("kind","site") else int(v)) for k,v in fields.items()})
     watched_tt_probes=[]
     for line in lines:
         if line.startswith("info string c3x018_jan_probe_watch "):
@@ -206,6 +224,8 @@ def play(engine, world, p4_mode, lineage_mode=None, target=None, writer_budget=N
        "draw_probes":draw_probes,
        "draw_gate_contacts":draw_gate_contacts,
        "watched_tt_probes":watched_tt_probes,
+       "native_tt_value_uses":native_tt_value_uses,
+       "native_tt_source_allows":[e for e in events if e["kind"]=="reader_native_allow"],
        "p0_save_events":p0_save_events,
        "root_events":root_events,
        "root_contact":roots[0]}
