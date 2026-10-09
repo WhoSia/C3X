@@ -1,0 +1,107 @@
+{
+  "schema": "c3x018-V-W2-matched-final-UCI-root-genealogy-contrasts-v1",
+  "verified_date": "2026-10-10",
+  "frozen_engine_sha": "68e1e9b3811e16cad014b590d7443b9063b3eb52",
+  "run": 37979854491,
+  "conclusion": "success",
+  "artifact_id": 11640576874,
+  "zip_sha256": "94beef40d2150b6b1c80f63be5d20ea9c06f2f9837af9dca275c9574c78bb023",
+  "json": "W2_V_ROOT_SEARCH_GENEALOGY_2_5.json",
+  "json_sha256": "b52576ee8ef9ff73ed4acdbf17136e4c71029b04a7bcd3902f33a4c847689be6",
+  "all_member_sha256_verified": true,
+  "case2": {
+    "F_bestmove": "a5b4",
+    "W2_bestmove": "a5e1",
+    "V_bestmove": "a5e1",
+    "final_full_uci_W2_V_equal": true,
+    "root_events_each": 846,
+    "root_event_full_exact_equality": true,
+    "root_calls_each": 31,
+    "TT_cutoff_branches_each": 7032,
+    "root_candidate_source_native_move": 2073,
+    "W2_blocks": [
+      {
+        "root_call": 4,
+        "root_move_native": 2073,
+        "slot": 0,
+        "write_epoch": 3
+      },
+      {
+        "root_call": 6,
+        "root_move_native": 2073,
+        "slot": 0,
+        "write_epoch": 3
+      }
+    ],
+    "V_reader": {
+      "root_call": 6,
+      "root_move_native": 2073,
+      "slot": 0,
+      "write_epoch": 3,
+      "site": "tt_value_eval_override",
+      "ply": 2,
+      "depth": 2,
+      "alpha": 196,
+      "beta": 197,
+      "read_tt_value": -1435
+    },
+    "qualifier": "Equality of measured root event stream does not mean equality of microscopic TT events or identify a sole natural causal path."
+  },
+  "case5": {
+    "F_bestmove": "d8d5",
+    "W2_bestmove": "d8d4",
+    "V_bestmove": "d8d4",
+    "final_full_uci_W2_V_equal": true,
+    "root_events_each": 572,
+    "root_event_full_exact_equality": false,
+    "first_source_root_event_common_prefix": 137,
+    "first_difference_event_seq": 138,
+    "first_difference_type": "root candidate child_return",
+    "root_call": 6,
+    "depth": 4,
+    "trial": 3,
+    "move_native": 3437,
+    "index": 7,
+    "same_candidate_and_window_alpha": -433,
+    "same_beta": -391,
+    "W2_child_return": -653,
+    "V_child_return": -1026,
+    "TT_cutoff_branches_W2": 7768,
+    "TT_cutoff_branches_V": 7769,
+    "W2_blocks": [
+      {
+        "root_call": 5,
+        "root_move_native": 3437,
+        "slot": 0,
+        "write_epoch": 4
+      },
+      {
+        "root_call": 7,
+        "root_move_native": 3437,
+        "slot": 0,
+        "write_epoch": 4
+      }
+    ],
+    "V_reader": {
+      "root_call": 7,
+      "root_move_native": 3437,
+      "slot": 0,
+      "write_epoch": 4,
+      "site": "tt_value_eval_override",
+      "ply": 1,
+      "depth": 3,
+      "alpha": 426,
+      "beta": 427,
+      "read_tt_value": 1026
+    },
+    "qualifier": "Same whole final UCI result does not imply same recorded aspiration/candidate process; event counters after first mismatch must not be paired as causal identity."
+  },
+  "scientific_conclusion": "Two operations on an identical source key/slot/epoch can recreate the same final UCI output while differing in observed within-arm computation lineage. Case2 matches measured 846 root events; case5 diverges at event138 and later reconverges in outcome.",
+  "limitations": [
+    "Both source worlds are already selected W-sensitive roots; no external population validation",
+    "W2 blocks full TT save and V only score used as bound-conditioned eval override; counterfactual interventions are non-isomorphic",
+    "Root_call/root_move are within-arm IDs and not literal causal ancestry through all recursive calls",
+    "Direct test of exclusive natural TT mediation remains HOLD",
+    "Frozen SF16 depth12 Hash16 NNUE off, Threads1, standalone FEN"
+  ]
+}
