@@ -39,7 +39,7 @@ class TrialCallPatchTest(unittest.TestCase):
             patch("namespace Stockfish {}")
 
     def test_double_apply_fails_closed(self):
-        with self.assertRaisesRegex(RuntimeError, "C3X018_ANCHOR_STATE_COUNT_0"):
+        with self.assertRaisesRegex(RuntimeError, "C3X018_ALREADY_APPLIED"):
             patch(patch(BASE))
 
 if __name__ == "__main__":
