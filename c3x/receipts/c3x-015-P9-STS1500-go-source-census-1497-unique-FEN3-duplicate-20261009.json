@@ -1,0 +1,63 @@
+{
+  "schema": "c3x015-P9-STS-strategic-test-suite-scoreblind-source-audit-v1",
+  "generation": "C3X 0.15",
+  "research_phase": "P9-C_SOURCE_ONLY",
+  "source_drive_file_id": "1_E9eYKmITOmRO4aeKN8OqCLz2_7iAHmJ",
+  "source_private_drive_folder": "https://drive.google.com/drive/folders/11XQZB1yz4cSdRl7r8G2paw6sG3CNB8gH",
+  "source_filename": "STS1-STS15_LAN_v3.epd",
+  "source_size_bytes": 288513,
+  "source_sha256": "d7a33ae6cf2fb5f3f18ef1b904cca07dce2cd0458edcf60644f59d4d9e28c07b",
+  "source_only_go_census": "PASS_1500_ROWS_15_SECTIONS_100_EACH",
+  "unique_4_field_fens": 1497,
+  "duplicate_4_field_fen_entries": 3,
+  "duplicate_clusters": [
+    {
+      "fen4_sha256": "e2ec5defe47434ec515aff355dfeaea478dc208a465b4cde5c8e63cd2c6ee4b2",
+      "ids": [
+        "STS(v1.0) Undermine.005",
+        "STS(v9.0) Advancement of a/b/c pawns.005"
+      ]
+    },
+    {
+      "fen4_sha256": "1c081e3a3d326a629edb4886cbea198b7f2b8e73e4481e19dcf36706030fb99b",
+      "ids": [
+        "STS(v3.0) Knight Outposts/Repositioning/Centralization.004",
+        "STS(v12.0) Center Control.008"
+      ]
+    },
+    {
+      "fen4_sha256": "ea86399347bbf6440116b42b4e583fa06a9eb393bc857cd6aa7b796ec4980396",
+      "ids": [
+        "STS(v3.0) Knight Outposts/Repositioning/Centralization.073",
+        "STS(v12.0) Center Control.077"
+      ]
+    }
+  ],
+  "category_sections": [
+    "Undermine",
+    "Open Files and Diagonals",
+    "Knight Outposts/Repositioning/Centralization",
+    "Square Vacancy",
+    "Bishop vs Knight",
+    "Recapturing",
+    "Offer of Simplification",
+    "AKPC",
+    "Advancement of a/b/c pawns",
+    "Simplification",
+    "King Activity",
+    "Center Control",
+    "Pawn Play in the Center",
+    "7th Rank",
+    "AT"
+  ],
+  "audit_method": "Go native source-only first 4 EPD fields plus id/section classifier; bm/c0 numerical and selection labels not consulted in census or duplicate detection",
+  "authored_go_source": "cmd/c3x-p9-sts-source-audit/main.go",
+  "local_go_companion_audit": "P9_STS_GO_CENSUS_PASS on original 288513 byte source with 1497 unique fourfield FEN",
+  "unverified": [
+    "Full chess legality and reachable position from complete game history",
+    "Exact equality of Go GitHub scanner behavior to separate locally executed Go scorer remains subject to CI",
+    "STS annotations bm/c0 as chess-optimal ground truth",
+    "External provider disjointness, source restrictions, training-test split and engine predictive transfer"
+  ],
+  "next_precommit": "Split STS by canonical fourfield-FEN equivalence groups, stratify categories; the three duplicates MUST never be assigned to separate train/test folds; label cross-category duplicate features as multi-label, not independent samples."
+}
