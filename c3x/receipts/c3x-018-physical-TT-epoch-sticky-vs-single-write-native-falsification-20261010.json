@@ -1,0 +1,91 @@
+{
+  "schema": "c3x018-physical-TT-epoch-sticky-vs-single-write-native-falsification-v1",
+  "date": "2026-10-10",
+  "engine_sha": "68e1e9b3811e16cad014b590d7443b9063b3eb52",
+  "scope": "frozen SF16 single-thread depth12 root-order F, source-only independent-game FEN cohort, exploratory TT target",
+  "historical_epoch_sticky": {
+    "run": 37975111237,
+    "artifact_id": 11638590759,
+    "artifact_zip_sha256": "162f2473821eeccdf09c5a6a9c2afdf0b5895c754cc4dd795fe7bfcbda0170f7",
+    "native_json_sha256": "83ae0e49d586d0b0eafb47d70fbf7fa86b9dc9fd3ecbda7e1d2e491477aae7ea",
+    "writer_block_contacts": {
+      "6": 23,
+      "8": 74
+    },
+    "case8_F": {
+      "bestmove": "h5g7",
+      "cp": 40,
+      "nodes": 53106
+    },
+    "case8_W": {
+      "bestmove": "e6h3",
+      "cp": 72,
+      "nodes": 27624
+    },
+    "classification": "CUMULATIVE_MULTIWRITE_SUPPRESSION_NOT_ONE_WRITE_MEDIATOR"
+  },
+  "single_write_repair": {
+    "run": 37975353863,
+    "artifact_id": 11639215038,
+    "artifact_zip_sha256": "40b15404abcc3b48646d8e0c4fbc53e713157e58096dfa6af1027cd85198e0ec",
+    "native_json_sha256": "24d32cc0b42a76e49f40c6c6986512d2d864a3f9d4486566b7e62c5785744105",
+    "inner_member_sha256_verified": true,
+    "workflow_conclusion": "success",
+    "cases": [
+      {
+        "id": 6,
+        "O": "c3a4",
+        "F": "e4d6",
+        "W": "e4d6",
+        "R": "e4d6",
+        "WR": "e4d6",
+        "W_contacts": 1,
+        "R_contacts": 1,
+        "WR_writer_contacts": 1,
+        "WR_reader_contacts": 0,
+        "W_nodes": 90051,
+        "F_nodes": 90055,
+        "impossible_key_decoy_W_R_output_exact": true
+      },
+      {
+        "id": 8,
+        "O": "e6h3",
+        "F": "h5g7",
+        "W": "h5g7",
+        "R": "h5g7",
+        "WR": "h5g7",
+        "W_contacts": 1,
+        "R_contacts": 1,
+        "WR_writer_contacts": 1,
+        "WR_reader_contacts": 0,
+        "W_cp": 40,
+        "F_cp": 40,
+        "W_nodes": 53106,
+        "F_nodes": 53106,
+        "impossible_key_decoy_W_R_output_exact": true
+      }
+    ],
+    "operator_selection": {
+      "6": {
+        "key64": "3293258168769270517",
+        "slot": 0,
+        "epoch": 2
+      },
+      "8": {
+        "key64": "14544738779862901516",
+        "slot": 0,
+        "epoch": 1
+      },
+      "rule": "first observed F-only full64-matched writer-to-consumer branch; exploratory selection within same source dataset"
+    },
+    "causal_verdict": "SINGLE_SOURCE_EXACT_WRITE_NOT_NECESSARY_FOR_MEASURED_F_ROOT_MOVE_FLIP",
+    "limits": [
+      "W suppresses entire save, not score alone",
+      "WR reader gate non-fired after writer block",
+      "R affects only main/qsearch early return; other TT uses untested",
+      "Repeated W class block is not singular mediation; accumulation and alternative computation paths confounded",
+      "Selected TT candidate was discovered post F arm observation; not independent preregistered",
+      "Final move restoration in 74-write run is categorical, not exact O core"
+    ]
+  }
+}
