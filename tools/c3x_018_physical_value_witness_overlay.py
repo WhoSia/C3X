@@ -97,6 +97,7 @@ def main():
  "files":modified,"event":"c3x018_value_witness",
  "invariants":["write serialization within one cold process","physical slot and full64 writer key match","source raw TT payload fields equal at actual reader","writer ID is nonzero and globally monotonically assigned per accepted save"],
  "limits":["same payload is not proof of unique mediation","only actual bound-value-as-evaluation branches covered",
- "single-thread and standalone FEN; no cross-process writer event identity",\n "DISCOVERY emits at most 32 first full-key eligible V candidate reads; no outcome-based filtering"]},indent=2)+"\n")
+ "single-thread and standalone FEN; no cross-process writer event identity",
+ "DISCOVERY emits at most 32 first full-key eligible V candidate reads; no outcome-based filtering"]},indent=2)+"\n")
  print("C3X018_PHYSICAL_TT_VALUE_WITNESS_PATCH_APPLIED")
 if __name__=="__main__":main()
