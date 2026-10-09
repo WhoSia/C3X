@@ -1,0 +1,98 @@
+{
+  "schema": "c3x018-dec2025-role-selector-physical-target-collision-audit-v1",
+  "date": "2026-10-10",
+  "source_run": 37987794988,
+  "native_run": 37988014141,
+  "native_result_sha256": "93742e35c09f83a24aeea91f3632227165bb9208c606e3b81766e54d512a9883",
+  "native_result_status": "CI_SUCCESS",
+  "study_type": "POST_OUTCOME_CRITICAL_PROVENANCE_AUDIT",
+  "denominator": {
+    "games": 12,
+    "selectors": 96,
+    "fired": 96,
+    "first_256_discovery_censored_in_every_game": true
+  },
+  "collision_cases": [
+    {
+      "id": 2,
+      "selector": "old",
+      "selected_passive_rank": 12,
+      "selected_age": 90,
+      "first_actual_age": 46,
+      "selected_root_call": 3,
+      "actual_first_root_call": 2,
+      "bestmove_changed": false
+    },
+    {
+      "id": 3,
+      "selector": "old",
+      "selected_passive_rank": 7,
+      "selected_age": 64,
+      "first_actual_age": 56,
+      "selected_root_call": 3,
+      "actual_first_root_call": 2,
+      "bestmove_changed": false
+    },
+    {
+      "id": 7,
+      "selector": "old",
+      "selected_passive_rank": 36,
+      "selected_age": 72,
+      "first_actual_age": 31,
+      "selected_root_call": 7,
+      "actual_first_root_call": 5,
+      "bestmove_changed": false
+    },
+    {
+      "id": 8,
+      "selector": "old",
+      "selected_passive_rank": 20,
+      "selected_age": 65,
+      "first_actual_age": 47,
+      "selected_root_call": 4,
+      "actual_first_root_call": 2,
+      "bestmove_changed": false
+    },
+    {
+      "id": 10,
+      "selector": "old",
+      "selected_passive_rank": 11,
+      "selected_age": 65,
+      "first_actual_age": 59,
+      "selected_root_call": 3,
+      "actual_first_root_call": 2,
+      "bestmove_changed": false
+    },
+    {
+      "id": 11,
+      "selector": "old",
+      "selected_passive_rank": 33,
+      "selected_age": 90,
+      "first_actual_age": 18,
+      "selected_root_call": 9,
+      "actual_first_root_call": 5,
+      "bestmove_changed": true
+    },
+    {
+      "id": 12,
+      "selector": "old",
+      "selected_passive_rank": 33,
+      "selected_age": 202,
+      "first_actual_age": 58,
+      "selected_root_call": 4,
+      "actual_first_root_call": 2,
+      "bestmove_changed": false
+    }
+  ],
+  "effect_interpretation": {
+    "protocol_D1_literal": "PASS on age-threshold-based TARGET SELECTION; one old-category selected physical target induced root bestmove flip",
+    "direct_old_reader_causal_claim": "NOT_ESTABLISHED because case11 first actual V site was 18 write events after writer rather than 90; no older-only effect yet",
+    "observational_order": "within-process writer age based on global successful writes, not milliseconds",
+    "other_categories": "some treatments touched multiple readers for same key/slot/epoch; counting as one arm not independent contacts"
+  },
+  "future_diagnostic": "ADAPTIVE non-precommitted replication with V gate constrained to writer_age>=64 and the observed root call/key/ply in case11; preserve original D1 and source sample",
+  "limits": [
+    "All 12 game source discovery lists hit 256 passive source reader cap; no exhaustive search-wide census",
+    "No causal exclusivity from a targeted physical TT triple used by several TT consumer sites"
+  ]
+}
