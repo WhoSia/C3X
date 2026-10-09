@@ -1,0 +1,35 @@
+{
+  "schema": "C3X018-NOV12-RANK-8-12-RECEIPT-V1",
+  "source_sha256": "2971fe617f39fbba6d40fb0b09d8a18ce247d5865dc807fcdab9a594e3473402",
+  "freeze_run": 37985213908,
+  "native_run": 37985902026,
+  "source_engine": "SF16 frozen 68e1e9b3811e16cad014b590d7443b9063b3eb52",
+  "artifact_zip_sha256": "5f0dea19681e50dcf9f85cb84fde16dba2638543454b11b526d6d63617c5777b",
+  "json_sha256": "ce8892e8e59942fb4645786081f8d48120cdf9a18857a729bf83db5a96cd22fc",
+  "all_members_sha256": true,
+  "design": "twelve independent new November game histories, original six-field clocks, depths8/12, passive TT reader ranks0/7/23, cold duplicate and negative sham",
+  "native_valid": 24,
+  "realized_readers": 72,
+  "payload_mismatches": 0,
+  "bestmove_changes": {
+    "rank0_depth8": 0,
+    "rank0_depth12": 0,
+    "rank7_depth8": 1,
+    "rank7_depth12": 0,
+    "rank23_depth8": 1,
+    "rank23_depth12": 1
+  },
+  "affected": {
+    "source4": "24th rank depth8 and depth12",
+    "source6": "8th rank depth8 only"
+  },
+  "preregistered": {
+    "T1": "PASS",
+    "T2": "PASS",
+    "T3": "PASS",
+    "T4": "PASS",
+    "T5": "PASS",
+    "T6": "PASS"
+  },
+  "limits": "Reader rank is event order, not recursion depth. A rank across different depths does not identify same physical event. No exclusive TT causal mediation."
+}
