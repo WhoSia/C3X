@@ -1,0 +1,62 @@
+name: C3X 0.14 Source-Native TT Event Exploratory Structure Census
+on:
+  push:
+    paths:
+      - '.github/workflows/c3x-014-tt-structure-census.yml'
+      - 'harness/c3x_014_TT_event_structural_census.py'
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  strata-not-causal-claims:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Verify source code and storage
+        run: |
+          python -m py_compile harness/c3x_014_TT_event_structural_census.py
+          mkdir -p raw output
+      - uses: actions/download-artifact@v4
+        with:
+          name: c3x-014-SF16-native-TT-slot-full-writer-consumer-provenance
+          path: raw/
+          repository: WhoSia/C3X
+          run-id: '37882677198'
+          github-token: ${{ github.token }}
+      - name: Check exact native 224 engine processes lineage original
+        run: |
+          printf '%s  %s\n' 'a152935764727ca5533181fe0c2747b6c1aecf996b87542cb30178f0a39592d2' 'raw/TT_SLOT_FULL_KEY_LAST_WRITER_CONSUMER_PANEL.json' | sha256sum -c -
+      - name: Compile event-depth bound ply writer-provenance strata; no spurious independent P values
+        run: |
+          python harness/c3x_014_TT_event_structural_census.py --input raw/TT_SLOT_FULL_KEY_LAST_WRITER_CONSUMER_PANEL.json --out-json output/C3X014_NATIVE_TT_EVENT_STRUCTURAL_CENSUS.json --out-md output/C3X014_NATIVE_TT_EVENT_STRUCTURAL_CENSUS.md
+          python - <<'PY'
+          import json
+          x=json.load(open('output/C3X014_NATIVE_TT_EVENT_STRUCTURAL_CENSUS.json'))
+          assert x['single_formal_phase']=='C3X 0.14' and x['P_internal_only']
+          assert x['source_group_count']==14 and x['worlds']==28
+          assert x['analysis_is_posthoc_exploratory_not_frozen_predictive_test']
+          assert x['first_blocked_event_key_same_between_pair_count']==0
+          assert x['first_blocked_producer_category_same_between_pair_count']==14
+          assert not x['P1_four_source_game_holdout_opened']
+          print('C3X014_REAL_TT_EVENT_GROUPED_CENSUS_INFERENCE_GATE_PASS')
+          PY
+      - name: Archive original data and verified exploratory tables without changing git
+        if: always()
+        run: |
+          cp raw/TT_SLOT_FULL_KEY_LAST_WRITER_CONSUMER_PANEL.json output/ORIGINAL_SHA_PINNED_PRODUCER_CONSUMER_NATIVE_DATA.json
+          cp harness/c3x_014_TT_event_structural_census.py output/STRUCTURAL_CENSUS_REPRODUCTION_CODE.py
+          cp c3x/ontology/c3x-014-tt-producer-consumer-slot-lineage-precommit.md output/C3X014_LAST_WRITER_METHODS.md
+          printf '%s\n' 'Source grouping n=14, nested worlds n=28; event depth/bound strata are POSTHOC and NOT independently causal or prognostic.' > output/STRATA_SCIENCE_LIMIT.txt
+          find output -maxdepth 1 -type f ! -name 'MEMBER_SHA256.txt' -print0 | sort -z | xargs -0 sha256sum > output/MEMBER_SHA256.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x-014-source-native-TT-event-structural-posthoc-census
+          path: output/
+          retention-days: 90
+          if-no-files-found: error
