@@ -7,8 +7,8 @@ game-cycle counterfactual. Does NOT extrapolate to all later search calls.
 import argparse,hashlib,json
 from pathlib import Path
 
-EXPECTED_ROOT_TRACE_SHA="PLACEHOLDER_ROOT_SHA"
-EXPECTED_GATED_SHA="PLACEHOLDER_GATE_SHA"
+EXPECTED_ROOT_TRACE_SHA="7967c17bd6abb4e52ba65316906c31e5a0182f68d19c3fb0144beb193fded4d8"
+EXPECTED_GATED_SHA="c5b5d2d4f4a4d776673b4084cc768eab6a6b0a14e04a9354dcd1ee82b3a8f585"
 
 def need(condition,marker):
     if not condition:raise RuntimeError("C3X018_ROOT_ALPHA_"+marker)
