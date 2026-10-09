@@ -1,9 +1,9 @@
-name: C3X 0.15 P0 TWIC Original Source-Only PIN and NONPIN Freeze
+name: C3X 0.15 P0 R2 TWIC Original Source-Only PIN and Matched NONPIN Freeze
 on:
   push:
     paths:
       - '.github/workflows/c3x-015-twic1665-source-freeze.yml'
-      - 'harness/c3x_015_TWIC1665_scoreblind_original_source_freeze.py'
+      - 'harness/c3x_015_TWIC1665_scoreblind_source_freeze_R2.py'
   workflow_dispatch:
 permissions:
   contents: read
@@ -20,7 +20,7 @@ jobs:
       - name: Establish deterministic chess-law runtime without engine outcomes
         run: |
           python -m pip install --disable-pip-version-check chess==1.11.2
-          python -m py_compile harness/c3x_015_TWIC1665_scoreblind_original_source_freeze.py
+          python -m py_compile harness/c3x_015_TWIC1665_scoreblind_source_freeze_R2.py
           mkdir -p input prior output
       - name: Acquire fresh provider TWIC 1665 original ZIP and verify format
         run: |
@@ -38,30 +38,33 @@ jobs:
           sha256sum prior/TCEC_S28.pgn prior/TCEC_S29.pgn > output/PRIOR_TCEC_SOURCE_SHA256.txt
       - name: Run full TWIC PGN history legality and pre-score pin / nonpin selection
         run: |
-          python -u harness/c3x_015_TWIC1665_scoreblind_original_source_freeze.py \
+          python -u harness/c3x_015_TWIC1665_scoreblind_source_freeze_R2.py \
              --zip input/TWIC1665_ORIGINAL.zip \
              --prior-pgn prior/TCEC_S28.pgn \
              --prior-pgn prior/TCEC_S29.pgn \
              --outdir output
           python - <<'PY'
           import json,pathlib
-          d=json.loads(pathlib.Path('output/C3X015_TWIC1665_SOURCE_CUSTODY_RECEIPT.json').read_text())
+          d=json.loads(pathlib.Path('output/C3X015_TWIC1665_SOURCE_CUSTODY_RECEIPT_R2.json').read_text())
           assert d['engine_output_accessed'] is False and d['causal_transport_pass'] is False
           assert d['chosen_pin_games']==64 and d['chosen_nonpin_games']==64
+          assert d['selected_event_count']>=8 and d['maximum_selected_games_per_event']==8
+          assert d['match_quality']['max_event_count']<=8
+          assert d['match_quality']['abs_ply_le_8_pairs']>=32
           assert d['prior_lichess_013_overlap_status']=='PENDING_REFERENCE_OBJECT_ACQUISITION'
-          print('C3X015_TWIC1665_P0_SOURCE_ONLY_FROZEN_CONDITIONAL_PASS')
+          print('C3X015_TWIC1665_P0_R2_SOURCE_ONLY_FROZEN_MATCH_AUDIT_PASS')
           print('C3X015_TRUE_PROVIDER_DISJOINT_FINAL_GATE=HOLD_UNTIL_LEGACY_LICHESS_DEDUP')
           PY
       - name: Seal shareable source-only receipts and keep raw restricted source out of Git history
         if: always()
         run: |
           printf '%s\n' 'Original TWIC ZIP and full raw source are NOT included in this artifact because TWIC reserves redistribution rights. Source-only JSON is research custody, not engine-evidence or public release authorization.' > output/RAW_COPYRIGHT_AND_AUTHORITY_BOUNDARY.txt
-          cp harness/c3x_015_TWIC1665_scoreblind_original_source_freeze.py output/SCORE_BLIND_SOURCE_FREEZER.py
+          cp harness/c3x_015_TWIC1665_scoreblind_source_freeze_R2.py output/SCORE_BLIND_SOURCE_FREEZER.py
           find output -maxdepth 1 -type f ! -name MEMBER_SHA256.txt -print0 | sort -z | xargs -0 sha256sum > output/MEMBER_SHA256.txt
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: c3x-015-twic1665-original-source-only-legal-pins-and-nonpins
+          name: c3x-015-twic1665-R2-event-capped-source-pin-matched-nonpin
           path: output/
           retention-days: 30
           if-no-files-found: error
