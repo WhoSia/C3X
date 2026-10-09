@@ -1,0 +1,50 @@
+{
+  "schema": "c3x-015-twic1665-sourceonly-r2-court-v1",
+  "date": "2026-10-09",
+  "status": "R2_SOURCE_ONLY_PASS_EXTERNAL_CAUSAL_TEST_HOLD",
+  "run": "https://github.com/WhoSia/C3X/actions/runs/37902655949",
+  "head": "5b41d2b2581f49f5d92c7dce78c2699d18eef2ad",
+  "source": {
+    "url": "https://theweekinchess.com/zips/twic1665g.zip",
+    "zip_sha256": "23097bbf152d9afed810890456027ce639719f7a4ef4c723898730d391b347b3",
+    "pgn_sha256": "642f458c6ef8c5661e62a5f056ad225cabf29a4b12c65be0f834a1e60ad610a6"
+  },
+  "census": {
+    "legal_games": 5766,
+    "examined_positions": 392571,
+    "pin_witnesses": 34915,
+    "duplicate_full_histories": 117,
+    "prior_TCEC_position_exclusions": 32
+  },
+  "r1": {
+    "run": 37902093021,
+    "manifest_sha256": "7f50b95bc5c41b68b2f5cd15e302c69c222fb49c7add3c9dbd4994178c4d7298",
+    "source_pin_events": 10,
+    "max_event_count": 26,
+    "pin_median_ply": 41,
+    "nonpin_median_ply": 18
+  },
+  "r2": {
+    "run": 37902655949,
+    "manifest_sha256": "1e932aa881eaef549c770211c078d930cd8d675e5688644e1bc36ab31bae4534",
+    "artifact_sha256": "6ffad0aa1f716799ac679be4b65d88e016861a8d519bba0503301bc67c0594a5",
+    "member_sha_pass": "7/7",
+    "pin_roots": 64,
+    "nonpin_roots": 64,
+    "source_law_types": 39,
+    "pin_events": 11,
+    "max_event_count": 8,
+    "pin_median_ply": 40,
+    "nonpin_median_ply": 41,
+    "matched_abs_ply_le8": 64,
+    "same_event_control_pairs": 51
+  },
+  "historical_0_13_later_court": {
+    "recovered_old_positions": 29,
+    "exact_sixfield_overlap": 0,
+    "board4_overlap": 0,
+    "scope": "Not a census of all C3X 0.13 sources"
+  },
+  "claim_ceiling": "Chess-source legal cohort only; no new engine outcome inspected, no cross-provider causal result, no NNUE latent concepts.",
+  "custody": "Original TWIC archive byte hash fixed, source license personal use only; no raw redistribution. GitHub Actions artifacts transient; Drive copy pending."
+}
