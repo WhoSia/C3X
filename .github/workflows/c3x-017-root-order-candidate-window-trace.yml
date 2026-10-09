@@ -1,0 +1,102 @@
+name: C3X 0.17 Passive Root Candidate and Aspiration Window Native Court
+on:
+  push:
+    paths:
+      - '.github/workflows/c3x-017-root-order-candidate-window-trace.yml'
+      - 'c3x/cohorts/c3x-016-P4-12-independent-Lichess-legal-root-order-sourceonly-frozen.json'
+      - 'tools/c3x_016_P4_independent_12root_source_order_patch.py'
+      - 'tools/c3x_017_passive_root_candidate_window_trace_patch.py'
+      - 'harness/c3x_017_root_order_window_candidate_72_native.py'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  root-candidate-ordering:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Source-frozen input / law / Python static gates
+        run: |
+          set -euo pipefail
+          python -m py_compile tools/c3x_016_P4_independent_12root_source_order_patch.py tools/c3x_017_passive_root_candidate_window_trace_patch.py harness/c3x_017_root_order_window_candidate_72_native.py
+          python - <<'PY'
+          import json
+          p='c3x/cohorts/c3x-016-P4-12-independent-Lichess-legal-root-order-sourceonly-frozen.json'
+          j=json.load(open(p))
+          assert j['original_private_12_source_only_selection_sha256']=='08bf2179e141ba6a862314660298fa90fa61c3d377e46accc07bd4c5d9cacae2'
+          assert len(j['selected'])==12 and len(set(r['fen4'] for r in j['selected']))==12
+          assert set(r['geometry_candidate'] for r in j['selected'])=={'SKEWER_RAY','INTERFERENCE_RAY','DEFENDER_REMOVAL_RAY','NO_MOTIF_RAY_OPPORTUNITY'}
+          assert all(sum(r['geometry_candidate']==x for r in j['selected'])==3 for x in ('SKEWER_RAY','INTERFERENCE_RAY','DEFENDER_REMOVAL_RAY','NO_MOTIF_RAY_OPPORTUNITY'))
+          PY
+          test -s c3x/ontology/c3x-016-P4-independent-Lichess-12-motif-root-order-causal-court-PRECOMMIT.md
+          mkdir -p output
+      - uses: actions/download-artifact@v4
+        with:
+          name: c3x-016-P4-12-Lichess-root-order-72-native
+          path: original-p4/
+          repository: WhoSia/C3X
+          run-id: '37948775813'
+          github-token: ${{ github.token }}
+      - name: Verify immutable native P4 baseline and new provenance contract
+        run: |
+          set -euo pipefail
+          test -s original-p4/C3X016_P4_12_LICHESS_MULTIMOTIF_ROOT_ORDER_72_NATIVE.json
+          test -s c3x/ontology/c3x-017-root-order-to-TT-window-provenance-and-explanation-authority.md
+      - name: Pin official SF16 build and compile baseline untouched source
+        run: |
+          set -euo pipefail
+          git clone -q --single-branch --branch sf_16 https://github.com/official-stockfish/Stockfish.git /tmp/C3X016_P4_STOCKFISH
+          test "$(git -C /tmp/C3X016_P4_STOCKFISH rev-parse HEAD)" = 68e1e9b3811e16cad014b590d7443b9063b3eb52
+          make -s -C /tmp/C3X016_P4_STOCKFISH/src -j2 build ARCH=x86-64
+          cp /tmp/C3X016_P4_STOCKFISH/src/stockfish /tmp/C3X016_P4_ORIGINAL
+          sha256sum /tmp/C3X016_P4_ORIGINAL > output/P4_UNMODIFIED_SF16_BINARY_SHA256.txt
+      - name: Patch only root candidate order and recompile same source tree
+        run: |
+          set -euo pipefail
+          python tools/c3x_016_P4_independent_12root_source_order_patch.py --source /tmp/C3X016_P4_STOCKFISH --out-manifest output/P4_CPP_ROOT_ORDER_SOURCE_MANIFEST.json
+          python tools/c3x_017_passive_root_candidate_window_trace_patch.py --source /tmp/C3X016_P4_STOCKFISH --out-manifest output/C3X017_ROOT_WINDOW_SOURCE_OBSERVER.json
+          git -C /tmp/C3X016_P4_STOCKFISH diff -- src/search.cpp > output/C3X017_ROOT_WINDOW_PASSIVE_CPP_DIFF.patch
+          test -s output/C3X017_ROOT_WINDOW_PASSIVE_CPP_DIFF.patch
+          make -s -C /tmp/C3X016_P4_STOCKFISH/src -j2 build ARCH=x86-64
+          cp /tmp/C3X016_P4_STOCKFISH/src/stockfish /tmp/C3X016_P4_PATCHED
+          sha256sum /tmp/C3X016_P4_PATCHED > output/P4_PATCHED_SF16_BINARY_SHA256.txt
+      - name: Run 72 passive-observer source-native trials plus 12 upstream original sham checks
+        run: |
+          set -euo pipefail
+          python -u harness/c3x_017_root_order_window_candidate_72_native.py \
+            --source c3x/cohorts/c3x-016-P4-12-independent-Lichess-legal-root-order-sourceonly-frozen.json \
+            --original /tmp/C3X016_P4_ORIGINAL \
+            --patched /tmp/C3X016_P4_PATCHED \
+            --prior-p4 original-p4/C3X016_P4_12_LICHESS_MULTIMOTIF_ROOT_ORDER_72_NATIVE.json \
+            --out output/C3X017_ROOT_WINDOW_CANDIDATE_72_NATIVE.json
+          python - <<'PY'
+          import json
+          o=json.load(open('output/C3X017_ROOT_WINDOW_CANDIDATE_72_NATIVE.json'))
+          assert o['new_native_processes']==72
+          assert o['unmodified_original_sham_processes']==12
+          assert len(o['worlds'])==12
+          assert all(w['cells']['O']['UCI']==w['cells']['Z']['UCI'] for w in o['worlds'])
+          assert all(len(v['cells'][arm]['passive_root_events'])>0 for v in o['worlds'] for arm in ('O','F','Z'))
+          print('C3X017_PASSIVE_ROOT_WINDOW_72_NATIVE_P4_EXACT_REGRESSION_PASS')
+          PY
+      - name: Archive source scripts and results excluding publisher original PGN
+        if: always()
+        run: |
+          set -euo pipefail
+          cp c3x/cohorts/c3x-016-P4-12-independent-Lichess-legal-root-order-sourceonly-frozen.json output/P4_12_SOURCE_ONLY_STANDALONE_FEN_COHORT.json
+          cp c3x/ontology/c3x-017-root-order-to-TT-window-provenance-and-explanation-authority.md output/C3X017_ROOT_PROVENANCE_PRECOMMIT.md
+          cp tools/c3x_017_passive_root_candidate_window_trace_patch.py output/C3X017_ROOT_WINDOW_OBSERVER_PATCHER.py
+          cp harness/c3x_017_root_order_window_candidate_72_native.py output/C3X017_ROOT_WINDOW_RUNNER.py
+          printf '%s\n' 'Geometry labels are opportunities, not proven tactics or engine learned motif. Root ordering is an action-policy intervention. P4 FENs have no full historical repetition context.' > output/SCIENTIFIC_LIMITS.txt
+          find output -maxdepth 1 -type f ! -name MEMBER_SHA256.txt -print0 | sort -z | xargs -0 sha256sum > output/MEMBER_SHA256.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x-016-P4-12-Lichess-root-order-72-native
+          path: output/
+          retention-days: 90
+          if-no-files-found: error
