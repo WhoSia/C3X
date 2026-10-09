@@ -38,9 +38,16 @@ def core(raw, search_depth=12):
     need(len(best)==1 and best[0]==rows[-1]["pv"][0], "MISSING_BESTMOVE")
     return {"bestmove":best[0],**rows[-1]}
 
-def play(engine, world, p4_mode, lineage_mode=None, target=None, writer_budget=None, rescue_attempt=None, discovery=False, history=False, fen_clocks=None, search_depth=12, draw_mode=None, tt_reader_filters=None):
+def play(engine, world, p4_mode, lineage_mode=None, target=None, writer_budget=None, rescue_attempt=None, discovery=False, history=False, fen_clocks=None, search_depth=12, draw_mode=None, tt_reader_filters=None, probe_watch=None):
     need(isinstance(search_depth,int) and 1<=search_depth<=32,"INVALID_SEARCH_DEPTH")
     env = dict(os.environ)
+    env.pop("C3X018_PROBE_WATCH_KEY64",None)
+    env.pop("C3X018_PROBE_WATCH_ROOT_CALL",None)
+    if probe_watch is not None:
+        need(isinstance(probe_watch,dict) and set(probe_watch)=={"key64","root_call"},"INVALID_PROBE_WATCH_FIELDS")
+        need(all(isinstance(v,int) and v>0 for v in probe_watch.values()),"INVALID_PROBE_WATCH_VALUES")
+        env["C3X018_PROBE_WATCH_KEY64"]=str(probe_watch["key64"])
+        env["C3X018_PROBE_WATCH_ROOT_CALL"]=str(probe_watch["root_call"])
     for key in ("C3X018_FILTER_MIN_WRITE_AGE","C3X018_FILTER_ROOT_CALL","C3X018_FILTER_ROOT_MOVE","C3X018_FILTER_PLY","C3X018_FILTER_RAW_BOUND","C3X018_FILTER_CALL_MASK_9_13","C3X018_FILTER_PAIR_CALL_A","C3X018_FILTER_PAIR_CALL_B","C3X018_FILTER_MAX_PLY","C3X018_FILTER_WINDOW_WIDTH_MAX"):
         env.pop(key,None)
     if tt_reader_filters is not None:
@@ -128,6 +135,11 @@ def play(engine, world, p4_mode, lineage_mode=None, target=None, writer_budget=N
         if line.startswith("info string c3x018_value_witness "):
             fields=parse_fields(line)
             witnesses.append({k:(v if k in ("kind","site") else int(v)) for k,v in fields.items()})
+    watched_tt_probes=[]
+    for line in lines:
+        if line.startswith("info string c3x018_jan_probe_watch "):
+            fields=parse_fields(line)
+            watched_tt_probes.append({k:(v if k in ("kind","site") else int(v)) for k,v in fields.items()})
     draw_gate_contacts=[]
     for line in lines:
         if line.startswith("info string c3x018_exact_draw_intervention "):
@@ -165,6 +177,7 @@ def play(engine, world, p4_mode, lineage_mode=None, target=None, writer_budget=N
        "payload_witnesses":witnesses,
        "draw_probes":draw_probes,
        "draw_gate_contacts":draw_gate_contacts,
+       "watched_tt_probes":watched_tt_probes,
        "root_events":root_events,
        "root_contact":roots[0]}
 
