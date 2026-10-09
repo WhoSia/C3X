@@ -1,0 +1,86 @@
+name: C3X 0.18 SF16 SF17 TT Value Evaluation Route
+on:
+  push:
+    paths:
+      - 'tools/c3x_018_sf16_sf17_global_bound_eval_gate.py'
+      - 'harness/c3x_018_sf16_sf17_global_eval_route_native.py'
+      - '.github/workflows/c3x-018-sf16-sf17-eval-route.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  two-version-bound-eval-gate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 55
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Python source and chess rule preflight
+        run: |
+          python -m pip install -q chess==1.11.2
+          python -m py_compile tools/c3x_018_sf16_sf17_global_bound_eval_gate.py
+          python -m py_compile harness/c3x_018_sf16_sf17_global_eval_route_native.py
+      - name: New November games frozen without engine
+        uses: actions/download-artifact@v4
+        with:
+          name: c3x-018-november-blind12-chess-source
+          path: source/
+          repository: WhoSia/C3X
+          run-id: '37985213908'
+          github-token: ${{ github.token }}
+      - name: Verify source provenance SHA
+        run: |
+          set -euo pipefail
+          mkdir -p evidence
+          test "$(sha256sum source/C3X018_NOVEMBER_12_BLIND_GAMES.json | cut -d' ' -f1)" = 2971fe617f39fbba6d40fb0b09d8a18ce247d5865dc807fcdab9a594e3473402
+      - name: Native SF16 and SF17 tagged search sources with TT evaluation gate
+        run: |
+          set -euo pipefail
+          for ver in sf16 sf17; do
+            root="/tmp/C3X018_CROSS_$ver"
+            if [[ "$ver" == sf16 ]]; then
+              tag=sf_16
+              pin=68e1e9b3811e16cad014b590d7443b9063b3eb52
+            else
+              tag=sf_17
+              pin=e0bfc4b69bbe928d6f474a46560bcc3b3f6709aa
+            fi
+            git clone -q --single-branch --branch "$tag" https://github.com/official-stockfish/Stockfish.git "$root"
+            test "$(git -C "$root" rev-parse HEAD)" = "$pin"
+            python tools/c3x_018_sf16_sf17_global_bound_eval_gate.py \
+              --source "$root" --version "$ver" --out-manifest "evidence/SOURCE_GATE_$ver.json"
+            git -C "$root" diff -- src/search.cpp > "evidence/SOURCE_GATE_$ver.patch"
+            make -s -C "$root/src" -j2 build ARCH=x86-64
+            sha256sum "$root/src/stockfish" > "evidence/BINARY_$ver.sha256"
+            find "$root/src" -maxdepth 1 -name '*.nnue' -print0 | xargs -0 -r sha256sum > "evidence/NNUE_NETWORK_$ver.sha256"
+            test -s "$root/src/stockfish"
+          done
+      - name: Twelve source games two depths two versions baseline and global TT gate
+        run: |
+          set -euo pipefail
+          python -u harness/c3x_018_sf16_sf17_global_eval_route_native.py \
+            --source source/C3X018_NOVEMBER_12_BLIND_GAMES.json \
+            --sf16 /tmp/C3X018_CROSS_sf16/src/stockfish \
+            --sf17 /tmp/C3X018_CROSS_sf17/src/stockfish \
+            --out evidence/SF16_SF17_TT_VALUE_EVAL_BRANCHES.json | tee evidence/NATIVE_STDOUT.txt
+          python - <<'PY'
+          import json
+          q=json.load(open("evidence/SF16_SF17_TT_VALUE_EVAL_BRANCHES.json"))
+          assert q["summary"]["expected_cells"]==48
+          assert q["summary"]["valid_cells"]==48
+          print("C3X018_TWO_VERSION_TT_VALUE_SOURCE_NATIVE_PASS")
+          PY
+      - name: SHA256 all evidence
+        if: always()
+        run: |
+          mkdir -p evidence
+          find evidence -maxdepth 1 -type f ! -name MEMBER_SHA256.txt -print0 | sort -z | xargs -0 -r sha256sum > evidence/MEMBER_SHA256.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x-018-sf16-sf17-global-TT-value-evaluation
+          path: evidence/
+          retention-days: 90
+          if-no-files-found: error
