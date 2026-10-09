@@ -1,0 +1,119 @@
+{
+  "schema": "c3x018-case11-actual-TT-event-minimal-coalition-source-receipt-v1",
+  "source_engine": "Stockfish 16 at 68e1e9b3811e16cad014b590d7443b9063b3eb52",
+  "source_game_month": "Lichess broadcast December 2025",
+  "frozen_game_cohort_sha256": "51366a480fe2631005dbded7992e870443ef6dd2dfd785fd10952d6eeff5e7cd",
+  "game_id": 11,
+  "depth": 12,
+  "threads": 1,
+  "hash_mb": 16,
+  "original_December_native": {
+    "run": 37988014141,
+    "result_sha256": "93742e35c09f83a24aeea91f3632227165bb9208c606e3b81766e54d512a9883",
+    "seven_first_consumer_collisions_among_96_selectors": true,
+    "D2_deep_reader": "FAIL",
+    "old_category_first_selected_writer_age": 90,
+    "actual_earlier_physical_reader_writer_age": 18,
+    "nominal_D1": "PASS literal selection rule ONLY"
+  },
+  "physical_TT": {
+    "key64": "16448589199907615799",
+    "slot": 0,
+    "write_epoch": 2,
+    "original_bestmove": "b2b3",
+    "changed_bestmove": "c1f4"
+  },
+  "age_specific_group": {
+    "run": 37988654788,
+    "json_sha256": "b035c8d184d4c3c474d8592793af442f00fb135276426db1e78d447999609952",
+    "root_call9_age90_single_blocks": 1,
+    "single_bestmove_changed": false,
+    "all_root_calls9_13_age64_blocks": 5,
+    "group_bestmove_changed": true
+  },
+  "late_singletons": {
+    "run": 37988929108,
+    "json_sha256": "8e1ac0f02e63a9db93564181a7dd86162a552a5cb73493d5053e41573c4cf615",
+    "calls": [
+      9,
+      10,
+      11,
+      12,
+      13
+    ],
+    "all_one_source_contact": true,
+    "none_changes_bestmove": true,
+    "adaptive_S1": "FAIL"
+  },
+  "exhaustive_court": {
+    "run": 37989712016,
+    "conclusion": "success",
+    "artifact_id": 11645100985,
+    "artifact_zip_sha256": "4ad5822fbd2e363db24f442ecea8b33606870ee15f4ec4afc266e0a711af9de2",
+    "native_json_sha256": "1d2a66fd9d0cefe5ab5320b67caf98edce15f62bb394b50682c0bb5f2c485eed",
+    "raw_writer_reader_payload_witnesses_preserved": true,
+    "cold_duplicates_per_mask": 2,
+    "all_masks": 32,
+    "root_flipping_masks": [
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27,
+      28,
+      29,
+      30,
+      31
+    ],
+    "minimal_sufficient_mask_indices": [
+      20,
+      24
+    ],
+    "minimal_source_call_pairs": [
+      [
+        11,
+        13
+      ],
+      [
+        12,
+        13
+      ]
+    ],
+    "source_writer_bound_value_as_eval_in_minimal_pairs": 504,
+    "mask20_actual_search_windows": [
+      [
+        -469,
+        -468
+      ],
+      [
+        -405,
+        -404
+      ]
+    ],
+    "mask24_actual_search_windows": [
+      [
+        -442,
+        -441
+      ],
+      [
+        -405,
+        -404
+      ]
+    ],
+    "all_C1_to_C6": "PASS",
+    "categorical_monotonicity_violations": 0
+  },
+  "exact_finite_categorical_formula": "Y(S) = 1[(13 in S) AND ((11 in S) OR (12 in S))]",
+  "multilinear_boolean_polynomial": "Y = x11*x13 + x12*x13 - x11*x12*x13",
+  "study_status": "ADAPTIVE fixed-source mathematical finite truth-table, NOT independent confirmation",
+  "limits": [
+    "Root calls are within-arm procedural IDs: intervening on earlier branches may change later ancestry",
+    "One physical TT writer triple may be read at multiple source events, so target identity does not determine consumer identity",
+    "One-game restricted five-reader set function is not unique natural mediation, universal chess law or independent engine transport",
+    "December deep-reader prospective D2 failed, original D1 age-specific mediation claim not established",
+    "Intermediate failed workflow runs 37989264599 and 37989441356 preserved; run 37989463729 succeeded before additional raw witness serialization"
+  ]
+}
