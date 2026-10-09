@@ -176,7 +176,8 @@ def main():
     elif len(first_a)<12 or len(first_b)<12:status='EVENT_ENCODING_MISMATCH'
     elif first_a[3]!=first_b[3] or first_a[4]!=first_b[4]:status='ROOT_EVENT_TYPE_OR_MOVE_ORDER_DIFFERENCE'
     elif first_a[7:9]!=first_b[7:9]:status='ROOT_ALPHA_BETA_WINDOW_DIFFERENCE'
-    elif first_a[6]!=first_b[6] or first_a[9:11]!=first_b[9:11]:status='SAME_ROOT_MOVE_CANDIDATE_SCORE_DIFFERENCE'
+    elif first_a[9:11]!=first_b[9:11]:status='ROOT_CANDIDATE_STORED_SCORE_MUTATION'
+    elif first_a[6]!=first_b[6]:status='SAME_ROOT_MOVE_CHILD_RETURN_DIFFERENCE_WITHOUT_STORED_SCORE_MUTATION'
     else:status='SOURCE_EVENT_CONTEXT_DIFFERENCE'
     rows.setdefault('root_event_first_observed_difference_from_I',{})[see+'__'+arm]={
       'first_recorded_event_index_0based':at,'classification':status,
