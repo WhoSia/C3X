@@ -1,0 +1,177 @@
+{
+  "schema": "c3x-016-P3-native-exact-physical-TT-writer-reader-factorial-controlled-effects-v1",
+  "date_kst": "2026-10-09",
+  "version": "C3X 0.16 ACTIVE; C3X 0.15 CLOSED evidence inherited",
+  "run_url": "https://github.com/WhoSia/C3X/actions/runs/37944843519",
+  "run_id": 37944843519,
+  "action_conclusion": "success",
+  "native_processes": 32,
+  "source_commit": "68e1e9b3811e16cad014b590d7443b9063b3eb52",
+  "original_P11_source_result_sha256": "0a296860a26db3b8b5530a23eb7935f6f71f8fd9e809299ea39486133022a2f8",
+  "original_frozen_R2_source_sha256": "1e932aa881eaef549c770211c078d930cd8d675e5688644e1bc36ab31bae4534",
+  "root_positions": 2,
+  "SEE_arms": 2,
+  "TT_factor_assignments": [
+    "W1R1",
+    "W1R0",
+    "W0R1",
+    "W0R0"
+  ],
+  "cold_repeats": 2,
+  "control_exact_regression": "W1R1 and W1R0 reproduce inherited P11 I/B prior score type/bounds/pv/nodes/bestmove with no other micro-gate contact",
+  "source_exact": {
+    "original_writer_W1": "full64 key, physical slot, expected writer tag, bound/depth, pre-frozen sidecar writer sequence, original physical TTEntry::save allowed",
+    "intervention_writer_W0": "at exactly one pre-frozen labeled save, original TTEntry::save skipped; sidecar ordinal advanced as observer-only ghost, NOT a physical TT write",
+    "reader_R0": "original P6S1 physically matched reader return is blocked at most once; never reassign matching source after W0",
+    "actual_contacts_all_4_original_world_SEE_cells": {
+      "W1R1": {
+        "writer_save_contact": 1,
+        "writer_suppressed": 0,
+        "old_physical_reader_matches": 1,
+        "reader_return_suppressed": 0
+      },
+      "W1R0": {
+        "writer_save_contact": 1,
+        "writer_suppressed": 0,
+        "old_physical_reader_matches": 1,
+        "reader_return_suppressed": 1
+      },
+      "W0R1": {
+        "writer_save_contact": 1,
+        "writer_suppressed": 1,
+        "old_physical_reader_matches": 0,
+        "reader_return_suppressed": 0
+      },
+      "W0R0": {
+        "writer_save_contact": 1,
+        "writer_suppressed": 1,
+        "old_physical_reader_matches": 0,
+        "reader_return_suppressed": 0
+      }
+    }
+  },
+  "results": [
+    {
+      "original_root_case": 2,
+      "SEE": "OFF",
+      "condition": {
+        "W1R1": {
+          "bestmove": "d1e2",
+          "cp": 31,
+          "nodes": 111432
+        },
+        "W1R0": {
+          "bestmove": "d1e2",
+          "cp": 43,
+          "nodes": 94796
+        },
+        "W0R1": {
+          "bestmove": "d1e2",
+          "cp": 43,
+          "nodes": 94796
+        },
+        "W0R0": {
+          "bestmove": "d1e2",
+          "cp": 43,
+          "nodes": 94796
+        }
+      }
+    },
+    {
+      "original_root_case": 2,
+      "SEE": "ROOT_OBJECT_SEE_UNMASK",
+      "condition": {
+        "W1R1": {
+          "bestmove": "d1e2",
+          "cp": 40,
+          "nodes": 130724
+        },
+        "W1R0": {
+          "bestmove": "d1d2",
+          "cp": 54,
+          "nodes": 65172
+        },
+        "W0R1": {
+          "bestmove": "d1d2",
+          "cp": 54,
+          "nodes": 65172
+        },
+        "W0R0": {
+          "bestmove": "d1d2",
+          "cp": 54,
+          "nodes": 65172
+        }
+      }
+    },
+    {
+      "original_root_case": 29,
+      "SEE": "OFF",
+      "condition": {
+        "W1R1": {
+          "bestmove": "d1e2",
+          "cp": 4,
+          "nodes": 81783
+        },
+        "W1R0": {
+          "bestmove": "f3e5",
+          "cp": 4,
+          "nodes": 75284
+        },
+        "W0R1": {
+          "bestmove": "f3e5",
+          "cp": 4,
+          "nodes": 75284
+        },
+        "W0R0": {
+          "bestmove": "f3e5",
+          "cp": 4,
+          "nodes": 75284
+        }
+      }
+    },
+    {
+      "original_root_case": 29,
+      "SEE": "ROOT_OBJECT_SEE_UNMASK",
+      "condition": {
+        "W1R1": {
+          "bestmove": "f3e5",
+          "cp": 3,
+          "nodes": 64658
+        },
+        "W1R0": {
+          "bestmove": "f3e5",
+          "cp": 3,
+          "nodes": 59808
+        },
+        "W0R1": {
+          "bestmove": "f3e5",
+          "cp": 3,
+          "nodes": 59808
+        },
+        "W0R0": {
+          "bestmove": "f3e5",
+          "cp": 3,
+          "nodes": 59808
+        }
+      }
+    }
+  ],
+  "strict_observed_equivalence": "For each (world,SEE), the complete UCI core (bestmove, value_root_stm, score_kind, score_flag, nodes, PV) is exactly equal across W1R0, W0R1, W0R0; equality does not imply identical entire internal search traces.",
+  "interpretation": "The frozen original writer is causally upstream of eligibility to use the preselected original physical consumer under this software intervention. Suppressing that exact writer removes the selected reader's observed writer-generation match. In all four source-world×SEE cells the complete final UCI response matches direct suppression of that reader. Under W0, R0 never fires, so factorial assignments have unequal actual exposures and a naive two-factor natural indirect interaction estimate is invalid.",
+  "limitations": [
+    "Two cases selected after inherited P6 outputs, not source-blind independent prospective trial",
+    "Writer ordinal ghost is a source-observer alignment device; future writer sidecar ordinal relation, no substitute for physical slot behavior test",
+    "W0 changes downstream source search state and can introduce additional pathways; no proof of unique natural TT mediation",
+    "R0 no-contact after W0 is a legitimate positive structural outcome; not a missing experiment to replace dynamically",
+    "No external motif or cross-engine transfer: separate C3X016 P2 Lichess result",
+    "Prior prospective C1 overall accuracy 42/64 vs no-change 53/64 remains a failure"
+  ],
+  "artifact": {
+    "github_actions_artifact_id": 11623014167,
+    "github_zip_sha256": "f2fb110f4ad7fe0261e3bbb4c14426c0168bf21251fae551e329daf5f5686ca2",
+    "native_json_sha256": "61c62218f2fbeee151f64f94a4ed7582d2479e7e758d7d941ad281e4bc2d5ecc",
+    "private_google_drive_file_id": "141Ul-2z8V6e4JZ8455wvEplv-HlN2clF",
+    "original_SHA_drive_recheck": "PENDING_AUTHENTICATED_REDOWNLOAD"
+  },
+  "court": "C3X016_P3_32_NATIVE_PASS / PRESELECTED_PHYSICAL_TT_WRITER_CAUSALLY_CONTROLS_ORIGINAL_READER_MATCH / W0_READER_NONCONTACT / THREE_ARM_UCI_EQUIVALENCE_ALL_4_CELLS / NATURAL_INDIRECT_TT_MEDIATION_NOT_IDENTIFIED"
+}
