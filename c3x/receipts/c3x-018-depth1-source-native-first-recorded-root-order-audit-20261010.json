@@ -1,0 +1,57 @@
+{
+  "schema": "c3x018-depth1-native-first-recorded-root-order-audit-v1",
+  "date": "2026-10-10",
+  "source_run": 37958613570,
+  "source_artifact_id": 11632756283,
+  "source_zip_sha256": "8ab2c72e480098f7f97655ccb17a5170717bd246a90f2b6796f5ffcf56c7f9cd",
+  "source_json": "C3X017_EARLY_ROOT_WINDOW_CANDIDATE_72_NATIVE.json",
+  "source_json_sha256": "d267ecb50ace5074d363a5f8d1d91d9ef0d51491b53bfd1280d7980556760da3",
+  "internal_member_sha256": "ALL_PASS",
+  "patched_searches": 72,
+  "original_shams": 12,
+  "worlds": 12,
+  "root_reorders": 12,
+  "bestmove_switches": 2,
+  "score_or_bound_changes": 8,
+  "nodes_changes": 11,
+  "pv_changes": 10,
+  "truncated_world_arms": 0,
+  "original_vs_no_contact_event_identity": 12,
+  "first_recorded_difference": {
+    "depth": 1,
+    "event": "window_enter",
+    "field": "first_move",
+    "cases": 12,
+    "classification": "INTENDED_ROOT_ORDER_CONTACT_NOT_NATURAL_MEDIATOR"
+  },
+  "focal_cases": {
+    "6": {
+      "original_first_native": 528,
+      "forced_first_native": 1835,
+      "depth1_candidate_528_return_O": 74,
+      "depth1_candidate_528_return_F": 74,
+      "bestmove_changed": true
+    },
+    "8": {
+      "original_first_native": 2722,
+      "forced_first_native": 2839,
+      "depth1_candidate_2722_return_O": -747,
+      "depth1_candidate_2722_return_F": 343,
+      "bestmove_changed": true
+    }
+  },
+  "independent_depth8_audit": {
+    "run": 37960215178,
+    "artifact_id": 11631503205,
+    "zip_sha256": "655aab4d0219a6c4e695482b8d4ab7b391279a012a781fb76220654812b511dd",
+    "first_retained_window": 7,
+    "first_retained_child_return": 3,
+    "none": 2
+  },
+  "limits": [
+    "First recorded depth1 change represents introduced root-order intervention, not a natural TT mediator.",
+    "Depth1 candidate comparisons have unequal visit index and may have changed alpha-beta contexts.",
+    "No physical TT writer/read-consumer generation attribution.",
+    "TT observer newly committed but neither compiled nor causally validated by this receipt."
+  ]
+}
