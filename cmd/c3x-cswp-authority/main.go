@@ -124,10 +124,8 @@ func run(args []string) error {
 	if err:=json.Unmarshal(raw,&r);err!=nil{return err}
 	a,err:=certificate(r,hex.EncodeToString(h[:]));if err!=nil{return err}
 	out,err:=json.MarshalIndent(a,"","  ");if err!=nil{return err}
-	if err:=os.WriteFile(args[2],append(out,'
-'),0644);err!=nil{return err}
-	fmt.Printf("C3X015_GO_CSWP_AUTHORITY_ABSTAIN_GATE_PASS allowed=%d abstained=%d
-",len(a.Authorized),len(a.Abstained))
+	if err:=os.WriteFile(args[2],append(out,'\n'),0644);err!=nil{return err}
+	fmt.Printf("C3X015_GO_CSWP_AUTHORITY_ABSTAIN_GATE_PASS allowed=%d abstained=%d\n",len(a.Authorized),len(a.Abstained))
 	return nil
 }
 func main(){if err:=run(os.Args);err!=nil {fmt.Fprintln(os.Stderr,"C3X015_GO_AUTHORITY_GATE_FAIL",err);os.Exit(2)}}
