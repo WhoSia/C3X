@@ -18,7 +18,7 @@ def patch_tt(s):
  s=one(s,"    uint64_t key64 = 0;\n};",
    "    uint64_t key64 = 0;\n    uint64_t writer_serial = 0;\n    int value=0, eval=0, depth=0, bound=0, move=0;\n};","SHADOW_STRUCT")
  s=one(s,"uint64_t c3x018_event_seq = 0;",
-   "uint64_t c3x018_event_seq = 0;\nuint64_t c3x018_write_serial = 0;","WRITE_SERIAL")
+   "uint64_t c3x018_event_seq = 0;\nuint64_t c3x018_write_serial = 0;\nuint64_t c3x018_discovery_count = 0;","WRITE_SERIAL")
  s=one(s,"    record.key64 = uint64_t(key);",
    """    record.key64 = uint64_t(key);
     record.writer_serial = ++c3x018_write_serial;
@@ -39,7 +39,7 @@ def patch_tt(s):
                   << " raw_eval=" << record.eval
                   << " raw_move=" << record.move << sync_endl;""","PAYLOAD_CAPTURE")
  s=one(s,"      c3x018_event_seq = 0;",
-   "      c3x018_event_seq = 0;\n      c3x018_write_serial = 0;","RESET")
+   "      c3x018_event_seq = 0;\n      c3x018_write_serial = 0;\n      c3x018_discovery_count = 0;","RESET")
  fn="""
 bool c3x018_verify_V_payload(Key key, const TTEntry* slot, int effective,
                                    int ply, int depth, int alpha, int beta, const char* site) {
@@ -48,14 +48,14 @@ bool c3x018_verify_V_payload(Key key, const TTEntry* slot, int effective,
     const auto it = c3x018_shadow.find(slot);
     const bool known = it != c3x018_shadow.end();
     const C3X018Writer w = known ? it->second : C3X018Writer{};
-    if (!c3x018_target(key,slot,w.epoch)) return true;
+    const bool selected = c3x018_target(key,slot,w.epoch);\n    const bool discovery = !selected && std::getenv("C3X018_TT_DISCOVERY")\n        && c3x018_discovery_count < 32 && known && w.key64 == uint64_t(key);\n    if (!selected && !discovery) return true;\n    if (discovery) ++c3x018_discovery_count;
     const bool matched = known && w.key64 == uint64_t(key)
        && w.value == int(slot->value())
        && w.eval == int(slot->eval())
        && w.depth == int(slot->depth())
        && w.bound == int(slot->bound())
        && w.move == int(slot->move());
-    sync_cout << "info string c3x018_value_witness kind=reader"
+    sync_cout << "info string c3x018_value_witness kind="\n              << (selected ? "reader" : "discovery")
               << " site=" << site
               << " key64=" << uint64_t(key)
               << " writer_key64=" << w.key64
@@ -97,6 +97,6 @@ def main():
  "files":modified,"event":"c3x018_value_witness",
  "invariants":["write serialization within one cold process","physical slot and full64 writer key match","source raw TT payload fields equal at actual reader","writer ID is nonzero and globally monotonically assigned per accepted save"],
  "limits":["same payload is not proof of unique mediation","only actual bound-value-as-evaluation branches covered",
- "single-thread and standalone FEN; no cross-process writer event identity"]},indent=2)+"\n")
+ "single-thread and standalone FEN; no cross-process writer event identity",\n "DISCOVERY emits at most 32 first full-key eligible V candidate reads; no outcome-based filtering"]},indent=2)+"\n")
  print("C3X018_PHYSICAL_TT_VALUE_WITNESS_PATCH_APPLIED")
 if __name__=="__main__":main()
