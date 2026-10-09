@@ -1,0 +1,27 @@
+{
+  "schema": "c3x015-p3-CSWP-postoutcome-first-SEE-64-search-entries-v1",
+  "phase": "C3X 0.15 P3",
+  "run": 37907535134,
+  "run_url": "https://github.com/WhoSia/C3X/actions/runs/37907535134",
+  "source_r2_sha256": "1e932aa881eaef549c770211c078d930cd8d675e5688644e1bc36ab31bae4534",
+  "P2_source_native_result_sha256": "e930f0b489301c656690d09f4821583a28eead04e43382b545bda35b71279256",
+  "p3_result_sha256": "da1f96dc44cf1999c8f3efaeb3ad5b27c17ee1505765f4e9d1a3675913fa6b24",
+  "artifact_zip_sha256": "e6b08cc5ae7dd27dc7ac7ee62756eab7c43ae0b760304c5d88c5740aa8c03b61",
+  "engine": "official Stockfish 16 exact 68e1e9b3811e16cad014b590d7443b9063b3eb52",
+  "actual_new_native_processes": 256,
+  "verified_cold_pairs": 128,
+  "verified_same_P2_UCI_outputs": 128,
+  "observed_fired_worlds": 51,
+  "prefix_search_event_hash_and_first_entry_window_equal_before_candidate_in_fired_worlds": 51,
+  "observed_different_search_position_within_64_post_candidate_entries": 20,
+  "observed_first_same_position_different_alpha_beta_window_in_64": 0,
+  "post_candidate_search_path_difference_and_root_bestmove_flip": 6,
+  "post_candidate_search_path_difference_without_root_bestmove_flip": 14,
+  "no_difference_observed_in_64_but_root_bestmove_flip": 5,
+  "sample_note": "Post-outcome mechanism instrumentation, bounded 64 search-entry suffix after first eligible SEE candidate. Missing discrepancy is a censoring result, not evidence of no search difference; first window recorded is frame-entry not latest mutable alpha/beta. No TT writer-consumer causal mediator proven.",
+  "next_falsifiers": [
+    "Extend event trace coverage while preserving P2 OFF and treated exact result",
+    "Instrument same-source TT save/read bound and first matching writer after first SEE candidate",
+    "Do not infer alpha-beta window causal necessity without subsequent mediator-specific intervention"
+  ]
+}
