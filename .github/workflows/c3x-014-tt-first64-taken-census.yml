@@ -1,0 +1,95 @@
+name: C3X 0.14 First 64 Naturally Taken TT Bound Return Event Census
+on:
+  push:
+    paths:
+      - '.github/workflows/c3x-014-tt-first64-taken-census.yml'
+      - 'tools/c3x_014_native_tt_first64_naturally_taken_return_tape_patch.py'
+      - 'harness/c3x_014_native_first64_TT_taken_return_census.py'
+      - 'harness/c3x_014_single_TT_event_pathway_court.py'
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  actual-first64-off-taken:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Source audit prerequisites
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq make g++ git
+          python -m pip install --disable-pip-version-check chess==1.11.2
+          python -m py_compile tools/c3x_014_native_tt_first64_naturally_taken_return_tape_patch.py harness/c3x_014_native_first64_TT_taken_return_census.py
+          mkdir -p source-only parent output
+      - uses: actions/download-artifact@v4
+        with:
+          name: c3x-014-legal-historical-chess-concept-worlds-source-only
+          path: source-only/
+          repository: WhoSia/C3X
+          run-id: '37809811541'
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: c3x-014-first-returnable-TT-event-matched-triad-and-writer-ply
+          path: parent/
+          repository: WhoSia/C3X
+          run-id: '37885247769'
+          github-token: ${{ github.token }}
+      - name: Byte verify chess legality cohort and actual native matched-event parent
+        run: |
+          printf '%s  %s\n' '0080f4f108471137f8d9d0908e3c879e33351ad8bdd4fbf0fdda83d47f6075b2' 'source-only/C3X014_LEGAL_CONCEPT_WORLDS_SOURCE_FROZEN.json' | sha256sum -c -
+          printf '%s  %s\n' '742ec105c73c6e7ec28de2c843a452df6fb7d4e95f10e16d3ce90956184e4a7c' 'parent/C3X014_MATCHED_FIRST_ELIGIBLE_AND_NATIVE_WRITER_PLY_PANEL.json' | sha256sum -c -
+      - name: Source compile Stockfish16 only, naturally taken OFF return event tape
+        run: |
+          git clone -q --single-branch --branch sf_16 https://github.com/official-stockfish/Stockfish.git /tmp/C3X014_tt_prefix
+          test "$(git -C /tmp/C3X014_tt_prefix rev-parse HEAD)" = "68e1e9b3811e16cad014b590d7443b9063b3eb52"
+          python tools/c3x_013_p8ep9_patch_sf16_cutoffs.py --source /tmp/C3X014_tt_prefix --out-manifest output/EP9_PATCH.json
+          python tools/c3x_014_patch_native_completed_depth_probe.py --source /tmp/C3X014_tt_prefix --out-manifest output/TRUE_COMPLETED_DEPTH_PATCH.json
+          python tools/c3x_014_native_one_main_event_mechanism_patch.py --source /tmp/C3X014_tt_prefix --out-manifest output/ONE_MAIN_PATCH.json
+          python tools/c3x_014_tt_producer_slot_lineage_patch.py --source /tmp/C3X014_tt_prefix --out-manifest output/TT_SLOT_WRITER_PATCH.json
+          python tools/c3x_014_tt_first_eligible_writer_context_patch.py --source /tmp/C3X014_tt_prefix --out-manifest output/ELIGIBLE_EVENT_PATCH.json
+          python tools/c3x_014_native_tt_first64_naturally_taken_return_tape_patch.py --source /tmp/C3X014_tt_prefix --out-manifest output/TT_RETURN_TAPE_PATCH.json
+          git -C /tmp/C3X014_tt_prefix diff -- src/tt.h src/tt.cpp src/search.cpp > output/FULL_NATIVE_TT_RETURN_CENSUS_DIFF.patch
+          test -s output/FULL_NATIVE_TT_RETURN_CENSUS_DIFF.patch
+          cp /tmp/C3X014_tt_prefix/Copying.txt output/Stockfish_GPLv3.txt
+          make -s -C /tmp/C3X014_tt_prefix/src -j2 build ARCH=x86-64
+          cp /tmp/C3X014_tt_prefix/src/stockfish /tmp/C3X014_tt_prefix_bin
+          sha256sum /tmp/C3X014_tt_prefix_bin > output/BINARY_SHA256.txt
+      - name: Run 56 native SF16 OFF searches and verify bounded genuine TT returns
+        run: |
+          python harness/c3x_014_native_first64_TT_taken_return_census.py --source source-only/C3X014_LEGAL_CONCEPT_WORLDS_SOURCE_FROZEN.json --previous parent/C3X014_MATCHED_FIRST_ELIGIBLE_AND_NATIVE_WRITER_PLY_PANEL.json --bin /tmp/C3X014_tt_prefix_bin --out output/C3X014_NATIVE_TT_FIRST64_ACTUAL_RETURNS.json
+          python - <<'PY'
+          import json
+          r=json.load(open('output/C3X014_NATIVE_TT_FIRST64_ACTUAL_RETURNS.json'))
+          assert r['formal_study']=='C3X 0.14'
+          assert r['groups']==14 and r['worlds']==28
+          assert r['actual_native_SF16_engine_processes']==56
+          assert r['native_output_and_preexisting_path_replayed_against_previous']==56
+          assert r['native_cold_world_event_sequence_equal']==28
+          assert r['first_cold_bounded_prefix_event_count']>0
+          assert r['first_cold_writer_key_64bit_matches']==r['first_cold_bounded_prefix_event_count']
+          assert not r['P1_four_sealed_game_holdout_opened']
+          print('C3X014_BOUNDED_NATIVE_ACTUAL_TT_RETURNS_SOURCE_GATE_PASS')
+          PY
+      - name: Archive raw bytes, source, negative results, authority and SHA
+        if: always()
+        run: |
+          cp tools/c3x_014_native_tt_first64_naturally_taken_return_tape_patch.py output/TT_RETURN_TAPE_CPP_PATCHER.py
+          cp harness/c3x_014_native_first64_TT_taken_return_census.py output/NATIVE_TT_CENSUS_DRIVER.py
+          cp c3x/ontology/c3x-014-bounded-TT-return-census-and-pin-subtypes-precommit.md output/SOURCE_COURT_PRECOMMIT.md
+          cp source-only/C3X014_LEGAL_CONCEPT_WORLDS_SOURCE_FROZEN.json output/SOURCE_ONLY_CHESS_WORLDS.json
+          cp parent/C3X014_MATCHED_FIRST_ELIGIBLE_AND_NATIVE_WRITER_PLY_PANEL.json output/PARENT_PREINTERVENTION_MATCHED_NATIVE_PANEL.json
+          printf '%s\n' 'First 64 ACTUALLY TAKEN nonPV main TT returns from OFF search, chronologically selected, not random and not independent chess games. Last writer is not complete cause of score.' > output/CAUSAL_SCOPE.txt
+          find output -maxdepth 1 -type f ! -name 'MEMBER_SHA256.txt' -print0 | sort -z | xargs -0 sha256sum > output/MEMBER_SHA256.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x-014-native-first64-actual-main-tt-taken-returns-census
+          path: output/
+          if-no-files-found: error
+          retention-days: 90
