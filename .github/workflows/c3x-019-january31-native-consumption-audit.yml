@@ -1,0 +1,111 @@
+name: C3X 0.19 All January TT Native Consumer Survivals
+on:
+  push:
+    paths:
+      - 'tools/c3x_019_tt_raw_bytes_shadow_writer_orthogonal_overlay.py'
+      - 'tools/c3x_019_actual_native_tt_eval_use_source_witness.py'
+      - 'harness/c3x_019_January31_original_pair_native_use_survival.py'
+      - '.github/workflows/c3x-019-january31-native-consumption-audit.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  all-january-original-tt-roles-native-consumption:
+    runs-on: ubuntu-latest
+    timeout-minutes: 70
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Python syntax and frozen legal game reader
+        run: |
+          python -m pip install -q chess==1.11.2
+          python -m py_compile tools/c3x_019_tt_raw_bytes_shadow_writer_orthogonal_overlay.py
+          python -m py_compile tools/c3x_019_actual_native_tt_eval_use_source_witness.py
+          python -m py_compile tools/c3x_018_P1_pre_second_reader_temporal_scope_overlay.py
+          python -m py_compile harness/c3x_019_January31_original_pair_native_use_survival.py
+          python -m py_compile harness/c3x_018_native_TT_lineage_factorial_6_8.py
+      - name: Retrieve engine-free January original game source
+        uses: actions/download-artifact@v4
+        with:
+          name: c3x-018-january2026-cross-window-blind16-source
+          path: source/
+          repository: WhoSia/C3X
+          run-id: '37991871987'
+          github-token: ${{ github.token }}
+      - name: Retrieve frozen original independent January pair experiment
+        uses: actions/download-artifact@v4
+        with:
+          name: c3x-018-jan16-physical-TT-cross-window-pair-court
+          path: previous/
+          repository: WhoSia/C3X
+          run-id: '37992496427'
+          github-token: ${{ github.token }}
+      - name: Retrieve all January TT physical epoch attrition records
+        uses: actions/download-artifact@v4
+        with:
+          name: c3x-018-january-full31-TT-writer-epoch-attribution
+          path: attrition/
+          repository: WhoSia/C3X
+          run-id: '37993971370'
+          github-token: ${{ github.token }}
+      - name: Confirm exact immutable prior raw source bytes
+        run: |
+          set -euo pipefail
+          mkdir -p evidence
+          test "$(sha256sum source/C3X018_JAN26_BLIND16_SOURCE.json | cut -d' ' -f1)" = 5b49818e4678c12d0e5e73eba39eff2d50742b070a0ed870cba1d3e94afe0533
+          test "$(sha256sum previous/JAN2026_CROSS_WINDOW_TT_PAIR_HOLDOUT.json | cut -d' ' -f1)" = 9d7ff1d8c5e019a5ab5b95441468da0ad49951adc756b8669db7853b82649470
+          test "$(sha256sum attrition/JAN16_FULL31_TT_SHADOW_WRITER_ATTRITION.json | cut -d' ' -f1)" = db5a780f463f88a87e222868a36c132aef4640020128210fb253d9a9bb323a88
+      - name: Compile physical TTEntry save predicate and writer epoch restoration source
+        run: |
+          set -euo pipefail
+          root=/tmp/C3X019_JAN31_NATIVE_WITNESS
+          git clone -q --single-branch --branch sf_16 https://github.com/official-stockfish/Stockfish.git "$root"
+          test "$(git -C "$root" rev-parse HEAD)" = 68e1e9b3811e16cad014b590d7443b9063b3eb52
+          python tools/c3x_016_P4_independent_12root_source_order_patch.py --source "$root" --out-manifest evidence/P4.json
+          python tools/c3x_017_early_depth1_root_window_trace_patch.py --source "$root" --out-manifest evidence/ROOT_TRACE.json
+          python tools/c3x_018_trial_call_identity_patch.py --source "$root" --out-manifest evidence/TRIAL_ID.json
+          python tools/c3x_018_physical_epoch_lineage_patch.py --source "$root" --out-manifest evidence/EPOCH.json
+          python tools/c3x_018_tt_eval_consumption_overlay.py --source "$root" --out-manifest evidence/V.json
+          python tools/c3x_018_physical_value_witness_overlay.py --source "$root" --out-manifest evidence/WRITER_TICKET.json
+          python tools/c3x_018_root_TT_genealogy_overlay.py --source "$root" --out-manifest evidence/ROOT_TT_LINEAGE.json
+          python tools/c3x_018_TT_reader_writer_age_bound_root_feature_overlay.py --source "$root" --out-manifest evidence/AGE_BOUND.json
+          python tools/c3x_018_january2048_TT_reader_source_census.py --source "$root" --out-manifest evidence/CENSUS.json
+          python tools/c3x_018_adaptive_writer_age_root_call_V_gate.py --source "$root" --out-manifest evidence/AGE_GATE.json
+          python tools/c3x_018_january_cross_window_pair_source_gate.py --source "$root" --out-manifest evidence/WINDOW_GATE.json
+          python tools/c3x_018_jan_original_key_TT_probe_watch_overlay.py --source "$root" --out-manifest evidence/PROBE.json
+          python tools/c3x_018_jan_TT_probe_physical_writer_epoch_witness.py --source "$root" --out-manifest evidence/PROBE_WRITER.json
+          python tools/c3x_018_P0P1_TT_save_decision_writer_reinstate_overlay.py --source "$root" --out-manifest evidence/P0_P1_SOURCE_MUTATION.json
+          python tools/c3x_018_P1_pre_second_reader_temporal_scope_overlay.py --source "$root" --out-manifest evidence/P1_PRE_SECOND_TEMPORAL_GATE.json
+          python tools/c3x_019_tt_raw_bytes_shadow_writer_orthogonal_overlay.py --source "$root" --out-manifest evidence/C3X019_ORTHOGONAL_WRITER_STATE.json
+          python tools/c3x_019_actual_native_tt_eval_use_source_witness.py --source "$root" --out-manifest evidence/C3X019_NATIVE_EVAL_USE.json
+          git -C "$root" diff -- src/ > evidence/SF16_C3X019_JAN31_NATIVE_SOURCE.diff
+          make -s -C "$root/src" -j2 build ARCH=x86-64
+          sha256sum "$root/src/stockfish" > evidence/BINARY_SHA256.txt
+      - name: Full sixteen frozen January games and thirty-one source roles: original V gate versus true native TT value assignment
+        run: |
+          set -euo pipefail
+          python -u harness/c3x_019_January31_original_pair_native_use_survival.py \
+            --source source/C3X018_JAN26_BLIND16_SOURCE.json \
+            --prior previous/JAN2026_CROSS_WINDOW_TT_PAIR_HOLDOUT.json \
+            --engine /tmp/C3X019_JAN31_NATIVE_WITNESS/src/stockfish \
+            --out evidence/C3X019_ALL31_JAN_NATIVE_SCORE_USE.json | tee evidence/NATIVE_STDOUT.txt
+          python - <<'PY'
+          import json
+          q=json.load(open("evidence/C3X019_ALL31_JAN_NATIVE_SCORE_USE.json"))
+          assert len(q["cases"])==16 and q["summary"]["role_arms_recorded"]==31
+          print("C3X019_ALL_JANUARY_NATIVE_31_SOURCE_CONSUMER_ARMS_COMPLETE")
+          PY
+      - name: SHA256 all source and native evidence, including failed steps
+        if: always()
+        run: |
+          mkdir -p evidence
+          find evidence -maxdepth 1 -type f ! -name MEMBER_SHA256.txt -print0 | sort -z | xargs -0 -r sha256sum > evidence/MEMBER_SHA256.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x-019-jan31-true-native-TT-use-survival
+          path: evidence/
+          retention-days: 90
+          if-no-files-found: error
