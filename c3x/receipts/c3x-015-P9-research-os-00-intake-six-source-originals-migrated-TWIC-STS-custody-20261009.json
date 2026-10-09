@@ -1,0 +1,79 @@
+{
+  "schema": "c3x-015-p9-original-research-os-intake-remediation-v1",
+  "date_kst": "2026-10-09",
+  "source_00_intake_folder": "1MLtYh0pv8QUZDReYzRqjDrOjRkSJAD16",
+  "source_00_name": "00_INTAKE — Literature Radar",
+  "canonical_root": "1eWHPdlKM1Jlesec7Iu87LlHbuNER0b95",
+  "migration_policy": "metadata-only move preserving original file IDs and bytes; source parent removed only after confirming actual parent ID; final destination list/read verified",
+  "moved": [
+    {
+      "file": "twic1665g.zip",
+      "id": "1ev8if_NPdF-7LdbBFPqKe-J2r_IHOnV-",
+      "destination_folder_id": "1axSyQb4PfyZ1UuImPq8f6YXoZRsyXQL9",
+      "category": "PRIVATE_PUBLISHER_ORIGINAL_PGN",
+      "zip_sha256": "23097bbf152d9afed810890456027ce639719f7a4ef4c723898730d391b347b3",
+      "zip_test": "PASS",
+      "inner_pgn_name": "twic1665.pgn",
+      "inner_pgn_bytes": 5905251,
+      "inner_pgn_sha256": "642f458c6ef8c5661e62a5f056ad225cabf29a4b12c65be0f834a1e60ad610a6",
+      "rights": "Publisher permits personal use; NO GitHub raw byte republishing."
+    },
+    {
+      "file": "lichess_db_broadcast_2026-06.pgn.zst",
+      "id": "1pOjLBWsBGqwvAUIXXjeqdTrmONVU4I1l",
+      "destination_folder_id": "1FZkTQ-L2og6ijubRDZyKpsEEMlXsrwzW",
+      "category": "AUTHENTIC_BROADCAST_PGN_SOURCE",
+      "sha256_status": "NOT_YET_REHASHED_AFTER_MOVE"
+    },
+    {
+      "file": "lichess_db_broadcast_2026-08.pgn.zst",
+      "id": "1w5RZeqYtI4MUDXjrsHYq_gxl01BP6GjO",
+      "destination_folder_id": "1FZkTQ-L2og6ijubRDZyKpsEEMlXsrwzW",
+      "category": "AUTHENTIC_BROADCAST_PGN_SOURCE",
+      "sha256_status": "NOT_YET_REHASHED_AFTER_MOVE"
+    },
+    {
+      "file": "lichess_db_broadcast_2026-09.pgn.zst",
+      "id": "1GTQWzz33Cp0FFaTKIkLyaxRWGFh1fUGh",
+      "destination_folder_id": "1FZkTQ-L2og6ijubRDZyKpsEEMlXsrwzW",
+      "category": "AUTHENTIC_BROADCAST_PGN_SOURCE",
+      "sha256_status": "NOT_YET_REHASHED_AFTER_MOVE"
+    },
+    {
+      "file": "STS1-STS15_LAN_v3.epd",
+      "id": "1_E9eYKmITOmRO4aeKN8OqCLz2_7iAHmJ",
+      "destination_folder_id": "11XQZB1yz4cSdRl7r8G2paw6sG3CNB8gH",
+      "category": "CHESS_STRATEGIC_TEST_POSITIONS_ANNOTATED",
+      "sha256": "d7a33ae6cf2fb5f3f18ef1b904cca07dce2cd0458edcf60644f59d4d9e28c07b",
+      "bytes": 288513,
+      "positions": 1500,
+      "sections": 15,
+      "notes": "Annotated strategy-suite bestmove and scores are not causal ground truth"
+    },
+    {
+      "file": "g8-law-r1-p29-semantic-quotient-court.zip",
+      "id": "1OBBljmxN44_-Ywx6VINcwJz3NDq-vwYd",
+      "destination_folder_id": "1IVaqiwtvaZmTz3YtN1e3pbmETnztjDgq",
+      "category": "HISTORICAL_G8_RESEARCH_COURT",
+      "sha256_status": "NOT_YET_REHASHED_AFTER_MOVE"
+    }
+  ],
+  "verification": {
+    "source_00_intake_remaining_items": 36,
+    "source_00_intake_remaining_known_C3X_file_names": 0,
+    "target_folder_reopened": true,
+    "target_item_counts": [
+      1,
+      3,
+      1,
+      1
+    ],
+    "all_six_original_ids_preserved": true
+  },
+  "important_limits": [
+    "Remaining 36 generic intake papers were not moved solely by speculative topical relevance; they may serve multiple labs and must be routed via literature canonicalization.",
+    "Do not move other labs' files without evidence.",
+    "No inference that existing broadcast games are transport-blind without prior overlap and source audit.",
+    "Original TWIC raw file is stored privately on Drive, not in GitHub Actions evidence ZIP."
+  ]
+}
