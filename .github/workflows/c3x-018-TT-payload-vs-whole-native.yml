@@ -1,0 +1,78 @@
+name: C3X 0.18 TT Payload vs Whole Save Source Court
+on:
+  push:
+    paths:
+      - 'tools/c3x_018_payload_only_surgical_source_patch.py'
+      - 'harness/c3x_018_payload_vs_whole_TT_6_8.py'
+      - '.github/workflows/c3x-018-TT-payload-vs-whole-native.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  physical-field-isolation-native:
+    runs-on: ubuntu-latest
+    timeout-minutes: 55
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Python source-integrity preflight
+        run: |
+          python -m py_compile tools/c3x_018_physical_epoch_lineage_patch.py
+          python -m py_compile tools/c3x_018_payload_only_surgical_source_patch.py
+          python -m py_compile harness/c3x_018_payload_vs_whole_TT_6_8.py
+      - name: Frozen legacy P4 native final tuple
+        uses: actions/download-artifact@v4
+        with:
+          name: c3x-016-P4-12-Lichess-root-order-72-native
+          path: baseline/
+          repository: WhoSia/C3X
+          run-id: '37948775813'
+          github-token: ${{ github.token }}
+      - name: Frozen SF16 source and move16-preserving payload surgery
+        run: |
+          set -euo pipefail
+          mkdir -p evidence
+          git clone -q --single-branch --branch sf_16 https://github.com/official-stockfish/Stockfish.git /tmp/C3X018_PAYLOAD_SF16
+          test "$(git -C /tmp/C3X018_PAYLOAD_SF16 rev-parse HEAD)" = 68e1e9b3811e16cad014b590d7443b9063b3eb52
+          python tools/c3x_016_P4_independent_12root_source_order_patch.py \
+            --source /tmp/C3X018_PAYLOAD_SF16 --out-manifest evidence/P4_PATCH.json
+          python tools/c3x_018_physical_epoch_lineage_patch.py \
+            --source /tmp/C3X018_PAYLOAD_SF16 --out-manifest evidence/TT_EPOCH_PATCH.json
+          python tools/c3x_018_payload_only_surgical_source_patch.py \
+            --source /tmp/C3X018_PAYLOAD_SF16 --out-manifest evidence/PAYLOAD_SURGERY_PATCH.json
+          git -C /tmp/C3X018_PAYLOAD_SF16 diff -- src/search.cpp src/tt.cpp src/tt.h > evidence/SOURCE_DIFF.patch
+          make -s -C /tmp/C3X018_PAYLOAD_SF16/src -j2 build ARCH=x86-64
+          cp /tmp/C3X018_PAYLOAD_SF16/src/stockfish /tmp/C3X018_PAYLOAD_NATIVE
+          sha256sum /tmp/C3X018_PAYLOAD_NATIVE > evidence/NATIVE_BINARY_SHA256.txt
+      - name: Twelve source-exact dose pairs each two cold native runs
+        run: |
+          set -euo pipefail
+          python -u harness/c3x_018_payload_vs_whole_TT_6_8.py \
+            --cohort c3x/cohorts/c3x-016-P4-12-independent-Lichess-legal-root-order-sourceonly-frozen.json \
+            --prior baseline/C3X016_P4_12_LICHESS_MULTIMOTIF_ROOT_ORDER_72_NATIVE.json \
+            --patched /tmp/C3X018_PAYLOAD_NATIVE \
+            --out evidence/TT_PAYLOAD_VS_WHOLE_6_8.json | tee evidence/NATIVE_STDOUT.txt
+          python - <<'PY'
+          import json
+          j=json.load(open('evidence/TT_PAYLOAD_VS_WHOLE_6_8.json'))
+          assert [x["id"] for x in j["cases"]]==[6,8]
+          assert j["cases"][0]["decoy_P_no_contact_exact"]
+          assert j["cases"][1]["decoy_P_no_contact_exact"]
+          for c in j["cases"]:
+              assert all(x["P"]["write_blocks"]>0 and x["W"]["write_blocks"]>0 for x in c["budget_rows"])
+          print('C3X018_NATIVE_PAYLOAD_FIELD_ISOLATION_PASS')
+          PY
+      - name: SHA256 source and result evidence
+        if: always()
+        run: |
+          mkdir -p evidence
+          find evidence -maxdepth 1 -type f ! -name MEMBER_SHA256.txt -print0 | sort -z | xargs -0 -r sha256sum > evidence/MEMBER_SHA256.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x-018-payload-vs-whole-native-source-court
+          path: evidence/
+          retention-days: 90
+          if-no-files-found: error
