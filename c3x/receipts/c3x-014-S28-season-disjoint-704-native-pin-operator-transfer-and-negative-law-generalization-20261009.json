@@ -1,0 +1,222 @@
+{
+  "schema": "c3x-014-tcec-S28-source-disjoint-pin-law-native-5arm-S29-to-S28-transfer-and-negative-predictive-court-20261009-v1",
+  "research_date_kst": "2026-10-09",
+  "formal_research_unit": "C3X 0.14 — Transportable Search-Mechanism Evidence, Chess-Concept Mediation & Faithful Explanation Systems",
+  "stage_state": "C3X_014_OPEN__DISTINCT_SEASON_SF16_SOURCE_NATIVE_OPERATOR_SENSITIVITY_TRANSFER_PASS__LAW_ONLY_CAUSAL_RESPONSE_PATTERN_TRANSPORT_FAIL__OBJECT_CAUSAL_MECHANISM_HOLD",
+  "proposed_next_formal_study_title": "C3X 0.15 — Causal Chess-Concept Fibers, Search-Operator Differentiation & Transportable Tactical Ontologies",
+  "proposed_015_is_open": false,
+  "governance": {
+    "single_original_C3X_Notion_Lab": "3c4ef561-cf92-817a-b76b-cab15e7d1faf",
+    "old_chess_P1_procedural_four_game_holdout_unopened": true,
+    "no_bot_authored_commits": true,
+    "GitHub_Actions_permissions": "contents:read/actions:read",
+    "internal_P_indices_not_formal_stages": true
+  },
+  "external_source_details": {
+    "same_original_provider_TCEC": true,
+    "distinct_source_seasons": true,
+    "S29_original_100_games_PGN_sha256": "S29 source-only frozen json  cfb2c4b0631959cfcdd5bf1eb098f7b41c40468a7b22e434e95ef8936cc43ead",
+    "S28_original_git_commit": "3dd69a40b3cf6ccc74144df7411ef4e8e2140286",
+    "S28_original_path": "master-archive/TCEC_Season_28_-_Superfinal.pgn",
+    "S28_original_git_blob_sha1": "9c702d0e8f646f65f28f1555652937d58d397ad4",
+    "S28_original_PGN_sha256": "cffabb6bd1f508ad3c815308a3110488ba3d14d9fad0f5b6561a9207139afd58",
+    "S28_original_100_game_source_only_legal_positions": 10252,
+    "S28_original_100_game_source_only_pin_witnesses": 746,
+    "S28_distinct_games_with_absolute_pins": 89,
+    "S28_law_type_count": 32,
+    "S29_law_type_count": 31,
+    "source_union_distinct_chess_law_types": 35,
+    "source_law_type_intersection": 28,
+    "S28_only_source_law_types": 4,
+    "S29_only_source_law_types": 3,
+    "chess_law_feature_types_are_learned_latent_neural_concepts": false,
+    "source_only_frozen_new_game_positions": 64,
+    "distinct_FEN_in_new_source": 63,
+    "original_S28_duplicate_FEN_games": [
+      61,
+      62
+    ],
+    "duplicate_FEN": "1n1k1b1r/3p1pp1/B3q3/pNp5/1pP4p/4p1P1/PPQ1PP1P/3RK2R b K - 0 18",
+    "source_exact_chess_position_overlap_with_entire_prior_S29_702_witnesses": 0
+  },
+  "source_freeze": {
+    "source_only_run_id": 37892996179,
+    "original_zip_github_artifact_id": 11599770309,
+    "original_git_sha_pinned_before_engine_eval": true,
+    "SHA256_frozen_64_root_JSON": "1152473ed8d8793361f922434c75c7da2b9a58e0aa68a59466fc65179d6ac5e4",
+    "original_score_blind_zip_SHA256": "712df9a5f84bc87450f4a0d788d9f7eee8714bf526a2edc32b6e0dc6ec53bfe0",
+    "original_ZIP_internal_member_hashes": "7/7 PASS",
+    "Drive_file_id": "12gz-dYk512WeiPh8LxK2ihcGdGB3RDFS",
+    "Drive_url": "https://drive.google.com/file/d/12gz-dYk512WeiPh8LxK2ihcGdGB3RDFS/view",
+    "source_freezer": "harness/c3x_014_TCEC_S28_source_only_pin_transfer_freeze.py",
+    "primary_preregistered_four_S29_repeated_law_subtype_classes_all_present": true,
+    "number_of_PGNs_in_source": 100,
+    "original_root_selection_no_engine_output_consulted": true
+  },
+  "native_transfer_experiment": {
+    "completed_real_GitHub_actions_url": "https://github.com/WhoSia/C3X/actions/runs/37893361180",
+    "result": "SUCCESS",
+    "fixed_native_stockfish16_commit": "68e1e9b3811e16cad014b590d7443b9063b3eb52",
+    "source_native_PIN_chess_legality_modified": false,
+    "original_pristine_Stockfish16_reference_engine_processes": 64,
+    "site_operator_instrumented_treated_Stockfish16_processes": 640,
+    "original_plus_modified_actual_native_SF16_processes": 704,
+    "original_new_season_distinct_source_game_ids": 64,
+    "source_pin_root_worlds": 64,
+    "five_arms": [
+      "OFF",
+      "SEE_UNMASK",
+      "WQ_OWN",
+      "WQ_ENEMY",
+      "WQ_BOTH"
+    ],
+    "evaluator": "Use NNUE=false CLASSICAL",
+    "search_settings": "Threads=1 Hash=16MiB MultiPV=1 depth12",
+    "sham_new_S28_original_OFF_vs_separate_compiled_clean_stockfish": "64/64 PASS",
+    "all_treated_arms_two_independent_cold_repeats": "320/320 PASS",
+    "no_source_event_fired_but_output_changed": "0/ALL NEGATIVE CONTROL PASS",
+    "source_native_engine_changes_are_whole_tree_software_operator_interventions": true,
+    "search_root_pin_specific_object_causality_certified": false,
+    "S29_discovery_signatures": 11,
+    "S28_independent_season_signatures": 12,
+    "S29_S28_shared_fourbit_signatures": 9,
+    "observed_fourbit_patterns_union": 14,
+    "possible_patterns_for_four_binary_interventions": 16,
+    "S28_new_patterns": [
+      "0111",
+      "1100",
+      "1110"
+    ],
+    "S28_root_move_response_distribution": {
+      "1000": 1,
+      "1011": 2,
+      "1100": 1,
+      "1110": 1,
+      "1111": 5,
+      "0000": 38,
+      "0001": 5,
+      "0010": 1,
+      "0011": 3,
+      "0100": 4,
+      "0101": 2,
+      "0111": 1
+    },
+    "S28_64_game_roots_with_any_root_bestmove_changed": 26,
+    "S28_distinct_FEN_with_any_root_bestmove_changed": 25,
+    "branch_arm_effects": {
+      "SEE_UNMASK": {
+        "branch_fired_roots": 63,
+        "operator_fire_events": 44583,
+        "bestmove_changed": 10,
+        "unfired_negative_controls": 1
+      },
+      "WQ_OWN": {
+        "branch_fired_roots": 55,
+        "operator_fire_events": 88600,
+        "bestmove_changed": 14,
+        "unfired_negative_controls": 9
+      },
+      "WQ_ENEMY": {
+        "branch_fired_roots": 58,
+        "operator_fire_events": 151425,
+        "bestmove_changed": 13,
+        "unfired_negative_controls": 6
+      },
+      "WQ_BOTH": {
+        "branch_fired_roots": 58,
+        "operator_fire_events": 201216,
+        "bestmove_changed": 18,
+        "unfired_negative_controls": 6
+      }
+    },
+    "S29_40_source_baseline_profile_counts": {
+      "1000": 2,
+      "1001": 2,
+      "1011": 1,
+      "1101": 1,
+      "1111": 5,
+      "0000": 22,
+      "0001": 2,
+      "0010": 2,
+      "0011": 1,
+      "0100": 1,
+      "0101": 1
+    },
+    "WQ_individual_none_joint_alters_bestmove": {
+      "S29_40_roots": 4,
+      "S28_64_roots": 5
+    },
+    "WQ_one_alone_alters_bestmove_joint_does_not": {
+      "S29_40_roots": 3,
+      "S28_64_roots": 7
+    },
+    "new_native_run_artifact_id": 11599173387,
+    "new_native_ZIP_SHA256": "703a69f1fc3dc85e777c42a33c52f3030756a620ce584b4c6f890faaeada9f61",
+    "new_native_JSON_SHA256": "86bcbaa3e5e974834b35c35e387b1255e6369ca708c65f8d260d44faa359acd9",
+    "internal_ZIP_member_check": "15/15 PASS",
+    "Drive_file_id": "1Bg8ha-MiXxSL9KXozLV5u3-eQwRrz_Yv",
+    "Drive_url": "https://drive.google.com/file/d/1Bg8ha-MiXxSL9KXozLV5u3-eQwRrz_Yv/view",
+    "native_driver": "harness/c3x_014_TCEC_S28_season_disjoint_PIN_5arm_native_transfer.py"
+  },
+  "cross_season_negative_predictive_court": {
+    "completed_real_GitHub_actions_url": "https://github.com/WhoSia/C3X/actions/runs/37894203991",
+    "state": "SUCCESS",
+    "law_ontology_union_35_real_chess_rules_not_35_learned_nnue_types": true,
+    "four_predeclared_S29_repeat_law_type_groups_new_S28_roots": 32,
+    "retrospective_S29_law_group_majority_pattern_predicted_S28_correct": 6,
+    "trivial_no_operator_bestmove_change_pattern_0000_correct": 16,
+    "S29_same_law_observed_pattern_set_contains_S28_response": 9,
+    "method_limit": "Simple S29 majority signature per law group is a RETROSPECTIVE stress diagnostic, NOT separately precommitted predicted numerical model before reading S28 outcomes.",
+    "important_new_negative_evidence": "Software event response patterns replicate in a different season but same-law geometry alone fails to predict which response occurs; context/search path dominates or interacts.",
+    "repeated_group_detail": [
+      {
+        "law": "PAWN,QUEEN,DIAGONAL,ZERO,no_pinner_capture",
+        "S29_roots": 5,
+        "S28_roots": 13,
+        "S29_law_majority_hits": 4,
+        "S29_law_set_hits": 6
+      },
+      {
+        "law": "PAWN,QUEEN,FILE,NONZERO,no_pinner_capture",
+        "S29_roots": 4,
+        "S28_roots": 8,
+        "S29_law_majority_hits": 0,
+        "S29_law_set_hits": 1
+      },
+      {
+        "law": "ROOK,QUEEN,DIAGONAL,ZERO,no_pinner_capture",
+        "S29_roots": 2,
+        "S28_roots": 3,
+        "S29_law_majority_hits": 2,
+        "S29_law_set_hits": 2
+      },
+      {
+        "law": "PAWN,ROOK,FILE,NONZERO,no_pinner_capture",
+        "S29_roots": 3,
+        "S28_roots": 8,
+        "S29_law_majority_hits": 0,
+        "S29_law_set_hits": 0
+      }
+    ],
+    "original_S28_duplicate_FEN_two_games_causal_5arm_results_exact_equal": true,
+    "exact_chess_position_S29_S28_overlap": 0,
+    "artifact_id": 11599945112,
+    "ZIP_SHA256": "2abf87abe1e5c017900c70d346f6fed215adefaad7001d81c428da895cd3396a",
+    "raw_cross_season_JSON_SHA256": "76b89ba40ea8eefd1562feddae1dd4a96278f990098fe4c2cd13cf414eb23a53",
+    "ZIP_member_sha": "8/8 PASS",
+    "Drive_file_id": "1FUXPiaEZJvKoZnpflId_TEAwoh-FOu64",
+    "Drive_url": "https://drive.google.com/file/d/1FUXPiaEZJvKoZnpflId_TEAwoh-FOu64/view",
+    "source": "harness/c3x_014_S29_S28_pin_law_fiber_cross_season_audit.py"
+  },
+  "proposed_next": "Within C3X0.14, precommit new source-provider/non-TCEC sample and root-targeted causal source operator interventions; expose search context and node/completedDepth at same law type. 0.15 remains proposed NOT OPEN until independently validated object-conditioned root mediation/transport. Larger count of output or chess-law types alone is insufficient.",
+  "epistemic_certificates": {
+    "native_software_operator_branch_intervention_causes_some_search_output_changes": "PASS",
+    "different_TCEC_source_season_game_cohort_reobserves_operator_sensitivity_patterns": "PASS_SCOPED",
+    "same_legal_pin_type_predicts_causal_operator_response_across_seasons": "FAIL_ON_RETROSPECTIVE_4GROUP_STRESS",
+    "root_PIN_specific_concept_fiber_causal_identification": "HOLD",
+    "new_provider_cross_chess_ecology_validation": "HOLD",
+    "independent_engine_family_homologous_operator_validation": "HOLD",
+    "intrinsic_nnue_latent_strategy_nodes": "HOLD",
+    "faithful_human_explanation_validation": "HOLD"
+  }
+}
