@@ -1,0 +1,114 @@
+{
+  "schema": "c3x019-P0-orthogonal-native-tenbyte-payload-versus-shadow-writer-epoch-falsification-v1",
+  "date": "2026-10-10",
+  "status": "SOURCE_NATIVE_ADAPTIVE_IDENTIFICATION_TRAP_CONFIRMED",
+  "engine": "Stockfish16 68e1e9b3811e16cad014b590d7443b9063b3eb52",
+  "case": {
+    "cohort_month": "January 2026",
+    "game_id": 2,
+    "source_role": "STRICT",
+    "root_calls": [
+      4,
+      5
+    ],
+    "physical": {
+      "key64": "10822490400377030283",
+      "slot": 0,
+      "old_epoch": 1,
+      "new_epoch": 2,
+      "old_writer_serial": 60,
+      "new_writer_serial": 130
+    },
+    "old_raw_depth": 0,
+    "new_raw_depth": 1,
+    "raw_tt_value": -89,
+    "bound": 2,
+    "raw_static_eval": -284
+  },
+  "protocol": "c3x/ontology/c3x-019-P0-payload-versus-shadow-tag-identifiability-precommit.md",
+  "native": {
+    "run": 37996723901,
+    "conclusion": "success",
+    "artifact_id": 11647590584,
+    "archive_sha256": "2b689558b630904076b4010e616fed34a22ef6f2238be0b0e0fe9db02b2d3a04",
+    "json_file": "C3X019_TT_BYTES_SHADOW_NATIVE_USE_FACTORIAL.json",
+    "json_sha256": "ede876cf38414b6c3694d7be3718cc28ddf6caa7f069769acb77f5a0e3eaf425",
+    "member_sha256_tested": 21,
+    "all_members_sha256_valid": true,
+    "cold_repeats_per_arm": 2,
+    "arms": 10
+  },
+  "results": {
+    "baseline_bestmove": "e1e4",
+    "after_first_suppression_original_modified_core": {
+      "nodes": 73369,
+      "bestmove": "e1e4"
+    },
+    "second_source_V_block_by_policy": {
+      "NONE": false,
+      "SKIP": true,
+      "REINSTATE": true,
+      "BYTES_ONLY": false,
+      "SHADOW_ONLY": true
+    },
+    "native_second_value_assignment_by_policy": {
+      "NONE": true,
+      "SKIP": true,
+      "REINSTATE": true,
+      "BYTES_ONLY": true,
+      "SHADOW_ONLY": true
+    },
+    "source_second_writer_probe": {
+      "NONE": {
+        "epoch": 2,
+        "raw_depth": 1
+      },
+      "SKIP": {
+        "epoch": 1,
+        "raw_depth": 0
+      },
+      "REINSTATE": {
+        "epoch": 1,
+        "raw_depth": 0
+      },
+      "BYTES_ONLY": {
+        "epoch": 2,
+        "raw_depth": 0
+      },
+      "SHADOW_ONLY": {
+        "epoch": 1,
+        "raw_depth": 1
+      }
+    },
+    "shadow_only_raw_payload_witness_mismatch": true,
+    "bytes_only_shadow_native_mismatch": true,
+    "full_writer_V_second_block_prevents_actual_native_second_assignment": true,
+    "full_writer_with_second_allowed_actual_tt_use": true,
+    "bestmove_unchanged_every_arm": true
+  },
+  "verdicts": {
+    "ID0": "PASS",
+    "ID1": "PASS",
+    "ID2": "PASS_TRAP_CONFIRMED",
+    "ID3": "PASS_CONVERSE_TRAP_CONFIRMED",
+    "ID4": "PASS",
+    "ID5": "NOT_TESTED_THIS_COURT; prior 0.18 sham exists"
+  },
+  "central_correction": "Source V reader_block at second root proves old-epoch-matching intervention GATE fired and native TT value use was suppressed; it does NOT prove a physically old writer was causally required for the engine to actually use the cached TT value. Actual native main-search eval=ttValue occurred at second root call even when TT shadow writer advanced to epoch2. Tag-only restoration caused old-epoch V gate to block despite raw depth writer shadow mismatch; conversely old 10B payload restoration with epoch2 did not cause old-epoch V gate to block. Therefore the original claim 'loss of physical target V contact implies native second TT use disappeared' is INVALIDATED in this source case.",
+  "historical_status": {
+    "actual_depth_driven_TTEntry_save_decision": "RETAINS_SUPPORT",
+    "shadow_writer_version_updated_from_epoch1_to_epoch2": "RETAINS_SUPPORT",
+    "restored_old_V_gate_eligibility": "RETAINS_SUPPORT",
+    "restored_natural_native_TT_use_was_required": "NOT_SUPPORTED; counterexample",
+    "root_choice_mediation": "NOT_ESTABLISHED",
+    "independent_January_J2_J3_J4": "FAIL_RETAINED",
+    "unbounded_P1_R5": "FAIL_RETAINED"
+  },
+  "limits": [
+    "One adaptively selected January source game, not independent holdout",
+    "SHADOW_ONLY and BYTES_ONLY deliberately inconsistent analytical state, not natural engine histories",
+    "Real assignment watcher observes main-search eval=ttValue after branch executed, not full search outcome causality",
+    "Actual TT cached score same -89 across old/new versions, so numerical equivalence is not writer identity",
+    "Do not extrapolate genuine native TT consumption persistence from one case to all 29 prior attrition arms without an all-arm audit"
+  ]
+}
