@@ -1,0 +1,47 @@
+{
+  "schema": "c3x015-P5-TWIC-R2-native-root-SEE-x-post-source-TT-return-factorial-20261009-v1",
+  "status": "NATIVE_512_FACTORIAL_INTERACTION_SCOPED_PASS_SINGLE_TT_MEDIATOR_HOLD",
+  "run": "https://github.com/WhoSia/C3X/actions/runs/37911397054",
+  "head_sha": "250567ae997cca9b856ad0a3362ed3fcf9fdebc7",
+  "source_r2_manifest_sha256": "1e932aa881eaef549c770211c078d930cd8d675e5688644e1bc36ab31bae4534",
+  "prior_P2_outcome_sha256": "e930f0b489301c656690d09f4821583a28eead04e43382b545bda35b71279256",
+  "prior_signed_contract": "c3x/ontology/c3x-015-P5-TT-return-factorial-SEE-source-interaction-precommit-NOT-EXECUTED.md",
+  "P5_raw_outcome_sha256": "9f941e0e3e6045e3f40820c4ef66ae2f107f2b19c5931103fbf7cc087559b192",
+  "artifact_zip_sha256": "b7444cb7efc9f5a0631d08a7c031df7d9d4587ac48f41a000f92ec8c77aade09",
+  "member_shas": "12/12_PASS",
+  "upstream_sf16_commit": "68e1e9b3811e16cad014b590d7443b9063b3eb52",
+  "experimental_unit": "64 original source game and FEN distinct positions, original R2 unaltered",
+  "native_engine_search_processes": 512,
+  "conditions_per_game": {
+    "SEE_OFF_TT_ALLOW": 2,
+    "SEE_ON_TT_ALLOW": 2,
+    "SEE_OFF_TT_BLOCK_AFTER_FIRST_ELIGIBLE_SITE": 2,
+    "SEE_ON_TT_BLOCK_AFTER_FIRST_ELIGIBLE_SITE": 2
+  },
+  "exact_cold_conditions": "256/256",
+  "normal_tt_P2_original_and_see_outcomes_equal": "64/64",
+  "original_root_SEE_source_firing_unchanged": true,
+  "normal_TT_SEE_effect_bestmove_flips": 11,
+  "blocked_TT_SEE_effect_bestmove_flips": 12,
+  "effect_contingency": {
+    "both_flip": 5,
+    "normal_only": 6,
+    "blocked_only": 7,
+    "neither": 46
+  },
+  "TT_return_regime_impact_without_SEE_games": 9,
+  "TT_return_regime_impact_with_SEE_games": 16,
+  "TT_blocked_return_total_with_SEE": 571160,
+  "actual_block_condition_eligible_source_roots": 51,
+  "no_effect_when_source_never_eligible": "13/13",
+  "statistical_interpretation": "13/64 have different binary root SEE response between TT regimes. Although response identity changes substantially, the net responder count is +1 (12 vs11). This is bounded operational interaction rather than proof of any particular reader causally mediating the original SEE effect.",
+  "methodological_ceiling": [
+    "First source eligibility triggers TT suppression; source intervention and TT regime change behavior of selective alpha-beta search but do not alter legal moves",
+    "Broadly suppressing many TT returns is a high-dose manipulation: 571160 blocked returns in SEE treated conditions; not evidence for one necessary writer or consumer",
+    "Original P2 64-world C1 primary accuracy 42/64 remains below B0 53/64 and was NOT refit",
+    "Frozen source cohort 11 tournament events with source provider TWIC; cannot claim transport to new engine architectures or NNUE hidden features",
+    "After disclosed P2 outcomes; interaction contrast was sealed as P5 but not independently blind to prior P2 root behaviors",
+    "Do not conflate practical search-policy effect with the true objective chess merit of a move"
+  ],
+  "next": "P6 must single out an exactly matched full64-key TT writer->reader event with sham, writer class, bound, depth and alpha-beta window and test source intervention via narrowly controlled return toggle; do not claim event-level necessity yet."
+}
