@@ -1,0 +1,43 @@
+name: C3X 0.18 January TT Pair Source-Event Survival Audit
+on:
+  push:
+    paths:
+      - 'harness/c3x_018_january_pair_source_contact_survival_audit.py'
+      - '.github/workflows/c3x-018-jan-pair-survival-audit.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  all-thirty-one-pair-event-ancestry:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Retrieve complete fixed new January native game data
+        uses: actions/download-artifact@v4
+        with:
+          name: c3x-018-jan16-physical-TT-cross-window-pair-court
+          path: source/
+          repository: WhoSia/C3X
+          run-id: '37992496427'
+          github-token: ${{ github.token }}
+      - name: Audit precommitted root calls versus actual physical TT consumed events
+        run: |
+          set -euo pipefail
+          mkdir -p evidence
+          test "$(sha256sum source/JAN2026_CROSS_WINDOW_TT_PAIR_HOLDOUT.json | cut -d' ' -f1)" = 9d7ff1d8c5e019a5ab5b95441468da0ad49951adc756b8669db7853b82649470
+          python -m py_compile harness/c3x_018_january_pair_source_contact_survival_audit.py
+          python harness/c3x_018_january_pair_source_contact_survival_audit.py \
+            --native source/JAN2026_CROSS_WINDOW_TT_PAIR_HOLDOUT.json \
+            --out evidence/JAN_PAIR_ACTUAL_READ_SURVIVAL.json | tee evidence/STDOUT.txt
+          sha256sum evidence/JAN_PAIR_ACTUAL_READ_SURVIVAL.json > evidence/RESULT_SHA256.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x-018-january-pair-physical-reader-survival-audit
+          path: evidence/
+          retention-days: 90
+          if-no-files-found: error
