@@ -1,0 +1,100 @@
+{
+  "schema": "c3x018-january2026-all31-physical-TT-writer-replacement-epoch-probe-verified-v1",
+  "date": "2026-10-10",
+  "study_type": "POST_HOC_MECHANISM_TAXONOMY_AFTER_INDEPENDENT_JANUARY_J2_J3_J4_FAIL",
+  "source_cohort_sha256": "5b49818e4678c12d0e5e73eba39eff2d50742b070a0ed870cba1d3e94afe0533",
+  "source_native_sha256": "9d7ff1d8c5e019a5ab5b95441468da0ad49951adc756b8669db7853b82649470",
+  "native": {
+    "run": 37993971370,
+    "conclusion": "SUCCESS",
+    "artifact_id": 11646546499,
+    "zip_sha256": "63bafe45a54a10856910a7c1a1d4c1a90b2fd7be2702978e049437135ff0ea48",
+    "full_json_sha256": "db5a780f463f88a87e222868a36c132aef4640020128210fb253d9a9bb323a88",
+    "all_members_sha256_valid": true
+  },
+  "denominator": {
+    "frozen_games": 16,
+    "strict_eligible": 15,
+    "broad_eligible": 16,
+    "selector_arms_total": 31,
+    "physically_distinct_game_key_slot_epoch_call_pairs": 25,
+    "selector_arms_with_second_reader_lost": 29,
+    "distinct_pairs_with_second_reader_lost": 23,
+    "selector_arms_both_readers_blocked": 2
+  },
+  "exact_source_verdicts": {
+    "TAX1_EPOCH_CHURN_PREDOMINANCE": "PASS",
+    "TAX2_FULL_KEY_MATCH": "PASS",
+    "TAX3_HISTORICAL_OUTCOME_NONINTERFERENCE": "PASS",
+    "TAX4_DENOMINATOR": "PASS"
+  },
+  "mechanism": {
+    "root_call_second_still_entered_in_lost_arms": 29,
+    "TT_same_full64_key_probed_at_second_call_lost_arms": 29,
+    "TT_native_hit": 29,
+    "TT_physical_slot_same": 29,
+    "shadow_full64_writer_key_match": 29,
+    "TT_slot_local_epoch_exactly_incremented_by_one": 29,
+    "current_writer_serial_strictly_larger": 29,
+    "TT_raw_bound_identical": 29,
+    "TT_cached_static_eval_identical": 29,
+    "TT_raw_search_value_identical": 27,
+    "TT_raw_search_depth_changed": 26,
+    "old_epoch_original_last_writer_consumer_blocked_in_BOTH": 0,
+    "all31_full_six_field_UCI_PAIR_identical_to_FIRST_only": true
+  },
+  "exemplar_game2_STRICT": {
+    "frozen_tt_target": {
+      "key64": "10822490400377030283",
+      "slot": 0,
+      "epoch": 1
+    },
+    "passive_source_root_calls": [
+      4,
+      5
+    ],
+    "baseline_rootcall5": {
+      "native_hit": true,
+      "epoch": 1,
+      "last_writer_serial": 60,
+      "raw_depth": 0,
+      "raw_value": -89,
+      "raw_bound": 2,
+      "raw_eval": -284,
+      "alpha": -120,
+      "beta": -119
+    },
+    "first_suppression_then_rootcall5": {
+      "native_hit": true,
+      "epoch": 2,
+      "last_writer_serial": 130,
+      "raw_depth": 1,
+      "raw_value": -89,
+      "raw_bound": 2,
+      "raw_eval": -284,
+      "alpha": -120,
+      "beta": -119
+    },
+    "interpretation": "the first selected TT value-as-eval suppression causes a new accepted writer version at the same full64 key and physical slot before the second root call; original key-slot-epoch target is no longer the currently consumed version."
+  },
+  "control_examples": {
+    "game6_BROAD": {
+      "dual_source_readers_fired": 2,
+      "TT_epoch_remained": 3,
+      "root_bestmove_flip": false
+    },
+    "game16_STRICT": {
+      "dual_source_readers_fired": 2,
+      "TT_epoch_remained": 2,
+      "root_bestmove_flip": false
+    }
+  },
+  "scope_limits": [
+    "All 29 are role-arm observations with repeated STRICT/BROAD physical pairs; 23 distinct affected pairs",
+    "The extra accepted write epoch is a causal consequence under selected first V intervention but the exact upstream writing rule is not fully isolated",
+    "Native ttHit uses key16 tag; source separate shadow full64 key, physical slot and writer serial verify actual writer identity",
+    "In 27/29 cases raw stored score is unchanged despite writer version changing, so score equality cannot certify same writer",
+    "Original independent January J2 J3 J4 FAIL and December prior pair discovery are not retroactively rescued",
+    "No cross-engine natural TT mediation or generic chess concept law proven"
+  ]
+}
