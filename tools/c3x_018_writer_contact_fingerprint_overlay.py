@@ -44,9 +44,13 @@ def patch_tt(s):
                   << " prior_bound=" << prior_bound
                   << " prior_value=" << prior_value << sync_endl;
         c3x018_event("writer_block",''',"SITE")
-    s=once(s,
-       "c3x018_writer_block(k, this, c3x018_would_payload_write)",
-       "c3x018_writer_block(k, this, c3x018_would_payload_write,\n"
+    bare="c3x018_writer_block(k, this, c3x018_would_payload_write)"
+    payload="c3x018_writer_block(\n      k, this, c3x018_would_payload_write)"
+    options=[form for form in (bare,payload) if s.count(form)==1]
+    if len(options)!=1:
+        raise RuntimeError(f"C3X018_FINGERPRINT_CALL_ANCHOR_COUNT_{len(options)}")
+    s=once(s,options[0],
+       "c3x018_writer_block(\n      k, this, c3x018_would_payload_write,\n"
        "      int(m), int(d), int(b), int(v), int(move16),\n"
        "      int(depth8) + int(DEPTH_OFFSET), int(genBound8 & 3), int(value16))",
        "CALL")
