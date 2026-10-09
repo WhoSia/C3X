@@ -1,0 +1,123 @@
+{
+  "schema": "c3x016-P4-source-only-Lichess12-standalone-FEN-3x4-external-opportunity-cohort-v1",
+  "date_kst": "2026-10-09",
+  "stage": "P4_P0_SOURCE_FROZEN_BEFORE_ANY_ENGINE_SEARCH_RESULTS",
+  "original_source_provider": "Lichess 2026-06 broadcast PGN, 36,996 source games",
+  "original_source_sha256": "65905d611c0d78d90ab57cd9edd3821f4119b46c22b5489fd7e265a74c6767b3",
+  "original_P2_private_24_game_selection_manifest_sha256": "21e5b06c1da0708bc94400c92952feb1628eb12563c8e17fcce4cd036e6ffaf9",
+  "full_Go_source_selector_output_SHA256": "08bf2179e141ba6a862314660298fa90fa61c3d377e46accc07bd4c5d9cacae2",
+  "source_case_selection": "Select 3 lexicographically smallest SHA256(GameURLhash, actual legal ply index, source-only opportunity kind) among actual played legal moves per kind, with no reused game for 12 rows, from source-blind 24-game parent; each original game must be complete Go SAN legal.",
+  "source_case_family_labels": [
+    "SKEWER_RAY",
+    "INTERFERENCE_RAY",
+    "DEFENDER_REMOVAL_RAY",
+    "NO_MOTIF_RAY_OPPORTUNITY"
+  ],
+  "original_source_game_count": 12,
+  "cases": [
+    {
+      "id": "S1",
+      "motif": "SKEWER_RAY",
+      "fen": "2rk3r/2p5/1p1p4/3P4/4QP2/2P4q/PP2R3/4K3 b - -",
+      "played_uci": "h3h1",
+      "source_ply": 90,
+      "source_short_hash": "03a9674a9865"
+    },
+    {
+      "id": "S2",
+      "motif": "SKEWER_RAY",
+      "fen": "8/6p1/7p/Q7/3kpq2/1P6/P5PP/6K1 w - -",
+      "played_uci": "a5b4",
+      "source_ply": 93,
+      "source_short_hash": "0f889801bc38"
+    },
+    {
+      "id": "S3",
+      "motif": "SKEWER_RAY",
+      "fen": "1b1rr1k1/5pp1/R1pp1q1p/1p6/3PPn2/5NNP/1P1Q1PP1/4R1K1 b - -",
+      "played_uci": "f4h3",
+      "source_ply": 50,
+      "source_short_hash": "10ba3ddd4b7b"
+    },
+    {
+      "id": "I1",
+      "motif": "INTERFERENCE_RAY",
+      "fen": "6k1/3R1p1p/2p2Qp1/p3p3/P3q3/6PK/5P1P/1r6 b - -",
+      "played_uci": "e4f5",
+      "source_ply": 72,
+      "source_short_hash": "0c1ee661d2e6"
+    },
+    {
+      "id": "I2",
+      "motif": "INTERFERENCE_RAY",
+      "fen": "rq1r2k1/p1p2p1p/2p1p1p1/2P1R3/1P6/3B4/P1QB1PPP/6K1 b - -",
+      "played_uci": "d8d5",
+      "source_ply": 44,
+      "source_short_hash": "0faec4457cb9"
+    },
+    {
+      "id": "I3",
+      "motif": "INTERFERENCE_RAY",
+      "fen": "6k1/1b2bppp/p3p3/2p4n/2PnN3/2NB3P/PP3PPB/6K1 w - -",
+      "played_uci": "e4d6",
+      "source_ply": 53,
+      "source_short_hash": "141c83953e6e"
+    },
+    {
+      "id": "D1",
+      "motif": "DEFENDER_REMOVAL_RAY",
+      "fen": "r4rk1/p3ppbp/bq1p2p1/3Pn3/1p1NP3/4B2P/PP2BPP1/R2QR1K1 b - -",
+      "played_uci": "a6e2",
+      "source_ply": 34,
+      "source_short_hash": "002e3a587bdd"
+    },
+    {
+      "id": "D2",
+      "motif": "DEFENDER_REMOVAL_RAY",
+      "fen": "2k2r2/pp1rp2p/1bp1b1p1/4p1Pn/4P2P/1PP2P1B/P1K5/R1B2N1R b - -",
+      "played_uci": "e6h3",
+      "source_ply": 42,
+      "source_short_hash": "07581ab09d4d"
+    },
+    {
+      "id": "D3",
+      "motif": "DEFENDER_REMOVAL_RAY",
+      "fen": "r3k2r/ppp1qp2/3p1n1p/4n1p1/3pP3/P4BBP/1PP2PP1/R2Q1RK1 b kq -",
+      "played_uci": "e5f3",
+      "source_ply": 30,
+      "source_short_hash": "08182339383c"
+    },
+    {
+      "id": "N1",
+      "motif": "NO_MOTIF_RAY_OPPORTUNITY",
+      "fen": "8/8/p3nN2/2P1P1k1/1K3p2/P6p/5B2/5b2 w - -",
+      "played_uci": "f2g1",
+      "source_ply": 105,
+      "source_short_hash": "0054f163ce44"
+    },
+    {
+      "id": "N2",
+      "motif": "NO_MOTIF_RAY_OPPORTUNITY",
+      "fen": "3R4/1p2r1k1/2p2pq1/7p/1P3Q2/4P2P/5PP1/6K1 b - -",
+      "played_uci": "g6f7",
+      "source_ply": 108,
+      "source_short_hash": "00911f3a198e"
+    },
+    {
+      "id": "N3",
+      "motif": "NO_MOTIF_RAY_OPPORTUNITY",
+      "fen": "2k1rbnr/ppP2Q1p/6p1/5p2/1q4P1/3p4/PP1NpPBP/2R1K2R b - -",
+      "played_uci": "e8e5",
+      "source_ply": 50,
+      "source_short_hash": "0099fd205ac2"
+    }
+  ],
+  "constraints": [
+    "Original FEN has exactly four fields and 0 1 will be added solely as standalone Stockfish runtime counters; ORIGINAL game repetition/rule50 history NOT preserved in the standalone test",
+    "Human's historical played move and source geometry label are NOT a proof of tactical advantage nor a Stockfish explanation",
+    "Source selection before native search outputs and interventions; NEVER substitute cases after failed outcome",
+    "Three no-ray controls are negative only for three PRECISE source-geometry detectors on actually played moves, not blank chess tactics or no strategic plan",
+    "Separate external-provider prospective engine outcome study from prior post-P6-developed TWIC two-case TT court"
+  ],
+  "court": "C3X016_P4_P0_12_STANDALONE_FEN_SOURCE_COHORT_FROZEN / ORIGINAL_GAME_HISTORY_RUNTIME_INCOMPLETE / ENGINE_OUTCOMES_UNSEEN"
+}
