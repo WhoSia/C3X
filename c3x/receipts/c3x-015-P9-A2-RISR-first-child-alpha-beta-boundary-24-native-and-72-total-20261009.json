@@ -1,0 +1,113 @@
+{
+  "schema": "c3x015-P9-A2-RISR-first-qchild-alpha-beta-24-native-boundary-v1",
+  "generation": "C3X 0.15 OPEN, C3X 0.16 NOT OPEN",
+  "last_successful_run": "https://github.com/WhoSia/C3X/actions/runs/37927609148",
+  "original_failed_compile_run": "https://github.com/WhoSia/C3X/actions/runs/37927504992",
+  "failure_cause": "P9-A2 new target source helper used before original P9-A1 function definition, fixed forward declaration; no treatment outcomes seen in failed compile",
+  "original_P9_A1_result_sha256": "0a0a40d891af736491ecbfb92dee145c969b853d6e1ac43495beb202e905ec17",
+  "source_sf16_commit": "68e1e9b3811e16cad014b590d7443b9063b3eb52",
+  "new_native_processes": 24,
+  "cold_pairs": 12,
+  "source_worlds": 2,
+  "source_arms_per_world": 6,
+  "original_qsearch_child_return_value": -59,
+  "one_time_target_boundaries": [
+    129,
+    130,
+    131
+  ],
+  "world29_original_qsearch_alpha": 130,
+  "world29_original_qsearch_beta": 131,
+  "no_contact_case2_shams": 6,
+  "exact_target_case29_value_replacements": 6,
+  "root_bestmove_change_against_prior_P9A1_B": 0,
+  "case29": {
+    "OFF": [
+      {
+        "value": 129,
+        "bestmove": "f3e5",
+        "final_cp": 4,
+        "nodes": 50516,
+        "delta_nodes_vs_B": -24768
+      },
+      {
+        "value": 130,
+        "bestmove": "f3e5",
+        "final_cp": 4,
+        "nodes": 50516,
+        "delta_nodes_vs_B": -24768
+      },
+      {
+        "value": 131,
+        "bestmove": "f3e5",
+        "final_cp": 22,
+        "nodes": 77115,
+        "delta_nodes_vs_B": 1831
+      }
+    ],
+    "SEE_ON": [
+      {
+        "value": 129,
+        "bestmove": "f3e5",
+        "final_cp": 4,
+        "nodes": 60899,
+        "delta_nodes_vs_B": 1091
+      },
+      {
+        "value": 130,
+        "bestmove": "f3e5",
+        "final_cp": 4,
+        "nodes": 60899,
+        "delta_nodes_vs_B": 1091
+      },
+      {
+        "value": 131,
+        "bestmove": "f3e5",
+        "final_cp": 22,
+        "nodes": 77115,
+        "delta_nodes_vs_B": 17307
+      }
+    ],
+    "interpretation": "Artificial qsearch child score crossing at beta131 changes final recorded score and search nodes, but not the root bestmove. This is source-program numerical and search-cost sensitivity without root categorical preference sensitivity."
+  },
+  "case2_no_contact": {
+    "OFF": {
+      "bestmove": "d1e2",
+      "final_cp": 43,
+      "nodes": 94796
+    },
+    "SEE_ON": {
+      "bestmove": "d1d2",
+      "final_cp": 54,
+      "nodes": 65172
+    },
+    "source_intervention_fired": 0,
+    "interpretation": "All D129 D130 D131 arms are exact source-disabled controls, preserving prior P9A1 B native UCI."
+  },
+  "artifact": {
+    "id": 11614398674,
+    "github_sha256": "958d977b7a32a84aee6ae4b18bf6ef9bebecc648e476626928dee5972164869b",
+    "result_member_sha256": "d3877eb286de30613df134b328cadd7541538bb4e04deff63bf44dacf91595ae",
+    "drive_file_id": "1h3JKKyRfGacMi7m1s-3MUGlqn2gs9kJv",
+    "drive_url": "https://drive.google.com/file/d/1h3JKKyRfGacMi7m1s-3MUGlqn2gs9kJv/view",
+    "bytes": 33355,
+    "drive_raw_byte_sha_verified": true
+  },
+  "overall_P9": {
+    "A1_native_processes": 48,
+    "A2_native_processes": 24,
+    "total_native_processes": 72,
+    "source_worlds": 2,
+    "distinct_source_chess_games": 2,
+    "split_scope": "SOURCE_FROZEN_TWO_OUTCOME_DISCLOSED_WORLDS",
+    "preregistered_nine_treatments_complete": true,
+    "prospective_generalization_not_proven": true
+  },
+  "ceiling": [
+    "Neither threshold values nor selective source branch gates approximate an oracle perfect chess value.",
+    "No final bestmove change in G/W/L/D across these source trials does not certify absent TT causal effects elsewhere.",
+    "The 3 cross-category STS FEN duplicates must be grouped during future multi-motif heldout partitions.",
+    "C3X P1 C1 overall accuracy 42/64 versus B0 53/64 remains failed.",
+    "No NNUE learned tactical/strategic features identified."
+  ]
+}
