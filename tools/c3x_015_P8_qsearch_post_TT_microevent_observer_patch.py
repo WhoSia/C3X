@@ -87,8 +87,8 @@ std::string c3x015_p8_events_summary(){
                     c3x015_p8_qevent(posKey,int(ss->ply),9,int(alpha),int(beta),int(value),int(move));
                     break; // Fail high
                 }""","Q_ALPHA_OR_BETA")
- q=sub(q,"    // Save gathered info in transposition table\n    tte->save(posKey,",
-         "    c3x015_p8_qevent(posKey,int(ss->ply),10,int(alpha),int(beta),int(bestValue),int(bestMove));\n    // Save gathered info in transposition table\n    tte->save(posKey,","Q_TT_SAVE")
+ q=sub(q,"    // Save gathered info in transposition table\n",
+         "    c3x015_p8_qevent(posKey,int(ss->ply),10,int(alpha),int(beta),int(bestValue),int(bestMove));\n    // Save gathered info in transposition table\n","Q_TT_SAVE")
  q=sub(q,"    return bestValue;\n  }\n\n\n",
          "    c3x015_p8_qevent(posKey,int(ss->ply),11,int(alpha),int(beta),int(bestValue),int(bestMove));\n    return bestValue;\n  }\n\n\n","Q_COMPLETE_RETURN")
  # Note: source-exact return vs bypass difference is witnessed by source MARK
