@@ -1,0 +1,22 @@
+# C3X 0.16 — P4 Root-Candidate Ordering on Independent Non-Pin Source Cohort (PRE-OUTCOME)
+
+**Status:** Protocol precommitted before NEW Stockfish source outcomes. **Fixed source**: Lichess broadcast June 2026 archive SHA256 `65905d611c0d78d90ab57cd9edd3821f4119b46c22b5489fd7e265a74c6767b3`; P2 24 event-disjoint authentic legal SAN games, 2038 validated played plies. The P4 *standalone* 12-source-FEN cohort was selected from P2 legal mainlines using only the played-move geometry labels; 3 each `SKEWER_RAY`, `INTERFERENCE_RAY`, `DEFENDER_REMOVAL_RAY`, `NO_MOTIF_RAY_OPPORTUNITY`, all source game URL hashes distinct. Original 12-source JSON byte SHA256 `08bf2179e141ba6a862314660298fa90fa61c3d377e46accc07bd4c5d9cacae2`. No bestmove, score, Stockfish search contact or %eval informed selection.
+
+**Primitive question:** Does changing only the initial *root candidate ordering* for the played legal move, with the same root move set, alter Stockfish16's choice (categorical), evaluation score/bound, search cost (nodes), or root PV? Do distinct geometry-based categories show different response? A motif name itself is NOT a Stockfish source representation, and this experiment does **not** prove a forcing tactic, a beneficial strategy or a SEE-specific learned mechanism.
+
+**Pinned source:** Stockfish16 `sf_16` HEAD `68e1e9b3811e16cad014b590d7443b9063b3eb52`; Use NNUE=false, Hash16MiB, Threads1, MultiPV1, classical evaluation, depth12, cold engine per search, same compiler/build in all arms. C++ patch at one exactly identified `Thread::search` entry point, *after* the true legally generated rootMoves list exists, *before* first iterative-depth search. Do NOT edit move legality, Position::see_ge, evaluation, TT, alpha–beta, PV scoring or the set of root moves.
+
+**Three arms per source position:**
+- **O = source untouched ordering:** observer source check of full 4-field FEN, legal original candidate presence; no reordering. This must exactly reproduce the unmodified upstream engine binary's UCI bestmove/score/nodes/PV when separately compared.
+- **F = frozen played legal candidate moved to FIRST:** use `std::rotate` once to move only that exact native Move to index0 while retaining order of all other rootMoves. If already first, report `ALREADY_FIRST` explicitly, do not replace that world after observing. Altered index and actual contact count recorded.
+- **Z = impossible native sentinel move:** target missing from rootMoves; exact no-contact, must reproduce O core bit for bit.
+
+**72 new native processes:** 12 frozen FEN × three arms O/F/Z × two cold runs. Preserve all arms, even when F is already first. Independent Go legal certificate of the P2 selected move and FEN original is inherited; standalone FEN lacks repetition/rule50 history, so claims of authentic original search-history transport are prohibited.
+
+**Primary outcomes:** first actual source reordering contact, pre-index, FEN guard success, candidate legal-in-root confirmation; UCI bestmove, score kind and bound, cp/mate value, nodes, PV and exact cold replicate. Focus comparisons: `F != O` on (bestmove, score, nodes, PV) and `Z == O` across complete core. Source motif groups are small (3 per) and selected through opportunity labels only; group mean/regression is exploratory and must not be presented as representative or significant general chess law. Report each individual case and zero-effect cases.
+
+**Technical STOP conditions:** Upstream source commit mismatch; frozen JSON SHA drift; root FEN nonidentity/illegal selected move; multiple patch firings; no-op Z not identical to O; cold mismatch; illegal bestmove; any UCI traces missing. If root target already first, root order effect must be NO-ORDER-CHANGE, not interpreted as causal null for meaningful move-to-front.
+
+**Scientific ceilings:** Even if F changes the bestmove, this is **root ordering intervention causality**, not source contact of the human tactical motif, SEE causal mediation, the proof of a profitable tactical concept, long-horizon strategy, NNUE learned features or cross-engine transfer. Existing 0.16 P3 physical TT 2×2 controlled effects are independent historical-development evidence and remain separate.
+
+**Court before outcomes:** `C3X016_P4_ROOT_ORDER_12_NONPIN_SOURCE_ONLY_PRECOMMITTED / 72_NATIVE_NOT_YET_EXECUTED / MULTIMOTIF_OPERATOR_SEMANTICS_HOLD / 0.16_ACTIVE`.
