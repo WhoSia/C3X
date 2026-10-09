@@ -1,0 +1,51 @@
+name: C3X 0.18 Case1 Alpha Screening Source Certificate
+on:
+  push:
+    paths:
+      - 'harness/c3x_018_case1_alpha_competition_source_certificate.py'
+      - '.github/workflows/c3x-018-case1-alpha-screen-certificate.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  exact-first-root-window:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Pull frozen complete root genealogy artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: c3x-018-case1-history-search-root-genealogy
+          path: root/
+          repository: WhoSia/C3X
+          run-id: '37985160343'
+          github-token: ${{ github.token }}
+      - name: Pull exact native cycle / draw G D GD treatment artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: c3x-018-case1-exact-source-draw-cycle-gates
+          path: gate/
+          repository: WhoSia/C3X
+          run-id: '37986469033'
+          github-token: ${{ github.token }}
+      - name: Run original native case1 source candidate alpha competition certificate
+        run: |
+          set -euo pipefail
+          mkdir -p evidence
+          python -m py_compile harness/c3x_018_case1_alpha_competition_source_certificate.py
+          python -u harness/c3x_018_case1_alpha_competition_source_certificate.py \
+            --root-native root/CASE1_FEN6_VS_REAL_PGN_GENEALOGY.json \
+            --gate-native gate/CASE1_EXACT_CYCLE_DRAW_DIAGNOSTIC.json \
+            --out evidence/CASE1_ALPHA_COMPETITION_SCREEN_CERTIFIED.json | tee evidence/STDOUT.txt
+          sha256sum evidence/*.json > evidence/MEMBER_SHA256.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x-018-case1-native-alpha-screen-source-certificate
+          path: evidence/
+          retention-days: 90
+          if-no-files-found: error
