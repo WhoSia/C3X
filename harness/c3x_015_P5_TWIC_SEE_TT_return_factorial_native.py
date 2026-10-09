@@ -112,7 +112,7 @@ def main():
     summary[see+'__'+regime]={'uci':core(z),'source_fire':z['guard']['target_fired'],
       'tt_event_counts':z['tt_regime'],
       'first_eligible_search_ordinal':w['first_search_ordinal'],
-      'first_eligible_position_key':w['first_pos_key'],
+      'first_eligible_position_key':w['first_key'],
       'pre_source_hash':w['prefix_fnv64'],
       'post_4096_search_entry_stream_sha256':sha(w['stream'].encode()),
       'post_4096_search_entries':w['post_search_entries']}
