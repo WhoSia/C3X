@@ -96,6 +96,11 @@ def run(binary,fen,pair,history,arm):
                   "main_tt_eval_reads","main_alpha_beta_move_cutoffs","main_tt_save_terminal"):
             if mc[n]<0:raise RuntimeError("Negative engine counter")
         out["native_tt"]=tt;out["native_completed"]=nt;out["mechanism_path"]=mc
+        lineage=[z for z in lines if z.startswith("info string c3x014_slot_provenance ")]
+        if len(lineage)>1:raise RuntimeError("DUPLICATE_TT_SLOT_PROVENANCE")
+        if lineage:
+            out["slot_writer_summary"]={k:int(v) for k,v in
+                (entry.split("=",1) for entry in lineage[0].split()[3:])}
     return out
 def semantic(r):
     return {k:r[k] for k in ("bestmove","ranks","signed_white_cp_gap","exact_numeric_cp")}
