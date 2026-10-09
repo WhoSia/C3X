@@ -1,0 +1,373 @@
+{
+  "schema": "c3x018-source-exact-TT-writer-suppression-nine-dose-native-receipt-v1",
+  "date": "2026-10-10",
+  "version": "C3X 0.18 ACTIVE",
+  "engine": "official-stockfish sf_16 commit 68e1e9b3811e16cad014b590d7443b9063b3eb52",
+  "run": 37975799551,
+  "workflow_conclusion": "success",
+  "head_sha": "9689fee5cbccbe28a40b4ffacd33666d57bf03a8",
+  "artifact_id": 11639385418,
+  "artifact_zip_sha256": "29f03d3d5efe71e52163418a7015214b12ffcbfd8de24880e139a57cdd95adeb",
+  "native_result_file": "FOCAL_WRITER_DOSE_6_8.json",
+  "native_result_sha256": "94194070fe2713110f61e0dbdfd0a99ab5179e121f3258b7dba75c39ea155b3e",
+  "member_sha256_verified": true,
+  "presealed_prior_single_write_receipt": "c3x/receipts/c3x-018-physical-TT-epoch-sticky-vs-single-write-native-falsification-20261010.json",
+  "target_source": "F-only exact full64 writer-consumer selected on prior experiment, prior published fixed source candidate, same 2 source FEN, not independent",
+  "conditions": [
+    "OBS O",
+    "OBS F",
+    "OBS Z",
+    "decoy W-128 no-contact",
+    "W-budget 0,1,2,4,8,16,32,64,128 each twice cold"
+  ],
+  "case6": {
+    "original_O": {
+      "bestmove": "c3a4",
+      "cp": 45,
+      "nodes": 64459
+    },
+    "root_order_F": {
+      "bestmove": "e4d6",
+      "cp": 13,
+      "nodes": 90055
+    },
+    "target": {
+      "key64": "3293258168769270517",
+      "slot": 0,
+      "epoch": 2
+    },
+    "budget_to_actual_blocks": [
+      [
+        0,
+        0
+      ],
+      [
+        1,
+        1
+      ],
+      [
+        2,
+        2
+      ],
+      [
+        4,
+        4
+      ],
+      [
+        8,
+        8
+      ],
+      [
+        16,
+        16
+      ],
+      [
+        32,
+        23
+      ],
+      [
+        64,
+        23
+      ],
+      [
+        128,
+        23
+      ]
+    ],
+    "budget_to_bestmove": [
+      [
+        "0",
+        "e4d6"
+      ],
+      [
+        "1",
+        "e4d6"
+      ],
+      [
+        "2",
+        "c3a4"
+      ],
+      [
+        "4",
+        "c3a4"
+      ],
+      [
+        "8",
+        "c3a4"
+      ],
+      [
+        "16",
+        "c3a4"
+      ],
+      [
+        "32",
+        "e4d6"
+      ],
+      [
+        "64",
+        "e4d6"
+      ],
+      [
+        "128",
+        "e4d6"
+      ]
+    ],
+    "budget_to_cp": [
+      [
+        0,
+        13
+      ],
+      [
+        1,
+        13
+      ],
+      [
+        2,
+        36
+      ],
+      [
+        4,
+        27
+      ],
+      [
+        8,
+        22
+      ],
+      [
+        16,
+        8
+      ],
+      [
+        32,
+        17
+      ],
+      [
+        64,
+        17
+      ],
+      [
+        128,
+        17
+      ]
+    ],
+    "budget_to_nodes": [
+      [
+        0,
+        90055
+      ],
+      [
+        1,
+        90051
+      ],
+      [
+        2,
+        47989
+      ],
+      [
+        4,
+        48276
+      ],
+      [
+        8,
+        64605
+      ],
+      [
+        16,
+        99379
+      ],
+      [
+        32,
+        50645
+      ],
+      [
+        64,
+        50645
+      ],
+      [
+        128,
+        50645
+      ]
+    ],
+    "interpretation": "ROOT_CHOICE_REENTRANCE_OBSERVED_GRID, NOT MONOTONIC"
+  },
+  "case8": {
+    "original_O": {
+      "bestmove": "e6h3",
+      "cp": 66,
+      "nodes": 63764
+    },
+    "root_order_F": {
+      "bestmove": "h5g7",
+      "cp": 40,
+      "nodes": 53106
+    },
+    "target": {
+      "key64": "14544738779862901516",
+      "slot": 0,
+      "epoch": 1
+    },
+    "budget_to_actual_blocks": [
+      [
+        0,
+        0
+      ],
+      [
+        1,
+        1
+      ],
+      [
+        2,
+        2
+      ],
+      [
+        4,
+        4
+      ],
+      [
+        8,
+        8
+      ],
+      [
+        16,
+        16
+      ],
+      [
+        32,
+        32
+      ],
+      [
+        64,
+        64
+      ],
+      [
+        128,
+        74
+      ]
+    ],
+    "budget_to_bestmove": [
+      [
+        "0",
+        "h5g7"
+      ],
+      [
+        "1",
+        "h5g7"
+      ],
+      [
+        "2",
+        "e6h3"
+      ],
+      [
+        "4",
+        "e6h3"
+      ],
+      [
+        "8",
+        "e6h3"
+      ],
+      [
+        "16",
+        "e6h3"
+      ],
+      [
+        "32",
+        "e6h3"
+      ],
+      [
+        "64",
+        "e6h3"
+      ],
+      [
+        "128",
+        "e6h3"
+      ]
+    ],
+    "budget_to_cp": [
+      [
+        0,
+        40
+      ],
+      [
+        1,
+        40
+      ],
+      [
+        2,
+        45
+      ],
+      [
+        4,
+        27
+      ],
+      [
+        8,
+        36
+      ],
+      [
+        16,
+        49
+      ],
+      [
+        32,
+        65
+      ],
+      [
+        64,
+        58
+      ],
+      [
+        128,
+        72
+      ]
+    ],
+    "budget_to_nodes": [
+      [
+        0,
+        53106
+      ],
+      [
+        1,
+        53106
+      ],
+      [
+        2,
+        53859
+      ],
+      [
+        4,
+        74988
+      ],
+      [
+        8,
+        68598
+      ],
+      [
+        16,
+        46161
+      ],
+      [
+        32,
+        49195
+      ],
+      [
+        64,
+        25189
+      ],
+      [
+        128,
+        27624
+      ]
+    ],
+    "interpretation": "ALL_TESTED_BUDGETS_WITH_2PLUS_CONTACTS_FLIP_CATEGORICAL_BESTMOVE; SCORES_NODES_NONMONOTONIC"
+  },
+  "claim_limits": [
+    "Root move categorical flips do not identify specific TT consumer pathways or sole natural mediation",
+    "Budget is first N matching suppressed writes of fixed key/slot/local epoch, path dependent; not total TT reads",
+    "Source save suppression also blocks move16 field update and may alter downstream search, not isolated score mediation",
+    "No guarantee TT shadow per-slot epoch from different worlds is intrinsically same causal event",
+    "No independent target selection, independent games or engines",
+    "9 finite doses, not complete continuum; case6 transition inside 16-23 not yet measured",
+    "Stockfish depth12 Threads1 Hash16 NNUE off standalone FEN (no full original repetition history)",
+    "Repeated cold outputs and provider source hashes should be inspected in native ZIP before derivative paper claims"
+  ]
+}
