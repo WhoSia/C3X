@@ -88,6 +88,15 @@ def play(engine, world, p4_mode, lineage_mode=None, target=None, writer_budget=N
             events.append({k:(v if k in ("kind","site") else int(v)) for k,v in evt.items()})
     need(events, "NO_LINEAGE_EVENTS")
     need(not any(x["kind"]=="trace_censored" for x in events), "TRACE_CENSORED")
+    fingerprints=[]
+    for line in lines:
+        if line.startswith("info string c3x018_write_fingerprint "):
+            fingerprints.append({k:int(v) for k,v in parse_fields(line).items()})
+    root_events=[]
+    for line in lines:
+        if line.startswith("info string c3x017_root_event "):
+            raw=parse_fields(line)
+            root_events.append({k:(v if k=="kind" else int(v)) for k,v in raw.items()})
     roots=[parse_fields(x) for x in lines if x.startswith("info string c3x016_p4_root_order ")]
     need(len(roots)==1 and roots[0]["mode"]==p4_mode,"P4_ROOT_CONTACT_MISSING")
     return {
@@ -104,6 +113,8 @@ def play(engine, world, p4_mode, lineage_mode=None, target=None, writer_budget=N
        },
        "consumer_records":[e for e in events if e["kind"]=="consumer_reached"],
        "blocks":[e for e in events if e["kind"] in ("writer_block","reader_block")],
+       "write_fingerprints":fingerprints,
+       "root_events":root_events,
        "root_contact":roots[0]}
 
 def stable(t):
