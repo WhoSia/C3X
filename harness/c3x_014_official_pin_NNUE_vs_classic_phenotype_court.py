@@ -16,7 +16,7 @@ def sha(p):return hashlib.sha256(Path(p).read_bytes()).hexdigest()
 def must(x,msg):
     if not x:raise RuntimeError(msg)
 
-def native(engine_path,history,pinned_square,mode,capture_pin_trace=False):
+def native(engine_path,history,pinned_square,mode,capture_pin_trace=False,capture_root_eval=False):
     board=chess.Board()
     for u in history:
         m=chess.Move.from_uci(u)
@@ -77,6 +77,10 @@ def native(engine_path,history,pinned_square,mode,capture_pin_trace=False):
             name,value=kv.split("=",1)
             trace[name]=int(value)
         from c3x_014_pin_native_trace_fields import PIN_FIELDS
+        if capture_root_eval:
+            from c3x_014_pin_root_eval_trace_fields import PIN_ROOT_FIELDS
+            must(set(trace)==set(PIN_FIELDS)|set(PIN_ROOT_FIELDS),"NATIVE_PIN_ROOT_SITE_AND_PSQ_TRACE_FIELDS")
+            last["native_pin_root_eval"]={k:trace.pop(k) for k in PIN_ROOT_FIELDS}
         must(set(trace)==set(PIN_FIELDS),"NATIVE_PIN_TRACE_FIELDS_INCOMPLETE")
         must(all(v>=0 for v in trace.values()),"NEGATIVE_NATIVE_PIN_EVENT_COUNT")
         last["native_pin_trace"]=trace
