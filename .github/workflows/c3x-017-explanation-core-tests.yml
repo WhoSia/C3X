@@ -4,6 +4,8 @@ on:
     paths:
       - 'src/explanation/explanation_core.mjs'
       - 'src/explanation/explanation_core.test.mjs'
+      - 'src/explanation/source_event_alignment.mjs'
+      - 'src/explanation/source_event_alignment.test.mjs'
       - '.github/workflows/c3x-017-explanation-core-tests.yml'
   workflow_dispatch:
 permissions:
@@ -17,7 +19,7 @@ jobs:
         with:
           node-version: '22'
       - name: Evidence-typed chess explanation tests
-        run: node --test src/explanation/explanation_core.test.mjs
+        run: node --test src/explanation/explanation_core.test.mjs src/explanation/source_event_alignment.test.mjs
       - name: Read-only audit no GitHub Actions commit
         run: |
           test -s c3x/ontology/c3x-017-root-order-to-TT-window-provenance-and-explanation-authority.md
