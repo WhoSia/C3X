@@ -22,7 +22,13 @@ def filehash(path):return hashlib.sha256(Path(path).read_bytes()).hexdigest()
 def check(ok,why):
     if not ok:raise RuntimeError(why)
 def match_old(old,new,arm):
-    check(semantic(old)==semantic(new),"SOURCE_FROZEN_UCI_SHAM_OR_INTERVENTION_OUTPUT_DIFFERS_"+arm)
+    if semantic(old)!=semantic(new):
+        for field in ("bestmove","signed_white_cp_gap","exact_numeric_cp","ranks"):
+            if old[field]!=new[field]:
+                print("C3X014_BASELINE_DIAGNOSTIC",arm,field,
+                      "historical",json.dumps(old[field],sort_keys=True),
+                      "new",json.dumps(new[field],sort_keys=True),flush=True)
+        raise RuntimeError("SOURCE_FROZEN_UCI_SHAM_OR_INTERVENTION_OUTPUT_DIFFERS_"+arm)
     if arm!="CLEAN":
         for key in ("native_tt","native_completed"):
             check(old[key]==new[key],"PRIOR_NATIVE_COUNTER_DRIFT_"+key+"_"+arm)
