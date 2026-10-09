@@ -105,7 +105,7 @@ def main():
                   flush=True)
         output["cases"].append(row)
     need([x["id"] for x in output["cases"]]==list(range(1,13)),"DENOMINATOR")
-    valid=[c for c in output["cases"] for cell in c["depths"] if cell["status"]=="VALID"]
+    valid=[cell for c in output["cases"] for cell in c["depths"] if cell["status"]=="VALID"]
     cells=[cell for c in output["cases"] for cell in c["depths"]]
     def flips(rank,depth):
         return sum(cell["target_ranks"].get(str(rank),{}).get("bestmove_changed",False)
