@@ -16,10 +16,10 @@ def main():
  q.add_argument("--out-manifest",required=True)
  args=q.parse_args()
  root=Path(args.source)/"src"
- names=["tt.cpp","position.cpp","search.cpp"]
+ names=["tt.cpp","position.cpp","search.cpp","c3x014_pin_trace.h"]
  files={n:root/n for n in names}
  before={n:p.read_bytes() for n,p in files.items()}
- tt,pos,search=(before[n].decode() for n in names)
+ tt,pos,search,header=(before[n].decode() for n in names)
  tt=one(tt,"static thread_local int c3x015_writer_tag=0;",
     """static thread_local int c3x015_writer_tag=0;
 extern bool c3x016_exact_writer_allow(std::uint64_t,int,int,int,int,std::uint64_t);""","GATE_DECL")
@@ -76,11 +76,13 @@ r""" c3x015_p11=C3X015P11{};
  if(std::strcmp(wrmode,"W1")==0)c3x016_wr.assigned=1;
  else if(std::strcmp(wrmode,"W0")==0)c3x016_wr.assigned=0;
  else std::abort();""","STATE_RESET")
+ header=one(header,"std::string c3x015_p11_root_relay_summary();",
+    "std::string c3x015_p11_root_relay_summary();\nstd::string c3x016_writer_factor_report();","HEADER")
  search=one(search,
  '  sync_cout << "info string c3x015_p11_root_relay " << c3x015_p11_root_relay_summary() << sync_endl;',
  '  sync_cout << "info string c3x015_p11_root_relay " << c3x015_p11_root_relay_summary() << sync_endl;\n  sync_cout << "info string c3x016_writer_factor " << c3x016_writer_factor_report() << sync_endl;',
  "REPORT")
- for n,s in zip(names,(tt,pos,search)):files[n].write_text(s)
+ for n,s in zip(names,(tt,pos,search,header)):files[n].write_text(s)
  report={"schema":"c3x016-P3-one-frozen-natural-TT-writer-source-ghost-ordinal-v1",
   "component":"TWO_CASE_DEVELOPMENT_2x2_ONE_EXACT_PHYSICAL_TT_WRITER_AND_ORIGINAL_P6S1_READER",
   "source_before_sha256":{n:hashlib.sha256(before[n]).hexdigest() for n in names},
