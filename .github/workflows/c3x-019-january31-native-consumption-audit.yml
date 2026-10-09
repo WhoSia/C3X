@@ -83,7 +83,7 @@ jobs:
           git -C "$root" diff -- src/ > evidence/SF16_C3X019_JAN31_NATIVE_SOURCE.diff
           make -s -C "$root/src" -j2 build ARCH=x86-64
           sha256sum "$root/src/stockfish" > evidence/BINARY_SHA256.txt
-      - name: Full sixteen frozen January games and thirty-one source roles: original V gate versus true native TT value assignment
+      - name: "Full January source: V-gate and true native TT evaluation assignment"
         run: |
           set -euo pipefail
           python -u harness/c3x_019_January31_original_pair_native_use_survival.py \
