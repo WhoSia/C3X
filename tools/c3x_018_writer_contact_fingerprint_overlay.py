@@ -28,7 +28,7 @@ def patch_tt(s):
        "                         int proposed_value, int prior_move, int prior_depth,\n"
        "                         int prior_bound, int prior_value) {","IMPL")
     s=once(s,
-       '        ++c3x018_writer_blocks;\n        c3x018_event("writer_block",',
+       '        ++c3x018_writer_blocks;',
        '''        ++c3x018_writer_blocks;
         sync_cout << "info string c3x018_write_fingerprint"
                   << " contact=" << c3x018_writer_blocks
@@ -42,8 +42,7 @@ def patch_tt(s):
                   << " prior_move=" << prior_move
                   << " prior_depth=" << prior_depth
                   << " prior_bound=" << prior_bound
-                  << " prior_value=" << prior_value << sync_endl;
-        c3x018_event("writer_block",''',"SITE")
+                  << " prior_value=" << prior_value << sync_endl;''',"SITE")
     bare="c3x018_writer_block(k, this, c3x018_would_payload_write)"
     payload="c3x018_writer_block(\n      k, this, c3x018_would_payload_write)"
     options=[form for form in (bare,payload) if s.count(form)==1]
