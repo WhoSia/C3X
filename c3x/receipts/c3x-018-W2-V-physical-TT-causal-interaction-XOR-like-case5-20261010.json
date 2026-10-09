@@ -1,0 +1,99 @@
+{
+  "schema": "c3x018-source-W2-V-combined-physical-TT-interaction-native-v1",
+  "verified_date": "2026-10-10",
+  "version": "C3X 0.18 ACTIVE",
+  "source_commit": "68e1e9b3811e16cad014b590d7443b9063b3eb52",
+  "run": 37980104077,
+  "conclusion": "success",
+  "artifact_id": 11640332405,
+  "artifact_zip_sha256": "f0d40d23a935b389ed0675a136b6b0d0ac02ff96fd81e94bfc9928df5ad1da08",
+  "native_json": "W2_V_WV_NESTED_SOURCE_2_5.json",
+  "native_json_sha256": "29dd6a7324efa6e26b4e85a19f58e11d4acfc627b94a194837570d2024167da5",
+  "all_member_sha256_verified": true,
+  "scope": {
+    "worlds": [
+      2,
+      5
+    ],
+    "frozen_source": true,
+    "cold_repeats": true,
+    "O_Z_no_contact_exact": true,
+    "impossible_key_WV_decoy_no_contact_exact": true,
+    "interventions": [
+      "F",
+      "W2",
+      "V",
+      "WV"
+    ]
+  },
+  "case2": {
+    "F": {
+      "bestmove": "a5b4",
+      "score_cp": 0,
+      "nodes": 38941
+    },
+    "W2": {
+      "bestmove": "a5e1",
+      "score_cp": 0,
+      "nodes": 51979,
+      "writer_blocks": 2,
+      "V_reader_blocks": 0
+    },
+    "V": {
+      "bestmove": "a5e1",
+      "score_cp": 0,
+      "nodes": 51979,
+      "writer_blocks": 0,
+      "V_reader_blocks": 1
+    },
+    "WV": {
+      "bestmove": "a5e1",
+      "score_cp": 0,
+      "nodes": 51979,
+      "writer_blocks": 2,
+      "V_reader_blocks": 1
+    },
+    "categorical_pattern": "OR-LIKE_GIVEN_FIXED_TREATMENT_ASSIGNMENTS",
+    "W2_V_WV_full_final_core_exact_equal": true
+  },
+  "case5": {
+    "F": {
+      "bestmove": "d8d5",
+      "score_cp": -200,
+      "nodes": 74259
+    },
+    "W2": {
+      "bestmove": "d8d4",
+      "score_cp": -209,
+      "nodes": 83219,
+      "writer_blocks": 2,
+      "V_reader_blocks": 0
+    },
+    "V": {
+      "bestmove": "d8d4",
+      "score_cp": -209,
+      "nodes": 83219,
+      "writer_blocks": 0,
+      "V_reader_blocks": 1
+    },
+    "WV": {
+      "bestmove": "d8d5",
+      "score_cp": -203,
+      "nodes": 83848,
+      "writer_blocks": 2,
+      "V_reader_blocks": 1
+    },
+    "categorical_pattern": "XOR-LIKE_GIVEN_FIXED_TREATMENT_ASSIGNMENTS",
+    "joint_operators_both_fired": true,
+    "interaction_score_cp_against_additive_operator_contrast": 15,
+    "WV_restores_baseline_bestmove_but_not_full_baseline_core": true
+  },
+  "scientific_boundary": [
+    "A physical writer-targeted source blockage and a bound-conditioned evaluation reader blockage can antagonize: case5 each singly flips F bestmove, their combination preserves F bestmove.",
+    "Observed two-operator truth table is XOR-like (case5) vs OR-like (case2), only under a fixed finite intervention grid, not a claim about natural logic gates.",
+    "Both operators physically fired even in combined case5. It is not a no-contact artifact.",
+    "V and W2 are not necessarily operating on the same recursive call despite shared key/slot/epoch; suppression changes subsequent path and source epoch identities.",
+    "Same final bestmove after WV case5 does not reconstruct original F evaluation/nodes/PV.",
+    "Selection targeted cases already V/W2-sensitive; no generalization to entire engine or other source worlds without new court."
+  ]
+}
