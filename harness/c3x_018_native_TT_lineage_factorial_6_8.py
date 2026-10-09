@@ -38,11 +38,12 @@ def core(raw):
     need(len(best)==1 and best[0]==rows[-1]["pv"][0], "MISSING_BESTMOVE")
     return {"bestmove":best[0],**rows[-1]}
 
-def play(engine, world, p4_mode, lineage_mode=None, target=None, writer_budget=None):
+def play(engine, world, p4_mode, lineage_mode=None, target=None, writer_budget=None, rescue_attempt=None):
     env = dict(os.environ)
     for name in ("C3X018_TT_MODE", "C3X018_TT_TARGET_KEY64",
                  "C3X018_TT_TARGET_SLOT", "C3X018_TT_TARGET_EPOCH",
-                 "C3X018_TT_LOG_WRITES", "C3X018_TT_WRITER_BLOCK_BUDGET"):
+                 "C3X018_TT_LOG_WRITES", "C3X018_TT_WRITER_BLOCK_BUDGET",
+                 "C3X018_TT_RESCUE_ATTEMPT"):
         env.pop(name,None)
     if lineage_mode is not None:
         env.update(C3X016_P4_MODE=p4_mode,C3X016_P4_FEN4=world["fen4"],
@@ -51,6 +52,10 @@ def play(engine, world, p4_mode, lineage_mode=None, target=None, writer_budget=N
         if writer_budget is not None:
             need(isinstance(writer_budget,int) and 0<=writer_budget<=256,"INVALID_WRITER_BUDGET")
             env["C3X018_TT_WRITER_BLOCK_BUDGET"]=str(writer_budget)
+        if rescue_attempt is not None:
+            need(isinstance(rescue_attempt,int) and 1<=rescue_attempt<=256,
+                 "INVALID_RESCUE_ATTEMPT")
+            env["C3X018_TT_RESCUE_ATTEMPT"]=str(rescue_attempt)
         if target:
             env.update(C3X018_TT_TARGET_KEY64=str(target["key64"]),
                        C3X018_TT_TARGET_SLOT=str(target["slot"]),
@@ -106,6 +111,7 @@ def play(engine, world, p4_mode, lineage_mode=None, target=None, writer_budget=N
            "consumer_reached":sum(e["kind"]=="consumer_reached" for e in events),
            "writer_block":sum(e["kind"]=="writer_block" for e in events),
            "reader_block":sum(e["kind"]=="reader_block" for e in events),
+           "writer_rescue":sum(e["kind"]=="writer_rescue" for e in events),
            "exact_key_consumers":sum(e["kind"]=="consumer_reached" and
                                       e.get("key_match")==1 for e in events),
            "key16_or_unknown_consumers":sum(e["kind"]=="consumer_reached" and
@@ -113,6 +119,7 @@ def play(engine, world, p4_mode, lineage_mode=None, target=None, writer_budget=N
        },
        "consumer_records":[e for e in events if e["kind"]=="consumer_reached"],
        "blocks":[e for e in events if e["kind"] in ("writer_block","reader_block")],
+       "rescues":[e for e in events if e["kind"]=="writer_rescue"],
        "write_fingerprints":fingerprints,
        "root_events":root_events,
        "root_contact":roots[0]}
