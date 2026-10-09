@@ -1,0 +1,16 @@
+[package]
+name = "c3x-cswp-verify"
+version = "0.1.0"
+edition = "2021"
+publish = false
+license = "MIT"
+description = "Independent Rust verifier of C3X 0.15 native TT-return causal experiments"
+
+[dependencies]
+serde_json = "1"
+sha2 = "0.10"
+
+[profile.release]
+lto = "thin"
+codegen-units = 1
+panic = "abort"
