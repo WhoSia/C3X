@@ -1,0 +1,126 @@
+{
+  "schema": "c3x-016-P1-legal-response-multimotif-STS-and-Lichess-TWIC-sourceonly-v1",
+  "date_kst": "2026-10-09",
+  "generation": "C3X 0.16 OPEN on new primitive question, C3X 0.15 P11 source court remains separate and LIVE",
+  "source_originals": {
+    "STS": {
+      "name": "STS1-STS15_LAN_v3.epd",
+      "private_drive_id": "1_E9eYKmITOmRO4aeKN8OqCLz2_7iAHmJ",
+      "sha256": "d7a33ae6cf2fb5f3f18ef1b904cca07dce2cd0458edcf60644f59d4d9e28c07b",
+      "bytes": 288513,
+      "rows": 1500,
+      "distinct_4field_FEN": 1497,
+      "cross_STS_category_duplicates": 3
+    },
+    "LichessJune": {
+      "name": "lichess_db_broadcast_2026-06.pgn.zst",
+      "private_drive_id": "1pOjLBWsBGqwvAUIXXjeqdTrmONVU4I1l",
+      "sha256": "65905d611c0d78d90ab57cd9edd3821f4119b46c22b5489fd7e265a74c6767b3",
+      "compressed_bytes": 22797518,
+      "decompressed_bytes": 157225402,
+      "zstd_integrity": "PASS"
+    },
+    "TWIC1665": {
+      "private_drive_id": "1ev8if_NPdF-7LdbBFPqKe-J2r_IHOnV-",
+      "zip_sha256": "23097bbf152d9afed810890456027ce639719f7a4ef4c723898730d391b347b3",
+      "source_pgn_private_license": true
+    }
+  },
+  "sampling": {
+    "algorithm": "Deduplicate exact 4-field FEN across all STS sections in document order, assign first source section, select 8 lexicographically smallest SHA256(4-field FEN) per each of fifteen original groups; NEVER access bm/c0/c7/c8/c9/eval/results in selection",
+    "sample_size": 120,
+    "preselected_groups": 15,
+    "rows_per_group": 8,
+    "claim": "deterministic source-only benchmark probe, not source-random independent chess game cohort"
+  },
+  "legal_generator": {
+    "language": "Go standard library",
+    "source": "Drive reproducibility bundle",
+    "test": "go test PASS",
+    "published_PERFT_validation": [
+      {
+        "name": "startpos",
+        "d1": 20,
+        "d2": 400,
+        "d3": 8902
+      },
+      {
+        "name": "Kiwipete",
+        "d1": 48,
+        "d2": 2039,
+        "d3": 97862
+      },
+      {
+        "name": "Position3",
+        "d1": 14,
+        "d2": 191,
+        "d3": 2812
+      },
+      {
+        "name": "Position5",
+        "d1": 44,
+        "d2": 1486,
+        "d3": 62379
+      }
+    ],
+    "extra_regression": [
+      "illegal pinned-rook sideways move excluded",
+      "illegal en-passant exposing king to rook excluded"
+    ],
+    "limitation": "Custom legal generator meets chosen published perft reference counts but lacks independent full position-by-position library consensus for original STS sample"
+  },
+  "skewer": {
+    "legal_root_moves_examined": 4678,
+    "distinct_root_moves_with_new_ray_skewer": 1007,
+    "post_legal_first_move_xray_skewer_candidate_contacts": 1132,
+    "all_legal_opponent_response_branches_examined": 42466,
+    "all_responses_leave_immediate_legal_rear_capture_by_same_slider": 0,
+    "interpretation": "A strict and very narrow two-ply criterion; does NOT show no true skewers or no profitable forcing alternatives"
+  },
+  "interference": {
+    "legal_quiet_interposing_move_breaks_enemy_slider_defense_ray_pairs": 225,
+    "distinct_root_moves": 176
+  },
+  "defender_removal": {
+    "legal_capture_removes_pseudo_defender_pair_and_leaves_victim_attacked": 154,
+    "distinct_root_moves": 116
+  },
+  "other_legal_defender_responses_examined": 12144,
+  "lichess_source_tag_census": {
+    "games_with_standard_variant": 36996,
+    "source_tag_games": 36996,
+    "unique_GameURL_hashes": 36996,
+    "duplicate_gameURL_hashes": 0,
+    "missing_GameURL": 0,
+    "twic_source_tag_games": 5766,
+    "exact_normalized_Date_White_Black_overlap": 0,
+    "limited_conclusion": "No overlap under this metadata key, but same player/game-source lineage and exact move identities must still be audited; no chess moves certified yet"
+  },
+  "artifact": {
+    "private_drive_url": "https://drive.google.com/file/d/1k3OS4GSaE2MqH5zdv1QNHYLAuNZOk7rF/view",
+    "private_drive_file_id": "1k3OS4GSaE2MqH5zdv1QNHYLAuNZOk7rF",
+    "sha256": "f6f9085fa3232cbc14cafd3453cfea4d9c01e28de7cd762ce850f12d473570f5",
+    "bytes": 21025,
+    "zip_integrity": "PASS",
+    "contained": [
+      "engine.go",
+      "engine_test.go",
+      "main.go",
+      "other_motifs.go",
+      "audit_broadcast_sourceonly.py",
+      "P1_README_SOURCE_ONLY.md",
+      "three source-only JSON receipts",
+      "P1_FILE_SHA256.txt"
+    ],
+    "raw_licensed_PGN_or_STS_redistributed": false
+  },
+  "scientific_claim_limits": [
+    "Candidate motifs are not exact tactical benefits, nor engine computational strategy labels",
+    "One-ply reply enumeration does not evaluate deep tactical force, minimax or positional horizon",
+    "Pseudo defensive protection can count pinned defenders and is not legal-defender equivalence",
+    "Lichess broadcast PGN includes eval/result tags that were intentionally not read for cohort selection; independent PGN SAN legality/whole-move duplicates still HOLD",
+    "No native Stockfish source intervention on an independent skewer/interference/strategy candidate yet",
+    "C3X 0.15 prospective model C1 primary accuracy FAIL 42/64 versus null B0 53/64 preserved"
+  ],
+  "court": "C3X016_P1_STS_120_SOURCE_FIXED_GO_LEGAL_ROOT_AND_DEFENDER_RESPONSE_SCOPED_PASS / LEGAL_SKEWER_CONTACT_1132_NONFORCED_ONEPLY_0 / DEFENDER_INTERFERENCE_225_REMOVAL_154_OPPORTUNITY_ONLY / LICHESS_JUNE_ORIGINAL_SHA_AND_36996_SOURCE_META_PASS / EXTERNAL_OPERATOR_CAUSAL_COURT_HOLD"
+}
