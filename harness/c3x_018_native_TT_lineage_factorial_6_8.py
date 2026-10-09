@@ -38,17 +38,19 @@ def core(raw):
     need(len(best)==1 and best[0]==rows[-1]["pv"][0], "MISSING_BESTMOVE")
     return {"bestmove":best[0],**rows[-1]}
 
-def play(engine, world, p4_mode, lineage_mode=None, target=None, writer_budget=None, rescue_attempt=None):
+def play(engine, world, p4_mode, lineage_mode=None, target=None, writer_budget=None, rescue_attempt=None, discovery=False):
     env = dict(os.environ)
     for name in ("C3X018_TT_MODE", "C3X018_TT_TARGET_KEY64",
                  "C3X018_TT_TARGET_SLOT", "C3X018_TT_TARGET_EPOCH",
                  "C3X018_TT_LOG_WRITES", "C3X018_TT_WRITER_BLOCK_BUDGET",
-                 "C3X018_TT_RESCUE_ATTEMPT"):
+                 "C3X018_TT_RESCUE_ATTEMPT", "C3X018_TT_DISCOVERY"):
         env.pop(name,None)
     if lineage_mode is not None:
         env.update(C3X016_P4_MODE=p4_mode,C3X016_P4_FEN4=world["fen4"],
                    C3X016_P4_PLAYED_NATIVE=str(world["native_move"]),
                    C3X018_TT_MODE=lineage_mode)
+        if discovery:
+            env["C3X018_TT_DISCOVERY"]="1"
         if writer_budget is not None:
             need(isinstance(writer_budget,int) and 0<=writer_budget<=256,"INVALID_WRITER_BUDGET")
             env["C3X018_TT_WRITER_BLOCK_BUDGET"]=str(writer_budget)
