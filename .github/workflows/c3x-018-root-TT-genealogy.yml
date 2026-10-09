@@ -1,0 +1,76 @@
+name: C3X 0.18 Root Aspiration TT Ancestry
+on:
+  push:
+    paths:
+      - 'tools/c3x_018_root_TT_genealogy_overlay.py'
+      - 'harness/c3x_018_root_call_TT_genealogy_native.py'
+      - '.github/workflows/c3x-018-root-TT-genealogy.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  native-source-root-tt:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Python source syntax
+        run: |
+          python -m py_compile tools/c3x_018_root_TT_genealogy_overlay.py
+          python -m py_compile harness/c3x_018_root_call_TT_genealogy_native.py
+      - name: Pin P4 original native tuple
+        uses: actions/download-artifact@v4
+        with:
+          name: c3x-016-P4-12-Lichess-root-order-72-native
+          path: baseline/
+          repository: WhoSia/C3X
+          run-id: '37948775813'
+          github-token: ${{ github.token }}
+      - name: Compile SF16 with P4, 017, trial ID, TT epochs and root genealogy
+        run: |
+          set -euo pipefail
+          mkdir -p evidence
+          root=/tmp/C3X018_TT_GENEALOGY
+          git clone -q --single-branch --branch sf_16 https://github.com/official-stockfish/Stockfish.git "$root"
+          test "$(git -C "$root" rev-parse HEAD)" = 68e1e9b3811e16cad014b590d7443b9063b3eb52
+          python tools/c3x_016_P4_independent_12root_source_order_patch.py --source "$root" --out-manifest evidence/P4.json
+          python tools/c3x_017_early_depth1_root_window_trace_patch.py --source "$root" --out-manifest evidence/017.json
+          python tools/c3x_018_trial_call_identity_patch.py --source "$root" --out-manifest evidence/TRIAL.json
+          python tools/c3x_018_physical_epoch_lineage_patch.py --source "$root" --out-manifest evidence/EPOCH.json
+          python tools/c3x_018_root_TT_genealogy_overlay.py --source "$root" --out-manifest evidence/ANCESTRY.json
+          git -C "$root" diff -- src/search.cpp src/tt.cpp src/tt.h > evidence/ROOT_TT_SOURCE_DIFF.patch
+          make -s -C "$root/src" -j2 build ARCH=x86-64
+          cp "$root/src/stockfish" /tmp/C3X018_TT_GENEALOGY_ENGINE
+          sha256sum /tmp/C3X018_TT_GENEALOGY_ENGINE > evidence/BINARY_SHA256.txt
+      - name: Native O F Z and matched writer root genealogy
+        run: |
+          set -euo pipefail
+          python -u harness/c3x_018_root_call_TT_genealogy_native.py \
+            --cohort c3x/cohorts/c3x-016-P4-12-independent-Lichess-legal-root-order-sourceonly-frozen.json \
+            --prior baseline/C3X016_P4_12_LICHESS_MULTIMOTIF_ROOT_ORDER_72_NATIVE.json \
+            --patched /tmp/C3X018_TT_GENEALOGY_ENGINE \
+            --out evidence/ROOT_WINDOW_TT_ANCESTRY_6_8.json | tee evidence/NATIVE_STDOUT.txt
+          python - <<'PY'
+          import json
+          j=json.load(open("evidence/ROOT_WINDOW_TT_ANCESTRY_6_8.json"))
+          assert [c["id"] for c in j["cases"]]==[6,8]
+          for c in j["cases"]:
+              assert len(c["arms"])==5
+              assert all(v["within_arm"]["root_event_count"]>0 for v in c["arms"].values())
+          print("C3X018_NATIVE_ROOT_TT_GENEALOGY_RECEIPT_PASS")
+          PY
+      - name: Hash evidence
+        if: always()
+        run: |
+          mkdir -p evidence
+          find evidence -maxdepth 1 -type f ! -name MEMBER_SHA256.txt -print0 | sort -z | xargs -0 -r sha256sum > evidence/MEMBER_SHA256.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x-018-root-TT-ancestry-native
+          path: evidence/
+          retention-days: 90
+          if-no-files-found: error
