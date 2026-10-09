@@ -18,7 +18,7 @@ If two exact interventions produce the same chess engine root move, evaluation, 
 - **E:** recompute position evaluation rather than use a matching cached `tte->eval()`.
 - **V:** inhibit bound-conditioned use of TT score as a *better static positional evaluation*, not the TT early cutoff. It leaves TT storage untouched.
 - **S2:** suppress first matching writer, permit the *second original source* `TTEntry::save()` to proceed without synthetic TT payload injection. S3 is a not-fired rescue negative control.
-- **WV:** nested writer W2 plus bound-conditioned TT evaluation V; do not interpret until its native run is verified.
+- **WV:** nested writer W2 plus bound-conditioned TT evaluation V. Native source courts have now verified realized writer/read contacts and outcome responses for all five preselected writer-sensitive worlds.
 
 ## 3. Three source-native falsifiers
 
@@ -42,7 +42,20 @@ At selected #1/#2/#5/#6/#8 depth12 worlds, W2 changes bestmove in 5/5. Selective
 
 These facts elevate *bound-conditioned TT score-as-evaluation reuse* to a witnessed, source-specific **competing mediator candidate**. They do not establish that it is the sole natural carrier of the writer perturbation. The nested WV interaction, stronger field-specific restoration, non-selected histories and other TT uses must still be attacked.
 
-## 6. Required authority ladder
+## 6. Nonadditive writer × reader response (completed five-source court)
+
+The independently hash-verified [five-source native W2/V/WV court](../receipts/c3x-018-W2-V-WV-five-source-full-response-surface-native-20261010.json) retained all preselected worlds #1/#2/#5/#6/#8. W2 changes the reported bestmove in **5/5**, V in **2/5**, and WV in **4/5**; the WV-targeted V reader contact actually fires in **2/5**, not all five.
+
+The two real joint-contact cases give different categorical response surfaces:
+
+| World | F | W2 | V | WV | Realized WV contact |
+|---|---|---|---|---|---|
+| #2 | `a5b4` | `a5e1` | `a5e1` | `a5e1` | 2 writer blocks + 1 V read |
+| #5 | `d8d5` | `d8d4` | `d8d4` | `d8d5` | 2 writer blocks + 1 V read |
+
+Case #5 is **XOR-like in binary bestmove-change coding** and case #2 is **OR-like** over this *explicit finite operator assignment table*. No stockfish-internal XOR/OR logic gate or naturally exclusive mediation is inferred. Critically, #5 WV changes its final evaluation and node count relative to F (score -203 vs -200; 83,848 vs 74,259 nodes): bestmove cancellation **is not restoration of the original process**. #1/#6/#8 WV never contacts the targeted V consumer, so matching W2 outcomes there is not evidence of a realized combination mechanism.
+
+## 7. Required authority ladder
 
 1. Original native source SHA, member ZIP SHA, source write-contact marker, exact sham and cold repeats.
 2. Same physical slot/key writer epoch and an actually exercised, typed consumer branch.
@@ -51,12 +64,13 @@ These facts elevate *bound-conditioned TT score-as-evaluation reuse* to a witnes
 5. Selective rescue and explicit competing-mediator exclusion before claiming natural mediation. **Currently HOLD.**
 6. Independent population, additional engine and true original move-history transport before declaring any invariant chess explanation. **Currently HOLD.**
 
-## 7. Reproducible court receipts
+## 8. Reproducible court receipts
 
 - [Full four-court fingerprint / root genealogy / ten-history / selective source-write restoration](../receipts/c3x-018-four-native-courts-matched-proposals-root-genealogy-heldout-rescue-20261010.json)
 - [Five source worlds, three search horizons](../receipts/c3x-018-five-source-worlds-three-depth-TT-operator-transport-20261010.json)
 - [TT move-hint vs early cutoff reader comparison](../receipts/c3x-018-TT-move-hint-vs-early-cutoff-native-five-root-20261010.json)
 - [TT cached eval vs bound-conditioned evaluation score override](../receipts/c3x-018-TT-eval-cache-vs-bound-override-V-reproduces-W2-cases2-5-20261010.json)
 - [V vs W2 whole-root-event comparison](../receipts/c3x-018-W2-V-final-equivalence-but-distinct-root-genealogy-20261010.json)
+- [Full five-source W2/V/WV nonadditive response surface](../receipts/c3x-018-W2-V-WV-five-source-full-response-surface-native-20261010.json)
 
 **Do not manuscript-freeze.** These are source-specific finite-depth mechanism interventions, not demonstration that Stockfish learned tactical concepts, nor proof of a unique natural TT mediator.
