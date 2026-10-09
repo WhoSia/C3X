@@ -38,6 +38,7 @@ std::mutex c3x018_shadow_mutex;
 std::unordered_map<const TTEntry*, C3X018Writer> c3x018_shadow;
 uint64_t c3x018_event_seq = 0;
 bool c3x018_overflow_reported = false;
+bool c3x018_writer_blocked_once = false;
 constexpr uint64_t C3X018_LOG_LIMIT = 30000;
 const char* c3x018_mode() {
     const char* value = std::getenv("C3X018_TT_MODE");
@@ -91,7 +92,9 @@ bool c3x018_writer_block(Key key, const TTEntry* slot, bool would_write) {
     const uint64_t next = it == c3x018_shadow.end() ? 1 : it->second.epoch + 1;
     const char* mode = c3x018_mode();
     if ((std::strcmp(mode, "W") == 0 || std::strcmp(mode, "WR") == 0)
+        && !c3x018_writer_blocked_once
         && c3x018_target(key, slot, next)) {
+        c3x018_writer_blocked_once = true;
         c3x018_event("writer_block", "save", key, slot, next, uint64_t(key),
                      1, -1, -1, 0, 0, 0);
         return true;
@@ -169,6 +172,7 @@ def patch_tt(s):
       c3x018_shadow.clear();
       c3x018_event_seq = 0;
       c3x018_overflow_reported = false;
+      c3x018_writer_blocked_once = false;
   }
 }""", "CLEAR")
     return s
@@ -223,6 +227,7 @@ def main():
            "Single-thread cold-process native only for provenance interpretation",
            "TTEntry and Cluster layouts unchanged; shadow sidecar owns epochs",
            "Slot ordinal counts accepted payload writes, not save() calls",
+           "W/WR suppress exactly one first matching native write event per process",
            "Key16 collision is possible; only full64 writer witness is exact-key",
            "Thread concurrency may invalidate linearized writer/reader snapshot",
            "Main TT cutoff branch condition is reached; final return may be adjusted",
