@@ -1,0 +1,31 @@
+{
+  "schema": "C3X018-SF16-SF17-CROSS-VERSION-V1",
+  "study": "PRECOMMITTED two-depth SF16/SF17 same-family, not independent implementation",
+  "source_games_sha256": "2971fe617f39fbba6d40fb0b09d8a18ce247d5865dc807fcdab9a594e3473402",
+  "pins": {
+    "sf16": "68e1e9b3811e16cad014b590d7443b9063b3eb52",
+    "sf17": "e0bfc4b69bbe928d6f474a46560bcc3b3f6709aa"
+  },
+  "run": 37985856402,
+  "artifact_zip_sha256": "2058255c78f23650280b23cc8a5bc5910de97783feb14b9f56fa10006846d9d3",
+  "json_sha256": "b8e52e4232f6152029d79a0cdc004ba3ba56d5615e56d99edcd1423014acb837",
+  "all_members_sha256": true,
+  "paired_source_version_depth_cells": 48,
+  "global_bound_value_as_eval_bestmove_changes": 22,
+  "full_UCI_changes": 48,
+  "within_world_depth_version_response_disagreement": 10,
+  "group_contact_counts": {
+    "sf16_8": 12,
+    "sf16_12": 12,
+    "sf17_8": 12,
+    "sf17_12": 12
+  },
+  "preregistered": {
+    "C1": "PASS",
+    "C2": "PASS",
+    "C3": "PASS",
+    "C4": "PASS",
+    "C5": "PASS"
+  },
+  "limitations": "SF16 uses classical evaluation vs SF17 native NNUE; global bound-value-as-eval suppression is different from a single matched V reader; family lineage means not independent engine."
+}
