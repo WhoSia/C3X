@@ -111,7 +111,7 @@ C3X014TTTotals c3x014_tt_total_snapshot() { return c3x014_tt_totals; }
 """
 
 SOURCE_SAVE_LABELS=[
-    ("MAIN_SINGULAR_TT_WRITE",1),
+    ("MAIN_TABLEBASE_WRITE",1),
     ("MAIN_STATIC_EVALUATION",2),
     ("MAIN_PROBCUT",3),
     ("MAIN_TERMINAL",4),
@@ -225,7 +225,7 @@ def patch_sf(root):
     return {"schema":"c3x-014-tt-producer-consumer-physical-slot-sidecar-patch-v1",
       "source":"official Stockfish16 sf_16 68e1e9b3811e16cad014b590d7443b9063b3eb52 plus exact C3X EP9/completedDepth/ONE_MAIN",
       "tt_entry_layout_changed":False,"source_writers_tagged":dict(SOURCE_SAVE_LABELS),
-      "tags_meaning":"1 main singular, 2 main static eval, 3 main probcut, 4 main terminal, 5 qsearch early, 6 qsearch terminal",
+      "tags_meaning":"1 main tablebase, 2 main static eval, 3 main probcut, 4 main terminal, 5 qsearch early, 6 qsearch terminal",
       "data_justification":"TTEntry contains only 16-bit key but pointer sidecar preserves last 64-bit full-field writer key and same physical slot reuse",
       "truth_limit":"Sidecar records last full-field successful TT save and move-only touches, not all NNUE/history or full TT ancestry; one-thread only",
       "original_sha256":{k:hashlib.sha256(v).hexdigest() for k,v in raw.items()},
