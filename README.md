@@ -1,5 +1,13 @@
 # C3X — Counterfactual Contrastive Chess eXplanation
 
+**Active research version: C3X 0.18 — Physical Search-Provenance Reconstruction & Natural Causal Mediation: Aspiration-Trial Identity, Transposition-Table Writer–Reader Lineage & Counterfactual Mechanism Identification**
+
+**Flowing Versioning (2026-10-10):** 0.18 ACTIVE / 0.17 CLOSED with inherited unresolved evidence / 0.16 and 0.15 CLOSED. Historical C3X016-P4 and C3X017 source labels, native ZIPs and their SHA identities must not change. [0.18 formal opening](c3x/ontology/c3x-018-physical-search-provenance-natural-mediation-opening.md) and [natural TT attack contract](c3x/ontology/c3x-017-historical-recovery-natural-TT-mediation-attack-contract-20261010.md).
+
+**Four active research axes:** historical G9.3/G9.4/G9.5/G10 mechanism recovery; physical aspiration-trial/root-call instrumentation; physical TT writer–reader lineage; frozen #6/#8 counterfactual mediation interventions. Initial [0.18 source instrumentation](tools/c3x_018_trial_call_identity_patch.py), [six synthetic tests](tools/test_c3x_018_trial_call_identity_patch.py), and [native CI specification](.github/workflows/c3x-018-trial-call-native.yml) are COMMITTED, **not yet native-validated**. Trial/call IDs identify events within one search arm; equality across O/F is not sufficient to claim natural causal correspondence. Existing depth1 #37958613570 and independent depth8 #37960215178 remained queued at latest check; no artifact-based finding. Physical TT writer–reader instrumentation is NOT yet implemented.
+
+--- 
+
 **Active research version: C3X 0.17 — Causal Search-Order Interventions Across Chess Concepts: Independent Game Histories, Root Competition & Mechanism Transport**
 
 **Version policy (2026-10-09):** C3X **0.17 ACTIVE / 0.16 CLOSED / 0.15 CLOSED**. All new chess research and development, including inherited natural TT writer–consumer investigation, belongs to **0.17**. Historical 0.16/P4 artifacts retain their original identifiers. Closure does not mean every 0.15 scientific question is solved. Immutable legacy P0–P11 source filenames, native ZIP hashes, Actions links and earlier Git history retain `c3x015` identifiers for reproducibility.
