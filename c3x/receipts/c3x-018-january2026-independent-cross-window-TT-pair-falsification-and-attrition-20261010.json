@@ -1,0 +1,81 @@
+{
+  "schema": "c3x018-january2026-blind16-cross-window-TT-pair-native-court-v1",
+  "study_type": "PROSPECTIVE_PREREGISTERED_INDEPENDENT_AFTER_DECEMBER_CUBE",
+  "date": "2026-10-10",
+  "source": {
+    "month": "2026-01",
+    "provider": "Lichess Broadcast PGN",
+    "source_run": 37991871987,
+    "engine_free_select": true,
+    "frozen_games": 16,
+    "manifest_sha256": "5b49818e4678c12d0e5e73eba39eff2d50742b070a0ed870cba1d3e94afe0533",
+    "original_archive_sha256": "9abf10d106a8bf5ecd41359825b3bf55c2f124c8a790a380cb98844c2cca5dca",
+    "prior_fen_overlap": 0
+  },
+  "protocol": "c3x/ontology/c3x-018-january2026-blind16-cross-window-TT-pair-transfer-preregistration.md",
+  "engine": {
+    "family": "Stockfish16",
+    "commit": "68e1e9b3811e16cad014b590d7443b9063b3eb52",
+    "depth": 12,
+    "threads": 1,
+    "hash_mb": 16,
+    "NNUE": false,
+    "original_halfmove_fullmove": true
+  },
+  "native": {
+    "run": 37992496427,
+    "status": "SUCCESS",
+    "artifact_id": 11645976611,
+    "zip_sha256": "7a637add286d65f9cfd058633f104abe40a50d2800c7b925d90535ee8acb6262",
+    "raw_json_sha256": "9d7ff1d8c5e019a5ab5b95441468da0ad49951adc756b8669db7853b82649470",
+    "full_file_member_sha256_verified": true,
+    "previous_failed_run": 37992163856,
+    "previous_technical_error": "All pre-gate physical TT value snapshots had been mistaken for actually blocked V consumers; fixed one-to-one block→snapshot join. Precommit rule, source games and predictions unchanged.",
+    "cases_total": 16,
+    "cases_valid": 16,
+    "passive_discovery_record_cap": 2048,
+    "all_censused_at_cap": true
+  },
+  "strict": {
+    "eligible": 15,
+    "fully_two_call_contact": 1,
+    "bestmove_flips": 0,
+    "minimal_pair_like": 0,
+    "individual_FIRST_physical_contact_eligible_count": 15,
+    "individual_SECOND_physical_contact_eligible_count": 15
+  },
+  "broad": {
+    "eligible": 16,
+    "fully_two_call_contact": 1,
+    "bestmove_flips": 0,
+    "individual_FIRST_physical_contact_eligible_count": 16,
+    "individual_SECOND_physical_contact_eligible_count": 16
+  },
+  "original_predictions": {
+    "J1": "PASS",
+    "J2": "FAIL",
+    "J3": "FAIL",
+    "J4": "FAIL",
+    "J5": "PASS",
+    "J6": "PASS",
+    "J7": "PASS",
+    "J8": "PASS"
+  },
+  "post_outcome_event_survival": {
+    "audit_run": 37993145761,
+    "audit_zip_sha256": "d444215895b357c54d8e98baae9046c6e33fa76ff66cf78be346203d7394c8b1",
+    "audit_json_sha256": "eab97e6e1f8e7fb4ca66f75d961213646096cde2fb953389f5aaa0f0f3e93d2d",
+    "distinct_physical_game_target_call_pairs": 25,
+    "selector_arm_pairs": 31,
+    "fully_realized": 2,
+    "only_first_held_in_both_call_arm": 29,
+    "second_root_search_entered_all_29": true,
+    "second_physical_target_pre_gate_value_reader_not_observed_all_29": true,
+    "full_six_field_UCI_BOTH_EQUALS_FIRST_count": 31,
+    "individual_FIRST_core_changes": 29,
+    "individual_SECOND_core_changes": 26,
+    "both_bestmove_changes": 0
+  },
+  "claim_limit": "December single-game AND/OR pair law does not transport under source-only age/bound/ply/window/root-candidate pattern to independent January holdout. Many second reads fail contact under joint intervention despite second root call occurring; cannot say why without actual TT probe watcher. No natural unique TT mediation or independent engine law.",
+  "selection_overlap_warning": "Strict and broad propose 31 role-arm pairs but only 25 distinct game-target-call pairs; not independent observations."
+}
