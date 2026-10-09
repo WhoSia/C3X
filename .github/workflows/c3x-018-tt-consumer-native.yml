@@ -1,0 +1,42 @@
+name: C3X 0.18 TT Consumer Cutoff Native Compilation
+on:
+  push:
+    paths:
+      - 'tools/c3x_018_tt_consumer_source_patch.py'
+      - 'tools/test_c3x_018_tt_consumer_source_patch.py'
+      - '.github/workflows/c3x-018-tt-consumer-native.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  tt-consumer-compile:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Strict source-anchor negative tests
+        run: python -m unittest discover -s tools -p 'test_c3x_018_tt_consumer_source_patch.py' -v
+      - name: Compile pinned SF16 with main/qsearch TT consumer observer
+        run: |
+          set -euo pipefail
+          git clone -q --single-branch --branch sf_16 https://github.com/official-stockfish/Stockfish.git /tmp/C3X018_CONSUMER
+          test "$(git -C /tmp/C3X018_CONSUMER rev-parse HEAD)" = 68e1e9b3811e16cad014b590d7443b9063b3eb52
+          mkdir -p evidence
+          python tools/c3x_018_tt_consumer_source_patch.py --source /tmp/C3X018_CONSUMER --out-manifest evidence/SOURCE_MANIFEST.json
+          git -C /tmp/C3X018_CONSUMER diff -- src/search.cpp > evidence/TT_CONSUMER_SOURCE_DIFF.patch
+          make -s -C /tmp/C3X018_CONSUMER/src -j2 build ARCH=x86-64
+          sha256sum /tmp/C3X018_CONSUMER/src/stockfish > evidence/PATCHED_BINARY_SHA256.txt
+      - name: Preserve evidence
+        if: always()
+        run: |
+          mkdir -p evidence
+          find evidence -maxdepth 1 -type f ! -name MEMBER_SHA256.txt -print0 | sort -z | xargs -0 -r sha256sum > evidence/MEMBER_SHA256.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x-018-tt-consumer-cutoff-native
+          path: evidence/
+          retention-days: 90
