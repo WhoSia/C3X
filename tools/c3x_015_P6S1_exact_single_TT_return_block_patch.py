@@ -100,8 +100,17 @@ std::string c3x015_p6s1_target_intervention_summary(){
             } else {
                 c3x015_record_tt(posKey,tte,ss->ttHit,int(ttValue),int(alpha),int(beta),int(depth),int(ss->ply),int(nodeType),2);
             }'''
- if s.count(oldblock)!=2:raise RuntimeError('TT_RETURN_AND_P6S0_BLOCK_ANCHOR_'+str(s.count(oldblock)))
- s=s.replace(oldblock,newblock)
+ if s.count(oldblock)!=1:raise RuntimeError('TT_MAIN_RETURN_AND_P6S0_BLOCK_ANCHOR_'+str(s.count(oldblock)))
+ s=s.replace(oldblock,newblock,1)
+ oldblock_qs=event+'\\n            '+choice+'\\n        return ttValue;'
+ newblock_qs=choice+'''\n        if(c3x015_p6s1_permit_selected_return(tte,posKey,int(alpha),int(beta),int(depth),int(ss->ply),int(nodeType),int(ttValue))){
+            '''+event+'''
+            return ttValue;
+        } else {
+            c3x015_record_tt(posKey,tte,ss->ttHit,int(ttValue),int(alpha),int(beta),int(depth),int(ss->ply),int(nodeType),2);
+        }'''
+ if s.count(oldblock_qs)!=1:raise RuntimeError('TT_QSEARCH_RETURN_AND_P6S0_BLOCK_ANCHOR_'+str(s.count(oldblock_qs)))
+ s=s.replace(oldblock_qs,newblock_qs,1)
  s=only(s,'  sync_cout << "info string c3x015_p6s0_target " << c3x015_p6s0_target_summary() << sync_endl;',
         '  sync_cout << "info string c3x015_p6s0_target " << c3x015_p6s0_target_summary() << sync_endl;\n  sync_cout << "info string c3x015_p6s1_target_intervention " << c3x015_p6s1_target_intervention_summary() << sync_endl;',
         'P6_SOURCE_INFO')
