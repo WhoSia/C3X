@@ -13,6 +13,7 @@ from c3x_018_chess_clock_factorial_original_history_native import game_clocks
 
 SOURCE_SHA="51366a480fe2631005dbded7992e870443ef6dd2dfd785fd10952d6eeff5e7cd"
 PRIOR_SINGLETON_SHA="8e1ac0f02e63a9db93564181a7dd86162a552a5cb73493d5053e41573c4cf615"
+PRIOR_GROUP_SHA="b035c8d184d4c3c474d8592793af442f00fb135276426db1e78d447999609952"
 PHYSICAL={"key64":16448589199907615799,"slot":0,"epoch":2}
 CALLS=tuple(range(9,14))
 
@@ -21,12 +22,15 @@ def proper_subset(a,b):return a!=b and (a&b)==a
 
 def main():
  p=argparse.ArgumentParser()
- for k in ("source","prior-singletons","engine","out"):p.add_argument("--"+k,required=True)
+ for k in ("source","prior-singletons","prior-group","engine","out"):p.add_argument("--"+k,required=True)
  a=p.parse_args()
  raw=Path(a.source).read_bytes();old=Path(a.prior_singletons).read_bytes()
+ group_raw=Path(a.prior_group).read_bytes()
  need(hashlib.sha256(raw).hexdigest()==SOURCE_SHA,"BLIND_DECEMBER_SOURCE_HASH")
  need(hashlib.sha256(old).hexdigest()==PRIOR_SINGLETON_SHA,"PREVIOUS_SINGLETON_PROVENANCE")
+ need(hashlib.sha256(group_raw).hexdigest()==PRIOR_GROUP_SHA,"PREVIOUS_FULL_GROUP_PROVENANCE")
  prior=json.loads(old)
+ group=json.loads(group_raw)
  need(prior["physical_target"]==PHYSICAL and prior["planned_calls"]==list(CALLS),
       "PREVIOUS_FIXED_FIVE_TARGETS")
  original=json.loads(raw)["selected"][10]
@@ -35,6 +39,7 @@ def main():
  clock=game_clocks(original)
  result={"schema":"c3x018-case11-full-32-subset-TT-evaluation-reader-coalitions-v1",
   "source_sha256":SOURCE_SHA,"prior_singletons_sha256":PRIOR_SINGLETON_SHA,
+  "prior_group_sha256":PRIOR_GROUP_SHA,
   "source_precommit":"c3x/ontology/c3x-018-adaptive-case11-exhaustive-five-TT-reader-coalition-precommit.md",
   "source_physical_target":PHYSICAL,
   "original_clock":list(clock),"source_game_id":11,
@@ -75,8 +80,8 @@ def main():
  by={r["mask"]:r for r in result["masks"]}
  need(by[0]["actual_blocked_readers"]==0 and by[0]["UCI"]==f["UCI"],
       "MASK0_NOT_EXACT_NO_CONTACT")
- need(by[31]["UCI"]==prior["arms"]["V_AGE64"]["UCI"] and
-      by[31]["actual_blocked_readers"]==prior["arms"]["V_AGE64"]["source_reader_blocks"]==5,
+ need(by[31]["UCI"]==group["arms"]["V_AGE64"]["UCI"] and
+      by[31]["actual_blocked_readers"]==group["arms"]["V_AGE64"]["source_reader_blocks"]==5,
       "FULL_GROUP_AGE64_REPLAY_CHANGED")
  for i in range(5):
     r=by[1<<i]
