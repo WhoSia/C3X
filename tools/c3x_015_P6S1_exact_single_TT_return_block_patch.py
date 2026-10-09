@@ -102,7 +102,7 @@ std::string c3x015_p6s1_target_intervention_summary(){
             }'''
  if s.count(oldblock)!=1:raise RuntimeError('TT_MAIN_RETURN_AND_P6S0_BLOCK_ANCHOR_'+str(s.count(oldblock)))
  s=s.replace(oldblock,newblock,1)
- oldblock_qs=event+'\\n            '+choice+'\\n        return ttValue;'
+ oldblock_qs=event+'\n            '+choice+'\n        return ttValue;'
  newblock_qs=choice+'''\n        if(c3x015_p6s1_permit_selected_return(tte,posKey,int(alpha),int(beta),int(depth),int(ss->ply),int(nodeType),int(ttValue))){
             '''+event+'''
             return ttValue;
