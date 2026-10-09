@@ -1,0 +1,60 @@
+name: C3X 0.15 Go CSWP Typed Explanation Authority and Abstention Court
+on:
+  push:
+    paths:
+      - '.github/workflows/c3x-015-go-cswp-authority.yml'
+      - 'cmd/c3x-cswp-authority/**'
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  go-claim-authority-check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version: '1.23'
+      - uses: actions/download-artifact@v4
+        with:
+          name: c3x-015-p6-Rust-independent-64game-native-tt-counterfactual-court
+          repository: WhoSia/C3X
+          run-id: '37916342379'
+          github-token: ${{ github.token }}
+          path: locked-rust/
+      - name: Test independent authority gate and refusal of unsupported claims
+        run: |
+          cd cmd/c3x-cswp-authority
+          go test -count=1 -v ./...
+          go vet ./...
+      - name: Generate machine-readable claim ceiling from original Rust evidence
+        run: |
+          mkdir -p output
+          go run ./cmd/c3x-cswp-authority \
+            locked-rust/C3X015_RUST_P6S1_INDEPENDENT_CAUSAL_EVIDENCE.json \
+            output/C3X015_CSWP_GO_EXPLANATION_AUTHORITY.json
+          python - <<'PY'
+          import json
+          d=json.load(open('output/C3X015_CSWP_GO_EXPLANATION_AUTHORITY.json'))
+          assert d['maximum_tier']=='BOUNDED_NATIVE_SINGLE_TT_RETURN_SOFTWARE_CONTRAST'
+          assert len(d['authorized'])==2 and len(d['abstain'])==5
+          assert all(c['decision']=='ABSTAIN' for c in d['abstain'])
+          print('C3X015_GO_CLAIM_AUTHORITY_PERMIT_2_DENY_5_PASS')
+          PY
+      - name: Preserve Go claim authority and auditable bounds
+        if: always()
+        run: |
+          mkdir -p output
+          cp cmd/c3x-cswp-authority/main.go output/GO_EXACT_AUTHORITY_GATE_SOURCE.go
+          cp cmd/c3x-cswp-authority/main_test.go output/GO_EXACT_AUTHORITY_TESTS.go
+          printf '%s\n' 'C3X15 causal claims are scoped to the exact native SF16 P6 single TT return cases. No full mediation, transferable tactical law, NNUE neural pin representation, chess truth or engine intention is authorized.' > output/EXPLANATION_AUTHORITY_LIMIT.txt
+          find output -maxdepth 1 -type f ! -name MEMBER_SHA256.txt -print0 | sort -z | xargs -0 sha256sum > output/MEMBER_SHA256.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x-015-go-CSWP-typed-causal-claim-authority
+          path: output/
+          retention-days: 90
+          if-no-files-found: error
