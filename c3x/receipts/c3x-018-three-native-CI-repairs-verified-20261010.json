@@ -1,0 +1,97 @@
+{
+  "schema": "c3x018-native-ci-repair-three-courts-verified-v1",
+  "verified_date": "2026-10-10",
+  "version": "C3X 0.18 ACTIVE",
+  "frozen_engine_source_commit": "68e1e9b3811e16cad014b590d7443b9063b3eb52",
+  "summary": "Three repaired GitHub Actions native courts completed successfully; original failed attempts are retained as failed historical runs. All three artifact ZIPs and internal MEMBER_SHA256 files verified independently.",
+  "courts": [
+    {
+      "name": "aspiration-root-call",
+      "workflow_run": 37973968889,
+      "head_sha": "c8020b3b6db5e9e3ee5fb2752de9cd7dd734d674",
+      "status": "completed",
+      "conclusion": "success",
+      "artifact_id": 11637707797,
+      "artifact_zip_sha256": "f52b5d5d04a27e70b9945ef37d230b201cf51845900e29b9f040597b6d172f05",
+      "member_sha256_verified": true,
+      "members": 6,
+      "test_steps": [
+        "source patch regressions PASS",
+        "frozen original and instrumented source native compile PASS",
+        "historical P4 artifact downloaded and checked",
+        "72 patched native processes and 12 original sham processes exact UCI core PASS"
+      ],
+      "source_native_results": {
+        "worlds": 12,
+        "patched_processes": 72,
+        "original_shams": 12,
+        "event_count": 31382,
+        "trace_censored_arms": 0,
+        "all_events_have_trial_and_root_call": true,
+        "root_reordered": 12,
+        "bestmove_changed": 2,
+        "score_or_bound_changed": 8,
+        "nodes_changed": 11,
+        "pv_changed": 10,
+        "observer_status": "SOURCE_PASSIVE_WITH_EXACT_P4_O_F_Z_CORE_REGRESSION"
+      },
+      "previous_failure": "C3X018_ANCHOR_TRIAL_ENTRY_COUNT_3, then Python anchor-string escaping syntax error",
+      "repairs": [
+        "unique window_enter site anchor",
+        "repair Python literal newline escaping"
+      ]
+    },
+    {
+      "name": "physical-tt-observer",
+      "workflow_run": 37973853737,
+      "head_sha": "2a4c2d1eb7b9c876f3a58360744512f8dbab9daf",
+      "status": "completed",
+      "conclusion": "success",
+      "artifact_id": 11637777968,
+      "artifact_zip_sha256": "82ea0797ee2309d629f11831468626e6c75a126d1dbfd2cc52bfaf990afa1d21",
+      "member_sha256_verified": true,
+      "members": 7,
+      "test_steps": [
+        "three TT patch anchor tests PASS",
+        "original SF16 and patched TT source native compile PASS",
+        "startpos depth5 original / inactive observer / active observer final UCI core exactly equal",
+        "active observer emitted 2427 TT probe/save records; inactive observer emitted 0 records"
+      ],
+      "previous_failure": "UCI smoke timeout; Python heredoc used double-escaped newline literals causing UCI input framing failure",
+      "repairs": [
+        "UCI interaction synchronized on uciok, readyok, bestmove",
+        "correct literal newline and score regex escaping"
+      ],
+      "scope": "single startpos depth5 smoke; equality of final UCI core not a full execution-path noninterference proof"
+    },
+    {
+      "name": "tt-consumer-cutoff",
+      "workflow_run": 37973793910,
+      "head_sha": "a064f453bac32d3d8bdeec2a86a6e89b4925c1cb",
+      "status": "completed",
+      "conclusion": "success",
+      "artifact_id": 11638212443,
+      "artifact_zip_sha256": "1661f63fe39101ba2f491ddb0ddffa18b2a5e50074d3000ab93c87416db91da2",
+      "member_sha256_verified": true,
+      "members": 3,
+      "test_steps": [
+        "three source patch anchor regressions PASS",
+        "frozen SF16 native compile PASS",
+        "binary/source hash materialized"
+      ],
+      "previous_failure": "missing cstdlib header in source patch, regression test_both_native_branches failed",
+      "repairs": [
+        "inject #include <cstdlib> exact source anchor"
+      ],
+      "scope": "compile-only court: no consumer-path native causal experiment yet"
+    }
+  ],
+  "research_limitations": [
+    "TT save/probe caller key64 and process-local physical slot do not establish original writer identity because SF16 TT stores key16 and slots may be replaced",
+    "Realized main/qsearch cutoff instrumentation compiled but lacks provenance linkage to particular writer generation and is not sufficient for mediated causal attribution",
+    "No #6/#8 selective writer or consumer blockade/rescue executed in this repair tranche",
+    "Root call/trial IDs are within-arm observational labels, not cross-arm causal equivalence",
+    "Original historical C1 42/64 vs baseline 53/64 predictor accuracy failure remains unsuppressed",
+    "All previous failed/cancelled workflows remain historical evidence and are not retroactively relabeled"
+  ]
+}
