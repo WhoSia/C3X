@@ -1,0 +1,93 @@
+name: C3X 0.15 P2 TWIC R2 Source-Native SEE Prospective Predictor Court
+on:
+  push:
+    paths:
+      - '.github/workflows/c3x-015-p2-twic-root-see-native.yml'
+      - 'harness/c3x_015_P2_R2_64plus64_native_root_see_court.py'
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  prospective-64pin-64nonpin-source-native:
+    runs-on: ubuntu-latest
+    timeout-minutes: 52
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Build tools and chess-law dependencies without opening new treatment labels
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq git make g++
+          python -m pip install --disable-pip-version-check chess==1.11.2
+          python -m py_compile harness/c3x_015_P2_R2_64plus64_native_root_see_court.py
+          python -m py_compile harness/c3x_014_ROOT_PIN_object_guarded_SEE_40world_native_court.py
+          mkdir -p locked-source output
+      - uses: actions/download-artifact@v4
+        with:
+          name: c3x-015-twic1665-R2-event-capped-source-pin-matched-nonpin
+          path: locked-source/
+          repository: WhoSia/C3X
+          run-id: '37902655949'
+          github-token: ${{ github.token }}
+      - name: Enforce original R2 source, historical preoutcome predictions and exact SHA
+        run: |
+          printf '%s  %s\n' '1e932aa881eaef549c770211c078d930cd8d675e5688644e1bc36ab31bae4534' 'locked-source/C3X015_TWIC1665_SCOREBLIND_SOURCE_MANIFEST_R2.json' | sha256sum -c -
+          printf '%s  %s\n' '1e4c2e1b6cf777df86da8b630afc1459cc4a60265645bbd13c8c78fead3894a6' 'c3x/ontology/c3x-015-R2-64-source-frozen-original-preoutcome-binary-predictions.json' | sha256sum -c -
+          python - <<'PY'
+          import json
+          d=json.load(open('c3x/ontology/c3x-015-R2-64-source-frozen-original-preoutcome-binary-predictions.json'))
+          assert d['original_full_prediction_sha256']=='a4ebc45f8ab844e502aa507c64eb78f72371952c0512df676e4b33b0ccc4d172'
+          assert d['original_model_sha256']=='70e626898d30d04fc1887d4b863c8c2f28d6af7d70cdc914873c1f6ae230481b'
+          assert all(len(d[k])==64 for k in ('B0','B1','C1'))
+          assert sum(int(x) for x in d['C1'])==31 and sum(int(x) for x in d['B1'])==2
+          print('C3X015_SOURCE_ONLY_AND_FROZEN_PREDICTOR_CONTRACT_PASS_BEFORE_FIRST_NATIVE_TWIC_READOUT')
+          PY
+      - name: Build EXACT pristine SF16 and independent source-native guarded C++ version
+        run: |
+          git clone -q --single-branch --branch sf_16 https://github.com/official-stockfish/Stockfish.git /tmp/C3X015_SF16_original
+          test "$(git -C /tmp/C3X015_SF16_original rev-parse HEAD)" = '68e1e9b3811e16cad014b590d7443b9063b3eb52'
+          cp -a /tmp/C3X015_SF16_original /tmp/C3X015_SF16_guarded
+          python tools/c3x_014_patch_native_pin_operators.py --source /tmp/C3X015_SF16_guarded --out-manifest output/ORIGINAL_PIN_OBSERVATION_PATCH.json
+          python tools/c3x_014_ROOT_PIN_object_only_SEE_unmask_patch.py --source /tmp/C3X015_SF16_guarded --out-manifest output/ROOT_PIN_OBJECT_SOURCE_PATCH.json
+          git -C /tmp/C3X015_SF16_guarded diff -- src/position.cpp src/search.cpp src/evaluate.cpp > output/P2_SOURCE_NATIVE_CXX_PATCH.diff
+          test -s output/P2_SOURCE_NATIVE_CXX_PATCH.diff
+          make -s -C /tmp/C3X015_SF16_original/src -j2 build ARCH=x86-64
+          make -s -C /tmp/C3X015_SF16_guarded/src -j2 build ARCH=x86-64
+          cp /tmp/C3X015_SF16_original/src/stockfish /tmp/C3X015_pristine
+          cp /tmp/C3X015_SF16_guarded/src/stockfish /tmp/C3X015_guarded
+          sha256sum /tmp/C3X015_pristine /tmp/C3X015_guarded | tee output/ORIGINAL_AND_INSTRUMENTED_BINARY_SHA256.txt
+      - name: Execute ALL 64 frozen pin and 64 game-distinct nonpin native courts
+        run: |
+          python -u harness/c3x_015_P2_R2_64plus64_native_root_see_court.py \
+            --source locked-source/C3X015_TWIC1665_SCOREBLIND_SOURCE_MANIFEST_R2.json \
+            --pred c3x/ontology/c3x-015-R2-64-source-frozen-original-preoutcome-binary-predictions.json \
+            --pristine /tmp/C3X015_pristine --patched /tmp/C3X015_guarded \
+            --out output/C3X015_TWIC1665_R2_P2_PIN64_NONPIN64_PROSPECTIVE_NATIVE_RESULT.json
+          python - <<'PY'
+          import json
+          d=json.load(open('output/C3X015_TWIC1665_R2_P2_PIN64_NONPIN64_PROSPECTIVE_NATIVE_RESULT.json'))
+          assert d['pin_count']==64 and d['nonpin_count']==64
+          assert d['actual_native_engine_processes']==512
+          assert d['pin_cold_pairs_equal']==128
+          assert d['pin_OFF_original_equal']==64
+          assert d['nonpin_negative_shams_equal']==64
+          print('C3X015_TWIC_R2_PRESEALED_PRIMARY_NATIVE_P2_GATE_PASS')
+          PY
+      - name: Preserve real native outcomes, code, provenance and GPL, not third-party original PGN
+        if: always()
+        run: |
+          cp harness/c3x_015_P2_R2_64plus64_native_root_see_court.py output/EXACT_P2_NATIVE_TEST.py
+          cp c3x/ontology/c3x-015-R2-64-source-frozen-original-preoutcome-binary-predictions.json output/PREOUTCOME_COMPACT_64_PREDICTIONS.json
+          cp /tmp/C3X015_SF16_original/Copying.txt output/STOCKFISH_GPLv3.txt 2>/dev/null || true
+          printf '%s\n' 'No original third-party TWIC raw PGN/ZIP rehosting. This is native SF16 software treatment, not learned NNUE concept identification. Frozen source manifest R2 and preoutcome binary predictions were SHA-locked before any treatment output.' > output/CLAIM_AND_CUSTODY_LIMIT.txt
+          find output -maxdepth 1 -type f ! -name MEMBER_SHA256.txt -print0 | sort -z | xargs -0 sha256sum > output/MEMBER_SHA256.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x-015-TWIC-R2-frozen-64pin-64nonpin-native-SEE-primary
+          path: output/
+          retention-days: 90
+          if-no-files-found: error
