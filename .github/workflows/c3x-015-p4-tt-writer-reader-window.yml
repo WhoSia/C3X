@@ -1,16 +1,17 @@
-name: C3X 0.15 P3-R2-R2 CSWP Extended 4096 Search Frame Trace
+name: C3X 0.15 P4 Native TT Physical Writer Reader and Alpha-Beta Provenance
 on:
   push:
     paths:
       - '.github/workflows/c3x-015-p4-tt-writer-reader-window.yml'
-      - 'tools/c3x_015_CSWP_first_site_window_patch_R2.py tools/c3x_015_CSWP_TT_writer_reader_bound_window_patch.py'
+      - 'tools/c3x_015_CSWP_first_site_window_patch_R2.py'
+      - 'tools/c3x_015_CSWP_TT_writer_reader_bound_window_patch.py'
       - 'harness/c3x_015_P4_physical_TT_window_trace.py'
   workflow_dispatch:
 permissions:
   contents: read
   actions: read
 jobs:
-  p3-post-outcome-mechanism-source-window:
+  p4-post-outcome-tt-physical-lineage:
     runs-on: ubuntu-latest
     timeout-minutes: 55
     steps:
