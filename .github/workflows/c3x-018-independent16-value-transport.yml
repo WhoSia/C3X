@@ -1,0 +1,83 @@
+name: C3X 0.18 Independent 16 TT Value Mediation Challenge
+on:
+  push:
+    paths:
+      - 'harness/c3x_018_independent16_TT_value_transport_native.py'
+      - '.github/workflows/c3x-018-independent16-value-transport.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  preregistered-blind-external-source:
+    runs-on: ubuntu-latest
+    timeout-minutes: 55
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Independent cohort and source scripts syntactic preflight
+        run: |
+          python -m py_compile tools/c3x_018_physical_value_witness_overlay.py
+          python -m py_compile harness/c3x_018_independent16_TT_value_transport_native.py
+      - name: Retrieve source-only frozen 16 full PGN histories
+        uses: actions/download-artifact@v4
+        with:
+          name: c3x-018-independent-PGN-blind-source-16
+          path: independent_source/
+          repository: WhoSia/C3X
+          run-id: '37981820261'
+          github-token: ${{ github.token }}
+      - name: Pin immutable independent source JSON before searching
+        run: |
+          set -euo pipefail
+          mkdir -p evidence
+          test "$(sha256sum independent_source/C3X018_INDEPENDENT_BLIND16_PGN_SOURCE.json | cut -d' ' -f1)" = "6520672aabab7f525872169085f19bdd81e27a4473f0c58ba9c9aa428937104c"
+          cp independent_source/C3X018_INDEPENDENT_BLIND16_PGN_SOURCE.json evidence/BLIND16_SOURCE_MANIFEST.json
+          python - <<'PY'
+          import json
+          j=json.load(open("evidence/BLIND16_SOURCE_MANIFEST.json"))
+          assert j["compressed_source_sha256"]=="77be4c998ca8d3b303928e1619f0f9dc2a03a71d5ab6a59d02d42291ae0524e3"
+          assert len(j["selected"])==16
+          assert j["previous_12_FEN_overlap"]==0
+          print("C3X018_EXTERNAL_PGN_SOURCE_INDEPENDENT_SHA_PRESEAL_PASS")
+          PY
+      - name: Compile frozen SF16 with TT epoch V reader and value writer witness
+        run: |
+          set -euo pipefail
+          root=/tmp/C3X018_INDEPENDENT_TT_NATIVE
+          git clone -q --single-branch --branch sf_16 https://github.com/official-stockfish/Stockfish.git "$root"
+          test "$(git -C "$root" rev-parse HEAD)" = 68e1e9b3811e16cad014b590d7443b9063b3eb52
+          python tools/c3x_016_P4_independent_12root_source_order_patch.py --source "$root" --out-manifest evidence/P4.json
+          python tools/c3x_018_physical_epoch_lineage_patch.py --source "$root" --out-manifest evidence/PHYSICAL_TT.json
+          python tools/c3x_018_tt_eval_consumption_overlay.py --source "$root" --out-manifest evidence/V_ROUTE.json
+          python tools/c3x_018_physical_value_witness_overlay.py --source "$root" --out-manifest evidence/WRITER_READER_VALUE.json
+          git -C "$root" diff -- src/search.cpp src/tt.cpp src/tt.h > evidence/SOURCE_DIFF.patch
+          make -s -C "$root/src" -j2 build ARCH=x86-64
+          sha256sum "$root/src/stockfish" > evidence/NATIVE_BINARY_SHA256.txt
+      - name: Run preregistered 16 game native source reader challenge
+        run: |
+          set -euo pipefail
+          python -u harness/c3x_018_independent16_TT_value_transport_native.py \
+            --cohort evidence/BLIND16_SOURCE_MANIFEST.json \
+            --engine /tmp/C3X018_INDEPENDENT_TT_NATIVE/src/stockfish \
+            --out evidence/INDEPENDENT_16_VALUE_CAUSAL_PREDICTIONS.json | tee evidence/NATIVE_STDOUT.txt
+          python - <<'PY'
+          import json
+          j=json.load(open('evidence/INDEPENDENT_16_VALUE_CAUSAL_PREDICTIONS.json'))
+          assert j['summary']['full_denominator']==16
+          assert [c['id'] for c in j['cases']]==list(range(1,17))
+          print("C3X018_BLIND16_PRECOMMITTED_DENOMINATOR_PASS")
+          PY
+      - name: Source and result SHA256
+        if: always()
+        run: |
+          mkdir -p evidence
+          find evidence -maxdepth 1 -type f ! -name MEMBER_SHA256.txt -print0 | sort -z | xargs -0 -r sha256sum > evidence/MEMBER_SHA256.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x-018-blind16-preregistered-TT-value-court
+          path: evidence/
+          retention-days: 90
+          if-no-files-found: error
