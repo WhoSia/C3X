@@ -1,0 +1,27 @@
+{
+  "schema": "c3x017-authored-skewer-all-black-replies-legal-court-v1",
+  "date_kst": "2026-10-10",
+  "source_kind": "ORIGINAL_AUTHORED_SYNTHETIC_PUZZLE_NOT_THIRD_PARTY",
+  "fen4": "4q3/4k3/8/8/8/7R/8/K7 w - -",
+  "white_move": "h3e3",
+  "response_set": [
+    "e7f8",
+    "e7d6",
+    "e7d8",
+    "e7f6",
+    "e7f7",
+    "e7d7"
+  ],
+  "black_legal_replies": 6,
+  "white_followup_queen_capture": "e3e8",
+  "white_capture_is_legal_after_every_response": true,
+  "verification": "Go independent-from-Stockfish legal-move generator inherited from prior C3X 0.16 P1; GO111MODULE=off go test -v -run TestSkewerPuzzleEveryLegalBlackReply PASS",
+  "zip_sha256": "2b8c189e8a647910dd4b95f1bc10df4aab773df2bd5ebae8e6940e22c868ef72",
+  "puzzle_scope": "LEGALLY_CHECKING_SKEWER_WITH_ALL_IMMEDIATE_OPPONENT_DEFENSE_REPLIES_TESTED",
+  "limits": [
+    "This is a two-ply checking-skewer material-capture demonstration, not proof of eventual game-theoretic victory",
+    "Independent second chess-rule implementation or SF16 matching test not performed in this court",
+    "No source TT writer-reader operator mediation or engine understanding demonstrated",
+    "Does not establish uniqueness of solution or that the move is a chess 'brilliant' move"
+  ]
+}
