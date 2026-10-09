@@ -123,8 +123,9 @@ def main():
     if oldmode is not None:
       previous=prior['cells'][see+'__'+oldmode]
       must(core(z)==previous['UCI'],f'P9_SHAM_CORE_CHANGED_{ordinal}_{see}_{mode}')
-      must(z['p6s1']==previous['p6s1'],f'P9_SHAM_TT_SOURCE_CHANGED_{ordinal}_{see}_{mode}')
-      must(z['p7']==previous['TT_value_delivery'],f'P9_SHAM_SCORE_SOURCE_CHANGED_{ordinal}_{see}_{mode}')
+      baseline_p7=p7['cases'][0 if ordinal==2 else 1]['cells'][see+'__'+oldmode]
+      must(z['p6s1']==baseline_p7['p6s1'],f'P9_SHAM_TT_SOURCE_CHANGED_{ordinal}_{see}_{mode}')
+      must(z['p7']==baseline_p7['p7_value'],f'P9_SHAM_SCORE_SOURCE_CHANGED_{ordinal}_{see}_{mode}')
       must(gates==0,'P9_INACTIVE_ARM_CAUSED_MICRO_GATES')
       original_regression+=1
     else:
