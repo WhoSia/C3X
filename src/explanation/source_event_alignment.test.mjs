@@ -1,0 +1,11 @@
+import test from "node:test";import assert from "node:assert/strict";
+import {parseEvent,compareRootEvents,ttMediationClaim} from "./source_event_alignment.mjs";
+const cand=(v,after= -32001,move=1380)=>({kind:"candidate",seq:214,depth:4,move,child_return:v,before:-32001,after,alpha:130,beta:162});
+test("first source candidate child return is not a root stored-score mutation",()=>{const v=compareRootEvents([cand(14)],[cand(130)]);assert.equal(v.classification,"CHILD_RETURN_CHANGED");assert.equal(v.rootStoredScoreChanged,false);assert.equal(v.necessary_mediator_proven,false);});
+test("different candidate visits invalidate naive sequence alignment",()=>{const v=compareRootEvents([cand(13,-32001,261)],[cand(13,-32001,1228)]);assert.equal(v.classification,"EVENT_ALIGNMENT_AMBIGUOUS");});
+test("distinct window change is not automatically TT mediation",()=>{const v=compareRootEvents([{kind:"window_enter",seq:1,depth:12,alpha:4,beta:14}],[{kind:"window_enter",seq:1,depth:12,alpha:5,beta:14}]);assert.equal(v.classification,"ALPHA_BETA_WINDOW_CHANGED");assert.equal(v.necessary_mediator_proven,false);});
+test("stored root score is distinguishable from same child return",()=>{const v=compareRootEvents([cand(7,-32001)],[cand(7,7)]);assert.equal(v.classification,"ROOT_STORED_SCORE_CHANGED");});
+test("source parser rejects incompletely reported event",()=>assert.throws(()=>parseEvent("info string c3x017_root_event kind=candidate seq=1 depth=9"),/INCOMPLETE_EVENT/));
+test("readable root event can parse original SF16 trace line",()=>{const x=parseEvent("info string c3x017_root_event kind=candidate seq=22 depth=10 move=1380 index=42 child_return=14 alpha=130 beta=162 before=-32001 after=-32001 root_nodes=4000");assert.equal(x.move,1380);});
+test("TT source causal claim requires a real same-path counterfactual",()=>{assert.equal(ttMediationClaim({writer_contact:true,reader_contact:true,path_specific_counterfactual:false,cold_sham_pass:true}).warrant,"HOLD");});
+test("source scope never automatically becomes universal",()=>assert.equal(ttMediationClaim({writer_contact:true,reader_contact:true,path_specific_counterfactual:true,cold_sham_pass:true}).warrant,"EVENT_SPECIFIC_PATH_EFFECT_SUPPORTED"));
