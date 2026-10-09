@@ -1,0 +1,60 @@
+{
+  "schema": "c3x-016-P3-independent-Go-source-event-positivity-warrant-v1",
+  "research_version": "C3X 0.16 ACTIVE; 0.15 CLOSED",
+  "date_kst": "2026-10-09",
+  "historical_native_evidence": {
+    "run": "https://github.com/WhoSia/C3X/actions/runs/37944843519",
+    "original_json_sha256": "61c62218f2fbeee151f64f94a4ed7582d2479e7e758d7d941ad281e4bc2d5ecc",
+    "historical_native_processes": 32,
+    "NOT_new_native_runs": true
+  },
+  "independent_language": "Go 1.23 standard library; code and tests in private Drive reproducibility ZIP",
+  "independent_test_execution": {
+    "actual_local_tests": "2 PASS, tampered input rejected",
+    "world_SEE_cells": 4,
+    "three_assigned_arms_UCI_core_identical": 4,
+    "three_assigned_arms_iterative_root_PV_identical": 4,
+    "three_assigned_arms_root_event_counts_identical": 4,
+    "writer_removed_reader_generation_disappears": 4,
+    "W0R0_reader_return_blocks_realized": 0
+  },
+  "observed_outcomes": {
+    "W1R1_vs_W1R0_bestmove_changed": 2,
+    "root_score_bound_changed": 2,
+    "search_nodes_changed": 4
+  },
+  "case_split_warrant": "Distinguish frozen physical source writer+reader exposure, W0 removes original reader contact entirely, and source-causal qsearch path (check-evasion beta failhigh vs standpat scalar-preserving). Same categorical root choice / UCI does not entail equivalent TT mediator exposure.",
+  "identifiability": "No natural indirect effect identified; 2 post-P6-disclosure TWIC games; 4 world×SEE observations are not 4 independent provider games, no treatment-positivity for R0 under W0.",
+  "external_nonpin_P4": {
+    "science_precommit": "https://github.com/WhoSia/C3X/blob/main/c3x/ontology/c3x-016-P4-independent-Lichess-12-motif-root-order-causal-court-PRECOMMIT.md",
+    "source_manifest": "https://github.com/WhoSia/C3X/blob/main/c3x/cohorts/c3x-016-P4-12-independent-Lichess-legal-root-order-sourceonly-frozen.json",
+    "original_private_sha256": "08bf2179e141ba6a862314660298fa90fa61c3d377e46accc07bd4c5d9cacae2",
+    "twelve_source_original_fen_distinct": true,
+    "source_only_strata": {
+      "SKEWER_RAY": 3,
+      "INTERFERENCE_RAY": 3,
+      "DEFENDER_REMOVAL_RAY": 3,
+      "NO_MOTIF_RAY_OPPORTUNITY": 3
+    },
+    "independent_Go_chess_law_played_moves": "12/12 legal",
+    "Go_perft_and_SAN_tests": "7/7 PASS",
+    "github_actions_workflow": "https://github.com/WhoSia/C3X/actions/runs/37948775813",
+    "Github_Actions_current_verified_status": "QUEUED_NOT_NATIVE_PASSED",
+    "requested_native_processes_72": "12 roots × 3 patched arms O/F/Z × 2 cold",
+    "requested_unpatched_native_processes_12": "Untouched Stockfish16 baseline for each 4-field FEN",
+    "human_tactic_claims": "ONLY_GEOMETRY_OPPORTUNITY; ROOT_ORDERING_INTERVENTION_NOT_MOTIF_LEARNING"
+  },
+  "reproducibility": {
+    "drive_zip": "https://drive.google.com/file/d/1NeR_NFgpRBLzsQB2OvtomYUeGbnVMd2H/view",
+    "archive_sha256": "cca72fa7c5218c7863326169490572c9cde8fb8e0ec6a992c2f5f4d4b1776445",
+    "bytes": 12670,
+    "after_upload_download_sha256_exact": true,
+    "zip_crc": "PASS"
+  },
+  "limits": [
+    "P4 is not a motif-specific SEE/TT/NNUE source intervention: only native root move ordering if actually fired.",
+    "Standalone four-field FEN omits true historical repetition/rule50/source move-history; do not claim full original game transport.",
+    "If GitHub Actions remains queued, no native P4 PASS can be claimed.",
+    "Predecessor C1 primary accuracy 42/64 < null 53/64 FAIL retained."
+  ]
+}
