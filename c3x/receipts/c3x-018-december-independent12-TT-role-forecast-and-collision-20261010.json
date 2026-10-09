@@ -1,0 +1,85 @@
+{
+  "schema": "c3x018-december12-eight-role-TT-writer-age-bound-ply-root-native-v1",
+  "date": "2026-10-10",
+  "engine": "Stockfish16 68e1e9b3811e16cad014b590d7443b9063b3eb52",
+  "preregistration": "c3x/ontology/c3x-018-dec2025-blind12-TT-writer-age-bound-ply-root-preregistration.md",
+  "source": {
+    "run": 37987794988,
+    "source_manifest_sha256": "51366a480fe2631005dbded7992e870443ef6dd2dfd785fd10952d6eeff5e7cd",
+    "compressed_pgn_sha256": "fadbe80ee65e9f8499578e934d7600ece69d09b1cf8abc75fdd3bd840f61e63f",
+    "games": 12,
+    "selection_engine_blind": true,
+    "archive": "Lichess December 2025 broadcast PGN"
+  },
+  "native": {
+    "run": 37988014141,
+    "conclusion": "SUCCESS",
+    "artifact_id": 11643354112,
+    "zip_sha256": "e27d68846ef57b60e35ef910ec3177b71c4f5ccce94507bb5f925099fbd7b48b",
+    "result_file": "DECEMBER12_TT_EIGHT_ROLE_CAUSAL_COURT.json",
+    "result_sha256": "93742e35c09f83a24aeea91f3632227165bb9208c606e3b81766e54d512a9883",
+    "internal_file_SHA256_all_verified": true,
+    "game_count": 12,
+    "selector_arm_count": 96,
+    "actual_fired": 96,
+    "physical_payload_invalid": 0,
+    "all_games_passed_cold_O_F_Z_and_decoy": true,
+    "passive_reader_census_limit": 256,
+    "all_game_census_censored_at_limit": true
+  },
+  "predeclared_role_arms_root_bestmove_changes": {
+    "young_age0_8": 0,
+    "old_age64plus": 1,
+    "bound_lower_only": 1,
+    "bound_upper_only": 0,
+    "reader_ply0_2": 0,
+    "reader_ply4plus": 0,
+    "root_original_played_candidate": 1,
+    "root_other_candidate": 1
+  },
+  "literal_forecasts": {
+    "D1_OLD_ROOT": "PASS_WITH_ROLE_ATTRIBUTION_LIMIT",
+    "D2_DEEP_ROOT": "FAIL",
+    "D3_BOUND_ROOT": "PASS",
+    "D4_OWNER_CONTRAST": "PASS",
+    "D5_SOURCE_INTEGRITY": "PASS",
+    "D6_NO_CONTACT": "PASS",
+    "D7_COMPLETE_DENOMINATOR": "PASS"
+  },
+  "affected_games": {
+    "game2": {
+      "selector": "lower",
+      "F": "f3e5",
+      "V": "c2d2",
+      "passive_writer_age": 53,
+      "bound": 2,
+      "ply": 1
+    },
+    "game4": {
+      "selector": "original_root",
+      "F": "d3b5",
+      "V": "d4b5",
+      "passive_writer_age": 125,
+      "bound": 2,
+      "ply": 1
+    },
+    "game11": {
+      "selectors": [
+        "old",
+        "other_root"
+      ],
+      "F": "b2b3",
+      "V": "c1f4",
+      "physical_target_equal": true,
+      "selected_old_reader_age90_but_actual_first_blocked_reader_age18": true
+    }
+  },
+  "post_outcome_audit": "c3x/receipts/c3x-018-december-role-target-earlier-reader-collision-audit-20261010.json",
+  "post_outcome_correction": "Seven selected older readers had earlier consumer(s) sharing their physical TT triple. Therefore the literal D1 category selection rule passes but a direct old-consumer causal attribution is NOT IDENTIFIED. Exact site constrained V follow-up is adaptive.",
+  "limits": [
+    "All 12 sample reader discovery streams hit cap256; not a complete TT consumption distribution",
+    "Selectors overlap; repeated physical source targets and root attribution disallow independent eight treatment assumption",
+    "Source root candidate ancestry does not automatically prove physical TT writer ownership",
+    "No exclusive natural TT-to-root mediation or cross-engine law demonstrated"
+  ]
+}
