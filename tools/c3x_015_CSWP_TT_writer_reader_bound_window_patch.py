@@ -100,11 +100,13 @@ std::string c3x015_tt_summary(){
  # Six original source sites: tablebase/static eval/ProbCut/main terminal/qsearch early/qsearch terminal.
  for tag in range(1,7):
   s=s.replace('tte->save(',f'c3x015_tt_labeled_save(tte, {tag}, ',1)
- s=one(s,'    ttValue = ss->ttHit ? value_from_tt(tte->value(), ss->ply, pos.rule50_count()) : VALUE_NONE;',
+ needle='    ttValue = ss->ttHit ? value_from_tt(tte->value(), ss->ply, pos.rule50_count()) : VALUE_NONE;'
+ if s.count(needle)!=2:raise RuntimeError('TT_READ_SOURCE_SITE_COUNT_'+str(s.count(needle)))
+ s=s.replace(needle,
  '''    ttValue = ss->ttHit ? value_from_tt(tte->value(), ss->ply, pos.rule50_count()) : VALUE_NONE;
     c3x015_record_tt(posKey,tte,ss->ttHit,int(ttValue),int(alpha),int(beta),int(depth),int(ss->ply),int(nodeType),0);''','MAIN_READ')
  # second main and qsearch instance still left
- s=one(s,'    ttValue = ss->ttHit ? value_from_tt(tte->value(), ss->ply, pos.rule50_count()) : VALUE_NONE;',
+ s=one(s,needle,
  '''    ttValue = ss->ttHit ? value_from_tt(tte->value(), ss->ply, pos.rule50_count()) : VALUE_NONE;
     c3x015_record_tt(posKey,tte,ss->ttHit,int(ttValue),int(alpha),int(beta),int(depth),int(ss->ply),int(nodeType),0);''','QS_READ')
  s=one(s,'        if (pos.rule50_count() < 90)\n            return ttValue;',
