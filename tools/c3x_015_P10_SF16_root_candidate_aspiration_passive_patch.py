@@ -59,9 +59,8 @@ std::string c3x015_p10_root_trace_summary(){
     """          RootMove& rm = *std::find(thisThread->rootMoves.begin(),
                                     thisThread->rootMoves.end(), move);
           const int c3x015_p10_prev_root_candidate_score = int(rm.score);""","ROOT_SCORE_BEFORE")
- s=only(s,"          else\n              rm.score = -VALUE_INFINITE;\n      }\n\n      if (value > bestValue)",
-    """          else
-              rm.score = -VALUE_INFINITE;
+ s=only(s,"              rm.score = -VALUE_INFINITE;\n      }\n\n      if (value > bestValue)",
+    """              rm.score = -VALUE_INFINITE;
           c3x015_p10_root_candidate(pos.key(),int(thisThread->rootDepth),int(move),
                                     int(moveCount),int(value),int(alpha),int(beta),
                                     c3x015_p10_prev_root_candidate_score,int(rm.score),
