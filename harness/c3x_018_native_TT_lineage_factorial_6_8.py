@@ -41,12 +41,12 @@ def core(raw, search_depth=12):
 def play(engine, world, p4_mode, lineage_mode=None, target=None, writer_budget=None, rescue_attempt=None, discovery=False, history=False, fen_clocks=None, search_depth=12, draw_mode=None, tt_reader_filters=None):
     need(isinstance(search_depth,int) and 1<=search_depth<=32,"INVALID_SEARCH_DEPTH")
     env = dict(os.environ)
-    for key in ("C3X018_FILTER_MIN_WRITE_AGE","C3X018_FILTER_ROOT_CALL","C3X018_FILTER_ROOT_MOVE","C3X018_FILTER_PLY","C3X018_FILTER_RAW_BOUND","C3X018_FILTER_CALL_MASK_9_13"):
+    for key in ("C3X018_FILTER_MIN_WRITE_AGE","C3X018_FILTER_ROOT_CALL","C3X018_FILTER_ROOT_MOVE","C3X018_FILTER_PLY","C3X018_FILTER_RAW_BOUND","C3X018_FILTER_CALL_MASK_9_13","C3X018_FILTER_PAIR_CALL_A","C3X018_FILTER_PAIR_CALL_B","C3X018_FILTER_MAX_PLY","C3X018_FILTER_WINDOW_WIDTH_MAX"):
         env.pop(key,None)
     if tt_reader_filters is not None:
         need(isinstance(tt_reader_filters,dict) and tt_reader_filters,"EMPTY_READER_EVENT_FILTER")
         for key,value in tt_reader_filters.items():
-            need(key in ("C3X018_FILTER_MIN_WRITE_AGE","C3X018_FILTER_ROOT_CALL","C3X018_FILTER_ROOT_MOVE","C3X018_FILTER_PLY","C3X018_FILTER_RAW_BOUND","C3X018_FILTER_CALL_MASK_9_13"),"INVALID_READER_EVENT_FILTER")
+            need(key in ("C3X018_FILTER_MIN_WRITE_AGE","C3X018_FILTER_ROOT_CALL","C3X018_FILTER_ROOT_MOVE","C3X018_FILTER_PLY","C3X018_FILTER_RAW_BOUND","C3X018_FILTER_CALL_MASK_9_13","C3X018_FILTER_PAIR_CALL_A","C3X018_FILTER_PAIR_CALL_B","C3X018_FILTER_MAX_PLY","C3X018_FILTER_WINDOW_WIDTH_MAX"),"INVALID_READER_EVENT_FILTER")
             need(isinstance(value,int) and value>=0,"INVALID_READER_FILTER_VALUE")
             env[key]=str(value)
     env.pop("C3X018_EXACT_DRAW_SUPPRESS",None)
