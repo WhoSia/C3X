@@ -1,0 +1,76 @@
+{
+  "schema": "c3x017-P5-root-window-native-12-world-first-retained-source-difference-v1",
+  "date_kst": "2026-10-10",
+  "run_id": 37951814506,
+  "run_url": "https://github.com/WhoSia/C3X/actions/runs/37951814506",
+  "github_artifact_id": 11628855893,
+  "github_zip_sha256": "7b8f38198ce1c37768e185891f2af3f2cfdf7691d6d7af77f4b3dbe49c3caffa",
+  "native_json_sha256": "0c25ff11f28ced23e8d3ead2219861f350d8ba27d93ba457617abe65347da564",
+  "drive_id": "1HebSdCt-nGaF_PmX9V7w2q27kVhCZ1c_",
+  "native_trial_count": 72,
+  "unpatched_sham_process_count": 12,
+  "original_P4_exact_regression": "12 original positions x O/F/Z full UCI core plus source contacts, paired cold native runs PASS",
+  "event_scope": "root window/candidate/after_sort passive event recording only at completed/attempted root depths >=8, up to 2048 per process",
+  "first_recorded_semantic_differences": {
+    "ALPHA_BETA_WINDOW_CHANGED": 7,
+    "CHILD_RETURN_CHANGED": 3,
+    "NO_RETAINED_SEMANTIC_DIFFERENCE": 2
+  },
+  "case6": {
+    "category": "INTERFERENCE_RAY",
+    "root_bestmove_changed": true,
+    "first_retained_depth": 8,
+    "baseline_alpha_beta": [
+      168,
+      192
+    ],
+    "treated_alpha_beta": [
+      145,
+      167
+    ],
+    "classification": "ALPHA_BETA_WINDOW_CHANGED"
+  },
+  "case8": {
+    "category": "DEFENDER_REMOVAL_RAY",
+    "root_bestmove_changed": true,
+    "first_retained_depth": 8,
+    "baseline_alpha_beta": [
+      228,
+      254
+    ],
+    "treated_alpha_beta": [
+      197,
+      221
+    ],
+    "classification": "ALPHA_BETA_WINDOW_CHANGED"
+  },
+  "event_partition_by_original_case_id": {
+    "WINDOW": [
+      2,
+      3,
+      5,
+      6,
+      8,
+      10,
+      12
+    ],
+    "CHILD_RETURN": [
+      1,
+      4,
+      9
+    ],
+    "NO_RETAINED_DIFF": [
+      7,
+      11
+    ]
+  },
+  "epistemic_bounds": [
+    "The *first retained* event is not the first physical causal divergence: depths 1-7 were not instrumented and root order was changed before depth 1.",
+    "The apparent window changes at depth8 could reflect earlier PV/candidate/TT history; not proof that alpha-beta window was necessary mediator.",
+    "A 'NO_RETAINED_DIFF' result means only retained event equality excluding node counter; case7 has node difference despite identical retained semantic fields.",
+    "No physical TT writer-slot-generation and consumer causal match was recorded by this observer; natural TT mediation not identified.",
+    "The same 12 original source games and historical P4 source-selected motifs remain development data, not independent proof of a human tactic, brilliant move or NNUE features.",
+    "Original 0.15 C1 accuracy 42/64 vs B0 53/64 failure preserved"
+  ],
+  "court": "C3X017_ROOT_PASSIVE_72_NATIVE_SUCCESS / P4_EXACT_REGRESSION_PASS / FIRST_RETAINED_WINDOW_VS_CHILD_RETURN_CLASSIFICATION_PASS / FIRST_PHYSICAL_CAUSE_AND_TT_MEDIATION_HOLD"
+}
