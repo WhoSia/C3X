@@ -46,7 +46,7 @@ def patch(root):
         """              ++c3x014_pin.classical_WeakQueen_hits;
               if (pos.key()==c3x014_pin.root_key) ++c3x014_pin.root_WeakQueen_hits;""",
         "EXACT_ROOT_CLASSIC_WEAKQUEEN")
-    e=rep(e,"    bool useClassical = !useNNUE || abs(psq) > 2048;",
+    e=rep(e,"  bool useClassical = !useNNUE || abs(psq) > 2048;",
         """    bool useClassical = !useNNUE || abs(psq) > 2048;
     ++c3x014_pin.eval_calls;
     if (useClassical) {
