@@ -38,9 +38,29 @@ def core(raw, search_depth=12):
     need(len(best)==1 and best[0]==rows[-1]["pv"][0], "MISSING_BESTMOVE")
     return {"bestmove":best[0],**rows[-1]}
 
-def play(engine, world, p4_mode, lineage_mode=None, target=None, writer_budget=None, rescue_attempt=None, discovery=False, history=False, fen_clocks=None, search_depth=12, draw_mode=None, tt_reader_filters=None, probe_watch=None):
+def play(engine, world, p4_mode, lineage_mode=None, target=None, writer_budget=None, rescue_attempt=None, discovery=False, history=False, fen_clocks=None, search_depth=12, draw_mode=None, tt_reader_filters=None, probe_watch=None, p1_writer=None):
     need(isinstance(search_depth,int) and 1<=search_depth<=32,"INVALID_SEARCH_DEPTH")
     env = dict(os.environ)
+    for key in ("C3X018_P1_WRITER_KEY64","C3X018_P1_WRITER_SLOT",
+                "C3X018_P1_WRITER_EPOCH","C3X018_P1_FIRST_CALL",
+                "C3X018_P1_WRITE_POLICY"):
+        env.pop(key,None)
+    if p1_writer is not None:
+        need(isinstance(p1_writer,dict) and
+             set(p1_writer)=={"key64","slot","epoch","first_call","policy"},
+             "INVALID_P1_WRITER_EXACT_SCHEMA")
+        need(p1_writer["policy"] in ("NONE","SKIP","REINSTATE"),
+             "P1_INVALID_WRITE_POLICY")
+        for name in ("key64","slot","epoch","first_call"):
+            need(isinstance(p1_writer[name],int) and p1_writer[name]>=0,
+                 "P1_WRITER_BAD_NUMBER")
+        need(p1_writer["first_call"]>0 and p1_writer["epoch"]>0
+             and 0<=p1_writer["slot"]<3,"P1_WRITER_SOURCE_CONSTRAINT")
+        env.update(C3X018_P1_WRITER_KEY64=str(p1_writer["key64"]),
+                   C3X018_P1_WRITER_SLOT=str(p1_writer["slot"]),
+                   C3X018_P1_WRITER_EPOCH=str(p1_writer["epoch"]),
+                   C3X018_P1_FIRST_CALL=str(p1_writer["first_call"]),
+                   C3X018_P1_WRITE_POLICY=p1_writer["policy"])
     env.pop("C3X018_PROBE_WATCH_KEY64",None)
     env.pop("C3X018_PROBE_WATCH_ROOT_CALL",None)
     if probe_watch is not None:
@@ -135,6 +155,11 @@ def play(engine, world, p4_mode, lineage_mode=None, target=None, writer_budget=N
         if line.startswith("info string c3x018_value_witness "):
             fields=parse_fields(line)
             witnesses.append({k:(v if k in ("kind","site") else int(v)) for k,v in fields.items()})
+    p0_save_events=[]
+    for line in lines:
+        if line.startswith("info string c3x018_p1_save "):
+            fields=parse_fields(line)
+            p0_save_events.append({k:(v if k=="kind" else int(v)) for k,v in fields.items()})
     watched_tt_probes=[]
     for line in lines:
         if line.startswith("info string c3x018_jan_probe_watch "):
@@ -178,6 +203,7 @@ def play(engine, world, p4_mode, lineage_mode=None, target=None, writer_budget=N
        "draw_probes":draw_probes,
        "draw_gate_contacts":draw_gate_contacts,
        "watched_tt_probes":watched_tt_probes,
+       "p0_save_events":p0_save_events,
        "root_events":root_events,
        "root_contact":roots[0]}
 
