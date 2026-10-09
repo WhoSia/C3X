@@ -16,7 +16,7 @@ def sha(p):return hashlib.sha256(Path(p).read_bytes()).hexdigest()
 def must(x,msg):
     if not x:raise RuntimeError(msg)
 
-def native(engine_path,history,pinned_square,mode,capture_pin_trace=False,capture_root_eval=False):
+def native(engine_path,history,pinned_square,mode,capture_pin_trace=False,capture_root_eval=False,pin_intervention=None):
     board=chess.Board()
     for u in history:
         m=chess.Move.from_uci(u)
@@ -26,7 +26,8 @@ def native(engine_path,history,pinned_square,mode,capture_pin_trace=False,captur
          "PIN_WITNESS_NOT_TRUE_ON_ROOT")
     lines=[]
     with subprocess.Popen([engine_path],stdin=subprocess.PIPE,stdout=subprocess.PIPE,
-                          stderr=subprocess.STDOUT,text=True,bufsize=1) as p:
+                          stderr=subprocess.STDOUT,text=True,bufsize=1,
+                          env=({**os.environ, 'C3X014_PIN_INTERVENTION':pin_intervention} if pin_intervention else None)) as p:
         def send(*xs):p.stdin.write("\n".join(xs)+"\n");p.stdin.flush()
         def until(prefix):
             for _ in range(120000):
@@ -84,6 +85,14 @@ def native(engine_path,history,pinned_square,mode,capture_pin_trace=False,captur
         must(set(trace)==set(PIN_FIELDS),"NATIVE_PIN_TRACE_FIELDS_INCOMPLETE")
         must(all(v>=0 for v in trace.values()),"NEGATIVE_NATIVE_PIN_EVENT_COUNT")
         last["native_pin_trace"]=trace
+    if pin_intervention is not None:
+        observed=[ln for ln in lines if ln.startswith("info string c3x014_pin_causal_mask ")]
+        must(len(observed)==1,"MISSING_ACTUAL_SF16_SEE_WEAKQUEEN_CAUSAL_EVENT_CENSUS")
+        site={k:int(v) for k,v in (word.split("=",1) for word in observed[0].split()[3:])}
+        must(set(site)=={"mode","SEE_unmask_fired","WQ_own_skip_fired","WQ_enemy_skip_fired"},
+             "NATIVE_PIN_CAUSAL_EVENT_SCHEMA_MISMATCH")
+        must(all(z>=0 for z in site.values()),"NEGATIVE_PIN_CAUSAL_EVENT_COUNT")
+        last["pin_causal_intervention"]=site
     return last
 
 def main():
