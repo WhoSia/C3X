@@ -1,0 +1,75 @@
+{
+  "schema": "c3x018-16-original-chess-game-halfmove-fullmove-vs-history-native-v1",
+  "date": "2026-10-10",
+  "engine": "Stockfish16 68e1e9b3811e16cad014b590d7443b9063b3eb52",
+  "study_type": "ADAPTIVE_SECONDARY_AFTER_EXTERNAL_SOURCE_COURT",
+  "run": 37984038805,
+  "conclusion": "success",
+  "artifact_id": 11641693264,
+  "zip_sha256": "e4a20569099430312ecd22bc273b1823a74f5001856863809996770cb5548214",
+  "native_json_sha256": "15dce2596669e5f8bb6f1310eee8a5e3f69e35d0e6dd5c86f2fc10dafd938a16",
+  "all_member_sha256_verified": true,
+  "source_game_count": 16,
+  "fully_executed": 16,
+  "hold": 0,
+  "source_run": 37981820261,
+  "standalone_run": 37982781383,
+  "actual_history_run": 37983641417,
+  "interventions": {
+    "C00": "standalone source board, halfmove=0, fullmove=1",
+    "C10": "same board, original halfmove, fullmove=1",
+    "C01": "same board, halfmove=0, original fullmove",
+    "C11": "same board, both original clocks",
+    "HIST": "actual full original UCI game prefix"
+  },
+  "root_bestmove_changes_relative_C00": {
+    "O_C10": 3,
+    "O_C01": 0,
+    "O_C11": 3,
+    "F_C10": 1,
+    "F_C01": 0,
+    "F_C11": 1
+  },
+  "full_UCI_core_changes_relative_C00": {
+    "O_C10": 10,
+    "O_C01": 0,
+    "O_C11": 10,
+    "F_C10": 10,
+    "F_C01": 0,
+    "F_C11": 10
+  },
+  "HIST_vs_C11": {
+    "O_bestmove_changes": 0,
+    "F_bestmove_changes": 0,
+    "O_full_core_changes": 1,
+    "F_full_core_changes": 1,
+    "residual_source_game_id": 1
+  },
+  "illustrative_cases": {
+    "case2": {
+      "original_halfmove": 1,
+      "C00_O": "e1d1",
+      "C10_O": "c2b3",
+      "HIST_O": "c2b3"
+    },
+    "case11": {
+      "original_halfmove": 1,
+      "C00_F": "f4e5",
+      "C10_F": "e2f3",
+      "HIST_F": "e2f3"
+    },
+    "case15": {
+      "original_halfmove": 2,
+      "C00_O": "f5e3",
+      "C10_O": "f5h6",
+      "HIST_O": "f5h6"
+    }
+  },
+  "limits": [
+    "Original game-history effects on reported bestmove were reproduced by restoring the halfmove clock for these 16 positions",
+    "Fullmove-number-only change produced no observed final UCI difference",
+    "Exact original game-history search was not fully recovered at case1 despite same chess move under C11",
+    "Source-only selection from one Lichess broadcast month; no independent engine or general law",
+    "No sole natural physical TT writer-reader mediation established"
+  ]
+}
