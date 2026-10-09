@@ -1,0 +1,76 @@
+name: C3X 0.18 Case1 Exact Cycle Draw Intervention
+on:
+  push:
+    paths:
+      - 'tools/c3x_018_case1_exact_cycle_draw_node_gate.py'
+      - 'harness/c3x_018_case1_exact_draw_cycle_counterfactual_native.py'
+      - '.github/workflows/c3x-018-case1-cycle-draw-counterfactual.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  one-source-node-cycle-vs-draw:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Source and chess move replay gate
+        run: |
+          python -m pip install -q chess==1.11.2
+          python -m py_compile tools/c3x_018_case1_exact_cycle_draw_node_gate.py
+          python -m py_compile harness/c3x_018_case1_exact_draw_cycle_counterfactual_native.py
+      - name: Frozen source and independent prior history native
+        uses: actions/download-artifact@v4
+        with:
+          name: c3x-018-independent-PGN-blind-source-16
+          path: source/
+          repository: WhoSia/C3X
+          run-id: '37981820261'
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: c3x-018-real-game-history-vs-FEN-source
+          path: history/
+          repository: WhoSia/C3X
+          run-id: '37983641417'
+          github-token: ${{ github.token }}
+      - name: Frozen SF16 P4 search trace root ancestry physical TT draw predicates and exact branch
+        run: |
+          set -euo pipefail
+          mkdir -p evidence
+          root=/tmp/C3X018_EXACT_HISTORY_GATE
+          git clone -q --single-branch --branch sf_16 https://github.com/official-stockfish/Stockfish.git "$root"
+          test "$(git -C "$root" rev-parse HEAD)" = 68e1e9b3811e16cad014b590d7443b9063b3eb52
+          python tools/c3x_016_P4_independent_12root_source_order_patch.py --source "$root" --out-manifest evidence/P4.json
+          python tools/c3x_017_early_depth1_root_window_trace_patch.py --source "$root" --out-manifest evidence/ROOT.json
+          python tools/c3x_018_trial_call_identity_patch.py --source "$root" --out-manifest evidence/TRIAL.json
+          python tools/c3x_018_physical_epoch_lineage_patch.py --source "$root" --out-manifest evidence/EPOCH.json
+          python tools/c3x_018_root_TT_genealogy_overlay.py --source "$root" --out-manifest evidence/ROOT_TT.json
+          python tools/c3x_018_case1_true_draw_branch_observer.py --source "$root" --out-manifest evidence/DRAW_OBSERVER.json
+          python tools/c3x_018_case1_exact_cycle_draw_node_gate.py --source "$root" --out-manifest evidence/EXACT_INTERVENTION.json
+          git -C "$root" diff -- src/ > evidence/SOURCE_DIFF.patch
+          make -s -C "$root/src" -j2 build ARCH=x86-64
+          sha256sum "$root/src/stockfish" > evidence/BINARY_SHA256.txt
+      - name: Cold same-node G D GD source gate versus original game draw residual
+        run: |
+          set -euo pipefail
+          python -u harness/c3x_018_case1_exact_draw_cycle_counterfactual_native.py \
+            --cohort source/C3X018_INDEPENDENT_BLIND16_PGN_SOURCE.json \
+            --prior-history history/ORIGINAL_GAME_HISTORY_VS_FEN_16_NATIVE.json \
+            --engine /tmp/C3X018_EXACT_HISTORY_GATE/src/stockfish \
+            --out evidence/CASE1_EXACT_CYCLE_DRAW_DIAGNOSTIC.json | tee evidence/NATIVE_STDOUT.txt
+      - name: Native files SHA
+        if: always()
+        run: |
+          mkdir -p evidence
+          find evidence -maxdepth 1 -type f ! -name MEMBER_SHA256.txt -print0 | sort -z | xargs -0 -r sha256sum > evidence/MEMBER_SHA256.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x-018-case1-exact-source-draw-cycle-gates
+          path: evidence/
+          retention-days: 90
+          if-no-files-found: error
