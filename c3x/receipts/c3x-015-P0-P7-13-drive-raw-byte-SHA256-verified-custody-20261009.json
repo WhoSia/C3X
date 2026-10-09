@@ -1,0 +1,177 @@
+{
+  "schema": "c3x015-drive-custody-r3-13-native-artifacts-bytes-verified-v1",
+  "date_kst": "2026-10-09",
+  "canonical_folder": {
+    "id": "1Mcx8yKfycxHDpmHhmAFx0AQFrgA3I3z8",
+    "url": "https://drive.google.com/drive/folders/1Mcx8yKfycxHDpmHhmAFx0AQFrgA3I3z8",
+    "parent": "04_SEALED_RESULTS_COURTS"
+  },
+  "verified_scope": "13 GitHub 0.15 Action artifact ZIPs uploaded in 04_SEALED_RESULTS_COURTS/C3X_0_15. 13 original Drive bytes fetched and cryptographically re-hashed against original GitHub artifact digests. TWIC original publisher ZIP and P1 full model remain separate custody gaps.",
+  "important_rights_note": "TWIC original publisher PGN is not included. Original TWIC bytes have separately registered SHA/size, but separate Drive raw byte archival remains pending rights check.",
+  "items": [
+    {
+      "stage": "P0_R1",
+      "github_actions_run_id": 37902093021,
+      "github_artifact_id": 11602972943,
+      "github_artifact_sha256": "71e24ff754eec0113d97950dcdfa5662db003f689b6e935c88e5423f83b94c20",
+      "google_drive_file_id": "1oM8ATNDIfjkQYmd6ZBo7IvQ-oNHGfJay",
+      "google_drive_url": "https://drive.google.com/file/d/1oM8ATNDIfjkQYmd6ZBo7IvQ-oNHGfJay/view",
+      "drive_metadata_bytes": 59702,
+      "drive_parent_metadata_verified": true,
+      "byte_level_drive_sha256_verified": true,
+      "sha256_recheck_source": "Google Drive authenticated raw download plus independent runtime SHA-256 hash matches original GitHub Actions digest"
+    },
+    {
+      "stage": "P0_R2",
+      "github_actions_run_id": 37902655949,
+      "github_artifact_id": 11602149413,
+      "github_artifact_sha256": "6ffad0aa1f716799ac679be4b65d88e016861a8d519bba0503301bc67c0594a5",
+      "google_drive_file_id": "1xyc8Kxdpc8yTRtrZfKJECTOIpZ5jwgXo",
+      "google_drive_url": "https://drive.google.com/file/d/1xyc8Kxdpc8yTRtrZfKJECTOIpZ5jwgXo/view",
+      "drive_metadata_bytes": 63293,
+      "drive_parent_metadata_verified": true,
+      "byte_level_drive_sha256_verified": true,
+      "sha256_recheck_source": "Google Drive authenticated raw download plus independent runtime SHA-256 hash matches original GitHub Actions digest"
+    },
+    {
+      "stage": "P2_SEE_NATIVE",
+      "github_actions_run_id": 37906181077,
+      "github_artifact_id": 11604990981,
+      "github_artifact_sha256": "d51c43e953e3645149b9b72b7040609f6cc33222f68c05f26c3e3a7c451d215f",
+      "google_drive_file_id": "19uf14Md-8VvRABR6cX3GCY0CBrdVDLTh",
+      "google_drive_url": "https://drive.google.com/file/d/19uf14Md-8VvRABR6cX3GCY0CBrdVDLTh/view",
+      "drive_metadata_bytes": 39955,
+      "drive_parent_metadata_verified": true,
+      "byte_level_drive_sha256_verified": true,
+      "sha256_recheck_source": "Google Drive authenticated raw download plus independent runtime SHA-256 hash matches original GitHub Actions digest"
+    },
+    {
+      "stage": "P3_64FRAMES",
+      "github_actions_run_id": 37907535134,
+      "github_artifact_id": 11605675333,
+      "github_artifact_sha256": "e6b08cc5ae7dd27dc7ac7ee62756eab7c43ae0b760304c5d88c5740aa8c03b61",
+      "google_drive_file_id": "1g4bfi6ZoXKu6Nnu186Wu0sfLwtc6-_Vd",
+      "google_drive_url": "https://drive.google.com/file/d/1g4bfi6ZoXKu6Nnu186Wu0sfLwtc6-_Vd/view",
+      "drive_metadata_bytes": 65900,
+      "drive_parent_metadata_verified": true,
+      "byte_level_drive_sha256_verified": true,
+      "sha256_recheck_source": "Google Drive authenticated raw download plus independent runtime SHA-256 hash matches original GitHub Actions digest"
+    },
+    {
+      "stage": "P3R2_4096FRAMES",
+      "github_actions_run_id": 37908021714,
+      "github_artifact_id": 11605306525,
+      "github_artifact_sha256": "58d5f69c104385ea3c564833b0b5f2b7061c944ac8e8303066410c596c21d1d8",
+      "google_drive_file_id": "1SKtAw9oIlSI2Vv4o_UA3nARwyVpFsP2L",
+      "google_drive_url": "https://drive.google.com/file/d/1SKtAw9oIlSI2Vv4o_UA3nARwyVpFsP2L/view",
+      "drive_metadata_bytes": 1773801,
+      "drive_parent_metadata_verified": true,
+      "byte_level_drive_sha256_verified": true,
+      "sha256_recheck_source": "Google Drive authenticated raw download plus independent runtime SHA-256 hash matches original GitHub Actions digest"
+    },
+    {
+      "stage": "P4_TT_LINEAGE",
+      "github_actions_run_id": 37908958111,
+      "github_artifact_id": 11604824834,
+      "github_artifact_sha256": "d93b80f892b87c11f73395c11c1682214716b8385d1e87168ab15a069fd0ff26",
+      "google_drive_file_id": "1_KU5t2hiAp-pG41eGiB5gwgyQcyQM_Uo",
+      "google_drive_url": "https://drive.google.com/file/d/1_KU5t2hiAp-pG41eGiB5gwgyQcyQM_Uo/view",
+      "drive_metadata_bytes": 1799259,
+      "drive_parent_metadata_verified": true,
+      "byte_level_drive_sha256_verified": true,
+      "sha256_recheck_source": "Google Drive authenticated raw download plus independent runtime SHA-256 hash matches original GitHub Actions digest"
+    },
+    {
+      "stage": "P5_TT_FACTORIAL",
+      "github_actions_run_id": 37911397054,
+      "github_artifact_id": 11607445377,
+      "github_artifact_sha256": "b7444cb7efc9f5a0631d08a7c031df7d9d4587ac48f41a000f92ec8c77aade09",
+      "google_drive_file_id": "1HQ4CP7UXgsJXAfyF-8uuvmX0q1GFLpgH",
+      "google_drive_url": "https://drive.google.com/file/d/1HQ4CP7UXgsJXAfyF-8uuvmX0q1GFLpgH/view",
+      "drive_metadata_bytes": 62004,
+      "drive_parent_metadata_verified": true,
+      "byte_level_drive_sha256_verified": true,
+      "sha256_recheck_source": "Google Drive authenticated raw download plus independent runtime SHA-256 hash matches original GitHub Actions digest"
+    },
+    {
+      "stage": "P6S0_TARGET_FREEZE",
+      "github_actions_run_id": 37912460425,
+      "github_artifact_id": 11606823160,
+      "github_artifact_sha256": "cef5ed682329f08e7e154c1700811b7b3bb3cfa3dde239f5d261bd66eb273d6b",
+      "google_drive_file_id": "1KGK2aSFO9NH3IXke02Jkon9helAzzBlE",
+      "google_drive_url": "https://drive.google.com/file/d/1KGK2aSFO9NH3IXke02Jkon9helAzzBlE/view",
+      "drive_metadata_bytes": 45244,
+      "drive_parent_metadata_verified": true,
+      "byte_level_drive_sha256_verified": true,
+      "sha256_recheck_source": "Google Drive authenticated raw download plus independent runtime SHA-256 hash matches original GitHub Actions digest"
+    },
+    {
+      "stage": "P6S1_SINGLE_TT_NATIVE",
+      "github_actions_run_id": 37913226690,
+      "github_artifact_id": 11608870183,
+      "github_artifact_sha256": "a02fdeb8537a68b523da254659a16812aa6229cd917aaca10c3d4a02b198eecc",
+      "google_drive_file_id": "1uhdwXN0IKCKWFEcsC0HxpfT0WnGc-zLY",
+      "google_drive_url": "https://drive.google.com/file/d/1uhdwXN0IKCKWFEcsC0HxpfT0WnGc-zLY/view",
+      "drive_metadata_bytes": 62099,
+      "drive_parent_metadata_verified": true,
+      "byte_level_drive_sha256_verified": true,
+      "sha256_recheck_source": "Google Drive authenticated raw download plus independent runtime SHA-256 hash matches original GitHub Actions digest"
+    },
+    {
+      "stage": "P6_RUST_INDEPENDENT",
+      "github_actions_run_id": 37916342379,
+      "github_artifact_id": 11609693823,
+      "github_artifact_sha256": "61b876fe205df13a60f6cb5bcec8f1e8d2add4958380885255ee06c33dbae5c1",
+      "google_drive_file_id": "1z8Y5rUd8-hk9Rb_pK_fYmDIYPKWkdhDV",
+      "google_drive_url": "https://drive.google.com/file/d/1z8Y5rUd8-hk9Rb_pK_fYmDIYPKWkdhDV/view",
+      "drive_metadata_bytes": 7384,
+      "drive_parent_metadata_verified": true,
+      "byte_level_drive_sha256_verified": true,
+      "sha256_recheck_source": "Google Drive authenticated raw download plus independent runtime SHA-256 hash matches original GitHub Actions digest"
+    },
+    {
+      "stage": "P6_GO_AUTHORITY",
+      "github_actions_run_id": 37916884162,
+      "github_artifact_id": 11610445068,
+      "github_artifact_sha256": "cca245612c945326fb2e9f821ebcfc5256162e73c80fd06965d29493a0ba8a34",
+      "google_drive_file_id": "1N7175WpFfwato47MKGOqQdwgvfb_m-RA",
+      "google_drive_url": "https://drive.google.com/file/d/1N7175WpFfwato47MKGOqQdwgvfb_m-RA/view",
+      "drive_metadata_bytes": 5579,
+      "drive_parent_metadata_verified": true,
+      "byte_level_drive_sha256_verified": true,
+      "sha256_recheck_source": "Google Drive authenticated raw download plus independent runtime SHA-256 hash matches original GitHub Actions digest"
+    },
+    {
+      "stage": "P7_TWO_CASE_BOUND_VALUE_VS_QSEARCH",
+      "github_actions_run_id": 37918227188,
+      "github_artifact_id": 11610777469,
+      "github_artifact_sha256": "610f0da2d2e3581ba1ac8888dbae7a20d3029577ee2dbe3abc646db5f7997740",
+      "google_drive_file_id": "19_RK0ivwWemtKt8FU9EyHDLBQcMUfKD7",
+      "google_drive_url": "https://drive.google.com/file/d/19_RK0ivwWemtKt8FU9EyHDLBQcMUfKD7/view",
+      "drive_metadata_bytes": 25561,
+      "drive_parent_metadata_verified": true,
+      "byte_level_drive_sha256_verified": true,
+      "sha256_recheck_source": "Google Drive authenticated raw download plus runtime SHA-256"
+    },
+    {
+      "stage": "P7_RUST_INDEPENDENT_CATEGORICAL",
+      "github_actions_run_id": 37918774649,
+      "github_artifact_id": 11610497749,
+      "github_artifact_sha256": "72e07abd90edaacf1cf3db672d096d6e5b243a1b3ef85503340288f196b6cfd4",
+      "google_drive_file_id": "1Eff0mSDPSKv6EZ0nuvoN_PD1wjgLrQug",
+      "google_drive_url": "https://drive.google.com/file/d/1Eff0mSDPSKv6EZ0nuvoN_PD1wjgLrQug/view",
+      "drive_metadata_bytes": 4740,
+      "drive_parent_metadata_verified": true,
+      "byte_level_drive_sha256_verified": true,
+      "sha256_recheck_source": "Authenticated Drive raw byte download and independent SHA-256 matched GitHub artifact SHA"
+    }
+  ],
+  "claims_not_included": [
+    "Original TWIC third-party PGN raw ZIP archived on Drive (publisher rights unresolved)",
+    "C3X 0.13 complete old PGN/FEN cross-generation dedup",
+    "P1 full trained predictive model ZIP archived as a 0.15 Drive artifact, not only compact GitHub precommit"
+  ],
+  "all_digests_verified": true,
+  "original_artifacts": 13,
+  "custody_status": "THIRTEEN_GITHUB_NATIVE_EVIDENCE_ZIPS_DRIVE_BYTE_SHA256_VERIFIED_PASS"
+}
