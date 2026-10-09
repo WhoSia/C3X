@@ -1,0 +1,134 @@
+name: C3X 0.15 P9 A1 CEFH RISR Beta TT Write and Return Causal Court
+on:
+  push:
+    paths:
+      - '.github/workflows/c3x-015-p9-a1-cefh-risr-exact-event.yml'
+      - 'tools/c3x_015_P7_exact_TT_return_alpha_vs_qsearch_continue_patch.py'
+      - 'tools/c3x_015_P8_qsearch_post_TT_microevent_observer_patch.py'
+      - 'tools/c3x_015_P9_A1_CEFH_RISR_beta_TTwrite_localreturn_source_patch.py'
+      - 'harness/c3x_015_P9_A1_CEFH_RISR_48_native_mediator_court.py'
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  matched-original-single-TT-qsearch-value:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Source-native runtime and static syntax checks
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq git make g++
+          python -m pip install --disable-pip-version-check chess==1.11.2
+          python -m py_compile tools/c3x_015_P9_A1_CEFH_RISR_beta_TTwrite_localreturn_source_patch.py harness/c3x_015_P9_A1_CEFH_RISR_48_native_mediator_court.py
+          mkdir -p original-source original-p2 original-p6 original-p7 original-p8 targets output
+      - uses: actions/download-artifact@v4
+        with:
+          name: c3x-015-twic1665-R2-event-capped-source-pin-matched-nonpin
+          path: original-source/
+          repository: WhoSia/C3X
+          run-id: '37902655949'
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: c3x-015-TWIC-R2-frozen-64pin-64nonpin-native-SEE-primary
+          path: original-p2/
+          repository: WhoSia/C3X
+          run-id: '37906181077'
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: c3x-015-P6S0-TWIC-original64-first-exact-fullkey-TT-return-target-freeze
+          path: targets/
+          repository: WhoSia/C3X
+          run-id: '37912460425'
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: c3x-015-P6S1-TWIC-one-exact-fullkey-TT-return-64x4x2-native
+          path: original-p6/
+          repository: WhoSia/C3X
+          run-id: '37913226690'
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: c3x-015-P7-TWIC-case2-case29-single-TT-return-score-versus-qsearch
+          path: original-p7/
+          repository: WhoSia/C3X
+          run-id: '37918227188'
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: c3x-015-P8-TWIC-case2-case29-qsearch-microevent-root-pv
+          path: original-p8/
+          repository: WhoSia/C3X
+          run-id: '37920098035'
+          github-token: ${{ github.token }}
+      - name: Verify all original-source and original-native evidence bytes BEFORE new test
+        run: |
+          printf '%s  %s\n' '1e932aa881eaef549c770211c078d930cd8d675e5688644e1bc36ab31bae4534' 'original-source/C3X015_TWIC1665_SCOREBLIND_SOURCE_MANIFEST_R2.json' | sha256sum -c -
+          printf '%s  %s\n' 'e930f0b489301c656690d09f4821583a28eead04e43382b545bda35b71279256' 'original-p2/C3X015_TWIC1665_R2_P2_PIN64_NONPIN64_PROSPECTIVE_NATIVE_RESULT.json' | sha256sum -c -
+          printf '%s  %s\n' '0dd412cdfad82ea6b042dd3381e07182f2d4f3e52cd3e83c71004b6ecaed6ee1' 'targets/C3X015_P6S0_64_SOURCE_OFF_FIRST_FULLKEY_TT_TARGETS.json' | sha256sum -c -
+          printf '%s  %s\n' 'c04ee3061835babb846fee54b269617da5ab809dc9efe46c1e6cbe9360fefa11' 'original-p6/C3X015_P6S1_64_ROOTS_ONE_EXACT_TT_RETURN_512_NATIVE.json' | sha256sum -c -
+          printf '%s  %s\n' '01ea31dcb1d900925ff38ec3d6d5da4afe63bba6c87eccc2eb8563d9440d8c77' 'original-p7/C3X015_P7_TWIC_CASES_2_29_24_NATIVE_RETURN_VALUE_VS_CONTINUE.json' | sha256sum -c -
+          printf '%s  %s\n' 'bb2af016857dff393a6054bad2b2978d3ecb2d92c527891f578688e513452e22' 'original-p8/C3X015_P8_TWIC_CASES_2_29_QSEARCH_AND_ROOT_PV_24_NATIVE.json' | sha256sum -c -
+          test -s c3x/ontology/c3x-015-P9-dual-mechanism-operator-lattice-strategic-transport-precommit.md
+          test -s c3x/ontology/c3x-015-P8-qsearch-microevent-first-root-choice-causal-lineage-PRECOMMIT.md
+          test -s c3x/ontology/c3x-015-P7-single-TT-return-value-vs-qsearch-continuation-precommit.md
+      - name: Build pinned upstream Stockfish 16 with P7 single TT return score-value source code
+        run: |
+          git clone -q --single-branch --branch sf_16 https://github.com/official-stockfish/Stockfish.git /tmp/C3X015_P7
+          test "$(git -C /tmp/C3X015_P7 rev-parse HEAD)" = 68e1e9b3811e16cad014b590d7443b9063b3eb52
+          python tools/c3x_014_patch_native_pin_operators.py --source /tmp/C3X015_P7 --out-manifest output/PASSIVE_PIN_PATCH.json
+          python tools/c3x_014_ROOT_PIN_object_only_SEE_unmask_patch.py --source /tmp/C3X015_P7 --out-manifest output/ROOT_PIN_SEE_SOURCE_PATCH.json
+          python tools/c3x_015_CSWP_first_site_window_patch_R2.py --source /tmp/C3X015_P7 --out-manifest output/CSWP_SEARCH_FRAME_PATCH.json
+          python tools/c3x_015_CSWP_TT_writer_reader_bound_window_patch.py --source /tmp/C3X015_P7 --out-manifest output/PHYSICAL_TT_PROVENANCE_PATCH.json
+          python tools/c3x_015_P6S0_FIRST_exact_TT_reader_candidate_patch.py --source /tmp/C3X015_P7 --out-manifest output/P6S0_TARGET_SOURCE_OBSERVER.json
+          python tools/c3x_015_P6S1_exact_single_TT_return_block_patch.py --source /tmp/C3X015_P7 --out-manifest output/P6S1_ONE_TT_BLOCK_PATCH.json
+          python tools/c3x_015_P7_exact_TT_return_alpha_vs_qsearch_continue_patch.py --source /tmp/C3X015_P7 --out-manifest output/P7_ONE_RETURN_SCORE_PATCH.json
+          python tools/c3x_015_P8_qsearch_post_TT_microevent_observer_patch.py --source /tmp/C3X015_P7 --out-manifest output/P8_PASSIVE_QSEARCH_MICROEVENT_PATCH.json
+          python tools/c3x_015_P9_A1_CEFH_RISR_beta_TTwrite_localreturn_source_patch.py --source /tmp/C3X015_P7 --out-manifest output/P9_A1_PRECISE_SOURCE_MICRO_GATES.json
+          git -C /tmp/C3X015_P7 diff -- src/position.cpp src/search.cpp src/tt.cpp src/tt.h > output/P9_A1_SF16_CPP_SOURCE_DIFF.patch
+          test -s output/P9_A1_SF16_CPP_SOURCE_DIFF.patch
+          make -s -C /tmp/C3X015_P7/src -j2 build ARCH=x86-64
+          cp /tmp/C3X015_P7/src/stockfish /tmp/C3X015_P7_bin
+          sha256sum /tmp/C3X015_P7_bin > output/P9_A1_NATIVE_BINARY_SHA256.txt
+      - name: Run exact two-world 6-arms 48 native P9-A1 with frozen P7/P8 C++ regression
+        run: |
+          python -u harness/c3x_015_P9_A1_CEFH_RISR_48_native_mediator_court.py \
+            --source original-source/C3X015_TWIC1665_SCOREBLIND_SOURCE_MANIFEST_R2.json \
+            --targets targets/C3X015_P6S0_64_SOURCE_OFF_FIRST_FULLKEY_TT_TARGETS.json \
+            --prior-p2 original-p2/C3X015_TWIC1665_R2_P2_PIN64_NONPIN64_PROSPECTIVE_NATIVE_RESULT.json \
+            --prior-p6 original-p6/C3X015_P6S1_64_ROOTS_ONE_EXACT_TT_RETURN_512_NATIVE.json \
+            --prior-p7 original-p7/C3X015_P7_TWIC_CASES_2_29_24_NATIVE_RETURN_VALUE_VS_CONTINUE.json \
+            --prior-p8 original-p8/C3X015_P8_TWIC_CASES_2_29_QSEARCH_AND_ROOT_PV_24_NATIVE.json \
+            --engine /tmp/C3X015_P7_bin \
+            --out output/C3X015_P9_A1_CEFH_RISR_EXACT_EVENT_48_NATIVE.json
+          python - <<'PY'
+          import json
+          x=json.load(open('output/C3X015_P9_A1_CEFH_RISR_EXACT_EVENT_48_NATIVE.json'))
+          assert x['native_cold_processes']==48
+          assert [z['ordinal'] for z in x['cases']]==[2,29]
+          assert x['exact_P8_baseline_cell_regression']==12
+          print('C3X015_P9_A1_48_NATIVE_CASE2_CASE29_EXACT_EVENT_SCOPED_PASS')
+          PY
+      - name: Archive raw post-disclosure results without TWIC third-party PGN
+        if: always()
+        run: |
+          cp tools/c3x_015_P9_A1_CEFH_RISR_beta_TTwrite_localreturn_source_patch.py output/P9_A1_CXX_SOURCE_MICRO_GATES.py
+          cp harness/c3x_015_P9_A1_CEFH_RISR_48_native_mediator_court.py output/P9_A1_NATIVE_48_RUNNER.py
+          cp c3x/ontology/c3x-015-P9-dual-mechanism-operator-lattice-strategic-transport-precommit.md output/P9_FULL_PRECOMMIT.md
+          printf '%s\n' 'P7 targets P6-disclosed worlds 2 and 29; post-outcome mechanism only, not blind generalization or TT natural mediation. Source copyright TWIC original bytes excluded.' > output/SCOPED_AUTHORITY.txt
+          find output -maxdepth 1 -type f ! -name MEMBER_SHA256.txt -print0 | sort -z | xargs -0 sha256sum > output/MEMBER_SHA256.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x-015-P9-A1-TWIC-case2-case29-native-beta-TTsave-return-gates
+          path: output/
+          retention-days: 90
+          if-no-files-found: error
