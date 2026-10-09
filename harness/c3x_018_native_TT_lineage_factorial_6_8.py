@@ -43,23 +43,26 @@ def play(engine, world, p4_mode, lineage_mode=None, target=None, writer_budget=N
     env = dict(os.environ)
     for key in ("C3X018_P1_WRITER_KEY64","C3X018_P1_WRITER_SLOT",
                 "C3X018_P1_WRITER_EPOCH","C3X018_P1_FIRST_CALL",
+                "C3X018_P1_LAST_CALL",
                 "C3X018_P1_WRITE_POLICY"):
         env.pop(key,None)
     if p1_writer is not None:
         need(isinstance(p1_writer,dict) and
-             set(p1_writer)=={"key64","slot","epoch","first_call","policy"},
+             set(p1_writer)=={"key64","slot","epoch","first_call","last_call","policy"},
              "INVALID_P1_WRITER_EXACT_SCHEMA")
         need(p1_writer["policy"] in ("NONE","SKIP","REINSTATE"),
              "P1_INVALID_WRITE_POLICY")
-        for name in ("key64","slot","epoch","first_call"):
+        for name in ("key64","slot","epoch","first_call","last_call"):
             need(isinstance(p1_writer[name],int) and p1_writer[name]>=0,
                  "P1_WRITER_BAD_NUMBER")
-        need(p1_writer["first_call"]>0 and p1_writer["epoch"]>0
+        need(p1_writer["first_call"]>0 and p1_writer["first_call"]<p1_writer["last_call"]
+             and p1_writer["epoch"]>0
              and 0<=p1_writer["slot"]<3,"P1_WRITER_SOURCE_CONSTRAINT")
         env.update(C3X018_P1_WRITER_KEY64=str(p1_writer["key64"]),
                    C3X018_P1_WRITER_SLOT=str(p1_writer["slot"]),
                    C3X018_P1_WRITER_EPOCH=str(p1_writer["epoch"]),
                    C3X018_P1_FIRST_CALL=str(p1_writer["first_call"]),
+                   C3X018_P1_LAST_CALL=str(p1_writer["last_call"]),
                    C3X018_P1_WRITE_POLICY=p1_writer["policy"])
     env.pop("C3X018_PROBE_WATCH_KEY64",None)
     env.pop("C3X018_PROBE_WATCH_ROOT_CALL",None)
