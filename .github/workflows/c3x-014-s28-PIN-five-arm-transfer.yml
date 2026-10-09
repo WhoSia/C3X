@@ -1,0 +1,88 @@
+name: C3X 0.14 S28 Source-Disjoint PIN Mechanism Five-Arm Transfer
+on:
+  push:
+    paths:
+      - '.github/workflows/c3x-014-s28-PIN-five-arm-transfer.yml'
+      - 'harness/c3x_014_TCEC_S28_season_disjoint_PIN_5arm_native_transfer.py'
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  source-independent-season28-original-sf16:
+    runs-on: ubuntu-latest
+    timeout-minutes: 75
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Prepare source-original and modified SF16 compilers
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq git make g++
+          python -m pip install --disable-pip-version-check chess==1.11.2
+          python -m py_compile harness/c3x_014_TCEC_S28_season_disjoint_PIN_5arm_native_transfer.py
+          mkdir -p frozen output
+      - uses: actions/download-artifact@v4
+        with:
+          name: c3x-014-tcec-s28-original-64-source-only-chess-pin-fiber-transfer
+          path: frozen/
+          repository: WhoSia/C3X
+          run-id: '37892996179'
+          github-token: ${{ github.token }}
+      - name: Reject any drift from SCORE-BLIND source pinned sixty-four independent S28 game roots
+        run: |
+          printf '%s  %s\n' '1152473ed8d8793361f922434c75c7da2b9a58e0aa68a59466fc65179d6ac5e4' 'frozen/C3X014_ORIGINAL_TCEC_S28_CHESS_LAW_PIN_FROZEN64_BEFORE_EVAL.json' | sha256sum -c -
+      - name: Compile CLEAN original official SF16 baseline and separately C3X operator intervention binary
+        run: |
+          git clone -q --single-branch --branch sf_16 https://github.com/official-stockfish/Stockfish.git /tmp/C3X014_S28_PRISTINE
+          test "$(git -C /tmp/C3X014_S28_PRISTINE rev-parse HEAD)" = "68e1e9b3811e16cad014b590d7443b9063b3eb52"
+          cp -a /tmp/C3X014_S28_PRISTINE /tmp/C3X014_S28_TREATED
+          cp /tmp/C3X014_S28_PRISTINE/Copying.txt output/Stockfish_GPLv3.txt
+          python tools/c3x_014_patch_native_pin_operators.py --source /tmp/C3X014_S28_TREATED --out-manifest output/OBSERVATIONAL_SOURCE_PIN_EVENTS_PATCH.json
+          python tools/c3x_014_SEE_and_classic_WeakQueen_role_intervention.py --source /tmp/C3X014_S28_TREATED --out-manifest output/SURGICAL_SOURCE_PIN_ROLES_PATCH.json
+          git -C /tmp/C3X014_S28_TREATED diff -- src/position.cpp src/evaluate.cpp src/search.cpp > output/EXACT_SF16_NATIVE_CHESS_PIN_SOURCE_DIFF.patch
+          cp /tmp/C3X014_S28_TREATED/src/c3x014_pin_trace.h output/NATIVE_PIN_OPERATOR_HEADER.h
+          test -s output/EXACT_SF16_NATIVE_CHESS_PIN_SOURCE_DIFF.patch
+          make -s -C /tmp/C3X014_S28_PRISTINE/src -j2 build ARCH=x86-64
+          make -s -C /tmp/C3X014_S28_TREATED/src -j2 build ARCH=x86-64
+          cp /tmp/C3X014_S28_PRISTINE/src/stockfish /tmp/C3X014_S28_SF16_CLEAN_BIN
+          cp /tmp/C3X014_S28_TREATED/src/stockfish /tmp/C3X014_S28_SF16_TREATED_BIN
+          sha256sum /tmp/C3X014_S28_SF16_CLEAN_BIN /tmp/C3X014_S28_SF16_TREATED_BIN > output/NATIVE_PRISTINE_VS_TREATED_SF16_BINARY_SHA256.txt
+      - name: Run 704 actual SF16 native processes in sixty-four source-frozen different game roots
+        run: |
+          python harness/c3x_014_TCEC_S28_season_disjoint_PIN_5arm_native_transfer.py --source frozen/C3X014_ORIGINAL_TCEC_S28_CHESS_LAW_PIN_FROZEN64_BEFORE_EVAL.json --original-engine /tmp/C3X014_S28_SF16_CLEAN_BIN --treated-engine /tmp/C3X014_S28_SF16_TREATED_BIN --out output/C3X014_SEASON28_64_GAMES_ACTUAL_PIN_FIVE_ARM_NATIVE_TRANSFER.json
+          python - <<'PY'
+          import json
+          r=json.load(open('output/C3X014_SEASON28_64_GAMES_ACTUAL_PIN_FIVE_ARM_NATIVE_TRANSFER.json'))
+          assert r['formal_study']=='C3X 0.14' and r['proposed_015_NOT_OPEN']
+          assert r['distinct_root_source_games']==64
+          assert r['sum_actual_SF16_processes']==704
+          assert r['all_64_OFF_source_unmodified_original_engine_UCI_equivalence']
+          assert r['all_320_two_cold_treatment_conditions_exact']=='320/320'
+          assert r['zero_fire_any_UCI_change_falsifier_gated']
+          assert len(r['prespecified_four_S29_pin_law_groups_tested_on_new_S28_games'])==4
+          assert not r['modified_chess_legality'] and not r['claim_isolated_root_pin_causality']
+          assert not r['P1_procedurally_sealed_holdout_examined']
+          print('C3X014_TCEC_S28_INDEPENDENT_SEASON_PIN_OPERATOR_CAUSAL_TRANSFER_PASS')
+          PY
+      - name: Archive raw negative/positive source cases and untouched SF16 paired binary source audit
+        if: always()
+        run: |
+          cp harness/c3x_014_TCEC_S28_season_disjoint_PIN_5arm_native_transfer.py output/REAL_S28_704_NATIVE_SF16_TRANSFER_REPLAY.py
+          cp harness/c3x_014_official_pin_NNUE_vs_classic_phenotype_court.py output/SF16_UCI_ROOT_READER.py
+          cp harness/c3x_014_pin_native_trace_fields.py output/SF16_PIN_OPERATOR_SCHEMA.py
+          cp tools/c3x_014_SEE_and_classic_WeakQueen_role_intervention.py output/EXACT_FIVE_ARM_SF16_CPP_PATCHER.py
+          cp tools/c3x_014_patch_native_pin_operators.py output/ORIGINAL_OPERATOR_SITE_CPP_PATCHER.py
+          cp frozen/C3X014_ORIGINAL_TCEC_S28_CHESS_LAW_PIN_FROZEN64_BEFORE_EVAL.json output/SCORE_BLIND_ORIGINAL_S28_SOURCE_64.json
+          cp c3x/ontology/c3x-014-S28-source-disjoint-pin-fiber-transfer-precommit.md output/PRE_OUTCOME_FROZEN_S28_SEASON_TRANSFER_CONTRACT.md
+          printf '%s\n' 'Results are distinct-season TCEC source-disjoint operator susceptibility; same provider and engine, 64 source games, 704 technical native processes. Global search operator interventions do not isolate root PIN causal mediation or NNUE learned concepts.' > output/SOURCE_TRANSPORT_AUTHORITY_CEILING.txt
+          find output -maxdepth 1 -type f ! -name 'MEMBER_SHA256.txt' -print0 | sort -z | xargs -0 sha256sum > output/MEMBER_SHA256.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x-014-season28-SF16-native-five-arm-pin-704-process-transfer
+          path: output/
+          retention-days: 90
+          if-no-files-found: error
