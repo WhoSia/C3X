@@ -1,0 +1,134 @@
+{
+  "schema": "c3x018-physical-TT-field-isolation-W-versus-P-native-court-v1",
+  "date": "2026-10-10",
+  "version": "C3X 0.18 ACTIVE",
+  "engine_commit": "official-stockfish/Stockfish sf_16 68e1e9b3811e16cad014b590d7443b9063b3eb52",
+  "run": 37976571447,
+  "head_sha": "78f465750bf58f0f81492aca650978ec8ea2f75f",
+  "conclusion": "success",
+  "artifact_id": 11639431473,
+  "artifact_zip_sha256": "6f692bb3166d773ca6d41085c2ea6df514d5c27dffb88a07329686c5154a6b1c",
+  "native_json_file": "TT_PAYLOAD_VS_WHOLE_6_8.json",
+  "native_json_sha256": "e1ad3ef83ba2188f388667f24b9bd8c0e01d3b8fe807b0bfba427cf6021d045e",
+  "all_internal_member_hashes_verified": true,
+  "operator_defs": {
+    "W": "Suppress entire accepted source TTEntry::save() for first N selected matching attempts (including potential move16 update).",
+    "P": "Suppress accepted payload writes, preserve original move16 update; this can create a hybrid TTEntry.",
+    "unmodified_source": "Frozen SF16 original TTEntry remains structurally 10 bytes; TT cluster 32 bytes; shadow ledger out of line."
+  },
+  "controls": "Both O/F/Z final UCI exact prior P4, cold source native duplication, decoy P no-contact and exact F core",
+  "case6": {
+    "target": {
+      "key64": "3293258168769270517",
+      "slot": 0,
+      "epoch": 2
+    },
+    "budgets": [
+      1,
+      2,
+      21,
+      22,
+      23
+    ],
+    "W_bestmove": [
+      "e4d6",
+      "c3a4",
+      "c3a4",
+      "e4d6",
+      "e4d6"
+    ],
+    "P_bestmove": [
+      "e4d6",
+      "c3a4",
+      "c3a4",
+      "c3a4",
+      "c3a4"
+    ],
+    "W_contacts": [
+      1,
+      2,
+      21,
+      22,
+      23
+    ],
+    "P_contacts": [
+      1,
+      2,
+      21,
+      21,
+      21
+    ],
+    "W_cp": [
+      13,
+      36,
+      17,
+      17,
+      17
+    ],
+    "P_cp": [
+      13,
+      27,
+      31,
+      31,
+      31
+    ],
+    "W_nodes": [
+      90051,
+      47989,
+      56532,
+      50645,
+      50645
+    ],
+    "P_nodes": [
+      90055,
+      47787,
+      43523,
+      43523,
+      43523
+    ],
+    "interpretation": "CATEGORICAL_DIVERGENCE_FOR_BUDGET_22_AND_23_BUT_CONTACT_COUNT_DIFFERENT; NOT_MOVE16_UNIQUE_MEDIATION"
+  },
+  "case8": {
+    "target": {
+      "key64": "14544738779862901516",
+      "slot": 0,
+      "epoch": 1
+    },
+    "budgets": [
+      1,
+      2,
+      74
+    ],
+    "W_bestmove": [
+      "h5g7",
+      "e6h3",
+      "e6h3"
+    ],
+    "P_bestmove": [
+      "h5g7",
+      "e6h3",
+      "e6h3"
+    ],
+    "W_contacts": [
+      1,
+      2,
+      74
+    ],
+    "P_contacts": [
+      1,
+      2,
+      74
+    ],
+    "full_uci_core_equal_at_all_tested_budgets": true,
+    "interpretation": "ALLOWING_MOVE16_WHILE_SUPPRESSING_PAYLOAD_DID_NOT_ALTER_MEASURED_CORE_UNDER_TESTED_DOSES"
+  },
+  "limits": [
+    "Case6 categorical divergence is not a pure move16 contrast: W22 actual22 contacts while P22 actual21",
+    "After interventions, future write eligibility and ordinal identity are treatment-dependent",
+    "P can generate a TT entry with old key/depth/bound/value and new move16, an artificial hybrid",
+    "Writer/reader early cutoff branch is just one of many TT uses in Stockfish",
+    "Only preselected two FEN source cases and exploratory TT target, not independent mediation validation",
+    "No original game repetition context; no generalization to other engines or chess concepts",
+    "No exclusive natural TT mediating path proven; future matched-contact and exact source-frozen rescue remains HOLD"
+  ]
+}
