@@ -1,0 +1,63 @@
+name: C3X 0.14 Official TCEC Source-Only Legal Pin Subtype Freeze
+on:
+  push:
+    paths:
+      - '.github/workflows/c3x-014-legal-pin-subtypes-source.yml'
+      - 'harness/c3x_014_source_only_official_TCEC_pin_subtype_freeze.py'
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  source-only-legal-pin-ontology:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Pin exact chess rules and compile deterministic source-only classifier
+        run: |
+          python -m pip install --disable-pip-version-check chess==1.11.2
+          python -m py_compile harness/c3x_014_source_only_official_TCEC_pin_subtype_freeze.py
+          mkdir -p official output
+      - name: Acquire and verify original official TCEC S29 Superfinal PGN immutable bytes
+        run: |
+          curl -fLsS --retry 3 'https://raw.githubusercontent.com/TCEC-Chess/tcecgames/3dd69a40b3cf6ccc74144df7411ef4e8e2140286/master-archive/TCEC_Season_29_-_Superfinal.pgn' -o official/TCEC_S29.pgn
+          test "$(git hash-object official/TCEC_S29.pgn)" = "68141d7a9afad301c237106c3b2a3324cb35b130"
+          sha256sum official/TCEC_S29.pgn > output/OFFICIAL_GAME_SOURCE_SHA256.txt
+      - name: Full 100-game legal absolute pin geometry census BEFORE ANY engine scoring
+        run: |
+          python harness/c3x_014_source_only_official_TCEC_pin_subtype_freeze.py --pgn official/TCEC_S29.pgn --out output/C3X014_OFFICIAL_CHESS_PIN_SUBTYPES_SOURCE_ONLY.json
+          python - <<'PY'
+          import json,chess
+          p=json.load(open('output/C3X014_OFFICIAL_CHESS_PIN_SUBTYPES_SOURCE_ONLY.json'))
+          assert p['formal_research_unit']=='C3X 0.14' and p['internal_discovery_not_formal_substage']
+          assert p['games_read']==100 and p['source_only_selected_sample_size']>0
+          assert p['source_only_selected_sample_size']<=40
+          assert not p['engine_outputs_used_for_selection']
+          assert not p['stockfish_has_explicit_internal_pin_strategy_subtypes_proven']
+          for w in p['source_only_selected_witnesses']:
+            b=chess.Board()
+            for m in w['source_game_history_uci']:b.push_uci(m)
+            assert b.fen(en_passant='fen')==w['board_six_field_FEN']
+            assert b.is_pinned(b.turn,chess.parse_square(w['pinned_square']))
+            moves=[m.uci() for m in b.generate_legal_moves(from_mask=chess.BB_SQUARES[chess.parse_square(w['pinned_square'])])]
+            assert moves==w['legal_moves_of_pinned_piece']
+          print('C3X014_CHESS_PIN_SOURCE_ONLY_FROZEN_LEGALITY_GATE_PASS')
+          PY
+      - name: Keep all original pin witnesses and source law for future blind engine experiment
+        if: always()
+        run: |
+          cp harness/c3x_014_source_only_official_TCEC_pin_subtype_freeze.py output/DETERMINISTIC_ABSOLUTE_PIN_CHESS_RULES.py
+          cp c3x/ontology/c3x-014-bounded-TT-return-census-and-pin-subtypes-precommit.md output/PIN_ONTOLOGY_AND_SELECTION_PRECOMMIT.md
+          printf '%s\n' 'Chess law absolute pin geometry != discovered Stockfish latent conceptual category. No engine scores examined in position sampling. No chess strategy causal inference.' > output/FEATURE_CERTIFICATE_LIMIT.txt
+          find output -maxdepth 1 -type f ! -name 'MEMBER_SHA256.txt' -print0 | sort -z | xargs -0 sha256sum > output/MEMBER_SHA256.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x-014-TCEC-source-only-chess-pin-law-subtype-witnesses
+          path: output/
+          if-no-files-found: error
+          retention-days: 90
