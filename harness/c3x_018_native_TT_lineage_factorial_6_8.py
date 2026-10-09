@@ -23,17 +23,17 @@ def need(test, label):
 def parse_fields(line):
     return dict(p.split("=", 1) for p in line.split()[3:] if "=" in p)
 
-def core(raw):
+def core(raw, search_depth=12):
     rows = []
     for line in raw:
-        if line.startswith("info depth 12 ") and " pv " in line:
+        if line.startswith("info depth "+str(search_depth)+" ") and " pv " in line:
             value = re.search(r"\bscore (cp|mate) (-?\d+)(?: (lowerbound|upperbound))?", line)
             nodes = re.search(r"\bnodes (\d+)", line)
             if value and nodes:
                 rows.append(dict(score_kind=value.group(1),
                     score_value=int(value.group(2)), score_flag=value.group(3) or "exact_reported",
                     nodes=int(nodes.group(1)), pv=line.split(" pv ",1)[1].split()[:16]))
-    need(rows, "MISSING_DEPTH12_SCORE")
+    need(rows, "MISSING_DEPTH_SCORE_"+str(search_depth))
     best = [x.split()[1] for x in raw if x.startswith("bestmove ")]
     need(len(best)==1 and best[0]==rows[-1]["pv"][0], "MISSING_BESTMOVE")
     return {"bestmove":best[0],**rows[-1]}
@@ -98,7 +98,7 @@ def play(engine, world, p4_mode, lineage_mode=None, target=None, writer_budget=N
         receive("bestmove ",120000)
         send("quit")
         need(proc.wait(timeout=50)==0,"NATIVE_NONZERO_EXIT")
-    result=core(lines)
+    result=core(lines,search_depth)
     if lineage_mode is None: return {"UCI":result}
     events=[]
     for line in lines:
