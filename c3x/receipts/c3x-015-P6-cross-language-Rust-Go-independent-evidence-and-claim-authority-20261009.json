@@ -1,0 +1,62 @@
+{
+  "schema": "c3x-015-p6-native-cross-language-verification-and-explanation-authority-v1",
+  "date": "2026-10-09",
+  "generation": "C3X 0.15 OPEN",
+  "governance": "No 0.16; no bot authored commits; Actions only read/test/artifact",
+  "original_source": "TWIC 1665 P0 R2 64 source PIN games",
+  "p6_native": {
+    "run": "https://github.com/WhoSia/C3X/actions/runs/37913226690",
+    "native_processes": 512,
+    "original_bytes_sha256": "c04ee3061835babb846fee54b269617da5ab809dc9efe46c1e6cbe9360fefa11",
+    "two_opposing_local_root_choice_effect_ordinals": [
+      2,
+      29
+    ]
+  },
+  "rust_independent": {
+    "run": "https://github.com/WhoSia/C3X/actions/runs/37916342379",
+    "native_json_sha_verified": true,
+    "presealed_target_sha_verified": true,
+    "p2_original_sha_verified": true,
+    "distinct_games": 64,
+    "distinct_fens": 64,
+    "eligible_exact_ttarms": 51,
+    "negative_no_target_controls": 13,
+    "both_delivered": 44,
+    "one_exact_return_affected_SEE_response_cases": 2,
+    "rust_unit_tests": "3/3_PASS",
+    "in_memory_tamper_rejected": true,
+    "byte_sha_tamper_rejected": true,
+    "artifact_sha256": "61b876fe205df13a60f6cb5bcec8f1e8d2add4958380885255ee06c33dbae5c1",
+    "source": "crates/c3x-cswp-verify/src/main.rs"
+  },
+  "go_explanation_authority": {
+    "run": "https://github.com/WhoSia/C3X/actions/runs/37916884162",
+    "go_unit_tests": "2/2_PASS",
+    "go_vet": "PASS",
+    "allowed_claims": [
+      "SOURCE_COHORT_AND_NATIVE_RECEIPT_CONSISTENCY",
+      "TWO_BOUNDED_SINGLE_TT_RETURN_EFFECTS"
+    ],
+    "abstained_claims": [
+      "FULL_NATURAL_TT_MEDIATION",
+      "SEARCH_WINDOW_BOUND_AS_CHESS_TRUTH",
+      "GENERAL_STRATEGY_OR_TACTIC_LAW",
+      "NNUE_LEARNED_PIN_FEATURE",
+      "HUMAN_EXPLANATION_OF_MOVE_AS_INTENTION"
+    ],
+    "max_authority": "BOUNDED_NATIVE_SINGLE_TT_RETURN_SOFTWARE_CONTRAST",
+    "rust_receipt_sha256": "953b74b1cdb7caaf2464a8f6fde899858afba4b86330a4bdc2e396580fc91966",
+    "artifact_sha256": "cca245612c945326fb2e9f821ebcfc5256162e73c80fd06965d29493a0ba8a34",
+    "source": "cmd/c3x-cswp-authority/main.go"
+  },
+  "negative_results": [
+    "Original P1 C1 context model primary accuracy 42/64 versus always-no-flip B0 53/64 remains FAIL",
+    "Natural TT mediation, source/engine invariant tactical concept, NNUE neuron not established"
+  ],
+  "limits": [
+    "Rust verifies row-level byte-locked recorded native data, not a separate Stockfish search implementation",
+    "Go validates explanation claim ceiling from the Rust result; it is not independent replication of SF16 engine output",
+    "Two opposing TT-return effects do not imply universal TT causal necessity"
+  ]
+}
