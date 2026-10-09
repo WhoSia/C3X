@@ -1,0 +1,75 @@
+name: C3X 0.18 Independent Ethereal TT Cached Eval
+on:
+  push:
+    paths:
+      - 'tools/c3x_018_ethereal_independent_tt_eval_cache_gate.py'
+      - 'harness/c3x_018_ethereal_TT_cache_independent_engine_native.py'
+      - '.github/workflows/c3x-018-ethereal-independent-cache.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  independent-engine-eval-cache:
+    runs-on: ubuntu-latest
+    timeout-minutes: 50
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Source code syntax and chess rules parser
+        run: |
+          python -m pip install -q chess==1.11.2
+          python -m py_compile tools/c3x_018_ethereal_independent_tt_eval_cache_gate.py
+          python -m py_compile harness/c3x_018_ethereal_TT_cache_independent_engine_native.py
+      - name: Source-only November broadcast game history freeze
+        uses: actions/download-artifact@v4
+        with:
+          name: c3x-018-november-blind12-chess-source
+          path: source/
+          repository: WhoSia/C3X
+          run-id: '37985213908'
+          github-token: ${{ github.token }}
+      - name: Confirm unchanged twelve-game SHA
+        run: |
+          set -euo pipefail
+          mkdir -p evidence
+          test "$(sha256sum source/C3X018_NOVEMBER_12_BLIND_GAMES.json | cut -d' ' -f1)" = 2971fe617f39fbba6d40fb0b09d8a18ce247d5865dc807fcdab9a594e3473402
+      - name: Compile independent Ethereal classic eval with TT static cache gates
+        run: |
+          set -euo pipefail
+          root=/tmp/C3X018_INDEPENDENT_ETHEREAL
+          git clone -q https://github.com/AndyGrant/Ethereal.git "$root"
+          git -C "$root" checkout -q 0e47e9b67f345c75eb965d9fb3e2493b6a11d09a
+          test "$(git -C "$root" rev-parse HEAD)" = 0e47e9b67f345c75eb965d9fb3e2493b6a11d09a
+          python tools/c3x_018_ethereal_independent_tt_eval_cache_gate.py \
+            --source "$root" --out-manifest evidence/ETHEREAL_TT_CACHE_SOURCE.json
+          git -C "$root" diff -- src/search.c > evidence/ETHEREAL_SOURCE_DIFF.patch
+          make -s -C "$root/src" basic CC=gcc
+          test -s "$root/src/Ethereal"
+          sha256sum "$root/src/Ethereal" > evidence/ETHEREAL_BINARY_SHA256.txt
+      - name: Twelve new game sources two depths, cold repeated baseline versus TT cached eval bypass
+        run: |
+          set -euo pipefail
+          python -u harness/c3x_018_ethereal_TT_cache_independent_engine_native.py \
+            --source source/C3X018_NOVEMBER_12_BLIND_GAMES.json \
+            --engine /tmp/C3X018_INDEPENDENT_ETHEREAL/src/Ethereal \
+            --out evidence/ETHEREAL_NOV12_SOURCE_TT_CACHE_8_12.json | tee evidence/NATIVE_STDOUT.txt
+          python - <<'PY'
+          import json
+          q=json.load(open('evidence/ETHEREAL_NOV12_SOURCE_TT_CACHE_8_12.json'))
+          assert q['summary']['completed']==24
+          print('C3X018_INDEPENDENT_ETHEREAL_NATIVE_COHORT_PASS')
+          PY
+      - name: Native evidence SHA
+        if: always()
+        run: |
+          mkdir -p evidence
+          find evidence -maxdepth 1 -type f ! -name MEMBER_SHA256.txt -print0 | sort -z | xargs -0 -r sha256sum > evidence/MEMBER_SHA256.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x-018-independent-ethereal-TT-eval-cache-native
+          path: evidence/
+          retention-days: 90
+          if-no-files-found: error
