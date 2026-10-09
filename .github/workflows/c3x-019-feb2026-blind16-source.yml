@@ -1,0 +1,102 @@
+name: C3X 0.19 February 2026 Blind Native TT Holdout Source
+on:
+  push:
+    paths:
+      - 'harness/c3x_019_blind_2026feb_broadcast_PGN_cohort.py'
+      - '.github/workflows/c3x-019-feb2026-blind16-source.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  engine-blind-holdout-source:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Chess and zstd PGN parser, no engines
+        run: |
+          python -m pip install -q chess==1.11.2 zstandard==0.25.0
+          python -m py_compile harness/c3x_019_blind_2026feb_broadcast_PGN_cohort.py
+      - name: October old source-only cohort
+        uses: actions/download-artifact@v4
+        with:
+          name: c3x-018-independent-PGN-blind-source-16
+          path: october/
+          repository: WhoSia/C3X
+          run-id: '37981820261'
+          github-token: ${{ github.token }}
+      - name: November old source-only cohort
+        uses: actions/download-artifact@v4
+        with:
+          name: c3x-018-november-blind12-chess-source
+          path: november/
+          repository: WhoSia/C3X
+          run-id: '37985213908'
+          github-token: ${{ github.token }}
+      - name: December old source-only cohort
+        uses: actions/download-artifact@v4
+        with:
+          name: c3x-018-december2025-blind12-source
+          path: december/
+          repository: WhoSia/C3X
+          run-id: '37987794988'
+          github-token: ${{ github.token }}
+      - name: January old source-only cohort
+        uses: actions/download-artifact@v4
+        with:
+          name: c3x-018-january2026-cross-window-blind16-source
+          path: january/
+          repository: WhoSia/C3X
+          run-id: '37991871987'
+          github-token: ${{ github.token }}
+      - name: Verify source-only historical material
+        run: |
+          set -euo pipefail
+          mkdir -p evidence
+          test "$(sha256sum october/C3X018_INDEPENDENT_BLIND16_PGN_SOURCE.json | cut -d' ' -f1)" = 6520672aabab7f525872169085f19bdd81e27a4473f0c58ba9c9aa428937104c
+          test "$(sha256sum november/C3X018_NOVEMBER_12_BLIND_GAMES.json | cut -d' ' -f1)" = 2971fe617f39fbba6d40fb0b09d8a18ce247d5865dc807fcdab9a594e3473402
+          test "$(sha256sum december/C3X018_DECEMBER12_INDEPENDENT_GAMES.json | cut -d' ' -f1)" = 51366a480fe2631005dbded7992e870443ef6dd2dfd785fd10952d6eeff5e7cd
+          test "$(sha256sum january/C3X018_JAN26_BLIND16_SOURCE.json | cut -d' ' -f1)" = 5b49818e4678c12d0e5e73eba39eff2d50742b070a0ed870cba1d3e94afe0533
+      - name: February broadcast source with no engine analysis
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/C3X019_FEB26
+          curl -fL --retry 3 --max-time 200 -sS https://database.lichess.org/broadcast/lichess_db_broadcast_2026-02.pgn.zst \
+            -o /tmp/C3X019_FEB26/original.pgn.zst
+          test -s /tmp/C3X019_FEB26/original.pgn.zst
+          sha256sum /tmp/C3X019_FEB26/original.pgn.zst > evidence/COMPRESSED_FEBRUARY_GAME_SOURCE_SHA256.txt
+      - name: Select SHA-only first sixteen independent legal chess games
+        run: |
+          set -euo pipefail
+          python -u harness/c3x_019_blind_2026feb_broadcast_PGN_cohort.py \
+            --zst /tmp/C3X019_FEB26/original.pgn.zst \
+            --prior c3x/cohorts/c3x-016-P4-12-independent-Lichess-legal-root-order-sourceonly-frozen.json \
+            --october october/C3X018_INDEPENDENT_BLIND16_PGN_SOURCE.json \
+            --november november/C3X018_NOVEMBER_12_BLIND_GAMES.json \
+            --december december/C3X018_DECEMBER12_INDEPENDENT_GAMES.json \
+            --january january/C3X018_JAN26_BLIND16_SOURCE.json \
+            --out evidence/C3X019_FEB26_BLIND16_SOURCE.json | tee evidence/SOURCE_STDOUT.txt
+          python - <<'PY'
+          import json
+          d=json.load(open("evidence/C3X019_FEB26_BLIND16_SOURCE.json"))
+          assert len(d["selected"])==16 and d["eligible_games"]==512
+          assert d["previous_P4_october_november_december_january_FEN_overlap"]==0
+          assert len({x["source_game_sha256"] for x in d["selected"]})==16
+          assert all(x["full_original_mainline_uci"] for x in d["selected"])
+          print("C3X019_FEB2026_NEW_16_BLIND_SOURCE_NO_ENGINE_PASS")
+          PY
+      - name: Immutable source data member hashes
+        if: always()
+        run: |
+          mkdir -p evidence
+          find evidence -maxdepth 1 -type f ! -name MEMBER_SHA256.txt -print0 | sort -z | xargs -0 -r sha256sum > evidence/MEMBER_SHA256.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x-019-february2026-writer-version-blind16-source
+          path: evidence/
+          retention-days: 90
+          if-no-files-found: error
