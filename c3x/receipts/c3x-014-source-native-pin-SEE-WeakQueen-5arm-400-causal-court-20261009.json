@@ -1,0 +1,186 @@
+{
+  "schema": "c3x-014-source-native-SEE-and-WeakQueen-5-arm-legal-chess-preserved-causal-20261009-v1",
+  "date_kst": "2026-10-09",
+  "formal_study": "C3X 0.14 — Transportable Search-Mechanism Evidence, Chess-Concept Mediation & Faithful Explanation Systems",
+  "state": "C3X014_OPEN__PIN_OPERATOR_SOFTWARE_CAUSAL_PATH_PASS__ELEVEN_ROOT_BESTMOVE_SENSITIVITY_SIGNATURES__PIN_ROOT_SPECIFIC_CONCEPT_CAUSAL_CERTIFICATION_HOLD",
+  "user_governance": "One C3X 0.14 formal phase and one existing Notion research Lab. Pn informal checkpoints only. C3X 0.15 proposed name only, NOT opened.",
+  "strict_chess_source": {
+    "stockfish16_original_commit": "68e1e9b3811e16cad014b590d7443b9063b3eb52",
+    "TCEC_official_source_100_games_frozen_40_pin_root_worlds_SHA256": "cfb2c4b0631959cfcdd5bf1eb098f7b41c40468a7b22e434e95ef8936cc43ead",
+    "original_native_160_site_exposure_raw_SHA256": "5f3c64e9ef2ac074786d86be96c404635e269483b1692d3ea1a713f0d0f9e77a",
+    "previous_native_root_site_court_run_id": 37888968410,
+    "precommitted_science": "c3x/ontology/c3x-014-bounded-TT-return-census-and-pin-subtypes-precommit.md"
+  },
+  "actual_causal_trial": {
+    "actual_GitHubActions_url": "https://github.com/WhoSia/C3X/actions/runs/37891155659",
+    "actual_run_id": 37891155659,
+    "actual_workflow_conclusion": "SUCCESS",
+    "actual_native_stockfish16_processes": 400,
+    "source_game_histories": 40,
+    "source_legally_king_absolute_pin_worlds": 40,
+    "actual_source_legal_move_generator_modified": false,
+    "evaluator": "Stockfish16 source-native classical Use NNUE false, fixed depth12, Threads1 Hash16MiB MultiPV1",
+    "five_software_arms": [
+      "OFF",
+      "SEE_UNMASK",
+      "WQ_OWN",
+      "WQ_ENEMY",
+      "WQ_BOTH"
+    ],
+    "two_cold_restarts_per_world_arm": true,
+    "strict_original_OFF_UCI_and_native_path_equality": "40/40",
+    "all_arms_source_cold_repeats": "200/200",
+    "all_unfired_treatment_arm_negative_control_worlds_have_IDENTICAL_UCI_outputs_and_nodes": "PASS",
+    "actual_source_intervention_sites": [
+      "Position::see_ge pinned recapture exclusion only, not chess legal move generation",
+      "Classical Evaluation::pieces<QUEEN> WeakQueen score subtraction selectively suppressed by observed own-side vs enemy-side blocker bitboard"
+    ],
+    "summaries": {
+      "SEE_UNMASK": {
+        "source_site_fired_in_root_searches": 39,
+        "actual_Cplusplus_intervention_events": 27045,
+        "bestmove_changed_vs_OFF": 11,
+        "score_changed": 36,
+        "PV_changed": 38,
+        "nodes_changed": 39,
+        "not_fired_negative_controls": 1
+      },
+      "WQ_OWN": {
+        "source_site_fired_in_root_searches": 33,
+        "actual_Cplusplus_intervention_events": 85453,
+        "bestmove_changed_vs_OFF": 8,
+        "score_changed": 30,
+        "PV_changed": 31,
+        "nodes_changed": 32,
+        "not_fired_negative_controls": 7
+      },
+      "WQ_ENEMY": {
+        "source_site_fired_in_root_searches": 33,
+        "actual_Cplusplus_intervention_events": 80776,
+        "bestmove_changed_vs_OFF": 9,
+        "score_changed": 29,
+        "PV_changed": 30,
+        "nodes_changed": 32,
+        "not_fired_negative_controls": 7
+      },
+      "WQ_BOTH": {
+        "source_site_fired_in_root_searches": 35,
+        "actual_Cplusplus_intervention_events": 184765,
+        "bestmove_changed_vs_OFF": 13,
+        "score_changed": 31,
+        "PV_changed": 32,
+        "nodes_changed": 33,
+        "not_fired_negative_controls": 5
+      }
+    },
+    "root_bestmove_intervention_response_bits_order": [
+      "SEE_UNMASK",
+      "WQ_OWN",
+      "WQ_ENEMY",
+      "WQ_BOTH"
+    ],
+    "observed_root_bestmove_fourbit_sensitivity_profiles": 11,
+    "all_40_root_worlds_4bit_signatures_and_counts": {
+      "1000": 2,
+      "1001": 2,
+      "1011": 1,
+      "1101": 1,
+      "1111": 5,
+      "0000": 22,
+      "0001": 2,
+      "0010": 2,
+      "0011": 1,
+      "0100": 1,
+      "0101": 1
+    },
+    "worlds_at_least_one_software_intervention_changed_root_bestmove": 18,
+    "worlds_both_WEAKQUEEN_roles_together_change_bestmove_but_each_alone_does_not": 4,
+    "paired_two_by_two_classical_root_score_difference_interaction": {
+      "formula": "cp(WQ_BOTH)-cp(WQ_OWN)-cp(WQ_ENEMY)+cp(OFF)",
+      "root_worlds_with_numeric_cp_and_exact_reported_score": 40,
+      "nonzero": 28,
+      "min_cp": -36,
+      "max_cp": 54,
+      "caution": "This is a finite difference for entire search outputs at fixed requested depth12; even underlying additive source penalties may lead to nonadditive root output due search path/order windows. It is NOT isolated intrinsic multi-pin NNUE feature interaction."
+    },
+    "within_original_source_game_distinct_repeated_chess_law_pin_types": {
+      "independent_repeated_law_type_groups": 4,
+      "source_root_worlds_across_groups": 14,
+      "groups_with_multiple_fourbit_causal_response_signatures": 3,
+      "cases": [
+        {
+          "law_type": "PAWN pinned by QUEEN along DIAGONAL, pinned mobility ZERO, no pinner capture",
+          "source_games": 5,
+          "distinct_causal_root_bestmove_profiles": 4,
+          "patterns": [
+            "0000",
+            "0001",
+            "0101",
+            "1011"
+          ]
+        },
+        {
+          "law_type": "PAWN pinned by QUEEN along FILE, pinned mobility NONZERO, no pinner capture",
+          "source_games": 4,
+          "distinct_causal_root_bestmove_profiles": 2,
+          "patterns": [
+            "0010",
+            "1111"
+          ]
+        },
+        {
+          "law_type": "ROOK pinned by QUEEN along DIAGONAL, pinned mobility ZERO, no pinner capture",
+          "source_games": 2,
+          "distinct_causal_root_bestmove_profiles": 1,
+          "patterns": [
+            "0000"
+          ]
+        },
+        {
+          "law_type": "PAWN pinned by ROOK along FILE, pinned mobility NONZERO, no pinner capture",
+          "source_games": 3,
+          "distinct_causal_root_bestmove_profiles": 2,
+          "patterns": [
+            "1000",
+            "1001"
+          ]
+        }
+      ]
+    },
+    "instance_nonadditivity_example": {
+      "source_game_index": 3,
+      "root_law": "PAWN-QUEEN-DIAGONAL-ZEROLEGAL-NOPINNERCAPTURE",
+      "bestmoves_OFF_and_WQ_OWN_and_WQ_ENEMY": "e1d3",
+      "bestmove_WQ_BOTH": "a2a3",
+      "score_finite_difference_cp": -24,
+      "caution": "A software control interaction in full-depth engine output; not the exact original pinned pawn's own effect."
+    }
+  },
+  "artifacts": {
+    "GitHub_artifact_id": 11597773379,
+    "ZIP_SHA256": "39424b781df0adc7700dc54e669e3dc302e96fdfc0f107016794fb32f91a0ab5",
+    "original_raw_400_trial_JSON_SHA256": "336d9fcd5d5023a73824dc95b9399570b2786bfcb527dd2e1a42b6471a6a7374",
+    "members_sha256": "14/14 PASS",
+    "Drive_file_id": "1_56MJSwGL772nbw7XhIB8LJ9MOLAWLzf",
+    "Drive_url": "https://drive.google.com/file/d/1_56MJSwGL772nbw7XhIB8LJ9MOLAWLzf/view",
+    "Drive_original_GitHub_SHA_equal": true,
+    "Drive_existing_C3X_original_evidence_folder": "1ehjBFtuBYo7WQdfHvQDkVxVmQRZow9h_",
+    "Stockfish_original_GPL_and_Cplusplus_full_diff_preserved": true
+  },
+  "software": {
+    "actual_source_native_intervention_patcher": "tools/c3x_014_SEE_and_classic_WeakQueen_role_intervention.py",
+    "actual_paired_causal_trial": "harness/c3x_014_PIN_SEE_WeakQueen_role_causal_five_arm_court.py",
+    "original_source_native_uci_reader": "harness/c3x_014_official_pin_NNUE_vs_classic_phenotype_court.py",
+    "GitHub_actions_workflow": ".github/workflows/c3x-014-pin-SEE-WeakQueen-causal.yml"
+  },
+  "scientific_scope": [
+    "Software manipulation proves that code-level SEE pinned capture eligibility and WeakQueen blocker-role scoring alter some complete SF16 classical searches; legal chess move generator was never modified.",
+    "A same-law-type position can show different sensitivity signature; dependence on other board contextual properties, search path and alpha-beta boundaries remains uncontrolled.",
+    "No causal proof of independent position-intrinsic root pin strategy subtype. 11 software sensitivity signatures are not 11 learned NNUE or human concepts.",
+    "Changes to classic WeakQueen in search may fire many times on positions unrelated to the source root pawn/rook pin.",
+    "Apparent 2x2 nonadditivity of root cp scores is affected by search topology even when evaluation term at one node is additive.",
+    "40 original source-disclosed game positions are not independent external transport validation; no other engines or human studies.",
+    "Procedural P1 four held out cases untouched."
+  ],
+  "next": "Continue single formal C3X0.14 to root-conditioned source branches/independent origin and develop new distinct source-outcome-blind 0.15 phase admission contract. Proposed 0.15 title Causal Chess-Concept Fibers, Search-Operator Differentiation & Transportable Tactical Ontologies; not actually opened."
+}
