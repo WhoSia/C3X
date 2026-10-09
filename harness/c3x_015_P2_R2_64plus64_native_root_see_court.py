@@ -40,10 +40,10 @@ def original(engine,moves,arm,sq,pn):
     info=[]
     for line in lines:
         if not line.startswith("info depth ") or " pv " not in line:continue
-        de=re.search(r"\\bdepth (\\d+)",line)
+        de=re.search(r"\bdepth (\d+)",line)
         if not de or int(de.group(1))!=12:continue
-        sc=re.search(r"\\bscore (cp|mate) (-?\\d+)(?: (lowerbound|upperbound))?(?:\\s|$)",line)
-        nd=re.search(r"\\bnodes (\\d+)",line)
+        sc=re.search(r"\bscore (cp|mate) (-?\d+)(?: (lowerbound|upperbound))?(?:\s|$)",line)
+        nd=re.search(r"\bnodes (\d+)",line)
         if sc and nd:info.append(dict(score_kind=sc.group(1),value_root_stm=int(sc.group(2)),
             score_flag=sc.group(3) or "exact_reported",nodes=int(nd.group(1)),
             pv=line.split(" pv ",1)[1].split()[:16]))
