@@ -1,0 +1,47 @@
+{
+  "schema": "c3x-015-P9-STS-15-sections-source-only-duplication-court-v1",
+  "generation": "C3X0.15",
+  "source": "STS1-STS15_LAN_v3.epd",
+  "drive_file_id": "1_E9eYKmITOmRO4aeKN8OqCLz2_7iAHmJ",
+  "drive_folder": "https://drive.google.com/drive/folders/11XQZB1yz4cSdRl7r8G2paw6sG3CNB8gH",
+  "source_bytes": 288513,
+  "source_sha256": "d7a33ae6cf2fb5f3f18ef1b904cca07dce2cd0458edcf60644f59d4d9e28c07b",
+  "audit_implementation": "Independent local Go 1.23 source-only scanner, SHA-256, STS(vn.k) section group, raw EPD 4-field FEN dedup",
+  "results": {
+    "epd_lines": 1500,
+    "group_versions": 15,
+    "each_group_rows": 100,
+    "literal_distinct_section_names": 16,
+    "unique_4field_fens": 1497,
+    "repeat_rows": 3,
+    "sections_with_alias": [
+      {
+        "group": 3,
+        "label": "Knight Outposts/Repositioning/Centralization",
+        "count": 99
+      },
+      {
+        "group": 3,
+        "label": "Knight Outposts/Centralization/Repositioning",
+        "count": 1
+      }
+    ],
+    "duplicates": [
+      {
+        "first": "STS(v1.0) Undermine.005",
+        "repeated": "STS(v9.0) Advancement of a/b/c pawns.005"
+      },
+      {
+        "first": "STS(v3.0) Knight Outposts/Repositioning/Centralization.004",
+        "repeated": "STS(v12.0) Center Control.008"
+      },
+      {
+        "first": "STS(v3.0) Knight Outposts/Repositioning/Centralization.073",
+        "repeated": "STS(v12.0) Center Control.077"
+      }
+    ]
+  },
+  "evidence_limit": "Source-only lexical/categorical audit, not full chess reachable-state legality, not BM move truth, not representative chess strategy outcome data. User-supplied STS original not rehosted publicly.",
+  "required_frozen_partition_rule": "Deduplicate or group by canonical 4-field FEN before assigning ANY position to train/validation/test folds, including between different STS strategy families; normalize group3 alias by original STS version integer without deleting original source label.",
+  "status": "SOURCE_POPULATION_AND_OVERLAP_AUDIT_PASS / STRATEGY_LABEL_TRUTH_NOT_VALIDATED / LEGAL_MOVE_TEST_NOT_YET_RUN"
+}
