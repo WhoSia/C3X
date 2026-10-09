@@ -1,0 +1,104 @@
+name: C3X 0.15 P6-S1 One Exact Physical TT Return Source Counterfactual
+on:
+  push:
+    paths:
+      - '.github/workflows/c3x-015-p6s1-exact-single-TT-return.yml'
+      - 'tools/c3x_015_P6S1_exact_single_TT_return_block_patch.py'
+      - 'harness/c3x_015_P6S1_single_exact_TT_return_native_court.py'
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  native-one-TT-return-fullkey-counterfactual:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install chess-law replay and fail-closed C++ source instrumentation
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq git make g++
+          python -m pip install --disable-pip-version-check chess==1.11.2
+          python -m py_compile tools/c3x_015_P6S1_exact_single_TT_return_block_patch.py harness/c3x_015_P6S1_single_exact_TT_return_native_court.py
+          mkdir -p original-source original-p2 targets output
+      - uses: actions/download-artifact@v4
+        with:
+          name: c3x-015-twic1665-R2-event-capped-source-pin-matched-nonpin
+          path: original-source/
+          repository: WhoSia/C3X
+          run-id: '37902655949'
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: c3x-015-TWIC-R2-frozen-64pin-64nonpin-native-SEE-primary
+          path: original-p2/
+          repository: WhoSia/C3X
+          run-id: '37906181077'
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: c3x-015-P6S0-TWIC-original64-first-exact-fullkey-TT-return-target-freeze
+          path: targets/
+          repository: WhoSia/C3X
+          run-id: '37912460425'
+          github-token: ${{ github.token }}
+      - name: Confirm all 64 TT targets were irrevocably source-frozen before treatment
+        run: |
+          printf '%s  %s\n' '1e932aa881eaef549c770211c078d930cd8d675e5688644e1bc36ab31bae4534' 'original-source/C3X015_TWIC1665_SCOREBLIND_SOURCE_MANIFEST_R2.json' | sha256sum -c -
+          printf '%s  %s\n' 'e930f0b489301c656690d09f4821583a28eead04e43382b545bda35b71279256' 'original-p2/C3X015_TWIC1665_R2_P2_PIN64_NONPIN64_PROSPECTIVE_NATIVE_RESULT.json' | sha256sum -c -
+          printf '%s  %s\n' '0dd412cdfad82ea6b042dd3381e07182f2d4f3e52cd3e83c71004b6ecaed6ee1' 'targets/C3X015_P6S0_64_SOURCE_OFF_FIRST_FULLKEY_TT_TARGETS.json' | sha256sum -c -
+          test -s c3x/receipts/c3x-015-P6S0-TWIC-first-exact-physical-TT-return-frozen-targets-20261009.json
+          test -s c3x/ontology/c3x-015-P6-exact-TT-return-edge-first-writer-consumer-precommit-NOT-EXECUTED.md
+      - name: Independently rebuild official original SF16 with exact writer-reader and ONE TT-return bypass
+        run: |
+          git clone -q --single-branch --branch sf_16 https://github.com/official-stockfish/Stockfish.git /tmp/C3X015_P6S1
+          test "$(git -C /tmp/C3X015_P6S1 rev-parse HEAD)" = 68e1e9b3811e16cad014b590d7443b9063b3eb52
+          python tools/c3x_014_patch_native_pin_operators.py --source /tmp/C3X015_P6S1 --out-manifest output/PASSIVE_PIN_PATCH.json
+          python tools/c3x_014_ROOT_PIN_object_only_SEE_unmask_patch.py --source /tmp/C3X015_P6S1 --out-manifest output/ORIGINAL_PIN_OBJECT_SOURCE_PATCH.json
+          python tools/c3x_015_CSWP_first_site_window_patch_R2.py --source /tmp/C3X015_P6S1 --out-manifest output/CSWP_FIRST_SOURCE_FRAME_PATCH.json
+          python tools/c3x_015_CSWP_TT_writer_reader_bound_window_patch.py --source /tmp/C3X015_P6S1 --out-manifest output/EXACT_FULLKEY_TT_WRITER_PATCH.json
+          python tools/c3x_015_P6S0_FIRST_exact_TT_reader_candidate_patch.py --source /tmp/C3X015_P6S1 --out-manifest output/P6S0_FIRST_OFF_TARGET_OBSERVER_PATCH.json
+          python tools/c3x_015_P6S1_exact_single_TT_return_block_patch.py --source /tmp/C3X015_P6S1 --out-manifest output/P6S1_SINGLE_RETURN_NATIVE_SOURCE_PATCH.json
+          git -C /tmp/C3X015_P6S1 diff -- src/position.cpp src/search.cpp src/evaluate.cpp src/tt.cpp src/tt.h > output/EXACT_ONE_TT_RETURN_CPP_SOURCE_DIFF.patch
+          test -s output/EXACT_ONE_TT_RETURN_CPP_SOURCE_DIFF.patch
+          make -s -C /tmp/C3X015_P6S1/src -j2 build ARCH=x86-64
+          cp /tmp/C3X015_P6S1/src/stockfish /tmp/C3X015_P6S1_bin
+          sha256sum /tmp/C3X015_P6S1_bin > output/EXACT_NATIVE_BINARY_SHA256.txt
+      - name: Measure all 64 worlds by 4 cells by 2 real SF16 cold native processes
+        run: |
+          python -u harness/c3x_015_P6S1_single_exact_TT_return_native_court.py \
+            --source original-source/C3X015_TWIC1665_SCOREBLIND_SOURCE_MANIFEST_R2.json \
+            --targets targets/C3X015_P6S0_64_SOURCE_OFF_FIRST_FULLKEY_TT_TARGETS.json \
+            --prior-p2 original-p2/C3X015_TWIC1665_R2_P2_PIN64_NONPIN64_PROSPECTIVE_NATIVE_RESULT.json \
+            --engine /tmp/C3X015_P6S1_bin \
+            --out output/C3X015_P6S1_64_ROOTS_ONE_EXACT_TT_RETURN_512_NATIVE.json
+          python - <<'PY'
+          import json
+          x=json.load(open('output/C3X015_P6S1_64_ROOTS_ONE_EXACT_TT_RETURN_512_NATIVE.json'))
+          assert x['original_native_processes']==512
+          assert x['all_256_cold_conditions_exact']=='256/256'
+          assert x['all_P2_allow_conditions_identical']=='64/64'
+          assert x['original_SEE_root_change_count']==11
+          assert len(x['all_64_native_four_cell_interventions'])==64
+          print('C3X015_P6S1_EXACT_FULLKEY_TT_RETURN_512_NATIVE_AND_NEGATIVE_GATES_PASS')
+          PY
+      - name: Archive actual per-world matching, non-delivery, sham and source codes
+        if: always()
+        run: |
+          cp tools/c3x_015_P6S1_exact_single_TT_return_block_patch.py output/P6S1_EXACT_SINGLE_EDGE_SOURCE_PATCHER.py
+          cp harness/c3x_015_P6S1_single_exact_TT_return_native_court.py output/P6S1_EXACT_64_FOUR_CELL_NATIVE_RUNNER.py
+          cp c3x/ontology/c3x-015-P6-exact-TT-return-edge-first-writer-consumer-precommit-NOT-EXECUTED.md output/P6S1_SOURCE_EXPERIMENT_PRECOMMIT.md
+          cp /tmp/C3X015_P6S1/Copying.txt output/STOCKFISH_GPLv3.txt 2>/dev/null || true
+          printf '%s\n' 'One exact physical TT writer/read fullkey return was targeted from prior OFF source. Non-delivery in treated path is informative and not a causal mediation certificate. No original TWIC PGN was redistributed.' > output/CLAIM_AND_NEGATIVE_LIMIT.txt
+          find output -maxdepth 1 -type f ! -name MEMBER_SHA256.txt -print0 | sort -z | xargs -0 sha256sum > output/MEMBER_SHA256.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x-015-P6S1-TWIC-one-exact-fullkey-TT-return-64x4x2-native
+          path: output/
+          retention-days: 90
+          if-no-files-found: error
