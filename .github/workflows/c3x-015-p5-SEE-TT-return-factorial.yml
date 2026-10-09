@@ -1,0 +1,92 @@
+name: C3X 0.15 P5 Native SEE by TT Early-Return Four-Cell Factorial
+on:
+  push:
+    paths:
+      - '.github/workflows/c3x-015-p5-SEE-TT-return-factorial.yml'
+      - 'harness/c3x_015_P5_TWIC_SEE_TT_return_factorial_native.py'
+      - 'tools/c3x_015_P5_post_SEE_TT_return_factorial_patch.py'
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  source-native-four-cell-factorial:
+    runs-on: ubuntu-latest
+    timeout-minutes: 55
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install official chess-law library and source-build tools
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq git make g++
+          python -m pip install --disable-pip-version-check chess==1.11.2
+          python -m py_compile tools/c3x_015_P5_post_SEE_TT_return_factorial_patch.py harness/c3x_015_P5_TWIC_SEE_TT_return_factorial_native.py
+          mkdir -p frozen p2 output
+      - uses: actions/download-artifact@v4
+        with:
+          name: c3x-015-twic1665-R2-event-capped-source-pin-matched-nonpin
+          path: frozen/
+          repository: WhoSia/C3X
+          run-id: '37902655949'
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: c3x-015-TWIC-R2-frozen-64pin-64nonpin-native-SEE-primary
+          path: p2/
+          repository: WhoSia/C3X
+          run-id: '37906181077'
+          github-token: ${{ github.token }}
+      - name: Fail closed if original R2 or prior P2 bytes differ
+        run: |
+          printf '%s  %s\n' '1e932aa881eaef549c770211c078d930cd8d675e5688644e1bc36ab31bae4534' 'frozen/C3X015_TWIC1665_SCOREBLIND_SOURCE_MANIFEST_R2.json' | sha256sum -c -
+          printf '%s  %s\n' 'e930f0b489301c656690d09f4821583a28eead04e43382b545bda35b71279256' 'p2/C3X015_TWIC1665_R2_P2_PIN64_NONPIN64_PROSPECTIVE_NATIVE_RESULT.json' | sha256sum -c -
+          test -s c3x/ontology/c3x-015-P5-TT-return-factorial-SEE-source-interaction-precommit-NOT-EXECUTED.md
+      - name: Build exact source Stockfish16 with SEE object guard and P5 TT return source intervention
+        run: |
+          git clone -q --single-branch --branch sf_16 https://github.com/official-stockfish/Stockfish.git /tmp/C3X015_P5
+          test "$(git -C /tmp/C3X015_P5 rev-parse HEAD)" = 68e1e9b3811e16cad014b590d7443b9063b3eb52
+          python tools/c3x_014_patch_native_pin_operators.py --source /tmp/C3X015_P5 --out-manifest output/BASE_PIN_PATCH.json
+          python tools/c3x_014_ROOT_PIN_object_only_SEE_unmask_patch.py --source /tmp/C3X015_P5 --out-manifest output/ROOT_OBJECT_SEE_PATCH.json
+          python tools/c3x_015_CSWP_first_site_window_patch_R2.py --source /tmp/C3X015_P5 --out-manifest output/CSWP_FIRST_SEE_FRAME_PATCH.json
+          python tools/c3x_015_P5_post_SEE_TT_return_factorial_patch.py --source /tmp/C3X015_P5 --out-manifest output/P5_POST_SOURCE_TT_RETURN_PATCH.json
+          git -C /tmp/C3X015_P5 diff -- src/search.cpp src/position.cpp src/evaluate.cpp > output/P5_NATIVE_CPP_DIFF.patch
+          test -s output/P5_NATIVE_CPP_DIFF.patch
+          make -s -C /tmp/C3X015_P5/src -j2 build ARCH=x86-64
+          cp /tmp/C3X015_P5/src/stockfish /tmp/C3X015_P5_bin
+          sha256sum /tmp/C3X015_P5_bin > output/P5_ENGINE_BINARY_SHA256.txt
+      - name: Actually run 64 original game roots times 4 cells times 2 cold searches
+        run: |
+          python -u harness/c3x_015_P5_TWIC_SEE_TT_return_factorial_native.py \
+            --source frozen/C3X015_TWIC1665_SCOREBLIND_SOURCE_MANIFEST_R2.json \
+            --prior-p2 p2/C3X015_TWIC1665_R2_P2_PIN64_NONPIN64_PROSPECTIVE_NATIVE_RESULT.json \
+            --engine /tmp/C3X015_P5_bin \
+            --out output/C3X015_P5_TWIC_ROOTED_PIN_SEE_X_TT_EARLY_RETURN_512_NATIVE.json
+          python - <<'PY'
+          import json
+          r=json.load(open('output/C3X015_P5_TWIC_ROOTED_PIN_SEE_X_TT_EARLY_RETURN_512_NATIVE.json'))
+          assert r['actual_native_search_processes']==512
+          assert r['cold_pairs']==256
+          assert r['P2_normal_flip_count']==11
+          assert r['all_normal_OFF_AND_SEE_equal_P2']==64
+          assert len(r['all_original_pin_roots'])==64
+          print('C3X015_P5_FACTORIAL_512_NATIVE_STRICT_SCIENCE_GATE_PASS')
+          PY
+      - name: Persist actual source patch and all positive/negative responses, never TWIC raw PGN
+        if: always()
+        run: |
+          cp tools/c3x_015_P5_post_SEE_TT_return_factorial_patch.py output/P5_PRECISE_SOURCE_PATCHER.py
+          cp harness/c3x_015_P5_TWIC_SEE_TT_return_factorial_native.py output/P5_EXACT_NATIVE_HARNESS.py
+          cp c3x/ontology/c3x-015-P5-TT-return-factorial-SEE-source-interaction-precommit-NOT-EXECUTED.md output/P5_PRECOMMIT_BEFORE_NEW_TT_OUTCOMES.md
+          cp /tmp/C3X015_P5/Copying.txt output/STOCKFISH_GPLv3.txt 2>/dev/null || true
+          printf '%s\n' 'A TT early-return regime interaction is not a unique full-key writer/reader necessity proof, and this is a retrospective experiment after P2 results. Frozen C1 overall accuracy remains below the B0 baseline.' > output/SCIENCE_CLAIM_LIMIT.txt
+          find output -maxdepth 1 -type f ! -name MEMBER_SHA256.txt -print0 | sort -z | xargs -0 sha256sum > output/MEMBER_SHA256.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x-015-P5-TWIC-SEE-TT-return-64x4x2-native
+          path: output/
+          retention-days: 90
+          if-no-files-found: error
