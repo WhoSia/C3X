@@ -106,9 +106,11 @@ void c3x018_note_payload_write(Key key, const TTEntry* slot,
     auto& record = c3x018_shadow[slot];
     ++record.epoch;
     record.key64 = uint64_t(key);
-    // No writer payload is ever copied from an unaudited JSON or external input.
-    c3x018_event("payload_write", "save", key, slot, record.epoch,
-                 record.key64, 1, -1, depth, 0, bound, value);
+    // Full write logging is deliberately opt-in: otherwise early-depth writes
+    // would censor the much rarer actual consumer contacts at later depths.
+    if (std::getenv("C3X018_TT_LOG_WRITES"))
+        c3x018_event("payload_write", "save", key, slot, record.epoch,
+                     record.key64, 1, -1, depth, 0, bound, value);
 }
 
 bool c3x018_consumer_gate(const char* site, Key key, const TTEntry* slot,
@@ -215,7 +217,7 @@ def main():
        "files": result,
        "modes": ["OBS", "W", "R", "WR"],
        "env": ["C3X018_TT_MODE", "C3X018_TT_TARGET_KEY64",
-               "C3X018_TT_TARGET_SLOT", "C3X018_TT_TARGET_EPOCH"],
+               "C3X018_TT_TARGET_SLOT", "C3X018_TT_TARGET_EPOCH",\n               "C3X018_TT_LOG_WRITES"],
        "limits": [
            "Single-thread cold-process native only for provenance interpretation",
            "TTEntry and Cluster layouts unchanged; shadow sidecar owns epochs",
