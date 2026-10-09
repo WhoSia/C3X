@@ -1,0 +1,42 @@
+{
+  "schema": "c3x-015-P3R2-bounded-4096-native-search-frame-court-v1",
+  "date": "2026-10-09",
+  "run": "https://github.com/WhoSia/C3X/actions/runs/37908021714",
+  "run_id": 37908021714,
+  "commit": "703a7eb6355ad2c145f5980de49664a11dd359f3",
+  "artifact_sha256": "58d5f69c104385ea3c564833b0b5f2b7061c944ac8e8303066410c596c21d1d8",
+  "result_member_sha256": "1e43fdd6d9b3a8291d737199cbe6741214ec281e77bd3ca4ff6e5ee42a95dae1",
+  "source_lock_sha256": "1e932aa881eaef549c770211c078d930cd8d675e5688644e1bc36ab31bae4534",
+  "p2_outcome_lock_sha256": "e930f0b489301c656690d09f4821583a28eead04e43382b545bda35b71279256",
+  "new_native_processes": 256,
+  "cold_repeat_verified": true,
+  "p2_original_uci_off_treatment_128_condition_equal": true,
+  "first_see_prefix_equal_among_fired_worlds": "51/51",
+  "first_divergence_within_4096": "35/64",
+  "first_divergence_position_path_count": 34,
+  "first_divergence_same_position_different_window_or_depth_count": 1,
+  "bestmove_changed_count": 11,
+  "bestmove_changed_with_divergence_observed": 9,
+  "bestmove_changed_not_observed_in_4096": 2,
+  "responder_ordinals_first_divergence": {
+    "20": 15,
+    "28": 1,
+    "29": null,
+    "44": 3509,
+    "49": 1,
+    "51": 4002,
+    "52": 146,
+    "53": 1,
+    "57": null,
+    "59": 1,
+    "60": 37
+  },
+  "status": "SOURCE_FRAME_DIVERGENCE_SCOPED_PASS_TT_WINDOW_CAUSAL_MEDIATION_HOLD",
+  "limits": [
+    "First candidate in SEE operation is not a complete semantic state transition proof",
+    "Search frame-entry windows are not the alpha/beta mutable values at original SEE return",
+    "A 4096 event suffix is finite; no observed divergence does not prove none",
+    "No TT physical slot writer/reader mediation proven",
+    "This is after P2 outcome disclosure, not a new blind replication"
+  ]
+}
