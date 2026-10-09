@@ -1,0 +1,38 @@
+{
+  "schema": "c3x-015-p4-CSWP-TT-physical-writer-bound-reader-window-scoped-v1",
+  "source_sha256": "1e932aa881eaef549c770211c078d930cd8d675e5688644e1bc36ab31bae4534",
+  "P2_sha256": "e930f0b489301c656690d09f4821583a28eead04e43382b545bda35b71279256",
+  "status": "NATIVE_TT_WRITER_READER_PROVENANCE_PASS_CAUSAL_MEDIATION_HOLD",
+  "run": "https://github.com/WhoSia/C3X/actions/runs/37908958111",
+  "P4_original_result_sha256": "5220a71543d936175201a99b566cef41a2f5cee7153727c616ce2d083aea6f1d",
+  "artifact_zip_sha256": "d93b80f892b87c11f73395c11c1682214716b8385d1e87168ab15a069fd0ff26",
+  "observational_patch_commits": [
+    "f1673fb6f59f5fe902a84f15996b85c0edd955ea",
+    "c6cc0d46674e40696e86d7d83c4d0ff57b70fb54"
+  ],
+  "run_commit": "e82690ca75d001abfd51886a0723462c3b7e8018",
+  "actual_native_search_processes": 256,
+  "P2_off_treatment_ucis_128_equal": true,
+  "cold_repeat_128": true,
+  "fired_51_64": 51,
+  "first_site_prefix_aligned_51_51": 51,
+  "first_4096_search_path_window_difference_count": 35,
+  "first_2048_TT_event_different_stream_roots": 30,
+  "first_TT_disagreement_different_position_key": 30,
+  "first_TT_disagreement_same_position_key": 0,
+  "bestmove_response_roots": 11,
+  "bestmove_responses_with_TT_record_difference": 7,
+  "native_TT_queries_count_total_from_treated_worlds": 3891560,
+  "TT_events_recorded_bounded": 104448,
+  "recorded_full_64bit_key_matched_consumptions": 46809,
+  "TT_cutoffs_seen": 273242,
+  "unknown_writer_among_recorded": 0,
+  "negative_scope": [
+    "TT writer/reader recorded events do not establish necessity or sufficiency",
+    "First observed TT disagreement in 30 cases was DIFFERENT POSITION KEY not same-position bound alteration",
+    "Only after first eligible source candidate, capped 2048 recorded TT events/world",
+    "Actual alpha/beta at TT probe and cutoff recorded, but source SEE site uses search frame ENTRY window",
+    "Prior P1 frozen C1 primary accuracy remains FAIL and is not refit",
+    "Formal theory CSWP v0.2 proposed, not established universally novel"
+  ]
+}
