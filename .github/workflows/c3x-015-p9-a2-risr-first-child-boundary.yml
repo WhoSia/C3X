@@ -72,7 +72,7 @@ jobs:
           github-token: ${{ github.token }}
       - uses: actions/download-artifact@v4
         with:
-          name: c3x-015-P9-A2-TWIC-case2-case29-first-child-boundary-24-native
+          name: c3x-015-P9-A1-TWIC-case2-case29-native-beta-TTsave-return-gates
           path: original-p9a1/
           repository: WhoSia/C3X
           run-id: '37926784308'
