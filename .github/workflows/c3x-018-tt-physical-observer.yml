@@ -1,0 +1,69 @@
+name: C3X 0.18 Physical TT Observer Source Court
+on:
+  push:
+    paths:
+      - 'tools/c3x_018_tt_physical_observer_patch.py'
+      - 'tools/test_c3x_018_tt_physical_observer_patch.py'
+      - '.github/workflows/c3x-018-tt-physical-observer.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  frozen-sf16-tt:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Verify source-anchor regressions
+        run: |
+          python -m unittest discover -s tools -p 'test_c3x_018_tt_physical_observer_patch.py' -v
+      - name: Compile frozen SF16 source and TT-only observer
+        run: |
+          set -euo pipefail
+          git clone -q --single-branch --branch sf_16 https://github.com/official-stockfish/Stockfish.git /tmp/C3X018_TT_SF16
+          test "$(git -C /tmp/C3X018_TT_SF16 rev-parse HEAD)" = 68e1e9b3811e16cad014b590d7443b9063b3eb52
+          make -s -C /tmp/C3X018_TT_SF16/src -j2 build ARCH=x86-64
+          cp /tmp/C3X018_TT_SF16/src/stockfish /tmp/C3X018_TT_ORIGINAL
+          mkdir -p evidence
+          python tools/c3x_018_tt_physical_observer_patch.py --source /tmp/C3X018_TT_SF16 --out-manifest evidence/TT_PATCH_MANIFEST.json
+          git -C /tmp/C3X018_TT_SF16 diff -- src/tt.cpp > evidence/TT_SOURCE_DIFF.patch
+          test -s evidence/TT_SOURCE_DIFF.patch
+          make -s -C /tmp/C3X018_TT_SF16/src -j2 build ARCH=x86-64
+          cp /tmp/C3X018_TT_SF16/src/stockfish /tmp/C3X018_TT_PATCHED
+          sha256sum /tmp/C3X018_TT_ORIGINAL /tmp/C3X018_TT_PATCHED > evidence/BINARY_SHA256.txt
+      - name: Single-source TT activation and output equivalence smoke test
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import os, subprocess
+          cmds='uci\nsetoption name Threads value 1\nsetoption name Hash value 16\nsetoption name Use NNUE value false\nisready\nposition startpos\ngo depth 5\nquit\n'
+          # Retain UCI command script for independent replay.
+          open('evidence/UCI_SMOKE_COMMANDS.txt','w').write(cmds)
+          for name,engine,activate in [('original','/tmp/C3X018_TT_ORIGINAL',False),
+                                        ('passive','/tmp/C3X018_TT_PATCHED',False),
+                                        ('trace','/tmp/C3X018_TT_PATCHED',True)]:
+              env=os.environ.copy()
+              if activate: env['C3X018_TT_TRACE']='1'
+              else: env.pop('C3X018_TT_TRACE',None)
+              p=subprocess.run([engine],input=cmds,capture_output=True,text=True,env=env,timeout=35)
+              assert p.returncode==0,(name,p.stderr[-1000:])
+              open('evidence/'+name+'_UCI_OUTPUT.txt','w').write(p.stdout)
+          assert 'c3x018_tt kind=' not in open('evidence/passive_UCI_OUTPUT.txt').read()
+          assert 'c3x018_tt kind=' in open('evidence/trace_UCI_OUTPUT.txt').read()
+          print('C3X018_TT_TELEMETRY_ACTIVATION_SMOKE_PASS')
+          PY
+      - name: SHA evidence
+        if: always()
+        run: |
+          mkdir -p evidence
+          find evidence -maxdepth 1 -type f ! -name MEMBER_SHA256.txt -print0 | sort -z | xargs -0 -r sha256sum > evidence/MEMBER_SHA256.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x-018-tt-physical-source-observer
+          path: evidence/
+          retention-days: 90
+          if-no-files-found: error
