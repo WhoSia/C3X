@@ -1,0 +1,118 @@
+{
+  "schema": "c3x-014-first-returnable-TT-event-matched-across-arms-and-writer-depth-context-v1",
+  "formal_research_unit": "C3X 0.14 — Transportable Search-Mechanism Evidence, Chess-Concept Mediation & Faithful Explanation Systems",
+  "status": "C3X_0_14_OPEN__FIRST_ELIGIBLE_TT_EVENT_MATCHED_THREE_ARMS_PASS__SAVED_DEPTH_BOUND_PROVENANCE_PASS__CAUSAL_SEARCH_SUBMEDIATION_HOLD",
+  "date_kst": "2026-10-09",
+  "notion_canonical_page": "3c4ef561-cf92-817a-b76b-cab15e7d1faf",
+  "governance": "P checkpoints are sections within the single formal C3X 0.14 phase; new 0.15 or 0.16 only upon substantive new research question/frozen protocol, never mere output length. No extra Notion Lab or P child pages.",
+  "actual_experiment": {
+    "official_sf16_commit": "68e1e9b3811e16cad014b590d7443b9063b3eb52",
+    "workflow_run_id": 37885247769,
+    "workflow_url": "https://github.com/WhoSia/C3X/actions/runs/37885247769",
+    "result": "SUCCESS",
+    "source_chess_world_original_sha256": "0080f4f108471137f8d9d0908e3c879e33351ad8bdd4fbf0fdda83d47f6075b2",
+    "prior_full_224_run_lineage_JSON_sha256": "577a19d6fda01350605fa92da2cf33265fd62b356958043e8ac4b853dc1ff5ae",
+    "source_groups": 14,
+    "source_worlds": 28,
+    "cold_restarts": 2,
+    "all_new_native_SF16_processes": 168,
+    "three_arms": [
+      "OFF",
+      "ONE_MAIN",
+      "MAIN"
+    ],
+    "first_eligible_return_consumer_measured_PRE_decision_with_full64posKey": true,
+    "first_eligible_event_signature_fields": [
+      "posKey full64",
+      "search ply",
+      "current depth",
+      "cached TT bound",
+      "cached converted ttValue",
+      "beta",
+      "last writer class",
+      "last writer full key",
+      "last writer ply"
+    ],
+    "original_source_experiment_results_and_native_counters_exact": "168/168",
+    "cold_arm_output_and_context_equality": "28/28",
+    "OFF_ONE_MAIN_MAIN_pre_decision_first_eligible_full_event_equal": "28/28",
+    "ONE_MAIN_and_MAIN_first_blocked_event_exactly_match_OFF_first_returnable_event": "28/28",
+    "last_successful_fullfield_writer_producer_class_distribution_first_cold": {
+      "MAIN_TABLEBASE": 0,
+      "MAIN_STATIC_EVAL": 0,
+      "MAIN_PROBCUT": 0,
+      "MAIN_TERMINAL": 28,
+      "QSEARCH_EARLY": 0,
+      "QSEARCH_TERMINAL": 0
+    },
+    "producer_ply_matches_first_consumer_ply": "28/28",
+    "producer_tt_saved_depth_equals_consumer_requested_depth": "9/28",
+    "producer_depth_strictly_GREATER_consumer_requested_depth": "19/28",
+    "producer_minus_consumer_depth_distribution": {
+      "0": 9,
+      "1": 11,
+      "2": 5,
+      "3": 2,
+      "5": 1
+    },
+    "native_TT_saved_bound_first_cold": {
+      "BOUND_UPPER": 1,
+      "BOUND_LOWER": 16,
+      "BOUND_EXACT": 11
+    },
+    "producer_saved_raw_TT_value_equals_actual_consumed_converted_ttValue": "28/28",
+    "producer_slot_underlying_full64key_matches_first_consumer_full64key": "28/28",
+    "actual_10byte_TTEntry_layout_modified": false,
+    "native_TT_Save_no_field_write_distinction_fixed": true,
+    "sample_valid_native_TT_save_disposition": {
+      "TCEC_round": "9.1",
+      "world": "PLAYED_HISTORY",
+      "mode": "OFF",
+      "save_calls": 44503,
+      "full_field_writes": 44132,
+      "only_move_field_assigned": 110,
+      "no_field_assigned": 261,
+      "sum_verified": true
+    },
+    "interpretation": "Among 28 preselected first eligible main TT returns, the last successful producer was main terminal save, typically at the same ply but at greater recorded search depth (19/28), and TT bounds include non-exact lower/upper. Three intervention arms had the same observed first eligible TT event BEFORE returning/suppressing it. Confirms a more precise local program causal attribution but not separate LMR/history/NNUE/chess-concept mediators.",
+    "root_source_frozen_games_not_independent_new_data": true,
+    "P1_sealed_four_source_game_groups_accessed": false
+  },
+  "source_and_artifacts": {
+    "native_cpp_patch_additional": "tools/c3x_014_tt_first_eligible_writer_context_patch.py",
+    "harness": "harness/c3x_014_first_eligible_tt_event_writer_context_court.py",
+    "study_precommit": "c3x/ontology/c3x-014-tt-producer-consumer-slot-lineage-precommit.md",
+    "original_producer_court": "https://github.com/WhoSia/C3X/actions/runs/37884510668",
+    "original_producer_receipt": "c3x/receipts/c3x-014-source-native-tt-entry-last-writer-full64-consumer-20261009.json",
+    "actual_native_source_json_sha256": "742ec105c73c6e7ec28de2c843a452df6fb7d4e95f10e16d3ce90956184e4a7c",
+    "github_artifact_id": 11596266183,
+    "zip_sha256": "7c35b407b12738f6755009cfb4eac5e2c53e0ceb310fa676da4cde59e5f51d8c",
+    "drive_archive_id": "1FGnZ5ehdc-ephoDC6aIFxNGEwutGiSsR",
+    "drive_url": "https://drive.google.com/file/d/1FGnZ5ehdc-ephoDC6aIFxNGEwutGiSsR/view",
+    "drive_redownload_hash_verified": "PASS",
+    "internal_member_checksums": "15/15 PASS",
+    "Stockfish_GPLv3_and_full_native_source_diff_retained": true
+  },
+  "failure_and_correction_provenance": [
+    {
+      "run_id": 37885101294,
+      "result": "FAIL CLOSED",
+      "cause": "Additional expected sidecar first-eligible provenance read (one per mode) increased first_key_match debug counter. Native SF16 probes/saves, moves/PV/nodes unchanged. Incorrectly required all sidecar counters identical."
+    },
+    {
+      "run_id": 37885247769,
+      "result": "SUCCESS",
+      "cause": "Correctly explicitly permit exactly ONE new 64bit-matched sidecar read per run while retaining strict original SF16 probe/save/path/score equivalence and 28/28 three-arm event match."
+    }
+  ],
+  "limits": [
+    "First TT bound-returnable event and its last native fullfield producer alone do not identify all TT return events; a later bounded event census is needed.",
+    "main terminal last writer means the source TTEntry save call, not a proof tree of how that score was derived.",
+    "Same writer/search ply does not mean same searched depth. Saved depth may exceed requested consume depth.",
+    "BOUND_LOWER and BOUND_UPPER are search window bounds, not exact minimax scores.",
+    "Native Thread::completedDepth and UCI PV depth remain separate quantities as previous C3X 0.14 instrument established.",
+    "Parallel TT modifications could make sidecar races; these experiments fixed Threads=1 and depth12 to avoid that concern.",
+    "Only Stockfish16 local known TCEC source games; cross-engine and human semantic transport not proven."
+  ],
+  "next_outcome_blind_challenge": "Within same 0.14 perform bounded first-K naturally taken TT return event census on OFF (not only first) with true writer class and fullkey+bound, in all 28 frozen worlds. Then source-level separate quiet-history / LMR branch return effects under new precommit. Move to 0.15 only for a genuine factorial-intervention/cross-engine research unit."
+}
