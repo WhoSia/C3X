@@ -204,7 +204,7 @@ def patch_sf(root):
     new=old+"""
   {
     const auto t=c3x014_tt_total_snapshot();
-    sync_cout << "info string c3x014_tt_writes"
+    sync_cout << "info string c3x014_slot_provenance"
        << " saves=" << t.save_calls
        << " full=" << t.full_field_writes
        << " move_only=" << t.move_only_writes
