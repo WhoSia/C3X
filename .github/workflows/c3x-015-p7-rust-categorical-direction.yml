@@ -1,0 +1,62 @@
+name: C3X 0.15 P7 Rust Independent Categorical Outcome Direction Court
+on:
+  push:
+    paths:
+      - '.github/workflows/c3x-015-p7-rust-categorical-direction.yml'
+      - 'crates/c3x-cswp-verify/src/bin/p7_matrix.rs'
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  p7-rust-outcome-fiber:
+    runs-on: ubuntu-latest
+    timeout-minutes: 14
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: actions/download-artifact@v4
+        with:
+          name: c3x-015-P7-TWIC-case2-case29-single-TT-return-score-versus-qsearch
+          path: native-p7/
+          repository: WhoSia/C3X
+          run-id: '37918227188'
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: c3x-015-P6S1-TWIC-one-exact-fullkey-TT-return-64x4x2-native
+          path: original-p6/
+          repository: WhoSia/C3X
+          run-id: '37913226690'
+          github-token: ${{ github.token }}
+      - name: Cross-language unit tests and independent categorical effect analyzer
+        run: |
+          mkdir -p output
+          cargo test --manifest-path crates/c3x-cswp-verify/Cargo.toml
+          cargo run --release --manifest-path crates/c3x-cswp-verify/Cargo.toml --bin p7_matrix -- \
+            native-p7/C3X015_P7_TWIC_CASES_2_29_24_NATIVE_RETURN_VALUE_VS_CONTINUE.json \
+            original-p6/C3X015_P6S1_64_ROOTS_ONE_EXACT_TT_RETURN_512_NATIVE.json \
+            output/C3X015_P7_RUST_INDEPENDENT_CATEGORICAL_OUTCOME_CERTIFICATE.json
+          python - <<'PY'
+          import json
+          p='output/C3X015_P7_RUST_INDEPENDENT_CATEGORICAL_OUTCOME_CERTIFICATE.json'
+          d=json.load(open(p))
+          assert d['status']=='P7_24_NATIVE_CAT_OUTCOME_ROWS_AND_P6_REGRESSION_SCOPED_PASS'
+          assert d['categorical_response_projection_nonidentifiability_world']==2
+          assert len(d['cases'])==2
+          print('C3X015_P7_RUST_CATEGORICAL_RESPONSE_PROJECTION_COURT_PASS')
+          PY
+      - name: Preserve standalone Rust directional verifier and actual certificate
+        if: always()
+        run: |
+          mkdir -p output
+          cp crates/c3x-cswp-verify/src/bin/p7_matrix.rs output/RUST_EXACT_P7_MATRIX_VERIFIER.rs
+          printf '%s\n' 'Original native P7 is post-P6 targeted and consists of two original game worlds. Rust recalculates directional response and original P6 regression, not a new independent chess engine. This does not identify TT natural mediation.' > output/CLAIM_CEILING.txt
+          find output -maxdepth 1 -type f ! -name MEMBER_SHA256.txt -print0 | sort -z | xargs -0 sha256sum > output/MEMBER_SHA256.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x-015-P7-Rust-independent-categorical-response-direction-audit
+          path: output/
+          retention-days: 90
+          if-no-files-found: error
