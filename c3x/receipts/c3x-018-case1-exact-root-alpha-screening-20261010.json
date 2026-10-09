@@ -1,0 +1,48 @@
+{
+  "schema": "c3x018-case1-root-alpha-losing-candidate-source-certificate-v1",
+  "verified_date": "2026-10-10",
+  "study": "ADAPTIVE exact-source search gate diagnostics",
+  "run": 37988127741,
+  "conclusion": "SUCCESS",
+  "artifact_id": 11643767618,
+  "zip_sha256": "9162b71c9bac6cd7f4c34a16a27a9c704bac7077c6a3d3a9c56ad83b49377c27",
+  "json_sha256": "95da565d3de7f5692b876178b1db5065ed4e46d56799184082a424965cef2131",
+  "all_member_sha256_verified": true,
+  "inputs": {
+    "root_genealogy_sha256": "7967c17bd6abb4e52ba65316906c31e5a0182f68d19c3fb0144beb193fded4d8",
+    "cycle_gate_sha256": "c5b5d2d4f4a4d776673b4084cc768eab6a6b0a14e04a9354dcd1ee82b3a8f585"
+  },
+  "first_root_call": {
+    "depth": 1,
+    "root_call": 1,
+    "previous_competitor": {
+      "candidate_index": 14,
+      "native_move": 1371,
+      "child_return": 137,
+      "stored_root_score": 137
+    },
+    "cycle_sensitive_candidate": {
+      "candidate_index": 22,
+      "native_move": 2313,
+      "source_history_O_child": 1,
+      "source_history_F_child": -1,
+      "single_source_cycle_suppressed_child": 68,
+      "alpha": 137,
+      "beta": 32001,
+      "remaining_after_restoration_to_alpha": 69,
+      "stored_root_score": -32001
+    },
+    "after_sort": {
+      "winning_move_native": 1371,
+      "winning_score": 137
+    },
+    "final_root_UCI_unchanged_in_O_and_F": true
+  },
+  "claim": "The exact source root candidate 22's first-depth child return is causally restored by disabling one cycle predicate but remains 69 source-score units below already established root alpha=137, hence it fails to promote this candidate at the observed root call.",
+  "limits": [
+    "Only first search depth and first root call, not a theorem about all later aspiration cycles",
+    "-32001 is source fail-low sentinel, not a real evaluation",
+    "Does not exhaustively explain FEN6 versus original-history full search differences",
+    "No unique TT natural mediation or portable law"
+  ]
+}
