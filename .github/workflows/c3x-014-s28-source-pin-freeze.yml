@@ -1,0 +1,59 @@
+name: C3X 0.14 Source-Only TCEC S28 Chess-Pin Transfer Freeze
+on:
+  push:
+    paths:
+      - '.github/workflows/c3x-014-s28-source-pin-freeze.yml'
+      - 'harness/c3x_014_TCEC_S28_source_only_pin_transfer_freeze.py'
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  original-source-only-season28:
+    runs-on: ubuntu-latest
+    timeout-minutes: 18
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Set up exact python chess source-rule parser
+        run: |
+          python -m pip install --disable-pip-version-check chess==1.11.2
+          python -m py_compile harness/c3x_014_TCEC_S28_source_only_pin_transfer_freeze.py
+          mkdir -p source output
+      - name: Acquire ORIGINAL separate season TCEC 28 Superfinal source with exact git blob
+        run: |
+          curl -fLsS --retry 3 'https://raw.githubusercontent.com/TCEC-Chess/tcecgames/3dd69a40b3cf6ccc74144df7411ef4e8e2140286/master-archive/TCEC_Season_28_-_Superfinal.pgn' -o source/TCEC_S28_Official_Superfinal.pgn
+          test "$(git hash-object source/TCEC_S28_Official_Superfinal.pgn)" = "9c702d0e8f646f65f28f1555652937d58d397ad4"
+          sha256sum source/TCEC_S28_Official_Superfinal.pgn > output/ORIGINAL_S28_SOURCE_PGN_SHA256.txt
+      - name: Full source-only census and frozen 64 independent-season source chess-law roots
+        run: |
+          python harness/c3x_014_TCEC_S28_source_only_pin_transfer_freeze.py --pgn source/TCEC_S28_Official_Superfinal.pgn --out output/C3X014_ORIGINAL_TCEC_S28_CHESS_LAW_PIN_FROZEN64_BEFORE_EVAL.json
+          python - <<'PY'
+          import json
+          a=json.load(open('output/C3X014_ORIGINAL_TCEC_S28_CHESS_LAW_PIN_FROZEN64_BEFORE_EVAL.json'))
+          assert a['official_source_game_count']==100
+          assert a['sample_size']==64 and a['source_game_distinctness']==64
+          assert a['zero_Stockfish_outputs_used_for_source_selection']
+          assert a['independent_season']==28 and not a['is_independent_provider']
+          assert len(a['primary_four_S29_prespecified_law_subtype_targets'])==4
+          assert not a['P1_four_game_sealed_holdout_accessed']
+          print('C3X014_S28_SOURCE_SCORE_BLIND_INDEPENDENT_SEASON_ADMISSION_PASS')
+          PY
+      - name: Preserve source-only original PGN and scope, avoid silent engine-selection leakage
+        if: always()
+        run: |
+          cp source/TCEC_S28_Official_Superfinal.pgn output/ORIGINAL_TCEC_S28_OFFICIAL_SOURCE.pgn
+          cp harness/c3x_014_TCEC_S28_source_only_pin_transfer_freeze.py output/SCORE_BLIND_SELECTED_CHESS_LAW_FREEZER.py
+          cp harness/c3x_014_source_only_official_TCEC_pin_subtype_freeze.py output/PREVIOUS_S29_PIN_LAW_RULE_REFERENCE.py
+          cp c3x/ontology/c3x-014-S28-source-disjoint-pin-fiber-transfer-precommit.md output/S28_PROSPECTIVE_TRANSFER_PRECOMMIT.md
+          printf '%s\n' 'New original season 28 TCEC chess source is independent season/source games but SAME TCEC provider. Source and chess-law labels only; Stockfish scores not examined in cohort freeze.' > output/S28_INDEPENDENCE_SCOPE.txt
+          find output -maxdepth 1 -type f ! -name 'MEMBER_SHA256.txt' -print0 | sort -z | xargs -0 sha256sum > output/MEMBER_SHA256.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x-014-tcec-s28-original-64-source-only-chess-pin-fiber-transfer
+          path: output/
+          retention-days: 90
+          if-no-files-found: error
