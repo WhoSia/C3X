@@ -1,0 +1,43 @@
+name: C3X 0.18 TT Five-Reader Multivalued Search Cube Audit
+on:
+  push:
+    paths:
+      - 'harness/c3x_018_case11_five_reader_multivalued_UCI_cube_audit.py'
+      - '.github/workflows/c3x-018-case11-multivalued-UCI-cube.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  independent-from-intervention-postanalysis:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Recover full source cold 32-mask TT physical writer witness artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: c3x-018-case11-five-tt-reader-32-subsets
+          path: source/
+          repository: WhoSia/C3X
+          run-id: '37989712016'
+          github-token: ${{ github.token }}
+      - name: Exact full UCI core and causal Boolean finite lattice source audit
+        run: |
+          set -euo pipefail
+          mkdir -p evidence
+          test "$(sha256sum source/CASE11_EXHAUSTIVE_32_TT_READER_COALITIONS.json | cut -d' ' -f1)" = 1d2a66fd9d0cefe5ab5320b67caf98edce15f62bb394b50682c0bb5f2c485eed
+          python -m py_compile harness/c3x_018_case11_five_reader_multivalued_UCI_cube_audit.py
+          python harness/c3x_018_case11_five_reader_multivalued_UCI_cube_audit.py \
+            --native source/CASE11_EXHAUSTIVE_32_TT_READER_COALITIONS.json \
+            --out evidence/FIVE_READER_MULTIVALUED_SEARCH_CUBE.json | tee evidence/RESULT_STDOUT.txt
+          sha256sum evidence/FIVE_READER_MULTIVALUED_SEARCH_CUBE.json > evidence/RESULT_SHA256.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x-018-case11-multivalued-search-cube
+          path: evidence/
+          retention-days: 90
+          if-no-files-found: error
