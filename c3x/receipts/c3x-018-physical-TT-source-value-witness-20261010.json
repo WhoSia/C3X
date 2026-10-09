@@ -1,0 +1,32 @@
+{
+  "schema": "c3x018-physical-TT-last-writer-payload-witness-v1",
+  "verified_date": "2026-10-10",
+  "engine_sha": "68e1e9b3811e16cad014b590d7443b9063b3eb52",
+  "run": 37982304954,
+  "ci": "SUCCESS",
+  "artifact_id": 11641850835,
+  "zip_sha256": "033b617c7795019b4b7ef5e3417dc2f565bbd2a2159e3d07d8676f8f89c7561a",
+  "result_sha256": "09e03f380c87770a546bc591362eec48aa1f76fe2504c201f5e12bc6f6e8b3ad",
+  "member_sha256": "ALL_PASS",
+  "case2": {
+    "writer_serial": 104,
+    "key64": "3331180223238364038",
+    "slot": 0,
+    "epoch": 3,
+    "raw_value": -1435,
+    "bound": 1,
+    "depth": 1,
+    "V_reader_snapshot_equal": true
+  },
+  "case5": {
+    "writer_serial": 294,
+    "key64": "17089595060187213539",
+    "slot": 0,
+    "epoch": 4,
+    "raw_value": 1026,
+    "bound": 2,
+    "depth": 3,
+    "V_reader_snapshot_equal": true
+  },
+  "claim_limit": "Actual SF16 TT last accepted raw payload writer matched the selected V evaluation consumer byte fields in both historical roots. No sole natural TT mediation established."
+}
