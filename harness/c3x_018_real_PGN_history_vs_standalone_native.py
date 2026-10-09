@@ -52,8 +52,9 @@ def main():
          "tt_early_cutoff_count_historical":history["lineage_summary"]["consumer_reached"],
          "root_contact":history["root_contact"]
        }
-       need(history["root_contact"]["target_contact"]=="1",
-           "ORIGINAL_PLAYED_ROOT_NOT_CONTACTED_"+str(cid)+"_"+arm)
+       expected_root_contact="0" if arm=="Z" else "1"
+       need(history["root_contact"]["target_contact"]==expected_root_contact,
+           "ROOT_CONTACT_NEGATIVE_CONTROL_MISMATCH_"+str(cid)+"_"+arm)
       need(row["arms"]["O"]["historical_UCI"]==row["arms"]["Z"]["historical_UCI"],
            "HISTORY_NO_CONTACT_SHAM_"+str(cid))
       row["status"]="EXPERIMENTED"
