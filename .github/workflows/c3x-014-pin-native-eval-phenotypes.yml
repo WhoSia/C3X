@@ -1,0 +1,74 @@
+name: C3X 0.14 Original SF16 NNUE vs Classical Chess Pin Phenotype Court
+on:
+  push:
+    paths:
+      - '.github/workflows/c3x-014-pin-native-eval-phenotypes.yml'
+      - 'harness/c3x_014_official_pin_NNUE_vs_classic_phenotype_court.py'
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  pin-frozen-native-sf16-evaluation:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Exact original native engine build and chess legality
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq make g++ git
+          python -m pip install --disable-pip-version-check chess==1.11.2
+          python -m py_compile harness/c3x_014_official_pin_NNUE_vs_classic_phenotype_court.py
+          mkdir -p frozen output
+      - uses: actions/download-artifact@v4
+        with:
+          name: c3x-014-TCEC-source-only-chess-pin-law-subtype-witnesses
+          path: frozen/
+          repository: WhoSia/C3X
+          run-id: '37886383505'
+          github-token: ${{ github.token }}
+      - name: Verify pin-subtype source frozen before engine scoring
+        run: |
+          printf '%s  %s\n' 'cfb2c4b0631959cfcdd5bf1eb098f7b41c40468a7b22e434e95ef8936cc43ead' 'frozen/C3X014_OFFICIAL_CHESS_PIN_SUBTYPES_SOURCE_ONLY.json' | sha256sum -c -
+      - name: Compile genuine unmodified official SF16 with its NNUE option
+        run: |
+          git clone -q --single-branch --branch sf_16 https://github.com/official-stockfish/Stockfish.git /tmp/C3X014_pin_orig_SF16
+          test "$(git -C /tmp/C3X014_pin_orig_SF16 rev-parse HEAD)" = "68e1e9b3811e16cad014b590d7443b9063b3eb52"
+          cp /tmp/C3X014_pin_orig_SF16/Copying.txt output/Stockfish_GPLv3.txt
+          make -s -C /tmp/C3X014_pin_orig_SF16/src -j2 build ARCH=x86-64
+          cp /tmp/C3X014_pin_orig_SF16/src/stockfish /tmp/C3X014_pin_orig_SF16_bin
+          sha256sum /tmp/C3X014_pin_orig_SF16_bin > output/ORIGINAL_NATIVE_BINARY_SHA256.txt
+      - name: Run 40 source-blind absolute-pin worlds in 160 actual SF16 NNUE and classical searches
+        run: |
+          python harness/c3x_014_official_pin_NNUE_vs_classic_phenotype_court.py --source frozen/C3X014_OFFICIAL_CHESS_PIN_SUBTYPES_SOURCE_ONLY.json --stockfish /tmp/C3X014_pin_orig_SF16_bin --out output/C3X014_PIN_STOCKFISH16_NNUE_CLASSIC_NATIVE_OUTCOMES.json
+          python - <<'PY'
+          import json
+          r=json.load(open('output/C3X014_PIN_STOCKFISH16_NNUE_CLASSIC_NATIVE_OUTCOMES.json'))
+          assert r['one_formal_stage']=='C3X 0.14'
+          assert r['source_pinned_legal_positions']==40
+          assert r['actual_native_unmodified_SF16_engine_processes']==160
+          assert r['cold_reproducibility_all_conditions']=='80/80'
+          assert not r['has_established_stockfish_specific_internal_pin_subtypes']
+          assert not r['has_established_pins_cause_engine_search_preference_changes']
+          assert not r['P1_four_game_sealed_holdout_touched']
+          print('C3X014_PIN_NATIVE_NNUE_CLASSICAL_CHESS_CAUSAL_CEILING_PASS')
+          PY
+      - name: Archive frozen original 40-case selection, genuine engine outputs and hashes
+        if: always()
+        run: |
+          cp harness/c3x_014_official_pin_NNUE_vs_classic_phenotype_court.py output/NATIVE_PIN_EVALUATOR_COMPARISON.py
+          cp frozen/C3X014_OFFICIAL_CHESS_PIN_SUBTYPES_SOURCE_ONLY.json output/PIN_LEGAL_SOURCE_FROZEN_BEFORE_SCORE.json
+          cp c3x/ontology/c3x-014-bounded-TT-return-census-and-pin-subtypes-precommit.md output/PIN_TT_CO_STUDY_PRECOMMIT.md
+          printf '%s\n' 'Whole evaluator NNUE-vs-classic contrast IS NOT isolated chess pin effect, nor evidence of discrete NNUE internal pin categories; measure source-native SEE/mobility/queen-relative-pin later.' > output/CHESS_CONCEPT_EVIDENCE_CEILING.txt
+          find output -maxdepth 1 -type f ! -name 'MEMBER_SHA256.txt' -print0 | sort -z | xargs -0 sha256sum > output/MEMBER_SHA256.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x-014-original-SF16-pin-NNUE-vs-classical-search-phenotypes
+          path: output/
+          retention-days: 90
+          if-no-files-found: error
