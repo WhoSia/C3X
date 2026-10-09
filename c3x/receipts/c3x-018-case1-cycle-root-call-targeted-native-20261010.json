@@ -1,0 +1,48 @@
+{
+  "schema": "C3X018-CASE1-SINGLE-REPETITION-COUNTERFACTUAL-V1",
+  "studies": "ADAPTIVE after history residual discovery",
+  "root_genealogy_run": 37985160343,
+  "root_genealogy_zip_sha256": "57f744b2ce522ebb60b197b20c34d54a475c554837aef486c93211127b3cd8a0",
+  "positive_draw_run": 37986109805,
+  "positive_draw_zip_sha256": "a3bce0a3e13044aa0dd2c75e21a18ca6125978cf949aab03ee1dedb62ca2fd32",
+  "targeted_gate_run": 37986469033,
+  "targeted_gate_zip_sha256": "f0b3e9220d34598ac041368f6e1e0d8478fd64ed10ec889ef92b39d2a76cd0d0",
+  "json_sha256": "c5b5d2d4f4a4d776673b4084cc768eab6a6b0a14e04a9354dcd1ee82b3a8f585",
+  "all_members_sha256": true,
+  "target": {
+    "key64": "1393645049232160636",
+    "root_call": 1,
+    "root_move_native": 2313,
+    "ply": 1,
+    "rule50": 16,
+    "has_repeated": 1
+  },
+  "root_event_first_difference": {
+    "seq": 23,
+    "depth": 1,
+    "candidate_move_native": 2313,
+    "FEN6_child": 68,
+    "originalPGN_O_child": 1,
+    "originalPGN_F_child": -1
+  },
+  "treated_true_cycle_block": {
+    "O_child": 68,
+    "F_child": 68,
+    "actual_contacts": 1
+  },
+  "immediate_draw_only": {
+    "O_child": 1,
+    "F_child": -1,
+    "actual_contacts": 0
+  },
+  "FEN6_negative": {
+    "actual_contacts": 0,
+    "source_child": 68
+  },
+  "final_root_output": {
+    "bestmove": "e5b8",
+    "O_PGN_full_UCI_changed_by_source_cycle_gate": false,
+    "F_PGN_full_UCI_changed_by_source_cycle_gate": false
+  },
+  "scope": "Source single-node intervention identifies local first child return cause but not final root outcome or entire PGN/FEN residual. Numeric root call IDs only within arm."
+}
