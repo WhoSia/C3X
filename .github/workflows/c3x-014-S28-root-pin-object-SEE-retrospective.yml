@@ -1,0 +1,92 @@
+name: C3X 0.14 S28 Post-Outcome Original-Root PIN-Object SEE Court
+on:
+  push:
+    paths:
+      - '.github/workflows/c3x-014-S28-root-pin-object-SEE-retrospective.yml'
+      - 'harness/c3x_014_S28_ROOT_PIN_object_guarded_SEE_64world_native_retest.py'
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  s28-64-original-root-pin-target-guard:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Prepare actual source pinned SF16 and S28 game parser
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq git make g++
+          python -m pip install --disable-pip-version-check chess==1.11.2
+          python -m py_compile harness/c3x_014_S28_ROOT_PIN_object_guarded_SEE_64world_native_retest.py harness/c3x_014_ROOT_PIN_object_guarded_SEE_40world_native_court.py
+          mkdir -p original-source original-704 output
+      - uses: actions/download-artifact@v4
+        with:
+          name: c3x-014-tcec-s28-original-64-source-only-chess-pin-fiber-transfer
+          path: original-source/
+          repository: WhoSia/C3X
+          run-id: '37892996179'
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: c3x-014-season28-SF16-native-five-arm-pin-704-process-transfer
+          path: original-704/
+          repository: WhoSia/C3X
+          run-id: '37893361180'
+          github-token: ${{ github.token }}
+      - name: Byte freeze previous score-blind S28 64 and already seen 704-native S28 outcomes
+        run: |
+          printf '%s  %s\n' '1152473ed8d8793361f922434c75c7da2b9a58e0aa68a59466fc65179d6ac5e4' 'original-source/C3X014_ORIGINAL_TCEC_S28_CHESS_LAW_PIN_FROZEN64_BEFORE_EVAL.json' | sha256sum -c -
+          printf '%s  %s\n' '86bcbaa3e5e974834b35c35e387b1255e6369ca708c65f8d260d44faa359acd9' 'original-704/C3X014_SEASON28_64_GAMES_ACTUAL_PIN_FIVE_ARM_NATIVE_TRANSFER.json' | sha256sum -c -
+      - name: Instrument pinned original SF16 only on original rooted same king pinned piece and pinner source identity
+        run: |
+          git clone -q --single-branch --branch sf_16 https://github.com/official-stockfish/Stockfish.git /tmp/C3X014_S28_OBJ
+          test "$(git -C /tmp/C3X014_S28_OBJ rev-parse HEAD)" = "68e1e9b3811e16cad014b590d7443b9063b3eb52"
+          python tools/c3x_014_patch_native_pin_operators.py --source /tmp/C3X014_S28_OBJ --out-manifest output/ORIGINAL_PIN_NATIVE_OBSERVER_PATCH.json
+          python tools/c3x_014_ROOT_PIN_object_only_SEE_unmask_patch.py --source /tmp/C3X014_S28_OBJ --out-manifest output/ROOT_PIN_OBJECT_GUARD_NATIVE_SF16_PATCH.json
+          git -C /tmp/C3X014_S28_OBJ diff -- src/position.cpp src/search.cpp src/evaluate.cpp > output/EXACT_SOURCE_CHESS_ROOT_PIN_SEE_CPP_DIFF.patch
+          cp /tmp/C3X014_S28_OBJ/src/c3x014_pin_trace.h output/ROOT_PIN_OBJECT_NATIVE_SOURCE_HEADER.h
+          cp /tmp/C3X014_S28_OBJ/Copying.txt output/Stockfish_GPLv3.txt
+          make -s -C /tmp/C3X014_S28_OBJ/src -j2 build ARCH=x86-64
+          cp /tmp/C3X014_S28_OBJ/src/stockfish /tmp/C3X014_S28_OBJ_bin
+          sha256sum /tmp/C3X014_S28_OBJ_bin > output/S28_NATIVE_ROOT_OBJECT_SOURCE_BINARY_SHA256.txt
+      - name: Execute 256 cold native SF16 searches on all original 64 S28 source-game roots with exact previous 704-run OFF sham
+        run: |
+          python harness/c3x_014_S28_ROOT_PIN_object_guarded_SEE_64world_native_retest.py --source original-source/C3X014_ORIGINAL_TCEC_S28_CHESS_LAW_PIN_FROZEN64_BEFORE_EVAL.json --prior-704 original-704/C3X014_SEASON28_64_GAMES_ACTUAL_PIN_FIVE_ARM_NATIVE_TRANSFER.json --engine /tmp/C3X014_S28_OBJ_bin --out output/C3X014_S28_ORIGINAL_ROOT_OBJECT_SEE_REPLICATION_256_NATIVE.json
+          python - <<'PY'
+          import json
+          r=json.load(open('output/C3X014_S28_ORIGINAL_ROOT_OBJECT_SEE_REPLICATION_256_NATIVE.json'))
+          assert r['formal_research']=='C3X 0.14' and r['proposed_C3X015_NOT_OPEN']
+          assert r['source_root_game_count']==64 and r['source_root_unique_FEN_count']==63
+          assert r['actual_native_SF16_new_engine_processes']==256
+          assert r['cold_restart_conditions_exact']=='128/128'
+          assert r['all_OFF_root_UCI_score_PV_nodes_pin_site_trace_equal_previous_704']=='64/64'
+          assert r['unfired_root_PIN_target_branch_changes_UCI']=='0'
+          assert not r['source_game_original_chess_pin_legal_move_generation_changed']
+          assert not r['old_procedurally_sealed_P1_four_game_cohort_opened']
+          assert not r['NNUE_learned_latent_concept_identified']
+          print('C3X014_S28_POSTDISCOVERY_ROOT_PIN_OBJECT_NATIVE_REPLICATION_SHAM_PASS')
+          PY
+      - name: Preserve exact native source and all actual negative/positive raw experiments with hash manifest
+        if: always()
+        run: |
+          cp tools/c3x_014_ROOT_PIN_object_only_SEE_unmask_patch.py output/S29_VERIFIED_ORIGINAL_ROOT_PIN_SOURCE_CPP_PATCHER.py
+          cp tools/c3x_014_patch_native_pin_operators.py output/PRIOR_PASSIVE_PIN_OBSERVATION_CPP_PATCHER.py
+          cp harness/c3x_014_S28_ROOT_PIN_object_guarded_SEE_64world_native_retest.py output/S28_256_ACTUAL_NATIVE_SOURCE_REPLAY.py
+          cp harness/c3x_014_ROOT_PIN_object_guarded_SEE_40world_native_court.py output/ORIGINAL_S29_SOURCE_NATIVE_OBJECT_READER.py
+          cp original-source/C3X014_ORIGINAL_TCEC_S28_CHESS_LAW_PIN_FROZEN64_BEFORE_EVAL.json output/BEFORE_EVAL_SCORE_BLIND_S28_SOURCE64.json
+          cp original-704/C3X014_SEASON28_64_GAMES_ACTUAL_PIN_FIVE_ARM_NATIVE_TRANSFER.json output/ALREADY_DISCLOSED_S28_GLOBAL_704_NATIVE_OUTPUTS.json
+          cp c3x/ontology/c3x-014-S28-source-disjoint-pin-fiber-transfer-precommit.md output/POSTDISCOVERY_S28_OBJECT_CONDITIONAL_CAUSAL_CONTRACT.md
+          printf '%s\n' 'This S28 64-game experiment is POST-DISCOVERY because global S28 outcomes were already disclosed. Source original pinned square/pinner/king matching targeted SEE remains software intervention, not learned neural chess category proof. FEN duplicate pair games61 and62.' > output/SCIENTIFIC_AUTHORITY_CEILING.txt
+          find output -maxdepth 1 -type f ! -name 'MEMBER_SHA256.txt' -print0 | sort -z | xargs -0 sha256sum > output/MEMBER_SHA256.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x-014-S28-original-root-pin-object-SEE-256-native-postdiscovery
+          path: output/
+          retention-days: 90
+          if-no-files-found: error
