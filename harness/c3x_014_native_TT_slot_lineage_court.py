@@ -25,8 +25,17 @@ def load(path,expected):
     if hashlib.sha256(b).hexdigest()!=expected:
         raise RuntimeError("C3X014_PROVENANCE_SOURCE_SHA_MISMATCH")
     return json.loads(b)
+def comparable(x):
+    # C++ UCI live parser ranks are int 1/2; JSON replays always reify keys
+    # as string "1"/"2". The scientific rank payload, not Python key type,
+    # is the frozen equality contract.
+    return {"bestmove":x["bestmove"],
+        "ranks":{str(k):v for k,v in x["ranks"].items()},
+        "signed_white_cp_gap":x["signed_white_cp_gap"],
+        "exact_numeric_cp":x["exact_numeric_cp"]}
+
 def exact_old(a,b):
-    if semantic(a)!=semantic(b):return False
+    if comparable(a)!=comparable(b):return False
     if a.get("native_tt")!=b.get("native_tt"):return False
     if a.get("native_completed")!=b.get("native_completed"):return False
     if "mechanism_path" in a and "mechanism_path" in b:
