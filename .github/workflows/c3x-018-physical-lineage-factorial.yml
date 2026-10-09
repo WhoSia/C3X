@@ -1,0 +1,79 @@
+name: C3X 0.18 Physical TT Epoch and Focal Factorial
+on:
+  push:
+    paths:
+      - 'tools/c3x_018_physical_epoch_lineage_patch.py'
+      - 'harness/c3x_018_native_TT_lineage_factorial_6_8.py'
+      - '.github/workflows/c3x-018-physical-lineage-factorial.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  frozen-native-source-factorial:
+    runs-on: ubuntu-latest
+    timeout-minutes: 55
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Python patch/runner syntax
+        run: |
+          python -m py_compile tools/c3x_018_physical_epoch_lineage_patch.py
+          python -m py_compile harness/c3x_018_native_TT_lineage_factorial_6_8.py
+      - name: Retrieve frozen original P4 court
+        uses: actions/download-artifact@v4
+        with:
+          name: c3x-016-P4-12-Lichess-root-order-72-native
+          path: baseline/
+          repository: WhoSia/C3X
+          run-id: '37948775813'
+          github-token: ${{ github.token }}
+      - name: Compile frozen baseline and shadow-epoch lineage source
+        run: |
+          set -euo pipefail
+          mkdir -p evidence
+          git clone -q --single-branch --branch sf_16 https://github.com/official-stockfish/Stockfish.git /tmp/C3X018_LINEAGE_SF16
+          test "$(git -C /tmp/C3X018_LINEAGE_SF16 rev-parse HEAD)" = 68e1e9b3811e16cad014b590d7443b9063b3eb52
+          make -s -C /tmp/C3X018_LINEAGE_SF16/src -j2 build ARCH=x86-64
+          cp /tmp/C3X018_LINEAGE_SF16/src/stockfish /tmp/C3X018_LINEAGE_ORIGINAL
+          python tools/c3x_016_P4_independent_12root_source_order_patch.py \
+            --source /tmp/C3X018_LINEAGE_SF16 --out-manifest evidence/P4_SOURCE_PATCH.json
+          python tools/c3x_018_physical_epoch_lineage_patch.py \
+            --source /tmp/C3X018_LINEAGE_SF16 --out-manifest evidence/TT_LINEAGE_SOURCE_PATCH.json
+          git -C /tmp/C3X018_LINEAGE_SF16 diff -- src/tt.h src/tt.cpp src/search.cpp > evidence/TT_EPOCH_SOURCE_DIFF.patch
+          test -s evidence/TT_EPOCH_SOURCE_DIFF.patch
+          make -s -C /tmp/C3X018_LINEAGE_SF16/src -j2 build ARCH=x86-64
+          cp /tmp/C3X018_LINEAGE_SF16/src/stockfish /tmp/C3X018_LINEAGE_PATCHED
+          sha256sum /tmp/C3X018_LINEAGE_ORIGINAL /tmp/C3X018_LINEAGE_PATCHED > evidence/BINARY_SHA256.txt
+      - name: Two focal worlds source-exact writer / reader factorial
+        run: |
+          set -euo pipefail
+          python -u harness/c3x_018_native_TT_lineage_factorial_6_8.py \
+            --cohort c3x/cohorts/c3x-016-P4-12-independent-Lichess-legal-root-order-sourceonly-frozen.json \
+            --prior baseline/C3X016_P4_12_LICHESS_MULTIMOTIF_ROOT_ORDER_72_NATIVE.json \
+            --original /tmp/C3X018_LINEAGE_ORIGINAL \
+            --patched /tmp/C3X018_LINEAGE_PATCHED \
+            --out evidence/FOCAL_6_8_PHYSICAL_TT_FACTORIAL.json | tee evidence/NATIVE_STDOUT.txt
+          python - <<'PY'
+          import json
+          j=json.load(open('evidence/FOCAL_6_8_PHYSICAL_TT_FACTORIAL.json'))
+          assert [x["id"] for x in j["cases"]]==[6,8]
+          for c in j["cases"]:
+              assert c["prior_output"]["O"]["bestmove"] != c["prior_output"]["F"]["bestmove"]
+              assert c["observer"]["O"]["records"]>0
+              assert c["observer"]["F"]["records"]>0
+          print('C3X018_FOCAL_SOURCE_COLD_NATIVE_COURT_PASS')
+          PY
+      - name: Immutable evidence hashes
+        if: always()
+        run: |
+          mkdir -p evidence
+          find evidence -maxdepth 1 -type f ! -name MEMBER_SHA256.txt -print0 | sort -z | xargs -0 -r sha256sum > evidence/MEMBER_SHA256.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x-018-physical-lineage-focal-factorial
+          path: evidence/
+          retention-days: 90
+          if-no-files-found: error
