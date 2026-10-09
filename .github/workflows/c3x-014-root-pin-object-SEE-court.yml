@@ -1,0 +1,89 @@
+name: C3X 0.14 Object-Restricted Original Root PIN SEE Causal Court
+on:
+  push:
+    paths:
+      - '.github/workflows/c3x-014-root-pin-object-SEE-court.yml'
+      - 'tools/c3x_014_ROOT_PIN_object_only_SEE_unmask_patch.py'
+      - 'harness/c3x_014_ROOT_PIN_object_guarded_SEE_40world_native_court.py'
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  source-original-40-root-object-SEE:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Exact compile tools and chess legality
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq git make g++
+          python -m pip install --disable-pip-version-check chess==1.11.2
+          python -m py_compile tools/c3x_014_ROOT_PIN_object_only_SEE_unmask_patch.py harness/c3x_014_ROOT_PIN_object_guarded_SEE_40world_native_court.py
+          mkdir -p old-law old-native output
+      - uses: actions/download-artifact@v4
+        with:
+          name: c3x-014-TCEC-source-only-chess-pin-law-subtype-witnesses
+          path: old-law/
+          repository: WhoSia/C3X
+          run-id: '37886383505'
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: c3x-014-SF16-SEE-pin-WeakQueen-role-five-arm-causal
+          path: old-native/
+          repository: WhoSia/C3X
+          run-id: '37891155659'
+          github-token: ${{ github.token }}
+      - name: Verify original source game roots and prior global causal branch data
+        run: |
+          printf '%s  %s\n' 'cfb2c4b0631959cfcdd5bf1eb098f7b41c40468a7b22e434e95ef8936cc43ead' 'old-law/C3X014_OFFICIAL_CHESS_PIN_SUBTYPES_SOURCE_ONLY.json' | sha256sum -c -
+          printf '%s  %s\n' '336d9fcd5d5023a73824dc95b9399570b2786bfcb527dd2e1a42b6471a6a7374' 'old-native/C3X014_SF16_40_SOURCE_WORLDS_SEE_WEAKQUEEN_FIVE_ARM_CAUSAL.json' | sha256sum -c -
+      - name: Source-build official Stockfish16 with exact original root pinned-object SEE guard
+        run: |
+          git clone -q --single-branch --branch sf_16 https://github.com/official-stockfish/Stockfish.git /tmp/C3X014_PIN_TARGET_OBJ
+          test "$(git -C /tmp/C3X014_PIN_TARGET_OBJ rev-parse HEAD)" = "68e1e9b3811e16cad014b590d7443b9063b3eb52"
+          python tools/c3x_014_patch_native_pin_operators.py --source /tmp/C3X014_PIN_TARGET_OBJ --out-manifest output/ORIGINAL_PIN_SOURCE_OBSERVER_PATCH.json
+          python tools/c3x_014_ROOT_PIN_object_only_SEE_unmask_patch.py --source /tmp/C3X014_PIN_TARGET_OBJ --out-manifest output/OBJECT_RESTRICTED_SEE_PATCH.json
+          git -C /tmp/C3X014_PIN_TARGET_OBJ diff -- src/position.cpp src/search.cpp src/evaluate.cpp > output/ROOT_OBJECT_CONDITIONAL_CPP_FULL_DIFF.patch
+          cp /tmp/C3X014_PIN_TARGET_OBJ/src/c3x014_pin_trace.h output/EXACT_ROOT_OBJECT_COUNTER_HEADER.h
+          cp /tmp/C3X014_PIN_TARGET_OBJ/Copying.txt output/Stockfish_GPLv3.txt
+          make -s -C /tmp/C3X014_PIN_TARGET_OBJ/src -j2 build ARCH=x86-64
+          cp /tmp/C3X014_PIN_TARGET_OBJ/src/stockfish /tmp/C3X014_PIN_TARGET_OBJ_bin
+          sha256sum /tmp/C3X014_PIN_TARGET_OBJ_bin > output/NATIVE_OBJECT_PIN_BINARY_SHA256.txt
+      - name: Run 160 native SF16 source-verified original-root-object-only conditional SEE treatments
+        run: |
+          python harness/c3x_014_ROOT_PIN_object_guarded_SEE_40world_native_court.py --source old-law/C3X014_OFFICIAL_CHESS_PIN_SUBTYPES_SOURCE_ONLY.json --prior-400 old-native/C3X014_SF16_40_SOURCE_WORLDS_SEE_WEAKQUEEN_FIVE_ARM_CAUSAL.json --engine /tmp/C3X014_PIN_TARGET_OBJ_bin --out output/C3X014_S29_40_SOURCE_ROOT_PIN_OBJECT_CONDITIONAL_SEE_TREATMENT.json
+          python - <<'PY'
+          import json
+          a=json.load(open('output/C3X014_S29_40_SOURCE_ROOT_PIN_OBJECT_CONDITIONAL_SEE_TREATMENT.json'))
+          assert a['formal_research']=='C3X 0.14'
+          assert a['actual_source_native_SF16_engine_processes']==160
+          assert a['cold_exact_all_80_conditions']=='80/80'
+          assert a['original_SF16_OFF_bestmove_score_PV_nodes_and_full_site_trace_equal']=='40/40'
+          assert a['original_global_SEE_UNMASK_bestmove_responder_worlds']==11
+          assert not a['root_PIN_chess_move_generation_changed']
+          assert not a['old_4game_P1_procedural_holdout_untouched']==False
+          print('C3X014_SOURCE_TRUE_ROOT_PIN_OBJECT_GUARD_AND_CAUSAL_SHAM_PASS')
+          PY
+      - name: Preserve original object witness, raw negative exposure data, C++ and GPL
+        if: always()
+        run: |
+          cp tools/c3x_014_ROOT_PIN_object_only_SEE_unmask_patch.py output/EXACT_SOURCE_ROOT_OBJECT_PIN_PATCHER.py
+          cp tools/c3x_014_patch_native_pin_operators.py output/ORIGINAL_PASSIVE_PIN_SOURCE_PATCHER.py
+          cp harness/c3x_014_ROOT_PIN_object_guarded_SEE_40world_native_court.py output/160_TRUE_NATIVE_OBJECT_GUARD_TEST.py
+          cp old-law/C3X014_OFFICIAL_CHESS_PIN_SUBTYPES_SOURCE_ONLY.json output/40_FROZEN_ORIGINAL_ROOT_PIN_LAW.json
+          cp old-native/C3X014_SF16_40_SOURCE_WORLDS_SEE_WEAKQUEEN_FIVE_ARM_CAUSAL.json output/400_PRIOR_GLOBAL_CAUSAL_REFERENCE.json
+          cp c3x/ontology/c3x-014-S28-source-disjoint-pin-fiber-transfer-precommit.md output/SOURCE_OBJECT_CAUSAL_PRECOMMIT_AND_NEGATIVE_VERDICTS.md
+          printf '%s\n' 'ROOT object-specific source-identity-matched SEE treatment is narrower than global SEE unmask. Causal software effects are not direct manipulation of chess board PIN feature and do not demonstrate NNUE learned representations. Root firing zero is a negative-exposure result.' > output/ROOT_OBJECT_SCIENTIFIC_CEILING.txt
+          find output -maxdepth 1 -type f ! -name 'MEMBER_SHA256.txt' -print0 | sort -z | xargs -0 sha256sum > output/MEMBER_SHA256.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x-014-SF16-source-root-pin-identity-guarded-SEE-160-native
+          path: output/
+          retention-days: 90
