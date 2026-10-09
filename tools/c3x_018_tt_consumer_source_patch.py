@@ -16,6 +16,8 @@ def once(s, old, new, tag):
     return s.replace(old, new, 1)
 
 def patch(s):
+    s = once(s, "#include <cstring>   // For std::memset",
+             "#include <cstring>   // For std::memset\n#include <cstdlib>", "CSTDLIB")
     s = once(s, "namespace Stockfish {\n",
 '''namespace Stockfish {
 
