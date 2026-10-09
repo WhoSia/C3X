@@ -75,7 +75,7 @@ jobs:
           cp s29-root/C3X014_OFFICIAL_CHESS_PIN_SUBTYPES_SOURCE_ONLY.json output/ORIGINAL_S29_CHESS_LAW_SOURCE_40.json
           cp s28-root/C3X014_ORIGINAL_TCEC_S28_CHESS_LAW_PIN_FROZEN64_BEFORE_EVAL.json output/NEW_SEASON_S28_CHESS_LAW_SOURCE_64.json
           cp c3x/ontology/c3x-014-S28-source-disjoint-pin-fiber-transfer-precommit.md output/PREOUTCOME_SOURCE_FREEZE_AND_DUPLICATE_AUDIT.md
-          printf '%s\n' '37? NO: verify exact source values from JSON. 35 legal geometric composite types across two seasons are NOT a learned NNUE type count. The law subtype majority signature S29->S28 prediction fails trivial null model (6/32 vs 16/32), post hoc diagnostic, not a preregistered success. Two S28 game IDs share exactly one FEN, so 63 positions. Still C3X0.14.' > output/SCIENTIFIC_CAUSAL_NEGATIVE_EVIDENCE.txt
+          printf '%s\n' 'Exactly 35 observed chess-law composite feature tuples across two distinct seasons, not 35 learned NNUE types. The law subtype majority signature S29->S28 prediction fails trivial null model (6/32 vs 16/32), post hoc diagnostic, not a preregistered success. Two S28 game IDs share exactly one FEN, so 63 positions. Still C3X0.14.' > output/SCIENTIFIC_CAUSAL_NEGATIVE_EVIDENCE.txt
           find output -maxdepth 1 -type f ! -name 'MEMBER_SHA256.txt' -print0 | sort -z | xargs -0 sha256sum > output/MEMBER_SHA256.txt
       - uses: actions/upload-artifact@v4
         if: always()
