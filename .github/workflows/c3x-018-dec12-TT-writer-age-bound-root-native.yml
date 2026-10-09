@@ -1,0 +1,81 @@
+name: C3X 0.18 December Physical TT Reader Role Factors
+on:
+  push:
+    paths:
+      - 'tools/c3x_018_TT_reader_writer_age_bound_root_feature_overlay.py'
+      - 'harness/c3x_018_dec12_TT_writer_age_bound_ply_root_native.py'
+      - '.github/workflows/c3x-018-dec12-TT-writer-age-bound-root-native.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  december-12-roles:
+    runs-on: ubuntu-latest
+    timeout-minutes: 55
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Chess original history parser and native source syntax preflight
+        run: |
+          python -m pip install -q chess==1.11.2
+          python -m py_compile tools/c3x_018_TT_reader_writer_age_bound_root_feature_overlay.py
+          python -m py_compile harness/c3x_018_dec12_TT_writer_age_bound_ply_root_native.py
+      - name: Retrieve only previously blinded December PGN source artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: c3x-018-december2025-blind12-source
+          path: source/
+          repository: WhoSia/C3X
+          run-id: '37987794988'
+          github-token: ${{ github.token }}
+      - name: Pin source-only December full chess game histories
+        run: |
+          set -euo pipefail
+          mkdir -p evidence
+          test "$(sha256sum source/C3X018_DECEMBER12_INDEPENDENT_GAMES.json | cut -d' ' -f1)" = 51366a480fe2631005dbded7992e870443ef6dd2dfd785fd10952d6eeff5e7cd
+          cp source/C3X018_DECEMBER12_INDEPENDENT_GAMES.json evidence/DECEMBER_ORIGINAL_GAME_SOURCE.json
+      - name: Frozen SF16 source native physical writer, V reader and eight feature attributes
+        run: |
+          set -euo pipefail
+          root=/tmp/C3X018_DECEMBER_ROLES
+          git clone -q --single-branch --branch sf_16 https://github.com/official-stockfish/Stockfish.git "$root"
+          test "$(git -C "$root" rev-parse HEAD)" = 68e1e9b3811e16cad014b590d7443b9063b3eb52
+          python tools/c3x_016_P4_independent_12root_source_order_patch.py --source "$root" --out-manifest evidence/P4.json
+          python tools/c3x_017_early_depth1_root_window_trace_patch.py --source "$root" --out-manifest evidence/ROOT_TRACE.json
+          python tools/c3x_018_trial_call_identity_patch.py --source "$root" --out-manifest evidence/TRIAL_ID.json
+          python tools/c3x_018_physical_epoch_lineage_patch.py --source "$root" --out-manifest evidence/TT_PHYSICAL.json
+          python tools/c3x_018_tt_eval_consumption_overlay.py --source "$root" --out-manifest evidence/TT_V_GATE.json
+          python tools/c3x_018_physical_value_witness_overlay.py --source "$root" --out-manifest evidence/TT_WRITER_VALUE.json
+          python tools/c3x_018_root_TT_genealogy_overlay.py --source "$root" --out-manifest evidence/ROOT_TT_ANCESTRY.json
+          python tools/c3x_018_TT_reader_writer_age_bound_root_feature_overlay.py --source "$root" --out-manifest evidence/TT_8_FEATURES.json
+          git -C "$root" diff -- src/ > evidence/PHYSICAL_SOURCE_DIFF.patch
+          make -s -C "$root/src" -j2 build ARCH=x86-64
+          sha256sum "$root/src/stockfish" > evidence/BINARY_SHA256.txt
+      - name: All twelve December games eight prespecified TT role interventions double cold
+        run: |
+          set -euo pipefail
+          python -u harness/c3x_018_dec12_TT_writer_age_bound_ply_root_native.py \
+            --source evidence/DECEMBER_ORIGINAL_GAME_SOURCE.json \
+            --engine /tmp/C3X018_DECEMBER_ROLES/src/stockfish \
+            --out evidence/DECEMBER12_TT_EIGHT_ROLE_CAUSAL_COURT.json | tee evidence/NATIVE_STDOUT.txt
+          python - <<'PY'
+          import json
+          d=json.load(open("evidence/DECEMBER12_TT_EIGHT_ROLE_CAUSAL_COURT.json"))
+          assert d["summary"]["full_denominator"]==12
+          assert d["summary"]["planned_selectors"]==d["summary"]["observed_selectors"]==96
+          print("C3X018_DECEMBER_EIGHT_ROLE_PRECOMMITTED_DENOMINATOR_PASS")
+          PY
+      - name: SHA256 all source and raw output evidence
+        if: always()
+        run: |
+          mkdir -p evidence
+          find evidence -maxdepth 1 -type f ! -name MEMBER_SHA256.txt -print0 | sort -z | xargs -0 -r sha256sum > evidence/MEMBER_SHA256.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x-018-december12-TT-age-bound-ply-root-factors
+          path: evidence/
+          retention-days: 90
+          if-no-files-found: error
