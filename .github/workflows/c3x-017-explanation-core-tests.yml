@@ -1,0 +1,24 @@
+name: C3X 0.17 Explanation Core Evidence Tests
+on:
+  push:
+    paths:
+      - 'src/explanation/explanation_core.mjs'
+      - 'src/explanation/explanation_core.test.mjs'
+      - '.github/workflows/c3x-017-explanation-core-tests.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  evidence-gates:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Evidence-typed chess explanation tests
+        run: node --test src/explanation/explanation_core.test.mjs
+      - name: Read-only audit no GitHub Actions commit
+        run: |
+          test -s c3x/ontology/c3x-017-root-order-to-TT-window-provenance-and-explanation-authority.md
+          git status --porcelain
