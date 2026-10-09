@@ -106,9 +106,10 @@ std::string c3x015_tt_summary(){
  '''    ttValue = ss->ttHit ? value_from_tt(tte->value(), ss->ply, pos.rule50_count()) : VALUE_NONE;
     c3x015_record_tt(posKey,tte,ss->ttHit,int(ttValue),int(alpha),int(beta),int(depth),int(ss->ply),int(nodeType),0);''',1)
  # second main and qsearch instance still left
- s=one(s,needle,
- '''    ttValue = ss->ttHit ? value_from_tt(tte->value(), ss->ply, pos.rule50_count()) : VALUE_NONE;
-    c3x015_record_tt(posKey,tte,ss->ttHit,int(ttValue),int(alpha),int(beta),int(depth),int(ss->ply),int(nodeType),0);''','QS_READ')
+ if s.count(needle)!=2:raise RuntimeError('QS_READ_REMAINING_TWO_EXPECTED')
+ pre,sep,post=s.rpartition(needle)
+ s=pre+'''    ttValue = ss->ttHit ? value_from_tt(tte->value(), ss->ply, pos.rule50_count()) : VALUE_NONE;
+    c3x015_record_tt(posKey,tte,ss->ttHit,int(ttValue),int(alpha),int(beta),int(depth),int(ss->ply),int(nodeType),0);'''+post
  s=one(s,'        if (pos.rule50_count() < 90)\n            return ttValue;',
  """        if (pos.rule50_count() < 90) {
             c3x015_record_tt(posKey,tte,ss->ttHit,int(ttValue),int(alpha),int(beta),int(depth),int(ss->ply),int(nodeType),1);
