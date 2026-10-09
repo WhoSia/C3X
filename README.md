@@ -1,12 +1,22 @@
 # C3X — Counterfactual Contrastive Chess eXplanation
 
-**Active research version: C3X 0.16 — Chess Concept–Operator Correspondence: Multi-Motif Causal Identification, Root-Competition Provenance & Cross-Source Transport**
+**Active research version: C3X 0.17 — Causal Search-Order Interventions Across Chess Concepts: Independent Game Histories, Root Competition & Mechanism Transport**
 
-**Version policy (2026-10-09):** C3X **0.15 CLOSED / INHERITED**. All new chess research and development, including exact natural TT writer–consumer tracing, search-window provenance and historical counterexample resolution, belongs to **0.16**. Closure does not mean every 0.15 scientific question is solved. Immutable legacy P0–P11 source filenames, native ZIP hashes, Actions links and earlier Git history retain `c3x015` identifiers for reproducibility.
+**Version policy (2026-10-09):** C3X **0.17 ACTIVE / 0.16 CLOSED / 0.15 CLOSED**. All new chess research and development, including inherited natural TT writer–consumer investigation, belongs to **0.17**. Historical 0.16/P4 artifacts retain their original identifiers. Closure does not mean every 0.15 scientific question is solved. Immutable legacy P0–P11 source filenames, native ZIP hashes, Actions links and earlier Git history retain `c3x015` identifiers for reproducibility.
 
 [**Canonical Notion Lab**](https://app.notion.com/p/3c4ef561cf92817ab76bcab15e7d1faf) · [**Current Drive data-room router**](docs/C3X_DATA_ROOM_ROUTING_CURRENT.md) · [**Flowing Versioning doctrine**](https://app.notion.com/p/3f4ef561cf92818da4d4d92bc949ca15) · [**0.15 formal closure/transfer**](c3x/ontology/c3x-015-CLOSED-20261009-flowing-versioning-transfer-to-c3x016.md)
 
-## Latest verified C3X 0.16 results — 2026-10-09
+## C3X 0.17 — Current Flowing Version (2026-10-09)
+
+**0.17 OPEN / 0.16 CLOSED WITH OBLIGATIONS INHERITED / 0.15 CLOSED.** The [NOMOS-inspired cross-lab Flowing Versioning doctrine](https://app.notion.com/p/3f4ef561cf92818da4d4d92bc949ca15) advances a version when the *primitive question changes*, not when arbitrary P tickets accumulate or all predecessors magically pass.
+
+**New question:** Does experimentally changing only the source-legally selected root candidate ordering, on independent non-pin original game positions, change Stockfish16's root move, score/bound, nodes and search provenance? Can these controlled effects transport across tactical/strategic opportunities without falsely attributing a learned human motif? [Formal 0.17 opening](c3x/ontology/c3x-017-causal-search-order-interventions-flowing-version-opening.md).
+
+**First 0.17 study:** the earlier **0.16-P4** preregistered 12-Lichess-source root ordering court. Its existing [frozen cohort](c3x/cohorts/c3x-016-P4-12-independent-Lichess-legal-root-order-sourceonly-frozen.json), [C++ patch](tools/c3x_016_P4_independent_12root_source_order_patch.py), [native runner](harness/c3x_016_P4_12_lch_fen_root_move_order_72_native.py), original SHA, and [GitHub Actions #37948775813](https://github.com/WhoSia/C3X/actions/runs/37948775813) retain the **C3X016-P4** physical artifact IDs permanently. The *research designation* is **0.17 opening court**. At the time of opening the existing Actions run was **in_progress**, not PASS. Do not rename artifacts mid-run, mutate the cohort or pretend a new independent validation was performed.
+
+**0.16 predecessor achievements are retained below** (32 native SF16 TT writer/reader searches; 24 legal Lichess original games and geometry audit). Complete natural TT mediation, profitable tactical proof, NNUE latent understanding, new engine transfer and the previous C1 classifier accuracy failure remain open or negative. New research/development is 0.17 only.
+
+## Historical C3X 0.16 verified results — 2026-10-09
 
 **Two independent evidence tiers; one active version.** C3X 0.15 is **CLOSED / inherited**; immutable previous experiment names remain `C3X015` for source reconstruction. C3X 0.16 combines historically grounded natural TT source-path research with independent non-pin chess concept opportunities.
 
