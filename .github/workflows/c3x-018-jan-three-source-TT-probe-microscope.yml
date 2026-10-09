@@ -62,6 +62,7 @@ jobs:
           python tools/c3x_018_adaptive_writer_age_root_call_V_gate.py --source "$root" --out-manifest evidence/V_AGE_SOURCE.json
           python tools/c3x_018_january_cross_window_pair_source_gate.py --source "$root" --out-manifest evidence/PAIR_V.json
           python tools/c3x_018_jan_original_key_TT_probe_watch_overlay.py --source "$root" --out-manifest evidence/TT_PROBE_WATCH.json
+          python tools/c3x_018_jan_TT_probe_physical_writer_epoch_witness.py --source "$root" --out-manifest evidence/TT_PROBE_WRITER_EPOCH.json
           git -C "$root" diff -- src/ > evidence/SOURCE_DIFF.patch
           make -s -C "$root/src" -j2 build ARCH=x86-64
           sha256sum "$root/src/stockfish" > evidence/BINARY_SHA256.txt
