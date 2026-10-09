@@ -1,0 +1,40 @@
+{
+  "schema": "c3x018-external-chess-TT-value-transport-20261010",
+  "source": "Lichess October 2025 chess broadcast games CC BY-SA 4.0",
+  "source_freeze": {
+    "run": 37981820261,
+    "artifact": 11641395257,
+    "manifest_sha256": "6520672aabab7f525872169085f19bdd81e27a4473f0c58ba9c9aa428937104c",
+    "original_game_histories": 16
+  },
+  "initial_trial": {
+    "run": 37982333162,
+    "conclusion": "failure",
+    "reason": "Case16 invalid en-passant game-state handling; 15 complete"
+  },
+  "input_fix": "Replay full game prefix and normalize source en-passant field legally for all sixteen chess positions; source game identities unchanged",
+  "verified_trial": {
+    "run": 37982781383,
+    "artifact": 11642625047,
+    "zip_sha256": "a9c19d61172cd4e5aa67eb4514f77a586821f2cf69a373650a54f1428f434654",
+    "results_sha256": "519796b24302736da13929076453cfc5278c2402a19c9903270057eee59832eb",
+    "member_hashes": "all verified",
+    "conclusion": "success"
+  },
+  "results": {
+    "n": 16,
+    "valid": 16,
+    "TT_reader_contacts": 16,
+    "raw_payload_writer_match": 16,
+    "V_changed_bestmove": 0,
+    "V_changed_full_UCI": 0,
+    "W2_changed_bestmove": 1,
+    "W2_changed_full_UCI": 2
+  },
+  "registered_tests": {
+    "P1": "FAIL",
+    "P2": "NOT_TESTED",
+    "P3": "PASS"
+  },
+  "limitations": "Source observations are 16 new chess-game positions using standalone FEN at SF16 depth12. The first eligible TT reader is selected before treatment. Neither a unique natural TT mediator nor chess-concept understanding is established."
+}
