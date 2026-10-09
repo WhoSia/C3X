@@ -1,0 +1,86 @@
+name: C3X 0.14 Cross-Season Pin-Fiber Predictive Failure and Partial Operator Transport Court
+on:
+  push:
+    paths:
+      - '.github/workflows/c3x-014-S28-S29-cross-season-pin-audit.yml'
+      - 'harness/c3x_014_S29_S28_pin_law_fiber_cross_season_audit.py'
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  honest-season-disjoint-law-vs-native-operator-audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 18
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Prepare original SHA-pinned raw artifact inputs
+        run: |
+          python -m py_compile harness/c3x_014_S29_S28_pin_law_fiber_cross_season_audit.py
+          mkdir -p s29-root s29-effects s28-root s28-effects output
+      - uses: actions/download-artifact@v4
+        with:
+          name: c3x-014-TCEC-source-only-chess-pin-law-subtype-witnesses
+          path: s29-root/
+          repository: WhoSia/C3X
+          run-id: '37886383505'
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: c3x-014-SF16-SEE-pin-WeakQueen-role-five-arm-causal
+          path: s29-effects/
+          repository: WhoSia/C3X
+          run-id: '37891155659'
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: c3x-014-tcec-s28-original-64-source-only-chess-pin-fiber-transfer
+          path: s28-root/
+          repository: WhoSia/C3X
+          run-id: '37892996179'
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: c3x-014-season28-SF16-native-five-arm-pin-704-process-transfer
+          path: s28-effects/
+          repository: WhoSia/C3X
+          run-id: '37893361180'
+          github-token: ${{ github.token }}
+      - name: Exactly replay both native five-arm original source seasons with source law and FEN duplication audit
+        run: |
+          python harness/c3x_014_S29_S28_pin_law_fiber_cross_season_audit.py --s29 s29-effects/C3X014_SF16_40_SOURCE_WORLDS_SEE_WEAKQUEEN_FIVE_ARM_CAUSAL.json --s28 s28-effects/C3X014_SEASON28_64_GAMES_ACTUAL_PIN_FIVE_ARM_NATIVE_TRANSFER.json --s29-source s29-root/C3X014_OFFICIAL_CHESS_PIN_SUBTYPES_SOURCE_ONLY.json --s28-source s28-root/C3X014_ORIGINAL_TCEC_S28_CHESS_LAW_PIN_FROZEN64_BEFORE_EVAL.json --out output/C3X014_S29_TO_S28_NATIVE_PIN_OPERATOR_NEGATIVE_TRANSPORT_AUDIT.json
+          python - <<'PY'
+          import json
+          r=json.load(open('output/C3X014_S29_TO_S28_NATIVE_PIN_OPERATOR_NEGATIVE_TRANSPORT_AUDIT.json'))
+          assert r['formal_research_stage']=='C3X 0.14' and r['proposed_C3X_015_NOT_OPEN']
+          assert r['data_integrity']['shared_exact_sixfield_FEN_pinned_square_positions_between_original_S29_702_and_new_S28_64']==0
+          assert r['data_integrity']['new_S28_distinct_source_game_ids']==64
+          assert r['data_integrity']['new_S28_distinct_sixfield_FEN']==63
+          assert r['chess_law_feature_ontology']['union_composite_types']==35
+          assert r['software_intervention_bestmove_profiles']['union_distinct_response_profiles']==14
+          assert r['retrospective_law_only_4group_majority_prediction_on_new_S28']['S29_law_group_most_common_4bit_signature_exact_matches']==6
+          assert r['retrospective_law_only_4group_majority_prediction_on_new_S28']['trivial_always_0000_matches']==16
+          assert not r['scientific_claims']['root_PIN_specific_causal_concept_identified'] == 'PASS'
+          print('C3X014_S29_S28_LAW_SUBTYPE_NONTRANSPORT_BUT_OPERATOR_BREADTH_SCIENCE_AUDIT_PASS')
+          PY
+      - name: Preserve exact sources, provenance and honest failures
+        if: always()
+        run: |
+          cp harness/c3x_014_S29_S28_pin_law_fiber_cross_season_audit.py output/REPLAYABLE_CROSS_SEASON_PIN_AUDITOR.py
+          cp s29-effects/C3X014_SF16_40_SOURCE_WORLDS_SEE_WEAKQUEEN_FIVE_ARM_CAUSAL.json output/ORIGINAL_S29_400_PROCESSES_NATIVE_DISCOVERY.json
+          cp s28-effects/C3X014_SEASON28_64_GAMES_ACTUAL_PIN_FIVE_ARM_NATIVE_TRANSFER.json output/SCORE_BLIND_S28_704_PROCESSES_NATIVE_TRANSFER.json
+          cp s29-root/C3X014_OFFICIAL_CHESS_PIN_SUBTYPES_SOURCE_ONLY.json output/ORIGINAL_S29_CHESS_LAW_SOURCE_40.json
+          cp s28-root/C3X014_ORIGINAL_TCEC_S28_CHESS_LAW_PIN_FROZEN64_BEFORE_EVAL.json output/NEW_SEASON_S28_CHESS_LAW_SOURCE_64.json
+          cp c3x/ontology/c3x-014-S28-source-disjoint-pin-fiber-transfer-precommit.md output/PREOUTCOME_SOURCE_FREEZE_AND_DUPLICATE_AUDIT.md
+          printf '%s\n' '37? NO: verify exact source values from JSON. 35 legal geometric composite types across two seasons are NOT a learned NNUE type count. The law subtype majority signature S29->S28 prediction fails trivial null model (6/32 vs 16/32), post hoc diagnostic, not a preregistered success. Two S28 game IDs share exactly one FEN, so 63 positions. Still C3X0.14.' > output/SCIENTIFIC_CAUSAL_NEGATIVE_EVIDENCE.txt
+          find output -maxdepth 1 -type f ! -name 'MEMBER_SHA256.txt' -print0 | sort -z | xargs -0 sha256sum > output/MEMBER_SHA256.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x-014-s29-to-s28-pin-operational-fibers-source-disjoint-negative-court
+          path: output/
+          retention-days: 90
+          if-no-files-found: error
