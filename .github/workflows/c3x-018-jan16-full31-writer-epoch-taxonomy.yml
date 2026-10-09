@@ -66,7 +66,7 @@ jobs:
           git -C "$root" diff -- src/ > evidence/SOURCE_DIFF.patch
           make -s -C "$root/src" -j2 build ARCH=x86-64
           sha256sum "$root/src/stockfish" > evidence/BINARY_SHA256.txt
-      - name: All original 31 January chess source TT reader proposals: probe, writer epoch and bound consumption
+      - name: "All 31 January source TT readers: probe, writer epoch and bound consumption"
         run: |
           set -euo pipefail
           python -u harness/c3x_018_jan16_physical_TT_writer_epoch_attrition_native.py \
