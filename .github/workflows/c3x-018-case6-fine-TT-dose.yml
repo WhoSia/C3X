@@ -1,0 +1,73 @@
+name: C3X 0.18 Case6 Fine TT Writer Dose Court
+on:
+  push:
+    paths:
+      - 'tools/c3x_018_physical_epoch_lineage_patch.py'
+      - 'harness/c3x_018_case6_fine_dose_17_23.py'
+      - '.github/workflows/c3x-018-case6-fine-TT-dose.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  fine-grained-native-source:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Compile Python tools
+        run: |
+          python -m py_compile tools/c3x_018_physical_epoch_lineage_patch.py
+          python -m py_compile harness/c3x_018_case6_fine_dose_17_23.py
+      - name: Download pinned P4 source-legal native core
+        uses: actions/download-artifact@v4
+        with:
+          name: c3x-016-P4-12-Lichess-root-order-72-native
+          path: baseline/
+          repository: WhoSia/C3X
+          run-id: '37948775813'
+          github-token: ${{ github.token }}
+      - name: Build byte-frozen Stockfish 16 with physical TT epochs
+        run: |
+          set -euo pipefail
+          mkdir -p evidence
+          git clone -q --single-branch --branch sf_16 https://github.com/official-stockfish/Stockfish.git /tmp/C3X018_FINE_ENGINE
+          test "$(git -C /tmp/C3X018_FINE_ENGINE rev-parse HEAD)" = 68e1e9b3811e16cad014b590d7443b9063b3eb52
+          python tools/c3x_016_P4_independent_12root_source_order_patch.py \
+            --source /tmp/C3X018_FINE_ENGINE --out-manifest evidence/P4_PATCH.json
+          python tools/c3x_018_physical_epoch_lineage_patch.py \
+            --source /tmp/C3X018_FINE_ENGINE --out-manifest evidence/TT_LINEAGE_PATCH.json
+          git -C /tmp/C3X018_FINE_ENGINE diff -- src/search.cpp src/tt.cpp src/tt.h > evidence/SOURCE_DIFF.patch
+          make -s -C /tmp/C3X018_FINE_ENGINE/src -j2 build ARCH=x86-64
+          sha256sum /tmp/C3X018_FINE_ENGINE/src/stockfish > evidence/BINARY_SHA256.txt
+      - name: Execute frozen 17 18 19 20 21 22 23 budgets twice each
+        run: |
+          set -euo pipefail
+          python -u harness/c3x_018_case6_fine_dose_17_23.py \
+            --cohort c3x/cohorts/c3x-016-P4-12-independent-Lichess-legal-root-order-sourceonly-frozen.json \
+            --prior baseline/C3X016_P4_12_LICHESS_MULTIMOTIF_ROOT_ORDER_72_NATIVE.json \
+            --preseal c3x/receipts/c3x-018-physical-TT-nine-dose-nonmonotone-root-selection-native-20261010.json \
+            --patched /tmp/C3X018_FINE_ENGINE/src/stockfish \
+            --out evidence/CASE6_FINE_GRID_17_23.json | tee evidence/FINE_NATIVE_STDOUT.txt
+          python - <<'PY'
+          import json
+          j=json.load(open('evidence/CASE6_FINE_GRID_17_23.json'))
+          assert j['source_id']==6 and len(j['results'])==7
+          assert [x['max_block_budget'] for x in j['results']]==list(range(17,24))
+          assert j['decoy_zero_contact_core_identical']
+          print('C3X018_FINE_NATIVE_SHA_PRESEAL_COURT_PASS')
+          PY
+      - name: Hash all files
+        if: always()
+        run: |
+          mkdir -p evidence
+          find evidence -maxdepth 1 -type f ! -name MEMBER_SHA256.txt -print0 | sort -z | xargs -0 -r sha256sum > evidence/MEMBER_SHA256.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x-018-case6-fine-TT-dose-court
+          path: evidence/
+          retention-days: 90
+          if-no-files-found: error
