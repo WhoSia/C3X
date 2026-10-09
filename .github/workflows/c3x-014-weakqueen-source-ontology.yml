@@ -1,0 +1,57 @@
+name: C3X 0.14 SF16 Classical WeakQueen Pin-versus-Discovery Source Court
+on:
+  push:
+    paths:
+      - '.github/workflows/c3x-014-weakqueen-source-ontology.yml'
+      - 'harness/c3x_014_TCEC_WeakQueen_relational_pin_source_ontology.py'
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  source-only-weakqueen:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Prepare chess rule parser
+        run: |
+          python -m pip install --disable-pip-version-check chess==1.11.2
+          python -m py_compile harness/c3x_014_TCEC_WeakQueen_relational_pin_source_ontology.py
+          mkdir -p official output
+      - name: Exact original official 100-game TCEC source
+        run: |
+          curl -fLsS --retry 3 'https://raw.githubusercontent.com/TCEC-Chess/tcecgames/3dd69a40b3cf6ccc74144df7411ef4e8e2140286/master-archive/TCEC_Season_29_-_Superfinal.pgn' -o official/TCEC_S29.pgn
+          test "$(git hash-object official/TCEC_S29.pgn)" = "68141d7a9afad301c237106c3b2a3324cb35b130"
+          sha256sum official/TCEC_S29.pgn > output/OFFICIAL_SOURCE_SHA256.txt
+      - name: Compute WeakQueen exact bishop-rook sniper single-blocker semantic roles
+        run: |
+          python harness/c3x_014_TCEC_WeakQueen_relational_pin_source_ontology.py --pgn official/TCEC_S29.pgn --out output/C3X014_CLASSICAL_SF16_WEAKQUEEN_SOURCE_OPERATOR_ONTOLOGY.json
+          python - <<'PY'
+          import json
+          r=json.load(open('output/C3X014_CLASSICAL_SF16_WEAKQUEEN_SOURCE_OPERATOR_ONTOLOGY.json'))
+          assert r['formal_research_unit']=='C3X 0.14'
+          assert r['actual_source_games']==100 and r['actual_game_positions_after_plies18_to120']==10040
+          assert not r['engine_score_outcomes_consulted']
+          assert r['Stockfish_classical_WeakQueen_relative_pin_branch_operationally_testable']
+          assert not r['NNUE_internal_semantic_category_claimed']
+          for k,v in r['queen_side_blocker_vs_attacker_side_blocker_counts'].items():assert v>=0
+          print('C3X014_CLASSICAL_WEAKQUEEN_SOURCE_ONLY_ROLE_VERIFIED_PASS')
+          PY
+      - name: Preserve full source, no engine conclusions and SHA evidence
+        if: always()
+        run: |
+          cp harness/c3x_014_TCEC_WeakQueen_relational_pin_source_ontology.py output/CLASSICAL_SF16_WEAKQUEEN_CHESS_GEOMETRY_COMPILER.py
+          cp c3x/ontology/c3x-014-bounded-TT-return-census-and-pin-subtypes-precommit.md output/SCIENTIFIC_SOURCE_ONLY_PRECOMMIT.md
+          printf '%s\n' 'Classic SF16 WeakQueen code branch can reflect relative own-blocker pin or enemy-blocker discovered attack; does NOT show latent NNUE pin categories or causal chess learning.' > output/AUTHORITY_CEILING.txt
+          find output -maxdepth 1 -type f ! -name 'MEMBER_SHA256.txt' -print0 | sort -z | xargs -0 sha256sum > output/MEMBER_SHA256.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x-014-classical-SF16-WeakQueen-relative-pin-vs-discovery-source
+          path: output/
+          retention-days: 90
+          if-no-files-found: error
