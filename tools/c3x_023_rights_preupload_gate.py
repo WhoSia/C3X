@@ -57,12 +57,51 @@ def licensed_lichess_cohort_audit(raw):
     except (KeyError,TypeError,ValueError,AttributeError):
         return ["INVALID_LICENSED_SOURCE_JSON"]
 
+def licensed_lichess_native_stageA_audit(raw):
+    """Only 0.23-P1 untreated native experiment packet from frozen licensed32.
+    Source byte hash is checked against earlier CC0 / BY-SA source freeze.
+    Review before any wider release or modified GPLv3 engine binaries."""
+    try:
+        d=json.loads(raw)
+        if d.get("schema")!="c3x023-P1-licensed-May-and-CC0-stageA-untreated-native-node-SEE-rivals-v1":
+            return ["UNRECOGNISED_NATIVE_STAGEA"]
+        if d.get("phase")!="NEW_P1_STAGE_A_ONLY_WITH_NO_INTERVENTION":
+            return ["STAGEA_TREATMENT_OUTCOME_LEAK"]
+        if d.get("source_sha256")!="0ff43e28dcb3a5e48dea6b61e4450fc8bb9e1f96363871c33c4b73524664db61":
+            return ["LICENSED_SOURCE_HASH_DRIFT"]
+        sm=d["summary"]
+        if sm["actual_TT_FIRST_interventions"]!=0 or sm["actual_SEE_Boolean_interventions"]!=0 or sm["treatment_outcomes_seen"] is not False:
+            return ["SOURCE_STUDY_NON_BLIND_TREATMENT"]
+        if sm.get("distinct_source_boards")!=32 or sm.get("potential_role_cells")!=128:
+            return ["STAGEA_SOURCE_DENOMINATOR_DRIFT"]
+        if set(d["ecologies"])!={"may2026_broadcast","lichess_CC0_nonmate_puzzles"}:
+            return ["STAGEA_WRONG_SOURCE_ECOLOGY"]
+        for eco,v in d["ecologies"].items():
+            expected_license="CC BY-SA 4.0" if eco=="may2026_broadcast" else "CC0"
+            if v["license"]!=expected_license or len(v["cases"])!=16:
+                return ["STAGEA_ECOLOGY_LICENSE_OR_DENOMINATOR"]
+            if any(k in v for k in ("source_headers","full_original_mainline_uci","player_name")):
+                return ["EXTERNAL_SOURCE_PRIVATE_METADATA_LEAK"]
+            for case in v["cases"]:
+                if any(k in case for k in ("fen4","full_original_mainline_uci",
+                                         "source_event","source_headers","GameUrl")):
+                    return ["STAGEA_ORIGINAL_SOURCE_DATA_LEAK"]
+                if set(case["worlds"])!={"O","F"}:return ["INVALID_STAGEA_ORDER_WORLDS"]
+                for world in case["worlds"].values():
+                    if set(world["roles"])!={"STRICT","BROAD"}:
+                        return ["INVALID_STAGEA_TT_ROLES"]
+        return []
+    except (KeyError,TypeError,ValueError,AttributeError):
+        return ["MALFORMED_LICENSED_NATIVE_STAGEA"]
+
 def scan_payload(name,raw,kind,depth=0):
     reasons=[]
     ext=Path(name).suffix.lower()
     if depth>4:return ["NESTED_ARCHIVE_DEPTH_LIMIT"]
     if kind=="P4_LICHESS_LICENSED_SOURCE_ONLY":
         return licensed_lichess_cohort_audit(raw) if ext==".json" else ["P4_NON_JSON_SOURCE_NOT_CLEARED"]
+    if kind=="P5_LICHESS_LICENSED_NATIVE_STAGEA":
+        return licensed_lichess_native_stageA_audit(raw) if ext==".json" else ["P5_NON_JSON_STAGEA"]
     if ext in SOURCE_TEXT_SUFFIXES:return ["RESTRICTED_OR_UNREVIEWED_CHESS_GAME_SOURCE"]
     if ext in BINARY_SUFFIXES:return ["NONTRANSPARENT_BINARY_OR_COMPRESSED_SOURCE"]
     if raw.startswith(b"PK\x03\x04") or ext==".zip":
@@ -97,7 +136,8 @@ def scan_payload(name,raw,kind,depth=0):
 def audit(paths,kind):
     if kind not in ("P0_AUTHORED_CODE","P1_SOURCE_POINTER",
                     "P2_AGGREGATE_SUMMARY","P3_LICENSED_DATA",
-                    "P4_LICHESS_LICENSED_SOURCE_ONLY"):
+                    "P4_LICHESS_LICENSED_SOURCE_ONLY",
+                    "P5_LICHESS_LICENSED_NATIVE_STAGEA"):
         raise ValueError("INVALID_RELEASE_TIER")
     result={"schema":"c3x023-public-upload-real-bytes-guard-v1",
             "tier":kind,"status":"HOLD","files":[]}
