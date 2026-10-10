@@ -102,7 +102,7 @@ jobs:
           test "$(sha256sum february/C3X019_FEB26_BLIND16_SOURCE.json | cut -d' ' -f1)" = 2942b1933030227f36b669faff41f15ff234c27127dbf2403bf2e8e4f12ebdc8
           test "$(sha256sum march/C3X020_C2_MARCH_BLIND16_SOURCE.json | cut -d' ' -f1)" = d79e48633be2b683176f1a6d4650aeea1b7584f11c85c2349a5bddda113febee
           test "$(sha256sum april/C3X022_P0_APRIL16_SOURCE.json | cut -d' ' -f1)" = 0e5516fc0cd49203bf7cc366f4133d6c9b20a2f21de0667468f121e398d2fa93
-          test "$(sha256sum old32/C3X022_P2_TWIC1656_PUZZLE_SOURCE32.json | cut -d\' \' -f1)" = ebe6648f43f64c6f31e0d547845bec3d87c663093fd68298acf2ebe4c0287554
+          test "$(sha256sum old32/C3X022_P2_TWIC1656_PUZZLE_SOURCE32.json | cut -d' ' -f1)" = ebe6648f43f64c6f31e0d547845bec3d87c663093fd68298acf2ebe4c0287554
       - name: Download source-only original TWIC1664 official ZIP and audit original SHA
         run: |
           set -euo pipefail
