@@ -1,23 +1,23 @@
 #!/usr/bin/env python3
 """Synthetic-only controls: 256 games, 1003 native contacts, 21 frozen HOLD,
-exactly one M3-v2 positive prediction; does not load any Sept2025 outcomes.
+exactly one M4 positive prediction; no actual July2025 outcomes.
 """
 import json,sys,tempfile,unittest
 from pathlib import Path
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]/"harness"))
-from c3x_024_P4_Sep256_after_preseal_game_cluster_model_score import audit
-MODELS=("M0","M1","M2_depth21","M3_v1","M4_survivor")
+from c3x_024_P4_July256_after_human_seal_game_cluster_M4_vs_M0 import audit
+MODELS=("M0","M1","M2_depth11","M3_v1","M4_survivor")
 class GateTester(unittest.TestCase):
     def synth(self,path,misreport=False):
         for shard in range(4):
             rows=[]
-            for g in range(shard*64+1,shard*64+33):
+            for g in range(shard*64+1,shard*64+65):
                 arms=[]
                 for role_idx,(order,role) in enumerate(((o,r) for o in ("O","F") for r in ("STRICT","BROAD"))):
                     unit=(g-1)*4+role_idx
                     hold=unit<21
                     m0="e2e4";v2="d2d4" if unit==21 else m0
-                    f={"M0":m0,"M1":"d2d4","M2_depth21":m0,"M3_v1":m0,"M3_v2":m0,"M4_survivor":v2}
+                    f={"M0":m0,"M1":"d2d4","M2_depth11":m0,"M3_v1":m0,"M3_v2":m0,"M4_survivor":v2}
                     x={"root_order":order,"role":role,
                        "status":"PRESEALED_INELIGIBLE_NO_FIRST_READER" if hold else "REAL_NATIVE_PHYSICAL_TT_FIRST",
                        "predicted":{k:(None if hold else v) for k,v in f.items()},
