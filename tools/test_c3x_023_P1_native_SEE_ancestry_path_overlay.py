@@ -20,5 +20,5 @@ class NativeKeyPath(unittest.TestCase):
             "c3x_023_P1_native_SEE_parent_path_key_overlay.py").read_text()
         self.assertNotIn("return !original",s)
         self.assertIn('no_change_to_stockfish_original_SEE_return',s)
-        self.assertIn('hash collision',s.lower())
+        self.assertIn('collision assumption',s.lower())
 if __name__=="__main__":unittest.main()
