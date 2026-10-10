@@ -3,6 +3,8 @@ on:
   push:
     paths:
       - '.github/workflows/c3x-022-P2-stageA-TWIC-puzzle-exact-UCI-scout.yml'
+      - 'harness/c3x_022_P2_two_stage_exact_move_scout.py'
+      - 'tools/test_c3x_022_P2_exact_move_scout.py'
       - 'harness/c3x_022_P1_april16_prospective_order_TT_court.py'
       - 'tools/test_c3x_022_P1_prospective_native_forecast.py'
   workflow_dispatch:
