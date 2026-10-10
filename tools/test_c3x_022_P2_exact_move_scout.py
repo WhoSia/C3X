@@ -3,7 +3,7 @@
 import sys,unittest
 from pathlib import Path
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]/"harness"))
-from c3x_022_P2_two_stage_exact_move_scout import exact_forecast,native_world,ECOLOGIES,WORLDS,stockfish16_encoded_move
+from c3x_022_P2_two_stage_exact_move_scout import exact_forecast,native_world,ECOLOGIES,WORLDS,stockfish16_encoded_move,source_depth_ladder
 import chess
 class SpecificUciForecasts(unittest.TestCase):
     def test_disagree_cross_order_restores_exact_uci(self):
@@ -51,6 +51,20 @@ class SpecificUciForecasts(unittest.TestCase):
         m=chess.Move.from_uci("e2e4")
         self.assertEqual(stockfish16_encoded_move(b,m),
                          m.from_square*64+m.to_square)
+    def test_early_terminal_puzzle_does_not_invent_missing_depths(self):
+        d=source_depth_ladder([])
+        self.assertEqual(d,{})
+        seen=[{"kind":"after_sort","depth":1,"first_move":123,
+               "value":0,"trial":1}]
+        partial=source_depth_ladder(seen)
+        self.assertIn("1",partial)
+        self.assertNotIn("12",partial)
+        self.assertTrue(partial["1"]["terminal_or_source_trace_partial"])
+    def test_legacy_no_lineage_guard_is_still_strict_by_default(self):
+        s=(Path(__file__).resolve().parents[1]/"harness"/
+           "c3x_018_native_TT_lineage_factorial_6_8.py").read_text()
+        self.assertIn("allow_empty_lineage=False",s)
+        self.assertIn('need(events or allow_empty_lineage, "NO_LINEAGE_EVENTS")',s)
     def test_puzzles_and_twic_preserved_as_distinct_ecologies(self):
         self.assertEqual(ECOLOGIES,("twic","lichess_puzzles"))
         p=Path(__file__).resolve().parents[1]/"harness"/"c3x_022_P2_two_stage_exact_move_scout.py"
