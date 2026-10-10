@@ -1,0 +1,43 @@
+# PROPOSED — C3X 0.24 (not yet opened)
+
+## Proposed formal research version name
+
+**C3X 0.24 — Causal Search Explanations & Counterfactual Decision Transfer in Chess: Exact-Node Mechanism Certificates, TT–SEE Conditional Interactions, Branch-Survival Mediation Tests, Prospective Bestmove Prediction & Rights-Audited Cross-Ecology Falsification**
+
+**Status:** VERSION_TITLE_PROPOSAL / PI_ACCEPTANCE_PENDING / 0.23 remains ACTIVE. Do not retroactively relabel 0.23 P1–R2 native CI, source receipts, frozen forecasts, or T2 literal TT+SEE target identities.
+
+## Why the question changes at 0.24
+
+0.23 establishes *which source-level original Stockfish16 operator actually acts*, how actual physical TT first-reader blocking relates to same original SEE call path, and what source rights permit public replication. Exact full computational state and ancestor vector were matched in 21 native SEE episodes across four of six post-outcome developmental games (two censored); temporal ordering confirmed earlier. Actual targeted SEE operator SHAM/FLIP × real TT FIRST factorial at two preregistered sites was executed successfully in CI #38070604820 (2026-10-11 KST; SHA/audit receipt pending file update). All four exact source intervention doses were verified across two separate chess games with cold replay.
+
+T3 first readout:
+- May broadcast #11 F/STRICT: TT-only final bestmove changes; SEE-only no change; joint bestmove equals TT-only.
+- May broadcast #2 O/STRICT no-flip control: neither TT-only nor SEE-only changes terminal bestmove, but the joint interventions create a new terminal bestmove absent from other three arms.
+- This identifies a **local source-exact causal operator interaction**, not **natural TT→SEE mediator**. The selected cases are outcome-informed development-only. An arbitrarily forced SEE output can reveal susceptibility while absent in naturally evolving Stockfish searches.
+
+0.24 should ask **what constitutes a transportable, independently falsifiable chess-search causal explanation certificate** instead of accumulating more local operator toggles. A certificate must specify preselected legal chess board/move trajectory; source genealogy; operator contact; algorithmic treatment; exact computational node/window and depth; actual move survival; terminal candidate; negative and non-contact cases; legal source reuse; expected cross-ecology failure modes.
+
+## Proposed chapters / mechanisms
+
+1. **Exact-node causal certificate**: source code SHA, Stockfish16/other engine regime, root source, search depth, alpha-beta windows, TT stored-value versus cutoff role, native SEE site and threshold, exact ancestor key sequence, precommitted physical source intervention, sham and dose proof; explicit proof limits.
+2. **Branch activation and survival**: explain how TT changes whether SEE happens and whether prune/continue happens. Counterfactual SEE Boolean flip is local perturbation; do NOT treat it as the naturally occurring mediator when identical call inputs are deterministic.
+3. **Ablation and factorial controls**: paired TT-only / SEE-only / joint and sham across depths, Hash, root order, NNUE on/off, cold repeats. For post-treatment candidate activation, avoid conditioning on a collider; enforce within-event selection/censoring reporting.
+4. **Prospective new-position exact UCI prediction**: Git-seal per-position exact UCI for competing M0, historical-failed M1/M2 and mechanistic M3 *before* discovering the next independently sourced cohort’s TT treatment outcomes, with chess-game-level denominators.
+5. **Rights-audited cross-ecology falsification**: Lichess CC0 puzzles, CC BY-SA broadcasts (attribution/share-alike), original TWIC score source with editor's direct favorable reply but strict prohibition on republishing complete TWIC files, additional chess provider / online event, external chess engine if feasible. Keep private correspondence text in Notion; public rights-interpretation ledger separate.
+6. **Failure-first evidence**: isolated local 2-case interactions do not license a universal theorem or an improved predictor; every NO_CONTACT, CENSORED, PATH_DIVERGED and NEGATIVE_TRANSFER preserved, with independent rights and science gates.
+
+## 0.24-P0 opening gate
+
+- Require an independent current 0.23-T3 receipt with source Git pre-actuator SHA, native unique SHAM/FLIP contact/cold proof and UCI/depth source trajectories. The initial source CI #38070604820 passes; finer per-arm depth derivative CI is still pending or must be checked before the final P0 read.
+- Define entirely fresh chess cohort not used to design a post-treatment M3, and source-only SHA-freeze BEFORE engine probing.
+- Precommit exact UCI predictions and rival/nulls as individual strings at each eligible root role, with rights and raw provenance eligibility. Positive model benchmark requires beating M0 on genuinely new chess games, not first-order row count.
+- Require independent code/source reviewer or second engine before describing stockfish-specific branch interaction as cross-engine chess cognition.
+- No version promotion, new paper abstract, or explanatory language that says natural TT→SEE mediation has been proved solely because a conditional `do(SEE)` factorial changed final bestmove.
+
+## Paper candidate
+
+**When Search Operators Interact: Source-Exact Counterfactuals, Fail-Closed Node Identity, and the Limits of Chess Engine Explanations**
+
+Contribution candidates: (i) instrumentation design and frozen source-certificate representation; (ii) local counterexample where neither operator alone changes a bestmove but the joint action does; (iii) decisive negative out-of-sample historical M1 vs unchanged M0; (iv) reproducibility and rights-aware publication restrictions. Do not assert broad empirical generalization without new cohort.
+
+**Final title is a proposal, not a ratified transition.**
