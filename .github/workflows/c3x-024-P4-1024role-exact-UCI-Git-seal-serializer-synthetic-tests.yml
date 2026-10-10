@@ -1,0 +1,23 @@
+name: C3X 0.24 P4 Synthetic 1024 Role M4 Literal Forecast Serialization No FIRST
+on:
+  push:
+    paths:
+      - '.github/workflows/c3x-024-P4-1024role-exact-UCI-Git-seal-serializer-synthetic-tests.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  no-real-source-model-string-tests:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Verify all human Git exact UCI row dumps including 1024 role HOLD and failclosed leakage
+        run: |
+          set -euo pipefail
+          python -m py_compile tools/c3x_024_P4_print_human_git_1024role_six_model_literal_batches.py
+          python -m unittest discover -s tools -p 'test_c3x_024_P4_1024role_human_git_forecast_dump_synthetic_only.py' -v
+          echo C3X024_P4_HUMAN_GIT_LITERAL_1024ROLE_SYNTHETIC_ONLY_GATE_PASS
