@@ -1,0 +1,55 @@
+{
+  "schema": "c3x023-P1-official-licensed-two-source-independent-root32-engineblind-S0-v1",
+  "status": "SOURCE_ONLY_FROZEN_NO_NATIVE_RESULTS_YET",
+  "date": "2026-10-10",
+  "active_generation": "C3X 0.23",
+  "precommit": {
+    "path": "c3x/ontology/c3x-023-P1-independent-licensed-chess-cohorts-and-source-key-aligned-SEE-TT-precommit.md",
+    "git_commit": "629cf0e73e3d6eef6b17dd8343ebc37631ef93a8",
+    "before_first_new_native_effect": true
+  },
+  "source_run": {
+    "id": 38059784922,
+    "url": "https://github.com/WhoSia/C3X/actions/runs/38059784922",
+    "conclusion": "success",
+    "artifact_id": 11672233048,
+    "artifact_name": "c3x-023-P1-licensed-May-broadcast-CC0-nonmate32-engineblind-freeze",
+    "artifact_zip_sha256": "836f4ea5555d2daa76d68fc97d5a61ce6e5cb210d9b4b648cfa46f8337a172db",
+    "frozen_JSON_sha256": "0ff43e28dcb3a5e48dea6b61e4450fc8bb9e1f96363871c33c4b73524664db61",
+    "no_Stockfish_calls_during_selection": true
+  },
+  "strata": [
+    {
+      "ecology": "2026-05 Lichess broadcast Standard Chess",
+      "official_url": "https://database.lichess.org/broadcast/lichess_db_broadcast_2026-05.pgn.zst",
+      "origin_Zstd_sha256": "d212987f7972a70268809ff6c726acff8bf0987161aacd7647b160f8564f6a53",
+      "source_license": "CC BY-SA 4.0",
+      "source_license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
+      "separate_source_roots": 16,
+      "origin_attribution": "Lichess broadcast games, May2026",
+      "published_research_derivative": "Single selected root FEN+played UCI and source SHA, excluding original PGN score, headers, players; licence notice + ShareAlike retained."
+    },
+    {
+      "ecology": "Lichess CC0 puzzle source nonmate new disjoint subset",
+      "official_url": "https://database.lichess.org/lichess_db_puzzle.csv.zst",
+      "origin_Zstd_sha256": "76335bfa7d7c4a7f93c1366d81549e53951ebb79dd43d34904cab8f22d962f8d",
+      "source_license": "CC0",
+      "source_license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "separate_source_roots": 16,
+      "selection": "non-mate themes, no immediate mate-in-one, legal opponent move and published solution root, SHA-sorted first16 from first512 eligible",
+      "original_solver_move_used_to_define_F_order": true,
+      "independence_caveat": "Disjoint chess positions from prior puzzle16 but same CC0 publisher and compressed dataset, not a new independent source institution."
+    }
+  ],
+  "cohort_total_distinct_roots": 32,
+  "prior_overlap_excluded": "C3X0.16 P4, Oct2025/Nov2025/Dec2025/Jan2026/Feb2026/Mar2026/Apr2026, TWIC1656 with puzzle16, TWIC1664 all source FEN4",
+  "new_cohort_overlap_with_past": 0,
+  "licence_scan": "SCAN_PASS_NOT_A_LEGAL_LICENSE; official origin, attribution and byte-level derivative gate",
+  "rights_gate_file": "tools/c3x_023_rights_preupload_gate.py",
+  "technical_caveats": [
+    "Strict node identity requires rootcall+root candidate+parent/path hash+position key+native SEE move+site+threshold, verified within each native trace after intervention, no inference from same rootcall alone.",
+    "Exact UCI forecasting must be Git presealed at Stage A before first TT reader suppress. Stage S0 contains no engine measurements.",
+    "Source played move defines F ordering for broadcast; puzzle published solver move defines F ordering, so not blind heldout chess solution prediction.",
+    "TWIC archive original games remain HOLD; this new source selects solely Lichess officially licenced datasets."
+  ]
+}
