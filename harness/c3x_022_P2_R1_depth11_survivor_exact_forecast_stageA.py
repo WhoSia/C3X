@@ -119,6 +119,7 @@ def study(source,primitives,engine):
        "M2_predicted_flip_cells":sum(v.get("M2_positive_prediction",False)
           for row in out["cases"] for w in row["worlds"].values()
           for v in w["role_forecasts"].values()),
+       "censored_no_pair_HOLD_cells":sum(v["status"]=="HOLD_CENSORED_NO_FIRST_SOURCE_PAIR" for g in out["cases"] for w in g["worlds"].values() for v in w["role_forecasts"].values()),
        "FIRST_TT_interventions_performed":0}
     return out
 
