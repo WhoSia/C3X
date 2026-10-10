@@ -91,6 +91,8 @@ def study(source,primitives,engine):
                 pair=first_pair(events[order],RULES[role])
                 f=forecast_three(moves[order],moves["F" if order=="O" else "O"],
                                  lead11,risk,pair is not None)
+                if pair is None and len(events[order])==2048:
+                    f={"status":"HOLD_CENSORED_NO_FIRST_SOURCE_PAIR","M0":None,"M1":None,"M2":None,"M2_depth11_legal_candidate":lead11}
                 if pair:
                     f.update({"physical":pair["physical"],"root_calls":pair["root_calls"],
                               "root_candidate_native":pair["root_candidate_native"],
