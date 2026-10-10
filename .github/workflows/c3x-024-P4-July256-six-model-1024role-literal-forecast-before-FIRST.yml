@@ -1,0 +1,78 @@
+name: C3X 0.24 P4 Pre-FIRST July256 Six Model 1024 Role Literal UCI Before FIRST
+on:
+  push:
+    paths:
+      - '.github/workflows/c3x-024-P4-July256-six-model-1024role-literal-forecast-before-FIRST.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  source-only-predict-without-first:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Verify frozen pre-FIRST model source and unit tests
+        run: |
+          set -euo pipefail
+          python -m pip install -q chess==1.11.2
+          python -m unittest discover -s tools -p 'test_c3x_024_P4_M4_preFIRST_survivor_rule.py' -v
+          python -m py_compile harness/c3x_024_P4_July256_1024_preFIRST_exact_UCI_M0_M4_six_models.py
+          mkdir -p source stageA public
+      - name: Fetch frozen July source 256 without any native intervention
+        uses: actions/download-artifact@v4
+        with:
+          name: c3x-024-P4-JULY2025-256independent-SOURCE-ONLY-before-M4
+          path: source/
+          repository: WhoSia/C3X
+          run-id: '38083154595'
+          github-token: ${{ github.token }}
+      - name: Fetch genuine unchanged July 256 StageA without any FIRST
+        uses: actions/download-artifact@v4
+        with:
+          name: c3x-024-P4-JULY2025-256-untreated-native-O-F-SEE-no-treatment
+          path: stageA/
+          repository: WhoSia/C3X
+          run-id: '38089656512'
+          github-token: ${{ github.token }}
+      - name: Verify no FIRST on original 256 game Stage A, count source censor HOLD not disappearing
+        run: |
+          set -euo pipefail
+          test "$(sha256sum source/C3X024_P4_JULY2025_ENGINEBLIND_256.json | awk '{print $1}')" = d2c50a1293e68c3feb8571d1ee1be6ba1a7ee539a12dd1a98378adfa9b54fb58
+          test "$(sha256sum stageA/C3X024_P4_JULY2025_STAGEA_UNTREATED_NATIVE256.json | awk '{print $1}')" = 90bb3537f140ec7f52f8d9115add1ba88ff293705217fd75784da55343d86c65
+          python - <<'PY'
+          import json
+          j=json.load(open('stageA/C3X024_P4_JULY2025_STAGEA_UNTREATED_NATIVE256.json'))
+          s=j['summary']
+          assert j['schema']=='c3x024-P4-July2025-256game-preFIRST-untreated-source-genealogy-v1'
+          assert s['distinct_source_boards']==256 and s['world_count']==512 and s['potential_role_cells']==1024
+          assert 0<=s['eligible_source_first_reader_role_cells']<=1024
+          assert s['actual_TT_FIRST_interventions']==s['actual_SEE_Boolean_interventions']==0
+          assert not s['treatment_outcomes_seen']
+          print('C3X024_P4_COMPLETE_256_UNTREATED_STAGEA_SHA_SOURCE_CENSORED_WORLD_COUNT',s.get('source_trace_censored_root_worlds'),flush=True)
+          PY
+      - name: Produce six original source-only exact M0-M4 UCI forecasts for ALL 1024 roles
+        run: |
+          set -euo pipefail
+          PYTHONPATH=harness python -u harness/c3x_024_P4_July256_1024_preFIRST_exact_UCI_M0_M4_six_models.py --source source/C3X024_P4_JULY2025_ENGINEBLIND_256.json --stagea stageA/C3X024_P4_JULY2025_STAGEA_UNTREATED_NATIVE256.json --stagea-sha 90bb3537f140ec7f52f8d9115add1ba88ff293705217fd75784da55343d86c65 --out public/C3X024_P4_JULY256_SIX_MODELS_EXACT_UCI_PRE_FIRST.json
+          python -u tools/c3x_024_P4_print_human_git_1024role_six_model_literal_batches.py --file public/C3X024_P4_JULY256_SIX_MODELS_EXACT_UCI_PRE_FIRST.json
+      - name: Rights and contents audit for predictions before any FIRST
+        run: |
+          set -euo pipefail
+          python tools/c3x_023_rights_preupload_gate.py --tier P2_AGGREGATE_SUMMARY --file public/C3X024_P4_JULY256_SIX_MODELS_EXACT_UCI_PRE_FIRST.json --report public/RIGHTS_PRE_FIRST_FORECAST.json
+          echo 'Newly computed exact UCI predictions from source-only official Lichess July 2025 broadcast, CC BY-SA 4.0 https://database.lichess.org/broadcast/lichess_db_broadcast_2025-07.pgn.zst https://creativecommons.org/licenses/by-sa/4.0/. Untreated native Stockfish16 derived forecast; no full original PGN, player identity or modified binary.' > public/SOURCE_LICENSE_NOTICE.txt
+      - name: Public archive member SHA
+        if: always()
+        run: |
+          mkdir -p public
+          find public -maxdepth 1 -type f ! -name MEMBER_SHA256.txt -print0 | sort -z | xargs -0 -r sha256sum > public/MEMBER_SHA256.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x-024-P4-July256-six-model-literal-1024role-UCI-preFIRST
+          path: public/
+          if-no-files-found: error
+          retention-days: 90
