@@ -18,6 +18,7 @@ jobs:
           python-version: '3.12'
       - name: Fail-closed source-key path/site/threshold identity before TT V treatment
         run: |
+          python -m pip install -q chess==1.11.2
           python -m py_compile harness/c3x_023_P1_same_descendant_SEE_node_matcher.py
           python -m unittest discover -s tools -p 'test_c3x_023_P1_same_descendant_SEE_node_matcher.py' -v
           python -m unittest discover -s tools -p 'test_c3x_023_P1_native_SEE_ancestry_path_overlay.py' -v
