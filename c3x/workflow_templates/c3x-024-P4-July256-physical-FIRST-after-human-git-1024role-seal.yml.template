@@ -1,6 +1,6 @@
 name: C3X 0.24 P4 July256 Prospective Physical TT FIRST Human-Git-Presealed M4 vs M0
-# FIRST experiment permitted only after human Git exact 512-role UCI seal commit c5aa9582
-# and successful NO-ENGINE pre-FIRST gate run 38081668509.
+# FIRST experiment forbidden until original 256game x four role exact six-model UCI human Git preseal exists.
+# Model M4 locked before July source and all original source/stage/forecast SHA gated at runtime.
 on:
   push:
     paths:
@@ -129,13 +129,13 @@ jobs:
           pattern: c3x-024-P4-July-256game-after-Git-seal-native-FIRST-shard-*
           path: inputs/
           merge-multiple: true
-      - name: Game-clustered M3v2 vs M0 fair exact-UCI score with 501 eligible roles 11 HOLD
+      - name: Game-clustered M4 versus M0 fair exact-UCI score, 1024 role denominator and predeclared HOLD
         run: |
           set -euo pipefail
           mkdir -p public
           python -u harness/c3x_024_P4_July256_after_human_seal_game_cluster_M4_vs_M0.py --directory inputs --out public/C3X024_P4_JULY256_M4_VS_M0_PROSPECTIVE_GAME_CLUSTER_VERDICT.json
           python tools/c3x_023_rights_preupload_gate.py --tier P2_AGGREGATE_SUMMARY --file public/C3X024_P4_JULY256_M4_VS_M0_PROSPECTIVE_GAME_CLUSTER_VERDICT.json --report public/RIGHTS_PROSPECTIVE_GAME_MODEL_SCAN.json
-          echo 'Source official Lichess Sept2025 broadcast CC BY-SA 4.0, 128 different original games. Five model exact UCI predictions human Git sealed BEFORE this run. Game-level count and dependence, original complete game/player/FEN excluded. No claim of natural TT SEE mediation or licence from scan.' > public/SOURCE_LICENSE_NOTICE.txt
+          echo 'Source official Lichess July2025 broadcast CC BY-SA 4.0, 256 distinct original chess games. Six model exact UCI predictions human Git sealed BEFORE this run. Game-level count and dependence, original complete game/player/FEN excluded. No claim of natural TT SEE mediation or licence from scan.' > public/SOURCE_LICENSE_NOTICE.txt
       - name: Final public aggregate SHA256 manifest
         if: always()
         run: |
