@@ -1,0 +1,36 @@
+name: C3X 0.24 P3 S1 128 Game Source SHA Literal Inspection Before Native
+on:
+  push:
+    paths:
+      - '.github/workflows/c3x-024-P3-S1-128-source-hash-literal-seal-before-native.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  human-seal-ready-source-only:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: c3x-024-P3-SEP2025-128independent-SOURCE-ONLY-no-engine
+          path: evidence/
+          repository: WhoSia/C3X
+          run-id: '38079947147'
+          github-token: ${{ github.token }}
+      - name: Print SOURCE-ONLY ordered game SHA literals, not original PGN or FEN
+        run: |
+          set -euo pipefail
+          test "$(sha256sum evidence/C3X024_P3_SEPT2025_ENGINEBLIND_128.json | awk '{print $1}')" = ee8265f96b055645428f2fa87b36647e1931c86c848db5725a8b0ec63596dacb
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          d=json.loads(Path('evidence/C3X024_P3_SEPT2025_ENGINEBLIND_128.json').read_text())
+          hashes=[x['source_game_sha256'] for x in d['selected']]
+          assert len(hashes)==128 and hashes==sorted(set(hashes))
+          assert len(d['historical_source_receipts'])==12
+          assert d['source_only_no_stockfish_used'] and d['TT_FIRST_interventions']==0 and d['SEE_forced_interventions']==0
+          print("C3X024_P3_ORDERED_128_SOURCE_HASHES_JSON="+json.dumps(hashes,separators=(',',':')),flush=True)
+          print("C3X024_P3_SOURCE_SHA_LITERAL_ONLY_SEAL_READER_PASS",d['source_fen_count'])
+          PY
