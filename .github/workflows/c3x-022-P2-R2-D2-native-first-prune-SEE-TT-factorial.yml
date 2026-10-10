@@ -3,6 +3,7 @@ on:
   push:
     paths:
       - '.github/workflows/c3x-022-P2-R2-D2-native-first-prune-SEE-TT-factorial.yml'
+      - 'harness/c3x_022_P2_R2_D2_first_prune_SEE_TT_factorial.py'
   workflow_dispatch:
 permissions:
   contents: read
