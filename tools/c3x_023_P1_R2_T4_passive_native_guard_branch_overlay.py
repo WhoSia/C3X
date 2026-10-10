@@ -33,10 +33,10 @@ SEQ_NEW=SEQ_OLD+"""
 
 SITES={
 "quiet_prune":(
-'if (!c3x022_r2_see(pos,move,Value(-27 * lmrDepth * lmrDepth - 16 * lmrDepth),"quiet_prune",ss->ply,depth,alpha,beta))',
+'if (!c3x022_r2_see(pos,move,Value(-27 * lmrDepth * lmrDepth - 16 * lmrDepth),"quiet_prune"))',
 '                  continue;'),
 "qsearch_prune":(
-'if (!c3x022_r2_see(pos,move,Value(-95),"qsearch_prune",ss->ply,depth,alpha,beta))',
+'if (!c3x022_r2_see(pos,move,Value(-95),"qsearch_prune"))',
 '                continue;')
 }
 
