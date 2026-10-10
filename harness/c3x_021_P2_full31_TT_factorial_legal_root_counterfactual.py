@@ -137,7 +137,7 @@ def board_court(engine,original,atoms,clocks,F,V):
 
 def main():
     p=argparse.ArgumentParser()
-    for arg in ("march","p1","atomic","r1","engine","out"):
+    for arg in ("march","p1","atomic","r1","engine","plain-engine","out"):
         p.add_argument("--"+arg,required=True)
     a=p.parse_args()
     march=checked(a.march,MARCH_SHA)
@@ -151,7 +151,7 @@ def main():
             "design":"EXPLORATORY_POST_P1_CHOICE_FLIP_FIXED31_FOUR_ARM_AND_TWO_LEGAL_ROOT_CONTRASTS",
             "source_sha256":{"march":MARCH_SHA,"p1":P1_SHA,
                              "atomic":ATOMIC_SHA,"p1_r1":R1_SHA},
-            "native_engine":"frozen Stockfish16, depth12, Threads1, Hash16, NNUE off",
+            "native_engine":"patched Stockfish16 source for physical TT, pristine Stockfish16 binary for legal searchmoves; same commit/depth12/Threads1/Hash16/NNUE off",
             "historical_negative":{"0.19_K4":"FAIL_0_OF_4","Feb_F19_5":"FAIL",
                                   "CPP_224":"REJECTED_ADVERSARIAL_REPLICATION"},
             "cases":[],"legal_root_counterfactuals":[]}
@@ -207,7 +207,7 @@ def main():
                 need((old_f["bestmove"],arms["FIRST"]["UCI"]["bestmove"])==
                      FOCI[gid,role],"P2_FIXED_FOCAL_BESTMOVE_DRIFT")
                 result["legal_root_counterfactuals"].append(
-                    {"role":role,**board_court(a.engine,original,atoms,clocks,
+                    {"role":role,**board_court(a.plain_engine,original,atoms,clocks,
                                       *FOCI[gid,role])})
         result["cases"].append(row)
         print("C3X021_P2_CASE",gid,
