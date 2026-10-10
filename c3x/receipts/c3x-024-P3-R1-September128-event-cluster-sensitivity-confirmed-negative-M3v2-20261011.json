@@ -1,0 +1,50 @@
+{
+  "schema": "c3x024-P3-R1-anonymous-event-cluster-bootstrap-prospective-M3v2-vs-M0-v1",
+  "research": "C3X 0.24 ACTIVE",
+  "date": "2026-10-11",
+  "status": "TECHNICAL_SUCCESS_EVENT_AND_DATE_CLUSTER_SENSITIVITY__NO_M3V2_ADVANTAGE",
+  "method_frozen_prior_to_first_outcome_disclosure": "c3x/ontology/c3x-024-P3-R1-event-cluster-sensitivity-before-native-outcome-disclosure-20261011.md",
+  "precommit_human_Git_SHA": "ca7c7269d5b76a71425c4ae37a4f8aa3c94249a3",
+  "original_source": "Lichess 2025-09 broadcast CC BY-SA 4.0",
+  "original_PGN_archive_SHA256": "da3a261e926a2c0f5e79c393818e643d76448edf94cfdaefa3892258a6f9e7ba",
+  "original_five_model_forecast_full_JSON_SHA256": "c402a6808bcaa2d73ec58632f87aa4ba7e8be0577b051b85e0a5610750eb1887",
+  "original_outcome_full_public_SHA256": "63853d8de4861b24163a007898df0b23e21f3db9642adb16214f9eff4c9ab7ef",
+  "source_game_count": 128,
+  "contacted_games": 128,
+  "event_group_count_original_source_audit": 79,
+  "event_plus_date_group_count_original_source_audit": 97,
+  "mean_game_role_accuracy_delta_M3_v2_minus_M0": -0.001953125,
+  "baseline_unadjusted_game_bootstrap_95pct": [
+    -0.005859375,
+    0
+  ],
+  "event_group_resampled_10000_CI_95pct": [
+    -0.006521739130434782,
+    0
+  ],
+  "event_plus_complete_date_resampled_10000_CI_95pct": [
+    -0.006048387096774193,
+    0
+  ],
+  "resamples": 10000,
+  "seed_event": 20261011,
+  "seed_event_date": 20261012,
+  "CI": {
+    "run_id": 38082290511,
+    "url": "https://github.com/WhoSia/C3X/actions/runs/38082290511",
+    "conclusion": "SUCCESS",
+    "private_source_derived_aggregate_JSON_SHA256": "81cee78a0bcde3d05e297c73d77ddaeefccaf758af2c0f06b189ff3717b889b6",
+    "public_artifact_id": 11681225845,
+    "zip_SHA256": "91eac8693f0b3a72ed91187e09b9943bfe16cab8f930ac877fa3b7932c902c7c",
+    "rights_scan": "SCAN_PASS_NOT_LEGAL_CLEARANCE"
+  },
+  "science": "No improvement: M3_v2 had one Git-precommitted prediction change among 501 contacts, it was incorrect, paired game wins0/loss1/ties127. Event-cluster sensitivity likewise does not support positive skill.",
+  "limits": [
+    "Observed event labels are not guaranteed the only source dependence; repeated player and federation can create correlations.",
+    "The upper confidence limit of 0 is not evidence of superiority or conclusive inferiority.",
+    "Neither these source-native interventions nor clustering prove natural TT→SEE mediation.",
+    "Technical rights scanner PASS is not a blanket legal licence.",
+    "No published labels, player identities, reidentifiable source metadata/complete PGNs or modified Stockfish binary."
+  ],
+  "governance": "Human WhoSia Git commit and read-only Actions only."
+}
