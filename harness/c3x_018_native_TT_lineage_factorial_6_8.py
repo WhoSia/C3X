@@ -38,7 +38,7 @@ def core(raw, search_depth=12):
     need(len(best)==1 and best[0]==rows[-1]["pv"][0], "MISSING_BESTMOVE")
     return {"bestmove":best[0],**rows[-1]}
 
-def play(engine, world, p4_mode, lineage_mode=None, target=None, writer_budget=None, rescue_attempt=None, discovery=False, history=False, fen_clocks=None, search_depth=12, draw_mode=None, tt_reader_filters=None, probe_watch=None, p1_writer=None, native_use_watch=None, passive_second_call=None, root_return=None, multi_state=None, root_searchmoves=None, allow_empty_lineage=False, see_watch=None):
+def play(engine, world, p4_mode, lineage_mode=None, target=None, writer_budget=None, rescue_attempt=None, discovery=False, history=False, fen_clocks=None, search_depth=12, draw_mode=None, tt_reader_filters=None, probe_watch=None, p1_writer=None, native_use_watch=None, passive_second_call=None, root_return=None, multi_state=None, root_searchmoves=None, allow_empty_lineage=False, see_watch=None, ordered_source_trace=False):
     if see_watch is not None:
         need(isinstance(see_watch,dict)
              and set(see_watch) in ({"key64","root_call","policy"}, {"key64","root_call","policy","passive_ancestry"}, {"key64","root_call","policy","passive_ancestry","descendant_prune_flip"})
@@ -340,7 +340,7 @@ def play(engine, world, p4_mode, lineage_mode=None, target=None, writer_budget=N
             root_events.append({k:(v if k=="kind" else int(v)) for k,v in raw.items()})
     roots=[parse_fields(x) for x in lines if x.startswith("info string c3x016_p4_root_order ")]
     need(len(roots)==1 and roots[0]["mode"]==p4_mode,"P4_ROOT_CONTACT_MISSING")
-    return {
+    answer={
        "UCI":result,
        "lineage_summary":{
            "records":len(events),
@@ -370,6 +370,31 @@ def play(engine, world, p4_mode, lineage_mode=None, target=None, writer_budget=N
        "second_return_events":second_return_events,
        "boundary_state_events":boundary_state_events,
        "root_contact":roots[0]}
+    if ordered_source_trace:
+        # Each info string is synchronized by Stockfish single-thread
+        # sync_cout, so line ordinal is a monotonic source-log witness,
+        # not a wall-clock measurement. Raw UCI board/moves never copied.
+        ordered=[]
+        signs=(("info string c3x018_lineage ","physical_TT"),
+               ("info string c3x022_r2_see ","native_SEE"),
+               ("info string c3x019_native_use ","TT_value_used"))
+        for ordinal,line in enumerate(lines):
+            for prefix,source in signs:
+                if not line.startswith(prefix):
+                    continue
+                values=parse_fields(line)
+                if source=="physical_TT" and values.get("kind")!="reader_block":
+                    break
+                if source=="native_SEE" and values.get("kind") not in ("witness","censored","forced"):
+                    break
+                if source=="TT_value_used" and values.get("kind") not in ("used","main_cutoff","qsearch_cutoff"):
+                    break
+                ordered.append({"line_ordinal":ordinal,"source":source,
+                                "fields":{k:(v if k in ("kind","site") else int(v))
+                                          for k,v in values.items()}})
+                break
+        answer["ordered_source_operator_trace"]=ordered
+    return answer
 
 def stable(t):
     return json.dumps(t,sort_keys=True,separators=(",",":"))
