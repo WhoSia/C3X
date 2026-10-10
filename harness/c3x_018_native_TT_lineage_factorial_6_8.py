@@ -38,7 +38,7 @@ def core(raw, search_depth=12):
     need(len(best)==1 and best[0]==rows[-1]["pv"][0], "MISSING_BESTMOVE")
     return {"bestmove":best[0],**rows[-1]}
 
-def play(engine, world, p4_mode, lineage_mode=None, target=None, writer_budget=None, rescue_attempt=None, discovery=False, history=False, fen_clocks=None, search_depth=12, draw_mode=None, tt_reader_filters=None, probe_watch=None, p1_writer=None, native_use_watch=None, passive_second_call=None, root_return=None, multi_state=None, root_searchmoves=None, allow_empty_lineage=False, see_watch=None, ordered_source_trace=False, t2_target=None):
+def play(engine, world, p4_mode, lineage_mode=None, target=None, writer_budget=None, rescue_attempt=None, discovery=False, history=False, fen_clocks=None, search_depth=12, draw_mode=None, tt_reader_filters=None, probe_watch=None, p1_writer=None, native_use_watch=None, passive_second_call=None, root_return=None, multi_state=None, root_searchmoves=None, allow_empty_lineage=False, see_watch=None, ordered_source_trace=False, t2_target=None, t3_target=None, t3_policy=None):
     if see_watch is not None:
         need(isinstance(see_watch,dict)
              and set(see_watch) in ({"key64","root_call","policy"}, {"key64","root_call","policy","passive_ancestry"}, {"key64","root_call","policy","passive_ancestry","descendant_prune_flip"})
@@ -70,6 +70,28 @@ def play(engine, world, p4_mode, lineage_mode=None, target=None, writer_budget=N
                      if k not in ("site","path_exact"))
              and t2_target["root_call"]==see_watch["root_call"]
              and t2_target["key64"]>0,"P1_T2_SOURCE_EXACT_TARGET_REQUIRED")
+    T3_FIELDS=("key64","parent_key64","t1_path","root_call","root_move",
+               "move","site","threshold","t1_ply","t1_depth","t1_alpha",
+               "t1_beta","t1_pv","t1_qsearch","t1_rule50",
+               "t1_occupied_present","t1_occupied_out","original_SEE_Boolean")
+    if t3_target is not None:
+        need(isinstance(t3_target,dict) and set(t3_target)==set(T3_FIELDS)
+             and t3_policy in ("SHAM","FLIP")
+             and t3_target["site"] in ("quiet_prune","qsearch_prune")
+             and isinstance(t3_target["t1_path"],str)
+             and re.fullmatch(r"[0-9]+(?:,[0-9]+)*",t3_target["t1_path"])
+             and isinstance(t3_target["key64"],str)
+             and isinstance(t3_target["parent_key64"],str)
+             and t3_target["key64"].isdigit() and t3_target["parent_key64"].isdigit()
+             and all(isinstance(t3_target[f],int)
+                     for f in T3_FIELDS if f not in ("site","t1_path","key64","parent_key64")),
+             "T3_PRE_GIT_SEALED_COMPLETE_ACTUATOR_ID_REQUIRED")
+        need(see_watch is not None and see_watch.get("policy")=="OBS" and
+             see_watch.get("passive_ancestry") is True and
+             t3_target["root_call"]==see_watch["root_call"],
+             "T3_NONPASSIVE_EXISTING_SEE_WATCH_FORBIDDEN")
+    else:
+        need(t3_policy is None,"T3_POLICY_WITHOUT_PRESEALED_TARGET_FORBIDDEN")
     need(isinstance(search_depth,int) and 1<=search_depth<=32,"INVALID_SEARCH_DEPTH")
     if root_searchmoves is not None:
         need(isinstance(root_searchmoves,(list,tuple)) and
@@ -83,6 +105,13 @@ def play(engine, world, p4_mode, lineage_mode=None, target=None, writer_budget=N
     if root_searchmoves is not None:
         go_cmd+=" searchmoves "+" ".join(root_searchmoves)
     env = dict(os.environ)
+    env.pop("C3X023_T3_MODE",None)
+    for key in T3_FIELDS:
+        env.pop("C3X023_T3_"+key,None)
+    if t3_target is not None:
+        env["C3X023_T3_MODE"]=t3_policy
+        for key in T3_FIELDS:
+            env["C3X023_T3_"+key]=str(t3_target[key])
     env.pop("C3X023_T2_ENABLE",None)
     for field in T2_FIELDS:
         env.pop("C3X023_T2_"+field,None)
@@ -394,6 +423,14 @@ def play(engine, world, p4_mode, lineage_mode=None, target=None, writer_budget=N
        "second_return_events":second_return_events,
        "boundary_state_events":boundary_state_events,
        "root_contact":roots[0]}
+    if t3_target is not None:
+        act=[]
+        for line in lines:
+            if line.startswith("info string c3x023_t3_source "):
+                vals=parse_fields(line)
+                act.append({k:(v if k in ("kind","site") else int(v))
+                            for k,v in vals.items()})
+        answer["native_T3_exact_source_contact_events"]=act
     if ordered_source_trace:
         # Each info string is synchronized by Stockfish single-thread
         # sync_cout, so line ordinal is a monotonic source-log witness,
