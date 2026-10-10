@@ -1,0 +1,80 @@
+{
+  "schema": "c3x022-P2-TWIC1656-LichessPuzzle-stageA-forecasts-before-intervention-v1",
+  "date": "2026-10-10",
+  "version": "C3X 0.22",
+  "status": "FORECASTS_GIT_AND_SHA_SEALED_BEFORE_STAGE_B_ANY_NATIVE_V_RESULT",
+  "precommit": "c3x/ontology/c3x-022-P2-TWIC-Lichess-puzzles-exact-move-forecast-precommit.md",
+  "new_source": {
+    "run_id": 38047000932,
+    "url": "https://github.com/WhoSia/C3X/actions/runs/38047000932",
+    "artifact_id": 11666979590,
+    "sha256": "ebe6648f43f64c6f31e0d547845bec3d87c663093fd68298acf2ebe4c0287554",
+    "ecologies": {
+      "twic1656": {
+        "selected_games": 16,
+        "source_zip_sha256": "2970ae7fb943cf67d535ca89489e0bd4e57ec0d1375b4b5220e5946777a04df7"
+      },
+      "lichess_puzzles": {
+        "selected_games": 16,
+        "official_original_puzzle_csv_zst_sha256": "76335bfa7d7c4a7f93c1366d81549e53951ebb79dd43d34904cab8f22d962f8d"
+      }
+    },
+    "historical_FEN_exclusion_sources": 8,
+    "history_FEN4_count": 116,
+    "rights": "TWIC original PGN/ZIP not redistributed; TWIC personal-use/publication permission not confirmed. Lichess CC0."
+  },
+  "before_any_new_native": {
+    "run_id": 38047190525,
+    "url": "https://github.com/WhoSia/C3X/actions/runs/38047190525",
+    "artifact_id": 11667896581,
+    "SHA256": "b3b4a29788c1f9dc2b4d491cd60d44ad8e6530d3d66be5d77039a6fd59cc958d",
+    "total_legal_root_moves": 1056,
+    "twic": 620,
+    "puzzle": 436
+  },
+  "StageA_native_no_TT_suppression": {
+    "run_id": 38047696668,
+    "url": "https://github.com/WhoSia/C3X/actions/runs/38047696668",
+    "conclusion": "success",
+    "artifact_id": 11668142394,
+    "artifact_name": "c3x-022-P2-stageA-TWIC-puzzle-exact-UCI-forecasts",
+    "artifact_zip_sha256": "ffeb5cd997e2e7616bc9fd5b6af2c817d5c26d8b40c55b2238b9c0a226fa6239",
+    "stageA_JSON_sha256": "0258edda1182ff21f4764e015548125e43978b504e36fa6d7c99a0f235a74fcd",
+    "root_order_baselines_TWIC_differ_8_of_16": 8,
+    "puzzles_differ_0_of_16": 0,
+    "role_order_total": 128,
+    "eligible_source_role_order_cells": 92,
+    "no_eligible_source_role_cells": 36,
+    "TT_first_reader_intervention_performed": false,
+    "literal_forecast_Git_path": "c3x/forecasts/c3x-022-P2-TWIC-puzzle32-exact-UCI-preregistered-stageA-20261010.json",
+    "literal_forecast_Git_commit": "1abc7c82f753c3d7c3c540ee3426dfb790e26d22",
+    "forecast_rule": "CROSS_ORDER_RESTORATION_V1; if baseline O!=F, after FIRST block predict other order baseline exact UCI; else preserve shared baseline; NO_TREATMENT if no first qualified physical TT source"
+  },
+  "technical_history_retained": [
+    {
+      "run_id": 38047272086,
+      "technical": "Stockfish16 CASTLING move encoded with CASTLING=3<<14 and to-square rook origin, UCI e1c1 regular from-to code mismatched root source P4 guard; adapter fixed without changing game"
+    },
+    {
+      "run_id": 38047523229,
+      "technical": "Puzzle short forced line produced zero physical TT lineage events and strict legacy runner refused; opt-in allow_empty_lineage added preserving default strict guard and no invented missing depth"
+    },
+    {
+      "run_id": 38047678053,
+      "conclusion": "success duplicate scout with earlier fixture commit"
+    },
+    {
+      "run_id": 38047696668,
+      "conclusion": "success canonical final scout"
+    }
+  ],
+  "pinned_Stockfish16_git_actual_40hex": "68e1e9b3811e16cad014b590d7443b9063b3eb52",
+  "source_documentation_correction": "Earlier precommit shortened this commit string in prose in some locations; the actual cloned exact git revision and workflow match full 40-hex SHA shown here. No engine binaries were changed.",
+  "next_B_result": "NOT_OBSERVED_WHEN_THIS_FORECAST_SHA_RECEIPT_SEALED",
+  "historical_failures_untouched": [
+    "Jan J2/J3/J4 FAIL",
+    "Feb F19.5 FAIL",
+    "K4 0/4 FAIL",
+    "PAG CPP224 generalization FAIL"
+  ]
+}
