@@ -1,9 +1,11 @@
-name: C3X 0.24 P4 July2025 New256 Untreated Native O F StageA Pre-M4 Prospective
+name: C3X 0.24 P4 July2025 256 Untreated StageA Failclosed Trace HOLD R2
 on:
   push:
     paths:
       - '.github/workflows/c3x-024-P4-July256-untreated-native-StageA.yml'
   workflow_dispatch:
+# P4-S2-O1 SOURCE TRACE CENSORED FIX: preserve all 256 games and mark unknown FIRST roles HOLD.
+# Historical native 30,000-event reporter cap unchanged; observational opt-in only.
 permissions:
   contents: read
 jobs:
@@ -19,7 +21,8 @@ jobs:
         run: |
           set -euo pipefail
           python -m pip install -q chess==1.11.2 zstandard==0.25.0
-          python -m py_compile harness/c3x_024_P4_July256_untreated_native_stageA.py
+          python -m py_compile harness/c3x_024_P4_July256_untreated_native_stageA.py harness/c3x_018_native_TT_lineage_factorial_6_8.py
+          test -f c3x/ontology/c3x-024-P4-S2-O1-native-lineage-trace-censor-failclosed-full256-recovery-precommit-20261011.md
           python -m unittest discover -s tools -p 'test_c3x_024_P0_aug2025_engineblind_source_and_rights.py' -v
           python -m py_compile tools/c3x_023_P1_native_SEE_parent_path_key_overlay.py
           python -m unittest discover -s tools -p 'test_c3x_023_P1_native_SEE_ancestry_path_overlay.py' -v
