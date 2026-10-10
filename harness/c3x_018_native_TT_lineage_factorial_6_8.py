@@ -289,7 +289,7 @@ def play(engine, world, p4_mode, lineage_mode=None, target=None, writer_budget=N
         if line.startswith("info string c3x020_boundary "):
             fields=parse_fields(line)
             boundary_state_events.append({
-                k:(v if k=="kind" else int(v)) for k,v in fields.items()})
+                k:(v if k in ("kind","mode") else int(v)) for k,v in fields.items()})
     root_events=[]
     for line in lines:
         if line.startswith("info string c3x017_root_event "):
