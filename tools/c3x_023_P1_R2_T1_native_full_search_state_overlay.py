@@ -76,7 +76,7 @@ LOG_NEW='''                  << " site=" << site
 
 def patch(src):
     if "c3x023_t1_stack" in src: raise ValueError("T1_SEARCH_STATE_ALREADY_PATCHED")
-    rules=[("namespace Stockfish {", "namespace Stockfish {\n"+CPP,"CPP_NAMESPACE"),
+    rules=[("// C3X022-R2 NATIVE SEE decision witness / first-site Boolean intervention.", CPP+"\n// C3X022-R2 NATIVE SEE decision witness / first-site Boolean intervention.","CPP_AFTER_ANCESTRY_BEFORE_SEE_WRAPPER"),
       (MAIN,MAIN_NEW,"MAIN_CALL_FRAME"),
       (QS,QS_NEW,"QSEARCH_CALL_FRAME"),
       (BEFORE,AFTER,"NATIVE_SEE_RETURN"),
@@ -98,7 +98,7 @@ def main():
     after=patch(before.decode()).encode();f.write_bytes(after)
     o=Path(a.out_manifest);o.parent.mkdir(parents=True,exist_ok=True)
     o.write_text(json.dumps({"schema":"c3x023-P1-R2-T1-native-full-search-state-passive-source-v1",
-       "stockfish16_git":"68e1e9b3811e16cad014b590d7443b9063b52",
+       "stockfish16_git":"68e1e9b3811e16cad014b590d7443b9063b3eb52",
        "before_sha256":hashlib.sha256(before).hexdigest(),
        "after_sha256":hashlib.sha256(after).hexdigest(),
        "observed_fields":["t1_path","t1_ply","t1_depth","t1_alpha","t1_beta",
