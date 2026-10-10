@@ -3,6 +3,8 @@ on:
   push:
     paths:
       - '.github/workflows/c3x-021-march16-chess-microstructure-source-only.yml'
+      - 'harness/c3x_021_march_sourceonly_chess_microfeatures.py'
+      - 'tools/test_c3x_021_chess_microfeatures.py'
   workflow_dispatch:
 permissions:
   contents: read
