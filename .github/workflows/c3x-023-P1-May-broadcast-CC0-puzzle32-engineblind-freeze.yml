@@ -1,0 +1,171 @@
+name: C3X 0.23 P1 Licensed May Broadcast 16 and Disjoint CC0 Nonmate Puzzle 16 Engineblind Freeze
+on:
+  push:
+    paths:
+      - '.github/workflows/c3x-023-P1-May-broadcast-CC0-puzzle32-engineblind-freeze.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  licensed-independent-source-fen32-before-Stockfish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 50
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Validate source-only selection and rights gate unit tests
+        run: |
+          python -m pip install -q chess==1.11.2 zstandard==0.25.0
+          python -m py_compile harness/c3x_023_P1_may2026_broadcast_nonmate_cc0_puzzle_engineblind32.py
+          python -m unittest discover -s tools -p 'test_c3x_023_P1_licensed_chess_engineblind_source.py' -v
+          python -m unittest discover -s tools -p 'test_c3x_023_rights_labeled_lichess_source.py' -v
+          python -m unittest discover -s tools -p 'test_c3x_023_publication_rights_gate.py' -v
+      - name: October old source-only cohort
+        uses: actions/download-artifact@v4
+        with:
+          name: c3x-018-independent-PGN-blind-source-16
+          path: october/
+          repository: WhoSia/C3X
+          run-id: '37981820261'
+          github-token: ${{ github.token }}
+      - name: November old source-only cohort
+        uses: actions/download-artifact@v4
+        with:
+          name: c3x-018-november-blind12-chess-source
+          path: november/
+          repository: WhoSia/C3X
+          run-id: '37985213908'
+          github-token: ${{ github.token }}
+      - name: December old source-only cohort
+        uses: actions/download-artifact@v4
+        with:
+          name: c3x-018-december2025-blind12-source
+          path: december/
+          repository: WhoSia/C3X
+          run-id: '37987794988'
+          github-token: ${{ github.token }}
+      - name: January old source-only cohort
+        uses: actions/download-artifact@v4
+        with:
+          name: c3x-018-january2026-cross-window-blind16-source
+          path: january/
+          repository: WhoSia/C3X
+          run-id: '37991871987'
+          github-token: ${{ github.token }}
+      - name: February original independent source-only cohort
+        uses: actions/download-artifact@v4
+        with:
+          name: c3x-019-february2026-writer-version-blind16-source
+          path: february/
+          repository: WhoSia/C3X
+          run-id: '37998190878'
+          github-token: ${{ github.token }}
+      - name: March source-only independent history for April disjointness
+        uses: actions/download-artifact@v4
+        with:
+          name: c3x-020-C2-march2026-enginefree-blind16-source
+          path: march/
+          repository: WhoSia/C3X
+          run-id: '38038059013'
+          github-token: ${{ github.token }}
+      - name: April 2026 previously frozen independent games from before P2
+        uses: actions/download-artifact@v4
+        with:
+          name: c3x-022-P0-april2026-engineblind-source16
+          path: april/
+          repository: WhoSia/C3X
+          run-id: '38045636805'
+          github-token: ${{ github.token }}
+      - name: Pre-P1 TWIC1656 plus previous puzzle32 SOURCE only, for overlap exclusion
+        uses: actions/download-artifact@v4
+        with:
+          name: c3x-022-P2-TWIC1656-LichessPuzzle-engineblind-source32
+          path: old32/
+          repository: WhoSia/C3X
+          run-id: '38047000932'
+          github-token: ${{ github.token }}
+      - name: Pre-P1 TWIC1664 old16 SOURCE only, for overlap exclusion
+        uses: actions/download-artifact@v4
+        with:
+          name: c3x-022-P2-R1-TWIC1664-blind16-legal-exchange
+          path: old1664/
+          repository: WhoSia/C3X
+          run-id: '38050910527'
+          github-token: ${{ github.token }}
+      - name: Verify original historical materials before blind extraction
+        run: |
+          set -euo pipefail
+          mkdir -p evidence
+          test "$(sha256sum october/C3X018_INDEPENDENT_BLIND16_PGN_SOURCE.json | cut -d' ' -f1)" = 6520672aabab7f525872169085f19bdd81e27a4473f0c58ba9c9aa428937104c
+          test "$(sha256sum november/C3X018_NOVEMBER_12_BLIND_GAMES.json | cut -d' ' -f1)" = 2971fe617f39fbba6d40fb0b09d8a18ce247d5865dc807fcdab9a594e3473402
+          test "$(sha256sum december/C3X018_DECEMBER12_INDEPENDENT_GAMES.json | cut -d' ' -f1)" = 51366a480fe2631005dbded7992e870443ef6dd2dfd785fd10952d6eeff5e7cd
+          test "$(sha256sum january/C3X018_JAN26_BLIND16_SOURCE.json | cut -d' ' -f1)" = 5b49818e4678c12d0e5e73eba39eff2d50742b070a0ed870cba1d3e94afe0533
+          test "$(sha256sum february/C3X019_FEB26_BLIND16_SOURCE.json | cut -d' ' -f1)" = 2942b1933030227f36b669faff41f15ff234c27127dbf2403bf2e8e4f12ebdc8
+          test "$(sha256sum march/C3X020_C2_MARCH_BLIND16_SOURCE.json | cut -d' ' -f1)" = d79e48633be2b683176f1a6d4650aeea1b7584f11c85c2349a5bddda113febee
+          test "$(sha256sum april/C3X022_P0_APRIL16_SOURCE.json | cut -d' ' -f1)" = 0e5516fc0cd49203bf7cc366f4133d6c9b20a2f21de0667468f121e398d2fa93
+      - name: Verify prior TWIC source selection SHA WITHOUT sharing restricted PGN originals
+        run: |
+          set -euo pipefail
+          test "$(sha256sum old32/C3X022_P2_TWIC1656_PUZZLE_SOURCE32.json | cut -d' ' -f1)" = ebe6648f43f64c6f31e0d547845bec3d87c663093fd68298acf2ebe4c0287554
+          test "$(sha256sum old1664/C3X022_P2_R1_TWIC1664_BLIND16_SOURCE.json | cut -d' ' -f1)" = 3cc4c788eec55960921e653604b2fbb3113163862e2652271b939fb12fb9eeb3
+      - name: Download Lichess official May2026 broadcast under BY-SA 4.0 with original SHA receipt
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/C3X023_SOURCE evidence
+          curl -fL --retry 3 --max-time 400 -sS https://database.lichess.org/broadcast/lichess_db_broadcast_2026-05.pgn.zst -o /tmp/C3X023_SOURCE/May2026_broadcast.pgn.zst
+          test -s /tmp/C3X023_SOURCE/May2026_broadcast.pgn.zst
+          sha256sum /tmp/C3X023_SOURCE/May2026_broadcast.pgn.zst | sed 's#/tmp/C3X023_SOURCE/May2026_broadcast.pgn.zst#LICHESS_MAY_BROADCAST_ORIGINAL_NOT_REDISTRIBUTED#' > evidence/MAY2026_ORIGINAL_SOURCE_SHA256.txt
+      - name: Download original Lichess CC0 puzzle database and enforce pre-existing frozen SHA
+        run: |
+          set -euo pipefail
+          curl -fL --retry 3 --max-time 600 -sS https://database.lichess.org/lichess_db_puzzle.csv.zst -o /tmp/C3X023_SOURCE/lichess_db_puzzle.csv.zst
+          test "$(sha256sum /tmp/C3X023_SOURCE/lichess_db_puzzle.csv.zst | cut -d' ' -f1)" = 76335bfa7d7c4a7f93c1366d81549e53951ebb79dd43d34904cab8f22d962f8d
+      - name: Freeze exactly new 16 May broadcast and 16 CC0 disjoint nonmate puzzle solver roots with NO Stockfish
+        run: |
+          set -euo pipefail
+          python -u harness/c3x_023_P1_may2026_broadcast_nonmate_cc0_puzzle_engineblind32.py \
+            --may /tmp/C3X023_SOURCE/May2026_broadcast.pgn.zst \
+            --puzzles /tmp/C3X023_SOURCE/lichess_db_puzzle.csv.zst \
+            --old32 old32/C3X022_P2_TWIC1656_PUZZLE_SOURCE32.json \
+            --oldtwic1664 old1664/C3X022_P2_R1_TWIC1664_BLIND16_SOURCE.json \
+            --prior c3x/cohorts/c3x-016-P4-12-independent-Lichess-legal-root-order-sourceonly-frozen.json \
+            --october october/C3X018_INDEPENDENT_BLIND16_PGN_SOURCE.json \
+            --november november/C3X018_NOVEMBER_12_BLIND_GAMES.json \
+            --december december/C3X018_DECEMBER12_INDEPENDENT_GAMES.json \
+            --january january/C3X018_JAN26_BLIND16_SOURCE.json \
+            --february february/C3X019_FEB26_BLIND16_SOURCE.json \
+            --march march/C3X020_C2_MARCH_BLIND16_SOURCE.json \
+            --april april/C3X022_P0_APRIL16_SOURCE.json \
+            --out evidence/C3X023_P1_MAY_BROADCAST_CC0_NONMATE32_SOURCE_ONLY.json | tee evidence/NEW_ENGINEBLIND_SOURCE_STDOUT.txt
+      - name: C3X023 provenance-specific public upload byte gate, attribution and share-alike
+        run: |
+          set -euo pipefail
+          python tools/c3x_023_rights_preupload_gate.py \
+            --tier P4_LICHESS_LICENSED_SOURCE_ONLY \
+            --file evidence/C3X023_P1_MAY_BROADCAST_CC0_NONMATE32_SOURCE_ONLY.json \
+            --report evidence/C3X023_P1_LICHESS_LICENSED_SOURCE_RELEASE_SCAN.json
+          python - <<'PY'
+          import json
+          x=json.load(open('evidence/C3X023_P1_MAY_BROADCAST_CC0_NONMATE32_SOURCE_ONLY.json'))
+          assert x['phase']=='SOURCE_ONLY__NO_ENGINE_OR_NATIVE_RESULT_YET'
+          assert x['count']==32 and x['source_only_no_stockfish_used'] is True
+          b=x['per_ecology']['may2026_broadcast']['selected']
+          c=x['per_ecology']['lichess_CC0_nonmate_puzzles']['selected']
+          assert len(b)==len(c)==16 and len({a['fen4'] for a in b+c})==32
+          print('C3X023_P1_LEGAL_LICENSED_CHESS_COHORT_SOURCE_LOCKED',len(b),len(c))
+          PY
+          echo 'Adapted from Lichess broadcast games (2026-05): https://database.lichess.org/broadcast/lichess_db_broadcast_2026-05.pgn.zst ; license CC BY-SA 4.0 https://creativecommons.org/licenses/by-sa/4.0/ ; Changes: selected root FEN and single played UCI, removed complete score and player metadata; sharealike for adapted broadcast game records. Separate Lichess puzzle selection licensed CC0 https://creativecommons.org/publicdomain/zero/1.0/ . The source selection is engine blind and not an independent blind chess outcome-label prediction.' > evidence/SOURCE_LICENSE_ATTRIBUTION_CHANGE_NOTICE.txt
+      - name: SHA256 each publicly licensed artefact member
+        if: always()
+        run: |
+          mkdir -p evidence
+          find evidence -maxdepth 1 -type f ! -name MEMBER_SHA256.txt -print0 | sort -z | xargs -0 -r sha256sum > evidence/MEMBER_SHA256.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x-023-P1-licensed-May-broadcast-CC0-nonmate32-engineblind-freeze
+          path: evidence/
+          retention-days: 90
+          if-no-files-found: error
