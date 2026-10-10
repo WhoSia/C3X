@@ -36,7 +36,7 @@ def literal(base,other,eligible):
             "M0_predict_flip":False,
             "M1_predict_flip":other!=base}
 
-def stageA(source,engine):
+def stageA(source,engine,expected_ids=None):
     need(source["schema"]=="c3x024-P4-blind-July2025-broadcast256-before-any-native-treatment-v1","C3X024_WRONG_PRESEALED_SOURCE")
     need(source["phase"]=="SOURCE_ONLY_FROZEN_BEFORE_ENGINE_OR_INTERVENTION" and
          source["source_only_no_stockfish_used"] is True and source["treatment_outcomes_seen"] is False,
@@ -54,7 +54,8 @@ def stageA(source,engine):
              "TT_or_SEE_treatment_executed":False,"ecologies":{}}
     for eco in ECOLOGIES:
         new_rows=source["selected"]
-        need(len(new_rows)==256 and [x["id"] for x in new_rows]==list(range(1,257)),"P4_NEW256_FIXED")
+        required_ids=list(range(1,257)) if expected_ids is None else list(expected_ids)
+        need(len(new_rows)==len(required_ids) and [x["id"] for x in new_rows]==required_ids,"P4_ORIGINAL_SOURCE_SHA_PRESEALED_SHARD_ID_SEQUENCE")
         records=[]
         for record in new_rows:
             world,clocks,_=native_world({**record,"source_root_legal_count":record["root_legal_move_count"]})
@@ -167,11 +168,17 @@ def stageA(source,engine):
                                   for w in WORLDS},flush=True)
         outcome["ecologies"][eco]={"license":source["license"],
                                     "cases":records}
+    populate_original_source_summary(outcome)
+    return outcome
+
+def populate_original_source_summary(outcome):
+    """Same source-scoped summary for full 256 run or four fixed untreated shards."""
     rows=[(ec,c,o,r,x) for ec,v in outcome["ecologies"].items()
           for c in v["cases"] for o,w in c["worlds"].items()
           for r,x in w["roles"].items()]
     eligible=[x for x in rows if x[4]["status"]=="FIRST_SOURCE_PAIR_PRE_OUTCOME"]
-    outcome["summary"]={"distinct_source_boards":256,"world_count":512,"potential_role_cells":1024,
+    n=len(outcome["ecologies"]["july2025_broadcast"]["cases"])
+    outcome["summary"]={"distinct_source_boards":n,"world_count":2*n,"potential_role_cells":4*n,
      "eligible_source_first_reader_role_cells":len(eligible),
      "literal_forecast_UCI_strings":len(eligible)*2,
      "O_F_baselines_differ_games_by_ecology":{
