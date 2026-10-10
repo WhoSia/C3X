@@ -38,7 +38,7 @@ def core(raw, search_depth=12):
     need(len(best)==1 and best[0]==rows[-1]["pv"][0], "MISSING_BESTMOVE")
     return {"bestmove":best[0],**rows[-1]}
 
-def play(engine, world, p4_mode, lineage_mode=None, target=None, writer_budget=None, rescue_attempt=None, discovery=False, history=False, fen_clocks=None, search_depth=12, draw_mode=None, tt_reader_filters=None, probe_watch=None, p1_writer=None, native_use_watch=None, passive_second_call=None, root_return=None, multi_state=None, root_searchmoves=None, allow_empty_lineage=False, see_watch=None, ordered_source_trace=False, t2_target=None, t3_target=None, t3_policy=None, t4_branch_audit=False, p2_descendant_audit=False):
+def play(engine, world, p4_mode, lineage_mode=None, target=None, writer_budget=None, rescue_attempt=None, discovery=False, history=False, fen_clocks=None, search_depth=12, draw_mode=None, tt_reader_filters=None, probe_watch=None, p1_writer=None, native_use_watch=None, passive_second_call=None, root_return=None, multi_state=None, root_searchmoves=None, allow_empty_lineage=False, see_watch=None, ordered_source_trace=False, t2_target=None, t3_target=None, t3_policy=None, t4_branch_audit=False, p2_descendant_audit=False, p2_root_ancestor_audit=False):
     if see_watch is not None:
         need(isinstance(see_watch,dict)
              and set(see_watch) in ({"key64","root_call","policy"}, {"key64","root_call","policy","passive_ancestry"}, {"key64","root_call","policy","passive_ancestry","descendant_prune_flip"})
@@ -108,9 +108,12 @@ def play(engine, world, p4_mode, lineage_mode=None, target=None, writer_budget=N
     need(not t4_branch_audit or (t3_target is not None and t3_policy in ("SHAM","FLIP")),"T4_NEEDS_PRESEALED_T3_TARGET")
     env.pop("C3X023_T4_BRANCH_OBS",None)
     env.pop("C3X024_P2_LINEAGE_OBS",None)
+    env.pop("C3X024_C3B_RETURN_OBS",None)
+    need(not p2_root_ancestor_audit or p2_descendant_audit,"C3B_REQUIRES_C3A_SOURCE_OBSERVER")
     need(not p2_descendant_audit or t4_branch_audit,"P2_REQUIRES_T4_GUARD_AUDIT")
     if t4_branch_audit: env["C3X023_T4_BRANCH_OBS"]="1"
     if p2_descendant_audit: env["C3X024_P2_LINEAGE_OBS"]="1"
+    if p2_root_ancestor_audit: env["C3X024_C3B_RETURN_OBS"]="1"
     env.pop("C3X023_T3_MODE",None)
     for key in T3_FIELDS:
         env.pop("C3X023_T3_"+key,None)
@@ -453,6 +456,14 @@ def play(engine, world, p4_mode, lineage_mode=None, target=None, writer_budget=N
                 result_events.append({k:(v if k in ("event","site","origin") else int(v))
                                       for k,v in fields.items()})
         answer["native_C3_source_descendant_events"]=result_events
+    if p2_root_ancestor_audit:
+        ancestor_events=[]
+        for line in lines:
+            if line.startswith("info string c3x024_c3b "):
+                fields=parse_fields(line)
+                ancestor_events.append({k:(v if k=="event" else int(v))
+                                        for k,v in fields.items()})
+        answer["native_C3b_source_ancestor_events"]=ancestor_events
     if ordered_source_trace:
         # Each info string is synchronized by Stockfish single-thread
         # sync_cout, so line ordinal is a monotonic source-log witness,
