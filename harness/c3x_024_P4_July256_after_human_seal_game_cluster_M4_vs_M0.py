@@ -38,17 +38,19 @@ def audit(directory,seal_path='c3x/forecasts/c3x-024-P4-July2025-256game-1024rol
     for g,x in contact:
         if not x["source_TT_first_contact"] or x["selected_native_reader_blocks"]<1 or x["cold_pairs_checked"]!=2 or x["source_SEE_Boolean_flips"]!=0:
             raise ValueError("P4_NATIVE_PHYSICAL_CONTACT_UNVERIFIED")
-        if any(x["correct"][m] is None for m in MODELS):raise ValueError("P4_INCOMPLETE_EXACT_PREDICTION")
-    role_accuracy={m:sum(int(x["correct"][m]) for _,x in contact) for m in MODELS}
+        if any(x["correct"][m] is None for m in ("M0","M4_survivor")):raise ValueError("P4_INCOMPLETE_PRIMARY_EXACT_PREDICTION")
+    role_accuracy={m:sum(int(x["correct"][m]) for _,x in contact if x["correct"][m] is not None) for m in MODELS}
+    model_role_coverage={m:sum(x["correct"][m] is not None for _,x in contact) for m in MODELS}
     source_game=[]
     for g in allrows:
         cells=[x for x in g["roles"] if x["status"]=="REAL_NATIVE_PHYSICAL_TT_FIRST"]
         denom=len(cells)
-        counts={m:sum(int(x["correct"][m]) for x in cells) for m in MODELS}
+        counts={m:sum(int(x["correct"][m]) for x in cells if x["correct"][m] is not None) for m in MODELS}
+        cover={m:sum(x["correct"][m] is not None for x in cells) for m in MODELS}
         source_game.append({"game_id":g["game_id"],"contact_role_cells":denom,
-            "correct_role_counts":counts,
-            "per_game_role_exact_accuracy":{m:counts[m]/denom if denom else None for m in MODELS},
-            "any_correct_in_game":{m:int(counts[m]>0) if denom else None for m in MODELS},
+            "correct_role_counts":counts,"model_contact_coverage":cover,
+            "per_game_role_exact_accuracy":{m:counts[m]/cover[m] if cover[m] else None for m in MODELS},
+            "any_correct_in_game":{m:int(counts[m]>0) if cover[m] else None for m in MODELS},
             "root_bestmove_flips":sum(x["actual_root_flip"] is True for x in cells)})
     touched=[g for g in source_game if g["contact_role_cells"]]
     def wins_losses(metric,challenger,benchmark):
@@ -87,6 +89,7 @@ def audit(directory,seal_path='c3x/forecasts/c3x-024-P4-July2025-256game-1024rol
       "final_root_bestmove_change_roles":sum(g["root_bestmove_flips"] for g in source_game),
       "source_games_with_final_root_change":sum(g["root_bestmove_flips"]>0 for g in source_game),
       "exact_UCI_correct_contacted_roles_by_model":role_accuracy,
+      "exact_UCI_evaluable_contacted_roles_by_model":model_role_coverage,
       "model_names":list(MODELS),
       "M4_survivor_precommitted_positive_predictions":n_predicted,
       "M4_survivor_positive_prediction_physical_contact_roles":len(exact_flip_roles),
