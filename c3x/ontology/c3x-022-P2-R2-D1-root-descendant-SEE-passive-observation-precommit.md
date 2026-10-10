@@ -1,0 +1,9 @@
+# C3X 0.22-P2-R2-D1 — Passive Descendant SEE-Call Localization After Strict Same-Node Noncontact
+
+**2026-10-10, additive post-R2-pilot diagnostic, NOT a revised first factorial success criterion.**
+
+Previous strict root-call + identical position-key target in P2-R2 native pilot CI #38053054749 produced **0** SEE contacts across six development cases and all relevant arms, while exact physical TT first-reader suppression fired **12/12**. No SEE Boolean was altered; joint TT–SEE mediation is **UNIDENTIFIED**, not zero effect.
+
+**New read-only method before running D1:** At the same selected, already development-only TWIC1664 source case identities `{(2,O,STRICT),(3,F,STRICT),(6,O,STRICT),(12,O,STRICT),(13,F,STRICT),(14,O,STRICT)}`, permit the original (C3X018 root_call) but not require matching exact position key for **OBS-only** SEE source watcher. Every `pos.see_ge` result is unchanged. Record the first 32 actual native search.cpp SEE calls per root call, each with original site `capture_prune|quiet_prune|qsearch_futility|qsearch_prune`, position key, native move, threshold and Boolean. If more calls, log censored and do not interpret sample as full event census. Run cold twice, confirm native final UCI equals original stageA baseline. **No SEE-FLIP under broadened scope, no TT FIRST intervention in diagnostic.**
+
+Purpose: determine whether SEE operators occur in descendants of the root call (even if absent at the first TT value-used node), and whether an eligible, stable site/key/threshold class exists for a future separately preregistered *source-matched* factorial. Do not use this post hoc root-call relaxation to report previously failed strict same-key factorial as success. If no SEE calls in the first 32 observable ancestry sites or all root calls, mark `NO_DESCENDANT_SEE_CONTACT`. Rights: public outputs only aggregated counts and SHA of private raw file; no individual TWIC FEN/UCI.
