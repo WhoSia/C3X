@@ -1,6 +1,6 @@
 # C3X 0.20 — Endogenous Search-Memory Rewriting & Counterfactual Root-Choice Transmission: Versioned Transposition-Table Writer–Reader Lineages, Selective Return-Edge Restoration, Aspiration-Window Boundary Reentry, Multi-Depth Candidate Competition, Search-State Persistence & Independent-Ecology Falsification
 
-**Status: FORMAL NAME PROPOSAL — NOT ACTIVATED. NOMOS Flowing continuation of 0.19.** Date 2026-10-10. This is a graceful version transition, **not** a declaration that C3X 0.19's causal or prospective scientific program has fully succeeded or ended.
+**Status: ACTIVE — USER-APPROVED NOMOS FLOWING TRANSITION ON 2026-10-10.** This is a graceful version transition, **not** a declaration that C3X 0.19's causal or prospective scientific program has fully succeeded or ended.
 
 ## Why this name
 
@@ -28,4 +28,4 @@ This is an empirical counterexample on four fixed source games, not a universal 
 
 Reason carefully and batch implementation cheaply. Several meaningful human-authored code and regression commits precede **one** consolidated, read-only GitHub Actions trial when it tests a falsifiable scientific boundary. Keep only `main` active unless explicitly requested otherwise. All commits author/committer `WhoSia`, no bot coauthors or GitHub Actions pushes. Prior observed failures January J2/J3/J4, February F19.5, original unbounded P1 R5, and this K4 must remain visible. Name change is an administrative flow, not evidence amplification.
 
-**Opening recommendation:** Adopt the title for the next flowing generation if desired; until explicitly adopted, keep C3X 0.19 as ACTIVE and C3X 0.20 PROPOSED.
+**Activation receipt:** User explicitly approved the exact C3X 0.20 title on 2026-10-10. C3X 0.19 remains the immutable historical source of K4 FAIL and prior FAIL/HOLD evidence. Initial 0.20 work: `c3x/ontology/c3x-019-P5-to-020-root-choice-residual-state-and-alignment-court.md`. New native scientific outcomes are NOT yet claimed.
