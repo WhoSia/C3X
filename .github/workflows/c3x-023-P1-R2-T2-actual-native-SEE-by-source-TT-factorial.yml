@@ -3,6 +3,7 @@ on:
   push:
     paths:
       - '.github/workflows/c3x-023-P1-R2-T2-actual-native-SEE-by-source-TT-factorial.yml'
+      - 'tools/c3x_023_P1_R2_T2_exact_native_SEE_single_operator_actuator.py'
   workflow_dispatch:
 permissions:
   contents: read
