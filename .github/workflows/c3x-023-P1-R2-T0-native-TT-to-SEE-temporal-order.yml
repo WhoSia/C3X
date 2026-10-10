@@ -1,0 +1,147 @@
+name: C3X 0.23 P1-R2-T0 Chronological Native SEE Events AFTER Source TT FIRST
+on:
+  push:
+    paths:
+      - '.github/workflows/c3x-023-P1-R2-T0-native-TT-to-SEE-temporal-order.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  chronological-native-TT-to-SEE-readonly-six-development:
+    runs-on: ubuntu-latest
+    timeout-minutes: 95
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Preregistered source chronology, TT and SEE parser tests
+        run: |
+          set -euo pipefail
+          python -m pip install -q chess==1.11.2
+          python -m py_compile harness/c3x_023_P1_R2_T0_chronological_post_TT_common_SEE_dev.py
+          python -m unittest discover -s tools -p 'test_c3x_023_P1_R2_T0_chronological_TT_to_SEE.py' -v
+          python -m unittest discover -s tools -p 'test_c3x_023_P1_same_descendant_SEE_node_matcher.py' -v
+          python -m unittest discover -s tools -p 'test_c3x_023_P1_R1_native_source_TT_and_SEE.py' -v
+          mkdir -p evidence public private
+      - name: Retrieve immutable LICENSED source-only32, no historical TWIC
+        uses: actions/download-artifact@v4
+        with:
+          name: c3x-023-P1-licensed-May-broadcast-CC0-nonmate32-engineblind-freeze
+          path: source/
+          repository: WhoSia/C3X
+          run-id: '38059784922'
+          github-token: ${{ github.token }}
+      - name: Retrieve exact untampered NO-V Stage A passive native parent-path witness
+        uses: actions/download-artifact@v4
+        with:
+          name: c3x-023-P1-licensed32-stageA-native-TT-SEE-nodepath-no-intervention
+          path: stageA/
+          repository: WhoSia/C3X
+          run-id: '38060337140'
+          github-token: ${{ github.token }}
+      - name: REQUIRE all frozen source SHA and 248 Git-sealed exact UCI predictions before V
+        run: |
+          set -euo pipefail
+          test "$(sha256sum source/C3X023_P1_MAY_BROADCAST_CC0_NONMATE32_SOURCE_ONLY.json | cut -d' ' -f1)" = 0ff43e28dcb3a5e48dea6b61e4450fc8bb9e1f96363871c33c4b73524664db61
+          test "$(sha256sum stageA/C3X023_P1_LICENSED32_STAGEA_NO_V_NODEPATH.json | cut -d' ' -f1)" = fe88afe49d7d43db7b81c37decab783f2b68311ed2ca10b6f42be4268bdb3442
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          from sys import path
+          path.insert(0,str(Path("harness").resolve()))
+          from c3x_023_P1_R1_licensed32_TT_FIRST_native_common_SEE_node_court import verify_precommitted_literals
+          f=json.load(open('c3x/forecasts/c3x-023-P1-licensed-May-CC0-32game-M0-M1-literal-UCI-source-first-preTT-20261010.json'))
+          s=json.load(open('source/C3X023_P1_MAY_BROADCAST_CC0_NONMATE32_SOURCE_ONLY.json'))
+          a=json.load(open('stageA/C3X023_P1_LICENSED32_STAGEA_NO_V_NODEPATH.json'))
+          assert verify_precommitted_literals(s,a,f)==248
+          print('C3X023_P1_R1_PRE_V_ALL_248_EXACT_LITERAL_UCI_AND_124_REAL_FIRST_PHYSICAL_SOURCES_VERIFIED')
+          PY
+      - name: Rights guard against unlicensed source files at start
+        run: |
+          python tools/c3x_023_rights_preupload_gate.py \
+            --tier P4_LICHESS_LICENSED_SOURCE_ONLY \
+            --file source/C3X023_P1_MAY_BROADCAST_CC0_NONMATE32_SOURCE_ONLY.json \
+            --report private/SOURCE_LICENSED_GATE.json
+      - name: Native Stockfish16 single-return plus second-return and persistent-state build
+        run: |
+          set -euo pipefail
+          root=/tmp/C3X020_MULTI_STATE
+          git clone -q --single-branch --branch sf_16 https://github.com/official-stockfish/Stockfish.git "$root"
+          test "$(git -C "$root" rev-parse HEAD)" = 68e1e9b3811e16cad014b590d7443b9063b3eb52
+          python tools/c3x_016_P4_independent_12root_source_order_patch.py --source "$root" --out-manifest evidence/P4.json
+          python tools/c3x_017_early_depth1_root_window_trace_patch.py --source "$root" --out-manifest evidence/ROOT_TRACE.json
+          python tools/c3x_018_trial_call_identity_patch.py --source "$root" --out-manifest evidence/TRIAL_ID.json
+          python tools/c3x_018_physical_epoch_lineage_patch.py --source "$root" --out-manifest evidence/EPOCH.json
+          python tools/c3x_018_tt_eval_consumption_overlay.py --source "$root" --out-manifest evidence/V.json
+          python tools/c3x_018_physical_value_witness_overlay.py --source "$root" --out-manifest evidence/WRITER_TICKET.json
+          python tools/c3x_018_root_TT_genealogy_overlay.py --source "$root" --out-manifest evidence/ROOT_TT_LINEAGE.json
+          python tools/c3x_018_TT_reader_writer_age_bound_root_feature_overlay.py --source "$root" --out-manifest evidence/AGE_BOUND.json
+          python tools/c3x_018_january2048_TT_reader_source_census.py --source "$root" --out-manifest evidence/CENSUS.json
+          python tools/c3x_018_adaptive_writer_age_root_call_V_gate.py --source "$root" --out-manifest evidence/AGE_GATE.json
+          python tools/c3x_018_january_cross_window_pair_source_gate.py --source "$root" --out-manifest evidence/WINDOW_GATE.json
+          python tools/c3x_018_jan_original_key_TT_probe_watch_overlay.py --source "$root" --out-manifest evidence/PROBE.json
+          python tools/c3x_018_jan_TT_probe_physical_writer_epoch_witness.py --source "$root" --out-manifest evidence/PROBE_WRITER.json
+          python tools/c3x_018_P0P1_TT_save_decision_writer_reinstate_overlay.py --source "$root" --out-manifest evidence/P0_P1_SOURCE_MUTATION.json
+          python tools/c3x_018_P1_pre_second_reader_temporal_scope_overlay.py --source "$root" --out-manifest evidence/P1_PRE_SECOND_TEMPORAL_GATE.json
+          python tools/c3x_019_tt_raw_bytes_shadow_writer_orthogonal_overlay.py --source "$root" --out-manifest evidence/C3X019_ORTHOGONAL_WRITER_STATE.json
+          python tools/c3x_019_actual_native_tt_eval_use_source_witness.py --source "$root" --out-manifest evidence/C3X019_NATIVE_EVAL_USE.json
+          python tools/c3x_019_native_TT_cutoff_actual_return_overlay.py --source "$root" --out-manifest evidence/C3X019_NATIVE_TT_CUTOFF_RETURN.json
+          python tools/c3x_019_root_return_one_site_rescue_overlay.py --source "$root" --out-manifest evidence/ONE_SITE_RETURN_MUTATION.json
+          python tools/c3x_020_multi_state_root_repair_overlay.py --source "$root" --out-manifest evidence/C3X020_MULTI_STATE_MUTATION.json
+          python tools/c3x_022_P2_R2_native_SEE_source_witness_overlay.py --source "$root" --out-manifest evidence/C3X022_R2_NATIVE_SEE_FOUR_SOURCE_SITES.json
+          python tools/c3x_022_P2_R2_D1_rootcall_only_SEE_observer.py --source "$root" --out-manifest evidence/C3X022_R2_D1_DESCENDANT_READONLY.json
+          python tools/c3x_023_P1_native_SEE_parent_path_key_overlay.py --source "$root" --out-manifest evidence/C3X023_P1_MAIN_QSEARCH_ANCESTRY_KEYPATH.json
+          git -C "$root" diff -- src/ > /tmp/C3X023_GPL_MODIFIED_ENGINE_SOURCE.diff
+          sha256sum /tmp/C3X023_GPL_MODIFIED_ENGINE_SOURCE.diff | awk '{print $1 "  GPL_DIFF_PRIVATE_NOT_UPLOADED"}' > evidence/MODIFIED_GPL_DIFF_SHA256.txt
+          make -s -C "$root/src" -j2 build ARCH=x86-64
+          sha256sum "$root/src/stockfish" | awk '{print $1 "  MODIFIED_ENGINE_BINARY_NOT_UPLOADED"}' > evidence/BINARY_SHA256.txt
+      - name: Six preregistered post-R1 development cases same-source chronology with no SEE Boolean intervention
+        run: |
+          set -euo pipefail
+          python -u harness/c3x_023_P1_R2_T0_chronological_post_TT_common_SEE_dev.py \
+            --source source/C3X023_P1_MAY_BROADCAST_CC0_NONMATE32_SOURCE_ONLY.json \
+            --stagea stageA/C3X023_P1_LICENSED32_STAGEA_NO_V_NODEPATH.json \
+            --engine /tmp/C3X020_MULTI_STATE/src/stockfish \
+            --out private/C3X023_P1_R2_T0_PRIVATE_NATIVE_AFTER_TT_COMMON_SEE.json | tee private/T0_AGGREGATE_STDOUT.txt
+          python - <<'PY'
+          import json,hashlib
+          from pathlib import Path
+          p=Path("private/C3X023_P1_R2_T0_PRIVATE_NATIVE_AFTER_TT_COMMON_SEE.json")
+          d=json.loads(p.read_bytes())
+          assert d["study"]=="POST_R1_DEVELOPMENT_CHRONOLOGY_NOT_NEW_HELDOUT_FORECAST"
+          assert d["summary"]["development_case_count"]==6
+          assert d["summary"]["SEE_Boolean_interventions"]==0
+          s={"schema":"c3x023-P1-R2-T0-chronological-TT-SEE-six-postR1-development-public-v1",
+             "official_license":"Lichess May2026 broadcast CC BY-SA 4.0",
+             "source_original_labeled_position_SHA256":"0ff43e28dcb3a5e48dea6b61e4450fc8bb9e1f96363871c33c4b73524664db61",
+             "before_V_native_stageA_SHA256":"fe88afe49d7d43db7b81c37decab783f2b68311ed2ca10b6f42be4268bdb3442",
+             "private_source_result_SHA256":hashlib.sha256(p.read_bytes()).hexdigest(),
+             "aggregate":d["summary"],
+             "source_temporal_common_node_is_not_search_state_natural_mediation":True,
+             "no_raw_Lichess_PGN_or_player_metadata":True}
+          (Path("public")/"C3X023_P1_R2_T0_TEMPORAL_SEE_AGGREGATE.json").write_text(json.dumps(s,sort_keys=True,indent=2)+"\n")
+          print("C3X023_P1_R2_T0_PUBLIC_ORDERED_NATIVE_OPERATOR_SUMMARY",s["aggregate"])
+          PY
+      - name: 0.23 original data copyright and derived packet content scan
+        run: |
+          python tools/c3x_023_rights_preupload_gate.py \
+            --tier P2_AGGREGATE_SUMMARY \
+            --file public/C3X023_P1_R2_T0_TEMPORAL_SEE_AGGREGATE.json \
+            --report public/C3X023_R2_T0_RELEASE_CONTENT_SCAN.json
+          echo 'Lichess broadcasts 2026-05 origin https://database.lichess.org/broadcast/lichess_db_broadcast_2026-05.pgn.zst CC BY-SA 4.0 https://creativecommons.org/licenses/by-sa/4.0/. Credit Lichess broadcasters. Adapted event counts omit original game PGN and player data. No Stockfish modified engine binary distributed. License scan is not blanket legal advice.' > public/SOURCE_LICENSE_NOTICE.txt
+      - name: SHA256 public manifest and external pointer to private causal source
+        if: always()
+        run: |
+          mkdir -p public
+          if [ -s private/C3X023_P1_R2_T0_PRIVATE_NATIVE_AFTER_TT_COMMON_SEE.json ]; then
+            sha256sum private/C3X023_P1_R2_T0_PRIVATE_NATIVE_AFTER_TT_COMMON_SEE.json | awk '{print $1 "  PRIVATE_NATIVE_CHRONOLOGY_NOT_DISTRIBUTED"}' > public/PRIVATE_SHA256.txt
+          fi
+          find public -maxdepth 1 -type f ! -name MEMBER_SHA256.txt -print0 | sort -z | xargs -0 -r sha256sum > public/MEMBER_SHA256.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x-023-P1-R2-T0-six-development-TT-after-SEE-temporal-rights-summary
+          path: public/
+          retention-days: 90
+          if-no-files-found: error
