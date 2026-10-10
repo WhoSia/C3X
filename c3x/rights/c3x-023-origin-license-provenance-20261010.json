@@ -1,7 +1,7 @@
 {
   "schema": "c3x023-origin-rights-risk-manifest-v1",
   "date": "2026-10-10",
-  "status": "PROVENANCE_AUDIT_ONLY_NOT_LEGAL_CLEARANCE",
+  "status": "TIME_SEQUENCED_PROVENANCE_AUDIT__TWIC_AUTHOR_FAVORABLE_RESEARCH_REPLY_USER_SUPPLIED_20261011__NO_WHOLE_FILES_REPUBLICATION",
   "records": [
     {
       "id": "TWIC-1656",
@@ -10,11 +10,17 @@
       "source_sha256": "2970ae7fb943cf67d535ca89489e0bd4e57ec0d1375b4b5220e5946777a04df7",
       "asserted_owner": "Mark Crowther / The Week in Chess",
       "observed_terms": "TWIC magazine free for personal use only. All rights reserved.",
-      "license_type": "NO_GENERAL_PUBLIC_REUSE_GRANT_VERIFIED",
-      "original_full_PGN_zip_public_release": "HOLD",
-      "selected_FEN_and_exact_UCI_public_release": "REVIEW",
-      "permission_status": "NOT_OBTAINED",
-      "contact_from_official_archive": "mdcrowth@btinternet.com"
+      "license_type": "DIRECT_EDITOR_RESEARCH_USE_FAVORABLE_REPLY__NO_WHOLE_FILE_REPUB",
+      "original_full_PGN_zip_public_release": "PROHIBITED_WHOLE_FILE_REPUBLICATION_UNDER_REPLY",
+      "selected_FEN_and_exact_UCI_public_release": "RESEARCH_DERIVATIVES_CONDITIONALLY_FAVORABLE__ATTRIBUTION_AND_SCOPE_REVIEW",
+      "permission_status": "FAVORABLE_EDITOR_RESEARCH_REPLY_USER_SUPPLIED_20261011_NOT_EMAIL_HEADER_VERIFIED",
+      "contact_from_official_archive": "mdcrowth@btinternet.com",
+      "prior_20261010_status": {
+        "permission_status": "NOT_OBTAINED",
+        "selected_FEN_and_exact_UCI_public_release": "REVIEW"
+      },
+      "permission_evidence_notion_url": "https://app.notion.com/p/3f5ef561cf9281479a23c3721b59e7e6",
+      "advice": "Do not infer unrestricted commercial rights; never reupload an unchanged full TWIC source file"
     },
     {
       "id": "TWIC-1664",
@@ -23,10 +29,16 @@
       "source_sha256": "87bcd88e628c85b6e7e5b36894738fc9e6ef4012345740e57ff05795a908940f",
       "asserted_owner": "Mark Crowther / The Week in Chess",
       "observed_terms": "TWIC magazine free for personal use only. All rights reserved.",
-      "license_type": "NO_GENERAL_PUBLIC_REUSE_GRANT_VERIFIED",
-      "original_full_PGN_zip_public_release": "HOLD",
-      "selected_FEN_and_exact_UCI_public_release": "REVIEW",
-      "permission_status": "NOT_OBTAINED"
+      "license_type": "DIRECT_EDITOR_RESEARCH_USE_FAVORABLE_REPLY__NO_WHOLE_FILE_REPUB",
+      "original_full_PGN_zip_public_release": "PROHIBITED_WHOLE_FILE_REPUBLICATION_UNDER_REPLY",
+      "selected_FEN_and_exact_UCI_public_release": "RESEARCH_DERIVATIVES_CONDITIONALLY_FAVORABLE__ATTRIBUTION_AND_SCOPE_REVIEW",
+      "permission_status": "FAVORABLE_EDITOR_RESEARCH_REPLY_USER_SUPPLIED_20261011_NOT_EMAIL_HEADER_VERIFIED",
+      "prior_20261010_status": {
+        "permission_status": "NOT_OBTAINED",
+        "selected_FEN_and_exact_UCI_public_release": "REVIEW"
+      },
+      "permission_evidence_notion_url": "https://app.notion.com/p/3f5ef561cf9281479a23c3721b59e7e6",
+      "advice": "Do not infer unrestricted commercial rights; never reupload an unchanged full TWIC source file"
     },
     {
       "id": "LICHESS-PUZZLES",
@@ -73,16 +85,37 @@
       "TWIC derived UCI candidate records",
       "screenshot of TWIC game data",
       "named players/events",
-      "small source excerpts"
+      "small source excerpts",
+      "TWIC research-derived selected FEN/UCI and potentially partial annotated issues, subject to source-letter scope and attribution review"
     ],
     "automatic_public_upload_blocked": [
       "TWIC zipped originals",
       "TWIC PGN full game mainline",
       "any copyrighted third-party original without licence",
       "unknown licence raw binary",
-      "raw source material with unconfirmed explicit permission"
+      "raw source material with unconfirmed explicit permission",
+      "complete TWIC files even if research results exist elsewhere"
     ],
     "review_authority": "Human/licensing verification needed for ambiguous releases",
     "not_legal_advice": true
-  }
+  },
+  "timeline": [
+    {
+      "date_local": "2026-10-11",
+      "kind": "USER_REPORTED_DIRECT_EMAIL_REPLY_FROM_TWIC_EDITOR_MARK_CROWTHER",
+      "source_of_evidence": "User copied the email text to ChatGPT; source account was external to connected Gmail. No sender headers, Message-ID or actual reply timestamp independently checked.",
+      "full_private_email_record": "https://app.notion.com/p/3f5ef561cf9281479a23c3721b59e7e6",
+      "notion_parent": "C3X Research Lab",
+      "verbatim_email_published_on_public_GitHub": false,
+      "permission_summary": [
+        "Research use described by user received favorable written reply.",
+        "Do not republish TWIC files as a whole.",
+        "Publishing a couple of TWIC editions with additional research data elicited no objection, but exact scope not fixed.",
+        "Commercial websites using TWIC data were quoted GBP 30 by Mark in separate commercial context.",
+        "TWIC ChessBase database and PGN conversion available for personal use for GBP 30.",
+        "Original TWIC PGNs have FIDE IDs since issue 835; ChessBase export does not preserve those IDs; editor assembled them separately."
+      ],
+      "release_criteria": "Do not auto-whitelist arbitrary original full source; selected research-derived FEN/UCI may move to case-specific favorable-reply review after attribution and correspondence verification; scope-limited publisher reply is not generic commercial sublicense."
+    }
+  ]
 }
