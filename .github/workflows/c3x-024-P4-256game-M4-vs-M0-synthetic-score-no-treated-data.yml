@@ -1,0 +1,23 @@
+name: C3X 0.24 P4 Synthetic 256-Game Clustered M4 Scorer No Real FIRST
+on:
+  push:
+    paths:
+      - '.github/workflows/c3x-024-P4-256game-M4-vs-M0-synthetic-score-no-treated-data.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  pure-model-synthetic-score-only:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Confirm 256 game 1024 cell score correct, no July FIRST outcomes used
+        run: |
+          set -euo pipefail
+          python -m py_compile harness/c3x_024_P4_July256_after_human_seal_game_cluster_M4_vs_M0.py
+          python -m unittest discover -s tools -p 'test_c3x_024_P4_256game_scoring_synthetic_only.py' -v
+          echo C3X024_P4_SYNTHETIC_M4_GAME_SCORE_PASS_NO_REAL_TREATED_DATA
