@@ -1,4 +1,5 @@
-name: C3X 0.24 P4 July256 Exact Four Shard Untreated StageA Source Reconstruction
+name: C3X 0.24 P4 July256 Four Shard PreFIRST Same Source StageA R3
+# Original 256 SHA source IDs slice anchored by fixed game IDs, never source lottery recalibration.
 on:
   push:
     paths:
