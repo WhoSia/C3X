@@ -142,7 +142,62 @@
     "FIRST/BOTH vs SECOND is not a clean always-delivered fixed-exposure 2x2: in BOTH only 5/31 preserve second contact. All denominators reported.",
     "Cold independent six-field UCI matches for zero and first controls; no bot commit in CI.",
     "Separate pristine searchmoves changes root admissibility, not legal board; separate scores are not estimates of an intrinsic candidate value independent of search context.",
-    "Chess legal 3-ply affordances and raw TT interventions are separate evidence streams; a common explanation is a future source- and move-grounded hypothesis, not proven mediation."
+    "Chess legal 3-ply affordances and raw TT interventions are separate evidence streams; a common explanation is a future source- and move-grounded hypothesis, not proven mediation.",
+    "F's played-first root order already alters 4/16 March categorical choices relative to natural O. All first-TT-reader effects are conditional on F, and in the two focal cases V/FIRST agrees categorically with O."
   ],
-  "next": "C3X0.21-P2-R1: source-exact first TT consumption counterfactual restore at the first pinned physical site, plus competing Stockfish16 SEE pin/WeakQueen operation hooks informed by 0.13–0.15 but targeted by pre-fixed chess micro-events, with sham, physical epoch and legal move preserving controls."
+  "next": "C3X0.21-P2-R1: source-exact first TT consumption counterfactual restore at the first pinned physical site, plus competing Stockfish16 SEE pin/WeakQueen operation hooks informed by 0.13–0.15 but targeted by pre-fixed chess micro-events, with sham, physical epoch and legal move preserving controls.",
+  "root_order_context": {
+    "definition": {
+      "O": "native ordinary initial root order; no archive move rotated",
+      "F": "C3X016-P4 selected original PGN played legal move rotated to first before iterative deepening; same legal root move set",
+      "Z": "impossible sentinel control; identical full six-field UCI to O",
+      "FIRST": "F's root order retained; first source-matched physical TT reader score consumption skipped"
+    },
+    "all16_O_vs_F_categorical_bestmove_diff_count": 4,
+    "O_vs_F_flip_cases": [
+      {
+        "game": 1,
+        "O": "d3b5",
+        "F": "a3b5"
+      },
+      {
+        "game": 4,
+        "O": "g5h4",
+        "F": "h8h4"
+      },
+      {
+        "game": 9,
+        "O": "f6h5",
+        "F": "a6b7"
+      },
+      {
+        "game": 11,
+        "O": "f1e3",
+        "F": "c2f2"
+      }
+    ],
+    "focal_consistency": [
+      {
+        "game": 4,
+        "role": "BROAD",
+        "O": "g5h4",
+        "F": "h8h4",
+        "FIRST": "g5h4"
+      },
+      {
+        "game": 9,
+        "role": "STRICT",
+        "O": "f6h5",
+        "F": "a6b7",
+        "FIRST": "f6h5"
+      }
+    ],
+    "scope_warning": "These are source-exact TT reader effects conditional on a P4 root-order intervention (F). They do NOT establish a different default Stockfish move after TT suppression in the natural O world."
+  },
+  "technical_history": {
+    "first_run_id": 38040640149,
+    "first_run": "TECHNICAL_FAILURE, NOT SCIENTIFIC_FAIL: attempted legal searchmoves through instrumented 0.16-P4 binary with no C3X016_P4_MODE/FEN4/PLAYED_NATIVE environment because lineage_mode=None; C3X016-P4 search.cpp guards intentionally std::abort. None of Stockfish's legal searchmoves grammar was disproven.",
+    "repair": "Separately compile an exact-version completely pristine Stockfish16 binary for all searchmoves; retain instrumented source binary exclusively for P2 physical TT factorial. Native depth4 searchmoves smoke succeeded before complete rerun.",
+    "successful_run_id": 38040805610
+  }
 }
