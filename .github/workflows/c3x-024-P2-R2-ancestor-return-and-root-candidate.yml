@@ -1,0 +1,152 @@
+name: C3X 0.24 P2-R2 Native Ancestor Return and Root Candidate Certificate
+# 0.24-P2: source-only observer; locked May 2026 development cases, no M3 forecasting.
+# Technical rerun R1: Search::Stack namespace fix, no experimental changes.
+on:
+  push:
+    paths:
+      - '.github/workflows/c3x-024-P2-R2-ancestor-return-and-root-candidate.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  source-exact-see-physical-tt-two-by-two:
+    runs-on: ubuntu-latest
+    timeout-minutes: 100
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Pre-execution strict tests
+        run: |
+          set -euo pipefail
+          python -m pip install -q chess==1.11.2
+          python -m unittest discover -s tools -p 'test_c3x_023_P1_R2_T3_strict_native_see_two_by_two.py' -v
+          python -m unittest discover -s tools -p 'test_c3x_023_P1_R2_T1_exact_native_search_state.py' -v
+          python -m py_compile harness/c3x_023_P1_R2_T3_strict_SEE_TT_two_by_two_source_court.py harness/c3x_024_P2_exact_native_descendant_source_certificate_court.py harness/c3x_024_P2_R2_actual_ancestor_root_survival_court.py tools/c3x_024_P2_R2_passive_ancestor_root_value_overlay.py tools/c3x_024_P2_passive_native_descendant_lineage_overlay.py tools/c3x_023_P1_R2_T4_passive_native_guard_branch_overlay.py
+          mkdir -p source stageA t2source evidence private public
+      - name: Fetch preregistered licensed independent source cohort
+        uses: actions/download-artifact@v4
+        with:
+          name: c3x-023-P1-licensed-May-broadcast-CC0-nonmate32-engineblind-freeze
+          path: source/
+          repository: WhoSia/C3X
+          run-id: '38059784922'
+          github-token: ${{ github.token }}
+      - name: Fetch immutable untreated native Stage A
+        uses: actions/download-artifact@v4
+        with:
+          name: c3x-023-P1-licensed32-stageA-native-TT-SEE-nodepath-no-intervention
+          path: stageA/
+          repository: WhoSia/C3X
+          run-id: '38060337140'
+          github-token: ${{ github.token }}
+      - name: Fetch source-only literal targets generated BEFORE actuator
+        uses: actions/download-artifact@v4
+        with:
+          name: c3x-023-P1-R2-T2-preactuator-exact-site-sig-May-BYSA-no-SEE-mutations
+          path: t2source/
+          repository: WhoSia/C3X
+          run-id: '38069237414'
+          github-token: ${{ github.token }}
+      - name: Verify all three frozen raw inputs before any source patch
+        run: |
+          set -euo pipefail
+          test "$(sha256sum source/C3X023_P1_MAY_BROADCAST_CC0_NONMATE32_SOURCE_ONLY.json | cut -d' ' -f1)" = 0ff43e28dcb3a5e48dea6b61e4450fc8bb9e1f96363871c33c4b73524664db61
+          test "$(sha256sum stageA/C3X023_P1_LICENSED32_STAGEA_NO_V_NODEPATH.json | cut -d' ' -f1)" = fe88afe49d7d43db7b81c37decab783f2b68311ed2ca10b6f42be4268bdb3442
+          test "$(sha256sum t2source/C3X023_P1_R2_T2_PREACTUATOR_EXACT_TARGETS_MAY_CC_BY_SA.json | cut -d' ' -f1)" = 830536f445330b739a7a3b7e88ce4227e9ab9db43cf277f08a01ed5f9dc0ef69
+          python tools/c3x_023_rights_preupload_gate.py --tier P4_LICHESS_LICENSED_SOURCE_ONLY --file source/C3X023_P1_MAY_BROADCAST_CC0_NONMATE32_SOURCE_ONLY.json --report evidence/ORIGINAL_RIGHTS_GATE.json
+      - name: Rebuild pinned SF16 with the exact native operator only
+        run: |
+          bash tools/c3x_023_P1_R2_T3_native_repro_build.sh
+          python tools/c3x_023_P1_R2_T4_passive_native_guard_branch_overlay.py --source /tmp/C3X020_MULTI_STATE --out-manifest evidence/T4_CPP_PASSIVE_GUARD.json
+          python tools/c3x_024_P2_passive_native_descendant_lineage_overlay.py --source /tmp/C3X020_MULTI_STATE --out-manifest evidence/C3X024_P2_PASSIVE_DESCENDANT.json
+          python tools/c3x_024_P2_R2_passive_ancestor_root_value_overlay.py --source /tmp/C3X020_MULTI_STATE --out-manifest evidence/C3B_ANCESTOR_ROOT_SOURCE.json
+          make -s -C /tmp/C3X020_MULTI_STATE/src -j2 build ARCH=x86-64
+      - name: Perform precommitted SHAM before 2x2 native T3 interventions
+        run: |
+          set -euo pipefail
+          python -u harness/c3x_023_P1_R2_T3_strict_SEE_TT_two_by_two_source_court.py \
+            --source source/C3X023_P1_MAY_BROADCAST_CC0_NONMATE32_SOURCE_ONLY.json \
+            --stagea stageA/C3X023_P1_LICENSED32_STAGEA_NO_V_NODEPATH.json \
+            --presealed c3x/forecasts/c3x-023-P1-R2-T2-exact-native-SEE-targets-before-first-actuator-20261011.json \
+            --source-targets t2source/C3X023_P1_R2_T2_PREACTUATOR_EXACT_TARGETS_MAY_CC_BY_SA.json \
+            --engine /tmp/C3X020_MULTI_STATE/src/stockfish \
+            --out private/C3X023_P1_R2_T3_NATIVE_FACTORIAL_FULL.json | tee private/T3_NATIVE_FACTORIAL_STDOUT.txt
+          test "$(sha256sum private/C3X023_P1_R2_T3_NATIVE_FACTORIAL_FULL.json | cut -d' ' -f1)" = be2242388f50fc9e0d392a6bde20d624ed02ebc8a6149c13ecccd951ff312626
+          echo P2_T4_DISABLED_EXACTLY_REPRODUCES_T3_SHA_PASS
+          python - <<'PY'
+          import json,hashlib
+          from pathlib import Path
+          f=Path('private/C3X023_P1_R2_T3_NATIVE_FACTORIAL_FULL.json')
+          x=json.loads(f.read_bytes())
+          assert x['summary']['source_chess_cases']==2
+          assert x['summary']['exact_presealed_native_SEE_singleton_flips']==4
+          p={'schema':'c3x023-P1-R2-T3-aggregate-v1','source':'Lichess May 2026 broadcast CC BY-SA 4.0',
+             'full_result_SHA256':hashlib.sha256(f.read_bytes()).hexdigest(),
+             'summary':x['summary'],'natural_mediation_proven':False,
+             'individual_fen_and_full_pgn_excluded':True}
+          Path('public/RESULTS.json').write_text(json.dumps(p,sort_keys=True,indent=2)+'\n')
+          print('C3X023_T3_SOURCE_EXACT_FACTORIAL_AGGREGATE',x['summary'])
+          PY
+      - name: Derive rights-reviewed exact UCI and root depth divergence ledger
+        run: |
+          set -euo pipefail
+          python -u tools/c3x_023_P1_R2_T3_derived_outcome_and_search_path_report.py \
+            --source private/C3X023_P1_R2_T3_NATIVE_FACTORIAL_FULL.json \
+            --out public/C3X023_T3_DERIVED_UCI_AND_ROOT_DEPTH.json
+          echo 'Source: 2026-05 Lichess broadcast (CC BY-SA 4.0), credit Lichess broadcasters. These are newly computed native Stockfish16 results at two source-derived chess positions; modified annotations, no full PGN or player data. Licence: https://creativecommons.org/licenses/by-sa/4.0/. Modified GPLv3 Stockfish binary/source diff NOT included.' > public/LICENSE_ATTRIBUTION_NOTICE.txt
+      - name: C3b exact native ancestor and root source certificate, sixteen cold runs
+        run: |
+          set -euo pipefail
+          python -u harness/c3x_024_P2_R2_actual_ancestor_root_survival_court.py \
+            --source source/C3X023_P1_MAY_BROADCAST_CC0_NONMATE32_SOURCE_ONLY.json \
+            --stagea stageA/C3X023_P1_LICENSED32_STAGEA_NO_V_NODEPATH.json \
+            --presealed c3x/forecasts/c3x-023-P1-R2-T2-exact-native-SEE-targets-before-first-actuator-20261011.json \
+            --source-targets t2source/C3X023_P1_R2_T2_PREACTUATOR_EXACT_TARGETS_MAY_CC_BY_SA.json \
+            --engine /tmp/C3X020_MULTI_STATE/src/stockfish \
+            --t3-receipt c3x/receipts/c3x-023-P1-R2-T3-native-source-exact-SEE-TT-two-by-two-operator-interaction-20261011.json \
+            --out private/C3X024_P2_R2_C3B_ANCESTOR_ROOT_NATIVE_FULL.json | tee private/C3B_NATIVE_COURT_LOG.txt
+          python - <<'PY'
+          import json,hashlib
+          from pathlib import Path
+          f=Path("private/C3X024_P2_R2_C3B_ANCESTOR_ROOT_NATIVE_FULL.json")
+          d=json.loads(f.read_bytes())
+          assert d["source_games"]==2 and d["arm_worlds"]==8 and d["cold_native_runs"]==16
+          assert sum(d[k] for k in ("actual_continue_arms","full_ancestor_root_arms","partial_or_diverged_arms"))==8
+          p={"schema":"c3x024-P2-R2-source-only-C3b-ancestor-root-summary",
+             "source":"Lichess May2026 broadcast CC BY-SA 4.0",
+             "private_sha256":hashlib.sha256(f.read_bytes()).hexdigest(),
+             "source_games":d["source_games"],"arm_worlds":d["arm_worlds"],
+             "cold_native_runs":d["cold_native_runs"],
+             "actual_continue_arms":d["actual_continue_arms"],
+             "full_ancestor_root_arms":d["full_ancestor_root_arms"],
+             "partial_or_diverged_arms":d["partial_or_diverged_arms"],
+             "cases":[{"game_id":c["game_id"],"site":c["source_site"],
+                       "arms":{k:{"status":v["C3b"]["status"],
+                                  "candidate_edges":v["C3b"]["candidate_edges"],
+                                  "root_reached":v["C3b"]["root_reached"]}
+                               for k,v in c["arms"].items()}} for c in d["cases"]],
+             "caused_final_bestmove":False,"natural_TT_SEE_mediation_proven":False,
+             "M3_v2_prospective_test_done":False,
+             "rights":"Original PGN, FEN, private native keys and modified GPL Stockfish binary excluded"}
+          Path("public/C3X024_P2_R2_C3B_ANCESTOR_ROOT.json").write_text(json.dumps(p,indent=2,sort_keys=True)+"\\n")
+          print("C3X024_P2_R2_PUBLIC_SOURCE_C3B_COUNTS",d["actual_continue_arms"],d["full_ancestor_root_arms"],d["partial_or_diverged_arms"])
+          PY
+      - name: Rights gate prior to public aggregate
+        run: |
+          python tools/c3x_023_rights_preupload_gate.py --tier P2_AGGREGATE_SUMMARY --file public/RESULTS.json --report public/RIGHTS_SCAN.json
+          python tools/c3x_023_rights_preupload_gate.py --tier P2_AGGREGATE_SUMMARY --file public/C3X023_T3_DERIVED_UCI_AND_ROOT_DEPTH.json --report public/RIGHTS_DERIVED_SCAN.json
+          python tools/c3x_023_rights_preupload_gate.py --tier P2_AGGREGATE_SUMMARY --file public/C3X024_P2_R2_C3B_ANCESTOR_ROOT.json --report public/RIGHTS_P2_C3B_DERIVED_SCAN.json
+      - name: Public aggregate SHA manifest
+        if: always()
+        run: |
+          mkdir -p public
+          find public -maxdepth 1 -type f ! -name MEMBER_SHA256.txt -print0 | sort -z | xargs -0 -r sha256sum > public/MEMBER_SHA256.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x-024-P2-R2-native-C3b-ancestor-root-rights-scoped
+          path: public/
+          if-no-files-found: error
+          retention-days: 90
