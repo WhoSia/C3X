@@ -41,13 +41,18 @@ def core(raw, search_depth=12):
 def play(engine, world, p4_mode, lineage_mode=None, target=None, writer_budget=None, rescue_attempt=None, discovery=False, history=False, fen_clocks=None, search_depth=12, draw_mode=None, tt_reader_filters=None, probe_watch=None, p1_writer=None, native_use_watch=None, passive_second_call=None, root_return=None, multi_state=None, root_searchmoves=None, allow_empty_lineage=False, see_watch=None):
     if see_watch is not None:
         need(isinstance(see_watch,dict)
-             and set(see_watch) in ({"key64","root_call","policy"}, {"key64","root_call","policy","passive_ancestry"})
+             and set(see_watch) in ({"key64","root_call","policy"}, {"key64","root_call","policy","passive_ancestry"}, {"key64","root_call","policy","passive_ancestry","descendant_prune_flip"})
              and isinstance(see_watch["key64"],int) and see_watch["key64"]>0
              and isinstance(see_watch["root_call"],int) and see_watch["root_call"]>0
              and see_watch["policy"] in ("OBS","FLIP")
              and (not see_watch.get("passive_ancestry",False)
                   or (see_watch.get("passive_ancestry") is True
-                      and see_watch["policy"]=="OBS")),"R2_SEE_SCOPE_INVALID")
+                      and (see_watch["policy"]=="OBS" or
+                           (see_watch.get("descendant_prune_flip") is True
+                            and see_watch["policy"]=="FLIP"))))
+             and (not see_watch.get("descendant_prune_flip",False)
+                  or (see_watch.get("passive_ancestry") is True and
+                      see_watch["policy"]=="FLIP")),"R2_SEE_SCOPE_INVALID")
     need(isinstance(search_depth,int) and 1<=search_depth<=32,"INVALID_SEARCH_DEPTH")
     if root_searchmoves is not None:
         need(isinstance(root_searchmoves,(list,tuple)) and
@@ -62,7 +67,8 @@ def play(engine, world, p4_mode, lineage_mode=None, target=None, writer_budget=N
         go_cmd+=" searchmoves "+" ".join(root_searchmoves)
     env = dict(os.environ)
     for k in ("C3X022_R2_SEE_KEY64","C3X022_R2_SEE_ROOT_CALL",
-              "C3X022_R2_SEE_POLICY","C3X022_R2_SEE_PASSIVE_ANCESTRY"):
+              "C3X022_R2_SEE_POLICY","C3X022_R2_SEE_PASSIVE_ANCESTRY",
+              "C3X022_R2_SEE_DESCENDANT_FIRST_PRUNE"):
         env.pop(k,None)
     if see_watch is not None:
         env["C3X022_R2_SEE_KEY64"]=str(see_watch["key64"])
@@ -70,6 +76,8 @@ def play(engine, world, p4_mode, lineage_mode=None, target=None, writer_budget=N
         env["C3X022_R2_SEE_POLICY"]=see_watch["policy"]
         if see_watch.get("passive_ancestry",False):
             env["C3X022_R2_SEE_PASSIVE_ANCESTRY"]="1"
+        if see_watch.get("descendant_prune_flip",False):
+            env["C3X022_R2_SEE_DESCENDANT_FIRST_PRUNE"]="1"
     return_env={
       "depth":"C3X019_RETURN_DEPTH",
       "root_call":"C3X019_RETURN_ROOT_CALL",
