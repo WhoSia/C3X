@@ -60,8 +60,10 @@ def stageA(source,engine):
             world,clocks,_=native_world({**record,"source_root_legal_count":record["root_legal_move_count"]})
             baseline={};candidates={};discovery_lengths={};censored_orders=set()
             for order in WORLDS:
+                failed_probe_discovery=False
                 try:
                     obs=cold(engine,world,clocks,order)
+                    failed_probe_discovery=True
                     discovery=cold(engine,world,clocks,order,discovery=True)
                 except RuntimeError as exc:
                     if str(exc)!="C3X018_PHYSICAL_COURT_TRACE_CENSORED":
@@ -69,8 +71,10 @@ def stageA(source,engine):
                     # P4-S2-O1: preserve source game/world, but never infer physical
                     # FIRST eligibility from truncated native writer-reader events.
                     xx=play(engine,world,order,"OBS",fen_clocks=clocks,
+                            discovery=failed_probe_discovery,
                             allow_empty_lineage=True,allow_source_trace_censored=True)
                     yy=play(engine,world,order,"OBS",fen_clocks=clocks,
+                            discovery=failed_probe_discovery,
                             allow_empty_lineage=True,allow_source_trace_censored=True)
                     need(xx["UCI"]==yy["UCI"],
                          "P4_TRACE_CENSORED_COLD_SIXFIELD_UCI_MISMATCH")
@@ -119,24 +123,37 @@ def stageA(source,engine):
                        "policy":"OBS","passive_ancestry":True}
                     kw={"fen_clocks":clocks,"allow_empty_lineage":True,"see_watch":w,
                         "native_use_watch":{"key64":w["key64"],"root_call":w["root_call"]}}
-                    x=play(engine,world,order,"OBS",**kw)
-                    y=play(engine,world,order,"OBS",**kw)
-                    need(x==y,"P1_PATH_READONLY_COLD_REPRO")
-                    need(x["UCI"]==baseline[order]["UCI"],"P1_NODE_PATH_WATCH_INTERFERED")
-                    need(x["lineage_summary"]["reader_block"]==0,"P1_STAGEA_READER_BLOCK_FORBIDDEN")
-                    watch_events=x["native_see_events"]
-                    partial=any(e["kind"]=="censored" for e in watch_events)
-                    need(all(e.get("original")==e.get("delivered") and e.get("altered")==0
+                    try:
+                        x=play(engine,world,order,"OBS",**kw)
+                        y=play(engine,world,order,"OBS",**kw)
+                    except RuntimeError as exc:
+                        if str(exc)!="C3X018_PHYSICAL_COURT_TRACE_CENSORED":
+                            raise
+                        censored_orders.add(order)
+                        for r in ROLES:
+                            targets[r]={"status":"HOLD_CENSORED_UNKNOWN",
+                                        "physical":None,
+                                        "exact_UCI":literal(old[order],old["F" if order=="O" else "O"],False)}
+                        watch_events=[];partial=True;native_use=[]
+                        print("C3X024_P4_PASSIVE_ANCESTRY_TRACE_CENSORED_HOLD",
+                              record["id"],order,flush=True)
+                    else:
+                        need(x==y,"P1_PATH_READONLY_COLD_REPRO")
+                        need(x["UCI"]==baseline[order]["UCI"],"P1_NODE_PATH_WATCH_INTERFERED")
+                        need(x["lineage_summary"]["reader_block"]==0,"P1_STAGEA_READER_BLOCK_FORBIDDEN")
+                        watch_events=x["native_see_events"]
+                        partial=any(e["kind"]=="censored" for e in watch_events)
+                        need(all(e.get("original")==e.get("delivered") and e.get("altered")==0
                              for e in watch_events if e["kind"]=="witness"),
                          "P1_SEE_WATCH_MODIFIED_RETURN")
-                    need(all("path_hash" in e and "parent_key64" in e and
+                        need(all("path_hash" in e and "parent_key64" in e and
                              "path_length" in e and e["path_length"]>0
                              for e in watch_events if e["kind"]=="witness"),
                          "P1_NATIVE_POSITION_ANCESTOR_MISSING")
-                    native_use=x["native_tt_value_uses"]
+                        native_use=x["native_tt_value_uses"]
                 entry["worlds"][order]={
                   "baseline_UCI":baseline[order]["UCI"],
-                  "depth_leaders":source_depth_ladder(baseline[order]["root_events"]),
+                  "depth_leaders":{} if order in censored_orders else source_depth_ladder(baseline[order]["root_events"]),
                   "roles":targets,
                   "passive_first32_SEE_events":watch_events,
                   "passive_SEE_witness_censored":partial or order in censored_orders,
