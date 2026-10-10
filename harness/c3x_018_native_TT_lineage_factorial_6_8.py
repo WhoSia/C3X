@@ -38,7 +38,7 @@ def core(raw, search_depth=12):
     need(len(best)==1 and best[0]==rows[-1]["pv"][0], "MISSING_BESTMOVE")
     return {"bestmove":best[0],**rows[-1]}
 
-def play(engine, world, p4_mode, lineage_mode=None, target=None, writer_budget=None, rescue_attempt=None, discovery=False, history=False, fen_clocks=None, search_depth=12, draw_mode=None, tt_reader_filters=None, probe_watch=None, p1_writer=None, native_use_watch=None, passive_second_call=None, root_return=None, multi_state=None, root_searchmoves=None, allow_empty_lineage=False, see_watch=None, ordered_source_trace=False):
+def play(engine, world, p4_mode, lineage_mode=None, target=None, writer_budget=None, rescue_attempt=None, discovery=False, history=False, fen_clocks=None, search_depth=12, draw_mode=None, tt_reader_filters=None, probe_watch=None, p1_writer=None, native_use_watch=None, passive_second_call=None, root_return=None, multi_state=None, root_searchmoves=None, allow_empty_lineage=False, see_watch=None, ordered_source_trace=False, t2_target=None):
     if see_watch is not None:
         need(isinstance(see_watch,dict)
              and set(see_watch) in ({"key64","root_call","policy"}, {"key64","root_call","policy","passive_ancestry"}, {"key64","root_call","policy","passive_ancestry","descendant_prune_flip"})
@@ -53,6 +53,23 @@ def play(engine, world, p4_mode, lineage_mode=None, target=None, writer_budget=N
              and (not see_watch.get("descendant_prune_flip",False)
                   or (see_watch.get("passive_ancestry") is True and
                       see_watch["policy"]=="FLIP")),"R2_SEE_SCOPE_INVALID")
+    T2_FIELDS=("key64","parent_key64","path_exact","root_call","root_move",
+              "move","site","threshold","source_ply","source_depth",
+              "source_alpha","source_beta","source_pv","source_rule50",
+              "source_occupancy64")
+    if t2_target is not None:
+        need(isinstance(t2_target,dict) and set(t2_target)==set(T2_FIELDS)
+             and see_watch is not None
+             and see_watch.get("passive_ancestry") is True
+             and see_watch["policy"]=="OBS"
+             and t2_target["site"] in ("quiet_prune","qsearch_prune","qsearch_futility")
+             and isinstance(t2_target["path_exact"],str)
+             and len(t2_target["path_exact"])<2000
+             and re.fullmatch(r"[0-9a-f]+(?:,[0-9a-f]+)*",t2_target["path_exact"])
+             and all(isinstance(t2_target[k],int) for k in T2_FIELDS
+                     if k not in ("site","path_exact"))
+             and t2_target["root_call"]==see_watch["root_call"]
+             and t2_target["key64"]>0,"P1_T2_SOURCE_EXACT_TARGET_REQUIRED")
     need(isinstance(search_depth,int) and 1<=search_depth<=32,"INVALID_SEARCH_DEPTH")
     if root_searchmoves is not None:
         need(isinstance(root_searchmoves,(list,tuple)) and
@@ -66,6 +83,13 @@ def play(engine, world, p4_mode, lineage_mode=None, target=None, writer_budget=N
     if root_searchmoves is not None:
         go_cmd+=" searchmoves "+" ".join(root_searchmoves)
     env = dict(os.environ)
+    env.pop("C3X023_T2_ENABLE",None)
+    for field in T2_FIELDS:
+        env.pop("C3X023_T2_"+field,None)
+    if t2_target is not None:
+        env["C3X023_T2_ENABLE"]="1"
+        for field in T2_FIELDS:
+            env["C3X023_T2_"+field]=str(t2_target[field])
     for k in ("C3X022_R2_SEE_KEY64","C3X022_R2_SEE_ROOT_CALL",
               "C3X022_R2_SEE_POLICY","C3X022_R2_SEE_PASSIVE_ANCESTRY",
               "C3X022_R2_SEE_DESCENDANT_FIRST_PRUNE"):
