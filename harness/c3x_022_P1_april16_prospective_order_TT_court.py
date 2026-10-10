@@ -149,7 +149,7 @@ def study(april,atom,engine):
         print("C3X022_APRIL_NATIVE",gid,
               {o:{"bestmove":record["worlds"][o]["baseline_UCI"]["bestmove"],
                    "role_first_flip":{
-                        r:record["worlds"][o]["roles"][r]["delivered_final_bestmove_changed"]
+                        r:record["worlds"][o]["roles"][r].get("delivered_final_bestmove_changed",False)
                         for r in ROLES}} for o in WORLDS},flush=True)
     def flipped(order):
         return sorted(row["game"] for row in report["games"]
