@@ -14,7 +14,7 @@ from c3x_023_P1_R2_T4_native_pruning_guard_execution_court import ARMS,LEGACY_T3
 
 SCHEMA="c3x024-P2-exact-guard-to-do-move-to-child-entry-to-parent-return-v1"
 FULL=("GUARD_PASS","DO_MOVE_EXECUTED","CHILD_ENTERED","CHILD_RETURNED_TO_PARENT")
-def arm(engine,world,clock,order,role,scope,t,use_tt,policy,historic):
+def arm(engine,world,clock,order,role,scope,t,use_tt,policy,historic,c3b=False):
     kwargs={"fen_clocks":clock,"allow_empty_lineage":True,
             "t3_target":t,"t3_policy":policy,"t4_branch_audit":True,
             "p2_descendant_audit":True,
@@ -23,6 +23,7 @@ def arm(engine,world,clock,order,role,scope,t,use_tt,policy,historic):
                          "policy":"OBS","passive_ancestry":True},
             "native_use_watch":{"key64":scope["physical"]["key64"],
                                 "root_call":scope["root_calls"][0]}}
+    if c3b:kwargs["p2_root_ancestor_audit"]=True
     if use_tt:
         pair={k:scope[k] for k in ("physical","root_calls","root_candidate_native")}
         kwargs["tt_reader_filters"]=mask_filters(RULES[role],pair,"FIRST")
@@ -89,6 +90,8 @@ def arm(engine,world,clock,order,role,scope,t,use_tt,policy,historic):
         need(verified["all_valid"] and verified["count"]>=len(blocks),
              "P2_SOURCE_PHYSICAL_WRITER_READER_INVALID")
     return {"certificate_status":status,"source_decision":g["decision"],
+            **({"C3b_source_ancestor_events":first["native_C3b_source_ancestor_events"]}
+               if c3b else {}),
             "source_event_sequence":list(events),
             "source_events":p2,"real_TT_FIRST_contact":bool(blocks),
             "UCI":first["UCI"],"root_depth":source_depth_ladder(first["root_events"]),
