@@ -72,8 +72,8 @@ BOUNDARY = r"""
               const int expected_average = int(std::strtol(std::getenv("C3X020_BOUNDARY_EXPECT_AVERAGE"), nullptr, 10));
               const int target_score = int(std::strtol(std::getenv("C3X020_BOUNDARY_TARGET_SCORE"), nullptr, 10));
               const int target_average = int(std::strtol(std::getenv("C3X020_BOUNDARY_TARGET_AVERAGE"), nullptr, 10));
-              const bool matched = before_score == expected_score && before_average == expected_average;
               const char kind = c3x020_boundary_mode[0]; // O observe, A average, S score, B both
+              const bool matched = kind == 'O' || (before_score == expected_score && before_average == expected_average);
               const bool editing = matched && (kind == 'A' || kind == 'S' || kind == 'B');
               if (editing && (kind == 'S' || kind == 'B'))
                   it->score = Value(target_score);
