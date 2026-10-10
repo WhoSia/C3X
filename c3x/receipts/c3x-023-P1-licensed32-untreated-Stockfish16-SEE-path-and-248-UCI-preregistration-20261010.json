@@ -1,0 +1,126 @@
+{
+  "schema": "c3x023-P1-licensed32-source-frozen-and-untreated-native-SEE-path-forecast-preseal-v1",
+  "date": "2026-10-10",
+  "status": "SOURCE_FROZEN__UNTREATED_NATIVE_STAGEA_SUCCESS__248_UCI_FORECASTS_GIT_SEALED__NO_TREATED_OUTCOME",
+  "formal_title": "Licence-Documented Independent Chess Cohorts & Source-Identity–Aligned Search Mediation: May Broadcast Decision Roots, Disjoint CC0 Tactical Controls, Native SEE–TT Event Correspondence & Falsifiable Exact-Move Transfer",
+  "source_precommit": {
+    "path": "c3x/ontology/c3x-023-P1-independent-licensed-chess-cohorts-and-source-key-aligned-SEE-TT-precommit.md",
+    "git_commit": "629cf0e73e3d6eef6b17dd8343ebc37631ef93a8",
+    "before_new_may_and_puzzle_source_selected": true
+  },
+  "engine_blind_stageS0": {
+    "run_id": 38059784922,
+    "github": "https://github.com/WhoSia/C3X/actions/runs/38059784922",
+    "status": "success",
+    "artifact_id": 11672233048,
+    "artifact_zip_sha256": "836f4ea5555d2daa76d68fc97d5a61ce6e5cb210d9b4b648cfa46f8337a172db",
+    "frozen_json_sha256": "0ff43e28dcb3a5e48dea6b61e4450fc8bb9e1f96363871c33c4b73524664db61",
+    "sources": [
+      {
+        "name": "Lichess 2026 May broadcast",
+        "url": "https://database.lichess.org/broadcast/lichess_db_broadcast_2026-05.pgn.zst",
+        "official_Zst_SHA256": "d212987f7972a70268809ff6c726acff8bf0987161aacd7647b160f8564f6a53",
+        "license": "CC BY-SA 4.0",
+        "selected": 16
+      },
+      {
+        "name": "Lichess CC0 nonmate disjoint puzzle cohort",
+        "url": "https://database.lichess.org/lichess_db_puzzle.csv.zst",
+        "official_Zst_SHA256": "76335bfa7d7c4a7f93c1366d81549e53951ebb79dd43d34904cab8f22d962f8d",
+        "license": "CC0",
+        "selected": 16
+      }
+    ],
+    "source_overlap_with_prior_known_cohorts": 0,
+    "all_chess_engine_calls_before_source_seal": 0,
+    "source_reuse_privacy": "Broadcast player headers and full PGN mainline excluded; dedicated attribution+CC BY-SA change notice; separate CC0 puzzle attribution",
+    "rights_gate": "P4_LICHESS_LICENSED_SOURCE_ONLY; scan pass not general legal opinion"
+  },
+  "untreated_native_stageA": {
+    "run_id": 38060337140,
+    "github": "https://github.com/WhoSia/C3X/actions/runs/38060337140",
+    "status": "success",
+    "first_setup_error_run_id": 38060283347,
+    "first_setup_error_cause": "Regression assertion searched literal hash collision instead of collision assumption; source and scientific selection unchanged.",
+    "artifact_id": 11672753341,
+    "artifact_zip_sha256": "76e6e57a4e1aea1a6f30a692780dd3129d58b430c3c70df2101b784242c539b8",
+    "native_full_json_sha256": "fe88afe49d7d43db7b81c37decab783f2b68311ed2ca10b6f42be4268bdb3442",
+    "artifact_member_SHA256_verified": 30,
+    "artifact_member_SHA256_failures": 0,
+    "engine_source_git": "68e1e9b3811e16cad014b590d7443b9063b3eb52",
+    "engine_settings": "1 Thread, Hash16MB, NNUE off, depth12; cold duplication",
+    "distinct_positions": 32,
+    "root_worlds": 64,
+    "physical_source_possible_role_cells": 128,
+    "physical_source_eligible_role_cells": 124,
+    "no_source_four_cells": [
+      {
+        "ecology": "CC0_nonmate_puzzles",
+        "game_id": 4,
+        "root_order": "O/F",
+        "role": "STRICT",
+        "status": "NO_ELIGIBLE_SOURCE"
+      },
+      {
+        "ecology": "CC0_nonmate_puzzles",
+        "game_id": 8,
+        "root_order": "O/F",
+        "role": "STRICT",
+        "status": "HOLD_CENSORED_UNKNOWN"
+      }
+    ],
+    "natural_O_F_final_bestmove_disagreement_games": {
+      "may2026_broadcast": 3,
+      "lichess_CC0_nonmate_puzzles": 0
+    },
+    "passively_observed_true_native_descendant_SEE_worlds": 60,
+    "passive_SEE_prefix_events_count": 1377,
+    "observer_scope_note": "Native see_ge four original Stockfish16 search.cpp sites, original bool and native descendant pos key64, parent key64, full ordered 64bit ancestor-key path hash, length, rootcall/root candidate native move, move, site, threshold. Censored first32 prefix cannot be called total SEE events.",
+    "actual_TT_FIRST_reader_suppressions": 0,
+    "actual_SEE_first_Boolean_flips": 0,
+    "actual_post_suppression_bestmoves_seen": false,
+    "rights_gate": "P5_LICHESS_LICENSED_NATIVE_STAGEA, technical PASS not general licensor approval"
+  },
+  "pre_registered_exact_UCI": {
+    "git_path": "c3x/forecasts/c3x-023-P1-licensed-May-CC0-32game-M0-M1-literal-UCI-source-first-preTT-20261010.json",
+    "git_commit": "0afd6ebe446809b3b4a4f99e6778b60f69acc11d",
+    "model_names": [
+      "M0 same-root baseline unchanged",
+      "M1 old cross-order restoration historically failed"
+    ],
+    "eligible_role_order_cells": 124,
+    "literal_exact_UCI_forecast_strings": 248,
+    "prediction_role_mask_four_noneligible_or_HOLD": true,
+    "forecast_before_any_new_reader_suppression": true
+  },
+  "native_source_identity": {
+    "observer_overlay": "tools/c3x_023_P1_native_SEE_parent_path_key_overlay.py",
+    "strict_matcher": "harness/c3x_023_P1_same_descendant_SEE_node_matcher.py",
+    "matching_fields": [
+      "root_call",
+      "root_move",
+      "key64",
+      "parent_key64",
+      "path_hash",
+      "path_length",
+      "move",
+      "site",
+      "threshold"
+    ],
+    "matcher_regression_run_id": 38060778981,
+    "matcher_regression_status": "success",
+    "evaluation_status": "DESIGNED_AND_REGRESSION_TESTED; NOT YET MATCHED AGAINST TREATED WORLD",
+    "known_limitation": "64-bit path fingerprint and same rootcall do not mathematically prove exact path uniqueness; duplicate event appearances fail closed, censored lack of match is HOLD. Requires physical source blocked in subsequent treatment."
+  },
+  "scientific_verdict": "PROSPECTIVE_P1_SOURCE_AND_UT_BASELINE_GATE_PASS; NATURAL_SAME_DESCENDANT_TT_TO_SEE_MEDIATION_NOT_TESTED; NO_NEW_POSITIVE_EXACT_UCI_SUCCESS_CLAIM",
+  "next": "Keep March/April/TWIC as development-only; obtain after preseal new TT-F v experiment, analyze exact descendant match and per-game exact UCI M0/M1 predictions; before new M3 claims prereg separately and keep rights licence gate.",
+  "historical_negative_results_retained": [
+    "0.22-P2 TWIC1656 M1 FAIL",
+    "0.22-P2-R1 TWIC1664 M2 FAIL",
+    "0.22-R2 strict SEE same-node 0/12 noncontact",
+    "0.22-R2-D2 first descendant SEE joint policy 3/6 development-only",
+    "K4 0/4 FAIL",
+    "F19.5 FAIL",
+    "Jan J2/J3/J4 FAIL"
+  ]
+}
