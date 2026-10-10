@@ -55,7 +55,7 @@ def prior_fens(paths):
         prior[name]={"sha256":digest,"selected_games":len(selected)}
     return seen,prior
 
-def twic(path,history):
+def twic(path,history,issue=TWIC_ISSUE):
     archive=Path(path)
     archive_sha=sha(archive.read_bytes())
     accepted=[]
@@ -119,7 +119,7 @@ def twic(path,history):
                     "source_original_mainline_halfmoves":len(uci),
                     "source_halfmove_clock":board.halfmove_clock,
                     "source_fullmove_number":board.fullmove_number,
-                    "source_issue":TWIC_ISSUE,
+                    "source_issue":issue,
                     "source_event":game.headers.get("Event",""),
                     "source_game_date":game.headers.get("Date",""),
                     # no full game moves or headers redistributed
