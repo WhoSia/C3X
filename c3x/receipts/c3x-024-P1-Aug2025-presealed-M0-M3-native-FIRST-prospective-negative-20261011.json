@@ -1,0 +1,76 @@
+{
+  "schema": "c3x024-P1-Aug2025-16game-64role-physical-TT-first-exact-UCI-prospective-closure-v1",
+  "date": "2026-10-11",
+  "formal_version": "C3X 0.24 ACTIVE",
+  "scientific_status": "NATIVE_SOURCE_CONTACT_PASS__PROSPECTIVE_M3_ADVANTAGE_FAIL__NATURAL_MEDIATION_HOLD",
+  "source": {
+    "origin": "Lichess 2025-08 broadcast CC BY-SA 4.0",
+    "source_only_run": 38075786357,
+    "source_only_SHA256": "76391058cae1fad8d23e3ae8556e48b63a0d991a051c59fef2df15e11c73f529",
+    "source_literal_git_pre_native_commit": "c70735ea191365ec88b3fada9ff0e7cdc9d1042c",
+    "source_games": 16,
+    "historical_overlap_check": "11 historical source manifests and 196 historical FEN4 exclusions per latest Notion registry"
+  },
+  "untreated": {
+    "stageA_run": 38076166084,
+    "stageA_SHA256": "116b3c0f63be3074236982c76abd059b1dca3bb1f019cc3c10f9b03a5ac1855e",
+    "treatments": 0
+  },
+  "forecasts": {
+    "model_rule_preseal_commit": "72cdbf5408fd222dfcd42b54e3f00f7efedd65f7",
+    "literal_registry_preFIRST_commit": "a6d4b5f3af342d0d270697e74c2ba6de0497229a",
+    "forecast_JSON_SHA256": "8fd04b842fb9731b45b79a6dccc0526b3a21cce52f22fde0b0d00094789da4ea",
+    "M3_positive_predictions": 0,
+    "M3_identical_M0_roles": 64
+  },
+  "native": {
+    "run_id": 38076866358,
+    "url": "https://github.com/WhoSia/C3X/actions/runs/38076866358",
+    "conclusion": "SUCCESS",
+    "original_distinct_games": 16,
+    "physical_TT_FIRST_contact_roles": 64,
+    "noncontact_roles": 0,
+    "root_flip_roles": 6,
+    "root_flip_distinct_games": 2,
+    "cold_source_controls": "PASS",
+    "source_see_flips": 0,
+    "raw_private_result_SHA256": "85b1f4d8998d9ff1a162876d267211d91170668b9a2b6eb73f1ec09788fa77be",
+    "public_artifact_id": 11679251985,
+    "public_artifact_SHA256": "318afdc41f15e01e2c57d7139352d8b48c5752f5209f042b363728947fe5fab2",
+    "rights_content_gate": "SCAN_PASS_NOT_LEGAL_LICENSE"
+  },
+  "scoring": {
+    "role_exact_correct": {
+      "M0": 58,
+      "M1": 57,
+      "M2_depth11": 57,
+      "M3": 58
+    },
+    "role_denominator": 64,
+    "any_correct_game_count": {
+      "M0": 15,
+      "M1": 15,
+      "M2_depth11": 15,
+      "M3": 15
+    },
+    "game_denominator": 16,
+    "M3_vs_M0_wins": 0,
+    "M3_vs_M0_losses": 0,
+    "claim": "PRESEALED_M3_EQUALS_M0_IN_ALL_CELLS_SO_ZERO_PROSPECTIVE_GAIN",
+    "nonindependence": "Four root-order/role cells per game are correlated; 16 independent source games maximum."
+  },
+  "limits": [
+    "C3X0.24 organizational activation not mechanistic validation",
+    "M3 no improvement over M0, do not refit on test outcomes",
+    "No natural TT to SEE mediation or complete downstream branch explanation",
+    "No prospective SEE intervention in this court",
+    "Preserve original 0.23 T3/T4 evidence and all negatives"
+  ],
+  "governance": {
+    "commit_author_policy": "WhoSia only; no GitHub Actions bot contributor",
+    "actions_permissions": "contents:read",
+    "no_full_pgn_fen_player_header_redistribution": true,
+    "stockfish_modified_binaries_not_published": true
+  },
+  "next": "P2: construct causal branch certificate C3 on development positions with actual do_move and child-return ancestry; any new M3 revision evaluated only on ANOTHER unexposed cohort."
+}
