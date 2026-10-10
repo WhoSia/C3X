@@ -1,0 +1,173 @@
+{
+  "schema": "c3x022-P1-april16-prospective-independent-rootchoice-v1",
+  "date": "2026-10-10",
+  "version": "C3X 0.22",
+  "status": "ALL16_PRECOMMITTED_APRIL_NATIVE_COMPLETE_THREE_HYPOTHESES_PASS",
+  "title": "Search-Order–Conditioned Decision Dynamics & Chess Microstructure Causality: Native TT Intervention Semantics, Response-Contingent Affordance Transmission, Prospective Move-Choice Predictions & Cross-Ecology Falsification",
+  "pre_outcome_protocol": "c3x/ontology/c3x-022-P0-april2026-independent-ecology-source-and-prospective-forecast-precommit.md",
+  "source_before_native": {
+    "official_April_PGN_sha256": "97b036f3a3639ae3be59c1508b1e18c76ac1b2e8fada4587d1b5c5a93c438d5d",
+    "source_selection_json_sha256": "0e5516fc0cd49203bf7cc366f4133d6c9b20a2f21de0667468f121e398d2fa93",
+    "all_486_legal_chess_decision_primitives_json_sha256": "95b3d8857bad9147d5d655dcbe5d0e31300c57833bd6d04a8a905f278ac67986",
+    "selected_legal_games": 16,
+    "source_primitives_count": 486,
+    "independently_frozen_before_any_April_stockfish_outcome": true
+  },
+  "native_evidence": {
+    "success_run_id": 38045977655,
+    "success_url": "https://github.com/WhoSia/C3X/actions/runs/38045977655",
+    "artifact_id": 11667674321,
+    "artifact_name": "c3x-022-P1-april16-prospective-native-order-TT-choices",
+    "zip_sha256": "fef0e988139b8644f88e97f194c56fa47fbb79e9b1c236cb9a91e887bbc63ba8",
+    "complete_native_data_filename": "C3X022_P1_APRIL16_PROSPECTIVE_NATIVE_ROOT_CHOICE.json",
+    "complete_native_json_sha256": "5f83795e3c65deea26b34b80d0c52ca73735524b3b58c945c52cb53e4e5f00a0",
+    "artifact_member_sha256_count": 24,
+    "artifact_member_sha256_failures": 0,
+    "original_stockfish_git": "68e1e9b3811e16cad014b590d7443b9063b52",
+    "controls": "O/Z six-field UCI, passive source discovery and ZERO TT sham; each true arm twice cold; actual source first full64 key/slot/epoch/rootcall validated",
+    "threads": 1,
+    "hash_MB": 16,
+    "nnue": false,
+    "depth": 12,
+    "first_run_technical_failure": {
+      "run_id": 38045865240,
+      "reason": "No-eligible role missing delivered_final_bestmove_changed field in per-case log; fixed with .get(...,False); source and scientific hypotheses unchanged",
+      "interpretation": "TECHNICAL_HOLD_AND_FIXED_NOT_SCIENTIFIC_FAIL"
+    }
+  },
+  "primary_results": {
+    "precommitted_H22_ORDER": "PASS",
+    "precommitted_H22_NATIVE": "PASS",
+    "precommitted_H22_CONTEXT": "PASS",
+    "games": 16,
+    "O_F_final_bestmove_difference_distinct_game_ids": [
+      3,
+      13
+    ],
+    "O_F_final_bestmove_difference_distinct_games": 2,
+    "native_O_first_TT_reader_bestmove_flip_distinct_game_ids": [
+      3
+    ],
+    "native_F_first_TT_reader_bestmove_flip_distinct_game_ids": [
+      15
+    ],
+    "native_any_order_TT_reader_flip_distinct_games": 2,
+    "role_cell_denominator": 64,
+    "source_eligible_role_cells": 60,
+    "actually_physical_reader_suppressed_role_cells": 60,
+    "conclusions": "All three registered population-existence/difference pilot predictions held, not precise specific-game bestmove forecast; correlated STRICT/BROAD within games cannot be counted as independent."
+  },
+  "focal": [
+    {
+      "game": 3,
+      "world": "natural O",
+      "role": "STRICT",
+      "source_fen4": "2rq1rk1/1p1nbpp1/p3p2p/2pp4/P4P2/1P1PPQ2/1BP1N1PP/R4RK1 b - -",
+      "O_bestmove": "d8b6",
+      "F_playedfirst_bestmove": "e7f6",
+      "O_first_native_TT_reader_suppressed_bestmove": "e7f6",
+      "O_original_score_cp": 0,
+      "F_baseline_score_cp": 0,
+      "O_first_score_cp": 8,
+      "O_original_nodes": 62350,
+      "F_baseline_nodes": 51897,
+      "O_first_nodes": 75013,
+      "source_physical": {
+        "key64": "2198719873660173185",
+        "slot": 0,
+        "epoch": 1
+      },
+      "first_logged_aligned_child_return": {
+        "root_depth": 7,
+        "candidate_index": 7,
+        "alpha": 9,
+        "beta": 29,
+        "original": 1,
+        "TT_suppressed": 0,
+        "gate": "SAME_GATE_0_TO_0"
+      },
+      "frozen_chess_microprimitives": {
+        "O_move": "d8b6",
+        "O_piece": "black queen",
+        "O_opponent_legal_replies": 42,
+        "O_immediate_legal_capture_of_destination": [],
+        "F_and_O_FIRST_move": "e7f6",
+        "F_and_O_FIRST_piece": "black bishop",
+        "F_and_O_FIRST_legal_replies": 41,
+        "F_and_O_FIRST_immediate_capture_of_destination": [
+          "b2f6"
+        ],
+        "pin_delta": "none in both"
+      }
+    },
+    {
+      "game": 15,
+      "world": "played-first F",
+      "role": "BROAD",
+      "source_fen4": "2r1r1k1/1bq2p1p/pp1p1npb/2nPp3/P1P5/2R2N1P/1P1N1PPB/1B1QR1K1 b - -",
+      "O_baseline_bestmove": "b6b5",
+      "F_baseline_bestmove": "b6b5",
+      "F_first_native_TT_reader_suppressed_bestmove": "a6a5",
+      "O_baseline_score_cp": 66,
+      "F_baseline_score_cp": 99,
+      "F_first_score_cp": 36,
+      "O_baseline_nodes": 40487,
+      "F_baseline_nodes": 44403,
+      "F_first_nodes": 62628,
+      "source_physical": {
+        "key64": "18277431159105377359",
+        "slot": 0,
+        "epoch": 1
+      },
+      "first_logged_aligned_child_return": {
+        "root_depth": 5,
+        "candidate_index": 2,
+        "alpha": 255,
+        "beta": 283,
+        "original": 0,
+        "TT_suppressed": 191,
+        "gate": "SAME_GATE_0_TO_0"
+      },
+      "frozen_chess_microprimitives": {
+        "O_F_move": "b6b5",
+        "piece": "black pawn",
+        "legal_opponent_replies": 38,
+        "immediate_legal_captures_of_destination": [],
+        "F_FIRST_move": "a6a5",
+        "pin_delta": "none in both"
+      }
+    }
+  ],
+  "other_order_sensitive_case": {
+    "game": 13,
+    "O_bestmove": "a7a6",
+    "F_bestmove": "d8d7",
+    "O_score_cp": -86,
+    "F_score_cp": -82,
+    "selected_native_first_TT_reader_interventions_change_bestmove": false
+  },
+  "statistical_calibration": {
+    "distinct_game_n": 16,
+    "precommit_existence_test_not_population_frequency_estimation": true,
+    "two_out_of_sixteen_game_rate_percent": 12.5,
+    "two_out_of_sixteen_Wilson95_percent_approx": [
+      3.5,
+      36.02
+    ],
+    "warning": "Two distinct games per order-vs-order and any order first TT intervention; do not interpret as statistically independent role-cell successes or broadly established population parameter."
+  },
+  "mechanistic_findings": [
+    "April source and chess decision primitives were fully frozen without any engine before each native pair was independently source-selected in its own root-order world.",
+    "O/F candidate root order changed final move in 2 new distinct games; physically blocking a genuine first TT reader changed the final move in two different new distinct games (#3 O, #15 F).",
+    "In both April choice-changing source interventions the first logged aligned nonfirst child return differs while remaining on the SAME side below alpha; one-point immediate gate crossing from adaptive February case is not a sufficient universal predictor.",
+    "April game3 O+FIRST returns the F bestmove, but April game15 F+FIRST creates a new bestmove not selected by either O or F baseline; simple reversal-to-natural-O story is contradicted.",
+    "Standard Chess primitive differences of changed legal moves documented pre-native, but no proof native algorithm valued those board features as unique decision cause."
+  ],
+  "history_preserved": [
+    "0.19 F19.5 FAIL",
+    "K4 0/4 FAIL",
+    "January J2/J3/J4 FAIL",
+    "PAG CPP224 failed universality"
+  ],
+  "next": "C3X0.22-P2: precise forecast of affected game IDs and specific bestmove, randomized/chess-source matched 64+ positions, native causal pathway beyond first same-gate return, blind human source-to-chess interpretation, manuscript methods audit."
+}
