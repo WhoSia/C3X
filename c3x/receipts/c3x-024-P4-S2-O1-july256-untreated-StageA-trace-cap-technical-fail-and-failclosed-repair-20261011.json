@@ -1,0 +1,37 @@
+{
+  "schema": "c3x024-P4-S2-O1-untreated-StageA-source-observer-trace-censor-incident-v1",
+  "date": "2026-10-11",
+  "origin_source_July2025_sha": "d2c50a1293e68c3feb8571d1ee1be6ba1a7ee539a12dd1a98378adfa9b54fb58",
+  "source_game_identity_human_Git_commit": "ef8e60be0df20e96bd3c19949bd2d4f585ed0353",
+  "failed_original_StageA": {
+    "run_id": 38089042946,
+    "url": "https://github.com/WhoSia/C3X/actions/runs/38089042946",
+    "conclusion": "FAILURE",
+    "failed_step": "Untreated cold O F baseline and actual native SEE parent-path observation",
+    "last_completed_source_game_id": 51,
+    "failed_game_id": 52,
+    "exception": "C3X018_PHYSICAL_COURT_TRACE_CENSORED",
+    "native_event_limit": 30000,
+    "original_game_selection_changed": false,
+    "original_TT_FIRST_interventions": 0,
+    "partial_original_full_256_StageA_sha": null,
+    "artifact_id": 11683561665,
+    "artifact_for_failure_evidence_only": true
+  },
+  "repair_precommit": "c3x/ontology/c3x-024-P4-S2-O1-native-lineage-trace-censor-failclosed-full256-recovery-precommit-20261011.md",
+  "repair_precommit_commit": "c8c6e784ef4044ab53a63b4c92be0266e4684b72",
+  "method": "Original Stockfish engine and source reporter capacity unchanged. Historical Python harness defaults to TRACE_CENSORED rejection. Only new opt-in permits exact original reporter marker parsing and two-cold source UCI replay; any saturated O/F world has both TT first-reader roles explicitly HOLD, no invented depth witness, no physical FIRST treatment allowed.",
+  "original_root_contacts_and_source_sha_preserved": true,
+  "repair_static_CI": {
+    "run_id": 38089646103,
+    "url": "https://github.com/WhoSia/C3X/actions/runs/38089646103",
+    "conclusion": "SUCCESS"
+  },
+  "repair_full_256_ci": {
+    "run_id": 38089656512,
+    "url": "https://github.com/WhoSia/C3X/actions/runs/38089656512",
+    "status_at_receipt_creation": "IN_PROGRESS_NOT_CERTIFIED"
+  },
+  "science_boundary": "Do not convert censored lineage into source contact or new out-of-sample model evaluation. All 256 source games stay in denominator, potential roles 1024. No M4 role forecast or FIRST treatment permitted before corrected original StageA complete and Git sealed.",
+  "rights": "No original PGN, player names or modified engine uploaded; human WhoSia only, Actions read-only."
+}
