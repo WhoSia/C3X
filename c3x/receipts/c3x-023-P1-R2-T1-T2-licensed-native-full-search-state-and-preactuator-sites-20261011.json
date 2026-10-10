@@ -1,0 +1,83 @@
+{
+  "schema": "c3x023-P1-R2-T1-native-full-search-state-and-T2-actual-exact-site-target-preseal-v1",
+  "date": "2026-10-11",
+  "study": "POST_R1_DEVELOPMENT_ONLY",
+  "source": "Lichess May2026 broadcast CC BY-SA 4.0",
+  "source_32_json_SHA256": "0ff43e28dcb3a5e48dea6b61e4450fc8bb9e1f96363871c33c4b73524664db61",
+  "stageA_original_SHA256": "fe88afe49d7d43db7b81c37decab783f2b68311ed2ca10b6f42be4268bdb3442",
+  "T1": {
+    "run_id": 38068961685,
+    "status": "SUCCESS",
+    "artifact_id": 11676306658,
+    "artifact_zip_sha256": "7c8686ed5e9f02f2081b4614bd720ce224a7a1108355d269141da58f376a3acc",
+    "private_raw_SHA256": "6c0440693c83ba0cd219d396b7d1cb2cdd14e3324f0c0f77485edf1df288c0a8",
+    "development_source_games": 6,
+    "actual_native_TT_FIRST_source_contacts": 6,
+    "source_cases_with_exact_computational_state_after_original_TT_source": 4,
+    "native_same_alpha_beta_depth_ply_PV_rule50_exact_ancestor_SEE_source_events_after_TT": 21,
+    "source_same_chess_path_but_different_search_alpha_beta_event_count": 0,
+    "censored_cases": 2,
+    "native_SEE_Boolean_perturbations": 0,
+    "changed_final_root_move_cases": 4,
+    "caution": "Matched native source call state is not proof of mediation; important noflip control #2 preserves final bestmove despite 14 matched source events."
+  },
+  "T2_pre_actuator_selection": {
+    "precommitted_rule_commit": "cf7b23794a7ef13b90bc7216ccdf65608e3baee9",
+    "run_id": 38069237414,
+    "status": "SUCCESS",
+    "artifact_id": 11676392027,
+    "artifact_zip_sha256": "4f17a48160848ac6d8472eae9b09b78b34dbec03dc1b8bc325e69fff23c5e9c5",
+    "literal_manifest_sha256": "830536f445330b739a7a3b7e88ce4227e9ab9db43cf277f08a01ed5f9dc0ef69",
+    "git_exact_node_preseal_commit": "31ed4f0bf7fa23a90f582ad074c75921bcb450fc",
+    "git_file": "c3x/forecasts/c3x-023-P1-R2-T2-exact-native-SEE-targets-before-first-actuator-20261011.json",
+    "four_fixed_cases": [
+      {
+        "game_id": 1,
+        "source_role": "O/STRICT",
+        "decision": "HOLD_NO_QUIET_QSEARCH_COMMON_SOURCE_IN_FIRST32"
+      },
+      {
+        "game_id": 11,
+        "source_role": "F/STRICT",
+        "decision": "SOURCE_SITE_PRESEALED",
+        "source_site": "qsearch_prune"
+      },
+      {
+        "game_id": 12,
+        "source_role": "F/STRICT",
+        "decision": "HOLD_NO_QUIET_QSEARCH_COMMON_SOURCE_IN_FIRST32"
+      },
+      {
+        "game_id": 2,
+        "source_role": "O/STRICT",
+        "decision": "SOURCE_SITE_PRESEALED",
+        "source_site": "quiet_prune"
+      }
+    ],
+    "native_SEE_Boolean_perturbations_before_literal_source_git_commit": 0
+  },
+  "T3_code": {
+    "exact_site_actuator": "tools/c3x_023_P1_R2_T3_precise_native_SEE_boolean_source_actuator.py",
+    "native_two_by_two_harness": "harness/c3x_023_P1_R2_T3_strict_SEE_TT_two_by_two_source_court.py",
+    "source_tests": "tools/test_c3x_023_P1_R2_T3_strict_native_see_two_by_two.py",
+    "git_sealed_source_target_verification_required": true,
+    "requires_exact_sham_contact_on_both_TT_worlds_before_any_flip": true,
+    "execution_status": "NOT_EXECUTED_IN_NATIVE_CI",
+    "research_conclusion": "T3 code is not empirical evidence until actual native CI succeeds with exact source singleton dose."
+  },
+  "TWIC_rights": {
+    "received_from_user_external_mail": "Mark Crowther favorable research correspondence, whole TWIC files NOT to be republished; full text archived only in C3X Notion subpage",
+    "notion_url": "https://app.notion.com/p/3f5ef561cf9281479a23c3721b59e7e6",
+    "public_GitHub_full_email_copy": false,
+    "new_rights_timeline": "c3x/rights/c3x-023-origin-license-provenance-20261010.json",
+    "commercial_website_use_price_GBP": 30,
+    "Chessbase_and_PGN_personal_source_price_GBP": 30
+  },
+  "scientific_limitations": [
+    "T1/T2 are post R1 development, not new heldout forecast.",
+    "Native Position::see_ge is deterministic for complete identical inputs; controlled Boolean flipping tests local operator sensitivity, not natural mediator.",
+    "2 cases chosen for exact native pruning sites; 2 cases remain HOLD not reselected.",
+    "Previous M1 fails versus baseline M0; no M3 forecast for same source.",
+    "No SEE source mutation has been empirically observed in this receipt."
+  ]
+}
