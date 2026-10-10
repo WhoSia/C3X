@@ -1,0 +1,147 @@
+{
+  "schema": "c3x023-P1-R2-T3-two-preregistered-SEE-pruning-events-cross-real-physical-TT-first-v1",
+  "date": "2026-10-11",
+  "status": "NATIVE_2x2_FACTORIAL_SUCCESS__LOCAL_OPERATOR_INTERACTION_AT_ONE_DEVELOPMENT_ROOT__NOT_NATURAL_MEDIATION",
+  "engine": "Stockfish16 git 68e1e9b3811e16cad014b590d7443b9063b3eb52, Threads1, Hash16MB, NNUE OFF, depth12 cold duplicates",
+  "experimental_provenance": {
+    "source": "Lichess May2026 broadcast CC BY-SA 4.0",
+    "source_S0_SHA": "0ff43e28dcb3a5e48dea6b61e4450fc8bb9e1f96363871c33c4b73524664db61",
+    "native_untreated_stageA_SHA": "fe88afe49d7d43db7b81c37decab783f2b68311ed2ca10b6f42be4268bdb3442",
+    "T1_full_state_source_SHA": "6c0440693c83ba0cd219d396b7d1cb2cdd14e3324f0c0f77485edf1df288c0a8",
+    "T2_preactuator_source_target_artifact_SHA": "830536f445330b739a7a3b7e88ce4227e9ab9db43cf277f08a01ed5f9dc0ef69",
+    "T2_source_identity_git_commit": "31ed4f0bf7fa23a90f582ad074c75921bcb450fc",
+    "T2_git_path": "c3x/forecasts/c3x-023-P1-R2-T2-exact-native-SEE-targets-before-first-actuator-20261011.json",
+    "T2_first_native_SEE_toggle_seen_before_source_precommit": 0,
+    "selection_is_post_R1_outcome_exposed_development": true,
+    "original_additional_HOLDS": [
+      1,
+      12,
+      8,
+      3
+    ]
+  },
+  "native_CI": {
+    "first_run": 38070604820,
+    "first_url": "https://github.com/WhoSia/C3X/actions/runs/38070604820",
+    "first_outcome": "SUCCESS",
+    "second_with_reproducible_rights_scanned_native_root_depth_report": 38070768528,
+    "second_url": "https://github.com/WhoSia/C3X/actions/runs/38070768528",
+    "second_outcome": "SUCCESS",
+    "artifact_id": 11677185984,
+    "artifact_name": "c3x-023-P1-R2-T3-source-exact-SEE-x-TT-research-aggregate",
+    "artifact_zip_SHA256": "5200870ba0e207c62e0c8cb00670a965fe6fc9617421ebd325d5af3ebc325b28",
+    "private_full_source_native_result_SHA256": "be2242388f50fc9e0d392a6bde20d624ed02ebc8a6149c13ecccd951ff312626",
+    "published_aggregate_JSON_SHA256": "99239881fe61c074457fd3410713d01e1389cca78fa1b6f917c7eab74ec00d10",
+    "published_derived_game_depth_JSON_SHA256": "dc2051f661e75e15149d566a7d6bebeca93c978e4713419f36e4f0ae7ab86c68",
+    "artifact_member_SHA256_verified": 5,
+    "artifact_member_SHA256_failed": 0,
+    "source_rights_scans": "P4_LICHESS_LICENSED_SOURCE_ONLY PASS and P2_AGGREGATE_SUMMARY two files PASS — technical scan not blanket legal license",
+    "private_full_position_PGN_not_distributed": true
+  },
+  "treatment_validation": {
+    "number_distinct_preselected_chess_positions": 2,
+    "number_of_crossed_arm_worlds": 8,
+    "number_cold_runs": 16,
+    "actual_exact_precommitted_SEE_source_flip_contacts": 4,
+    "exact_SEE_SHAM_source_contacts": 4,
+    "physical_TT_FIRST_confirmed_worlds": 4,
+    "full64_TT_source_writer_reader_proof": true,
+    "unique_specific_SEE_site_not_rootcall_wildcard": true,
+    "all_physical_SOURCE_TT_and_SEE_SHAM_contact_gate_pass": true,
+    "unregistered_or_treatment_selected_replacements": 0
+  },
+  "root_cases": [
+    {
+      "game_id": 11,
+      "root_order": "F",
+      "role": "STRICT",
+      "native_SEE_site": "qsearch_prune",
+      "original_SEE_boolean": 0,
+      "SEE_intervention": "0→1: the original qsearch SEE reject guard is made false at this exact eligible site; branch otherwise originally rejected here",
+      "arms": {
+        "TT0_SEE_SHAM": {
+          "bestmove": "c7d6",
+          "nodes": 64424,
+          "score_cp": -95
+        },
+        "TT1_SEE_SHAM": {
+          "bestmove": "d8b8",
+          "nodes": 68114,
+          "score_cp": -104
+        },
+        "TT0_SEE_FLIP": {
+          "bestmove": "c7d6",
+          "nodes": 64426,
+          "score_cp": -95
+        },
+        "TT1_SEE_FLIP": {
+          "bestmove": "d8b8",
+          "nodes": 68116,
+          "score_cp": -104
+        }
+      },
+      "depth_observations": {
+        "earliest_TT_sham_vs_TT_first_root_leader_divergence_depth": 7,
+        "earliest_TT_sham_vs_TT_first_root_source_score_divergence_depth": 7,
+        "SEE_only_changes_root_leader_any_common_depth": false,
+        "SEE_joint_changes_root_leader_v_TT_only_any_common_depth": false
+      },
+      "scientific_verdict": "REAL_SEE_BOOL_DO_CONTACT_BUT_TERMINAL_AND_ROOT_DEPTH_LEADER_UNCHANGED_RELATIVE_MATCHED_TT_CONDITION; LOCAL_OPERATOR_SENSITIVITY_ONLY_NODES_PLUS_2"
+    },
+    {
+      "game_id": 2,
+      "root_order": "O",
+      "role": "STRICT",
+      "native_SEE_site": "quiet_prune",
+      "original_SEE_boolean": 1,
+      "SEE_intervention": "1→0: original quiet SEE acceptance guard is changed to reject / prune at the exact site",
+      "arms": {
+        "TT0_SEE_SHAM": {
+          "bestmove": "e1g1",
+          "nodes": 20062,
+          "score_cp": -8
+        },
+        "TT1_SEE_SHAM": {
+          "bestmove": "e1g1",
+          "nodes": 41685,
+          "score_cp": -8
+        },
+        "TT0_SEE_FLIP": {
+          "bestmove": "e1g1",
+          "nodes": 46783,
+          "score_cp": 1
+        },
+        "TT1_SEE_FLIP": {
+          "bestmove": "b1b4",
+          "nodes": 47563,
+          "score_cp": -4
+        }
+      },
+      "depth_observations": {
+        "earliest_TT_sham_vs_TT_first_root_leader_divergence_depth": 9,
+        "earliest_TT_sham_vs_TT_first_root_source_score_divergence_depth": 8,
+        "earliest_SEE_only_vs_baseline_root_leader_divergence_depth": 9,
+        "earliest_SEE_only_vs_baseline_root_source_score_divergence_depth": 8,
+        "earliest_TTfirst_SEEjoint_vs_TTfirst_SHAM_root_leader_divergence_depth": 9,
+        "earliest_TTfirst_SEEjoint_vs_TTfirst_SHAM_root_score_divergence_depth": 8
+      },
+      "scientific_verdict": "BOTH_SINGLETON_ACTIONS_INDIVIDUALLY_PRESERVE_FINAL_BESTMOVE_BUT_JOINT_CHANGES_TO_NEW_b1b4; LOCAL_NONADDITIVE_CATEGORICAL_SEARCH_OPERATOR_INTERACTION"
+    }
+  ],
+  "falsification": {
+    "number_sites_where_joint_changed_bestmove_relative_TT_only": 1,
+    "number_sites_where_SEE_only_changed_bestmove_relative_baseline": 0,
+    "positive_joint_only_new_bestmove_n": 1,
+    "nonindependent_arm_counts_and_selection": "Two chess games not eight independent examples; selected from known post-R1 development; cannot estimate population rates.",
+    "M1_existing_historical_negative_accuracy": "111/124 vs M0 117/124; unchanged",
+    "natural_mediation_unsupported": true
+  },
+  "rights": {
+    "TWIC_email_from_Mark_Crowther_not_used_for_this_Lichess_source": true,
+    "TWIC_editor_favorable_permission_record_private_Notion": "https://app.notion.com/p/3f5ef561cf9281479a23c3721b59e7e6",
+    "full_source_data_not_republished": true,
+    "license_may_broadcast": "CC BY-SA 4.0",
+    "literal_source_UCI_derived_only": true
+  },
+  "next": "C3X 0.23-T4: design source-level event activation/pruning path temporal chain, causal controls and full game-level replication; C3X 0.24 formal title is a proposal only; fresh ecology M3 forecasts git sealed before any new native treatment."
+}
