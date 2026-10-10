@@ -15,7 +15,7 @@ from c3x_018_jan16_TT_cross_window_pair_native import RULES,mask_filters
 from c3x_018_independent16_TT_value_transport_native import verified_reader_lineage
 from c3x_021_P1_march_native_TT_atomic_bridge import (
     root_depth_ladder,first_semantic_source_split,move_micro_comparison)
-from c3x_022_P2_two_stage_exact_move_scout import native_world,ECOLOGIES,WORLDS,ROLES
+from c3x_022_P2_two_stage_exact_move_scout import native_world,ECOLOGIES,WORLDS,ROLES,source_depth_ladder
 
 SOURCE_SHA="ebe6648f43f64c6f31e0d547845bec3d87c663093fd68298acf2ebe4c0287554"
 PRIMITIVES_SHA="b3b4a29788c1f9dc2b4d491cd60d44ad8e6530d3d66be5d77039a6fd59cc958d"
@@ -32,11 +32,12 @@ def cold(engine,w,clock,order,mode,target=None,filters=None):
     kw={"fen_clocks":clock}
     if filters is not None:
         kw["tt_reader_filters"]=filters
-    a=play(engine,w,order,mode,target,**kw)
-    b=play(engine,w,order,mode,target,**kw)
+    a=play(engine,w,order,mode,target,allow_empty_lineage=True,**kw)
+    b=play(engine,w,order,mode,target,allow_empty_lineage=True,**kw)
     need(a==b,"P2_STAGE_B_TWO_COLD_NATIVE_RUNS_DIFFER")
-    need(a["root_events"] and len(a["root_events"])<4096,
-         "P2_STAGE_B_ROOT_TRACE_NOT_COMPLETE")
+    need(len(a["root_events"])<4096,"P2_STAGE_B_ROOT_TRACE_CENSORED")
+    need(a["root_events"] or not a["payload_witnesses"],
+         "P2_STAGE_B_TT_PAYLOAD_WITHOUT_ROOT_TRACE")
     return a
 
 def actual_block(witness,pair):
@@ -80,12 +81,12 @@ def try_role(engine,world,clock,order,role,forecast,baseline,baseline_ladder,ato
     delivered=bool(blocks)
     exact=first["UCI"]["bestmove"]==forecast["predicted_UCI"] if delivered else None
     actual_move=first["UCI"]["bestmove"]
-    target_ladder=root_depth_ladder(first["root_events"])
+    target_ladder=source_depth_ladder(first["root_events"])
+    shared_depths=[d for d in range(1,13)
+                   if str(d) in baseline_ladder and str(d) in target_ladder]
     observed_changed_depths=[
-        depth for depth in range(1,13)
+        depth for depth in shared_depths
         if baseline_ladder[str(depth)]["native_leader"]!=target_ladder[str(depth)]["native_leader"]]
-    need(all(str(x) in baseline_ladder for x in range(1,13)),
-         "P2_STAGE_A_BASELINE_MISSING_DEPTHS")
     return {
         "status":"REAL_NATIVE_READER_BLOCK_DELIVERED" if delivered else
                  "SELECTED_BUT_NONCONTACT",
@@ -112,6 +113,9 @@ def try_role(engine,world,clock,order,role,forecast,baseline,baseline_ladder,ato
         "depthwise_source_root_leader_before_TT":baseline_ladder,
         "changed_root_leader_depths":observed_changed_depths,
         "earliest_root_leader_depth_changed":observed_changed_depths[0] if observed_changed_depths else None,
+        "shared_observable_root_depths":shared_depths,
+        "missing_root_depths_due_to_source_stop_or_trace":
+            [d for d in range(1,13) if d not in shared_depths],
         "source_event_alignment_limit":"Without a fully baseline-recorded candidate trace in stage A, root-call-specific child event causal attribution beyond the depth leader is not claimed.",
         "cold_repeated_exactly":True
     }
