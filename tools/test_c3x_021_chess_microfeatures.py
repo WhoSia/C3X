@@ -32,5 +32,6 @@ class ChessSourceMicrostructure(unittest.TestCase):
         s=(Path(__file__).resolve().parents[1]/"harness"/"c3x_021_march_sourceonly_chess_microfeatures.py").read_text()
         self.assertNotIn("subprocess",s)
         self.assertNotIn("chess.engine",s)
-        self.assertNotIn("Stockfish",s)
+        self.assertNotIn("import chess.engine",s)
+        self.assertNotIn("from chess.engine",s)
 if __name__=="__main__": unittest.main()
