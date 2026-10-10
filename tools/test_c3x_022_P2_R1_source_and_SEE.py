@@ -17,7 +17,7 @@ class NewTWICAndLegalExchange(unittest.TestCase):
             seal("/nonexistent.zip",{}, "/nonexistent.json")
     def test_chess_pin_blocks_pseudo_capture(self):
         # Black knight e7 is pinned by rook e1 to king e8: can't capture c6.
-        b=chess.Board("4k3/4n3/8/2P5/8/8/8/4R1K1 b - - 0 1")
+        b=chess.Board("4k3/4n3/2P5/8/8/8/8/4R1K1 b - - 0 1")
         self.assertTrue(b.is_pinned(chess.BLACK,chess.E7))
         self.assertTrue(b.is_valid())
         self.assertEqual(legal_exchange_gain(b,chess.C6,6),0)
