@@ -1,0 +1,65 @@
+{
+  "schema": "c3x024-P2-R3-posthoc-root-survival-anatomy-rights-scoped-v1",
+  "date": "2026-10-11",
+  "status": "TECHNICAL_SUCCESS_POSTHOC_ROOT_LOSER_WITNESSES_AND_PARTIAL_QSEARCH",
+  "source": "Lichess May2026 broadcast two previously exposed development positions CC BY-SA 4.0",
+  "preregistration": "c3x/ontology/c3x-024-P2-R3-root-candidate-survival-and-partial-ancestry-diagnostic-precommit-20261011.md",
+  "native": {
+    "run_id": 38080631522,
+    "url": "https://github.com/WhoSia/C3X/actions/runs/38080631522",
+    "conclusion": "SUCCESS",
+    "source_games": 2,
+    "arm_worlds": 8,
+    "cold_runs": 16,
+    "private_full_SHA256": "b6ffaf281ea0a55bbb97d408f4f7c9b21483d073c4bc02f9b83f803ddeab57c7",
+    "public_zip_artifact_id": 11679978107,
+    "zip_sha256": "79214a4b08279210992ddcc91a241cc1c8d3471b410cfc36121125ad64518fd8",
+    "original_T3_SHA_reproduced": "be2242388f50fc9e0d392a6bde20d624ed02ebc8a6149c13ecccd951ff312626",
+    "rights_scan": "SCAN_PASS_NOT_LEGAL_LICENSE"
+  },
+  "classification": {
+    "actual_SEE_guard_continue_arms": 4,
+    "full_C3b_root_candidate_reached_but_not_final_bestmove_arms": 2,
+    "partial_C3b_root_status_HOLD_arms": 2,
+    "root_candidate_reached_and_final_bestmove_arms": 0,
+    "case11_F_STRICT_qsearch": {
+      "TT0_SHAM": "ACTUAL_CONTINUE",
+      "TT1_SHAM": "ACTUAL_CONTINUE",
+      "TT0_SEE_FLIP": "C3B_PARTIAL",
+      "TT1_SEE_FLIP": "C3B_PARTIAL",
+      "both_partial_source_footprint": [
+        [
+          "ANCESTOR_SNAPSHOT",
+          2
+        ],
+        [
+          "CHILD_VALUE_RETURNED",
+          2
+        ],
+        [
+          "PARENT_CANDIDATE_VALUE",
+          2
+        ],
+        [
+          "FRAME_RETURN",
+          2
+        ]
+      ],
+      "missing": "no observed higher ancestor candidate edge after target ply=2 source frame return"
+    },
+    "case2_O_STRICT_quiet": {
+      "TT0_SHAM": "C3B_ROOT_REACHED_CANDIDATE_LOST_FINAL_BESTMOVE",
+      "TT1_SHAM": "C3B_ROOT_REACHED_CANDIDATE_LOST_FINAL_BESTMOVE",
+      "TT0_SEE_FLIP": "ACTUAL_CONTINUE",
+      "TT1_SEE_FLIP": "ACTUAL_CONTINUE"
+    }
+  },
+  "epistemic_bounds": [
+    "Full source ancestor-to-root C3b is an executed path certificate, not evidence root candidate ultimately won",
+    "The target branch may affect scores despite root candidate not winning; no controlled root-lead mediation proven",
+    "May11 qsearch route missing ancestors; no retroactive full-C3b promotion",
+    "All examples development-only and posthoc diagnostic after outcome exposure",
+    "No new independent September treated outcomes used, M3-v2 remains prospective"
+  ],
+  "governance": "Human WhoSia commits and read-only Actions, BY-SA modified aggregate and no original complete PGNs/players/keys or GPL Stockfish binary."
+}
