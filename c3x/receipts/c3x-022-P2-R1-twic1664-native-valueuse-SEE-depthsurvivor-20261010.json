@@ -1,0 +1,205 @@
+{
+  "schema": "c3x022-P2-R1-external-TWIC1664-path-survival-TT-values-and-legal-SEE-falsification-v1",
+  "date": "2026-10-10",
+  "version": "C3X 0.22",
+  "formal_phase": "C3X 0.22-P2-R1 — Path-Dependent Candidate Emergence & Search-State Causal Transmission: Source-Matched Root Survivor Histories, TT Value-Use/Cutoff Rivalry, SEE–Recapture Microstructure Interventions & New-Ecology Exact-Move Forecasts",
+  "status": "NATIVE_PROTOCOL_SUCCESS__M2_EXACT_BESTMOVE_PREDICTOR_FAIL",
+  "precommit": "c3x/ontology/c3x-022-P2-R1-path-dependent-root-survival-TT-value-SEE-newTWIC-precommit.md",
+  "chess_source": {
+    "publication": "The Week in Chess issue #1664, 2026-09-28",
+    "official_source_url": "https://theweekinchess.com/zips/twic1664g.zip",
+    "rights": "TWIC says for personal use only and reserves all rights; source ZIP/full PGN excluded from public artifacts. Obtain permission before publishing original raw game records.",
+    "root_zip_sha256": "87bcd88e628c85b6e7e5b36894738fc9e6ef4012345740e57ff05795a908940f",
+    "engine_free_actions_run_id": 38050910527,
+    "actions_url": "https://github.com/WhoSia/C3X/actions/runs/38050910527",
+    "artifact_id": 11668824501,
+    "artifact_zip_sha256": "2aa626ee3bbb95a641497dd3d21d096ad7432c8170ab0a75681543686940755b",
+    "selected_source_JSON_sha256": "3cc4c788eec55960921e653604b2fbb3113163862e2652271b939fb12fb9eeb3",
+    "legal_all_root_six_exchange_primitive_JSON_sha256": "321f3af0ea90625929d639142ec8f930eacee5a7c6e7d856235267bb7f908423",
+    "scanned_games": 687,
+    "eligible_legal_candidates_first512_then_hash_first16": true,
+    "frozen_new_games": 16,
+    "all_legal_root_moves": 637,
+    "excluded_historical_sources_count": 8,
+    "excluded_prior_TWIC1656_and_Lichess_puzzles": true,
+    "all_root_recapture_features_built_without_chess_engine": true
+  },
+  "stageA": {
+    "run_id": 38051283450,
+    "url": "https://github.com/WhoSia/C3X/actions/runs/38051283450",
+    "conclusion": "success",
+    "artifact_id": 11668769951,
+    "zip_sha256": "fbdca102b0ec37310f103ddbd5bee69fa6cf753604e5d6227929aa3f82d36dec",
+    "JSON_sha256": "a84a9a2b38bacedb140724c08fc5137b98c8f0077d4754bb5f399a3c30284c35",
+    "literal_forecast_git_path": "c3x/forecasts/c3x-022-P2-R1-TWIC1664-16game-M0-M1-M2-exact-UCI-preTT-git-seal-20261010.json",
+    "literal_forecast_git_commit": "f83107e5bde70829d35fa574fb6b34ceb45a94fd",
+    "forecast_string_count": 192,
+    "role_order_cells": 64,
+    "source_first_reader_eligible": 64,
+    "source_prefix_censored_HOLD": 0,
+    "number_O_F_disagree_games": 4,
+    "M2_predicted_positive_move_flip_cells": 0,
+    "before_any_TT_reader_suppression": true,
+    "depth11_leader_differs_from_depth12_in_distinct_worlds": 3,
+    "those_three_risk_pairs": [
+      {
+        "game_id": 2,
+        "order": "F",
+        "depth12": "e2f3",
+        "depth11": "e4e5",
+        "baseline_risk": 0,
+        "depth11_risk": 0
+      },
+      {
+        "game_id": 5,
+        "order": "F",
+        "depth12": "f1d1",
+        "depth11": "f1c1",
+        "baseline_risk": 0,
+        "depth11_risk": 0
+      },
+      {
+        "game_id": 6,
+        "order": "O",
+        "depth12": "f8e8",
+        "depth11": "f6d7",
+        "baseline_risk": 0,
+        "depth11_risk": 0
+      }
+    ],
+    "first_native_scout_technical_hold_run_id": 38051055407,
+    "technical_hold_cause": "C3X018 discovery 2048-prefix cap in some games; existing source-first pair can be retained as earliest witnessed, missing pairs after cap explicit HOLD not negative; protocol/sample unchanged."
+  },
+  "stageB": {
+    "run_id": 38051511354,
+    "url": "https://github.com/WhoSia/C3X/actions/runs/38051511354",
+    "conclusion": "success",
+    "artifact_id": 11669708277,
+    "artifact_name": "c3x-022-P2-R1-TWIC1664-stageB-native-TT-value-and-exact-UCI",
+    "ZIP_sha256": "9f12666933e7c550719051fcd8c8a6db413044617959d67da84d0c678987f190",
+    "member_sha256_checked": 24,
+    "member_sha256_failures": 0,
+    "full_native_data_member": "C3X022_P2_R1_TWIC1664_STAGE_B_NATIVE_CAUSAL_MODEL_COURT.json",
+    "full_native_data_sha256": "04cba55434db7b477f67f2d5cf08716e146d5c0c74f85115f5f87c4f8c28cabb",
+    "original_Stockfish16_git": "68e1e9b3811e16cad014b590d7443b9063b3eb52",
+    "engine_conditions": "Stockfish16 Threads1 Hash16MB NNUE false depth12, cold twice every native arm, native actual TT physical full64 key+slot+epoch+root call+candidate verified, original same-board unchanged.",
+    "eligible_role_cells": 64,
+    "delivered_exact_first_TT_reader_contact": 64,
+    "actually_changed_final_bestmove_cells": 10,
+    "actually_changed_distinct_games": 5,
+    "changed_distinct_game_ids": [
+      2,
+      3,
+      6,
+      12,
+      13
+    ],
+    "native_pre_treatment_real_value_used_events": 64,
+    "native_pre_treatment_main_search_value_use": 51,
+    "native_pre_treatment_quiescence_search_value_use": 13,
+    "native_after_first_consumer_suppression_targeted_value_use_events": 0,
+    "native_tt_cutoff_events_for_targeted_watches_observed": 0,
+    "source_first_aligned_child_return_difference_among_changed": {
+      "SAME_ALPHA_GATE_NONFIRST": 8,
+      "FIRST_CANDIDATE_GATE_NOT_APPLICABLE": 2,
+      "IMMEDIATE_GATE_CROSSING": 0
+    },
+    "changed_role_cell_physical_source_unique_episodes": 6,
+    "native_root_leader_first_changed_depths_by_game_order": {
+      "game2_O": [
+        12
+      ],
+      "game3_F": [
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12
+      ],
+      "game6_O_STRICT": [
+        9,
+        10,
+        11,
+        12
+      ],
+      "game6_O_BROAD": [
+        7,
+        8,
+        9,
+        10,
+        11,
+        12
+      ],
+      "game12_O": [
+        6,
+        7,
+        8,
+        10,
+        12
+      ],
+      "game13_F": [
+        6,
+        7,
+        9,
+        11,
+        12
+      ]
+    },
+    "preserve_missing_depths_and_source_path_divergence": true
+  },
+  "prospective_models": {
+    "M0_nochange": {
+      "exact_bestmove_UCI_correct": 54,
+      "denominator_contact_cells": 64,
+      "actual_flips_exactly_predicted": 0,
+      "actual_changed_prediction_TP": 0,
+      "FP": 0,
+      "FN": 10,
+      "TN": 54
+    },
+    "M1_old_crossorder_restore": {
+      "exact_bestmove_UCI_correct": 46,
+      "denominator_contact_cells": 64,
+      "actual_flips_exactly_predicted": 2,
+      "TP": 6,
+      "FP": 10,
+      "FN": 4,
+      "TN": 44,
+      "positive_precision": 0.375,
+      "positive_recall": 0.6
+    },
+    "M2_depth11_survivor_less_recapture_risk": {
+      "exact_bestmove_UCI_correct": 54,
+      "denominator_contact_cells": 64,
+      "actual_flips_exactly_predicted": 0,
+      "TP": 0,
+      "FP": 0,
+      "FN": 10,
+      "TN": 54,
+      "M2_vs_M0_game_wins": 0,
+      "M2_vs_M0_game_losses": 0,
+      "scientific_verdict": "FAIL_NO_GAIN_OR_NO_CORRECT_POSITIVE"
+    },
+    "role_cells_within_chess_game_not_independent": true,
+    "M2_mechanistic_limitation": "At stageA only three O/F game-worlds had different depth11 and depth12 leader, and all had equal zero six-ply same-square legal recapture exposure, so M2 predeclared zero flips. The 10 actual flip cells falsify its positive prediction utility, not the source-level TT causal effects."
+  },
+  "mechanism_verdict": {
+    "physical_first_TT_value_consumption_suppression_CAUSAL": "PASS within pinned Stockfish16 source and frozen 16-position cohort",
+    "TT_value_used_as_eval_source_witness": "PASS, 64 targeted actually-used source events pre-treatment, blocked source after treatment",
+    "TT_cutoff_specific_mediation": "NOT_OBSERVED; no observed main_cutoff or qsearch_cutoff event for the targeted watched source uses",
+    "terminal_root_choice_affected": "YES five games, ten correlated cells, not a population model",
+    "immediate_alpha_crossing_as_necessary_mediator": "FALSIFIED as an exclusive account in observed 8 nonfirst SAME_GATE first differences; full hidden path mediation unresolved",
+    "native_Stockfish_internal_see_ge_mediation": "NOT_TESTED; pre-native legal recapture tree is a descriptive chess source, not instrumented native SEE gate",
+    "precise_individual_move_forecast_from_M2": "FAIL"
+  },
+  "older_negatives_preserved": [
+    "0.19 F19.5 FAIL",
+    "K4 0/4 FAIL",
+    "Jan J2/J3/J4 FAIL",
+    "CPP224/PAG universal/transfer FAIL",
+    "0.22 P2 TWIC1656 M1 exact UCI FAIL"
+  ],
+  "next": "Targeted source-level see_ge/recapture gate instrumentation with exact TT writer reader matching and principled separate split, plus prospective distinct TWIC issue or fresh Lichess tactical-nonmate stratum before further claims. Keep 1664 development data only after looking at outcomes."
+}
