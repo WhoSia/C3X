@@ -1,4 +1,5 @@
 name: C3X 0.24 P0 Fresh Aug2025 Broadcast 16 Source Only Before Engines
+# Test-only exception expectation repair; same preregistered archive and deterministic selector.
 on:
   push:
     paths:
