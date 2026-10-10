@@ -1,0 +1,45 @@
+name: C3X 0.24 P4 July256 Untreated Original Event Player Cluster Audit
+on:
+  push:
+    paths:
+      - '.github/workflows/c3x-024-P4-July256-source-only-event-cluster-audit.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  original-256-source-cluster-only-no-FIRST:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Inspect only git-sealed 256 source hashes and compile private grouping
+        run: |
+          set -euo pipefail
+          python -m pip install -q chess==1.11.2 zstandard==0.25.0
+          python -m py_compile harness/c3x_024_P4_July256_source_only_event_player_dependence_audit.py
+          mkdir -p public
+      - name: Fetch original CC BY-SA 4 July archive privately with original SHA gate
+        run: |
+          set -euo pipefail
+          curl -fLsS --retry 3 --max-time 450 https://database.lichess.org/broadcast/lichess_db_broadcast_2025-07.pgn.zst -o /tmp/C3X024_P4_JULY256_ORIGINAL_SOURCE_PRIVATE.pgn.zst
+          test "$(sha256sum /tmp/C3X024_P4_JULY256_ORIGINAL_SOURCE_PRIVATE.pgn.zst | awk '{print $1}')" = 1ffc6b775d27631ac988dd816a137b6dd0ec05561aeee8b45861e0c08dbcb10b
+      - name: Compare 256 human Git-sealed game hashes and anonymously aggregate source dependencies
+        run: |
+          set -euo pipefail
+          PYTHONPATH=harness python -u harness/c3x_024_P4_July256_source_only_event_player_dependence_audit.py --zst /tmp/C3X024_P4_JULY256_ORIGINAL_SOURCE_PRIVATE.pgn.zst --out public/C3X024_P4_JULY256_SOURCE_ONLY_EVENT_PLAYER_CLUSTER_COUNTS.json
+          python tools/c3x_023_rights_preupload_gate.py --tier P2_AGGREGATE_SUMMARY --file public/C3X024_P4_JULY256_SOURCE_ONLY_EVENT_PLAYER_CLUSTER_COUNTS.json --report public/RIGHTS_P4_EVENT_PLAYER_COUNTS.json
+          echo 'Derived July2025 Lichess broadcast source CC BY-SA 4.0 https://database.lichess.org/broadcast/lichess_db_broadcast_2025-07.pgn.zst https://creativecommons.org/licenses/by-sa/4.0/; only anonymous aggregate counts, no player/event names, complete original PGN or modified engine.' > public/SOURCE_LICENSE_NOTICE.txt
+      - name: SHA manifest for public-only outputs
+        if: always()
+        run: |
+          find public -maxdepth 1 -type f ! -name MEMBER_SHA256.txt -print0 | sort -z | xargs -0 -r sha256sum > public/MEMBER_SHA256.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x-024-P4-JULY256-original-source-anonymous-event-player-cluster-check
+          path: public/
+          if-no-files-found: error
+          retention-days: 90
