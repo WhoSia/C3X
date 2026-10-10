@@ -1,0 +1,40 @@
+name: C3X 0.24 P4 S2 O1 Trace Censored Original Source HOLD Regression No FIRST
+on:
+  push:
+    paths:
+      - '.github/workflows/c3x-024-P4-S2-O1-source-trace-censor-failclosed-regression.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  exact-opt-in-source-overflow-default-failclosed:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Source census reporter unchanged, original default fail-closed, July opt-in tagged only
+        run: |
+          set -euo pipefail
+          python -m pip install -q chess==1.11.2 zstandard==0.25.0
+          python -m py_compile harness/c3x_018_native_TT_lineage_factorial_6_8.py harness/c3x_024_P4_July256_untreated_native_stageA.py harness/c3x_024_P4_July256_1024_preFIRST_exact_UCI_M0_M4_six_models.py
+          python -m unittest discover -s tools -p 'test_c3x_024_P4_M4_preFIRST_survivor_rule.py' -v
+          python - <<'PY'
+          import inspect,sys
+          sys.path.insert(0,'harness')
+          from c3x_018_native_TT_lineage_factorial_6_8 import play
+          from pathlib import Path
+          spec=inspect.signature(play)
+          assert spec.parameters['allow_source_trace_censored'].default is False
+          native=Path('tools/c3x_018_physical_epoch_lineage_patch.py').read_text()
+          assert 'C3X018_LOG_LIMIT = 30000' in native
+          july=Path('harness/c3x_024_P4_July256_untreated_native_stageA.py').read_text()
+          for fragment in ('C3X018_PHYSICAL_COURT_TRACE_CENSORED','allow_source_trace_censored=True',
+                           'source_trace_censored','"HOLD_CENSORED_UNKNOWN"','failed_probe_discovery',
+                           'P4_TRACE_CENSORED_EXACT_NATIVE_MARKER_MISSING'):
+              assert fragment in july,fragment
+          assert 'C3X024_P4_SOURCE_TRACE_CENSORED_HOLD' in july
+          print('C3X024_P4_SOURCE_TRACE_CENSORED_OPTOIN_FROZEN_30K_HOLD_REGRESSION_PASS')
+          PY
