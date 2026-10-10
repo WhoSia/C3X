@@ -1,0 +1,121 @@
+{
+  "schema": "c3x020-C1-native-root-choice-alpha-gate-six-target-precommitted-result-v1",
+  "date": "2026-10-10",
+  "study": "ADAPTIVE_FIXED_FEBRUARY_GAME3_STRICT_FALSIFIABLE_WITH_PRENATIVE_PREDICTIONS",
+  "precommit": "c3x/ontology/c3x-020-C-alpha-gate-root-choice-transmission-and-prospective-forecast-precommit.md",
+  "original_stockfish16_commit": "68e1e9b3811e16cad014b590d7443b9063b52",
+  "source_gate": "nonfirst root move: moveCount==1 || value>alpha; alpha=-190, moveCount=5",
+  "native": {
+    "run_id": 38037902660,
+    "url": "https://github.com/WhoSia/C3X/actions/runs/38037902660",
+    "conclusion": "success",
+    "artifact_id": 11665080407,
+    "artifact_name": "c3x-020-C-preregistered-alpha-gate-root-choice-ladder",
+    "artifact_zip_sha256": "96f1473b94537dcc8051bdb26b3985bb4122e7620c8ae9ed2de96ca2c68e40d2",
+    "primary_json_name": "C3X020_C_ALPHA_GATE_THRESHOLD_LADDER.json",
+    "primary_json_sha256": "eaef7731a54ac3e852c5b9166c3fc6781d79a850a8ae7bea0c4d573a82300116",
+    "sha256_member_count": 24,
+    "bad_members": 0,
+    "tests_source_and_harness": "19 PASS (4 historical+9 multi-state+6 new)",
+    "frozen_input_sha256": {
+      "february_source": "2942b1933030227f36b669faff41f15ff234c27127dbf2403bf2e8e4f12ebdc8",
+      "previous_F19_native": "2a67839faf37c19ac1749c9b88200546c04f33e2b397159435a4ab97434fee74",
+      "previous_B_native": "0d9d4c3a1fce8b7ae048df4341075a4bc985fdabbab3cd40f664ad7ad7e66bb6"
+    }
+  },
+  "native_gate_contacts": "6/6 expected exact site, all verified, independent cold duplicates",
+  "four_arm_original_controls": "F/V/OBS/SHAM outputs retained; historical second-only L0 exact UCI replay",
+  "case3": {
+    "alpha": -190,
+    "beta": -166,
+    "root_depth": 4,
+    "root_call": 4,
+    "trial": 1,
+    "move_native": 222,
+    "candidate_index": 5,
+    "F_bestmove": "a1c1",
+    "V_bestmove": "e1e3",
+    "L0_bestmove": "a1c1",
+    "points": [
+      {
+        "id": "L0",
+        "value": -206,
+        "gate": 0,
+        "bestmove": "a1c1",
+        "score_cp": -49,
+        "nodes": 78899,
+        "depth4_leader_native": 1048,
+        "depth12_leader_native": 2
+      },
+      {
+        "id": "L1",
+        "value": -191,
+        "gate": 0,
+        "bestmove": "a1c1",
+        "score_cp": -49,
+        "nodes": 78899,
+        "depth4_leader_native": 1048,
+        "depth12_leader_native": 2
+      },
+      {
+        "id": "L2",
+        "value": -190,
+        "gate": 0,
+        "bestmove": "a1c1",
+        "score_cp": -49,
+        "nodes": 78899,
+        "depth4_leader_native": 1048,
+        "depth12_leader_native": 2
+      },
+      {
+        "id": "L3",
+        "value": -189,
+        "gate": 1,
+        "bestmove": "e1e3",
+        "score_cp": -45,
+        "nodes": 51423,
+        "depth4_leader_native": 222,
+        "depth12_leader_native": 276
+      },
+      {
+        "id": "L4",
+        "value": -180,
+        "gate": 1,
+        "bestmove": "e1e3",
+        "score_cp": -49,
+        "nodes": 204788,
+        "depth4_leader_native": 222,
+        "depth12_leader_native": 276
+      },
+      {
+        "id": "L5",
+        "value": -179,
+        "gate": 1,
+        "bestmove": "e1e3",
+        "score_cp": -49,
+        "nodes": 204780,
+        "depth4_leader_native": 222,
+        "depth12_leader_native": 276
+      }
+    ],
+    "controls": {
+      "F_nodes": 89179,
+      "F_score_cp": -50,
+      "V_nodes": 204780,
+      "V_score_cp": -49
+    },
+    "prediction_verdicts": {
+      "H_G": "PASS_6_OF_6",
+      "H_C": "PASS_ONE_POINT_GATE_AND_BESTMOVE_DISCONTINUITY"
+    },
+    "mechanistic_interpretation": "At the exact native post-child pre-root-score site, alpha gate is 0 for v<=-190 and 1 for v>=-189, with the matched final move changing between -190 and -189. The three gate=0 treatments yielded byte-equal six-field UCI and identical nodes, whereas gate=1 treatments chose V's final move with heterogeneous nodes/score. Evidence supports threshold-class response in this selected native case; root averageScore updates and other value-sensitive channels can also influence search cost in gate=1 arms."
+  },
+  "historical_negative_verdicts_preserved": {
+    "F19_5": "FAIL",
+    "K4": "FAIL_0_OF_4",
+    "January_J2_J3_J4": "FAIL",
+    "P1_R5": "FAIL"
+  },
+  "generality": "Known February game selected after outcome; within-case precommitted ladder, not independent external validation.",
+  "next_independent_test": "March2026 engine-free source 16 selected and sealed before native tests; preserve 16x2 fixed TT role denominator and prereg gate-cross prediction H_MARCH."
+}
