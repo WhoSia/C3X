@@ -1,0 +1,164 @@
+name: C3X 0.22 P2 StageB TWIC and Puzzle Prospective Exact Move TT Reader Court
+on:
+  push:
+    paths:
+      - '.github/workflows/c3x-022-P2-stageB-TWIC-puzzle-exact-TT-counterfactual.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  all-cells-precommitted-physical-first-reader-intervention:
+    runs-on: ubuntu-latest
+    timeout-minutes: 95
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Python and source-anchor negative fixture tests
+        run: |
+          python -m pip install -q chess==1.11.2
+          python -m py_compile tools/c3x_019_root_return_one_site_rescue_overlay.py
+          python -m py_compile harness/c3x_019_Feb_four_first_root_return_rescue_native.py
+          python -m py_compile harness/c3x_018_native_TT_lineage_factorial_6_8.py
+          python -m unittest discover -s tools -p 'test_c3x_019_root_return_one_site_rescue.py' -v
+          python -m py_compile tools/c3x_020_multi_state_root_repair_overlay.py
+          python -m py_compile harness/c3x_020_B_minimal_multi_state_native_court.py
+          python -m unittest discover -s tools -p 'test_c3x_020_multi_state_root_repair.py' -v
+          python -m py_compile harness/c3x_020_C_alpha_gate_threshold_ladder_native.py
+          python -m unittest discover -s tools -p 'test_c3x_020_C_alpha_gate_ladder.py' -v
+          python -m py_compile harness/c3x_021_P1_march_native_TT_atomic_bridge.py
+          python -m unittest discover -s tools -p 'test_c3x_021_P1_native_TT_atomic_bridge.py' -v
+          python -m py_compile harness/c3x_022_P1_april16_prospective_order_TT_court.py
+          python -m unittest discover -s tools -p 'test_c3x_022_P1_prospective_native_forecast.py' -v
+          python -m py_compile harness/c3x_022_P2_two_stage_exact_move_scout.py
+          python -m unittest discover -s tools -p 'test_c3x_022_P2_exact_move_scout.py' -v
+          python -m py_compile harness/c3x_022_P2_external_exact_move_TT_counterfactual_court.py
+          python -m unittest discover -s tools -p 'test_c3x_022_P2_external_TT_exact_move_court.py' -v
+      - name: Exact SHA frozen 32 new TWIC/Puzzle boards without any new engine
+        uses: actions/download-artifact@v4
+        with:
+          name: c3x-022-P2-TWIC1656-LichessPuzzle-engineblind-source32
+          path: source/
+          repository: WhoSia/C3X
+          run-id: '38047000932'
+          github-token: ${{ github.token }}
+      - name: All 1056 new Standard Chess legal root actions frozen BEFORE this run
+        uses: actions/download-artifact@v4
+        with:
+          name: c3x-022-P2-TWIC-puzzle32-all-legal-chess-primitives
+          path: primitives/
+          repository: WhoSia/C3X
+          run-id: '38047190525'
+          github-token: ${{ github.token }}
+      - name: Previously full Git-and-SHA committed StageA literal 128 UCI forecasts
+        uses: actions/download-artifact@v4
+        with:
+          name: c3x-022-P2-stageA-TWIC-puzzle-exact-UCI-forecasts
+          path: stageA/
+          repository: WhoSia/C3X
+          run-id: '38047696668'
+          github-token: ${{ github.token }}
+      - name: Verify all fixed new source inputs and legal action counts
+        run: |
+          set -euo pipefail
+          mkdir -p evidence
+          test "$(sha256sum source/C3X022_P2_TWIC1656_PUZZLE_SOURCE32.json | cut -d' ' -f1)" = ebe6648f43f64c6f31e0d547845bec3d87c663093fd68298acf2ebe4c0287554
+          test "$(sha256sum primitives/C3X022_P2_TWIC_PUZZLE_ALL_LEGAL_CHESS_PRIMITIVES.json | cut -d' ' -f1)" = b3b4a29788c1f9dc2b4d491cd60d44ad8e6530d3d66be5d77039a6fd59cc958d
+          test "$(sha256sum stageA/C3X022_P2_STAGE_A_EXACT_MOVE_FORECASTS.json | cut -d' ' -f1)" = 0258edda1182ff21f4764e015548125e43978b504e36fa6d7c99a0f235a74fcd
+          python - <<'PY'
+          import json
+          a=json.load(open('source/C3X022_P2_TWIC1656_PUZZLE_SOURCE32.json'))
+          b=json.load(open('primitives/C3X022_P2_TWIC_PUZZLE_ALL_LEGAL_CHESS_PRIMITIVES.json'))
+          assert a['selected_count']==32 and b['summary']['all_legal_chess_root_actions']==1056
+          assert all('source_halfmove_clock' in r for eco in a['ecologies'].values() for r in eco['selected'])
+          print("C3X022_P2_TWIC_PUZZLE_FULL_SOURCE_AND_1056_CHESS_ROOTS_PRENATIVE_SEALED")
+          PY
+          python - <<'PY'
+          import hashlib,json
+          f='stageA/C3X022_P2_STAGE_A_EXACT_MOVE_FORECASTS.json'
+          raw=open(f,'rb').read()
+          a=json.loads(raw)
+          m=json.load(open('c3x/forecasts/c3x-022-P2-TWIC-puzzle32-exact-UCI-preregistered-stageA-20261010.json'))
+          assert hashlib.sha256(raw).hexdigest()==m['full_stageA_JSON_sha256']
+          assert m['sealed_before_any_first_TT_reader_intervention'] is True
+          assert a['summary']['any_TT_V_intervention_performed'] is False
+          assert a['summary']['eligible_source_cells']==92
+          count=0
+          for eco in ('twic','lichess_puzzles'):
+              for fixed,stored in zip(m['forecasts'][eco],a['ecologies'][eco]['selected']):
+                  assert fixed['game_id']==stored['id']
+                  assert fixed['baseline_O_bestmove']==stored['worlds']['O']['baseline_UCI']['bestmove']
+                  assert fixed['baseline_F_bestmove']==stored['worlds']['F']['baseline_UCI']['bestmove']
+                  for order in ('O','F'):
+                      for role in ('STRICT','BROAD'):
+                          p=fixed['source_pair_role_forecasts'][order][role]
+                          q=stored['worlds'][order]['roles'][role]
+                          assert p['status']==q['status']
+                          assert p['predicted_UCI']==q['predicted_UCI']
+                          assert p['predicted_flip']==q['predicted_flip']
+                          count+=1
+          assert count==128
+          print('C3X022_P2_ALL128_GIT_PREREGISTERED_EXACT_UCI_SHA_CHECK_PASS')
+
+          PY
+      - name: Native Stockfish16 single-return plus second-return and persistent-state build
+        run: |
+          set -euo pipefail
+          root=/tmp/C3X020_MULTI_STATE
+          git clone -q --single-branch --branch sf_16 https://github.com/official-stockfish/Stockfish.git "$root"
+          test "$(git -C "$root" rev-parse HEAD)" = 68e1e9b3811e16cad014b590d7443b9063b3eb52
+          python tools/c3x_016_P4_independent_12root_source_order_patch.py --source "$root" --out-manifest evidence/P4.json
+          python tools/c3x_017_early_depth1_root_window_trace_patch.py --source "$root" --out-manifest evidence/ROOT_TRACE.json
+          python tools/c3x_018_trial_call_identity_patch.py --source "$root" --out-manifest evidence/TRIAL_ID.json
+          python tools/c3x_018_physical_epoch_lineage_patch.py --source "$root" --out-manifest evidence/EPOCH.json
+          python tools/c3x_018_tt_eval_consumption_overlay.py --source "$root" --out-manifest evidence/V.json
+          python tools/c3x_018_physical_value_witness_overlay.py --source "$root" --out-manifest evidence/WRITER_TICKET.json
+          python tools/c3x_018_root_TT_genealogy_overlay.py --source "$root" --out-manifest evidence/ROOT_TT_LINEAGE.json
+          python tools/c3x_018_TT_reader_writer_age_bound_root_feature_overlay.py --source "$root" --out-manifest evidence/AGE_BOUND.json
+          python tools/c3x_018_january2048_TT_reader_source_census.py --source "$root" --out-manifest evidence/CENSUS.json
+          python tools/c3x_018_adaptive_writer_age_root_call_V_gate.py --source "$root" --out-manifest evidence/AGE_GATE.json
+          python tools/c3x_018_january_cross_window_pair_source_gate.py --source "$root" --out-manifest evidence/WINDOW_GATE.json
+          python tools/c3x_018_jan_original_key_TT_probe_watch_overlay.py --source "$root" --out-manifest evidence/PROBE.json
+          python tools/c3x_018_jan_TT_probe_physical_writer_epoch_witness.py --source "$root" --out-manifest evidence/PROBE_WRITER.json
+          python tools/c3x_018_P0P1_TT_save_decision_writer_reinstate_overlay.py --source "$root" --out-manifest evidence/P0_P1_SOURCE_MUTATION.json
+          python tools/c3x_018_P1_pre_second_reader_temporal_scope_overlay.py --source "$root" --out-manifest evidence/P1_PRE_SECOND_TEMPORAL_GATE.json
+          python tools/c3x_019_tt_raw_bytes_shadow_writer_orthogonal_overlay.py --source "$root" --out-manifest evidence/C3X019_ORTHOGONAL_WRITER_STATE.json
+          python tools/c3x_019_actual_native_tt_eval_use_source_witness.py --source "$root" --out-manifest evidence/C3X019_NATIVE_EVAL_USE.json
+          python tools/c3x_019_native_TT_cutoff_actual_return_overlay.py --source "$root" --out-manifest evidence/C3X019_NATIVE_TT_CUTOFF_RETURN.json
+          python tools/c3x_019_root_return_one_site_rescue_overlay.py --source "$root" --out-manifest evidence/ONE_SITE_RETURN_MUTATION.json
+          python tools/c3x_020_multi_state_root_repair_overlay.py --source "$root" --out-manifest evidence/C3X020_MULTI_STATE_MUTATION.json
+          git -C "$root" diff -- src/ > evidence/SOURCE_DIFF.patch
+          make -s -C "$root/src" -j2 build ARCH=x86-64
+          sha256sum "$root/src/stockfish" > evidence/BINARY_SHA256.txt
+      - name: Native V FIRST physical TT counterfactual on SHA-frozen 128 forecast cells
+        run: |
+          set -euo pipefail
+          python -u harness/c3x_022_P2_external_exact_move_TT_counterfactual_court.py \
+            --source source/C3X022_P2_TWIC1656_PUZZLE_SOURCE32.json \
+            --stage-a stageA/C3X022_P2_STAGE_A_EXACT_MOVE_FORECASTS.json \
+            --stage-a-sha 0258edda1182ff21f4764e015548125e43978b504e36fa6d7c99a0f235a74fcd \
+            --primitives primitives/C3X022_P2_TWIC_PUZZLE_ALL_LEGAL_CHESS_PRIMITIVES.json \
+            --engine /tmp/C3X020_MULTI_STATE/src/stockfish \
+            --out evidence/C3X022_P2_STAGE_B_EXACT_UCI_TT_COUNTERFACTUAL.json | tee evidence/STAGE_B_STDOUT.txt
+          python - <<'PY'
+          import json
+          d=json.load(open("evidence/C3X022_P2_STAGE_B_EXACT_UCI_TT_COUNTERFACTUAL.json"))
+          assert len(d['per_ecology']['twic']['cases'])==16
+          assert len(d['per_ecology']['lichess_puzzles']['cases'])==16
+          assert all(z['summary']['potential_order_role_cells']==64 for z in d['per_ecology'].values())
+          print("C3X022_P2_TWO_ECOLOGIES_NATIVE_EXACT_UCI_COURT_RESULTS",
+                {e:v['summary'] for e,v in d['per_ecology'].items()})
+          PY
+      - name: Preserve manifest, source diff and all negative observations
+        if: always()
+        run: |
+          mkdir -p evidence
+          find evidence -maxdepth 1 -type f ! -name MEMBER_SHA256.txt -print0 | sort -z | xargs -0 -r sha256sum > evidence/MEMBER_SHA256.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x-022-P2-stageB-TWIC-puzzle-native-exact-UCI-TT-outcomes
+          path: evidence/
+          retention-days: 90
+          if-no-files-found: error
