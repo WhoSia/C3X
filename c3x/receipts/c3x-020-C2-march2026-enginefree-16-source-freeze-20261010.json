@@ -1,0 +1,88 @@
+{
+  "schema": "c3x020-C2-march2026-disjoint-enginefree-blind16-source-freeze-v1",
+  "date": "2026-10-10",
+  "status": "SOURCE_ONLY_FROZEN_BEFORE_ANY_MARCH_STOCKFISH_OUTCOME",
+  "selection_precommit": "c3x/ontology/c3x-020-C-alpha-gate-root-choice-transmission-and-prospective-forecast-precommit.md",
+  "engine_use_during_selection": 0,
+  "source_url": "https://database.lichess.org/broadcast/lichess_db_broadcast_2026-03.pgn.zst",
+  "source_license": "Lichess broadcast games CC BY-SA 4.0",
+  "official_source_sha256": "1a5ad83fc9f440dcdadde17b11cc81a953f4895aaf8b8588470b3078209dc7fc",
+  "official_source_checksum_page": "https://database.lichess.org/broadcast/sha256sums.txt",
+  "run": {
+    "id": 38038059013,
+    "url": "https://github.com/WhoSia/C3X/actions/runs/38038059013",
+    "conclusion": "success",
+    "artifact_id": 11663698952,
+    "artifact_name": "c3x-020-C2-march2026-enginefree-blind16-source",
+    "zip_sha256": "6ff7873dc51d925cbf6b9c96781c0500879c343512beef208a37bc71cf3022e8",
+    "raw_json_name": "C3X020_C2_MARCH_BLIND16_SOURCE.json",
+    "raw_json_sha256": "d79e48633be2b683176f1a6d4650aeea1b7584f11c85c2349a5bddda113febee",
+    "verified_member_hashes": 3,
+    "member_hash_failures": 0
+  },
+  "selection": {
+    "scanned_games": 803,
+    "eligible_games": 512,
+    "selected_games": 16,
+    "source_unique_historical_fen4": 84,
+    "history_inputs": [
+      "P4",
+      "October",
+      "November",
+      "December",
+      "January",
+      "February"
+    ],
+    "disjoint_selected_game_sha_count": 16,
+    "disjoint_selected_fen4_count": 16,
+    "rules": "First 512 legal eligible from <=20000 PGN; each with >=70 halfmoves, at source ply 30+(first8 game SHA mod15), nonpromotion selected move and >=3 legal moves; rank candidate game full mainline/header hashes; select first 16",
+    "exclusions": {
+      "FEWER_THAN_THREE_ROOT_MOVES": 2,
+      "SHORT_GAME": 289
+    },
+    "position_plies": [
+      34,
+      30,
+      44,
+      43,
+      40,
+      37,
+      34,
+      38,
+      35,
+      38,
+      44,
+      34,
+      44,
+      42,
+      40,
+      38
+    ],
+    "legal_root_move_counts": [
+      39,
+      48,
+      46,
+      38,
+      31,
+      47,
+      32,
+      44,
+      39,
+      46,
+      42,
+      44,
+      26,
+      36,
+      39,
+      38
+    ]
+  },
+  "forecast_contract": "0.20-C precommitted prospective March F vs V gate-up/gate-down/same-gate at depth4, depth4 root terminal leader and final depth12 categorical bestmove test; all denominators retained including no-eligible roles",
+  "independent_gate_status": "NATIVE_MARCH_OUTCOMES_NOT_YET_OBSERVED",
+  "preserved_historical_failures": [
+    "January J2/J3/J4 FAIL",
+    "February F19.5 FAIL",
+    "0.19 K4 FAIL 0/4",
+    "P1 R5 FAIL"
+  ]
+}
