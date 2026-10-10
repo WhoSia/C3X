@@ -16,14 +16,14 @@ struct C3X023_T1_Frame {
     const Value* alpha;
     const Value* beta;
     const Depth* depth;
-    const Stack* ss;
+    const Search::Stack* ss;
     bool pv;
     bool qsearch;
 };
 thread_local std::vector<C3X023_T1_Frame> c3x023_t1_stack;
 struct C3X023_T1_Scope {
     C3X023_T1_Scope(const Value* a,const Value* b,const Depth* d,
-                   const Stack* s,bool p,bool q) {
+                   const Search::Stack* s,bool p,bool q) {
         c3x023_t1_stack.push_back({a,b,d,s,p,q});
     }
     ~C3X023_T1_Scope() { c3x023_t1_stack.pop_back(); }
