@@ -1,0 +1,87 @@
+{
+  "schema": "c3x023-P1-R2-T2-literal-quiet-qsearch-SEE-signature-pre-actuator-v1",
+  "freeze_status": "GIT_LITERALS_COMMITTED_BEFORE_ANY_NEW_EXACT_SEE_OPERATOR_FLIP",
+  "source_origins": "May2026 Lichess broadcast / CC BY-SA 4.0",
+  "frozen_32_licenced_root_SHA256": "0ff43e28dcb3a5e48dea6b61e4450fc8bb9e1f96363871c33c4b73524664db61",
+  "prior_T1_native_raw_result_SHA256": "6c0440693c83ba0cd219d396b7d1cb2cdd14e3324f0c0f77485edf1df288c0a8",
+  "preactuator_target_artifact_run": 38069237414,
+  "preactuator_target_artifact_id": 11676392027,
+  "preactuator_target_artifact_member_SHA256": "830536f445330b739a7a3b7e88ce4227e9ab9db43cf277f08a01ed5f9dc0ef69",
+  "original_preregistered_target_selection_rule": "c3x/ontology/c3x-023-P1-R2-T2-preactuation-exact-source-SEE-target-selection-rule.md",
+  "source_target_selection_status": "TWO_PRECISE_NATIVE_SITES_ELIGIBLE; TWO_NO_SAFE_SITE_HOLD; NEVER_SUBSTITUTE_ALTERNATES",
+  "development_cases": [
+    {
+      "game_id": 1,
+      "root_order": "O",
+      "role": "STRICT",
+      "result": "HOLD_NO_QUIET_QSEARCH_MATCH_IN_FIRST32_PREFIX",
+      "selected_source_SEE": null
+    },
+    {
+      "game_id": 11,
+      "root_order": "F",
+      "role": "STRICT",
+      "result": "EXACT_SOURCE_SEE_TARGET_PRECOMMITTED",
+      "selected_source_SEE": {
+        "key64": "17313260329564574594",
+        "parent_key64": "17313260329564574594",
+        "move": 2908,
+        "root_call": 5,
+        "root_move": 3819,
+        "site": "qsearch_prune",
+        "threshold": -95,
+        "t1_path": "16099861459649833910,5814197896428734542,17313260329564574594,17313260329564574594",
+        "t1_ply": 2,
+        "t1_depth": 0,
+        "t1_alpha": -215,
+        "t1_beta": -214,
+        "t1_pv": 0,
+        "t1_qsearch": 1,
+        "t1_rule50": 7,
+        "t1_occupied_present": 0,
+        "t1_occupied_out": 0,
+        "original_SEE_Boolean": 0,
+        "source_first_observed_line": 218,
+        "source_TT_FIRST_observed_line": 229
+      }
+    },
+    {
+      "game_id": 12,
+      "root_order": "F",
+      "role": "STRICT",
+      "result": "HOLD_NO_QUIET_QSEARCH_MATCH_IN_FIRST32_PREFIX",
+      "selected_source_SEE": null
+    },
+    {
+      "game_id": 2,
+      "root_order": "O",
+      "role": "STRICT",
+      "result": "EXACT_SOURCE_SEE_TARGET_PRECOMMITTED",
+      "selected_source_SEE": {
+        "key64": "14944325581032861125",
+        "parent_key64": "17937720399700876078",
+        "move": 204,
+        "root_call": 5,
+        "root_move": 2802,
+        "site": "quiet_prune",
+        "threshold": -43,
+        "t1_path": "7354220868432421647,17937720399700876078,14944325581032861125",
+        "t1_ply": 2,
+        "t1_depth": 2,
+        "t1_alpha": -9,
+        "t1_beta": -8,
+        "t1_pv": 0,
+        "t1_qsearch": 0,
+        "t1_rule50": 2,
+        "t1_occupied_present": 0,
+        "t1_occupied_out": 0,
+        "original_SEE_Boolean": 1,
+        "source_first_observed_line": 212,
+        "source_TT_FIRST_observed_line": 217
+      }
+    }
+  ],
+  "rights": "Source-move site hashes and engine native integer coordinates are derived experimental data, not original PGN, FEN or player names. BY-SA source credit/reuse obligations apply; no TWIC original archived here.",
+  "scientific_status": "DEVELOPMENT_ONLY_SITE_SPECIFIC_SOURCE_SENSITIVITY_NOT_PROVEN_NATURAL_TT_SEE_MEDIATION",
+  "external_email_status": "Mark reply private Notion only; unrelated to licensed May source."
+}
