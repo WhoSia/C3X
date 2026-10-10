@@ -1,4 +1,5 @@
 name: C3X 0.23 P1-R2-T4 Actual Native Prune-Continue Source Witness
+# T4-R1: technical source-call arity repair; T2 target identities and outcome gates unchanged.
 on:
   push:
     paths:
