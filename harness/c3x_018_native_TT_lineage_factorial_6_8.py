@@ -38,9 +38,43 @@ def core(raw, search_depth=12):
     need(len(best)==1 and best[0]==rows[-1]["pv"][0], "MISSING_BESTMOVE")
     return {"bestmove":best[0],**rows[-1]}
 
-def play(engine, world, p4_mode, lineage_mode=None, target=None, writer_budget=None, rescue_attempt=None, discovery=False, history=False, fen_clocks=None, search_depth=12, draw_mode=None, tt_reader_filters=None, probe_watch=None, p1_writer=None, native_use_watch=None, passive_second_call=None):
+def play(engine, world, p4_mode, lineage_mode=None, target=None, writer_budget=None, rescue_attempt=None, discovery=False, history=False, fen_clocks=None, search_depth=12, draw_mode=None, tt_reader_filters=None, probe_watch=None, p1_writer=None, native_use_watch=None, passive_second_call=None, root_return=None):
     need(isinstance(search_depth,int) and 1<=search_depth<=32,"INVALID_SEARCH_DEPTH")
     env = dict(os.environ)
+    return_env={
+      "depth":"C3X019_RETURN_DEPTH",
+      "root_call":"C3X019_RETURN_ROOT_CALL",
+      "trial":"C3X019_RETURN_TRIAL",
+      "move":"C3X019_RETURN_MOVE",
+      "index":"C3X019_RETURN_INDEX",
+      "alpha":"C3X019_RETURN_ALPHA",
+      "beta":"C3X019_RETURN_BETA",
+      "expected":"C3X019_RETURN_EXPECTED",
+      "replacement":"C3X019_RETURN_REPLACEMENT",
+      "mode":"C3X019_RETURN_REPAIR_MODE"}
+    for key in return_env.values():
+        env.pop(key,None)
+    if root_return is not None:
+        need(isinstance(root_return,dict) and set(root_return)==set(return_env),
+             "ROOT_RETURN_STRICT_SCHEMA")
+        need(root_return["mode"] in ("OBS","REPAIR"),
+             "ROOT_RETURN_INVALID_MODE")
+        for field in return_env:
+            if field=="mode":
+                continue
+            need(isinstance(root_return[field],int),
+                 "ROOT_RETURN_INVALID_"+field)
+            env[return_env[field]]=str(root_return[field])
+        need(1<=root_return["depth"]<=search_depth
+             and 1<=root_return["root_call"]<=2000
+             and 1<=root_return["trial"]<=100
+             and 1<=root_return["index"]<=256
+             and 1<=root_return["move"]<=65535
+             and root_return["alpha"]<root_return["beta"]
+             and -32000<root_return["replacement"]<32000
+             and -32000<root_return["expected"]<32000,
+             "ROOT_RETURN_BOUNDS")
+        env[return_env["mode"]]=root_return["mode"]
     for key in ("C3X019_NATIVE_USE_WATCH_KEY64","C3X019_NATIVE_USE_WATCH_ROOT_CALL","C3X019_PASSIVE_SECOND_ROOT_CALL"):
         env.pop(key,None)
     if native_use_watch is not None:
@@ -196,6 +230,12 @@ def play(engine, world, p4_mode, lineage_mode=None, target=None, writer_budget=N
         if line.startswith("info string c3x018_draw_probe "):
             fields=parse_fields(line)
             draw_probes.append({k:(v if k in ("type","site") else int(v)) for k,v in fields.items()})
+    root_return_events=[]
+    for line in lines:
+        if line.startswith("info string c3x019_return_repair "):
+            fields=parse_fields(line)
+            root_return_events.append({k:(v if k=="kind" else int(v))
+                                       for k,v in fields.items()})
     root_events=[]
     for line in lines:
         if line.startswith("info string c3x017_root_event "):
@@ -228,6 +268,7 @@ def play(engine, world, p4_mode, lineage_mode=None, target=None, writer_budget=N
        "native_tt_source_allows":[e for e in events if e["kind"]=="reader_native_allow"],
        "p0_save_events":p0_save_events,
        "root_events":root_events,
+       "root_return_events":root_return_events,
        "root_contact":roots[0]}
 
 def stable(t):
