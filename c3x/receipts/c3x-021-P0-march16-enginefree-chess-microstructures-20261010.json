@@ -1,0 +1,45 @@
+{
+  "schema": "c3x021-P0-source-only-geometric-chess-microstructure-v1",
+  "date": "2026-10-10",
+  "status": "SOURCE_ONLY_16_OF_16_PASS_BEFORE_MARCH_NATIVE_OUTCOMES",
+  "active_version": "C3X 0.21",
+  "research_charter": "c3x/ontology/c3x-021-P0-native-search-and-chess-microstructure-research-charter.md",
+  "native_engine_called": false,
+  "march_source_sha256": "d79e48633be2b683176f1a6d4650aeea1b7584f11c85c2349a5bddda113febee",
+  "github_actions": {
+    "run_id": 38038801299,
+    "url": "https://github.com/WhoSia/C3X/actions/runs/38038801299",
+    "conclusion": "success",
+    "artifact_id": 11664822085,
+    "artifact_name": "c3x-021-march16-sourceonly-chess-microstructure",
+    "artifact_zip_sha256": "1930f1bc1d9af4490c7027873d082746c47dd23180d67dd1f82117c8bdf8c2a6",
+    "data_member_sha256": "99afa9aec2bb53d29ca45e4aafb9f57b411dae77b5ddfbc0372a79ee1c127d81",
+    "member_count": 3
+  },
+  "denominators": {
+    "positions": 16,
+    "absolute_pin_present_positions": 6,
+    "relative_xray_candidate_present_positions": 15,
+    "invalid_positions": 0,
+    "regression_tests": 5
+  },
+  "extractor": "harness/c3x_021_march_sourceonly_chess_microfeatures.py",
+  "tests": "tools/test_c3x_021_chess_microfeatures.py",
+  "scope": [
+    "legal absolute king pins",
+    "relative geometric x-ray lines only",
+    "legal checks and captures",
+    "passed pawn geometric predicates"
+  ],
+  "limitations": [
+    "A relative x-ray is not proof of a forced skewer or exchange win.",
+    "Chess feature counts do not yet causally explain Stockfish root choices.",
+    "No prior C3X 0.20-C prospective March alpha-gate predictions may be retrospectively changed."
+  ],
+  "historical_failures_preserved": [
+    "C3X019 K4 FAIL 0/4",
+    "February F19.5 FAIL",
+    "January J2/J3/J4 FAIL",
+    "P1 R5 FAIL"
+  ]
+}
