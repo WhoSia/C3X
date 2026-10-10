@@ -41,6 +41,9 @@ def window_class(value, alpha, beta):
 
 
 def first_semantic_divergence(left, right):
+    # A strict-prefix pair is NOT evidence of complete semantic equality.
+    # Fail closed rather than silently truncating an unequal event stream.
+    need(len(left) == len(right), "TRACE_LENGTH_MISMATCH")
     for i, (x, y) in enumerate(zip(left, right)):
         if semantic(x) != semantic(y):
             return i, x, y
