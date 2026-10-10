@@ -1,0 +1,22 @@
+name: C3X 0.24 P3 Synthetic Game-Level Aggregation Regression No Real Outcomes
+on:
+  push:
+    paths:
+      - '.github/workflows/c3x-024-P3-synthetic-shard-aggregation-regression-only.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  synthetic-no-engine-no-treatment:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Synthetic-only 128 game 501 FIRST 11 HOLD game-cluster judge
+        run: |
+          set -euo pipefail
+          python -m py_compile harness/c3x_024_P3_Sep128_after_preseal_game_cluster_model_score.py
+          python -m unittest discover -s tools -p 'test_c3x_024_P3_shard_aggregation_no_outcome_synthetic.py' -v
