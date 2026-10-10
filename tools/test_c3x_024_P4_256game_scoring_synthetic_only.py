@@ -32,8 +32,8 @@ class GateTester(unittest.TestCase):
                     arms.append(x)
                 rows.append({"game_id":g,"roles":arms})
             result={"schema":"c3x024-P4-256game-human-Git-presealed-six-model-physical-TT-FIRST-shard-v1",
-                    "shard":shard,"case_range":[shard*64+1,shard*64+32],
-                    "source_games":32,"potential_roles":256,
+                    "shard":shard,"case_range":[shard*64+1,shard*64+64],
+                    "source_games":64,"potential_roles":256,
                     "model_forecast_source_SHA256":"fictional-synthetic-source-forecast",
                     "untreated_stageA_SHA256":"fictional-synthetic-stage",
                     "original_source_JSON_SHA256":"fictional-synthetic-original",
