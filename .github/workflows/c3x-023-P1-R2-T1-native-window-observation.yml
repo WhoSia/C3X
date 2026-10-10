@@ -1,0 +1,74 @@
+name: C3X 0.23 P1-R2-T1 Native Exact SEE Window Six-Case Court
+on:
+  push:
+    paths:
+      - '.github/workflows/c3x-023-P1-R2-T1-native-window-observation.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  native-t1-six-case-window:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Contract tests
+        run: |
+          python -m pip install -q chess==1.11.2
+          python -m unittest discover -s tools -p 'test_c3x_023_P1_R2_T1_source_search_state_overlay.py' -v
+          python -m unittest discover -s tools -p 'test_c3x_023_P1_R2_T1_full_search_state_match.py' -v
+          mkdir -p public private buildproof source stageA
+      - uses: actions/download-artifact@v4
+        with:
+          name: c3x-023-P1-licensed-May-broadcast-CC0-nonmate32-engineblind-freeze
+          path: source/
+          repository: WhoSia/C3X
+          run-id: '38059784922'
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: c3x-023-P1-licensed32-stageA-native-TT-SEE-nodepath-no-intervention
+          path: stageA/
+          repository: WhoSia/C3X
+          run-id: '38060337140'
+          github-token: ${{ github.token }}
+      - name: Immutable scientific inputs
+        run: |
+          test "$(sha256sum source/C3X023_P1_MAY_BROADCAST_CC0_NONMATE32_SOURCE_ONLY.json | cut -d' ' -f1)" = 0ff43e28dcb3a5e48dea6b61e4450fc8bb9e1f96363871c33c4b73524664db61
+          test "$(sha256sum stageA/C3X023_P1_LICENSED32_STAGEA_NO_V_NODEPATH.json | cut -d' ' -f1)" = fe88afe49d7d43db7b81c37decab783f2b68311ed2ca10b6f42be4268bdb3442
+      - name: Compile pinned native Stockfish16 with 24 source patch overlays
+        run: |
+          python -u tools/c3x_023_P1_R2_T1_build_native_from_legacy_chain.py --source /tmp/C3X023_T1_NATIVE --evidence buildproof
+      - name: Native exact search state audit after source TT intervention
+        run: |
+          python -u harness/c3x_023_P1_R2_T1_full_computational_SEE_state_audit.py --source source/C3X023_P1_MAY_BROADCAST_CC0_NONMATE32_SOURCE_ONLY.json --stagea stageA/C3X023_P1_LICENSED32_STAGEA_NO_V_NODEPATH.json --engine /tmp/C3X023_T1_NATIVE/src/stockfish --out private/T1_NATIVE_SEARCH_STATE.json
+          python - <<'PY'
+          import json,hashlib
+          from pathlib import Path
+          p=Path('private/T1_NATIVE_SEARCH_STATE.json')
+          d=json.loads(p.read_bytes())
+          assert d["summary"]["development_cases"]==6
+          assert d["summary"]["SEE_Boolean_interventions"]==0
+          q={"schema":"c3x023-T1-licensed-source-computational-window-aggregate-v1",
+             "development_only":True,"results":d["summary"],
+             "private_raw_sha256":hashlib.sha256(p.read_bytes()).hexdigest(),
+             "no_original_PGN_or_FEN_distributed":True,
+             "SEE_returns_not_mutated":True,
+             "license":"Lichess May2026 broadcasts CC BY-SA 4.0"}
+          Path('public/T1_AGGREGATE.json').write_text(json.dumps(q,indent=2,sort_keys=True)+'\n')
+          print("C3X023_T1_VALIDATED_SEARCH_STATE",d["summary"])
+          PY
+      - name: Rights scan and minimal public data
+        run: |
+          python tools/c3x_023_rights_preupload_gate.py --tier P2_AGGREGATE_SUMMARY --file public/T1_AGGREGATE.json --report public/RIGHTS_GATE.json
+          cp buildproof/T1_PINNED_SOURCE_HASHES_ONLY.json public/ENGINE_HASHES.json
+          echo 'Lichess broadcasts 2026-05, CC BY-SA 4.0, source database.lichess.org; converted to bounded engine search evidence, original complete games excluded. Modified GPLv3 Stockfish engine not distributed.' > public/NOTICE.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x-023-P1-R2-T1-native-six-development-searchstate-aggregates
+          path: public/
+          retention-days: 90
