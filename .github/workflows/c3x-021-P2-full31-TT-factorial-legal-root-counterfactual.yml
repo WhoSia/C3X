@@ -86,6 +86,13 @@ jobs:
           root=/tmp/C3X020_MULTI_STATE
           git clone -q --single-branch --branch sf_16 https://github.com/official-stockfish/Stockfish.git "$root"
           test "$(git -C "$root" rev-parse HEAD)" = 68e1e9b3811e16cad014b590d7443b9063b3eb52
+          # Keep the board/choice counterfactual on pristine SF16; do not
+          # reuse the source-overlay binary intended for TT interventions.
+          plain=/tmp/C3X021_VANILLA_SF16
+          git clone -q --single-branch --branch sf_16 https://github.com/official-stockfish/Stockfish.git "$plain"
+          test "$(git -C "$plain" rev-parse HEAD)" = 68e1e9b3811e16cad014b590d7443b9063b3eb52
+          make -s -C "$plain/src" -j2 build ARCH=x86-64
+          sha256sum "$plain/src/stockfish" > evidence/PRISTINE_BINARY_SHA256.txt
           python tools/c3x_016_P4_independent_12root_source_order_patch.py --source "$root" --out-manifest evidence/P4.json
           python tools/c3x_017_early_depth1_root_window_trace_patch.py --source "$root" --out-manifest evidence/ROOT_TRACE.json
           python tools/c3x_018_trial_call_identity_patch.py --source "$root" --out-manifest evidence/TRIAL_ID.json
@@ -109,6 +116,24 @@ jobs:
           git -C "$root" diff -- src/ > evidence/SOURCE_DIFF.patch
           make -s -C "$root/src" -j2 build ARCH=x86-64
           sha256sum "$root/src/stockfish" > evidence/BINARY_SHA256.txt
+      - name: Unmodified Stockfish16 legal searchmoves smoke before 31-arm factorial
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import sys,json
+          sys.path.insert(0,'harness')
+          from c3x_018_native_TT_lineage_factorial_6_8 import play
+          from c3x_018_independent16_TT_value_transport_native import canonical_engine_world
+          from c3x_018_chess_clock_factorial_original_history_native import game_clocks
+          d=json.load(open("march/C3X020_C2_MARCH_BLIND16_SOURCE.json"))
+          s=d["selected"][3]
+          w,_=canonical_engine_world(s)
+          r=play("/tmp/C3X021_VANILLA_SF16/src/stockfish",w,"O",None,
+                 fen_clocks=game_clocks(s),search_depth=4,
+                 root_searchmoves=("h8h4","g5h4"))
+          assert r["UCI"]["bestmove"] in ("h8h4","g5h4")
+          print("C3X021_P2_PRISTINE_SF16_LEGAL_SEARCHMOVES_NATIVE_PASS",r["UCI"])
+          PY
       - name: Source-exact four-arm reader factorial across full31 plus frozen two legal chess root move contrasts
         run: |
           set -euo pipefail
@@ -118,6 +143,7 @@ jobs:
             --atomic atomic/C3X021_P1_ATOMIC_CHESS_TRANSITIONS_MARCH16.json \
             --r1 r1/C3X021_P1_R1_MARCH31_NATIVE_FULL64_TT_CONSUMER_WATCH.json \
             --engine /tmp/C3X020_MULTI_STATE/src/stockfish \
+            --plain-engine /tmp/C3X021_VANILLA_SF16/src/stockfish \
             --out evidence/C3X021_P2_FULL31_TT_FACTORIAL_AND_LEGAL_ROOT.json | tee evidence/NATIVE_FACTORIAL_STDOUT.txt
           python - <<'PY'
           import json
