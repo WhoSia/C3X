@@ -1,0 +1,113 @@
+{
+  "schema": "c3x023-P1-R2-T4-actual-executed-native-see-pruning-guard-eight-arm-witness-v1",
+  "date": "2026-10-11 KST",
+  "status": "ACTUAL_CPP_GUARD_EXECUTION_NATIVE_CI_SUCCESS__POST_OUTCOME_DEVELOPMENT__NOT_FULL_DESCENDANT_CHAIN",
+  "preregistration": "c3x/ontology/c3x-023-P1-R2-T4-native-pruning-branch-survival-source-observer-precommit.md",
+  "preregistration_git_commit": "a062b31f9f410c1b436d7244ae82de44ab8c2066",
+  "original_T2_literal_identity_committed_before_any_native_see_intervention": "31ed4f0bf7fa23a90f582ad074c75921bcb450fc",
+  "frozen_original_material": {
+    "source_SHA256": "0ff43e28dcb3a5e48dea6b61e4450fc8bb9e1f96363871c33c4b73524664db61",
+    "stageA_SHA256": "fe88afe49d7d43db7b81c37decab783f2b68311ed2ca10b6f42be4268bdb3442",
+    "T1_full_state_SHA256": "6c0440693c83ba0cd219d396b7d1cb2cdd14e3324f0c0f77485edf1df288c0a8",
+    "T2_target_source_SHA256": "830536f445330b739a7a3b7e88ce4227e9ab9db43cf277f08a01ed5f9dc0ef69",
+    "T3_original_full_native_SHA256": "be2242388f50fc9e0d392a6bde20d624ed02ebc8a6149c13ecccd951ff312626"
+  },
+  "technical_first_attempt": {
+    "run": 38072709627,
+    "status": "TECHNICAL_FAIL_NOT_SCIENTIFIC_NEGATIVE",
+    "reason": "T4_SITE_ANCHOR_quiet_prune_0",
+    "correction": "Use the actual wrapper call without obsolete ss->ply,depth,alpha,beta arguments. No target or source selection changes."
+  },
+  "successful_native_run": {
+    "run": 38072795238,
+    "url": "https://github.com/WhoSia/C3X/actions/runs/38072795238",
+    "conclusion": "SUCCESS",
+    "commit_sha": "ffaecb3c1082b5213ba44a76f16d87bb62bc188d",
+    "preflight_tests": "PASS",
+    "source_sha_checks": "PASS",
+    "T3_without_T4_observer_exact_private_result_SHA": "PASS",
+    "physical_TT_reader_and_source_SHAM_repeated": "PASS",
+    "T4_real_cpp_guard_at_source_events": "8/8",
+    "cold_engine_repetitions": 16,
+    "root_cases": 2,
+    "full_arm_worlds": 8,
+    "original_T3_exact_output_reproduced": true,
+    "source_branch_all_arm_outputs_match_T3_original_nodes_score_bestmove": true,
+    "private_T4_raw_JSON_SHA256": "9329791392cd8a97fe8cab4b7ee5e5ef24ce008954d56b7fe1fe094d246c0ecc",
+    "T4_patched_stockfish16_search_cpp_SHA256": "73551f17a546bb85a42922612a91f745be824a3438558edcfba41ff0959dc576",
+    "artifact_id": 11677306675,
+    "public_artifact_name": "c3x-023-P1-R2-T4-source-actual-prune-guard-branch-research-aggregate",
+    "github_artifact_archive_sha256": "5c3518faee9106ffcf9a689bd3c982948ded30cf73012fc8b725d7cbe667497b",
+    "public_tier_technical_rights_scans": "PASS_NOT_LEGAL_LICENSE"
+  },
+  "case_results": [
+    {
+      "game_id": 11,
+      "root_order": "F",
+      "role": "STRICT",
+      "native_site": "qsearch_prune",
+      "original_SEE_bool": 0,
+      "source_branch": {
+        "TT0_SEE_SHAM": "ACTUAL_CONTINUE",
+        "TT1_SEE_SHAM": "ACTUAL_CONTINUE",
+        "TT0_SEE_FLIP": "PASSED_SEE_GUARD",
+        "TT1_SEE_FLIP": "PASSED_SEE_GUARD"
+      },
+      "final_UCI": {
+        "TT0_SEE_SHAM": "c7d6",
+        "TT1_SEE_SHAM": "d8b8",
+        "TT0_SEE_FLIP": "c7d6",
+        "TT1_SEE_FLIP": "d8b8"
+      },
+      "node_additive_interaction": 0,
+      "verdict": "CPP_IF_CONTINUE_OBSERVED_BUT_SEE_FLIP_DOES_NOT_CHANGE_ROOT_LEADER_OR_FINAL_CHOICE_RELATIVE_MATCHED_TT"
+    },
+    {
+      "game_id": 2,
+      "root_order": "O",
+      "role": "STRICT",
+      "native_site": "quiet_prune",
+      "original_SEE_bool": 1,
+      "source_branch": {
+        "TT0_SEE_SHAM": "PASSED_SEE_GUARD",
+        "TT1_SEE_SHAM": "PASSED_SEE_GUARD",
+        "TT0_SEE_FLIP": "ACTUAL_CONTINUE",
+        "TT1_SEE_FLIP": "ACTUAL_CONTINUE"
+      },
+      "final_UCI": {
+        "TT0_SEE_SHAM": "e1g1",
+        "TT1_SEE_SHAM": "e1g1",
+        "TT0_SEE_FLIP": "e1g1",
+        "TT1_SEE_FLIP": "b1b4"
+      },
+      "first_root_score_divergence_depth": 8,
+      "first_root_leader_divergence_depth": 9,
+      "node_additive_interaction": -20843,
+      "verdict": "CPP_IF_CONTINUE_OBSERVED_AND_JOINT_ONLY_DIFFERENT_NEW_FINAL_BESTMOVE_BUT_FULL_DESCENDANT_PATH_NOT_IDENTIFIED"
+    }
+  ],
+  "limits": {
+    "theory": "The source if(!see_ge(...)) continue guard is executed at original exact site, not a certified full search-branch survival lineage.",
+    "full_descendant_visit_lineage_verified": false,
+    "natural_TT_to_SEE_mediation_proven": false,
+    "prospective_independent_new_chess_cohort": false,
+    "development_cases_not_independent_arms": true,
+    "historical_M1_M2_failures_preserved": true,
+    "HOLDS_preserved": [
+      1,
+      12,
+      8,
+      3
+    ]
+  },
+  "governance": {
+    "code_commit_author": "WhoSia",
+    "bot_authored_or_coauthored_commit_allowed": false,
+    "actions_contents_permission": "read",
+    "modified_Stockfish_binary_released": false,
+    "third_party_original_PGN_FEN_redistributed": false,
+    "source_license": "Lichess May2026 broadcast CC BY-SA 4.0",
+    "TWIC_personal_email_kept_in_Notion": true
+  },
+  "next": "T5 instrument search-candidate do_move and descendant visit/omit paths with matched ancestry and explicit time-depth gate, independently frozen before attempting full branch mediation. Keep C3X 0.24 name PROPOSAL only."
+}
