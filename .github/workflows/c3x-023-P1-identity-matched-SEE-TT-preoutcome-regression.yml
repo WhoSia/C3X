@@ -1,0 +1,34 @@
+name: C3X 0.23 P1 Preregistered Source-Identical SEE-TT Node Gate Tests
+on:
+  push:
+    paths:
+      - '.github/workflows/c3x-023-P1-identity-matched-SEE-TT-preoutcome-regression.yml'
+      - 'harness/c3x_023_P1_same_descendant_SEE_node_matcher.py'
+      - 'tools/test_c3x_023_P1_same_descendant_SEE_node_matcher.py'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  pre-first-TT-V-causally-strict-same-node-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Fail-closed source-key path/site/threshold identity before TT V treatment
+        run: |
+          python -m py_compile harness/c3x_023_P1_same_descendant_SEE_node_matcher.py
+          python -m unittest discover -s tools -p 'test_c3x_023_P1_same_descendant_SEE_node_matcher.py' -v
+          python -m unittest discover -s tools -p 'test_c3x_023_P1_native_SEE_ancestry_path_overlay.py' -v
+          python -m unittest discover -s tools -p 'test_c3x_023_P1_native_stageA_node_source_registry.py' -v
+          python -m unittest discover -s tools -p 'test_c3x_023_P1_native_stageA_release_gate.py' -v
+          python - <<'PY'
+          import json
+          x=json.load(open('c3x/forecasts/c3x-023-P1-licensed-May-CC0-32game-M0-M1-literal-UCI-source-first-preTT-20261010.json'))
+          assert x['status']=='GIT_FROZEN_LITERAL_FORECASTS_BEFORE_FIRST_TT_READER_SUPPRESSION'
+          assert x['summary']['literal_model_UCI_predictions']==248
+          assert x['summary']['TT_reader_suppressions_executed_before_this_commit']==0
+          assert x['native_stageA_raw_JSON_SHA256']=='fe88afe49d7d43db7b81c37decab783f2b68311ed2ca10b6f42be4268bdb3442'
+          print('C3X023_P1_PREINTERVENTION_248_UCI_FORECASTS_AND_STRICT_NATIVE_NODE_ALIGNMENT_REGISTERED')
+          PY
