@@ -1,0 +1,148 @@
+{
+  "schema": "c3x021-P2-full31-physical-TT-consumer-factorial-and-standard-chess-root-counterfactual-v1",
+  "date": "2026-10-10",
+  "status": "NATIVE_AND_STANDARD_CHESS_TWO_AXIS_EXPLORATORY_SUCCESS",
+  "name": "C3X 0.21-P2 — Chess Decision Primitives & Search-State Causal Mediation: Microstructural Board Transitions, Source-Exact TT Value-Use Interventions, Probe-Only Lineage Rewriting, Multi-Depth Candidate Rivalry & Bounded Legal-Move Counterfactuals",
+  "precommit": "c3x/ontology/c3x-021-P2-chess-decision-primitives-search-state-causal-mediation-precommit.md",
+  "frozen_sources": {
+    "march_source_sha256": "d79e48633be2b683176f1a6d4650aeea1b7584f11c85c2349a5bddda113febee",
+    "all_635_chess_root_move_sha256": "c14711c0e31bde26c2c7fc6e77f1f2fdf0ac70180a517b91f71845f1fd78ed3f",
+    "parent_P1_native_sha256": "5ee15c3ec48be0042a9bb0ae7566808737f56e7568c2b29d43f00ae64afcb259",
+    "parent_P1_R1_watched_TT_sha256": "e9765a9d9c2254866cba80a968ed4f10013d7ee0b2ff93f41c4d203daed98a8c"
+  },
+  "native": {
+    "run_id": 38040805610,
+    "url": "https://github.com/WhoSia/C3X/actions/runs/38040805610",
+    "conclusion": "success",
+    "artifact_id": 11666510182,
+    "artifact_name": "c3x-021-P2-full31-native-TT-factorial-two-legal-root-contrasts",
+    "artifact_zip_sha256": "7f2c302bd9e886a95947efa5e0031e4a4993f160a0d4d2700a5562375a4c1c06",
+    "artifact_data_file": "C3X021_P2_FULL31_TT_FACTORIAL_AND_LEGAL_ROOT.json",
+    "artifact_data_sha256": "a1e11e7807ee3b3249fb70adf45e719175965988191667f182ee9ec37c3aef12",
+    "member_SHA256_verified": 25,
+    "member_SHA256_errors": 0,
+    "official_Stockfish16_original_commit": "68e1e9b3811e16cad014b590d7443b9063b52",
+    "instrumented_binary_sha256": "04cc4f48fde8f6d4c3bcb690590523bb7f0c1f622c0d8d9fb7313533cdbe109f",
+    "pristine_binary_sha256": "6458324545ef0f43b5a74de75c980e08413251247bba500d9befac113a43f325",
+    "cold_factorial_runs": 248,
+    "pristine_legal_root_searchmoves_cold_runs": 12
+  },
+  "four_arm_denominators": {
+    "source_games": 16,
+    "all_STRICT_BROAD_role_cells": 32,
+    "eligible_physically_selected_role_cells": 31,
+    "no_eligible_source_pair": 1,
+    "ZERO": {
+      "first_source_block_contacts": 0,
+      "second_source_block_contacts": 0,
+      "bestmove_changes": 0,
+      "root_bestmove_matches_original_F": 31
+    },
+    "FIRST": {
+      "first_source_block_delivery": 31,
+      "bestmove_changes": 2,
+      "matched_original_P1_V_all_six_UCI": 31
+    },
+    "SECOND": {
+      "second_source_block_delivery": 31,
+      "bestmove_changes": 0,
+      "nonidentical_six_field_UCI_relative_to_ZERO": 13
+    },
+    "BOTH": {
+      "first_source_block_delivery": 31,
+      "second_source_block_delivery": 5,
+      "first_only_delivery": 26,
+      "bestmove_changes": 2,
+      "nonidentical_six_field_UCI_relative_to_FIRST": 1
+    },
+    "contact_logic": "SECOND alone reaches the exact original second selected source event in all 31 cells, but once FIRST is also blocked the second source event survives in only 5 cells: source opportunity is path-dependent, not an independently guaranteed 2×2 exposure.",
+    "denominator_warning": "The raw source summary key arm_contact_denominator counts DUAL 11 contact bits only, not overall per-arm actual delivery. Authoritative delivered first/second counts are recorded separately here."
+  },
+  "focal": [
+    {
+      "game": 4,
+      "role": "BROAD",
+      "F": "h8h4",
+      "FIRST": "g5h4",
+      "SECOND": "h8h4",
+      "BOTH": "g5h4",
+      "BOTH_delivered_bits": "10",
+      "F_original_cp": 31,
+      "FIRST_cp": 35,
+      "F_native_nodes": 32070,
+      "FIRST_native_nodes": 30191,
+      "legal_chess_root_pair_searchmoves": {
+        "context": "pristine Stockfish16, same board, root choices restricted, cold twice",
+        "PAIR_only": "g5h4",
+        "PAIR_score_cp": 40,
+        "PAIR_nodes": 24082,
+        "FORCE_F_only": "h8h4",
+        "FORCE_F_score_cp": 39,
+        "FORCE_F_nodes": 29405,
+        "FORCE_V_only": "g5h4",
+        "FORCE_V_score_cp": 36,
+        "FORCE_V_nodes": 23392
+      },
+      "chess_decision_primitives": {
+        "both_root_moves_capture_identical_white_pawn_h4": true,
+        "same_first_opponent_legal_reply_set": true,
+        "identical_legal_opponent_replies": 29,
+        "changed_third_ply_black_legal_action_sets_under_matching_white_reply": 27,
+        "quiet_pair_reply_equal_does_not_equal_same_further_affordance": true
+      }
+    },
+    {
+      "game": 9,
+      "role": "STRICT",
+      "F": "a6b7",
+      "FIRST": "f6h5",
+      "SECOND": "a6b7",
+      "BOTH": "f6h5",
+      "BOTH_delivered_bits": "10",
+      "F_original_cp": -27,
+      "FIRST_cp": -27,
+      "F_native_nodes": 118092,
+      "FIRST_native_nodes": 138368,
+      "legal_chess_root_pair_searchmoves": {
+        "context": "pristine Stockfish16, same board, root choices restricted, cold twice",
+        "PAIR_only": "f6h5",
+        "PAIR_score_cp": -30,
+        "PAIR_nodes": 86121,
+        "FORCE_F_only": "a6b7",
+        "FORCE_F_score_cp": -22,
+        "FORCE_F_nodes": 83359,
+        "FORCE_V_only": "f6h5",
+        "FORCE_V_score_cp": -22,
+        "FORCE_V_nodes": 44766
+      },
+      "chess_decision_primitives": {
+        "F_white_response_count": 40,
+        "V_white_response_count": 41,
+        "shared_opponent_responses": 40,
+        "new_V_only_legal_capture": "d4g7",
+        "exact_microrelation": "Knight vacates f6, opening d4–e5–f6–g7 diagonal so white bishop d4 can capture black bishop g7.",
+        "changed_third_ply_black_legal_action_sets_under_matching_white_reply": 40,
+        "distinct_next_own_legal_counts": 38
+      }
+    }
+  ],
+  "chess_source_three_ply": {
+    "run_id": 38040908999,
+    "url": "https://github.com/WhoSia/C3X/actions/runs/38040908999",
+    "conclusion": "success",
+    "artifact_id": 11666200528,
+    "artifact_zip_sha256": "d452b21c5b3227a305cc21cfeccd9ed1e5d288966c7ad2cddab7025a847b1612",
+    "JSON_sha256": "3e3f4397d04e116750c8d66db8d40d8928b990928e03762f79f76bb223d1e9a9",
+    "tests_passed": 5,
+    "board_truth": "All standard legal opponent replies and subsequent own legal action sets enumerated, no chess engine or evaluation used."
+  },
+  "historical_failure_status": "KEEP_AS_WAS_PAG_CPP224_PIN_TYPE_F19_5_0.19_K4_JANUARY_FAIL",
+  "scientific_limits": [
+    "Two focal positions selected because P1 had already shown FIRST TT bestmove flips; categorical rescue results are replication and mechanism study, not new prospective root-choice prediction.",
+    "FIRST/BOTH vs SECOND is not a clean always-delivered fixed-exposure 2x2: in BOTH only 5/31 preserve second contact. All denominators reported.",
+    "Cold independent six-field UCI matches for zero and first controls; no bot commit in CI.",
+    "Separate pristine searchmoves changes root admissibility, not legal board; separate scores are not estimates of an intrinsic candidate value independent of search context.",
+    "Chess legal 3-ply affordances and raw TT interventions are separate evidence streams; a common explanation is a future source- and move-grounded hypothesis, not proven mediation."
+  ],
+  "next": "C3X0.21-P2-R1: source-exact first TT consumption counterfactual restore at the first pinned physical site, plus competing Stockfish16 SEE pin/WeakQueen operation hooks informed by 0.13–0.15 but targeted by pre-fixed chess micro-events, with sham, physical epoch and legal move preserving controls."
+}
