@@ -1,0 +1,72 @@
+{
+  "schema": "c3x024-P2-native-exact-source-C3-child-lineage-verdict-v1",
+  "date": "2026-10-11",
+  "version": "C3X 0.24 ACTIVE",
+  "status": "NATIVE_C3a_ACTUAL_CHILD_ENTRY_AND_RETURN_PASS__C3b_ROOT_RETURN_MEDIATION_HOLD",
+  "original_precommit": "c3x/ontology/c3x-024-P2-actual-descendant-lineage-and-prospective-certificate-falsification-precommit-20261011.md",
+  "source": "Lichess 2026-05 broadcast CC BY-SA 4.0, pre-existing two development-only target games; no new source selection",
+  "previous_T3_exact_SHA256": "be2242388f50fc9e0d392a6bde20d624ed02ebc8a6149c13ecccd951ff312626",
+  "previous_T4_CI": "https://github.com/WhoSia/C3X/actions/runs/38072795238",
+  "technical_fail": {
+    "run": 38078431783,
+    "reason": "Observer helper declared Stack outside Stockfish::Search namespace; native compiler rejected; no scientific analysis attempted",
+    "repair_commit": "d488d9d898ba78ecded3b6f724f88b85836396c7",
+    "unchanged": "Both pre-registered cases, T3/T4 target tuples, 2x2 intervention arms, source input SHA, native Stockfish16 hash, success gates"
+  },
+  "successful_native_run": {
+    "id": 38078504536,
+    "url": "https://github.com/WhoSia/C3X/actions/runs/38078504536",
+    "commit": "05a8a46cc265ad6a89137a4a74ef26a7c3269666",
+    "conclusion": "SUCCESS",
+    "source_chess_cases": 2,
+    "arm_worlds": 8,
+    "cold_native_runs": 16,
+    "source_exact_T3_and_T4_guard_joins": 8,
+    "guard_pass_C3_actual_child_entry_and_return": 4,
+    "actual_continue_without_child": 4,
+    "incomplete_c3_chain": 0,
+    "private_full_output_SHA256": "c5d7079da20d29c476ed05f37d3718d47785eb0bec00b10aa4eb0563c30ea61d",
+    "native_postoverlay_search_cpp_SHA256": "d5131d4604c7fb53d98d264126ea3903070cac5c3af04766a61374549c3b2388",
+    "public_artifact_id": 11679424138,
+    "public_zip_SHA256": "85afb3c317e98d51789d22148bd222523fb485a6f9280958426fc3c03fff5a9b",
+    "original_T3_disabled_byte_exact": true,
+    "active_observer_final_UCI_nodes_cp_matched_T3": true,
+    "public_rights_scan": "SCAN_PASS_NOT_LEGAL_LICENSE"
+  },
+  "cases": [
+    {
+      "case": "May2026 broadcast #11 F/STRICT",
+      "site": "qsearch_prune",
+      "TT0_SEE_SHAM": "ACTUAL_CONTINUE",
+      "TT1_SEE_SHAM": "ACTUAL_CONTINUE",
+      "TT0_SEE_FLIP": "GUARD_PASS>DO_MOVE_EXECUTED>CHILD_ENTERED>CHILD_RETURNED_TO_PARENT",
+      "TT1_SEE_FLIP": "GUARD_PASS>DO_MOVE_EXECUTED>CHILD_ENTERED>CHILD_RETURNED_TO_PARENT",
+      "root_bestmove_note": "TT-only changes final root UCI, SEE FLIP does not add categorical change"
+    },
+    {
+      "case": "May2026 broadcast #2 O/STRICT",
+      "site": "quiet_prune",
+      "TT0_SEE_SHAM": "GUARD_PASS>DO_MOVE_EXECUTED>CHILD_ENTERED>CHILD_RETURNED_TO_PARENT",
+      "TT1_SEE_SHAM": "GUARD_PASS>DO_MOVE_EXECUTED>CHILD_ENTERED>CHILD_RETURNED_TO_PARENT",
+      "TT0_SEE_FLIP": "ACTUAL_CONTINUE",
+      "TT1_SEE_FLIP": "ACTUAL_CONTINUE",
+      "root_bestmove_note": "Joint TT+SEE FLIP final UCI differs from each singleton and original"
+    }
+  ],
+  "identity_checks": [
+    "exact T3 key/site/root_call/sequence",
+    "move identity and parent key",
+    "native child key after do_move equals expected Position::key_after",
+    "child entry uses exact parent Search::Stack+1 frame and child key",
+    "child return to same parent frame before undo_move",
+    "cold pair exact identical, physical TT first-reader confirmed"
+  ],
+  "epistemic_bounds": [
+    "This witnesses actual local candidate admission, child entry and parent return: C3a, not complete root-level return propagation C3b.",
+    "The SEE boolean was forcibly flipped at the source on outcome-informed May development games; not natural TT to SEE mediation.",
+    "Two development games and eight correlated arm worlds; not eight independent games or prospective M3 validation.",
+    "P1 Aug2025 held-out presealed M3 == M0 64/64 and failed to improve; remains unchanged.",
+    "Independent new-source M3-v2 only after a new Git-literal precommit and novel cohort rights/nonoverlap gate."
+  ],
+  "rights_governance": "Read-only Actions contents:read. Private original PGN and original individual source FEN/path keys not in public artifact, modified GPL Stockfish binary not released. Git human author only."
+}
