@@ -1,0 +1,68 @@
+{
+  "schema": "c3x023-P1-R2-T2-targeted-native-source-SEE-one-bool-with-TT-first-factorial-receipt-v1",
+  "date": "2026-10-11",
+  "status": "NATIVE_EXACT_ONE_SEE_OPERATOR_FACTUAL_ACTUATOR_CONTACT_SUCCESS__FINAL_MOVE_CONTRAST_NEGATIVE__NATURAL_MEDIATION_NOT_IDENTIFIED",
+  "precommit": {
+    "file": "c3x/ontology/c3x-023-P1-R2-T2-exact-source-SEE-branch-intervention-precommit.md",
+    "commit": "cc6ce047709d4405193428ec036e337c71327cd2",
+    "before_any_T2_actuation": true
+  },
+  "source": {
+    "S0_frozen32_SHA256": "0ff43e28dcb3a5e48dea6b61e4450fc8bb9e1f96363871c33c4b73524664db61",
+    "stageA_original_SHA256": "fe88afe49d7d43db7b81c37decab783f2b68311ed2ca10b6f42be4268bdb3442",
+    "T1_private_raw_original_SHA256": "1975a515755e31a4c9445239750bde88211a13c328f667d86cabba2ce58effeb",
+    "T2_capable_compiled_native_T1_replayed_byte_for_byte": true
+  },
+  "run": {
+    "id": 38064210363,
+    "url": "https://github.com/WhoSia/C3X/actions/runs/38064210363",
+    "conclusion": "success",
+    "artifact_id": 11674685587,
+    "artifact_zip_SHA256": "ad5066332c450bf0b31daae0e699d56b43daa504ca721ae93b2f00f8ed453ee5",
+    "public_aggregate_JSON_SHA256": "f9f53249e2f56da4510b5715376d8f1d75a9e9543cbf487f6f6c8c6b95b57bd3",
+    "private_source_actuator_full_JSON_SHA256": "e72ec883b78ed2a600c6c3ae8a095805485fe031649b7aade0437f08d35cbad3",
+    "member_sha256_verified": 4,
+    "member_failures": 0
+  },
+  "controls": {
+    "preselected_dev_chess_role_cells": 6,
+    "eligible_chess_source_site_target_cells": 1,
+    "HOLD_without_first_two_non_capture_source_site": 3,
+    "HOLD_due_witness_censor": 2,
+    "case_with_actual_target": {
+      "licenced_source": "Lichess May2026 broadcast CC BY-SA 4.0",
+      "game_id": 11,
+      "world": "F",
+      "source_role": "STRICT",
+      "native_source_site": "qsearch_prune"
+    },
+    "native_SEE_original_function_unchanged": true,
+    "native_chess_legality_unchanged": true,
+    "source_target_equals_in_both_TT_arms": true,
+    "TT_SOURCE_original_and_first_reader_2x2_valid_case": 1,
+    "true_native_SEE_boolean_flips_delivered": 2,
+    "total_valid_2x2_cases": 1,
+    "cold_repeated_every_condition": true
+  },
+  "outcomes": {
+    "SEE_single_source_operator_only_final_bestmove_changed_games": 0,
+    "joint_TT_FIRST_plus_SEE_changed_vs_TT_FIRST_only_games": 0,
+    "joint_novel_final_bestmove_games": 0,
+    "native_pruning_SEE_effect_on_one_terminal_bestmove": "NEGATIVE_THIS_SOURCE_EVENT",
+    "cannot_claim_no_search_internal_change": true,
+    "does_not_disprove_all_other_SEE_mediation": true
+  },
+  "methodology": {
+    "target_selector": "FIRST eligible quiet_prune/qsearch_prune/qsearch_futility among PREVIOUS T1 FIRST_TWO strict native state source matches; no adaptive rescope.",
+    "source_exact_guard": [
+      "full current key/parent key/ancestor path",
+      "native rootcall/native candidate",
+      "actual native SEE move/site/threshold",
+      "live ply/depth/alpha/beta/PV/rule50/input occupied bitboard"
+    ],
+    "five_HOLDs_not_analyzed_as_null_SEE_effect": true,
+    "scientific_claim": "VALID_EXACT_SOURCE_OPERATOR_ACTUATOR_TWO_ARM_CONTACT_BUT_NEGATIVE_TERMINAL_ROOT_MOVE_EFFECT; NOT_NATURAL_MEDIATION; POST_OUTCOME_DEVELOPMENT_ONLY"
+  },
+  "prior_work": "0.22-D2 first eligible SEE under rootcall affected joint bestmove in 3/6 but exact descendant identity not held; THIS T2 neg does not contradict that policy intervention.",
+  "rights": "Aggregate/SHA-only new artifact, no original TWIC PGN or modified Stockfish binary; scan pass not blanket license."
+}
