@@ -64,14 +64,30 @@ def native_world(row):
     return w,(half,full),valid!=row["fen4"]
 
 def cold(engine,w,clock,order,discovery=False):
-    x=play(engine,w,order,"OBS",fen_clocks=clock,discovery=discovery)
-    y=play(engine,w,order,"OBS",fen_clocks=clock,discovery=discovery)
+    x=play(engine,w,order,"OBS",fen_clocks=clock,discovery=discovery,allow_empty_lineage=True)
+    y=play(engine,w,order,"OBS",fen_clocks=clock,discovery=discovery,allow_empty_lineage=True)
     need(x==y,"P2_STAGE_A_COLD_DUPLICATE_MISMATCH")
-    need(x["root_events"] and len(x["root_events"])<4096,
-         "P2_STAGE_A_ROOT_TRACE_CENSORED")
+    need(len(x["root_events"])<4096,"P2_STAGE_A_ROOT_TRACE_CENSORED")
+    need(x["root_events"] or not x["payload_witnesses"],
+         "P2_STAGE_A_PAYLOAD_WITHOUT_ANY_ROOT_TRACE")
     need(not any(e.get("kind") in ("censored","trace_censored")
                  for e in x["payload_witnesses"]),"P2_STAGE_A_TT_SOURCE_CENSORED")
     return x
+
+def source_depth_ladder(events):
+    """Explicitly preserve terminal/mate early-stop: never fabricate depth 12."""
+    bins={}
+    for e in events:
+        if e["kind"]=="after_sort":
+            bins.setdefault(e["depth"],[]).append(e)
+    if all(d in bins for d in range(1,13)):
+        return root_depth_ladder(events)
+    return {str(d):{"native_leader":v[-1]["first_move"],
+                    "score":v[-1]["value"],
+                    "retry_count":len(v),
+                    "last_trial":v[-1]["trial"],
+                    "terminal_or_source_trace_partial":True}
+            for d,v in sorted(bins.items())}
 
 def exact_forecast(O_move,F_move,order,eligible):
     if not eligible:
@@ -130,7 +146,8 @@ def stage_a(d,engine):
                     role_data[role]=forecast
                 record["worlds"][order]={
                     "baseline_UCI":baselines[order]["UCI"],
-                    "root_depth_ladder":root_depth_ladder(baselines[order]["root_events"]),
+                    "root_depth_ladder":source_depth_ladder(baselines[order]["root_events"]),
+                    "terminal_partial_depth_trace":len(source_depth_ladder(baselines[order]["root_events"]))<12,
                     "number_discovery_events":len(discoveries[order]),
                     "source_C3X018_HARD_CAP_REACHED":len(discoveries[order])==2048,
                     "roles":role_data}
