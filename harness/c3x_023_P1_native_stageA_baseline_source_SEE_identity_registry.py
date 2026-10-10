@@ -45,7 +45,7 @@ def stageA(source,engine):
         records=[]
         for record in new_rows:
             world,clocks,_=native_world(record)
-            baseline={};candidates={}
+            baseline={};candidates={};discovery_lengths={}
             for order in WORLDS:
                 obs=cold(engine,world,clocks,order)
                 discovery=cold(engine,world,clocks,order,discovery=True)
@@ -54,6 +54,7 @@ def stageA(source,engine):
                 need(len(ev)<=2048,"P1_SOURCE_DISCOVERY_OVER_LIMIT")
                 baseline[order]=obs
                 candidates[order]={r:first_pair(ev,RULES[r]) for r in ROLES}
+                discovery_lengths[order]=len(ev)
             old={w:baseline[w]["UCI"]["bestmove"] for w in WORLDS}
             entry={"id":record["id"],"source_sha256":record["source_game_sha256"],
                    "source_puzzle_id":record.get("source_puzzle_id"),
@@ -64,7 +65,7 @@ def stageA(source,engine):
                 for role in ROLES:
                     pair=candidates[order][role]
                     if pair is None:
-                        targets[role]={"status":"HOLD_CENSORED_UNKNOWN" if len(ev)==2048 else "NO_ELIGIBLE_SOURCE",
+                        targets[role]={"status":"HOLD_CENSORED_UNKNOWN" if discovery_lengths[order]==2048 else "NO_ELIGIBLE_SOURCE",
                                        "physical":None,
                                        "exact_UCI":literal(old[order],old["F" if order=="O" else "O"],False)}
                     else:
