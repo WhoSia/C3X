@@ -1,0 +1,100 @@
+{
+  "schema": "c3x023-P1-R1-licensed-chess32-source-matched-native-see-after-physical-TT-FIRST-v1",
+  "date": "2026-10-11",
+  "status": "NATIVE_PHYSICAL_TT_FIRST_SOURCE_AND_SHARED_SEE_PATH_SUCCESS__NATURAL_MEDIATION_NOT_IDENTIFIED__M1_EXACT_UCI_INFERIOR_TO_M0",
+  "preregistered_contract": "c3x/ontology/c3x-023-P1-R1-presuppression-common-descendant-SEE-node-and-source-TT-counterfactual-precommit.md",
+  "precommit_git_commit": "02b1880dfa155ea169edfbefe15649ffc72f214a",
+  "source_precommit": "c3x/ontology/c3x-023-P1-independent-licensed-chess-cohorts-and-source-key-aligned-SEE-TT-precommit.md",
+  "source_chess32_SHA256": "0ff43e28dcb3a5e48dea6b61e4450fc8bb9e1f96363871c33c4b73524664db61",
+  "stageA_untreated_native_SHA256": "fe88afe49d7d43db7b81c37decab783f2b68311ed2ca10b6f42be4268bdb3442",
+  "pre_treatment_literal_UCI_forecasts": "c3x/forecasts/c3x-023-P1-licensed-May-CC0-32game-M0-M1-literal-UCI-source-first-preTT-20261010.json",
+  "exact_literal_predictions_precommitted": 248,
+  "presuppression_forecast_git_commit": "0afd6ebe446809b3b4a4f99e6778b60f69acc11d",
+  "native_source_git": "68e1e9b3811e16cad014b590d7443b9063b3eb52",
+  "configuration": "Stockfish16, Threads1, Hash16MB, NNUE false, depth12, repeated cold baseline and TT-FIRST",
+  "actions": {
+    "run": 38062242676,
+    "url": "https://github.com/WhoSia/C3X/actions/runs/38062242676",
+    "conclusion": "success",
+    "artifact_id": 11673482448,
+    "artifact_zip_SHA256": "2647103d3013b5f7ad4ef7aa3bbf39b606c72d3f779c16e15e49b9d0fcf77a70",
+    "published_aggregate_JSON_SHA256": "266928b5c5f33134a3fe7f18ce11529d3070d4be46585260e23e03104c26877f",
+    "private_full_chess_source_native_result_SHA256": "a73403bfaabd4abf237d1b0a117a595923576c9021006ef0430beacbd718e5e1",
+    "published_artifact_member_sha256_checked": 4,
+    "artifact_member_failures": 0
+  },
+  "experimental_denominators": {
+    "source_chess_positions": 32,
+    "may_CC_BY_SA_broadcast_positions": 16,
+    "CC0_nonmate_puzzles_positions": 16,
+    "potential_root_order_source_role_cells": 128,
+    "source_eligible_roles": 124,
+    "not_eligible_or_discovery_censored_HOLD": 4,
+    "actual_physically_verified_first_TT_reader_blocks": 124
+  },
+  "main_outcomes": {
+    "cells_with_at_least_one_same_descendant_SEE_key_parent_path_move_site_threshold": 124,
+    "unique_observed_common_SEE_source_episodes": 2508,
+    "roles_with_FIRST32_trace_censoring": 57,
+    "role_cells_with_terminal_bestmove_flip": 7,
+    "distinct_chess_games_with_bestmove_flip": 4,
+    "all_flips_in_may_broadcast": true,
+    "actual_SEE_original_return_mutations": 0,
+    "native_targeted_score_as_eval_or_cutoff_source_observed_pre_TT_FIRST_cells": 124,
+    "native_same_key_score_use_after_first_block_observed_cells": 8,
+    "explanation_of_eight_after": "First selected consumer blocked does not prohibit a later use at same original key/rootcall; source-level first-reader intervention is not a global TTL disable.",
+    "same_key_and_parent_path_proves_natural_mediation": false
+  },
+  "by_ecology": {
+    "may_CC_BY_SA_broadcast": {
+      "source_games": 16,
+      "source_role_cells": 64,
+      "contacts": 64,
+      "common_unique_SEE_events": 1353,
+      "role_cells_with_final_bestmove_flip": 7,
+      "distinct_source_games_with_flip": 4,
+      "precommitted_M0_UCI_correct": 57,
+      "precommitted_M1_UCI_correct": 51
+    },
+    "lichess_CC0_nonmate_puzzles": {
+      "source_games": 16,
+      "source_role_cells": 60,
+      "source_role_NO_TREATMENT_or_HOLD": 4,
+      "common_unique_SEE_events": 1155,
+      "role_cells_with_final_bestmove_flip": 0,
+      "distinct_source_games_with_flip": 0,
+      "precommitted_M0_UCI_correct": 60,
+      "precommitted_M1_UCI_correct": 60
+    }
+  },
+  "predictions": {
+    "primary_nochange_M0_correct": 117,
+    "total_eligible": 124,
+    "historical_crossorder_M1_correct": 111,
+    "model_accuracy_scientific_verdict": "M1_FAIL_VS_M0_INDEPENDENT_NEW_MAY_AND_CC0_ECOLOGIES",
+    "new_M3_positive_predictions_pre_registered": 0,
+    "do_not_retrofit_M3_from_after_treatment": true
+  },
+  "methodological_limits": [
+    "124 role cells not independent observations; 32 root games are primary units",
+    "Observed common SEE node matching only within first32 native watcher prefixes, 57 role transcripts censored",
+    "Parent key and 64bit ancestor path digest + position key, rootcall, SEE move/site/threshold match does not prove identical alpha/beta depth/ply or original TT impact ordering",
+    "No SEE Boolean was intervened upon, no source-identity-matched SEE causal mediator effect yet",
+    "Native SEE deterministic for identical complete inputs; TT mechanism can alter event activation/candidate path/threshold instead of bool at fixed identical inputs"
+  ],
+  "rights": {
+    "source_A": "Lichess May2026 broadcast CC BY-SA 4.0",
+    "source_B": "Lichess puzzles CC0",
+    "provenance_URL": "https://database.lichess.org/",
+    "public_artifact": "only aggregate counts, binary/modified source hashes, source pointers, no full third-party PGNs/player names or raw per-position chess source identity",
+    "technical_gate": "SCAN_PASS_NOT_A_LEGAL_LICENSE",
+    "Stockfish_modified_binary_uploaded": false,
+    "TWIC_original_distributed": false
+  },
+  "next_protocol": {
+    "chronology_precommit": "c3x/ontology/c3x-023-P1-R2-T0-chronological-SEE-after-TT-preactuator-development-protocol.md",
+    "chronology_development_cases": "May game ids 1 8 11 12 actual flips, games 2 3 controls",
+    "timing_verdict": "pending separate chronological source order test",
+    "SEE_operator_flip_before_timing_gate": false
+  }
+}
