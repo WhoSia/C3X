@@ -1,0 +1,117 @@
+name: C3X 0.22 P2-R1 New TWIC1664 StageA Exact Depth11 SEE-Like Three-Model Forecasts
+on:
+  push:
+    paths:
+      - '.github/workflows/c3x-022-P2-R1-TWIC1664-stageA-depth11-SEE-three-models.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  unseen-twic1664-legal-risk-root-survivor-preTT-forecast:
+    runs-on: ubuntu-latest
+    timeout-minutes: 95
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Python and source-anchor negative fixture tests
+        run: |
+          python -m pip install -q chess==1.11.2
+          python -m py_compile tools/c3x_019_root_return_one_site_rescue_overlay.py
+          python -m py_compile harness/c3x_019_Feb_four_first_root_return_rescue_native.py
+          python -m py_compile harness/c3x_018_native_TT_lineage_factorial_6_8.py
+          python -m unittest discover -s tools -p 'test_c3x_019_root_return_one_site_rescue.py' -v
+          python -m py_compile tools/c3x_020_multi_state_root_repair_overlay.py
+          python -m py_compile harness/c3x_020_B_minimal_multi_state_native_court.py
+          python -m unittest discover -s tools -p 'test_c3x_020_multi_state_root_repair.py' -v
+          python -m py_compile harness/c3x_020_C_alpha_gate_threshold_ladder_native.py
+          python -m unittest discover -s tools -p 'test_c3x_020_C_alpha_gate_ladder.py' -v
+          python -m py_compile harness/c3x_021_P1_march_native_TT_atomic_bridge.py
+          python -m unittest discover -s tools -p 'test_c3x_021_P1_native_TT_atomic_bridge.py' -v
+          python -m py_compile harness/c3x_022_P1_april16_prospective_order_TT_court.py
+          python -m unittest discover -s tools -p 'test_c3x_022_P1_prospective_native_forecast.py' -v
+          python -m py_compile harness/c3x_022_P2_two_stage_exact_move_scout.py
+          python -m unittest discover -s tools -p 'test_c3x_022_P2_exact_move_scout.py' -v
+          python -m py_compile harness/c3x_022_P2_R1_depth11_survivor_exact_forecast_stageA.py
+          python -m unittest discover -s tools -p 'test_c3x_022_P2_R1_stageA_three_models.py' -v
+      - name: Freeze already sealed TWIC1664 source16 and 637 legal SEE-like chess actions
+        uses: actions/download-artifact@v4
+        with:
+          name: c3x-022-P2-R1-TWIC1664-blind16-legal-exchange
+          path: source/
+          repository: WhoSia/C3X
+          run-id: '38050910527'
+          github-token: ${{ github.token }}
+      - name: Strict new TWIC source and all legal exchange chess primitive SHA checks
+        run: |
+          set -euo pipefail
+          mkdir -p evidence
+          test "$(sha256sum source/C3X022_P2_R1_TWIC1664_BLIND16_SOURCE.json | cut -d' ' -f1)" = 3cc4c788eec55960921e653604b2fbb3113163862e2652271b939fb12fb9eeb3
+          test "$(sha256sum source/C3X022_P2_R1_TWIC1664_ALL_LEGAL_SEE_LIKE.json | cut -d' ' -f1)" = 321f3af0ea90625929d639142ec8f930eacee5a7c6e7d856235267bb7f908423
+          python - <<'PY'
+          import json
+          d=json.load(open("source/C3X022_P2_R1_TWIC1664_BLIND16_SOURCE.json"))
+          a=json.load(open("source/C3X022_P2_R1_TWIC1664_ALL_LEGAL_SEE_LIKE.json"))
+          assert len(d["selected"])==len(a["positions"])==16
+          assert a["summary"]["all_legal_root_moves"]==637
+          assert d["original_twic_archive_SHA256"]=="87bcd88e628c85b6e7e5b36894738fc9e6ef4012345740e57ff05795a908940f"
+          print("C3X022_P2_R1_UNSEEN_TWIC1664_SOURCE_AND_637_LEGAL_ROOTS_FROZEN")
+          PY
+      - name: Native Stockfish16 single-return plus second-return and persistent-state build
+        run: |
+          set -euo pipefail
+          root=/tmp/C3X020_MULTI_STATE
+          git clone -q --single-branch --branch sf_16 https://github.com/official-stockfish/Stockfish.git "$root"
+          test "$(git -C "$root" rev-parse HEAD)" = 68e1e9b3811e16cad014b590d7443b9063b3eb52
+          python tools/c3x_016_P4_independent_12root_source_order_patch.py --source "$root" --out-manifest evidence/P4.json
+          python tools/c3x_017_early_depth1_root_window_trace_patch.py --source "$root" --out-manifest evidence/ROOT_TRACE.json
+          python tools/c3x_018_trial_call_identity_patch.py --source "$root" --out-manifest evidence/TRIAL_ID.json
+          python tools/c3x_018_physical_epoch_lineage_patch.py --source "$root" --out-manifest evidence/EPOCH.json
+          python tools/c3x_018_tt_eval_consumption_overlay.py --source "$root" --out-manifest evidence/V.json
+          python tools/c3x_018_physical_value_witness_overlay.py --source "$root" --out-manifest evidence/WRITER_TICKET.json
+          python tools/c3x_018_root_TT_genealogy_overlay.py --source "$root" --out-manifest evidence/ROOT_TT_LINEAGE.json
+          python tools/c3x_018_TT_reader_writer_age_bound_root_feature_overlay.py --source "$root" --out-manifest evidence/AGE_BOUND.json
+          python tools/c3x_018_january2048_TT_reader_source_census.py --source "$root" --out-manifest evidence/CENSUS.json
+          python tools/c3x_018_adaptive_writer_age_root_call_V_gate.py --source "$root" --out-manifest evidence/AGE_GATE.json
+          python tools/c3x_018_january_cross_window_pair_source_gate.py --source "$root" --out-manifest evidence/WINDOW_GATE.json
+          python tools/c3x_018_jan_original_key_TT_probe_watch_overlay.py --source "$root" --out-manifest evidence/PROBE.json
+          python tools/c3x_018_jan_TT_probe_physical_writer_epoch_witness.py --source "$root" --out-manifest evidence/PROBE_WRITER.json
+          python tools/c3x_018_P0P1_TT_save_decision_writer_reinstate_overlay.py --source "$root" --out-manifest evidence/P0_P1_SOURCE_MUTATION.json
+          python tools/c3x_018_P1_pre_second_reader_temporal_scope_overlay.py --source "$root" --out-manifest evidence/P1_PRE_SECOND_TEMPORAL_GATE.json
+          python tools/c3x_019_tt_raw_bytes_shadow_writer_orthogonal_overlay.py --source "$root" --out-manifest evidence/C3X019_ORTHOGONAL_WRITER_STATE.json
+          python tools/c3x_019_actual_native_tt_eval_use_source_witness.py --source "$root" --out-manifest evidence/C3X019_NATIVE_EVAL_USE.json
+          python tools/c3x_019_native_TT_cutoff_actual_return_overlay.py --source "$root" --out-manifest evidence/C3X019_NATIVE_TT_CUTOFF_RETURN.json
+          python tools/c3x_019_root_return_one_site_rescue_overlay.py --source "$root" --out-manifest evidence/ONE_SITE_RETURN_MUTATION.json
+          python tools/c3x_020_multi_state_root_repair_overlay.py --source "$root" --out-manifest evidence/C3X020_MULTI_STATE_MUTATION.json
+          git -C "$root" diff -- src/ > evidence/SOURCE_DIFF.patch
+          make -s -C "$root/src" -j2 build ARCH=x86-64
+          sha256sum "$root/src/stockfish" > evidence/BINARY_SHA256.txt
+      - name: No-V cold O/F depth11 survivor, source-native TT pair and M0 M1 M2 exact UCI forecasts
+        run: |
+          set -euo pipefail
+          python -u harness/c3x_022_P2_R1_depth11_survivor_exact_forecast_stageA.py \
+            --source source/C3X022_P2_R1_TWIC1664_BLIND16_SOURCE.json \
+            --primitives source/C3X022_P2_R1_TWIC1664_ALL_LEGAL_SEE_LIKE.json \
+            --engine /tmp/C3X020_MULTI_STATE/src/stockfish \
+            --out evidence/C3X022_P2_R1_TWIC1664_STAGE_A_THREE_MODELS.json | tee evidence/STAGE_A_STDOUT.txt
+          python - <<'PY'
+          import json
+          x=json.load(open("evidence/C3X022_P2_R1_TWIC1664_STAGE_A_THREE_MODELS.json"))
+          assert x["summary"]["games"]==16
+          assert x["summary"]["role_order_cells"]==64
+          assert x["summary"]["FIRST_TT_interventions_performed"]==0
+          print("C3X022_P2_R1_EXACT_UCI_THREE_MODEL_FORECASTS_BEFORE_ANY_TT_V",x["summary"])
+          PY
+      - name: Preserve manifest, source diff and all negative observations
+        if: always()
+        run: |
+          mkdir -p evidence
+          find evidence -maxdepth 1 -type f ! -name MEMBER_SHA256.txt -print0 | sort -z | xargs -0 -r sha256sum > evidence/MEMBER_SHA256.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x-022-P2-R1-TWIC1664-stageA-noV-three-rival-UCI
+          path: evidence/
+          retention-days: 90
+          if-no-files-found: error
