@@ -432,6 +432,8 @@ def play(engine, world, p4_mode, lineage_mode=None, target=None, writer_budget=N
        "second_return_events":second_return_events,
        "boundary_state_events":boundary_state_events,
        "root_contact":roots[0]}
+    if allow_source_trace_censored:
+        answer["trace_censored_events"]=[e for e in events if e["kind"]=="trace_censored"]
     if t3_target is not None:
         act=[]
         for line in lines:
