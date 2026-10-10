@@ -42,10 +42,13 @@ def stageA(source,engine,expected_ids=None):
          source["source_only_no_stockfish_used"] is True and source["treatment_outcomes_seen"] is False,
          "C3X024_SOURCE_ALREADY_EXPOSED_TO_TREATMENT")
     literal_registry=json.loads(Path(REGISTRY).read_text())
+    original_preNative_ids=literal_registry["ordered_selected_source_game_sha256"]
+    selected_preNative_ids=original_preNative_ids if expected_ids is None else [
+         original_preNative_ids[i-1] for i in expected_ids]
     need(literal_registry["source_only_derived_JSON_SHA256"]==SOURCE_SHA and
          literal_registry["source_original_archive_SHA256"]==source["original_compressed_source_sha256"] and
-         [x["source_game_sha256"] for x in source["selected"]]==
-         literal_registry["ordered_selected_source_game_sha256"],
+         len(original_preNative_ids)==256 and
+         [x["source_game_sha256"] for x in source["selected"]]==selected_preNative_ids,
          "C3X024_SOURCE_GIT_LITERAL_PRENATIVE_DRIFT")
     outcome={"schema":SCHEMA,"phase":"NEW_P1_STAGE_A_ONLY_WITH_NO_INTERVENTION",
              "source_sha256":SOURCE_SHA,
