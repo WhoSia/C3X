@@ -3,6 +3,8 @@ on:
   push:
     paths:
       - '.github/workflows/c3x-022-P1-april16-prospective-order-TT-court.yml'
+      - 'harness/c3x_022_P1_april16_prospective_order_TT_court.py'
+      - 'tools/test_c3x_022_P1_prospective_native_forecast.py'
   workflow_dispatch:
 permissions:
   contents: read
