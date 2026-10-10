@@ -3,6 +3,7 @@ on:
   push:
     paths:
       - '.github/workflows/c3x-023-P1-licensed32-stageA-untreated-native-parentpath-SEE.yml'
+      - 'tools/test_c3x_023_P1_native_SEE_ancestry_path_overlay.py'
   workflow_dispatch:
 permissions:
   contents: read
