@@ -1,0 +1,77 @@
+name: C3X 0.22 P2 Chess Root-Depth Forensics after Frozen Exact-UCI FAIL
+on:
+  push:
+    paths:
+      - '.github/workflows/c3x-022-P2-postoutcome-TWIC-puzzle-depth-chess-forensics.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  frozen-source-postoutcome-native-evidence-audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: No native engine runs in audit
+        run: |
+          python -m py_compile harness/c3x_022_P2_postoutcome_depth_chess_disagreement_audit.py
+          python -m unittest discover -s tools -p 'test_c3x_022_P2_postoutcome_depth_chess_audit.py' -v
+      - name: Frozen new 32 Standard Chess source games and puzzle positions
+        uses: actions/download-artifact@v4
+        with:
+          name: c3x-022-P2-TWIC1656-LichessPuzzle-engineblind-source32
+          path: source/
+          repository: WhoSia/C3X
+          run-id: '38047000932'
+          github-token: ${{ github.token }}
+      - name: All source-only 1056 Standard Chess root move microstructure facts
+        uses: actions/download-artifact@v4
+        with:
+          name: c3x-022-P2-TWIC-puzzle32-all-legal-chess-primitives
+          path: primitives/
+          repository: WhoSia/C3X
+          run-id: '38047190525'
+          github-token: ${{ github.token }}
+      - name: Frozen 92 native TT first-reader cold outcome cells and exact forecast verdict
+        uses: actions/download-artifact@v4
+        with:
+          name: c3x-022-P2-stageB-TWIC-puzzle-native-exact-UCI-TT-outcomes
+          path: stageb/
+          repository: WhoSia/C3X
+          run-id: '38047992462'
+          github-token: ${{ github.token }}
+      - name: Check source and every-hypothesis frozen SHA, compute postoutcome move-choice microstructure differences
+        run: |
+          set -euo pipefail
+          mkdir -p evidence
+          test "$(sha256sum source/C3X022_P2_TWIC1656_PUZZLE_SOURCE32.json | cut -d' ' -f1)" = ebe6648f43f64c6f31e0d547845bec3d87c663093fd68298acf2ebe4c0287554
+          test "$(sha256sum primitives/C3X022_P2_TWIC_PUZZLE_ALL_LEGAL_CHESS_PRIMITIVES.json | cut -d' ' -f1)" = b3b4a29788c1f9dc2b4d491cd60d44ad8e6530d3d66be5d77039a6fd59cc958d
+          test "$(sha256sum stageb/C3X022_P2_STAGE_B_EXACT_UCI_TT_COUNTERFACTUAL.json | cut -d' ' -f1)" = f8c9210cfb9f158d038e70045a1839c3ecebb487781dbc59ce9615b2491a1899
+          python -u harness/c3x_022_P2_postoutcome_depth_chess_disagreement_audit.py \
+            --source source/C3X022_P2_TWIC1656_PUZZLE_SOURCE32.json \
+            --primitives primitives/C3X022_P2_TWIC_PUZZLE_ALL_LEGAL_CHESS_PRIMITIVES.json \
+            --stageb stageb/C3X022_P2_STAGE_B_EXACT_UCI_TT_COUNTERFACTUAL.json \
+            --out evidence/C3X022_P2_NATIVE_ROOT_DEPTH_CHESS_DECISION_FORENSIC.json | tee evidence/FORENSICS_STDOUT.txt
+          python - <<'PY'
+          import json
+          d=json.load(open('evidence/C3X022_P2_NATIVE_ROOT_DEPTH_CHESS_DECISION_FORENSIC.json'))
+          assert d["label"]=="POST_OUTCOME_DESCRIPTIVE__NEVER_PROSPECTIVE"
+          assert d["ecologies"]["twic"]["affected_source_games"]==[1,4,7,10]
+          assert d["ecologies"]["lichess_puzzles"]["affected_source_games"]==[]
+          print('C3X022_P2_FAILED_EXACT_UCI_PREDICTION_AND_CHESS_DEPTH_FORENSICS_AUTHENTIC')
+          PY
+      - name: Preserve source-level audit SHA even on error
+        if: always()
+        run: |
+          mkdir -p evidence
+          find evidence -maxdepth 1 -type f ! -name MEMBER_SHA256.txt -print0 | sort -z | xargs -0 -r sha256sum > evidence/MEMBER_SHA256.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x-022-P2-postoutcome-chess-depth-source-verification
+          path: evidence/
+          retention-days: 90
+          if-no-files-found: error
