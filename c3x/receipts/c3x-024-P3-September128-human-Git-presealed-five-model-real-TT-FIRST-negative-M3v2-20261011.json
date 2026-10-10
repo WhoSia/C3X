@@ -1,0 +1,134 @@
+{
+  "schema": "c3x024-P3-September128-prospective-real-native-FIRST-and-paired-game-model-verdict-v1",
+  "research_version": "C3X 0.24 ACTIVE",
+  "date": "2026-10-11",
+  "technical_status": "SUCCESS_NATIVE_128_GAMES_501_REAL_PHYSICAL_FIRST_CONTACTS_AND_RIGHTS_SCAN",
+  "scientific_status": "NEGATIVE_M3V2_FAILS_TO_BEAT_M0_AND_LOSES_ONE_EXACT_UCI_PREDICTION",
+  "original_source": "Lichess broadcast September2025 CC BY-SA 4.0",
+  "source_only_CI": "https://github.com/WhoSia/C3X/actions/runs/38079947147",
+  "source_only_SHA256": "ee8265f96b055645428f2fa87b36647e1931c86c848db5725a8b0ec63596dacb",
+  "original_archive_SHA256": "da3a261e926a2c0f5e79c393818e643d76448edf94cfdaefa3892258a6f9e7ba",
+  "source_game_ids_Git_before_StageA": "4cb9172ca8b5b5e8c77ab453a37b34daf82a6ecf",
+  "untreated_StageA_CI": "https://github.com/WhoSia/C3X/actions/runs/38080171816",
+  "untreated_StageA_full_SHA256": "1c9f265b507712069442956c3ecf0dcdcb7e9abbeaaff4b683ba9beb263d3b09",
+  "no_preintervention_TT_FIRST_or_SEE_boolean_mutation": true,
+  "model_policy_precommit": "c3x/ontology/c3x-024-P3-F-M3v2-TT-exposure-root-instability-literal-forecast-rule-before-first-20261011.md",
+  "preFIRST_five_model_source_workflow": "https://github.com/WhoSia/C3X/actions/runs/38081547936",
+  "preFIRST_full_forecast_SHA256": "c402a6808bcaa2d73ec58632f87aa4ba7e8be0577b051b85e0a5610750eb1887",
+  "preFIRST_literal_512_role_five_model_seal": "c3x/forecasts/c3x-024-P3-Sep2025-128game-512role-five-model-literal-UCI-before-FIRST-human-Git-seal-20261011.json",
+  "preFIRST_literal_human_Git_commit": "c5aa9582e3b972bd0562fd9fe603a252bd6fc8a3",
+  "independent_preFIRST_all_512_role_literal_verification_CI": "https://github.com/WhoSia/C3X/actions/runs/38081668509",
+  "first_TT_treated_128game_workflow_commit": "de970e8effb0ddccdfd9e7a8a629dcdde61d5d03",
+  "first_TT_treated_CI": {
+    "run_id": 38081802661,
+    "url": "https://github.com/WhoSia/C3X/actions/runs/38081802661",
+    "conclusion": "SUCCESS",
+    "shards": [
+      {
+        "id": 0,
+        "games": 32,
+        "preeligible": 122,
+        "contact": 122,
+        "HOLD": 6,
+        "NO_CONTACT": 0,
+        "private_raw_source_SHA256": "f5156d31f39c5199cbe12279ebf9162a3a36fe7b15e6bd3f7f6f9bd6e93dd622"
+      },
+      {
+        "id": 1,
+        "games": 32,
+        "preeligible": 126,
+        "contact": 126,
+        "HOLD": 2,
+        "NO_CONTACT": 0,
+        "private_raw_source_SHA256": "af11a3c5e2bcade531fab1b87b84e51cdc5a8376acd16f031282981a8f117b86"
+      },
+      {
+        "id": 2,
+        "games": 32,
+        "preeligible": 126,
+        "contact": 126,
+        "HOLD": 2,
+        "NO_CONTACT": 0,
+        "private_raw_source_SHA256": "7eeeef5b4aec0f11fb8fc033bc449080811dc9ace97f67ad0d7ea06ad17283ef"
+      },
+      {
+        "id": 3,
+        "games": 32,
+        "preeligible": 127,
+        "contact": 127,
+        "HOLD": 1,
+        "NO_CONTACT": 0,
+        "private_raw_source_SHA256": "6cc9251d622a09d90404c210d566c84f2e3ddcc3b2be5ee9620c7ec2d94ad5b8"
+      }
+    ],
+    "public_final_artifact_id": 11681270558,
+    "public_final_zip_SHA256": "c22e1ba6fb06ece6f7b4da1d758fd79094bf8893115a5e70e0f81f15865dce6a",
+    "public_final_JSON_SHA256": "63853d8de4861b24163a007898df0b23e21f3db9642adb16214f9eff4c9ab7ef",
+    "rights_scan": "SCAN_PASS_NOT_LEGAL_LICENSE"
+  },
+  "role_denominators": {
+    "distinct_source_games": 128,
+    "O_F_root_worlds": 256,
+    "potential_nested_role_cells": 512,
+    "preeligible_roles": 501,
+    "presealed_ineligible_roles_HOLD": 11,
+    "actual_physical_first_contacts": 501,
+    "NO_CONTACT_HOLD": 0,
+    "actual_root_bestmove_flipped_roles": 52,
+    "source_games_with_any_root_bestmove_change": 25,
+    "SEE_Boolean_actuation": 0
+  },
+  "precommitted_exact_UCI_models_correct_roles": {
+    "M0": 449,
+    "M1": 357,
+    "M2_depth11": 406,
+    "M3_v1": 449,
+    "M3_v2": 448
+  },
+  "M3_v1_predicted_changed_UCI_role_count": 0,
+  "M3_v2_predicted_changed_UCI_role_count": 1,
+  "only_M3v2_v_M0_predicted_disagreement": {
+    "source_game_id": 107,
+    "root_order": "O",
+    "role": "STRICT",
+    "M0_exact_UCI": "d6c5",
+    "M3_v1_exact_UCI": "d6c5",
+    "M3_v2_exact_UCI": "d6c7",
+    "M1_opposite_order_exact_UCI": "d6c7",
+    "outcome_inferred_from_strict_all_501_aggregate": "M0 correct in this sole discordant role, M3v2 wrong; original retained, target alternative not selected",
+    "strict_no_posthoc_model_refitting": true
+  },
+  "paired_game_level": {
+    "source_game_denom": 128,
+    "M3v2_vs_M0_win": 0,
+    "loss": 1,
+    "tie": 127,
+    "any_correct_win": 0,
+    "loss_any_correct": 0,
+    "tie_any_correct": 128,
+    "mean_game_role_accuracy_difference_M3v2_minus_M0": -0.001953125,
+    "game_level_cluster_bootstrap_95pct": [
+      -0.005859375,
+      0
+    ],
+    "interpretation": "One predeclared M3v2 positive was a false positive; the failed improvement is established for this prospective cohort, not proof of general statistical inferiority."
+  },
+  "independence_quality": {
+    "event_metadata_source_only_CI": "https://github.com/WhoSia/C3X/actions/runs/38080731325",
+    "observed_event_labels": 79,
+    "observed_event_date_groups": 97,
+    "max_games_same_event": 12,
+    "game_clustered_score_completed": true,
+    "event_cluster_sensitivity_precommitted": "c3x/ontology/c3x-024-P3-R1-event-cluster-sensitivity-before-native-outcome-disclosure-20261011.md",
+    "event_adjusted_CI_status": "PENDING_AT_MAIN_RECEIPT_CREATION"
+  },
+  "scientific_bounds": [
+    "Native physical TT FIRST targeted actual source writer-reader, technical intervention delivered 501/501.",
+    "Forecast literal human authored Git commit existed before FIRST workflow; no post-treatment alteration of UCI predictions.",
+    "M3v2 precommitted positive 1 of 501 and got wrong while M0 got right; no predictive gain.",
+    "The 501 role cells are nested within 128 games and event-name clustering means even games not perfectly independent.",
+    "No natural TT→SEE mediation demonstrated, no SEE forcing in this experiment.",
+    "Copyright/rights scan is not legal opinion. Do not distribute full original PGN, headers, raw private search keys or modified Stockfish binary."
+  ],
+  "governance": "GitHub Actions contents read. Human WhoSia Git author and committer. No bot co-authors."
+}
