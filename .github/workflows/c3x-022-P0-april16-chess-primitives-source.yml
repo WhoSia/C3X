@@ -1,0 +1,57 @@
+name: C3X 0.22 P0 April16 All Legal Chess Decision Primitives Source Freeze
+on:
+  push:
+    paths:
+      - '.github/workflows/c3x-022-P0-april16-chess-primitives-source.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  all-april-chess-actions-source-only:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Legal chess primitive source-only negative tests
+        run: |
+          python -m pip install -q chess==1.11.2
+          python -m unittest discover -s tools -p 'test_c3x_022_P0_april_primitives.py' -v
+          python -m py_compile harness/c3x_022_P0_april_chess_decision_primitives.py
+      - name: Frozen April official-SHA native-blind source
+        uses: actions/download-artifact@v4
+        with:
+          name: c3x-022-P0-april2026-engineblind-source16
+          path: april/
+          repository: WhoSia/C3X
+          run-id: '38045636805'
+          github-token: ${{ github.token }}
+      - name: Freeze all legal chess root actions under April source identity
+        run: |
+          set -euo pipefail
+          mkdir -p evidence
+          test "$(sha256sum april/C3X022_P0_APRIL16_SOURCE.json | cut -d' ' -f1)" = 0e5516fc0cd49203bf7cc366f4133d6c9b20a2f21de0667468f121e398d2fa93
+          python -u harness/c3x_022_P0_april_chess_decision_primitives.py \
+            --april april/C3X022_P0_APRIL16_SOURCE.json \
+            --out evidence/C3X022_P0_APRIL16_CHESS_DECISION_PRIMITIVES.json | tee evidence/PRIMITIVES_STDOUT.txt
+          python - <<'PY'
+          import json
+          d=json.load(open("evidence/C3X022_P0_APRIL16_CHESS_DECISION_PRIMITIVES.json"))
+          assert len(d['positions'])==16 and d["phase"]=="SOURCE_ONLY_COMPLETE_BEFORE_NATIVE_EXAMINATION"
+          assert sum(len(p["profile"]["moves"]) for p in d["positions"])==d["all_legal_root_moves"]
+          print("C3X022_P0_ALL_APRIL_CHESS_ACTIONS_BEFORE_NATIVE_FROZEN",d["all_legal_root_moves"])
+          PY
+      - name: Immutable member SHA even under technical failure
+        if: always()
+        run: |
+          mkdir -p evidence
+          find evidence -maxdepth 1 -type f ! -name MEMBER_SHA256.txt -print0 | sort -z | xargs -0 -r sha256sum > evidence/MEMBER_SHA256.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x-022-P0-april16-all-legal-chess-primitive-source
+          path: evidence/
+          retention-days: 90
+          if-no-files-found: error
