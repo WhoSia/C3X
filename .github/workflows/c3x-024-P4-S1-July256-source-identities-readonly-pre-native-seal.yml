@@ -1,0 +1,37 @@
+name: C3X 0.24 P4 S1 July256 Source Game SHA Read-Only Literal For Human Pre-Native Seal
+on:
+  push:
+    paths:
+      - '.github/workflows/c3x-024-P4-S1-July256-source-identities-readonly-pre-native-seal.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  no-engine-source-id-read-only:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: c3x-024-P4-JULY2025-256independent-SOURCE-ONLY-before-M4
+          path: source/
+          repository: WhoSia/C3X
+          run-id: '38083154595'
+          github-token: ${{ github.token }}
+      - name: Inspect literal 256 source game SHA IDs before native/any FIRST or SEE
+        run: |
+          set -euo pipefail
+          test "$(sha256sum source/C3X024_P4_JULY2025_ENGINEBLIND_256.json | awk '{print $1}')" = d2c50a1293e68c3feb8571d1ee1be6ba1a7ee539a12dd1a98378adfa9b54fb58
+          python - <<'PY'
+          import json
+          d=json.load(open('source/C3X024_P4_JULY2025_ENGINEBLIND_256.json'))
+          z=[x['source_game_sha256'] for x in d['selected']]
+          assert len(z)==256 and len(set(z))==256 and z==sorted(z)
+          assert d['source_only_no_stockfish_used'] and not d['treatment_outcomes_seen']
+          assert d['TT_FIRST_interventions']==d['SEE_forced_interventions']==0
+          assert d['source_fen_count']==256 and len(d['historical_source_receipts'])==13
+          for start in range(0,256,16):
+              print('C3X024_P4_S1_PRENATIVE_LITERAL_16_HASH_BATCH_'+str(start//16)+'='+json.dumps(z[start:start+16],separators=(',',':')),flush=True)
+          print('C3X024_P4_S1_256_GAME_SHA_SOURCE_ONLY_INSPECTION_PASS')
+          PY
