@@ -32,7 +32,7 @@ def explain(court,primitives,source):
         original=source["ecologies"][eco]["selected"]
         prim=primitives["ecologies"][eco]["selected"]
         c=court["per_ecology"][eco]["cases"]
-        if len(original)!=len(prim)!=len(c):
+        if not (len(original)==len(prim)==len(c)):
             raise ValueError("FORENSIC_ECOLOGY_LENGTH_DRIFT")
         if len(original)!=16 or len(prim)!=16 or len(c)!=16:
             raise ValueError("FORENSIC_16_DENOMINATOR")
