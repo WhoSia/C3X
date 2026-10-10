@@ -98,6 +98,13 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
+      - uses: actions/download-artifact@v4
+        with:
+          name: c3x-024-P4-JULY2025-256independent-SOURCE-ONLY-before-M4
+          path: source/
+          repository: WhoSia/C3X
+          run-id: '38083154595'
+          github-token: ${{ github.token }}
       - name: Download exact four original 64 game physical source histories, do not filter successes
         uses: actions/download-artifact@v4
         with:
@@ -113,7 +120,7 @@ jobs:
           test -f parts/C3X024_P4_STAGEA_SOURCE_SHARD_2.json
           test -f parts/C3X024_P4_STAGEA_SOURCE_SHARD_3.json
           mkdir -p evidence
-          PYTHONPATH=harness python -u harness/c3x_024_P4_S2_O2_sharded_untreated_StageA_original_reconstruction.py --source c3x/forecasts/c3x-024-P4-July2025-256-source-game-SHA-human-Git-seal-before-native-20261011.json --parts parts/C3X024_P4_STAGEA_SOURCE_SHARD_0.json parts/C3X024_P4_STAGEA_SOURCE_SHARD_1.json parts/C3X024_P4_STAGEA_SOURCE_SHARD_2.json parts/C3X024_P4_STAGEA_SOURCE_SHARD_3.json --out evidence/C3X024_P4_JULY2025_STAGEA_UNTREATED_NATIVE256.json
+          PYTHONPATH=harness python -u harness/c3x_024_P4_S2_O2_sharded_untreated_StageA_original_reconstruction.py --source source/C3X024_P4_JULY2025_ENGINEBLIND_256.json --parts parts/C3X024_P4_STAGEA_SOURCE_SHARD_0.json parts/C3X024_P4_STAGEA_SOURCE_SHARD_1.json parts/C3X024_P4_STAGEA_SOURCE_SHARD_2.json parts/C3X024_P4_STAGEA_SOURCE_SHARD_3.json --out evidence/C3X024_P4_JULY2025_STAGEA_UNTREATED_NATIVE256.json
           python tools/c3x_023_rights_preupload_gate.py --tier P2_AGGREGATE_SUMMARY --file evidence/C3X024_P4_JULY2025_STAGEA_UNTREATED_NATIVE256.json --report evidence/RIGHTS_JULY256_MERGED_UNTREATED_SOURCE.json
           echo 'Lichess original July2025 broadcast CC BY-SA 4.0; exact 256 source-git sealed game identity original Stockfish16 no-FIRST native UCI summary, source original PGN/player/GPL-modified binaries not in uploaded artifact.' > evidence/SOURCE_LICENSE_NOTICE.txt
       - name: SHA manifest for rights scoped original StageA
