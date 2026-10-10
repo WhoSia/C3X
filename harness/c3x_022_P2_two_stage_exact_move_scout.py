@@ -28,6 +28,19 @@ def source(path,expected_sha):
          and d["selected_count"]==32,"P2_SOURCE_NOT_32_PRENATIVE")
     return d
 
+def stockfish16_encoded_move(board,move):
+    """Exact pinned SF16 Move bits: NORMAL, EP 2<<14, CASTLING 3<<14.
+    SF16 castling to-square stores the ROOK origin, not king arrival.
+    """
+    base=move.from_square*64+move.to_square
+    if board.is_castling(move):
+        rook_file=7 if board.is_kingside_castling(move) else 0
+        rook_square=chess.square(rook_file,chess.square_rank(move.from_square))
+        return (3<<14)+(move.from_square*64)+rook_square
+    if board.is_en_passant(move):
+        return (2<<14)+base
+    return base
+
 def native_world(row):
     need("source_halfmove_clock" in row and "source_fullmove_number" in row,
          "SOURCE_ORIGINAL_CHESS_CLOCK_NOT_FROZEN")
@@ -41,6 +54,13 @@ def native_world(row):
     need(valid.split()[:3]==row["fen4"].split()[:3],
          "SOURCE_NON_EP_BOARD_NORMALIZED")
     w=dict(row);w["fen4"]=valid
+    # Frozen source records legal chess UCI coordinates; C3X016-P4 reads
+    # raw internal SF16 Move integers. Do not alter selected source positions.
+    source_normal=row["native_move"]
+    need(source_normal==move.from_square*64+move.to_square,
+         "SOURCE_CHESS_COORDINATE_ENCODING_DRIFT")
+    w["native_move"]=stockfish16_encoded_move(b,move)
+    w["source_chess_coordinate_move"]=source_normal
     return w,(half,full),valid!=row["fen4"]
 
 def cold(engine,w,clock,order,discovery=False):
