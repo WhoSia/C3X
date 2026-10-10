@@ -1,0 +1,42 @@
+{
+  "schema": "c3x024-P4-July2025-256-prospective-source-only-preNative-origin-receipt-v1",
+  "date": "2026-10-11",
+  "status": "SOURCE_ONLY_SUCCESS_JULY256_PROSPECTIVE_OUTCOME_UNEXPOSED",
+  "original_legal_source": "https://database.lichess.org/broadcast/lichess_db_broadcast_2025-07.pgn.zst",
+  "license": "CC BY-SA 4.0",
+  "precommit_human_model_policy": "c3x/ontology/c3x-024-P4-M4-survivor-corroborated-preFIRST-exact-UCI-hypothesis-and-July256-prospective-lock-20261011.md",
+  "model_policy_commit_before_source": "e20763cb41029a9ffaadaa69778d42c92ae6925e",
+  "source_selector_precommit": "c3x/ontology/c3x-024-P4-S0-july2025-independent256-engineblind-source-and-M4-survival-verification-precommit-20261011.md",
+  "selector_precommit_before_archive": "afb2a1bb8defe0bef5238ffbb6858fc348fda87d",
+  "first_eligible_source_games_before_SHA_sort": 8192,
+  "max_original_PGN_records_scanned": 40000,
+  "selected_unique_game_hash_count": 256,
+  "selected_unique_legal_root_count": 256,
+  "other_historical_source_manifest_count": 13,
+  "excluded_previous_Aug2025_and_Sept2025": true,
+  "original_archive_compressed_SHA256": "1ffc6b775d27631ac988dd816a137b6dd0ec05561aeee8b45861e0c08dbcb10b",
+  "minimal_original_source_JSON_SHA256": "d2c50a1293e68c3feb8571d1ee1be6ba1a7ee539a12dd1a98378adfa9b54fb58",
+  "source_only_CI": {
+    "run_id": 38083154595,
+    "url": "https://github.com/WhoSia/C3X/actions/runs/38083154595",
+    "conclusion": "SUCCESS",
+    "artifact_id": 11680688806,
+    "zip_sha256": "0d4b0f72180cf48d9ebd9d174452acf6f439010cb1e66c736aa4659e4e9076d1",
+    "rights": "PASS_SOURCE_ONLY_CONTENT_NOT_LEGAL_CLEARANCE"
+  },
+  "ordered_exact_256_game_ids": "c3x/forecasts/c3x-024-P4-July2025-256-source-game-SHA-human-Git-seal-before-native-20261011.json",
+  "ordered_256_game_human_Git_commit": "ef8e60be0df20e96bd3c19949bd2d4f585ed0353",
+  "source_hash_inspector_CI": {
+    "run_id": 38083270483,
+    "url": "https://github.com/WhoSia/C3X/actions/runs/38083270483",
+    "conclusion": "SUCCESS"
+  },
+  "potential_O_F_worlds": 512,
+  "potential_nested_TT_role_cells": 1024,
+  "real_TT_FIRST_interventions": 0,
+  "SEE_forced_interventions": 0,
+  "native_untreated_StageA_not_yet_certified": true,
+  "M4_exact_UCI_literal_predictions_not_yet_sealed": true,
+  "scientific_status": "NO_HELDOUT_JULY_OUTCOMES_SEEN_AND_NO_M4_SKILL_CLAIM",
+  "governance": "Original PGN/player headers/complete mainlines/private keys not in Git, human WhoSia only, Actions contents read, legal scan is not license."
+}
