@@ -3,6 +3,8 @@ on:
   push:
     paths:
       - '.github/workflows/c3x-023-P1-R2-T1-full-native-state-match-before-SEE-actuator.yml'
+      - 'tools/c3x_023_P1_R2_T1_native_full_search_state_overlay.py'
+      - 'tools/test_c3x_023_P1_R2_T1_exact_native_search_state.py'
   workflow_dispatch:
 permissions:
   contents: read
