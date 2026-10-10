@@ -1,0 +1,136 @@
+{
+  "schema": "c3x021-P2-R1-native-natural-O-independent-physical-TT-remapping-20261010-v1",
+  "date": "2026-10-10",
+  "status": "FULL16_NATURAL_O_SOURCE_INDEPENDENT_NATIVE_COURT_PASS",
+  "precommit": "c3x/ontology/c3x-021-P2-R1-natural-O-root-order-independent-TT-lineage-precommit.md",
+  "historical_F_world_root_order": "played PGN move rotated first with P4 source; O is pristine initial order",
+  "native": {
+    "run_id": 38044580147,
+    "url": "https://github.com/WhoSia/C3X/actions/runs/38044580147",
+    "conclusion": "success",
+    "artifact_id": 11667332084,
+    "artifact_name": "c3x-021-P2-R1-march16-natural-O-independent-TT-lineage",
+    "zip_sha256": "25fea2dfa871f2f97f098b8e204bf99b5aa5e1aca76fc905580ee2748dfb727c",
+    "full_json_name": "C3X021_P2_R1_MARCH16_NATURAL_O_INDEPENDENT_TT.json",
+    "full_json_sha256": "4cb54469460f6402952b269ab123c1681c7fe1670a3d829905db6640e209d17e",
+    "member_sha256_verified": 24,
+    "member_sha256_errors": 0,
+    "compiled_binary_sha256": "04cc4f48fde8f6d4c3bcb690590523bb7f0c1f622c0d8d9fb7313533cdbe109f",
+    "pinned_sf16_git": "68e1e9b3811e16cad014b590d7443b9063b52",
+    "cold_double_all_cases": true,
+    "baseline_O_equals_Z_and_previous_P1_O_all_cases": true,
+    "all_source_pair_selection_from_O_passive_discovery": true,
+    "native_first_reader_block_exact_physical_validated": true
+  },
+  "frozen_inputs": {
+    "march_source_sha256": "d79e48633be2b683176f1a6d4650aeea1b7584f11c85c2349a5bddda113febee",
+    "previous_F_native_sha256": "5ee15c3ec48be0042a9bb0ae7566808737f56e7568c2b29d43f00ae64afcb259",
+    "p1_engineblind_635_legal_moves_sha256": "c14711c0e31bde26c2c7fc6e77f1f2fdf0ac70180a517b91f71845f1fd78ed3f"
+  },
+  "count": {
+    "games": 16,
+    "role_cells": 32,
+    "O_world_source_eligible": 31,
+    "O_world_actual_first_tt_block_contact": 31,
+    "O_world_first_tt_block_full_six_UCI_changed": 23,
+    "O_world_first_tt_block_final_bestmove_changed_role_cells": 2,
+    "O_world_bestmove_changed_distinct_games": 1,
+    "O_world_unavailable_pair": 1,
+    "F_world_first_tt_block_final_bestmove_changed_role_cells": 2,
+    "F_world_bestmove_changed_distinct_games": 2,
+    "natural_O_vs_playedfirst_F_root_choice_different_games": 4,
+    "O_vs_F_matching_selected_physical_triplets_among_O_eligible": 21
+  },
+  "natural_O_actual_focal_effect": {
+    "game": 1,
+    "roles": [
+      "STRICT",
+      "BROAD"
+    ],
+    "roles_are_same_physical_first_source_intervention": true,
+    "initial_same_board_fen4": "1r2nrk1/2qb1p1p/1p3pp1/2pPp3/4P3/NQPB4/1P3PPP/R3R1K1 w - -",
+    "O_original_bestmove": "d3b5",
+    "F_played_first_bestmove": "a3b5",
+    "O_first_native_tt_block_bestmove": "b3c2",
+    "O_UCI_score_cp": 35,
+    "O_UCI_nodes": 56154,
+    "F_UCI_score_cp": 22,
+    "F_UCI_nodes": 107320,
+    "O_first_UCI_score_cp": 36,
+    "O_first_UCI_nodes": 66045,
+    "selected_O_physical": {
+      "key64": "13123448531795149781",
+      "slot": 0,
+      "epoch": 3
+    },
+    "selected_source_root_calls": [
+      6,
+      7
+    ],
+    "source_native_root_move": 1050,
+    "first_logged_aligned_child_return": {
+      "root_depth": 6,
+      "candidate_index": 2,
+      "alpha": 418,
+      "beta": 439,
+      "O_child_return": 119,
+      "O_first_child_return": 209,
+      "O_alpha_gate": 0,
+      "O_first_alpha_gate": 0,
+      "meaning": "Both returns stay below alpha; a FIRST TT reader intervention changes eventual bestmove despite no immediate alpha gate crossing at first logged source-aligned difference."
+    },
+    "source_only_legal_chess_primitives": {
+      "O_d3b5": {
+        "piece": "white bishop",
+        "opponent_immediate_legal_response_count": 26,
+        "legal_captures_destination": [
+          "d7b5"
+        ]
+      },
+      "F_a3b5": {
+        "piece": "white knight",
+        "opponent_immediate_legal_response_count": 26,
+        "legal_captures_destination": [
+          "d7b5"
+        ]
+      },
+      "O_FIRST_b3c2": {
+        "piece": "white queen",
+        "opponent_immediate_legal_response_count": 28,
+        "legal_captures_destination": []
+      }
+    }
+  },
+  "prior_F_world_focal": {
+    "game4_BROAD": {
+      "O": "g5h4",
+      "F": "h8h4",
+      "F_FIRST": "g5h4",
+      "O_FIRST": "g5h4",
+      "physical_O_F_same": false
+    },
+    "game9_STRICT": {
+      "O": "f6h5",
+      "F": "a6b7",
+      "F_FIRST": "f6h5",
+      "O_FIRST": "f6h5",
+      "physical_O_F_same": false
+    },
+    "interpretation": "F-only final-choice flips in game4/9 disappear under independently mapped O FIRST interventions; O-world flip occurs instead in game1. F native TT source contact effects are conditioned by played-first ordering; neither class has a universal alpha crossing at first aligned difference."
+  },
+  "care": [
+    "Game1 STRICT and BROAD selected the same physical intervention; treat as one distinct game and correlated roles.",
+    "21/31 O-selected physical triples numerically match F-selected triples, but O call histories/writer contexts still need independent identity audit before claiming source event equivalence.",
+    "This is a synthetic C++ TT reader-block effect conditioned on root order, not proof of natural 'TT-free' chess decisions or a unique chess tactic mediation.",
+    "No prospective independent move-choice classifier success is reported. All older Jan and Feb FAIL remain intact."
+  ],
+  "historical_verdicts": [
+    "CPP_224 universal FAIL",
+    "PAG universal FAIL",
+    "pin-class response transfer FAIL",
+    "January J2/J3/J4 FAIL",
+    "February F19.5 FAIL",
+    "0.19 K4 0/4 FAIL"
+  ],
+  "next": "0.22 prospective source-first causal root-order×TT intervention forecasts plus chess response-conditioned primitive baselines, after a disjoint new-month source freeze"
+}
