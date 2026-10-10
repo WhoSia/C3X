@@ -6,9 +6,17 @@
 
 **Status:** VERSION_TITLE_PROPOSAL / PI_ACCEPTANCE_PENDING / 0.23 remains ACTIVE. Do not retroactively relabel 0.23 P1–R2 native CI, source receipts, frozen forecasts, or T2 literal TT+SEE target identities.
 
+## Verified post-proposal T4 evidence (additive, not 0.24 activation)
+
+T3 per-arm source-depth derivative is **no longer pending**: CI [#38070768528](https://github.com/WhoSia/C3X/actions/runs/38070768528) independently reproduced the 2×2 results, with exact depth/UCI and private-source SHA receipts. The original T3 exact private full JSON SHA is `be2242388f50fc9e0d392a6bde20d624ed02ebc8a6149c13ecccd951ff312626`.
+
+The separately [Git-precommitted T4 native source-guard audit](c3x-023-P1-R2-T4-native-pruning-branch-survival-source-observer-precommit.md) was executed successfully in [read-only CI #38072795238](https://github.com/WhoSia/C3X/actions/runs/38072795238). Its first attempt [#38072709627](https://github.com/WhoSia/C3X/actions/runs/38072709627) **TECHNICAL_FAIL** (source wrapper-call arity anchor), preserved and fixed without changing target identities. T4 produced **8/8 actual executed Stockfish16 `if(!SEE) continue` or `PASSED_SEE_GUARD` witnesses**, 16 cold runs, historical final UCI/nodes/scores matched, and the disabled-T4 binary replayed original T3 raw JSON **byte-for-byte**. #11 qsearch SHAM prunes, FLIP passes; #2 quiet SHAM passes, FLIP prunes. [T4 canonical rights-scoped receipt](../receipts/c3x-023-P1-R2-T4-native-actual-prune-continue-branch-and-T3-observer-equivalence-20261011.json) and public artifact are available.
+
+**Important epistemic ceiling:** `PASSED_SEE_GUARD` does not prove `SEARCHED_MOVE`, downstream child visits, full branch survival, or natural TT→SEE mediation. The T4 source events and T3 root bestmoves establish local guard and outcome changes, but **do not yet provide a complete intervening descendant lineage**. The next 0.23 T5 must capture those descendant visits/omissions with bounded trace and matched ancestry, and preserve the negative May #11 case. This remains an already-outcome-exposed two-game development result, not prospective M3 or independent transfer. **0.23 remains ACTIVE and 0.24 remains only proposed.**
+
 ## Why the question changes at 0.24
 
-0.23 establishes *which source-level original Stockfish16 operator actually acts*, how actual physical TT first-reader blocking relates to same original SEE call path, and what source rights permit public replication. Exact full computational state and ancestor vector were matched in 21 native SEE episodes across four of six post-outcome developmental games (two censored); temporal ordering confirmed earlier. Actual targeted SEE operator SHAM/FLIP × real TT FIRST factorial at two preregistered sites was executed successfully in CI #38070604820 (2026-10-11 KST; SHA/audit receipt pending file update). All four exact source intervention doses were verified across two separate chess games with cold replay.
+0.23 establishes *which source-level original Stockfish16 operator actually acts*, how actual physical TT first-reader blocking relates to same original SEE call path, and what source rights permit public replication. Exact full computational state and ancestor vector were matched in 21 native SEE episodes across four of six post-outcome developmental games (two censored); temporal ordering confirmed earlier. Actual targeted SEE operator SHAM/FLIP × real TT FIRST factorial at two preregistered sites was executed successfully in CI #38070604820 (2026-10-11 KST; SHA/audit receipt and repeat verified). All four exact source intervention doses were verified across two separate chess games with cold replay.
 
 T3 first readout:
 - May broadcast #11 F/STRICT: TT-only final bestmove changes; SEE-only no change; joint bestmove equals TT-only.
@@ -28,7 +36,7 @@ T3 first readout:
 
 ## 0.24-P0 opening gate
 
-- Require an independent current 0.23-T3 receipt with source Git pre-actuator SHA, native unique SHAM/FLIP contact/cold proof and UCI/depth source trajectories. The initial source CI #38070604820 passes; finer per-arm depth derivative CI is still pending or must be checked before the final P0 read.
+- Require an independent current 0.23-T3 receipt with source Git pre-actuator SHA, native unique SHAM/FLIP contact/cold proof and UCI/depth source trajectories. The original source CI #38070604820 and finer per-arm depth derivative CI #38070768528 both pass; verified T4 actual-prune branch observer CI #38072795238 passes, but full descendant-survival linkage is T5 HOLD.
 - Define entirely fresh chess cohort not used to design a post-treatment M3, and source-only SHA-freeze BEFORE engine probing.
 - Precommit exact UCI predictions and rival/nulls as individual strings at each eligible root role, with rights and raw provenance eligibility. Positive model benchmark requires beating M0 on genuinely new chess games, not first-order row count.
 - Require independent code/source reviewer or second engine before describing stockfish-specific branch interaction as cross-engine chess cognition.
