@@ -1,0 +1,65 @@
+{
+  "schema": "c3x021-P2-standard-chess-three-ply-response-contingent-legal-move-primitive-court-v1",
+  "date": "2026-10-10",
+  "status": "SOURCE_ONLY_AFTER_P1_KNOWN_FOCAL_PAIRS_NO_NATIVE_ENGINE",
+  "study": "RETROSPECTIVE_FROZEN_P1_GAME4_AND_GAME9_ROOT_CHOICES",
+  "native_engine_used": false,
+  "chess_variant": "Standard Chess",
+  "source_sha256": {
+    "march": "d79e48633be2b683176f1a6d4650aeea1b7584f11c85c2349a5bddda113febee",
+    "all_635_moves": "c14711c0e31bde26c2c7fc6e77f1f2fdf0ac70180a517b91f71845f1fd78ed3f"
+  },
+  "github_actions": {
+    "run_id": 38040908999,
+    "url": "https://github.com/WhoSia/C3X/actions/runs/38040908999",
+    "conclusion": "success",
+    "artifact_id": 11666200528,
+    "artifact_name": "c3x-021-P2-standard-chess-3ply-response-contingent-source",
+    "artifact_zip_sha256": "d452b21c5b3227a305cc21cfeccd9ed1e5d288966c7ad2cddab7025a847b1612",
+    "data_member_sha256": "3e3f4397d04e116750c8d66db8d40d8928b990928e03762f79f76bb223d1e9a9",
+    "sha_verified_members": 3,
+    "tests_passed": 5
+  },
+  "cases": [
+    {
+      "game": 4,
+      "original_F_move": "h8h4",
+      "first_TT_suppressed_V_move": "g5h4",
+      "first_ply_root_both_capture_same_h4_pawn": true,
+      "F_legal_white_replies": 29,
+      "V_legal_white_replies": 29,
+      "same_white_reply_set": true,
+      "shared_white_replies": 29,
+      "black_response_next_legal_set_different": 27,
+      "black_response_next_count_different": 27,
+      "same_next_black_legal_set_only_for": [
+        "c3b5",
+        "c3d5"
+      ],
+      "independent_chess_observation": "Same white immediate response repertoire, but root piece identity and attacked squares change black's third-ply options in 27/29 matched opponent responses."
+    },
+    {
+      "game": 9,
+      "original_F_move": "a6b7",
+      "first_TT_suppressed_V_move": "f6h5",
+      "F_legal_white_replies": 40,
+      "V_legal_white_replies": 41,
+      "shared_white_replies": 40,
+      "V_only_legal_white_reply": [
+        "d4g7"
+      ],
+      "F_only_legal_white_reply": [],
+      "black_response_next_legal_set_different": 40,
+      "black_response_next_count_different": 38,
+      "board_relationship": "Knighthood square f6 is a blocker on white bishop d4–black bishop g7 diagonal; moving f6h5 makes white bishop capture d4g7 legal, whereas a6b7 does not.",
+      "independent_chess_observation": "The knight's departure creates a new legal bishop capture and changes all forty matched third-ply black action sets; this is a square-specific attack/legality fact, not a named motif label."
+    }
+  ],
+  "scope_limits": [
+    "All responses computed with chess legal move generator, no native SF or chess evaluation",
+    "Outcome-selected P1 focal games, no new general law or independent sample claim",
+    "Third-ply legal sets are board contrast outcomes and do not establish why Stockfish evaluated a move as better",
+    "TT factorial and legal root restrictions are different experimental dimensions; do not merge their denominators"
+  ],
+  "next_native": "P2 all31 four-arm physical TT FIRST/SECOND/BOTH/ZERO native cold court with isolated pristine SF16 legal root searchmoves"
+}
