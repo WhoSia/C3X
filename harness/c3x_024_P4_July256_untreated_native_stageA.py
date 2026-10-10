@@ -58,10 +58,37 @@ def stageA(source,engine):
         records=[]
         for record in new_rows:
             world,clocks,_=native_world({**record,"source_root_legal_count":record["root_legal_move_count"]})
-            baseline={};candidates={};discovery_lengths={}
+            baseline={};candidates={};discovery_lengths={};censored_orders=set()
             for order in WORLDS:
-                obs=cold(engine,world,clocks,order)
-                discovery=cold(engine,world,clocks,order,discovery=True)
+                try:
+                    obs=cold(engine,world,clocks,order)
+                    discovery=cold(engine,world,clocks,order,discovery=True)
+                except RuntimeError as exc:
+                    if str(exc)!="C3X018_PHYSICAL_COURT_TRACE_CENSORED":
+                        raise
+                    # P4-S2-O1: preserve source game/world, but never infer physical
+                    # FIRST eligibility from truncated native writer-reader events.
+                    xx=play(engine,world,order,"OBS",fen_clocks=clocks,
+                            allow_empty_lineage=True,allow_source_trace_censored=True)
+                    yy=play(engine,world,order,"OBS",fen_clocks=clocks,
+                            allow_empty_lineage=True,allow_source_trace_censored=True)
+                    need(xx["UCI"]==yy["UCI"],
+                         "P4_TRACE_CENSORED_COLD_SIXFIELD_UCI_MISMATCH")
+                    need(all(any(e["kind"]=="trace_censored" for e in q["native_tt_source_allows"]+
+                                q["consumer_records"]+q["blocks"]+q["rescues"])
+                             or q["lineage_summary"]["records"]>=30000
+                             for q in (xx,yy)),
+                         "P4_TRACE_CENSORED_MARKER_MISSING")
+                    # Exact marker check below using reporter records; parser only
+                    # exposes summary lists, so 30k logged events plus original
+                    # exception is required as independent censored source evidence.
+                    censored_orders.add(order)
+                    baseline[order]={"UCI":xx["UCI"],"root_events":[]}
+                    candidates[order]={r:None for r in ROLES}
+                    discovery_lengths[order]=2048
+                    print("C3X024_P4_SOURCE_TRACE_CENSORED_HOLD",
+                          record["id"],order,flush=True)
+                    continue
                 need(obs["UCI"]==discovery["UCI"],"P1_READONLY_DISCOVERY_CHANGED_BASELINE")
                 ev=[x for x in discovery["payload_witnesses"] if x["kind"]=="discovery"]
                 need(len(ev)<=2048,"P1_SOURCE_DISCOVERY_OVER_LIMIT")
@@ -116,7 +143,8 @@ def stageA(source,engine):
                   "depth_leaders":source_depth_ladder(baseline[order]["root_events"]),
                   "roles":targets,
                   "passive_first32_SEE_events":watch_events,
-                  "passive_SEE_witness_censored":partial,
+                  "passive_SEE_witness_censored":partial or order in censored_orders,
+                  "source_trace_censored":order in censored_orders,
                   "passive_native_TT_value_use_witnesses":native_use,
                   "path_observer_changed_sixfield_UCI":False}
             records.append(entry)
@@ -139,6 +167,8 @@ def stageA(source,engine):
               for c in v["cases"]) for ec,v in outcome["ecologies"].items()},
      "passive_SEE_root_worlds_with_true_source_event":
         sum(bool(c["worlds"][o]["passive_first32_SEE_events"])
+            for v in outcome["ecologies"].values() for c in v["cases"] for o in WORLDS),
+     "source_trace_censored_root_worlds":sum(bool(c["worlds"][o]["source_trace_censored"])
             for v in outcome["ecologies"].values() for c in v["cases"] for o in WORLDS),
      "native_SEE_first32_events_observed":
         sum(sum(e["kind"]=="witness" for e in c["worlds"][o]["passive_first32_SEE_events"])
