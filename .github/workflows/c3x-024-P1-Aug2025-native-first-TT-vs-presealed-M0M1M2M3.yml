@@ -1,0 +1,163 @@
+name: C3X 0.24 P1 New16 Prospective Physical TT FIRST vs Pre-Git-Sealed M0 M1 M2 M3
+on:
+  push:
+    paths:
+      - '.github/workflows/c3x-024-P1-Aug2025-native-first-TT-vs-presealed-M0M1M2M3.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  first-native-TT-after-source-and-literal-forecast-preseal:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Source frozen, chess-law and original-first reader regression prerequisites
+        run: |
+          set -euo pipefail
+          python -m pip install -q chess==1.11.2
+          python -m py_compile harness/c3x_024_P1_newAug2025_TT_FIRST_vs_four_presealed_literal_models.py
+          python -m unittest discover -s tools -p 'test_c3x_023_P1_R1_native_source_TT_and_SEE.py' -v
+          mkdir -p source stageA forecasts evidence private public
+      - name: Retrieve sealed licensed new Aug2025 source cohort (not a new selection)
+        uses: actions/download-artifact@v4
+        with:
+          name: c3x-024-P0-AUG2025-new-broadcast16-SOURCE-ONLY-no-engine
+          path: source/
+          repository: WhoSia/C3X
+          run-id: '38075786357'
+          github-token: ${{ github.token }}
+      - name: Retrieve original new16 NO-TREATMENT native StageA
+        uses: actions/download-artifact@v4
+        with:
+          name: c3x-024-P0-Aug2025-untreated-native16-O-F-SEE-ancestry-no-activation
+          path: stageA/
+          repository: WhoSia/C3X
+          run-id: '38076166084'
+          github-token: ${{ github.token }}
+      - name: Retrieve 64 role literal four model UCI research forecasts generated before treatment
+        uses: actions/download-artifact@v4
+        with:
+          name: c3x-024-P0-Aug2025-M0-M1-M2-M3-literal-UCI-PRETREATMENT
+          path: forecasts/
+          repository: WhoSia/C3X
+          run-id: '38076517053'
+          github-token: ${{ github.token }}
+      - name: Validate all three exact pre-treatment SHA and human-authored literal Git artifact before running native treatment
+        run: |
+          set -euo pipefail
+          test "$(sha256sum source/C3X024_P0_AUG2025_ENGINEBLIND_16.json | cut -d' ' -f1)" = 76391058cae1fad8d23e3ae8556e48b63a0d991a051c59fef2df15e11c73f529
+          test "$(sha256sum stageA/C3X024_P0_AUG2025_STAGEA_UNTREATED_NATIVE16.json | cut -d' ' -f1)" = 116b3c0f63be3074236982c76abd059b1dca3bb1f019cc3c10f9b03a5ac1855e
+          test "$(sha256sum forecasts/C3X024_P0_AUG2025_M0_M1_M2_M3_LITERAL_UCI_BEFORE_FIRST.json | cut -d' ' -f1)" = 8fd04b842fb9731b45b79a6dccc0526b3a21cce52f22fde0b0d00094789da4ea
+          python - <<'PY'
+          import sys,json
+          sys.path.insert(0,'harness')
+          from c3x_024_P1_newAug2025_TT_FIRST_vs_four_presealed_literal_models import gate
+          base='c3x/forecasts/c3x-024-P0-Aug2025-64role-4model-literal-UCI-Git-seal-before-FIRST-20261011.json'
+          source=json.load(open('source/C3X024_P0_AUG2025_ENGINEBLIND_16.json'))
+          stage=json.load(open('stageA/C3X024_P0_AUG2025_STAGEA_UNTREATED_NATIVE16.json'))
+          fc=json.load(open('forecasts/C3X024_P0_AUG2025_M0_M1_M2_M3_LITERAL_UCI_BEFORE_FIRST.json'))
+          sealed=json.load(open(base))
+          assert gate(source,stage,fc,sealed)==64
+          assert sealed['M3_equals_M0_for_all_64_eligible_roles']
+          print('C3X024_P1_PHYSICAL_FIRST_PRESEAL_FULL_64_LITERAL_EXACT_UCI_ACCEPTED',sealed['full_forecast_original_JSON_SHA256'])
+          PY
+      - name: Native Stockfish16 single-return plus second-return and persistent-state build
+        run: |
+          set -euo pipefail
+          root=/tmp/C3X020_MULTI_STATE
+          git clone -q --single-branch --branch sf_16 https://github.com/official-stockfish/Stockfish.git "$root"
+          test "$(git -C "$root" rev-parse HEAD)" = 68e1e9b3811e16cad014b590d7443b9063b3eb52
+          python tools/c3x_016_P4_independent_12root_source_order_patch.py --source "$root" --out-manifest evidence/P4.json
+          python tools/c3x_017_early_depth1_root_window_trace_patch.py --source "$root" --out-manifest evidence/ROOT_TRACE.json
+          python tools/c3x_018_trial_call_identity_patch.py --source "$root" --out-manifest evidence/TRIAL_ID.json
+          python tools/c3x_018_physical_epoch_lineage_patch.py --source "$root" --out-manifest evidence/EPOCH.json
+          python tools/c3x_018_tt_eval_consumption_overlay.py --source "$root" --out-manifest evidence/V.json
+          python tools/c3x_018_physical_value_witness_overlay.py --source "$root" --out-manifest evidence/WRITER_TICKET.json
+          python tools/c3x_018_root_TT_genealogy_overlay.py --source "$root" --out-manifest evidence/ROOT_TT_LINEAGE.json
+          python tools/c3x_018_TT_reader_writer_age_bound_root_feature_overlay.py --source "$root" --out-manifest evidence/AGE_BOUND.json
+          python tools/c3x_018_january2048_TT_reader_source_census.py --source "$root" --out-manifest evidence/CENSUS.json
+          python tools/c3x_018_adaptive_writer_age_root_call_V_gate.py --source "$root" --out-manifest evidence/AGE_GATE.json
+          python tools/c3x_018_january_cross_window_pair_source_gate.py --source "$root" --out-manifest evidence/WINDOW_GATE.json
+          python tools/c3x_018_jan_original_key_TT_probe_watch_overlay.py --source "$root" --out-manifest evidence/PROBE.json
+          python tools/c3x_018_jan_TT_probe_physical_writer_epoch_witness.py --source "$root" --out-manifest evidence/PROBE_WRITER.json
+          python tools/c3x_018_P0P1_TT_save_decision_writer_reinstate_overlay.py --source "$root" --out-manifest evidence/P0_P1_SOURCE_MUTATION.json
+          python tools/c3x_018_P1_pre_second_reader_temporal_scope_overlay.py --source "$root" --out-manifest evidence/P1_PRE_SECOND_TEMPORAL_GATE.json
+          python tools/c3x_019_tt_raw_bytes_shadow_writer_orthogonal_overlay.py --source "$root" --out-manifest evidence/C3X019_ORTHOGONAL_WRITER_STATE.json
+          python tools/c3x_019_actual_native_tt_eval_use_source_witness.py --source "$root" --out-manifest evidence/C3X019_NATIVE_EVAL_USE.json
+          python tools/c3x_019_native_TT_cutoff_actual_return_overlay.py --source "$root" --out-manifest evidence/C3X019_NATIVE_TT_CUTOFF_RETURN.json
+          python tools/c3x_019_root_return_one_site_rescue_overlay.py --source "$root" --out-manifest evidence/ONE_SITE_RETURN_MUTATION.json
+          python tools/c3x_020_multi_state_root_repair_overlay.py --source "$root" --out-manifest evidence/C3X020_MULTI_STATE_MUTATION.json
+          python tools/c3x_022_P2_R2_native_SEE_source_witness_overlay.py --source "$root" --out-manifest evidence/C3X022_R2_NATIVE_SEE_FOUR_SOURCE_SITES.json
+          python tools/c3x_022_P2_R2_D1_rootcall_only_SEE_observer.py --source "$root" --out-manifest evidence/C3X022_R2_D1_DESCENDANT_READONLY.json
+          python tools/c3x_023_P1_native_SEE_parent_path_key_overlay.py --source "$root" --out-manifest evidence/C3X023_P1_MAIN_QSEARCH_ANCESTRY_KEYPATH.json
+          git -C "$root" diff -- src/ > /tmp/C3X023_GPL_MODIFIED_ENGINE_SOURCE.diff
+          sha256sum /tmp/C3X023_GPL_MODIFIED_ENGINE_SOURCE.diff | awk '{print $1 "  GPL_DIFF_PRIVATE_NOT_UPLOADED"}' > evidence/MODIFIED_GPL_DIFF_SHA256.txt
+          make -s -C "$root/src" -j2 build ARCH=x86-64
+          sha256sum "$root/src/stockfish" | awk '{print $1 "  MODIFIED_ENGINE_BINARY_NOT_UPLOADED"}' > evidence/BINARY_SHA256.txt
+      - name: First independent new-cohort physical TT FIRST treatment, original cold-sham controls, direct source proofs
+        run: |
+          set -euo pipefail
+          python -u harness/c3x_024_P1_newAug2025_TT_FIRST_vs_four_presealed_literal_models.py \
+            --source source/C3X024_P0_AUG2025_ENGINEBLIND_16.json \
+            --stagea stageA/C3X024_P0_AUG2025_STAGEA_UNTREATED_NATIVE16.json \
+            --forecast forecasts/C3X024_P0_AUG2025_M0_M1_M2_M3_LITERAL_UCI_BEFORE_FIRST.json \
+            --seal c3x/forecasts/c3x-024-P0-Aug2025-64role-4model-literal-UCI-Git-seal-before-FIRST-20261011.json \
+            --engine /tmp/C3X020_MULTI_STATE/src/stockfish \
+            --out private/C3X024_P1_AUG2025_TT_FIRST_FULL_PRESEALED_MODEL_EVALUATION.json | tee private/CI_SOURCE_OUTCOMES.txt
+      - name: Derive source-rights-scoped per-game model score with no original full PGN
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import json,hashlib
+          from pathlib import Path
+          private=Path('private/C3X024_P1_AUG2025_TT_FIRST_FULL_PRESEALED_MODEL_EVALUATION.json')
+          result=json.loads(private.read_bytes())
+          assert result['summary']['source_games']==16 and result['summary']['potential_roles']==64
+          rows=[]
+          for case in result['cases']:
+            datum={'game_id':case['game_id'],'root_orders':{}}
+            for order,roles in case['root_orders'].items():
+              datum['root_orders'][order]={}
+              for role,x in roles.items():
+                datum['root_orders'][order][role]={
+                  'status':x['status'],'actual_physical_TT_FIRST':x['real_physical_TT_FIRST'],
+                  'TT_reader_block_count':x['TT_reader_block_count'],
+                  'baseline_exact_UCI':x['original_UCI']['bestmove'],
+                  'treated_exact_UCI':x['treated_UCI']['bestmove'],
+                  'literal_precommitted_models':x['exact_literal_models_precommitted'],
+                  'exact_correctness':x['literal_exact_accuracy_when_contacted'],
+                  'actual_bestmove_flip':x['actual_bestmove_flip'],
+                  'SEE_flip_count':0}
+            rows.append(datum)
+          public={'schema':'c3x024-P1-Aug2025-after-Git-presealed-predictions-rights-scoped-verdict-v1',
+                  'source':'Lichess Aug2025 official broadcast CC BY-SA 4.0',
+                  'source_license':'https://creativecommons.org/licenses/by-sa/4.0/',
+                  'original_source_JSON_sha256':'76391058cae1fad8d23e3ae8556e48b63a0d991a051c59fef2df15e11c73f529',
+                  'precommitted_literal_JSON_sha256':'8fd04b842fb9731b45b79a6dccc0526b3a21cce52f22fde0b0d00094789da4ea',
+                  'full_native_private_SHA256':hashlib.sha256(private.read_bytes()).hexdigest(),
+                  'rights':'Newly computed minimal source-indexed experimental exact UCI, no original full PGN, game headers, players, FEN or modified Stockfish binary',
+                  'summary':result['summary'],'cases':rows}
+          Path('public/C3X024_P1_TT_FIRST_PROSPECTIVE_MODEL_SCORE.json').write_text(json.dumps(public,sort_keys=True,indent=2)+'\n')
+          print('C3X024_P1_POSTTREATMENT_AFTER_LITERAL_GIT_SEAL',result['summary'])
+          PY
+          echo 'Source: Lichess Aug2025 broadcast https://database.lichess.org/broadcast/lichess_db_broadcast_2025-08.pgn.zst CC BY-SA 4.0 https://creativecommons.org/licenses/by-sa/4.0/. Transformed into derived first-TT-reader native search, model predictions and results; player names, complete original PGNs and Stockfish modified GPL binaries omitted. Licence review not automatic.' > public/SOURCE_ATTRIBUTION_CHANGE_NOTICE.txt
+      - name: Fail-closed rights gate before any public research result
+        run: |
+          set -euo pipefail
+          python tools/c3x_023_rights_preupload_gate.py --tier P2_AGGREGATE_SUMMARY --file public/C3X024_P1_TT_FIRST_PROSPECTIVE_MODEL_SCORE.json --report public/RIGHTS_NATIVE_PROSPECTIVE_SCAN.json
+      - name: SHA each public artifact member even on technical failure
+        if: always()
+        run: |
+          mkdir -p public
+          find public -maxdepth 1 -type f ! -name MEMBER_SHA256.txt -print0 | sort -z | xargs -0 -r sha256sum > public/MEMBER_SHA256.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x-024-P1-Aug2025-native-FIRST-64role-M0-M1-M2-M3-prospective-score
+          path: public/
+          retention-days: 90
+          if-no-files-found: error
