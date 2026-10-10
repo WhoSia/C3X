@@ -1,0 +1,70 @@
+name: C3X 0.24 P4 D0 Exposed September107 Root Candidate Survival Development Court
+on:
+  push:
+    paths:
+      - '.github/workflows/c3x-024-P4-D0-exposed-sept107-root-survival-development-court.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  only-exposed-old-cohort-no-new-trial:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Verify old source hash / rights and no prospective corpus
+        run: |
+          set -euo pipefail
+          python -m pip install -q chess==1.11.2
+          python -m py_compile harness/c3x_024_P4_D0_sept128_exposed_development_root_survival_court.py
+          test -f c3x/ontology/c3x-024-P4-D0-failed-root-survival-feature-court-preregister-20261011.md
+          mkdir -p source stageA forecasts scored public
+      - uses: actions/download-artifact@v4
+        with:
+          name: c3x-024-P3-SEP2025-128independent-SOURCE-ONLY-no-engine
+          path: source/
+          repository: WhoSia/C3X
+          run-id: '38079947147'
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: c3x-024-P3-SEP2025-128-untreated-native-O-F-SEE-no-treatment
+          path: stageA/
+          repository: WhoSia/C3X
+          run-id: '38080171816'
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: c3x-024-P3-September128-five-model-literal-512role-UCI-preFIRST
+          path: forecasts/
+          repository: WhoSia/C3X
+          run-id: '38081547936'
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: c3x-024-P3-September128-presealed-M3v2-versus-M0-game-cluster-science-verdict
+          path: scored/
+          repository: WhoSia/C3X
+          run-id: '38081802661'
+          github-token: ${{ github.token }}
+      - name: Read ONLY development old September source StageA pre-FIRST and scored game107
+        run: |
+          set -euo pipefail
+          PYTHONPATH=harness python -u harness/c3x_024_P4_D0_sept128_exposed_development_root_survival_court.py --source source/C3X024_P3_SEPT2025_ENGINEBLIND_128.json --stagea stageA/C3X024_P3_SEP2025_STAGEA_UNTREATED_NATIVE128.json --forecast forecasts/C3X024_P3_SEPT128_FIVE_MODELS_EXACT_UCI_PRE_FIRST.json --seal c3x/forecasts/c3x-024-P3-Sep2025-128game-512role-five-model-literal-UCI-before-FIRST-human-Git-seal-20261011.json --score scored/C3X024_P3_SEPTEMBER128_M3v2_VS_M0_PROSPECTIVE_GAME_CLUSTER_VERDICT.json --out public/C3X024_P4_D0_SEPT_EXPOSED_ROOT_SURVIVAL_DEV.json
+          python tools/c3x_023_rights_preupload_gate.py --tier P2_AGGREGATE_SUMMARY --file public/C3X024_P4_D0_SEPT_EXPOSED_ROOT_SURVIVAL_DEV.json --report public/RIGHTS_P4_D0_SOURCE_DEV.json
+          echo 'Lichess September 2025 CC BY-SA 4.0 https://database.lichess.org/broadcast/lichess_db_broadcast_2025-09.pgn.zst. Derived preintervention root leader depth features and source #107 local UCI only. No original full PGN, player metadata, stockfish modified binary; this is exposed development, NOT heldout predictive evidence.' > public/SOURCE_LICENSE_AND_NEGATIVE_DEVELOPMENT_NOTICE.txt
+      - name: Public member SHA
+        if: always()
+        run: |
+          mkdir -p public
+          find public -maxdepth 1 -type f ! -name MEMBER_SHA256.txt -print0 | sort -z | xargs -0 -r sha256sum > public/MEMBER_SHA256.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x-024-P4-D0-exposed-Sept107-original-root-survival-criteria-diagnostic
+          path: public/
+          if-no-files-found: error
+          retention-days: 90
