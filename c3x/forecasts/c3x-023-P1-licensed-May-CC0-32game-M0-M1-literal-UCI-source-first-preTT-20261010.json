@@ -1,0 +1,1294 @@
+{
+  "schema": "c3x023-P1-M0-M1-literal-UCI-licensed32-before-any-TT-V-first-v1",
+  "date": "2026-10-10",
+  "status": "GIT_FROZEN_LITERAL_FORECASTS_BEFORE_FIRST_TT_READER_SUPPRESSION",
+  "source_precommit": "c3x/ontology/c3x-023-P1-independent-licensed-chess-cohorts-and-source-key-aligned-SEE-TT-precommit.md",
+  "new_licensed32_source_SHA256": "0ff43e28dcb3a5e48dea6b61e4450fc8bb9e1f96363871c33c4b73524664db61",
+  "native_untreated_stageA_run_id": 38060337140,
+  "native_stageA_raw_JSON_SHA256": "fe88afe49d7d43db7b81c37decab783f2b68311ed2ca10b6f42be4268bdb3442",
+  "native_stageA_artifact_id": 11672753341,
+  "native_stageA_artifact_zip_SHA256": "76e6e57a4e1aea1a6f30a692780dd3129d58b430c3c70df2101b784242c539b8",
+  "first_reader_source_physical_metadata_location": "Full stageA frozen JSON physical key64, slot, epoch, rootcall and root candidate. All changed/unchanged forecasts below are literal UCI strings. Treatment results not seen.",
+  "models": [
+    "M0_KEEP_BASELINE",
+    "M1_CROSS_ORDER_RESTORE_HISTORICALLY_FAILED"
+  ],
+  "source_roles": [
+    "O/STRICT",
+    "O/BROAD",
+    "F/STRICT",
+    "F/BROAD"
+  ],
+  "source_not_independent_outcome_label": "May F played human source move; Puzzle F official published solution move. Neither is independent chess bestmove label.",
+  "ecologies": {
+    "may2026_broadcast": {
+      "source_license": "CC BY-SA 4.0",
+      "cases": [
+        {
+          "source_id": 1,
+          "baseline_O_UCI": "b3c2",
+          "baseline_F_UCI": "b3c2",
+          "first_reader_target_roles": {
+            "O/STRICT": {
+              "source_eligible": true,
+              "status": "PRE_TREATMENT_FORECAST",
+              "M0_exact_UCI": "b3c2",
+              "M1_exact_UCI": "b3c2",
+              "M0_flip_predicted": false,
+              "M1_flip_predicted": false
+            },
+            "O/BROAD": {
+              "source_eligible": true,
+              "status": "PRE_TREATMENT_FORECAST",
+              "M0_exact_UCI": "b3c2",
+              "M1_exact_UCI": "b3c2",
+              "M0_flip_predicted": false,
+              "M1_flip_predicted": false
+            },
+            "F/STRICT": {
+              "source_eligible": true,
+              "status": "PRE_TREATMENT_FORECAST",
+              "M0_exact_UCI": "b3c2",
+              "M1_exact_UCI": "b3c2",
+              "M0_flip_predicted": false,
+              "M1_flip_predicted": false
+            },
+            "F/BROAD": {
+              "source_eligible": true,
+              "status": "PRE_TREATMENT_FORECAST",
+              "M0_exact_UCI": "b3c2",
+              "M1_exact_UCI": "b3c2",
+              "M0_flip_predicted": false,
+              "M1_flip_predicted": false
+            }
+          }
+        },
+        {
+          "source_id": 2,
+          "baseline_O_UCI": "e1g1",
+          "baseline_F_UCI": "e1g1",
+          "first_reader_target_roles": {
+            "O/STRICT": {
+              "source_eligible": true,
+              "status": "PRE_TREATMENT_FORECAST",
+              "M0_exact_UCI": "e1g1",
+              "M1_exact_UCI": "e1g1",
+              "M0_flip_predicted": false,
+              "M1_flip_predicted": false
+            },
+            "O/BROAD": {
+              "source_eligible": true,
+              "status": "PRE_TREATMENT_FORECAST",
+              "M0_exact_UCI": "e1g1",
+              "M1_exact_UCI": "e1g1",
+              "M0_flip_predicted": false,
+              "M1_flip_predicted": false
+            },
+            "F/STRICT": {
+              "source_eligible": true,
+              "status": "PRE_TREATMENT_FORECAST",
+              "M0_exact_UCI": "e1g1",
+              "M1_exact_UCI": "e1g1",
+              "M0_flip_predicted": false,
+              "M1_flip_predicted": false
+            },
+            "F/BROAD": {
+              "source_eligible": true,
+              "status": "PRE_TREATMENT_FORECAST",
+              "M0_exact_UCI": "e1g1",
+              "M1_exact_UCI": "e1g1",
+              "M0_flip_predicted": false,
+              "M1_flip_predicted": false
+            }
+          }
+        },
+        {
+          "source_id": 3,
+          "baseline_O_UCI": "e2e3",
+          "baseline_F_UCI": "a1d1",
+          "first_reader_target_roles": {
+            "O/STRICT": {
+              "source_eligible": true,
+              "status": "PRE_TREATMENT_FORECAST",
+              "M0_exact_UCI": "e2e3",
+              "M1_exact_UCI": "a1d1",
+              "M0_flip_predicted": false,
+              "M1_flip_predicted": true
+            },
+            "O/BROAD": {
+              "source_eligible": true,
+              "status": "PRE_TREATMENT_FORECAST",
+              "M0_exact_UCI": "e2e3",
+              "M1_exact_UCI": "a1d1",
+              "M0_flip_predicted": false,
+              "M1_flip_predicted": true
+            },
+            "F/STRICT": {
+              "source_eligible": true,
+              "status": "PRE_TREATMENT_FORECAST",
+              "M0_exact_UCI": "a1d1",
+              "M1_exact_UCI": "e2e3",
+              "M0_flip_predicted": false,
+              "M1_flip_predicted": true
+            },
+            "F/BROAD": {
+              "source_eligible": true,
+              "status": "PRE_TREATMENT_FORECAST",
+              "M0_exact_UCI": "a1d1",
+              "M1_exact_UCI": "e2e3",
+              "M0_flip_predicted": false,
+              "M1_flip_predicted": true
+            }
+          }
+        },
+        {
+          "source_id": 4,
+          "baseline_O_UCI": "e7h4",
+          "baseline_F_UCI": "e7h4",
+          "first_reader_target_roles": {
+            "O/STRICT": {
+              "source_eligible": true,
+              "status": "PRE_TREATMENT_FORECAST",
+              "M0_exact_UCI": "e7h4",
+              "M1_exact_UCI": "e7h4",
+              "M0_flip_predicted": false,
+              "M1_flip_predicted": false
+            },
+            "O/BROAD": {
+              "source_eligible": true,
+              "status": "PRE_TREATMENT_FORECAST",
+              "M0_exact_UCI": "e7h4",
+              "M1_exact_UCI": "e7h4",
+              "M0_flip_predicted": false,
+              "M1_flip_predicted": false
+            },
+            "F/STRICT": {
+              "source_eligible": true,
+              "status": "PRE_TREATMENT_FORECAST",
+              "M0_exact_UCI": "e7h4",
+              "M1_exact_UCI": "e7h4",
+              "M0_flip_predicted": false,
+              "M1_flip_predicted": false
+            },
+            "F/BROAD": {
+              "source_eligible": true,
+              "status": "PRE_TREATMENT_FORECAST",
+              "M0_exact_UCI": "e7h4",
+              "M1_exact_UCI": "e7h4",
+              "M0_flip_predicted": false,
+              "M1_flip_predicted": false
+            }
+          }
+        },
+        {
+          "source_id": 5,
+          "baseline_O_UCI": "d1f3",
+          "baseline_F_UCI": "d1f3",
+          "first_reader_target_roles": {
+            "O/STRICT": {
+              "source_eligible": true,
+              "status": "PRE_TREATMENT_FORECAST",
+              "M0_exact_UCI": "d1f3",
+              "M1_exact_UCI": "d1f3",
+              "M0_flip_predicted": false,
+              "M1_flip_predicted": false
+            },
+            "O/BROAD": {
+              "source_eligible": true,
+              "status": "PRE_TREATMENT_FORECAST",
+              "M0_exact_UCI": "d1f3",
+              "M1_exact_UCI": "d1f3",
+              "M0_flip_predicted": false,
+              "M1_flip_predicted": false
+            },
+            "F/STRICT": {
+              "source_eligible": true,
+              "status": "PRE_TREATMENT_FORECAST",
+              "M0_exact_UCI": "d1f3",
+              "M1_exact_UCI": "d1f3",
+              "M0_flip_predicted": false,
+              "M1_flip_predicted": false
+            },
+            "F/BROAD": {
+              "source_eligible": true,
+              "status": "PRE_TREATMENT_FORECAST",
+              "M0_exact_UCI": "d1f3",
+              "M1_exact_UCI": "d1f3",
+              "M0_flip_predicted": false,
+              "M1_flip_predicted": false
+            }
+          }
+        },
+        {
+          "source_id": 6,
+          "baseline_O_UCI": "c8b8",
+          "baseline_F_UCI": "c8b8",
+          "first_reader_target_roles": {
+            "O/STRICT": {
+              "source_eligible": true,
+              "status": "PRE_TREATMENT_FORECAST",
+              "M0_exact_UCI": "c8b8",
+              "M1_exact_UCI": "c8b8",
+              "M0_flip_predicted": false,
+              "M1_flip_predicted": false
+            },
+            "O/BROAD": {
+              "source_eligible": true,
+              "status": "PRE_TREATMENT_FORECAST",
+              "M0_exact_UCI": "c8b8",
+              "M1_exact_UCI": "c8b8",
+              "M0_flip_predicted": false,
+              "M1_flip_predicted": false
+            },
+            "F/STRICT": {
+              "source_eligible": true,
+              "status": "PRE_TREATMENT_FORECAST",
+              "M0_exact_UCI": "c8b8",
+              "M1_exact_UCI": "c8b8",
+              "M0_flip_predicted": false,
+              "M1_flip_predicted": false
+            },
+            "F/BROAD": {
+              "source_eligible": true,
+              "status": "PRE_TREATMENT_FORECAST",
+              "M0_exact_UCI": "c8b8",
+              "M1_exact_UCI": "c8b8",
+              "M0_flip_predicted": false,
+              "M1_flip_predicted": false
+            }
+          }
+        },
+        {
+          "source_id": 7,
+          "baseline_O_UCI": "d2f3",
+          "baseline_F_UCI": "d2f3",
+          "first_reader_target_roles": {
+            "O/STRICT": {
+              "source_eligible": true,
+              "status": "PRE_TREATMENT_FORECAST",
+              "M0_exact_UCI": "d2f3",
+              "M1_exact_UCI": "d2f3",
+              "M0_flip_predicted": false,
+              "M1_flip_predicted": false
+            },
+            "O/BROAD": {
+              "source_eligible": true,
+              "status": "PRE_TREATMENT_FORECAST",
+              "M0_exact_UCI": "d2f3",
+              "M1_exact_UCI": "d2f3",
+              "M0_flip_predicted": false,
+              "M1_flip_predicted": false
+            },
+            "F/STRICT": {
+              "source_eligible": true,
+              "status": "PRE_TREATMENT_FORECAST",
+              "M0_exact_UCI": "d2f3",
+              "M1_exact_UCI": "d2f3",
+              "M0_flip_predicted": false,
+              "M1_flip_predicted": false
+            },
+            "F/BROAD": {
+              "source_eligible": true,
+              "status": "PRE_TREATMENT_FORECAST",
+              "M0_exact_UCI": "d2f3",
+              "M1_exact_UCI": "d2f3",
+              "M0_flip_predicted": false,
+              "M1_flip_predicted": false
+            }
+          }
+        },
+        {
+          "source_id": 8,
+          "baseline_O_UCI": "c3e2",
+          "baseline_F_UCI": "b1c1",
+          "first_reader_target_roles": {
+            "O/STRICT": {
+              "source_eligible": true,
+              "status": "PRE_TREATMENT_FORECAST",
+              "M0_exact_UCI": "c3e2",
+              "M1_exact_UCI": "b1c1",
+              "M0_flip_predicted": false,
+              "M1_flip_predicted": true
+            },
+            "O/BROAD": {
+              "source_eligible": true,
+              "status": "PRE_TREATMENT_FORECAST",
+              "M0_exact_UCI": "c3e2",
+              "M1_exact_UCI": "b1c1",
+              "M0_flip_predicted": false,
+              "M1_flip_predicted": true
+            },
+            "F/STRICT": {
+              "source_eligible": true,
+              "status": "PRE_TREATMENT_FORECAST",
+              "M0_exact_UCI": "b1c1",
+              "M1_exact_UCI": "c3e2",
+              "M0_flip_predicted": false,
+              "M1_flip_predicted": true
+            },
+            "F/BROAD": {
+              "source_eligible": true,
+              "status": "PRE_TREATMENT_FORECAST",
+              "M0_exact_UCI": "b1c1",
+              "M1_exact_UCI": "c3e2",
+              "M0_flip_predicted": false,
+              "M1_flip_predicted": true
+            }
+          }
+        },
+        {
+          "source_id": 9,
+          "baseline_O_UCI": "e2f4",
+          "baseline_F_UCI": "e2f4",
+          "first_reader_target_roles": {
+            "O/STRICT": {
+              "source_eligible": true,
+              "status": "PRE_TREATMENT_FORECAST",
+              "M0_exact_UCI": "e2f4",
+              "M1_exact_UCI": "e2f4",
+              "M0_flip_predicted": false,
+              "M1_flip_predicted": false
+            },
+            "O/BROAD": {
+              "source_eligible": true,
+              "status": "PRE_TREATMENT_FORECAST",
+              "M0_exact_UCI": "e2f4",
+              "M1_exact_UCI": "e2f4",
+              "M0_flip_predicted": false,
+              "M1_flip_predicted": false
+            },
+            "F/STRICT": {
+              "source_eligible": true,
+              "status": "PRE_TREATMENT_FORECAST",
+              "M0_exact_UCI": "e2f4",
+              "M1_exact_UCI": "e2f4",
+              "M0_flip_predicted": false,
+              "M1_flip_predicted": false
+            },
+            "F/BROAD": {
+              "source_eligible": true,
+              "status": "PRE_TREATMENT_FORECAST",
+              "M0_exact_UCI": "e2f4",
+              "M1_exact_UCI": "e2f4",
+              "M0_flip_predicted": false,
+              "M1_flip_predicted": false
+            }
+          }
+        },
+        {
+          "source_id": 10,
+          "baseline_O_UCI": "d2f3",
+          "baseline_F_UCI": "d2f3",
+          "first_reader_target_roles": {
+            "O/STRICT": {
+              "source_eligible": true,
+              "status": "PRE_TREATMENT_FORECAST",
+              "M0_exact_UCI": "d2f3",
+              "M1_exact_UCI": "d2f3",
+              "M0_flip_predicted": false,
+              "M1_flip_predicted": false
+            },
+            "O/BROAD": {
+              "source_eligible": true,
+              "status": "PRE_TREATMENT_FORECAST",
+              "M0_exact_UCI": "d2f3",
+              "M1_exact_UCI": "d2f3",
+              "M0_flip_predicted": false,
+              "M1_flip_predicted": false
+            },
+            "F/STRICT": {
+              "source_eligible": true,
+              "status": "PRE_TREATMENT_FORECAST",
+              "M0_exact_UCI": "d2f3",
+              "M1_exact_UCI": "d2f3",
+              "M0_flip_predicted": false,
+              "M1_flip_predicted": false
+            },
+            "F/BROAD": {
+              "source_eligible": true,
+              "status": "PRE_TREATMENT_FORECAST",
+              "M0_exact_UCI": "d2f3",
+              "M1_exact_UCI": "d2f3",
+              "M0_flip_predicted": false,
+              "M1_flip_predicted": false
+            }
+          }
+        },
+        {
+          "source_id": 11,
+          "baseline_O_UCI": "d8b8",
+          "baseline_F_UCI": "c7d6",
+          "first_reader_target_roles": {
+            "O/STRICT": {
+              "source_eligible": true,
+              "status": "PRE_TREATMENT_FORECAST",
+              "M0_exact_UCI": "d8b8",
+              "M1_exact_UCI": "c7d6",
+              "M0_flip_predicted": false,
+              "M1_flip_predicted": true
+            },
+            "O/BROAD": {
+              "source_eligible": true,
+              "status": "PRE_TREATMENT_FORECAST",
+              "M0_exact_UCI": "d8b8",
+              "M1_exact_UCI": "c7d6",
+              "M0_flip_predicted": false,
+              "M1_flip_predicted": true
+            },
+            "F/STRICT": {
+              "source_eligible": true,
+              "status": "PRE_TREATMENT_FORECAST",
+              "M0_exact_UCI": "c7d6",
+              "M1_exact_UCI": "d8b8",
+              "M0_flip_predicted": false,
+              "M1_flip_predicted": true
+            },
+            "F/BROAD": {
+              "source_eligible": true,
+              "status": "PRE_TREATMENT_FORECAST",
+              "M0_exact_UCI": "c7d6",
+              "M1_exact_UCI": "d8b8",
+              "M0_flip_predicted": false,
+              "M1_flip_predicted": true
+            }
+          }
+        },
+        {
+          "source_id": 12,
+          "baseline_O_UCI": "e7b7",
+          "baseline_F_UCI": "e7b7",
+          "first_reader_target_roles": {
+            "O/STRICT": {
+              "source_eligible": true,
+              "status": "PRE_TREATMENT_FORECAST",
+              "M0_exact_UCI": "e7b7",
+              "M1_exact_UCI": "e7b7",
+              "M0_flip_predicted": false,
+              "M1_flip_predicted": false
+            },
+            "O/BROAD": {
+              "source_eligible": true,
+              "status": "PRE_TREATMENT_FORECAST",
+              "M0_exact_UCI": "e7b7",
+              "M1_exact_UCI": "e7b7",
+              "M0_flip_predicted": false,
+              "M1_flip_predicted": false
+            },
+            "F/STRICT": {
+              "source_eligible": true,
+              "status": "PRE_TREATMENT_FORECAST",
+              "M0_exact_UCI": "e7b7",
+              "M1_exact_UCI": "e7b7",
+              "M0_flip_predicted": false,
+              "M1_flip_predicted": false
+            },
+            "F/BROAD": {
+              "source_eligible": true,
+              "status": "PRE_TREATMENT_FORECAST",
+              "M0_exact_UCI": "e7b7",
+              "M1_exact_UCI": "e7b7",
+              "M0_flip_predicted": false,
+              "M1_flip_predicted": false
+            }
+          }
+        },
+        {
+          "source_id": 13,
+          "baseline_O_UCI": "b3a5",
+          "baseline_F_UCI": "b3a5",
+          "first_reader_target_roles": {
+            "O/STRICT": {
+              "source_eligible": true,
+              "status": "PRE_TREATMENT_FORECAST",
+              "M0_exact_UCI": "b3a5",
+              "M1_exact_UCI": "b3a5",
+              "M0_flip_predicted": false,
+              "M1_flip_predicted": false
+            },
+            "O/BROAD": {
+              "source_eligible": true,
+              "status": "PRE_TREATMENT_FORECAST",
+              "M0_exact_UCI": "b3a5",
+              "M1_exact_UCI": "b3a5",
+              "M0_flip_predicted": false,
+              "M1_flip_predicted": false
+            },
+            "F/STRICT": {
+              "source_eligible": true,
+              "status": "PRE_TREATMENT_FORECAST",
+              "M0_exact_UCI": "b3a5",
+              "M1_exact_UCI": "b3a5",
+              "M0_flip_predicted": false,
+              "M1_flip_predicted": false
+            },
+            "F/BROAD": {
+              "source_eligible": true,
+              "status": "PRE_TREATMENT_FORECAST",
+              "M0_exact_UCI": "b3a5",
+              "M1_exact_UCI": "b3a5",
+              "M0_flip_predicted": false,
+              "M1_flip_predicted": false
+            }
+          }
+        },
+        {
+          "source_id": 14,
+          "baseline_O_UCI": "d3e2",
+          "baseline_F_UCI": "d3e2",
+          "first_reader_target_roles": {
+            "O/STRICT": {
+              "source_eligible": true,
+              "status": "PRE_TREATMENT_FORECAST",
+              "M0_exact_UCI": "d3e2",
+              "M1_exact_UCI": "d3e2",
+              "M0_flip_predicted": false,
+              "M1_flip_predicted": false
+            },
+            "O/BROAD": {
+              "source_eligible": true,
+              "status": "PRE_TREATMENT_FORECAST",
+              "M0_exact_UCI": "d3e2",
+              "M1_exact_UCI": "d3e2",
+              "M0_flip_predicted": false,
+              "M1_flip_predicted": false
+            },
+            "F/STRICT": {
+              "source_eligible": true,
+              "status": "PRE_TREATMENT_FORECAST",
+              "M0_exact_UCI": "d3e2",
+              "M1_exact_UCI": "d3e2",
+              "M0_flip_predicted": false,
+              "M1_flip_predicted": false
+            },
+            "F/BROAD": {
+              "source_eligible": true,
+              "status": "PRE_TREATMENT_FORECAST",
+              "M0_exact_UCI": "d3e2",
+              "M1_exact_UCI": "d3e2",
+              "M0_flip_predicted": false,
+              "M1_flip_predicted": false
+            }
+          }
+        },
+        {
+          "source_id": 15,
+          "baseline_O_UCI": "g8f7",
+          "baseline_F_UCI": "g8f7",
+          "first_reader_target_roles": {
+            "O/STRICT": {
+              "source_eligible": true,
+              "status": "PRE_TREATMENT_FORECAST",
+              "M0_exact_UCI": "g8f7",
+              "M1_exact_UCI": "g8f7",
+              "M0_flip_predicted": false,
+              "M1_flip_predicted": false
+            },
+            "O/BROAD": {
+              "source_eligible": true,
+              "status": "PRE_TREATMENT_FORECAST",
+              "M0_exact_UCI": "g8f7",
+              "M1_exact_UCI": "g8f7",
+              "M0_flip_predicted": false,
+              "M1_flip_predicted": false
+            },
+            "F/STRICT": {
+              "source_eligible": true,
+              "status": "PRE_TREATMENT_FORECAST",
+              "M0_exact_UCI": "g8f7",
+              "M1_exact_UCI": "g8f7",
+              "M0_flip_predicted": false,
+              "M1_flip_predicted": false
+            },
+            "F/BROAD": {
+              "source_eligible": true,
+              "status": "PRE_TREATMENT_FORECAST",
+              "M0_exact_UCI": "g8f7",
+              "M1_exact_UCI": "g8f7",
+              "M0_flip_predicted": false,
+              "M1_flip_predicted": false
+            }
+          }
+        },
+        {
+          "source_id": 16,
+          "baseline_O_UCI": "f5f6",
+          "baseline_F_UCI": "f5f6",
+          "first_reader_target_roles": {
+            "O/STRICT": {
+              "source_eligible": true,
+              "status": "PRE_TREATMENT_FORECAST",
+              "M0_exact_UCI": "f5f6",
+              "M1_exact_UCI": "f5f6",
+              "M0_flip_predicted": false,
+              "M1_flip_predicted": false
+            },
+            "O/BROAD": {
+              "source_eligible": true,
+              "status": "PRE_TREATMENT_FORECAST",
+              "M0_exact_UCI": "f5f6",
+              "M1_exact_UCI": "f5f6",
+              "M0_flip_predicted": false,
+              "M1_flip_predicted": false
+            },
+            "F/STRICT": {
+              "source_eligible": true,
+              "status": "PRE_TREATMENT_FORECAST",
+              "M0_exact_UCI": "f5f6",
+              "M1_exact_UCI": "f5f6",
+              "M0_flip_predicted": false,
+              "M1_flip_predicted": false
+            },
+            "F/BROAD": {
+              "source_eligible": true,
+              "status": "PRE_TREATMENT_FORECAST",
+              "M0_exact_UCI": "f5f6",
+              "M1_exact_UCI": "f5f6",
+              "M0_flip_predicted": false,
+              "M1_flip_predicted": false
+            }
+          }
+        }
+      ]
+    },
+    "lichess_CC0_nonmate_puzzles": {
+      "source_license": "CC0",
+      "cases": [
+        {
+          "source_id": 1,
+          "baseline_O_UCI": "g7f8",
+          "baseline_F_UCI": "g7f8",
+          "first_reader_target_roles": {
+            "O/STRICT": {
+              "source_eligible": true,
+              "status": "PRE_TREATMENT_FORECAST",
+              "M0_exact_UCI": "g7f8",
+              "M1_exact_UCI": "g7f8",
+              "M0_flip_predicted": false,
+              "M1_flip_predicted": false
+            },
+            "O/BROAD": {
+              "source_eligible": true,
+              "status": "PRE_TREATMENT_FORECAST",
+              "M0_exact_UCI": "g7f8",
+              "M1_exact_UCI": "g7f8",
+              "M0_flip_predicted": false,
+              "M1_flip_predicted": false
+            },
+            "F/STRICT": {
+              "source_eligible": true,
+              "status": "PRE_TREATMENT_FORECAST",
+              "M0_exact_UCI": "g7f8",
+              "M1_exact_UCI": "g7f8",
+              "M0_flip_predicted": false,
+              "M1_flip_predicted": false
+            },
+            "F/BROAD": {
+              "source_eligible": true,
+              "status": "PRE_TREATMENT_FORECAST",
+              "M0_exact_UCI": "g7f8",
+              "M1_exact_UCI": "g7f8",
+              "M0_flip_predicted": false,
+              "M1_flip_predicted": false
+            }
+          }
+        },
+        {
+          "source_id": 2,
+          "baseline_O_UCI": "e6d5",
+          "baseline_F_UCI": "e6d5",
+          "first_reader_target_roles": {
+            "O/STRICT": {
+              "source_eligible": true,
+              "status": "PRE_TREATMENT_FORECAST",
+              "M0_exact_UCI": "e6d5",
+              "M1_exact_UCI": "e6d5",
+              "M0_flip_predicted": false,
+              "M1_flip_predicted": false
+            },
+            "O/BROAD": {
+              "source_eligible": true,
+              "status": "PRE_TREATMENT_FORECAST",
+              "M0_exact_UCI": "e6d5",
+              "M1_exact_UCI": "e6d5",
+              "M0_flip_predicted": false,
+              "M1_flip_predicted": false
+            },
+            "F/STRICT": {
+              "source_eligible": true,
+              "status": "PRE_TREATMENT_FORECAST",
+              "M0_exact_UCI": "e6d5",
+              "M1_exact_UCI": "e6d5",
+              "M0_flip_predicted": false,
+              "M1_flip_predicted": false
+            },
+            "F/BROAD": {
+              "source_eligible": true,
+              "status": "PRE_TREATMENT_FORECAST",
+              "M0_exact_UCI": "e6d5",
+              "M1_exact_UCI": "e6d5",
+              "M0_flip_predicted": false,
+              "M1_flip_predicted": false
+            }
+          }
+        },
+        {
+          "source_id": 3,
+          "baseline_O_UCI": "e6f5",
+          "baseline_F_UCI": "e6f5",
+          "first_reader_target_roles": {
+            "O/STRICT": {
+              "source_eligible": true,
+              "status": "PRE_TREATMENT_FORECAST",
+              "M0_exact_UCI": "e6f5",
+              "M1_exact_UCI": "e6f5",
+              "M0_flip_predicted": false,
+              "M1_flip_predicted": false
+            },
+            "O/BROAD": {
+              "source_eligible": true,
+              "status": "PRE_TREATMENT_FORECAST",
+              "M0_exact_UCI": "e6f5",
+              "M1_exact_UCI": "e6f5",
+              "M0_flip_predicted": false,
+              "M1_flip_predicted": false
+            },
+            "F/STRICT": {
+              "source_eligible": true,
+              "status": "PRE_TREATMENT_FORECAST",
+              "M0_exact_UCI": "e6f5",
+              "M1_exact_UCI": "e6f5",
+              "M0_flip_predicted": false,
+              "M1_flip_predicted": false
+            },
+            "F/BROAD": {
+              "source_eligible": true,
+              "status": "PRE_TREATMENT_FORECAST",
+              "M0_exact_UCI": "e6f5",
+              "M1_exact_UCI": "e6f5",
+              "M0_flip_predicted": false,
+              "M1_flip_predicted": false
+            }
+          }
+        },
+        {
+          "source_id": 4,
+          "baseline_O_UCI": "c3d4",
+          "baseline_F_UCI": "c3d4",
+          "first_reader_target_roles": {
+            "O/STRICT": {
+              "source_eligible": false,
+              "status": "NO_TT_SOURCE_PAIR",
+              "M0_exact_UCI": null,
+              "M1_exact_UCI": null,
+              "M0_flip_predicted": null,
+              "M1_flip_predicted": null
+            },
+            "O/BROAD": {
+              "source_eligible": true,
+              "status": "PRE_TREATMENT_FORECAST",
+              "M0_exact_UCI": "c3d4",
+              "M1_exact_UCI": "c3d4",
+              "M0_flip_predicted": false,
+              "M1_flip_predicted": false
+            },
+            "F/STRICT": {
+              "source_eligible": false,
+              "status": "NO_TT_SOURCE_PAIR",
+              "M0_exact_UCI": null,
+              "M1_exact_UCI": null,
+              "M0_flip_predicted": null,
+              "M1_flip_predicted": null
+            },
+            "F/BROAD": {
+              "source_eligible": true,
+              "status": "PRE_TREATMENT_FORECAST",
+              "M0_exact_UCI": "c3d4",
+              "M1_exact_UCI": "c3d4",
+              "M0_flip_predicted": false,
+              "M1_flip_predicted": false
+            }
+          }
+        },
+        {
+          "source_id": 5,
+          "baseline_O_UCI": "d6c5",
+          "baseline_F_UCI": "d6c5",
+          "first_reader_target_roles": {
+            "O/STRICT": {
+              "source_eligible": true,
+              "status": "PRE_TREATMENT_FORECAST",
+              "M0_exact_UCI": "d6c5",
+              "M1_exact_UCI": "d6c5",
+              "M0_flip_predicted": false,
+              "M1_flip_predicted": false
+            },
+            "O/BROAD": {
+              "source_eligible": true,
+              "status": "PRE_TREATMENT_FORECAST",
+              "M0_exact_UCI": "d6c5",
+              "M1_exact_UCI": "d6c5",
+              "M0_flip_predicted": false,
+              "M1_flip_predicted": false
+            },
+            "F/STRICT": {
+              "source_eligible": true,
+              "status": "PRE_TREATMENT_FORECAST",
+              "M0_exact_UCI": "d6c5",
+              "M1_exact_UCI": "d6c5",
+              "M0_flip_predicted": false,
+              "M1_flip_predicted": false
+            },
+            "F/BROAD": {
+              "source_eligible": true,
+              "status": "PRE_TREATMENT_FORECAST",
+              "M0_exact_UCI": "d6c5",
+              "M1_exact_UCI": "d6c5",
+              "M0_flip_predicted": false,
+              "M1_flip_predicted": false
+            }
+          }
+        },
+        {
+          "source_id": 6,
+          "baseline_O_UCI": "e7c6",
+          "baseline_F_UCI": "e7c6",
+          "first_reader_target_roles": {
+            "O/STRICT": {
+              "source_eligible": true,
+              "status": "PRE_TREATMENT_FORECAST",
+              "M0_exact_UCI": "e7c6",
+              "M1_exact_UCI": "e7c6",
+              "M0_flip_predicted": false,
+              "M1_flip_predicted": false
+            },
+            "O/BROAD": {
+              "source_eligible": true,
+              "status": "PRE_TREATMENT_FORECAST",
+              "M0_exact_UCI": "e7c6",
+              "M1_exact_UCI": "e7c6",
+              "M0_flip_predicted": false,
+              "M1_flip_predicted": false
+            },
+            "F/STRICT": {
+              "source_eligible": true,
+              "status": "PRE_TREATMENT_FORECAST",
+              "M0_exact_UCI": "e7c6",
+              "M1_exact_UCI": "e7c6",
+              "M0_flip_predicted": false,
+              "M1_flip_predicted": false
+            },
+            "F/BROAD": {
+              "source_eligible": true,
+              "status": "PRE_TREATMENT_FORECAST",
+              "M0_exact_UCI": "e7c6",
+              "M1_exact_UCI": "e7c6",
+              "M0_flip_predicted": false,
+              "M1_flip_predicted": false
+            }
+          }
+        },
+        {
+          "source_id": 7,
+          "baseline_O_UCI": "f7e6",
+          "baseline_F_UCI": "f7e6",
+          "first_reader_target_roles": {
+            "O/STRICT": {
+              "source_eligible": true,
+              "status": "PRE_TREATMENT_FORECAST",
+              "M0_exact_UCI": "f7e6",
+              "M1_exact_UCI": "f7e6",
+              "M0_flip_predicted": false,
+              "M1_flip_predicted": false
+            },
+            "O/BROAD": {
+              "source_eligible": true,
+              "status": "PRE_TREATMENT_FORECAST",
+              "M0_exact_UCI": "f7e6",
+              "M1_exact_UCI": "f7e6",
+              "M0_flip_predicted": false,
+              "M1_flip_predicted": false
+            },
+            "F/STRICT": {
+              "source_eligible": true,
+              "status": "PRE_TREATMENT_FORECAST",
+              "M0_exact_UCI": "f7e6",
+              "M1_exact_UCI": "f7e6",
+              "M0_flip_predicted": false,
+              "M1_flip_predicted": false
+            },
+            "F/BROAD": {
+              "source_eligible": true,
+              "status": "PRE_TREATMENT_FORECAST",
+              "M0_exact_UCI": "f7e6",
+              "M1_exact_UCI": "f7e6",
+              "M0_flip_predicted": false,
+              "M1_flip_predicted": false
+            }
+          }
+        },
+        {
+          "source_id": 8,
+          "baseline_O_UCI": "c4d2",
+          "baseline_F_UCI": "c4d2",
+          "first_reader_target_roles": {
+            "O/STRICT": {
+              "source_eligible": false,
+              "status": "HOLD_CENSORED_UNKNOWN",
+              "M0_exact_UCI": null,
+              "M1_exact_UCI": null,
+              "M0_flip_predicted": null,
+              "M1_flip_predicted": null
+            },
+            "O/BROAD": {
+              "source_eligible": true,
+              "status": "PRE_TREATMENT_FORECAST",
+              "M0_exact_UCI": "c4d2",
+              "M1_exact_UCI": "c4d2",
+              "M0_flip_predicted": false,
+              "M1_flip_predicted": false
+            },
+            "F/STRICT": {
+              "source_eligible": false,
+              "status": "HOLD_CENSORED_UNKNOWN",
+              "M0_exact_UCI": null,
+              "M1_exact_UCI": null,
+              "M0_flip_predicted": null,
+              "M1_flip_predicted": null
+            },
+            "F/BROAD": {
+              "source_eligible": true,
+              "status": "PRE_TREATMENT_FORECAST",
+              "M0_exact_UCI": "c4d2",
+              "M1_exact_UCI": "c4d2",
+              "M0_flip_predicted": false,
+              "M1_flip_predicted": false
+            }
+          }
+        },
+        {
+          "source_id": 9,
+          "baseline_O_UCI": "f2g1",
+          "baseline_F_UCI": "f2g1",
+          "first_reader_target_roles": {
+            "O/STRICT": {
+              "source_eligible": true,
+              "status": "PRE_TREATMENT_FORECAST",
+              "M0_exact_UCI": "f2g1",
+              "M1_exact_UCI": "f2g1",
+              "M0_flip_predicted": false,
+              "M1_flip_predicted": false
+            },
+            "O/BROAD": {
+              "source_eligible": true,
+              "status": "PRE_TREATMENT_FORECAST",
+              "M0_exact_UCI": "f2g1",
+              "M1_exact_UCI": "f2g1",
+              "M0_flip_predicted": false,
+              "M1_flip_predicted": false
+            },
+            "F/STRICT": {
+              "source_eligible": true,
+              "status": "PRE_TREATMENT_FORECAST",
+              "M0_exact_UCI": "f2g1",
+              "M1_exact_UCI": "f2g1",
+              "M0_flip_predicted": false,
+              "M1_flip_predicted": false
+            },
+            "F/BROAD": {
+              "source_eligible": true,
+              "status": "PRE_TREATMENT_FORECAST",
+              "M0_exact_UCI": "f2g1",
+              "M1_exact_UCI": "f2g1",
+              "M0_flip_predicted": false,
+              "M1_flip_predicted": false
+            }
+          }
+        },
+        {
+          "source_id": 10,
+          "baseline_O_UCI": "h5e5",
+          "baseline_F_UCI": "h5e5",
+          "first_reader_target_roles": {
+            "O/STRICT": {
+              "source_eligible": true,
+              "status": "PRE_TREATMENT_FORECAST",
+              "M0_exact_UCI": "h5e5",
+              "M1_exact_UCI": "h5e5",
+              "M0_flip_predicted": false,
+              "M1_flip_predicted": false
+            },
+            "O/BROAD": {
+              "source_eligible": true,
+              "status": "PRE_TREATMENT_FORECAST",
+              "M0_exact_UCI": "h5e5",
+              "M1_exact_UCI": "h5e5",
+              "M0_flip_predicted": false,
+              "M1_flip_predicted": false
+            },
+            "F/STRICT": {
+              "source_eligible": true,
+              "status": "PRE_TREATMENT_FORECAST",
+              "M0_exact_UCI": "h5e5",
+              "M1_exact_UCI": "h5e5",
+              "M0_flip_predicted": false,
+              "M1_flip_predicted": false
+            },
+            "F/BROAD": {
+              "source_eligible": true,
+              "status": "PRE_TREATMENT_FORECAST",
+              "M0_exact_UCI": "h5e5",
+              "M1_exact_UCI": "h5e5",
+              "M0_flip_predicted": false,
+              "M1_flip_predicted": false
+            }
+          }
+        },
+        {
+          "source_id": 11,
+          "baseline_O_UCI": "d1h5",
+          "baseline_F_UCI": "d1h5",
+          "first_reader_target_roles": {
+            "O/STRICT": {
+              "source_eligible": true,
+              "status": "PRE_TREATMENT_FORECAST",
+              "M0_exact_UCI": "d1h5",
+              "M1_exact_UCI": "d1h5",
+              "M0_flip_predicted": false,
+              "M1_flip_predicted": false
+            },
+            "O/BROAD": {
+              "source_eligible": true,
+              "status": "PRE_TREATMENT_FORECAST",
+              "M0_exact_UCI": "d1h5",
+              "M1_exact_UCI": "d1h5",
+              "M0_flip_predicted": false,
+              "M1_flip_predicted": false
+            },
+            "F/STRICT": {
+              "source_eligible": true,
+              "status": "PRE_TREATMENT_FORECAST",
+              "M0_exact_UCI": "d1h5",
+              "M1_exact_UCI": "d1h5",
+              "M0_flip_predicted": false,
+              "M1_flip_predicted": false
+            },
+            "F/BROAD": {
+              "source_eligible": true,
+              "status": "PRE_TREATMENT_FORECAST",
+              "M0_exact_UCI": "d1h5",
+              "M1_exact_UCI": "d1h5",
+              "M0_flip_predicted": false,
+              "M1_flip_predicted": false
+            }
+          }
+        },
+        {
+          "source_id": 12,
+          "baseline_O_UCI": "f3e5",
+          "baseline_F_UCI": "f3e5",
+          "first_reader_target_roles": {
+            "O/STRICT": {
+              "source_eligible": true,
+              "status": "PRE_TREATMENT_FORECAST",
+              "M0_exact_UCI": "f3e5",
+              "M1_exact_UCI": "f3e5",
+              "M0_flip_predicted": false,
+              "M1_flip_predicted": false
+            },
+            "O/BROAD": {
+              "source_eligible": true,
+              "status": "PRE_TREATMENT_FORECAST",
+              "M0_exact_UCI": "f3e5",
+              "M1_exact_UCI": "f3e5",
+              "M0_flip_predicted": false,
+              "M1_flip_predicted": false
+            },
+            "F/STRICT": {
+              "source_eligible": true,
+              "status": "PRE_TREATMENT_FORECAST",
+              "M0_exact_UCI": "f3e5",
+              "M1_exact_UCI": "f3e5",
+              "M0_flip_predicted": false,
+              "M1_flip_predicted": false
+            },
+            "F/BROAD": {
+              "source_eligible": true,
+              "status": "PRE_TREATMENT_FORECAST",
+              "M0_exact_UCI": "f3e5",
+              "M1_exact_UCI": "f3e5",
+              "M0_flip_predicted": false,
+              "M1_flip_predicted": false
+            }
+          }
+        },
+        {
+          "source_id": 13,
+          "baseline_O_UCI": "a2a6",
+          "baseline_F_UCI": "a2a6",
+          "first_reader_target_roles": {
+            "O/STRICT": {
+              "source_eligible": true,
+              "status": "PRE_TREATMENT_FORECAST",
+              "M0_exact_UCI": "a2a6",
+              "M1_exact_UCI": "a2a6",
+              "M0_flip_predicted": false,
+              "M1_flip_predicted": false
+            },
+            "O/BROAD": {
+              "source_eligible": true,
+              "status": "PRE_TREATMENT_FORECAST",
+              "M0_exact_UCI": "a2a6",
+              "M1_exact_UCI": "a2a6",
+              "M0_flip_predicted": false,
+              "M1_flip_predicted": false
+            },
+            "F/STRICT": {
+              "source_eligible": true,
+              "status": "PRE_TREATMENT_FORECAST",
+              "M0_exact_UCI": "a2a6",
+              "M1_exact_UCI": "a2a6",
+              "M0_flip_predicted": false,
+              "M1_flip_predicted": false
+            },
+            "F/BROAD": {
+              "source_eligible": true,
+              "status": "PRE_TREATMENT_FORECAST",
+              "M0_exact_UCI": "a2a6",
+              "M1_exact_UCI": "a2a6",
+              "M0_flip_predicted": false,
+              "M1_flip_predicted": false
+            }
+          }
+        },
+        {
+          "source_id": 14,
+          "baseline_O_UCI": "h5f3",
+          "baseline_F_UCI": "h5f3",
+          "first_reader_target_roles": {
+            "O/STRICT": {
+              "source_eligible": true,
+              "status": "PRE_TREATMENT_FORECAST",
+              "M0_exact_UCI": "h5f3",
+              "M1_exact_UCI": "h5f3",
+              "M0_flip_predicted": false,
+              "M1_flip_predicted": false
+            },
+            "O/BROAD": {
+              "source_eligible": true,
+              "status": "PRE_TREATMENT_FORECAST",
+              "M0_exact_UCI": "h5f3",
+              "M1_exact_UCI": "h5f3",
+              "M0_flip_predicted": false,
+              "M1_flip_predicted": false
+            },
+            "F/STRICT": {
+              "source_eligible": true,
+              "status": "PRE_TREATMENT_FORECAST",
+              "M0_exact_UCI": "h5f3",
+              "M1_exact_UCI": "h5f3",
+              "M0_flip_predicted": false,
+              "M1_flip_predicted": false
+            },
+            "F/BROAD": {
+              "source_eligible": true,
+              "status": "PRE_TREATMENT_FORECAST",
+              "M0_exact_UCI": "h5f3",
+              "M1_exact_UCI": "h5f3",
+              "M0_flip_predicted": false,
+              "M1_flip_predicted": false
+            }
+          }
+        },
+        {
+          "source_id": 15,
+          "baseline_O_UCI": "f5f2",
+          "baseline_F_UCI": "f5f2",
+          "first_reader_target_roles": {
+            "O/STRICT": {
+              "source_eligible": true,
+              "status": "PRE_TREATMENT_FORECAST",
+              "M0_exact_UCI": "f5f2",
+              "M1_exact_UCI": "f5f2",
+              "M0_flip_predicted": false,
+              "M1_flip_predicted": false
+            },
+            "O/BROAD": {
+              "source_eligible": true,
+              "status": "PRE_TREATMENT_FORECAST",
+              "M0_exact_UCI": "f5f2",
+              "M1_exact_UCI": "f5f2",
+              "M0_flip_predicted": false,
+              "M1_flip_predicted": false
+            },
+            "F/STRICT": {
+              "source_eligible": true,
+              "status": "PRE_TREATMENT_FORECAST",
+              "M0_exact_UCI": "f5f2",
+              "M1_exact_UCI": "f5f2",
+              "M0_flip_predicted": false,
+              "M1_flip_predicted": false
+            },
+            "F/BROAD": {
+              "source_eligible": true,
+              "status": "PRE_TREATMENT_FORECAST",
+              "M0_exact_UCI": "f5f2",
+              "M1_exact_UCI": "f5f2",
+              "M0_flip_predicted": false,
+              "M1_flip_predicted": false
+            }
+          }
+        },
+        {
+          "source_id": 16,
+          "baseline_O_UCI": "f5b1",
+          "baseline_F_UCI": "f5b1",
+          "first_reader_target_roles": {
+            "O/STRICT": {
+              "source_eligible": true,
+              "status": "PRE_TREATMENT_FORECAST",
+              "M0_exact_UCI": "f5b1",
+              "M1_exact_UCI": "f5b1",
+              "M0_flip_predicted": false,
+              "M1_flip_predicted": false
+            },
+            "O/BROAD": {
+              "source_eligible": true,
+              "status": "PRE_TREATMENT_FORECAST",
+              "M0_exact_UCI": "f5b1",
+              "M1_exact_UCI": "f5b1",
+              "M0_flip_predicted": false,
+              "M1_flip_predicted": false
+            },
+            "F/STRICT": {
+              "source_eligible": true,
+              "status": "PRE_TREATMENT_FORECAST",
+              "M0_exact_UCI": "f5b1",
+              "M1_exact_UCI": "f5b1",
+              "M0_flip_predicted": false,
+              "M1_flip_predicted": false
+            },
+            "F/BROAD": {
+              "source_eligible": true,
+              "status": "PRE_TREATMENT_FORECAST",
+              "M0_exact_UCI": "f5b1",
+              "M1_exact_UCI": "f5b1",
+              "M0_flip_predicted": false,
+              "M1_flip_predicted": false
+            }
+          }
+        }
+      ]
+    }
+  },
+  "summary": {
+    "distinct_chess_source_roots": 32,
+    "eligible_source_role_cells": 124,
+    "source_role_HOLD_OR_NO_PAIR_cells": 4,
+    "literal_model_UCI_predictions": 248,
+    "TT_reader_suppressions_executed_before_this_commit": 0,
+    "SEE_Boolean_interventions_executed_before_this_commit": 0,
+    "may_O_F_baseline_disagreement_games": 3,
+    "puzzle_O_F_baseline_disagreement_games": 0,
+    "all_old_failures_retained": true
+  }
+}
