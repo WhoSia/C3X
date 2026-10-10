@@ -1,0 +1,125 @@
+name: C3X 0.22 P0 April2026 Independent Chess Source Freeze
+on:
+  push:
+    paths:
+      - '.github/workflows/c3x-022-P0-april2026-source-only-freeze.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  independent-april-source-only:
+    runs-on: ubuntu-latest
+    timeout-minutes: 28
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Strict source-only selector regressions (never install chess engine)
+        run: |
+          python -m pip install -q chess==1.11.2 zstandard==0.25.0
+          python -m py_compile harness/c3x_020_C_March2026_enginefree_blind16.py
+          python -m py_compile harness/c3x_022_P0_april2026_engineblind_source.py
+          python -m unittest discover -s tools -p 'test_c3x_022_P0_april_source.py' -v
+          python -m unittest discover -s tools -p 'test_c3x_020_C_March2026_enginefree_selector.py' -v
+      - name: October old source-only cohort
+        uses: actions/download-artifact@v4
+        with:
+          name: c3x-018-independent-PGN-blind-source-16
+          path: october/
+          repository: WhoSia/C3X
+          run-id: '37981820261'
+          github-token: ${{ github.token }}
+      - name: November old source-only cohort
+        uses: actions/download-artifact@v4
+        with:
+          name: c3x-018-november-blind12-chess-source
+          path: november/
+          repository: WhoSia/C3X
+          run-id: '37985213908'
+          github-token: ${{ github.token }}
+      - name: December old source-only cohort
+        uses: actions/download-artifact@v4
+        with:
+          name: c3x-018-december2025-blind12-source
+          path: december/
+          repository: WhoSia/C3X
+          run-id: '37987794988'
+          github-token: ${{ github.token }}
+      - name: January old source-only cohort
+        uses: actions/download-artifact@v4
+        with:
+          name: c3x-018-january2026-cross-window-blind16-source
+          path: january/
+          repository: WhoSia/C3X
+          run-id: '37991871987'
+          github-token: ${{ github.token }}
+      - name: February original independent source-only cohort
+        uses: actions/download-artifact@v4
+        with:
+          name: c3x-019-february2026-writer-version-blind16-source
+          path: february/
+          repository: WhoSia/C3X
+          run-id: '37998190878'
+          github-token: ${{ github.token }}
+      - name: March source-only independent history for April disjointness
+        uses: actions/download-artifact@v4
+        with:
+          name: c3x-020-C2-march2026-enginefree-blind16-source
+          path: march/
+          repository: WhoSia/C3X
+          run-id: '38038059013'
+          github-token: ${{ github.token }}
+      - name: Verify original historical materials before blind extraction
+        run: |
+          set -euo pipefail
+          mkdir -p evidence
+          test "$(sha256sum october/C3X018_INDEPENDENT_BLIND16_PGN_SOURCE.json | cut -d' ' -f1)" = 6520672aabab7f525872169085f19bdd81e27a4473f0c58ba9c9aa428937104c
+          test "$(sha256sum november/C3X018_NOVEMBER_12_BLIND_GAMES.json | cut -d' ' -f1)" = 2971fe617f39fbba6d40fb0b09d8a18ce247d5865dc807fcdab9a594e3473402
+          test "$(sha256sum december/C3X018_DECEMBER12_INDEPENDENT_GAMES.json | cut -d' ' -f1)" = 51366a480fe2631005dbded7992e870443ef6dd2dfd785fd10952d6eeff5e7cd
+          test "$(sha256sum january/C3X018_JAN26_BLIND16_SOURCE.json | cut -d' ' -f1)" = 5b49818e4678c12d0e5e73eba39eff2d50742b070a0ed870cba1d3e94afe0533
+          test "$(sha256sum february/C3X019_FEB26_BLIND16_SOURCE.json | cut -d' ' -f1)" = 2942b1933030227f36b669faff41f15ff234c27127dbf2403bf2e8e4f12ebdc8
+          test "$(sha256sum march/C3X020_C2_MARCH_BLIND16_SOURCE.json | cut -d' ' -f1)" = d79e48633be2b683176f1a6d4650aeea1b7584f11c85c2349a5bddda113febee
+      - name: Fetch official Lichess April broadcast PGN, SHA pinned BEFORE source selection
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/C3X022_APRIL26
+          curl -fL --retry 3 --max-time 180 -sS https://database.lichess.org/broadcast/lichess_db_broadcast_2026-04.pgn.zst -o /tmp/C3X022_APRIL26/original.pgn.zst
+          test -s /tmp/C3X022_APRIL26/original.pgn.zst
+          test "$(sha256sum /tmp/C3X022_APRIL26/original.pgn.zst | cut -d' ' -f1)" = 97b036f3a3639ae3be59c1508b1e18c76ac1b2e8fada4587d1b5c5a93c438d5d
+          sha256sum /tmp/C3X022_APRIL26/original.pgn.zst > evidence/OFFICIAL_COMPRESSED_APRIL_SOURCE_SHA256.txt
+      - name: Freeze first16 April source legal positions with no engine inspection
+        run: |
+          set -euo pipefail
+          python -u harness/c3x_022_P0_april2026_engineblind_source.py \
+            --zst /tmp/C3X022_APRIL26/original.pgn.zst \
+            --prior c3x/cohorts/c3x-016-P4-12-independent-Lichess-legal-root-order-sourceonly-frozen.json \
+            --october october/C3X018_INDEPENDENT_BLIND16_PGN_SOURCE.json \
+            --november november/C3X018_NOVEMBER_12_BLIND_GAMES.json \
+            --december december/C3X018_DECEMBER12_INDEPENDENT_GAMES.json \
+            --january january/C3X018_JAN26_BLIND16_SOURCE.json \
+            --february february/C3X019_FEB26_BLIND16_SOURCE.json \
+            --march march/C3X020_C2_MARCH_BLIND16_SOURCE.json \
+            --out evidence/C3X022_P0_APRIL16_SOURCE.json | tee evidence/SOURCE_STDOUT.txt
+          python - <<'PY'
+          import json
+          d=json.load(open('evidence/C3X022_P0_APRIL16_SOURCE.json'))
+          assert d['phase']=='SOURCE_ONLY_BEFORE_APRIL_NATIVE_OUTCOMES'
+          assert d['eligible_games']==512 and len(d['selected'])==16
+          assert len({x['fen4'] for x in d['selected']})==16
+          assert len({x['source_game_sha256'] for x in d['selected']})==16
+          assert d['compressed_source_sha256']=='97b036f3a3639ae3be59c1508b1e18c76ac1b2e8fada4587d1b5c5a93c438d5d'
+          print('C3X022_APRIL16_SOURCE_FROZEN_BEFORE_NATIVE_OUTCOMES')
+          PY
+      - name: Preserve SHA-256 of every member including negative outcomes
+        if: always()
+        run: |
+          mkdir -p evidence
+          find evidence -maxdepth 1 -type f ! -name MEMBER_SHA256.txt -print0 | sort -z | xargs -0 -r sha256sum > evidence/MEMBER_SHA256.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x-022-P0-april2026-engineblind-source16
+          path: evidence/
+          retention-days: 90
+          if-no-files-found: error
