@@ -1,0 +1,50 @@
+name: C3X 0.24 P4 July256 Human Git PreFIRST 1024 Role Exact-UCI Independent Check
+# Author only after complete 256-game native StageA and all 1024 literal UCI rows
+# have been Git sealed by human WhoSia. No native engine on this workflow.
+on:
+  push:
+    paths:
+      - '.github/workflows/c3x-024-P4-July256-human-Git-preFIRST-1024role-independent-check.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  compare-1024-frozen-source-shas-and-legal-m4:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Verify all original 1024 role M0 M4 exact legal Git-sealed literals exist
+        run: |
+          set -euo pipefail
+          python -m py_compile harness/c3x_024_P4_preFIRST_1024role_human_Git_literal_gate.py
+          test -f c3x/forecasts/c3x-024-P4-July2025-256game-1024role-six-model-literal-UCI-before-FIRST-human-Git-seal-20261011.json
+          mkdir -p source stageA forecast
+      - uses: actions/download-artifact@v4
+        with:
+          name: c3x-024-P4-JULY2025-256independent-SOURCE-ONLY-before-M4
+          path: source/
+          repository: WhoSia/C3X
+          run-id: '38083154595'
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: c3x-024-P4-JULY2025-256-untreated-native-O-F-SEE-no-treatment
+          path: stageA/
+          repository: WhoSia/C3X
+          run-id: '38089656512'
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: c3x-024-P4-July256-six-model-literal-1024role-UCI-preFIRST
+          path: forecast/
+          repository: WhoSia/C3X
+          run-id: 'FORECAST_RUN_ID_PLACEHOLDER'
+          github-token: ${{ github.token }}
+      - name: Compare every game and original role with human-Git exact six model strings before physical FIRST
+        run: |
+          set -euo pipefail
+          python -u harness/c3x_024_P4_preFIRST_1024role_human_Git_literal_gate.py --source source/C3X024_P4_JULY2025_ENGINEBLIND_256.json --stagea stageA/C3X024_P4_JULY2025_STAGEA_UNTREATED_NATIVE256.json --forecast forecast/C3X024_P4_JULY256_SIX_MODELS_EXACT_UCI_PRE_FIRST.json --seal c3x/forecasts/c3x-024-P4-July2025-256game-1024role-six-model-literal-UCI-before-FIRST-human-Git-seal-20261011.json
