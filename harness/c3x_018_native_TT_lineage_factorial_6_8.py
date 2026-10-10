@@ -38,8 +38,19 @@ def core(raw, search_depth=12):
     need(len(best)==1 and best[0]==rows[-1]["pv"][0], "MISSING_BESTMOVE")
     return {"bestmove":best[0],**rows[-1]}
 
-def play(engine, world, p4_mode, lineage_mode=None, target=None, writer_budget=None, rescue_attempt=None, discovery=False, history=False, fen_clocks=None, search_depth=12, draw_mode=None, tt_reader_filters=None, probe_watch=None, p1_writer=None, native_use_watch=None, passive_second_call=None, root_return=None, multi_state=None):
+def play(engine, world, p4_mode, lineage_mode=None, target=None, writer_budget=None, rescue_attempt=None, discovery=False, history=False, fen_clocks=None, search_depth=12, draw_mode=None, tt_reader_filters=None, probe_watch=None, p1_writer=None, native_use_watch=None, passive_second_call=None, root_return=None, multi_state=None, root_searchmoves=None):
     need(isinstance(search_depth,int) and 1<=search_depth<=32,"INVALID_SEARCH_DEPTH")
+    if root_searchmoves is not None:
+        need(isinstance(root_searchmoves,(list,tuple)) and
+             1<=len(root_searchmoves)<=16 and
+             all(isinstance(m,str) and
+                 re.fullmatch(r"[a-h][1-8][a-h][1-8][qrbn]?",m)
+                 for m in root_searchmoves) and
+             len(set(root_searchmoves))==len(root_searchmoves),
+             "ROOT_SEARCHMOVES_STRICT_UNIQUE_UCI")
+    go_cmd="go depth "+str(search_depth)
+    if root_searchmoves is not None:
+        go_cmd+=" searchmoves "+" ".join(root_searchmoves)
     env = dict(os.environ)
     return_env={
       "depth":"C3X019_RETURN_DEPTH",
@@ -219,14 +230,14 @@ def play(engine, world, p4_mode, lineage_mode=None, target=None, writer_budget=N
             original_moves=world["full_original_mainline_uci"][:world["source_ply_before_original_move"]]
             need(original_moves and world["source_ply_before_original_move"]==len(original_moves),
                  "INCOMPLETE_ORIGINAL_GAME_HISTORY")
-            send("position startpos moves "+" ".join(original_moves),"go depth "+str(search_depth))
+            send("position startpos moves "+" ".join(original_moves),go_cmd)
         elif fen_clocks is not None:
             half,full=fen_clocks
             need(isinstance(half,int) and half>=0 and isinstance(full,int) and full>=1,
                  "INVALID_SOURCE_FEN_CLOCKS")
-            send("position fen "+world["fen4"]+" "+str(half)+" "+str(full),"go depth "+str(search_depth))
+            send("position fen "+world["fen4"]+" "+str(half)+" "+str(full),go_cmd)
         else:
-            send("position fen "+world["fen4"]+" 0 1","go depth "+str(search_depth))
+            send("position fen "+world["fen4"]+" 0 1",go_cmd)
         receive("bestmove ",120000)
         send("quit")
         need(proc.wait(timeout=50)==0,"NATIVE_NONZERO_EXIT")
