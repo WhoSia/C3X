@@ -46,4 +46,5 @@ class ProspectiveRootChoiceForecast(unittest.TestCase):
         self.assertIn('H22_ORDER',s)
         self.assertIn('H22_NATIVE',s)
         self.assertIn('H22_CONTEXT',s)
+        self.assertIn('.get("delivered_final_bestmove_changed",False)',s)
 if __name__=="__main__":unittest.main()
