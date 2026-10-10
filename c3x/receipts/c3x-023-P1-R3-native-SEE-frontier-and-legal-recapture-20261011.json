@@ -1,0 +1,135 @@
+{
+  "schema": "c3x023-P1-R3-native-SEE-source-event-frontier-and-legal-exchange-development-evidence-v1",
+  "date": "2026-10-11",
+  "status": "NATIVE_CAUSAL_FRONTIER_OBSERVATION_SUCCESS__SEE_ACTIVATION_ASYMMETRY_FOUND__NATURAL_MEDIATION_NOT_PROVED",
+  "source": "Lichess broadcast May2026 CC BY-SA 4.0; source-only S0 official",
+  "precommit": {
+    "path": "c3x/ontology/c3x-023-P1-R3-native-SEE-event-activation-frontier-development-precommit.md",
+    "sha_commit": "ee993ee79d183624b8d0843c7ac55e78d40ecb4a",
+    "before_R3_observation": true
+  },
+  "freeze": {
+    "original_chess32_json_SHA256": "0ff43e28dcb3a5e48dea6b61e4450fc8bb9e1f96363871c33c4b73524664db61",
+    "untreated_native_stageA_SHA256": "fe88afe49d7d43db7b81c37decab783f2b68311ed2ca10b6f42be4268bdb3442",
+    "exact_live_source_T1_private_SHA256": "1975a515755e31a4c9445239750bde88211a13c328f667d86cabba2ce58effeb",
+    "R3_replayed_T1_exact_SHA_success": true,
+    "T2_one_source_qsearch_2x2_full_private_SHA256": "e72ec883b78ed2a600c6c3ae8a095805485fe031649b7aade0437f08d35cbad3",
+    "T2_negative_final_choice_preserved": true
+  },
+  "native": {
+    "stockfish_git": "68e1e9b3811e16cad014b590d7443b9063b3eb52",
+    "hardware_contract": "1 Thread, 16MB Hash, NNUE false, depth12",
+    "original_vs_TT_FIRST_actual_full64_writer_reader_gate_valid": true,
+    "SEE_return_value_changes": 0,
+    "source_path_definition": "Full ordered original position-key ancestor vector, rootcall, candidate native move, SEE source site/threshold/current key/parent, ply/depth/alpha/beta/PV/rule50/initial occupancy, original SEE Boolean",
+    "caution": "SEEs observed in capped first32 prefixes; full engine search and all hidden state not exhaustively reconstructed."
+  },
+  "result": {
+    "post_R1_outcome_informed_development_source_cases": 6,
+    "actual_first_TT_reader_source_blocked_cases": 6,
+    "changed_root_UCI_cases": 4,
+    "shared_full_measured_computational_state_SEE_events_after_TT": 21,
+    "original_only_native_SEE_events_observed_prefix": 25,
+    "TT_FIRST_only_native_SEE_events_observed_prefix": 41,
+    "censored_two_cases": true,
+    "original_only_uncensored_prefix_events": 4,
+    "TT_FIRST_only_uncensored_prefix_events": 20,
+    "post_source_same_board_path_but_different_window_events_both_arms": 0,
+    "source_line_temporal_migration_events": 0,
+    "original_only_site_counts": {
+      "capture_prune": 3,
+      "qsearch_futility": 7,
+      "qsearch_prune": 15
+    },
+    "TT_FIRST_only_site_counts": {
+      "capture_prune": 18,
+      "qsearch_futility": 3,
+      "qsearch_prune": 19,
+      "quiet_prune": 1
+    },
+    "root_bestmove_counterfactual_cases_different_direct_legal_recapture_count": 1
+  },
+  "case_diagnostics": [
+    {
+      "May_dev_game_id": 1,
+      "root_order": "O",
+      "source_role": "STRICT",
+      "root_bestmove_changed": true,
+      "observed_original_only": 0,
+      "observed_TT_FIRST_only": 1,
+      "observed_shared": 1,
+      "censored": false
+    },
+    {
+      "May_dev_game_id": 8,
+      "root_order": "O",
+      "source_role": "BROAD",
+      "root_bestmove_changed": true,
+      "observed_original_only": 21,
+      "observed_TT_FIRST_only": 21,
+      "observed_shared": 0,
+      "censored": true
+    },
+    {
+      "May_dev_game_id": 11,
+      "root_order": "F",
+      "source_role": "STRICT",
+      "root_bestmove_changed": true,
+      "observed_original_only": 4,
+      "observed_TT_FIRST_only": 17,
+      "observed_shared": 4,
+      "censored": false
+    },
+    {
+      "May_dev_game_id": 12,
+      "root_order": "F",
+      "source_role": "STRICT",
+      "root_bestmove_changed": true,
+      "observed_original_only": 0,
+      "observed_TT_FIRST_only": 1,
+      "observed_shared": 2,
+      "censored": false
+    },
+    {
+      "May_dev_game_id": 2,
+      "root_order": "O",
+      "source_role": "STRICT",
+      "root_bestmove_changed": false,
+      "observed_original_only": 0,
+      "observed_TT_FIRST_only": 1,
+      "observed_shared": 14,
+      "censored": false
+    },
+    {
+      "May_dev_game_id": 3,
+      "root_order": "O",
+      "source_role": "STRICT",
+      "root_bestmove_changed": false,
+      "observed_original_only": 0,
+      "observed_TT_FIRST_only": 0,
+      "observed_shared": 0,
+      "censored": true
+    }
+  ],
+  "archive": {
+    "run": 38064710851,
+    "url": "https://github.com/WhoSia/C3X/actions/runs/38064710851",
+    "conclusion": "success",
+    "artifact_id": 11674756381,
+    "zip_SHA256": "3b948362bd01b01d1ae2599a682e4ec6b2c0fa6b38dd1c5f10b9e63e38625b3d",
+    "public_aggregate_JSON_SHA256": "862e6648cbb528311dd037fba877ce2f003a428a428aeebfdd1f6e7c6e6ddc9a",
+    "private_source_result_SHA256": "e75e1759f5ddeac6ed5879ecd6ffacf34611a86d8c3dcc3d7cb70110ad71c75d",
+    "member_sha256_verified": 4,
+    "member_failures": 0,
+    "rights_gate": "SCAN_PASS_NOT_A_LEGAL_LICENSE",
+    "raw_original_PGN_or_player_names_public": false,
+    "modified_Stockfish_binary_distributed": false
+  },
+  "science": {
+    "interpretation": "Native TT FIRST intervention changes which source SEE events are observed in the root-descendant search; one-sided prefixes can reflect branch activation, observation cap, or search path truncation, so not proof of natural causal SEE mediation. One exact originally common quiet-search SEE Boolean perturbation was valid but had no further final-root-choice effect. This supports testing upstream branch activation, not post-hoc chasing a different same-root SEE site.",
+    "M0_nochange_vs_M1_crossorder_preserved": "M0 117/124 correct, M1 111/124; M1 FAIL",
+    "new_M3_forecast_claim": false,
+    "number_source_games_not_independent_role_cells": true
+  },
+  "next": "R4 source-aligned actual first divergent parent search predicate and whether rare activated SEE pruning gates shift candidate search eligibility; freeze separately before any branch-enable/disable intervention."
+}
