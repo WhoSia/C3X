@@ -1,0 +1,26 @@
+name: C3X 0.24 P4 Entire Untreated M4 1024 Role and Score No-FIRST v2 Regression
+on:
+  push:
+    paths:
+      - '.github/workflows/c3x-024-P4-1024role-and-M4-synthetic-preFIRST-full-regression-v2.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  no-real-july-outcomes-ever:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Verify original protected source and human precommitted M4 code syntax
+        run: |
+          set -euo pipefail
+          python -m pip install -q chess==1.11.2 zstandard==0.25.0
+          python -m py_compile harness/c3x_018_native_TT_lineage_factorial_6_8.py harness/c3x_024_P4_July256_untreated_native_stageA.py harness/c3x_024_P4_July256_1024_preFIRST_exact_UCI_M0_M4_six_models.py harness/c3x_024_P4_preFIRST_1024role_human_Git_literal_gate.py harness/c3x_024_P4_July256_sharded_native_TT_FIRST_after_human_Git_M4_UCI.py harness/c3x_024_P4_July256_after_human_seal_game_cluster_M4_vs_M0.py harness/c3x_024_P4_R1_july256_precommitted_event_cluster_bootstrap.py tools/c3x_024_P4_print_human_git_1024role_six_model_literal_batches.py
+          python -m unittest discover -s tools -p 'test_c3x_024_P4_M4_preFIRST_survivor_rule.py' -v
+          python -m unittest discover -s tools -p 'test_c3x_024_P4_256game_scoring_synthetic_only.py' -v
+          python -m unittest discover -s tools -p 'test_c3x_024_P4_1024role_human_git_forecast_dump_synthetic_only.py' -v
+          echo C3X024_P4_ALL_PRIMARY_M4_FORECAST_LITERAL_AND_SCORER_PRE_FIRST_SYNTHETIC_GATE_PASS
