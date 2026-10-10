@@ -1,0 +1,31 @@
+{
+  "schema": "c3x024-P4-256-original-source-event-player-cluster-audit-v1",
+  "date": "2026-10-11",
+  "status": "SOURCE_ONLY_CORRELATION_AUDIT_SUCCESS_NO_JULY_TT_FIRST_OUTCOME",
+  "original_source": "Lichess 2025-07 broadcast CC BY-SA 4.0",
+  "original_source_archive_SHA256": "1ffc6b775d27631ac988dd816a137b6dd0ec05561aeee8b45861e0c08dbcb10b",
+  "derived_source_JSON_SHA256": "d2c50a1293e68c3feb8571d1ee1be6ba1a7ee539a12dd1a98378adfa9b54fb58",
+  "source_256game_hashes_human_Git_sealed_before_any_native": "ef8e60be0df20e96bd3c19949bd2d4f585ed0353",
+  "source_game_sha_matches": 256,
+  "observed_event_label_groups": 159,
+  "largest_selected_games_same_event": 14,
+  "observed_complete_event_and_date_groups": 11,
+  "largest_selected_games_same_complete_event_date": 4,
+  "observed_distinct_player_labels": 478,
+  "largest_selected_games_same_player_label": 3,
+  "CI": {
+    "run_id": 38089449360,
+    "url": "https://github.com/WhoSia/C3X/actions/runs/38089449360",
+    "conclusion": "SUCCESS",
+    "public_artifact_id": 11684041209,
+    "public_artifact_zip_sha256": "fff6a4a4cef38e26e3b219fc2363afc6bc1bab6d2f0f4aadb1fe355b5a5b3ff6",
+    "rights": "SCAN_PASS_NOT_A_LEGAL_LICENSE"
+  },
+  "statistical_boundary": [
+    "256 distinct original game SHA fingerprints do not ensure event/player independence.",
+    "Four O/F x STRICT/BROAD role cells are nested in each original chess game, not 1024 independent games.",
+    "Low complete event+date groups reflect incomplete source metadata; infer no unobserved independence.",
+    "Cluster bootstrap source labels and original metadata stay private; publish only aggregate."
+  ],
+  "model_predictive_evidence": "ZERO_M4_JULY_FIRST_OUTCOMES_WHEN_SOURCE_METADATA_AUDITED"
+}
