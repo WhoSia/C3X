@@ -30,6 +30,16 @@ def native_lookup(row):
         source_to_uci[native]=move.uci()
         uci_to_native[move.uci()]=native
     return source_to_uci,uci_to_native
+def exact_m3v2(role,target_native,base_native,base,opposite,depth11):
+    """Immutable pre-FIRST TT-exposed root-order/depth instability rule."""
+    if role!="STRICT" or target_native!=base_native:
+        return base,False
+    if base!=opposite:
+        return opposite,True
+    if depth11 is not None and depth11!=base:
+        return depth11,True
+    return base,False
+
 def predict(source,stage,reg):
     if source["schema"]!=SOURCE_SCHEMA or stage["schema"]!=STAGE_SCHEMA:
         raise ValueError("P3_SOURCE_OR_STAGE_A_SCHEMA_WRONG")
@@ -86,8 +96,7 @@ def predict(source,stage,reg):
                             e.get("altered")==0 for e in events)
                     linked=(role=="STRICT" and target==UCI[base])
                     v1=linked and base!=opp and witness
-                    v2=linked and (base!=opp or (depth11 is not None and depth11!=base))
-                    pred_v2=(opp if base!=opp else depth11) if v2 else base
+                    pred_v2,v2=exact_m3v2(role,target,UCI[base],base,opp,depth11)
                     cell={"status":"FROZEN_SOURCE_ELIGIBLE",
                       "root_candidate_native":target,
                       "root_source_call":root_call,
