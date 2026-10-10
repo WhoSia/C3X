@@ -1,5 +1,6 @@
 name: C3X 0.24 P2 Exact Native Guard to Descendant Execution Certificate
 # 0.24-P2: source-only observer; locked May 2026 development cases, no M3 forecasting.
+# Technical rerun R1: Search::Stack namespace fix, no experimental changes.
 on:
   push:
     paths:
