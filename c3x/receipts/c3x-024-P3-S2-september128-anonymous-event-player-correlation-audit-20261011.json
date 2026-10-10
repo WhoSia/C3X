@@ -1,0 +1,36 @@
+{
+  "schema": "c3x024-P3-S2-anonymized-event-player-source-dependence-v1",
+  "date": "2026-10-11",
+  "science_status": "PRETREATMENT_SOURCE_DIVERSITY_AUDIT_PASS__EVENT_CORRELATION_PRESENT",
+  "precommit": "c3x/ontology/c3x-024-P3-S2-preoutcome-source-cluster-diversity-audit-precommit-20261011.md",
+  "source_origin": "Lichess September2025 broadcast CC BY-SA 4.0",
+  "frozen_source_only_SHA256": "ee8265f96b055645428f2fa87b36647e1931c86c848db5725a8b0ec63596dacb",
+  "original_complete_compressed_source_SHA256": "da3a261e926a2c0f5e79c393818e643d76448edf94cfdaefa3892258a6f9e7ba",
+  "selected_sha_registry_commit": "4cb9172ca8b5b5e8c77ab453a37b34daf82a6ecf",
+  "CI": {
+    "run_id": 38080731325,
+    "url": "https://github.com/WhoSia/C3X/actions/runs/38080731325",
+    "conclusion": "SUCCESS",
+    "artifact_id": 11680432261,
+    "artifact_zip_SHA256": "4849883ccac32fd1dbbb6b483d5d24be8426e639eba4b816038c1e02ebf4f468",
+    "rights_gate": "SCAN_PASS_NOT_LEGAL_LICENSE"
+  },
+  "n_source_chess_games": 128,
+  "matched_source_game_hashes": 128,
+  "observed_distinct_event_label_groups": 79,
+  "largest_event_label_selected_group": 12,
+  "observed_complete_event_plus_date_groups": 97,
+  "largest_event_plus_date_selected_group": 5,
+  "observed_distinct_player_labels": 246,
+  "max_selected_games_per_same_player_label": 2,
+  "statistical_implications": [
+    "128 unique source-game hashes and distinct selected legal boards do not imply statistical independence across shared tournament/event/players",
+    "512 O/F x STRICT/BROAD role cells remain correlated within 128 selected games",
+    "Game-level paired inference plus event-label-cluster sensitivity analysis must be reported; if absent, statistical generalization HOLD",
+    "Event labels can be missing; observed group counts are NOT exact latent independent event counts",
+    "No identities or guessed hashed labels released"
+  ],
+  "model_M3_v2_status": "RULE_GIT_FROZEN_BUT_ZERO_SEPTEMBER_TREATMENT_ACCURACY_CLAIM",
+  "read_only": true,
+  "human_Git_author_only": true
+}
