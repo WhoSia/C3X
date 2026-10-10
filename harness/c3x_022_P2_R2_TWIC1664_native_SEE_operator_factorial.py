@@ -87,9 +87,9 @@ def run(src,stageA,engine):
            "factorial":cells}
         out["cases"].append(r)
         print("C3X022_P2_R2_NATIVE_SEE_FACTORIAL_CASE",gid,order,role,
-              {k:{"bestmove":v["UCI"]["bestmove"],
-                  "SEE_call":v["SEE_callsite_count"],
-                  "SEE_modified":v["SEE_first_Boolean_intervention_count"]}
+              {k:{"SEE_call":v["SEE_callsite_count"],
+                  "SEE_modified":v["SEE_first_Boolean_intervention_count"],
+                  "tt_reader_contact":v["physical_reader_block"]>0}
                for k,v in cells.items()},flush=True)
     out["summary"]={"development_cases":len(CASES),
      "complete_two_by_two_case_count":len(out["cases"]),
