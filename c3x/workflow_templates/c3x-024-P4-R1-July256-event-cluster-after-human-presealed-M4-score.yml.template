@@ -1,0 +1,69 @@
+name: C3X 0.24 P4-R1 July256 Precommitted Anonymous Event Cluster M4 vs M0
+# Original source event bootstrap method human Git fixed BEFORE any July physical FIRST.
+on:
+  push:
+    paths:
+      - '.github/workflows/c3x-024-P4-R1-July256-event-cluster-after-human-presealed-M4-score.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  original-source-event-and-date-game-cluster:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Original freeze identities and M4 policy before any treatment immutable
+        run: |
+          set -euo pipefail
+          python -m pip install -q chess==1.11.2 zstandard==0.25.0
+          python -m py_compile harness/c3x_024_P4_R1_july256_precommitted_event_cluster_bootstrap.py
+          test -f c3x/ontology/c3x-024-P4-P1-preFIRST-256game-1024role-scoring-and-event-cluster-verdict-precommit-20261011.md
+          python - <<'PY'
+          import json
+          orig=json.load(open('c3x/forecasts/c3x-024-P4-July2025-256-source-game-SHA-human-Git-seal-before-native-20261011.json'))
+          m=json.load(open('c3x/forecasts/c3x-024-P4-July2025-256game-1024role-six-model-literal-UCI-before-FIRST-human-Git-seal-20261011.json'))
+          assert orig['source_game_count']==256 and len(orig['ordered_selected_source_game_sha256'])==256
+          assert len(m['ordered_games_literal_rows'])==256 and sum(len(row[2]) for row in m['ordered_games_literal_rows'])==1024
+          assert m['phase']=='BEFORE_ANY_JULY_NATIVE_TT_FIRST_TREATED_OUTCOME'
+          print('C3X024_P4_R1_ORIGINAL_HUMAN_PRETREATMENT_IDS_AND_ALL_MODEL_LITERALS_LOCKED')
+          PY
+          mkdir -p scored public
+      - name: Read ONLY complete original 256 game physical FIRST four-shard court outcome
+        uses: actions/download-artifact@v4
+        with:
+          name: c3x-024-P4-July256-presealed-M4-versus-M0-game-cluster-science-verdict
+          path: scored/
+          repository: WhoSia/C3X
+          run-id: 'SCORE_RUN_ID_PLACEHOLDER'
+          github-token: ${{ github.token }}
+      - name: Reverify original final M4 versus M0 game-level input full bytes
+        run: |
+          set -euo pipefail
+          test "$(sha256sum scored/C3X024_P4_JULY256_M4_VS_M0_PROSPECTIVE_GAME_CLUSTER_VERDICT.json | awk '{print $1}')" = SCORE_JSON_SHA_PLACEHOLDER
+      - name: Source confidential July2025 original headers only to derive anonymous event groups
+        run: |
+          set -euo pipefail
+          curl -fL --retry 3 --max-time 450 -sS https://database.lichess.org/broadcast/lichess_db_broadcast_2025-07.pgn.zst -o /tmp/C3X024_P4_JULY256_ORIGINAL_PRIVATE.pgn.zst
+          test "$(sha256sum /tmp/C3X024_P4_JULY256_ORIGINAL_PRIVATE.pgn.zst | awk '{print $1}')" = 1ffc6b775d27631ac988dd816a137b6dd0ec05561aeee8b45861e0c08dbcb10b
+      - name: Preregistered 10000 anonymous original event and event-date cluster bootstrap runs
+        run: |
+          set -euo pipefail
+          PYTHONPATH=harness python -u harness/c3x_024_P4_R1_july256_precommitted_event_cluster_bootstrap.py --zst /tmp/C3X024_P4_JULY256_ORIGINAL_PRIVATE.pgn.zst --model-score scored/C3X024_P4_JULY256_M4_VS_M0_PROSPECTIVE_GAME_CLUSTER_VERDICT.json --out public/C3X024_P4_R1_JULY256_ANONYMOUS_EVENT_CLUSTER_M4_MINUS_M0.json
+          python tools/c3x_023_rights_preupload_gate.py --tier P2_AGGREGATE_SUMMARY --file public/C3X024_P4_R1_JULY256_ANONYMOUS_EVENT_CLUSTER_M4_MINUS_M0.json --report public/RIGHTS_P4_ORIGINAL_EVENT_CLUSTER_SCAN.json
+          echo 'Lichess original July2025 broadcast archive CC BY-SA 4.0 https://database.lichess.org/broadcast/lichess_db_broadcast_2025-07.pgn.zst https://creativecommons.org/licenses/by-sa/4.0/. Anonymous source event and date-cluster counts only, no original source PGN/player headers/raw identifiable group hashes, no model refit.' > public/SOURCE_LICENSE_NOTICE.txt
+      - name: Rights-scoped member SHA hashes
+        if: always()
+        run: |
+          mkdir -p public
+          find public -maxdepth 1 -type f ! -name MEMBER_SHA256.txt -print0 | sort -z | xargs -0 -r sha256sum > public/MEMBER_SHA256.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x-024-P4-July256-presealed-M4-vs-M0-original-event-and-date-cluster-sensitivity
+          path: public/
+          retention-days: 90
+          if-no-files-found: error
