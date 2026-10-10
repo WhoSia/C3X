@@ -81,9 +81,17 @@ jobs:
           Path('public/RESULTS.json').write_text(json.dumps(p,sort_keys=True,indent=2)+'\n')
           print('C3X023_T3_SOURCE_EXACT_FACTORIAL_AGGREGATE',x['summary'])
           PY
+      - name: Derive rights-reviewed exact UCI and root depth divergence ledger
+        run: |
+          set -euo pipefail
+          python -u tools/c3x_023_P1_R2_T3_derived_outcome_and_search_path_report.py \
+            --source private/C3X023_P1_R2_T3_NATIVE_FACTORIAL_FULL.json \
+            --out public/C3X023_T3_DERIVED_UCI_AND_ROOT_DEPTH.json
+          echo 'Source: 2026-05 Lichess broadcast (CC BY-SA 4.0), credit Lichess broadcasters. These are newly computed native Stockfish16 results at two source-derived chess positions; modified annotations, no full PGN or player data. Licence: https://creativecommons.org/licenses/by-sa/4.0/. Modified GPLv3 Stockfish binary/source diff NOT included.' > public/LICENSE_ATTRIBUTION_NOTICE.txt
       - name: Rights gate prior to public aggregate
         run: |
           python tools/c3x_023_rights_preupload_gate.py --tier P2_AGGREGATE_SUMMARY --file public/RESULTS.json --report public/RIGHTS_SCAN.json
+          python tools/c3x_023_rights_preupload_gate.py --tier P2_AGGREGATE_SUMMARY --file public/C3X023_T3_DERIVED_UCI_AND_ROOT_DEPTH.json --report public/RIGHTS_DERIVED_SCAN.json
       - name: Public aggregate SHA manifest
         if: always()
         run: |
