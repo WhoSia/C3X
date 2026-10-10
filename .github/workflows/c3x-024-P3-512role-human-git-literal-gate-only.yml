@@ -1,0 +1,48 @@
+name: C3X 0.24 P3 512 Role Human Git Exact UCI Literal Pre-FIRST Gate
+on:
+  push:
+    paths:
+      - '.github/workflows/c3x-024-P3-512role-human-git-literal-gate-only.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  no-stockfish-no-treatment:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Before any intervention, assert human-origin literal forecast exists in Git
+        run: |
+          set -euo pipefail
+          test -f c3x/forecasts/c3x-024-P3-Sep2025-128game-512role-five-model-literal-UCI-before-FIRST-human-Git-seal-20261011.json
+          python -m py_compile harness/c3x_024_P3_preFIRST_literal_512role_integrity_gate.py
+          mkdir -p source stageA forecast
+      - uses: actions/download-artifact@v4
+        with:
+          name: c3x-024-P3-SEP2025-128independent-SOURCE-ONLY-no-engine
+          path: source/
+          repository: WhoSia/C3X
+          run-id: '38079947147'
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: c3x-024-P3-SEP2025-128-untreated-native-O-F-SEE-no-treatment
+          path: stageA/
+          repository: WhoSia/C3X
+          run-id: '38080171816'
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: c3x-024-P3-September128-five-model-literal-512role-UCI-preFIRST
+          path: forecast/
+          repository: WhoSia/C3X
+          run-id: '38081547936'
+          github-token: ${{ github.token }}
+      - name: All 512 roles 5 literal models compare EXACTLY to committed human Git before FIRST
+        run: |
+          set -euo pipefail
+          python -u harness/c3x_024_P3_preFIRST_literal_512role_integrity_gate.py --source source/C3X024_P3_SEPT2025_ENGINEBLIND_128.json --stagea stageA/C3X024_P3_SEP2025_STAGEA_UNTREATED_NATIVE128.json --forecast forecast/C3X024_P3_SEPT128_FIVE_MODELS_EXACT_UCI_PRE_FIRST.json --seal c3x/forecasts/c3x-024-P3-Sep2025-128game-512role-five-model-literal-UCI-before-FIRST-human-Git-seal-20261011.json
