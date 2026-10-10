@@ -92,3 +92,30 @@ when the intersection is nonempty, else report NOT_COMPARABLE. Game4 provides 27
 Modified Stockfish binaries/source require provenance and compliance with Stockfish's GPLv3 licensing, and engine-free broadcast PGNs with the Lichess broadcast archive's specified attribution/share-alike obligations. Plan an auditable release with manifests, source patch, hashes, legal move data and run instructions; do not redistribute proprietary or undocumented assets.
 
 **Current status:** PREPARATION / PAPER SCOPING. No paper has been submitted or accepted, no independent predictive law proved, C3X 0.22 not yet activated.
+
+
+---
+
+## POST-OUTCOME ADDENDUM — Natural-O TT independent source court (2026-10-10)
+
+This post-outcome note does not change the historical precommit or the original 0.22 proposal, which was frozen before this run.
+
+[Native Actions #38044580147](https://github.com/WhoSia/C3X/actions/runs/38044580147) SUCCESS; downloaded ZIP SHA256 25fea2dfa871f2f97f098b8e204bf99b5aa5e1aca76fc905580ee2748dfb727c; native JSON SHA256 4cb54469460f6402952b269ab123c1681c7fe1670a3d829905db6640e209d17e; 24/24 member hashes PASS. [Canonical native outcome receipt](../receipts/c3x-021-P2-R1-independent-natural-O-physical-TT-order-interaction-20261010.json).
+
+O-world writer–reader pairs were independently selected from natural-O discovery, not F-world physical source IDs: 31/32 eligible and contacted role cells, 23/31 complete six-field UCI output changes, and 2/31 final bestmove changes in ONE distinct game. Game1 natural O selected bishop d3b5; O+FIRST source-exact physical TT reader block selected queen b3c2; source PGN-played-first F selected knight a3b5. The first recorded same-source child-return change was 119→209 with alpha418, i.e. SAME_GATE, not immediate alpha crossing. O/F physical triplets matched in 21/31 eligible role cells overall, but game4 BROAD and game9 STRICT differ. F+FIRST changed final root choice in games4 and9 while independently mapped O+FIRST did not. Root-order-conditioned source intervention sensitivity is directly observed in this bounded March cohort.
+
+## Preliminary PAPER A abstract (draft, NOT submitted)
+
+> Alpha–beta chess engines reuse cached search information, but a transposition-table hit does not establish that its contents influence the move ultimately played. We investigate this gap in source-instrumented Stockfish 16 through full-position-key writer–reader provenance, native score-assignment and cutoff witnesses, controlled reader suppression, and independently enumerated legal move transitions. In a fixed 16-position broadcast corpus, prioritizing a recorded move in initial root ordering altered the final move in four positions. Under this played-first context, first-reader suppression changed the final move in two of 31 contacted selector cells. Independent target reconstruction under natural root ordering also changed the move in two contacted cells, but both represented a different single game; the earlier two affected games were no longer sensitive. Separately, move-level legal analysis reveals cases where equal immediate opponent response sets conceal differences in later available moves. These bounded results support a reproducible method for interrogating search-order and memory-consumption effects. Prospective generalization and unique chess-feature mediation remain open.
+
+**PAPER A now has a documented empirical pilot**, but role cells nested within a game are not independent observations; no generalized effect probability may be inferred from 2/31. No paper submitted or accepted.
+
+## Updated readiness
+
+- P0 independent natural-O native TT writer–reader remapping: COMPLETE, negative controls and SHA PASS.
+- P1 unified causal trace and source-alignment semantics: PARTIAL; event identity across divergence remains unresolved.
+- P2 disjoint April-month or other future source-only corpus: NOT STARTED.
+- P3 risky prospective final root-choice and primitive-structure forecasts: NOT STARTED.
+- P4 independent reproduction, release/legal audit, publication-ready validation: NOT STARTED.
+
+Keep C3X 0.21 ACTIVE. C3X 0.22 remains a prepared PROPOSAL.
