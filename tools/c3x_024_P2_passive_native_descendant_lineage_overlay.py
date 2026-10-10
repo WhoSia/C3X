@@ -13,7 +13,7 @@ struct C3X024_P2_Pending {
     bool active=false;
     bool did_move=false;
     bool child_entered=false;
-    const Stack* frame=nullptr;
+    const Search::Stack* frame=nullptr;
     Key parent=0, expected_child=0;
     Move move=MOVE_NONE;
     unsigned long long sequence=0, ordinal=0;
@@ -44,7 +44,7 @@ void c3x024_p2_emit(const Position& pos,const char* event, const char* origin,
               << " child_entered=" << int(c3x024_p2.child_entered)
               << sync_endl;
 }
-void c3x024_p2_guard(const Position& pos,Stack* ss,Move move,
+void c3x024_p2_guard(const Position& pos,Search::Stack* ss,Move move,
                      const char* site,const char* decision) {
     if (!c3x024_p2_enabled()) return;
     c3x024_p2 = {};
@@ -60,7 +60,7 @@ void c3x024_p2_guard(const Position& pos,Stack* ss,Move move,
     c3x024_p2_emit(pos,std::strcmp(decision,"ACTUAL_CONTINUE")==0
                          ? "GUARD_CONTINUE" : "GUARD_PASS", "exact_native_guard");
 }
-void c3x024_p2_after_do(const Position& pos,Stack* ss,Move move,
+void c3x024_p2_after_do(const Position& pos,Search::Stack* ss,Move move,
                         const char* origin) {
     if (!c3x024_p2.active || c3x024_p2.did_move ||
         ss!=c3x024_p2.frame || move!=c3x024_p2.move ||
@@ -69,7 +69,7 @@ void c3x024_p2_after_do(const Position& pos,Stack* ss,Move move,
     c3x024_p2.did_move=true;
     c3x024_p2_emit(pos,"DO_MOVE_EXECUTED",origin);
 }
-void c3x024_p2_child_entry(const Position& pos,Stack* ss,
+void c3x024_p2_child_entry(const Position& pos,Search::Stack* ss,
                            const char* origin,int depth) {
     if (!c3x024_p2.active || !c3x024_p2.did_move ||
         c3x024_p2.child_entered ||
@@ -79,7 +79,7 @@ void c3x024_p2_child_entry(const Position& pos,Stack* ss,
     c3x024_p2.child_entered=true;
     c3x024_p2_emit(pos,"CHILD_ENTERED",origin,depth);
 }
-void c3x024_p2_child_returned(const Position& pos,Stack* ss,Move move,
+void c3x024_p2_child_returned(const Position& pos,Search::Stack* ss,Move move,
                               const char* origin,int value) {
     if (!c3x024_p2.active || !c3x024_p2.did_move ||
         ss!=c3x024_p2.frame || move!=c3x024_p2.move ||
