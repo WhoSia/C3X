@@ -74,14 +74,10 @@ def stageA(source,engine):
                             allow_empty_lineage=True,allow_source_trace_censored=True)
                     need(xx["UCI"]==yy["UCI"],
                          "P4_TRACE_CENSORED_COLD_SIXFIELD_UCI_MISMATCH")
-                    need(all(any(e["kind"]=="trace_censored" for e in q["native_tt_source_allows"]+
-                                q["consumer_records"]+q["blocks"]+q["rescues"])
-                             or q["lineage_summary"]["records"]>=30000
+                    need(all(len(q.get("trace_censored_events",[]))==1
+                             and q["trace_censored_events"][0]["seq"]==30001
                              for q in (xx,yy)),
-                         "P4_TRACE_CENSORED_MARKER_MISSING")
-                    # Exact marker check below using reporter records; parser only
-                    # exposes summary lists, so 30k logged events plus original
-                    # exception is required as independent censored source evidence.
+                         "P4_TRACE_CENSORED_EXACT_NATIVE_MARKER_MISSING")
                     censored_orders.add(order)
                     baseline[order]={"UCI":xx["UCI"],"root_events":[]}
                     candidates[order]={r:None for r in ROLES}
