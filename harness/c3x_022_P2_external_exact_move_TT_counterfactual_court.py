@@ -55,7 +55,7 @@ def actual_block(witness,pair):
          "P2_STAGE_B_WRITER_READER_WITNESS_FAIL")
     return blocks,p
 
-def try_role(engine,world,clock,order,role,forecast,baseline,atoms):
+def try_role(engine,world,clock,order,role,forecast,baseline,baseline_ladder,atoms):
     if forecast["status"]=="NO_TREATMENT":
         need(forecast["predicted_UCI"] is None and
              forecast["predicted_flip"] is None,
@@ -80,6 +80,12 @@ def try_role(engine,world,clock,order,role,forecast,baseline,atoms):
     delivered=bool(blocks)
     exact=first["UCI"]["bestmove"]==forecast["predicted_UCI"] if delivered else None
     actual_move=first["UCI"]["bestmove"]
+    target_ladder=root_depth_ladder(first["root_events"])
+    observed_changed_depths=[
+        depth for depth in range(1,13)
+        if baseline_ladder[str(depth)]["native_leader"]!=target_ladder[str(depth)]["native_leader"]]
+    need(all(str(x) in baseline_ladder for x in range(1,13)),
+         "P2_STAGE_A_BASELINE_MISSING_DEPTHS")
     return {
         "status":"REAL_NATIVE_READER_BLOCK_DELIVERED" if delivered else
                  "SELECTED_BUT_NONCONTACT",
@@ -102,8 +108,11 @@ def try_role(engine,world,clock,order,role,forecast,baseline,atoms):
         "majority_no_flip_correct_if_contact":not changed if delivered else None,
         "actual_chess_move_microcontrast":move_micro_comparison(
             baseline["bestmove"],actual_move,atoms),
-        "depthwise_actual_root_leader":root_depth_ladder(first["root_events"]),
-        "first_source_aligned_split":None,
+        "depthwise_actual_root_leader":target_ladder,
+        "depthwise_source_root_leader_before_TT":baseline_ladder,
+        "changed_root_leader_depths":observed_changed_depths,
+        "earliest_root_leader_depth_changed":observed_changed_depths[0] if observed_changed_depths else None,
+        "source_event_alignment_limit":"Without a fully baseline-recorded candidate trace in stage A, root-call-specific child event causal attribution beyond the depth leader is not claimed.",
         "cold_repeated_exactly":True
     }
 
@@ -146,7 +155,7 @@ def evaluate(d,forecast,primitive,engine):
                 for role in ROLES:
                     roles[role]=try_role(engine,w,clock,order,role,
                                          world_forecast["roles"][role],
-                                         base,atom)
+                                         base,world_forecast["root_depth_ladder"],atom)
                 row["worlds"][order]={"baseline_UCI":base,
                                      "source_decoy_equal":True,
                                      "roles":roles}
