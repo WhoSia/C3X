@@ -1,0 +1,161 @@
+name: C3X 0.24 P3 Fresh September2025 Broadcast 128 Games Source Only
+# P3 128-game source-only extraction, frozen before accessing Sep2025 engine outcomes.
+on:
+  push:
+    paths:
+      - '.github/workflows/c3x-024-P3-Sep2025-broadcast-source128-before-model.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  independent-rights-gated-source16-no-native-outcomes:
+    runs-on: ubuntu-latest
+    timeout-minutes: 80
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Validate engine-free selector, source law and rights gate first
+        run: |
+          set -euo pipefail
+          python -m pip install -q chess==1.11.2 zstandard==0.25.0
+          python -m unittest discover -s tools -p 'test_c3x_024_P0_aug2025_engineblind_source_and_rights.py' -v
+          python -m py_compile harness/c3x_024_P3_sep2025_engineblind_source128.py tools/c3x_024_P3_sep2025_source128_rights_gate.py
+          mkdir -p prior source evidence
+      - name: Recover pinned original C3X016 P4 June history directly from human-authored Git
+        run: |
+          set -euo pipefail
+          cp c3x/cohorts/c3x-016-P4-12-independent-Lichess-legal-root-order-sourceonly-frozen.json prior/p4.json
+          test "$(git hash-object prior/p4.json)" = b0634c9f65ce31e4eb3f29d73fe77b84cdb5b7df
+      - name: Read only prior october previously source-frozen cohort
+        uses: actions/download-artifact@v4
+        with:
+          name: c3x-018-independent-PGN-blind-source-16
+          path: prior/october/
+          repository: WhoSia/C3X
+          run-id: '37981820261'
+          github-token: ${{ github.token }}
+      - name: Read only prior november previously source-frozen cohort
+        uses: actions/download-artifact@v4
+        with:
+          name: c3x-018-november-blind12-chess-source
+          path: prior/november/
+          repository: WhoSia/C3X
+          run-id: '37985213908'
+          github-token: ${{ github.token }}
+      - name: Read only prior december previously source-frozen cohort
+        uses: actions/download-artifact@v4
+        with:
+          name: c3x-018-december2025-blind12-source
+          path: prior/december/
+          repository: WhoSia/C3X
+          run-id: '37987794988'
+          github-token: ${{ github.token }}
+      - name: Read only prior january previously source-frozen cohort
+        uses: actions/download-artifact@v4
+        with:
+          name: c3x-018-january2026-cross-window-blind16-source
+          path: prior/january/
+          repository: WhoSia/C3X
+          run-id: '37991871987'
+          github-token: ${{ github.token }}
+      - name: Read only prior february previously source-frozen cohort
+        uses: actions/download-artifact@v4
+        with:
+          name: c3x-019-february2026-writer-version-blind16-source
+          path: prior/february/
+          repository: WhoSia/C3X
+          run-id: '37998190878'
+          github-token: ${{ github.token }}
+      - name: Read only prior march previously source-frozen cohort
+        uses: actions/download-artifact@v4
+        with:
+          name: c3x-020-C2-march2026-enginefree-blind16-source
+          path: prior/march/
+          repository: WhoSia/C3X
+          run-id: '38038059013'
+          github-token: ${{ github.token }}
+      - name: Read only prior april previously source-frozen cohort
+        uses: actions/download-artifact@v4
+        with:
+          name: c3x-022-P0-april2026-engineblind-source16
+          path: prior/april/
+          repository: WhoSia/C3X
+          run-id: '38045636805'
+          github-token: ${{ github.token }}
+      - name: Read only prior twic1656puzzles previously source-frozen cohort
+        uses: actions/download-artifact@v4
+        with:
+          name: c3x-022-P2-TWIC1656-LichessPuzzle-engineblind-source32
+          path: prior/twic1656puzzles/
+          repository: WhoSia/C3X
+          run-id: '38047000932'
+          github-token: ${{ github.token }}
+      - name: Read only prior twic1664 previously source-frozen cohort
+        uses: actions/download-artifact@v4
+        with:
+          name: c3x-022-P2-R1-TWIC1664-blind16-legal-exchange
+          path: prior/twic1664/
+          repository: WhoSia/C3X
+          run-id: '38050910527'
+          github-token: ${{ github.token }}
+      - name: Read only prior may2026puzzles previously source-frozen cohort
+        uses: actions/download-artifact@v4
+        with:
+          name: c3x-023-P1-licensed-May-broadcast-CC0-nonmate32-engineblind-freeze
+          path: prior/may2026puzzles/
+          repository: WhoSia/C3X
+          run-id: '38059784922'
+          github-token: ${{ github.token }}
+      - name: Fetch historical August2025 source-only for disjointness (no treatment)
+        uses: actions/download-artifact@v4
+        with:
+          name: c3x-024-P0-AUG2025-new-broadcast16-SOURCE-ONLY-no-engine
+          path: prior/august/
+          repository: WhoSia/C3X
+          run-id: '38075786357'
+          github-token: ${{ github.token }}
+      - name: Verify every historical cohort original JSON digest
+        run: |
+          set -euo pipefail
+          test -s prior/p4.json
+          test "$(sha256sum prior/august/C3X024_P0_AUG2025_ENGINEBLIND_16.json | awk '{print $1}')" = 76391058cae1fad8d23e3ae8556e48b63a0d991a051c59fef2df15e11c73f529
+          test "$(sha256sum prior/october/C3X018_INDEPENDENT_BLIND16_PGN_SOURCE.json | cut -d' ' -f1)" = 6520672aabab7f525872169085f19bdd81e27a4473f0c58ba9c9aa428937104c
+          test "$(sha256sum prior/november/C3X018_NOVEMBER_12_BLIND_GAMES.json | cut -d' ' -f1)" = 2971fe617f39fbba6d40fb0b09d8a18ce247d5865dc807fcdab9a594e3473402
+          test "$(sha256sum prior/december/C3X018_DECEMBER12_INDEPENDENT_GAMES.json | cut -d' ' -f1)" = 51366a480fe2631005dbded7992e870443ef6dd2dfd785fd10952d6eeff5e7cd
+          test "$(sha256sum prior/january/C3X018_JAN26_BLIND16_SOURCE.json | cut -d' ' -f1)" = 5b49818e4678c12d0e5e73eba39eff2d50742b070a0ed870cba1d3e94afe0533
+          test "$(sha256sum prior/february/C3X019_FEB26_BLIND16_SOURCE.json | cut -d' ' -f1)" = 2942b1933030227f36b669faff41f15ff234c27127dbf2403bf2e8e4f12ebdc8
+          test "$(sha256sum prior/march/C3X020_C2_MARCH_BLIND16_SOURCE.json | cut -d' ' -f1)" = d79e48633be2b683176f1a6d4650aeea1b7584f11c85c2349a5bddda113febee
+          test "$(sha256sum prior/april/C3X022_P0_APRIL16_SOURCE.json | cut -d' ' -f1)" = 0e5516fc0cd49203bf7cc366f4133d6c9b20a2f21de0667468f121e398d2fa93
+          test "$(sha256sum prior/twic1656puzzles/C3X022_P2_TWIC1656_PUZZLE_SOURCE32.json | cut -d' ' -f1)" = ebe6648f43f64c6f31e0d547845bec3d87c663093fd68298acf2ebe4c0287554
+          test "$(sha256sum prior/twic1664/C3X022_P2_R1_TWIC1664_BLIND16_SOURCE.json | cut -d' ' -f1)" = 3cc4c788eec55960921e653604b2fbb3113163862e2652271b939fb12fb9eeb3
+          test "$(sha256sum prior/may2026puzzles/C3X023_P1_MAY_BROADCAST_CC0_NONMATE32_SOURCE_ONLY.json | cut -d' ' -f1)" = 0ff43e28dcb3a5e48dea6b61e4450fc8bb9e1f96363871c33c4b73524664db61
+      - name: Fetch September2025 original broadcast privately (no engine)
+        run: |
+          set -euo pipefail
+          curl -fL --retry 3 --max-time 450 -sS https://database.lichess.org/broadcast/lichess_db_broadcast_2025-09.pgn.zst -o /tmp/C3X024_P3_SEPT_PGN.pgn.zst
+          test -s /tmp/C3X024_P3_SEPT_PGN.pgn.zst
+          sha256sum /tmp/C3X024_P3_SEPT_PGN.pgn.zst > evidence/ORIGINAL_SOURCE_SHA256_PRIVATE_PATH_NOTE.txt
+      - name: Blind SHA-select 128 legal roots after first 4096 eligible games
+        run: |
+          set -euo pipefail
+          python -u harness/c3x_024_P3_sep2025_engineblind_source128.py --zst /tmp/C3X024_P3_SEPT_PGN.pgn.zst --history p4=prior/p4.json --history october=prior/october/C3X018_INDEPENDENT_BLIND16_PGN_SOURCE.json --history november=prior/november/C3X018_NOVEMBER_12_BLIND_GAMES.json --history december=prior/december/C3X018_DECEMBER12_INDEPENDENT_GAMES.json --history january=prior/january/C3X018_JAN26_BLIND16_SOURCE.json --history february=prior/february/C3X019_FEB26_BLIND16_SOURCE.json --history march=prior/march/C3X020_C2_MARCH_BLIND16_SOURCE.json --history april=prior/april/C3X022_P0_APRIL16_SOURCE.json --history twic1656puzzles=prior/twic1656puzzles/C3X022_P2_TWIC1656_PUZZLE_SOURCE32.json --history twic1664=prior/twic1664/C3X022_P2_R1_TWIC1664_BLIND16_SOURCE.json --history may2026puzzles=prior/may2026puzzles/C3X023_P1_MAY_BROADCAST_CC0_NONMATE32_SOURCE_ONLY.json --history august2025=prior/august/C3X024_P0_AUG2025_ENGINEBLIND_16.json --out evidence/C3X024_P3_SEPT2025_ENGINEBLIND_128.json
+      - name: Rights and chess-law gate for all 128 source legal roots
+        run: |
+          set -euo pipefail
+          python tools/c3x_024_P3_sep2025_source128_rights_gate.py --file evidence/C3X024_P3_SEPT2025_ENGINEBLIND_128.json --report evidence/P3_RIGHTS_CHESS_SOURCE_SCAN.json
+          echo 'Derived 128 source roots from official Lichess 2025 September broadcast archive CC BY-SA 4.0 https://database.lichess.org/broadcast/lichess_db_broadcast_2025-09.pgn.zst https://creativecommons.org/licenses/by-sa/4.0/. Original PGN and player headers not redistributed. No Stockfish, TT FIRST, or SEE interventions. Adapted minimal source legal boards by hash-only selection.' > evidence/SOURCE_LICENSE_ATTRIBUTION_MODIFICATION_NOTICE.txt
+          python -c "import json;d=json.load(open('evidence/C3X024_P3_SEPT2025_ENGINEBLIND_128.json'));assert d['source_fen_count']==128 and len(d['historical_source_receipts'])==12 and d['TT_FIRST_interventions']==0;print('P3_128_SOURCE_ONLY_ACCEPTED',d['original_compressed_source_sha256'])"
+      - name: Source-only public artifact member SHA verification
+        if: always()
+        run: |
+          mkdir -p evidence
+          find evidence -maxdepth 1 -type f ! -name MEMBER_SHA256.txt -print0 | sort -z | xargs -0 -r sha256sum > evidence/MEMBER_SHA256.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x-024-P3-SEP2025-128independent-SOURCE-ONLY-no-engine
+          path: evidence/
+          if-no-files-found: error
+          retention-days: 90
