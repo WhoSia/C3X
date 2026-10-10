@@ -1,0 +1,110 @@
+{
+  "schema": "c3x021-P1-R1-march16-full64-second-TT-consumer-watch-native-v1",
+  "date": "2026-10-10",
+  "status": "NATIVE_SOURCE_WATCH_SUCCESS_WITH_DISTINCT_CHOICE_MECHANISMS",
+  "precommit": "c3x/ontology/c3x-021-P1-R1-full64-later-TT-use-source-watch-precommit.md",
+  "source": {
+    "march_source_sha256": "d79e48633be2b683176f1a6d4650aeea1b7584f11c85c2349a5bddda113febee",
+    "P1_native_sha256": "5ee15c3ec48be0042a9bb0ae7566808737f56e7568c2b29d43f00ae64afcb259",
+    "P1_all635_atomic_chess_sha256": "c14711c0e31bde26c2c7fc6e77f1f2fdf0ac70180a517b91f71845f1fd78ed3f"
+  },
+  "native": {
+    "run_id": 38039941422,
+    "url": "https://github.com/WhoSia/C3X/actions/runs/38039941422",
+    "conclusion": "success",
+    "artifact_id": 11664599717,
+    "artifact_name": "c3x-021-P1-R1-march31-physical-full64-TT-consumer-watch",
+    "artifact_zip_sha256": "6e80d5ff794672c4b34bd94dfb7452536067eee8528c2ea7773de6fff724703d",
+    "raw_json_name": "C3X021_P1_R1_MARCH31_NATIVE_FULL64_TT_CONSUMER_WATCH.json",
+    "raw_json_sha256": "e9765a9d9c2254866cba80a968ed4f10013d7ee0b2ff93f41c4d203daed98a8c",
+    "verified_members": 24,
+    "checksum_errors": 0,
+    "cold_native_repeats": "all 31 role arms exact equal and full six-field V UCI equals original P1",
+    "stockfish16_original_git": "68e1e9b3811e16cad014b590d7443b9063b52"
+  },
+  "denominators": {
+    "source_march_games": 16,
+    "planned_strict_broad_roles": 32,
+    "selected_and_physically_blocked": 31,
+    "no_eligible": 1,
+    "live_full64_second_call_probe_hit_role_arms": 31,
+    "actual_native_score_eval_use_role_arms": 30,
+    "actual_native_cutoff_role_arms": 2,
+    "earlier_native_P1_categorical_bestmove_flips": 2
+  },
+  "focal": {
+    "game4_BROAD": {
+      "original_F_bestmove": "h8h4",
+      "TT_reader_suppressed_V_bestmove": "g5h4",
+      "first_tt_reader_block_count": 1,
+      "second_root_call": 4,
+      "full64_shadow_probe_hits": 1,
+      "native_actual_TT_eval_uses": 1,
+      "native_actual_TT_cutoff_returns": 0,
+      "native_site": "main",
+      "native_raw_bound": 2,
+      "native_raw_depth": 1,
+      "native_raw_value": 0,
+      "native_raw_eval": -553,
+      "native_effective_TT_value": 0,
+      "native_writer_serial": 51,
+      "native_epoch": 2,
+      "native_key64": "3001029915494917291",
+      "native_probe_context": {
+        "ply": 1,
+        "search_depth": 3,
+        "alpha": -110,
+        "beta": -109
+      },
+      "explanation": "After suppression of the selected first physical reader, the frozen second selected native source call still performs a true TT score-as-eval assignment; candidate root choice differs. Survival alone is not unique mediation."
+    },
+    "game9_STRICT": {
+      "original_F_bestmove": "a6b7",
+      "TT_reader_suppressed_V_bestmove": "f6h5",
+      "first_tt_reader_block_count": 1,
+      "second_root_call": 7,
+      "full64_shadow_probe_hits": 2,
+      "native_actual_TT_eval_uses": 0,
+      "native_actual_TT_cutoff_returns": 0,
+      "native_site": "main_probe_only",
+      "native_raw_bound": 2,
+      "native_raw_depth": 2,
+      "native_raw_value": 14,
+      "native_raw_eval": 74,
+      "native_writer_serial": 130,
+      "native_epoch": 3,
+      "native_key64": "17103490445386514359",
+      "two_probe_contexts": [
+        {
+          "ply": 1,
+          "search_depth": 5,
+          "alpha": -33,
+          "beta": -32
+        },
+        {
+          "ply": 1,
+          "search_depth": 2,
+          "alpha": 7,
+          "beta": 8
+        }
+      ],
+      "explanation": "Both selected later native TT probes physically hit the exact key/slot/epoch, yet the instrumented native evaluation/cutoff consumption site does not fire for the selected root-call. Final root choice still flips under first-reader intervention. Presence of TT bytes is not itself a score-use witness."
+    }
+  },
+  "mechanistic_scope": [
+    "31/31 second-call full64 physical probes confirmed; 30 role arms deliver at least one native eval assignment, and two role arms show native TT cutoff. Counts overlap and do not sum to 31.",
+    "Game4 and Game9 demonstrate two distinct later-source outcomes after identical class of first-reader TT intervention: native effective eval reused vs raw probe with no native use.",
+    "Comparison is from direct C++ events in original Stockfish16 with cold repeats. No claim every legal chess microfeature is causally used by native evaluation.",
+    "Chess move facts join only from fully frozen engine-blind 635 legal transition data.",
+    "No new naive pin class or alpha threshold rule admitted; previous universal PAG primitive failures preserved."
+  ],
+  "historical_failures_unchanged": [
+    "PAG global factor FAIL",
+    "CPP_224 independent replication FAIL",
+    "pin motif category response transfer FAIL",
+    "January J2/J3/J4 FAIL",
+    "February F19.5 FAIL",
+    "0.19 K4 FAIL"
+  ],
+  "next": "0.21 P2 source intervention: separate observed root-choice effects of first physical TT-reader block from the later eval assignment/cutoff gate on disjoint matched source contacts, using fully frozen March game4 and9 and sham/cold source guards."
+}
