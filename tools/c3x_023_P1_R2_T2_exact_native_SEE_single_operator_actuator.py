@@ -53,7 +53,7 @@ REPLACE=r'''    // C3X023 T2: exact source-event Boolean intervention, separatel
 END='''    return delivered;
 }
 }
-"""
+'''
 END_NEW=r'''    if (applied && n>32) {
         sync_cout << "info string c3x022_r2_see kind=forced"
                   << " site=" << site
