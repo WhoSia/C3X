@@ -1,0 +1,158 @@
+name: C3X 0.23 P1-R1 TT First Reader Suppression versus Native Common SEE Path
+on:
+  push:
+    paths:
+      - '.github/workflows/c3x-023-P1-R1-native-TT-FIRST-shared-SEE-descendant-court.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  licensed32-exact-tt-physical-source-common-see-path:
+    runs-on: ubuntu-latest
+    timeout-minutes: 110
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Mandatory preregistered source identity and intervention tests
+        run: |
+          set -euo pipefail
+          python -m pip install -q chess==1.11.2
+          python -m py_compile harness/c3x_023_P1_R1_licensed32_TT_FIRST_native_common_SEE_node_court.py
+          python -m unittest discover -s tools -p 'test_c3x_023_P1_R1_native_source_TT_and_SEE.py' -v
+          python -m unittest discover -s tools -p 'test_c3x_023_P1_same_descendant_SEE_node_matcher.py' -v
+          python -m unittest discover -s tools -p 'test_c3x_023_P1_native_stageA_release_gate.py' -v
+          python -m unittest discover -s tools -p 'test_c3x_023_publication_rights_gate.py' -v
+          mkdir -p private public
+      - name: Retrieve immutable LICENSED source-only32, no historical TWIC
+        uses: actions/download-artifact@v4
+        with:
+          name: c3x-023-P1-licensed-May-broadcast-CC0-nonmate32-engineblind-freeze
+          path: source/
+          repository: WhoSia/C3X
+          run-id: '38059784922'
+          github-token: ${{ github.token }}
+      - name: Retrieve exact untampered NO-V Stage A passive native parent-path witness
+        uses: actions/download-artifact@v4
+        with:
+          name: c3x-023-P1-licensed32-stageA-native-TT-SEE-nodepath-no-intervention
+          path: stageA/
+          repository: WhoSia/C3X
+          run-id: '38060337140'
+          github-token: ${{ github.token }}
+      - name: REQUIRE all frozen source SHA and 248 Git-sealed exact UCI predictions before V
+        run: |
+          set -euo pipefail
+          test "$(sha256sum source/C3X023_P1_MAY_BROADCAST_CC0_NONMATE32_SOURCE_ONLY.json | cut -d' ' -f1)" = 0ff43e28dcb3a5e48dea6b61e4450fc8bb9e1f96363871c33c4b73524664db61
+          test "$(sha256sum stageA/C3X023_P1_LICENSED32_STAGEA_NO_V_NODEPATH.json | cut -d' ' -f1)" = fe88afe49d7d43db7b81c37decab783f2b68311ed2ca10b6f42be4268bdb3442
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          from sys import path
+          path.insert(0,str(Path("harness").resolve()))
+          from c3x_023_P1_R1_licensed32_TT_FIRST_native_common_SEE_node_court import verify_precommitted_literals
+          f=json.load(open('c3x/forecasts/c3x-023-P1-licensed-May-CC0-32game-M0-M1-literal-UCI-source-first-preTT-20261010.json'))
+          s=json.load(open('source/C3X023_P1_MAY_BROADCAST_CC0_NONMATE32_SOURCE_ONLY.json'))
+          a=json.load(open('stageA/C3X023_P1_LICENSED32_STAGEA_NO_V_NODEPATH.json'))
+          assert verify_precommitted_literals(s,a,f)==248
+          print('C3X023_P1_R1_PRE_V_ALL_248_EXACT_LITERAL_UCI_AND_124_REAL_FIRST_PHYSICAL_SOURCES_VERIFIED')
+          PY
+      - name: Rights guard against unlicensed source files at start
+        run: |
+          python tools/c3x_023_rights_preupload_gate.py \
+            --tier P4_LICHESS_LICENSED_SOURCE_ONLY \
+            --file source/C3X023_P1_MAY_BROADCAST_CC0_NONMATE32_SOURCE_ONLY.json \
+            --report private/SOURCE_LICENSED_GATE.json
+      - name: Native Stockfish16 single-return plus second-return and persistent-state build
+        run: |
+          set -euo pipefail
+          root=/tmp/C3X020_MULTI_STATE
+          git clone -q --single-branch --branch sf_16 https://github.com/official-stockfish/Stockfish.git "$root"
+          test "$(git -C "$root" rev-parse HEAD)" = 68e1e9b3811e16cad014b590d7443b9063b3eb52
+          python tools/c3x_016_P4_independent_12root_source_order_patch.py --source "$root" --out-manifest evidence/P4.json
+          python tools/c3x_017_early_depth1_root_window_trace_patch.py --source "$root" --out-manifest evidence/ROOT_TRACE.json
+          python tools/c3x_018_trial_call_identity_patch.py --source "$root" --out-manifest evidence/TRIAL_ID.json
+          python tools/c3x_018_physical_epoch_lineage_patch.py --source "$root" --out-manifest evidence/EPOCH.json
+          python tools/c3x_018_tt_eval_consumption_overlay.py --source "$root" --out-manifest evidence/V.json
+          python tools/c3x_018_physical_value_witness_overlay.py --source "$root" --out-manifest evidence/WRITER_TICKET.json
+          python tools/c3x_018_root_TT_genealogy_overlay.py --source "$root" --out-manifest evidence/ROOT_TT_LINEAGE.json
+          python tools/c3x_018_TT_reader_writer_age_bound_root_feature_overlay.py --source "$root" --out-manifest evidence/AGE_BOUND.json
+          python tools/c3x_018_january2048_TT_reader_source_census.py --source "$root" --out-manifest evidence/CENSUS.json
+          python tools/c3x_018_adaptive_writer_age_root_call_V_gate.py --source "$root" --out-manifest evidence/AGE_GATE.json
+          python tools/c3x_018_january_cross_window_pair_source_gate.py --source "$root" --out-manifest evidence/WINDOW_GATE.json
+          python tools/c3x_018_jan_original_key_TT_probe_watch_overlay.py --source "$root" --out-manifest evidence/PROBE.json
+          python tools/c3x_018_jan_TT_probe_physical_writer_epoch_witness.py --source "$root" --out-manifest evidence/PROBE_WRITER.json
+          python tools/c3x_018_P0P1_TT_save_decision_writer_reinstate_overlay.py --source "$root" --out-manifest evidence/P0_P1_SOURCE_MUTATION.json
+          python tools/c3x_018_P1_pre_second_reader_temporal_scope_overlay.py --source "$root" --out-manifest evidence/P1_PRE_SECOND_TEMPORAL_GATE.json
+          python tools/c3x_019_tt_raw_bytes_shadow_writer_orthogonal_overlay.py --source "$root" --out-manifest evidence/C3X019_ORTHOGONAL_WRITER_STATE.json
+          python tools/c3x_019_actual_native_tt_eval_use_source_witness.py --source "$root" --out-manifest evidence/C3X019_NATIVE_EVAL_USE.json
+          python tools/c3x_019_native_TT_cutoff_actual_return_overlay.py --source "$root" --out-manifest evidence/C3X019_NATIVE_TT_CUTOFF_RETURN.json
+          python tools/c3x_019_root_return_one_site_rescue_overlay.py --source "$root" --out-manifest evidence/ONE_SITE_RETURN_MUTATION.json
+          python tools/c3x_020_multi_state_root_repair_overlay.py --source "$root" --out-manifest evidence/C3X020_MULTI_STATE_MUTATION.json
+          python tools/c3x_022_P2_R2_native_SEE_source_witness_overlay.py --source "$root" --out-manifest evidence/C3X022_R2_NATIVE_SEE_FOUR_SOURCE_SITES.json
+          python tools/c3x_022_P2_R2_D1_rootcall_only_SEE_observer.py --source "$root" --out-manifest evidence/C3X022_R2_D1_DESCENDANT_READONLY.json
+          python tools/c3x_023_P1_native_SEE_parent_path_key_overlay.py --source "$root" --out-manifest evidence/C3X023_P1_MAIN_QSEARCH_ANCESTRY_KEYPATH.json
+          git -C "$root" diff -- src/ > /tmp/C3X023_GPL_MODIFIED_ENGINE_SOURCE.diff
+          sha256sum /tmp/C3X023_GPL_MODIFIED_ENGINE_SOURCE.diff | awk '{print $1 "  GPL_DIFF_PRIVATE_NOT_UPLOADED"}' > evidence/MODIFIED_GPL_DIFF_SHA256.txt
+          make -s -C "$root/src" -j2 build ARCH=x86-64
+          sha256sum "$root/src/stockfish" | awk '{print $1 "  MODIFIED_ENGINE_BINARY_NOT_UPLOADED"}' > evidence/BINARY_SHA256.txt
+      - name: Native TT FIRST actual writer/reader and passive identical descendant SEE site comparison
+        run: |
+          set -euo pipefail
+          python -u harness/c3x_023_P1_R1_licensed32_TT_FIRST_native_common_SEE_node_court.py \
+            --source source/C3X023_P1_MAY_BROADCAST_CC0_NONMATE32_SOURCE_ONLY.json \
+            --stagea stageA/C3X023_P1_LICENSED32_STAGEA_NO_V_NODEPATH.json \
+            --forecasts c3x/forecasts/c3x-023-P1-licensed-May-CC0-32game-M0-M1-literal-UCI-source-first-preTT-20261010.json \
+            --engine /tmp/C3X020_MULTI_STATE/src/stockfish \
+            --out private/C3X023_P1_R1_NATIVE_TT_FIRST_PASSIVE_SEE_COMMON_NODE_FULL.json | tee private/AGGREGATE_STDOUT.txt
+          python - <<'PY'
+          import json,hashlib
+          from pathlib import Path
+          raw=Path('private/C3X023_P1_R1_NATIVE_TT_FIRST_PASSIVE_SEE_COMMON_NODE_FULL.json')
+          d=json.loads(raw.read_bytes())
+          a=d['summary']
+          assert a['licensed_distinct_chess_positions']==32
+          assert a['eligible_source_roles_preregistered']==124
+          assert a['SEE_Boolean_interventions']==0
+          public=Path('public');public.mkdir(exist_ok=True)
+          report={
+            "schema":"c3x023-P1-R1-source-exact-TT-first-licensed-chess-common-SEE-public-aggregate-v1",
+            "study":"INDEPENDENT_LICENSED32_SOURCE_GIT_PRECOMMITTED_M0_M1",
+            "official_source_license_notices":["2026-05 Lichess broadcast CC BY-SA 4.0","Lichess puzzles CC0"],
+            "frozen_licensed32_SHA256":"0ff43e28dcb3a5e48dea6b61e4450fc8bb9e1f96363871c33c4b73524664db61",
+            "frozen_noV_stageA_SHA256":"fe88afe49d7d43db7b81c37decab783f2b68311ed2ca10b6f42be4268bdb3442",
+            "exact_UCI_forecast_git_commit":"0afd6ebe446809b3b4a4f99e6778b60f69acc11d",
+            "private_full_source_result_SHA256":hashlib.sha256(raw.read_bytes()).hexdigest(),
+            "source_common_SEE_and_TT_aggregate":a,
+            "native_SEE_return_values_changed":0,
+            "common_node_match_is_not_natural_mediation_proof":True,
+            "individual_game_position_and_source_paths_publicly_redacted":True,
+            "modified_Stockfish_GPL_binary_not_distributed":True,
+            "rights_scan_is_not_general_legal_opinion":True}
+          (public/'C3X023_P1_R1_NATIVE_COMMON_SEE_TT_AGGREGATE.json').write_text(json.dumps(report,sort_keys=True,indent=2)+'\n')
+          print('C3X023_P1_R1_NATIVE_COMMON_SEE_TT_ROOT_AGGREGATE',a)
+          PY
+      - name: Fail-closed 0.23 third-party source and rights byte scan before publication
+        run: |
+          set -euo pipefail
+          python tools/c3x_023_rights_preupload_gate.py \
+            --tier P2_AGGREGATE_SUMMARY \
+            --file public/C3X023_P1_R1_NATIVE_COMMON_SEE_TT_AGGREGATE.json \
+            --report public/C3X023_R1_PRE_PUBLIC_RIGHTS_SCAN.json
+          echo 'Lichess May2026 broadcast research source https://database.lichess.org/broadcast/lichess_db_broadcast_2026-05.pgn.zst ; credit Lichess broadcasters CC BY-SA 4.0 https://creativecommons.org/licenses/by-sa/4.0/ ; adapted chess positions and native causal search counts, original players/PGN omitted. Lichess puzzle control CC0 https://database.lichess.org/lichess_db_puzzle.csv.zst. Do not redistribute TWIC or a modified GPLv3 engine binary. Individual source identities and exact chess positions are not in this aggregate.' > public/SOURCE_LICENSE_NOTICE.txt
+      - name: Immutable artifact SHA256 and private source hashes only
+        if: always()
+        run: |
+          mkdir -p public
+          if [ -s private/C3X023_P1_R1_NATIVE_TT_FIRST_PASSIVE_SEE_COMMON_NODE_FULL.json ]; then
+            sha256sum private/C3X023_P1_R1_NATIVE_TT_FIRST_PASSIVE_SEE_COMMON_NODE_FULL.json | awk '{print $1 "  INTERNAL_NATIVE_SOURCE_DETAILS_NOT_PUBLISHED"}' > public/PRIVATE_RESULT_SHA256_POINTER.txt
+          fi
+          find public -maxdepth 1 -type f ! -name MEMBER_SHA256.txt -print0 | sort -z | xargs -0 -r sha256sum > public/MEMBER_SHA256.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x-023-P1-R1-native-124-TT-first-common-SEE-rights-audited-aggregate
+          path: public/
+          retention-days: 90
+          if-no-files-found: error
