@@ -1,0 +1,89 @@
+{
+  "schema": "c3x023-P1-R2-T0-postsource-native-TT-first-to-common-SEE-temporal-necessity-v1",
+  "date": "2026-10-11",
+  "status": "CHRONOLOGICALLY_ORDERED_COMMON_SEE_NATIVE_SOURCE_OBSERVED_IN_DEVELOPMENT__NOT_NATURAL_MEDIATION",
+  "precommit": "c3x/ontology/c3x-023-P1-R2-T0-chronological-SEE-after-TT-preactuator-development-protocol.md",
+  "precommit_commit": "5dab9739ef1fa94c49ef32137afa86ec1e2f8a80",
+  "source_native_R1_actions_run": 38062242676,
+  "treated_native_R2_T0_actions_run": 38062834067,
+  "actions_url": "https://github.com/WhoSia/C3X/actions/runs/38062834067",
+  "conclusion": "success",
+  "original_S0_source_SHA256": "0ff43e28dcb3a5e48dea6b61e4450fc8bb9e1f96363871c33c4b73524664db61",
+  "original_stageA_noV_SHA256": "fe88afe49d7d43db7b81c37decab783f2b68311ed2ca10b6f42be4268bdb3442",
+  "selected_scope": "POST-R1 DEVELOPMENT: Four known May broadcast root games with final move changes, game IDs 1,8,11,12, plus game IDs 2,3 no-flip controls; no new heldout inference",
+  "frozen_selected_root_cells": [
+    {
+      "game_id": 1,
+      "order": "O",
+      "role": "STRICT",
+      "native_real_postTT_source_SEE_events": 1,
+      "bestmove_changed": true,
+      "status": "POST_TT_SOURCE_COMMON"
+    },
+    {
+      "game_id": 8,
+      "order": "O",
+      "role": "BROAD",
+      "native_real_postTT_source_SEE_events": 0,
+      "bestmove_changed": true,
+      "status": "CENSORED_HOLD"
+    },
+    {
+      "game_id": 11,
+      "order": "F",
+      "role": "STRICT",
+      "native_real_postTT_source_SEE_events": 4,
+      "bestmove_changed": true,
+      "status": "POST_TT_SOURCE_COMMON"
+    },
+    {
+      "game_id": 12,
+      "order": "F",
+      "role": "STRICT",
+      "native_real_postTT_source_SEE_events": 2,
+      "bestmove_changed": true,
+      "status": "POST_TT_SOURCE_COMMON"
+    },
+    {
+      "game_id": 2,
+      "order": "O",
+      "role": "STRICT",
+      "native_real_postTT_source_SEE_events": 14,
+      "bestmove_changed": false,
+      "status": "POST_TT_SOURCE_COMMON_COUNTEREXAMPLE"
+    },
+    {
+      "game_id": 3,
+      "order": "O",
+      "role": "STRICT",
+      "native_real_postTT_source_SEE_events": 0,
+      "bestmove_changed": false,
+      "status": "CENSORED_HOLD"
+    }
+  ],
+  "observed": {
+    "native_exact_first_TT_reader_blocks": 6,
+    "source_cold_duplicates_all": true,
+    "native_SEE_Boolean_interventions": 0,
+    "unique_common_position_parent_path_move_site_threshold_SEE_source_events_after_real_native_TT_uses_AND_counterfactual_block_count": 21,
+    "development_case_count": 6,
+    "case_count_with_at_least_one_after_TT_source_common_event": 4,
+    "case_count_with_first32_prefix_censored": 2,
+    "changed_final_bestmove_case_count": 4,
+    "nochange_control_with_14_afterTT_common_SEE_source_events": true
+  },
+  "method": "UCI synchronized source-line ordinal in single-thread Stockfish16 is monotonic for emitted native TT score-as-eval use, source verified writer->reader block and unchanged SEE events, with parent/ancestor-path native source signature unique on both untreated and intervened branches; first32 watcher cap and rootcall-based source scope unchanged.",
+  "analysis": "Temporal ordering eliminates SEE calls that occurred before selected TT operator, but a common event after TT is NOT sufficient to cause changed root bestmove; game2 control shows 14 common events and no bestmove flip. No native search depth/ply/alpha/beta/occupied equality yet, no actual SEE operator intervention, cannot assert natural mediation.",
+  "results_artifact": {
+    "id": 11672939335,
+    "name": "c3x-023-P1-R2-T0-six-development-TT-after-SEE-temporal-rights-summary",
+    "zip_SHA256": "8f21dd3ae75c7876fb9bacdf5a8268e2b29716eef56e163a3abf417081e66e65",
+    "public_aggregate_SHA256": "7d05b60115fa6fdb6fee69ee696811153aec37e3a4bdfbc72ec3db65e9d86c3b",
+    "private_full_native_chronology_SHA256": "d1756ea9daf0986d58d7e7d4c7f2acd38872908f51b11216192b2d66d2816a0d",
+    "published_member_SHA256_checked": 4,
+    "raw_per_game_FEN_and_original_source_PGN_distributed": false,
+    "rights_preupload_scan": "SCAN_PASS_NOT_A_LEGAL_LICENSE"
+  },
+  "scientific_verdict": "SOURCE_CHRONOLOGY_NECESSARY_CONDITION_SUCCESS_DEVELOPMENT; NATURAL_MEDIATION_NOT_IDENTIFIED, PREEXISTING_M1_FAIL_UNCHANGED",
+  "next": "T1 passive score-window/computational-state matching (ply/depth/alpha/beta/PV, occupied attacker, source event serial; actual TT value use vs cutoff), then only a separately preregistered same-node/source-specific SEE actuator with sham/cold controls. New M3 forecasts must use later heldout ecology."
+}
