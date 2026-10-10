@@ -46,6 +46,9 @@ SECOND = r"""
                     << " index=" << moveCount
                     << " alpha=" << int(alpha)
                     << " beta=" << int(beta)
+                    << " candidate_update_gate=" << int(moveCount == 1 || int(value) > int(alpha))
+                    << " alpha_improvement_gate=" << int(int(value) > int(alpha))
+                    << " beta_boundary_gate=" << int(int(value) >= int(beta))
                     << " before=" << before
                     << " after=" << int(value)
                     << " expected=" << expected
