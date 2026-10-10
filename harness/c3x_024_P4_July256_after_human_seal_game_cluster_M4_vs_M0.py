@@ -6,7 +6,7 @@ import argparse,glob,hashlib,json,random,math
 from pathlib import Path
 from collections import Counter
 MODELS=("M0","M1","M2_depth11","M3_v1","M3_v2","M4_survivor")
-def audit(directory):
+def audit(directory,seal_path='c3x/forecasts/c3x-024-P4-July2025-256game-1024role-six-model-literal-UCI-before-FIRST-human-Git-seal-20261011.json'):
     paths=sorted(glob.glob(str(Path(directory)/"C3X024_P4_TREATED_SHARD_*.json")))
     if len(paths)!=4:raise ValueError("P4_NOT_ALL_FOUR_PRESEALED_SHARDS_SUCCESSFUL")
     allrows=[]
@@ -15,7 +15,7 @@ def audit(directory):
         data=json.loads(raw)
         if data["schema"]!="c3x024-P4-256game-human-Git-presealed-six-model-physical-TT-FIRST-shard-v1" or data["shard"]!=shard or data["case_range"]!=[shard*64+1,(shard+1)*64] or data["source_games"]!=64 or data["potential_roles"]!=256:
             raise ValueError("P4_WRONG_SHARD_OR_PRIOR_SOURCE")
-        seal=json.loads(Path("c3x/forecasts/c3x-024-P4-July2025-256game-1024role-six-model-literal-UCI-before-FIRST-human-Git-seal-20261011.json").read_text())
+        seal=json.loads(Path(seal_path).read_text())
         if data["model_forecast_source_SHA256"]!=seal["forecast_raw_SHA256"] or data["untreated_stageA_SHA256"]!=seal["stageA_untreated_raw_SHA256"] or data["original_source_JSON_SHA256"]!=seal["source_JSON_SHA256"]:
             raise ValueError("P4_ORIGINAL_HUMAN_SEAL_SHA_MISMATCH")
         if data["treated_SEE_Boolean_flips"]!=0:raise ValueError("P4_SEE_FORCED_INTERVENTION_FORBIDDEN")
@@ -24,13 +24,13 @@ def audit(directory):
             if row["game_id"]!=len(allrows)+1 or len(row["roles"])!=4:
                 raise ValueError("P4_GAME_IDS_OUT_OF_ORDER_OR_MISSING_ROLES")
             allrows.append(row)
-    if len(allrows)!=256:raise ValueError("P4_NOT_128_INDEPENDENT_GAME_ROWS")
+    if len(allrows)!=256:raise ValueError("P4_NOT_256_SOURCE_GAME_ROWS")
     roles=[(g["game_id"],c) for g in allrows for c in g["roles"]]
-    if len(roles)!=1024:raise ValueError("P4_NOT_512_TOTAL_PREDECLARED_ROLES")
+    if len(roles)!=1024:raise ValueError("P4_NOT_1024_TOTAL_PREDECLARED_ROLES")
     hold=[x for _,x in roles if x["status"]=="PRESEALED_INELIGIBLE_NO_FIRST_READER"]
     contact=[(g,x) for g,x in roles if x["status"]=="REAL_NATIVE_PHYSICAL_TT_FIRST"]
     no=[x for _,x in roles if x["status"]=="NO_CONTACT_HOLD"]
-    seal=json.loads(Path('c3x/forecasts/c3x-024-P4-July2025-256game-1024role-six-model-literal-UCI-before-FIRST-human-Git-seal-20261011.json').read_text())
+    seal=json.loads(Path(seal_path).read_text())
     if len(hold)!=seal['prior_HOLD_roles'] or len(contact)+len(no)!=seal['eligible_first_reader_role_cells']:
         raise ValueError("P4_REAL_CONTACT_AND_PRE_FIRST_ELIGIBILITY_DRIFT")
     if any(x["treated_bestmove"] is not None or x["cold_pairs_checked"]!=0 for x in hold):
