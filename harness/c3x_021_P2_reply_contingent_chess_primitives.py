@@ -84,7 +84,7 @@ def pair_profile(fen4,f,v):
     }
 
 def join(march,atomic):
-    if len(march["selected"])!=len(atomic["positions"])!=16:
+    if len(march["selected"]) != 16 or len(atomic["positions"]) != 16:
         raise ValueError("P2_MARCH_SOURCE_DENOMINATOR")
     result={"schema":"c3x021-P2-legal-response-contingent-chess-decision-primitives-v1",
             "status":"ENGINE_FREE_RETROSPECTIVELY_SELECTED_P1_ROOT_CHOICE_CONTRAST",
