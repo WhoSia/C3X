@@ -38,7 +38,7 @@ def core(raw, search_depth=12):
     need(len(best)==1 and best[0]==rows[-1]["pv"][0], "MISSING_BESTMOVE")
     return {"bestmove":best[0],**rows[-1]}
 
-def play(engine, world, p4_mode, lineage_mode=None, target=None, writer_budget=None, rescue_attempt=None, discovery=False, history=False, fen_clocks=None, search_depth=12, draw_mode=None, tt_reader_filters=None, probe_watch=None, p1_writer=None, native_use_watch=None, passive_second_call=None, root_return=None, multi_state=None, root_searchmoves=None, allow_empty_lineage=False, see_watch=None, ordered_source_trace=False, t2_target=None, t3_target=None, t3_policy=None, t4_branch_audit=False, p2_descendant_audit=False, p2_root_ancestor_audit=False):
+def play(engine, world, p4_mode, lineage_mode=None, target=None, writer_budget=None, rescue_attempt=None, discovery=False, history=False, fen_clocks=None, search_depth=12, draw_mode=None, tt_reader_filters=None, probe_watch=None, p1_writer=None, native_use_watch=None, passive_second_call=None, root_return=None, multi_state=None, root_searchmoves=None, allow_empty_lineage=False, see_watch=None, ordered_source_trace=False, t2_target=None, t3_target=None, t3_policy=None, t4_branch_audit=False, p2_descendant_audit=False, p2_root_ancestor_audit=False, allow_source_trace_censored=False):
     if see_watch is not None:
         need(isinstance(see_watch,dict)
              and set(see_watch) in ({"key64","root_call","policy"}, {"key64","root_call","policy","passive_ancestry"}, {"key64","root_call","policy","passive_ancestry","descendant_prune_flip"})
@@ -337,7 +337,7 @@ def play(engine, world, p4_mode, lineage_mode=None, target=None, writer_budget=N
             evt=parse_fields(line)
             events.append({k:(v if k in ("kind","site","t1_path") else int(v)) for k,v in evt.items()})
     need(events or allow_empty_lineage, "NO_LINEAGE_EVENTS")
-    need(not any(x["kind"]=="trace_censored" for x in events), "TRACE_CENSORED")
+    need(allow_source_trace_censored or not any(x["kind"]=="trace_censored" for x in events), "TRACE_CENSORED")
     fingerprints=[]
     for line in lines:
         if line.startswith("info string c3x018_write_fingerprint "):
