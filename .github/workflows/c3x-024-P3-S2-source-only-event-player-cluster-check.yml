@@ -1,0 +1,47 @@
+name: C3X 0.24 P3 S2 Source Only Event Player Correlation Audit for 128 Games
+on:
+  push:
+    paths:
+      - '.github/workflows/c3x-024-P3-S2-source-only-event-player-cluster-check.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  anonymous-source-clusters-no-native:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Strict only 128 sealed SHA identities and original source no engine
+        run: |
+          set -euo pipefail
+          python -m pip install -q chess==1.11.2 zstandard==0.25.0
+          python -m py_compile harness/c3x_024_P3_S2_source_only_128_event_player_cluster_audit.py
+          python -c "import json;d=json.load(open('c3x/forecasts/c3x-024-P3-Sept2025-128game-source-SHA-literal-preNative-Git-seal-20261011.json')); assert len(d['ordered_source_game_SHA256'])==128 and d['source_only_zero_TT_FIRST_SEE_treatments']"
+          mkdir -p public
+      - name: Retrieve private official original Sep2025 compressed PGN and verify checksum
+        run: |
+          set -euo pipefail
+          curl -fL --retry 3 --max-time 450 -sS https://database.lichess.org/broadcast/lichess_db_broadcast_2025-09.pgn.zst -o /tmp/C3X024_P3_S2_ORIG.pgn.zst
+          test "$(sha256sum /tmp/C3X024_P3_S2_ORIG.pgn.zst | awk '{print $1}')" = da3a261e926a2c0f5e79c393818e643d76448edf94cfdaefa3892258a6f9e7ba
+      - name: Source-only anonymized event player repetition count for fixed 128 game IDs
+        run: |
+          set -euo pipefail
+          python -u harness/c3x_024_P3_S2_source_only_128_event_player_cluster_audit.py --zst /tmp/C3X024_P3_S2_ORIG.pgn.zst --out public/C3X024_P3_S2_128_GAME_CLUSTER_DIVERSITY.json
+          python tools/c3x_023_rights_preupload_gate.py --tier P2_AGGREGATE_SUMMARY --file public/C3X024_P3_S2_128_GAME_CLUSTER_DIVERSITY.json --report public/RIGHTS_SOURCE_CLUSTER_SCAN.json
+          echo 'Source: Lichess 2025-09 broadcast CC BY-SA 4.0 https://database.lichess.org/broadcast/lichess_db_broadcast_2025-09.pgn.zst https://creativecommons.org/licenses/by-sa/4.0/ ; descriptive cluster counts only; no original headers, player names, original moves, PGNs or identifying hashes distributed.' > public/SOURCE_LICENSE_ATTRIBUTION_NOTICE.txt
+      - name: Member SHA256 for rights-scoped public output
+        if: always()
+        run: |
+          mkdir -p public
+          find public -maxdepth 1 -type f ! -name MEMBER_SHA256.txt -print0 | sort -z | xargs -0 -r sha256sum > public/MEMBER_SHA256.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x-024-P3-S2-128-original-source-anonymous-event-player-cluster-aggregate
+          path: public/
+          retention-days: 90
+          if-no-files-found: error
