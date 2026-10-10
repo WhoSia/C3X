@@ -1,0 +1,60 @@
+name: C3X 0.22 P2 TWIC16 and Puzzle16 All Legal Source Decision Primitives
+on:
+  push:
+    paths:
+      - '.github/workflows/c3x-022-P2-TWIC-puzzles-primitive-source-freeze.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  all-twic-puzzle-actions-source-only:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Legal chess primitive source-only negative tests
+        run: |
+          python -m pip install -q chess==1.11.2
+          python -m unittest discover -s tools -p 'test_c3x_022_P0_april_primitives.py' -v
+          python -m unittest discover -s tools -p 'test_c3x_022_P2_external_primitives.py' -v
+          python -m py_compile harness/c3x_022_P2_external_preengine_chess_decision_primitives.py
+      - name: TWIC1656 and puzzle32 source never seen by Stockfish
+        uses: actions/download-artifact@v4
+        with:
+          name: c3x-022-P2-TWIC1656-LichessPuzzle-engineblind-source32
+          path: two_ecologies/
+          repository: WhoSia/C3X
+          run-id: '38047000932'
+          github-token: ${{ github.token }}
+      - name: SHA-verify source 32 and freeze EVERY Standard Chess legal root action before native scout
+        run: |
+          set -euo pipefail
+          mkdir -p evidence
+          test "$(sha256sum two_ecologies/C3X022_P2_TWIC1656_PUZZLE_SOURCE32.json | cut -d' ' -f1)" = ebe6648f43f64c6f31e0d547845bec3d87c663093fd68298acf2ebe4c0287554
+          python -u harness/c3x_022_P2_external_preengine_chess_decision_primitives.py \
+            --source two_ecologies/C3X022_P2_TWIC1656_PUZZLE_SOURCE32.json \
+            --out evidence/C3X022_P2_TWIC_PUZZLE_ALL_LEGAL_CHESS_PRIMITIVES.json | tee evidence/ENGINE_FREE_PRIMITIVES_STDOUT.txt
+          python - <<'PY'
+          import json
+          d=json.load(open("evidence/C3X022_P2_TWIC_PUZZLE_ALL_LEGAL_CHESS_PRIMITIVES.json"))
+          assert d['summary']['source_positions']==32
+          assert len(d["ecologies"]["twic"]["selected"])==16
+          assert len(d["ecologies"]["lichess_puzzles"]["selected"])==16
+          print("C3X022_P2_TWIC_PUZZLE_CHESS_PRIMITIVES_BEFORE_NATIVE_PASS",
+                d['summary']['all_legal_chess_root_actions'])
+          PY
+      - name: Immutable member SHA even under technical failure
+        if: always()
+        run: |
+          mkdir -p evidence
+          find evidence -maxdepth 1 -type f ! -name MEMBER_SHA256.txt -print0 | sort -z | xargs -0 -r sha256sum > evidence/MEMBER_SHA256.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x-022-P2-TWIC-puzzle32-all-legal-chess-primitives
+          path: evidence/
+          retention-days: 90
+          if-no-files-found: error
