@@ -1,0 +1,31 @@
+name: C3X 0.24 P3 Untreated Five Model M3v2 Rule Regression Only
+on:
+  push:
+    paths:
+      - '.github/workflows/c3x-024-P3-M3v2-preFIRST-rule-unit-tests.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  no-engine-no-treatment-rule-tests:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Offline predictor syntax and exact model rule controls
+        run: |
+          set -euo pipefail
+          python -m pip install -q chess==1.11.2
+          python -m py_compile harness/c3x_024_P3_Sep2025_128_preFIRST_M0_M1_M2_M3v1_M3v2.py
+          python -m unittest discover -s tools -p 'test_c3x_024_P3_M3v2_preFIRST_source_only_rule.py' -v
+          python - <<'PY'
+          import json
+          p='c3x/forecasts/c3x-024-P3-Sept2025-128game-source-SHA-literal-preNative-Git-seal-20261011.json'
+          d=json.load(open(p))
+          assert d['source_game_count']==128 and d['source_only_zero_TT_FIRST_SEE_treatments']
+          assert len(d['ordered_source_game_SHA256'])==128
+          print('C3X024_P3_M3V2_RULE_WITHOUT_TREATMENT_TESTS_PASS')
+          PY
