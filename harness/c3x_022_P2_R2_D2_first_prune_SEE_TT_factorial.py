@@ -99,7 +99,27 @@ def run(src,stageA,engine):
                   "SEE_modified":v["SEE_first_Boolean_intervention_count"],
                   "tt_reader_contact":v["physical_reader_block"]>0}
                for k,v in cells.items()},flush=True)
+    # Categorical terminal root-choice potentials. Keep per-game exact UCI
+    # in restricted raw results, never in the public aggregate.
+    categorical={}
+    for case in out["cases"]:
+        arm=case["factorial"]
+        base=arm["T0_S0"]["UCI"]["bestmove"]
+        tt=arm["T1_S0"]["UCI"]["bestmove"]
+        see=arm["T0_S1"]["UCI"]["bestmove"]
+        joint=arm["T1_S1"]["UCI"]["bestmove"]
+        categorical[case["game_id"]]={
+            "TT_only_changes_final_move":tt!=base,
+            "SEE_only_changes_final_move":see!=base,
+            "joint_changes_final_move":joint!=base,
+            "joint_differs_from_TT_only":joint!=tt,
+            "joint_differs_from_SEE_only":joint!=see,
+            "joint_novel_move_not_in_three_other_arms":joint not in (base,tt,see),
+        }
+    aggregate_changes={k:sum(x[k] for x in categorical.values())
+                       for k in next(iter(categorical.values()))}
     out["summary"]={"development_cases":len(CASES),
+     "categorical_final_move_changes_over_six_game_units":aggregate_changes,
      "complete_two_by_two_case_count":len(out["cases"]),
      "factorial_arms":len(CASES)*4,
      "TT_FIRST_arms_with_reader_contact":sum(
