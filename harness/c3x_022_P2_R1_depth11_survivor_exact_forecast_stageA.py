@@ -111,7 +111,7 @@ def study(source,primitives,engine):
                       "M2":{k:rv["M2"] for k,rv in row["worlds"][order]["role_forecasts"].items()}}
                for order in WORLDS},flush=True)
     out["summary"]={"games":16,"role_order_cells":64,
-       "eligible_first_TT_source_cells":sum(v["status"]!="NO_TREATMENT"
+       "eligible_first_TT_source_cells":sum(v["status"]=="FORECAST_REGISTERED_BEFORE_FIRST_TT_READER_BLOCK"
           for row in out["cases"] for w in row["worlds"].values()
           for v in w["role_forecasts"].values()),
        "O_F_baselines_disagree_games":sum(x["baseline_O_UCI"]["bestmove"]!=x["baseline_F_UCI"]["bestmove"]
