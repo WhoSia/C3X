@@ -1,0 +1,153 @@
+name: C3X 0.22 P2 Independent TWIC1656 and Lichess Puzzle Standard Chess Source Freeze
+on:
+  push:
+    paths:
+      - '.github/workflows/c3x-022-P2-TWIC1656-Lichess-puzzles-source-freeze.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  two-new-chess-ecologies-without-engines:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Strict source-only selector regressions (never install chess engine)
+        run: |
+          python -m pip install -q chess==1.11.2 zstandard==0.25.0
+          python -m py_compile harness/c3x_020_C_March2026_enginefree_blind16.py
+          python -m py_compile harness/c3x_022_P0_april2026_engineblind_source.py
+          python -m unittest discover -s tools -p 'test_c3x_022_P0_april_source.py' -v
+          python -m py_compile harness/c3x_022_P2_external_TWIC_puzzle_engineblind_selector.py
+          python -m unittest discover -s tools -p 'test_c3x_022_P2_external_sources.py' -v
+          python -m unittest discover -s tools -p 'test_c3x_020_C_March2026_enginefree_selector.py' -v
+      - name: October old source-only cohort
+        uses: actions/download-artifact@v4
+        with:
+          name: c3x-018-independent-PGN-blind-source-16
+          path: october/
+          repository: WhoSia/C3X
+          run-id: '37981820261'
+          github-token: ${{ github.token }}
+      - name: November old source-only cohort
+        uses: actions/download-artifact@v4
+        with:
+          name: c3x-018-november-blind12-chess-source
+          path: november/
+          repository: WhoSia/C3X
+          run-id: '37985213908'
+          github-token: ${{ github.token }}
+      - name: December old source-only cohort
+        uses: actions/download-artifact@v4
+        with:
+          name: c3x-018-december2025-blind12-source
+          path: december/
+          repository: WhoSia/C3X
+          run-id: '37987794988'
+          github-token: ${{ github.token }}
+      - name: January old source-only cohort
+        uses: actions/download-artifact@v4
+        with:
+          name: c3x-018-january2026-cross-window-blind16-source
+          path: january/
+          repository: WhoSia/C3X
+          run-id: '37991871987'
+          github-token: ${{ github.token }}
+      - name: February original independent source-only cohort
+        uses: actions/download-artifact@v4
+        with:
+          name: c3x-019-february2026-writer-version-blind16-source
+          path: february/
+          repository: WhoSia/C3X
+          run-id: '37998190878'
+          github-token: ${{ github.token }}
+      - name: March source-only independent history for April disjointness
+        uses: actions/download-artifact@v4
+        with:
+          name: c3x-020-C2-march2026-enginefree-blind16-source
+          path: march/
+          repository: WhoSia/C3X
+          run-id: '38038059013'
+          github-token: ${{ github.token }}
+      - name: April 2026 previously frozen independent games from before P2
+        uses: actions/download-artifact@v4
+        with:
+          name: c3x-022-P0-april2026-engineblind-source16
+          path: april/
+          repository: WhoSia/C3X
+          run-id: '38045636805'
+          github-token: ${{ github.token }}
+      - name: Verify original historical materials before blind extraction
+        run: |
+          set -euo pipefail
+          mkdir -p evidence
+          test "$(sha256sum october/C3X018_INDEPENDENT_BLIND16_PGN_SOURCE.json | cut -d' ' -f1)" = 6520672aabab7f525872169085f19bdd81e27a4473f0c58ba9c9aa428937104c
+          test "$(sha256sum november/C3X018_NOVEMBER_12_BLIND_GAMES.json | cut -d' ' -f1)" = 2971fe617f39fbba6d40fb0b09d8a18ce247d5865dc807fcdab9a594e3473402
+          test "$(sha256sum december/C3X018_DECEMBER12_INDEPENDENT_GAMES.json | cut -d' ' -f1)" = 51366a480fe2631005dbded7992e870443ef6dd2dfd785fd10952d6eeff5e7cd
+          test "$(sha256sum january/C3X018_JAN26_BLIND16_SOURCE.json | cut -d' ' -f1)" = 5b49818e4678c12d0e5e73eba39eff2d50742b070a0ed870cba1d3e94afe0533
+          test "$(sha256sum february/C3X019_FEB26_BLIND16_SOURCE.json | cut -d' ' -f1)" = 2942b1933030227f36b669faff41f15ff234c27127dbf2403bf2e8e4f12ebdc8
+          test "$(sha256sum march/C3X020_C2_MARCH_BLIND16_SOURCE.json | cut -d' ' -f1)" = d79e48633be2b683176f1a6d4650aeea1b7584f11c85c2349a5bddda113febee
+          test "$(sha256sum april/C3X022_P0_APRIL16_SOURCE.json | cut -d' ' -f1)" = 0e5516fc0cd49203bf7cc366f4133d6c9b20a2f21de0667468f121e398d2fa93
+      - name: Fetch original TWIC1656 PGN ZIP for internal source inspection only
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/C3X022_P2_SOURCES evidence
+          curl -fL --retry 3 --max-time 180 -sS https://theweekinchess.com/zips/twic1656g.zip -o /tmp/C3X022_P2_SOURCES/twic1656g.zip
+          test -s /tmp/C3X022_P2_SOURCES/twic1656g.zip
+          python - <<'PY'
+          import zipfile
+          f='/tmp/C3X022_P2_SOURCES/twic1656g.zip'
+          with zipfile.ZipFile(f) as z:
+              assert any(x.lower().endswith('.pgn') for x in z.namelist())
+              print('TWIC1656_PGN_ZIP_VALID_FOR_INTERNAL_ANALYSIS_ONLY')
+          PY
+          sha256sum /tmp/C3X022_P2_SOURCES/twic1656g.zip > evidence/TWIC1656_OFFICIAL_ZIP_SHA256.txt
+      - name: Fetch full official open Lichess puzzle CSV snapshot and freeze its file hash
+        run: |
+          set -euo pipefail
+          curl -fL --retry 3 --max-time 600 -sS https://database.lichess.org/lichess_db_puzzle.csv.zst -o /tmp/C3X022_P2_SOURCES/lichess_db_puzzle.csv.zst
+          test -s /tmp/C3X022_P2_SOURCES/lichess_db_puzzle.csv.zst
+          sha256sum /tmp/C3X022_P2_SOURCES/lichess_db_puzzle.csv.zst > evidence/LICHESS_PUZZLE_ORIGINAL_SNAPSHOT_SHA256.txt
+      - name: Extract distinct TWIC and genuine Lichess puzzle solver boards before any native Stockfish
+        run: |
+          set -euo pipefail
+          python -u harness/c3x_022_P2_external_TWIC_puzzle_engineblind_selector.py \
+            --twic /tmp/C3X022_P2_SOURCES/twic1656g.zip \
+            --puzzles /tmp/C3X022_P2_SOURCES/lichess_db_puzzle.csv.zst \
+            --prior c3x/cohorts/c3x-016-P4-12-independent-Lichess-legal-root-order-sourceonly-frozen.json \
+            --october october/C3X018_INDEPENDENT_BLIND16_PGN_SOURCE.json \
+            --november november/C3X018_NOVEMBER_12_BLIND_GAMES.json \
+            --december december/C3X018_DECEMBER12_INDEPENDENT_GAMES.json \
+            --january january/C3X018_JAN26_BLIND16_SOURCE.json \
+            --february february/C3X019_FEB26_BLIND16_SOURCE.json \
+            --march march/C3X020_C2_MARCH_BLIND16_SOURCE.json \
+            --april april/C3X022_P0_APRIL16_SOURCE.json \
+            --out evidence/C3X022_P2_TWIC1656_PUZZLE_SOURCE32.json | tee evidence/ENGINE_FREE_SOURCE_STDOUT.txt
+          python - <<'PY'
+          import json
+          x=json.load(open("evidence/C3X022_P2_TWIC1656_PUZZLE_SOURCE32.json"))
+          assert x["engine_calls_during_source_freeze"]==0 and x["selected_count"]==32
+          a=x["ecologies"]["twic"]["selected"]
+          b=x["ecologies"]["lichess_puzzles"]["selected"]
+          assert len(a)==len(b)==16
+          assert len({r["fen4"] for r in a+b})==32
+          assert all(r["source_root_legal_count"]>=3 for r in a+b)
+          assert all("full_original_mainline_uci" not in r for r in a)
+          assert all("full_original_mainline_uci" not in r for r in b)
+          print("C3X022_P2_TWO_INDEPENDENT_CHESS_SOURCES_SEALED",len(a),len(b))
+          PY
+      - name: Preserve SHA-256 of every member including negative outcomes
+        if: always()
+        run: |
+          mkdir -p evidence
+          find evidence -maxdepth 1 -type f ! -name MEMBER_SHA256.txt -print0 | sort -z | xargs -0 -r sha256sum > evidence/MEMBER_SHA256.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x-022-P2-TWIC1656-LichessPuzzle-engineblind-source32
+          path: evidence/
+          retention-days: 90
+          if-no-files-found: error
