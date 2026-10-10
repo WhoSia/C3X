@@ -38,7 +38,7 @@ def core(raw, search_depth=12):
     need(len(best)==1 and best[0]==rows[-1]["pv"][0], "MISSING_BESTMOVE")
     return {"bestmove":best[0],**rows[-1]}
 
-def play(engine, world, p4_mode, lineage_mode=None, target=None, writer_budget=None, rescue_attempt=None, discovery=False, history=False, fen_clocks=None, search_depth=12, draw_mode=None, tt_reader_filters=None, probe_watch=None, p1_writer=None, native_use_watch=None, passive_second_call=None, root_return=None):
+def play(engine, world, p4_mode, lineage_mode=None, target=None, writer_budget=None, rescue_attempt=None, discovery=False, history=False, fen_clocks=None, search_depth=12, draw_mode=None, tt_reader_filters=None, probe_watch=None, p1_writer=None, native_use_watch=None, passive_second_call=None, root_return=None, multi_state=None):
     need(isinstance(search_depth,int) and 1<=search_depth<=32,"INVALID_SEARCH_DEPTH")
     env = dict(os.environ)
     return_env={
@@ -75,6 +75,49 @@ def play(engine, world, p4_mode, lineage_mode=None, target=None, writer_budget=N
              and -32000<root_return["expected"]<32000,
              "ROOT_RETURN_BOUNDS")
         env[return_env["mode"]]=root_return["mode"]
+    c3x020_second = {
+        "depth":"C3X020_SECOND_DEPTH", "root_call":"C3X020_SECOND_ROOT_CALL",
+        "trial":"C3X020_SECOND_TRIAL", "move":"C3X020_SECOND_MOVE",
+        "index":"C3X020_SECOND_INDEX", "alpha":"C3X020_SECOND_ALPHA",
+        "beta":"C3X020_SECOND_BETA", "expected":"C3X020_SECOND_EXPECTED",
+        "target":"C3X020_SECOND_TARGET", "mode":"C3X020_SECOND_MODE"}
+    c3x020_boundary = {
+        "depth":"C3X020_BOUNDARY_DEPTH", "move":"C3X020_BOUNDARY_MOVE",
+        "expect_score":"C3X020_BOUNDARY_EXPECT_SCORE",
+        "expect_average":"C3X020_BOUNDARY_EXPECT_AVERAGE",
+        "target_score":"C3X020_BOUNDARY_TARGET_SCORE",
+        "target_average":"C3X020_BOUNDARY_TARGET_AVERAGE",
+        "mode":"C3X020_BOUNDARY_MODE"}
+    for key in (*c3x020_second.values(), *c3x020_boundary.values()):
+        env.pop(key,None)
+    if multi_state is not None:
+        need(isinstance(multi_state,dict)
+             and set(multi_state)=={"second","boundary"}, "C3X020_STRICT_TOP_LEVEL")
+        for which,mapping,modes in (
+            ("second",c3x020_second,("OBS","REPAIR")),
+            ("boundary",c3x020_boundary,("O","A","S","B"))):
+            values=multi_state[which]
+            if values is None:
+                continue
+            need(isinstance(values,dict) and set(values)==set(mapping),
+                 "C3X020_STRICT_"+which)
+            need(values["mode"] in modes, "C3X020_INVALID_MODE_"+which)
+            need(all(type(v) is int for k,v in values.items() if k!="mode"),
+                 "C3X020_INVALID_TYPE_"+which)
+            need(1 <= values["depth"] <= search_depth and
+                 0 <= values["move"] <= 65535, "C3X020_BOUNDS_"+which)
+            for k in values:
+                if k=="mode":
+                    continue
+                if k in ("expected","target","expect_score","expect_average",
+                         "target_score","target_average"):
+                    need(-32001<=values[k]<=32001,"C3X020_VALUE_RANGE_"+k)
+            if which=="second":
+                need(values["root_call"]>0 and values["trial"]>0
+                     and values["index"]>0 and values["alpha"]<values["beta"],
+                     "C3X020_SECOND_COORDINATES")
+            for k,v in values.items():
+                env[mapping[k]]=str(v)
     for key in ("C3X019_NATIVE_USE_WATCH_KEY64","C3X019_NATIVE_USE_WATCH_ROOT_CALL","C3X019_PASSIVE_SECOND_ROOT_CALL"):
         env.pop(key,None)
     if native_use_watch is not None:
@@ -236,6 +279,17 @@ def play(engine, world, p4_mode, lineage_mode=None, target=None, writer_budget=N
             fields=parse_fields(line)
             root_return_events.append({k:(v if k=="kind" else int(v))
                                        for k,v in fields.items()})
+    second_return_events=[]
+    boundary_state_events=[]
+    for line in lines:
+        if line.startswith("info string c3x020_second "):
+            fields=parse_fields(line)
+            second_return_events.append({
+                k:(v if k=="kind" else int(v)) for k,v in fields.items()})
+        if line.startswith("info string c3x020_boundary "):
+            fields=parse_fields(line)
+            boundary_state_events.append({
+                k:(v if k=="kind" else int(v)) for k,v in fields.items()})
     root_events=[]
     for line in lines:
         if line.startswith("info string c3x017_root_event "):
@@ -269,6 +323,8 @@ def play(engine, world, p4_mode, lineage_mode=None, target=None, writer_budget=N
        "p0_save_events":p0_save_events,
        "root_events":root_events,
        "root_return_events":root_return_events,
+       "second_return_events":second_return_events,
+       "boundary_state_events":boundary_state_events,
        "root_contact":roots[0]}
 
 def stable(t):
