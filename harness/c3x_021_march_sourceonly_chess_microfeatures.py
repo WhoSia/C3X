@@ -32,7 +32,7 @@ def absolute_pins(board,color):
             out.append({"pinned_square":chess.square_name(sq),
                         "pinned_piece":chess.piece_name(piece.piece_type),
                         "king_square":chess.square_name(king),
-                        "legal_pin_line_mask":f"{mask:016x}"})
+                        "legal_pin_line_mask":f"{int(mask):016x}"})
     return sorted(out,key=lambda x:x["pinned_square"])
 
 def checks_and_captures(board):
@@ -54,7 +54,7 @@ def relative_pin_rays(board,color):
         if piece.color!=enemy or piece.piece_type not in (chess.BISHOP,chess.ROOK,chess.QUEEN):
             continue
         attacks=board.attacks(slider_sq)
-        for front in chess.scan_forward(attacks):
+        for front in attacks:
             f=board.piece_at(front)
             if f is None or f.color!=color or f.piece_type==chess.KING:
                 continue
@@ -90,7 +90,7 @@ def passed_pawns(board,color):
         f=chess.square_file(sq)
         rank=chess.square_rank(sq)
         passed=True
-        for opp in chess.scan_forward(their_pawns):
+        for opp in their_pawns:
             if abs(chess.square_file(opp)-f)>1:
                 continue
             ahead=(chess.square_rank(opp)>rank if color==chess.WHITE
