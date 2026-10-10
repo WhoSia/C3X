@@ -38,7 +38,7 @@ def core(raw, search_depth=12):
     need(len(best)==1 and best[0]==rows[-1]["pv"][0], "MISSING_BESTMOVE")
     return {"bestmove":best[0],**rows[-1]}
 
-def play(engine, world, p4_mode, lineage_mode=None, target=None, writer_budget=None, rescue_attempt=None, discovery=False, history=False, fen_clocks=None, search_depth=12, draw_mode=None, tt_reader_filters=None, probe_watch=None, p1_writer=None, native_use_watch=None, passive_second_call=None, root_return=None, multi_state=None, root_searchmoves=None):
+def play(engine, world, p4_mode, lineage_mode=None, target=None, writer_budget=None, rescue_attempt=None, discovery=False, history=False, fen_clocks=None, search_depth=12, draw_mode=None, tt_reader_filters=None, probe_watch=None, p1_writer=None, native_use_watch=None, passive_second_call=None, root_return=None, multi_state=None, root_searchmoves=None, allow_empty_lineage=False):
     need(isinstance(search_depth,int) and 1<=search_depth<=32,"INVALID_SEARCH_DEPTH")
     if root_searchmoves is not None:
         need(isinstance(root_searchmoves,(list,tuple)) and
@@ -248,7 +248,7 @@ def play(engine, world, p4_mode, lineage_mode=None, target=None, writer_budget=N
         if line.startswith("info string c3x018_lineage "):
             evt=parse_fields(line)
             events.append({k:(v if k in ("kind","site") else int(v)) for k,v in evt.items()})
-    need(events, "NO_LINEAGE_EVENTS")
+    need(events or allow_empty_lineage, "NO_LINEAGE_EVENTS")
     need(not any(x["kind"]=="trace_censored" for x in events), "TRACE_CENSORED")
     fingerprints=[]
     for line in lines:
