@@ -38,7 +38,13 @@ def core(raw, search_depth=12):
     need(len(best)==1 and best[0]==rows[-1]["pv"][0], "MISSING_BESTMOVE")
     return {"bestmove":best[0],**rows[-1]}
 
-def play(engine, world, p4_mode, lineage_mode=None, target=None, writer_budget=None, rescue_attempt=None, discovery=False, history=False, fen_clocks=None, search_depth=12, draw_mode=None, tt_reader_filters=None, probe_watch=None, p1_writer=None, native_use_watch=None, passive_second_call=None, root_return=None, multi_state=None, root_searchmoves=None, allow_empty_lineage=False):
+def play(engine, world, p4_mode, lineage_mode=None, target=None, writer_budget=None, rescue_attempt=None, discovery=False, history=False, fen_clocks=None, search_depth=12, draw_mode=None, tt_reader_filters=None, probe_watch=None, p1_writer=None, native_use_watch=None, passive_second_call=None, root_return=None, multi_state=None, root_searchmoves=None, allow_empty_lineage=False, see_watch=None):
+    if see_watch is not None:
+        need(isinstance(see_watch,dict)
+             and set(see_watch)=={"key64","root_call","policy"}
+             and isinstance(see_watch["key64"],int) and see_watch["key64"]>0
+             and isinstance(see_watch["root_call"],int) and see_watch["root_call"]>0
+             and see_watch["policy"] in ("OBS","FLIP"),"R2_SEE_SCOPE_INVALID")
     need(isinstance(search_depth,int) and 1<=search_depth<=32,"INVALID_SEARCH_DEPTH")
     if root_searchmoves is not None:
         need(isinstance(root_searchmoves,(list,tuple)) and
@@ -52,6 +58,13 @@ def play(engine, world, p4_mode, lineage_mode=None, target=None, writer_budget=N
     if root_searchmoves is not None:
         go_cmd+=" searchmoves "+" ".join(root_searchmoves)
     env = dict(os.environ)
+    for k in ("C3X022_R2_SEE_KEY64","C3X022_R2_SEE_ROOT_CALL",
+              "C3X022_R2_SEE_POLICY"):
+        env.pop(k,None)
+    if see_watch is not None:
+        env["C3X022_R2_SEE_KEY64"]=str(see_watch["key64"])
+        env["C3X022_R2_SEE_ROOT_CALL"]=str(see_watch["root_call"])
+        env["C3X022_R2_SEE_POLICY"]=see_watch["policy"]
     return_env={
       "depth":"C3X019_RETURN_DEPTH",
       "root_call":"C3X019_RETURN_ROOT_CALL",
@@ -264,6 +277,12 @@ def play(engine, world, p4_mode, lineage_mode=None, target=None, writer_budget=N
         if line.startswith("info string c3x018_p1_save "):
             fields=parse_fields(line)
             p0_save_events.append({k:(v if k=="kind" else int(v)) for k,v in fields.items()})
+    native_see_events=[]
+    for line in lines:
+        if line.startswith("info string c3x022_r2_see "):
+            fields=parse_fields(line)
+            native_see_events.append({k:(v if k in ("kind","site") else int(v))
+                                     for k,v in fields.items()})
     native_tt_value_uses=[]
     for line in lines:
         if line.startswith("info string c3x019_native_use "):
@@ -330,6 +349,7 @@ def play(engine, world, p4_mode, lineage_mode=None, target=None, writer_budget=N
        "draw_gate_contacts":draw_gate_contacts,
        "watched_tt_probes":watched_tt_probes,
        "native_tt_value_uses":native_tt_value_uses,
+       "native_see_events":native_see_events,
        "native_tt_source_allows":[e for e in events if e["kind"]=="reader_native_allow"],
        "p0_save_events":p0_save_events,
        "root_events":root_events,
