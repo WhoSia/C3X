@@ -294,7 +294,7 @@ def play(engine, world, p4_mode, lineage_mode=None, target=None, writer_budget=N
     for line in lines:
         if line.startswith("info string c3x022_r2_see "):
             fields=parse_fields(line)
-            native_see_events.append({k:(v if k in ("kind","site") else int(v))
+            native_see_events.append({k:(v if k in ("kind","site","path_exact") else int(v))
                                      for k,v in fields.items()})
     native_tt_value_uses=[]
     for line in lines:
@@ -390,7 +390,7 @@ def play(engine, world, p4_mode, lineage_mode=None, target=None, writer_budget=N
                 if source=="TT_value_used" and values.get("kind") not in ("used","main_cutoff","qsearch_cutoff"):
                     break
                 ordered.append({"line_ordinal":ordinal,"source":source,
-                                "fields":{k:(v if k in ("kind","site") else int(v))
+                                "fields":{k:(v if k in ("kind","site","path_exact") else int(v))
                                           for k,v in values.items()}})
                 break
         answer["ordered_source_operator_trace"]=ordered
