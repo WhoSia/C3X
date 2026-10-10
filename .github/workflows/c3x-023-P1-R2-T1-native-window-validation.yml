@@ -1,0 +1,22 @@
+name: C3X 0.23 P1-R2-T1 Native SEE Window Source Regression
+on:
+  push:
+    paths:
+      - '.github/workflows/c3x-023-P1-R2-T1-native-window-validation.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  t1-window-observer-source-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: |
+          python -m pip install -q chess==1.11.2
+          python -m py_compile tools/c3x_023_P1_R2_T1_source_search_state_overlay.py harness/c3x_023_P1_R2_T1_full_computational_SEE_state_audit.py
+          python -m unittest discover -s tools -p 'test_c3x_023_P1_R2_T1_source_search_state_overlay.py' -v
+          python -m unittest discover -s tools -p 'test_c3x_023_P1_R2_T1_full_search_state_match.py' -v
+          python -m unittest discover -s tools -p 'test_c3x_023_P1_R2_T0_chronological_TT_to_SEE.py' -v
