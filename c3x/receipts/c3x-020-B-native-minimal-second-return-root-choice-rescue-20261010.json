@@ -1,0 +1,161 @@
+{
+  "schema": "c3x020-B-native-minimal-second-return-root-choice-rescue-v1",
+  "date": "2026-10-10",
+  "scientific_status": "EXPLORATORY_POSITIVE_FIXED_FEBRUARY_FOUR_NO_INDEPENDENT_TRANSPORT",
+  "native": {
+    "run_id": 38033739366,
+    "run_url": "https://github.com/WhoSia/C3X/actions/runs/38033739366",
+    "conclusion": "success",
+    "artifact_id": 11662303565,
+    "artifact_name": "c3x-020-B-four-frozen-multi-state-root-choice",
+    "zip_sha256": "c48f673ec0f849c07693c1639dec79995813fa2ef773bf4e21333f423ba994e1",
+    "native_json_name": "C3X020_B_NATIVE_MULTI_STATE_CAUSAL_COURT.json",
+    "native_json_sha256": "0d9d4c3a1fce8b7ae048df4341075a4bc985fdabbab3cd40f664ad7ad7e66bb6",
+    "members_sha256_verified": 24,
+    "bad_members": 0,
+    "stockfish16_original_git": "68e1e9b3811e16cad014b590d7443b9063b52",
+    "source_after_overlay_sha256": "d70a33653fe5e54d16cb6df273fe759858a81a6935a2472de965cdb851b56f4b",
+    "compiled_binary_sha256": "1c9c6bfc2593fb63ffe5750e661f45ebb01c9ab023d6eec8a0c68b6d2b094ecb",
+    "cold_double_for_each_executed_arm": true,
+    "read_only_action": true
+  },
+  "fixed_case_denominator": 4,
+  "arm_denominators": {
+    "A0": {
+      "delivered": 4,
+      "restored_F_bestmove": 0
+    },
+    "SECOND_ONLY": {
+      "eligible": 3,
+      "delivered": 2,
+      "noncontact": 1,
+      "restored_F_bestmove": 1
+    },
+    "A0_SECOND": {
+      "eligible": 3,
+      "delivered": 3,
+      "restored_F_bestmove": 1
+    },
+    "A0_AVERAGE": {
+      "eligible": 1,
+      "delivered": 1,
+      "restored_F_bestmove": 0
+    },
+    "A0_SCORE": {
+      "eligible": 0,
+      "delivered": 0,
+      "restored_F_bestmove": 0
+    },
+    "A0_BOTH": {
+      "eligible": 1,
+      "delivered": 1,
+      "restored_F_bestmove": 0
+    },
+    "A0_SECOND_BOTH": {
+      "eligible": 1,
+      "delivered": 1,
+      "restored_F_bestmove": 1
+    },
+    "A0_SHAM": {
+      "delivered": 4,
+      "restored_F_bestmove": 0
+    }
+  },
+  "case3": {
+    "role": "STRICT",
+    "child_return_gate": {
+      "root_depth": 4,
+      "root_call": 4,
+      "trial": 1,
+      "candidate_index": 5,
+      "move_native": 222,
+      "alpha": -190,
+      "beta": -166,
+      "FIRST_return": -179,
+      "F_return": -206,
+      "SECOND_ONLY_before": -179,
+      "SECOND_ONLY_after": -206,
+      "crosses_alpha_in_FIRST": true,
+      "falls_below_alpha_after_repair": true
+    },
+    "UCI_bestmove": {
+      "F": "a1c1",
+      "FIRST": "e1e3",
+      "A0": "e1e3",
+      "SECOND_ONLY": "a1c1",
+      "A0_SECOND": "a1c1",
+      "A0_AVERAGE": "e1e3",
+      "A0_SECOND_BOTH": "a1c1",
+      "A0_SHAM": "e1e3"
+    },
+    "nodes": {
+      "F": 89179,
+      "FIRST": 204780,
+      "SECOND_ONLY": 78899
+    },
+    "score_cp": {
+      "F": -50,
+      "FIRST": -49,
+      "SECOND_ONLY": -49
+    },
+    "depth4_terminal_leader_move_native": {
+      "F": 1,
+      "FIRST": 222,
+      "SECOND_ONLY": 1048
+    },
+    "depth12_terminal_leader_move_native": {
+      "F": 2,
+      "FIRST": 276,
+      "SECOND_ONLY": 2
+    },
+    "rootmove_persistent_boundary": {
+      "selected_move_native": 1,
+      "F_score": -194,
+      "A0_score": -194,
+      "F_average": -192,
+      "A0_average": -188,
+      "average_only_repair_delivered": true,
+      "average_only_bestmove_restored": false
+    },
+    "interpretation": "An exact native repair of the fifth root-candidate child return alone is sufficient to change the final categorical bestmove back to F in this frozen synthetic Stockfish16 context; first-return and averageScore repairs are not required among tested arms."
+  },
+  "remaining_games": [
+    {
+      "game": 6,
+      "role": "STRICT",
+      "F": "g2g4",
+      "A0": "e3d2",
+      "A0_SECOND": "e3d2",
+      "SECOND_ONLY": "NONCONTACT",
+      "boundary_score_F_equals_A0": true,
+      "boundary_average_F_equals_A0": true
+    },
+    {
+      "game": 7,
+      "role": "BROAD",
+      "F": "g8e7",
+      "A0": "e8f7",
+      "second_site": "INELIGIBLE_DIFFERENT_CANDIDATE_ID",
+      "boundary_score_F_equals_A0": true,
+      "boundary_average_F_equals_A0": true
+    },
+    {
+      "game": 10,
+      "role": "STRICT",
+      "F": "d8b8",
+      "A0": "b7a6",
+      "A0_SECOND": "b7a6",
+      "SECOND_ONLY": "b7a6",
+      "boundary_score_F_equals_A0": true,
+      "boundary_average_F_equals_A0": true
+    }
+  ],
+  "historical_results_unchanged": {
+    "C3X019_K4": "FAIL_0_OF_4",
+    "February_F19_5": "FAIL",
+    "January_J2_J3_J4": "FAIL",
+    "P1_R5": "FAIL"
+  },
+  "boundary": "The four cases were selected adaptively after known February outcomes; this is a bounded native source intervention and a genuine decision outcome rescue in one case, not a prospective external-ecology law. Separate synthetic interventional sufficiency from natural TT effect mediation.",
+  "next_gate": "0.20-C: identify source-level alpha crossing and subsequent candidate rivalry in game3; preregister a disjoint prospective cohort and risky root-choice predictions before new engine runs."
+}
