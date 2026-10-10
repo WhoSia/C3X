@@ -1,0 +1,52 @@
+{
+  "schema": "c3x024-P4-D0-exposed-previously-scored-Sept107-source-root-survival-negative-v1",
+  "date": "2026-10-11",
+  "research_version": "C3X0.24 P4",
+  "scientific_status": "POSTHOC_DEVELOPMENT_DIAGNOSIS_ONLY_NOT_PREDICTIVE_VALIDATION",
+  "native_development": {
+    "run_id": 38082912354,
+    "url": "https://github.com/WhoSia/C3X/actions/runs/38082912354",
+    "conclusion": "SUCCESS",
+    "public_rights_artifact_id": 11681411500,
+    "artifact_SHA256": "55de1f7262aa07ca87e491f90ed21321d792ad7a299097ba06371ad55c980b3b",
+    "full_derived_JSON_SHA256": "bedc4d5c08ebafb59533c5c7287ac1f869676b8be8f1b6f8298d661ab0a1dd12",
+    "rights_scan": "SCAN_PASS_NOT_LEGAL_LICENSE"
+  },
+  "source_sha256": "ee8265f96b055645428f2fa87b36647e1931c86c848db5725a8b0ec63596dacb",
+  "untreated_StageA_sha256": "1c9f265b507712069442956c3ecf0dcdcb7e9abbeaaff4b683ba9beb263d3b09",
+  "model_literals_git_seal": "c5aa9582e3b972bd0562fd9fe603a252bd6fc8a3",
+  "scored_outcome_sha256": "63853d8de4861b24163a007898df0b23e21f3db9642adb16214f9eff4c9ab7ef",
+  "focal_development_game_id": 107,
+  "root_order": "O",
+  "role": "STRICT",
+  "source_first_TT_reader_original_root_candidate": "d6c5",
+  "source_current_order_depth8to12": [
+    "d6c5",
+    "d6c5",
+    "d6c5",
+    "d6c5",
+    "d6c5"
+  ],
+  "source_opposite_order_depth8to12": [
+    "d6c7",
+    "d6c7",
+    "d6c7",
+    "d6c7",
+    "d6c7"
+  ],
+  "source_current_order_M0": "d6c5",
+  "prior_M3_v2_predicted": "d6c7",
+  "actual_treated_final_bestmove": "d6c5",
+  "passive_SEE_prefix": "CENSORED",
+  "opposite_candidate_was_untreated_current_order_leader_for_any_depth8_to12": false,
+  "diagnosis": "M3v2 treated opposing-order-only contender as surviving in current-root order without same-order depth leader corroboration, even though native TT first reader target was original same-order winner",
+  "scientific_boundaries": [
+    "Depth8..12 snapshots are correlated observations, not independent samples",
+    "No natural TT→SEE causal mediation or root descendant uniqueness proved",
+    "Posthoc diagnosis cannot serve as fresh heldout accuracy claim",
+    "July2025 original file must remain untouched by FIRST until all 1024 role exact UCI literals Git-sealed"
+  ],
+  "new_model_precommit": "c3x/ontology/c3x-024-P4-M4-survivor-corroborated-preFIRST-exact-UCI-hypothesis-and-July256-prospective-lock-20261011.md",
+  "M4_pure_rule_CI": "https://github.com/WhoSia/C3X/actions/runs/38083083546",
+  "origin_new_source_prereg": "c3x/ontology/c3x-024-P4-S0-july2025-independent256-engineblind-source-and-M4-survival-verification-precommit-20261011.md"
+}
