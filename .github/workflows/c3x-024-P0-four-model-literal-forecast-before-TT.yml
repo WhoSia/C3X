@@ -1,0 +1,82 @@
+name: C3X 0.24 P0 Four Exact UCI Model Forecasts Before Any TT or SEE Treatment
+on:
+  push:
+    paths:
+      - '.github/workflows/c3x-024-P0-four-model-literal-forecast-before-TT.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  no-treatment-four-model-literal-forecast:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Frozen C3X024 code and chess-law validation
+        run: |
+          set -euo pipefail
+          python -m pip install -q chess==1.11.2
+          python -m py_compile harness/c3x_024_P0_from_StageA_literal_M0_M1_M2_M3_preTT_registry.py
+          python -m unittest discover -s tools -p 'test_c3x_022_P2_exact_move_scout.py' -v
+          mkdir -p source stageA public
+      - name: Restore only preregistered new August2025 source
+        uses: actions/download-artifact@v4
+        with:
+          name: c3x-024-P0-AUG2025-new-broadcast16-SOURCE-ONLY-no-engine
+          path: source/
+          repository: WhoSia/C3X
+          run-id: '38075786357'
+          github-token: ${{ github.token }}
+      - name: Restore only C3X024 untreated StageA (never FIRST/SEE)
+        uses: actions/download-artifact@v4
+        with:
+          name: c3x-024-P0-Aug2025-untreated-native16-O-F-SEE-ancestry-no-activation
+          path: stageA/
+          repository: WhoSia/C3X
+          run-id: '38076166084'
+          github-token: ${{ github.token }}
+      - name: Verify immutable source and untreated Stage A pre-P1 outcome
+        run: |
+          set -euo pipefail
+          test "$(sha256sum source/C3X024_P0_AUG2025_ENGINEBLIND_16.json | cut -d' ' -f1)" = 76391058cae1fad8d23e3ae8556e48b63a0d991a051c59fef2df15e11c73f529
+          test "$(sha256sum stageA/C3X024_P0_AUG2025_STAGEA_UNTREATED_NATIVE16.json | cut -d' ' -f1)" = 116b3c0f63be3074236982c76abd059b1dca3bb1f019cc3c10f9b03a5ac1855e
+          test -f c3x/ontology/c3x-024-P0-to-P1-preintervention-M0-M1-M2-M3-forecast-rule-freeze-20261011.md
+          test -f c3x/forecasts/c3x-024-P0-Aug2025-16game-literal-source-Git-seal-before-native-20261011.json
+      - name: Generate literal UCI for M0 M1 M2 M3 WITHOUT executing engine
+        run: |
+          set -euo pipefail
+          python -u harness/c3x_024_P0_from_StageA_literal_M0_M1_M2_M3_preTT_registry.py \
+            --source source/C3X024_P0_AUG2025_ENGINEBLIND_16.json \
+            --stagea stageA/C3X024_P0_AUG2025_STAGEA_UNTREATED_NATIVE16.json \
+            --registry c3x/forecasts/c3x-024-P0-Aug2025-16game-literal-source-Git-seal-before-native-20261011.json \
+            --out public/C3X024_P0_AUG2025_M0_M1_M2_M3_LITERAL_UCI_BEFORE_FIRST.json
+          python - <<'PY'
+          import json
+          p="public/C3X024_P0_AUG2025_M0_M1_M2_M3_LITERAL_UCI_BEFORE_FIRST.json"
+          x=json.load(open(p))
+          assert x["new_2025_Aug_first_reader_treatments_seen"]==0
+          assert x["new_2025_Aug_SEE_treatments_seen"]==0
+          assert x["source_game_count"]==16 and x["role_cell_denominator"]==64
+          assert x["summary"]["physically_eligible_role_cells"]==64
+          print("C3X024_LITERAL_PRETREATMENT_ONLY__NEVER_SCORE_FROM_FORECAST_RUN",x["summary"])
+          PY
+      - name: Scan derived predictions for original third-party chess source leakage
+        run: |
+          set -euo pipefail
+          python tools/c3x_023_rights_preupload_gate.py --tier P2_AGGREGATE_SUMMARY --file public/C3X024_P0_AUG2025_M0_M1_M2_M3_LITERAL_UCI_BEFORE_FIRST.json --report public/RIGHTS_FORECAST_SCAN.json
+          echo 'Official source: https://database.lichess.org/broadcast/lichess_db_broadcast_2025-08.pgn.zst ; CC BY-SA 4.0 https://creativecommons.org/licenses/by-sa/4.0/ ; output is newly calculated literal Stockfish16 untreated/derived prediction UCI under original source positions; no full PGNs, player metadata or distributed GPL engine.' > public/SOURCE_LICENSE_AND_CHANGE_NOTICE.txt
+      - name: Verify prediction artifact member SHA
+        if: always()
+        run: |
+          mkdir -p public
+          find public -maxdepth 1 -type f ! -name MEMBER_SHA256.txt -print0 | sort -z | xargs -0 -r sha256sum > public/MEMBER_SHA256.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x-024-P0-Aug2025-M0-M1-M2-M3-literal-UCI-PRETREATMENT
+          path: public/
+          if-no-files-found: error
+          retention-days: 90
