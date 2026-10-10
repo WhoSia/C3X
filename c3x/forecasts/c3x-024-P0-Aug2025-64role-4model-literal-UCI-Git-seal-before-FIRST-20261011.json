@@ -1,0 +1,769 @@
+{
+  "schema": "c3x024-P0-before-first-physical-TT-reader-block-exact-literal-M0M1M2M3-Git-seal-v1",
+  "date": "2026-10-11 KST",
+  "status": "LITERAL_EXACT_UCI_ALL_64_ROLES_SEALED_PRETREATMENT",
+  "source_origin": "Lichess Aug2025 broadcast CC BY-SA 4.0",
+  "source_archive_sha256": "f925d1f3b494517c8eae223976a886bed77a7b8627b17ec287e50cdda766dae8",
+  "source_pretreatment_JSON_SHA256": "76391058cae1fad8d23e3ae8556e48b63a0d991a051c59fef2df15e11c73f529",
+  "stageA_untreated_JSON_SHA256": "116b3c0f63be3074236982c76abd059b1dca3bb1f019cc3c10f9b03a5ac1855e",
+  "full_forecast_original_JSON_SHA256": "8fd04b842fb9731b45b79a6dccc0526b3a21cce52f22fde0b0d00094789da4ea",
+  "full_forecast_ci": 38076517053,
+  "original_forecast_artifact_id": 11679270922,
+  "full_forecast_archive_SHA256": "644208834e3f3c1f7646c40235a22b0ae4bfd186b0cdcc0d232be474ba871510",
+  "forecast_algorithm_pre_registered_commit": "72cdbf5408fd222dfcd42b54e3f00f7efedd65f7",
+  "source_literal_pre_native_git": "c70735ea191365ec88b3fada9ff0e7cdc9d1042c",
+  "model_output_order": [
+    "M0",
+    "M1",
+    "M2_depth11",
+    "M3"
+  ],
+  "unit_of_independent_scoring": "game_id not role cell",
+  "univariate_eligible_roles": 64,
+  "M2_depth11_coverage": 64,
+  "M3_positive_flips_predicted": 0,
+  "M3_equals_M0_for_all_64_eligible_roles": true,
+  "M3_cannot_outperform_M0_on_this_cohort": true,
+  "outcomes_of_TT_FIRST_seen_or_scored": false,
+  "NO_TT_OR_SEE_TREATMENT_BEFORE_THIS_GIT_COMMIT": true,
+  "roundtrip_rule": "Literal_by_role must EXACTLY equal original post-StageA pre-FIRST full forecast JSON; any missing row or discrepancy fails and aborts intervention. No revisions after treated outcome.",
+  "rights": "Only derived UCI under CC BY-SA source attribution, original player headers/full PGN not republished.",
+  "cases": [
+    {
+      "game_id": 1,
+      "source_game_sha256": "00055b15af21e99c27104422ca25a4e9134c5d8aef82e966c3ec6a96be91ad43",
+      "root_orders": {
+        "O": {
+          "eligible_roles": [
+            "STRICT",
+            "BROAD"
+          ],
+          "literal_by_role": {
+            "STRICT": {
+              "M0": "c1b3",
+              "M1": "c1b3",
+              "M2_depth11": "g1f1",
+              "M3": "c1b3"
+            },
+            "BROAD": {
+              "M0": "c1b3",
+              "M1": "c1b3",
+              "M2_depth11": "g1f1",
+              "M3": "c1b3"
+            }
+          }
+        },
+        "F": {
+          "eligible_roles": [
+            "STRICT",
+            "BROAD"
+          ],
+          "literal_by_role": {
+            "STRICT": {
+              "M0": "c1b3",
+              "M1": "c1b3",
+              "M2_depth11": "c1b3",
+              "M3": "c1b3"
+            },
+            "BROAD": {
+              "M0": "c1b3",
+              "M1": "c1b3",
+              "M2_depth11": "c1b3",
+              "M3": "c1b3"
+            }
+          }
+        }
+      }
+    },
+    {
+      "game_id": 2,
+      "source_game_sha256": "006f3a9928ed4597b734782b45b17c1dce9b2eb91f5eeaf39f64f48cc3ec742c",
+      "root_orders": {
+        "O": {
+          "eligible_roles": [
+            "STRICT",
+            "BROAD"
+          ],
+          "literal_by_role": {
+            "STRICT": {
+              "M0": "e6e5",
+              "M1": "e6e5",
+              "M2_depth11": "e6e5",
+              "M3": "e6e5"
+            },
+            "BROAD": {
+              "M0": "e6e5",
+              "M1": "e6e5",
+              "M2_depth11": "e6e5",
+              "M3": "e6e5"
+            }
+          }
+        },
+        "F": {
+          "eligible_roles": [
+            "STRICT",
+            "BROAD"
+          ],
+          "literal_by_role": {
+            "STRICT": {
+              "M0": "e6e5",
+              "M1": "e6e5",
+              "M2_depth11": "e6e5",
+              "M3": "e6e5"
+            },
+            "BROAD": {
+              "M0": "e6e5",
+              "M1": "e6e5",
+              "M2_depth11": "e6e5",
+              "M3": "e6e5"
+            }
+          }
+        }
+      }
+    },
+    {
+      "game_id": 3,
+      "source_game_sha256": "00ff79d87bd8679b20840a76c63adc803797608f3de1cfe04d146f06996f9eae",
+      "root_orders": {
+        "O": {
+          "eligible_roles": [
+            "STRICT",
+            "BROAD"
+          ],
+          "literal_by_role": {
+            "STRICT": {
+              "M0": "b6d5",
+              "M1": "b6d5",
+              "M2_depth11": "b6d5",
+              "M3": "b6d5"
+            },
+            "BROAD": {
+              "M0": "b6d5",
+              "M1": "b6d5",
+              "M2_depth11": "b6d5",
+              "M3": "b6d5"
+            }
+          }
+        },
+        "F": {
+          "eligible_roles": [
+            "STRICT",
+            "BROAD"
+          ],
+          "literal_by_role": {
+            "STRICT": {
+              "M0": "b6d5",
+              "M1": "b6d5",
+              "M2_depth11": "b6d5",
+              "M3": "b6d5"
+            },
+            "BROAD": {
+              "M0": "b6d5",
+              "M1": "b6d5",
+              "M2_depth11": "b6d5",
+              "M3": "b6d5"
+            }
+          }
+        }
+      }
+    },
+    {
+      "game_id": 4,
+      "source_game_sha256": "014223928c0bb3b7fa22340c0c4957ed0fda4a0d9502f6f5cc134c9e1298fb2c",
+      "root_orders": {
+        "O": {
+          "eligible_roles": [
+            "STRICT",
+            "BROAD"
+          ],
+          "literal_by_role": {
+            "STRICT": {
+              "M0": "a2a3",
+              "M1": "a2a3",
+              "M2_depth11": "a2a3",
+              "M3": "a2a3"
+            },
+            "BROAD": {
+              "M0": "a2a3",
+              "M1": "a2a3",
+              "M2_depth11": "a2a3",
+              "M3": "a2a3"
+            }
+          }
+        },
+        "F": {
+          "eligible_roles": [
+            "STRICT",
+            "BROAD"
+          ],
+          "literal_by_role": {
+            "STRICT": {
+              "M0": "a2a3",
+              "M1": "a2a3",
+              "M2_depth11": "a2a3",
+              "M3": "a2a3"
+            },
+            "BROAD": {
+              "M0": "a2a3",
+              "M1": "a2a3",
+              "M2_depth11": "a2a3",
+              "M3": "a2a3"
+            }
+          }
+        }
+      }
+    },
+    {
+      "game_id": 5,
+      "source_game_sha256": "01a2f790ee4cd46f8fd9b2182651ad352064877d206b9446e7d925ba7e43d1c1",
+      "root_orders": {
+        "O": {
+          "eligible_roles": [
+            "STRICT",
+            "BROAD"
+          ],
+          "literal_by_role": {
+            "STRICT": {
+              "M0": "f2f4",
+              "M1": "f2f4",
+              "M2_depth11": "f2f4",
+              "M3": "f2f4"
+            },
+            "BROAD": {
+              "M0": "f2f4",
+              "M1": "f2f4",
+              "M2_depth11": "f2f4",
+              "M3": "f2f4"
+            }
+          }
+        },
+        "F": {
+          "eligible_roles": [
+            "STRICT",
+            "BROAD"
+          ],
+          "literal_by_role": {
+            "STRICT": {
+              "M0": "f2f4",
+              "M1": "f2f4",
+              "M2_depth11": "f2f4",
+              "M3": "f2f4"
+            },
+            "BROAD": {
+              "M0": "f2f4",
+              "M1": "f2f4",
+              "M2_depth11": "f2f4",
+              "M3": "f2f4"
+            }
+          }
+        }
+      }
+    },
+    {
+      "game_id": 6,
+      "source_game_sha256": "01bd17e378cc8fec144e40afb99f55e9d9e15dfd766a4f2612d57ee3680f70ef",
+      "root_orders": {
+        "O": {
+          "eligible_roles": [
+            "STRICT",
+            "BROAD"
+          ],
+          "literal_by_role": {
+            "STRICT": {
+              "M0": "f8b8",
+              "M1": "f8c8",
+              "M2_depth11": "f8b8",
+              "M3": "f8b8"
+            },
+            "BROAD": {
+              "M0": "f8b8",
+              "M1": "f8c8",
+              "M2_depth11": "f8b8",
+              "M3": "f8b8"
+            }
+          }
+        },
+        "F": {
+          "eligible_roles": [
+            "STRICT",
+            "BROAD"
+          ],
+          "literal_by_role": {
+            "STRICT": {
+              "M0": "f8c8",
+              "M1": "f8b8",
+              "M2_depth11": "b7a5",
+              "M3": "f8c8"
+            },
+            "BROAD": {
+              "M0": "f8c8",
+              "M1": "f8b8",
+              "M2_depth11": "b7a5",
+              "M3": "f8c8"
+            }
+          }
+        }
+      }
+    },
+    {
+      "game_id": 7,
+      "source_game_sha256": "02436a4212abb9beb3b601431fe2555da335e800e7002fef24dc40682b03da20",
+      "root_orders": {
+        "O": {
+          "eligible_roles": [
+            "STRICT",
+            "BROAD"
+          ],
+          "literal_by_role": {
+            "STRICT": {
+              "M0": "f8d8",
+              "M1": "f8d8",
+              "M2_depth11": "f8d8",
+              "M3": "f8d8"
+            },
+            "BROAD": {
+              "M0": "f8d8",
+              "M1": "f8d8",
+              "M2_depth11": "f8d8",
+              "M3": "f8d8"
+            }
+          }
+        },
+        "F": {
+          "eligible_roles": [
+            "STRICT",
+            "BROAD"
+          ],
+          "literal_by_role": {
+            "STRICT": {
+              "M0": "f8d8",
+              "M1": "f8d8",
+              "M2_depth11": "f8d8",
+              "M3": "f8d8"
+            },
+            "BROAD": {
+              "M0": "f8d8",
+              "M1": "f8d8",
+              "M2_depth11": "f8d8",
+              "M3": "f8d8"
+            }
+          }
+        }
+      }
+    },
+    {
+      "game_id": 8,
+      "source_game_sha256": "031f04b1dadbbfb610621a3e9bf0d414dc826f9cde729fbc9068c446fec1cea2",
+      "root_orders": {
+        "O": {
+          "eligible_roles": [
+            "STRICT",
+            "BROAD"
+          ],
+          "literal_by_role": {
+            "STRICT": {
+              "M0": "d5c7",
+              "M1": "d5c7",
+              "M2_depth11": "d5c7",
+              "M3": "d5c7"
+            },
+            "BROAD": {
+              "M0": "d5c7",
+              "M1": "d5c7",
+              "M2_depth11": "d5c7",
+              "M3": "d5c7"
+            }
+          }
+        },
+        "F": {
+          "eligible_roles": [
+            "STRICT",
+            "BROAD"
+          ],
+          "literal_by_role": {
+            "STRICT": {
+              "M0": "d5c7",
+              "M1": "d5c7",
+              "M2_depth11": "d5c7",
+              "M3": "d5c7"
+            },
+            "BROAD": {
+              "M0": "d5c7",
+              "M1": "d5c7",
+              "M2_depth11": "d5c7",
+              "M3": "d5c7"
+            }
+          }
+        }
+      }
+    },
+    {
+      "game_id": 9,
+      "source_game_sha256": "033227f6dc39b95145bd8f87a37f9bca91de72d56201eb40f443f0be6590e507",
+      "root_orders": {
+        "O": {
+          "eligible_roles": [
+            "STRICT",
+            "BROAD"
+          ],
+          "literal_by_role": {
+            "STRICT": {
+              "M0": "b8c8",
+              "M1": "b8c8",
+              "M2_depth11": "b8c8",
+              "M3": "b8c8"
+            },
+            "BROAD": {
+              "M0": "b8c8",
+              "M1": "b8c8",
+              "M2_depth11": "b8c8",
+              "M3": "b8c8"
+            }
+          }
+        },
+        "F": {
+          "eligible_roles": [
+            "STRICT",
+            "BROAD"
+          ],
+          "literal_by_role": {
+            "STRICT": {
+              "M0": "b8c8",
+              "M1": "b8c8",
+              "M2_depth11": "b8c8",
+              "M3": "b8c8"
+            },
+            "BROAD": {
+              "M0": "b8c8",
+              "M1": "b8c8",
+              "M2_depth11": "b8c8",
+              "M3": "b8c8"
+            }
+          }
+        }
+      }
+    },
+    {
+      "game_id": 10,
+      "source_game_sha256": "0388552d7135633e5fb5a49975711ef2ec89fbc4b3d371cc4ff59637bc9e2a3f",
+      "root_orders": {
+        "O": {
+          "eligible_roles": [
+            "STRICT",
+            "BROAD"
+          ],
+          "literal_by_role": {
+            "STRICT": {
+              "M0": "f1b1",
+              "M1": "f1b1",
+              "M2_depth11": "f1b1",
+              "M3": "f1b1"
+            },
+            "BROAD": {
+              "M0": "f1b1",
+              "M1": "f1b1",
+              "M2_depth11": "f1b1",
+              "M3": "f1b1"
+            }
+          }
+        },
+        "F": {
+          "eligible_roles": [
+            "STRICT",
+            "BROAD"
+          ],
+          "literal_by_role": {
+            "STRICT": {
+              "M0": "f1b1",
+              "M1": "f1b1",
+              "M2_depth11": "f1b1",
+              "M3": "f1b1"
+            },
+            "BROAD": {
+              "M0": "f1b1",
+              "M1": "f1b1",
+              "M2_depth11": "f1b1",
+              "M3": "f1b1"
+            }
+          }
+        }
+      }
+    },
+    {
+      "game_id": 11,
+      "source_game_sha256": "03d19adc36d89a29eb3938018e088b3f941f1a5032ebe358bcde2319839e32b3",
+      "root_orders": {
+        "O": {
+          "eligible_roles": [
+            "STRICT",
+            "BROAD"
+          ],
+          "literal_by_role": {
+            "STRICT": {
+              "M0": "h8h5",
+              "M1": "h8h5",
+              "M2_depth11": "h8h5",
+              "M3": "h8h5"
+            },
+            "BROAD": {
+              "M0": "h8h5",
+              "M1": "h8h5",
+              "M2_depth11": "h8h5",
+              "M3": "h8h5"
+            }
+          }
+        },
+        "F": {
+          "eligible_roles": [
+            "STRICT",
+            "BROAD"
+          ],
+          "literal_by_role": {
+            "STRICT": {
+              "M0": "h8h5",
+              "M1": "h8h5",
+              "M2_depth11": "h8h5",
+              "M3": "h8h5"
+            },
+            "BROAD": {
+              "M0": "h8h5",
+              "M1": "h8h5",
+              "M2_depth11": "h8h5",
+              "M3": "h8h5"
+            }
+          }
+        }
+      }
+    },
+    {
+      "game_id": 12,
+      "source_game_sha256": "0441ab7815f3860442b314bcb88429a8c870b0407ec86cb925c8d432b0ec52a3",
+      "root_orders": {
+        "O": {
+          "eligible_roles": [
+            "STRICT",
+            "BROAD"
+          ],
+          "literal_by_role": {
+            "STRICT": {
+              "M0": "f3e5",
+              "M1": "f3e5",
+              "M2_depth11": "f3e5",
+              "M3": "f3e5"
+            },
+            "BROAD": {
+              "M0": "f3e5",
+              "M1": "f3e5",
+              "M2_depth11": "f3e5",
+              "M3": "f3e5"
+            }
+          }
+        },
+        "F": {
+          "eligible_roles": [
+            "STRICT",
+            "BROAD"
+          ],
+          "literal_by_role": {
+            "STRICT": {
+              "M0": "f3e5",
+              "M1": "f3e5",
+              "M2_depth11": "f3e5",
+              "M3": "f3e5"
+            },
+            "BROAD": {
+              "M0": "f3e5",
+              "M1": "f3e5",
+              "M2_depth11": "f3e5",
+              "M3": "f3e5"
+            }
+          }
+        }
+      }
+    },
+    {
+      "game_id": 13,
+      "source_game_sha256": "04e09ae1d57c1ce3c024d83c04cad445c6b3f2216b4ffc19d5f1370ac011b155",
+      "root_orders": {
+        "O": {
+          "eligible_roles": [
+            "STRICT",
+            "BROAD"
+          ],
+          "literal_by_role": {
+            "STRICT": {
+              "M0": "e7c7",
+              "M1": "e7c7",
+              "M2_depth11": "e7c7",
+              "M3": "e7c7"
+            },
+            "BROAD": {
+              "M0": "e7c7",
+              "M1": "e7c7",
+              "M2_depth11": "e7c7",
+              "M3": "e7c7"
+            }
+          }
+        },
+        "F": {
+          "eligible_roles": [
+            "STRICT",
+            "BROAD"
+          ],
+          "literal_by_role": {
+            "STRICT": {
+              "M0": "e7c7",
+              "M1": "e7c7",
+              "M2_depth11": "e7c7",
+              "M3": "e7c7"
+            },
+            "BROAD": {
+              "M0": "e7c7",
+              "M1": "e7c7",
+              "M2_depth11": "e7c7",
+              "M3": "e7c7"
+            }
+          }
+        }
+      }
+    },
+    {
+      "game_id": 14,
+      "source_game_sha256": "05145371f32dd1219ea22450656d5f542477c7197c7b89233ae54ca8af2d696a",
+      "root_orders": {
+        "O": {
+          "eligible_roles": [
+            "STRICT",
+            "BROAD"
+          ],
+          "literal_by_role": {
+            "STRICT": {
+              "M0": "f8d8",
+              "M1": "f8d8",
+              "M2_depth11": "f8d8",
+              "M3": "f8d8"
+            },
+            "BROAD": {
+              "M0": "f8d8",
+              "M1": "f8d8",
+              "M2_depth11": "f8d8",
+              "M3": "f8d8"
+            }
+          }
+        },
+        "F": {
+          "eligible_roles": [
+            "STRICT",
+            "BROAD"
+          ],
+          "literal_by_role": {
+            "STRICT": {
+              "M0": "f8d8",
+              "M1": "f8d8",
+              "M2_depth11": "f8d8",
+              "M3": "f8d8"
+            },
+            "BROAD": {
+              "M0": "f8d8",
+              "M1": "f8d8",
+              "M2_depth11": "f8d8",
+              "M3": "f8d8"
+            }
+          }
+        }
+      }
+    },
+    {
+      "game_id": 15,
+      "source_game_sha256": "076ca639d938e41af923582222bfa431d9403b7948105149be3e25f8e3c0820f",
+      "root_orders": {
+        "O": {
+          "eligible_roles": [
+            "STRICT",
+            "BROAD"
+          ],
+          "literal_by_role": {
+            "STRICT": {
+              "M0": "b3d4",
+              "M1": "b3d4",
+              "M2_depth11": "b3d4",
+              "M3": "b3d4"
+            },
+            "BROAD": {
+              "M0": "b3d4",
+              "M1": "b3d4",
+              "M2_depth11": "b3d4",
+              "M3": "b3d4"
+            }
+          }
+        },
+        "F": {
+          "eligible_roles": [
+            "STRICT",
+            "BROAD"
+          ],
+          "literal_by_role": {
+            "STRICT": {
+              "M0": "b3d4",
+              "M1": "b3d4",
+              "M2_depth11": "b3d4",
+              "M3": "b3d4"
+            },
+            "BROAD": {
+              "M0": "b3d4",
+              "M1": "b3d4",
+              "M2_depth11": "b3d4",
+              "M3": "b3d4"
+            }
+          }
+        }
+      }
+    },
+    {
+      "game_id": 16,
+      "source_game_sha256": "0857e73c8fe349b6f3fd203dd1219409f473455e002b48a89d77048683205078",
+      "root_orders": {
+        "O": {
+          "eligible_roles": [
+            "STRICT",
+            "BROAD"
+          ],
+          "literal_by_role": {
+            "STRICT": {
+              "M0": "c8c5",
+              "M1": "f8d8",
+              "M2_depth11": "f8d8",
+              "M3": "c8c5"
+            },
+            "BROAD": {
+              "M0": "c8c5",
+              "M1": "f8d8",
+              "M2_depth11": "f8d8",
+              "M3": "c8c5"
+            }
+          }
+        },
+        "F": {
+          "eligible_roles": [
+            "STRICT",
+            "BROAD"
+          ],
+          "literal_by_role": {
+            "STRICT": {
+              "M0": "f8d8",
+              "M1": "c8c5",
+              "M2_depth11": "c8c5",
+              "M3": "f8d8"
+            },
+            "BROAD": {
+              "M0": "f8d8",
+              "M1": "c8c5",
+              "M2_depth11": "c8c5",
+              "M3": "f8d8"
+            }
+          }
+        }
+      }
+    }
+  ]
+}
