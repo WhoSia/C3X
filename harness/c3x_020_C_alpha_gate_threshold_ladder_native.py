@@ -69,7 +69,7 @@ def cold(engine, world, clocks, physical, mode="FIRST", config=None):
     if config is not None:
         options["multi_state"] = {"second": config, "boundary": None}
     source = "OBS" if mode == "F" else "V"
-    target = None if mode == "F" else physical
+    target = None if mode == "F" else physical["physical"]
     if mode != "F":
         options["tt_reader_filters"] = mask_filters(RULES[ROLE], physical, "FIRST")
     a = play(engine, world, "F", source, target, **options)
