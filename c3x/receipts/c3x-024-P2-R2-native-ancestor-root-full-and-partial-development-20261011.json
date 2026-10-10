@@ -1,0 +1,54 @@
+{
+  "schema": "c3x024-P2-R2-actual-native-ancestor-root-source-verdict-v1",
+  "date": "2026-10-11",
+  "status": "TECHNICAL_SUCCESS__TWO_FULL_C3B__TWO_PARTIAL_C3B__FOUR_CONTINUE",
+  "version": "C3X 0.24 ACTIVE",
+  "precommit": "c3x/ontology/c3x-024-P2-R2-ancestor-return-root-survival-precommit-20261011.md",
+  "CI": {
+    "run_id": 38079737780,
+    "conclusion": "SUCCESS",
+    "url": "https://github.com/WhoSia/C3X/actions/runs/38079737780",
+    "workflow_source_commit": "130ad7c9f911bba0847819cab38f3b11638524ee",
+    "source_games": 2,
+    "arm_worlds": 8,
+    "cold_runs": 16,
+    "private_full_SHA256": "dca94a5058cfbec940f52bd5d23f75be88dd4947875f83c0770a94d728da95ed",
+    "public_artifact_id": 11680475133,
+    "public_artifact_zip_sha256": "cb8867c263de06a95868b5ef35ccd5646d424ff9546b65046be0b3389bbc3348",
+    "original_T3_private_SHA_reproduced": "be2242388f50fc9e0d392a6bde20d624ed02ebc8a6149c13ecccd951ff312626",
+    "rights_content_scan": "PASS_NOT_LEGAL_CLEARANCE"
+  },
+  "source_certificates": {
+    "full_ancestor_root_arms": 2,
+    "partial_or_diverged_arms": 2,
+    "actual_continue_arms": 4,
+    "incomplete_c3a_arms": 0,
+    "cases": [
+      {
+        "game": "May2026 broadcast #11 F/STRICT",
+        "site": "qsearch_prune",
+        "TT0_SEE_SHAM": "ACTUAL_CONTINUE",
+        "TT1_SEE_SHAM": "ACTUAL_CONTINUE",
+        "TT0_SEE_FLIP": "CHILD_C3a_PASS__ANCESTOR_C3b_PARTIAL",
+        "TT1_SEE_FLIP": "CHILD_C3a_PASS__ANCESTOR_C3b_PARTIAL"
+      },
+      {
+        "game": "May2026 broadcast #2 O/STRICT",
+        "site": "quiet_prune",
+        "TT0_SEE_SHAM": "SOURCE_ANCESTOR_ROOT_CHAIN_FULL",
+        "TT1_SEE_SHAM": "SOURCE_ANCESTOR_ROOT_CHAIN_FULL",
+        "TT0_SEE_FLIP": "ACTUAL_CONTINUE",
+        "TT1_SEE_FLIP": "ACTUAL_CONTINUE"
+      }
+    ]
+  },
+  "limits": [
+    "source-exact execution trace does not identify natural TT→SEE causal mediation",
+    "full ancestor chain does not prove descendant uniquely caused terminal bestmove change",
+    "two May games are outcome-exposed development, not 8 independent games",
+    "May11 partial status must remain partial until source early-return/call-in-frame ambiguity resolved",
+    "Aug2025 heldout M3==M0 64/64, 58 correct each; negative remains"
+  ],
+  "new_source_plan": "P3 precommitted 128 game independent Sept2025 new source. Source-only selection precedes untreated StageA and any M3-v2 predictions / TT intervention.",
+  "governance": "Human-author WhoSia only, Actions contents:read; original PGN, player metadata, raw key/path and modified Stockfish binary omitted."
+}
