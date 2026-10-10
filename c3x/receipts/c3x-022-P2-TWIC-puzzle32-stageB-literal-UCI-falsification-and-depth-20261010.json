@@ -1,0 +1,183 @@
+{
+  "schema": "c3x022-P2-TWIC1656-LichessPuzzle-cross-ecology-specific-UCI-native-court-v1",
+  "date": "2026-10-10",
+  "status": "NATIVE_COURT_TECHNICAL_SUCCESS__TWIC_EXACT_FORECAST_SCIENTIFIC_FAIL",
+  "precommit": "c3x/ontology/c3x-022-P2-TWIC-Lichess-puzzles-exact-move-forecast-precommit.md",
+  "forecast_registry": "c3x/forecasts/c3x-022-P2-TWIC-puzzle32-exact-UCI-preregistered-stageA-20261010.json",
+  "forecast_registry_git_commit": "1abc7c82f753c3d7c3c540ee3426dfb790e26d22",
+  "source_and_primitive_hashes": {
+    "external_source": "ebe6648f43f64c6f31e0d547845bec3d87c663093fd68298acf2ebe4c0287554",
+    "legal_1056_root_action_profiles": "b3b4a29788c1f9dc2b4d491cd60d44ad8e6530d3d66be5d77039a6fd59cc958d",
+    "baseline_only_stage_A": "0258edda1182ff21f4764e015548125e43978b504e36fa6d7c99a0f235a74fcd"
+  },
+  "native": {
+    "run_id": 38047992462,
+    "url": "https://github.com/WhoSia/C3X/actions/runs/38047992462",
+    "conclusion": "success",
+    "artifact_id": 11668491545,
+    "artifact_name": "c3x-022-P2-stageB-TWIC-puzzle-native-exact-UCI-TT-outcomes",
+    "zip_sha256": "a1dc3b7c31aecd10c0fc5d24e72a9d841dddb7a3e65e5303a73ba8d27efef037",
+    "native_data_member": "C3X022_P2_STAGE_B_EXACT_UCI_TT_COUNTERFACTUAL.json",
+    "native_data_sha256": "f8c9210cfb9f158d038e70045a1839c3ecebb487781dbc59ce9615b2491a1899",
+    "member_shas_checked": 24,
+    "member_sha_failures": 0,
+    "chess_engine_original_git": "68e1e9b3811e16cad014b590d7443b9063b3eb52",
+    "protocol": "Cold twice each (physical ZERO and physical FIRST) with independent order-specific source target, 1 thread, 16MB Hash, NNUE off, depth12, actual native first reader full64 physical block, writer proof, root-depth leaders; game-level strata."
+  },
+  "per_ecology": {
+    "twic": {
+      "source_games": 16,
+      "eligible_and_delivered_physical_first_reader_role_cells": 64,
+      "source_order_baselines_differ_8_of16": true,
+      "literal_post_intervention_UCI_exact_matches": 38,
+      "exact_match_percent": 59.375,
+      "no_flip_majority_exact_matches": 54,
+      "no_flip_majority_accuracy_percent": 84.375,
+      "actual_flip_role_cells": 10,
+      "actual_flip_distinct_games": [
+        1,
+        4,
+        7,
+        10
+      ],
+      "predicted_flip_role_cells": 32,
+      "flip_confusion": {
+        "TP": 10,
+        "FP": 22,
+        "FN": 0,
+        "TN": 32
+      },
+      "flip_precision": 0.3125,
+      "flip_recall": 1,
+      "specific_move_exact_when_actual_flip": 6,
+      "verdict": "FAIL_EXACT_MOVE_CROSS_ORDER_RESTORATION_V1",
+      "calibration": "Exact UCI accuracy 38/64 worse than majority unchanged baseline 54/64. Roles (STRICT/BROAD) nested within games and cannot be counted as independent 64 games."
+    },
+    "lichess_puzzles": {
+      "source_games": 16,
+      "eligible_and_delivered_physical_first_reader_role_cells": 28,
+      "noneligible_cells": 36,
+      "source_order_baselines_differ_0_of16": true,
+      "literal_post_intervention_UCI_exact_matches": 28,
+      "no_flip_majority_exact_matches": 28,
+      "actual_flip_role_cells": 0,
+      "actual_flip_distinct_games": [],
+      "flip_confusion": {
+        "TP": 0,
+        "FP": 0,
+        "FN": 0,
+        "TN": 28
+      },
+      "verdict": "TRIVIAL_NO_CHANGE_MATCH; NO_POSITIVE_FLIP_PREDICTION_VALIDATED",
+      "calibration": "28/28 identical exact UCI predictions to source baseline, with no flips. Not evidence of generality or good positive-event prediction. Eligibility strongly differs by puzzle forcing and terminal root states.",
+      "puzzle_source_treatment": "F prioritizes published first solver solution move, so this is not an independent blind baseline from puzzle-solution label."
+    }
+  },
+  "distinct_mechanisms": [
+    {
+      "twic_game": 1,
+      "world": "F",
+      "role": "BROAD",
+      "old": "e1d1",
+      "predicted_and_actual": "g3e2",
+      "earliest_changed_depth": 8,
+      "interpretation": "Restoration to O baseline in a real native first-reader flip."
+    },
+    {
+      "twic_game": 4,
+      "world": "F",
+      "roles": [
+        "STRICT",
+        "BROAD"
+      ],
+      "old": "c2c8",
+      "predicted": "b5c3",
+      "actual": "c2d1",
+      "changed_depths": [
+        9,
+        10,
+        12
+      ],
+      "interpretation": "Third final legal move not produced in either O or F natural baseline."
+    },
+    {
+      "twic_game": 4,
+      "world": "O",
+      "roles": [
+        "STRICT",
+        "BROAD"
+      ],
+      "old": "b5c3",
+      "predicted_and_actual": "c2c8",
+      "changed_depths": [
+        11,
+        12
+      ],
+      "interpretation": "Within same source board, restoration holds in O but fails in F."
+    },
+    {
+      "twic_game": 7,
+      "world": "F",
+      "roles": [
+        "STRICT",
+        "BROAD"
+      ],
+      "old": "a7a5",
+      "predicted_and_actual": "d8d7",
+      "changed_depths": [
+        12
+      ],
+      "interpretation": "Only final root-depth leader changed under physical source suppression."
+    },
+    {
+      "twic_game": 10,
+      "world": "O",
+      "roles": [
+        "STRICT",
+        "BROAD"
+      ],
+      "old": "f8f7",
+      "predicted": "a8e8",
+      "actual": "f4g3",
+      "changed_depths": [
+        6,
+        8,
+        10,
+        11,
+        12
+      ],
+      "interpretation": "Third root move and temporally distributed root leader changes."
+    },
+    {
+      "twic_game": 10,
+      "world": "F",
+      "role": "STRICT",
+      "old": "a8e8",
+      "predicted_and_actual": "f8f7",
+      "changed_depths": [
+        6,
+        7,
+        8,
+        10,
+        12
+      ],
+      "interpretation": "Restoration to O baseline"
+    }
+  ],
+  "scientific_bounds": [
+    "Actual synthetic physical TT reader intervention changes final move in TWIC but not puzzle test, conditional on source-eligible exact contact.",
+    "Precommitted cross-order-restoration rule falsified TWIC: 22 false positive change predictions and only 6/10 exactly correct positive flips. Do not reframe as PASS because positive recall=1 or because 38 literal matches.",
+    "Puzzle noflip allcorrect is equivalent to naive noflip majority control, with no positive TT flip. Do not claim prospective positive prediction.",
+    "TWIC vs puzzles represent distinct source ecologies and different F treatment origin, must not pool as IID.",
+    "Depth-1..12 source root leader comparison is observational mediator candidate, not proof of unique TT/chess feature mediation.",
+    "No original TWIC copyrighted PGN or full move sequences included in public repo or artifacts.",
+    "Previous C3X 0.22-P1 April existence forecasts PASS 3/3 are separate predictions and unaffected by the new C3X0.22-P2 exact-move FAIL."
+  ],
+  "historical_failures_unchanged": [
+    "C3X019 F19.5 FAIL",
+    "K4 0/4 FAIL",
+    "Jan J2/J3/J4 FAIL",
+    "PAG/CPP224 failed generalization"
+  ],
+  "next": "C3X022 P2-R1: source-path event-specific model of third-move emergence; save selected cases as DEVELOPMENT ONLY, formulate competing candidate survival/TT score/probe/path hypotheses; evaluate on new nonoverlapping TWIC issue plus separate puzzle feasibility strata, with exact UCI per-game predictions before FIRST intervention."
+}
