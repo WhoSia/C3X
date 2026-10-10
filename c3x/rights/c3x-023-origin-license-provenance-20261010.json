@@ -1,0 +1,88 @@
+{
+  "schema": "c3x023-origin-rights-risk-manifest-v1",
+  "date": "2026-10-10",
+  "status": "PROVENANCE_AUDIT_ONLY_NOT_LEGAL_CLEARANCE",
+  "records": [
+    {
+      "id": "TWIC-1656",
+      "origin_url": "https://theweekinchess.com/zips/twic1656g.zip",
+      "provenance_page": "https://theweekinchess.com/twic",
+      "source_sha256": "2970ae7fb943cf67d535ca89489e0bd4e57ec0d1375b4b5220e5946777a04df7",
+      "asserted_owner": "Mark Crowther / The Week in Chess",
+      "observed_terms": "TWIC magazine free for personal use only. All rights reserved.",
+      "license_type": "NO_GENERAL_PUBLIC_REUSE_GRANT_VERIFIED",
+      "original_full_PGN_zip_public_release": "HOLD",
+      "selected_FEN_and_exact_UCI_public_release": "REVIEW",
+      "permission_status": "NOT_OBTAINED",
+      "contact_from_official_archive": "mdcrowth@btinternet.com"
+    },
+    {
+      "id": "TWIC-1664",
+      "origin_url": "https://theweekinchess.com/zips/twic1664g.zip",
+      "provenance_page": "https://theweekinchess.com/twic",
+      "source_sha256": "87bcd88e628c85b6e7e5b36894738fc9e6ef4012345740e57ff05795a908940f",
+      "asserted_owner": "Mark Crowther / The Week in Chess",
+      "observed_terms": "TWIC magazine free for personal use only. All rights reserved.",
+      "license_type": "NO_GENERAL_PUBLIC_REUSE_GRANT_VERIFIED",
+      "original_full_PGN_zip_public_release": "HOLD",
+      "selected_FEN_and_exact_UCI_public_release": "REVIEW",
+      "permission_status": "NOT_OBTAINED"
+    },
+    {
+      "id": "LICHESS-PUZZLES",
+      "origin_url": "https://database.lichess.org/lichess_db_puzzle.csv.zst",
+      "provenance_page": "https://database.lichess.org/",
+      "source_sha256": "76335bfa7d7c4a7f93c1366d81549e53951ebb79dd43d34904cab8f22d962f8d",
+      "asserted_owner": "Lichess public export",
+      "observed_terms": "Lichess public database exports CC0",
+      "license_type": "CC0",
+      "raw_data_redistribution": "YES_WITH_TRACEABILITY_AND_PRIVACY_REVIEW",
+      "linked_personal_game_URLs": "REVIEW"
+    },
+    {
+      "id": "LICHESS-BROADCAST-SEP2026",
+      "origin_url": "https://database.lichess.org/broadcast/lichess_db_broadcast_2026-09.pgn.zst",
+      "provenance_page": "https://database.lichess.org/",
+      "source_sha256": null,
+      "asserted_owner": "Lichess broadcast export",
+      "observed_terms": "Broadcast games licensed CC BY-SA 4.0 on database page, a special licence carve-out from general CC0",
+      "license_type": "CC-BY-SA-4.0",
+      "raw_data_redistribution": "CONDITIONAL_ON_CREDIT_SHAREALIKE_AND_RIGHTS_VERIFICATION"
+    },
+    {
+      "id": "STOCKFISH16",
+      "origin_url": "https://github.com/official-stockfish/Stockfish",
+      "provenance_page": "https://stockfishchess.org/about/",
+      "source_git": "68e1e9b3811e16cad014b590d7443b9063b3eb52",
+      "asserted_owner": "Stockfish contributors",
+      "observed_terms": "GPLv3 corresponding modified source and license obligations when distributing modified binary",
+      "license_type": "GPL-3.0",
+      "modified_engine_binary_distribution": "CONDITIONAL_ON_GPLV3_COMPLIANCE",
+      "repo_python_harness_status": "SEPARATE_PROVENANCE_REVIEW"
+    }
+  ],
+  "release_policy": {
+    "public_repo_safe_by_default": [
+      "original independently written code",
+      "aggregate counts",
+      "SHA of source material",
+      "source pointer and repeatable protocol without source bytes"
+    ],
+    "public_repo_manual_review": [
+      "TWIC individual FEN",
+      "TWIC derived UCI candidate records",
+      "screenshot of TWIC game data",
+      "named players/events",
+      "small source excerpts"
+    ],
+    "automatic_public_upload_blocked": [
+      "TWIC zipped originals",
+      "TWIC PGN full game mainline",
+      "any copyrighted third-party original without licence",
+      "unknown licence raw binary",
+      "raw source material with unconfirmed explicit permission"
+    ],
+    "review_authority": "Human/licensing verification needed for ambiguous releases",
+    "not_legal_advice": true
+  }
+}
