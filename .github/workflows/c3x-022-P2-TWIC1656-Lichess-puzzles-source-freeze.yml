@@ -3,6 +3,8 @@ on:
   push:
     paths:
       - '.github/workflows/c3x-022-P2-TWIC1656-Lichess-puzzles-source-freeze.yml'
+      - 'harness/c3x_022_P2_external_TWIC_puzzle_engineblind_selector.py'
+      - 'tools/test_c3x_022_P2_external_sources.py'
   workflow_dispatch:
 permissions:
   contents: read
