@@ -1,0 +1,97 @@
+name: C3X 0.24 P3 Pre-FIRST Five Model Literal UCI Forecast Source-only
+on:
+  push:
+    paths:
+      - '.github/workflows/c3x-024-P3-preFIRST-five-model-512role-literal-forecast.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  source-only-predict-without-first:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Verify frozen pre-FIRST model source and unit tests
+        run: |
+          set -euo pipefail
+          python -m pip install -q chess==1.11.2
+          python -m unittest discover -s tools -p 'test_c3x_024_P3_M3v2_preFIRST_source_only_rule.py' -v
+          python -m py_compile harness/c3x_024_P3_Sep2025_128_preFIRST_M0_M1_M2_M3v1_M3v2.py
+          mkdir -p source stageA public
+      - name: Fetch frozen Sept source 128 without any native intervention
+        uses: actions/download-artifact@v4
+        with:
+          name: c3x-024-P3-SEP2025-128independent-SOURCE-ONLY-no-engine
+          path: source/
+          repository: WhoSia/C3X
+          run-id: '38079947147'
+          github-token: ${{ github.token }}
+      - name: Fetch genuine unchanged September 128 StageA without any FIRST
+        uses: actions/download-artifact@v4
+        with:
+          name: c3x-024-P3-SEP2025-128-untreated-native-O-F-SEE-no-treatment
+          path: stageA/
+          repository: WhoSia/C3X
+          run-id: '38080171816'
+          github-token: ${{ github.token }}
+      - name: Exact source SHA and original untouched StageA source validation
+        run: |
+          set -euo pipefail
+          test "$(sha256sum source/C3X024_P3_SEPT2025_ENGINEBLIND_128.json | awk '{print $1}')" = ee8265f96b055645428f2fa87b36647e1931c86c848db5725a8b0ec63596dacb
+          test "$(sha256sum stageA/C3X024_P3_SEP2025_STAGEA_UNTREATED_NATIVE128.json | awk '{print $1}')" = 1c9f265b507712069442956c3ecf0dcdcb7e9abbeaaff4b683ba9beb263d3b09
+          python - <<'PY'
+          import json
+          p='stageA/C3X024_P3_SEP2025_STAGEA_UNTREATED_NATIVE128.json'
+          s=json.load(open(p))['summary']
+          assert s['distinct_source_boards']==128 and s['potential_role_cells']==512
+          assert s['eligible_source_first_reader_role_cells']==501
+          assert s['actual_TT_FIRST_interventions']==0 and s['actual_SEE_Boolean_interventions']==0 and not s['treatment_outcomes_seen']
+          print('C3X024_P3_FORECAST_SHA_INPUT_GATE_PASS',s['eligible_source_first_reader_role_cells'])
+          PY
+      - name: Create all 512 exact UCI rows of M0 M1 M2 M3v1 M3v2 no engine
+        run: |
+          set -euo pipefail
+          PYTHONPATH=harness python -u harness/c3x_024_P3_Sep2025_128_preFIRST_M0_M1_M2_M3v1_M3v2.py --source source/C3X024_P3_SEPT2025_ENGINEBLIND_128.json --stagea stageA/C3X024_P3_SEP2025_STAGEA_UNTREATED_NATIVE128.json --stagea-sha 1c9f265b507712069442956c3ecf0dcdcb7e9abbeaaff4b683ba9beb263d3b09 --out public/C3X024_P3_SEPT128_FIVE_MODELS_EXACT_UCI_PRE_FIRST.json
+          python - <<'PY'
+          import json,hashlib
+          from pathlib import Path
+          p=Path('public/C3X024_P3_SEPT128_FIVE_MODELS_EXACT_UCI_PRE_FIRST.json')
+          j=json.loads(p.read_bytes())
+          assert j['source_games']==128 and j['role_cell_denominator']==512
+          assert j['TT_FIRST_interventions_seen']==j['SEE_boolean_interventions_seen']==0
+          assert j['summary']['eligible_pre_FirST_physical_role_cells']==501
+          print('C3X024_P3_FORECAST_512_ROLE_ROWS_FULL_SHA256='+hashlib.sha256(p.read_bytes()).hexdigest(),flush=True)
+          for at in range(0,128,8):
+              rows=[]
+              for game in j['cases'][at:at+8]:
+                  roles=[]
+                  for order in ('O','F'):
+                      for role in ('STRICT','BROAD'):
+                          x=game['root_orders'][order][role]
+                          roles.append([order,role,x['status'],x['M0'],x['M1'],x['M2_depth11'],
+                                        x['M3_v1'],x['M3_v2'],int(x['M3_v1_trigger']),int(x['M3_v2_trigger'])])
+                  rows.append([game['game_id'],game['source_game_sha256'],roles])
+              print('C3X024_P3_HUMAN_GIT_LITERAL_BATCH_'+str(at//8)+'='+json.dumps(rows,separators=(',',':')),flush=True)
+          print('C3X024_P3_SOURCE_ONLY_ALL_512_LITERAL_TABLE_READY_FOR_HUMAN_GIT_SEAL',j['summary'],flush=True)
+          PY
+      - name: Rights and contents audit for predictions before any FIRST
+        run: |
+          set -euo pipefail
+          python tools/c3x_023_rights_preupload_gate.py --tier P2_AGGREGATE_SUMMARY --file public/C3X024_P3_SEPT128_FIVE_MODELS_EXACT_UCI_PRE_FIRST.json --report public/RIGHTS_PRE_FIRST_FORECAST.json
+          echo 'Newly computed exact UCI predictions from source-only official Lichess September 2025 broadcast, CC BY-SA 4.0 https://database.lichess.org/broadcast/lichess_db_broadcast_2025-09.pgn.zst https://creativecommons.org/licenses/by-sa/4.0/. Untreated native Stockfish16 derived forecast; no full original PGN, player identity or modified binary.' > public/SOURCE_LICENSE_NOTICE.txt
+      - name: Public archive member SHA
+        if: always()
+        run: |
+          mkdir -p public
+          find public -maxdepth 1 -type f ! -name MEMBER_SHA256.txt -print0 | sort -z | xargs -0 -r sha256sum > public/MEMBER_SHA256.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x-024-P3-September128-five-model-literal-512role-UCI-preFIRST
+          path: public/
+          if-no-files-found: error
+          retention-days: 90
