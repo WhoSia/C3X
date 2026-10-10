@@ -1,0 +1,161 @@
+name: C3X 0.22 P2-R1 New TWIC1664 Engine-Blind SEE-like Chess Legal Source
+on:
+  push:
+    paths:
+      - '.github/workflows/c3x-022-P2-R1-new-TWIC1664-source-and-SEE.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  new-independent-twic1664-all-legal-exchange-before-engine:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Strict source-only selector regressions (never install chess engine)
+        run: |
+          python -m pip install -q chess==1.11.2 zstandard==0.25.0
+          python -m py_compile harness/c3x_020_C_March2026_enginefree_blind16.py
+          python -m py_compile harness/c3x_022_P0_april2026_engineblind_source.py
+          python -m unittest discover -s tools -p 'test_c3x_022_P0_april_source.py' -v
+          python -m py_compile harness/c3x_022_P2_external_TWIC_puzzle_engineblind_selector.py
+          python -m unittest discover -s tools -p 'test_c3x_022_P2_external_sources.py' -v
+          python -m unittest discover -s tools -p 'test_c3x_020_C_March2026_enginefree_selector.py' -v
+          python -m py_compile harness/c3x_022_P2_R1_TWIC1664_engineblind16.py
+          python -m py_compile harness/c3x_022_P2_R1_source_blind_legal_exchange_tree.py
+          python -m unittest discover -s tools -p 'test_c3x_022_P2_R1_source_and_SEE.py' -v
+      - name: October old source-only cohort
+        uses: actions/download-artifact@v4
+        with:
+          name: c3x-018-independent-PGN-blind-source-16
+          path: october/
+          repository: WhoSia/C3X
+          run-id: '37981820261'
+          github-token: ${{ github.token }}
+      - name: November old source-only cohort
+        uses: actions/download-artifact@v4
+        with:
+          name: c3x-018-november-blind12-chess-source
+          path: november/
+          repository: WhoSia/C3X
+          run-id: '37985213908'
+          github-token: ${{ github.token }}
+      - name: December old source-only cohort
+        uses: actions/download-artifact@v4
+        with:
+          name: c3x-018-december2025-blind12-source
+          path: december/
+          repository: WhoSia/C3X
+          run-id: '37987794988'
+          github-token: ${{ github.token }}
+      - name: January old source-only cohort
+        uses: actions/download-artifact@v4
+        with:
+          name: c3x-018-january2026-cross-window-blind16-source
+          path: january/
+          repository: WhoSia/C3X
+          run-id: '37991871987'
+          github-token: ${{ github.token }}
+      - name: February original independent source-only cohort
+        uses: actions/download-artifact@v4
+        with:
+          name: c3x-019-february2026-writer-version-blind16-source
+          path: february/
+          repository: WhoSia/C3X
+          run-id: '37998190878'
+          github-token: ${{ github.token }}
+      - name: March source-only independent history for April disjointness
+        uses: actions/download-artifact@v4
+        with:
+          name: c3x-020-C2-march2026-enginefree-blind16-source
+          path: march/
+          repository: WhoSia/C3X
+          run-id: '38038059013'
+          github-token: ${{ github.token }}
+      - name: April 2026 previously frozen independent games from before P2
+        uses: actions/download-artifact@v4
+        with:
+          name: c3x-022-P0-april2026-engineblind-source16
+          path: april/
+          repository: WhoSia/C3X
+          run-id: '38045636805'
+          github-token: ${{ github.token }}
+      - name: Previous TWIC1656 and Lichess puzzle32 cohort for source exclusion
+        uses: actions/download-artifact@v4
+        with:
+          name: c3x-022-P2-TWIC1656-LichessPuzzle-engineblind-source32
+          path: old32/
+          repository: WhoSia/C3X
+          run-id: '38047000932'
+          github-token: ${{ github.token }}
+      - name: Verify original historical materials before blind extraction
+        run: |
+          set -euo pipefail
+          mkdir -p evidence
+          test "$(sha256sum october/C3X018_INDEPENDENT_BLIND16_PGN_SOURCE.json | cut -d' ' -f1)" = 6520672aabab7f525872169085f19bdd81e27a4473f0c58ba9c9aa428937104c
+          test "$(sha256sum november/C3X018_NOVEMBER_12_BLIND_GAMES.json | cut -d' ' -f1)" = 2971fe617f39fbba6d40fb0b09d8a18ce247d5865dc807fcdab9a594e3473402
+          test "$(sha256sum december/C3X018_DECEMBER12_INDEPENDENT_GAMES.json | cut -d' ' -f1)" = 51366a480fe2631005dbded7992e870443ef6dd2dfd785fd10952d6eeff5e7cd
+          test "$(sha256sum january/C3X018_JAN26_BLIND16_SOURCE.json | cut -d' ' -f1)" = 5b49818e4678c12d0e5e73eba39eff2d50742b070a0ed870cba1d3e94afe0533
+          test "$(sha256sum february/C3X019_FEB26_BLIND16_SOURCE.json | cut -d' ' -f1)" = 2942b1933030227f36b669faff41f15ff234c27127dbf2403bf2e8e4f12ebdc8
+          test "$(sha256sum march/C3X020_C2_MARCH_BLIND16_SOURCE.json | cut -d' ' -f1)" = d79e48633be2b683176f1a6d4650aeea1b7584f11c85c2349a5bddda113febee
+          test "$(sha256sum april/C3X022_P0_APRIL16_SOURCE.json | cut -d' ' -f1)" = 0e5516fc0cd49203bf7cc366f4133d6c9b20a2f21de0667468f121e398d2fa93
+          test "$(sha256sum old32/C3X022_P2_TWIC1656_PUZZLE_SOURCE32.json | cut -d\' \' -f1)" = ebe6648f43f64c6f31e0d547845bec3d87c663093fd68298acf2ebe4c0287554
+      - name: Download source-only original TWIC1664 official ZIP and audit original SHA
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/C3X022_P2_R1 evidence
+          curl -fL --retry 3 --max-time 180 -sS https://theweekinchess.com/zips/twic1664g.zip -o /tmp/C3X022_P2_R1/twic1664g.zip
+          python - <<'PY'
+          import zipfile
+          with zipfile.ZipFile('/tmp/C3X022_P2_R1/twic1664g.zip') as f:
+              assert any(n.lower().endswith('.pgn') for n in f.namelist())
+          print('TWIC1664_PRIVATE_SOURCE_ZIP_VALID')
+          PY
+          sha256sum /tmp/C3X022_P2_R1/twic1664g.zip > evidence/TWIC1664_PRIVATE_ARCHIVE_SHA256.txt
+      - name: Select independent 16 legal TWIC1664 chess positions with ZERO engine
+        run: |
+          set -euo pipefail
+          python -u harness/c3x_022_P2_R1_TWIC1664_engineblind16.py \
+            --twic /tmp/C3X022_P2_R1/twic1664g.zip \
+            --p2prior old32/C3X022_P2_TWIC1656_PUZZLE_SOURCE32.json \
+            --prior c3x/cohorts/c3x-016-P4-12-independent-Lichess-legal-root-order-sourceonly-frozen.json \
+            --october october/C3X018_INDEPENDENT_BLIND16_PGN_SOURCE.json \
+            --november november/C3X018_NOVEMBER_12_BLIND_GAMES.json \
+            --december december/C3X018_DECEMBER12_INDEPENDENT_GAMES.json \
+            --january january/C3X018_JAN26_BLIND16_SOURCE.json \
+            --february february/C3X019_FEB26_BLIND16_SOURCE.json \
+            --march march/C3X020_C2_MARCH_BLIND16_SOURCE.json \
+            --april april/C3X022_P0_APRIL16_SOURCE.json \
+            --out evidence/C3X022_P2_R1_TWIC1664_BLIND16_SOURCE.json | tee evidence/SOURCE_STDOUT.txt
+      - name: Freeze ALL legal-root chess primitives and six-capture SEE-like trees before native evaluation
+        run: |
+          set -euo pipefail
+          SOURCE_SHA="$(sha256sum evidence/C3X022_P2_R1_TWIC1664_BLIND16_SOURCE.json | cut -d' ' -f1)"
+          python -u harness/c3x_022_P2_R1_source_blind_legal_exchange_tree.py \
+            --source evidence/C3X022_P2_R1_TWIC1664_BLIND16_SOURCE.json \
+            --source-sha "$SOURCE_SHA" \
+            --out evidence/C3X022_P2_R1_TWIC1664_ALL_LEGAL_SEE_LIKE.json | tee evidence/EXCHANGE_STDOUT.txt
+          python - <<'PY'
+          import json
+          a=json.load(open('evidence/C3X022_P2_R1_TWIC1664_BLIND16_SOURCE.json'))
+          b=json.load(open('evidence/C3X022_P2_R1_TWIC1664_ALL_LEGAL_SEE_LIKE.json'))
+          assert a['engine_calls_for_source_selection']==0
+          assert len(a['selected'])==len(b['positions'])==16
+          assert b['summary']['any_stockfish_used']==False
+          print("C3X022_P2_R1_FROZEN_NEW_TWIC16_SOURCE_AND_LEGAL_SEE",b['summary'])
+          PY
+      - name: Preserve SHA-256 of every member including negative outcomes
+        if: always()
+        run: |
+          mkdir -p evidence
+          find evidence -maxdepth 1 -type f ! -name MEMBER_SHA256.txt -print0 | sort -z | xargs -0 -r sha256sum > evidence/MEMBER_SHA256.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x-022-P2-R1-TWIC1664-blind16-legal-exchange
+          path: evidence/
+          retention-days: 90
+          if-no-files-found: error
