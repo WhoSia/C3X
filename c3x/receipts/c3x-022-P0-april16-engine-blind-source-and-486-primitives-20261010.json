@@ -1,0 +1,62 @@
+{
+  "schema": "c3x022-P0-april16-source-only-independent-ecology-proof-v1",
+  "date": "2026-10-10",
+  "status": "SOURCE_AND_ALL_LEGAL_CHESS_MOVES_FROZEN_BEFORE_NATIVE_0_22_P1_RESULTS",
+  "active_version": "C3X 0.22",
+  "precommit": "c3x/ontology/c3x-022-P0-april2026-independent-ecology-source-and-prospective-forecast-precommit.md",
+  "official_archive_url": "https://database.lichess.org/broadcast/lichess_db_broadcast_2026-04.pgn.zst",
+  "official_archive_sha256": "97b036f3a3639ae3be59c1508b1e18c76ac1b2e8fada4587d1b5c5a93c438d5d",
+  "source": {
+    "run_id": 38045636805,
+    "url": "https://github.com/WhoSia/C3X/actions/runs/38045636805",
+    "conclusion": "success",
+    "artifact_id": 11667648304,
+    "artifact_name": "c3x-022-P0-april2026-engineblind-source16",
+    "zip_sha256": "81a7229d125a6fe7bef4f3582a1be2f0acf63eb763bce8f9daa88cbfcf6e9dca",
+    "JSON_sha256": "0e5516fc0cd49203bf7cc366f4133d6c9b20a2f21de0667468f121e398d2fa93",
+    "all_member_hashes_verified": true,
+    "source_archive_scanned_games": 1395,
+    "first_eligible_games": 512,
+    "selected_games": 16,
+    "unique_historical_fen4": 100,
+    "rejected_counts": {
+      "FEWER_THAN_THREE_ROOT_MOVES": 2,
+      "HISTORICAL_OR_MARCH_FEN_OVERLAP": 1,
+      "NONSTANDARD_VARIANT": 9,
+      "SHORT_GAME": 871
+    },
+    "no_chess_engine_executed": true
+  },
+  "chess_primitives": {
+    "run_id": 38045732964,
+    "url": "https://github.com/WhoSia/C3X/actions/runs/38045732964",
+    "conclusion": "success",
+    "artifact_id": 11666963068,
+    "artifact_name": "c3x-022-P0-april16-all-legal-chess-primitive-source",
+    "zip_sha256": "e6d4db8f84f438f120838fd0a2464c264aec6bd5af6c2ada77a3df5cd6acacbc",
+    "JSON_sha256": "95b3d8857bad9147d5d655dcbe5d0e31300c57833bd6d04a8a905f278ac67986",
+    "all_legal_root_moves": 486,
+    "boards": 16,
+    "methods": [
+      "piece occupancy change",
+      "piece-square attack-edge gain/loss",
+      "king-pins",
+      "piece attack-defense geometric balance",
+      "legal opponent reply count+hash",
+      "legal capture/check and reply recapture"
+    ],
+    "no_chess_engine_executed": true
+  },
+  "prospective_predictions_frozen_before_native_outcomes": [
+    "H22_ORDER: >=1 distinct O vs F final root choice difference",
+    "H22_NATIVE: >=1 distinct game with physically contacted O/F FIRST TT reader block and changed final bestmove",
+    "H22_CONTEXT: sets of affected distinct games in O and F differ"
+  ],
+  "native_outcome_status_at_receipt_creation": "NOT_YET_VIEWED_OR_CONCLUDED",
+  "historical_failures_unchanged": [
+    "CPP224/PAG transfer",
+    "January J2/J3/J4",
+    "February F19.5",
+    "K4 0/4"
+  ]
+}
