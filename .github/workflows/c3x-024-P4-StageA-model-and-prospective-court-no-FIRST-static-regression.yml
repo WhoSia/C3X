@@ -1,0 +1,26 @@
+name: C3X 0.24 P4 Static Non-Treated 1024 Role Model and Prospective Court Checks
+on:
+  push:
+    paths:
+      - '.github/workflows/c3x-024-P4-StageA-model-and-prospective-court-no-FIRST-static-regression.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  code-and-model-no-july-treatment:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Verify fixed code compiles and M4 pure predictors obey preFIRST bounds
+        run: |
+          set -euo pipefail
+          python -m pip install -q chess==1.11.2 zstandard==0.25.0
+          python -m py_compile harness/c3x_024_P4_July256_untreated_native_stageA.py harness/c3x_024_P4_July256_1024_preFIRST_exact_UCI_M0_M4_six_models.py harness/c3x_024_P4_M4_preFIRST_survivor_corroboration_rule.py harness/c3x_024_P4_preFIRST_1024role_human_Git_literal_gate.py harness/c3x_024_P4_July256_sharded_native_TT_FIRST_after_human_Git_M4_UCI.py harness/c3x_024_P4_July256_after_human_seal_game_cluster_M4_vs_M0.py harness/c3x_024_P4_R1_july256_precommitted_event_cluster_bootstrap.py
+          python -m unittest discover -s tools -p 'test_c3x_024_P4_M4_preFIRST_survivor_rule.py' -v
+          test -f c3x/forecasts/c3x-024-P4-July2025-256-source-game-SHA-human-Git-seal-before-native-20261011.json
+          test ! -f c3x/forecasts/c3x-024-P4-July2025-256game-1024role-six-model-literal-UCI-before-FIRST-human-Git-seal-20261011.json
+          echo 'C3X024_P4_STATIC_MODEL_READY_BUT_TREATMENT_STRICTLY_NOT_AUTHORIZED'
