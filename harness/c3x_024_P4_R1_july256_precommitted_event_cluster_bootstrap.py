@@ -83,7 +83,7 @@ def audit(zst,results):
     if results["schema"]!="c3x024-P4-July2025-256-game-prospective-after-human-Git-presealed-six-models-v1" or results["original_literally_Git_sealed_predictions_SHA256"]!=model_seal["forecast_raw_SHA256"] or results["independent_source_game_rows"]!=256:
         raise ValueError("P4_MODEL_SCORE_NOT_ORIGINAL_256_PRESEALED_RUN")
     rows=results["source_only_deidentified_game_results"]
-    if len(rows)!=256 or [x["game_id"] for x in rows]!=list(range(1,129)):
+    if len(rows)!=256 or [x["game_id"] for x in rows]!=list(range(1,257)):
         raise ValueError("P4_EVENT_GROUPING_GAME_ROW_OR_SELECTION_CHANGED")
     source=events(zst,set(seal["ordered_selected_source_game_sha256"]))
     diffs={}
