@@ -1,0 +1,31 @@
+{
+  "schema": "c3x024-P3-engineblind-september2025-independent128-origin-receipt-v1",
+  "date": "2026-10-11",
+  "status": "SOURCE_ONLY_SHA_FROZEN__NO_STOCKFISH_BASELINE__NO_TT_SEE_TREATMENT__NO_M3_V2_TEST",
+  "precommit": "c3x/ontology/c3x-024-P3-September2025-fresh128-engineblind-cohort-and-M3v2-prospective-precommit-20261011.md",
+  "source_origin": "https://database.lichess.org/broadcast/lichess_db_broadcast_2025-09.pgn.zst",
+  "license": "CC BY-SA 4.0",
+  "source_original_compressed_SHA256": "da3a261e926a2c0f5e79c393818e643d76448edf94cfdaefa3892258a6f9e7ba",
+  "source_only_JSON_SHA256": "ee8265f96b055645428f2fa87b36647e1931c86c848db5725a8b0ec63596dacb",
+  "run_id": 38079947147,
+  "run_url": "https://github.com/WhoSia/C3X/actions/runs/38079947147",
+  "conclusion": "SUCCESS",
+  "source_independent_games": 128,
+  "selection_first_eligible": 4096,
+  "max_scanned": 20000,
+  "prior_source_manifests": 12,
+  "historical_includes_aug2025": true,
+  "previous_aug_source_JSON_SHA256": "76391058cae1fad8d23e3ae8556e48b63a0d991a051c59fef2df15e11c73f529",
+  "rights_source_only_chesslaw": "PASS_SOURCE_ONLY_CONTENT_NOT_LEGAL_CLEARANCE",
+  "public_artifact_id": 11679807229,
+  "artifact_zip_sha256": "a8a6b2070c1cecf3fd8d19c23ac6a27462c9eec1661f8a0cf892b542416bbc50",
+  "no_engine_or_intervention": true,
+  "source_data_minimized": true,
+  "pending": [
+    "Git-literal register 128 ordered source game hashes before native StageA",
+    "Nonintervention StageA O/F source native first reader genealogy",
+    "Model rule M3-v2 exact UCI freeze for all eligible 512 role cells before physical FIRST",
+    "Only after freeze may a treated prospective P3 outcome be scored"
+  ],
+  "governance": "No original PGNs/player headers/complete move lists or modified GPL engine published; human-authored Git; read-only Actions."
+}
