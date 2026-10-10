@@ -26,8 +26,10 @@ def record(d):
                 row=[order,role,x["status"],*(x[k] for k in MODELS),
                      int(x["M3_v1_trigger"]),int(x["M3_v2_trigger"]),int(x["M4_trigger"]),x["M4_reason"]]
                 if x["status"]=="FROZEN_SOURCE_ELIGIBLE":
-                    if any(row[j] is None for j in range(3,9)):
-                        raise ValueError("P4_SIX_MODEL_REQUIRED_EXACT_UCI_MISSING")
+                    if x["M0"] is None or x["M4_survivor"] is None:
+                        raise ValueError("P4_PRIMARY_M0_AND_M4_EXACT_UCI_REQUIRED")
+                    # Historic depth11-only comparison may be censored; keep its
+                    # literal prediction null, and later report valid coverage.
                     eligible+=1;positives+=int(x["M4_survivor"]!=x["M0"])
                 else:
                     if any(row[j] is not None for j in range(3,9)) or x["M4_trigger"]:
