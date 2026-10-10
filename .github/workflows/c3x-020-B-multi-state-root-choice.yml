@@ -55,7 +55,7 @@ jobs:
       - name: Frozen historical 0.19 K4 FAIL native result (read only)
         uses: actions/download-artifact@v4
         with:
-          name: c3x-020-B-four-frozen-multi-state-root-choice
+          name: c3x-019-four-original-root-return-one-site-rescue
           path: frozen019/
           repository: WhoSia/C3X
           run-id: '38031332649'
@@ -123,7 +123,7 @@ jobs:
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: c3x-019-four-original-root-return-one-site-rescue
+          name: c3x-020-B-four-frozen-multi-state-root-choice
           path: evidence/
           retention-days: 90
           if-no-files-found: error

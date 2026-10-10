@@ -105,6 +105,8 @@ def replace_once(source, anchor, replacement, label):
     return source.replace(anchor, replacement, 1)
 
 def patch(source):
+    if "static thread_local int c3x020_second_contacts = 0;" in source:
+        raise RuntimeError("C3X020_SOURCE_ALREADY_PATCHED")
     source = replace_once(source, "namespace Stockfish {\n",
                           "namespace Stockfish {\n" + STATE, "NAMESPACE")
     source = replace_once(source, "  c3x019_return_repair_contacts = 0;",
