@@ -297,7 +297,7 @@ def play(engine, world, p4_mode, lineage_mode=None, target=None, writer_budget=N
     for line in lines:
         if line.startswith("info string c3x018_lineage "):
             evt=parse_fields(line)
-            events.append({k:(v if k in ("kind","site") else int(v)) for k,v in evt.items()})
+            events.append({k:(v if k in ("kind","site","t1_path") else int(v)) for k,v in evt.items()})
     need(events or allow_empty_lineage, "NO_LINEAGE_EVENTS")
     need(not any(x["kind"]=="trace_censored" for x in events), "TRACE_CENSORED")
     fingerprints=[]
@@ -308,7 +308,7 @@ def play(engine, world, p4_mode, lineage_mode=None, target=None, writer_budget=N
     for line in lines:
         if line.startswith("info string c3x018_value_witness "):
             fields=parse_fields(line)
-            witnesses.append({k:(v if k in ("kind","site") else int(v)) for k,v in fields.items()})
+            witnesses.append({k:(v if k in ("kind","site","t1_path") else int(v)) for k,v in fields.items()})
     p0_save_events=[]
     for line in lines:
         if line.startswith("info string c3x018_p1_save "):
@@ -324,12 +324,12 @@ def play(engine, world, p4_mode, lineage_mode=None, target=None, writer_budget=N
     for line in lines:
         if line.startswith("info string c3x019_native_use "):
             fields=parse_fields(line)
-            native_tt_value_uses.append({k:(v if k in ("kind","site") else int(v)) for k,v in fields.items()})
+            native_tt_value_uses.append({k:(v if k in ("kind","site","t1_path") else int(v)) for k,v in fields.items()})
     watched_tt_probes=[]
     for line in lines:
         if line.startswith("info string c3x018_jan_probe_watch "):
             fields=parse_fields(line)
-            watched_tt_probes.append({k:(v if k in ("kind","site") else int(v)) for k,v in fields.items()})
+            watched_tt_probes.append({k:(v if k in ("kind","site","t1_path") else int(v)) for k,v in fields.items()})
     draw_gate_contacts=[]
     for line in lines:
         if line.startswith("info string c3x018_exact_draw_intervention "):
