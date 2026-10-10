@@ -1,0 +1,77 @@
+{
+  "schema": "c3x024-P0-Aug2025-16-source-before-first-native-literal-Git-seal-v1",
+  "created_date_kst": "2026-10-11",
+  "status": "SOURCE_ONLY_ENGINEBLIND_SUCCESS_GIT_LITERAL_SEALED__M3_NOT_DEFINED_OR_TESTED",
+  "formal_version_user_accepted": "C3X 0.24",
+  "P0_charter_git": "529605e6a6505c0a9dbd5fca3e571a20f9f7a248",
+  "source_selector_source_git": "d4dd6b90c245f2daacd5240b1b770954440020de",
+  "experimental_source": "https://database.lichess.org/broadcast/lichess_db_broadcast_2025-08.pgn.zst",
+  "license": "CC BY-SA 4.0",
+  "source_archive_original_SHA256": "f925d1f3b494517c8eae223976a886bed77a7b8627b17ec287e50cdda766dae8",
+  "source_only_original_reduced_16_json_SHA256": "76391058cae1fad8d23e3ae8556e48b63a0d991a051c59fef2df15e11c73f529",
+  "native_treatment_seen_before_this_git_commit": false,
+  "source_selection": {
+    "source_game_scanned": 788,
+    "first_eligible": 512,
+    "chosen_16": 16,
+    "historical_manifests_checked": 11,
+    "prior_distinct_fen4": 196,
+    "excluded": {
+      "SHORT_GAME": 274,
+      "LOW_ROOT_BRANCHING": 2
+    }
+  },
+  "literal_ordered_selected_source_game_sha256": [
+    "00055b15af21e99c27104422ca25a4e9134c5d8aef82e966c3ec6a96be91ad43",
+    "006f3a9928ed4597b734782b45b17c1dce9b2eb91f5eeaf39f64f48cc3ec742c",
+    "00ff79d87bd8679b20840a76c63adc803797608f3de1cfe04d146f06996f9eae",
+    "014223928c0bb3b7fa22340c0c4957ed0fda4a0d9502f6f5cc134c9e1298fb2c",
+    "01a2f790ee4cd46f8fd9b2182651ad352064877d206b9446e7d925ba7e43d1c1",
+    "01bd17e378cc8fec144e40afb99f55e9d9e15dfd766a4f2612d57ee3680f70ef",
+    "02436a4212abb9beb3b601431fe2555da335e800e7002fef24dc40682b03da20",
+    "031f04b1dadbbfb610621a3e9bf0d414dc826f9cde729fbc9068c446fec1cea2",
+    "033227f6dc39b95145bd8f87a37f9bca91de72d56201eb40f443f0be6590e507",
+    "0388552d7135633e5fb5a49975711ef2ec89fbc4b3d371cc4ff59637bc9e2a3f",
+    "03d19adc36d89a29eb3938018e088b3f941f1a5032ebe358bcde2319839e32b3",
+    "0441ab7815f3860442b314bcb88429a8c870b0407ec86cb925c8d432b0ec52a3",
+    "04e09ae1d57c1ce3c024d83c04cad445c6b3f2216b4ffc19d5f1370ac011b155",
+    "05145371f32dd1219ea22450656d5f542477c7197c7b89233ae54ca8af2d696a",
+    "076ca639d938e41af923582222bfa431d9403b7948105149be3e25f8e3c0820f",
+    "0857e73c8fe349b6f3fd203dd1219409f473455e002b48a89d77048683205078"
+  ],
+  "successful_gitHub_actions": {
+    "run_id": 38075786357,
+    "url": "https://github.com/WhoSia/C3X/actions/runs/38075786357",
+    "status": "SUCCESS",
+    "artifact_id": 11678319561,
+    "artifact_name": "c3x-024-P0-AUG2025-new-broadcast16-SOURCE-ONLY-no-engine",
+    "zip_SHA256": "134e5bba6ca2b0be2e0fc60c4cdc15a802f4f00288bf7dee6abc684c68a2ca05",
+    "inner_member_sums": [
+      "76391058cae1fad8d23e3ae8556e48b63a0d991a051c59fef2df15e11c73f529",
+      "7986218061413707f90b9132f55bebf227093f563dc21f8b4c80d3744b1d4ec6",
+      "9b8bc28003957fce704ee085fb11ca3327fbccc3e3c0849cf342767cc7887cd3",
+      "97c6cab5ae7c498c25a75a3b9d30e89e94375bc97a86d3139bb06f48ff0e73e5"
+    ],
+    "checksum_members_verified": 4,
+    "rights_gate": "PASS_SOURCE_ONLY_CONTENT_NOT_LEGAL_CLEARANCE",
+    "cold_native_count": 0,
+    "TT_FIRST_interventions": 0,
+    "SEE_Boolean_interventions": 0
+  },
+  "technical_prior_runs": [
+    {
+      "run_id": 38075683806,
+      "outcome": "TECHNICAL_FAIL_UNIT_TEST_INVALID_EXPECTED_EXCEPTION"
+    },
+    {
+      "run_id": 38075706809,
+      "outcome": "TECHNICAL_FAIL_UNIT_TEST_INVALID_EXPECTED_EXCEPTION"
+    },
+    {
+      "run_id": 38075743823,
+      "outcome": "TECHNICAL_FAIL_GIT_SHOW_SHALLOW_CHECKOUT"
+    }
+  ],
+  "scope_ceiling": "16 SHA-selected positions engineblind; tested against 196 frozen prior FEN4 values from 11 historic manifests, NOT every unindexed C3X experiment; no exact-UCI forecast, natural mediation, population transport or legal blanket release authority",
+  "next": "Future stageA must assert source JSON raw SHA and this literal selected game hash registry BEFORE ANY native untreated baseline. M0/M1/M2/M3 literal treated-UCI forecasts must then be separately committed before FIRST/SEE treatment."
+}
