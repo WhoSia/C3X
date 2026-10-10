@@ -46,8 +46,6 @@ class ReturnEdgePatchTest(unittest.TestCase):
         self.assertEqual([c[2] for c in FIXED],[4,10,4,4])
         for case in FIXED:
             c=config(case)
-            self.assertEqual(c["expected"],case[11-2]) if False else None
-            self.assertEqual(c["expected"],case[11-2] if False else case[11-2])
             self.assertEqual(c["mode"],"REPAIR")
             self.assertEqual(c["replacement"],case[9])
             self.assertEqual(c["expected"],case[10])
