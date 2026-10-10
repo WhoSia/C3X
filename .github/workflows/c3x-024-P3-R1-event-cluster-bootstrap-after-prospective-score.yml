@@ -1,0 +1,72 @@
+name: C3X 0.24 P3-R1 Postsealed Event Cluster Sensitivity On 128 Prospective Games
+# Method locked in Git before any September treatment score disclosure (ca7c7269).
+# This is a secondary event-dependence audit, not model refitting.
+on:
+  push:
+    paths:
+      - '.github/workflows/c3x-024-P3-R1-event-cluster-bootstrap-after-prospective-score.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  source-blind-anonymous-cluster-bootstrap:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Frozen event-sensitivity contract before model score inspection
+        run: |
+          set -euo pipefail
+          python -m pip install -q chess==1.11.2 zstandard==0.25.0
+          python -m py_compile harness/c3x_024_P3_R1_event_cluster_bootstrap_predeclared.py
+          test -f c3x/ontology/c3x-024-P3-R1-event-cluster-sensitivity-before-native-outcome-disclosure-20261011.md
+          mkdir -p scored public
+      - name: Original human presealed 128 game Git IDs and model literal SHA
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import json
+          r=json.load(open('c3x/forecasts/c3x-024-P3-Sept2025-128game-source-SHA-literal-preNative-Git-seal-20261011.json'))
+          f=json.load(open('c3x/forecasts/c3x-024-P3-Sep2025-128game-512role-five-model-literal-UCI-before-FIRST-human-Git-seal-20261011.json'))
+          assert len(r['ordered_source_game_SHA256'])==128
+          assert f['M3_v2_predicted_flips']==1 and f['forecast_untreated_full_JSON_SHA256']=='c402a6808bcaa2d73ec58632f87aa4ba7e8be0577b051b85e0a5610750eb1887'
+          print('C3X024_P3_R1_EVENT_CLUSTER_PRESEALED_128_IDENTITIES_AND_512_LITERAL_MODELS')
+          PY
+      - name: Fetch exact read-only prospective 128-game model score after four successful shards
+        uses: actions/download-artifact@v4
+        with:
+          name: c3x-024-P3-September128-presealed-M3v2-versus-M0-game-cluster-science-verdict
+          path: scored/
+          repository: WhoSia/C3X
+          run-id: '38081802661'
+          github-token: ${{ github.token }}
+      - name: SHA-gate exact original 128-game prospective source verdict
+        run: |
+          set -euo pipefail
+          test "$(sha256sum scored/C3X024_P3_SEPTEMBER128_M3v2_VS_M0_PROSPECTIVE_GAME_CLUSTER_VERDICT.json | awk '{print $1}')" = 63853d8de4861b24163a007898df0b23e21f3db9642adb16214f9eff4c9ab7ef
+      - name: Read privately original Sep2025 broadcast game headers only for grouping
+        run: |
+          set -euo pipefail
+          curl -fL --retry 3 --max-time 450 -sS https://database.lichess.org/broadcast/lichess_db_broadcast_2025-09.pgn.zst -o /tmp/C3X024_P3_R1_ORIGINAL_PRIVATE.pgn.zst
+          test "$(sha256sum /tmp/C3X024_P3_R1_ORIGINAL_PRIVATE.pgn.zst | awk '{print $1}')" = da3a261e926a2c0f5e79c393818e643d76448edf94cfdaefa3892258a6f9e7ba
+      - name: Exactly precommitted 10000 anonymous event and event-date cluster bootstrap resamples
+        run: |
+          set -euo pipefail
+          python -u harness/c3x_024_P3_R1_event_cluster_bootstrap_predeclared.py --zst /tmp/C3X024_P3_R1_ORIGINAL_PRIVATE.pgn.zst --model-score scored/C3X024_P3_SEPTEMBER128_M3v2_VS_M0_PROSPECTIVE_GAME_CLUSTER_VERDICT.json --out public/C3X024_P3_R1_EVENT_CLUSTER_BOOTSTRAP_128GAME_SCORE.json
+          python tools/c3x_023_rights_preupload_gate.py --tier P2_AGGREGATE_SUMMARY --file public/C3X024_P3_R1_EVENT_CLUSTER_BOOTSTRAP_128GAME_SCORE.json --report public/RIGHTS_EVENT_CLUSTER_SCAN.json
+          echo 'Original Lichess Sept2025 broadcast PGN CC BY-SA 4.0 https://database.lichess.org/broadcast/lichess_db_broadcast_2025-09.pgn.zst https://creativecommons.org/licenses/by-sa/4.0/ ; event and event-date cluster bootstrap using only anonymous count, no original PGN or identifying metadata output. No model refit.' > public/SOURCE_LICENSE_ATTRIBUTION_NOTICE.txt
+      - name: Member SHA
+        if: always()
+        run: |
+          mkdir -p public
+          find public -maxdepth 1 -type f ! -name MEMBER_SHA256.txt -print0 | sort -z | xargs -0 -r sha256sum > public/MEMBER_SHA256.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x-024-P3-R1-128game-event-and-date-cluster-sensitivity-aggregate
+          path: public/
+          if-no-files-found: error
+          retention-days: 90
