@@ -1,0 +1,112 @@
+name: C3X 0.23 P1 Licensed32 Untreated Native TT Source and SEE Key-Ancestry Stage A
+on:
+  push:
+    paths:
+      - '.github/workflows/c3x-023-P1-licensed32-stageA-untreated-native-parentpath-SEE.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  no-first-reader-V-licensed32-before-outcomes:
+    runs-on: ubuntu-latest
+    timeout-minutes: 110
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Strict untouched baseline and path observer source tests
+        run: |
+          set -euo pipefail
+          python -m pip install -q chess==1.11.2
+          python -m py_compile harness/c3x_023_P1_native_stageA_baseline_source_SEE_identity_registry.py
+          python -m py_compile tools/c3x_023_P1_native_SEE_parent_path_key_overlay.py
+          python -m unittest discover -s tools -p 'test_c3x_023_P1_native_SEE_ancestry_path_overlay.py' -v
+          python -m unittest discover -s tools -p 'test_c3x_023_P1_native_stageA_node_source_registry.py' -v
+          python -m unittest discover -s tools -p 'test_c3x_023_P1_native_stageA_release_gate.py' -v
+          python -m unittest discover -s tools -p 'test_c3x_023_publication_rights_gate.py' -v
+          mkdir -p evidence
+      - name: Retrieve only the new Lichess BY-SA and CC0 selected position cohort
+        uses: actions/download-artifact@v4
+        with:
+          name: c3x-023-P1-licensed-May-broadcast-CC0-nonmate32-engineblind-freeze
+          path: source/
+          repository: WhoSia/C3X
+          run-id: '38059784922'
+          github-token: ${{ github.token }}
+      - name: Verify no Stockfish encountered this frozen source during selection
+        run: |
+          set -euo pipefail
+          test "$(sha256sum source/C3X023_P1_MAY_BROADCAST_CC0_NONMATE32_SOURCE_ONLY.json | cut -d' ' -f1)" = 0ff43e28dcb3a5e48dea6b61e4450fc8bb9e1f96363871c33c4b73524664db61
+          python tools/c3x_023_rights_preupload_gate.py \
+            --tier P4_LICHESS_LICENSED_SOURCE_ONLY \
+            --file source/C3X023_P1_MAY_BROADCAST_CC0_NONMATE32_SOURCE_ONLY.json \
+            --report evidence/P1_SOURCE_LICENSE_GATE.json
+      - name: Native Stockfish16 single-return plus second-return and persistent-state build
+        run: |
+          set -euo pipefail
+          root=/tmp/C3X020_MULTI_STATE
+          git clone -q --single-branch --branch sf_16 https://github.com/official-stockfish/Stockfish.git "$root"
+          test "$(git -C "$root" rev-parse HEAD)" = 68e1e9b3811e16cad014b590d7443b9063b3eb52
+          python tools/c3x_016_P4_independent_12root_source_order_patch.py --source "$root" --out-manifest evidence/P4.json
+          python tools/c3x_017_early_depth1_root_window_trace_patch.py --source "$root" --out-manifest evidence/ROOT_TRACE.json
+          python tools/c3x_018_trial_call_identity_patch.py --source "$root" --out-manifest evidence/TRIAL_ID.json
+          python tools/c3x_018_physical_epoch_lineage_patch.py --source "$root" --out-manifest evidence/EPOCH.json
+          python tools/c3x_018_tt_eval_consumption_overlay.py --source "$root" --out-manifest evidence/V.json
+          python tools/c3x_018_physical_value_witness_overlay.py --source "$root" --out-manifest evidence/WRITER_TICKET.json
+          python tools/c3x_018_root_TT_genealogy_overlay.py --source "$root" --out-manifest evidence/ROOT_TT_LINEAGE.json
+          python tools/c3x_018_TT_reader_writer_age_bound_root_feature_overlay.py --source "$root" --out-manifest evidence/AGE_BOUND.json
+          python tools/c3x_018_january2048_TT_reader_source_census.py --source "$root" --out-manifest evidence/CENSUS.json
+          python tools/c3x_018_adaptive_writer_age_root_call_V_gate.py --source "$root" --out-manifest evidence/AGE_GATE.json
+          python tools/c3x_018_january_cross_window_pair_source_gate.py --source "$root" --out-manifest evidence/WINDOW_GATE.json
+          python tools/c3x_018_jan_original_key_TT_probe_watch_overlay.py --source "$root" --out-manifest evidence/PROBE.json
+          python tools/c3x_018_jan_TT_probe_physical_writer_epoch_witness.py --source "$root" --out-manifest evidence/PROBE_WRITER.json
+          python tools/c3x_018_P0P1_TT_save_decision_writer_reinstate_overlay.py --source "$root" --out-manifest evidence/P0_P1_SOURCE_MUTATION.json
+          python tools/c3x_018_P1_pre_second_reader_temporal_scope_overlay.py --source "$root" --out-manifest evidence/P1_PRE_SECOND_TEMPORAL_GATE.json
+          python tools/c3x_019_tt_raw_bytes_shadow_writer_orthogonal_overlay.py --source "$root" --out-manifest evidence/C3X019_ORTHOGONAL_WRITER_STATE.json
+          python tools/c3x_019_actual_native_tt_eval_use_source_witness.py --source "$root" --out-manifest evidence/C3X019_NATIVE_EVAL_USE.json
+          python tools/c3x_019_native_TT_cutoff_actual_return_overlay.py --source "$root" --out-manifest evidence/C3X019_NATIVE_TT_CUTOFF_RETURN.json
+          python tools/c3x_019_root_return_one_site_rescue_overlay.py --source "$root" --out-manifest evidence/ONE_SITE_RETURN_MUTATION.json
+          python tools/c3x_020_multi_state_root_repair_overlay.py --source "$root" --out-manifest evidence/C3X020_MULTI_STATE_MUTATION.json
+          python tools/c3x_022_P2_R2_native_SEE_source_witness_overlay.py --source "$root" --out-manifest evidence/C3X022_R2_NATIVE_SEE_FOUR_SOURCE_SITES.json
+          python tools/c3x_022_P2_R2_D1_rootcall_only_SEE_observer.py --source "$root" --out-manifest evidence/C3X022_R2_D1_DESCENDANT_READONLY.json
+          python tools/c3x_023_P1_native_SEE_parent_path_key_overlay.py --source "$root" --out-manifest evidence/C3X023_P1_MAIN_QSEARCH_ANCESTRY_KEYPATH.json
+          git -C "$root" diff -- src/ > /tmp/C3X023_GPL_MODIFIED_ENGINE_SOURCE.diff
+          sha256sum /tmp/C3X023_GPL_MODIFIED_ENGINE_SOURCE.diff | awk '{print $1 "  GPL_DIFF_PRIVATE_NOT_UPLOADED"}' > evidence/MODIFIED_GPL_DIFF_SHA256.txt
+          make -s -C "$root/src" -j2 build ARCH=x86-64
+          sha256sum "$root/src/stockfish" | awk '{print $1 "  MODIFIED_ENGINE_BINARY_NOT_UPLOADED"}' > evidence/BINARY_SHA256.txt
+      - name: Untreated cold O F baseline and actual native SEE parent-path observation
+        run: |
+          set -euo pipefail
+          python -u harness/c3x_023_P1_native_stageA_baseline_source_SEE_identity_registry.py \
+            --source source/C3X023_P1_MAY_BROADCAST_CC0_NONMATE32_SOURCE_ONLY.json \
+            --engine /tmp/C3X020_MULTI_STATE/src/stockfish \
+            --out evidence/C3X023_P1_LICENSED32_STAGEA_NO_V_NODEPATH.json | tee evidence/STAGEA_AGGREGATE_STDOUT.txt
+          python - <<'PY'
+          import json
+          d=json.load(open('evidence/C3X023_P1_LICENSED32_STAGEA_NO_V_NODEPATH.json'))
+          assert d["summary"]["distinct_source_boards"]==32
+          assert d["summary"]["actual_TT_FIRST_interventions"]==0
+          assert d["summary"]["actual_SEE_Boolean_interventions"]==0
+          print('C3X023_P1_BEFORE_TREATMENT_NATIVE_SOURCE_WITNESSES_SEALED',d["summary"])
+          PY
+      - name: Verify full Stage A packet licence, no treatment outcome, and source identity
+        run: |
+          set -euo pipefail
+          python tools/c3x_023_rights_preupload_gate.py \
+            --tier P5_LICHESS_LICENSED_NATIVE_STAGEA \
+            --file evidence/C3X023_P1_LICENSED32_STAGEA_NO_V_NODEPATH.json \
+            --report evidence/C3X023_P1_NATIVE_STAGEA_RELEASE_SCAN.json
+          echo 'Lichess May2026 broadcast source https://database.lichess.org/broadcast/lichess_db_broadcast_2026-05.pgn.zst CC BY-SA 4.0 https://creativecommons.org/licenses/by-sa/4.0/ Attribution: Lichess broadcasts. Changed: selected legal chess positions and original search results, no original full PGNs, player names or game headers. Licensed CC0 puzzle roots from https://database.lichess.org/lichess_db_puzzle.csv.zst. GPLv3 compiled Stockfish engine deliberately not uploaded. The scan is technical and not a substitute for an independent rights review.' > evidence/SOURCE_LICENSE_ATTRIBUTION_NOTICE.txt
+      - name: Member SHA256 and fail-preserving artifact
+        if: always()
+        run: |
+          mkdir -p evidence
+          find evidence -maxdepth 1 -type f ! -name MEMBER_SHA256.txt -print0 | sort -z | xargs -0 -r sha256sum > evidence/MEMBER_SHA256.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x-023-P1-licensed32-stageA-native-TT-SEE-nodepath-no-intervention
+          path: evidence/
+          retention-days: 90
+          if-no-files-found: error
