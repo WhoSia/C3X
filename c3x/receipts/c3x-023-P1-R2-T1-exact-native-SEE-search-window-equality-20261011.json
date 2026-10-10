@@ -1,0 +1,58 @@
+{
+  "schema": "c3x023-P1-R2-T1-exact-native-see-computational-window-equality-receipt-v1",
+  "date": "2026-10-11",
+  "status": "NATIVE_READONLY_SEARCH_STATE_ALIGNMENT_SUCCESS__NATURAL_TT_SEE_MEDIATION_NOT_PROVED",
+  "preregistration": "c3x/ontology/c3x-023-P1-R2-T1-native-search-state-exchange-activation-preregistration.md",
+  "research_case_selection": "P1-R2-T0 six frozen post-R1 outcome-informed May2026 licensed CC-BY-SA broadcast chess games",
+  "native_fixed_engine": "Stockfish16 68e1e9b3811e16cad014b590d7443b9063b3eb52 1 Thread Hash16 NNUE OFF depth12",
+  "frozen_S0_source_SHA256": "0ff43e28dcb3a5e48dea6b61e4450fc8bb9e1f96363871c33c4b73524664db61",
+  "frozen_untreated_stageA_SHA256": "fe88afe49d7d43db7b81c37decab783f2b68311ed2ca10b6f42be4268bdb3442",
+  "run": {
+    "id": 38063680310,
+    "url": "https://github.com/WhoSia/C3X/actions/runs/38063680310",
+    "conclusion": "success",
+    "artifact_id": 11673454794,
+    "artifact_zip_SHA256": "fb0a2c209807970a6021f35f85e3a8f3b9027c977adb1bd552c7cc34126bb383",
+    "public_aggregate_JSON_SHA256": "ba846ccab72fdb7b7970664169dbce67e411d9bd081d4c8f5c037300a3278dc8",
+    "private_full_native_source_result_SHA256": "1975a515755e31a4c9445239750bde88211a13c328f667d86cabba2ce58effeb",
+    "public_zip_member_SHA256_verified": 4,
+    "member_failures": 0
+  },
+  "evidence": {
+    "preselected_development_chess_roots": 6,
+    "native_TT_FIRST_physical_contact_cases": 6,
+    "late_exact_window_and_ancestor_match_cases": 4,
+    "late_strict_unique_source_events": 21,
+    "events_before_original_TT_native_score_use_or_counterfactual_block": 62,
+    "root_cases_censored": 2,
+    "same_chess_path_but_different_measured_search_state_post_source": 0,
+    "root_chess_games_with_actual_TT_FIRST_bestmove_change": 4,
+    "actual_native_SEE_return_flips": 0,
+    "sites": "actual original four Stockfish16 search.cpp SEE branches",
+    "source_state_fields": [
+      "native full64 position key",
+      "parent key64",
+      "exact ordered ancestor key vector",
+      "root call and root candidate",
+      "move and source site",
+      "threshold",
+      "live ss->ply",
+      "live depth",
+      "live alpha/beta",
+      "live PV",
+      "rule50 counter",
+      "defined native pos.pieces occupancy",
+      "SEE original Boolean"
+    ],
+    "important_uninitialized_argument_handling": "Original Stockfish16 see_ge(Move, Bitboard& occupied, threshold) may exit before assigning occupied; original output Bitboard deliberately NOT dereferenced. Input occupancy is pos.pieces().",
+    "limitation": "Exact measured state tuple is not same as full source Stack history, all TT entries, exact move-counter states; P1-R2-T1 does not prove natural mediation."
+  },
+  "scientific_verdict": "SOURCE_LEVEL_MEASURED_STATE_IDENTITY_POSITIVE; CAUSAL_SEE_MEDIATION_NOT_IDENTIFIED; DEVELOPMENT_ONLY",
+  "rights": {
+    "source": "Lichess May2026 broadcast CC BY-SA 4.0",
+    "artifacts": "public aggregate/source hashes only",
+    "original_PGN": "NOT_UPLOADED",
+    "modified_Stockfish_binary": "NOT_UPLOADED",
+    "technical_scan": "PASS_NOT_LEGAL_CLEARANCE"
+  }
+}
