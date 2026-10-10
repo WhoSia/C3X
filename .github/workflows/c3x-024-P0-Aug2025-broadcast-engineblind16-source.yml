@@ -26,7 +26,8 @@ jobs:
       - name: Recover pinned original C3X016 P4 June history directly from human-authored Git
         run: |
           set -euo pipefail
-          git show 529605e6a6505c0a9dbd5fca3e571a20f9f7a248:c3x/cohorts/c3x-016-P4-12-independent-Lichess-legal-root-order-sourceonly-frozen.json > prior/p4.json
+          cp c3x/cohorts/c3x-016-P4-12-independent-Lichess-legal-root-order-sourceonly-frozen.json prior/p4.json
+          test "$(git hash-object prior/p4.json)" = b0634c9f65ce31e4eb3f29d73fe77b84cdb5b7df
       - name: Read only prior october previously source-frozen cohort
         uses: actions/download-artifact@v4
         with:
