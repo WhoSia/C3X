@@ -1,0 +1,1028 @@
+{
+  "schema": "c3x022-P2-TWIC-puzzle32-Git-committed-literal-128-UCI-forecasts-v1",
+  "sealed_before_any_first_TT_reader_intervention": true,
+  "dated": "2026-10-10",
+  "precommit": "c3x/ontology/c3x-022-P2-TWIC-Lichess-puzzles-exact-move-forecast-precommit.md",
+  "stageA_github_actions_run_id": 38047696668,
+  "stageA_artifact_id": 11668142394,
+  "stageA_artifact_name": "c3x-022-P2-stageA-TWIC-puzzle-exact-UCI-forecasts",
+  "stageA_artifact_ZIP_SHA256": "ffeb5cd997e2e7616bc9fd5b6af2c817d5c26d8b40c55b2238b9c0a226fa6239",
+  "full_stageA_JSON_sha256": "0258edda1182ff21f4764e015548125e43978b504e36fa6d7c99a0f235a74fcd",
+  "engine_free_new32_source_sha256": "ebe6648f43f64c6f31e0d547845bec3d87c663093fd68298acf2ebe4c0287554",
+  "pre_native_1056_chess_primitives_sha256": "b3b4a29788c1f9dc2b4d491cd60d44ad8e6530d3d66be5d77039a6fd59cc958d",
+  "forecast_rule": "CROSS_ORDER_RESTORATION_V1; for O/F disagreement predict the opposite order's baseline exact legal UCI, otherwise predict no move switch; selected source pair required",
+  "scope": "No first-reader TT intervention in Stage A, all physical pair key/slot/epoch/call source IDs held in SHA-frozen full Stage A artifact, full 128 UCI predictions explicitly archived here.",
+  "summary": {
+    "ecologies": 2,
+    "PGN_or_puzzle_games": 32,
+    "cells": 128,
+    "source_eligible_cells": 92,
+    "no_source_pair_cells": 36,
+    "twic_O_F_different_games": 8,
+    "puzzle_O_F_different_games": 0
+  },
+  "forecasts": {
+    "twic": [
+      {
+        "game_id": 1,
+        "baseline_O_bestmove": "g3e2",
+        "baseline_F_bestmove": "e1d1",
+        "source_pair_role_forecasts": {
+          "O": {
+            "STRICT": {
+              "status": "PREDICTED_EXACT_UCI_BEFORE_TT_INTERVENTION",
+              "predicted_UCI": "e1d1",
+              "predicted_flip": true
+            },
+            "BROAD": {
+              "status": "PREDICTED_EXACT_UCI_BEFORE_TT_INTERVENTION",
+              "predicted_UCI": "e1d1",
+              "predicted_flip": true
+            }
+          },
+          "F": {
+            "STRICT": {
+              "status": "PREDICTED_EXACT_UCI_BEFORE_TT_INTERVENTION",
+              "predicted_UCI": "g3e2",
+              "predicted_flip": true
+            },
+            "BROAD": {
+              "status": "PREDICTED_EXACT_UCI_BEFORE_TT_INTERVENTION",
+              "predicted_UCI": "g3e2",
+              "predicted_flip": true
+            }
+          }
+        }
+      },
+      {
+        "game_id": 2,
+        "baseline_O_bestmove": "a1d1",
+        "baseline_F_bestmove": "a1d1",
+        "source_pair_role_forecasts": {
+          "O": {
+            "STRICT": {
+              "status": "PREDICTED_EXACT_UCI_BEFORE_TT_INTERVENTION",
+              "predicted_UCI": "a1d1",
+              "predicted_flip": false
+            },
+            "BROAD": {
+              "status": "PREDICTED_EXACT_UCI_BEFORE_TT_INTERVENTION",
+              "predicted_UCI": "a1d1",
+              "predicted_flip": false
+            }
+          },
+          "F": {
+            "STRICT": {
+              "status": "PREDICTED_EXACT_UCI_BEFORE_TT_INTERVENTION",
+              "predicted_UCI": "a1d1",
+              "predicted_flip": false
+            },
+            "BROAD": {
+              "status": "PREDICTED_EXACT_UCI_BEFORE_TT_INTERVENTION",
+              "predicted_UCI": "a1d1",
+              "predicted_flip": false
+            }
+          }
+        }
+      },
+      {
+        "game_id": 3,
+        "baseline_O_bestmove": "h1f1",
+        "baseline_F_bestmove": "c1b1",
+        "source_pair_role_forecasts": {
+          "O": {
+            "STRICT": {
+              "status": "PREDICTED_EXACT_UCI_BEFORE_TT_INTERVENTION",
+              "predicted_UCI": "c1b1",
+              "predicted_flip": true
+            },
+            "BROAD": {
+              "status": "PREDICTED_EXACT_UCI_BEFORE_TT_INTERVENTION",
+              "predicted_UCI": "c1b1",
+              "predicted_flip": true
+            }
+          },
+          "F": {
+            "STRICT": {
+              "status": "PREDICTED_EXACT_UCI_BEFORE_TT_INTERVENTION",
+              "predicted_UCI": "h1f1",
+              "predicted_flip": true
+            },
+            "BROAD": {
+              "status": "PREDICTED_EXACT_UCI_BEFORE_TT_INTERVENTION",
+              "predicted_UCI": "h1f1",
+              "predicted_flip": true
+            }
+          }
+        }
+      },
+      {
+        "game_id": 4,
+        "baseline_O_bestmove": "b5c3",
+        "baseline_F_bestmove": "c2c8",
+        "source_pair_role_forecasts": {
+          "O": {
+            "STRICT": {
+              "status": "PREDICTED_EXACT_UCI_BEFORE_TT_INTERVENTION",
+              "predicted_UCI": "c2c8",
+              "predicted_flip": true
+            },
+            "BROAD": {
+              "status": "PREDICTED_EXACT_UCI_BEFORE_TT_INTERVENTION",
+              "predicted_UCI": "c2c8",
+              "predicted_flip": true
+            }
+          },
+          "F": {
+            "STRICT": {
+              "status": "PREDICTED_EXACT_UCI_BEFORE_TT_INTERVENTION",
+              "predicted_UCI": "b5c3",
+              "predicted_flip": true
+            },
+            "BROAD": {
+              "status": "PREDICTED_EXACT_UCI_BEFORE_TT_INTERVENTION",
+              "predicted_UCI": "b5c3",
+              "predicted_flip": true
+            }
+          }
+        }
+      },
+      {
+        "game_id": 5,
+        "baseline_O_bestmove": "f1c1",
+        "baseline_F_bestmove": "f1c1",
+        "source_pair_role_forecasts": {
+          "O": {
+            "STRICT": {
+              "status": "PREDICTED_EXACT_UCI_BEFORE_TT_INTERVENTION",
+              "predicted_UCI": "f1c1",
+              "predicted_flip": false
+            },
+            "BROAD": {
+              "status": "PREDICTED_EXACT_UCI_BEFORE_TT_INTERVENTION",
+              "predicted_UCI": "f1c1",
+              "predicted_flip": false
+            }
+          },
+          "F": {
+            "STRICT": {
+              "status": "PREDICTED_EXACT_UCI_BEFORE_TT_INTERVENTION",
+              "predicted_UCI": "f1c1",
+              "predicted_flip": false
+            },
+            "BROAD": {
+              "status": "PREDICTED_EXACT_UCI_BEFORE_TT_INTERVENTION",
+              "predicted_UCI": "f1c1",
+              "predicted_flip": false
+            }
+          }
+        }
+      },
+      {
+        "game_id": 6,
+        "baseline_O_bestmove": "f3h5",
+        "baseline_F_bestmove": "f3h5",
+        "source_pair_role_forecasts": {
+          "O": {
+            "STRICT": {
+              "status": "PREDICTED_EXACT_UCI_BEFORE_TT_INTERVENTION",
+              "predicted_UCI": "f3h5",
+              "predicted_flip": false
+            },
+            "BROAD": {
+              "status": "PREDICTED_EXACT_UCI_BEFORE_TT_INTERVENTION",
+              "predicted_UCI": "f3h5",
+              "predicted_flip": false
+            }
+          },
+          "F": {
+            "STRICT": {
+              "status": "PREDICTED_EXACT_UCI_BEFORE_TT_INTERVENTION",
+              "predicted_UCI": "f3h5",
+              "predicted_flip": false
+            },
+            "BROAD": {
+              "status": "PREDICTED_EXACT_UCI_BEFORE_TT_INTERVENTION",
+              "predicted_UCI": "f3h5",
+              "predicted_flip": false
+            }
+          }
+        }
+      },
+      {
+        "game_id": 7,
+        "baseline_O_bestmove": "d8d7",
+        "baseline_F_bestmove": "a7a5",
+        "source_pair_role_forecasts": {
+          "O": {
+            "STRICT": {
+              "status": "PREDICTED_EXACT_UCI_BEFORE_TT_INTERVENTION",
+              "predicted_UCI": "a7a5",
+              "predicted_flip": true
+            },
+            "BROAD": {
+              "status": "PREDICTED_EXACT_UCI_BEFORE_TT_INTERVENTION",
+              "predicted_UCI": "a7a5",
+              "predicted_flip": true
+            }
+          },
+          "F": {
+            "STRICT": {
+              "status": "PREDICTED_EXACT_UCI_BEFORE_TT_INTERVENTION",
+              "predicted_UCI": "d8d7",
+              "predicted_flip": true
+            },
+            "BROAD": {
+              "status": "PREDICTED_EXACT_UCI_BEFORE_TT_INTERVENTION",
+              "predicted_UCI": "d8d7",
+              "predicted_flip": true
+            }
+          }
+        }
+      },
+      {
+        "game_id": 8,
+        "baseline_O_bestmove": "h7h6",
+        "baseline_F_bestmove": "h7h6",
+        "source_pair_role_forecasts": {
+          "O": {
+            "STRICT": {
+              "status": "PREDICTED_EXACT_UCI_BEFORE_TT_INTERVENTION",
+              "predicted_UCI": "h7h6",
+              "predicted_flip": false
+            },
+            "BROAD": {
+              "status": "PREDICTED_EXACT_UCI_BEFORE_TT_INTERVENTION",
+              "predicted_UCI": "h7h6",
+              "predicted_flip": false
+            }
+          },
+          "F": {
+            "STRICT": {
+              "status": "PREDICTED_EXACT_UCI_BEFORE_TT_INTERVENTION",
+              "predicted_UCI": "h7h6",
+              "predicted_flip": false
+            },
+            "BROAD": {
+              "status": "PREDICTED_EXACT_UCI_BEFORE_TT_INTERVENTION",
+              "predicted_UCI": "h7h6",
+              "predicted_flip": false
+            }
+          }
+        }
+      },
+      {
+        "game_id": 9,
+        "baseline_O_bestmove": "a1c1",
+        "baseline_F_bestmove": "a1c1",
+        "source_pair_role_forecasts": {
+          "O": {
+            "STRICT": {
+              "status": "PREDICTED_EXACT_UCI_BEFORE_TT_INTERVENTION",
+              "predicted_UCI": "a1c1",
+              "predicted_flip": false
+            },
+            "BROAD": {
+              "status": "PREDICTED_EXACT_UCI_BEFORE_TT_INTERVENTION",
+              "predicted_UCI": "a1c1",
+              "predicted_flip": false
+            }
+          },
+          "F": {
+            "STRICT": {
+              "status": "PREDICTED_EXACT_UCI_BEFORE_TT_INTERVENTION",
+              "predicted_UCI": "a1c1",
+              "predicted_flip": false
+            },
+            "BROAD": {
+              "status": "PREDICTED_EXACT_UCI_BEFORE_TT_INTERVENTION",
+              "predicted_UCI": "a1c1",
+              "predicted_flip": false
+            }
+          }
+        }
+      },
+      {
+        "game_id": 10,
+        "baseline_O_bestmove": "f8f7",
+        "baseline_F_bestmove": "a8e8",
+        "source_pair_role_forecasts": {
+          "O": {
+            "STRICT": {
+              "status": "PREDICTED_EXACT_UCI_BEFORE_TT_INTERVENTION",
+              "predicted_UCI": "a8e8",
+              "predicted_flip": true
+            },
+            "BROAD": {
+              "status": "PREDICTED_EXACT_UCI_BEFORE_TT_INTERVENTION",
+              "predicted_UCI": "a8e8",
+              "predicted_flip": true
+            }
+          },
+          "F": {
+            "STRICT": {
+              "status": "PREDICTED_EXACT_UCI_BEFORE_TT_INTERVENTION",
+              "predicted_UCI": "f8f7",
+              "predicted_flip": true
+            },
+            "BROAD": {
+              "status": "PREDICTED_EXACT_UCI_BEFORE_TT_INTERVENTION",
+              "predicted_UCI": "f8f7",
+              "predicted_flip": true
+            }
+          }
+        }
+      },
+      {
+        "game_id": 11,
+        "baseline_O_bestmove": "e1e5",
+        "baseline_F_bestmove": "e1e5",
+        "source_pair_role_forecasts": {
+          "O": {
+            "STRICT": {
+              "status": "PREDICTED_EXACT_UCI_BEFORE_TT_INTERVENTION",
+              "predicted_UCI": "e1e5",
+              "predicted_flip": false
+            },
+            "BROAD": {
+              "status": "PREDICTED_EXACT_UCI_BEFORE_TT_INTERVENTION",
+              "predicted_UCI": "e1e5",
+              "predicted_flip": false
+            }
+          },
+          "F": {
+            "STRICT": {
+              "status": "PREDICTED_EXACT_UCI_BEFORE_TT_INTERVENTION",
+              "predicted_UCI": "e1e5",
+              "predicted_flip": false
+            },
+            "BROAD": {
+              "status": "PREDICTED_EXACT_UCI_BEFORE_TT_INTERVENTION",
+              "predicted_UCI": "e1e5",
+              "predicted_flip": false
+            }
+          }
+        }
+      },
+      {
+        "game_id": 12,
+        "baseline_O_bestmove": "e1g1",
+        "baseline_F_bestmove": "a1c1",
+        "source_pair_role_forecasts": {
+          "O": {
+            "STRICT": {
+              "status": "PREDICTED_EXACT_UCI_BEFORE_TT_INTERVENTION",
+              "predicted_UCI": "a1c1",
+              "predicted_flip": true
+            },
+            "BROAD": {
+              "status": "PREDICTED_EXACT_UCI_BEFORE_TT_INTERVENTION",
+              "predicted_UCI": "a1c1",
+              "predicted_flip": true
+            }
+          },
+          "F": {
+            "STRICT": {
+              "status": "PREDICTED_EXACT_UCI_BEFORE_TT_INTERVENTION",
+              "predicted_UCI": "e1g1",
+              "predicted_flip": true
+            },
+            "BROAD": {
+              "status": "PREDICTED_EXACT_UCI_BEFORE_TT_INTERVENTION",
+              "predicted_UCI": "e1g1",
+              "predicted_flip": true
+            }
+          }
+        }
+      },
+      {
+        "game_id": 13,
+        "baseline_O_bestmove": "d5d4",
+        "baseline_F_bestmove": "f6g4",
+        "source_pair_role_forecasts": {
+          "O": {
+            "STRICT": {
+              "status": "PREDICTED_EXACT_UCI_BEFORE_TT_INTERVENTION",
+              "predicted_UCI": "f6g4",
+              "predicted_flip": true
+            },
+            "BROAD": {
+              "status": "PREDICTED_EXACT_UCI_BEFORE_TT_INTERVENTION",
+              "predicted_UCI": "f6g4",
+              "predicted_flip": true
+            }
+          },
+          "F": {
+            "STRICT": {
+              "status": "PREDICTED_EXACT_UCI_BEFORE_TT_INTERVENTION",
+              "predicted_UCI": "d5d4",
+              "predicted_flip": true
+            },
+            "BROAD": {
+              "status": "PREDICTED_EXACT_UCI_BEFORE_TT_INTERVENTION",
+              "predicted_UCI": "d5d4",
+              "predicted_flip": true
+            }
+          }
+        }
+      },
+      {
+        "game_id": 14,
+        "baseline_O_bestmove": "a8c8",
+        "baseline_F_bestmove": "h5f6",
+        "source_pair_role_forecasts": {
+          "O": {
+            "STRICT": {
+              "status": "PREDICTED_EXACT_UCI_BEFORE_TT_INTERVENTION",
+              "predicted_UCI": "h5f6",
+              "predicted_flip": true
+            },
+            "BROAD": {
+              "status": "PREDICTED_EXACT_UCI_BEFORE_TT_INTERVENTION",
+              "predicted_UCI": "h5f6",
+              "predicted_flip": true
+            }
+          },
+          "F": {
+            "STRICT": {
+              "status": "PREDICTED_EXACT_UCI_BEFORE_TT_INTERVENTION",
+              "predicted_UCI": "a8c8",
+              "predicted_flip": true
+            },
+            "BROAD": {
+              "status": "PREDICTED_EXACT_UCI_BEFORE_TT_INTERVENTION",
+              "predicted_UCI": "a8c8",
+              "predicted_flip": true
+            }
+          }
+        }
+      },
+      {
+        "game_id": 15,
+        "baseline_O_bestmove": "f4e5",
+        "baseline_F_bestmove": "f4e5",
+        "source_pair_role_forecasts": {
+          "O": {
+            "STRICT": {
+              "status": "PREDICTED_EXACT_UCI_BEFORE_TT_INTERVENTION",
+              "predicted_UCI": "f4e5",
+              "predicted_flip": false
+            },
+            "BROAD": {
+              "status": "PREDICTED_EXACT_UCI_BEFORE_TT_INTERVENTION",
+              "predicted_UCI": "f4e5",
+              "predicted_flip": false
+            }
+          },
+          "F": {
+            "STRICT": {
+              "status": "PREDICTED_EXACT_UCI_BEFORE_TT_INTERVENTION",
+              "predicted_UCI": "f4e5",
+              "predicted_flip": false
+            },
+            "BROAD": {
+              "status": "PREDICTED_EXACT_UCI_BEFORE_TT_INTERVENTION",
+              "predicted_UCI": "f4e5",
+              "predicted_flip": false
+            }
+          }
+        }
+      },
+      {
+        "game_id": 16,
+        "baseline_O_bestmove": "e1c1",
+        "baseline_F_bestmove": "e1c1",
+        "source_pair_role_forecasts": {
+          "O": {
+            "STRICT": {
+              "status": "PREDICTED_EXACT_UCI_BEFORE_TT_INTERVENTION",
+              "predicted_UCI": "e1c1",
+              "predicted_flip": false
+            },
+            "BROAD": {
+              "status": "PREDICTED_EXACT_UCI_BEFORE_TT_INTERVENTION",
+              "predicted_UCI": "e1c1",
+              "predicted_flip": false
+            }
+          },
+          "F": {
+            "STRICT": {
+              "status": "PREDICTED_EXACT_UCI_BEFORE_TT_INTERVENTION",
+              "predicted_UCI": "e1c1",
+              "predicted_flip": false
+            },
+            "BROAD": {
+              "status": "PREDICTED_EXACT_UCI_BEFORE_TT_INTERVENTION",
+              "predicted_UCI": "e1c1",
+              "predicted_flip": false
+            }
+          }
+        }
+      }
+    ],
+    "lichess_puzzles": [
+      {
+        "game_id": 1,
+        "baseline_O_bestmove": "c6e7",
+        "baseline_F_bestmove": "c6e7",
+        "source_pair_role_forecasts": {
+          "O": {
+            "STRICT": {
+              "status": "PREDICTED_EXACT_UCI_BEFORE_TT_INTERVENTION",
+              "predicted_UCI": "c6e7",
+              "predicted_flip": false
+            },
+            "BROAD": {
+              "status": "PREDICTED_EXACT_UCI_BEFORE_TT_INTERVENTION",
+              "predicted_UCI": "c6e7",
+              "predicted_flip": false
+            }
+          },
+          "F": {
+            "STRICT": {
+              "status": "PREDICTED_EXACT_UCI_BEFORE_TT_INTERVENTION",
+              "predicted_UCI": "c6e7",
+              "predicted_flip": false
+            },
+            "BROAD": {
+              "status": "PREDICTED_EXACT_UCI_BEFORE_TT_INTERVENTION",
+              "predicted_UCI": "c6e7",
+              "predicted_flip": false
+            }
+          }
+        }
+      },
+      {
+        "game_id": 2,
+        "baseline_O_bestmove": "g3b8",
+        "baseline_F_bestmove": "g3b8",
+        "source_pair_role_forecasts": {
+          "O": {
+            "STRICT": {
+              "status": "NO_TREATMENT",
+              "predicted_UCI": null,
+              "predicted_flip": null
+            },
+            "BROAD": {
+              "status": "PREDICTED_EXACT_UCI_BEFORE_TT_INTERVENTION",
+              "predicted_UCI": "g3b8",
+              "predicted_flip": false
+            }
+          },
+          "F": {
+            "STRICT": {
+              "status": "NO_TREATMENT",
+              "predicted_UCI": null,
+              "predicted_flip": null
+            },
+            "BROAD": {
+              "status": "PREDICTED_EXACT_UCI_BEFORE_TT_INTERVENTION",
+              "predicted_UCI": "g3b8",
+              "predicted_flip": false
+            }
+          }
+        }
+      },
+      {
+        "game_id": 3,
+        "baseline_O_bestmove": "d3h7",
+        "baseline_F_bestmove": "d3h7",
+        "source_pair_role_forecasts": {
+          "O": {
+            "STRICT": {
+              "status": "NO_TREATMENT",
+              "predicted_UCI": null,
+              "predicted_flip": null
+            },
+            "BROAD": {
+              "status": "PREDICTED_EXACT_UCI_BEFORE_TT_INTERVENTION",
+              "predicted_UCI": "d3h7",
+              "predicted_flip": false
+            }
+          },
+          "F": {
+            "STRICT": {
+              "status": "NO_TREATMENT",
+              "predicted_UCI": null,
+              "predicted_flip": null
+            },
+            "BROAD": {
+              "status": "PREDICTED_EXACT_UCI_BEFORE_TT_INTERVENTION",
+              "predicted_UCI": "d3h7",
+              "predicted_flip": false
+            }
+          }
+        }
+      },
+      {
+        "game_id": 4,
+        "baseline_O_bestmove": "e3f4",
+        "baseline_F_bestmove": "e3f4",
+        "source_pair_role_forecasts": {
+          "O": {
+            "STRICT": {
+              "status": "NO_TREATMENT",
+              "predicted_UCI": null,
+              "predicted_flip": null
+            },
+            "BROAD": {
+              "status": "PREDICTED_EXACT_UCI_BEFORE_TT_INTERVENTION",
+              "predicted_UCI": "e3f4",
+              "predicted_flip": false
+            }
+          },
+          "F": {
+            "STRICT": {
+              "status": "NO_TREATMENT",
+              "predicted_UCI": null,
+              "predicted_flip": null
+            },
+            "BROAD": {
+              "status": "PREDICTED_EXACT_UCI_BEFORE_TT_INTERVENTION",
+              "predicted_UCI": "e3f4",
+              "predicted_flip": false
+            }
+          }
+        }
+      },
+      {
+        "game_id": 5,
+        "baseline_O_bestmove": "e4f2",
+        "baseline_F_bestmove": "e4f2",
+        "source_pair_role_forecasts": {
+          "O": {
+            "STRICT": {
+              "status": "NO_TREATMENT",
+              "predicted_UCI": null,
+              "predicted_flip": null
+            },
+            "BROAD": {
+              "status": "NO_TREATMENT",
+              "predicted_UCI": null,
+              "predicted_flip": null
+            }
+          },
+          "F": {
+            "STRICT": {
+              "status": "NO_TREATMENT",
+              "predicted_UCI": null,
+              "predicted_flip": null
+            },
+            "BROAD": {
+              "status": "NO_TREATMENT",
+              "predicted_UCI": null,
+              "predicted_flip": null
+            }
+          }
+        }
+      },
+      {
+        "game_id": 6,
+        "baseline_O_bestmove": "e4f6",
+        "baseline_F_bestmove": "e4f6",
+        "source_pair_role_forecasts": {
+          "O": {
+            "STRICT": {
+              "status": "NO_TREATMENT",
+              "predicted_UCI": null,
+              "predicted_flip": null
+            },
+            "BROAD": {
+              "status": "NO_TREATMENT",
+              "predicted_UCI": null,
+              "predicted_flip": null
+            }
+          },
+          "F": {
+            "STRICT": {
+              "status": "NO_TREATMENT",
+              "predicted_UCI": null,
+              "predicted_flip": null
+            },
+            "BROAD": {
+              "status": "NO_TREATMENT",
+              "predicted_UCI": null,
+              "predicted_flip": null
+            }
+          }
+        }
+      },
+      {
+        "game_id": 7,
+        "baseline_O_bestmove": "f8a8",
+        "baseline_F_bestmove": "f8a8",
+        "source_pair_role_forecasts": {
+          "O": {
+            "STRICT": {
+              "status": "PREDICTED_EXACT_UCI_BEFORE_TT_INTERVENTION",
+              "predicted_UCI": "f8a8",
+              "predicted_flip": false
+            },
+            "BROAD": {
+              "status": "PREDICTED_EXACT_UCI_BEFORE_TT_INTERVENTION",
+              "predicted_UCI": "f8a8",
+              "predicted_flip": false
+            }
+          },
+          "F": {
+            "STRICT": {
+              "status": "PREDICTED_EXACT_UCI_BEFORE_TT_INTERVENTION",
+              "predicted_UCI": "f8a8",
+              "predicted_flip": false
+            },
+            "BROAD": {
+              "status": "PREDICTED_EXACT_UCI_BEFORE_TT_INTERVENTION",
+              "predicted_UCI": "f8a8",
+              "predicted_flip": false
+            }
+          }
+        }
+      },
+      {
+        "game_id": 8,
+        "baseline_O_bestmove": "d4g1",
+        "baseline_F_bestmove": "d4g1",
+        "source_pair_role_forecasts": {
+          "O": {
+            "STRICT": {
+              "status": "NO_TREATMENT",
+              "predicted_UCI": null,
+              "predicted_flip": null
+            },
+            "BROAD": {
+              "status": "NO_TREATMENT",
+              "predicted_UCI": null,
+              "predicted_flip": null
+            }
+          },
+          "F": {
+            "STRICT": {
+              "status": "NO_TREATMENT",
+              "predicted_UCI": null,
+              "predicted_flip": null
+            },
+            "BROAD": {
+              "status": "NO_TREATMENT",
+              "predicted_UCI": null,
+              "predicted_flip": null
+            }
+          }
+        }
+      },
+      {
+        "game_id": 9,
+        "baseline_O_bestmove": "c3c2",
+        "baseline_F_bestmove": "c3c2",
+        "source_pair_role_forecasts": {
+          "O": {
+            "STRICT": {
+              "status": "NO_TREATMENT",
+              "predicted_UCI": null,
+              "predicted_flip": null
+            },
+            "BROAD": {
+              "status": "NO_TREATMENT",
+              "predicted_UCI": null,
+              "predicted_flip": null
+            }
+          },
+          "F": {
+            "STRICT": {
+              "status": "NO_TREATMENT",
+              "predicted_UCI": null,
+              "predicted_flip": null
+            },
+            "BROAD": {
+              "status": "NO_TREATMENT",
+              "predicted_UCI": null,
+              "predicted_flip": null
+            }
+          }
+        }
+      },
+      {
+        "game_id": 10,
+        "baseline_O_bestmove": "h1h7",
+        "baseline_F_bestmove": "h1h7",
+        "source_pair_role_forecasts": {
+          "O": {
+            "STRICT": {
+              "status": "NO_TREATMENT",
+              "predicted_UCI": null,
+              "predicted_flip": null
+            },
+            "BROAD": {
+              "status": "PREDICTED_EXACT_UCI_BEFORE_TT_INTERVENTION",
+              "predicted_UCI": "h1h7",
+              "predicted_flip": false
+            }
+          },
+          "F": {
+            "STRICT": {
+              "status": "NO_TREATMENT",
+              "predicted_UCI": null,
+              "predicted_flip": null
+            },
+            "BROAD": {
+              "status": "PREDICTED_EXACT_UCI_BEFORE_TT_INTERVENTION",
+              "predicted_UCI": "h1h7",
+              "predicted_flip": false
+            }
+          }
+        }
+      },
+      {
+        "game_id": 11,
+        "baseline_O_bestmove": "e4e1",
+        "baseline_F_bestmove": "e4e1",
+        "source_pair_role_forecasts": {
+          "O": {
+            "STRICT": {
+              "status": "PREDICTED_EXACT_UCI_BEFORE_TT_INTERVENTION",
+              "predicted_UCI": "e4e1",
+              "predicted_flip": false
+            },
+            "BROAD": {
+              "status": "PREDICTED_EXACT_UCI_BEFORE_TT_INTERVENTION",
+              "predicted_UCI": "e4e1",
+              "predicted_flip": false
+            }
+          },
+          "F": {
+            "STRICT": {
+              "status": "PREDICTED_EXACT_UCI_BEFORE_TT_INTERVENTION",
+              "predicted_UCI": "e4e1",
+              "predicted_flip": false
+            },
+            "BROAD": {
+              "status": "PREDICTED_EXACT_UCI_BEFORE_TT_INTERVENTION",
+              "predicted_UCI": "e4e1",
+              "predicted_flip": false
+            }
+          }
+        }
+      },
+      {
+        "game_id": 12,
+        "baseline_O_bestmove": "g6h4",
+        "baseline_F_bestmove": "g6h4",
+        "source_pair_role_forecasts": {
+          "O": {
+            "STRICT": {
+              "status": "PREDICTED_EXACT_UCI_BEFORE_TT_INTERVENTION",
+              "predicted_UCI": "g6h4",
+              "predicted_flip": false
+            },
+            "BROAD": {
+              "status": "PREDICTED_EXACT_UCI_BEFORE_TT_INTERVENTION",
+              "predicted_UCI": "g6h4",
+              "predicted_flip": false
+            }
+          },
+          "F": {
+            "STRICT": {
+              "status": "PREDICTED_EXACT_UCI_BEFORE_TT_INTERVENTION",
+              "predicted_UCI": "g6h4",
+              "predicted_flip": false
+            },
+            "BROAD": {
+              "status": "PREDICTED_EXACT_UCI_BEFORE_TT_INTERVENTION",
+              "predicted_UCI": "g6h4",
+              "predicted_flip": false
+            }
+          }
+        }
+      },
+      {
+        "game_id": 13,
+        "baseline_O_bestmove": "d5d8",
+        "baseline_F_bestmove": "d5d8",
+        "source_pair_role_forecasts": {
+          "O": {
+            "STRICT": {
+              "status": "NO_TREATMENT",
+              "predicted_UCI": null,
+              "predicted_flip": null
+            },
+            "BROAD": {
+              "status": "NO_TREATMENT",
+              "predicted_UCI": null,
+              "predicted_flip": null
+            }
+          },
+          "F": {
+            "STRICT": {
+              "status": "NO_TREATMENT",
+              "predicted_UCI": null,
+              "predicted_flip": null
+            },
+            "BROAD": {
+              "status": "NO_TREATMENT",
+              "predicted_UCI": null,
+              "predicted_flip": null
+            }
+          }
+        }
+      },
+      {
+        "game_id": 14,
+        "baseline_O_bestmove": "b4d3",
+        "baseline_F_bestmove": "b4d3",
+        "source_pair_role_forecasts": {
+          "O": {
+            "STRICT": {
+              "status": "NO_TREATMENT",
+              "predicted_UCI": null,
+              "predicted_flip": null
+            },
+            "BROAD": {
+              "status": "PREDICTED_EXACT_UCI_BEFORE_TT_INTERVENTION",
+              "predicted_UCI": "b4d3",
+              "predicted_flip": false
+            }
+          },
+          "F": {
+            "STRICT": {
+              "status": "NO_TREATMENT",
+              "predicted_UCI": null,
+              "predicted_flip": null
+            },
+            "BROAD": {
+              "status": "PREDICTED_EXACT_UCI_BEFORE_TT_INTERVENTION",
+              "predicted_UCI": "b4d3",
+              "predicted_flip": false
+            }
+          }
+        }
+      },
+      {
+        "game_id": 15,
+        "baseline_O_bestmove": "e7e1",
+        "baseline_F_bestmove": "e7e1",
+        "source_pair_role_forecasts": {
+          "O": {
+            "STRICT": {
+              "status": "NO_TREATMENT",
+              "predicted_UCI": null,
+              "predicted_flip": null
+            },
+            "BROAD": {
+              "status": "NO_TREATMENT",
+              "predicted_UCI": null,
+              "predicted_flip": null
+            }
+          },
+          "F": {
+            "STRICT": {
+              "status": "NO_TREATMENT",
+              "predicted_UCI": null,
+              "predicted_flip": null
+            },
+            "BROAD": {
+              "status": "NO_TREATMENT",
+              "predicted_UCI": null,
+              "predicted_flip": null
+            }
+          }
+        }
+      },
+      {
+        "game_id": 16,
+        "baseline_O_bestmove": "d4b3",
+        "baseline_F_bestmove": "d4b3",
+        "source_pair_role_forecasts": {
+          "O": {
+            "STRICT": {
+              "status": "NO_TREATMENT",
+              "predicted_UCI": null,
+              "predicted_flip": null
+            },
+            "BROAD": {
+              "status": "PREDICTED_EXACT_UCI_BEFORE_TT_INTERVENTION",
+              "predicted_UCI": "d4b3",
+              "predicted_flip": false
+            }
+          },
+          "F": {
+            "STRICT": {
+              "status": "NO_TREATMENT",
+              "predicted_UCI": null,
+              "predicted_flip": null
+            },
+            "BROAD": {
+              "status": "PREDICTED_EXACT_UCI_BEFORE_TT_INTERVENTION",
+              "predicted_UCI": "d4b3",
+              "predicted_flip": false
+            }
+          }
+        }
+      }
+    ]
+  },
+  "constraints": [
+    "DO NOT amend these moves after any Stage B native result",
+    "Technical corrections are additive audit logs, not retargeted hypotheses",
+    "Roles nested within game, not independent sample units",
+    "Puzzle F source move equals source puzzle solution first solver move, a treatment definition not a label-free prediction"
+  ]
+}
