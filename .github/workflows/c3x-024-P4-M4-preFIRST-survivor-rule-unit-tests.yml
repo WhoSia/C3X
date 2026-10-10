@@ -1,0 +1,24 @@
+name: C3X 0.24 P4 M4 Survivor Rule Pure Model Tests Before July Source
+on:
+  push:
+    paths:
+      - '.github/workflows/c3x-024-P4-M4-preFIRST-survivor-rule-unit-tests.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  zero-july-source-zero-engine:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Verify pure model never native-first/July-treats
+        run: |
+          set -euo pipefail
+          python -m py_compile harness/c3x_024_P4_M4_preFIRST_survivor_corroboration_rule.py
+          python -m unittest discover -s tools -p 'test_c3x_024_P4_M4_preFIRST_survivor_rule.py' -v
+          test -f c3x/ontology/c3x-024-P4-M4-survivor-corroborated-preFIRST-exact-UCI-hypothesis-and-July256-prospective-lock-20261011.md
+          echo C3X024_P4_M4_PRE_SOURCE_PURE_RULE_EXACT_UCI_TESTS_PASS
