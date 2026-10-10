@@ -1,0 +1,813 @@
+{
+  "schema": "c3x022-P2-R1-TWIC1664-64-cells-192-literal-UCI-three-predictors-v1",
+  "status": "ALL_LITERAL_UCI_PREDICTIONS_SEALED_BEFORE_NEW_TT_FIRST_RESULTS",
+  "date": "2026-10-10",
+  "original_precommit": "c3x/ontology/c3x-022-P2-R1-path-dependent-root-survival-TT-value-SEE-newTWIC-precommit.md",
+  "new_TWIC1664_source_SHA256": "3cc4c788eec55960921e653604b2fbb3113163862e2652271b939fb12fb9eeb3",
+  "source_blind_637_root_SEE_like_SHA256": "321f3af0ea90625929d639142ec8f930eacee5a7c6e7d856235267bb7f908423",
+  "stageA_noV_run_id": 38051283450,
+  "stageA_noV_artifact_id": 11668769951,
+  "stageA_noV_artifact_ZIP_SHA256": "fbdca102b0ec37310f103ddbd5bee69fa6cf753604e5d6227929aa3f82d36dec",
+  "stageA_full_raw_JSON_SHA256": "a84a9a2b38bacedb140724c08fc5137b98c8f0077d4754bb5f399a3c30284c35",
+  "source_physical_writer_reader_targets": "SHA-frozen complete StageA native evidence file carries exact full64/slot/epoch/rootcall/source candidate for all 64 cells; not encoded into this human-readable UCI registry.",
+  "models": [
+    "M0_nochange",
+    "M1_crossorder_restore_previous_TWIC1656_FAIL",
+    "M2_depth11_less_legal_recapture_risk"
+  ],
+  "summary": {
+    "distinct_games": 16,
+    "order_role_cells": 64,
+    "eligible": 64,
+    "source_order_different_games": 4,
+    "M2_prediction_changes": 0,
+    "first_TT_intervention_executed_in_stageA": 0,
+    "forecast_literal_UCI_strings": 192
+  },
+  "cases": [
+    {
+      "game_id": 1,
+      "worlds": {
+        "O": {
+          "baseline_bestmove": "h5f6",
+          "depth11_candidate": "h5f6",
+          "role_forecasts": {
+            "STRICT": {
+              "M0_exact_UCI": "h5f6",
+              "M1_exact_UCI": "h5f6",
+              "M2_exact_UCI": "h5f6",
+              "M0_predicts_flip": false,
+              "M1_predicts_flip": false,
+              "M2_predicts_flip": false
+            },
+            "BROAD": {
+              "M0_exact_UCI": "h5f6",
+              "M1_exact_UCI": "h5f6",
+              "M2_exact_UCI": "h5f6",
+              "M0_predicts_flip": false,
+              "M1_predicts_flip": false,
+              "M2_predicts_flip": false
+            }
+          }
+        },
+        "F": {
+          "baseline_bestmove": "h5f6",
+          "depth11_candidate": "h5f6",
+          "role_forecasts": {
+            "STRICT": {
+              "M0_exact_UCI": "h5f6",
+              "M1_exact_UCI": "h5f6",
+              "M2_exact_UCI": "h5f6",
+              "M0_predicts_flip": false,
+              "M1_predicts_flip": false,
+              "M2_predicts_flip": false
+            },
+            "BROAD": {
+              "M0_exact_UCI": "h5f6",
+              "M1_exact_UCI": "h5f6",
+              "M2_exact_UCI": "h5f6",
+              "M0_predicts_flip": false,
+              "M1_predicts_flip": false,
+              "M2_predicts_flip": false
+            }
+          }
+        }
+      }
+    },
+    {
+      "game_id": 2,
+      "worlds": {
+        "O": {
+          "baseline_bestmove": "e4e5",
+          "depth11_candidate": "e4e5",
+          "role_forecasts": {
+            "STRICT": {
+              "M0_exact_UCI": "e4e5",
+              "M1_exact_UCI": "e2f3",
+              "M2_exact_UCI": "e4e5",
+              "M0_predicts_flip": false,
+              "M1_predicts_flip": true,
+              "M2_predicts_flip": false
+            },
+            "BROAD": {
+              "M0_exact_UCI": "e4e5",
+              "M1_exact_UCI": "e2f3",
+              "M2_exact_UCI": "e4e5",
+              "M0_predicts_flip": false,
+              "M1_predicts_flip": true,
+              "M2_predicts_flip": false
+            }
+          }
+        },
+        "F": {
+          "baseline_bestmove": "e2f3",
+          "depth11_candidate": "e4e5",
+          "role_forecasts": {
+            "STRICT": {
+              "M0_exact_UCI": "e2f3",
+              "M1_exact_UCI": "e4e5",
+              "M2_exact_UCI": "e2f3",
+              "M0_predicts_flip": false,
+              "M1_predicts_flip": true,
+              "M2_predicts_flip": false
+            },
+            "BROAD": {
+              "M0_exact_UCI": "e2f3",
+              "M1_exact_UCI": "e4e5",
+              "M2_exact_UCI": "e2f3",
+              "M0_predicts_flip": false,
+              "M1_predicts_flip": true,
+              "M2_predicts_flip": false
+            }
+          }
+        }
+      }
+    },
+    {
+      "game_id": 3,
+      "worlds": {
+        "O": {
+          "baseline_bestmove": "b1c3",
+          "depth11_candidate": "b1c3",
+          "role_forecasts": {
+            "STRICT": {
+              "M0_exact_UCI": "b1c3",
+              "M1_exact_UCI": "e1g1",
+              "M2_exact_UCI": "b1c3",
+              "M0_predicts_flip": false,
+              "M1_predicts_flip": true,
+              "M2_predicts_flip": false
+            },
+            "BROAD": {
+              "M0_exact_UCI": "b1c3",
+              "M1_exact_UCI": "e1g1",
+              "M2_exact_UCI": "b1c3",
+              "M0_predicts_flip": false,
+              "M1_predicts_flip": true,
+              "M2_predicts_flip": false
+            }
+          }
+        },
+        "F": {
+          "baseline_bestmove": "e1g1",
+          "depth11_candidate": "e1g1",
+          "role_forecasts": {
+            "STRICT": {
+              "M0_exact_UCI": "e1g1",
+              "M1_exact_UCI": "b1c3",
+              "M2_exact_UCI": "e1g1",
+              "M0_predicts_flip": false,
+              "M1_predicts_flip": true,
+              "M2_predicts_flip": false
+            },
+            "BROAD": {
+              "M0_exact_UCI": "e1g1",
+              "M1_exact_UCI": "b1c3",
+              "M2_exact_UCI": "e1g1",
+              "M0_predicts_flip": false,
+              "M1_predicts_flip": true,
+              "M2_predicts_flip": false
+            }
+          }
+        }
+      }
+    },
+    {
+      "game_id": 4,
+      "worlds": {
+        "O": {
+          "baseline_bestmove": "e5f6",
+          "depth11_candidate": "e5f6",
+          "role_forecasts": {
+            "STRICT": {
+              "M0_exact_UCI": "e5f6",
+              "M1_exact_UCI": "e5f6",
+              "M2_exact_UCI": "e5f6",
+              "M0_predicts_flip": false,
+              "M1_predicts_flip": false,
+              "M2_predicts_flip": false
+            },
+            "BROAD": {
+              "M0_exact_UCI": "e5f6",
+              "M1_exact_UCI": "e5f6",
+              "M2_exact_UCI": "e5f6",
+              "M0_predicts_flip": false,
+              "M1_predicts_flip": false,
+              "M2_predicts_flip": false
+            }
+          }
+        },
+        "F": {
+          "baseline_bestmove": "e5f6",
+          "depth11_candidate": "e5f6",
+          "role_forecasts": {
+            "STRICT": {
+              "M0_exact_UCI": "e5f6",
+              "M1_exact_UCI": "e5f6",
+              "M2_exact_UCI": "e5f6",
+              "M0_predicts_flip": false,
+              "M1_predicts_flip": false,
+              "M2_predicts_flip": false
+            },
+            "BROAD": {
+              "M0_exact_UCI": "e5f6",
+              "M1_exact_UCI": "e5f6",
+              "M2_exact_UCI": "e5f6",
+              "M0_predicts_flip": false,
+              "M1_predicts_flip": false,
+              "M2_predicts_flip": false
+            }
+          }
+        }
+      }
+    },
+    {
+      "game_id": 5,
+      "worlds": {
+        "O": {
+          "baseline_bestmove": "a2a4",
+          "depth11_candidate": "a2a4",
+          "role_forecasts": {
+            "STRICT": {
+              "M0_exact_UCI": "a2a4",
+              "M1_exact_UCI": "f1d1",
+              "M2_exact_UCI": "a2a4",
+              "M0_predicts_flip": false,
+              "M1_predicts_flip": true,
+              "M2_predicts_flip": false
+            },
+            "BROAD": {
+              "M0_exact_UCI": "a2a4",
+              "M1_exact_UCI": "f1d1",
+              "M2_exact_UCI": "a2a4",
+              "M0_predicts_flip": false,
+              "M1_predicts_flip": true,
+              "M2_predicts_flip": false
+            }
+          }
+        },
+        "F": {
+          "baseline_bestmove": "f1d1",
+          "depth11_candidate": "f1c1",
+          "role_forecasts": {
+            "STRICT": {
+              "M0_exact_UCI": "f1d1",
+              "M1_exact_UCI": "a2a4",
+              "M2_exact_UCI": "f1d1",
+              "M0_predicts_flip": false,
+              "M1_predicts_flip": true,
+              "M2_predicts_flip": false
+            },
+            "BROAD": {
+              "M0_exact_UCI": "f1d1",
+              "M1_exact_UCI": "a2a4",
+              "M2_exact_UCI": "f1d1",
+              "M0_predicts_flip": false,
+              "M1_predicts_flip": true,
+              "M2_predicts_flip": false
+            }
+          }
+        }
+      }
+    },
+    {
+      "game_id": 6,
+      "worlds": {
+        "O": {
+          "baseline_bestmove": "f8e8",
+          "depth11_candidate": "f6d7",
+          "role_forecasts": {
+            "STRICT": {
+              "M0_exact_UCI": "f8e8",
+              "M1_exact_UCI": "f8e8",
+              "M2_exact_UCI": "f8e8",
+              "M0_predicts_flip": false,
+              "M1_predicts_flip": false,
+              "M2_predicts_flip": false
+            },
+            "BROAD": {
+              "M0_exact_UCI": "f8e8",
+              "M1_exact_UCI": "f8e8",
+              "M2_exact_UCI": "f8e8",
+              "M0_predicts_flip": false,
+              "M1_predicts_flip": false,
+              "M2_predicts_flip": false
+            }
+          }
+        },
+        "F": {
+          "baseline_bestmove": "f8e8",
+          "depth11_candidate": "f8e8",
+          "role_forecasts": {
+            "STRICT": {
+              "M0_exact_UCI": "f8e8",
+              "M1_exact_UCI": "f8e8",
+              "M2_exact_UCI": "f8e8",
+              "M0_predicts_flip": false,
+              "M1_predicts_flip": false,
+              "M2_predicts_flip": false
+            },
+            "BROAD": {
+              "M0_exact_UCI": "f8e8",
+              "M1_exact_UCI": "f8e8",
+              "M2_exact_UCI": "f8e8",
+              "M0_predicts_flip": false,
+              "M1_predicts_flip": false,
+              "M2_predicts_flip": false
+            }
+          }
+        }
+      }
+    },
+    {
+      "game_id": 7,
+      "worlds": {
+        "O": {
+          "baseline_bestmove": "c8d7",
+          "depth11_candidate": "c8d7",
+          "role_forecasts": {
+            "STRICT": {
+              "M0_exact_UCI": "c8d7",
+              "M1_exact_UCI": "c8d7",
+              "M2_exact_UCI": "c8d7",
+              "M0_predicts_flip": false,
+              "M1_predicts_flip": false,
+              "M2_predicts_flip": false
+            },
+            "BROAD": {
+              "M0_exact_UCI": "c8d7",
+              "M1_exact_UCI": "c8d7",
+              "M2_exact_UCI": "c8d7",
+              "M0_predicts_flip": false,
+              "M1_predicts_flip": false,
+              "M2_predicts_flip": false
+            }
+          }
+        },
+        "F": {
+          "baseline_bestmove": "c8d7",
+          "depth11_candidate": "c8d7",
+          "role_forecasts": {
+            "STRICT": {
+              "M0_exact_UCI": "c8d7",
+              "M1_exact_UCI": "c8d7",
+              "M2_exact_UCI": "c8d7",
+              "M0_predicts_flip": false,
+              "M1_predicts_flip": false,
+              "M2_predicts_flip": false
+            },
+            "BROAD": {
+              "M0_exact_UCI": "c8d7",
+              "M1_exact_UCI": "c8d7",
+              "M2_exact_UCI": "c8d7",
+              "M0_predicts_flip": false,
+              "M1_predicts_flip": false,
+              "M2_predicts_flip": false
+            }
+          }
+        }
+      }
+    },
+    {
+      "game_id": 8,
+      "worlds": {
+        "O": {
+          "baseline_bestmove": "g5h3",
+          "depth11_candidate": "g5h3",
+          "role_forecasts": {
+            "STRICT": {
+              "M0_exact_UCI": "g5h3",
+              "M1_exact_UCI": "g5h3",
+              "M2_exact_UCI": "g5h3",
+              "M0_predicts_flip": false,
+              "M1_predicts_flip": false,
+              "M2_predicts_flip": false
+            },
+            "BROAD": {
+              "M0_exact_UCI": "g5h3",
+              "M1_exact_UCI": "g5h3",
+              "M2_exact_UCI": "g5h3",
+              "M0_predicts_flip": false,
+              "M1_predicts_flip": false,
+              "M2_predicts_flip": false
+            }
+          }
+        },
+        "F": {
+          "baseline_bestmove": "g5h3",
+          "depth11_candidate": "g5h3",
+          "role_forecasts": {
+            "STRICT": {
+              "M0_exact_UCI": "g5h3",
+              "M1_exact_UCI": "g5h3",
+              "M2_exact_UCI": "g5h3",
+              "M0_predicts_flip": false,
+              "M1_predicts_flip": false,
+              "M2_predicts_flip": false
+            },
+            "BROAD": {
+              "M0_exact_UCI": "g5h3",
+              "M1_exact_UCI": "g5h3",
+              "M2_exact_UCI": "g5h3",
+              "M0_predicts_flip": false,
+              "M1_predicts_flip": false,
+              "M2_predicts_flip": false
+            }
+          }
+        }
+      }
+    },
+    {
+      "game_id": 9,
+      "worlds": {
+        "O": {
+          "baseline_bestmove": "d4c6",
+          "depth11_candidate": "d4c6",
+          "role_forecasts": {
+            "STRICT": {
+              "M0_exact_UCI": "d4c6",
+              "M1_exact_UCI": "d4c6",
+              "M2_exact_UCI": "d4c6",
+              "M0_predicts_flip": false,
+              "M1_predicts_flip": false,
+              "M2_predicts_flip": false
+            },
+            "BROAD": {
+              "M0_exact_UCI": "d4c6",
+              "M1_exact_UCI": "d4c6",
+              "M2_exact_UCI": "d4c6",
+              "M0_predicts_flip": false,
+              "M1_predicts_flip": false,
+              "M2_predicts_flip": false
+            }
+          }
+        },
+        "F": {
+          "baseline_bestmove": "d4c6",
+          "depth11_candidate": "d4c6",
+          "role_forecasts": {
+            "STRICT": {
+              "M0_exact_UCI": "d4c6",
+              "M1_exact_UCI": "d4c6",
+              "M2_exact_UCI": "d4c6",
+              "M0_predicts_flip": false,
+              "M1_predicts_flip": false,
+              "M2_predicts_flip": false
+            },
+            "BROAD": {
+              "M0_exact_UCI": "d4c6",
+              "M1_exact_UCI": "d4c6",
+              "M2_exact_UCI": "d4c6",
+              "M0_predicts_flip": false,
+              "M1_predicts_flip": false,
+              "M2_predicts_flip": false
+            }
+          }
+        }
+      }
+    },
+    {
+      "game_id": 10,
+      "worlds": {
+        "O": {
+          "baseline_bestmove": "b8a8",
+          "depth11_candidate": "b8a8",
+          "role_forecasts": {
+            "STRICT": {
+              "M0_exact_UCI": "b8a8",
+              "M1_exact_UCI": "b8a8",
+              "M2_exact_UCI": "b8a8",
+              "M0_predicts_flip": false,
+              "M1_predicts_flip": false,
+              "M2_predicts_flip": false
+            },
+            "BROAD": {
+              "M0_exact_UCI": "b8a8",
+              "M1_exact_UCI": "b8a8",
+              "M2_exact_UCI": "b8a8",
+              "M0_predicts_flip": false,
+              "M1_predicts_flip": false,
+              "M2_predicts_flip": false
+            }
+          }
+        },
+        "F": {
+          "baseline_bestmove": "b8a8",
+          "depth11_candidate": "b8a8",
+          "role_forecasts": {
+            "STRICT": {
+              "M0_exact_UCI": "b8a8",
+              "M1_exact_UCI": "b8a8",
+              "M2_exact_UCI": "b8a8",
+              "M0_predicts_flip": false,
+              "M1_predicts_flip": false,
+              "M2_predicts_flip": false
+            },
+            "BROAD": {
+              "M0_exact_UCI": "b8a8",
+              "M1_exact_UCI": "b8a8",
+              "M2_exact_UCI": "b8a8",
+              "M0_predicts_flip": false,
+              "M1_predicts_flip": false,
+              "M2_predicts_flip": false
+            }
+          }
+        }
+      }
+    },
+    {
+      "game_id": 11,
+      "worlds": {
+        "O": {
+          "baseline_bestmove": "f1e1",
+          "depth11_candidate": "f1e1",
+          "role_forecasts": {
+            "STRICT": {
+              "M0_exact_UCI": "f1e1",
+              "M1_exact_UCI": "f1e1",
+              "M2_exact_UCI": "f1e1",
+              "M0_predicts_flip": false,
+              "M1_predicts_flip": false,
+              "M2_predicts_flip": false
+            },
+            "BROAD": {
+              "M0_exact_UCI": "f1e1",
+              "M1_exact_UCI": "f1e1",
+              "M2_exact_UCI": "f1e1",
+              "M0_predicts_flip": false,
+              "M1_predicts_flip": false,
+              "M2_predicts_flip": false
+            }
+          }
+        },
+        "F": {
+          "baseline_bestmove": "f1e1",
+          "depth11_candidate": "f1e1",
+          "role_forecasts": {
+            "STRICT": {
+              "M0_exact_UCI": "f1e1",
+              "M1_exact_UCI": "f1e1",
+              "M2_exact_UCI": "f1e1",
+              "M0_predicts_flip": false,
+              "M1_predicts_flip": false,
+              "M2_predicts_flip": false
+            },
+            "BROAD": {
+              "M0_exact_UCI": "f1e1",
+              "M1_exact_UCI": "f1e1",
+              "M2_exact_UCI": "f1e1",
+              "M0_predicts_flip": false,
+              "M1_predicts_flip": false,
+              "M2_predicts_flip": false
+            }
+          }
+        }
+      }
+    },
+    {
+      "game_id": 12,
+      "worlds": {
+        "O": {
+          "baseline_bestmove": "d3d4",
+          "depth11_candidate": "d3d4",
+          "role_forecasts": {
+            "STRICT": {
+              "M0_exact_UCI": "d3d4",
+              "M1_exact_UCI": "d3d4",
+              "M2_exact_UCI": "d3d4",
+              "M0_predicts_flip": false,
+              "M1_predicts_flip": false,
+              "M2_predicts_flip": false
+            },
+            "BROAD": {
+              "M0_exact_UCI": "d3d4",
+              "M1_exact_UCI": "d3d4",
+              "M2_exact_UCI": "d3d4",
+              "M0_predicts_flip": false,
+              "M1_predicts_flip": false,
+              "M2_predicts_flip": false
+            }
+          }
+        },
+        "F": {
+          "baseline_bestmove": "d3d4",
+          "depth11_candidate": "d3d4",
+          "role_forecasts": {
+            "STRICT": {
+              "M0_exact_UCI": "d3d4",
+              "M1_exact_UCI": "d3d4",
+              "M2_exact_UCI": "d3d4",
+              "M0_predicts_flip": false,
+              "M1_predicts_flip": false,
+              "M2_predicts_flip": false
+            },
+            "BROAD": {
+              "M0_exact_UCI": "d3d4",
+              "M1_exact_UCI": "d3d4",
+              "M2_exact_UCI": "d3d4",
+              "M0_predicts_flip": false,
+              "M1_predicts_flip": false,
+              "M2_predicts_flip": false
+            }
+          }
+        }
+      }
+    },
+    {
+      "game_id": 13,
+      "worlds": {
+        "O": {
+          "baseline_bestmove": "a5c6",
+          "depth11_candidate": "a5c6",
+          "role_forecasts": {
+            "STRICT": {
+              "M0_exact_UCI": "a5c6",
+              "M1_exact_UCI": "d7f6",
+              "M2_exact_UCI": "a5c6",
+              "M0_predicts_flip": false,
+              "M1_predicts_flip": true,
+              "M2_predicts_flip": false
+            },
+            "BROAD": {
+              "M0_exact_UCI": "a5c6",
+              "M1_exact_UCI": "d7f6",
+              "M2_exact_UCI": "a5c6",
+              "M0_predicts_flip": false,
+              "M1_predicts_flip": true,
+              "M2_predicts_flip": false
+            }
+          }
+        },
+        "F": {
+          "baseline_bestmove": "d7f6",
+          "depth11_candidate": "d7f6",
+          "role_forecasts": {
+            "STRICT": {
+              "M0_exact_UCI": "d7f6",
+              "M1_exact_UCI": "a5c6",
+              "M2_exact_UCI": "d7f6",
+              "M0_predicts_flip": false,
+              "M1_predicts_flip": true,
+              "M2_predicts_flip": false
+            },
+            "BROAD": {
+              "M0_exact_UCI": "d7f6",
+              "M1_exact_UCI": "a5c6",
+              "M2_exact_UCI": "d7f6",
+              "M0_predicts_flip": false,
+              "M1_predicts_flip": true,
+              "M2_predicts_flip": false
+            }
+          }
+        }
+      }
+    },
+    {
+      "game_id": 14,
+      "worlds": {
+        "O": {
+          "baseline_bestmove": "h2g3",
+          "depth11_candidate": "h2g3",
+          "role_forecasts": {
+            "STRICT": {
+              "M0_exact_UCI": "h2g3",
+              "M1_exact_UCI": "h2g3",
+              "M2_exact_UCI": "h2g3",
+              "M0_predicts_flip": false,
+              "M1_predicts_flip": false,
+              "M2_predicts_flip": false
+            },
+            "BROAD": {
+              "M0_exact_UCI": "h2g3",
+              "M1_exact_UCI": "h2g3",
+              "M2_exact_UCI": "h2g3",
+              "M0_predicts_flip": false,
+              "M1_predicts_flip": false,
+              "M2_predicts_flip": false
+            }
+          }
+        },
+        "F": {
+          "baseline_bestmove": "h2g3",
+          "depth11_candidate": "h2g3",
+          "role_forecasts": {
+            "STRICT": {
+              "M0_exact_UCI": "h2g3",
+              "M1_exact_UCI": "h2g3",
+              "M2_exact_UCI": "h2g3",
+              "M0_predicts_flip": false,
+              "M1_predicts_flip": false,
+              "M2_predicts_flip": false
+            },
+            "BROAD": {
+              "M0_exact_UCI": "h2g3",
+              "M1_exact_UCI": "h2g3",
+              "M2_exact_UCI": "h2g3",
+              "M0_predicts_flip": false,
+              "M1_predicts_flip": false,
+              "M2_predicts_flip": false
+            }
+          }
+        }
+      }
+    },
+    {
+      "game_id": 15,
+      "worlds": {
+        "O": {
+          "baseline_bestmove": "g5e7",
+          "depth11_candidate": "g5e7",
+          "role_forecasts": {
+            "STRICT": {
+              "M0_exact_UCI": "g5e7",
+              "M1_exact_UCI": "g5e7",
+              "M2_exact_UCI": "g5e7",
+              "M0_predicts_flip": false,
+              "M1_predicts_flip": false,
+              "M2_predicts_flip": false
+            },
+            "BROAD": {
+              "M0_exact_UCI": "g5e7",
+              "M1_exact_UCI": "g5e7",
+              "M2_exact_UCI": "g5e7",
+              "M0_predicts_flip": false,
+              "M1_predicts_flip": false,
+              "M2_predicts_flip": false
+            }
+          }
+        },
+        "F": {
+          "baseline_bestmove": "g5e7",
+          "depth11_candidate": "g5e7",
+          "role_forecasts": {
+            "STRICT": {
+              "M0_exact_UCI": "g5e7",
+              "M1_exact_UCI": "g5e7",
+              "M2_exact_UCI": "g5e7",
+              "M0_predicts_flip": false,
+              "M1_predicts_flip": false,
+              "M2_predicts_flip": false
+            },
+            "BROAD": {
+              "M0_exact_UCI": "g5e7",
+              "M1_exact_UCI": "g5e7",
+              "M2_exact_UCI": "g5e7",
+              "M0_predicts_flip": false,
+              "M1_predicts_flip": false,
+              "M2_predicts_flip": false
+            }
+          }
+        }
+      }
+    },
+    {
+      "game_id": 16,
+      "worlds": {
+        "O": {
+          "baseline_bestmove": "a6c4",
+          "depth11_candidate": "a6c4",
+          "role_forecasts": {
+            "STRICT": {
+              "M0_exact_UCI": "a6c4",
+              "M1_exact_UCI": "a6c4",
+              "M2_exact_UCI": "a6c4",
+              "M0_predicts_flip": false,
+              "M1_predicts_flip": false,
+              "M2_predicts_flip": false
+            },
+            "BROAD": {
+              "M0_exact_UCI": "a6c4",
+              "M1_exact_UCI": "a6c4",
+              "M2_exact_UCI": "a6c4",
+              "M0_predicts_flip": false,
+              "M1_predicts_flip": false,
+              "M2_predicts_flip": false
+            }
+          }
+        },
+        "F": {
+          "baseline_bestmove": "a6c4",
+          "depth11_candidate": "a6c4",
+          "role_forecasts": {
+            "STRICT": {
+              "M0_exact_UCI": "a6c4",
+              "M1_exact_UCI": "a6c4",
+              "M2_exact_UCI": "a6c4",
+              "M0_predicts_flip": false,
+              "M1_predicts_flip": false,
+              "M2_predicts_flip": false
+            },
+            "BROAD": {
+              "M0_exact_UCI": "a6c4",
+              "M1_exact_UCI": "a6c4",
+              "M2_exact_UCI": "a6c4",
+              "M0_predicts_flip": false,
+              "M1_predicts_flip": false,
+              "M2_predicts_flip": false
+            }
+          }
+        }
+      }
+    }
+  ]
+}
