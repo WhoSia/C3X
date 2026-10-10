@@ -1,0 +1,121 @@
+name: C3X 0.21 P2-R1 March Natural-O Independent TT Source Remapping
+on:
+  push:
+    paths:
+      - '.github/workflows/c3x-021-P2-R1-natural-O-independent-TT-lineage.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  full-sixteen-natural-root-order-independent-TT-pairs:
+    runs-on: ubuntu-latest
+    timeout-minutes: 85
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Python and source-anchor negative fixture tests
+        run: |
+          python -m pip install -q chess==1.11.2
+          python -m py_compile tools/c3x_019_root_return_one_site_rescue_overlay.py
+          python -m py_compile harness/c3x_019_Feb_four_first_root_return_rescue_native.py
+          python -m py_compile harness/c3x_018_native_TT_lineage_factorial_6_8.py
+          python -m unittest discover -s tools -p 'test_c3x_019_root_return_one_site_rescue.py' -v
+          python -m py_compile tools/c3x_020_multi_state_root_repair_overlay.py
+          python -m py_compile harness/c3x_020_B_minimal_multi_state_native_court.py
+          python -m unittest discover -s tools -p 'test_c3x_020_multi_state_root_repair.py' -v
+          python -m py_compile harness/c3x_020_C_alpha_gate_threshold_ladder_native.py
+          python -m unittest discover -s tools -p 'test_c3x_020_C_alpha_gate_ladder.py' -v
+          python -m py_compile harness/c3x_021_P1_march_native_TT_atomic_bridge.py
+          python -m unittest discover -s tools -p 'test_c3x_021_P1_native_TT_atomic_bridge.py' -v
+          python -m py_compile harness/c3x_021_P1_R1_full64_second_consumer_watch_native.py
+          python -m unittest discover -s tools -p 'test_c3x_021_P1_R1_full64_native_watch.py' -v
+          python -m py_compile harness/c3x_021_P2_R1_natural_O_independent_TT_lineage.py
+          python -m unittest discover -s tools -p 'test_c3x_021_P2_R1_natural_O_TT_lineage.py' -v
+      - name: Previously independent March16 SOURCE ONLY no prior native outcome
+        uses: actions/download-artifact@v4
+        with:
+          name: c3x-020-C2-march2026-enginefree-blind16-source
+          path: march/
+          repository: WhoSia/C3X
+          run-id: '38038059013'
+          github-token: ${{ github.token }}
+      - name: Reuse frozen first March native P1 output and all physical reader selectors
+        uses: actions/download-artifact@v4
+        with:
+          name: c3x-021-P1-march-native-TT-atomic-root-choice
+          path: p1/
+          repository: WhoSia/C3X
+          run-id: '38039555257'
+          github-token: ${{ github.token }}
+      - name: Frozen historical P1 source and new independent result verified
+        run: |
+          set -euo pipefail
+          mkdir -p evidence
+          test "$(sha256sum march/C3X020_C2_MARCH_BLIND16_SOURCE.json | cut -d' ' -f1)" = d79e48633be2b683176f1a6d4650aeea1b7584f11c85c2349a5bddda113febee
+          test "$(sha256sum p1/C3X021_P1_MARCH16_NATIVE_TT_ATOMIC_ROOT_CHOICE.json | cut -d' ' -f1)" = 5ee15c3ec48be0042a9bb0ae7566808737f56e7568c2b29d43f00ae64afcb259
+          python - <<'PY'
+          import json
+          p=json.load(open('p1/C3X021_P1_MARCH16_NATIVE_TT_ATOMIC_ROOT_CHOICE.json'))
+          assert p['summary']['role_denominator']==32 and p['summary']['eligible_role_arms']==31
+          assert p['summary']['delivered_final_root_flips']==2
+          print('C3X021_P1_R1_FULL31_FROZEN_WATCH_SELECTION_PASS')
+          PY
+      - name: Native Stockfish16 single-return plus second-return and persistent-state build
+        run: |
+          set -euo pipefail
+          root=/tmp/C3X020_MULTI_STATE
+          git clone -q --single-branch --branch sf_16 https://github.com/official-stockfish/Stockfish.git "$root"
+          test "$(git -C "$root" rev-parse HEAD)" = 68e1e9b3811e16cad014b590d7443b9063b3eb52
+          python tools/c3x_016_P4_independent_12root_source_order_patch.py --source "$root" --out-manifest evidence/P4.json
+          python tools/c3x_017_early_depth1_root_window_trace_patch.py --source "$root" --out-manifest evidence/ROOT_TRACE.json
+          python tools/c3x_018_trial_call_identity_patch.py --source "$root" --out-manifest evidence/TRIAL_ID.json
+          python tools/c3x_018_physical_epoch_lineage_patch.py --source "$root" --out-manifest evidence/EPOCH.json
+          python tools/c3x_018_tt_eval_consumption_overlay.py --source "$root" --out-manifest evidence/V.json
+          python tools/c3x_018_physical_value_witness_overlay.py --source "$root" --out-manifest evidence/WRITER_TICKET.json
+          python tools/c3x_018_root_TT_genealogy_overlay.py --source "$root" --out-manifest evidence/ROOT_TT_LINEAGE.json
+          python tools/c3x_018_TT_reader_writer_age_bound_root_feature_overlay.py --source "$root" --out-manifest evidence/AGE_BOUND.json
+          python tools/c3x_018_january2048_TT_reader_source_census.py --source "$root" --out-manifest evidence/CENSUS.json
+          python tools/c3x_018_adaptive_writer_age_root_call_V_gate.py --source "$root" --out-manifest evidence/AGE_GATE.json
+          python tools/c3x_018_january_cross_window_pair_source_gate.py --source "$root" --out-manifest evidence/WINDOW_GATE.json
+          python tools/c3x_018_jan_original_key_TT_probe_watch_overlay.py --source "$root" --out-manifest evidence/PROBE.json
+          python tools/c3x_018_jan_TT_probe_physical_writer_epoch_witness.py --source "$root" --out-manifest evidence/PROBE_WRITER.json
+          python tools/c3x_018_P0P1_TT_save_decision_writer_reinstate_overlay.py --source "$root" --out-manifest evidence/P0_P1_SOURCE_MUTATION.json
+          python tools/c3x_018_P1_pre_second_reader_temporal_scope_overlay.py --source "$root" --out-manifest evidence/P1_PRE_SECOND_TEMPORAL_GATE.json
+          python tools/c3x_019_tt_raw_bytes_shadow_writer_orthogonal_overlay.py --source "$root" --out-manifest evidence/C3X019_ORTHOGONAL_WRITER_STATE.json
+          python tools/c3x_019_actual_native_tt_eval_use_source_witness.py --source "$root" --out-manifest evidence/C3X019_NATIVE_EVAL_USE.json
+          python tools/c3x_019_native_TT_cutoff_actual_return_overlay.py --source "$root" --out-manifest evidence/C3X019_NATIVE_TT_CUTOFF_RETURN.json
+          python tools/c3x_019_root_return_one_site_rescue_overlay.py --source "$root" --out-manifest evidence/ONE_SITE_RETURN_MUTATION.json
+          python tools/c3x_020_multi_state_root_repair_overlay.py --source "$root" --out-manifest evidence/C3X020_MULTI_STATE_MUTATION.json
+          git -C "$root" diff -- src/ > evidence/SOURCE_DIFF.patch
+          make -s -C "$root/src" -j2 build ARCH=x86-64
+          sha256sum "$root/src/stockfish" > evidence/BINARY_SHA256.txt
+      - name: Full16 natural-O passive TT discovery and independent STRICT/BROAD native first reader source remapping
+        run: |
+          set -euo pipefail
+          python -u harness/c3x_021_P2_R1_natural_O_independent_TT_lineage.py \
+            --march march/C3X020_C2_MARCH_BLIND16_SOURCE.json \
+            --f-parent p1/C3X021_P1_MARCH16_NATIVE_TT_ATOMIC_ROOT_CHOICE.json \
+            --engine /tmp/C3X020_MULTI_STATE/src/stockfish \
+            --out evidence/C3X021_P2_R1_MARCH16_NATURAL_O_INDEPENDENT_TT.json | tee evidence/NATURAL_O_NATIVE_STDOUT.txt
+          python - <<'PY'
+          import json
+          d=json.load(open('evidence/C3X021_P2_R1_MARCH16_NATURAL_O_INDEPENDENT_TT.json'))
+          assert len(d['games'])==16
+          assert d['summary']['fixed_role_denominator']==32
+          assert d['summary']['O_F_root_choice_different_games']==4
+          print('C3X021_P2_R1_NATURAL_O_FULL16_SOURCE_COURT_COMPLETE',d['summary'])
+          PY
+      - name: Preserve manifest, source diff and all negative observations
+        if: always()
+        run: |
+          mkdir -p evidence
+          find evidence -maxdepth 1 -type f ! -name MEMBER_SHA256.txt -print0 | sort -z | xargs -0 -r sha256sum > evidence/MEMBER_SHA256.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x-021-P2-R1-march16-natural-O-independent-TT-lineage
+          path: evidence/
+          retention-days: 90
+          if-no-files-found: error
