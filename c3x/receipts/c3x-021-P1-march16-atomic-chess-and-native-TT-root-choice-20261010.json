@@ -1,0 +1,122 @@
+{
+  "schema": "c3x021-P1-march16-frozen-atomic-legal-chess-and-native-TT-contrast-v1",
+  "date": "2026-10-10",
+  "status": "FULL16_MARCH_COLD_NATIVE_SUCCESS_NEW_MONTH_EXPLORATORY",
+  "research_charter": "c3x/ontology/c3x-021-P0-native-search-and-chess-microstructure-research-charter.md",
+  "research_precommit": "c3x/ontology/c3x-021-P1-atomic-affordance-TT-root-choice-bridge-precommit.md",
+  "source": {
+    "march_PGN_selected_SHA256": "d79e48633be2b683176f1a6d4650aeea1b7584f11c85c2349a5bddda113febee",
+    "atomic_all_635_json_sha256": "c14711c0e31bde26c2c7fc6e77f1f2fdf0ac70180a517b91f71845f1fd78ed3f",
+    "atomic_action_source_run_id": 38039330829,
+    "atomic_artifact_id": 11665202785,
+    "atomics_game_denominator": 16,
+    "atomic_legal_root_moves": 635,
+    "board_attack_edge_gained": 5202,
+    "board_attack_edge_lost": 5959,
+    "root_capture_moves": 46,
+    "root_check_moves": 11,
+    "legal_absolute_pin_relation_gained_moves": 13,
+    "legal_absolute_pin_relation_removed_moves": 41,
+    "legal_immediate_recap_destination_moves": 264
+  },
+  "native": {
+    "run_id": 38039555257,
+    "url": "https://github.com/WhoSia/C3X/actions/runs/38039555257",
+    "conclusion": "success",
+    "artifact_id": 11664953465,
+    "artifact_name": "c3x-021-P1-march-native-TT-atomic-root-choice",
+    "artifact_zip_sha256": "4483f2d4866fd82d618f9af4699edd184050a9d39de77050a2bc9c07491cd4ba",
+    "native_json_name": "C3X021_P1_MARCH16_NATIVE_TT_ATOMIC_ROOT_CHOICE.json",
+    "native_json_sha256": "5ee15c3ec48be0042a9bb0ae7566808737f56e7568c2b29d43f00ae64afcb259",
+    "verified_member_sha256_count": 24,
+    "mismatched_member_sha256_count": 0,
+    "stockfish16_commit": "68e1e9b3811e16cad014b590d7443b9063b52",
+    "method": "single process Threads1, Hash16MB, no NNUE, search depth12, F original vs V first selected physical TT reader suppression, cold twice"
+  },
+  "denominators": {
+    "source_games": 16,
+    "strict_broad_role_cells": 32,
+    "eligible_and_actually_blocked_role_cells": 31,
+    "no_eligible_pair": 1,
+    "categorical_bestmove_flips": 2
+  },
+  "first_semantic_split": {
+    "equal_logged_trace": 17,
+    "same_alpha_gate_but_differing_child_return": 12,
+    "candidate_identity_path_divergence": 2,
+    "first_aligned_alpha_crossing": 0
+  },
+  "flipped_cases": [
+    {
+      "game": 4,
+      "role": "BROAD",
+      "fen4": "3r3r/1bk5/p1npp3/1p2n1p1/4P2P/PNN2B2/1PP3P1/2KR1R2 b - -",
+      "F": "h8h4",
+      "V": "g5h4",
+      "F_score_cp": 31,
+      "V_score_cp": 35,
+      "F_nodes": 32070,
+      "V_nodes": 30191,
+      "F_legal_opponent_replies": 29,
+      "V_legal_opponent_replies": 29,
+      "F_piece": "black rook",
+      "V_piece": "black pawn",
+      "shared_action": "capture white pawn on h4",
+      "different_attack_edges": true,
+      "different_pin_constraints": false,
+      "root_leader_diff_first_depth": 5,
+      "first_aligned_child_return": {
+        "depth": 3,
+        "alpha": 119,
+        "F": -29,
+        "V": 65,
+        "F_alpha_gate": 0,
+        "V_alpha_gate": 0
+      },
+      "source_V_first_reader_block_count": 1
+    },
+    {
+      "game": 9,
+      "role": "STRICT",
+      "fen4": "2rr2k1/p3ppb1/qpbp1npp/8/2PBP3/2NB1P2/PP3QPP/3R1R1K b - -",
+      "F": "a6b7",
+      "V": "f6h5",
+      "F_score_cp": -27,
+      "V_score_cp": -27,
+      "F_nodes": 118092,
+      "V_nodes": 138368,
+      "F_legal_opponent_replies": 40,
+      "V_legal_opponent_replies": 41,
+      "F_piece": "black queen",
+      "V_piece": "black knight",
+      "shared_action": "quiet move; no immediate capture",
+      "different_attack_edges": true,
+      "different_pin_constraints": false,
+      "root_leader_diff_first_depth": 5,
+      "first_aligned_child_return": {
+        "depth": 4,
+        "alpha": 44,
+        "F": -104,
+        "V": -14,
+        "F_alpha_gate": 0,
+        "V_alpha_gate": 0
+      },
+      "source_V_first_reader_block_count": 1
+    }
+  ],
+  "scientific_interpretation": [
+    "First frozen March P1 native court has two source-delivered same-board TT reader suppression choice flips across 31 eligible fixed roles.",
+    "Both flips have their first logged, source-aligned changed child return on the SAME alpha-gate side; the earlier known-game3 sharp alpha threshold is not sufficient as a stand-alone generalized explanation.",
+    "Chess action contrasts show concrete distinct pieces, attacks and opponent response fans. They do not identify the actual engine valuation of those features.",
+    "Native TT reader-block proves physical source intervention, but uninstrumented later actual TT use and unique causal mediation require separate watch. P1-R1 exact second-consumer watch precommitted before that subsequent result."
+  ],
+  "legacy_results_unchanged": [
+    "CPP_224 adversarial replication FAIL",
+    "PAG universal factor FAIL",
+    "pin legal-type generalization FAIL",
+    "January J2/J3/J4 FAIL",
+    "February F19.5 FAIL",
+    "0.19 K4 0/4 FAIL"
+  ],
+  "next_research": "precommitted 0.21-P1-R1 full64 actual native eval/cutoff use witness across all fixed 31 role arms"
+}
