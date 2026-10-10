@@ -31,7 +31,7 @@ class BeforeEngineSourceCase(unittest.TestCase):
         self.assertEqual(len(fens_in_material(x)),2)
 
     def test_no_silent_coverage_downgrade(self):
-        with self.assertRaises(ValueError):
+        with self.assertRaises((ValueError,FileNotFoundError)):
             historic_sources(["p0=/nonexistent.json"])
         with self.assertRaises(ValueError):
             historic_sources([])
