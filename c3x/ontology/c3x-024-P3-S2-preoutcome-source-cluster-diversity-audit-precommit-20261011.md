@@ -1,0 +1,9 @@
+# C3X 0.24 P3-S2 — Source Event/Player Correlation Audit (PRE-READ)
+
+**SOURCE-ONLY descriptive audit preregistered 2026-10-11 before re-reading 2025-09 original headers for this task.** P3 128 sample IDs previously engine-blind selected and human-Git sealed `4cb9172ca8b5b5e8c77ab453a37b34daf82a6ecf`. No source game changes, no physical FIRST treatment, no source-linked predictive features added to M3-v2 rule.
+
+Privately read the official original 2025-09 CC BY-SA broadcast PGN, SHA verify bytes `da3a261e926a2c0f5e79c393818e643d76448edf94cfdaefa3892258a6f9e7ba`. Match **only** 128 Git-sealed complete-game SHA256 identities (headers + original UCI mainline) without publishing individual headers. Count anonymous event-label groups, event+date groups, repeated player-name appearances, missing/unknown metadata, biggest cluster, and 128-game coverage. Report only aggregate counts and source / calculation SHA; no event or player labels, no pseudonymous hashed identifiers (guessable from public PGN), and no original FEN or moves.
+
+Game IDs are independent **units of selection**, not necessarily statistically independent after an event or player repeat. No automatic reweighting, deletion or splitting based on post-selection cluster counts; any cluster-robust inference is predeclared for downstream final analysis. Inference denominators stay 128 independent source *game rows* but event clustering may reduce effective independent units. This audit is scientific descriptive data-quality, not M3 predictor evaluation or natural TT→SEE mediation.
+
+Read-only Actions `contents: read` and no bot commits; no original PGN uploaded.
