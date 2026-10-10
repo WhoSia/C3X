@@ -1,0 +1,119 @@
+{
+  "schema": "c3x022-R2-operator-level-SEE-TT-factorial-and-c3x023-rights-release-p0-v1",
+  "date": "2026-10-10",
+  "version_from": "C3X 0.22-P2-R2",
+  "active_successor": "C3X 0.23",
+  "status": "SOURCE_OPERATOR_CONTACT_AND_DEVELOPMENT_COMBINED_EFFECT_ESTABLISHED__NATURAL_MEDIATION_NOT_IDENTIFIED",
+  "preregistered_contracts": [
+    "c3x/ontology/c3x-022-P2-R2-native-SEE-operator-TT-factorial-precommit.md",
+    "c3x/ontology/c3x-022-P2-R2-D1-root-descendant-SEE-passive-observation-precommit.md",
+    "c3x/ontology/c3x-022-P2-R2-D2-descendant-SEE-pruning-factorial-precommit.md"
+  ],
+  "source_situation": {
+    "TWIC1664 original ZIP SHA256": "87bcd88e628c85b6e7e5b36894738fc9e6ef4012345740e57ff05795a908940f",
+    "selected16_source_JSON_SHA256": "3cc4c788eec55960921e653604b2fbb3113163862e2652271b939fb12fb9eeb3",
+    "stageA_no_TT_Git_frozen_JSON_SHA256": "a84a9a2b38bacedb140724c08fc5137b98c8f0077d4754bb5f399a3c30284c35",
+    "reuses_existing_known_effect_cases": [
+      2,
+      3,
+      6,
+      12,
+      13
+    ],
+    "negative_source_case": 14,
+    "study_design": "SIX DEVELOPMENT CASES; NOT PROSPECTIVE HELDOUT TEST",
+    "full_source_TWIC_PGN_public_distributed": false,
+    "selected_FEN_and_UCI_raw_public_release": "HOLD_REVIEW_PENDING_PERMISSION"
+  },
+  "run_strict_same_node": {
+    "id": 38053054749,
+    "url": "https://github.com/WhoSia/C3X/actions/runs/38053054749",
+    "status": "SUCCESS",
+    "artifact_id": 11670221963,
+    "artifact_zip_sha256": "d75e524f639ffe707bf7e004d653022e3c5e41a39de18e0feb2b4f31ef579a7d",
+    "protected_internal_raw_SHA256": "abfd4ebbada7d3225968105d118d15279148cce857361e30446853c9710a5762",
+    "experimental_cases": 6,
+    "factorial_arms": 24,
+    "TT_FIRST_reader_contacts": 12,
+    "SEE_same_source_key_and_root_call_observed_events": 0,
+    "SEE_bool_flip_contacts": 0,
+    "scientific_verdict": "SEE_MEDIATION_NOT_IDENTIFIED_AT_STRICT_SAME_POSITION_AND_ROOTCALL",
+    "warning": "No same-key SEE event does NOT show no SEE activity in descendant chess search paths."
+  },
+  "run_D1_root_descendant_passive": {
+    "id": 38053354509,
+    "url": "https://github.com/WhoSia/C3X/actions/runs/38053354509",
+    "status": "SUCCESS",
+    "artifact_id": 11670322058,
+    "artifact_zip_sha256": "526fb697d47e83fc04abee7b63cb00a63e9520793340b5f8cf3169c37d447316",
+    "artifact_summary_SHA256": "ca3e75bfe50f71c0cc92d0e09ace2d5b7230a634dd3d3fdb9fddd6d8031147de",
+    "protected_internal_raw_SHA256": "d563b0816554892f2390b8068c382a9c4e69934e8aff86a5f6aa6bec2696f529",
+    "cases_with_any_true_native_see_call": 6,
+    "first32_events_per_case": 32,
+    "total_observed_prefix_events": 192,
+    "all_cases_censored_beyond32": true,
+    "observed_site_counts": {
+      "capture_prune": 45,
+      "quiet_prune": 32,
+      "qsearch_futility": 6,
+      "qsearch_prune": 109
+    },
+    "actual_SEE_mutations": 0,
+    "actual_TT_mutations": 0,
+    "verdict": "NATIVE_SEE_ROOT_DESCENDANT_CALLS_OBSERVED_WITHOUT_OPERATOR_MODIFICATION"
+  },
+  "run_D2_root_descendant_first_quiet_qsearch_factorial": {
+    "first_technical_SUCCESS_run": 38053685211,
+    "canonical_full_categorical_run_id": 38053840514,
+    "canonical_url": "https://github.com/WhoSia/C3X/actions/runs/38053840514",
+    "status": "SUCCESS",
+    "artifact_id": 11670293015,
+    "artifact_zip_sha256": "22db88aea30a2edfd650df63b5277ef6dfaf79cf7d7181b35cbd6058a5978022",
+    "aggregate_JSON_SHA256": "2ff2f445dd4563fd7b95e6c82117714202286d4a65284473a9029566a8df1e93",
+    "internal_full_native_raw_SHA256": "2b07080ba3153db93cf1b5a049580292cbeb067681a4c5a1cc9cddae7a7dacf8",
+    "development_games": 6,
+    "total_arms": 24,
+    "TT_FIRST_true_source_contacts": 12,
+    "SEE_OBS_true_native_call_witness_arms": 12,
+    "SEE_first_eligible_quiet_or_qsearch_true_BOOL_flip_contacts": 12,
+    "TT_only_bestmove_changed_vs_untreated_games": 5,
+    "SEE_only_bestmove_changed_vs_untreated_games": 1,
+    "TT_and_SEE_joint_bestmove_changed_vs_untreated_games": 5,
+    "TT_AND_SEE_joint_bestmove_differs_from_TT_only_games": 3,
+    "joint_selected_root_move_not_chosen_by_any_three_other_arms_games": 1,
+    "intervention_identity": "first eligible quiet_prune or qsearch_prune see_ge Boolean under source rootcall, not fixed descendant position key, no legal move generator mutation",
+    "scientific_verdict": "DEVELOPMENT_ONLY_NATIVE_OPERATOR_COMBINATION_AFFECTS_CATEGORICAL_BESTMOVE",
+    "not_yet_proved": [
+      "actual identical descendant source node across TT/SEE arms",
+      "native SEE as natural mediator of physical TT-value suppression",
+      "out-of-ecology game-specific UCI prediction",
+      "population effect size"
+    ]
+  },
+  "licensing_and_publication": {
+    "license_manifest": "c3x/rights/c3x-023-origin-license-provenance-20261010.json",
+    "rights_gate": "tools/c3x_023_rights_preupload_gate.py",
+    "TWIC status": "PERSONAL_USE_ONLY_ALL_RIGHTS_RESERVED__ORIGINAL_PGN_HOLD__DERIVED_FEN_UCI_REVIEW",
+    "LICHESS_PUZZLES": "CC0",
+    "LICHESS_BROADCAST_PGN": "CC_BY_SA_4_0",
+    "STOCKFISH_MODIFIED_BINARY": "GPLV3_DISTRIBUTION_REQUIREMENTS",
+    "R2_and_D1_and_D2_public_artifacts": "NONRECONSTRUCTIVE_COUNTS_AND_INTERNAL_SHA_ONLY",
+    "public_upload_byte_gate": "SCAN_PASS_NOT_A_LEGAL_LICENSE",
+    "actual_written_permission_from_TWIC": "NOT_OBTAINED",
+    "permission_inquiry": "c3x/rights/c3x-023-TWIC-data-release-permission-request-draft.md",
+    "permission_email_sent": false
+  },
+  "historical_negative_claims_retained": [
+    "0.22-P2 M1 exact UCI FAIL",
+    "0.22-P2-R1 M2 54/64 no-change equal FAIL",
+    "Jan J2/J3/J4 FAIL",
+    "K4 0/4 FAIL",
+    "Feb F19.5 FAIL",
+    "CPP224/PAG failed"
+  ],
+  "next": [
+    "P2-R3 deeper per-node SEE->TT writer score path: exact descendant source key and 2x2 node identity alignment, alternate plausible SEE threshold versus Boolean flip",
+    "C3X0.23-P1 new Lichess broadcast CC-BY-SA or Lichess puzzle CC0 heldout source: source-independent safe release pipeline, literal UCI forecast SHA before native reader outcomes",
+    "TWIC original rights permission review or avoid source release, verify previous public legacy derivations"
+  ]
+}
