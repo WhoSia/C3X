@@ -119,3 +119,16 @@ O-world writer–reader pairs were independently selected from natural-O discove
 - P4 independent reproduction, release/legal audit, publication-ready validation: NOT STARTED.
 
 Keep C3X 0.21 ACTIVE. C3X 0.22 remains a prepared PROPOSAL.
+
+
+---
+
+## POST-ACTIVATION 0.22-P1 APRIL RESULT ADDENDUM — 2026-10-10
+
+The proposal's earlier not-active status is a historical snapshot, **superseded** by the explicit user-authorized C3X 0.22 ACTIVE transition, [source-before-outcome precommit](c3x-022-P0-april2026-independent-ecology-source-and-prospective-forecast-precommit.md) and independent April16 run. No historical prose or earlier failures were rewritten.
+
+Official April2026 broadcast PGN source and all 486 Standard Chess legal root transitions were frozen before native engine experiments, then source-level Stockfish16 native O/F writer–reader TT pairs were independently reconstructed. [Native Actions #38045977655](https://github.com/WhoSia/C3X/actions/runs/38045977655) **SUCCESS**, artifact member SHA 24/24 PASS; [canonical source-backed P1 result receipt](../receipts/c3x-022-P1-april16-prospective-native-order-TT-forecast-20261010.json) and [paper evidence review](c3x-022-P1-april-prospective-rootchoice-paper-A-evidence-review.md).
+
+The three original **existence/set-level**, not exact-game, risky preregistered April claims all PASS: H22-ORDER 2/16 distinct games #3,#13 have differing natural-O vs played-first-F bestmoves; H22-NATIVE 2/16 distinct games #3 (natural O, STRICT) and #15 (played-first F, BROAD) have physically contacted TT-first reader suppression flipping the final bestmove; H22-CONTEXT affected game sets O={3} vs F={15} are unequal. Full denominator 64 role cells, 60 eligible and truly contacted; roles in one game not independent. Both flipping cases have **SAME_ALPHA_GATE** at the first source-aligned changed return and one (#15) creates a bestmove not chosen by *either* source O or F baseline. These results strengthen the near-term feasibility of **PAPER A** as a method contribution but do not establish a general predictor of exactly which games or moves flip. Paper still **not submitted**.
+
+The next major new hypothesis must be **game-ID- and UCI-move-specific**, on a third holdout ecology (ideally 64–128 games after validating source sampling constraints), with chess legal response primitives and native source causal event classification frozen before looking at the new engine outcomes. The historical CPP224/PAG, F19.5 and K4 failure verdicts remain unchanged.
