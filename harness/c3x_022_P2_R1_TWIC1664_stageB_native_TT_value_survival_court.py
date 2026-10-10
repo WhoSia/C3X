@@ -76,8 +76,8 @@ def scan(source,primitives,stageA,engine):
             roles={}
             for role in ROLES:
                 f=prior["role_forecasts"][role]
-                if f["status"]=="NO_TREATMENT":
-                    roles[role]={"status":"NO_ELIGIBLE_TT_PAIR","contact":False}
+                if f["status"] in ("NO_TREATMENT","HOLD_CENSORED_NO_FIRST_SOURCE_PAIR"):
+                    roles[role]={"status":"NO_ELIGIBLE_TT_PAIR" if f["status"]=="NO_TREATMENT" else "HOLD_CENSORED_DISCOVERY","contact":False}
                     continue
                 triple=f["physical"]
                 pair={"physical":triple,"root_calls":f["root_calls"],
