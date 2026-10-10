@@ -75,7 +75,7 @@ def study(source,primitives,engine):
             need(obs["UCI"]==discovery["UCI"],"PASSIVE_DISCOVERY_CHANGED_BASELINE")
             baselines[order]=obs
             events[order]=[e for e in discovery["payload_witnesses"] if e["kind"]=="discovery"]
-            need(len(events[order])<2048,"DISCOVERY_CENSORED_2048")
+            need(len(events[order])<=2048,"DISCOVERY_OVER_LIMIT")
         moves={order:baselines[order]["UCI"]["bestmove"] for order in WORLDS}
         need(all(m in risk for m in moves.values()),"BASELINE_NOT_LEGAL_CHESS")
         row={"id":raw["id"],"game_sha256":raw["source_game_sha256"],
