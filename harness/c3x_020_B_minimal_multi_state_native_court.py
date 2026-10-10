@@ -116,13 +116,42 @@ def play_cold(engine, world, clocks, role, selected, source_mode,
             "cold_identical": True}
 
 
-def outcome(row, arm):
-    return {"UCI": row["arms"][arm]["UCI"],
-            "restores_F_bestmove":
-                row["arms"][arm]["UCI"]["bestmove"] == row["arms"]["F_OBS"]["UCI"]["bestmove"],
-            "actual_second": row["arms"][arm]["second_return_events"],
-            "actual_boundary": row["arms"][arm]["boundary_state_events"]}
+def effect_delivered(label, arm):
+    """Never credit a bestmove match to an unfired or mismatched treatment."""
+    first = arm.get("root_return_events", [])
+    second = arm.get("second_return_events", [])
+    boundary = arm.get("boundary_state_events", [])
+    ok_first = len(first)==1 and first[0]["kind"]=="repaired"
+    ok_second = len(second)==1 and second[0]["kind"]=="repaired"
+    ok_boundary = len(boundary)==1 and boundary[0]["kind"]=="repaired"
+    if label in ("F_OBS", "FIRST"):
+        return True
+    if label in ("A0", "A0_OBS", "A0_SHAM"):
+        return ok_first
+    if label == "SECOND_ONLY":
+        return ok_second
+    if label == "A0_SECOND":
+        return ok_first and ok_second
+    if label in ("A0_AVERAGE", "A0_SCORE", "A0_BOTH"):
+        return ok_first and ok_boundary
+    if label == "A0_SECOND_BOTH":
+        return ok_first and ok_second and ok_boundary
+    raise ValueError("UNKNOWN_TREATMENT_LABEL_" + label)
 
+
+def outcome(row, arm):
+    delivered = effect_delivered(arm, row["arms"][arm])
+    result = row["arms"][arm]
+    match = result["UCI"]["bestmove"] == row["arms"]["F_OBS"]["UCI"]["bestmove"]
+    return {"UCI": result["UCI"],
+            "delivered": delivered,
+            "categorical_F_bestmove_equal": match,
+            "restores_F_bestmove": delivered and match,
+            "actual_first": result["root_return_events"],
+            "actual_second": result["second_return_events"],
+            "actual_boundary": result["boundary_state_events"],
+            "contact_status": ("DELIVERED" if delivered else
+                              "NONCONTACT_OR_CHANGED_PRESTATE")}
 
 def main():
     p = argparse.ArgumentParser()
@@ -149,7 +178,7 @@ def main():
               "cases": []}
     for item, old in zip(FIXED, frozen["cases"]):
         gid, role, depth, *_ = item
-        need(old["game"] == gid and old["role"] == role,
+        need(old["game"] == gid and old["selector"] == role,
              "C3X020_B_FROZEN_CASE_IDENTITY")
         world, _ = canonical_engine_world(games["selected"][gid-1])
         clocks = game_clocks(games["selected"][gid-1])
@@ -213,7 +242,13 @@ def main():
             # expected values after seeing the outcome.
             row["arms"]["A0_SECOND_BOTH"] = run("V", f=first,
                                                s=second_config(gid), b=b)
-            actual_contacts(row["arms"]["A0_SECOND_BOTH"], 1, 1, 1)
+            # Joint intervention can genuinely move the boundary pre-state.
+            # Keep that observation as non-delivered, not a court-wide abort.
+            witness = row["arms"]["A0_SECOND_BOTH"]
+            actual_contacts(witness, 1, 1, None)
+            witness["boundary_delivery"] = (
+                len(witness["boundary_state_events"]) == 1 and
+                witness["boundary_state_events"][0]["kind"] == "repaired")
         else:
             row["arms"]["A0_SECOND_BOTH"] = {
                 "status": "NO_SECOND_CANDIDATE_OR_BOUNDARY_DOSE"}
@@ -234,6 +269,12 @@ def main():
                    for arm in ARMS if arm not in ("F_OBS","FIRST")},
         "eligible_denominators_by_arm": {arm: sum(arm in c["outcomes"]
                    for c in report["cases"]) for arm in ARMS},
+        "actually_delivered_by_arm": {arm: sum(int(c["outcomes"][arm]["delivered"])
+                   for c in report["cases"] if arm in c["outcomes"])
+                   for arm in ARMS},
+        "noncontact_by_arm": {arm: sum(int(not c["outcomes"][arm]["delivered"])
+                   for c in report["cases"] if arm in c["outcomes"])
+                   for arm in ARMS},
         "note": "Four post-outcome selected cases, not a prospective holdout."
     }
     out = Path(args.out)
