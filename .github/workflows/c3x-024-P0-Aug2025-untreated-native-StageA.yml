@@ -18,7 +18,7 @@ jobs:
       - name: Strict untouched baseline and path observer source tests
         run: |
           set -euo pipefail
-          python -m pip install -q chess==1.11.2
+          python -m pip install -q chess==1.11.2 zstandard==0.25.0
           python -m py_compile harness/c3x_024_P0_Aug2025_no_TT_SEE_treatment_native_stageA.py
           python -m unittest discover -s tools -p 'test_c3x_024_P0_aug2025_engineblind_source_and_rights.py' -v
           python -m py_compile tools/c3x_023_P1_native_SEE_parent_path_key_overlay.py
