@@ -3,6 +3,7 @@ on:
   push:
     paths:
       - '.github/workflows/c3x-022-P2-R1-TWIC1664-stageA-depth11-SEE-three-models.yml'
+      - 'harness/c3x_022_P2_R1_depth11_survivor_exact_forecast_stageA.py'
   workflow_dispatch:
 permissions:
   contents: read
