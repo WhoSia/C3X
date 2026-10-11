@@ -35,8 +35,8 @@ def original_targets(source,stage,forecast,shards):
         st=stage["ecologies"]["july2025_broadcast"]["cases"][g-1]
         fc=forecast["cases"][g-1]
         role=st["worlds"][o]["roles"][r]
-        if not src["source_game_sha256"]==st["source_sha256"]==fc["source_game_sha256"] or
-           role["status"]!="FIRST_SOURCE_PAIR_PRE_OUTCOME":
+        if (not src["source_game_sha256"]==st["source_sha256"]==fc["source_game_sha256"] or
+            role["status"]!="FIRST_SOURCE_PAIR_PRE_OUTCOME"):
             raise ValueError("P2_ORIGINAL_PRETREATMENT_SOURCE_ROLE_NOT_VALID")
     return targets,original
 def cold(engine,board,clock,order,role,scope,treated):
