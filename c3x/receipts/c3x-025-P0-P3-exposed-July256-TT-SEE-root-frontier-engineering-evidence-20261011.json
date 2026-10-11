@@ -1,0 +1,191 @@
+{
+  "schema": "c3x025-P0-P3-exposed-july256-native-search-lineage-and-pinned-SF16-TT-resource-development-receipt-v1",
+  "date": "2026-10-11",
+  "version_name": "C3X 0.25 — Mechanistic Search-Lineage & Falsifiable Engine Dynamics",
+  "status": "FOUR_DEVELOPMENT_CI_SUCCESS__M4_PROSPECTIVE_NEGATIVE_PRESERVED__NATURAL_MEDIATION_UNIDENTIFIED__NO_MEASURED_TT_STRENGTH_GAIN",
+  "formal_research_charter": "c3x/ontology/c3x-025-P0-mechanistic-search-lineage-uncertainty-ledger-and-independent-generalization-charter-20261011.md",
+  "original_closed_science": {
+    "July2025_games": 256,
+    "source_only_SHA256": "d2c50a1293e68c3feb8571d1ee1be6ba1a7ee539a12dd1a98378adfa9b54fb58",
+    "original_stageA_SHA256": "90bb3537f140ec7f52f8d9115add1ba88ff293705217fd75784da55343d86c65",
+    "original_six_model_UCI_forecast_SHA256": "7a4c152362171c65a9417f38de89e81ab776a4c14718fbd213411c155bb4094d",
+    "human_preFIRST_git_seal_commit": "7af3272b0d9bf1781de1ef0cf7da52927c40658d",
+    "original_physical_FIRST_trial_url": "https://github.com/WhoSia/C3X/actions/runs/38106342488",
+    "original_outcome_SHA256": "1c94973c1eaa9fca82e7a1caaaa614d4b711839df465ef7dc42e7f28fd46f7be",
+    "original_eligible": 1012,
+    "original_HOLD": 12,
+    "original_TT_contact": 1012,
+    "original_root_flips": 96,
+    "original_root_changed_games": 48,
+    "model_M0_correct": 916,
+    "model_M4_correct": 915,
+    "scientific_verdict": "SCIENTIFIC_NEGATIVE",
+    "prior_September2025_M3v2": "SCIENTIFIC_NEGATIVE_448_OVER_501_VS_M0_449_OVER_501"
+  },
+  "P0_D0": {
+    "program": "Exposed source-only TT root frontier development, all 256 game SHA, original full stage/forecast/score and four actual native role shards reverified",
+    "preregistered_before_derived_audit": "c3x/ontology/c3x-025-P0-mechanistic-search-lineage-uncertainty-ledger-and-independent-generalization-charter-20261011.md",
+    "CI_url": "https://github.com/WhoSia/C3X/actions/runs/38131917690",
+    "CI_conclusion": "SUCCESS",
+    "original_derived_JSON_SHA256": "4cae8256147584d9b6f8c883d1cd974f3f4b7b5a5188e0451eb25033114e606c",
+    "artifact_id": 11698284699,
+    "artifact_zip_sha256": "c47aa00de0de1cb36a1931877fdeba7c64759c136eb904483c64a8da52fae5ae",
+    "facts": {
+      "all_roles": 1024,
+      "physically_contacted": 1012,
+      "source_HOLD": 12,
+      "changed_role_flips": 96,
+      "changed_games": 48,
+      "real_root_flips_unpredicted_by_M4": 96,
+      "M4_one_changed_prediction_wrong": true,
+      "historical_root_changed_roles_per_game_histogram": {
+        "0": 208,
+        "1": 15,
+        "2": 25,
+        "3": 1,
+        "4": 7
+      },
+      "M4_case": {
+        "game_id": 52,
+        "order": "O",
+        "role": "STRICT",
+        "M0": "a6d3",
+        "M4": "d7d5",
+        "actual": "a6d3",
+        "same_order_depth8_to_11_leader": "d7d5",
+        "same_order_depth12_final_leader": "a6d3",
+        "untreated_original_F_root_world_trace_censored": true,
+        "original_O_STRICT_native_first_TT_reader_contact": true,
+        "original_O_STRICT_passive_SEE_first32_censored": true
+      }
+    },
+    "evidence_boundary": "All derived source counts are from previously EXPOSED outcomes; E1 used in sham witness is distinct from treated physical E0. E2 to E5 unidentifiable by original P4 packet. No natural TT SEE causal chain certified."
+  },
+  "P1": {
+    "analysis": "Mask- and original role-lane-marginal-preserving 20000 artificial reassignment null; preregistered after descriptive original flip histogram was available; NOT discovery-blind inference",
+    "precommit": "c3x/ontology/c3x-025-P1-within-game-correlated-root-flip-mechanism-null-and-evidence-limits-precommit-20261011.md",
+    "CI_url": "https://github.com/WhoSia/C3X/actions/runs/38132098497",
+    "CI_conclusion": "SUCCESS",
+    "original_derived_JSON_SHA256": "6743f043af4cdabc20defaf5c2b9cfea9580dd6deaaecc59d94e0ec36db45d71",
+    "artifact_id": 11699940298,
+    "artifact_zip_sha256": "8a19c193fc4458c54977d60018fe4e58bd462b2a82ca882c7de873d6b9487a20",
+    "role_specific_eligible_and_root_flips": {
+      "O_STRICT": [
+        250,
+        25
+      ],
+      "O_BROAD": [
+        256,
+        29
+      ],
+      "F_STRICT": [
+        251,
+        20
+      ],
+      "F_BROAD": [
+        255,
+        22
+      ]
+    },
+    "observed_all_four_flip_games": 7,
+    "artificial_independent_role_assignment_mean_all_four_flip_games": 0.02,
+    "observed_2plus_flip_games": 33,
+    "independence_mean_2plus": 11.82895,
+    "observed_3plus_flip_games": 8,
+    "independence_mean_3plus": 0.77055,
+    "MC_reps": 20000,
+    "seed": 20261011,
+    "descriptive_p_min_observed": 0.00004999750012499375,
+    "limits": "Artificial exchangeability model ignores shared search, opening, game, player/event structure. Does not identify endogenous TT mediator. Refit on July would not be an independent prospective improvement."
+  },
+  "P2": {
+    "analysis": "Read-only exact native Stockfish16 original OBS versus physically targeted FIRST with two cold repeats per arm, chronological native TT semantic use versus source-path SEE events within first32 prefix",
+    "precommit": "c3x/ontology/c3x-025-P2-chronological-TT-semantic-use-to-SEE-root-development-pilot-precommit-20261011.md",
+    "CI_url": "https://github.com/WhoSia/C3X/actions/runs/38132442922",
+    "CI_conclusion": "SUCCESS",
+    "original_derived_JSON_SHA256": "6a050118d1c6cbec24e9e6aee643842724914ce2bd91945db9f970b50935467b",
+    "artifact_id": 11700200248,
+    "artifact_zip_sha256": "8e640896586929abfa751716aec83f757c4b5f687a578e719c63e1ca732a0e6e",
+    "selected_exposed_dev_cases": [
+      {
+        "game": 52,
+        "order": "O",
+        "role": "STRICT",
+        "actual_root_flip": false,
+        "original_TT_semantic_use_witnesses": 1,
+        "actual_TT_FIRST_blocks": 1,
+        "post_source_same_native_SEE_identity_witnesses": 28,
+        "first32_SEE_prefix_censored": true
+      },
+      {
+        "game": 52,
+        "order": "O",
+        "role": "BROAD",
+        "actual_root_flip": false,
+        "original_TT_semantic_use_witnesses": 1,
+        "actual_TT_FIRST_blocks": 1,
+        "post_source_same_native_SEE_identity_witnesses": 28,
+        "first32_SEE_prefix_censored": true
+      },
+      {
+        "game": 9,
+        "order": "O",
+        "role": "STRICT",
+        "actual_root_flip": true,
+        "original_TT_semantic_use_witnesses": 1,
+        "actual_TT_FIRST_blocks": 1,
+        "post_source_same_native_SEE_identity_witnesses": 8,
+        "first32_SEE_prefix_censored": true
+      }
+    ],
+    "mechanistic_limit": "Matched source path/SEE site after TT use and block != same full live search state, actual SEE-pruning branch/ancestor value chain, proof of natural causal TT->SEE->root mediation. Prefix only 32 and censored."
+  },
+  "P3": {
+    "analysis": "Version-pinned official unmodified Stockfish16 Git SHA original code read-only for transposition table source semantics, four altered-source negative controls",
+    "preregistered": "c3x/ontology/c3x-025-P3-pinned-SF16-TT-resource-mechanics-and-improvement-ablations-precommit-20261011.md",
+    "CI_url": "https://github.com/WhoSia/C3X/actions/runs/38132665828",
+    "CI_conclusion": "SUCCESS",
+    "original_derived_JSON_SHA256": "e2453ef5d39249bc8a234b1e66810267767260fb19893d084cb9966daa6e5b12",
+    "artifact_id": 11700335165,
+    "artifact_zip_sha256": "8eba77cb09e92fa50760ed4722196ae874404911c9e8ba5f66b146851bbe8e01",
+    "original_SF16_git_commit": "68e1e9b3811e16cad014b590d7443b9063b3eb52",
+    "original_cpp_SHA256": {
+      "tt.h": "e14e2f3f75b4bebeb023c7da9ea552030d927f1c4c7a5e1b0088a87c4c6b72a1",
+      "tt.cpp": "d132fb235050916682ea258de2dc8825712d370216342f46f64d7977ee1557ba",
+      "search.cpp": "21b79baa7ce9dabec5b3b9e3854bed9869a1935277247832e550cf395bccd644"
+    },
+    "confirmed_source_static_mechanics": [
+      "3 entries per TT cluster",
+      "low16-bit key fragment not exact full64 physical witness",
+      "TT.probe refreshes generation on returned hit or empty entry even without proving ttValue was later consumed",
+      "replacement priority based on depth minus generation age",
+      "same-key TT.move preservation and exact/depth/PV overwrite conditions",
+      "ttMove, ttValue, nonPV cutoff and native SEE prune are separate causal mechanisms"
+    ],
+    "mutated_source_negative_controls_rejected": 4,
+    "limit": "Source code presence is not proof branch executed in any specific July source contact, no new ELO or engine strength improvement."
+  },
+  "historical_technical_runs_preserved": {
+    "D0_initial_syntax_gate_FAIL": "https://github.com/WhoSia/C3X/actions/runs/38131815358",
+    "D0_initial_missing_HOLD_feature_FAIL": "https://github.com/WhoSia/C3X/actions/runs/38131866863",
+    "P2_initial_syntax_gate_FAIL": "https://github.com/WhoSia/C3X/actions/runs/38132362108",
+    "P3_initial_incomplete_source_mutation_negative_control_FAIL": "https://github.com/WhoSia/C3X/actions/runs/38132625344",
+    "final_scientific_outputs_all_passed": true
+  },
+  "next_hard_requirements": [
+    "Instrument native actual selected TT probe refresh, semantic move ordering and numeric bound/evaluation use as distinct events, not inferred from one bit",
+    "Same source TT and SEE exact ancestor path PLUS ply/depth/alpha/beta/PV/rule50/occupied, branch prune/continue in paired arms",
+    "Complete one-to-one child return, parent candidate update, root re-search/aspiration window and final root competition, fail on partial/censored",
+    "Separately parameter-lock engine TT replacement/performance ablation, benchmark speed and game-strength CI, never infer strength from exposed causal dataset",
+    "Only if model and independent new cohort source/role literal UCI predictions human Git sealed before any new FIRST can M5 improve prospective score"
+  ],
+  "research_gates": {
+    "P5_future_M5_registration": "NOT_STARTED",
+    "future_unseen_games": "NOT_SELECTED",
+    "new_independent_M5_predictions": "NOT_SEALED",
+    "new_E0_to_E6_natural_TT_SEE_mediation": "NOT_PROVEN",
+    "engine_TT_improvement_Elo": "NOT_MEASURED",
+    "prior_M4_model_negative": "PRESERVED"
+  },
+  "rights": "Stockfish16 upstream GPLv3, Lichess broadcast 2025-07 CC BY-SA4; metadata scanner PASS_NOT_LEGAL_CLEARANCE; no original full PGN/player/event identity and no modified engine binary redistributed. Human WhoSia Git author/committer only, CI permissions contents read."
+}
