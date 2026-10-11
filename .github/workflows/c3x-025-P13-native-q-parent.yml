@@ -27,6 +27,7 @@ jobs:
         run: |
           mkdir -p /tmp/p13
           python3 tools/c3x_025_P13_native_q_parent_overlay.py --root /tmp/c3x-sf --out-manifest /tmp/p13/source.json
+          python3 tools/c3x_025_P9_R1_native_root_final_source_endpoint_overlay.py --source /tmp/c3x-sf --out-manifest /tmp/p13/p9-root-endpoint.json
           make -C /tmp/c3x-sf/src clean
           make -C /tmp/c3x-sf/src -j2 build ARCH=x86-64
           cp /tmp/c3x-sf/src/stockfish /tmp/c3x-sf-observer
