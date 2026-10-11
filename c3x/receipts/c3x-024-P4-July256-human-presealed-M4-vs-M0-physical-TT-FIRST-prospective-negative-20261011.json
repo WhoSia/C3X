@@ -98,8 +98,21 @@
   },
   "event_sensitivity": {
     "analysis_preregister": "c3x/ontology/c3x-024-P4-P1-preFIRST-256game-1024role-scoring-and-event-cluster-verdict-precommit-20261011.md",
+    "original_game_score_full_JSON_SHA256": "1c94973c1eaa9fca82e7a1caaaa614d4b711839df465ef7dc42e7f28fd46f7be",
     "workflow_run": "https://github.com/WhoSia/C3X/actions/runs/38114019549",
-    "status_at_receipt": "SCHEDULED_OR_RUNNING__NOT_YET_CERTIFIED"
+    "CI_conclusion": "SUCCESS",
+    "full_JSON_SHA256": "48ca9a60c683dd918b6608429de52e0bb758331c59f9aa840e24cc1804eeefd9",
+    "iterations": 10000,
+    "event_CI_95pct": [
+      -0.006607929515418502,
+      0
+    ],
+    "event_plus_complete_date_CI_95pct": [
+      -0.00597609561752988,
+      0
+    ],
+    "verdict": "SCIENTIFIC_NEGATIVE_UNCHANGED",
+    "verified_receipt": "c3x/receipts/c3x-024-P4-R1-July256-original-event-eventdate-10k-bootstrap-confirmed-negative-M4-20261011.json"
   },
   "limits": [
     "Native physical TT contact and final root change demonstrate an intervention with observed response, not the natural TT→SEE mediation path.",
