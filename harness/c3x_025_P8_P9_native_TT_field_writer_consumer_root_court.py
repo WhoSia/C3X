@@ -83,8 +83,28 @@ def run(engine:str,enable:bool):
         stream.append(row)
     if len(stream)>256 or censored>1:raise ValueError("P8_SOURCE_PREFIX_CAP_OR_DUPLICATE_CENSOR")
     if enable and not stream:raise ValueError("P8_ORIGINAL_TT_SOURCE_OBSERVER_NEVER_EXECUTED")
+    root_lines=[q for q in lines if q.startswith("info string c3x025_p9_root ")]
+    if len(root_lines)>1 or (not enable and root_lines):
+        raise ValueError("P9_ROOT_SOURCE_TAG_DUPLICATE_OR_OPTED_OUT")
+    root=None
+    if root_lines:
+        f={}
+        for kv in root_lines[0].split()[3:]:
+            if "=" not in kv:raise ValueError("P9_ROOT_SOURCE_TAG_INVALID_FIELD")
+            k,v=kv.split("=",1)
+            if k in f:raise ValueError("P9_ROOT_SOURCE_TAG_DUPLICATE_FIELD")
+            f[k]=v
+        if set(f)!={"kind","UCI","root_score","completed_depth","root_candidate_count"} or f["kind"]!="FINAL_CANDIDATE":
+            raise ValueError("P9_ROOT_SOURCE_TAG_SCHEMA_DRIFT")
+        if f["UCI"]!=move or int(f["completed_depth"])!=7 or int(f["root_candidate_count"])<1:
+            raise ValueError("P9_FINAL_ROOT_SOURCE_CANDIDATE_UCI_OR_DEPTH_INCONSISTENT")
+        root={"status":"NATIVE_FINAL_ROOT_CANDIDATE_TO_TERMINAL_UCI_CONFIRMED",
+              "bestmove":f["UCI"],"root_score":int(f["root_score"]),
+              "completed_depth":int(f["completed_depth"]),
+              "candidate_count":int(f["root_candidate_count"])}
     return {"bestmove":move,"depth":7,"nodes":nodes,
-            "events":stream,"source_censored_after_256":bool(censored)}
+            "events":stream,"source_censored_after_256":bool(censored),
+            "native_root_source_endpoint":root}
 def audit(original:str,observed:str,manifest:dict)->dict:
     if manifest["schema"]!="c3x025-P8-source-native-field-sensitive-writer-and-search-consumer-overlay-v1" or not manifest["full_original_source_restored_exact_bytes"]:
         raise ValueError("P8_ORIGINAL_NATIVE_SOURCE_SHA_REVERSE_NOT_PINNED")
