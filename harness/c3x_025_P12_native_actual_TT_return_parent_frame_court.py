@@ -113,7 +113,7 @@ def run(binary,enabled):
             "native_frame_events":frames,
             "native_final_root_endpoint":endpoint}
 def audit(original,observed,manifest):
-    if not manifest.get("both_layers_reverse_to_identical_upstream_bytes"):
+    if not manifest.get("P8_then_P11_then_P12_reverse_exact_original_source_byte_equal"):
         raise ValueError("P11_ORIGINAL_SOURCE_REVERSE_NOT_VERIFIED")
     a=[run(original,False) for _ in range(2)]
     b=[run(observed,True) for _ in range(2)]
@@ -169,7 +169,7 @@ def audit(original,observed,manifest):
     return {
       "schema":SCHEMA,
       "original_pinned_SF16_git_commit":"68e1e9b3811e16cad014b590d7443b9063b3eb52",
-      "original_tt_cpp_sha256":manifest["original_upstream_source_SHA256"]["tt.cpp"],
+      "original_tt_cpp_sha256":manifest["original_upstream_SHA256"]["tt.cpp"],
       "original_search_cpp_sha256":manifest["original_upstream_source_SHA256"]["search.cpp"],
       "native_observer_two_layers_reverse_original_bytes":True,
       "two_native_original_and_observer_cold_repeats_each_plus_optout_control":True,
