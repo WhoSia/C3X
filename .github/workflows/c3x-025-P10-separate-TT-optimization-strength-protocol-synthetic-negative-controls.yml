@@ -1,0 +1,38 @@
+name: C3X 0.25 P10 Separate TT Optimization Statistics Protocol No Strength Claim
+on:
+  push:
+    paths:
+      - '.github/workflows/c3x-025-P10-separate-TT-optimization-strength-protocol-synthetic-negative-controls.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  independent-optimization-inference-guard-not-native-games:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Precommitted separate TT policy and inferential boundaries
+        run: |
+          set -euo pipefail
+          test -f c3x/ontology/c3x-025-P8-P10-field-sensitive-TT-writer-consumer-native-chain-and-separate-performance-protocol-precommit-20261011.md
+          python -m py_compile harness/c3x_025_P10_separate_TT_policy_strength_and_performance_adjudicator.py tools/test_c3x_025_P10_separate_TT_optimization_protocol.py
+          mkdir -p public
+      - name: Synthetic negative controls and R0 versus R0 no positive inference
+        run: |
+          set -euo pipefail
+          python -m unittest -v tools/test_c3x_025_P10_separate_TT_optimization_protocol.py
+          python -u harness/c3x_025_P10_separate_TT_policy_strength_and_performance_adjudicator.py --out public/C3X025_P10_SYNTHETIC_TT_POLICY_OPTIMIZATION_PROTOCOL_ONLY.json
+          python tools/c3x_023_rights_preupload_gate.py --tier P2_AGGREGATE_SUMMARY --file public/C3X025_P10_SYNTHETIC_TT_POLICY_OPTIMIZATION_PROTOCOL_ONLY.json --report public/RIGHTS_P10.json
+          echo 'P10 is a synthetic inference protocol only, NO actual comparative Stockfish native games, nodes, walltime, throughput or Elo improvement. GPLv3 SF16 source must be handled separately for future actual TT policy modifications. No original PGN/player private data or engine binaries published. Technical scan not a legal opinion.' > public/SCIENCE_RIGHTS_SCOPE.txt
+          find public -maxdepth 1 -type f ! -name MEMBER_SHA256.txt -print0 | sort -z | xargs -0 -r sha256sum > public/MEMBER_SHA256.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x-025-P10-TT-optimization-independent-strength-protocol-not-real
+          path: public/
+          if-no-files-found: error
+          retention-days: 90
