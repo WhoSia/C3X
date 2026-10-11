@@ -1,0 +1,67 @@
+name: C3X 0.25 P9 R1 Native Final Root Candidate Source Endpoint And Missing Causal Return
+on:
+  push:
+    paths:
+      - '.github/workflows/c3x-025-P9-R1-native-root-candidate-endpoint-court-after-P8.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  original-stockfish16-native-field-split-source-identity:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Scientific source contract registered before native field writer-consumer experiments
+        run: |
+          set -euo pipefail
+          test -f c3x/ontology/c3x-025-P8-P10-field-sensitive-TT-writer-consumer-native-chain-and-separate-performance-protocol-precommit-20261011.md
+          test -f c3x/ontology/c3x-025-P9-R1-native-root-candidate-to-final-UCI-source-endpoint-before-observation-20261011.md
+          python -m py_compile tools/c3x_025_P9_R1_native_root_final_source_endpoint_overlay.py
+          python -m py_compile tools/c3x_025_P8_native_TT_field_writer_consumer_source_overlay.py harness/c3x_025_P8_P9_native_TT_field_writer_consumer_root_court.py
+          mkdir -p output
+      - name: Exact original upstream SF16 repository Git SHA and unmodified source byte provenance
+        run: |
+          set -euo pipefail
+          git clone -q --single-branch --branch sf_16 https://github.com/official-stockfish/Stockfish.git /tmp/C3X025_P8_ORIGINAL
+          test "$(git -C /tmp/C3X025_P8_ORIGINAL rev-parse HEAD)" = 68e1e9b3811e16cad014b590d7443b9063b3eb52
+          test "$(sha256sum /tmp/C3X025_P8_ORIGINAL/src/tt.cpp | awk '{print $1}')" = d132fb235050916682ea258de2dc8825712d370216342f46f64d7977ee1557ba
+          test "$(sha256sum /tmp/C3X025_P8_ORIGINAL/src/search.cpp | awk '{print $1}')" = 21b79baa7ce9dabec5b3b9e3854bed9869a1935277247832e550cf395bccd644
+          cp -a /tmp/C3X025_P8_ORIGINAL /tmp/C3X025_P8_OBSERVER
+          make -s -C /tmp/C3X025_P8_ORIGINAL/src -j2 build ARCH=x86-64
+      - name: Source-only per-field move and score writer + actual search consumer shadow
+        run: |
+          set -euo pipefail
+          python tools/c3x_025_P8_native_TT_field_writer_consumer_source_overlay.py --source /tmp/C3X025_P8_OBSERVER --out-manifest output/P8_SOURCE_REVERSE_AND_PIN_MANIFEST.json
+          python tools/c3x_025_P9_R1_native_root_final_source_endpoint_overlay.py --source /tmp/C3X025_P8_OBSERVER --out-manifest output/P9_ROOT_SOURCE_REVERSE_MANIFEST.json
+          make -s -C /tmp/C3X025_P8_OBSERVER/src -j2 build ARCH=x86-64
+          test -x /tmp/C3X025_P8_ORIGINAL/src/stockfish
+          test -x /tmp/C3X025_P8_OBSERVER/src/stockfish
+          git -C /tmp/C3X025_P8_ORIGINAL diff --quiet
+      - name: Original SF16 two-cold UCI parity, bounded per-field native witness and causal root HOLD
+        run: |
+          set -euo pipefail
+          python -u harness/c3x_025_P8_P9_native_TT_field_writer_consumer_root_court.py --original /tmp/C3X025_P8_ORIGINAL/src/stockfish --observer /tmp/C3X025_P8_OBSERVER/src/stockfish --manifest output/P8_SOURCE_REVERSE_AND_PIN_MANIFEST.json --out output/C3X025_P8_P9_NATIVE_TT_PER_FIELD_WRITER_CONSUMER_ROOT_EVIDENCE.json
+          python - <<'PY'
+          import json
+          x=json.load(open("output/C3X025_P8_P9_NATIVE_TT_PER_FIELD_WRITER_CONSUMER_ROOT_EVIDENCE.json"))
+          r=x["native_E6_root_selected_candidate_endpoint"]
+          assert r is not None and r["status"]=="NATIVE_FINAL_ROOT_CANDIDATE_TO_TERMINAL_UCI_CONFIRMED"
+          assert r["bestmove"]==x["native_bestmove_UCI"]
+          assert r["completed_depth"]==7 and r["candidate_count"]>=1
+          assert x["P9_root_causation_certificate_status"]=="HOLD_ROOT_ANCESTRY_UNOBSERVED"
+          print("C3X025_P9_REAL_NATIVE_FINAL_ROOT_ENDPOINT_VERIFIED_BUT_TT_TO_ROOT_PATH_HOLD",r,flush=True)
+          PY
+          python tools/c3x_023_rights_preupload_gate.py --tier P2_AGGREGATE_SUMMARY --file output/C3X025_P8_P9_NATIVE_TT_PER_FIELD_WRITER_CONSUMER_ROOT_EVIDENCE.json --report output/RIGHTS_P8P9.json
+          echo 'Original upstream Stockfish16 GPLv3 SHA pin https://github.com/official-stockfish/Stockfish/tree/68e1e9b3811e16cad014b590d7443b9063b3eb52 . Only derived source-native TT scalar provenance events from public startpos. No original PGN/FEN, native pointer/key, player, modified source or binary distributed. No root-causal ancestry certificate nor Elo/throughput gain claimed. Technical scanner is not licence.' > output/SOURCE_AND_SCIENCE_SCOPE.txt
+          find output -maxdepth 1 -type f ! -name MEMBER_SHA256.txt -print0 | sort -z | xargs -0 -r sha256sum > output/MEMBER_SHA256.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x-025-P9-R1-native-final-root-source-connection-with-middle-ancestry-HOLD
+          path: output/
+          retention-days: 90
+          if-no-files-found: error
