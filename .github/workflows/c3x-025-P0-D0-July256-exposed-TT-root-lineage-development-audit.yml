@@ -1,0 +1,76 @@
+name: C3X 0.25 P0 D0 SHA-locked EXPOSED July256 TT and Root Lineage Development Audit
+# Prior HUMAN GIT 0.25 ontology precedes any new developmental aggregation.
+# No original native TT FIRST is run here and NO future M5 model is fitted.
+on:
+  push:
+    paths:
+      - '.github/workflows/c3x-025-P0-D0-July256-exposed-TT-root-lineage-development-audit.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  original-July256-exposed-development-only:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Compilable independent SHA gate and fixed negative-case scientific ontology
+        run: |
+          set -euo pipefail
+          python -m py_compile harness/c3x_025_P0_D0_exposed_July256_TT_root_frontier_development_ledger.py
+          test -f c3x/ontology/c3x-025-P0-mechanistic-search-lineage-uncertainty-ledger-and-independent-generalization-charter-20261011.md
+          test -f c3x/receipts/c3x-024-P4-R1-July256-original-event-eventdate-10k-bootstrap-confirmed-negative-M4-20261011.json
+          mkdir -p stageA forecast native scored public
+      - uses: actions/download-artifact@v4
+        with:
+          name: c3x-024-P4-JULY2025-256-untreated-native-O-F-SEE-no-treatment
+          path: stageA/
+          repository: WhoSia/C3X
+          run-id: '38089656512'
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: c3x-024-P4-July256-six-model-literal-1024role-UCI-preFIRST
+          path: forecast/
+          repository: WhoSia/C3X
+          run-id: '38091392459'
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: c3x-024-P4-July-256game-after-Git-seal-native-FIRST-shard-*
+          path: native/
+          repository: WhoSia/C3X
+          run-id: '38106342488'
+          github-token: ${{ github.token }}
+          merge-multiple: true
+      - uses: actions/download-artifact@v4
+        with:
+          name: c3x-024-P4-July256-presealed-M4-versus-M0-game-cluster-science-verdict
+          path: scored/
+          repository: WhoSia/C3X
+          run-id: '38106342488'
+          github-token: ${{ github.token }}
+      - name: SHA-check 4 exact original shards, 256 source games and 1024 role literal identities, then publish only derived development audit
+        run: |
+          set -euo pipefail
+          test "$(sha256sum stageA/C3X024_P4_JULY2025_STAGEA_UNTREATED_NATIVE256.json | awk '{print $1}')" = 90bb3537f140ec7f52f8d9115add1ba88ff293705217fd75784da55343d86c65
+          test "$(sha256sum forecast/C3X024_P4_JULY256_SIX_MODELS_EXACT_UCI_PRE_FIRST.json | awk '{print $1}')" = 7a4c152362171c65a9417f38de89e81ab776a4c14718fbd213411c155bb4094d
+          test "$(sha256sum scored/C3X024_P4_JULY256_M4_VS_M0_PROSPECTIVE_GAME_CLUSTER_VERDICT.json | awk '{print $1}')" = 1c94973c1eaa9fca82e7a1caaaa614d4b711839df465ef7dc42e7f28fd46f7be
+          python -u harness/c3x_025_P0_D0_exposed_July256_TT_root_frontier_development_ledger.py --stagea stageA/C3X024_P4_JULY2025_STAGEA_UNTREATED_NATIVE256.json --forecast forecast/C3X024_P4_JULY256_SIX_MODELS_EXACT_UCI_PRE_FIRST.json --shard-dir native/ --score scored/C3X024_P4_JULY256_M4_VS_M0_PROSPECTIVE_GAME_CLUSTER_VERDICT.json --out public/C3X025_P0_D0_JULY256_EXPOSED_DEVELOPMENT_TT_ROOT_FRONTIER_LEDGER.json
+          python tools/c3x_023_rights_preupload_gate.py --tier P2_AGGREGATE_SUMMARY --file public/C3X025_P0_D0_JULY256_EXPOSED_DEVELOPMENT_TT_ROOT_FRONTIER_LEDGER.json --report public/RIGHTS_C3X025_D0.json
+          echo 'Derived from Lichess 2025-07 broadcast source (CC BY-SA 4.0): https://database.lichess.org/broadcast/lichess_db_broadcast_2025-07.pgn.zst and https://creativecommons.org/licenses/by-sa/4.0/. C3X Stockfish16 read-only previously exposed original pre-first and treated source logs. No original full PGN/FEN, player/event headers, TT keys, GPL modified engine binaries, source labels identifying people. Content scanner is not legal permission.' > public/SOURCE_LICENSE_NOTICE.txt
+      - name: Member SHA for development-only outputs
+        if: always()
+        run: |
+          mkdir -p public
+          find public -maxdepth 1 -type f ! -name MEMBER_SHA256.txt -print0 | sort -z | xargs -0 -r sha256sum > public/MEMBER_SHA256.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x-025-P0-D0-July256-exposed-mechanistic-TT-root-development-court
+          path: public/
+          if-no-files-found: error
+          retention-days: 90
