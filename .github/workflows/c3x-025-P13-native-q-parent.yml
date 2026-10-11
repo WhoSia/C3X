@@ -1,0 +1,45 @@
+name: C3X 0.25 P13 Native Direct TT Child Parent Assignment
+on:
+  push:
+    paths:
+      - "tools/c3x_025_P13_native_q_parent_overlay.py"
+      - "tools/c3x_025_P13_native_q_parent_court.mjs"
+      - ".github/workflows/c3x-025-P13-native-q-parent.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  native:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - name: Pin upstream native SF16
+        run: |
+          git clone --quiet https://github.com/official-stockfish/Stockfish.git /tmp/c3x-sf
+          git -C /tmp/c3x-sf checkout --quiet --detach 68e1e9b3811e16cad014b590d7443b9063b3eb52
+          test "$(git -C /tmp/c3x-sf rev-parse HEAD)" = 68e1e9b3811e16cad014b590d7443b9063b3eb52
+      - name: Original clean compile
+        run: |
+          make -C /tmp/c3x-sf/src -j2 build ARCH=x86-64
+          cp /tmp/c3x-sf/src/stockfish /tmp/c3x-sf-original
+      - name: Reversible native C++ observer overlay and compile
+        run: |
+          mkdir -p /tmp/p13
+          python3 tools/c3x_025_P13_native_q_parent_overlay.py --root /tmp/c3x-sf --out-manifest /tmp/p13/source.json
+          make -C /tmp/c3x-sf/src clean
+          make -C /tmp/c3x-sf/src -j2 build ARCH=x86-64
+          cp /tmp/c3x-sf/src/stockfish /tmp/c3x-sf-observer
+      - name: Existing actual TT return frame backward compatibility
+        run: |
+          python3 harness/c3x_025_P12_native_actual_TT_return_parent_frame_court.py \
+            --original /tmp/c3x-sf-original --observer /tmp/c3x-sf-observer \
+            --manifest /tmp/p13/source.json --out /tmp/p13/p12-compat.json
+      - name: New P13 exact original q-parent native court
+        run: |
+          node tools/c3x_025_P13_native_q_parent_court.mjs /tmp/c3x-sf-original /tmp/c3x-sf-observer /tmp/p13/p13-native.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: c3x-025-p13-native-derived-no-binaries
+          path: /tmp/p13/*.json
+          retention-days: 21
