@@ -13,7 +13,7 @@ from c3x_025_P11_native_stratified_real_TT_return_SEE_guard_root_update_overlay 
     patch_prepatched as p11,restore as undo11)
 from c3x_025_P12_native_source_recursive_frame_TT_return_overlay import (
     patch_prepatched as p12,restore as undo12)
-TT_HOOK = "// C3X025-P11 class specific native executable operator evidence."
+TT_HOOK = "void c3x025_p12_leave(uint64_t frameid) {"
 EXIT = "    c3x025_p12_frames.pop_back();"
 QCALL = "        value = -qsearch<nodeType>(pos, ss+1, -beta, -alpha, depth - 1);"
 QBEST = "            bestValue = value;"

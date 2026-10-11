@@ -31,7 +31,7 @@ function parse(lines,active){
  const events=[];
  for(const line of lines.filter(l=>l.startsWith('info string c3x025_p13 '))){
   if(!active)throw Error('NEGATIVE_CONTROL_LEAKED_P13_EVENT');
-  const f={};for(const part of line.slice(24).split(' ')){
+  const f={};for(const part of line.slice('info string c3x025_p13 '.length).split(' ')){
    const z=part.split('=');if(z.length!==2||Object.hasOwn(f,z[0]))throw Error('MALFORMED_P13_EVENT');
    f[z[0]]=z[1];
   }
