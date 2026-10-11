@@ -1,0 +1,54 @@
+name: C3X 0.25 P11 Source Native Decoupled TT Return SEE Guard Root Score
+on:
+  push:
+    paths:
+      - '.github/workflows/c3x-025-P11-source-native-decoupled-TT-return-SEE-root-class-court.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  pinned-original-SF16-independent-rare-source-channels:
+    runs-on: ubuntu-latest
+    timeout-minutes: 70
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Verify P11 evidence-contract precommit and compiled parser
+        run: |
+          set -euo pipefail
+          test -f c3x/ontology/c3x-025-P11-event-class-quota-and-native-TT-cutoff-SEE-root-update-causal-chain-preregister-20261011.md
+          python -m py_compile tools/c3x_025_P11_native_stratified_real_TT_return_SEE_guard_root_update_overlay.py harness/c3x_025_P11_native_separate_TT_return_SEE_root_causality_court.py
+          mkdir -p derived
+      - name: Clone exact unmodified pinned official Stockfish16, build untouched baseline
+        run: |
+          set -euo pipefail
+          git clone -q --single-branch --branch sf_16 https://github.com/official-stockfish/Stockfish.git /tmp/C3X025_P11_ORIGINAL
+          test "$(git -C /tmp/C3X025_P11_ORIGINAL rev-parse HEAD)" = 68e1e9b3811e16cad014b590d7443b9063b3eb52
+          test "$(sha256sum /tmp/C3X025_P11_ORIGINAL/src/tt.cpp | awk '{print $1}')" = d132fb235050916682ea258de2dc8825712d370216342f46f64d7977ee1557ba
+          test "$(sha256sum /tmp/C3X025_P11_ORIGINAL/src/search.cpp | awk '{print $1}')" = 21b79baa7ce9dabec5b3b9e3854bed9869a1935277247832e550cf395bccd644
+          cp -a /tmp/C3X025_P11_ORIGINAL /tmp/C3X025_P11_OBSERVER
+          make -s -C /tmp/C3X025_P11_ORIGINAL/src -j2 build ARCH=x86-64
+      - name: Double-byte-reversible original P8 and new P11 rare event class-specific source observers plus exact E6
+        run: |
+          set -euo pipefail
+          python tools/c3x_025_P11_native_stratified_real_TT_return_SEE_guard_root_update_overlay.py --root /tmp/C3X025_P11_OBSERVER --out-manifest derived/P11_STRATIFIED_SOURCE_DOUBLE_REVERSE_PROVENANCE.json
+          python tools/c3x_025_P9_R1_native_root_final_source_endpoint_overlay.py --source /tmp/C3X025_P11_OBSERVER --out-manifest derived/P9_NATIVE_E6_ROOT_ENDPOINT_PROVENANCE.json
+          make -s -C /tmp/C3X025_P11_OBSERVER/src -j2 build ARCH=x86-64
+          test -x /tmp/C3X025_P11_OBSERVER/src/stockfish
+          git -C /tmp/C3X025_P11_ORIGINAL diff --quiet
+      - name: Two original and observer cold startpos depth7 source-event cutoffs plus SEE guards and actual root score updates
+        run: |
+          set -euo pipefail
+          python -u harness/c3x_025_P11_native_separate_TT_return_SEE_root_causality_court.py --original /tmp/C3X025_P11_ORIGINAL/src/stockfish --observer /tmp/C3X025_P11_OBSERVER/src/stockfish --manifest derived/P11_STRATIFIED_SOURCE_DOUBLE_REVERSE_PROVENANCE.json --out derived/C3X025_P11_ACTUAL_NATIVE_TT_RETURN_SEE_BRANCH_ROOT_SCORE_SOURCE_COURT.json
+          python tools/c3x_023_rights_preupload_gate.py --tier P2_AGGREGATE_SUMMARY --file derived/C3X025_P11_ACTUAL_NATIVE_TT_RETURN_SEE_BRANCH_ROOT_SCORE_SOURCE_COURT.json --report derived/RIGHTS_P11.json
+          echo 'Original pinned Stockfish16 source GPLv3 https://github.com/official-stockfish/Stockfish/tree/68e1e9b3811e16cad014b590d7443b9063b3eb52 . Source events derive solely from public startpos, do NOT include private TT keys, original PGN/FEN/player or modified GPL engine binary. Event co-occurrence, even with one clock, is not certified TT to SEE parent/root causation. No comparative performance/Elo tests. Scanner PASS not legal clearance.' > derived/SCIENTIFIC_AND_LICENSE_SCOPE.txt
+          find derived -maxdepth 1 -type f ! -name MEMBER_SHA256.txt -print0 | sort -z | xargs -0 -r sha256sum > derived/MEMBER_SHA256.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x-025-P11-original-SF16-decoupled-real-TT-return-SEE-root-score-channels
+          path: derived/
+          if-no-files-found: error
+          retention-days: 90
