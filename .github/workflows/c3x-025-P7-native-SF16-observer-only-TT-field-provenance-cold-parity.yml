@@ -1,0 +1,53 @@
+name: C3X 0.25 P7 Native SF16 Actual TT Resource Source Parity
+on:
+  push:
+    paths:
+      - '.github/workflows/c3x-025-P7-native-SF16-observer-only-TT-field-provenance-cold-parity.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  sf16-unmodified-versus-native-readonly-observer:
+    runs-on: ubuntu-latest
+    timeout-minutes: 65
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Check human pre-native source preregister and source-only code compilation
+        run: |
+          set -euo pipefail
+          test -f c3x/ontology/c3x-025-P7-pinned-native-TT-resource-readonly-event-witness-parity-prereg-20261011.md
+          python -m py_compile tools/c3x_025_P7_native_SF16_TT_microevent_observer_overlay.py harness/c3x_025_P7_native_SF16_TT_resource_observer_cold_parity_court.py
+          mkdir -p derived
+      - name: Freeze exact unmodified official SF16 source head and build baseline native C++
+        run: |
+          set -euo pipefail
+          git clone -q --single-branch --branch sf_16 https://github.com/official-stockfish/Stockfish.git /tmp/C3X025_P7_ORIGINAL
+          test "$(git -C /tmp/C3X025_P7_ORIGINAL rev-parse HEAD)" = 68e1e9b3811e16cad014b590d7443b9063b52
+          test "$(sha256sum /tmp/C3X025_P7_ORIGINAL/src/tt.cpp | awk '{print $1}')" = d132fb235050916682ea258de2dc8825712d370216342f46f64d7977ee1557ba
+          cp -a /tmp/C3X025_P7_ORIGINAL /tmp/C3X025_P7_OBSERVER
+          make -s -C /tmp/C3X025_P7_ORIGINAL/src -j2 build ARCH=x86-64
+      - name: Apply reversible scalar-only native TT observer and compile independent executable
+        run: |
+          set -euo pipefail
+          python tools/c3x_025_P7_native_SF16_TT_microevent_observer_overlay.py --source /tmp/C3X025_P7_OBSERVER --out-manifest derived/NATIVE_TT_OBSERVER_REVERSE_SOURCE_PIN.json
+          make -s -C /tmp/C3X025_P7_OBSERVER/src -j2 build ARCH=x86-64
+          test -x /tmp/C3X025_P7_OBSERVER/src/stockfish
+          test -x /tmp/C3X025_P7_ORIGINAL/src/stockfish
+          git -C /tmp/C3X025_P7_ORIGINAL diff --quiet
+      - name: Two cold original native and two opt-in observer source executions plus inactive negative control
+        run: |
+          set -euo pipefail
+          python -u harness/c3x_025_P7_native_SF16_TT_resource_observer_cold_parity_court.py --original /tmp/C3X025_P7_ORIGINAL/src/stockfish --observer /tmp/C3X025_P7_OBSERVER/src/stockfish --manifest derived/NATIVE_TT_OBSERVER_REVERSE_SOURCE_PIN.json --out derived/C3X025_P7_NATIVE_SF16_ACTUAL_TT_RESOURCE_PROBE_REFRESH_PARITY.json
+          python tools/c3x_023_rights_preupload_gate.py --tier P2_AGGREGATE_SUMMARY --file derived/C3X025_P7_NATIVE_SF16_ACTUAL_TT_RESOURCE_PROBE_REFRESH_PARITY.json --report derived/RIGHTS_P7.json
+          echo 'Official Stockfish16 GPLv3 upstream: https://github.com/official-stockfish/Stockfish/tree/68e1e9b3811e16cad014b590d7443b9063b3eb52 . This artifact publishes derived scalar source-observation labels only; no modified GPL engine binary/source, original chess PGNs, FEN of private games, player name or native TT key. Read-only opt-in observer can change timings; no Elo, M5 forecast, TT->SEE natural mediation claim. Scanner PASS is not legal authorization.' > derived/RIGHTS_AND_SCIENCE_SCOPE.txt
+          find derived -maxdepth 1 -type f ! -name FILES_SHA256.txt -print0 | sort -z | xargs -0 -r sha256sum > derived/FILES_SHA256.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x-025-P7-original-native-SF16-TT-probe-move-field-observer-parity
+          path: derived/
+          retention-days: 90
+          if-no-files-found: error
