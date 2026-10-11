@@ -102,6 +102,11 @@ def audit(stage,forecast,shards,score,registry,seal):
                 rows.append({"game_id":i,"order":order,"role":role,"status":"HOLD",
                    "source_trace_censored":ref["source_trace_censored"],
                    "root_O_F_disagree":O!=F,
+                   "target_matches_depth12_leader":None,
+                   "depth11_vs_12_disagree":None,
+                   "passive_SEE_prefix_censored":ref["passive_SEE_witness_censored"],
+                   "same_order_prior_depth11_support":None,
+                   "M4_original_rule_reason":pred["M4_reason"],
                    "native_source_reason":src["status"],"contact":False,"flip":False,
                    "M0_correct":False,"M4_correct":False,"alt":False,
                    "passive_SEE":False,"source_TT_use":False})
