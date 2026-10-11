@@ -1,0 +1,81 @@
+{
+  "schema": "c3x024-P4-R1-July2025-256-precommitted-event-and-date-cluster-sensitivity-scientific-negative-v1",
+  "date": "2026-10-11",
+  "research_version": "C3X 0.24-P4",
+  "scientific_verdict": "SCIENTIFIC_NEGATIVE_CONFIRMED_BY_ORIGINAL_PREDECLARED_CLUSTER_SENSITIVITY",
+  "source_original_july2025_Lichess_CC_BY_SA4_PGN_zst_SHA256": "1ffc6b775d27631ac988dd816a137b6dd0ec05561aeee8b45861e0c08dbcb10b",
+  "original_reduced_source_SHA256": "d2c50a1293e68c3feb8571d1ee1be6ba1a7ee539a12dd1a98378adfa9b54fb58",
+  "stageA_untreated_SHA256": "90bb3537f140ec7f52f8d9115add1ba88ff293705217fd75784da55343d86c65",
+  "original_all1024_six_model_UCI_prediction_SHA256": "7a4c152362171c65a9417f38de89e81ab776a4c14718fbd213411c155bb4094d",
+  "human_Git_exact_UCI_preFIRST_commit": "7af3272b0d9bf1781de1ef0cf7da52927c40658d",
+  "exact_model_UCI_preFIRST_independent_verification_run_id": 38106318674,
+  "native_prospective_trial_run_id": 38106342488,
+  "original_game_level_outcome_JSON_SHA256": "1c94973c1eaa9fca82e7a1caaaa614d4b711839df465ef7dc42e7f28fd46f7be",
+  "native_physical_contact": 1012,
+  "original_role_denominator": 1024,
+  "pre_HOLD": 12,
+  "NO_CONTACT_HOLD": 0,
+  "source_root_bestmove_flip_roles": 96,
+  "source_games_with_bestmove_flip": 48,
+  "M0_correct": 916,
+  "M4_correct": 915,
+  "M4_precommitted_changed_roles": 1,
+  "M4_changed_prediction_correct": 0,
+  "single_failing_role": {
+    "original_source_game_id": 52,
+    "root_order": "O",
+    "role": "STRICT",
+    "M0": "a6d3",
+    "M4": "d7d5",
+    "rule_branch": "WITHIN_ORDER_DEPTH_SURVIVOR",
+    "actual_TT_FIRST_final_bestmove": "a6d3"
+  },
+  "precommitted_cluster_scoring_method": "c3x/ontology/c3x-024-P4-P1-preFIRST-256game-1024role-scoring-and-event-cluster-verdict-precommit-20261011.md",
+  "event_bootstrap_CI": {
+    "run_id": 38114019549,
+    "url": "https://github.com/WhoSia/C3X/actions/runs/38114019549",
+    "conclusion": "SUCCESS",
+    "artifact_id": 11693370225,
+    "artifact_zip_SHA256": "86cac2a2083d620945998e2cba527a81e28501d4a6b279518f9d814e8eb8eba7",
+    "original_full_aggregate_JSON_SHA256": "48ca9a60c683dd918b6608429de52e0bb758331c59f9aa840e24cc1804eeefd9",
+    "rights": "SCAN_PASS_NOT_A_LEGAL_LICENSE"
+  },
+  "paired_game_results": {
+    "wins": 0,
+    "losses": 1,
+    "ties": 255,
+    "game_level_mean_M4_minus_M0": -0.001953125,
+    "game_cluster_iterations": 10000,
+    "game_cluster_seed": 20261011,
+    "game_cluster_95pct_CI": [
+      -0.005859375,
+      0
+    ]
+  },
+  "original_licensed_event_cluster": {
+    "iterations": 10000,
+    "seed": 20261011,
+    "mean": -0.001953125,
+    "CI_95pct": [
+      -0.006607929515418502,
+      0
+    ]
+  },
+  "original_licensed_event_date_cluster": {
+    "iterations": 10000,
+    "seed": 20261012,
+    "mean": -0.001953125,
+    "CI_95pct": [
+      -0.00597609561752988,
+      0
+    ]
+  },
+  "scientific_scope": [
+    "M4 has not shown positive out-of-sample exact bestmove skill in the precommitted July256 cohort; the only positive switch was wrong.",
+    "Confidence intervals touching zero cannot establish universal statistical inferiority.",
+    "Original role cells nested in games; events and players can overlap; reported separate cluster bootstrap accounts for observed grouping.",
+    "Physical contact and some actual root bestmove changes do not prove natural TT->SEE mediation, candidate persistence or unique causal ancestry.",
+    "No retuning M4 on newly exposed July256 data can count as new prospective validation."
+  ],
+  "source_protection": "No original complete PGNs, player names, event labels linked to games, native shadow keys or GPL modified engine binaries published. Actions contents read, Git human WhoSia commit."
+}
