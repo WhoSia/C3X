@@ -1,0 +1,65 @@
+name: C3X 0.25 P3 Original Stockfish16 TT Source Probe Refresh Replacement Court
+on:
+  push:
+    paths:
+      - '.github/workflows/c3x-025-P3-pinned-Stockfish16-native-TT-source-audit-no-engine-treatment.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  official-source-pinned-static-mechanism-only:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Verify static original semantics P3 prereg and compile
+        run: |
+          set -euo pipefail
+          test -f c3x/ontology/c3x-025-P3-pinned-SF16-TT-resource-mechanics-and-improvement-ablations-precommit-20261011.md
+          python -m py_compile harness/c3x_025_P3_pinned_Stockfish16_TT_probe_replacement_engineering_source_court.py
+          mkdir -p public
+      - name: Download original official SF16 upstream pinned Git source without any C3X operator mutation
+        run: |
+          set -euo pipefail
+          git clone -q --single-branch --branch sf_16 https://github.com/official-stockfish/Stockfish.git /tmp/C3X025_SF16_UPSTREAM
+          test "$(git -C /tmp/C3X025_SF16_UPSTREAM rev-parse HEAD)" = 68e1e9b3811e16cad014b590d7443b9063b3eb52
+          test -z "$(git -C /tmp/C3X025_SF16_UPSTREAM status --porcelain)"
+      - name: Audit probe refreshing generation and move/value resource confounders against exact official source
+        run: |
+          set -euo pipefail
+          python -u harness/c3x_025_P3_pinned_Stockfish16_TT_probe_replacement_engineering_source_court.py --root /tmp/C3X025_SF16_UPSTREAM --out public/C3X025_P3_SF16_UPSTREAM_TT_RESOURCE_ORIGINAL_SOURCE_STATIC_AUDIT.json
+          python - <<'PY'
+          import sys
+          from pathlib import Path
+          sys.path.insert(0,'harness')
+          from c3x_025_P3_pinned_Stockfish16_TT_probe_replacement_engineering_source_court import audit,PROOFS
+          folder=Path('/tmp/C3X025_SF16_UPSTREAM/src')
+          original={n:(folder/n).read_bytes() for n in ('tt.h','tt.cpp','search.cpp')}
+          for name in ('probe_refreshes_generation_before_return','depth_minus_generation_age_replacement',
+                       'tt_native_value_converted_before_use','3_slots_per_TT_cluster'):
+              site,pattern=PROOFS[name]
+              edit=dict(original)
+              edit[site]=edit[site].replace(pattern.encode(),b'INTENTIONALLY_MUTATED_INVALID_SOURCE',1)
+              try:audit(edit)
+              except ValueError as e:
+                  assert name in str(e),str(e)
+              else:raise RuntimeError('SOURCE_MUTATION_CONTROL_NOT_REJECTED_'+name)
+          print('C3X025_P3_ALL_4_NEGATIVE_CONTROLS_REJECT_ENGINE_SEMANTIC_MUTATIONS')
+          PY
+          python tools/c3x_023_rights_preupload_gate.py --tier P2_AGGREGATE_SUMMARY --file public/C3X025_P3_SF16_UPSTREAM_TT_RESOURCE_ORIGINAL_SOURCE_STATIC_AUDIT.json --report public/RIGHTS_SOURCE_ONLY_STATIC.json
+          echo 'Reference original official Stockfish16 upstream commit 68e1e9b3811e16cad014b590d7443b9063b3eb52 (GPLv3): https://github.com/official-stockfish/Stockfish/tree/68e1e9b3811e16cad014b590d7443b9063b3eb52 . Derived only source hash and observed semantic feature, original complete source and modified native binary not uploaded. Evidence about engineering *possibility*, not measured engine improvement.' > public/SOURCE_LICENSE_NOTICE.txt
+      - name: Rights-scoped member SHA
+        if: always()
+        run: |
+          mkdir -p public
+          find public -maxdepth 1 -type f ! -name MEMBER_SHA256.txt -print0 | sort -z | xargs -0 -r sha256sum > public/MEMBER_SHA256.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x-025-P3-original-SF16-TT-probe-resource-source-mechanics
+          path: public/
+          if-no-files-found: error
+          retention-days: 90
