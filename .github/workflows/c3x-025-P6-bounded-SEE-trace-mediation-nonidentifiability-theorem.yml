@@ -1,0 +1,38 @@
+name: C3X 0.25 P6 Finite Bounded SEE Mediation Nonidentifiability Theorem
+on:
+  push:
+    paths:
+      - '.github/workflows/c3x-025-P6-bounded-SEE-trace-mediation-nonidentifiability-theorem.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  synthetically-prove-observation-projection-limits:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Registered prior to theorem execution
+        run: |
+          set -euo pipefail
+          test -f c3x/ontology/c3x-025-P6-bounded-trace-mediation-nonidentifiability-constructive-theorem-precommit-20261011.md
+          python -m py_compile harness/c3x_025_P6_bounded_SEE_trace_mediation_identifiability_countermodels.py tools/test_c3x_025_P6_bounded_SEE_causal_identifiability.py
+          mkdir -p derived
+      - name: Exact finite binary SCM two policy by two mediator intervention observational/causal split
+        run: |
+          set -euo pipefail
+          python -m unittest -v tools/test_c3x_025_P6_bounded_SEE_causal_identifiability.py
+          python harness/c3x_025_P6_bounded_SEE_trace_mediation_identifiability_countermodels.py --out derived/C3X025_P6_FINITE_TT_LATE_SEE_MEDIATION_UNIDENTIFIABILITY_THEOREM.json
+          python tools/c3x_023_rights_preupload_gate.py --tier P2_AGGREGATE_SUMMARY --file derived/C3X025_P6_FINITE_TT_LATE_SEE_MEDIATION_UNIDENTIFIABILITY_THEOREM.json --report derived/RIGHTS_P6.json
+          echo 'Purely synthetic finite structural causal model counterexamples, no Stockfish native engine, original PGNs or GPL software redistributed. NOT physical proof of a natural TT SEE mediation in any July/September chess game. Source rights technical gate is not a legal opinion.' > derived/README_SCOPE.txt
+          find derived -maxdepth 1 -type f ! -name MEMBER_SHA256.txt -print0 | sort -z | xargs -0 -r sha256sum > derived/MEMBER_SHA256.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x-025-P6-finite-causal-nonidentification-proof-not-native
+          path: derived/
+          if-no-files-found: error
+          retention-days: 90
