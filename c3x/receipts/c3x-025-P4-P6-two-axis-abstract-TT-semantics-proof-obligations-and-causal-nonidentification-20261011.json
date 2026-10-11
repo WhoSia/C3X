@@ -1,0 +1,135 @@
+{
+  "schema": "c3x025-P4-P6-two-axis-source-anchored-microscopic-TT-provenance-and-implementer-epistemic-contract-v1",
+  "date": "2026-10-11",
+  "theory_title": "C3X 0.25 — Mechanistic Search-Lineage & Falsifiable Engine Dynamics: Physical TT Read-to-Use Attribution, Exact-State SEE Activation, Frontier Bifurcation, Root-Candidate Survival, Intervention-Preserving Optimization & Source-Blind Prospective Generalization",
+  "phases": {
+    "microtheory": "SOURCE_DERIVED_EXECUTABLE_FINITE_COUNTEREXAMPLES",
+    "implementation": "P4_THREE_SLOT_PYTHON_REFERENCE_P5_SYNTHETIC_E0_E6_FAILCLOSED_CERTIFICATE",
+    "identifiability": "P6_PROVED_FINITE_STRUCTURAL_OBSERVATIONAL_NONIDENTIFICATION",
+    "actual_native_p7": "SEPARATE_NATIVE_REPLAY_NOT_PART_OF_THIS_RECEIPT",
+    "independent_M5": "NOT_SPECIFIED_OR_TESTED"
+  },
+  "original_stockfish16": {
+    "upstream_git_commit": "68e1e9b3811e16cad014b590d7443b9063b3eb52",
+    "source_static_audit_run": "https://github.com/WhoSia/C3X/actions/runs/38132665828",
+    "pinned_tt_header_SHA256": "e14e2f3f75b4bebeb023c7da9ea552030d927f1c4c7a5e1b0088a87c4c6b72a1",
+    "pinned_tt_cpp_SHA256": "d132fb235050916682ea258de2dc8825712d370216342f46f64d7977ee1557ba",
+    "pinned_search_cpp_SHA256": "21b79baa7ce9dabec5b3b9e3854bed9869a1935277247832e550cf395bccd644",
+    "native_CPP_original_vs_Python_micro_reference_parity_proven": false
+  },
+  "P4_P5": {
+    "contract_git_path": "c3x/ontology/c3x-025-P4-P5-two-axis-mechanistic-semantics-and-proof-carrying-implementation-precommit-20261011.md",
+    "contract_git_commit": "17f35fd1208e9ed26075a4db2bde184b99a00e17",
+    "ci_url": "https://github.com/WhoSia/C3X/actions/runs/38133774753",
+    "CI_conclusion": "SUCCESS",
+    "regression_tests_passed": 15,
+    "bounded_three_slot_probe_state_combinations": 3072,
+    "source_pinned_sf16_tested": true,
+    "P4_reference_script": "harness/c3x_025_P4_sf16_TT_three_slot_transition_reference.py",
+    "P5_checker_script": "harness/c3x_025_P5_search_lineage_partial_certificate_checker.py",
+    "test_script": "tools/test_c3x_025_P4_P5_microsemantics_and_proof_carrying_implementation.py",
+    "P4_original_witness_json_SHA256": "188f903863c04b869621d042c7e113818365ee5e472a1f5dc0052cc8d35b686e",
+    "P5_original_synthetic_proof_obligation_json_SHA256": "1d090afd16f4164f3f46c8bb9d69138cc88589a7c29de0128d30542bf3c0d658",
+    "CI_artifact_id": 11699354988,
+    "CI_zip_SHA256": "91613a2433b953ddd1a7f573d310466007879f719e2b98cb81cbef74c9481de8",
+    "microfindings": [
+      {
+        "id": "P4_I",
+        "source_theory": "SF16 probe generation8 refresh is a state mutation even if returned score unused",
+        "constructive_example": "current generation16 depth8[12,12,12], old entry gen0; probe refreshed slot0, later miss replaces slot1 instead of slot0 with nonrefresh counterfactual",
+        "native_2025July_execution_proved": false
+      },
+      {
+        "id": "P4_II",
+        "source_theory": "TTEntry.save move field may write without numeric depth/score fields",
+        "constructive_example": "same key shallow save changed move16 256 to512, value16 unchanged80",
+        "native_writes_proven": false
+      },
+      {
+        "id": "P4_III",
+        "source_theory": "matching low16 TT compact key is insufficient for full64 native physical writer identity if same cluster",
+        "synthetic_full64_alias_constructed": true,
+        "actual_2025July_key_collision_observed": false
+      }
+    ],
+    "P5_scientific_boundaries": {
+      "full_declared_search_state_schema_includes": [
+        "full ancestors",
+        "root iteration",
+        "retry",
+        "native move",
+        "ply",
+        "depth",
+        "alpha",
+        "beta",
+        "PV",
+        "cut node",
+        "rule50",
+        "SEE site",
+        "threshold",
+        "occupancy"
+      ],
+      "synthetic_valid_source_trace_label": "TRACE_CHAIN_COMPLETE_NONCAUSAL",
+      "native_full_search_state_verified": false,
+      "natural_mediation_proven": false,
+      "invalid_or_censored_traces_fail_closed": true
+    }
+  },
+  "P6": {
+    "registered_theorem_path": "c3x/ontology/c3x-025-P6-bounded-trace-mediation-nonidentifiability-constructive-theorem-precommit-20261011.md",
+    "ci_url": "https://github.com/WhoSia/C3X/actions/runs/38133929122",
+    "CI_conclusion": "SUCCESS",
+    "tests_passed": 6,
+    "script": "harness/c3x_025_P6_bounded_SEE_trace_mediation_identifiability_countermodels.py",
+    "original_JSON_SHA256": "ecee96169586ba99371c13a77abec5f7f77e85bc39003245dd880a61041509d9",
+    "CI_artifact_id": 11700411068,
+    "CI_zip_SHA256": "5d1461583ff9790e67848b936be01cb93dc974bc67edc7e67f5719a678aea687",
+    "constructive_theorem_1": {
+      "observed_T0_T1_y": [
+        0,
+        1
+      ],
+      "observationally_equal_models": [
+        "TT_DIRECT_OTHER_MEDIATOR",
+        "TT_THROUGH_UNOBSERVED_LATE_SEE"
+      ],
+      "natural_indirect_contrast": [
+        0,
+        1
+      ]
+    },
+    "constructive_theorem_2": {
+      "observed_T0_T1_y": [
+        0,
+        0
+      ],
+      "observationally_equal_models": [
+        "NO_ROOT_EFFECT",
+        "TT_LATE_SEE_COMPENSATED_BY_OTHER_PATH"
+      ],
+      "natural_indirect_contrast": [
+        0,
+        -1
+      ]
+    },
+    "models_are_abstract_physical_stockfish_realisability_proven": false,
+    "claim": "E0 physical + bounded SEE prefix + E6 root cannot uniquely identify natural late SEE mediator"
+  },
+  "historical_prospective_negatives_unchanged": {
+    "September2025_M3v2_correct": 448,
+    "September2025_M0_correct": 449,
+    "September2025_roles_contacted": 501,
+    "July2025_M4_correct": 915,
+    "July2025_M0_correct": 916,
+    "July2025_roles_contacted": 1012,
+    "July2025_true_root_flips": 96,
+    "July2025_256_game_count": 256
+  },
+  "next_gates": [
+    "P7 pinned actual native TT resource observer parity in a separate receipt",
+    "Native actual used-field writer epoch per TT move/score separately",
+    "Actual full state/guard/ancestor/root mediate E0-E6 not partial sources",
+    "Register new source blind M5 exact UCI before any first TT intervention"
+  ],
+  "rights": "Only small synthetic causal examples and source-derived TT microreference; no original Lichess complete PGNs/player names, no modified GPL Stockfish binaries distributed, GitHub Actions content read, human WhoSia commits only. Scanner PASS is not legal permission."
+}
