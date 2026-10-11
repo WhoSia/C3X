@@ -59,9 +59,9 @@ def audit(stage,forecast,shards,score,registry,seal):
         raise ValueError("C3X025_HUMAN_LITERAL_PRE_FIRST_CHAIN_MISMATCH")
     if score["schema"]!="c3x024-P4-July2025-256-game-prospective-after-human-Git-presealed-six-models-v1" or score["original_literally_Git_sealed_predictions_SHA256"]!=FORECAST_SHA:
         raise ValueError("C3X025_P4_PROSPECTIVE_NEGATIVE_OUTCOME_INVALID")
-    if len(shards)!=4 or any(v["shard"]!=i or v["case_range"]!=[i*64+1,(i+1)*64] or
+    if len(shards)!=4 or any((v["shard"]!=i or v["case_range"]!=[i*64+1,(i+1)*64] or
          v["model_forecast_source_SHA256"]!=FORECAST_SHA or v["untreated_stageA_SHA256"]!=STAGE_SHA or
-         v["treated_SEE_Boolean_flips"]!=0 for i,v in enumerate(shards)):
+         v["treated_SEE_Boolean_flips"]!=0) for i,v in enumerate(shards)):
         raise ValueError("C3X025_FOUR_EXACT_TREATED_SOURCE_SHARDS_MISSING")
     cases=stage["ecologies"]["july2025_broadcast"]["cases"]
     forecast_cases=forecast["cases"]
@@ -165,8 +165,9 @@ def audit(stage,forecast,shards,score,registry,seal):
                     "M4_UCI":pred["M4_survivor"],"source_order_disagree":O!=F,
                     "passive_SEE_prefix_censored":ref["passive_SEE_witness_censored"],
                     "source_TT_value_use_witness_count":len(value_uses)})
-        if sc["contact_role_cells"]!=contact_game or sc["root_bestmove_flips"]!=flip_game or
-           sc["correct_role_counts"]["M0"]!=m0game or sc["correct_role_counts"]["M4_survivor"]!=m4game:
+        if (sc["contact_role_cells"]!=contact_game or sc["root_bestmove_flips"]!=flip_game or
+            sc["correct_role_counts"]["M0"]!=m0game or
+            sc["correct_role_counts"]["M4_survivor"]!=m4game):
             raise ValueError("C3X025_MERGED_P4_GAME_SCORE_NOT_REPRODUCED")
         games.append({"game_id":i,"role_contacts":contact_game,"flip_roles":flip_game,
                       "M0_correct":m0game,"M4_correct":m4game,"source_O_F_untreated_disagree":O!=F})
