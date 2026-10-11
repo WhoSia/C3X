@@ -1,0 +1,48 @@
+name: C3X 0.25 P4 P5 Two Axis SF16 Microtheory And Proof Carrying Implementation
+on:
+  push:
+    paths:
+      - '.github/workflows/c3x-025-P4-P5-two-axis-TT-microtheory-proof-carrying-implementation.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  original-sf16-anchored-finite-semantics:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Frozen BEFORE execution mechanistic theory and independent compilation
+        run: |
+          set -euo pipefail
+          test -f c3x/ontology/c3x-025-P4-P5-two-axis-mechanistic-semantics-and-proof-carrying-implementation-precommit-20261011.md
+          python -m py_compile harness/c3x_025_P4_sf16_TT_three_slot_transition_reference.py harness/c3x_025_P5_search_lineage_partial_certificate_checker.py tools/test_c3x_025_P4_P5_microsemantics_and_proof_carrying_implementation.py
+          mkdir -p derived
+      - name: Fetch and verify original pinned upstream Stockfish16 TT implementation unchanged
+        run: |
+          set -euo pipefail
+          git clone -q --single-branch --branch sf_16 https://github.com/official-stockfish/Stockfish.git /tmp/C3X025_P4P5_PINNED
+          test "$(git -C /tmp/C3X025_P4P5_PINNED rev-parse HEAD)" = 68e1e9b3811e16cad014b590d7443b9063b3eb52
+          test "$(sha256sum /tmp/C3X025_P4P5_PINNED/src/tt.h | awk '{print $1}')" = e14e2f3f75b4bebeb023c7da9ea552030d927f1c4c7a5e1b0088a87c4c6b72a1
+          test "$(sha256sum /tmp/C3X025_P4P5_PINNED/src/tt.cpp | awk '{print $1}')" = d132fb235050916682ea258de2dc8825712d370216342f46f64d7977ee1557ba
+          python harness/c3x_025_P3_pinned_Stockfish16_TT_probe_replacement_engineering_source_court.py --root /tmp/C3X025_P4P5_PINNED --out derived/P3_SF16_SOURCE_AUDIT_REFERENCE.json
+      - name: Bounded 3072 three-slot microtrace pairs plus exhaustive synthetic source-certificate failclosed guards
+        run: |
+          set -euo pipefail
+          python -m unittest -v tools/test_c3x_025_P4_P5_microsemantics_and_proof_carrying_implementation.py
+          python harness/c3x_025_P4_sf16_TT_three_slot_transition_reference.py --out derived/C3X025_P4_TT_THREE_SLOT_RESOURCE_PROVENANCE_CONSTRUCTIVE_WITNESSES.json
+          python harness/c3x_025_P5_search_lineage_partial_certificate_checker.py --out derived/C3X025_P5_E0_E6_SEARCH_LINEAGE_SYNTHETIC_STRUCTURAL_NONCAUSAL_CERTIFICATE.json
+          python tools/c3x_023_rights_preupload_gate.py --tier P2_AGGREGATE_SUMMARY --file derived/C3X025_P4_TT_THREE_SLOT_RESOURCE_PROVENANCE_CONSTRUCTIVE_WITNESSES.json --report derived/RIGHTS_P4.json
+          python tools/c3x_023_rights_preupload_gate.py --tier P2_AGGREGATE_SUMMARY --file derived/C3X025_P5_E0_E6_SEARCH_LINEAGE_SYNTHETIC_STRUCTURAL_NONCAUSAL_CERTIFICATE.json --report derived/RIGHTS_P5.json
+          echo 'The abstract model references official Stockfish16 upstream Git 68e1e9b3811e16cad014b590d7443b9063b3eb52 (GPLv3). It contains no modified GPL source or engine binary. No Lichess original PGN, player metadata or FEN are copied. All examples are synthetic; partial certificate tests do not establish natural TT to SEE mediation, native parity or Elo improvement. Technical rights scan is not legal clearance.' > derived/SOURCE_SCOPE_AND_LIMITS.txt
+          find derived -maxdepth 1 -type f ! -name FILES_SHA256.txt -print0 | sort -z | xargs -0 -r sha256sum > derived/FILES_SHA256.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x-025-P4-P5-two-axis-SF16-TT-microtheory-proof-carrying-structural-court
+          path: derived/
+          if-no-files-found: error
+          retention-days: 90
