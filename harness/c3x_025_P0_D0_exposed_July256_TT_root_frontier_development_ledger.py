@@ -85,10 +85,10 @@ def audit(stage,forecast,shards,score,registry,seal):
             ref=ca["worlds"][order];src=ref["roles"][role]
             pred=fo["root_orders"][order][role];observed=act["roles"][k]
             h=human[2][k]
-            if observed["root_order"]!=order or observed["role"]!=role or
-               h!=[order,role,pred["status"],*(pred[x] for x in MODELS),
-                   int(pred["M3_v1_trigger"]),int(pred["M3_v2_trigger"]),
-                   int(pred["M4_trigger"]),pred["M4_reason"]]:
+            if (observed["root_order"]!=order or observed["role"]!=role or
+                h!=[order,role,pred["status"],*(pred[x] for x in MODELS),
+                     int(pred["M3_v1_trigger"]),int(pred["M3_v2_trigger"]),
+                     int(pred["M4_trigger"]),pred["M4_reason"]]):
                 raise ValueError("C3X025_EXACT_SIX_MODEL_PREFIRST_LITERAL_DRIFT")
             if ref["source_trace_censored"] and src["status"]=="FIRST_SOURCE_PAIR_PRE_OUTCOME":
                 raise ValueError("C3X025_CENSORED_SOURCE_CANNOT_BE_TREATED")
