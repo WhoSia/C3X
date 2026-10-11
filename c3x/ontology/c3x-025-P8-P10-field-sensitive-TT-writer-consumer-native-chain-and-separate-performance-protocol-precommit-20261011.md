@@ -1,0 +1,32 @@
+# C3X 0.25 P8–P10 — Field-Sensitive Native TT Writer→Consumer Evidence, Root Ancestry and Independent Optimization
+
+**SOURCE-CONTRACT PRECOMMIT (2026-10-11) before new native P8/P9 runs or TT improvement arm.** P7 native original startpos showed eight genuine `probe()` refresh executions and eight `TTEntry::save` move-only writes, no executed writer→consumer chain. P8 must improve the epistemic status; never overwrite 2025-07 P4 M4 NEGATIVE or claim native TT→SEE natural mediation. P10 chess-engine policy comparison has a separate prospective source, statistical target and no overlap with causal genealogy trials.
+
+## P8 native field writer-consumer instrumentation
+Pinned exact upstream Stockfish16 `68e1e9b3811e16cad014b590d7443b9063b3eb52`; original `tt.cpp` SHA `d132fb235050916682ea258de2dc8825712d370216342f46f64d7977ee1557ba`, original `search.cpp` SHA `21b79baa7ce9dabec5b3b9e3854bed9869a1935277247832e550cf395bccd644`. Build two completely separate engines, untouched original and opt-in read-only source observer. Original and observer cold UCI `Threads=1 Hash=16 MultiPV=1 NNUE=false depth=7` on **public startpos**. Reproduce unchanged exact final UCI/depth/nodes (P7 expected `b1c3` and 8657, but fail closed on any drift) across two independent cold processes per engine and a disabled-observer negative control. UCI move may be checked for legal shape. No original Lichess private PGNs, no player or native position keys in public JSON.
+
+Track `TTEntry::save` separately: the **move16** write branch and **(key16, depth8, genBound8, value16, eval16)** write branch must be assigned distinct per-field source writer serial and full64 writer key, even if both updated on same save event. Track low16 hit and exact same-slot/source key **privately**, emit only equality/classification booleans and bounded serials. An `unordered_map` per TTEntry pointer in this single-threaded observer is **shadow metadata**, not a native rule and cannot prove safe multithreaded execution. `clear()`/generation events and unresolved missing writer must be explicit `UNKNOWN_WRITER`.
+
+Instrument exact `TT.probe` source post-refresh, `MAIN_MOVE_HINT_READ`, `MAIN_SCORE_CONVERTED`, `Q_MOVE_HINT_READ`, `Q_SCORE_CONVERTED`, **executed actual MAIN/Q TT_BOUNDED_CUTOFF** rather than a successful cache probe alone. At each actual hint or cutoff emit a common **monotonic source event serial**, corresponding move/score writer serial, writer-key match and whether the writer existed. Do **not** call assignment `ttMove =...` proof that move order was actually chosen: classify `MOVE_HINT_READ_NOT_ORDER_APPLICATION`. `ttValue` conversion is `SCORE_CONVERTED_NOT_CUTOFF`; only executed TT cutoff branch is `BOUND_CUTOFF_ACTUAL`. Root final original UCI is an independently witnessed output, **no ancestry attribution** until parent returns/branch IDs are actually captured. Limit logs to bounded 256 source events, emit explicit `CENSORED` marker at 257, interpret absence only in prefix. Counters and shadow map must be not write-through TT manipulation. Paired native cold parity bestmove/nodes required.
+
+## P9 proof-carrying *negative control for root linkage*
+Parse the original actual source event log, reidentify tagged field-writer→reader through per-field serial equality **within the bounded prefix**, and confirm final root bestmove is separately observed. If no actual `CHILD_RETURN` with unique native ancestor pointer, matching full search state, guard `SEE_CALL/BRANCH_DECISION`, parent score update, competitive root candidate order/window retry, **return `HOLD_ROOT_ANCESTRY_UNOBSERVED`**, not `TT_VALUE_REACHED_ROOT`. Historical C3X0.23 T4 exact native guard / R2 original partial ancestry remains available and can be used *only with its original scope*, never pasted into newly observed P8 as proof of a cross-run edge. Root final output with TT cutoff observed in same engine is not proof that cutoff caused that output.
+
+## P10 TT optimization: separate engineering statistical protocol only
+Native source policy arms and **actual treated outputs are NOT launched by this P8/P9 code**. Register R0 unmodified control, R1 move hint suppressed *without changing stored TT score*, R2 TT numeric return/cutoff suppressed *without changing move ordering*, R3 generation refresh changed with all else source-identical, R4 age/depth replacement changed under legal bounds. Require reversible opt-in source patches with pinned hashes, no modified GPL binary uploaded. Separate mechanism testing (fixed legal chess start positions, UCI/legality/cold reproducibility, per-position nodes/time + hashes) from **actual strength** testing (balanced openings, paired colours, known adjudication rules, paired-seed games, confidence intervals and stop rule). No speedup/Elo claim from P7 depth7 parity or root flip frequency. Recommended hierarchy:
+- source-level parity and selected intervention expression tests;
+- nonregression safety (illegal UCI, mate, rule50, repetition, race/thread, tablebase where supported);
+- benchmark distribution: per-position nodes, wall time, throughput, peak memory, matched hardware, warm/cold cache, paired uncertainty;
+- independent game-strength tests: sequential paired openings, colour swap, binomial/paired uncertainty, fixed stopping with error control; implement an explicit negative control in which R0 vs R0 must not claim optimization.
+No new chess strength experiments have been completed. A successful P8 diagnostic cannot be an Elo result.
+
+## Evidence-contract fail conditions
+- incorrectly treating low16 TT key match as full64 source identity;
+- using one writer epoch for both TT score and move when only one field was written;
+- reporting a `TT.probe` hit as numeric bound **actually consumed**;
+- reporting a `ttMove` read as proven MovePicker ordering/branch choice;
+- reporting an actually executed TT cutoff as certified unique root ancestor without child/parent return;
+- discarding saturated trace instead of HOLD; manipulating actual Stockfish lookup/write guard; silently changing SF16 pin; release of raw TT keys, private PGN/FEN/modified GPL engine;
+- reusing original P3 Sept or P4 July source as unseen M5 validation.
+
+**Formal research target:** make an implementation-generated certificate that can explain its own lack of causal identification, then close the missing real parent→root edges using actual source-native event IDs. Source-license Stockfish GPLv3 and Lichess CC BY-SA 4.0 scopes remain separate; human `WhoSia` authors, Actions `contents: read`.
