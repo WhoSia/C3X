@@ -1,4 +1,4 @@
-name: C3X 0.25 P3 Original Stockfish16 TT Source Probe Refresh Replacement Court
+name: C3X 0.25 P3 Original Stockfish16 TT Source Semantics Complete Negative Controls R2
 on:
   push:
     paths:
@@ -42,7 +42,7 @@ jobs:
                        'tt_native_value_converted_before_use','3_slots_per_TT_cluster'):
               site,pattern=PROOFS[name]
               edit=dict(original)
-              edit[site]=edit[site].replace(pattern.encode(),b'INTENTIONALLY_MUTATED_INVALID_SOURCE',1)
+              edit[site]=edit[site].replace(pattern.encode(),b'INTENTIONALLY_MUTATED_INVALID_SOURCE')
               try:audit(edit)
               except ValueError as e:
                   assert name in str(e),str(e)
