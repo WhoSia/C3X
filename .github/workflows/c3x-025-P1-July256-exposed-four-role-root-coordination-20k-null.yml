@@ -1,0 +1,49 @@
+name: C3X 0.25 P1 Exposed July256 Four Role Root Flips Fixed Mask 20k Null
+on:
+  push:
+    paths:
+      - '.github/workflows/c3x-025-P1-July256-exposed-four-role-root-coordination-20k-null.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  exposed-original-native-256games-no-new-treatment:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Exposed-only preregistrations and code compile before original native read
+        run: |
+          set -euo pipefail
+          python -m py_compile harness/c3x_025_P1_exposed_July256_four_role_root_flip_coordination_permutation.py
+          test -f c3x/ontology/c3x-025-P1-within-game-correlated-root-flip-mechanism-null-and-evidence-limits-precommit-20261011.md
+          mkdir -p native public
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: c3x-024-P4-July-256game-after-Git-seal-native-FIRST-shard-*
+          path: native/
+          merge-multiple: true
+          repository: WhoSia/C3X
+          run-id: '38106342488'
+          github-token: ${{ github.token }}
+      - name: Original 4 SHA verified TT native source role root flip incidence versus artificially independent role assignment
+        run: |
+          set -euo pipefail
+          python -u harness/c3x_025_P1_exposed_July256_four_role_root_flip_coordination_permutation.py --shards native/ --out public/C3X025_P1_JULY256_EXPOSED_ROOT_ROLE_COORDINATION_20K_NULL.json
+          python tools/c3x_023_rights_preupload_gate.py --tier P2_AGGREGATE_SUMMARY --file public/C3X025_P1_JULY256_EXPOSED_ROOT_ROLE_COORDINATION_20K_NULL.json --report public/RIGHTS_C3X025_P1.json
+          echo 'Derived from Lichess 2025-07 official broadcast CC BY-SA 4.0 https://database.lichess.org/broadcast/lichess_db_broadcast_2025-07.pgn.zst https://creativecommons.org/licenses/by-sa/4.0/. Exact original native Stockfish16 TT FIRST evidence; no new treatment; per-game role flip counts not player IDs/FEN/full PGN/modified binary. This is developmental artificial null, not proof of TT mechanism. Scanner is not legal authorization.' > public/SOURCE_LICENSE_NOTICE.txt
+      - name: Original public-scoped member SHA
+        if: always()
+        run: |
+          mkdir -p public
+          find public -maxdepth 1 -type f ! -name MEMBER_SHA256.txt -print0 | sort -z | xargs -0 -r sha256sum > public/MEMBER_SHA256.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x-025-P1-256game-exposed-native-four-role-20k-null
+          path: public/
+          if-no-files-found: error
+          retention-days: 90
