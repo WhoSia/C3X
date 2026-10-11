@@ -170,7 +170,7 @@ def audit(original,observed,manifest):
       "schema":SCHEMA,
       "original_pinned_SF16_git_commit":"68e1e9b3811e16cad014b590d7443b9063b3eb52",
       "original_tt_cpp_sha256":manifest["original_upstream_SHA256"]["tt.cpp"],
-      "original_search_cpp_sha256":manifest["original_upstream_source_SHA256"]["search.cpp"],
+      "original_search_cpp_sha256":manifest["original_upstream_SHA256"]["search.cpp"],
       "native_observer_two_layers_reverse_original_bytes":True,
       "two_native_original_and_observer_cold_repeats_each_plus_optout_control":True,
       "source_original_and_observer_same_UCI_depth_nodes":True,
