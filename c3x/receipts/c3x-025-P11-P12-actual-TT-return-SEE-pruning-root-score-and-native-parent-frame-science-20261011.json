@@ -1,0 +1,101 @@
+{
+  "schema": "c3x025-P11-P12-executed-original-SF16-native-exact-TT-score-writer-return-SEE-guard-root-update-and-parent-frame-court-v1",
+  "date": "2026-10-11",
+  "official_version": "C3X 0.25 — Mechanistic Search-Lineage & Falsifiable Engine Dynamics",
+  "status": "P11_AND_P12_NATIVE_SUCCESS__FIELD_WRITER_TO_ACTUAL_TT_RETURN_TO_IMMEDIATE_PARENT_FRAME_CERTIFIED__TT_SEE_PARENT_ROOT_NATURAL_MEDIATION_STILL_HOLD",
+  "original_upstream_SF16_git_sha": "68e1e9b3811e16cad014b590d7443b9063b3eb52",
+  "original_native_source_SHA256": {
+    "tt_cpp": "d132fb235050916682ea258de2dc8825712d370216342f46f64d7977ee1557ba",
+    "search_cpp": "21b79baa7ce9dabec5b3b9e3854bed9869a1935277247832e550cf395bccd644"
+  },
+  "frozen_p11_before_native": "c3x/ontology/c3x-025-P11-event-class-quota-and-native-TT-cutoff-SEE-root-update-causal-chain-preregister-20261011.md",
+  "frozen_p12_before_native": "c3x/ontology/c3x-025-P12-native-search-stack-parent-call-identity-and-TT-return-link-preregister-20261011.md",
+  "P11_actual_native": {
+    "ci_url": "https://github.com/WhoSia/C3X/actions/runs/38138170087",
+    "conclusion": "SUCCESS",
+    "artifact_id": 11702007373,
+    "artifact_archive_SHA256": "da23e19c3101551e0232b7fa68680454fdf805e49a7e9356ec75c68227327f87",
+    "original_derived_JSON_SHA256": "c93f5dcb84254a3b3b21ab3f4948afbc97455487f9f69bad2982f15d317d38ee",
+    "source_double_reverse_to_original_bytes": true,
+    "instrumented_tt_cpp_SHA256": "b5ee644fff2ff6e58368807792cca1bdc016c84589fbc25119a3e92d9585ca35",
+    "instrumented_search_cpp_SHA256": "232605e6894ded4ed76e088b7f603fd40cdd0dd4446605cabe1e79d0d79457dd",
+    "original_native_cold_protocol": {
+      "baseline_two": true,
+      "observer_two": true,
+      "disabled_observer_one": true,
+      "public_position": "standard_initial_chess",
+      "depth": 7,
+      "Threads": 1,
+      "HashMB": 16,
+      "NNUE": false,
+      "original_bestmove": "b1c3",
+      "original_nodes": 8657,
+      "both_exactly_matched": true
+    },
+    "actual_native_cutoff_return_source_events_witnessed": 24,
+    "same_original_score_field_writer_full64_verified": 24,
+    "actual_native_SEE_guard_executions": 24,
+    "SEE_native_original_predicate_caused_continue": 10,
+    "actual_native_root_candidate_score_updates": 20,
+    "independent_quota_each": 24,
+    "TT_return_and_SEE_source_class_censored_after_first_24": true,
+    "actual_main_return_separated_from_main_TT_predicate": true,
+    "Stockfish16_main_rule50_return_gate": "pos.rule50_count() < 90",
+    "source_conclusions": [
+      "Original P8 first256 global FIFO hid rare actually executed native TT returns, independent class quotas witness them.",
+      "Each of 24 native actual TT return source events had an exact full64 original score-field writer witness.",
+      "Observed 10 native SEE guard false results executed continue statements on original search paths, but no causal ancestor link to particular TT return.",
+      "20 root candidate score updates occurred in same native run, but a shared monotone event serial is not proof of TT to SEE to root mediation.",
+      "TT return/SEE class observation quota was reached and explicitly censored beyond its budget."
+    ]
+  },
+  "P12_actual_native": {
+    "ci_url": "https://github.com/WhoSia/C3X/actions/runs/38138633316",
+    "conclusion": "SUCCESS",
+    "artifact_id": 11701933365,
+    "archive_SHA256": "25daec17e345302d6ac8bedde73c3c7ad41a27464df7bba8d0001e7e2cf7a3e8",
+    "original_derived_JSON_SHA256": "ed7b211fc9501bea1338360c65d68dafa91b4aed27ee5e4822de1c9a749d452a",
+    "instrumented_tt_cpp_SHA256": "d5b93bb7cbe59946b8a5482928ce7bc33bed46f388eaf4d17d1bd96efe3defa2",
+    "instrumented_search_cpp_SHA256": "4ed9749344f84494e2a9555eeeea49b08488ced70658b0e0b73d34892640c8e4",
+    "triple_layer_reversal_original_bytes_equal": true,
+    "original_native_cold_bestmove": "b1c3",
+    "original_native_cold_nodes": 8657,
+    "actual_native_TT_returns": 24,
+    "actual_native_TT_return_native_function_exit_and_real_parent_frame_pairs": 24,
+    "actual_native_TT_returns_original_score_field_writer_verified": 24,
+    "actual_original_native_SEE_guard_events": 24,
+    "actual_original_SEE_pruned_by_continue": 10,
+    "actual_original_native_root_score_updates": 20,
+    "native_frame_fields": [
+      "unique_call_id",
+      "exact_native_parent_call_id",
+      "original_root_call_id",
+      "original_depth",
+      "original_ply",
+      "shared_source_event_serial"
+    ],
+    "source_frame_assignment_and_TT_return_function_unwind_executed": "CERTIFIED_24_OF_24",
+    "actual_parent_consumed_child_return_score": "NOT_INSTRUMENTED",
+    "root_final_competitive_score_propagation": "NOT_INSTRUMENTED",
+    "natural_TT_to_SEE_to_root_mediation": "HOLD_NO_VERIFIED_CHILD_VALUE_ASSIGNMENT_OR_SEE_MEDIATION_TO_ROOT",
+    "semantic_distinctions": [
+      "Real TT return is an actual source `return ttValue`, not merely a successful bound predicate or a score conversion.",
+      "Native function returns to a direct C++ caller when its scope unwinds; this alone does not show caller score assignment, alpha/beta decision, SEE gate mediation or final root score influence.",
+      "SEE guard and root score updates are actual native source events, but existence in same run does not prove same causal path."
+    ]
+  },
+  "P12_initial_technical_failure_preserved": {
+    "run_url": "https://github.com/WhoSia/C3X/actions/runs/38138535821",
+    "conclusion": "failure",
+    "cause": "Python result reader used wrong source SHA manifest key. Original C++ triple reverse and cold engine parity succeeded; no native policy/source change when corrected.",
+    "corrected_succeeded_run": "https://github.com/WhoSia/C3X/actions/runs/38138633316"
+  },
+  "P13_next_hard_science_gate": "Instrument each actual native `-search`/`-qsearch` child-value assignment with unique child_id, returned value and negamax sign, the parent candidate update, alpha/beta/new best and root aspiration/retry under exact original full computational search state. Add controlled mediator-specific interventions only after source state uniquely aligned. Fail closed on missing links/censor; never claim natural TT→SEE mediation from co-occurrence or shared root frame.",
+  "engine_TT_performance_benefit_verified": false,
+  "future_M5_new_untested_cohort_selected": false,
+  "original_frozen_prediction_negatives": [
+    "Sept 2025 M3-v2 original 448/501 vs M0 449/501",
+    "July 2025 M4 original 915/1012 vs M0 916/1012"
+  ],
+  "rights_and_human_governance": "Original Stockfish16 GPLv3 commit verified; public derived scalar original standard initial chess only; no modified engine binary, private native key, Lichess full PGN, player/event identities published. All Actions permissions contents:read and human WhoSia Git author/committer. Rights scanner result is not legal clearance."
+}
