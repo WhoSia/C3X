@@ -164,6 +164,7 @@ def audit(original:str,observed:str,manifest:dict)->dict:
        "original_TT_score_assignment_vs_real_cutoff_not_conflated":True,
        "move_hint_read_is_not_proven_MovePicker_branch":True,
        "native_root_bestmove_observed_but_no_ancestry_serial":True,
+       "native_E6_root_selected_candidate_endpoint":data["native_root_source_endpoint"],
        "P9_root_causation_certificate_status":"HOLD_ROOT_ANCESTRY_UNOBSERVED",
        "P9_missing_edges":["exact native SEE site branch proof","child return to exact parent event",
              "full computational search state across both arms","root candidate score and aspiration retry provenance",
