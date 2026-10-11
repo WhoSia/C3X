@@ -1,0 +1,111 @@
+{
+  "schema": "c3x024-P4-July2025-256game-prospective-M4-scientific-negative-after-human-Git-preFIRST-v1",
+  "date": "2026-10-11",
+  "scientific_verdict": "PROSPECTIVE_NEGATIVE__M4_DID_NOT_IMPROVE_OVER_M0_IN_NEW_COHORT",
+  "research_version": "C3X 0.24-P4",
+  "source_origins": {
+    "original_lichess_july2025_archive_sha256": "1ffc6b775d27631ac988dd816a137b6dd0ec05561aeee8b45861e0c08dbcb10b",
+    "source_only_sha256": "d2c50a1293e68c3feb8571d1ee1be6ba1a7ee539a12dd1a98378adfa9b54fb58",
+    "source_id_human_seal_commit": "ef8e60be0df20e96bd3c19949bd2d4f585ed0353",
+    "prior_historical_source_cohorts_excluded": 13,
+    "original_game_count": 256,
+    "original_untreated_StageA_SHA256": "90bb3537f140ec7f52f8d9115add1ba88ff293705217fd75784da55343d86c65",
+    "all1024_exact_six_model_UCI_SHA256": "7a4c152362171c65a9417f38de89e81ab776a4c14718fbd213411c155bb4094d",
+    "M4_policy_Git_commit_before_July_source": "e20763cb41029a9ffaadaa69778d42c92ae6925e",
+    "exact_UCI_human_Git_preFIRST_commit": "7af3272b0d9bf1781de1ef0cf7da52927c40658d",
+    "independent_preFIRST_1024role_gate_CI": "https://github.com/WhoSia/C3X/actions/runs/38106318674"
+  },
+  "native": {
+    "run_id": 38106342488,
+    "url": "https://github.com/WhoSia/C3X/actions/runs/38106342488",
+    "conclusion": "SUCCESS",
+    "four_shards": [
+      {
+        "shard": 0,
+        "eligible": 252,
+        "physically_contacted": 252,
+        "pre_HOLD": 4,
+        "original_json_SHA256": "76eb58229a97cb9b39fb9b007233b2c30042b509274b866f25bf05c5aae9336e"
+      },
+      {
+        "shard": 1,
+        "eligible": 256,
+        "physically_contacted": 256,
+        "pre_HOLD": 0,
+        "original_json_SHA256": "68dc175dffd09bf4772918fba76a1766c70c876c98459cf5233e39b4adc1b27d"
+      },
+      {
+        "shard": 2,
+        "eligible": 252,
+        "physically_contacted": 252,
+        "pre_HOLD": 4,
+        "original_json_SHA256": "f3fd2097fcbb30a444c752c64ea37138a9048b1e97959042005f749ec2b9a2dc"
+      },
+      {
+        "shard": 3,
+        "eligible": 252,
+        "physically_contacted": 252,
+        "pre_HOLD": 4,
+        "original_json_SHA256": "4807f4dc023153a9c45b9b2891f84968f3ae61328364704780c3e8319bd43792"
+      }
+    ],
+    "role_denominator": 1024,
+    "pre_eligible": 1012,
+    "pre_HOLD": 12,
+    "native_real_FIRST_contact": 1012,
+    "native_NO_CONTACT": 0,
+    "source_real_root_bestmove_changes": 96,
+    "original_games_with_real_root_bestmove_change": 48,
+    "forced_SEE_boolean_changes": 0
+  },
+  "score": {
+    "original_json_SHA256": "1c94973c1eaa9fca82e7a1caaaa614d4b711839df465ef7dc42e7f28fd46f7be",
+    "artifact_id": 11689453265,
+    "artifact_zip_SHA256": "2940cdd0cce4937fa3c28c318fe3f9aaf6c646c14e02d80dba16fd0fa419b0b2",
+    "correct_of_1012_contacted": {
+      "M0": 916,
+      "M1": 795,
+      "M2_depth11": 825,
+      "M3_v1": 915,
+      "M3_v2": 912,
+      "M4_survivor": 915
+    },
+    "M4_changed_predictions_presealed": 1,
+    "M4_changed_prediction_correct": 0,
+    "M4_changed_case": {
+      "game_id": 52,
+      "root_order": "O",
+      "role": "STRICT",
+      "M0": "a6d3",
+      "M4": "d7d5",
+      "M4_original_rule_branch": "WITHIN_ORDER_DEPTH_SURVIVOR",
+      "actual_TT_FIRST_bestmove": "a6d3",
+      "source_game_F_world_original_trace_censored_HOLD": true
+    },
+    "paired_game_accuracy_wins": 0,
+    "paired_game_accuracy_losses": 1,
+    "paired_game_accuracy_ties": 255,
+    "paired_game_any_correct_wins": 0,
+    "paired_game_any_correct_losses": 0,
+    "paired_game_any_correct_ties": 256,
+    "M4_minus_M0_mean_game_level": -0.001953125,
+    "bootstrap_game_10000_seed": 20261011,
+    "bootstrap_game_95pct_CI": [
+      -0.005859375,
+      0
+    ],
+    "statistical_interpretation": "No out-of-sample positive predictive skill in the fixed prospective July cohort. CI includes zero; not a universal inferiority proof."
+  },
+  "event_sensitivity": {
+    "analysis_preregister": "c3x/ontology/c3x-024-P4-P1-preFIRST-256game-1024role-scoring-and-event-cluster-verdict-precommit-20261011.md",
+    "workflow_run": "https://github.com/WhoSia/C3X/actions/runs/38114019549",
+    "status_at_receipt": "SCHEDULED_OR_RUNNING__NOT_YET_CERTIFIED"
+  },
+  "limits": [
+    "Native physical TT contact and final root change demonstrate an intervention with observed response, not the natural TT→SEE mediation path.",
+    "Actual precommitted M4 within-order depth persistence is insufficient to establish eventual root bestmove survival.",
+    "Single precommitted alternative failed, zero wins. No model refit on exposed July2025 source or claims of independent further re-test.",
+    "Original 256 different chess games are correlated by event/player; event and event-date bootstrap is a separately prespecified sensitivity."
+  ],
+  "rights": "Original Lichess July2025 broadcast CC BY-SA 4.0; technical scanner passed not legal licence. Original PGN/player headers/engine binary excluded. Human Git commits, read-only Actions."
+}
