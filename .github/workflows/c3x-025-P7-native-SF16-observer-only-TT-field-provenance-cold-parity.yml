@@ -25,7 +25,7 @@ jobs:
         run: |
           set -euo pipefail
           git clone -q --single-branch --branch sf_16 https://github.com/official-stockfish/Stockfish.git /tmp/C3X025_P7_ORIGINAL
-          test "$(git -C /tmp/C3X025_P7_ORIGINAL rev-parse HEAD)" = 68e1e9b3811e16cad014b590d7443b9063b52
+          test "$(git -C /tmp/C3X025_P7_ORIGINAL rev-parse HEAD)" = 68e1e9b3811e16cad014b590d7443b9063b3eb52
           test "$(sha256sum /tmp/C3X025_P7_ORIGINAL/src/tt.cpp | awk '{print $1}')" = d132fb235050916682ea258de2dc8825712d370216342f46f64d7977ee1557ba
           cp -a /tmp/C3X025_P7_ORIGINAL /tmp/C3X025_P7_OBSERVER
           make -s -C /tmp/C3X025_P7_ORIGINAL/src -j2 build ARCH=x86-64
