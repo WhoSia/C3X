@@ -89,8 +89,8 @@ def pilot(source,stage,forecast,shards,engine):
             raise
         if obs["UCI"]!=old["baseline_UCI"]:
             raise ValueError("P2_ORIGINAL_BASELINE_NATIVE_UCI_REPLAY_MISMATCH")
-        if treated["UCI"]["bestmove"]!=original_role["treated_bestmove"] or
-           bool(treated["UCI"]["bestmove"]!=obs["UCI"]["bestmove"])!=bool(original_role["actual_root_flip"]):
+        if (treated["UCI"]["bestmove"]!=original_role["treated_bestmove"] or
+            bool(treated["UCI"]["bestmove"]!=obs["UCI"]["bestmove"])!=bool(original_role["actual_root_flip"])):
             raise ValueError("P2_ORIGINAL_NATIVE_TT_FIRST_OUTCOME_REPLAY_MISMATCH")
         if obs["UCI"]["bestmove"]!=predicted["M0"]:
             raise ValueError("P2_HUMAN_GIT_ORIGINAL_LITERAL_M0_CHANGED")
