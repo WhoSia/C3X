@@ -1,0 +1,71 @@
+{
+  "schema": "c3x024-P4-July256-untreated-stageA-original-source-and-human-Git-all-1024-literal-preFIRST-receipt-v1",
+  "date": "2026-10-11",
+  "research": "C3X 0.24 P4",
+  "stageA": {
+    "run_id": 38089656512,
+    "url": "https://github.com/WhoSia/C3X/actions/runs/38089656512",
+    "conclusion": "SUCCESS",
+    "original_full_sha256": "90bb3537f140ec7f52f8d9115add1ba88ff293705217fd75784da55343d86c65",
+    "games": 256,
+    "root_O_F_worlds": 512,
+    "nested_role_cells": 1024,
+    "pre_eligible": 1012,
+    "pre_HOLD": 12,
+    "source_lineage_censored_root_worlds": 1,
+    "original_source_event_count": 12366,
+    "physical_FIRST_treatments": 0,
+    "SEE_forced_changes": 0,
+    "original_treated_outcomes_seen": false,
+    "artifact_id": 11683493953
+  },
+  "forecast": {
+    "run_id": 38091392459,
+    "url": "https://github.com/WhoSia/C3X/actions/runs/38091392459",
+    "conclusion": "SUCCESS",
+    "original_full_SHA256": "7a4c152362171c65a9417f38de89e81ab776a4c14718fbd213411c155bb4094d",
+    "models": [
+      "M0",
+      "M1",
+      "M2_depth11",
+      "M3_v1",
+      "M3_v2",
+      "M4_survivor"
+    ],
+    "game_rows": 256,
+    "role_rows": 1024,
+    "pre_eligible": 1012,
+    "prior_HOLD": 12,
+    "M3_v1_changed_predictions": 1,
+    "M3_v2_changed_predictions": 7,
+    "M4_changed_predictions": 1,
+    "treated_outcomes_seen": false,
+    "public_rights_scoped_artifact_id": 11684511041
+  },
+  "source": {
+    "original_lulichess_date": "2025-07",
+    "source_only_sha256": "d2c50a1293e68c3feb8571d1ee1be6ba1a7ee539a12dd1a98378adfa9b54fb58",
+    "historical_source_manifests_excluded": 13,
+    "source_256game_identity_human_Git_commit": "ef8e60be0df20e96bd3c19949bd2d4f585ed0353"
+  },
+  "exact_UCI_literal_git": {
+    "path": "c3x/forecasts/c3x-024-P4-July2025-256game-1024role-six-model-literal-UCI-before-FIRST-human-Git-seal-20261011.json",
+    "human_Git_author_commit": "7af3272b0d9bf1781de1ef0cf7da52927c40658d",
+    "phase": "BEFORE_ANY_JULY_NATIVE_TT_FIRST"
+  },
+  "independent_literal_verify": {
+    "run_id": 38106318674,
+    "url": "https://github.com/WhoSia/C3X/actions/runs/38106318674",
+    "conclusion": "SUCCESS",
+    "all_game_and_role_and_three_sha_gates": true
+  },
+  "prospective_trial": {
+    "run_id": 38106342488,
+    "url": "https://github.com/WhoSia/C3X/actions/runs/38106342488",
+    "status_at_receipt": "STARTED_AFTER_HUMAN_GIT_SEAL_AND_INDEPENDENT_CI_SUCCESS",
+    "outcomes": "NOT_YET_ADJUDICATED"
+  },
+  "science_bounds": "M4 differs from null M0 once among 1012 eligible, maximum +1 contacted role improvement. Contact alone cannot prove predictive improvement or TT SEE natural mediation. 256 games are clustered by tournaments/players.",
+  "license": "Original Lichess July broadcast CC BY-SA4 rights content scan is not legal clearance.",
+  "governance": "Human WhoSia Git author and committer only, no bot co-authors, Actions contents read."
+}
