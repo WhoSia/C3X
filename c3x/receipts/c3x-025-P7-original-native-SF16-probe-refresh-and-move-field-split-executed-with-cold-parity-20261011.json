@@ -1,0 +1,61 @@
+{
+  "schema": "c3x025-P7-original-pinned-SF16-two-native-binaries-actual-TT-microevent-observer-cold-parity-v1",
+  "date": "2026-10-11",
+  "research_version": "C3X 0.25 Mechanistic Search-Lineage & Falsifiable Engine Dynamics",
+  "experiment_status": "SUCCESS_ACTUAL_PINNED_NATIVE_SF16_PROBE_REFRESH_AND_MOVE_ONLY_SAVE_OBSERVED_IN_PUBLIC_STARTPOS_NO_CHESS_STRENGTH_OR_MEDIATION_CLAIM",
+  "preregister_before_native": "c3x/ontology/c3x-025-P7-pinned-native-TT-resource-readonly-event-witness-parity-prereg-20261011.md",
+  "preregister_commit": "2741d056c0e0ccd6d0f82a99e015cd5fc72ac3e6",
+  "original_upstream_sf16_commit": "68e1e9b3811e16cad014b590d7443b9063b3eb52",
+  "original_tt_cpp_SHA256": "d132fb235050916682ea258de2dc8825712d370216342f46f64d7977ee1557ba",
+  "observer_modified_compilation_source_SHA256": "a87d31dbb0e7b7cd5240c4991caa80848ab46342eccea4d695fba23110723f75",
+  "source_patch_reverse_exact_bytes_equal": true,
+  "original_cpp_change_scope": "Opt-in only 8 probe-refresh and 8 move-only-save scalar event tags under environment C3X025_P7_TT_MICRO_OBS, actual original TT probe and TTEntry::save guards remain unchanged",
+  "native_engine_builds": 2,
+  "build_description": "Official source original baseline and same original source plus reversible scalar observer compiled separately with make build ARCH=x86-64",
+  "original_UCI_conditions": {
+    "root": "public standard initial startpos",
+    "Threads": 1,
+    "Hash_MB": 16,
+    "MultiPV": 1,
+    "Use_NNUE": false,
+    "depth": 7
+  },
+  "cold_controls": {
+    "original_baseline_runs": 2,
+    "observer_enabled_runs": 2,
+    "observer_disabled_negative_control_runs": 1,
+    "depth_bestmove_nodes_parity": true,
+    "exact_final_bestmove": "b1c3",
+    "fixed_depth_nodes": 8657,
+    "observer_disabled_tags": 0,
+    "actual_probe_generation_refresh_in_bounded_log": 8,
+    "actual_native_move_only_save_in_bounded_log": 8,
+    "actual_source_field_writer_split_observed": true
+  },
+  "CI": {
+    "url": "https://github.com/WhoSia/C3X/actions/runs/38134198970",
+    "conclusion": "SUCCESS",
+    "native_aggregate_json_SHA256": "c52b9627a99931b744c5ac71ff0eea1d5ed116e95a8f292a741619de3277aa5f",
+    "artifact_id": 11700830419,
+    "artifact_zip_sha256": "f2f83a52a20cdebcb032bcd3bcc6582051159a8883e9755d22aba144c767c60e"
+  },
+  "technical_failed_first_run": {
+    "url": "https://github.com/WhoSia/C3X/actions/runs/38134183610",
+    "reason": "Technical workflow original upstream SHA literal missing two characters; fixed before valid native outcome; no scientific data substituted or cherry-picked"
+  },
+  "science_bounds": [
+    "Native field-level TT score versus move update guard was executed under the pinned SF16 original source, not only abstract Python model.",
+    "Generation refresh events were genuinely emitted at original TT.probe native C++ branches, not inferred from search score or bestmove.",
+    "Neither event type was causally attributed to any specific July2025 TT FIRST role, source SEE event, parent-root propagation or root flip.",
+    "Only 8 initial events of each kind were logged; absence beyond this prefix is never evidence the event did not occur.",
+    "Print-only instrumentation changed process execution/timing, but fixed depth nodes and final UCI parity passed twice each; general observational equivalence not proven.",
+    "No Elo, speed/throughput, memory efficiency or chess-strength improvement has been measured or claimed.",
+    "All prior prospectively negative July M4 915/1012 vs M0 916/1012 and Sept M3v2 448/501 vs M0 449/501 remain unchanged."
+  ],
+  "implementation_files": [
+    "tools/c3x_025_P7_native_SF16_TT_microevent_observer_overlay.py",
+    "harness/c3x_025_P7_native_SF16_TT_resource_observer_cold_parity_court.py",
+    ".github/workflows/c3x-025-P7-native-SF16-observer-only-TT-field-provenance-cold-parity.yml"
+  ],
+  "rights": "Official original Stockfish16 GPLv3 source pinned by commit + byte SHA; do not upload modified compiled binaries or modified source tarball. Public original startpos, no Lichess full PGNs, player identities, native TT source keys/slots. Scan PASS not legal clearance. CI GitHub Actions read-only and human WhoSia Git author/committer."
+}
