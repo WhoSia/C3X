@@ -1,0 +1,47 @@
+name: C3X 0.25 M6 S1 July64 Source SHA Human-Literal Seal Read Only
+on:
+  push:
+    paths:
+      - '.github/workflows/c3x-025-M6-S1-July64-source-ids.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  human-source-identity-court:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: c3x-025-M6-S-july2026-new64-source-only
+          path: source/
+          repository: WhoSia/C3X
+          run-id: '38198224795'
+          github-token: ${{ github.token }}
+      - name: Enforce human-prearchive rule and original minimal July source SHA
+        run: |
+          set -euo pipefail
+          test "$(sha256sum source/C3X025_M6_S_JULY2026_64_SOURCE_ONLY.json | awk '{print $1}')" = 45d758947b6f224901f2674eaed4dc1dc34f4d5a439ccd62fa408393dd7c2a80
+          node - <<'JS'
+          const fs=require('node:fs');
+          const d=JSON.parse(fs.readFileSync('source/C3X025_M6_S_JULY2026_64_SOURCE_ONLY.json'));
+          if(d.schema!=='c3x025-M6-S-july2026-source-only-independent-64-v1'||d.selected?.length!==64||
+            Object.keys(d.historical_source_receipts).length!==15||d.overlap_prior_full_game_SHA256_count!==0||
+            d.M5_June2026_32game_historical_manifest_SHA256!=='71ab8e4c4ddb52d8f63e6e51ea6b4cf991e135246773460c3d6f4800288521be'||
+            !d.source_only_no_stockfish_used||d.treatment_outcomes_seen)throw Error('M6_SOURCE_NOT_VERIFIED');
+          const hashes=d.selected.map((r,i)=>{
+            if(r.id!==i+1||r.engine_outcomes_seen!==false||!/^[0-9a-f]{64}$/.test(r.source_game_sha256))throw Error('M6_SOURCE_GAME_CORRUPT');
+            return r.source_game_sha256;
+          });
+          if(new Set(hashes).size!==64||new Set(d.selected.map(r=>r.fen4)).size!==64)
+            throw Error('M6_REPEATED_GAME_OR_FEN');
+          console.log('C3X025_M6_S1_LITERAL_SOURCE_IDS='+JSON.stringify({
+            schema:'c3x025-M6-S1-human64-Jul2026-gameSHA-before-StageA-v1',
+            original_archive_SHA256:d.original_compressed_source_sha256,
+            minimal_source_SHA256:'45d758947b6f224901f2674eaed4dc1dc34f4d5a439ccd62fa408393dd7c2a80',
+            prior_manifest_count:15,prior_FEN4_count:d.prior_unique_fen4_count,
+            prior_game_SHA_count:d.prior_full_game_sha256_count,
+            selected_game_SHA256:hashes,
+            native_or_treated_outcomes_seen:false}));
+          JS
