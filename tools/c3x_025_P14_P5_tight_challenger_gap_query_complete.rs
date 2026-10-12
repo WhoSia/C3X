@@ -15,7 +15,7 @@ struct Stats{systems:usize,robust:usize,box_cert:usize,rel_extra:usize,abstain_s
 fn test(k:&[World],s:&mut Stats){
  assert!(!k.is_empty());s.systems+=1;
  for w in 0..3{
-  let r=actual(k,w),t=exact(k,w),b=boxcert(k,w);
+  let r=actual(k,w);let t=exact(k,w);let b=boxcert(k,w);
   assert_eq!(r,t,"query-completeness requires exact challenger differences");
   assert!(!b||r,"unsound Cartesian interval");
   s.robust+=usize::from(r);s.box_cert+=usize::from(b);
