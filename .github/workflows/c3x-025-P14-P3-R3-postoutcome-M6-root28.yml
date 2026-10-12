@@ -1,0 +1,68 @@
+name: C3X 0.25 P14 P3 R3 Post-Outcome Real M6 Root28 Causal Trace
+on:
+  push:
+    paths:
+      - 'tools/c3x_025_P14_P3_native_guarded_score_policy_overlay.py'
+      - 'tools/c3x_025_P14_P3_R3_postoutcome_exposed_root28_court.mjs'
+      - '.github/workflows/c3x-025-P14-P3-R3-postoutcome-M6-root28.yml'
+      - 'tools/c3x_025_P14_P3_interval_soundness_court.cpp'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  native-source:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: c3x-025-M6-S-july2026-new64-source-only
+          path: source/
+          repository: WhoSia/C3X
+          run-id: '38198224795'
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: c3x-025-M6-B-July64-presealed-real-qscore-selective-pilot
+          path: actual/
+          repository: WhoSia/C3X
+          run-id: '38198653228'
+          github-token: ${{ github.token }}
+      - name: Verify original SF16 and build untouched reference
+        run: |
+          set -euo pipefail
+          git clone -q --single-branch --branch sf_16 https://github.com/official-stockfish/Stockfish.git /tmp/c3x-p14p1-original
+          test "$(git -C /tmp/c3x-p14p1-original rev-parse HEAD)" = 68e1e9b3811e16cad014b590d7443b9063b3eb52
+          test "$(sha256sum /tmp/c3x-p14p1-original/src/tt.cpp | awk '{print $1}')" = d132fb235050916682ea258de2dc8825712d370216342f46f64d7977ee1557ba
+          test "$(sha256sum /tmp/c3x-p14p1-original/src/search.cpp | awk '{print $1}')" = 21b79baa7ce9dabec5b3b9e3854bed9869a1935277247832e550cf395bccd644
+          cp -a /tmp/c3x-p14p1-original /tmp/c3x-p14p1-observer
+          make -s -C /tmp/c3x-p14p1-original/src -j2 build ARCH=x86-64
+      - name: Compile source-native q branch and final root contender witnesses
+        run: |
+          set -euo pipefail
+          mkdir -p derived
+          python3 tools/c3x_025_P14_P3_native_guarded_score_policy_overlay.py \
+            --root /tmp/c3x-p14p1-observer --out-manifest derived/SOURCE_EXACT_REVERSAL.json
+          make -s -C /tmp/c3x-p14p1-observer/src -j2 build ARCH=x86-64
+      - name: EXPLICIT POST-OUTCOME TARGETED MECHANISTIC DIAGNOSTIC (not independent confirmation)
+        run: |
+          set -euo pipefail
+          g++ -std=c++17 -Wall -Wextra -Werror -pedantic -O2 tools/c3x_025_P14_P3_interval_soundness_court.cpp -o /tmp/p14p3-math
+          /tmp/p14p3-math
+          node tools/c3x_025_P14_P3_R3_postoutcome_exposed_root28_court.mjs \
+            /tmp/c3x-p14p1-original/src/stockfish /tmp/c3x-p14p1-observer/src/stockfish \
+            derived/P14P3_EXPOSED_M6_GAME28_FIRST_SOURCE_AND_ROOT.json \
+            source/C3X025_M6_S_JULY2026_64_SOURCE_ONLY.json \
+            actual/C3X025_M6_B_FIRST_NATIVE_JULY64_EXACT_OUTCOME.json
+          python3 tools/c3x_023_rights_preupload_gate.py \
+            --tier P2_AGGREGATE_SUMMARY --file derived/P14P3_EXPOSED_M6_GAME28_FIRST_SOURCE_AND_ROOT.json \
+            --report derived/RIGHTS_GATE.json
+          echo 'Source original Stockfish16 GPLv3; legal public opening move sequences; only derived score/PV/root candidate digests, no hidden TT keys, no original PGN or modified binary exported. Source divergence is not a natural mediator/Elo claim.' > derived/SCIENTIFIC_SCOPE.txt
+          find derived -maxdepth 1 -type f ! -name SHA256.txt -print0 | sort -z | xargs -0 -r sha256sum > derived/SHA256.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x-025-p14-p3-r3-postoutcome-M6-root28
+          path: derived/
+          retention-days: 90
