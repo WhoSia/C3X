@@ -7,7 +7,7 @@ fn strict(k:&[W],w:usize)->bool{k.iter().all(|v|(0..3).filter(|r|*r!=w).all(|r|v
 #[derive(Clone,Copy,PartialEq,Eq)]
 enum ResultKind{Certified,Counterexample,Abstain}
 fn cegar(k:&[W],w:usize,semantic_oracle:bool)->(ResultKind,usize){
- if(!semantic_oracle{return(ResultKind::Abstain,0);}
+ if !semantic_oracle {return (ResultKind::Abstain,0);}
  let mut upper=[2i32;3];upper[w]=-3;let mut rounds=0usize;
  loop{
   let next=(0..3).filter(|r|*r!=w&&upper[*r]>=0)
