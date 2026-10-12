@@ -1,0 +1,41 @@
+name: C3X 0.25 P14 P2 Read Original Source Causal Slice Derived Artifact
+on:
+  push:
+    paths:
+      - '.github/workflows/c3x-025-P14-P2-read-causal-slice-artifact.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: c3x-025-p14-p2-native-development-first-qroot
+          path: native/
+          repository: WhoSia/C3X
+          run-id: '38193302340'
+          github-token: ${{ github.token }}
+      - name: Independently inspect source-event prefix and full root candidates
+        run: |
+          set -euo pipefail
+          node - <<'JS'
+          const fs=require('node:fs');
+          const d=JSON.parse(fs.readFileSync('native/FIRST_QSOURCE_AND_ROOT_CONTENDERS.json','utf8'));
+          if(d.schema!=='c3x025-P14-P2-first-observed-qsource-and-all-native-root-contenders-v1')throw Error('P14P2_CORRUPT_ARTIFACT');
+          const p=d.positions.DEV_SICILIAN_9PLY;
+          if(!p||p.original.bestmove!=='b8c6')throw Error('P14P2_SOURCE_CASE_NOT_PINNED');
+          let out={schema:'c3x025-P14-P2-independent-readback-from-earlier-native-success-v1',original:p.original,arms:{}};
+          for(const arm of ['SHAM','SCORE','HINT','BOTH']){
+            const x=p.arms[arm];if(!x)throw Error('MISSING_ARM_'+arm);
+            out.arms[arm]={move:x.bestmove,nodes:x.nodes,root_candidate_fields_differ:x.root_candidate_fields_differ,
+              first_observed_qsource_difference:x.first_observed_qsource_difference,
+              original_q_events:x.full_q_source_count,
+              candidate_count:x.root_candidates.length,
+              first_three_candidates:x.root_candidates.slice(0,3)};
+          }
+          console.log('P14P2_INDEPENDENT_NATIVE_FIRST_QSOURCE_FULL_ROOT_READBACK='+JSON.stringify(out));
+          JS
