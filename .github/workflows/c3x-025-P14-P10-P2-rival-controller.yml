@@ -1,0 +1,43 @@
+name: C3X P14 P10 P2 Preregistered Rival-Directed Controller Development
+on:
+  push:
+    paths:
+      - '.github/workflows/c3x-025-P14-P10-P2-rival-controller.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  original-source-development:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Deterministic policy tests and UCI harness syntax
+        run: |
+          set -euo pipefail
+          node --check tools/c3x_025_P14_P10_P2_rival_policy.mjs
+          node --check tools/c3x_025_P14_P10_P2_original_uci_rival_pilot.mjs
+          node --check tools/test_c3x_025_P14_P10_P2_rival_policy.mjs
+          node --test tools/test_c3x_025_P14_P10_P2_rival_policy.mjs
+      - name: Build exact official Stockfish 16 source, no repository writeback
+        run: |
+          set -euo pipefail
+          git clone -q --single-branch --branch sf_16 https://github.com/official-stockfish/Stockfish.git /tmp/c3x-p14p10p2-sf16
+          test "$(git -C /tmp/c3x-p14p10p2-sf16 rev-parse HEAD)" = "68e1e9b3811e16cad014b590d7443b9063b3eb52"
+          make -s -C /tmp/c3x-p14p10p2-sf16/src -j2 build ARCH=x86-64
+      - name: Four disclosed development roots, budget requests and cold replay
+        run: |
+          set -euo pipefail
+          mkdir -p derived
+          node tools/c3x_025_P14_P10_P2_original_uci_rival_pilot.mjs \
+            /tmp/c3x-p14p10p2-sf16/src/stockfish \
+            derived/FOUR_DISCLOSED_ORIGINAL_UCI_RIVAL_PILOT.json
+          printf '%s\n' 'P2-P0 prereg 58a4e040. Four exposed development openings only. Fixed nominal UCI go nodes; reported nodes may omit unfinished depth. No teacher agreement, no independent game cohort, no Elo/engine-strength or TT mediation claim.' > derived/SCOPE.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x-025-p14-p10-p2-rival-uci-development-only
+          path: derived/
+          retention-days: 14
