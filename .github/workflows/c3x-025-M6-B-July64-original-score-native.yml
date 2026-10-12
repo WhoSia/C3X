@@ -1,0 +1,91 @@
+name: C3X 0.25 M6 B July64 Human-Sealed First Original Q TT SCORE
+on:
+  push:
+    paths:
+      - 'harness/c3x_025_M6_B_July64_first_original_score_selective_court.mjs'
+      - '.github/workflows/c3x-025-M6-B-July64-original-score-native.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  first-original-native:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/download-artifact@v4
+        with:
+          name: c3x-025-M6-S-july2026-new64-source-only
+          path: source/
+          repository: WhoSia/C3X
+          run-id: '38198224795'
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: c3x-025-M6-A-July64-original-native-untreated-preFIRST
+          path: stage/
+          repository: WhoSia/C3X
+          run-id: '38198429964'
+          github-token: ${{ github.token }}
+      - name: Human Git chronology first then source SHA then every literal move legal
+        run: |
+          set -euo pipefail
+          git merge-base --is-ancestor 4f1bfb787c38192b372dceee67d3f1aace90fa06 2e410199d42562798bf1a15a03a5a5003e1cc360
+          git merge-base --is-ancestor 2e410199d42562798bf1a15a03a5a5003e1cc360 bba80067e9aac053a58dfb5c38e3858049c788ea
+          git merge-base --is-ancestor bba80067e9aac053a58dfb5c38e3858049c788ea HEAD
+          test "$(sha256sum source/C3X025_M6_S_JULY2026_64_SOURCE_ONLY.json | cut -d' ' -f1)" = 45d758947b6f224901f2674eaed4dc1dc34f4d5a439ccd62fa408393dd7c2a80
+          python3 -m pip install -q chess==1.11.2
+          python3 - <<'PY'
+          import chess,json
+          a=json.load(open('source/C3X025_M6_S_JULY2026_64_SOURCE_ONLY.json'))
+          b=json.load(open('stage/M6_A_UNTREATED_64_NATIVE_AND_SELECTIVE_CANDIDATE.json'))
+          c=json.load(open('c3x/forecasts/c3x-025-M6-A-July2026-64-M0-exact-UCI-and-M6-STABLE-ABSTAIN-human-Git-before-SCORE-20261012.json'))
+          assert len(a['selected'])==len(b['cases'])==len(c['exact_all_64_model_rows'])==64
+          assert not b['treated_outcomes_seen'] and b['actual_first_intervention_count']==0
+          assert c['covered_STABLE']==19 and c['ABSTAIN']==45 and not c['treated_outcomes_seen']
+          for s,t,seal in zip(a['selected'],b['cases'],c['exact_all_64_model_rows']):
+              assert s['source_game_sha256']==t['source_game_sha256']==seal['source_game_sha256']
+              board=chess.Board(s['fen4']+' '+str(s['source_halfmove_clock'])+' '+str(s['source_fullmove_number']))
+              assert board.is_valid()
+              assert chess.Move.from_uci(seal['M0_exact_UCI']) in board.legal_moves
+              assert seal['M0_exact_UCI']==t['original_depth7_exact_UCI']
+              assert seal['M6_selective_label']==t['M6_selective_label']
+              assert seal['actual_physical_SCORE_target_UCI']=='UNSEEN_BEFORE_LITERAL_SEAL'
+          print('C3X025_M6_B_ALL_64_PRESEALED_LITERAL_UCI_CHRONOLOGY_CHESS_LEGALITY_PASS')
+          PY
+          node --check harness/c3x_025_M6_B_July64_first_original_score_selective_court.mjs
+          mkdir -p derived
+      - name: Official pinned original SF16 + scoped original qsearch TT numerical score-source
+        run: |
+          set -euo pipefail
+          git clone -q --single-branch --branch sf_16 https://github.com/official-stockfish/Stockfish.git /tmp/c3x-m6b-original
+          test "$(git -C /tmp/c3x-m6b-original rev-parse HEAD)" = 68e1e9b3811e16cad014b590d7443b9063b3eb52
+          test "$(sha256sum /tmp/c3x-m6b-original/src/search.cpp | cut -d' ' -f1)" = 21b79baa7ce9dabec5b3b9e3854bed9869a1935277247832e550cf395bccd644
+          cp -a /tmp/c3x-m6b-original /tmp/c3x-m6b-score
+          make -s -C /tmp/c3x-m6b-original/src -j2 build ARCH=x86-64
+          python3 tools/c3x_025_P14_P0_qscore_qhint_factorial_overlay.py --root /tmp/c3x-m6b-score --out-manifest derived/REVERSIBLE_REAL_SCORE_ORIGINAL.json
+          python3 tools/c3x_025_P9_R1_native_root_final_source_endpoint_overlay.py --source /tmp/c3x-m6b-score --out-manifest derived/ROOT_ENDPOINT.json
+          make -s -C /tmp/c3x-m6b-score/src -j2 build ARCH=x86-64
+      - name: First original q TT SCORE native physical actuation only AFTER human Git seal
+        run: |
+          set -euo pipefail
+          node harness/c3x_025_M6_B_July64_first_original_score_selective_court.mjs \
+            source/C3X025_M6_S_JULY2026_64_SOURCE_ONLY.json \
+            stage/M6_A_UNTREATED_64_NATIVE_AND_SELECTIVE_CANDIDATE.json \
+            c3x/forecasts/c3x-025-M6-A-July2026-64-M0-exact-UCI-and-M6-STABLE-ABSTAIN-human-Git-before-SCORE-20261012.json \
+            /tmp/c3x-m6b-original/src/stockfish /tmp/c3x-m6b-score/src/stockfish \
+            derived/C3X025_M6_B_FIRST_NATIVE_JULY64_EXACT_OUTCOME.json
+          python3 tools/c3x_023_rights_preupload_gate.py --tier P2_AGGREGATE_SUMMARY --file derived/C3X025_M6_B_FIRST_NATIVE_JULY64_EXACT_OUTCOME.json --report derived/RIGHTS.json
+          echo 'Original Stockfish16 GPLv3; official Lichess July2026 CC BY-SA4 derived only legally selected FEN4/game hash and native root outcome no full games, player IDs or modified engine. Technical content scan is not legal advice; no general engine strength/Elo or natural SEE mediation claim.' > derived/SCIENCE.txt
+          find derived -maxdepth 1 -type f ! -name SHA256.txt -print0 | sort -z | xargs -0 -r sha256sum > derived/SHA256.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x-025-M6-B-July64-presealed-real-qscore-selective-pilot
+          path: derived/
+          retention-days: 90
