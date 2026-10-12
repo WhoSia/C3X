@@ -1,0 +1,44 @@
+name: C3X 0.25 P14 P0 Native Q Score Cutoff vs Move Hint Factorial
+on:
+  push:
+    paths:
+      - 'tools/c3x_025_P14_P0_qscore_qhint_factorial_overlay.py'
+      - 'tools/c3x_025_P14_P0_factorial_native_court.mjs'
+      - '.github/workflows/c3x-025-P14-P0-native-q-score-hint.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  native:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+      - name: Pin SF16 official source and build clean original
+        run: |
+          set -euo pipefail
+          git clone --quiet --single-branch --branch sf_16 https://github.com/official-stockfish/Stockfish.git /tmp/c3x-p14-original
+          test "$(git -C /tmp/c3x-p14-original rev-parse HEAD)" = 68e1e9b3811e16cad014b590d7443b9063b3eb52
+          cp -a /tmp/c3x-p14-original /tmp/c3x-p14-observer
+          make -s -C /tmp/c3x-p14-original/src -j2 build ARCH=x86-64
+      - name: Overlay reversible real Q score cutoff and move hint source operators
+        run: |
+          set -euo pipefail
+          mkdir -p derived
+          python3 tools/c3x_025_P14_P0_qscore_qhint_factorial_overlay.py --root /tmp/c3x-p14-observer --out-manifest derived/P14_SOURCE.json
+          python3 tools/c3x_025_P9_R1_native_root_final_source_endpoint_overlay.py --source /tmp/c3x-p14-observer --out-manifest derived/ROOT_ENDPOINT.json
+          make -s -C /tmp/c3x-p14-observer/src -j2 build ARCH=x86-64
+      - name: Genuine original cold sham and orthogonal TT operator 2x2
+        run: |
+          set -euo pipefail
+          node tools/c3x_025_P14_P0_factorial_native_court.mjs \
+            /tmp/c3x-p14-original/src/stockfish /tmp/c3x-p14-observer/src/stockfish derived/P14_2X2_FACTORIAL.json
+          python3 tools/c3x_023_rights_preupload_gate.py --tier P2_AGGREGATE_SUMMARY --file derived/P14_2X2_FACTORIAL.json --report derived/RIGHTS.json
+          echo 'ONLY source-pinned first qscore cutoff and first nonzero q TT hint are intervened; not SEE and not natural indirect effect or Elo; modified SF16 binaries and PGN not exported.' > derived/SCIENTIFIC_SCOPE.txt
+          find derived -maxdepth 1 -type f ! -name SHA256.txt -print0 | sort -z | xargs -0 -r sha256sum > derived/SHA256.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x-025-p14-p0-native-source-factorial-derived
+          path: derived/
+          retention-days: 90

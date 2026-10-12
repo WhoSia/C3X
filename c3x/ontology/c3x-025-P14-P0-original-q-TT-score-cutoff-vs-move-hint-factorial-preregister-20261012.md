@@ -1,0 +1,14 @@
+# C3X 0.25-P14-P0 — Original QSearch TT Score-Cutoff vs Move-Hint 2×2
+
+PRE-NATIVE PREREGISTRATION 2026-10-12. Original Stockfish 16 pinned 68e1e9b3811e16cad014b590d7443b9063b3eb52. Parent P13-R4 native writer-key exact 24/24 but public P11/P12/P13 same-event log join 0, with first24 cap censorship. That negative evidence remains intact.
+
+## Independent operators and policy arms
+Single-thread Threads1 Hash16MB NNUE false public startpos depth7. Source-original qsearch TT bounded numeric early return: condition currently triggers an actual return of ttValue; SCORE intervention suppresses the FIRST such real return and permits the original remaining qsearch to run. It does NOT erase all TT numerical score reads, merely masks exactly one original early cutoff operation. Distinct qsearch TT move hint: HINT replaces the FIRST nonzero ttMove after original extraction with MOVE_NONE, without altering stored TT or the original numeric value. BOTH applies each first eligible mask, potentially altering which later contacts exist. SHAM runs identical instrumented compiled source with no altered TT action; observer-off controls instrumentation. All actual contact and mutation must be logged native C++ before classification; untouched source observer's final UCI/nodes must match original exactly. COLD repeat each arm two times.
+
+## Counterfactual claims and stopping rules
+Predefined report: physical operator contact by class, exact one-time manipulation, root bestmove changed/stable, depth7 nodes difference, and downstream original source witness counts only where meaningful. If an arm's event does not actually occur, label NO_CONTACT_HOLD, never zero causal effect; if original-sham UCI/nodes differ, TECHNICAL_FAIL. A position where score+hint differs from either isolated arm is conditional source-policy interaction, not natural TT→SEE mediation. No non-natural SEE Boolean flips. Neither development startpos nor exposed historical September/July datasets count as new M5 heldout or Elo court.
+
+## Scientific and technical directions
+P14 follows theoretical intervention-uniform observational quotients but only source-pinned operator transformations are tested here. P15 mechanism-aware TT controller is a falsifiable hypothesis: compare move hints and numeric early returns as distinct interventions, then independent external opening-paired color-swapped chess strength, legal rule50/repetition/tablebase safety and time/nodes/memory. Do not derive an engineering improvement from a single startpos node count.
+
+Original P8→P11→P12→P13-R4→P14 patch bytes must invert to pinned SHA; P9 original root endpoint is applied separately. Workflow read-only and human WhoSia authorship exclusively. All failures kept.
