@@ -3,6 +3,7 @@ on:
   push:
     paths:
       - 'tools/c3x_025_P14_P8_original_source_provenance_court.mjs'
+      - 'tools/c3x_025_P14_P8_bilateral_possibility_necessity_court.cpp'
       - '.github/workflows/c3x-025-P14-P8-independent-original-provenance.yml'
   workflow_dispatch:
 permissions:
@@ -30,6 +31,11 @@ jobs:
             original/OBSERVED_HISTORY.json \
             derived/ORIGINAL_QSEARCH_TT_WRITER_PROVENANCE.json
           echo 'Official original Stockfish16 GPLv3. Only small source-derived read-only original provenance and synthetic history contrasts. No true chess score correctness, Elo gain, modified binary, or original PGN.' > derived/SCOPE.txt
+      - name: Independent C++ bilateral possible-and-necessary explanation warrant theorem
+        run: |
+          set -euo pipefail
+          g++ -std=c++17 -Wall -Wextra -Werror -pedantic -O2 tools/c3x_025_P14_P8_bilateral_possibility_necessity_court.cpp -o /tmp/c3xp8_two_sided
+          /tmp/c3xp8_two_sided
       - uses: actions/upload-artifact@v4
         if: always()
         with:
