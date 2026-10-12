@@ -28,7 +28,7 @@ function fields(line){
 function n(x,tag){if(!/^-?\d+$/.test(x??'')||!Number.isSafeInteger(Number(x)))throw Error('P14P4_INVALID_INT_'+tag);return Number(x);}
 function run(path,trace,arm,c){
  return new Promise((resolve,reject)=>{
-  const p=spawn(path,[],{env:{...process.env,C3X025_P14P4_TRACE:trace?'1':'',C3X025_P14P4_ARM:arm}});
+  const p=spawn(path,[],{env:{...process.env,...(trace?{C3X025_P14P4_TRACE:'1'}:{}),C3X025_P14P4_ARM:arm}});
   let phase=0,closed=false;
   const source=[],uci=[],timer=setTimeout(()=>fail(Error('P14P4_NATIVE_TIMEOUT_'+c.id)),90000);
   function fail(e){if(closed)return;closed=true;clearTimeout(timer);p.kill('SIGKILL');reject(e);}
