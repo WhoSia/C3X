@@ -8,7 +8,7 @@ from pathlib import Path
 
 BINARY, OUTPUT = sys.argv[1:3]
 BOARD = "5k2/8/8/8/8/8/4Q3/4K3 w - -"
-FENS = [BOARD + " 0 51", BOARD + " 100 51"]
+FENS = [BOARD + " 94 51", BOARD + " 100 51"]
 
 
 def session(fen):
@@ -82,8 +82,8 @@ for fen in FENS:
         raise AssertionError("original cold repeat nondeterministic")
     pairs.append(first)
 if pairs[0]["board_key_64"] != pairs[1]["board_key_64"]:
-    raise AssertionError("same board gave different full original Position::key")
-if [r["halfmove_clock"] for r in pairs] != [0, 100]:
+    raise AssertionError("same adjust_key50 bucket yielded different Position::key")
+if [r["halfmove_clock"] for r in pairs] != [94, 100]:
     raise AssertionError("halfmove-clock synthetic contrast absent")
 differ = any(pairs[0][k] != pairs[1][k]
              for k in ("bestmove", "score_type", "score", "nodes"))
@@ -93,7 +93,7 @@ result = {
     "source_revision": "68e1e9b3811e16cad014b590d7443b9063b3eb52",
     "original_source_draw_guard": "rule50>99 subject to legal check/move",
     "synthetic_development_FEN_not_historical_game": True,
-    "same_full_zobrist_board_key": True,
+    "same_full_adjusted_position_key": True,
     "observed_root_score_or_search_difference": differ,
     "true_TT_bound_corruption_observed": False,
     "original_full_K_constructed": False,
