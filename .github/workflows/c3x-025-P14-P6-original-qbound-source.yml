@@ -1,0 +1,55 @@
+name: C3X 0.25 P14 P6 Source Local TT Bound and Original Root Court
+on:
+  push:
+    paths:
+      - 'tools/c3x_025_P14_P6_source_local_bound_court.cpp'
+      - 'tools/c3x_025_P14_P6_minimal_original_qbound_overlay.py'
+      - 'tools/c3x_025_P14_P6_native_source_root_reuse_court.mjs'
+      - '.github/workflows/c3x-025-P14-P6-original-qbound-source.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  original:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+      - name: C++17 original source-cutoff local semantics and false true-score lifts
+        run: |
+          set -euo pipefail
+          g++ -std=c++17 -Wall -Wextra -Werror -pedantic -O2 tools/c3x_025_P14_P6_source_local_bound_court.cpp -o /tmp/c3x_p14p6_source
+          /tmp/c3x_p14p6_source
+          node --check tools/c3x_025_P14_P6_native_source_root_reuse_court.mjs
+      - uses: actions/download-artifact@v4
+        with:
+          name: c3x-025-M6-S-july2026-new64-source-only
+          path: source/
+          repository: WhoSia/C3X
+          run-id: '38198224795'
+          github-token: ${{ github.token }}
+      - name: Native pinned original SF16 and minimal original source policy
+        run: |
+          set -euo pipefail
+          git clone -q --single-branch --branch sf_16 https://github.com/official-stockfish/Stockfish.git /tmp/c3x-p14p6-original
+          test "$(git -C /tmp/c3x-p14p6-original rev-parse HEAD)" = 68e1e9b3811e16cad014b590d7443b9063b3eb52
+          cp -a /tmp/c3x-p14p6-original /tmp/c3x-p14p6-observer
+          make -s -C /tmp/c3x-p14p6-original/src -j2 build ARCH=x86-64
+          mkdir -p derived
+          python3 tools/c3x_025_P14_P6_minimal_original_qbound_overlay.py --root /tmp/c3x-p14p6-observer --out derived/SOURCE_POLICY.json
+          make -s -C /tmp/c3x-p14p6-observer/src -j2 build ARCH=x86-64
+      - name: Real Stockfish early q TT bound side, root competition and cold parity
+        run: |
+          set -euo pipefail
+          node tools/c3x_025_P14_P6_native_source_root_reuse_court.mjs \
+            /tmp/c3x-p14p6-original/src/stockfish \
+            /tmp/c3x-p14p6-observer/src/stockfish \
+            source/C3X025_M6_S_JULY2026_64_SOURCE_ONLY.json \
+            derived/ACTUAL_ORIGINAL_ROOT_AND_TT_BOUND.json
+          echo 'P14-P6 original SF16 GPLv3; Lichess July2026 broadcast CC BY-SA4. Both original positions are exposed; source branch local certificate, no true original root score/TT semantic soundness or measured Elo. No PGN, player data or modified engine binary.' > derived/SCOPE.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x-025-p14-p6-minimal-original-native-source-branch
+          path: derived/
+          retention-days: 30
