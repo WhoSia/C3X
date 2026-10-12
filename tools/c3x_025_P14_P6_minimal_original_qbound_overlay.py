@@ -27,7 +27,7 @@ bool c3x025_p14p6_skip(int ply,int value,int beta,int rule50,int bound,
        !(bound & (lowerSide ? BOUND_LOWER : BOUND_UPPER)))std::abort();
     const bool change=!sham&&!c3x025_p14p6_mutated
                    &&(first||(lower&&lowerSide)||(upper&&!lowerSide));
-    if(c3x025_p14p4_trace() && (c3x025_p14p6_seen<2||change))
+    if(std::getenv("C3X025_P14P4_TRACE") && (c3x025_p14p6_seen<2||change))
         sync_cout << "info string c3x025_p14p6 kind="
          <<(change?"ACTUATED":"CONTACT")
          <<" policy="<<(sham?"SHAM":first?"FIRST":lower?"LOWER":"UPPER")
