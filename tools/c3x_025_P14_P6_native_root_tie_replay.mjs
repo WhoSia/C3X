@@ -6,7 +6,7 @@ const [inp,out]=process.argv.slice(2),x=JSON.parse(readFileSync(inp));
 if(!x.cases?.EXPOSED_M6_JULY2026_ROOT28||!x.cases?.EXPOSED_ORIGINAL_STARTPOS)
  throw Error('NOT_ACTUAL_ORIGINAL_EXPOSED_SF16_ROOTS');
 function square(file,rank){return file.charCodeAt(0)-97+8*(Number(rank)-1);}
-function encode(uci){if(!/^[a-h][1-8][a-h][1-8]$/.test(uci))throw Error('special move unmodelled, abstain');return square(uci[0],uci[1])+64*square(uci[2],uci[3]);}
+function encode(uci){if(!/^[a-h][1-8][a-h][1-8]$/.test(uci))throw Error('special move unmodelled, abstain');return 64*square(uci[0],uci[1])+square(uci[2],uci[3]);}
 let checks=0,tieCount=0,observed=[];const arms=['sham','first_qscore_suppression','bounded_policies.LOWER','bounded_policies.UPPER'];
 for(const [id,c] of Object.entries(x.cases))for(const a of arms){
  const r=a.includes('.')?c.bounded_policies[a.split('.')[1]]:c[a];
