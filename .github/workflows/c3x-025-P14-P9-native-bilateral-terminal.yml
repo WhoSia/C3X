@@ -1,0 +1,37 @@
+name: C3X 0.25 P14 P9 Source Sound Bilateral Native Terminal Certificate
+on:
+  push:
+    paths:
+      - 'tools/c3x_025_P14_P9_original_native_mate1_bilateral.py'
+      - '.github/workflows/c3x-025-P14-P9-native-bilateral-terminal.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  source:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check native proof script syntax
+        run: |
+          set -euo pipefail
+          python3 -m py_compile tools/c3x_025_P14_P9_original_native_mate1_bilateral.py
+      - name: Build official unmodified Stockfish16 native legal-move source
+        run: |
+          set -euo pipefail
+          git clone -q --single-branch --branch sf_16 https://github.com/official-stockfish/Stockfish.git /tmp/c3x-p14p9-sf16
+          test "$(git -C /tmp/c3x-p14p9-sf16 rev-parse HEAD)" = 68e1e9b3811e16cad014b590d7443b9063b3eb52
+          make -s -C /tmp/c3x-p14p9-sf16/src -j2 build ARCH=x86-64
+      - name: Independently check every root move for legal mate-in-one and source-native actual bestmove
+        run: |
+          set -euo pipefail
+          mkdir -p derived
+          python3 tools/c3x_025_P14_P9_original_native_mate1_bilateral.py /tmp/c3x-p14p9-sf16/src/stockfish derived/P14P9_REAL_NATIVE_BILATERAL_TERMINAL.json
+          echo 'Official Stockfish16 GPLv3 source-root MoveList<LEGAL> and Position::checkers; artificial exposed one-root development position only. This is NOT TT numeric semantic soundness or engine Elo. No original PGN/players or binary distributed.' > derived/SCOPE.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x-025-p14-p9-native-terminal-bilateral-typed-proof
+          path: derived/
+          retention-days: 30
