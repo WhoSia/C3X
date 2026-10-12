@@ -1,0 +1,86 @@
+name: C3X 0.25 P14 P2 Mathematical Countermodel and Independent M5 Science Audit
+on:
+  push:
+    paths:
+      - 'tools/c3x_025_P14_P2_pivotability_identifiability_rank_court.cpp'
+      - '.github/workflows/c3x-025-P14-P2-math-and-M5-independent-audit.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  independent:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: C++17 exhaustive rank-safe finite and non-identifiability countermodels
+        run: |
+          set -euo pipefail
+          g++ -std=c++17 -Wall -Wextra -Werror -pedantic -O2 \
+            tools/c3x_025_P14_P2_pivotability_identifiability_rank_court.cpp \
+            -o /tmp/c3x025-P14P2-theory-court
+          /tmp/c3x025-P14P2-theory-court
+      - uses: actions/download-artifact@v4
+        with:
+          name: c3x-025-M5-B-june32-presealed-first-physical-score-derived
+          path: native/
+          repository: WhoSia/C3X
+          run-id: '38194415904'
+          github-token: ${{ github.token }}
+      - name: Human-Git-source-before-FIRST chronology and independent science readback
+        run: |
+          set -euo pipefail
+          git merge-base --is-ancestor 6046e3e03ef0a81d059f550419859f3914db993a 5a1c58844dcf390407d361ad061a54fac09d76ee
+          git merge-base --is-ancestor 5a1c58844dcf390407d361ad061a54fac09d76ee 9e3c50c4ecf77f87bd8f8108ef59958d3adaaa35
+          git merge-base --is-ancestor 9e3c50c4ecf77f87bd8f8108ef59958d3adaaa35 306e735006efa5895fff23aa3011db0b99f83410
+          node - <<'JS'
+          const fs=require('node:fs');
+          const report=JSON.parse(fs.readFileSync('native/M5_B_INDEPENDENT_FIRST_ACTUAL_NATIVE_32_SCORE.json','utf8'));
+          const seal=JSON.parse(fs.readFileSync('c3x/forecasts/c3x-025-M5-A-June2026-32game-M0-M5-exact-literal-UCI-before-native-SCORE-human-Git-20261012.json','utf8'));
+          if(report.schema!=='c3x025-M5-B-June2026-32game-human-Git-sealed-exact-UCI-before-actual-qscore-intervention-v1'||
+             report.human_preFIRST_exact_UCI_Git_commit!=='9e3c50c4ecf77f87bd8f8108ef59958d3adaaa35'||
+             report.per_game?.length!==32||seal.exact_UCI_by_game?.length!==32)
+              throw Error('M5_B_NOT_ORIGINAL_NATIVE_AND_PREHUMAN_SEALED');
+          let contact=0,root_flips=0,m0=0,m5=0,win=0,loss=0,tie=0,nBefore=0,nAfter=0,more=0,less=0,same=0;
+          for(let i=0;i<32;i++){
+            const row=report.per_game[i],s=seal.exact_UCI_by_game[i];
+            if(row.game_id!==i+1||s.game_id!==i+1||
+               row.source_game_sha256!==s.source_game_sha256||
+               row.M0_frozen_literal_UCI!==s.M0_original_untreated_depth7_UCI||
+               row.M5_frozen_literal_UCI!==s.M5_frozen_source_rule_UCI||
+               row.M5_predicted_change!==s.M5_predicted_change)
+               throw Error('M5_B_ACTUAL_NATIVE_HUMAN_GIT_SOURCE_ROW_MISMATCH_'+i);
+            if(row.true_score_return_physical_contact!==true){
+               if(row.outcome_actual_native_physical_score_UCI!==null)throw Error('CENSORED_ROW_FALSE_OUTCOME');
+               continue;
+            }
+            contact++;
+            const target=row.outcome_actual_native_physical_score_UCI;
+            const a=s.M0_original_untreated_depth7_UCI===target;
+            const b=s.M5_frozen_source_rule_UCI===target;
+            if(a!==row.M0_correct_on_actual_treatment||b!==row.M5_correct_on_actual_treatment)
+               throw Error('SCORING_AND_ORIGINAL_SOURCE_TARGET_MISMATCH');
+            m0+=Number(a);m5+=Number(b);
+            if(b&&!a)win++;else if(a&&!b)loss++;else tie++;
+            root_flips+=Number(row.root_flipped);
+            nBefore+=row.untouched_original_nodes;nAfter+=row.treated_nodes;
+            more+=Number(row.treated_nodes>row.untouched_original_nodes);
+            less+=Number(row.treated_nodes<row.untouched_original_nodes);
+            same+=Number(row.treated_nodes===row.untouched_original_nodes);
+          }
+          if(contact!==report.physically_contacted_original_qsearch_TT_numeric_bound_return||
+             root_flips!==report.physically_observed_root_bestmove_changes||
+             m0!==report.M0_exact_UCI_correct_in_contacted_games||
+             m5!==report.M5_exact_UCI_correct_in_contacted_games||
+             win!==report.paired_game_M5_win||loss!==report.paired_game_M5_loss||
+             tie!==report.paired_game_tie)throw Error('SOURCE_NATIVE_SCIENTIFIC_TALLY_BROKEN');
+          console.log('C3X025_M5_B_INDEPENDENT_GIT_SEALED_SCORING_AUDIT_PASS',JSON.stringify({
+            games:32,contact,root_flips,
+            M0:m0,M5:m5,M5_vs_M0_game_win:win,loss,tie,
+            nodes_original_total:nBefore,nodes_SCORE_total:nAfter,
+            node_delta_total:nAfter-nBefore,
+            positive_node_changes:more,negative_node_changes:less,zero_node_changes:same,
+            inference:'M5-v1 negative; no natural SEE/Elo or out-of-source global superiority'}));
+          JS
