@@ -1,0 +1,43 @@
+name: C3X 0.25 P14 P7 Actual CEGAR Witness and Paired Elo Trial Protocol
+on:
+  push:
+    paths:
+      - 'tools/c3x_025_P14_P7_actual_source_context_cegar.mjs'
+      - 'tools/c3x_025_P14_P7_strength_trial_protocol.rs'
+      - '.github/workflows/c3x-025-P14-P7-context-cegar-and-strength-protocol.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  no-engine-rebuild:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: c3x-025-p14-p7-original-rule50-context-and-composition
+          path: original/
+          repository: WhoSia/C3X
+          run-id: '38209111244'
+          github-token: ${{ github.token }}
+      - name: Original source actual identity-fiber counterexample and local CEGAR split
+        run: |
+          set -euo pipefail
+          mkdir -p derived
+          node --check tools/c3x_025_P14_P7_actual_source_context_cegar.mjs
+          node tools/c3x_025_P14_P7_actual_source_context_cegar.mjs \
+            original/P14P7_ACTUAL_UNMODIFIED_SF16_KEY_AND_RULE50.json \
+            derived/P14P7_SOURCE_CEGAR_NONFACTORING_WITNESS.json
+      - name: Rust real-Elo study design rejects broken matched-color inputs
+        run: |
+          set -euo pipefail
+          rustc --edition=2021 -D warnings -O tools/c3x_025_P14_P7_strength_trial_protocol.rs -o /tmp/c3x-p14p7-strength-gate
+          /tmp/c3x-p14p7-strength-gate
+          echo 'Only genuine Stockfish16 source-derived exposed synthetic FEN worlds; no independent model/Elo claim. Rust tournament-input pairs are entirely SYNTHETIC, not real games. Original SF16 GPLv3; no modified binary, PGN or player metadata.' > derived/SCOPE.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x-025-p14-p7-small-actual-context-fiber-cegar
+          path: derived/
+          retention-days: 30
