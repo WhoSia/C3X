@@ -1,0 +1,43 @@
+name: C3X 0.25 P14 P6 Exact Root Tie Source Proof and Native Replay
+on:
+  push:
+    paths:
+      - 'tools/c3x_025_P14_P6_original_root_tie_order_court.cpp'
+      - 'tools/c3x_025_P14_P6_native_root_tie_replay.mjs'
+      - '.github/workflows/c3x-025-P14-P6-original-root-tie.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  tie-source:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - name: Exhaustive strict RootMove source comparator with stable sorting
+        run: |
+          set -euo pipefail
+          g++ -std=c++17 -Wall -Wextra -Werror -pedantic -O2 tools/c3x_025_P14_P6_original_root_tie_order_court.cpp -o /tmp/p14p6_tie
+          /tmp/p14p6_tie
+          node --check tools/c3x_025_P14_P6_native_root_tie_replay.mjs
+      - uses: actions/download-artifact@v4
+        with:
+          name: c3x-025-p14-p6-minimal-original-native-source-branch
+          path: source/
+          repository: WhoSia/C3X
+          run-id: '38207386206'
+          github-token: ${{ github.token }}
+      - name: Source-only replay of genuine final original root contenders and tie order
+        run: |
+          set -euo pipefail
+          mkdir -p derived
+          node tools/c3x_025_P14_P6_native_root_tie_replay.mjs \
+            source/ACTUAL_ORIGINAL_ROOT_AND_TT_BOUND.json \
+            derived/P14P6_ACTUAL_ORIGINAL_ROOT_SORT_TIE_CERTIFICATE.json
+          echo 'Original Stockfish16 GPLv3 RootMove stable_sort source, Lichess July2026 CC BY-SA4. Exposed development only. Operational sort certificate not true chess utility, Elo or full K.' > derived/SCOPE.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x-025-p14-p6-original-root-tie-source-proof
+          path: derived/
+          retention-days: 30
