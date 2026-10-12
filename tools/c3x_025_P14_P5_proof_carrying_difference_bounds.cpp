@@ -92,7 +92,7 @@ int main(){
   need(!provenanceGated.addEvidence({{1,3,-1},false}),"observational guess passed proof gate");
   need(provenanceGated.close()&&!provenanceGated.certA(),
        "an empirical root trace forged a robust certificate");
-  need(systems==946&&consistent>0&&dbmCert>intervalCert&&relExtra>0);
+  need(systems==946&&consistent>0&&dbmCert>intervalCert&&relExtra>0,"finite theorem expected nontrivial sound relational examples");
   cout<<"C3X025_P14P5_PROOF_CARRYING_DIFFERENCE_BOUNDS_PASS"
     <<" systems="<<systems<<" consistent="<<consistent
     <<" relational_cert="<<dbmCert<<" marginal_interval_cert="<<intervalCert
