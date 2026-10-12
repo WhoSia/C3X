@@ -68,7 +68,7 @@ ROOT_CODE=r"""  if (c3x025_p8_on()) {
                 << " depth=" << int(bestThread->completedDepth)
                 << sync_endl;
   }
-"""+EXTRA_ROOT+ROOT_BEST
+"""+ROOT_BEST
 
 EXTRA_CPP=r"""
 // P14-P2 source sampled q-parent assignment and best-value updates only.
@@ -81,7 +81,7 @@ void c3x025_p14p2_event(int kind,uint64_t caller,int ply,int value,int move,int 
               << " move=" << move << " window=" << window << sync_endl;
 }
 """
-EXTRA_FWD="void c3x025_p14p2_event(int,uint64_t,int,int,int,int);\\n"
+EXTRA_FWD="void c3x025_p14p2_event(int,uint64_t,int,int,int,int);\n"
 EXTRA_ROOT=r"""  if (c3x025_p8_on()) {
     unsigned i=0;
     for(const auto& rm:bestThread->rootMoves) {
@@ -107,7 +107,7 @@ def patch(pre):
     s=once(s,SEARCH_FWD,SEARCH_FWD+FWD+EXTRA_FWD,"source_forward")
     s=once(s,Q_ASSIGN,Q_ASSIGN+"\n        c3x025_p14p1_qtrace(1,ss->ply,int(value),int(ss->currentMove),int(alpha));\n        c3x025_p14p2_event(1,c3x025_p12_scope.frame_id,ss->ply,int(value),int(ss->currentMove),int(alpha));","qreturn")
     s=once(s,Q_BEST,Q_BEST+"\n            c3x025_p14p1_qtrace(2,ss->ply,int(value),int(ss->currentMove),int(beta));\n            c3x025_p14p2_event(2,c3x025_p12_scope.frame_id,ss->ply,int(value),int(ss->currentMove),int(beta));","qbest")
-    s=once(s,ROOT_BEST,ROOT_CODE,"final_native_root_contenders")
+    s=once(s,ROOT_BEST,ROOT_CODE.replace(ROOT_BEST,EXTRA_ROOT+ROOT_BEST),"final_native_root_contenders")
     z={"tt.cpp":t.encode(),"search.cpp":s.encode()}
     if undo(z)!=pre:raise ValueError("P14P1_SOURCE_NOT_REVERSIBLE")
     return z
@@ -115,7 +115,7 @@ def undo(post):
     t=post["tt.cpp"].decode();s=post["search.cpp"].decode()
     t=once(t,EXIT_NEW,ROOT_EXIT,"undo_root_frame")
     t=once(t,TRACK+"\n"+EXTRA_CPP+"\n"+TT_LEAVE,TT_LEAVE,"undo_tt")
-    s=once(s,ROOT_CODE,ROOT_BEST,"undo_root_set")
+    s=once(s,ROOT_CODE.replace(ROOT_BEST,EXTRA_ROOT+ROOT_BEST),ROOT_BEST,"undo_root_set")
     s=once(s,Q_BEST+"\n            c3x025_p14p1_qtrace(2,ss->ply,int(value),int(ss->currentMove),int(beta));\n            c3x025_p14p2_event(2,c3x025_p12_scope.frame_id,ss->ply,int(value),int(ss->currentMove),int(beta));",Q_BEST,"undo_qbest")
     s=once(s,Q_ASSIGN+"\n        c3x025_p14p1_qtrace(1,ss->ply,int(value),int(ss->currentMove),int(alpha));\n        c3x025_p14p2_event(1,c3x025_p12_scope.frame_id,ss->ply,int(value),int(ss->currentMove),int(alpha));",Q_ASSIGN,"undo_qreturn")
     s=once(s,SEARCH_FWD+FWD+EXTRA_FWD,SEARCH_FWD,"undo_forward")
