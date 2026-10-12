@@ -17,6 +17,10 @@ static thread_local int c3x025_p14p6_seen=0;
 bool c3x025_p14p6_skip(int ply,int value,int beta,int rule50,int bound,
                        int storedDepth,int requiredDepth,int ttHit,int pv,int inCheck) {
     const char* e=std::getenv("C3X025_P14P6_POLICY");
+    if(!e) {
+        const char* oldArm=std::getenv("C3X025_P14P4_ARM");
+        e=oldArm && std::strcmp(oldArm,"SCORE")==0 ? "FIRST" : "SHAM";
+    }
     const bool sham=!e || std::strcmp(e,"SHAM")==0;
     const bool first=e&&std::strcmp(e,"FIRST")==0;
     const bool lower=e&&std::strcmp(e,"LOWER")==0;
@@ -36,6 +40,11 @@ bool c3x025_p14p6_skip(int ply,int value,int beta,int rule50,int bound,
          <<" stored_depth="<<storedDepth<<" required_depth="<<requiredDepth
          <<" ply="<<ply<<" rule50="<<rule50<<" check="<<inCheck
          <<" mutated="<<int(change)<<sync_endl;
+    if(std::getenv("C3X025_P14P4_TRACE") && c3x025_p14p6_seen==0)
+        sync_cout << "info string c3x025_p14p4 event=FIRST_QSCORE"
+                  << " changed=" << int(change) << " ply=" << ply
+                  << " value=" << value << " beta=" << beta
+                  << " rule50=" << rule50 << sync_endl;
     c3x025_p14p6_seen++;
     if(change)c3x025_p14p6_mutated=true;
     return change;
