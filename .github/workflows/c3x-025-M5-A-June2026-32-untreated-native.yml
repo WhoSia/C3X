@@ -1,0 +1,56 @@
+name: C3X 0.25 M5 A June32 Untreated Native and PreFIRST Forecast
+on:
+  push:
+    paths:
+      - 'harness/c3x_025_M5_A_untreated_native_source_UCI.mjs'
+      - '.github/workflows/c3x-025-M5-A-June2026-32-untreated-native.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  untreated-only:
+    runs-on: ubuntu-latest
+    timeout-minutes: 65
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: c3x-025-M5-S-june2026-new32-source-only
+          path: source/
+          repository: WhoSia/C3X
+          run-id: '38193633037'
+          github-token: \${{ github.token }}
+      - name: Exact June source SHA human game seal original rights
+        run: |
+          set -euo pipefail
+          test "$(sha256sum source/C3X025_M5_S_JUNE2026_32_SOURCE_ONLY.json | awk '{print $1}')" = 71ab8e4c4ddb52d8f63e6e51ea6b4cf991e135246773460c3d6f4800288521be
+          test -s c3x/forecasts/c3x-025-M5-S1-June2026-32game-source-identities-human-Git-before-StageA-20261012.json
+          node --check harness/c3x_025_M5_A_untreated_native_source_UCI.mjs
+          mkdir -p derived
+      - name: Original immutable SF16 native and source-observed SHAM compile
+        run: |
+          set -euo pipefail
+          git clone -q --single-branch --branch sf_16 https://github.com/official-stockfish/Stockfish.git /tmp/c3x-m5-original
+          test "$(git -C /tmp/c3x-m5-original rev-parse HEAD)" = 68e1e9b3811e16cad014b590d7443b9063b3eb52
+          cp -a /tmp/c3x-m5-original /tmp/c3x-m5-sham
+          make -s -C /tmp/c3x-m5-original/src -j2 build ARCH=x86-64
+          python3 tools/c3x_025_P14_P0_qscore_qhint_factorial_overlay.py --root /tmp/c3x-m5-sham --out-manifest derived/SOURCE_REVERSIBLE.json
+          python3 tools/c3x_025_P9_R1_native_root_final_source_endpoint_overlay.py --source /tmp/c3x-m5-sham --out-manifest derived/ROOT_ENDPOINT.json
+          make -s -C /tmp/c3x-m5-sham/src -j2 build ARCH=x86-64
+      - name: No physical TT actuation; freeze untreated literal exact UCI candidate rows
+        run: |
+          set -euo pipefail
+          node harness/c3x_025_M5_A_untreated_native_source_UCI.mjs \
+            source/C3X025_M5_S_JUNE2026_32_SOURCE_ONLY.json \
+            c3x/forecasts/c3x-025-M5-S1-June2026-32game-source-identities-human-Git-before-StageA-20261012.json \
+            /tmp/c3x-m5-original/src/stockfish /tmp/c3x-m5-sham/src/stockfish \
+            derived/M5_A_UNTREATED_32_NATIVE_AND_LITERAL_CANDIDATE.json
+          python3 tools/c3x_023_rights_preupload_gate.py --tier P2_AGGREGATE_SUMMARY --file derived/M5_A_UNTREATED_32_NATIVE_AND_LITERAL_CANDIDATE.json --report derived/RIGHTS.json
+          echo 'Preintervention original SF16 and SHAM only. June 2026 official Lichess CC BY-SA 4.0 broadcast. Model rule pre-archive human Git frozen. No TT SCORE/HINT FIRST performed; outcome M5 not yet tested. Human literal seal of exact predictions required before future M5-B.' > derived/SCIENCE_SCOPE.txt
+          find derived -maxdepth 1 -type f ! -name SHA256.txt -print0 | sort -z | xargs -0 -r sha256sum > derived/SHA256.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x-025-M5-A-June32-original-native-untreated-preFIRST
+          path: derived/
+          retention-days: 90
