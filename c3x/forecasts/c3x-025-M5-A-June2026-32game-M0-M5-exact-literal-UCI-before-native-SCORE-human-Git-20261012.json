@@ -1,0 +1,311 @@
+{
+  "schema": "c3x025-M5-A-human-Git-sealed-32-literal-uci-before-any-source-SCORE-treatment-v1",
+  "source_identity_preStageA_human_commit": "5a1c58844dcf390407d361ad061a54fac09d76ee",
+  "preArchive_model_rule_human_commit": "6046e3e03ef0a81d059f550419859f3914db993a",
+  "source_original_archive_sha256": "65905d611c0d78d90ab57cd9edd3821f4119b46c22b5489fd7e265a74c6767b3",
+  "source_minimal_JSON_sha256": "71ab8e4c4ddb52d8f63e6e51ea6b4cf991e135246773460c3d6f4800288521be",
+  "original_SF16_git": "68e1e9b3811e16cad014b590d7443b9063b3eb52",
+  "StageA_untreated_read_only_CI": 38193949242,
+  "StageA_untreated_CI_conclusion": "success",
+  "StageA_original_derived_artifact_id": 11722596945,
+  "StageA_original_derived_artifact_zip_SHA256": "909c08cb048140af31f835e178654398ddbf8b9fb1c082e0906a1b70a9ab9c98",
+  "model_rule_frozen": "M5=depth6 legal exact UCI iff original untreated depth6 != depth7 and original untouched depth7 abs cp<=30 and source original SHAM qsearch TT numeric bound early-return contact; else M0 untouched depth7",
+  "engine_interventions_seen": 0,
+  "original_see_boolean_mutations_seen": 0,
+  "game_count": 32,
+  "positive_M5_trigger_games": 9,
+  "negative_no_trigger_games": 23,
+  "M0_and_M5_literal_predictions_must_precede_native_treatment": true,
+  "new_source_independence": "June2026 licensed Lichess broadcaster versus 14 SHA-pinned historic cohorts; 596 historical FEN4 excluded; no first SCORE treatment performed before this human seal",
+  "M5_outcome_correctness_status": "UNSEEN_BEFORE_TREATMENT",
+  "exact_UCI_by_game": [
+    {
+      "game_id": 1,
+      "source_game_sha256": "0138b498745131135369bbde56a36d5566a9bf2bf102e426b86a19a231155a57",
+      "M0_original_untreated_depth7_UCI": "b4b5",
+      "M5_frozen_source_rule_UCI": "b4b5",
+      "M5_predicted_change": false,
+      "preintervention_depth7_score": "cp:27",
+      "untreated_original_qscore_contact": true
+    },
+    {
+      "game_id": 2,
+      "source_game_sha256": "013a115e3c4c8c6bf038c5baa32cd36683302b40203cacb4b180524146333109",
+      "M0_original_untreated_depth7_UCI": "e6f5",
+      "M5_frozen_source_rule_UCI": "e6f5",
+      "M5_predicted_change": false,
+      "preintervention_depth7_score": "cp:26",
+      "untreated_original_qscore_contact": true
+    },
+    {
+      "game_id": 3,
+      "source_game_sha256": "016774c431751b2df32c3adb92a390135b3439e138cfacc0bb357ef932e957af",
+      "M0_original_untreated_depth7_UCI": "f7f5",
+      "M5_frozen_source_rule_UCI": "f7f5",
+      "M5_predicted_change": false,
+      "preintervention_depth7_score": "cp:-76",
+      "untreated_original_qscore_contact": true
+    },
+    {
+      "game_id": 4,
+      "source_game_sha256": "0178674000369bc4e6b6f1cf89ce44458b6da5f1c9f378e1dce37172952ca4c0",
+      "M0_original_untreated_depth7_UCI": "d7e5",
+      "M5_frozen_source_rule_UCI": "d7e5",
+      "M5_predicted_change": false,
+      "preintervention_depth7_score": "cp:0",
+      "untreated_original_qscore_contact": true
+    },
+    {
+      "game_id": 5,
+      "source_game_sha256": "018be531bb8e1e8ce0eb2a26af6050d8a16e1d817d5b334be216d16afe4610d2",
+      "M0_original_untreated_depth7_UCI": "e5e4",
+      "M5_frozen_source_rule_UCI": "e5e4",
+      "M5_predicted_change": false,
+      "preintervention_depth7_score": "cp:13",
+      "untreated_original_qscore_contact": true
+    },
+    {
+      "game_id": 6,
+      "source_game_sha256": "019b00e1a147f74dca3b9c480425e6296b7d6aef2b3649f00d6e22442bfb1ebb",
+      "M0_original_untreated_depth7_UCI": "b6c7",
+      "M5_frozen_source_rule_UCI": "b6c7",
+      "M5_predicted_change": false,
+      "preintervention_depth7_score": "cp:236",
+      "untreated_original_qscore_contact": true
+    },
+    {
+      "game_id": 7,
+      "source_game_sha256": "01cdf6f63fd5e3cab31da590d274e5708a85821c5bd6a453296efb116995d730",
+      "M0_original_untreated_depth7_UCI": "d2e4",
+      "M5_frozen_source_rule_UCI": "d2e4",
+      "M5_predicted_change": false,
+      "preintervention_depth7_score": "cp:-8",
+      "untreated_original_qscore_contact": true
+    },
+    {
+      "game_id": 8,
+      "source_game_sha256": "021e68bd9ff55fc4deb77e4b4712874d0fbb4ea19610c2035c528f6287a85353",
+      "M0_original_untreated_depth7_UCI": "e4e5",
+      "M5_frozen_source_rule_UCI": "a3a4",
+      "M5_predicted_change": true,
+      "preintervention_depth7_score": "cp:13",
+      "untreated_original_qscore_contact": true
+    },
+    {
+      "game_id": 9,
+      "source_game_sha256": "0269f18281749c13557aefb970217edd9f75b899a08a9e3fbd4dd475cc82cd3b",
+      "M0_original_untreated_depth7_UCI": "e8f7",
+      "M5_frozen_source_rule_UCI": "e8f7",
+      "M5_predicted_change": false,
+      "preintervention_depth7_score": "cp:-83",
+      "untreated_original_qscore_contact": true
+    },
+    {
+      "game_id": 10,
+      "source_game_sha256": "02c4e6593853141fe53c6a4edd684e5c95be735755663a64a909c18491a43af5",
+      "M0_original_untreated_depth7_UCI": "e7f6",
+      "M5_frozen_source_rule_UCI": "e7f6",
+      "M5_predicted_change": false,
+      "preintervention_depth7_score": "cp:-4",
+      "untreated_original_qscore_contact": true
+    },
+    {
+      "game_id": 11,
+      "source_game_sha256": "037181cac7f45e63068c8abd1d9f0898c3fee084c1228e07ea41fc563bff05d2",
+      "M0_original_untreated_depth7_UCI": "a6a3",
+      "M5_frozen_source_rule_UCI": "a6a3",
+      "M5_predicted_change": false,
+      "preintervention_depth7_score": "cp:104",
+      "untreated_original_qscore_contact": true
+    },
+    {
+      "game_id": 12,
+      "source_game_sha256": "038f2e951dbdd68052fbcb95273a7b4c65edd2e4c61839d6af027e1001d40202",
+      "M0_original_untreated_depth7_UCI": "h5e2",
+      "M5_frozen_source_rule_UCI": "h5e2",
+      "M5_predicted_change": false,
+      "preintervention_depth7_score": "cp:82",
+      "untreated_original_qscore_contact": true
+    },
+    {
+      "game_id": 13,
+      "source_game_sha256": "03ab05827f81038788e14f7a0a83e7cd4e4a15a86b1a55be03cf25d6a3a1c90a",
+      "M0_original_untreated_depth7_UCI": "a5a7",
+      "M5_frozen_source_rule_UCI": "a5a7",
+      "M5_predicted_change": false,
+      "preintervention_depth7_score": "cp:-59",
+      "untreated_original_qscore_contact": true
+    },
+    {
+      "game_id": 14,
+      "source_game_sha256": "03d26a1bda80722a558f64a17965d00f1983864a84f39c891c3d62c6eaaea9d3",
+      "M0_original_untreated_depth7_UCI": "e7d6",
+      "M5_frozen_source_rule_UCI": "h7h6",
+      "M5_predicted_change": true,
+      "preintervention_depth7_score": "cp:16",
+      "untreated_original_qscore_contact": true
+    },
+    {
+      "game_id": 15,
+      "source_game_sha256": "03f72625f927f23b07de3817a4cdc445f0ab9d7d4f08145f3c271940df7a7dd0",
+      "M0_original_untreated_depth7_UCI": "f1c1",
+      "M5_frozen_source_rule_UCI": "f1c1",
+      "M5_predicted_change": false,
+      "preintervention_depth7_score": "cp:36",
+      "untreated_original_qscore_contact": true
+    },
+    {
+      "game_id": 16,
+      "source_game_sha256": "048965b402a8c281c0d57477955acbf2ddee2fdc8088f89a4884a61366d82758",
+      "M0_original_untreated_depth7_UCI": "a2a3",
+      "M5_frozen_source_rule_UCI": "a2a3",
+      "M5_predicted_change": false,
+      "preintervention_depth7_score": "cp:-27",
+      "untreated_original_qscore_contact": true
+    },
+    {
+      "game_id": 17,
+      "source_game_sha256": "04f513cabd30eaf7c9998491d88e4ffef47eb31f1de527d74946f8c59eb6db2a",
+      "M0_original_untreated_depth7_UCI": "f7f5",
+      "M5_frozen_source_rule_UCI": "d7b6",
+      "M5_predicted_change": true,
+      "preintervention_depth7_score": "cp:-24",
+      "untreated_original_qscore_contact": true
+    },
+    {
+      "game_id": 18,
+      "source_game_sha256": "05280369403ad6445ebee01855f2c81ddecdf27e02f2de883c0d92625c0568bd",
+      "M0_original_untreated_depth7_UCI": "b7b6",
+      "M5_frozen_source_rule_UCI": "a8c8",
+      "M5_predicted_change": true,
+      "preintervention_depth7_score": "cp:30",
+      "untreated_original_qscore_contact": true
+    },
+    {
+      "game_id": 19,
+      "source_game_sha256": "05b8202d8325627d30f86a17c1cdbb202eae1bbc6b9bb49f3a1cd935e962fa62",
+      "M0_original_untreated_depth7_UCI": "a6a3",
+      "M5_frozen_source_rule_UCI": "a6a3",
+      "M5_predicted_change": false,
+      "preintervention_depth7_score": "cp:-8",
+      "untreated_original_qscore_contact": true
+    },
+    {
+      "game_id": 20,
+      "source_game_sha256": "05f1e5d861ffb249e2628d833eb71f9918855b8abbfe2c57555338df3726902c",
+      "M0_original_untreated_depth7_UCI": "f5b1",
+      "M5_frozen_source_rule_UCI": "f5b1",
+      "M5_predicted_change": false,
+      "preintervention_depth7_score": "cp:-49",
+      "untreated_original_qscore_contact": true
+    },
+    {
+      "game_id": 21,
+      "source_game_sha256": "05fad4f86746e2d29e3afbfe7087a6685f82927a522dfda5ceb5ec80cef82ea5",
+      "M0_original_untreated_depth7_UCI": "e2e3",
+      "M5_frozen_source_rule_UCI": "e2e3",
+      "M5_predicted_change": false,
+      "preintervention_depth7_score": "cp:95",
+      "untreated_original_qscore_contact": true
+    },
+    {
+      "game_id": 22,
+      "source_game_sha256": "060ac44795ddc24924f1bc91e5acf05f99c7c831aa180654f4d46b52db2dceb5",
+      "M0_original_untreated_depth7_UCI": "f5g3",
+      "M5_frozen_source_rule_UCI": "f5g3",
+      "M5_predicted_change": false,
+      "preintervention_depth7_score": "cp:-45",
+      "untreated_original_qscore_contact": true
+    },
+    {
+      "game_id": 23,
+      "source_game_sha256": "0610581ff3bdd1aee4f4fbd3cc5d847fb03232e85ea265aad44d1bb07cea8490",
+      "M0_original_untreated_depth7_UCI": "a3c4",
+      "M5_frozen_source_rule_UCI": "a3c2",
+      "M5_predicted_change": true,
+      "preintervention_depth7_score": "cp:13",
+      "untreated_original_qscore_contact": true
+    },
+    {
+      "game_id": 24,
+      "source_game_sha256": "063614c67702c35246b1bde080bf0e6438c39b007cb11a583b22a95fbce6bfd6",
+      "M0_original_untreated_depth7_UCI": "b2b3",
+      "M5_frozen_source_rule_UCI": "b2b3",
+      "M5_predicted_change": false,
+      "preintervention_depth7_score": "cp:77",
+      "untreated_original_qscore_contact": true
+    },
+    {
+      "game_id": 25,
+      "source_game_sha256": "06779ffe324e0f1098cdc862b8c7d431c40214e6630598aed54340d84afa0a3d",
+      "M0_original_untreated_depth7_UCI": "f6d7",
+      "M5_frozen_source_rule_UCI": "f6d7",
+      "M5_predicted_change": false,
+      "preintervention_depth7_score": "cp:-36",
+      "untreated_original_qscore_contact": true
+    },
+    {
+      "game_id": 26,
+      "source_game_sha256": "06b9f0831b9bcfbcbf4ddd7466f19e6cc0be7f9cf3416d77dc9c1bde8e01e7ab",
+      "M0_original_untreated_depth7_UCI": "a8c8",
+      "M5_frozen_source_rule_UCI": "a8c8",
+      "M5_predicted_change": false,
+      "preintervention_depth7_score": "cp:43",
+      "untreated_original_qscore_contact": true
+    },
+    {
+      "game_id": 27,
+      "source_game_sha256": "06ea2a8dbfd24ac8cd6d52fd2748fa69234a34a05004e58dae163030b5701a96",
+      "M0_original_untreated_depth7_UCI": "c8e6",
+      "M5_frozen_source_rule_UCI": "d8h4",
+      "M5_predicted_change": true,
+      "preintervention_depth7_score": "cp:0",
+      "untreated_original_qscore_contact": true
+    },
+    {
+      "game_id": 28,
+      "source_game_sha256": "0763d102d4a14bf6b3a87a8e5705a149b9652d2ecacceae786b2756f9b3c2b54",
+      "M0_original_untreated_depth7_UCI": "f4e3",
+      "M5_frozen_source_rule_UCI": "f4e3",
+      "M5_predicted_change": false,
+      "preintervention_depth7_score": "cp:4",
+      "untreated_original_qscore_contact": true
+    },
+    {
+      "game_id": 29,
+      "source_game_sha256": "0892b3e4b6ec52b45e410e77dedb8fb219fb09438319a6f48c5b52f4b6626e5b",
+      "M0_original_untreated_depth7_UCI": "c1h6",
+      "M5_frozen_source_rule_UCI": "d1g4",
+      "M5_predicted_change": true,
+      "preintervention_depth7_score": "cp:-8",
+      "untreated_original_qscore_contact": true
+    },
+    {
+      "game_id": 30,
+      "source_game_sha256": "08a4b54409ddd865c617c464475c2a05cabdad732c747475d6a25a144c138cec",
+      "M0_original_untreated_depth7_UCI": "g7g6",
+      "M5_frozen_source_rule_UCI": "b8d7",
+      "M5_predicted_change": true,
+      "preintervention_depth7_score": "cp:4",
+      "untreated_original_qscore_contact": true
+    },
+    {
+      "game_id": 31,
+      "source_game_sha256": "08a76ad25e921e0376d30d01fb95989058e31563c2596eb3c2c67318708c9cd2",
+      "M0_original_untreated_depth7_UCI": "c5e6",
+      "M5_frozen_source_rule_UCI": "c5d7",
+      "M5_predicted_change": true,
+      "preintervention_depth7_score": "cp:15",
+      "untreated_original_qscore_contact": true
+    },
+    {
+      "game_id": 32,
+      "source_game_sha256": "08aa9254fb0b15b34c57408e79cde6d70d664a6d8f04183fda81c75d096425f4",
+      "M0_original_untreated_depth7_UCI": "b6c6",
+      "M5_frozen_source_rule_UCI": "b6c6",
+      "M5_predicted_change": false,
+      "preintervention_depth7_score": "cp:31",
+      "untreated_original_qscore_contact": true
+    }
+  ]
+}
