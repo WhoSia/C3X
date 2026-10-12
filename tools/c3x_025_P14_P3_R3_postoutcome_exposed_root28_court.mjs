@@ -156,6 +156,16 @@ for(const pos of positions){
   downstream_trace_changed_arms:traceChanged,root_score_changed_arms:scoreChanged};
 }
 const c=comparisons.POSTOUTCOME_EXPOSED_JULY2026_M6_REAL_ROOT_FLIP_GAME28;
+console.log('P14P3_R3_POSTHOC_ORIGINAL_VS_PROSPECTIVE_CASE28_COMPARISON',JSON.stringify({
+ expected:{uci_original:exposed.untouched_original_root_UCI,uci_SCORE:exposed.real_SF16_SCORE_intervention_bestmove,
+ nodes_original:exposed.original_nodes,nodes_SCORE:exposed.treated_nodes,changed:exposed.true_root_choice_changed},
+ actual:{uci_original:c?.original?.bestmove,uci_SHAM:c?.arms?.SHAM?.bestmove,
+ uci_SCORE:c?.arms?.SCORE?.bestmove,
+ nodes_original:c?.original?.nodes,nodes_SHAM:c?.arms?.SHAM?.nodes,nodes_SCORE:c?.arms?.SCORE?.nodes,
+ changed:c?.arms?.SCORE?.root_changed,score_contact:c?.arms?.SCORE?.source_operator_contact,
+ root_vector_changed:c?.arms?.SCORE?.root_candidate_fields_differ,
+ firstQ:c?.arms?.SCORE?.first_observed_qsource_difference?.index??null,
+ guard_actuated:c?.arms?.GUARD?.native_guard_actual_actuation}}));
 if(!c||c.original.bestmove!==exposed.untouched_original_root_UCI||
  c.original.nodes!==exposed.original_nodes||
  c.arms.SCORE.bestmove!==exposed.real_SF16_SCORE_intervention_bestmove||
