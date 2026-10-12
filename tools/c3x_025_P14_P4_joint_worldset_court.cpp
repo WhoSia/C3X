@@ -15,7 +15,8 @@ bool rectangular(std::uint32_t k){
  if(!k)return false;
  int la=4,ub=-1;
  for(int i=0;i<W;++i)if(k&(1u<<i)){int a=i/4,b=i%4;
-  if(a<la)la=a;if(b>ub)ub=b;
+  if(a<la)la=a;
+  if(b>ub)ub=b;
  }
  return la>ub;
 }
@@ -24,7 +25,8 @@ int main(){
  for(std::uint32_t k=1;k<(1u<<W);++k){
   ++nonempty;
   const bool r=robust(k),b=rectangular(k);
-  if(r)++rel;if(b)++box;
+  if(r)++rel;
+  if(b)++box;
   need(!b||r);
   if(r&&!b)++relNotBox;
   for(int i=0;i<W;++i)if(k&(1u<<i)){
