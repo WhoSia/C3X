@@ -1,0 +1,73 @@
+{
+  "schema": "c3x025-P14-P0-source-real-q-cutoff-hint-factorial-negative-v1",
+  "date_utc": "2026-10-12",
+  "scientific_status": "REAL_NATIVE_CONTACT_PASS_BUT_ROOT_AND_NODES_UNCHANGED_ON_EXPOSED_STARTPOS",
+  "source_commit": "427f14dc55dbad6a563f37d2b981a25fd0d52bbe",
+  "native_ci_run": 38188505486,
+  "native_ci_conclusion": "success",
+  "native_artifact_id": 11720631242,
+  "native_artifact_sha256": "e029e15a8217351a498e09da1ee863dfe460e8e5c677fd410ed7ad8b378d172c",
+  "original_stockfish16_git": "68e1e9b3811e16cad014b590d7443b9063b3eb52",
+  "position": "public_startpos",
+  "depth": 7,
+  "threads": 1,
+  "hash_mb": 16,
+  "nnue": false,
+  "preintervention_original_uci": "b1c3",
+  "preintervention_original_nodes": 8657,
+  "native_original_vs_observer_sham_exact": true,
+  "cold_repeats_each_arm": 2,
+  "arms": {
+    "SHAM": {
+      "first_q_TT_numeric_early_return_skipped": 0,
+      "first_nonzero_q_TT_move_hint_masked": 0,
+      "source_contacts": [
+        "Q_SCORE_RETURN_BOUND_CONTACT",
+        "Q_NONZERO_HINT_CONTACT"
+      ],
+      "bestmove": "b1c3",
+      "nodes": 8657
+    },
+    "SCORE": {
+      "first_q_TT_numeric_early_return_skipped": 1,
+      "first_nonzero_q_TT_move_hint_masked": 0,
+      "source_contacts": [
+        "Q_SCORE_RETURN_BOUND_CONTACT",
+        "Q_NONZERO_HINT_CONTACT"
+      ],
+      "bestmove": "b1c3",
+      "nodes": 8657
+    },
+    "HINT": {
+      "first_q_TT_numeric_early_return_skipped": 0,
+      "first_nonzero_q_TT_move_hint_masked": 1,
+      "source_contacts": [
+        "Q_SCORE_RETURN_BOUND_CONTACT",
+        "Q_NONZERO_HINT_CONTACT"
+      ],
+      "bestmove": "b1c3",
+      "nodes": 8657
+    },
+    "BOTH": {
+      "first_q_TT_numeric_early_return_skipped": 1,
+      "first_nonzero_q_TT_move_hint_masked": 1,
+      "source_contacts": [
+        "Q_SCORE_RETURN_BOUND_CONTACT",
+        "Q_NONZERO_HINT_CONTACT"
+      ],
+      "bestmove": "b1c3",
+      "nodes": 8657
+    }
+  },
+  "observation": "Physical original native qscore cutoff skip and qhint mask CONTACTED, yet total depth7 UCI and nodes were unchanged under both separate and combined policies.",
+  "adjudication": "NEGATIVE_ROOT_STABLE_AND_NODE_STABLE_FOR_THESE_PRESELECTED_FIRST_Q_OPERATORS",
+  "prohibited_inference": [
+    "Not proof of entire internal search trace equality",
+    "Not evidence that TT score, hint or their future contacts are causally irrelevant in general",
+    "Not a natural TT to SEE to root indirect-effect mediation estimate",
+    "Not a source-disjoint M5 prospective prediction",
+    "Not a speed/Elo/chess-strength evaluation"
+  ],
+  "rights": "Only public startpos-derived scalars in artifact. Original Stockfish16 GPLv3, no modified binary or third-party PGN distributed.",
+  "governance": "GitHub Actions read-only, canonical commits WhoSia authored and committed; previous failures and hold not erased"
+}
