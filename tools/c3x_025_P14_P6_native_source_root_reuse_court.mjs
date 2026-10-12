@@ -28,14 +28,14 @@ function fields(line){
 function n(x,tag){if(!/^-?\d+$/.test(x??'')||!Number.isSafeInteger(Number(x)))throw Error('P14P6_INVALID_INT_'+tag);return Number(x);}
 function run(path,trace,arm,c){
  return new Promise((resolve,reject)=>{
-  const p=spawn(path,[],{env:{...process.env,...(trace?{C3X025_P14P4_TRACE:'1'}:{}),C3X025_P14P4_ARM:arm}});
+  const p=spawn(path,[],{env:{...process.env,...(trace?{C3X025_P14P4_TRACE:'1'}:{}),C3X025_P14P4_ARM:arm,C3X025_P14P6_POLICY:arm==='SCORE'?'FIRST':arm}});
   let phase=0,closed=false;
-  const source=[],uci=[],timer=setTimeout(()=>fail(Error('P14P6_NATIVE_TIMEOUT_'+c.id)),90000);
+  const p6=[],source=[],uci=[],timer=setTimeout(()=>fail(Error('P14P6_NATIVE_TIMEOUT_'+c.id)),90000);
   function fail(e){if(closed)return;closed=true;clearTimeout(timer);p.kill('SIGKILL');reject(e);}
   p.on('error',fail);
   createInterface({input:p.stdout}).on('line',line=>{
    if(line.startsWith('info string c3x025_p14p4 '))source.push(fields(line));
-   if(line.startsWith('info string c3x025_p14p6 '))console.log('P14P6_ACTUAL_SOURCE_BOUND_CLASS',line);
+   if(line.startsWith('info string c3x025_p14p6 '))p6.push(fields(line));
    if(line.startsWith('bestmove ')||/^info depth 7 /.test(line))uci.push(line);
    if(line==='uciok'&&phase===0){phase=1;p.stdin.write('setoption name Threads value 1\nsetoption name Hash value 16\nsetoption name MultiPV value 1\nsetoption name Use NNUE value false\nucinewgame\nisready\n');}
    if(line==='readyok'&&phase===1){phase=2;p.stdin.write(c.uci+'\ngo depth 7\n');}
@@ -47,7 +47,7 @@ function run(path,trace,arm,c){
    if(bm.length!==1||!info)throw Error('P14P6_INCOMPLETE_DEPTH7');
    const bestmove=bm[0].split(/\s+/)[1],nodes=n(info.match(/\bnodes (\d+)/)?.[1],'nodes');
    if(!/^[a-h][1-8][a-h][1-8][qrbn]?$/.test(bestmove))throw Error('P14P6_NATIVE_BAD_UCI');
-   resolve({bestmove,nodes,source});
+   resolve({bestmove,nodes,source,p6});
   }catch(e){reject(e);}});
   p.stdin.write('uci\n');
  });
@@ -57,7 +57,7 @@ function analyze(x,c,arm){
  const moves=x.source.filter(z=>z.event==='ROOT_MOVE_RESULT');
  const attempts=x.source.filter(z=>z.event==='ROOT_ATTEMPT');
  const stored=x.source.filter(z=>z.event==='ROOT_STORED_CANDIDATE');
- if(contacts.length!==1||n(contacts[0].changed,'contact_changed')!==Number(arm==='SCORE')||
+ if(contacts.length!==1||n(contacts[0].changed,'contact_changed')!==Number(x.p6[0]?.kind==='ACTUATED')||
     !moves.length||attempts.length<7||!stored.length||
     x.source.length!==contacts.length+moves.length+attempts.length+stored.length)
   throw Error('P14P6_ACTUAL_ORIGINAL_SOURCE_OPERATOR_MISSING_'+c.id+'_'+arm);
@@ -108,6 +108,9 @@ function analyze(x,c,arm){
   PVlength:n(row.pvlen,'pvlen')
  }));
  return {uci:x.bestmove,nodes:x.nodes,source_original_first_TT_return_contact:contacts[0],
+   original_qbound_class_first:x.p6[0]?.side,
+   qbound_actuated:x.p6.filter(v=>v.kind==='ACTUATED').length,
+   qbound_actuation_side:x.p6.find(v=>v.kind==='ACTUATED')?.side??null,
    actual_root_move_results:totalMoveUpdates,
    root_attempts:attempts.length,
    fail_low:failLow,fail_high:failHigh,inside,
@@ -131,6 +134,9 @@ for(const c of cases){
  const orig=await run(unmodified,false,'SHAM',c),off=await run(patched,false,'SHAM',c);
  const sham1=await run(patched,true,'SHAM',c),sham2=await run(patched,true,'SHAM',c);
  const score1=await run(patched,true,'SCORE',c),score2=await run(patched,true,'SCORE',c);
+ const lo1=await run(patched,true,'LOWER',c),lo2=await run(patched,true,'LOWER',c);
+ const up1=await run(patched,true,'UPPER',c),up2=await run(patched,true,'UPPER',c);
+ if(JSON.stringify(lo1)!==JSON.stringify(lo2)||JSON.stringify(up1)!==JSON.stringify(up2))throw Error('P14P6_BOUND_CLASS_COLD_NONDETERMINISM');
  console.log('P14P6_ORIGINAL_PARITY_DIAGNOSTIC',JSON.stringify({case:c.id,
  expected:c.expectSham,expectedNodes:c.expectedNodes,
  original:{uci:orig.bestmove,nodes:orig.nodes,trace:orig.source.length},
@@ -145,8 +151,13 @@ for(const c of cases){
  if(c.expectedScore&&(score1.bestmove!==c.expectedScore||score1.nodes!==c.expectedScoreNodes))
   throw Error('P14P6_ACTUAL_ORIGINAL_PRIOR_ROOT_PIVOT_NOT_REPRODUCED');
  const s=analyze(sham1,c,'SHAM'),t=analyze(score1,c,'SCORE');
+ const l=analyze(lo1,c,'LOWER'),u=analyze(up1,c,'UPPER');
+ for(const [kind,run] of [['LOWER',l],['UPPER',u]]){
+  if(run.qbound_actuated>1||(run.qbound_actuated===1&&run.qbound_actuation_side!==kind))
+   throw Error('P14P6_ILLEGAL_BOUND_CLASS_POLICY');
+ }
  record.cases[c.id]={original:{uci:orig.bestmove,nodes:orig.nodes},
-    sham:s,first_qscore_suppression:t,
+    sham:s,first_qscore_suppression:t,bounded_policies:{LOWER:l,UPPER:u},
     selected_root_changed:s.uci!==t.uci,
     all_search_stored_candidate_state_equal:JSON.stringify(s.final_attempt_candidate_snapshot)===JSON.stringify(t.final_attempt_candidate_snapshot),
     root_aspiration_retry_count_changed:s.aspiration_retry_lower_bound!==t.aspiration_retry_lower_bound};
@@ -167,3 +178,5 @@ console.log('C3X025_P14P6_REAL_ORIGINAL_ROOT_ATTEMPT_RESEARCH_COURT_PASS',
  bounds_score:{lower:c.first_qscore_suppression.source_lowerbound_flags,upper:c.first_qscore_suppression.source_upperbound_flags,
   masked:c.first_qscore_suppression.root_stored_sentinels_across_attempts}
  }]))));
+
+for(const [k,v] of Object.entries(record.cases))console.log('C3X025_P14P6_EXPOSED_BOUND_POLICY_DISCRIMINATION',JSON.stringify({position:k,baseline:v.sham.uci,FIRST:v.first_qscore_suppression.uci,first_side:v.sham.original_qbound_class_first,LOWER:{uci:v.bounded_policies.LOWER.uci,nodes:v.bounded_policies.LOWER.nodes,acted:v.bounded_policies.LOWER.qbound_actuated},UPPER:{uci:v.bounded_policies.UPPER.uci,nodes:v.bounded_policies.UPPER.nodes,acted:v.bounded_policies.UPPER.qbound_actuated}}));
