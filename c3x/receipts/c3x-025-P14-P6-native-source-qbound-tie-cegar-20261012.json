@@ -1,0 +1,123 @@
+{
+  "schema": "c3x025-P14-P6-real-original-SF16-source-local-branch-tie-and-finite-CEGAR-result-v1",
+  "date": "2026-10-12",
+  "status": "SOURCE_LOCAL_QSCORE_BOUND_PROVEN_NATIVE_CLASS_SPECIFIC_ROOT_PIVOT_PASS_ROOT_SORT_OP_SEMANTICS_PASS_TOY_CEGAR_PASS_GLOBAL_K_ELO_HOLD",
+  "formal_title": "Source-Sound Challenger-Gap Abstraction & Counterexample-Guided Search Refinement: Verified TT Bound Transformers, Operational Tie-Preservation Certificates, Rival-Directed Re-search & Elo-Falsifiable Engine Policy Synthesis",
+  "source_git": "68e1e9b3811e16cad014b590d7443b9063b3eb52",
+  "native_original_CI_success": 38207386206,
+  "native_derived_artifact_id": 11727618480,
+  "native_conditions": "Threads1 Hash16MB NNUE OFF depth7, two cold repeats per SHAM/FIRST/LOWER/UPPER; source exact original qsearch cutoff only; both positions POSTOUTCOME_EXPOSED",
+  "abstract_source_predicate_court": {
+    "states": 9600,
+    "original_numeric_qsearch_cutoffs": 300,
+    "LOWER_branch": 180,
+    "UPPER_branch": 120,
+    "naive_tag_only_false_acceptances": 2700,
+    "abstract_hidden_value_counterworlds": 780,
+    "TT_tag_proves_true_chess_value": false
+  },
+  "native_positions": {
+    "startpos": {
+      "original": "b1c3",
+      "original_nodes": 8657,
+      "first_source_TT_cutoff_side": "UPPER",
+      "SHAM": {
+        "move": "b1c3",
+        "nodes": 8657
+      },
+      "FIRST": {
+        "move": "b1c3",
+        "nodes": 8657,
+        "source_actuations": 1
+      },
+      "LOWER": {
+        "move": "b1c3",
+        "nodes": 8657,
+        "source_actuations": 1
+      },
+      "UPPER": {
+        "move": "b1c3",
+        "nodes": 8657,
+        "source_actuations": 1
+      }
+    },
+    "preexposed_july2026_M6_28": {
+      "original": "f1d1",
+      "original_nodes": 7456,
+      "first_original_source_cutoff": {
+        "side": "UPPER",
+        "value": -448,
+        "beta": 1,
+        "tt_bound": "BOUND_UPPER",
+        "ply": 2,
+        "rule50": 0,
+        "in_check": false
+      },
+      "SHAM": {
+        "move": "f1d1",
+        "nodes": 7456
+      },
+      "FIRST": {
+        "move": "a1a5",
+        "nodes": 4380,
+        "source_actuations": 1
+      },
+      "UPPER": {
+        "move": "a1a5",
+        "nodes": 4380,
+        "source_actuations": 1
+      },
+      "LOWER": {
+        "move": "f1d1",
+        "nodes": 7457,
+        "source_actuations": 1
+      }
+    }
+  },
+  "root_sort_source_contract": "stable_sort rootMoves [pvIdx,pvLast) using descending score then previousScore; stable input order on exact tuple ties",
+  "root_sort_finite_court": {
+    "candidate_score_previous_tuples": 729,
+    "permutations_tested": 4374,
+    "top_score_ties": 1944,
+    "exact_tuple_top_ties": 702
+  },
+  "native_source_replay_CI_success": 38207671504,
+  "native_source_and_CEGAR_CI_success": 38207868800,
+  "native_sort_source_snapshots_checked": 8,
+  "native_observed_candidate_adjacent_stored_score_ties": 246,
+  "rust_finite_CEGAR": {
+    "worldsets": 3303,
+    "candidate_designations": 9909,
+    "strict_winner_certificates": 75,
+    "actual_counterexamples": 9834,
+    "oracle_queries": 10296,
+    "unproved_source_oracle_abstentions": 9909,
+    "true_SF16_semantic_oracle_available": false
+  },
+  "CIRunFailuresPreserved": [
+    {
+      "run": 38207088938,
+      "cause": "observer env tag accidentally renamed; engine proof never claimed"
+    },
+    {
+      "run": 38207598421,
+      "cause": "actual Stockfish Move from/to 6bit encoding reversed in replayer"
+    },
+    {
+      "run": 38207802949,
+      "cause": "Rust prototype syntax delimiter before mathematical execution"
+    }
+  ],
+  "scientific_limits": [
+    "bounds classify original executed source control only, not minimax or true root rival utility",
+    "LOWER vs UPPER contrast on outcome-exposed source, not new independent prediction",
+    "Root sorting certificate is operational source lexicographic order, not globally robust chess ranking",
+    "Rival-directed refinement Rust uses exhaustive toy semantic oracle; no actual Stockfish sound gap oracle",
+    "No natural TT->SEE->root mediation certified",
+    "No actual Elo or speed advantage measured, no semantics-safe adaptive TT controller",
+    "M3,M4,M5 negative retained; M6 qualified 19/19 vs M0 63/64 not proof of superiority"
+  ],
+  "human_Git_author_and_committer": "WhoSia",
+  "GitHub_Actions_permissions": "contents:read",
+  "reused_original_source_without_GPL_binary_distribution": true
+}
