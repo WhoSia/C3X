@@ -45,7 +45,7 @@ def observe(position):
         score=re.search(r"score (cp|mate) (-?\d+)",info)
         nodes=re.search(r"nodes (\d+)",info)
         if not score or not nodes:raise AssertionError("incomplete score/nodes")
-        return dict(fen=fen,key=key,move=lines[-1].split()[1],
+        return dict(fen=fen,key=key,tt_writer_qreturn_events=[z for z in lines if z.startswith('info string c3xp8_tt_return ')],move=lines[-1].split()[1],
                     score_type=score[1],score=int(score[2]),nodes=int(nodes[1]),history=history)
     finally:
         try:
