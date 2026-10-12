@@ -90,7 +90,7 @@ differ = any(pairs[0][k] != pairs[1][k]
 result = {
     "schema": "c3x025-P14-P7-original-SF16-context-identity-v1",
     "status": "ACTUAL_ORIGINAL_FULL_KEY_SAME_BUT_RULE50_DIFFERENT",
-    "source_revision": "68e1e9b3811e16cad014b590d7443b9063b52",
+    "source_revision": "68e1e9b3811e16cad014b590d7443b9063b3eb52",
     "original_source_draw_guard": "rule50>99 subject to legal check/move",
     "synthetic_development_FEN_not_historical_game": True,
     "same_full_zobrist_board_key": True,

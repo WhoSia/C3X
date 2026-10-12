@@ -61,7 +61,7 @@ int main(){
    windowChecks++;
   }
  }
- req(worlds==343&&distinctAliases==1023);
+ req(worlds==343&&distinctAliases==1023,"abstract corpus size changed");
  // Equal stored score is NOT a uniquely selected chess move:
  // original RootMove uses previousScore and stable input order.
  struct Root{int score,previous;};
