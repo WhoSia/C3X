@@ -1,0 +1,44 @@
+name: C3X 0.25 P14 P5 Relational Proof and Real Stockfish Explanation
+on:
+  push:
+    paths:
+      - 'tools/c3x_025_P14_P5_proof_carrying_difference_bounds.cpp'
+      - 'tools/c3x_025_P14_P5_actual_original_root_explainer.mjs'
+      - '.github/workflows/c3x-025-P14-P5-relational-proof-source-explain.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  theory-and-source:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - name: Proof-carrying relational difference-bounds finite mathematical court
+        run: |
+          set -euo pipefail
+          g++ -std=c++17 -Wall -Wextra -Werror -pedantic -O2 \
+            tools/c3x_025_P14_P5_proof_carrying_difference_bounds.cpp -o /tmp/c3x_p14p5_dbm
+          /tmp/c3x_p14p5_dbm
+      - uses: actions/download-artifact@v4
+        with:
+          name: c3x-025-p14-p4-source-root-aspiration-relational-court
+          path: original/
+          repository: WhoSia/C3X
+          run-id: '38200812256'
+          github-token: ${{ github.token }}
+      - name: Independently derive why-not explanation from original source events, no engine recompilation
+        run: |
+          set -euo pipefail
+          mkdir -p derived
+          node --check tools/c3x_025_P14_P5_actual_original_root_explainer.mjs
+          node tools/c3x_025_P14_P5_actual_original_root_explainer.mjs \
+            original/ACTUAL_ROOT_RESEARCH_BOUND_LABELS.json \
+            derived/P14P5_SOURCE_CONTRASTIVE_EXPLANATION.json
+          echo 'Real Stockfish16 GPLv3 source original P14-P4 exposed development; this is source evidence, NOT certified sound candidate-value K or Elo. Only derived public-root move codes, no PGN/player identifiers or modified binaries. Original Lichess July2026 broadcast CC BY-SA4 attribution.' > derived/SCOPE.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x-025-p14-p5-minimal-proof-and-true-source-explanation
+          path: derived/
+          retention-days: 30
