@@ -4,6 +4,7 @@ on:
     paths:
       - 'tools/c3x_025_P14_P6_original_root_tie_order_court.cpp'
       - 'tools/c3x_025_P14_P6_native_root_tie_replay.mjs'
+      - 'tools/c3x_025_P14_P6_cegar_challenger_refinement.rs'
       - '.github/workflows/c3x-025-P14-P6-original-root-tie.yml'
   workflow_dispatch:
 permissions:
@@ -20,6 +21,11 @@ jobs:
           g++ -std=c++17 -Wall -Wextra -Werror -pedantic -O2 tools/c3x_025_P14_P6_original_root_tie_order_court.cpp -o /tmp/p14p6_tie
           /tmp/p14p6_tie
           node --check tools/c3x_025_P14_P6_native_root_tie_replay.mjs
+      - name: Rust CEGAR winner-gaps with trusted semantic oracle vs ABSTAIN
+        run: |
+          set -euo pipefail
+          rustc --edition=2021 -D warnings -O tools/c3x_025_P14_P6_cegar_challenger_refinement.rs -o /tmp/c3x_p14p6_cegar
+          /tmp/c3x_p14p6_cegar
       - uses: actions/download-artifact@v4
         with:
           name: c3x-025-p14-p6-minimal-original-native-source-branch
