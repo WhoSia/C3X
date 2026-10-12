@@ -1,0 +1,83 @@
+{
+  "schema": "c3x025-P14-P8-actual-SF16-repetition-writer-reader-bilateral-research-verdict-v1",
+  "date": "2026-10-12",
+  "status": "REAL_REPETITION_STATE_DIFFERENCE_PASS_WRITER_TO_QRETURN_8OF8_OBSERVED_PASS_BILATERAL_WARRANT_FINITE_PASS_TRUE_TT_SEMANTIC_BOUND_HOLD_ELO_UNTESTED",
+  "official_stockfish_git": "68e1e9b3811e16cad014b590d7443b9063b3eb52",
+  "preregistered_human_git_commit": "35fbabe96671d4bb6886b716e69bac2cda7d2567",
+  "native_CI": 38211438198,
+  "independent_CI": 38211885999,
+  "real_native_pair": {
+    "same_FEN": "5k2/8/8/8/8/8/4Q3/4K3 w - - 24 55",
+    "same_full_adjusted_Position_key": "FA93A6DF698F1317",
+    "same_rule50": 24,
+    "original_Threads": 1,
+    "HashMB": 16,
+    "NNUE": false,
+    "depth": 4,
+    "two_cold_repeats_per_condition": true,
+    "baseline_observer_search_parity": true,
+    "direct_FEN": {
+      "repetition": 0,
+      "is_draw_at_root": false,
+      "has_repeated": false,
+      "bestmove": "e1d2",
+      "score_cp": 3134,
+      "nodes": 522
+    },
+    "after_eight_moves": {
+      "repetition": -4,
+      "is_draw_at_root": true,
+      "has_repeated": true,
+      "bestmove": "e1d2",
+      "score_cp": 3134,
+      "nodes": 448
+    },
+    "same_action_despite_different_search_cost": true,
+    "changed_true_value_proven": false,
+    "synthetic_development_not_new_independent_M7": true
+  },
+  "actual_TT_provenance": {
+    "bounded_first_source_events_per_run": 4,
+    "runs": 2,
+    "actual_return_events_checked": 8,
+    "last_original_writer_full64_match": 8,
+    "same_raw_writer_reader_value": 8,
+    "source_bound_compatible": 8,
+    "LOWER": 2,
+    "UPPER": 6,
+    "exhaustive_TT_event_coverage": false,
+    "actual_chess_minimax_bound_proven": false
+  },
+  "finite_bilateral_model": {
+    "abstract_world_count": 5,
+    "valid_bilaterally_bounded_triplets": 992,
+    "candidate_queries": 2976,
+    "underapprox_real_possibility_witness": 1152,
+    "overapprox_impossibility_certificates": 352,
+    "overapprox_necessity_certificates": 26,
+    "underapprox_refuted_necessity": 1884,
+    "false_possibility_from_overapprox": 576,
+    "false_necessity_from_underapprox": 868,
+    "real_Stockfish_K_computed": false
+  },
+  "verified_scope": [
+    "source action equal on these two contexts",
+    "source draw and cost not equal on these two contexts",
+    "actual physical TT writer-and-reader recorded for eight executed returns",
+    "proof languages distinguish existence witness vs universal guarantee"
+  ],
+  "limitations": [
+    "no universal hidden-state TT eligibility or true chess-value bound proved",
+    "observer output first 4 source TT returns per each of two root histories only",
+    "no global TT to SEE to root mediation proved",
+    "real color-swapped games zero, Elo unmeasured",
+    "no claim that native FENs were actual historical games"
+  ],
+  "versions": {
+    "C3X_026": "GATED_NOT_YET",
+    "earliest_candidate": "P14-P9/P14-P10 after TCS/native/invention achievement",
+    "C3X_026_Elo": "SEPARATE_MEASURED_MATCH_GATE"
+  },
+  "GitHub_actions_permissions": "contents:read",
+  "human_only_author_committer": "WhoSia"
+}
