@@ -1,0 +1,38 @@
+name: C3X 0.25 P14 P8 Independent Original Source Provenance Court
+on:
+  push:
+    paths:
+      - 'tools/c3x_025_P14_P8_original_source_provenance_court.mjs'
+      - '.github/workflows/c3x-025-P14-P8-independent-original-provenance.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  original-source-only:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: c3x-025-p14-p8-source-history-and-writer-provenance
+          path: original/
+          repository: WhoSia/C3X
+          run-id: '38211438198'
+          github-token: ${{ github.token }}
+      - name: Independently check last original full-key TT writer and actual qsearch reader
+        run: |
+          set -euo pipefail
+          mkdir -p derived
+          node --check tools/c3x_025_P14_P8_original_source_provenance_court.mjs
+          node tools/c3x_025_P14_P8_original_source_provenance_court.mjs \
+            original/ORIGINAL_HISTORY.json \
+            original/OBSERVED_HISTORY.json \
+            derived/ORIGINAL_QSEARCH_TT_WRITER_PROVENANCE.json
+          echo 'Official original Stockfish16 GPLv3. Only small source-derived read-only original provenance and synthetic history contrasts. No true chess score correctness, Elo gain, modified binary, or original PGN.' > derived/SCOPE.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x-025-p14-p8-independent-original-provenance-small
+          path: derived/
+          retention-days: 30
