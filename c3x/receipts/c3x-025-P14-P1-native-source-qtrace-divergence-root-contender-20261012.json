@@ -1,0 +1,96 @@
+{
+  "schema": "c3x025-P14-P1-actual-native-qtrace-root-contenders-four-development-positions-v1",
+  "date_utc": "2026-10-12",
+  "formal_title": "Counterfactual Search-State Divergence & Root-Candidate Survival: Source-Matched TT Policy Interventions, Dynamic Quotient Falsification, Compensating Search Paths & Mechanism-Guided Engine Design",
+  "claim_status": "NATIVE_SOURCE_PATH_DIVERGENCE_WITH_STABLE_ROOT_ON_EXPOSED_SICILIAN",
+  "precommitted_source_commit": "f83ae04ea8a8ad6c9fab53657dedc98548f5f60f",
+  "human_authored_precommit": true,
+  "actual_ci_run": 38189052448,
+  "actual_ci_conclusion": "success",
+  "artifact_id": 11721235542,
+  "artifact_zip_sha256": "e199cbf980a1295f88cc9a9d33798395b4905888f8b48ccaa39aafb955910f79",
+  "pinned_upstream_sf16": "68e1e9b3811e16cad014b590d7443b9063b3eb52",
+  "original_cpp_sha256": {
+    "tt": "d132fb235050916682ea258de2dc8825712d370216342f46f64d7977ee1557ba",
+    "search": "21b79baa7ce9dabec5b3b9e3854bed9869a1935277247832e550cf395bccd644"
+  },
+  "reversible_exact_seven_source_layers": true,
+  "analysis_mode": "EXPOSED_DEVELOPMENT_NOT_M5_HELDOUT",
+  "experiment": {
+    "threads": 1,
+    "hash_mb": 16,
+    "nnue": false,
+    "depth": 7,
+    "original_vs_observer_SHAM_vs_disabled_exact": true,
+    "cold_repeats_each_arm": 2,
+    "native_interventions": [
+      "first physical qsearch TT bounded numeric return bypass once",
+      "first nonzero qsearch TT move hint replaced by MOVE_NONE once"
+    ],
+    "original_source_see_bool_force": false,
+    "precommitted_positions": [
+      {
+        "id": "DEV_STARTPOS",
+        "command": "position startpos",
+        "original_uci": "b1c3",
+        "original_score": "cp:4",
+        "baseline_nodes": 8657,
+        "score_intervention_nodes": 8657,
+        "root_candidate_digest_changed": false,
+        "qtrace_digest_changed": false
+      },
+      {
+        "id": "DEV_RUY_LOPEZ_6PLY",
+        "command": "position startpos moves e2e4 e7e5 g1f3 b8c6 f1b5 a7a6",
+        "original_uci": "b5c6",
+        "original_score": "cp:13",
+        "baseline_nodes": 1836,
+        "score_intervention_nodes": 1836,
+        "root_candidate_digest_changed": false,
+        "qtrace_digest_changed": false
+      },
+      {
+        "id": "DEV_QGD_6PLY",
+        "command": "position startpos moves d2d4 d7d5 c2c4 e7e6 b1c3 g8f6",
+        "original_uci": "e2e3",
+        "original_score": "cp:4",
+        "baseline_nodes": 7557,
+        "score_intervention_nodes": 7557,
+        "root_candidate_digest_changed": false,
+        "qtrace_digest_changed": false
+      },
+      {
+        "id": "DEV_SICILIAN_9PLY",
+        "command": "position startpos moves e2e4 c7c5 g1f3 d7d6 d2d4 c5d4 f3d4 g8f6 b1c3",
+        "original_uci": "b8c6",
+        "original_score": "cp:-26",
+        "baseline_nodes": 3578,
+        "score_intervention_nodes": 3579,
+        "root_candidate_digest_changed": false,
+        "qtrace_digest_changed": true,
+        "score_and_both_arms_show_change": true,
+        "hint_only_no_change": true
+      }
+    ]
+  },
+  "native_witness": "qsearch post-child score assignment and original qsearch parent bestValue write rolling event digest at original root call return; original final rootMoves contender-set digest",
+  "digest_coverage": [
+    "qreturn order/ply/value/move/alpha",
+    "q-bestValue order/ply/value/move/beta",
+    "rootMoves first move, score, UCI score, average score, PV length, score-bound flags"
+  ],
+  "digest_exclusions": [
+    "full PV move sequence beyond initial move",
+    "full64 TT keys",
+    "complete native search-state",
+    "PGN and modified GPL binaries"
+  ],
+  "science": [
+    "One exposed Sicilian development position exhibits two policy arms with changed qsearch execution digest and one added native node while final bestmove, root score and final candidate digest remain unchanged",
+    "First three development positions and hint-only arm exhibit no change in registered terminal or digest endpoints, but no complete trace equivalence is inferred",
+    "Hash digest equality is not proof of whole-program identity; digest differences plus actual native node delta support distinct execution path",
+    "This is across different source policy interventions, not a fixed-policy same-fiber behavioral counterexample",
+    "Not natural TT→SEE mediation or direct evidence of SEE descendants",
+    "Not M5 unseen predictions, not engine Elo/speed invention"
+  ]
+}
