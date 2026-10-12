@@ -172,8 +172,8 @@ jobs:
             --history february=prior/february/C3X019_FEB26_BLIND16_SOURCE.json \
             --history march=prior/march/C3X020_C2_MARCH_BLIND16_SOURCE.json \
             --history april=prior/april/C3X022_P0_APRIL16_SOURCE.json \
-            --history twic1656puzzles=prior/twic1656puzzles/C3X022_P2_TWIC1656_PUZZLE_SOURCE32.json \
-            --history twic1664=prior/twic1664/C3X022_P2_R1_TWIC1664_BLIND16_SOURCE.json \
+            --history prior_puzzle_set_A=prior/twic1656puzzles/C3X022_P2_TWIC1656_PUZZLE_SOURCE32.json \
+            --history prior_puzzle_set_B=prior/twic1664/C3X022_P2_R1_TWIC1664_BLIND16_SOURCE.json \
             --history may2026puzzles=prior/may2026puzzles/C3X023_P1_MAY_BROADCAST_CC0_NONMATE32_SOURCE_ONLY.json \
             --history august2025=prior/august/C3X024_P0_AUG2025_ENGINEBLIND_16.json \
             --history september2025=prior/september/C3X024_P3_SEPT2025_ENGINEBLIND_128.json \

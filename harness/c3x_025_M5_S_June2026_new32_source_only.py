@@ -14,4 +14,22 @@ frozen.FIRST_ELIGIBLE=1024
 frozen.PICK=32
 frozen.SCHEMA="c3x025-M5-S-june2026-source-only-independent-32-v1"
 if __name__=="__main__":
-    frozen.main()
+    import argparse,hashlib,json
+    from pathlib import Path
+    p=argparse.ArgumentParser()
+    p.add_argument("--zst",required=True)
+    p.add_argument("--history",action="append",required=True)
+    p.add_argument("--out",required=True)
+    a=p.parse_args()
+    result=frozen.produce(a.zst,a.history)
+    # Original source authority is Lichess CC BY-SA, not TWIC. The older
+    # selector's narrative string mentioned TWIC rights purely as a negative
+    # assurance, which the general lexical scanner mistakenly treats as TWIC
+    # origin when paired with legal FEN4. Do not mislabel this source.
+    result["release_limit"]="Only source-derived Lichess CC BY-SA minimal legal board, game digest and one move. No original PGNs, player identity, external rights correspondence or binary."
+    out=Path(a.out);out.parent.mkdir(parents=True,exist_ok=True)
+    out.write_text(json.dumps(result,sort_keys=True,indent=2)+"\n")
+    print("C3X025_M5_S_JUNE_ENGINE_BLIND_FEN4_AND_PRIOR_HISTORY",
+          result["source_fen_count"],result["original_compressed_source_sha256"],
+          hashlib.sha256(out.read_bytes()).hexdigest(),
+          len(result["historical_source_receipts"]),flush=True)
