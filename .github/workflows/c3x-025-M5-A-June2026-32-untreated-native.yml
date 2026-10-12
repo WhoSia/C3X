@@ -19,7 +19,7 @@ jobs:
           path: source/
           repository: WhoSia/C3X
           run-id: '38193633037'
-          github-token: \${{ github.token }}
+          github-token: ${{ github.token }}
       - name: Exact June source SHA human game seal original rights
         run: |
           set -euo pipefail
