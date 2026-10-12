@@ -1,0 +1,42 @@
+name: C3X 0.25 P14 P7 Original Source Identity and Compositional Proof
+on:
+  push:
+    paths:
+      - 'tools/c3x_025_P14_P7_TT_composition_and_alias_court.cpp'
+      - 'tools/c3x_025_P14_P7_original_stockfish_rule50_context.py'
+      - '.github/workflows/c3x-025-P14-P7-source-composition-and-original-rule50.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  source-and-proof:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - name: Original source-derived TT alias and conditional alpha-beta composition finite court
+        run: |
+          set -euo pipefail
+          g++ -std=c++17 -Wall -Wextra -Werror -pedantic -O2 \
+            tools/c3x_025_P14_P7_TT_composition_and_alias_court.cpp -o /tmp/c3x_p14p7_court
+          /tmp/c3x_p14p7_court
+          python3 -m py_compile tools/c3x_025_P14_P7_original_stockfish_rule50_context.py
+      - name: Build unmodified exact official Stockfish16, no extra observer
+        run: |
+          set -euo pipefail
+          git clone -q --single-branch --branch sf_16 https://github.com/official-stockfish/Stockfish.git /tmp/c3x-p14p7-sf16
+          test "$(git -C /tmp/c3x-p14p7-sf16 rev-parse HEAD)" = 68e1e9b3811e16cad014b590d7443b9063b3eb52
+          make -s -C /tmp/c3x-p14p7-sf16/src -j2 build ARCH=x86-64
+      - name: Native UCI board-hash same but 50-move context different
+        run: |
+          set -euo pipefail
+          mkdir -p derived
+          python3 tools/c3x_025_P14_P7_original_stockfish_rule50_context.py \
+            /tmp/c3x-p14p7-sf16/src/stockfish derived/P14P7_ACTUAL_UNMODIFIED_SF16_KEY_AND_RULE50.json
+          echo 'Original Stockfish16 GPLv3. Synthetic legal-format FEN context pair only; no original PGN or player identity; source-local TT alias countermodel uses abstract keys not asserted legal-chess key collisions. Source-level semantics only. No Elo or complete K.' > derived/SCOPE.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x-025-p14-p7-original-rule50-context-and-composition
+          path: derived/
+          retention-days: 30
