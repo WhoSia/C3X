@@ -157,7 +157,7 @@ for(const pos of positions){
 }
 const c=comparisons.POSTOUTCOME_EXPOSED_JULY2026_M6_REAL_ROOT_FLIP_GAME28;
 console.log('P14P3_R3_POSTHOC_ORIGINAL_VS_PROSPECTIVE_CASE28_COMPARISON',JSON.stringify({
- expected:{uci_original:exposed.untouched_original_root_UCI,uci_SCORE:exposed.real_SF16_SCORE_intervention_bestmove,
+ expected:{uci_original:exposed.Git_human_sealed_original_M0_UCI,uci_SCORE:exposed.real_SF16_SCORE_intervention_bestmove,
  nodes_original:exposed.original_nodes,nodes_SCORE:exposed.treated_nodes,changed:exposed.true_root_choice_changed},
  actual:{uci_original:c?.original?.bestmove,uci_SHAM:c?.arms?.SHAM?.bestmove,
  uci_SCORE:c?.arms?.SCORE?.bestmove,
@@ -166,7 +166,7 @@ console.log('P14P3_R3_POSTHOC_ORIGINAL_VS_PROSPECTIVE_CASE28_COMPARISON',JSON.st
  root_vector_changed:c?.arms?.SCORE?.root_candidate_fields_differ,
  firstQ:c?.arms?.SCORE?.first_observed_qsource_difference?.index??null,
  guard_actuated:c?.arms?.GUARD?.native_guard_actual_actuation}}));
-if(!c||c.original.bestmove!==exposed.untouched_original_root_UCI||
+if(!c||c.original.bestmove!==exposed.Git_human_sealed_original_M0_UCI||
  c.original.nodes!==exposed.original_nodes||
  c.arms.SCORE.bestmove!==exposed.real_SF16_SCORE_intervention_bestmove||
  c.arms.SCORE.nodes!==exposed.treated_nodes||
