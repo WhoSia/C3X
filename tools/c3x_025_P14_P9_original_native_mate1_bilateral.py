@@ -36,8 +36,8 @@ def trial():
         send("isready")
         lines = until(lambda s: s == "readyok")
         fen = next((s[5:] for s in lines if s.startswith("Fen: ")), None)
-        checkers = next((s[len("Checkers: "):] for s in lines
-                         if s.startswith("Checkers: ")), None)
+        checkers = next((s[len("Checkers:"):].strip() for s in lines
+                         if s.startswith("Checkers:")), None)
         if fen is None or checkers is None:
             raise AssertionError("Original source did not emit FEN/checkers")
         return {"fen": fen, "checkers": checkers.split()}
