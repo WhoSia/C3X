@@ -130,6 +130,13 @@ for(const c of cases){
  const orig=await run(unmodified,false,'SHAM',c),off=await run(patched,false,'SHAM',c);
  const sham1=await run(patched,true,'SHAM',c),sham2=await run(patched,true,'SHAM',c);
  const score1=await run(patched,true,'SCORE',c),score2=await run(patched,true,'SCORE',c);
+ console.log('P14P4_ORIGINAL_PARITY_DIAGNOSTIC',JSON.stringify({case:c.id,
+ expected:c.expectSham,expectedNodes:c.expectedNodes,
+ original:{uci:orig.bestmove,nodes:orig.nodes,trace:orig.source.length},
+ observerOff:{uci:off.bestmove,nodes:off.nodes,trace:off.source.length},
+ sham1:{uci:sham1.bestmove,nodes:sham1.nodes,trace:sham1.source.length},
+ sham2:{uci:sham2.bestmove,nodes:sham2.nodes,trace:sham2.source.length},
+ score1:{uci:score1.bestmove,nodes:score1.nodes,trace:score1.source.length}}));
  if(JSON.stringify(orig)!==JSON.stringify(off)||JSON.stringify(sham1)!==JSON.stringify(sham2)||
     JSON.stringify(score1)!==JSON.stringify(score2)||orig.bestmove!==sham1.bestmove||
     orig.nodes!==sham1.nodes||orig.bestmove!==c.expectSham||orig.nodes!==c.expectedNodes)
