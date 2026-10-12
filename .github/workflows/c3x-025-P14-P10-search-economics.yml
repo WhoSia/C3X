@@ -1,0 +1,44 @@
+name: C3X 0.25 P14 P10 Source Frozen Chess Search Economics
+on:
+  push:
+    paths:
+      - 'tools/c3x_025_P14_P10_native_development_search_economics.mjs'
+      - '.github/workflows/c3x-025-P14-P10-search-economics.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  original-source:
+    runs-on: ubuntu-latest
+    timeout-minutes: 32
+    steps:
+      - uses: actions/checkout@v4
+      - name: Strict syntax and read-only source selection
+        run: |
+          set -euo pipefail
+          node --check tools/c3x_025_P14_P10_native_development_search_economics.mjs
+          python3 -m py_compile tools/c3x_025_P14_P6_minimal_original_qbound_overlay.py
+      - name: Official pinned SF16 native builds and reversible original source observer
+        run: |
+          set -euo pipefail
+          git clone -q --single-branch --branch sf_16 https://github.com/official-stockfish/Stockfish.git /tmp/c3x-p14p10-original
+          test "$(git -C /tmp/c3x-p14p10-original rev-parse HEAD)" = 68e1e9b3811e16cad014b590d7443b9063b3eb52
+          cp -a /tmp/c3x-p14p10-original /tmp/c3x-p14p10-operator
+          make -s -C /tmp/c3x-p14p10-original/src -j2 build ARCH=x86-64
+          mkdir -p derived
+          python3 tools/c3x_025_P14_P6_minimal_original_qbound_overlay.py --root /tmp/c3x-p14p10-operator --out derived/ORIGINAL_SOURCE_OPERATOR.json
+          make -s -C /tmp/c3x-p14p10-operator/src -j2 build ARCH=x86-64
+      - name: Four precommitted new development contexts with native cold source policies
+        run: |
+          set -euo pipefail
+          node tools/c3x_025_P14_P10_native_development_search_economics.mjs \
+            /tmp/c3x-p14p10-original/src/stockfish \
+            /tmp/c3x-p14p10-operator/src/stockfish \
+            derived/FOUR_CONTEXTS_NATIVE_SEARCH_ECONOMICS.json
+          echo 'Four independently fixed DEVELOPMENT opening contexts; no prospectively scored move forecasts, no M7/Elo claims. Official SF16 GPLv3 C++ original source. Derived small JSON only, no PGN or engine binaries. One qsearch numeric TT return suppressed in each directional arm at most once; not semantics-safe.' > derived/SCOPE.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x-025-p14-p10-four-opening-native-search-economics
+          path: derived/
+          retention-days: 30
