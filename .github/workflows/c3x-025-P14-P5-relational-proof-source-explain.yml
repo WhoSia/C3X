@@ -4,6 +4,7 @@ on:
     paths:
       - 'tools/c3x_025_P14_P5_proof_carrying_difference_bounds.cpp'
       - 'tools/c3x_025_P14_P5_actual_original_root_explainer.mjs'
+      - 'tools/c3x_025_P14_P5_tight_challenger_gap_query_complete.rs'
       - '.github/workflows/c3x-025-P14-P5-relational-proof-source-explain.yml'
   workflow_dispatch:
 permissions:
@@ -20,6 +21,11 @@ jobs:
           g++ -std=c++17 -Wall -Wextra -Werror -pedantic -O2 \
             tools/c3x_025_P14_P5_proof_carrying_difference_bounds.cpp -o /tmp/c3x_p14p5_dbm
           /tmp/c3x_p14p5_dbm
+      - name: Rust exact challenger-gap query-abstraction theorem
+        run: |
+          set -euo pipefail
+          rustc --edition=2021 -D warnings -O tools/c3x_025_P14_P5_tight_challenger_gap_query_complete.rs -o /tmp/c3x_p14p5_gap
+          /tmp/c3x_p14p5_gap
       - uses: actions/download-artifact@v4
         with:
           name: c3x-025-p14-p4-source-root-aspiration-relational-court
