@@ -1,0 +1,103 @@
+{
+  "schema": "c3x025-P14-P2-original-SF16-first-observed-qsearch-divergence-root-survivor-v1",
+  "date_utc": "2026-10-12",
+  "formal_name": "First-Divergence Causal Slicing & Root-Contender Competition: Exact Source-Event Alignment, Score-Propagation Counterfactuals, Compensating-Path Identification & Search-Policy Synthesis",
+  "status": "SOURCE_NATIVE_FIRST_OBSERVED_Q_EVENT_DIVERGENCE_CERTIFIED_ROOT_FINAL_FIELD_VECTOR_STABLE_NATURAL_MEDIATION_HOLD",
+  "original_SF16_git": "68e1e9b3811e16cad014b590d7443b9063b3eb52",
+  "original_source_sha256": {
+    "tt": "d132fb235050916682ea258de2dc8825712d370216342f46f64d7977ee1557ba",
+    "search": "21b79baa7ce9dabec5b3b9e3854bed9869a1935277247832e550cf395bccd644"
+  },
+  "precommit_source_sha": "9764a8887a2bd5c2350e444b86fa7b77e837729e",
+  "first_R1_technical_failed_run": 38193261109,
+  "human_source_repair_commit": "056c8030ea666519d0e0ac323538d4a4791a6872",
+  "actual_native_success_run": 38193302340,
+  "actual_native_derived_artifact_id": 11722591946,
+  "artifact_zip_sha256": "45f4324a5181d2e3a53bc60d6e39e35d93f6cbdb92f525bed37a76ead738f2c9",
+  "independent_actual_native_artifact_readback_success_run": 38194009073,
+  "source_position": "public_development_sicilian9_position_startpos_moves_e2e4_c7c5_g1f3_d7d6_d2d4_c5d4_f3d4_g8f6_b1c3",
+  "predefined_conditions": {
+    "threads": 1,
+    "hash_mb": 16,
+    "nnue": false,
+    "depth": 7,
+    "original_native_vs_observer_sham_parity": true,
+    "arm_cold_repeat": 2
+  },
+  "SHAM": {
+    "final_UCI": "b8c6",
+    "uci_score_cp": -26,
+    "nodes": 3578,
+    "actual_logged_qparent_source_events": 1243,
+    "actual_final_root_candidate_count": 31
+  },
+  "SCORE": {
+    "original_first_q_TT_bound_return_skipped_once": true,
+    "final_UCI": "b8c6",
+    "uci_score_cp": -26,
+    "nodes": 3579,
+    "actual_logged_qparent_source_events": 1245,
+    "actual_final_root_candidate_count": 31
+  },
+  "HINT": {
+    "original_first_nonzero_q_TT_hint_masked_once": true,
+    "final_UCI": "b8c6",
+    "nodes": 3578,
+    "actual_logged_qparent_source_events": 1243
+  },
+  "BOTH": {
+    "original_both_source_operator_changes": true,
+    "final_UCI": "b8c6",
+    "nodes": 3579,
+    "actual_logged_qparent_source_events": 1245
+  },
+  "first_observed_q_parent_divergence": {
+    "zero_index": 59,
+    "one_index": 60,
+    "SHAM": {
+      "kind": "Q_EVENT",
+      "type": 1,
+      "ply": 2,
+      "value": -175,
+      "move_code": 2715,
+      "window": -84,
+      "local_call_id": 391
+    },
+    "SCORE": {
+      "kind": "Q_EVENT",
+      "type": 1,
+      "ply": 2,
+      "value": -284,
+      "move_code": 2915,
+      "window": -175,
+      "local_call_id": 366
+    },
+    "same_dynamic_call_id_across_policy_runs": false,
+    "first_whole_machine_divergence_proven": false
+  },
+  "native_final_rootMoves_all_31_original_fields_exact_parity": [
+    "first move encoding",
+    "score",
+    "uci score",
+    "average score",
+    "PV length",
+    "lower/upper flags"
+  ],
+  "limits": [
+    "Only original qsearch child-parent and bestValue source event sites instrumented, not whole machine events",
+    "Local dynamic frame IDs differ across policy runs, never assert same source call identity",
+    "Final PV length and first UCI move are not full PV correspondence",
+    "Root stability does not determine which transient root contender effects occurred",
+    "Original alpha-beta score sentinels and bounds cannot be treated as exact comparable root scores",
+    "Natural TT->SEE indirect mediation remains HOLD",
+    "Exposed development not M5 cohort"
+  ],
+  "theory_court": {
+    "github_actions_success_run": 38194744739,
+    "score_vector_pairs_exhaustively_checked": 15625,
+    "strict_margin_certified_pairs": 261,
+    "uncertified_rank_flip_negative_controls": 7500,
+    "latent_causal_world_nonidentifiability": "ABSTRACT_PASS_NOT_STOCKFISH_PROOF"
+  },
+  "further_engine_speed_or_strength_proven": false
+}
