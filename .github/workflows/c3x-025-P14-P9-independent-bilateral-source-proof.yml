@@ -1,0 +1,37 @@
+name: C3X 0.25 P14 P9 Independent Native Bilateral Source Proof
+on:
+  push:
+    paths:
+      - 'tools/c3x_025_P14_P9_independent_native_bilateral_verifier.mjs'
+      - '.github/workflows/c3x-025-P14-P9-independent-bilateral-source-proof.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  verify-source:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: c3x-025-p14-p9-native-terminal-bilateral-typed-proof
+          path: original/
+          repository: WhoSia/C3X
+          run-id: '38219064407'
+          github-token: ${{ github.token }}
+      - name: Independent every-root-move mathematical warrant and tampering rejection
+        run: |
+          set -euo pipefail
+          node --check tools/c3x_025_P14_P9_independent_native_bilateral_verifier.mjs
+          mkdir -p derived
+          node tools/c3x_025_P14_P9_independent_native_bilateral_verifier.mjs \
+            original/P14P9_REAL_NATIVE_BILATERAL_TERMINAL.json \
+            derived/P14P9_INDEPENDENT_VERIFIED_TERMINAL_CERTIFICATE.json
+          echo 'Actual Stockfish16 GPLv3 original terminal source proof, synthetic precommitted development FEN. Not a semantics-safe numerical TT bound or Elo improvement; no original games/engine binary.' > derived/SCOPE.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x-025-p14-p9-minimal-independent-bilateral-native-proof
+          path: derived/
+          retention-days: 30
