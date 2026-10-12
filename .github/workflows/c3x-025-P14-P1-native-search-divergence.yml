@@ -1,0 +1,49 @@
+name: C3X 0.25 P14 P1 Native Search Divergence and Root Contender Survival
+on:
+  push:
+    paths:
+      - 'tools/c3x_025_P14_P1_native_root_qtrace_overlay.py'
+      - 'tools/c3x_025_P14_P1_native_source_divergence_court.mjs'
+      - '.github/workflows/c3x-025-P14-P1-native-search-divergence.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  native-source:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify original SF16 and build untouched reference
+        run: |
+          set -euo pipefail
+          git clone -q --single-branch --branch sf_16 https://github.com/official-stockfish/Stockfish.git /tmp/c3x-p14p1-original
+          test "$(git -C /tmp/c3x-p14p1-original rev-parse HEAD)" = 68e1e9b3811e16cad014b590d7443b9063b3eb52
+          test "$(sha256sum /tmp/c3x-p14p1-original/src/tt.cpp | awk '{print $1}')" = d132fb235050916682ea258de2dc8825712d370216342f46f64d7977ee1557ba
+          test "$(sha256sum /tmp/c3x-p14p1-original/src/search.cpp | awk '{print $1}')" = 21b79baa7ce9dabec5b3b9e3854bed9869a1935277247832e550cf395bccd644
+          cp -a /tmp/c3x-p14p1-original /tmp/c3x-p14p1-observer
+          make -s -C /tmp/c3x-p14p1-original/src -j2 build ARCH=x86-64
+      - name: Compile source-native q branch and final root contender witnesses
+        run: |
+          set -euo pipefail
+          mkdir -p derived
+          python3 tools/c3x_025_P14_P1_native_root_qtrace_overlay.py \
+            --root /tmp/c3x-p14p1-observer --out-manifest derived/SOURCE_EXACT_REVERSAL.json
+          make -s -C /tmp/c3x-p14p1-observer/src -j2 build ARCH=x86-64
+      - name: Strict prospective development factorial with sham and repeat
+        run: |
+          set -euo pipefail
+          node tools/c3x_025_P14_P1_native_source_divergence_court.mjs \
+            /tmp/c3x-p14p1-original/src/stockfish /tmp/c3x-p14p1-observer/src/stockfish \
+            derived/NATIVE_SOURCE_DIVERGENCE_AND_ROOT_CONTENDERS.json
+          python3 tools/c3x_023_rights_preupload_gate.py \
+            --tier P2_AGGREGATE_SUMMARY --file derived/NATIVE_SOURCE_DIVERGENCE_AND_ROOT_CONTENDERS.json \
+            --report derived/RIGHTS_GATE.json
+          echo 'Source original Stockfish16 GPLv3; legal public opening move sequences; only derived score/PV/root candidate digests, no hidden TT keys, no original PGN or modified binary exported. Source divergence is not a natural mediator/Elo claim.' > derived/SCIENTIFIC_SCOPE.txt
+          find derived -maxdepth 1 -type f ! -name SHA256.txt -print0 | sort -z | xargs -0 -r sha256sum > derived/SHA256.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x-025-p14-p1-native-development-source-digests
+          path: derived/
+          retention-days: 90
