@@ -1,0 +1,41 @@
+name: C3X 0.25 M5 S1 Source Game SHA Literal Extract Before Any Native
+on:
+  push:
+    paths:
+      - '.github/workflows/c3x-025-M5-S1-source-ids-human-seal-read-only.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: c3x-025-M5-S-june2026-new32-source-only
+          path: source/
+          repository: WhoSia/C3X
+          run-id: '38193633037'
+          github-token: ${{ github.token }}
+      - name: Freeze exact source SHA and reveal only derived game identity hashes
+        run: |
+          set -euo pipefail
+          test "$(sha256sum source/C3X025_M5_S_JUNE2026_32_SOURCE_ONLY.json | cut -d' ' -f1)" = 71ab8e4c4ddb52d8f63e6e51ea6b4cf991e135246773460c3d6f4800288521be
+          node - <<'JS'
+          const fs=require('node:fs'),crypto=require('node:crypto');
+          const p='source/C3X025_M5_S_JUNE2026_32_SOURCE_ONLY.json';
+          const d=JSON.parse(fs.readFileSync(p));
+          if(d.schema!=='c3x025-M5-S-june2026-source-only-independent-32-v1'||d.selected.length!==32||Object.keys(d.historical_source_receipts).length!==14||!d.source_only_no_stockfish_used)throw Error('M5_SOURCE_ORIGIN_DRIFT');
+          const hashes=d.selected.map((r,i)=>{if(r.id!==i+1||!/^[0-9a-f]{64}$/.test(r.source_game_sha256)||r.engine_outcomes_seen!==false)throw Error('M5_SOURCE_CASE_INVALID');return r.source_game_sha256;});
+          const ids={schema:'c3x025-M5-S1-human-source-32game-SHA-before-StageA-v1',source_JSON_SHA256:'71ab8e4c4ddb52d8f63e6e51ea6b4cf991e135246773460c3d6f4800288521be',
+          Lichess_archive_original_SHA256:d.original_compressed_source_sha256,
+          historical_source_registry_count:14,prior_unique_FEN4_count:d.prior_unique_fen4_count,
+          ordered_source_game_SHA256:hashes,
+          selected_FEN4_count:d.source_fen_count,
+          native_intervention_outcomes_seen:false,
+          source_only_before_any_native:true};
+          console.log('M5_S1_32_LITERAL_GIT_SOURCE_SEAL_CANDIDATE='+JSON.stringify(ids));
+          console.log('M5_S1_32_LITERAL_JSON_SHA256='+crypto.createHash('sha256').update(JSON.stringify(ids)).digest('hex'));
+          JS
