@@ -1,0 +1,54 @@
+name: C3X 0.25 P14 P8 Original History and TT Writer Return
+on:
+  push:
+    paths:
+      - 'tools/c3x_025_P14_P8_native_history_pair.py'
+      - 'tools/c3x_025_P14_P8_tt_writer_reader_observer.py'
+      - '.github/workflows/c3x-025-P14-P8-original-history-writer.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  original-native:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - name: Official original Stockfish16 and observer source compile
+        run: |
+          set -euo pipefail
+          git clone -q --single-branch --branch sf_16 https://github.com/official-stockfish/Stockfish.git /tmp/c3xp8original
+          test "$(git -C /tmp/c3xp8original rev-parse HEAD)" = 68e1e9b3811e16cad014b590d7443b9063b3eb52
+          cp -a /tmp/c3xp8original /tmp/c3xp8observer
+          make -s -C /tmp/c3xp8original/src build ARCH=x86-64 -j2
+          mkdir -p derived
+          python3 tools/c3x_025_P14_P8_tt_writer_reader_observer.py /tmp/c3xp8observer derived/SOURCE_WITNESS_SCOPE.json
+          make -s -C /tmp/c3xp8observer/src build ARCH=x86-64 -j2
+      - name: Original native history pair and observer-only history and TT return
+        run: |
+          set -euo pipefail
+          python3 tools/c3x_025_P14_P8_native_history_pair.py /tmp/c3xp8original/src/stockfish derived/ORIGINAL_HISTORY.json
+          python3 tools/c3x_025_P14_P8_native_history_pair.py /tmp/c3xp8observer/src/stockfish derived/OBSERVED_HISTORY.json
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          a=json.loads(Path('derived/ORIGINAL_HISTORY.json').read_text())
+          b=json.loads(Path('derived/OBSERVED_HISTORY.json').read_text())
+          for x,y in zip(a['cases'],b['cases']):
+              assert all(x[k]==y[k] for k in ('fen','key','move','score_type','score','nodes')), 'observer altered original search'
+              assert len(y['history'])==1,'source history observer missing'
+          assert not any(x['history'] for x in a['cases']),'original contaminated by observer'
+          fields=[dict(p.split('=',1) for p in x['history'][0].split()[3:]) for x in b['cases']]
+          assert [int(v['rule50']) for v in fields]==[24,24]
+          assert fields[0]['repetition']=='0','direct FEN not history-free'
+          assert fields[1]['repetition']!='0','move history did not create original repetition'
+          assert fields[0]['repeated']=='0' and fields[1]['repeated']=='1'
+          print('C3XP8_ORIGINAL_REPETITION_OBSERVER_PARITY_AND_REAL_HISTORY_DIFFERENCE_PASS',fields)
+          PY
+          echo 'Original Stockfish16 GPLv3; synthetic legal-history development only. Exact source writing/consumption semantics cannot alone prove true minimax bound or Elo; no PGN/person information or engine binaries published.' > derived/SCOPE.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x-025-p14-p8-source-history-and-writer-provenance
+          path: derived/
+          retention-days: 30
