@@ -1,0 +1,49 @@
+{
+  "schema": "c3x025-P13-R4-actual-native-physical-writer-and-censored-public-chain-v1",
+  "date_utc": "2026-10-12",
+  "status": "P13_R4_ORIGINAL_WRITER_NATIVE_PARTIAL_PASS_PUBLIC_CROSS_JOIN_HOLD",
+  "github_precommit_head": "8b1457a1a3fc63e6f6ba4055bba0e93b073cf1c4",
+  "native_run_id": 38188124728,
+  "native_run_conclusion": "success",
+  "artifact_id": 11720148680,
+  "artifact_sha256": "e48304220a4622b6fe6f0c0ff86abe4455850e2ff373460833a3bd9ae85b7d75",
+  "sf16_upstream_commit": "68e1e9b3811e16cad014b590d7443b9063b3eb52",
+  "source_tt_cpp_sha256": "d132fb235050916682ea258de2dc8825712d370216342f46f64d7977ee1557ba",
+  "source_search_cpp_sha256": "21b79baa7ce9dabec5b3b9e3854bed9869a1935277247832e550cf395bccd644",
+  "source_overlay_exact_original_inverse": true,
+  "p12_original_native_regression_pass": true,
+  "experiment": {
+    "position": "public_startpos",
+    "threads": 1,
+    "hash_mb": 16,
+    "nnue": false,
+    "depth": 7,
+    "original_and_observer_bestmove": "b1c3",
+    "original_and_observer_nodes": 8657,
+    "cold_repeats": 2,
+    "actual_native_q_tt_child_parent_assignments_observed": 24,
+    "full64_original_score_field_writer_key_exact_at_actual_return": 24,
+    "p11_p12_p13_fully_public_cross_joined_same_run": 0,
+    "p13_q_assignment_to_bestValue_publicly_cross_joined": 18,
+    "p11_original_cutoff_public_class_limit": 24,
+    "p13_q_parent_assign_public_class_limit": 24,
+    "p13_q_best_public_class_limit": 24
+  },
+  "limits": [
+    "P11 first24 TT real return and P13 first24 q direct return are noncoincident class samples; count equality is not unique event join",
+    "Full64 writer source metadata on a Q return confirms writer at original return, not independently original P11 public first24 join",
+    "18 q-to-best public joins do not imply final root winner ancestry",
+    "TT→SEE→root natural indirect effect HOLD",
+    "Main/LMR/PV sites CENSORED_SITE",
+    "Engine Elo, speed and independent M5 unmeasured"
+  ],
+  "theory": {
+    "original_16_state_cpp_witness": "ABSTRACT_EXECUTABLE_PASS",
+    "present_action_fibers_conflicting": 0,
+    "one_step_transition_fibers_conflicting": 4,
+    "sham_transition_conflicting": 0,
+    "writer_enriched_transition_conflicting": 0,
+    "scope": "TOY_FINITE_COUNTERMODEL_NOT_ACTUAL_STOCKFISH_POLICY"
+  },
+  "policy": "Actions execute/read only; all repo author/committer WhoSia; no modified GPL binaries or original PGN exported"
+}
