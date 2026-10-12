@@ -1,0 +1,47 @@
+name: C3X 0.25 M6 R2 Independent July64 Human Git Literal Science Score
+on:
+  push:
+    paths:
+      - 'tools/c3x_025_M6_R2_independent_gamewise_native_court.mjs'
+      - '.github/workflows/c3x-025-M6-R2-independent-july64-native-score.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  independent:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/download-artifact@v4
+        with:
+          name: c3x-025-M6-S-july2026-new64-source-only
+          path: source/
+          repository: WhoSia/C3X
+          run-id: '38198224795'
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: c3x-025-M6-B-July64-presealed-real-qscore-selective-pilot
+          path: actual/
+          repository: WhoSia/C3X
+          run-id: '38198653228'
+          github-token: ${{ github.token }}
+      - name: Original chronology and gamewise original-source native rescore
+        run: |
+          set -euo pipefail
+          git merge-base --is-ancestor 4f1bfb787c38192b372dceee67d3f1aace90fa06 2e410199d42562798bf1a15a03a5a5003e1cc360
+          git merge-base --is-ancestor 2e410199d42562798bf1a15a03a5a5003e1cc360 bba80067e9aac053a58dfb5c38e3858049c788ea
+          git merge-base --is-ancestor bba80067e9aac053a58dfb5c38e3858049c788ea HEAD
+          test "$(sha256sum source/C3X025_M6_S_JULY2026_64_SOURCE_ONLY.json | cut -d' ' -f1)" = 45d758947b6f224901f2674eaed4dc1dc34f4d5a439ccd62fa408393dd7c2a80
+          mkdir -p derived
+          node tools/c3x_025_M6_R2_independent_gamewise_native_court.mjs             source/C3X025_M6_S_JULY2026_64_SOURCE_ONLY.json             c3x/forecasts/c3x-025-M6-A-July2026-64-M0-exact-UCI-and-M6-STABLE-ABSTAIN-human-Git-before-SCORE-20261012.json             actual/C3X025_M6_B_FIRST_NATIVE_JULY64_EXACT_OUTCOME.json             derived/M6_JULY64_INDEPENDENT_SCIENCE_SCORE.json
+          python3 tools/c3x_023_rights_preupload_gate.py --tier P2_AGGREGATE_SUMMARY --file derived/M6_JULY64_INDEPENDENT_SCIENCE_SCORE.json --report derived/RIGHTS.json
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x-025-m6-r2-independent-july64-literal-score
+          path: derived/
+          retention-days: 90
