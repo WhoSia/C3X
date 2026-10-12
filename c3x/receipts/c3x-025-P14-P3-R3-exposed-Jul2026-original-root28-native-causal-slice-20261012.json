@@ -1,0 +1,61 @@
+{
+  "schema": "c3x025-P14-P3-R3-exposed-postoutcome-real-July2026-M6-flip-game28-source-q-parent-root-competition-v1",
+  "date": "2026-10-12",
+  "scientific_status": "ACTUAL_ORIGINAL_QSCORE_POLICY_CAUSED_ROOT_MOVE_AND_RECORDED_CONTENDER_VECTOR_CHANGE_ON_POSTOUTCOME_SELECTED_CASE;NOT_NEW_PROSPECTIVE",
+  "chosen_after_independent_M6_native_outcome": true,
+  "original_prospective_M6_success_run": 38198653228,
+  "game_id": 28,
+  "human_preSCORE_all64_original_literal_git": "bba80067e9aac053a58dfb5c38e3858049c788ea",
+  "R3_initial_diagnostic_checker_key_errors_original_failed_CI": [
+    38198977937,
+    38199088988
+  ],
+  "error_kind": "diagnostic readback referenced nonexistent exposed.untouched_original_root_UCI instead of recorded exposed.Git_human_sealed_original_M0_UCI; original source values and first root flip valid",
+  "human_diagnostic_correction_git": "7fd2a8383925f9604602a38f60119242647792f7",
+  "native_success_run": 38199192446,
+  "original_native_artifact_id": 11724423866,
+  "artifact_zip_SHA256": "73725092593e3b2166ecc723be4f259a5295f0e8e3799b27532ac9d1f176471f",
+  "original_before_source_policy": {
+    "uci": "f1d1",
+    "score_cp": -4,
+    "nodes": 7456
+  },
+  "native_SHAM_exact_original_parity": true,
+  "physical_SCORE_first_original_numeric_qsearch_bound_return_suppressed": {
+    "uci": "a1a5",
+    "score_cp": 0,
+    "nodes": 4380,
+    "actual_source_contact": true,
+    "original_first_qparent_sampled_divergence_zero_index": 4,
+    "root_move_changed": true,
+    "individual_root_candidate_recorded_vector_changed": true
+  },
+  "original_HJNT_only_move_hint_suppression": {
+    "uci": "f1d1",
+    "nodes": 7456,
+    "score_cp": -4
+  },
+  "physical_SCORE_PLUS_HINT": {
+    "uci": "a1a5",
+    "nodes": 4380,
+    "score_cp": 0
+  },
+  "P14P3_bounded_guard": {
+    "actual_one_later_eligible_original_return_suppressed": true,
+    "uci": "f1d1",
+    "nodes": 7456,
+    "score_cp": -4,
+    "recorded_root_candidate_vector_unchanged": true,
+    "initial_first_actual_numeric_qscore_source_contact": {
+      "ply": 2,
+      "tt_score": -448,
+      "beta": 1,
+      "rule50": 0,
+      "inCheck": false,
+      "eligible_for_guard": false
+    }
+  },
+  "mechanistic_lesson": "Original first bounded TT numeric return was root-pivotal in exactly this exposed real test; later context-qualified one-return guard was not. Repeated operator presence alone insufficient to classify root pivotability. Sampled 5th q-parent mismatch NOT first complete machine-state divergence; candidate vector differences at terminal do not prove complete TT→SEE→root natural mediation.",
+  "not_natural_mediation_certification": true,
+  "no_general_Elo_or_TT_semantics_safety": true
+}

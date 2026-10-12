@@ -1,0 +1,82 @@
+{
+  "schema": "c3x025-P14-P3-original-native-context-guard-source-preregistered-and-exposed-development-v1",
+  "date": "2026-10-12",
+  "scientific_status": "PHYSICALLY_ACTUATED_4_EXPOSED_DEVELOPMENT_SITES__ROOT_STABLE_4__NOT_SEMANTICALLY_CERTIFIED_SAFE",
+  "formal_name": "Certified Root Pivotability & Bounded Transposition-Table Influence: Counterfactual Candidate-State Alignment, Sound Search-Margin Certificates, Safe Policy Synthesis & Independent Generalization",
+  "original_SF16_git": "68e1e9b3811e16cad014b590d7443b9063b3eb52",
+  "tt_cpp_SHA256": "d132fb235050916682ea258de2dc8825712d370216342f46f64d7977ee1557ba",
+  "search_cpp_SHA256": "21b79baa7ce9dabec5b3b9e3854bed9869a1935277247832e550cf395bccd644",
+  "precommit_human_git": "98127cd6c3d5b5a95e671ed0eeaebe0bd84a5b75",
+  "CI_run": 38198076237,
+  "CI_success": true,
+  "artifact_id": 11724720997,
+  "artifact_zip_sha256": "5e853b1cdb3d693f6d19dfed1050a2161c256292a43223d5bd3dbf55aced0d11",
+  "original_source_reversible_byte_exact": true,
+  "cold_repeats_per_arm": 2,
+  "original_vs_SHAM_off_parity": true,
+  "source_policy": "one actually executing original qsearch bounded numeric TT early return skipped in process when ply2..6, incheck=false, rule50<80, original ttValue,beta abs<1000, absolute score-beta<=64; previous first source score contact may be ineligible",
+  "arms": [
+    "SHAM",
+    "SCORE",
+    "HINT",
+    "BOTH",
+    "GUARD"
+  ],
+  "arm_site_count": 4,
+  "positions": [
+    {
+      "source": "EXPOSED_STARTPOS",
+      "original_move": "b1c3",
+      "original_nodes": 8657,
+      "GUARD_actual_operator_actuations": 1,
+      "GUARD_move": "b1c3",
+      "GUARD_nodes": 8657,
+      "recorded_final_root_contenders_changed": false
+    },
+    {
+      "source": "EXPOSED_RUY_LOPEZ_6PLY",
+      "original_move": "b5c6",
+      "original_nodes": 1836,
+      "GUARD_actual_operator_actuations": 1,
+      "GUARD_move": "b5c6",
+      "GUARD_nodes": 1836,
+      "first_original_numeric_qscore_contact_eligible": false,
+      "recorded_final_root_contenders_changed": false
+    },
+    {
+      "source": "EXPOSED_QGD_6PLY",
+      "original_move": "e2e3",
+      "original_nodes": 7557,
+      "GUARD_actual_operator_actuations": 1,
+      "GUARD_move": "e2e3",
+      "GUARD_nodes": 7557,
+      "first_original_numeric_qscore_contact_eligible": false,
+      "recorded_final_root_contenders_changed": false
+    },
+    {
+      "source": "EXPOSED_SICILIAN_9PLY",
+      "original_move": "b8c6",
+      "original_nodes": 3578,
+      "GUARD_actual_operator_actuations": 1,
+      "GUARD_move": "b8c6",
+      "GUARD_nodes": 3578,
+      "first_original_numeric_qscore_contact_eligible": false,
+      "recorded_final_root_contenders_changed": false
+    }
+  ],
+  "conditional_interval_certificate": {
+    "theorem": "For same candidate set A with sound true root score intervals, L_w>max_{j != w} U_j implies w uniquely selected; actual original SF16 lower/upper interval derivation currently HOLD.",
+    "CXX17_finite_original_native_CI": 38198076237,
+    "abstract_interval_cases": 648,
+    "abstract_certified_cases": 33,
+    "abstract_noncertified_ambiguous_cases": 556,
+    "formal_general_theorem_claim": false,
+    "actual_original_SF16_root_bound_certified": false
+  },
+  "no_root_pivot_proven_global": false,
+  "no_SEE_bools_forced": true,
+  "not_safe_TT_optimization_proven": true,
+  "no_speedup_or_Elo_claim": true,
+  "source_role": "EXPOSED_DEVELOPMENT_ONLY",
+  "governance": "WhoSia human author/committer; GitHub Actions contents read; no modified GPLv3 engine binaries"
+}
