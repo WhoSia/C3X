@@ -1,0 +1,83 @@
+{
+  "schema": "c3x025-P14-P10-P1-actual-source-search-economics-and-026-court-v1",
+  "date": "2026-10-12",
+  "status": "ORIGINAL_SOURCE_COLD_4ROOT_NATIVE_SUCCESS_12OVER12_ROOT_STABLE_NO_NODE_REDUCTION_026_HOLD",
+  "formal_name": "Counterfactual Search Economics & Decision-Relevant Explanations: Non-Monotone Alpha–Beta Work, Rival-Directed Allocation, Tactical Criticality & the 0.26 Graduation Court",
+  "source_revision": "68e1e9b3811e16cad014b590d7443b9063b3eb52",
+  "source_human_precommit": "c18431c81fb8da2979eb48e9e55c8a42f00d696c",
+  "script_commit": "484c4a39f403577f01e040a43e1889056d01cc08",
+  "actual_native_run": 38221485422,
+  "conditions": "Stockfish 16 original vs observer off vs SHAM; NNUE OFF; Threads1; Hash16MB; depth7; cold ×2 arms; real original qsearch bounded TT return in C++",
+  "retrospective_exposed_M6_28": {
+    "native_original_run": 38207386206,
+    "sham_bestmove": "f1d1",
+    "sham_nodes": 7456,
+    "sham_root_attempts": 14,
+    "sham_aspiration_retries": 7,
+    "first_UPPER_suppression_bestmove": "a1a5",
+    "nodes": 4380,
+    "root_attempts": 11,
+    "aspiration_retries": 4,
+    "nodes_delta": -3076,
+    "relative_nodes_delta_pct": -41.25,
+    "original_chess_action_semantics_preserved": false,
+    "wall_clock_or_Elo_proven": false
+  },
+  "new_development": {
+    "case_count": 4,
+    "policy_conditions_per_case": 3,
+    "all_actual_source_operator_contacts": 12,
+    "all_bestmove_unchanged": 12,
+    "node_equal": 9,
+    "node_increases_one": 3,
+    "node_reductions": 0,
+    "cases": {
+      "ENGLISH6": {
+        "original_move": "d2d3",
+        "score": "cp:-22",
+        "nodes": 4331,
+        "FIRST": 4331,
+        "UPPER": 4331,
+        "LOWER": 4331
+      },
+      "FRENCH8": {
+        "original_move": "g1f3",
+        "score": "cp:17",
+        "nodes": 13204,
+        "FIRST": 13204,
+        "UPPER": 13204,
+        "LOWER": 13204
+      },
+      "ITALIAN8": {
+        "original_move": "d2d4",
+        "score": "cp:27",
+        "nodes": 9099,
+        "FIRST": 9099,
+        "UPPER": 9100,
+        "LOWER": 9099
+      },
+      "CARO_KANN8": {
+        "original_move": "e4g3",
+        "score": "cp:35",
+        "nodes": 6862,
+        "FIRST": 6863,
+        "UPPER": 6862,
+        "LOWER": 6863
+      }
+    }
+  },
+  "scientific_limits": [
+    "not independent M7 or source-blind model transfer",
+    "four fixed development contexts, twelve correlated arm-level interventions",
+    "single exposed earlier source outcome doesn't prove universal nonmonotone node effect or safe benefit",
+    "physical TT return early suppression source side is not proved chess minimax bound",
+    "source upper/lower tag not sufficient to predict action or work",
+    "mate-in-one proof sound but trivial and not counted as substantive C3X 0.26",
+    "no actual search adviser implemented yet",
+    "no real wall-clock savings or Elo trial",
+    "0.26 scientific research status HOLD pending nonterminal mechanistic predictor and usable policy",
+    "full complete K and universal TT minimax bounds are NOT required for research 0.26"
+  ],
+  "original_rights": "GPLv3 Stockfish16, no binary redistribution, no PGN",
+  "authorship": "WhoSia only"
+}
