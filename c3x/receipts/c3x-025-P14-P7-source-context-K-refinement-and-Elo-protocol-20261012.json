@@ -1,0 +1,88 @@
+{
+  "schema": "c3x025-P14-P7-official-source-key-history-composition-and-Elo-protocol-v1",
+  "date": "2026-10-12",
+  "status": "SOURCE_REAL_RULE50_KEY_FIBER_NONFACTORING_PASS_CONDITIONAL_COMPOSITION_PASS_ACTUAL_CONTEXT_CEGAR_PASS_ELO_PROTOCOL_SYNTHETIC_PASS_GLOBAL_SCORE_SOUNDNESS_HOLD",
+  "formal_title": "Compositional Search Semantics & Proof-Carrying Rival Bounds: TT Validity Invariants, Alpha–Beta/Quiescence Simulation, Root Tie-Sensitive Refinement & Engine-Strength Trial Design",
+  "official_stockfish16_source_revision": "68e1e9b3811e16cad014b590d7443b9063b3eb52",
+  "chronology": {
+    "original_human_Git_source_hypothesis": "8a75ae425ba706b03fb78380e18fc6598eb83804",
+    "R1_compile_technical_failure": 38208871935,
+    "R2_first_original_native_hypothesis_falsified": 38208971629,
+    "R2_specific_error": "Read Position::set_state without Position::key adjust_key50; rule50=0 and 100 have different full keys",
+    "R3_source_corrected_human_Git_before_new_test": "17fefe34b3688de0fbfccb322badfd555f9adc99",
+    "R3_unmodified_stockfish16_native_success": 38209111244,
+    "R4_independent_original_source_exposed_CEGAR_and_Rust_trial_protocol_success": 38209305751
+  },
+  "TT_source_identity": {
+    "cluster_at_16MiB": 524288,
+    "cluster_size_bytes": 32,
+    "key16_tag_bits": 16,
+    "index_high_key_bits": 19,
+    "distinct_constructed_abstract_64bit_key_aliases": 1023,
+    "actual_legal_chess_position_full_key_collision_empirically_detected": false,
+    "source_semantic_bound_from_TT_tag_proven": false
+  },
+  "original_native_synthetic_context": {
+    "original_key": "11FDCC30DF4C6A7A",
+    "fen4": "5k2/8/8/8/8/8/4Q3/4K3 w - -",
+    "fullmove": 51,
+    "depth": 4,
+    "NNUE": false,
+    "Threads": 1,
+    "HashMB": 16,
+    "two_cold_runs_per_context": true,
+    "rule50_94": {
+      "bestmove": "e1d2",
+      "score_type": "cp",
+      "score": 1873,
+      "nodes": 229
+    },
+    "rule50_100": {
+      "bestmove": "e2d1",
+      "score_type": "cp",
+      "score": 0,
+      "nodes": 104
+    },
+    "source_key_adjustment": "rule50<14 ? k : k XOR make_key((rule50-14)/8); 94 and100 both bucket 10",
+    "is_draw_guard": "rule50>99 with original check/legal move qualification and repetition separate",
+    "same_entire_original_adjusted_position_key": true,
+    "root_action_key_only_factorization_refuted_on_actual_two_state_family": true,
+    "original_TT_illegitimate_return_observed": false,
+    "synthetic_FEN_without_real_history": true,
+    "actual_game_or_Elo": false
+  },
+  "conditional_CXX17_composition": {
+    "source_key_aliases": 1023,
+    "abstract_hidden_score_counterworlds": 5,
+    "three_child_worlds": 343,
+    "sound_independently_assumed_score_interval_checks": 1372,
+    "beta_window_checks": 7203,
+    "conditional_lower_lift_cases": 3087,
+    "conditional_upper_lift_cases": 2205,
+    "original_TT_numeric_bound_proven_minimax_valid": false
+  },
+  "actual_source_CEGAR": {
+    "original_two_world_observation_fiber_conflicted": true,
+    "one_additional_boolean_rule50_gt99_splits_observed_pair": true,
+    "at_least_one_additional_bit_needed_for_this_pair": true,
+    "globally_complete_contextual_abstraction": false,
+    "real_Stockfish_source_semantic_K_constructed": false
+  },
+  "paired_color_Elo_protocol": {
+    "Rust_synthetic_opening_pairs": 4,
+    "rejected_invalid_fixtures": 4,
+    "synthetic_pair_Hoeffding95_epsilon_approx": 0.679051,
+    "independent_pairs_assumption_not_empirically_certified": true,
+    "real_chess_games": 0,
+    "real_elo_gain_measured": false
+  },
+  "prior_science": [
+    "M3-v2 448/501 vs M0 449/501 negative",
+    "M4 915/1012 vs 916/1012 negative",
+    "M5-v1 23/32 vs M0 32/32 negative",
+    "M6 July STABLE19/19 ABSTAIN45 and M0 63/64; 28 exposed actual flip"
+  ],
+  "human_author_committer": "WhoSia",
+  "actions_permissions": "contents:read",
+  "no_binary_or_original_PGN_uploaded": true
+}
