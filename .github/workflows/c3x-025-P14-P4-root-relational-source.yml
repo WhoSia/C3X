@@ -1,0 +1,51 @@
+name: C3X 0.25 P14 P4 Minimal Original Root Aspiration and Relational Mathematics
+on:
+  push:
+    paths:
+      - '.github/workflows/c3x-025-P14-P4-root-relational-source.yml'
+      - 'tools/c3x_025_P14_P4_original_root_window_observer.py'
+      - 'tools/c3x_025_P14_P4_original_root_relational_court.mjs'
+      - 'tools/c3x_025_P14_P4_joint_worldset_court.cpp'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  original-cpp:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: c3x-025-M6-S-july2026-new64-source-only
+          path: source/
+          repository: WhoSia/C3X
+          run-id: '38198224795'
+          github-token: ${{ github.token }}
+      - name: Compile finite relational feasible-world theorem court
+        run: |
+          set -euo pipefail
+          g++ -std=c++17 -Wall -Wextra -Werror -pedantic -O2 tools/c3x_025_P14_P4_joint_worldset_court.cpp -o /tmp/c3x-p14p4-relational
+          /tmp/c3x-p14p4-relational
+      - name: Pinned untouched official SF16 with simple source-level observer
+        run: |
+          set -euo pipefail
+          git clone -q --branch sf_16 --single-branch https://github.com/official-stockfish/Stockfish.git /tmp/c3x-p14p4-original
+          test "$(git -C /tmp/c3x-p14p4-original rev-parse HEAD)" = 68e1e9b3811e16cad014b590d7443b9063b3eb52
+          cp -a /tmp/c3x-p14p4-original /tmp/c3x-p14p4-source
+          mkdir -p derived
+          python3 tools/c3x_025_P14_P4_original_root_window_observer.py --root /tmp/c3x-p14p4-source --out derived/MINIMAL_SOURCE_CONTRACT.json
+          make -s -C /tmp/c3x-p14p4-original/src -j2 build ARCH=x86-64
+          make -s -C /tmp/c3x-p14p4-source/src -j2 build ARCH=x86-64
+      - name: Reproduce real original root source aspiration, bounded candidate flags and TT root pivot
+        run: |
+          set -euo pipefail
+          node --check tools/c3x_025_P14_P4_original_root_relational_court.mjs
+          node tools/c3x_025_P14_P4_original_root_relational_court.mjs             /tmp/c3x-p14p4-original/src/stockfish             /tmp/c3x-p14p4-source/src/stockfish             source/C3X025_M6_S_JULY2026_64_SOURCE_ONLY.json             derived/ACTUAL_ROOT_RESEARCH_BOUND_LABELS.json
+          echo 'Stockfish16 original GPLv3. July2026 Lichess source CC BY-SA4. Derived source-frame/candidate labels only; no original PGN or modified engine. This is EXPOSED P14-P4 native science; not a sound root score interval or universal optimization.' > derived/SCOPE.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x-025-p14-p4-source-root-aspiration-relational-court
+          path: derived/
+          retention-days: 30
