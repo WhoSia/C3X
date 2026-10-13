@@ -33,7 +33,10 @@ def compile_evidence(moment:dict[str,Any],judgment:dict[str,Any]|None=None)->dic
     wording. This deliberately refuses source causal claims until the separate
     exact-byte repository approval + independent scope adapter is installed.
     """
-    j=judge_moment(moment) if judgment is None else judgment
+    independently_derived=judge_moment(moment)
+    if judgment is not None and judgment!=independently_derived:
+        return _abstain(moment,"EXTERNAL_JUDGMENT_PACKET_DIVERGES_FROM_I10",independently_derived)
+    j=independently_derived
     if (moment.get("firewall",{}).get("pass") is not True or
         moment.get("realization_verification",{}).get("pass") is not True):
         return _abstain(moment,"LEGACY_EVIDENCE_OR_REALIZATION_GATE_FAIL",j)
@@ -69,7 +72,7 @@ def compile_evidence(moment:dict[str,Any],judgment:dict[str,Any]|None=None)->dic
         "claim_id":f"ply:{moment['ply']}:score",
         "kind":"ENGINE_RESTRICTED_SNAPSHOT",
         "atom_ids":sorted(bound_ids),
-        "text_ko":(f"제한된 원본 엔진 분석에서 {names[leader]}가 {names[rival]}보다 "
+        "text_ko":(f"제공된 제한적 엔진 분석에서 {names[leader]}가 {names[rival]}보다 "
                    f"{j['candidate_gap_cp']}cp 높게 평가됐습니다. 이는 최선수의 증명이 아닙니다."),
         "priority":STATIC_WEIGHTS["score"],
         "authority":"ENGINE_RANKING_AT_RECORDED_DEPTH_ONLY",
