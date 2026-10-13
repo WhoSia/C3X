@@ -117,8 +117,8 @@ def judgment_markdown(packet: dict[str, Any]) -> str:
     for p in packet.get("judgments", []):
         lines.extend([f"## Ply {p.get('ply')}", "",
                       p.get("explanation") or "", "",
-                      f"- Decision: \`{p.get('decision')}\`",
-                      f"- Reason: \`{p.get('reason')}\`",
+                      f"- Decision: `{p.get('decision')}`",
+                      f"- Reason: `{p.get('reason')}`",
                       "- Supporting atoms: " + (", ".join(p.get("evidence_atom_ids", [])) or "none"),
                       "- Local causal certificates: " + (", ".join(p.get("local_causal_certificate_ids", [])) or "none"), ""])
     lines.extend(["## Limit", "", str(packet.get("authority_note", "")), ""])
