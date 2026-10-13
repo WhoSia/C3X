@@ -1,0 +1,83 @@
+name: C3X I10 P5 New Olympiad 305 Parameter Real Reply Observation Learning
+on:
+  push:
+    paths:
+      - '.github/workflows/c3x-explain-i10-p5-305-param-new-event-heldout.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  fresh-olympiad-MLP:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Strict legacy no-erasure and true 305 parameter model anti-leak tests
+        env:
+          PYTHONPATH: .
+        run: |
+          set -euo pipefail
+          python3 -m pip install --disable-pip-version-check pytest python-chess==1.999 numpy
+          python3 -m compileall -q c3x_explain tools/c3x_explain_i10_p5_new_event_305_reply_model_pilot.py
+          pytest -q tests/test_c3x_explain.py tests/test_c3x_explain_i10_judgment.py tests/test_c3x_explain_i10_p3_evidence_compiler.py tests/test_c3x_explain_i10_p4_tiny_auto.py tests/test_c3x_explain_i10_p4_equal_rivals.py tests/test_c3x_explain_i10_p5_reply305.py
+      - name: First reuse externally frozen, 8 game PGN source SHA before any ML training
+        env:
+          PYTHONPATH: .
+        run: |
+          set -euo pipefail
+          mkdir -p derived
+          python3 tools/c3x_explain_i10_p5_fresh_olympiad_freeze.py \
+            --expected-sha256 363c4fd6d1bd17ead0890a068c14838296c2393f6de8469633edc0e1bc126a07 \
+            --out derived
+      - name: Compile exact source-original Stockfish16 on heldout new tournament
+        run: |
+          set -euo pipefail
+          git clone -q --single-branch --branch sf_16 https://github.com/official-stockfish/Stockfish.git /tmp/c3x-P5-305-sf16
+          test "$(git -C /tmp/c3x-P5-305-sf16 rev-parse HEAD)" = 68e1e9b3811e16cad014b590d7443b9063b3eb52
+          make -s -C /tmp/c3x-P5-305-sf16/src -j2 build ARCH=x86-64
+      - name: Actual game-disjoint observational opponent response fit vs train-prevalence baseline
+        env:
+          PYTHONPATH: .
+        run: |
+          set -euo pipefail
+          python3 tools/c3x_explain_i10_p5_new_event_305_reply_model_pilot.py \
+            --input derived \
+            --raw-source derived/source-2026-olympiad-r1-original.pgn \
+            --engine /tmp/c3x-P5-305-sf16/src/stockfish \
+            --moments 8 \
+            --out derived
+          python3 - <<'PY'
+          import json,math
+          m=json.load(open("derived/new-olympiad-P5-305-model-params.json"))
+          z=json.load(open("derived/new-olympiad-P5-305-model-game-disjoint-eval.json"))
+          assert m["trained_parameters"]==305 and m["calibrated"] is False
+          assert m["train_samples"]==z["train_observations"]
+          assert len(z["original_game_train_groups"])==4
+          assert len(z["original_game_test_groups"])==4
+          assert set(z["original_game_train_groups"]).isdisjoint(z["original_game_test_groups"])
+          assert z["features_cannot_read_actual_opponent_move"] is True
+          assert z["total_ECL_emits"]+z["total_ECL_abstains"]==z["total_attempts"]
+          assert z["total_attempts"]==64
+          assert z["heldout_independent_human_pedagogic_gain"] is None
+          assert z["original_Queen_Cui_CCC_rival_models_called"] is False
+          assert z["human_semantic_chess_causal_training_labels"] is False
+          assert math.isfinite(z["trained_305_param"]["brier_UNCALIBRATED"])
+          assert math.isfinite(z["baselines"]["TRAIN_PREVALENCE_CONSTANT"]["brier"])
+          print("C3X_P5_NEW_EVENT_REALLY_TRAINED_305PARAM_ACCEPTED",
+                "train",z["train_observations"],
+                "eval",z["heldout_eval_observations"],
+                "Brier",z["trained_305_param"]["brier_UNCALIBRATED"],
+                "constant",z["baselines"]["TRAIN_PREVALENCE_CONSTANT"]["brier"])
+          PY
+          printf '%s\n' 'Actual 305-weight MLP on presealed new Olympiad 8-game original source PGNs; train four games test four games, real observed opponent replies are weak behavior labels only. No proof of better chess answers, calibrated confidence, explanatory human effect, causal high-level semantics or official model baseline victory. Negative results preserved.' > derived/P5_MLP_SCOPE.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x-i10-p5-olympiad-real-305param-game-heldout-reply-observation
+          path: derived/
+          retention-days: 14
