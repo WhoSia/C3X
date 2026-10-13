@@ -1,0 +1,74 @@
+name: C3X Explain I10 Typed Chess Judgment First Bridge
+on:
+  push:
+    paths:
+      - '.github/workflows/c3x-explain-i10-judgment-bridge.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  source-bounded-judgment:
+    runs-on: ubuntu-latest
+    timeout-minutes: 24
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Legacy I9 plus I10 adversarial evidence tests
+        run: |
+          set -euo pipefail
+          python3 -m pip install --disable-pip-version-check pytest python-chess==1.999
+          python3 -m compileall -q c3x_explain/judgment.py c3x_explain/__main__.py tests/test_c3x_explain_i10_judgment.py
+          PYTHONPATH=. pytest -q tests/test_c3x_explain.py tests/test_c3x_explain_i10_judgment.py
+      - name: Build original official SF16 for genuine typed-judgment UCI smoke
+        run: |
+          set -euo pipefail
+          git clone -q --single-branch --branch sf_16 https://github.com/official-stockfish/Stockfish.git /tmp/c3x-i10-official-sf16
+          test "$(git -C /tmp/c3x-i10-official-sf16 rev-parse HEAD)" = 68e1e9b3811e16cad014b590d7443b9063b3eb52
+          make -s -C /tmp/c3x-i10-official-sf16/src -j2 build ARCH=x86-64
+      - name: Actually run PGN explanation and typed judgment with and without engine
+        run: |
+          set -euo pipefail
+          cat > i10-smoke.pgn <<'PGN'
+          [Event "Synthetic I10 development"]
+          [Result "*"]
+
+          1. f3 e5 2. g4 Qh4# *
+          PGN
+          mkdir -p derived
+          PYTHONPATH=. python3 -m c3x_explain --pgn i10-smoke.pgn \
+            --json-out derived/no-engine.json \
+            --judgment-out derived/no-engine-judgment.json \
+            --judgment-markdown derived/no-engine-judgment.md
+          PYTHONPATH=. python3 -m c3x_explain --pgn i10-smoke.pgn \
+            --engine /tmp/c3x-i10-official-sf16/src/stockfish --nodes 5000 \
+            --json-out derived/real-original-engine.json \
+            --judgment-out derived/real-original-engine-judgment.json \
+            --judgment-markdown derived/real-original-engine-judgment.md
+          python3 - <<'PY'
+          import json
+          a=json.load(open("derived/no-engine-judgment.json"))
+          b=json.load(open("derived/real-original-engine-judgment.json"))
+          assert a["model_kind"].endswith("NOT_TRAINED_DECISION_MODEL")
+          assert a["decision_count"]==0
+          assert b["origin_schema"]=="c3x-explanation-graph-v1"
+          assert b["human_utility"] is None and b["probabilistic_calibration"] is None
+          for j in b["judgments"]:
+              assert j["calibrated_probability"] is None
+              assert j["objective_chess_truth"] is None
+              assert j["decision"] in {"ABSTAIN","ENGINE_SNAPSHOT_PREFERENCE_ONLY"}
+              if j["decision"] != "ABSTAIN":
+                  assert j["candidate_gap_cp"]>0
+                  assert j["evidence_atom_ids"]
+          print("C3X_I10_NATIVE_SOURCE_VERDICT",b["decision_count"],b["abstention_count"])
+          PY
+          printf '%s\n' 'I10 developmental CLI/typed evidence acceptance only, not trained neural model, source causal proof, human benefit, or chess strength. Synthetic PGN only.' > derived/SCOPE.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x-explain-i10-developmental-typed-judgment
+          path: derived/
+          retention-days: 14
