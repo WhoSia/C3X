@@ -32,6 +32,22 @@ Run existing `c3x_explain` I9 PGN pipeline **without altering any historical exp
 
 Add CLI opt-in `--judgment-out` JSON for this judgment packet and `--judgment-markdown` for a constrained standalone **judgment-first decision note**. Existing default PGN JSON/Markdown output and verified I9 renderer stay backward-compatible. No automatic LLM inference, vendor key, telemetry, new GP corpora, or claim that free-form text has passed existing I7 firewall. External LLM realization may be designed only as a later strictly governed service.
 
+## Runnable opt-in I10 evidence-judgment example
+
+Existing I9 default remains unchanged; supplying the new flags also writes a separate typed judgment:
+
+```bash
+python -m c3x_explain --pgn local-authorized-game.pgn \
+  --engine /path/to/verified-stockfish \
+  --nodes 5000 --multipv 3 \
+  --json-out explanation.json --markdown-out explanation.md \
+  --judgment-out decision.json --judgment-markdown decision.md
+```
+
+At a verified nonterminal legal position, the opt-in layer can report e.g. *engine prefers candidate A over candidate B by an observed cp gap*, together with legacy atom IDs and **actual legally replayed SAN continuations for each candidate** when the source PVs exist. It reports whether the first opponent reply appears in each source candidate PV; this **does not** establish an inevitable refutation or a true chess value bound. If there is no comparable second candidate, no exact cp, unequal depth, bound-only score, invalid source PV, failed legal/provenance check, or missing certificate, the corresponding claim is withheld. A missing response line is never filled by the LLM.
+
+No independent native I10 CI results are asserted until the GitHub workflow and derived JSON are actually read back. No new content from an LLM may be released as a verified causal claim without a separate sentence-level attribution verifier. A trained neural typed-choice model and its probabilities are later implementation experiments, not already present in the I10-P0 code.
+
 ## Falsifiable evaluation protocol — no model-calibration promises
 
 Before any held-out labels, freeze game-disjoint nonterminal positions, candidate pair and search budgets. Baselines: original I9 commentary; Kim-style concept-guided LLM; Stockfish-root-score-only; same language model without C3X certificate; C3X with valid certificate vs randomized/mismatched/revoked certificate. All prompts, labels and response lengths presealed. Independent annotators rate tactical correctness, move/alternative causal specificity, unsupported facts, action recoverability *after move-name masking*, and whether they can select the best reply in a NEW situation. Separately report coverage vs risk, abstentions, class balance and calibration **only if a real probabilistic model is trained and independently calibrated**. Explicit null hypothesis: C3X added source semantics produces no measurable benefit over strong donor baseline. Human I8 closed protocol remains HOLD until real participants; do not simulate fake annotators.
