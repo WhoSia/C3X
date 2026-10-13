@@ -1,0 +1,80 @@
+name: C3X Explain I10 P3 Explicit User PGN Source-Rival Focus
+on:
+  push:
+    paths:
+      - '.github/workflows/c3x-explain-i10-p3-focus-user-move.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  original-source-focused-contrast:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Existing I9 I10 ECL and newly explicit-focus source gates
+        env:
+          PYTHONPATH: .
+        run: |
+          set -euo pipefail
+          python3 -m pip install --disable-pip-version-check pytest python-chess==1.999
+          python3 -m compileall -q c3x_explain tests/test_c3x_explain_i10_p3_focus.py
+          pytest -q tests/test_c3x_explain.py tests/test_c3x_explain_i10_judgment.py tests/test_c3x_explain_i10_p1_real_cases.py tests/test_c3x_explain_i10_p2_p16_original_certificate_boundary.py tests/test_c3x_explain_i10_p3_evidence_compiler.py tests/test_c3x_explain_i10_p3_focus.py
+      - name: Build immutable official SF16
+        run: |
+          set -euo pipefail
+          git clone -q --single-branch --branch sf_16 https://github.com/official-stockfish/Stockfish.git /tmp/i10-p3-focus-sf16
+          test "$(git -C /tmp/i10-p3-focus-sf16 rev-parse HEAD)" = 68e1e9b3811e16cad014b590d7443b9063b3eb52
+          make -s -C /tmp/i10-p3-focus-sf16/src -j2 build ARCH=x86-64
+      - name: Actually run focal public CLI for recorded 24.Rxd4 and 12.O-O-O
+        env:
+          PYTHONPATH: .
+        run: |
+          set -euo pipefail
+          mkdir -p derived
+          python3 - <<'PY'
+          from pathlib import Path
+          from tools.c3x_explain_i10_p1_historical_cases import CASES
+          for case in CASES:
+              Path("derived/"+case["id"]+".pgn").write_text(case["pgn"],encoding="utf-8")
+          PY
+          python3 -m c3x_explain.ecl_focus \
+            --pgn derived/KASPAROV_TOPALOV_1999_24_RXD4.pgn \
+            --ply 47 --engine /tmp/i10-p3-focus-sf16/src/stockfish --disable-nnue \
+            --out-json derived/kasparov-I10-P3-ECL-focus.json \
+            --out-markdown derived/kasparov-I10-P3-ECL-focus.md
+          python3 -m c3x_explain.ecl_focus \
+            --pgn derived/MORPHY_OPERA_1858_12_O_O_O.pgn \
+            --ply 23 --engine /tmp/i10-p3-focus-sf16/src/stockfish --disable-nnue \
+            --out-json derived/morphy-I10-P3-ECL-focus.json \
+            --out-markdown derived/morphy-I10-P3-ECL-focus.md
+          python3 - <<'PY'
+          import json
+          for slug,move in [("kasparov","Rxd4"),("morphy","O-O-O")]:
+              j=json.load(open(f"derived/{slug}-I10-P3-ECL-focus.json"))
+              c=j["ecl"]
+              assert j["played_san"]==move
+              assert j["legacy_I9_firewall_pass"] is True
+              assert j["legacy_I7_realization_pass"] is True
+              assert j["source_selected_distinct_rival"]!=j["played_uci"]
+              assert {r["uci"] for r in j["restricted_two_rival_source"]}=={j["played_uci"],j["source_selected_distinct_rival"]}
+              assert c["verdict"]=="EMIT_BOUNDED_CONVENTIONAL"
+              assert c["source_causal_claim"] is False
+              assert c["confidence_probability"] is None
+              assert len(c["claims"])>=2
+              assert c["model_interface"]["trainable_parameters"]==0
+              print("I10_P3_USER_FOCUS_NATIVE_PASS",slug,j["played_san"],
+                    j["source_selected_distinct_rival"],len(c["claims"]))
+          PY
+          printf '%s\n' 'Exposed historic root-development only. Explicit ply is user specified; rival preselected by original SF16 scout. No human benefit, independent replication or source-causal authority.' > derived/SCOPE.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x-i10-p3-explicit-PGN-move-native-source
+          path: derived/
+          retention-days: 14
