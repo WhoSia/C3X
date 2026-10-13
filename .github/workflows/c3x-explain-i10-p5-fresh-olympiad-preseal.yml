@@ -1,0 +1,44 @@
+name: C3X I10 P5 First New Olympiad Eight-Game Source Preseal
+on:
+  push:
+    paths:
+      - '.github/workflows/c3x-explain-i10-p5-fresh-olympiad-preseal.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  fresh-public-PGN-source:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Source-only public Lichess PGN archival freeze before any Stockfish
+        env:
+          PYTHONPATH: .
+        run: |
+          set -euo pipefail
+          python3 -m pip install --disable-pip-version-check python-chess==1.999
+          python3 tools/c3x_explain_i10_p5_fresh_olympiad_freeze.py --out derived
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          j=json.load(open("derived/source-2026-olympiad-preseal.json"))
+          assert len(j["selected_game_groups"])==8
+          assert len({x["game_ucl_sha256"] for x in j["selected_game_groups"]})==8
+          assert j["outcome_selection_used"] is False
+          assert j["engine_scoring_used"] is False
+          assert j["train_test_game_split"]=="FIRST_4_TRAIN_LAST_4_TEST_PREDECLARED_UNCHANGED"
+          assert len(list(Path("derived").glob("game-*.pgn")))==8
+          print("C3X_P5_PUBLIC_SOURCE_ONLY_NONENGINE_FREEZE_PASS",j["raw_original_pgn_sha256"])
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x-i10-p5-original-olympiad-2026-preengine-8games
+          path: derived/
+          retention-days: 14
