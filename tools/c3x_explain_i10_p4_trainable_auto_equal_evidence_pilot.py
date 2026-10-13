@@ -16,7 +16,7 @@ def evidence_export(row:dict,game_id:str)->dict:
     return {
        "schema":"c3x-ecl-i10-p4-strong-rival-equal-information-contract-v1",
        "source_game_group":game_id,
-       "original_ply":row["ply"],"fen":row["preoutcome"].get("fen"),
+       "original_ply":row["ply"],"fen":row["source_fen"],
        "played_uci":e["played_uci"],
        "original_source_rival":row["source_rival"],
        "source_rival_rows":row["source_evidence"],
