@@ -37,6 +37,12 @@ def test_i10_blocks_mismatched_depth_or_root():
     m = fixture(); m["candidates"][1]["uci"] = "e2e4"
     assert judge_moment(m)["decision"] == "ABSTAIN"
 
+def test_i10_bound_only_engine_info_abstains():
+    m = fixture(); m["candidates"][0]["score_bound"] = True
+    assert judge_moment(m)["reason"] == "BOUND_ONLY_ENGINE_INFO_NOT_EXACT_ROOT_COMPARISON"
+    m = fixture(); m["candidates"][1]["score_bound"] = True
+    assert judge_moment(m)["decision"] == "ABSTAIN"
+
 def test_i10_blocks_cp_mate_surrogates_and_ties():
     for v in (99999, None, 20.3):
         m = fixture(); m["candidates"][0]["score_cp"] = v
