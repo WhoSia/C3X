@@ -1,0 +1,71 @@
+name: C3X Explain I10 P1 Presealed Original Chess Rival Explanations
+on:
+  push:
+    paths:
+      - '.github/workflows/c3x-explain-i10-p1-historical-rival-world.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  original-verified-history:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Original I9 plus I10 and real-game replay unit gates
+        env:
+          PYTHONPATH: .
+        run: |
+          set -euo pipefail
+          python3 -m pip install --disable-pip-version-check pytest python-chess==1.999
+          python3 -m compileall -q c3x_explain tools/c3x_explain_i10_p1_historical_cases.py tests/test_c3x_explain_i10_p1_real_cases.py
+          pytest -q tests/test_c3x_explain.py tests/test_c3x_explain_i10_judgment.py tests/test_c3x_explain_i10_p1_real_cases.py
+      - name: Compile pinned original Stockfish 16
+        run: |
+          set -euo pipefail
+          git clone -q --single-branch --branch sf_16 https://github.com/official-stockfish/Stockfish.git /tmp/c3x-i10-p1-sf16
+          test "$(git -C /tmp/c3x-i10-p1-sf16 rev-parse HEAD)" = 68e1e9b3811e16cad014b590d7443b9063b3eb52
+          make -s -C /tmp/c3x-i10-p1-sf16/src -j2 build ARCH=x86-64
+      - name: Nontrivial original chess moves and matched bounded comparators
+        env:
+          PYTHONPATH: .
+        run: |
+          set -euo pipefail
+          mkdir -p derived
+          python3 tools/c3x_explain_i10_p1_historical_cases.py \
+             --engine /tmp/c3x-i10-p1-sf16/src/stockfish \
+             --out derived/I10_P1_TWO_HISTORICAL_NATIVE_CASES.json
+          python3 - <<'PY'
+          import json
+          p=json.load(open("derived/I10_P1_TWO_HISTORICAL_NATIVE_CASES.json"))
+          assert len(p["cases"])==2
+          assert p["I10_P0_actual_smoke"]["original_native_judgments"]==0
+          for case in p["cases"]:
+              assert case["i9_existing_actual"]["firewall_pass"] is True
+              assert case["i9_existing_actual"]["realization_verified"] is True
+              assert case["focused_original_verification"]["native_PV_legal"] is True
+              assert case["focused_original_verification"]["I7_surface_verifier"] is True
+              assert {x["uci"] for x in case["restricted_original_native_pair"]}=={
+                case["played"],case["scout_first_distinct_rival"]}
+              assert case["strong_comparison"]["CONCEPT_AND_PV_DONOR_PROXY"]["is_actual_kim_CCC_or_LLM"] is False
+              assert case["new_C3X_source_causal_information"] is False
+              assert case["independent_human_outcome"] is None
+              print("I10_P1_READBACK",case["case_id"],
+                    "played",case["played_san"],
+                    "rival",case["scout_first_distinct_rival"],
+                    "judgment",case["strong_comparison"]["C3X_I10_FOCUSED_EVIDENCE"]["decision"],
+                    "scores",[(x["san"],x["score_cp"],x["depth"]) for x in case["restricted_original_native_pair"]],
+                    "I9_legacy_text",case["i9_existing_actual"]["commentary"][:280])
+          PY
+          printf '%s\n' 'Public historic PGNs, presealed retrospective development cases. Real Stockfish16 UCI depth9 scout depth12 restricted pair, existing I9, bounded concept proxy, typed C3X judgment. NOT trained CCC/LLM, independent human world, or new C3X causal explanation.' > derived/SCOPE.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x-i10-p1-historical-chess-rival-dev-only
+          path: derived/
+          retention-days: 14
