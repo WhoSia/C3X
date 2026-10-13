@@ -17,6 +17,8 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
+      # Final pilot source state includes played-move membership, UCI score-bound abstention,
+      # and chess-rule replays of both source PVs; Actions may read/compute, never write repo history.
       - name: Legacy I9 plus I10 adversarial evidence tests
         run: |
           set -euo pipefail
