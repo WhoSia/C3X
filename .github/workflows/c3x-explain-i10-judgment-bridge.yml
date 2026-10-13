@@ -23,6 +23,7 @@ jobs:
           python3 -m pip install --disable-pip-version-check pytest python-chess==1.999
           python3 -m compileall -q c3x_explain/judgment.py c3x_explain/__main__.py tests/test_c3x_explain_i10_judgment.py
           PYTHONPATH=. pytest -q tests/test_c3x_explain.py tests/test_c3x_explain_i10_judgment.py
+          # Single source+adversarial+native court after final I10 code freeze; no repository writeback.
       - name: Build original official SF16 for genuine typed-judgment UCI smoke
         run: |
           set -euo pipefail
@@ -44,7 +45,7 @@ jobs:
             --judgment-out derived/no-engine-judgment.json \
             --judgment-markdown derived/no-engine-judgment.md
           PYTHONPATH=. python3 -m c3x_explain --pgn i10-smoke.pgn \
-            --engine /tmp/c3x-i10-official-sf16/src/stockfish --nodes 5000 \
+            --engine /tmp/c3x-i10-official-sf16/src/stockfish --disable-nnue --nodes 5000 \
             --json-out derived/real-original-engine.json \
             --judgment-out derived/real-original-engine-judgment.json \
             --judgment-markdown derived/real-original-engine-judgment.md
