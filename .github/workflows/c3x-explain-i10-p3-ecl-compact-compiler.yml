@@ -58,6 +58,40 @@ jobs:
               print("I10_P3_NATIVE_SOURCE_ACCEPTED",x["case"],z["text_ko"][:360])
           PY
           printf '%s\n' 'C3X ECL zero-training evidence compiler and static tiny ranker. Original SF16 source, exposed historic chess positions only; independent human effect and model superiority NOT ESTABLISHED. No C3X Ethereal P16 admission or Stockfish causal certificate.' > derived/SCOPE.txt
+      - name: PGN CLI opt-in ECL no-engine and original SF16 native source smoke
+        env:
+          PYTHONPATH: .
+        run: |
+          set -euo pipefail
+          cat > derived/i10-p3-synthetic-smoke.pgn <<'PGN'
+          [Event "Synthetic ECL command entry test"]
+          [Result "*"]
+
+          1. f3 e5 2. g4 Qh4# *
+          PGN
+          python3 -m c3x_explain --pgn derived/i10-p3-synthetic-smoke.pgn \
+            --json-out derived/i10-p3-original-I9-no-engine.json \
+            --ecl-json-out derived/i10-p3-ECL-no-engine.json \
+            --ecl-markdown derived/i10-p3-ECL-no-engine.md
+          python3 -m c3x_explain --pgn derived/i10-p3-synthetic-smoke.pgn \
+            --engine /tmp/i10-p3-sf16/src/stockfish --disable-nnue \
+            --nodes 4000 \
+            --json-out derived/i10-p3-original-I9-with-SF16.json \
+            --judgment-out derived/i10-p3-I10-with-SF16.json \
+            --ecl-json-out derived/i10-p3-ECL-with-SF16.json \
+            --ecl-markdown derived/i10-p3-ECL-with-SF16.md
+          python3 - <<'PY'
+          import json
+          for path in ("derived/i10-p3-ECL-no-engine.json","derived/i10-p3-ECL-with-SF16.json"):
+              j=json.load(open(path))
+              assert j["schema"]=="c3x-ecl-i10-p3-graph-v1"
+              assert j["trained_neural_model"] is False
+              assert j["new_causal_authority_created"] is False
+              assert j["independent_human_benefit"] is None
+              assert j["emitted"]+j["abstained"]==len(j["packets"])
+              assert all(p["source_causal_claim"] is False for p in j["packets"])
+              print("I10_P3_PGN_CLI_PASS",path,j["emitted"],j["abstained"])
+          PY
       - uses: actions/upload-artifact@v4
         if: always()
         with:
