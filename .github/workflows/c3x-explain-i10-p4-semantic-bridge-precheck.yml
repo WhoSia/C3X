@@ -1,0 +1,52 @@
+name: C3X I10 P4 Original Ethereal Semantic Bridge Precheck and Sham Negative Control
+on:
+  push:
+    paths:
+      - '.github/workflows/c3x-explain-i10-p4-semantic-bridge-precheck.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  semantic-bridge-negative-controls:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Immutable P16 source and semantic precheck negatives
+        env:
+          PYTHONPATH: .
+        run: |
+          set -euo pipefail
+          python3 -m pip install --disable-pip-version-check pytest python-chess==1.999
+          pytest -q tests/test_c3x_explain_i10_p2_p16_original_certificate_boundary.py tests/test_c3x_explain_i10_p4_semantic_precheck.py
+      - name: Preserve exact-source semantic proxy report without new authority
+        env:
+          PYTHONPATH: .
+        run: |
+          set -euo pipefail
+          mkdir -p derived
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          from c3x_explain.semantic_bridge_precheck import audit_original_historical
+          r=audit_original_historical(Path("c3x/certificates/g95-p16-local-minimal-full-bridge.json").read_bytes())
+          assert r["sham_aliases_subset_exact_board"] is True
+          assert r["new_semantic_causal_certificate"] is None
+          assert r["concept_label_in_original"] is None
+          assert r["engine_source_execution_new"] is False
+          Path("derived/I10_P4_ETHEREAL_P16_SEMANTIC_PRECHECK_NO_CAUSAL_PROMOTION.json").write_text(json.dumps(r,indent=2)+"\n")
+          print("C3X_P4_SEMANTIC_PRECHECK_HISTORIC_ONLY",json.dumps(r["candidate_board_proxies"]))
+          print("C3X_P4_SEMANTIC_INDEPENDENT_SHAM",r["independent_sham_adequacy"])
+          PY
+          printf '%s\n' 'Strictly original Ethereal P16 historical source/board feature extraction; NO fresh source-engine intervention, NO independently annotated chess strategic concept, and sham aliases subset. Independent new causal experiment REQUIRED.' > derived/SCOPE.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x-p4-ethereal-historic-semantic-proxy-NO-NEW-CAUSE
+          path: derived/
+          retention-days: 14
