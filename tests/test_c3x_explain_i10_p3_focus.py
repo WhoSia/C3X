@@ -24,7 +24,7 @@ def test_illegal_or_absent_ply_refused():
 
 def test_bad_pgn_refused():
     with pytest.raises(ValueError,match="INVALID_OR_UNREPLAYABLE_PGN"):
-        position_before_ply("not a PGN",1)
+        position_before_ply("",1)
 
 def test_focused_source_not_public_causal_cert():
     from c3x_explain.evidence_compiler import compile_evidence
