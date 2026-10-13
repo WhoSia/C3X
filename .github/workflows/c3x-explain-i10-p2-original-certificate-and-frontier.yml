@@ -1,0 +1,58 @@
+name: C3X Explain I10 P2 Original Ethereal Certificate Boundary Court
+on:
+  push:
+    paths:
+      - '.github/workflows/c3x-explain-i10-p2-original-certificate-and-frontier.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  existing-original-local-only-certificate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Authentic historical P16 source-scope and public-trust firewall
+        env:
+          PYTHONPATH: .
+        run: |
+          set -euo pipefail
+          python3 -m pip install --disable-pip-version-check pytest python-chess==1.999
+          python3 -m compileall -q tools/c3x_explain_i10_p2_p16_original_certificate_boundary.py tests/test_c3x_explain_i10_p2_p16_original_certificate_boundary.py
+          pytest -q tests/test_c3x_explain_i10_p2_p16_original_certificate_boundary.py
+          pytest -q tests/test_c3x_explain_i10_judgment.py
+      - name: Record original certificate evidence without upgrading legacy local authority
+        env:
+          PYTHONPATH: .
+        run: |
+          set -euo pipefail
+          mkdir -p derived
+          python3 tools/c3x_explain_i10_p2_p16_original_certificate_boundary.py \
+            --output derived/I10_P2_G95_P16_AUTHENTIC_OLD_CERT_RESEARCH_ONLY.json
+          python3 - <<'PY'
+          import json
+          p=json.load(open("derived/I10_P2_G95_P16_AUTHENTIC_OLD_CERT_RESEARCH_ONLY.json"))
+          assert p["original_engine"]=="Ethereal"
+          assert p["source_reproduction_this_run"]=="NOT_REEXECUTED"
+          assert p["user_facing_I9_I10_trust_status"]=="NOT_PUBLICLY_ADMITTED"
+          assert p["public_trust_approved_entry_count"]==0
+          assert p["stockfish_source_causal_authority"]=="NONE"
+          assert p["human_utility_score"] is None
+          assert {q["uci"] for q in p["root_pair"]}=={"d6d5","e8g8"}
+          assert p["actual_original_certificate_observation"]["TARGET"]["native_bestmove"]=="e8g8"
+          assert p["actual_original_certificate_observation"]["SUBSET"]["native_bestmove"]=="e8g8"
+          assert p["actual_original_certificate_observation"]["TARGET"]["source_lower_event_state"] != p["actual_original_certificate_observation"]["SUBSET"]["source_lower_event_state"]
+          print("I10_P2_SOURCE_BOUNDARY_PASS","LOCAL_ONLY","DO_NOT_ADD_TO_PUBLIC_TRUST")
+          PY
+          printf '%s\n' 'This is audit of an existing historical Ethereal P16 source certificate, NOT fresh native source replay and NOT approved for public I9/I10 causal claims. No human gain, no Queen/CCC superiority.' > derived/SCOPE.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x-i10-p2-existing-ethereal-cert-boundary-only
+          path: derived/
+          retention-days: 14
