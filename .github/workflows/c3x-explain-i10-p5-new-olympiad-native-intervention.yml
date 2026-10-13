@@ -1,0 +1,91 @@
+name: C3X I10 P5 New Olympiad Eight-Game Original SF16 Root-Order Source Intervention
+on:
+  push:
+    paths:
+      - '.github/workflows/c3x-explain-i10-p5-new-olympiad-native-intervention.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  source-native-O-F-Z:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Original public 2026 Olympiad PGN SHA and preoutcome 8 game target freeze
+        env:
+          PYTHONPATH: .
+        run: |
+          set -euo pipefail
+          python3 -m pip install --disable-pip-version-check pytest python-chess==1.999
+          mkdir -p derived
+          python3 tools/c3x_explain_i10_p5_fresh_olympiad_freeze.py \
+            --expected-sha256 363c4fd6d1bd17ead0890a068c14838296c2393f6de8469633edc0e1bc126a07 \
+            --out derived
+          python3 tools/c3x_explain_i10_p5_olympiad_source_targets.py \
+            --input derived \
+            --original-pgn derived/source-2026-olympiad-r1-original.pgn \
+            --out derived/I10_P5_NEW_OLYMPIAD_EIGHT_TARGETS_ENGINE_BLIND.json
+          python3 - <<'PY'
+          import json
+          j=json.load(open("derived/I10_P5_NEW_OLYMPIAD_EIGHT_TARGETS_ENGINE_BLIND.json"))
+          assert len(j["positions"])==8 and len({x["game_id"] for x in j["positions"]})==8
+          assert len([x for x in j["positions"] if x["split"]=="TRAIN"])==4
+          assert len([x for x in j["positions"] if x["split"]=="EVAL"])==4
+          assert all(x["history_move_count"]==x["ply"]-1 for x in j["positions"])
+          assert j["engine_search_not_yet_executed_at_preselection"]
+          print("C3X_P5_FRESH_EIGHT_PREENGINE_FULL_PGN_HISTORY_TARGETS_FROZEN")
+          PY
+      - name: Unmodified original official pinned Stockfish 16
+        run: |
+          set -euo pipefail
+          git clone -q --single-branch --branch sf_16 https://github.com/official-stockfish/Stockfish.git /tmp/c3x-i10-p5-original
+          test "$(git -C /tmp/c3x-i10-p5-original rev-parse HEAD)" = 68e1e9b3811e16cad014b590d7443b9063b3eb52
+          make -s -C /tmp/c3x-i10-p5-original/src -j2 build ARCH=x86-64
+          cp /tmp/c3x-i10-p5-original/src/stockfish /tmp/c3x-i10-p5-stockfish-original
+          sha256sum /tmp/c3x-i10-p5-stockfish-original > derived/original-stockfish16-binary-sha256.txt
+      - name: Previously recorded source-root intervention patch (single exact source anchor)
+        run: |
+          set -euo pipefail
+          python3 tools/c3x_016_P4_independent_12root_source_order_patch.py \
+            --source /tmp/c3x-i10-p5-original \
+            --out-manifest derived/previously-established-root-order-C3X016-reuse.json
+          make -s -C /tmp/c3x-i10-p5-original/src -j2 build ARCH=x86-64
+          cp /tmp/c3x-i10-p5-original/src/stockfish /tmp/c3x-i10-p5-stockfish-intervened
+          sha256sum /tmp/c3x-i10-p5-stockfish-intervened > derived/patched-stockfish16-binary-sha256.txt
+      - name: Actually run original and patched O/F/Z double-cold source-intervention court
+        env:
+          PYTHONPATH: .
+        run: |
+          set -euo pipefail
+          python3 tools/c3x_explain_i10_p5_olympiad_source_order_native.py \
+            --cohort derived/I10_P5_NEW_OLYMPIAD_EIGHT_TARGETS_ENGINE_BLIND.json \
+            --original /tmp/c3x-i10-p5-stockfish-original \
+            --patched /tmp/c3x-i10-p5-stockfish-intervened \
+            --out derived/I10_P5_OLYMPIAD_ORIGINAL_SF16_ROOT_SOURCE_O_F_Z.json
+          python3 - <<'PY'
+          import json
+          p=json.load(open("derived/I10_P5_OLYMPIAD_ORIGINAL_SF16_ROOT_SOURCE_O_F_Z.json"))
+          assert len(p["worlds"])==8
+          assert p["native_engine_new_source_operations"]==56
+          for x in p["worlds"]:
+              assert x["source_world_cells"]["Z"]["physical_source"]["target_contact"]==0
+              assert x["source_world_cells"]["F"]["physical_source"]["target_contact"]==1
+              assert x["source_world_cells"]["O"]["uci"]==x["source_world_cells"]["Z"]["uci"]
+              assert x["source_world_cells"]["O"]["uci"]==x["original_unmodified"]
+              assert x["chess_semantic_causal_certificate"] is None
+          assert p["human_chess_strategic_semantic_causes_proven"] is False
+          print("C3X_P5_NEW_FULL_HISTORY_NATIVE_SOURCE_COURT_ACCEPTED",p["summary"])
+          PY
+          printf '%s\n' 'New to I10-P4 independent September 2026 Olympiad 8 games, original source SHA frozen before engine; actual SF16 root order intervention with exact source contact, 0 no-contact control, cold replay, full startpos game histories. No high-level chess semantic causality/human effect or 0.26 promoted.' > derived/SCOPE.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x-i10-p5-new-eight-game-original-sf16-source-O-F-Z
+          path: derived/
+          retention-days: 14
