@@ -1,0 +1,106 @@
+{
+  "schema": "c3x-explain-i10-p2-strong-prior-art-original-p16-cert-boundary-v1",
+  "date": "2026-10-13",
+  "stage": "C3X Explain I10-P2",
+  "origin": "COUNTERFACTUAL_CONTRASTIVE_CHESS_EXPLANATION_NOT_RDRC_COST_ALLOCATION",
+  "prereg_git_commit": "01b1b940050e40e3c376804c88816ad4e6e35682",
+  "historical_certificate": {
+    "repo_path": "c3x/certificates/g95-p16-local-minimal-full-bridge.json",
+    "source_git_blob_sha1": "53765418975095ec5981da35464859e01f030902",
+    "source_bytes_sha256": "f46776c5d57366ca7d0eb203ee860d3ce436d0d1587930e7d0b11074fecaabdd",
+    "certificate_id": "398eca8d6adf00525e6d5bf7",
+    "engine": "Ethereal",
+    "stage": "C3X 0.7.0-G9.5-P16",
+    "replication": "LOCAL_ONLY",
+    "B0_FEN": "r1bqk2r/pp2bppp/2nppn2/8/2PP4/2N2NP1/PP3PBP/R1BQK2R b KQkq - 0 1",
+    "pair": [
+      "d6d5",
+      "e8g8"
+    ],
+    "recorded_result_by_world": {
+      "B0": {
+        "bestmove": "d6d5",
+        "LOWER_event": "EVENT_PAIR_REVERSAL"
+      },
+      "TARGET": {
+        "bestmove": "e8g8",
+        "LOWER_event": "EVENT_NULL"
+      },
+      "SUBSET": {
+        "bestmove": "e8g8",
+        "LOWER_event": "EVENT_PAIR_REVERSAL"
+      },
+      "SHAM": {
+        "bestmove": "e8g8",
+        "LOWER_event": "EVENT_PAIR_REVERSAL"
+      }
+    },
+    "observed_from_prior_original_receipt_not_new_reexecution": true
+  },
+  "CI": {
+    "run_id": 38334909416,
+    "status": "success",
+    "source_contract_tests_passed": 10,
+    "existing_I10_tests_passed": 12,
+    "all_tests_passed": 22,
+    "artifact_id": 11784395886,
+    "artifact_zip_sha256": "8baae886e36dd5415b5167dc30b6f7267bd76f3b50dadeea121dce09fc1e4225",
+    "artifact_original_JSON_sha256": "3133ee6984e5e05131a3cf6fa7727394d3f2d67ce7ebacf19f985e675431e5ea"
+  },
+  "evidence_ceiling": {
+    "new_Ethereal_experiments_run": 0,
+    "original_source_event_validated_this_trial": false,
+    "original_cert_bytes_and_chess_world_verified": true,
+    "original_score_claim_recalibrated": false,
+    "user_facing_I9_I10_certificates_admitted": 0,
+    "Stockfish_source_causal_claim": false,
+    "move_superiority_or_engine_strength": false,
+    "human_understanding_outcome": false,
+    "independent_Queen_CCC_Cui_competitor_runs": 0,
+    "academic_superiority_claim": "HOLD"
+  },
+  "new_main_competitors": [
+    {
+      "paper": "Bhaskar et al. 2026 Queen",
+      "arxiv": "2610.03695",
+      "claim": "strong grandmaster-level chess-LM and move+PV+commentary, LM judge",
+      "evidence": "original public arXiv abstract and project source/README",
+      "run": "NOT_RUN"
+    },
+    {
+      "paper": "Cui Ling Ng 2026 Communicating Chess Strategies in Natural Language",
+      "arxiv": "2607.11486",
+      "original_drive_id": "19zqCJXM631qasR9uIyg4GuBZxIBO7czw",
+      "claim": "beyond-mainline human strategy comprehension",
+      "run": "NOT_RUN"
+    },
+    {
+      "paper": "Schut et al. PNAS 2025 Bridging Human-AI knowledge gap in AlphaZero",
+      "doi": "10.1073/pnas.2406675122",
+      "original_drive_preprint_id": "18jt0uOIG6gWFAWRlv6H-yBqKup-NGvwU",
+      "claim": "grandmaster human concept transfer demonstrated",
+      "run": "NOT_RUN"
+    },
+    {
+      "paper": "Hammersborg and Strumke Scientific Reports 2024",
+      "doi": "10.1038/s41598-024-70701-2",
+      "claim": "neural information flow guarantees",
+      "run": "NOT_RUN"
+    },
+    {
+      "paper": "Bhatlapenumarthi et al IEEE Access 2026 KibitzAI",
+      "doi": "10.1109/ACCESS.2026.3725218",
+      "claim": "PPO Stockfish and comparative LLM commentary, 75 games reported",
+      "run": "NOT_RUN"
+    }
+  ],
+  "integrity": {
+    "approved_manifest_unchanged": true,
+    "original_certificate_bytes_unchanged": true,
+    "WhoSia_only_human_commits": true,
+    "read_only_workflow": true
+  },
+  "conclusion": "PRIOR_LOCAL_CAUSAL_EVIDENCE_AUTHENTICITY_PASS_AND_SAFE_REFUSAL_PASS_BUT_NEITHER_NEW_SOURCE_REPLICATION_NOR_SUPERIORITY_OVER_STRONG_PRECEDENTS",
+  "future_falsifier": "Same original input and trace to all strong competitors; if their mechanism-claim precision, abstention and human transfer are equivalent to C3X, no unique gain from C3X architecture.",
+  "science_version": "0.26_HOLD"
+}
