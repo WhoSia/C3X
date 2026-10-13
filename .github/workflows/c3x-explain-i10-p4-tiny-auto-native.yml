@@ -75,6 +75,42 @@ jobs:
           print("I10_P4_ORIGINAL_SOURCE_GAME_SPLIT_PASS",a,b)
           PY
           printf '%s\n' 'P4 DEVELOPMENT: 9 genuinely trained scalar weights on ONLY weak proxy question labels; game-disjoint but PREEXPOSED historical chess games; neither human claims nor real Queen/Cui/CCC inference nor original Stockfish source causal attribution. I9/P3 legacy abstentions preserved, ALL selected and failed moments counted.' > derived/SCOPE.txt
+      - name: Actually run trained 9-weight frozen artifact from public PGN CLI
+        env:
+          PYTHONPATH: .
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from pathlib import Path
+          from tools.c3x_explain_i10_p1_historical_cases import CASES
+          Path("derived/morphy-p4-replay.pgn").write_text(CASES[1]["pgn"],encoding="utf-8")
+          PY
+          python3 -m c3x_explain.ecl_auto \
+            --pgn derived/morphy-p4-replay.pgn \
+            --engine /tmp/p4-sf16/src/stockfish \
+            --max-moments 3 --min-ply 10 --disable-nnue \
+            --question ENGINE_PREFERENCE \
+            --model-json c3x/models/i10-p4-dev-weak-proxy-kasparov-9w.json \
+            --out derived/P4_REAL_CLI_TRAINED_MODEL_AUTO_MORPHY.json
+          python3 - <<'PY'
+          import json
+          from c3x_explain.ecl_tiny_selector import _validate_model
+          m=json.load(open("c3x/models/i10-p4-dev-weak-proxy-kasparov-9w.json"))
+          assert len(_validate_model(m))==9
+          r=json.load(open("derived/P4_REAL_CLI_TRAINED_MODEL_AUTO_MORPHY.json"))
+          assert r["selector_kind"]=="P4_TRAINED_PROXY"
+          assert r["attempted"]==3 and r["emitted"]>=1
+          assert r["source_causal_authority_new"] is False
+          for p in r["result_rows"]:
+              if p["selection"]["decision"]=="EMIT_BOUNDED_CONVENTIONAL":
+                  s=p["selection"]
+                  assert s["mode"]=="P4_TRAINED_9_PARAMETER_PROXY_SELECTOR"
+                  assert s["claim_role"]=="SCORE"
+                  assert s["confidence_probability"] is None
+                  assert s["source_causal_claim"] is False
+                  print("I10_P4_TRAINED_PUBLIC_CLI_ACTUALLY_USED_WEIGHTS",p["ply"],s["selected_claim_ids"][0])
+          print("I10_P4_TRAINED_PUBLIC_CLI_PASS",r["emitted"],r["attempted"],r["preselection"]["eligible_count"])
+          PY
       - uses: actions/upload-artifact@v4
         if: always()
         with:
