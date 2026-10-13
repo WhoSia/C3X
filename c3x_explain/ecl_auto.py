@@ -74,7 +74,7 @@ def run_auto(pgn:str,engine_path:str,*,max_moments:int=3,
                 disable_nnue=disable_nnue)
             compiled=receipt["ecl"]
             selection=select(compiled,question,model=model)
-            result={"ply":z["ply"],"preoutcome":z,"source_rival":receipt["source_selected_distinct_rival"],
+            result={"ply":z["ply"],"preoutcome":z,"source_fen":receipt["fen"],"source_rival":receipt["source_selected_distinct_rival"],
                     "source_evidence":receipt["restricted_two_rival_source"],
                     "legacy_I9_firewall_pass":receipt["legacy_I9_firewall_pass"],
                     "ecl":compiled,"selection":selection,
