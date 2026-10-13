@@ -90,7 +90,7 @@ def main()->None:
     if a.judgment_out or a.judgment_markdown:
         decisions=judgment_packet(out)
         if a.judgment_out:
-            Path(a.judgment_out).write_text(json.dumps(decisions,indent=2,ensure_ascii=False)+"\\n",encoding="utf-8")
+            Path(a.judgment_out).write_text(json.dumps(decisions,indent=2,ensure_ascii=False)+"\n",encoding="utf-8")
         if a.judgment_markdown:
             Path(a.judgment_markdown).write_text(judgment_markdown(decisions),encoding="utf-8")
     print("C3X_COMMENTARY_PASS",out["moment_count"],out["evaluation_packet"]["firewall_failed_moments"],
