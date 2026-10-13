@@ -44,7 +44,7 @@ def judge_moment(moment: dict[str, Any]) -> dict[str, Any]:
         first.get("depth") is None or second.get("depth") is None or
         first.get("depth") != second.get("depth")):
         return _abstain(moment, "ROOT_IDENTITY_OR_COMPLETED_DEPTH_NOT_COMPARABLE")
-    if not _ordinary_cp(first) or not _ordinary_cp(second):
+    if first.get("score_bound") or second.get("score_bound"):\n        return _abstain(moment, "BOUND_ONLY_ENGINE_INFO_NOT_EXACT_ROOT_COMPARISON")\n    if not _ordinary_cp(first) or not _ordinary_cp(second):
         return _abstain(moment, "UNKNOWN_MATE_OR_NONINTEGER_CP_VALUE")
     if first["score_cp"] <= second["score_cp"]:
         return _abstain(moment, "NO_STRICT_COMPARABLE_LEADER")
