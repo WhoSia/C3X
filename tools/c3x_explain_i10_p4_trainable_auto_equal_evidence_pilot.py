@@ -9,6 +9,7 @@ import json
 from pathlib import Path
 from c3x_explain.ecl_auto import run_auto
 from c3x_explain.ecl_tiny_selector import train,weak_proxy_examples,benchmark,select,QUESTIONS
+from c3x_explain.ecl_rival_equal_evidence import freeze_rivals
 from tools.c3x_explain_i10_p1_historical_cases import CASES
 
 def evidence_export(row:dict,game_id:str)->dict:
@@ -78,6 +79,8 @@ def main():
     (root/"tiny-model-game-disjoint-proxy-comparison.json").write_text(json.dumps(report,indent=2)+"\n")
     exports=[evidence_export(r,CASES[1]["id"]) for r in test_rows]
     (root/"strong-rivals-equal-evidence-NOT-RUN.json").write_text(json.dumps(exports,indent=2,ensure_ascii=False)+"\n")
+    equal=freeze_rivals(exports)
+    (root/"strong-rivals-IDENTICAL-source-input-hashes-NOT-RUN.json").write_text(json.dumps(equal,indent=2,ensure_ascii=False)+"\n")
     baseline=report["proxy_comparison"]["P3_STATIC_TOP_PRIORITY_BASELINE"]
     learned=report["proxy_comparison"]["P4_TRAINED_9_PARAMETER_PROXY_SELECTOR"]
     print("I10_P4_GAME_GROUP_SPLIT",len(train_packets),len(test_packets),
