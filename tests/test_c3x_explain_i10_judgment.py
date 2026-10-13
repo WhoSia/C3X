@@ -74,6 +74,23 @@ def test_i10_local_causal_cert_not_auto_promoted():
     m["atoms"][-1]["claim"]["certificate"]["pair"] = "a2a3::d2d4"
     assert judge_moment(m)["local_causal_certificate_ids"] == []
 
+def test_i10_both_candidate_pv_lines_are_legally_replayed_not_rival_refutation():
+    import chess
+    m = fixture(); m["fen"] = chess.Board().fen()
+    m["candidates"][0]["pv_uci"] = ["e2e4", "e7e5", "g1f3"]
+    m["candidates"][1]["pv_uci"] = ["d2d4", "d7d5", "c2c4"]
+    j = judge_moment(m)
+    assert j["decision"] == "ENGINE_SNAPSHOT_PREFERENCE_ONLY"
+    assert {x["candidate"] for x in j["legally_replayed_candidate_lines"]} == {"e2e4", "d2d4"}
+    rival = next(x for x in j["legally_replayed_candidate_lines"] if x["candidate"] == "d2d4")
+    assert rival["opponent_first_reply_uci"] == "d7d5"
+    assert rival["semantic_scope"] == "CHESS_LEGALITY_REPLAY_ONLY_NOT_FORCED_REFUTATION"
+    assert "필연적인 반박은 아닙니다" in j["explanation_ko"]
+    m["candidates"][1]["pv_uci"] = ["d2d4", "d2d4"]  # impossible consecutive same-colour pawn push
+    j = judge_moment(m)
+    assert all(x["candidate"] != "d2d4" for x in j["legally_replayed_candidate_lines"])
+
+
 def test_i10_unregistered_certificate_fails_causal_link():
     m = fixture()
     m["atoms"].append({
