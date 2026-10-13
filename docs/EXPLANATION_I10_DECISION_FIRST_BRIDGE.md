@@ -38,7 +38,7 @@ Existing I9 default remains unchanged; supplying the new flags also writes a sep
 
 ```bash
 python -m c3x_explain --pgn local-authorized-game.pgn \
-  --engine /path/to/verified-stockfish \
+  --engine /path/to/verified-stockfish --disable-nnue \
   --nodes 5000 --multipv 3 \
   --json-out explanation.json --markdown-out explanation.md \
   --judgment-out decision.json --judgment-markdown decision.md
