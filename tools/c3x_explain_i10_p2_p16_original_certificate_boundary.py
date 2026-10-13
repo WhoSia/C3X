@@ -24,7 +24,7 @@ def audit_original(c:dict, trust:dict, *, original_blob:bytes, check_git_blob:bo
     if check_git_blob:
         # The stored official historical Git object ID was read through GitHub,
         # and protects our audit against silently substituting a new local witness.
-        header=f"blob {len(original_blob)}\\0".encode()
+        header=f"blob {len(original_blob)}".encode()+bytes((0,))
         git_hash=hashlib.sha1(header+original_blob).hexdigest()
         if git_hash!=OLD_GIT_BLOB_SHA1:
             raise ValueError("ORIGINAL_SOURCE_BYTE_IDENTITY_MISMATCH")
