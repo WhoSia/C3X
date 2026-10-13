@@ -5,6 +5,8 @@ or an upgrade to underlying causal certificates.
 """
 from __future__ import annotations
 from typing import Any
+import chess
+from .planning import verified_line_evidence
 
 SCHEMA = "c3x-explain-i10-typed-evidence-judgment-v1"
 CAUSAL = "C3X_CAUSAL_CONTRAST"
@@ -78,6 +80,27 @@ def judge_moment(moment: dict[str, Any]) -> dict[str, Any]:
         pair = str(cert.get("pair", ""))
         if cid in graph_cert_ids and set(pair.split("::")) == {first["uci"], second["uci"]}:
             local_causal.append(cid)
+    candidate_lines = []
+    fen = moment.get("fen")
+    if fen:
+        try:
+            board = chess.Board(fen)
+            if board.is_valid():
+                for candidate in (first, second):
+                    line = verified_line_evidence(board, candidate)
+                    if not line or not line.get("all_moves_legally_replayed"):
+                        continue
+                    steps = line.get("steps") or []
+                    if not steps or steps[0].get("uci") != candidate["uci"]:
+                        continue
+                    candidate_lines.append({
+                        "candidate": candidate["uci"],
+                        "san_line": [step["san"] for step in steps],
+                        "opponent_first_reply_uci": steps[1]["uci"] if len(steps) > 1 else None,
+                        "semantic_scope": "CHESS_LEGALITY_REPLAY_ONLY_NOT_FORCED_REFUTATION",
+                    })
+        except (ValueError, TypeError):
+            pass
     gap = first["score_cp"] - second["score_cp"]
     leader_name = first.get("san") or first["uci"]
     second_name = second.get("san") or second["uci"]
@@ -86,6 +109,17 @@ def judge_moment(moment: dict[str, Any]) -> dict[str, Any]:
                "This records an engine preference, not a proof of the best chess move.")
     if local_causal:
         wording += " A separately admitted local C3X intervention certificate is linked; its engine-relative scope remains limited."
+    wording_ko = (
+        f"제한된 엔진 탐색(깊이 {first['depth']})에서 {leader_name}이(가) "
+        f"{second_name}보다 {gap}cp 높게 평가됐습니다. "
+        "이는 해당 예산에서의 후보 순위이지 객관적 최선수의 증명이 아닙니다."
+    )
+    rival_line = next((x for x in candidate_lines if x["candidate"] == second["uci"]), None)
+    if rival_line:
+        words = " ".join(rival_line["san_line"][:6])
+        wording_ko += f" 경쟁 후보의 검색 변형은 {words}이며, 이는 합법적으로 재생된 예시 경로일 뿐 필연적인 반박은 아닙니다."
+    if local_causal:
+        wording_ko += " 동일 후보쌍에 연결된 국소 C3X 인과 증명서가 있지만, 원래 엔진 선호 변화 범위로 한정됩니다."
     return {
         "schema": SCHEMA, "ply": moment.get("ply"), "played_uci": moment.get("played_uci"),
         "decision": "ENGINE_SNAPSHOT_PREFERENCE_ONLY",
@@ -93,10 +127,12 @@ def judge_moment(moment: dict[str, Any]) -> dict[str, Any]:
         "preferred_move": first["uci"], "preferred_san": leader_name,
         "challenger": second["uci"], "challenger_san": second_name,
         "candidate_gap_cp": gap, "completed_depth": first["depth"],
+        "legally_replayed_candidate_lines": candidate_lines,
         "evidence_atom_ids": sorted(set(supporting + support)),
         "local_causal_certificate_ids": sorted(set(local_causal)),
         "calibrated_probability": None, "objective_chess_truth": None,
         "explanation": wording,
+        "explanation_ko": wording_ko,
         "authority_ceiling": "ENGINE_PREFERENCE_AT_BOUNDED_BUDGET_NOT_CHESS_TRUTH_OR_FULL_CAUSAL_PATH",
     }
 
@@ -118,7 +154,7 @@ def judgment_markdown(packet: dict[str, Any]) -> str:
              "This is a bounded original-engine ranking, not a calibrated neural decision or objective chess proof.", ""]
     for p in packet.get("judgments", []):
         lines.extend([f"## Ply {p.get('ply')}", "",
-                      p.get("explanation") or "", "",
+                      p.get("explanation_ko") or p.get("explanation") or "", "",
                       f"- Decision: `{p.get('decision')}`",
                       f"- Reason: `{p.get('reason')}`",
                       "- Supporting atoms: " + (", ".join(p.get("evidence_atom_ids", [])) or "none"),
