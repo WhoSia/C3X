@@ -1,0 +1,69 @@
+name: C3X I10 P5 Original Native Source PV Semantic Ceiling
+on:
+  push:
+    paths:
+      - '.github/workflows/c3x-explain-i10-p5-original-pv-semantic-ceiling.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  chess-source-PV-legality-no-semantic-inflation:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Immutable source original PV legality and no-causal-concept regression
+        env:
+          PYTHONPATH: .
+        run: |
+          set -euo pipefail
+          python3 -m pip install --disable-pip-version-check pytest python-chess==1.999
+          pytest -q tests/test_c3x_explain_i10_p5_source_semantics.py
+      - name: Retrieve exact archived original eight-game native source outcome from earlier independent court
+        uses: actions/download-artifact@v4
+        with:
+          name: c3x-i10-p5-new-eight-game-original-sf16-source-O-F-Z
+          run-id: 38347203171
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          path: original-native
+      - name: Replay original 8 source lines and limit derived chess semantic narration
+        env:
+          PYTHONPATH: .
+        run: |
+          set -euo pipefail
+          mkdir -p derived
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          from c3x_explain.ecl_p5_source_semantics import audit_from_raw
+          src=Path("original-native/I10_P5_OLYMPIAD_ORIGINAL_SF16_ROOT_SOURCE_O_F_Z.json").read_bytes()
+          r=audit_from_raw(src)
+          assert r["native_source_root_reordered"]==8
+          assert r["bestmove_unchanged"]==8
+          assert r["first_opponent_reply_unchanged"]==8
+          assert r["later_hypothetical_PV_changed"]==3
+          assert r["new_public_C3X_certificate"] is None
+          assert r["independent_new_engine_source_causal_chess_semantics"] is False
+          for x in r["samples"]:
+              assert x["source_PV_legal_replay_original_san"]
+              assert x["source_PV_legal_replay_intervened_san"]
+              assert not x["human_semantic_chess_concept_caused"]
+              print("C3X_P5_ACTUAL_ORIGINAL_PV_SEMANTIC_BOUNDED",
+                    x["game_id"],x["source_PV_common_prefix_halfmoves"],
+                    x["human_readable_korean_bounded_report"][:270])
+          Path("derived/SEMANTIC_P5_BOUNDED_ORIGINAL_EIGHT_GAMES.json").write_text(
+              json.dumps(r,ensure_ascii=False,indent=2)+"\n")
+          PY
+          printf '%s\n' 'Actual old source-original O/F/Z native artifact read, SHA check, 8 full PV chess legality replays. Search-root order source event caused no new root move or first opponent reply. Three divergent later hypothetical PVs allow only bounded source variation, not proof of strategic chess concept, true moves or human learning.' > derived/SCOPE.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x-i10-p5-original-root-PV-to-hypothetical-chess-concept-boundary
+          path: derived/
+          retention-days: 14
