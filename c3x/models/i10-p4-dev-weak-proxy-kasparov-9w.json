@@ -1,0 +1,37 @@
+{
+  "schema": "c3x-ecl-i10-p4-tiny-listwise-linear-v1",
+  "weights": [
+    4.0133324831,
+    -2.0066662416,
+    -2.0066662416,
+    -2.0066662416,
+    4.0133324831,
+    -2.0066662416,
+    -2.0066662416,
+    -2.0066662416,
+    4.0133324831
+  ],
+  "feature_names": [
+    "ENGINE_PREFERENCE/SCORE",
+    "ENGINE_PREFERENCE/PLAYED_PV",
+    "ENGINE_PREFERENCE/ALTERNATIVE_PV",
+    "PLAYED_CONTINUATION/SCORE",
+    "PLAYED_CONTINUATION/PLAYED_PV",
+    "PLAYED_CONTINUATION/ALTERNATIVE_PV",
+    "ALTERNATIVE_CONTINUATION/SCORE",
+    "ALTERNATIVE_CONTINUATION/PLAYED_PV",
+    "ALTERNATIVE_CONTINUATION/ALTERNATIVE_PV"
+  ],
+  "trained_parameter_count": 9,
+  "training_example_count": 12,
+  "training_source_group_count": 1,
+  "training_source_groups": [
+    "KASPAROV_TOPALOV_1999_24_RXD4"
+  ],
+  "proxy_labels_only": true,
+  "calibrated_probability": null,
+  "independent_human_training": false,
+  "objective_chess_superiority": null,
+  "model_type": "TRAINED_LISTWISE_LINEAR_CLAIM_ROUTER_NOT_CHESS_VALUATION",
+  "sha256_canonical": "e421ba5f990105c728e01553579b68b4f2e4a534324fe05c3124fb08c006f836"
+}
