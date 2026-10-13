@@ -4,6 +4,7 @@ from pathlib import Path
 from typing import Any
 from .core import analyze_pgn
 from .judgment import judgment_packet, judgment_markdown
+from .evidence_compiler import compile_graph, render_markdown as ecl_markdown
 from .certificate_trust import admitted_certificates
 
 def load_packets(paths:list[str])->list[dict[str,Any]]:
@@ -67,6 +68,8 @@ def main()->None:
     ap.add_argument("--markdown-out")
     ap.add_argument("--judgment-out",help="I10 typed engine-evidence judgment JSON; no trained model")
     ap.add_argument("--judgment-markdown",help="I10 bounded judgment-first report")
+    ap.add_argument("--ecl-json-out",help="I10-P3 compact claim/evidence compiler JSON; NO trained model")
+    ap.add_argument("--ecl-markdown",help="I10-P3 Korean bounded proof-aware explanation")
     a=ap.parse_args()
     pgn=Path(a.pgn).read_text(encoding="utf-8")
     # The public CLI never accepts unsigned/unreviewed causal certificate files.
@@ -95,6 +98,12 @@ def main()->None:
             Path(a.judgment_out).write_text(json.dumps(decisions,indent=2,ensure_ascii=False)+"\n",encoding="utf-8")
         if a.judgment_markdown:
             Path(a.judgment_markdown).write_text(judgment_markdown(decisions),encoding="utf-8")
+    if a.ecl_json_out or a.ecl_markdown:
+        ecl=compile_graph(out)
+        if a.ecl_json_out:
+            Path(a.ecl_json_out).write_text(json.dumps(ecl,indent=2,ensure_ascii=False)+"\n",encoding="utf-8")
+        if a.ecl_markdown:
+            Path(a.ecl_markdown).write_text(ecl_markdown(ecl),encoding="utf-8")
     print("C3X_COMMENTARY_PASS",out["moment_count"],out["evaluation_packet"]["firewall_failed_moments"],
           out["susceptibility_packet_count"])
 
