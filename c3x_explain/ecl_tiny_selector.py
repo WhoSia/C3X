@@ -94,6 +94,12 @@ def _validate_model(model:dict[str,Any])->list[float]:
         raise ValueError("FEATURE_SCHEMA_MISMATCH")
     if model.get("trained_parameter_count")!=DIM or model.get("proxy_labels_only") is not True:
         raise ValueError("MODEL_AUTHORITY_MISMATCH")
+    digest=model.get("sha256_canonical")
+    if digest is not None:
+        unsigned={k:v for k,v in model.items() if k!="sha256_canonical"}
+        expected=hashlib.sha256(json.dumps(unsigned,sort_keys=True,separators=(",",":")).encode()).hexdigest()
+        if digest!=expected:
+            raise ValueError("MODEL_ARTIFACT_SHA256_MISMATCH")
     return [float(w) for w in weights]
 
 def train(examples:list[dict[str,Any]],*,epochs:int=100,rate:float=0.35)->dict[str,Any]:
