@@ -37,6 +37,15 @@ def test_i10_blocks_mismatched_depth_or_root():
     m = fixture(); m["candidates"][1]["uci"] = "e2e4"
     assert judge_moment(m)["decision"] == "ABSTAIN"
 
+def test_i10_alternative_choice_must_include_the_actual_played_move():
+    m = fixture()
+    m["played_uci"] = "g1f3"  # source top two do not cover the actual played move
+    assert judge_moment(m)["reason"] == "PLAYED_MOVE_NOT_IN_COMPARABLE_RIVAL_PAIR"
+    m = fixture()
+    m["played_uci"] = "d2d4"
+    assert judge_moment(m)["played_move_role"] == "CHALLENGER"
+
+
 def test_i10_bound_only_engine_info_abstains():
     m = fixture(); m["candidates"][0]["score_bound"] = True
     assert judge_moment(m)["reason"] == "BOUND_ONLY_ENGINE_INFO_NOT_EXACT_ROOT_COMPARISON"
