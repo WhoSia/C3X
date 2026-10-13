@@ -1,0 +1,159 @@
+{
+  "schema": "c3x-explain-i10-p1-native-two-real-chess-rival-development-v1",
+  "date": "2026-10-13",
+  "formal_name": "Decision-First Chess Judgment & Rival-Line Commentary: Two Historic Source-Native Development Cases and Honest Comparator Limit",
+  "status": "NATIVE_DEVELOPMENT_SUCCESS_2_OF_2_TYPED_RIVAL_DECISIONS_NO_CAUSAL_CERTIFICATE_NO_HUMAN_BENEFIT_CLAIM",
+  "preseal_commit": "d2fd9903e126ee74f9e538f3fcbfbf8302af9dd6",
+  "original_Stockfish16_source_sha": "68e1e9b3811e16cad014b590d7443b9063b3eb52",
+  "CI": {
+    "run": 38332952446,
+    "conclusion": "success",
+    "tests_passed": 40,
+    "native_cases": 2,
+    "artifact_id": 11783900801,
+    "artifact_zip_sha256": "91449ec1e1227cb6be1ca2b051ee136c26aea1ede591efe88834e472a343e57d",
+    "native_case_json_sha256": "1afc6f852593be512b1538569b245a17d7945e3850e5296a7382a8221659346f"
+  },
+  "predecessor_I10_P0": {
+    "run": 38331884555,
+    "conclusion": "success",
+    "tests_passed": 37,
+    "actual_native_decisions": 0,
+    "native_abstentions": 4
+  },
+  "source": "Public historical PGN legally replayed, official SF16 cold scout depth9 MultiPV3, root-restricted two-rival depth12 MultiPV2, Threads1 Hash16 NNUE OFF; matched source condition only within each pair. I9 separate baseline uses 4000 nodes/ply and is NOT equivalent compute budget.",
+  "cases": [
+    {
+      "id": "KASPAROV_TOPALOV_1999_24_RXD4",
+      "exact_fen": "b2r3r/k4p1p/p2q1np1/NppP4/3p1Q2/P4PPB/1PP4P/1K1RR3 w - - 1 24",
+      "played_san": "Rxd4",
+      "played_uci": "d1d4",
+      "recorded_opponent_reply": "cxd4",
+      "scout_depth9_ranking": [
+        {
+          "move": "Nc6+",
+          "cp": -4
+        },
+        {
+          "move": "Qxd6",
+          "cp": -63
+        },
+        {
+          "move": "Rxd4",
+          "cp": -65
+        }
+      ],
+      "pair_depth12": [
+        {
+          "move": "Nc6+",
+          "cp": -17
+        },
+        {
+          "move": "Rxd4",
+          "cp": -54
+        }
+      ],
+      "actual_i9_note": "Rxd4 is a capture. Rxd4 is the engine's first candidate in this analysis. In the bounded verified principal variation, the line continues Rxd4 cxd4 Nc6+ Kb6 Qxd4+ Qc5; the replay contains check, capture.",
+      "rival_source_PV": [
+        "Nc6+",
+        "Rxc6",
+        "Qxd6",
+        "Rxd6",
+        "dxc6"
+      ],
+      "played_source_PV": [
+        "Rxd4",
+        "cxd4",
+        "Qxd4+",
+        "Qb6",
+        "Re7+"
+      ],
+      "verified_tactic_asymmetry": "Rxd4: capture. Nc6+: check plus attack on king and rook d8.",
+      "C3X_causes_authority": "none"
+    },
+    {
+      "id": "MORPHY_OPERA_1858_12_O_O_O",
+      "exact_fen": "r3kb1r/p2nqppp/5n2/1B2p1B1/4P3/1Q6/PPP2PPP/R3K2R w KQkq - 1 12",
+      "played_san": "O-O-O",
+      "played_uci": "e1c1",
+      "recorded_opponent_reply": "Rd8",
+      "scout_depth9_ranking": [
+        {
+          "move": "Bxf6",
+          "cp": 113
+        },
+        {
+          "move": "O-O",
+          "cp": 81
+        },
+        {
+          "move": "O-O-O",
+          "cp": 68
+        }
+      ],
+      "pair_depth12": [
+        {
+          "move": "O-O-O",
+          "cp": 249
+        },
+        {
+          "move": "Bxf6",
+          "cp": 99
+        }
+      ],
+      "actual_i9_note": "O-O-O castles. Against O-O-O, the engine prefers Bxf6 by about 6 centipawns in this bounded analysis. In the bounded verified principal variation, the line continues Bxf6 gxf6 O-O-O Rd8 Kb1 a6; the replay contains capture.",
+      "played_source_PV": [
+        "O-O-O",
+        "Rd8",
+        "Rxd7",
+        "Rxd7",
+        "Rd1"
+      ],
+      "rival_source_PV": [
+        "Bxf6",
+        "gxf6",
+        "O-O-O",
+        "Rd8",
+        "Kb1",
+        "a6"
+      ],
+      "verified_tactic_asymmetry": "O-O-O: castling rook to d1, Bxf6: knight capture followed by gxf6.",
+      "C3X_causes_authority": "none"
+    }
+  ],
+  "comparison": {
+    "actual_I9_executed": true,
+    "actual_unmodified_SF16_2_rival_depth12": true,
+    "concept_PV_proxy": true,
+    "independent_2025_Kim_CCC_run": false,
+    "independent_LLM_baseline_run": false,
+    "matched_budget_across_I9_and_I10": false,
+    "matched_chess_human_raters": 0,
+    "trained_Jev_or_Clef": false,
+    "source_local_causal_certificates": 0,
+    "improved_human_explanation_claim": false,
+    "Elo_or_chess_value_claim": false
+  },
+  "papers_in_canonical_Drive10": [
+    {
+      "arxiv": "2609.32160v1",
+      "file_id": "13cg7JKtrPH0K3j6QgTuIaA3d2Zitz5WV",
+      "author": "Tang & Zheng",
+      "title": "Typed Decision Models: An Early Evidence Audit and Evaluation Checklist"
+    },
+    {
+      "arxiv": "2609.37647v1",
+      "file_id": "1nyhsNdWIb2IBp8aX1jSUZzWpHWgCtoCK",
+      "author": "Deußer, Sparrenberg & Sifa",
+      "title": "Evaluating and Benchmarking the System One Model Jev"
+    },
+    {
+      "arxiv": "2609.38850v1",
+      "file_id": "1FIO-xUrgBYbcgy9FbPalf14zsGKz6Y-P",
+      "author": "Gao & Wang",
+      "title": "OpenJev-RLCD: A Working RLCD Implementation"
+    }
+  ],
+  "authority_note": "Typed decision and legally replayed PV is not cause of historical human move, source TT natural mediation, calibrated probabilities, general chess truth or demonstrated human comprehension. Development cases were chosen for interpretive value, not model discrimination.",
+  "stage_gate": "EXPLAIN_I10_P1_DEVELOPMENT_COMPLETED / HUMAN_WORLD_CONTACT_HOLD / SCIENCE_0_26_HOLD"
+}
