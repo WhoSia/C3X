@@ -50,7 +50,8 @@ def candidate_packet(engine: chess.engine.SimpleEngine,board: chess.Board,multip
         pv=info.get("pv",[])
         if not pv:continue
         out.append({"rank":i,"uci":pv[0].uci(),"san":board.san(pv[0]),"score_cp":score_cp(info["score"],board.turn),
-                    "depth":info.get("depth"),"nodes":info.get("nodes"),"pv_uci":[m.uci() for m in pv[:8]],\n                    "score_bound":bool(info.get("lowerbound") or info.get("upperbound"))})
+                    "depth":info.get("depth"),"nodes":info.get("nodes"),"pv_uci":[m.uci() for m in pv[:8]],
+                    "score_bound":bool(info.get("lowerbound") or info.get("upperbound"))})
     return out
 
 def cert_index(certs:Iterable[dict[str,Any]])->dict[str,list[dict[str,Any]]]:
