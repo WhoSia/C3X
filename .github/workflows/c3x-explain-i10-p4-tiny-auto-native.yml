@@ -24,7 +24,7 @@ jobs:
           set -euo pipefail
           python3 -m pip install --disable-pip-version-check pytest python-chess==1.999
           python3 -m compileall -q c3x_explain tools/c3x_explain_i10_p4_trainable_auto_equal_evidence_pilot.py
-          pytest -q tests/test_c3x_explain.py tests/test_c3x_explain_i10_judgment.py tests/test_c3x_explain_i10_p1_real_cases.py tests/test_c3x_explain_i10_p2_p16_original_certificate_boundary.py tests/test_c3x_explain_i10_p3_evidence_compiler.py tests/test_c3x_explain_i10_p3_focus.py tests/test_c3x_explain_i10_p4_tiny_auto.py
+          pytest -q tests/test_c3x_explain.py tests/test_c3x_explain_i10_judgment.py tests/test_c3x_explain_i10_p1_real_cases.py tests/test_c3x_explain_i10_p2_p16_original_certificate_boundary.py tests/test_c3x_explain_i10_p3_evidence_compiler.py tests/test_c3x_explain_i10_p3_focus.py tests/test_c3x_explain_i10_p4_tiny_auto.py tests/test_c3x_explain_i10_p4_equal_rivals.py
       - name: Exact original Stockfish16 compiler
         run: |
           set -euo pipefail
@@ -62,6 +62,13 @@ jobs:
               assert j["attempted"]<=j["preselection"]["eligible_count"]
               assert j["preselection"]["chosen_before_any_ENGINE_ANALYSIS"]
               assert j["source_causal_authority_new"] is False
+          eq=json.load(open("derived/strong-rivals-IDENTICAL-source-input-hashes-NOT-RUN.json"))
+          assert eq["scientific_C3X_outperformance_of_original_rivals"] is None
+          assert eq["registrations"]
+          for reg in eq["registrations"]:
+              assert reg["common_evidence"]["chess_board_fen"]
+              assert len({arm["input_sha256"] for arm in reg["arms"]})==1
+              assert reg["full_search_trace_equal_comparison_admissible"] is False
           for r in json.load(open("derived/strong-rivals-equal-evidence-NOT-RUN.json")):
               assert r["tested_model_implementations"]["QUEEN"]=="NOT_EXECUTED"
               assert r["causal_source_event_certs"]==[]
