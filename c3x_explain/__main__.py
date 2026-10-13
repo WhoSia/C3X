@@ -55,6 +55,7 @@ def main()->None:
     ap=argparse.ArgumentParser(prog="python -m c3x_explain",description="Evidence-aware C3X chess commentator")
     ap.add_argument("--pgn",required=True,help="Input PGN path")
     ap.add_argument("--engine",help="Optional UCI engine executable")
+    ap.add_argument("--disable-nnue",action="store_true",help="Use engine classic evaluation where supported")
     ap.add_argument("--rating-band",choices=["beginner","intermediate","advanced","expert"],default="advanced")
     ap.add_argument("--multipv",type=int,default=3)
     ap.add_argument("--nodes",type=int,default=20000)
@@ -82,6 +83,7 @@ def main()->None:
         ep10.append(json.loads(b))
     out=analyze_pgn(
       pgn,engine_path=a.engine,multipv=a.multipv,nodes=a.nodes,
+      engine_uci_options={"Use NNUE":False} if a.disable_nnue else None,
       certificates=certs,rating_band=a.rating_band,susceptibility_packets=packets,ep8_observation_packets=ep8,ep10_observation_packets=ep10
     )
     Path(a.json_out).write_text(json.dumps(out,indent=2,ensure_ascii=False)+"\n",encoding="utf-8")
