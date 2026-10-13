@@ -1,0 +1,76 @@
+name: C3X Explain I10 P4 Tiny Learned Claim Selector and Preoutcome Automatic PGN
+on:
+  push:
+    paths:
+      - '.github/workflows/c3x-explain-i10-p4-tiny-auto-native.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  original-source-p4:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Full inherited I9 I10 and new P4 source/selector regressions
+        env:
+          PYTHONPATH: .
+        run: |
+          set -euo pipefail
+          python3 -m pip install --disable-pip-version-check pytest python-chess==1.999
+          python3 -m compileall -q c3x_explain tools/c3x_explain_i10_p4_trainable_auto_equal_evidence_pilot.py
+          pytest -q tests/test_c3x_explain.py tests/test_c3x_explain_i10_judgment.py tests/test_c3x_explain_i10_p1_real_cases.py tests/test_c3x_explain_i10_p2_p16_original_certificate_boundary.py tests/test_c3x_explain_i10_p3_evidence_compiler.py tests/test_c3x_explain_i10_p3_focus.py tests/test_c3x_explain_i10_p4_tiny_auto.py
+      - name: Exact original Stockfish16 compiler
+        run: |
+          set -euo pipefail
+          git clone -q --single-branch --branch sf_16 https://github.com/official-stockfish/Stockfish.git /tmp/p4-sf16
+          test "$(git -C /tmp/p4-sf16 rev-parse HEAD)" = 68e1e9b3811e16cad014b590d7443b9063b3eb52
+          make -s -C /tmp/p4-sf16/src -j2 build ARCH=x86-64
+      - name: Native two-game development source split and fixed-evidence baseline
+        env:
+          PYTHONPATH: .
+        run: |
+          set -euo pipefail
+          mkdir -p derived
+          python3 tools/c3x_explain_i10_p4_trainable_auto_equal_evidence_pilot.py \
+            --engine /tmp/p4-sf16/src/stockfish --out-dir derived --moments 5
+          python3 - <<'PY'
+          import json,glob
+          m=json.load(open("derived/tiny-model-trained-game-A.json"))
+          p=json.load(open("derived/tiny-model-game-disjoint-proxy-comparison.json"))
+          assert m["trained_parameter_count"]==9
+          assert m["training_example_count"]>0
+          assert m["training_source_group_count"]==1
+          assert m["independent_human_training"] is False
+          assert p["train_automatic_decisions_emitted"]>0 and p["eval_automatic_decisions_emitted"]>0
+          assert p["development_preexposed_not_independent_sample"] is True
+          assert p["actual_Queen_Cui_CCC_called"] is False
+          assert p["human_utility"] is None if "human_utility" in p else True
+          a=p["proxy_comparison"]["P3_STATIC_TOP_PRIORITY_BASELINE"]
+          b=p["proxy_comparison"]["P4_TRAINED_9_PARAMETER_PROXY_SELECTOR"]
+          assert b["proxy_correct"] >= a["proxy_correct"]
+          assert b["proxy_total"] == a["proxy_total"] and b["proxy_total"]>0
+          assert p["historical_p3_default_short_game_auto_emit"]==0
+          for file in glob.glob("derived/preoutcome-*.json"):
+              j=json.load(open(file))
+              assert j["emitted"]+j["abstained"]==j["attempted"]
+              assert j["attempted"]<=j["preselection"]["eligible_count"]
+              assert j["preselection"]["chosen_before_any_ENGINE_ANALYSIS"]
+              assert j["source_causal_authority_new"] is False
+          for r in json.load(open("derived/strong-rivals-equal-evidence-NOT-RUN.json")):
+              assert r["tested_model_implementations"]["QUEEN"]=="NOT_EXECUTED"
+              assert r["causal_source_event_certs"]==[]
+          print("I10_P4_ORIGINAL_SOURCE_GAME_SPLIT_PASS",a,b)
+          PY
+          printf '%s\n' 'P4 DEVELOPMENT: 9 genuinely trained scalar weights on ONLY weak proxy question labels; game-disjoint but PREEXPOSED historical chess games; neither human claims nor real Queen/Cui/CCC inference nor original Stockfish source causal attribution. I9/P3 legacy abstentions preserved, ALL selected and failed moments counted.' > derived/SCOPE.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x-i10-p4-tiny-trained-preoutcome-automatic-source-original
+          path: derived/
+          retention-days: 14
