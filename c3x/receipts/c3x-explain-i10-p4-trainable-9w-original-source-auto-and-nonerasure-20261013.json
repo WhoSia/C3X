@@ -1,0 +1,149 @@
+{
+  "schema": "c3x-explain-i10-p4-source-original-tiny-learning-and-nonerasure-receipt-v1",
+  "date": "2026-10-13",
+  "branch": "main",
+  "commit_author_policy": "WhoSia author and committer, Actions READ_ONLY",
+  "original_science": "C3X Chess WHY_THIS_LEGAL_MOVE_OVER_NEAR_EQUAL_RIVAL",
+  "preservation_ledger": "docs/C3X_I10_P4_HISTORICAL_NON_ERASURE_AND_SCIENTIFIC_RETENTION_20261013.md",
+  "implementation": [
+    "c3x_explain/ecl_tiny_selector.py",
+    "c3x_explain/ecl_auto.py",
+    "c3x_explain/ecl_rival_equal_evidence.py",
+    "c3x_explain/semantic_bridge_precheck.py"
+  ],
+  "source_engine": {
+    "name": "Stockfish 16",
+    "official_source_sha": "68e1e9b3811e16cad014b590d7443b9063b3eb52",
+    "compile": "native GitHub actions read-only",
+    "hash_16MB": true,
+    "threads": 1,
+    "NNUE": "DISABLED",
+    "root_scout_depth": 9,
+    "root_restricted_pair_depth": 12
+  },
+  "native_ci": {
+    "first_trained_run": 38342532515,
+    "first_tests_pass": 77,
+    "complete_equal_input_run": 38342944192,
+    "complete_tests_pass": 80,
+    "integrated_trained_model_public_CLI_run": 38343581481,
+    "integrated_tests_pass": 80,
+    "integrated_artifact_id": 11787359712,
+    "integrated_artifact_zip_sha256": "bc45cadf49ae7ccb4631555e61dbcdb58b5b216704eabb1754c7d646be7c4e4f"
+  },
+  "trainable_model": {
+    "path": "c3x/models/i10-p4-dev-weak-proxy-kasparov-9w.json",
+    "sha256_canonical": "e421ba5f990105c728e01553579b68b4f2e4a534324fe05c3124fb08c006f836",
+    "training_group": "KASPAROV_TOPALOV_1999_24_RXD4",
+    "heldout_group": "MORPHY_OPERA_1858_12_O_O_O",
+    "training_examples": 12,
+    "trained_scalars": 9,
+    "training_target": "DETERMINISTIC_QUESTION_TYPE_MATCH_WEAK_PROXY_NOT_HUMAN_CHESS",
+    "tested_train_source_exposed": true,
+    "independent_chess_learning_claim": false,
+    "model_inference_cli": "python -m c3x_explain.ecl_auto --pgn game.pgn --engine PATH --model-json c3x/models/i10-p4-dev-weak-proxy-kasparov-9w.json --question ENGINE_PREFERENCE --out result.json"
+  },
+  "matched_proxy_comparison": {
+    "unit": "weak question-role label match",
+    "heldout_game": "MORPHY_OPERA_1858_12_O_O_O",
+    "baseline_correct": 5,
+    "learned_correct": 15,
+    "total": 15,
+    "baseline_rate": 0.3333333333333333,
+    "learned_rate": 1,
+    "cannot_infer": "human chess understanding, strategy quality, chess strength, original model superiority"
+  },
+  "automatic_preoutcome": {
+    "training_game": {
+      "eligible": 38,
+      "attempted": 5,
+      "emitted": 4,
+      "abstained": 1
+    },
+    "evaluation_game": {
+      "eligible": 14,
+      "attempted": 5,
+      "emitted": 5,
+      "abstained": 0
+    },
+    "combined": {
+      "eligible": 52,
+      "attempted": 10,
+      "emitted": 9,
+      "abstained": 1,
+      "emission_per_attempt": 0.9,
+      "emission_per_eligible": 0.17307692307692307
+    },
+    "historical_default_P3_shortPGN": {
+      "attempted": 3,
+      "emitted": 0,
+      "abstained": 3,
+      "selection_protocol_different": true
+    },
+    "actual_trained_model_cli": {
+      "game": "MORPHY_OPERA_1858_12_O_O_O",
+      "eligible": 14,
+      "attempted": 3,
+      "emitted": 3,
+      "score_claim_selected_plies": [
+        21,
+        10,
+        19
+      ],
+      "source_causal_claims": 0,
+      "artifact_json_sha256": "e159cb8e409359370cafcbb6f8ec6b9feaa7e9330c675ad6160f32b3148dd1a8"
+    }
+  },
+  "strong_original_competitors": {
+    "input_level": "equal original SF16 FEN move pair ordinary cp and legal PV, same JSON SHA across five arms",
+    "equal_input_case_count": 5,
+    "arm_count": 5,
+    "rivals": [
+      "QUEEN_ORIGINAL",
+      "CUI_STRATEGY",
+      "CCC_ORIGINAL"
+    ],
+    "original_models_actually_executed": 0,
+    "source_trace_available_equally": false,
+    "output_comparison_status": "NOT_RUN",
+    "human_understanding_study": "NOT_RUN"
+  },
+  "historic_semantic_original": {
+    "engine": "Ethereal LOCAL_ONLY",
+    "original_certificate_id": "398eca8d6adf00525e6d5bf7",
+    "verified_original_git_blob": "53765418975095ec5981da35464859e01f030902",
+    "run": 38342741289,
+    "tests_pass": 15,
+    "artifact_id": 11786919284,
+    "source_reexecuted": false,
+    "concept_labeled_in_original": false,
+    "independent_sham": false,
+    "subset_sham_same_FEN": true,
+    "proxies": {
+      "center_attacks": {
+        "B0": 4,
+        "TARGET_delta": 0,
+        "SUBSET_delta": 0
+      },
+      "opponent_king_ring_pressure": {
+        "B0": 0,
+        "TARGET_delta": 0,
+        "SUBSET_delta": 0
+      },
+      "own_legal_moves": {
+        "B0": 33,
+        "TARGET_delta": 4,
+        "SUBSET_delta": -2
+      }
+    },
+    "causal_semantic_claim": "NONE_NEW"
+  },
+  "research_sources": [
+    "docs/EXPLANATION_I10_P4_TINY_AUTO_STRONG_RIVALS_AND_SEMANTIC_PRECHECK_20261013.md",
+    "docs/C3X_I10_P5_SOURCE_SEMANTIC_INTERVENTION_PREREGISTRATION_20261013.md",
+    "docs/C3X_I10_P4_HISTORICAL_NON_ERASURE_AND_SCIENTIFIC_RETENTION_20261013.md"
+  ],
+  "notion_lab_url": "https://app.notion.com/p/3f8ef561cf9281139d7dc55856cd37e5",
+  "notion_harvest_url": "https://app.notion.com/p/3f8ef561cf92817bb113e0b74e13a159",
+  "strict_status": "P4_PRODUCT_NATIVE_AND_LEARNED_PROXY_PASS / SCIENCE_SOURCE_SEMANTIC_HOLD / ORIGINAL_QUEEN_CUI_CCC_COMPARISON_HOLD / HUMAN_UTILITY_HOLD / C3X_0_26_HOLD"
+}
