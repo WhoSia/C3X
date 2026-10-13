@@ -1,0 +1,103 @@
+{
+  "schema": "c3x-explain-i10-p3-literature-and-compact-ecl-verification-v1",
+  "date": "2026-10-13",
+  "formal_name": "Evidence-Compiled Lightweight Chess Explanation — Canonical Literature Custody, Source-Grounded Korean Judgment, Original User-Focused Move Court & Harvest",
+  "scholarship": {
+    "new_pdf_count": 20,
+    "Drive_move_result": "20/20 success independently readback",
+    "source": "00_INTAKE",
+    "target": "10_PAPERS",
+    "canonical_folder_id": "1D2M4LHcejREhlyp6vTd71xxLLx-6ldUP",
+    "file_id_stable": true,
+    "replaced_bytes": false,
+    "removed_duplicates": 0,
+    "unrelated_intake_files_not_touched": true,
+    "Schut_versions": "2023 preprint + 2025 publisher VOR retained distinctly ONE study",
+    "manifest_path": "c3x/literature/c3x-i10-p3-20-paper-canonical-commons-reading-manifest-20261013.json",
+    "core_new_files": [
+      "Bhaskar Cheng Chen 2026 Queen arXiv2610.03695",
+      "Dionisopoulos et al ICML2026",
+      "Jhamtani ACL2018",
+      "Zang ACL2019",
+      "Schut PNAS2025",
+      "Nasu NNUE2018 originally computer shogi",
+      "Shivkumar IEEE Access2026",
+      "Poupart contrastive SAE2024"
+    ]
+  },
+  "harvest": {
+    "source_anchored_fragments": 9,
+    "non_promoted_proposals": 4,
+    "notion_url": "https://app.notion.com/p/3f8ef561cf92819a8646d728566c5fd6",
+    "lab_reading_url": "https://app.notion.com/p/3f8ef561cf92816caefad41c335f9ded",
+    "observatory_url": "https://app.notion.com/p/3d2ef561cf92813ba5d8fae489a8052f",
+    "claim_promotion": "NONE"
+  },
+  "implementation": {
+    "compiler": "c3x_explain/evidence_compiler.py",
+    "adversarial_tests": "tests/test_c3x_explain_i10_p3_evidence_compiler.py",
+    "focused_public_CLI": "python -m c3x_explain.ecl_focus --pgn actual.pgn --ply N --engine ENGINE --out-json result.json --out-markdown result.md",
+    "focus_source": "c3x_explain/ecl_focus.py",
+    "focus_tests": "tests/test_c3x_explain_i10_p3_focus.py",
+    "model_kind": "STATIC_ZERO_TRAINING_CLAIM_SELECTOR",
+    "trained_parameter_count": 0,
+    "engine_evidence": "I9 verified + I10 native candidate contrast original SF16",
+    "causal_certificate_admission": "NO new certificate admitted; public trust approved []",
+    "natural_language": "bounded Korean evidence-bound template; no neural generator executed"
+  },
+  "source_and_runs": [
+    {
+      "kind": "P3 full compiler and opt-in default CLI",
+      "run": 38339395696,
+      "conclusion": "success",
+      "test_pass": 62,
+      "source_version": "official sf_16 68e1e9b3811e16cad014b590d7443b9063b3eb52",
+      "dev_historical_focus_emit": 2,
+      "dev_historical_focus_total": 2,
+      "default_no_engine_auto_emitted": 0,
+      "default_no_engine_auto_abstained": 1,
+      "default_with_sf16_auto_emitted": 0,
+      "default_with_sf16_auto_abstained": 3,
+      "original_zip_artifact_id": 11786661931,
+      "original_zip_sha256": "877dcf16af7a805f4bbfe68fa51ffabede9e2d3bf235c02b785e318c3d24a1cd",
+      "full_native_json_sha256": "3813ac11a2669bdfca67f7a997bbacddc6ae7453a7e38cb3fde8064986a92592"
+    },
+    {
+      "kind": "P3 explicit user played PGN ply native original source",
+      "run": 38339808314,
+      "conclusion": "success",
+      "test_pass": 67,
+      "source_version": "official sf_16 68e1e9b3811e16cad014b590d7443b9063b3eb52",
+      "user_focus_scenarios_success": 2,
+      "user_focus_scenarios_total": 2,
+      "authored_cases": "PREVIOUSLY_EXPOSED_RETROSPECTIVE_DEVELOPMENT",
+      "artifact_id": 11786597851,
+      "artifact_zip_sha256": "06fe08ee190b9f878c3b3d9f17e6b88696cd9426c7eba33ea8bc3cf33c61ed9e",
+      "cases": [
+        {
+          "case": "KASPAROV_TOPALOV_1999_24_RXD4",
+          "actual": "Rxd4",
+          "rival": "Nc6+",
+          "actual_cp": -54,
+          "rival_cp": -17,
+          "cp_gap": 37,
+          "proof_claims_emitted": 3,
+          "json_sha256": "d52a6ca41f4d629c031c5bdae33d8f01805da7a26feb5c9fc07f2b273e72e3d4"
+        },
+        {
+          "case": "MORPHY_OPERA_1858_12_O_O_O",
+          "actual": "O-O-O",
+          "rival": "Bxf6",
+          "actual_cp": 249,
+          "rival_cp": 99,
+          "cp_gap": 150,
+          "proof_claims_emitted": 3,
+          "json_sha256": "6509c3784a053695f0fdd47baeb377882d409829912356f9f3f33c5e519d28f6"
+        }
+      ]
+    }
+  ],
+  "falsifiers": "No data supporting trained neural decision performance, numerical calibration, novel original source-causal mechanism or transfer from Ethereal P16; old 0/4 auto source abstain remains historically binding; no matched source-equal Queen/Cui/CCC or blinded chess human evaluations; cannot assert 0.26 or Elo/Pareto advantage.",
+  "statement": "20 paper custody + nonpromoted Harvest + working zero-training-source-constrained compiler with native focused CLI, not academic superiority.",
+  "stage": "I10_P3_LITERATURE_CANONICAL_PASS / HARVEST_INDEXED / SOURCE_NATIVE_CLI_PASS / TRAINED_TINY_MODEL_HOLD / HUMAN_ADVANTAGE_HOLD / SCIENCE_0_26_HOLD"
+}
