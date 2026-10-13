@@ -6,7 +6,7 @@ from c3x_explain.ecl_tiny_selector import train,select,benchmark,weak_proxy_exam
 from c3x_explain.ecl_auto import preselect
 from c3x_explain.evidence_compiler import compile_evidence
 from tools.c3x_explain_i10_p1_historical_cases import CASES
-from tests.test_c3x_explain_i10_p3_evidence_compiler import base
+from c3x_explain.ecl_test_fixture import base
 
 def p():
     return compile_evidence(base())
