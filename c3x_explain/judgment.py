@@ -46,6 +46,8 @@ def judge_moment(moment: dict[str, Any]) -> dict[str, Any]:
         first.get("depth") is None or second.get("depth") is None or
         first.get("depth") != second.get("depth")):
         return _abstain(moment, "ROOT_IDENTITY_OR_COMPLETED_DEPTH_NOT_COMPARABLE")
+    if moment.get("played_uci") not in {first["uci"], second["uci"]}:
+        return _abstain(moment, "PLAYED_MOVE_NOT_IN_COMPARABLE_RIVAL_PAIR")
     if first.get("score_bound") or second.get("score_bound"):
         return _abstain(moment, "BOUND_ONLY_ENGINE_INFO_NOT_EXACT_ROOT_COMPARISON")
     if not _ordinary_cp(first) or not _ordinary_cp(second):
@@ -125,6 +127,7 @@ def judge_moment(moment: dict[str, Any]) -> dict[str, Any]:
         "decision": "ENGINE_SNAPSHOT_PREFERENCE_ONLY",
         "reason": "TWO_ROOTS_SCORE_COMPARABLE_WITH_PROVENANCE",
         "preferred_move": first["uci"], "preferred_san": leader_name,
+        "played_move_role": "LEADER" if moment["played_uci"] == first["uci"] else "CHALLENGER",
         "challenger": second["uci"], "challenger_san": second_name,
         "candidate_gap_cp": gap, "completed_depth": first["depth"],
         "legally_replayed_candidate_lines": candidate_lines,
