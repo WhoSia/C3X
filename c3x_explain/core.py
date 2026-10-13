@@ -227,13 +227,15 @@ def _retrieval_query_tags(atoms:list[dict[str,Any]])->list[str]:
             tags.update(str(x) for x in c.get("alternative_only_kinds",[]))
     return sorted(tags)
 
-def analyze_pgn(pgn_text:str,engine_path:str|None=None,multipv:int=3,nodes:int=20000,certificates:Iterable[dict[str,Any]]=(),threshold_cp:int|None=None,rating_band:str="advanced",retrieval_records:Iterable[dict[str,Any]]=(),retrieval_top_k:int=3,susceptibility_packets:Iterable[dict[str,Any]]=(),authority_packets:Iterable[dict[str,Any]]=(),ep8_observation_packets:Iterable[dict[str,Any]]=(),ep10_observation_packets:Iterable[dict[str,Any]]=())->dict[str,Any]:
+def analyze_pgn(pgn_text:str,engine_path:str|None=None,multipv:int=3,nodes:int=20000,certificates:Iterable[dict[str,Any]]=(),threshold_cp:int|None=None,rating_band:str="advanced",retrieval_records:Iterable[dict[str,Any]]=(),retrieval_top_k:int=3,susceptibility_packets:Iterable[dict[str,Any]]=(),authority_packets:Iterable[dict[str,Any]]=(),ep8_observation_packets:Iterable[dict[str,Any]]=(),ep10_observation_packets:Iterable[dict[str,Any]]=(),engine_uci_options:dict[str,Any]|None=None)->dict[str,Any]:
     game=chess.pgn.read_game(io.StringIO(pgn_text))
     if game is None:raise ValueError("No PGN game found")
     if rating_band not in RATING_THRESHOLDS:raise ValueError(f"Unknown rating band: {rating_band}")
     effective_threshold=RATING_THRESHOLDS[rating_band] if threshold_cp is None else int(threshold_cp)
     board=game.board();certs=cert_index(certificates);sidx=susceptibility_index(susceptibility_packets);aidx=authority_index(authority_packets);oidx=observation_index(ep8_observation_packets);midx=mechanism_index(ep10_observation_packets);moments=[];eng=None
-    if engine_path:eng=chess.engine.SimpleEngine.popen_uci(engine_path)
+    if engine_path:
+        eng=chess.engine.SimpleEngine.popen_uci(engine_path)
+        if engine_uci_options:eng.configure(engine_uci_options)
     try:
         for ply,move in enumerate(game.mainline_moves(),1):
             fen=board.fen();key=" ".join(fen.split()[:4]);local_certs=certs.get(key,[])
