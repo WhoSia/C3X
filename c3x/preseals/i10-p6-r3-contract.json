@@ -1,0 +1,86 @@
+{
+  "schema": "c3x-i10-p6-r3-native-experiment-contract-v1",
+  "stage": "C3X I10-P6-R3",
+  "scientific_status_before_git_preseal": "SOURCE_ONLY_CANDIDATE",
+  "source": {
+    "provider": "Lichess Broadcast",
+    "parent_id": "CDVYxqmL",
+    "parent_url": "https://lichess.org/broadcast/2026-british-chess-championships-championship/CDVYxqmL",
+    "raw_pgn_url": "https://lichess.org/api/broadcast/CDVYxqmL.pgn",
+    "raw_pgn_sha256": "19aacdb8d778b612643cf809a8e02bc906fbd02682722839a8d85e04848c3ba5",
+    "raw_pgn_bytes": 2286511,
+    "license": "CC BY-SA 4.0; attribute Lichess broadcast",
+    "scope": "Exact BroadcastName 2026 British Chess Championships: Championship, 2026.08.01 through 2026.08.09, main rounds 1 through 9, legal result-bearing complete games; broadcast-visible coverage only"
+  },
+  "source_only_inputs": {
+    "candidate_manifest_sha256": "f5ab63c626a55319805fc205711243e3199677fc8d8fab809b16101f67a8cc99",
+    "source_audit_sha256": "17b07faa63535d39d0dd5f1d48c99b37ddebc400c424d21670a4723d77871366",
+    "history_index_sha256": "0c84cc17ab8286397eeebf394a61820a048a7ad21b7258b7961cb9017347f3ec",
+    "selected_game_count": 32,
+    "rank_salt": "C3X_I10_P6_R3_BRITISH_CHAMPIONSHIP_32_V1",
+    "historical_fen4_count": 692,
+    "historical_game_sha_count": 680,
+    "p5_all_prefix_fen4_count": 611,
+    "selection_is_engine_response_blind": true
+  },
+  "source_preseal_gate": {
+    "required": "A reachable Git commit on WhoSia/C3X with author and committer both WhoSia must contain this contract and the exact candidate manifest bytes before the first new native run.",
+    "candidate_manifest_status_field": "CANDIDATE_NOT_HUMAN_PRESEALED is the precommit state; the verified Git commit is the human seal and must be recorded separately.",
+    "if_absent": "NO_NATIVE_ACQUISITION"
+  },
+  "engine": {
+    "upstream_commit": "68e1e9b3811e16cad014b590d7443b9063b3eb52",
+    "original_search_cpp_sha256": "21b79baa7ce9dabec5b3b9e3854bed9869a1935277247832e550cf395bccd644",
+    "original_tt_cpp_sha256": "d132fb235050916682ea258de2dc8825712d370216342f46f64d7977ee1557ba",
+    "binary_sha256": {
+      "ORIGINAL": "107093504bbbe32e0298a732f4dd885c7c16350a29a445411df3650cd1ec7487",
+      "ACTIVE_SHAM": "813a4a4c7e109a02175f6f890dbd669faa1b7e42a4c7064c9b30986d74b4161f",
+      "OBSERVER_SHAM_AND_SCORE": "27777253db94452ef9b16291d50175912cbe5a79e617978ee7c5ecfb95e728b5"
+    }
+  },
+  "runtime": {
+    "threads": 1,
+    "hash_mb": 16,
+    "use_nnue": false,
+    "depth": 7,
+    "fresh_process_per_job": true,
+    "ucinewgame_per_job": true,
+    "full_source_uci_history_replayed": true,
+    "watchdog_seconds": 45,
+    "cold_repeats": 2,
+    "uci_command_order": ["uci", "setoption Threads=1", "setoption Hash=16", "setoption Use NNUE=false", "isready", "ucinewgame", "position startpos moves <frozen history>", "go depth 7"]
+  },
+  "stage_A_untreated": {
+    "arms_in_order": ["ORIGINAL", "ACTIVE_SHAM", "OBSERVER_SHAM"],
+    "jobs": 192,
+    "ordering": "source rank, repeat 1 then 2, arms in listed order",
+    "equivalence": "For each of 64 paired cases require exact chronological retained UCI depth/seldepth/multipv/score/bounds/WDL/nodes/PV projection and final bestmove/ponder equality, ORIGINAL vs ACTIVE_SHAM and ACTIVE_SHAM vs OBSERVER_SHAM. Exclude only time/nps/hashfull/tbhits from equivalence; preserve them as diagnostics.",
+    "on_mismatch_or_failure": "HOLD; no SCORE treatment acquisition",
+    "forecast_boundary": "After Stage A, freeze literal response-informed candidate/rival forecasts, intervention eligibility and Stage A receipt with a second WhoSia author+committer Git commit before Stage B. No new positions or response-dependent sample replacement."
+  },
+  "stage_B_treatment": {
+    "arm": "OBSERVER_SCORE",
+    "jobs": 64,
+    "ordering": "source rank, repeat 1 then 2",
+    "condition": "Only after Stage A exact equivalence PASS and second human Git forecast commit.",
+    "environment": {"C3X025_P8_TT_FIELDS": "1", "C3X025_P14_ARM": "SCORE"},
+    "negative_control_environment": {"C3X025_P8_TT_FIELDS": "1", "C3X025_P14_ARM": "SHAM"},
+    "primary_observations": ["pre-policy qsearch TT return eligibility", "actual first SCORE contact/mutation", "terminal bestmove and typed score", "nodes", "PV"],
+    "trace_authority": "Retain all emitted writer/reader/source/SEE records. Existing first-contact P6 event lacks a complete same-run writer-reader-to-SEE-to-root link; mark natural mediation NOT_OBSERVED unless separately demonstrated by exact source lineage."
+  },
+  "failure_policy": {
+    "append_only_ledger": true,
+    "no_silent_retry": true,
+    "no_substitution": true,
+    "no_extension": true,
+    "no_response_aware_rule_change": true,
+    "retain_partial_raw_on_failure": true
+  },
+  "claim_ceiling": {
+    "independent_scope": "One new tournament section and 32 legal games; no event-transport inference without a second event.",
+    "tt_see_natural_mediation": "HOLD unless same-run source lineage and an independent SEE intervention identify it.",
+    "p7_semantic_authority": "HOLD pending independent chess-semantic adjudication.",
+    "c3x_026": "HOLD",
+    "engine_strength_or_elo": "NOT_LICENSED"
+  }
+}
