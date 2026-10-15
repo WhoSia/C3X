@@ -1,0 +1,45 @@
+{
+  "schema": "c3x-i10-p6-r3-drive-custody-v1",
+  "source_preseal_commit": "86064b15c348bb2b7ac9124f84e0b8524240abaa",
+  "forecast_preseal_commit": "a4d67e4a77ffd5b2797f95b9657ca409ec90a7da",
+  "scientific_scope": "One Lichess broadcast-visible tournament section, 32 legal games, 32 roots, two cold repeats; no event-level transport inference",
+  "files": [
+    {
+      "role": "official_raw_pgn",
+      "drive_folder": "01_SOURCE_ACCRUAL_RAW",
+      "drive_file_id": "1Rd86ZOYbfizv6XHZdJvG0dtDe1eu81TM",
+      "bytes": 2286511,
+      "sha256": "19aacdb8d778b612643cf809a8e02bc906fbd02682722839a8d85e04848c3ba5",
+      "remote_byte_sha256_verified": true
+    },
+    {
+      "role": "source_and_historical_audit_package",
+      "drive_folder": "01_SOURCE_ACCRUAL_RAW",
+      "drive_file_id": "1bqw_b2sEpJlXlo_yRzVOBdIXhMHhG8y3",
+      "bytes": 965610,
+      "sha256": "17aa357908d35d97c660f119fdbc1dd6393cffc37dd85a6605e69589faf97265",
+      "remote_byte_sha256_verified": true
+    },
+    {
+      "role": "raw_native_results_and_verification_package",
+      "drive_folder": "04_SEALED_RESULTS_COURTS",
+      "drive_file_id": "1DlLqLMyMjwCca_pgrSEXX97HfCHnEhrU",
+      "bytes": 1393940,
+      "sha256": "ce4737b14b93fdd5f4e85a472e97643ab949abcfc7b50ed778b526292c0384d0",
+      "remote_byte_sha256_verified": true
+    },
+    {
+      "role": "exact_three_native_binaries",
+      "drive_folder": "03_PATCHES_RUNTIME",
+      "drive_file_id": "1quTx2wLzwYDPXYYNpKhMAnbXjH13_UKa",
+      "bytes": 103038696,
+      "sha256": "cfafa6949ecb74bcd48f9eae15cdc9b52117751d668383f548056d7714ae5be3",
+      "remote_byte_sha256_verified": true
+    }
+  ],
+  "result_sha256": "6ca5b16ca24c7087ccef2f0a1cfd5c8f09a61a52d5fddd65b98febc295352c34",
+  "stage_a_ledger_sha256": "dafb9a32433ab27ceb107fa27819a1dab966a0925e5752a7c4f6a3d916216ce0",
+  "stage_b_ledger_sha256": "e05c4574e00a8a2ada38450ca8942c9dae32073d4eec777e5b21f9faef15b7d3",
+  "c3x_026": "HOLD",
+  "p7_chess_semantic_authority": "HOLD"
+}
