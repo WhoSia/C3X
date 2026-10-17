@@ -38,3 +38,12 @@ BOT_CONTRIBUTION_ZERO: no github-actions[bot] authored/committed history; no wor
 
 ## Success vs failure
 An OPEN 0.26 denotes change in the central question, not proof that strategic geometry, search–strategy links or improved human understanding are achieved. If P0 finds only search implementation artifacts, record the null and continue rather than retrofitting the claims.
+
+
+## P0-A/B execution receipt — 2026-10-18 (native user WSL and uploaded independent JSON)
+The user ran `C3X_026_P0_P11_FULL_STATE_AUDIT.py` under Python chess 1.11.2, script SHA256 `cfc746bc080f700e820fd8438cd0a2473efa23dfa6e18a8fd3d34afd25674d88`. Terminal reported `P0_PASS 144 rows / 72 cold-repeat pairs / complete python-chess PV legality`. Uploaded independent audit JSON SHA256 `bf73bd29c1e3aca7631d5c66b605c6409d46cad306f3aee433eb3e4e9777aa09` (7,365 bytes); source P11 SHA256 `18c2f25551a5a929e7cd95ec7c207837a79ea7f5c3df75e96109884ed168b9d2`.
+
+Unique arms 72; repeated pairs 72/72. Within first-root two reply-line comparison: board placement+turn 13/72, FEN4 13/72, **FEN6 8/72**. Across first roots: placement+turn 4/36, FEN4 4/36, **FEN6 4/36**. Thus five *comparison arms* with placement+turn/FEN4 recurrence are NOT full FEN6 matches; the remaining eight FEN6 matches are not repetition-history equivalence certificates.
+Index 42 Classical Bf8 (d6f8): depth17 within-root board/FEN4 has four matching checkpoints but FEN6 zero; depth19 four board/FEN4, two FEN6 checkpoints. This distinction invalidates unqualified use of the P12 preliminary 13/72 as full-state transposition. Case 42 and 43 sampled between-root comparisons have no match in reported examples; global between-root 4/36 must not be misattributed to these cases.
+
+**Authority boundaries**: exact report validates recorded trajectories only, not full policy reachable state equivalence; FEN6 does not encode prior repetition sequence, and move-number/clock dependencies may separate nominally matching board states. No objective move superiority, causal strategic factor, human learning gain or independently held-out generalization follows. Next: inspect all 5 FEN4-only discrepancies; factor repeated-transposition time/ply opportunities; separate repetition-relevant history; preregister mechanism vs strategic contrasts. Preserve 0.25 lineage and P10/P11 negative controls.
