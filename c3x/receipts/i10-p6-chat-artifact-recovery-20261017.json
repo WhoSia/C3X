@@ -1,0 +1,31 @@
+{
+  "schema": "c3x.i10.p6.chat_artifact_recovery.v1",
+  "date": "2026-10-17",
+  "status": "RECOVERY_HOLD",
+  "requested_origin": "/mnt/data/c3x_p6/ in a prior ChatGPT execution environment",
+  "files_requested": [
+    "p6_trace_contract.py",
+    "test_p6_trace_contract.py",
+    "p6_qscore_reversible_overlay.py",
+    "test_p6_qscore_reversible_overlay.py",
+    "test_cpp_contract.py",
+    "run_native_sf16_gate.py",
+    "p6_fresh_cohort_seal_contract.json"
+  ],
+  "original_bytes_recovered": 0,
+  "drive_canonicalizations_completed": 0,
+  "checked_surfaces": [
+    "Exact-name searches of connected Google Drive for each requested file",
+    "C3X 23.md and C3X 24.md connected Drive Chat Archives",
+    "Current task attachment and local C3X project mirror",
+    "Windows Downloads and Documents exact-name search",
+    "WSL /home/kimwo/research/C3X exact-name search",
+    "Current WSL /mnt/data/c3x_p6 path existence check"
+  ],
+  "known_hashes_from_notion_only_not_recovered_bytes": {
+    "p6_qscore_reversible_overlay.py": "ac5fcf17907ca7313757258da90b9a9a25a691617176d6fe023b159224ba6deb",
+    "test_p6_qscore_reversible_overlay.py": "7a23ef1462572890c86e152a2439ca065005a116ed0362965cf8f5984866deac"
+  },
+  "authority_boundary": "The independent P6-R3 Stockfish16 acquisition is separately sealed and is not evidence that these seven later source-site overlay files were recovered, built, or natively run. No substitute source bytes or Drive upload were made.",
+  "release_condition": "Acquire the seven exact original byte files, verify each SHA-256 and source contract, then perform a new prospective integration preflight before any additional native treatment."
+}
