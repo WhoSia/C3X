@@ -1,5 +1,16 @@
 # C3X — Counterfactual Contrastive Chess eXplanation
 
+## P9: independent PGN source discovery and historical sampling recovery (2026-10-17; planned, not yet run)
+
+The original C3X research question (Aug 14, 2026) is **why one legal move is only marginally preferable to another**, including the opponent's viable replies and distinctive chess consequences; it is not automatic score-to-prose translation. Historical C3X 0.2.4.3 already emphasized event-held-out context-specific motif testing, and 0.18–0.19 already developed blind source-only selection of independent Lichess broadcast PGN game identities. Reuse those scientific controls; no new engineering program.
+
+**Already studied or inventoried:** existing blinded 2025-10, 2025-11, 2025-12, 2026-01, 2026-02 Lichess broadcast cohorts in `harness/c3x_018_blind_*_broadcast_PGN_cohort.py` and `harness/c3x_019_blind_2026feb_broadcast_PGN_cohort.py`. The TCEC S29 full-history 40-position cohort was used in P5. The user Drive already has a TWIC 1665 private original archive; this is **not an unexamined fresh source**. Compare actual game fingerprints and exact FEN/history before making any no-overlap claim.
+
+**Prospective new source candidates, NOT acquired/hashed/scored:** [Lichess broadcast 2026-03 PGN archive](https://database.lichess.org/broadcast/lichess_db_broadcast_2026-03.pgn.zst) and [TWIC issue archive](https://theweekinchess.com/twic), whose issue 1666 (2026-10-12) lists 8,734 games. Network access from assistant's research container could not fetch the raw TWIC file; do not claim source custody, legality of specific moves, full-game identity, absence of duplicates, or any P9 research results. TWIC states personal-use rights reserved; do not publicly redistribute TWIC PGNs without permission.
+
+**P9 pre-outcome design:** independently source 100 previously unused legal games, one predeclared position per game with game-event identity grouping; lock input URLs, hashes, exclusions, sampling algorithm, FEN+full history, and chess feature strata **before evaluating**. At depth16, 100 cases × NNUE/classical × full-root SinglePV1/full-root MultiPV × two separate cold starts = up to 800 native calls; reserve a separate event-held-out source cohort for scientific transport. Do not conflate 800 engine runs with 800 independent samples. First test whether original P8 search-protocol first-choice instability persists outside the cherry-picked 10 positions, then ask whether chess-relevant opponent-response and plan divergences support faithful contrastive explanations. **No new P9 native data yet; C3X 0.25, 0.26 HOLD.**
+
+
 ## Current chess science: NNUE-R1-P5–P8 (2026-10-17; C3X 0.25)
 
 C3X's central question remains **why a selected legal chess move rather than a meaningful rival**, based on independently verifiable chess continuations rather than an engine score or unverified causal story. Engineering work is frozen except research record updates. [C3X research log](https://app.notion.com/p/3eaef561cf92810fae42de6ca9364c58).
