@@ -1,0 +1,33 @@
+name: C3X P7 Rust Evidence Automata
+
+on:
+  push:
+    paths:
+      - "crates/c3x-evidence-automata/**"
+      - ".github/workflows/c3x-p7-evidence-automata.yml"
+  pull_request:
+    paths:
+      - "crates/c3x-evidence-automata/**"
+      - ".github/workflows/c3x-p7-evidence-automata.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  rust-evidence-automata:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: crates/c3x-evidence-automata
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install stable Rust
+        run: rustup default stable
+
+      - name: Verify evidence automata
+        run: |
+          cargo test --locked
+          cargo build --locked
