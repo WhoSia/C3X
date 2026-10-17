@@ -1,5 +1,20 @@
 # C3X — Counterfactual Contrastive Chess eXplanation
 
+## C3X 0.26 — Causal Foundations of Strategic Choice (OPEN, 2026-10-18)
+
+**Canonical name:** C3X 0.26 — Causal Foundations of Strategic Choice: Counterfactual Affordance Geometry, Minimal Distinguishing Reasons, Search–Strategy Disentanglement & Verifiable Human Understanding.
+
+**Research status:** 0.26 OPEN is a **main-question transition**, NOT certification of a discovered chess concept, engine-internal mechanism, or human learning gain. The entire C3X 0.25 historical record and title remain unchanged; P10/P11/P12 continue as a live experimental backbone. Four separable questions: (i) search-algorithm decision causes, (ii) legally realized strategic contrasts, (iii) minimal falsifiable differentiating reasons, (iv) independent human transfer. Preserve every negative control and search/strategy mismatch.
+
+**P11 WSL native receipt received:** 144/144 Stockfish process results, 72/72 cold pairs identical, 9 original histories and 18 candidate branches replayed by runner; raw JSONL SHA-256 `18c2f25551a5a929e7cd95ec7c207837a79ea7f5c3df75e96109884ed168b9d2`. This is NOT yet an independently exhaustive legal PV/state/repetition audit. P10 strict inversions remain development-cohort selection, not held-out transport. P12 transposition preliminary claims are *not* full chess-state equivalence until castling/en passant/halfmove/repetition histories are checked.
+
+**[0.26 foundation and P0 falsification contract](docs/C3X_026_FOUNDATION_AND_P0_RESEARCH_CONTRACT_20261018.md)**. Next: source-preserving P11 legal replay & full-state convergence validator; mechanism/strategy competing hypotheses; blinded independent cohorts; eventual score/PV-only versus explanatory-human test.
+
+**Governance:** `BOT_CONTRIBUTION_ZERO`: human `WhoSia` author+committer, GitHub Actions read-only; no workflow pushes. Detailed arguments Notion, source bytes + hash roundtrip Drive. README is the entry point; historical 0.25 sections below are preserved as they were written, including their dated HOLD judgments.
+
+---
+
+
 ## P11 — post-root chess reply branching (frozen before native outcomes, 2026-10-18)
 
 **P11 pre-run independent source audit (2026-10-18):** original P10 1,056-run raw JSONL was independently re-read and all 53 single-depth *strict full-versus-locked winner* inversions re-derived; exactly **7** index/evaluator winner pairs remained strict with **the same two roots** at depths 18 and 20. The P11 freeze captures **all 7**, plus 2 negative P10 boundary cases. Frozen record identity **9/9** and P10 sign/margin receipts **14/14** matched source bytes; Python syntax check PASS; P11 chess-engine execution and independent python-chess legal PV replay have not occurred. [Pre-run exact-hash audit archived to Drive](https://drive.google.com/file/d/1wZHpZ-6YgoZN5kpQUQGodq1AaRe5jdZG/view), SHA256 `0f7ce8f9576d6a3447c937cf135d54b4c2447b08506f7f61b4a756e591c200fc`. 0.26 HOLD.
