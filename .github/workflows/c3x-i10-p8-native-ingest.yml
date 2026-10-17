@@ -5,11 +5,15 @@ on:
     paths:
       - "tools/i10_p8_native_trace_adapter.py"
       - "tests/test_i10_p8_native_trace_adapter.py"
+      - "tests/test_i10_p8_rust_interop.py"
+      - "crates/c3x-evidence-automata/**"
       - ".github/workflows/c3x-i10-p8-native-ingest.yml"
   pull_request:
     paths:
       - "tools/i10_p8_native_trace_adapter.py"
       - "tests/test_i10_p8_native_trace_adapter.py"
+      - "tests/test_i10_p8_rust_interop.py"
+      - "crates/c3x-evidence-automata/**"
       - ".github/workflows/c3x-i10-p8-native-ingest.yml"
   workflow_dispatch:
 
@@ -17,16 +21,24 @@ permissions:
   contents: read
 
 jobs:
-  native-ingest-tests:
+  native-ingest-and-rust-interop:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-      - name: Test native trace adapter
+      - name: Install Rust
+        run: rustup default stable
+      - name: Python ingest tests
         run: |
           python -m unittest discover \
             -s tests \
             -p 'test_i10_p8_native_trace_adapter.py' \
+            -v
+      - name: Python to Rust integration test
+        run: |
+          python -m unittest discover \
+            -s tests \
+            -p 'test_i10_p8_rust_interop.py' \
             -v
