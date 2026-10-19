@@ -5,6 +5,7 @@ on:
     paths:
       - 'tools/c3x_027_native_see_uci_oracle_patch.py'
       - 'tools/c3x_027_see_random_differential.py'
+      - 'tools/c3x_027_see_boundary_differential.py'
       - '.github/workflows/c3x-027-see-native-differential.yml'
   workflow_dispatch:
 permissions:
@@ -28,11 +29,14 @@ jobs:
           make -s -C /tmp/c3x027_sf/src -j2 build ARCH=x86-64
       - name: Independent SEE Boolean differential
         run: python tools/c3x_027_see_random_differential.py /tmp/c3x027_sf/src/stockfish
+      - name: Adversarial boundary differential
+        run: python tools/c3x_027_see_boundary_differential.py /tmp/c3x027_sf/src/stockfish
       - uses: actions/upload-artifact@v4
         if: always()
         with:
           name: c3x027-see-differential
           path: |
             C3X_027_SEE_DIFFERENTIAL.json
+            C3X_027_SEE_BOUNDARY_DIFFERENTIAL.json
             C3X027_NATIVE_SEE_ORACLE_MANIFEST.json
           if-no-files-found: warn
