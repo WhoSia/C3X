@@ -3,6 +3,8 @@ on:
   push:
     paths:
       - '.github/workflows/c3x-027-see-live-fen.yml'
+      - 'tools/c3x_027_see_live_fen_*.py'
+      - 'tools/c3x_027_see_live_fen_repro_build.sh'
   workflow_dispatch:
 permissions:
   contents: read
