@@ -87,6 +87,10 @@ jobs:
         run: |
           set -euo pipefail
           python tools/c3x_027_see_live_fen_validate.py private/C3X027_LIVE_SEE_TARGET_FENS.txt private/C3X027_VERIFIED_SEE_STATES.json
+      - name: Independently profile capture-only legal exchange at matched internal boards
+        run: |
+          set -euo pipefail
+          python tools/c3x_027_live_see_exchange_profile.py private/C3X027_VERIFIED_SEE_STATES.json public/C3X027_SEE_LEGAL_EXCHANGE_PROFILE.json
       - name: Derive rights-reviewed exact UCI and root depth divergence ledger
         run: |
           set -euo pipefail
