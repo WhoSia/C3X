@@ -1,0 +1,29 @@
+name: C3X 027 P6 full chess certificate replay
+on:
+  push:
+    branches: [main]
+    paths:
+      - tools/C3X_027_P6_FULL_RULES_CERTIFIER.py
+      - .github/workflows/c3x-027-p6-full-rules.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install validated chess rules library
+        run: python -m pip install python-chess==1.999
+      - name: Execute finite-horizon certificates
+        run: python tools/C3X_027_P6_FULL_RULES_CERTIFIER.py
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x-027-p6-chess-certificates
+          path: C3X_027_P6_FULL_RULES_RESULTS.json
+          if-no-files-found: warn
