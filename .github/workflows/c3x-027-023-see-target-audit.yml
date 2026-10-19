@@ -1,0 +1,41 @@
+name: C3X 027 R2 presealed SEE source target audit
+on:
+  push:
+    branches: [main]
+    paths:
+      - tools/c3x_027_023_source_see_target_audit.py
+      - .github/workflows/c3x-027-023-see-target-audit.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install python-chess==1.999
+      - uses: actions/download-artifact@v4
+        with:
+          name: c3x-023-P1-licensed-May-broadcast-CC0-nonmate32-engineblind-freeze
+          path: source/
+          repository: WhoSia/C3X
+          run-id: '38059784922'
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: c3x-023-P1-R2-T2-preactuator-exact-site-sig-May-BYSA-no-SEE-mutations
+          path: targets/
+          repository: WhoSia/C3X
+          run-id: '38069237414'
+          github-token: ${{ github.token }}
+      - name: Audit sealed original source and exact SEE source signatures
+        run: python tools/c3x_027_023_source_see_target_audit.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: c3x-027-023-sealed-see-source-audit
+          path: C3X_027_023_SOURCE_SEE_TARGET_AUDIT.json
+          if-no-files-found: error
