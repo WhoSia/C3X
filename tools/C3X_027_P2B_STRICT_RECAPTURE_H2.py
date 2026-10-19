@@ -9,9 +9,12 @@ def continuation(board, reply):
     moved_before=board.piece_at(reply.from_square)
     castle=board.is_castling(reply)
     ep=board.is_en_passant(reply)
+    opponent_captured_piece=board.is_capture(reply)
     b=board.copy(stack=True);b.push(reply)
     moved=b.piece_at(reply.to_square)
-    assert moved and moved_before and moved.piece_type==moved_before.piece_type
+    assert moved and moved_before and moved.color==moved_before.color
+    if not reply.promotion:
+        assert moved.piece_type==moved_before.piece_type
     recaptures=[]
     if not castle:
         for t in b.legal_moves:
@@ -21,7 +24,7 @@ def continuation(board, reply):
                     recaptures.append(t.uci())
     return {'reply':reply.uci(),'recaptures':sorted(recaptures),
             'strict_recapture_exists':bool(recaptures),'reply_castling':castle,
-            'reply_en_passant':ep,'reply_gives_check':board.gives_check(reply)}
+            'reply_en_passant':ep,'opponent_capture':opponent_captured_piece,'reply_gives_check':board.gives_check(reply)}
 def main(source):
     raw=source.read_bytes()
     if hashlib.sha256(raw).hexdigest()!=P11_SHA: raise ValueError('P11 source hash mismatch')
@@ -43,11 +46,20 @@ def main(source):
         reported=sorted({x['move'] for rep in reps for x in rep['replies']})
         if not set(reported).issubset(response_map):raise ValueError('P11 reported illegal reply')
         counterexample=next((r['reply'] for r in responses if not r['strict_recapture_exists']),None)
+        opponent_captures=[r for r in responses if r['opponent_capture']]
+        conditional_counterexample=next((r['reply'] for r in opponent_captures if not r['strict_recapture_exists']),None)
+        conditional_status='EMPTY_CONDITION' if not opponent_captures else ('PASS' if conditional_counterexample is None else 'REFUTED')
         arms.append({'index':idx,'mode':mode,'root':root,'reply_depth':depth,
                      'legal_opponent_replies':len(responses),
                      'recapturable_opponent_replies':sum(v['strict_recapture_exists'] for v in responses),
                      'all_opponent_replies_have_strict_recapture':counterexample is None,
-                     'counterexample_reply':counterexample,'responses':responses,
+                     'counterexample_reply':counterexample,
+                     'opponent_capture_reply_count':len(opponent_captures),
+                     'conditional_capture_reply_status':conditional_status,
+                     'conditional_capture_counterexample':conditional_counterexample,
+                     'minimal_universal_refutation_certificate':{'root':root,'reply':counterexample} if counterexample else None,
+                     'minimal_conditional_refutation_certificate':{'root':root,'reply':conditional_counterexample} if conditional_counterexample else None,
+                     'responses':responses,
                      'reported_replies':reported,
                      'reported_all_strict_recapturable':all(response_map[x]['strict_recapture_exists'] for x in reported)})
     invariant=collections.defaultdict(set)
@@ -65,7 +77,10 @@ def main(source):
                           'roots':[a['root'],b['root']],
                           'recapturable_counts':[a['recapturable_opponent_replies'],b['recapturable_opponent_replies']],
                           'all_responses_status':[a['all_opponent_replies_have_strict_recapture'],b['all_opponent_replies_have_strict_recapture']],
-                          'counterexamples':[a['counterexample_reply'],b['counterexample_reply']]})
+                          'counterexamples':[a['counterexample_reply'],b['counterexample_reply']],
+                          'conditional_capture_status':[a['conditional_capture_reply_status'],b['conditional_capture_reply_status']],
+                          'conditional_capture_reply_counts':[a['opponent_capture_reply_count'],b['opponent_capture_reply_count']],
+                          'conditional_counterexamples':[a['conditional_capture_counterexample'],b['conditional_capture_counterexample']]})
     return {'status':'STRICT_RECAPTURE_H2_CHESS_LEGAL_ONLY',
             'source_sha256':P11_SHA,'rows':144,'unique_arms':72,'unique_root_states':18,
             'comparisons':contrasts,'arms':arms,
@@ -73,6 +88,9 @@ def main(source):
             'limitations':['Strict immediate recapture is not material benefit or strategic choice explanation',
                            'Original repetition history not preserved by FEN; no repetition claims',
                            'A single H2 run cannot determine minimal explanatory horizon across H',
+                           'The universal condition may be trivially refuted by quiet moves',
+                           'Opponent-capture-only quantification is conditional and not all-reply robustness',
+                           'A move capturing the just-moved piece after its quiet move is not a classical recapture',
                            'No human-study outcome']}
 if __name__=='__main__':
     p=argparse.ArgumentParser();p.add_argument('--input',required=True,type=Path);p.add_argument('--output',required=True,type=Path);a=p.parse_args()
