@@ -1,0 +1,18 @@
+# C3X 0.27 P2-B — Exact Immediate Recapture and Certificate Minimization Gate (2026-10-19)
+
+Official 0.27 title retained: Counterfactual Consequence Geometry: Strategic Distinction, Continuation Fibers, Causal Witnesses & the Persistence of Chess Decisions.
+
+## Registered chess predicate
+After root action a, and for every **legal** opponent reply r, is there a **legal** response t of the original root mover that captures the piece moved by r on its arrival square? Predicate q_strict_recapture(s_after_a,r) means exists legal t with is_capture(t), t.to_square=r.to_square and actual captured piece matches opponent's moved piece. En-passant recapture is not falsely counted as capturing a piece standing on landing square; castling by opponent marked specially; king cannot legally be captured. A capture elsewhere is NOT recapture, and available recapture is not guaranteed material gain, strong strategy or a score margin.
+
+## H2 certificate contract
+The horizon is *two plies after the candidate root*, not Stockfish d17/d19. U2(a)=forall legal opponent r exists legal original response t satisfying q, with explicit list of witnesses for every r. A single r with no legal t is sound counterexample to U2 under these definitions. Code enumerates all legal opponent r with python-chess, root board/FEN compatibility using fen(en_passant='fen'), checks 144 P11 records/72 cold arm groups/36 matched comparisons, 18 unique chess child boards, source SHA 18c2f25551a5a929e7cd95ec7c207837a79ea7f5c3df75e96109884ed168b9d2, validates repeated evaluator/depth chess invariance.
+
+## Status
+Source GitHub commit https://github.com/WhoSia/C3X/commit/55f3cdd4ac429331ca8011c40b3717ee3326c8f9 . Assistant container: no python-chess installed. Syntax compilation checked for local implementation (SHA a734a2db83c7116ed0fb690355c83f37dbc04625000f41fc3793fe3c6e674d1d); committed GitHub implementation functionally parallel but bytes NOT asserted identical. **Native exhaustive run NOT DONE; numerical outcomes and H* UNKNOWN.** Do not confuse a planned output P2B_PASS with observed PASS. User need not reinstall python-chess if existing WSL venv works. Download GitHub raw code to WSL working dir only if/when pursuing execution; don't create a permanent Windows Download duplicate.
+
+## Minimization and human evaluation are separate stages
+A 'minimal certificate' first stores the complete sound witness/counterexample. Candidate compression removes non-essential evidence with independent replay; any deletion invalidating legal root, exhaustive coverage, exact q, policy or chosen counterexample is rejected. Lexical shortest explanation != shortest proof. For H* across horizons, predeclare chess predicate semantics q_H and rule for terminal positions at H=1..4; one H2 result NEVER certifies H* in isolation. No human learning effect tested yet. Draft human explanation template only after real chess witness verified; compare blinded learner transfer against score/PV baseline and generic commentary using new game-disjoint cases.
+
+## Scientific caveat
+Strict recapture of the just-moved piece under *every* opponent legal reply is likely overly stringent and may be trivially false for non-contact quiet moves. If so retain negative result and refine future chess question prospectively; do not retrospectively tune q on 42/43 while referring to controls 47/99 as strategic-negative. A more meaningful conditional P would first need a predeclared "opponent just captured named protected piece" event, and universal robustness applies only within that conditioned subset. No new Stockfish depth increase needed here.
