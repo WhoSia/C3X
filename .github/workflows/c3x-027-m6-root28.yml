@@ -1,0 +1,25 @@
+name: C3X 027 M6 root28 consequence audit
+on:
+  push:
+    branches: [main]
+    paths:
+      - tools/c3x_027_m6_root28_chess_replay.py
+      - .github/workflows/c3x-027-m6-root28.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install python-chess==1.999
+      - run: python tools/c3x_027_m6_root28_chess_replay.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: c3x-027-m6-root28-chess-audit
+          path: C3X_027_M6_ROOT28_CHESS_RESULTS.json
