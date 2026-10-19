@@ -1,7 +1,7 @@
 import chess,random,json,sys,subprocess,importlib.util
 from pathlib import Path
 p=Path('tools/c3x_027_independent_see_algorithm_audit.py')
-sp=importlib.util.spec_from_file_location('replay',p);mod=importlib.util.module_from_spec(sp);sys.argv=['checker','/dev/null','/dev/null'];sp.loader.exec_module(mod) if False else None
+
 # Import is side-effectful; extract see_replay function by parsing AST.
 import ast
 tree=ast.parse(p.read_text());keep=[n for n in tree.body if isinstance(n,ast.FunctionDef) and n.name=='see_replay']
