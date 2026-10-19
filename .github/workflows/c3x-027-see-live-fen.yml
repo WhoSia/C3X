@@ -91,6 +91,10 @@ jobs:
         run: |
           set -euo pipefail
           python tools/c3x_027_live_see_exchange_profile.py private/C3X027_VERIFIED_SEE_STATES.json public/C3X027_SEE_LEGAL_EXCHANGE_PROFILE.json
+      - name: Independently reproduce original Stockfish SEE threshold Booleans
+        run: |
+          set -euo pipefail
+          python tools/c3x_027_independent_see_algorithm_audit.py private/C3X027_VERIFIED_SEE_STATES.json public/C3X027_INDEPENDENT_SEE_BOOL_AUDIT.json
       - name: Derive rights-reviewed exact UCI and root depth divergence ledger
         run: |
           set -euo pipefail
