@@ -1,0 +1,54 @@
+import ast,json,sys,subprocess,chess
+from pathlib import Path
+p=Path("tools/c3x_027_independent_see_algorithm_audit.py")
+tree=ast.parse(p.read_text())
+fun=next(n for n in tree.body if isinstance(n,ast.FunctionDef) and n.name=="see_replay")
+namespace={"chess":chess,"VALUES":{None:0,chess.PAWN:126,chess.KNIGHT:781,chess.BISHOP:825,chess.ROOK:1276,chess.QUEEN:2538,chess.KING:0},"MASK":(1<<64)-1}
+exec(compile(ast.Module(body=[fun],type_ignores=[]),str(p),"exec"),namespace)
+see=namespace["see_replay"]
+fixtures=[
+("pinned_knight","4k3/8/8/8/8/4n3/4r3/4K2R w - - 0 1"),
+("pin_rook","4k3/4r3/8/8/8/8/4R3/4K3 w - - 0 1"),
+("xray_rooks","4k3/8/3r4/8/3r4/8/3R4/3RK3 w - - 0 1"),
+("bishop_xray","4k3/8/8/5b2/4p3/3B4/2B5/4K3 w - - 0 1"),
+("king_retake","4k3/8/8/4p3/4K3/8/8/8 w - - 0 1"),
+("en_passant","4k3/8/8/3pP3/8/8/8/4K3 w - d6 0 1"),
+("promotion","4k3/P7/8/8/8/8/8/4K3 w - - 0 1"),
+("castling","4k3/8/8/8/8/8/8/R3K2R w KQ - 0 1"),
+("knight_exchange","4k3/8/8/3p4/4N3/8/8/4K3 w - - 0 1"),
+("rook_exchange","4k3/8/8/3p4/3R4/8/8/4K3 w - - 0 1")]
+thresholds=[-1100,-200,-95,-43,0,1,126,500,1200]
+engine=subprocess.Popen([sys.argv[1]],stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=subprocess.DEVNULL,text=True,bufsize=1)
+def query(fen,m,t):
+ engine.stdin.write("position fen "+fen+"\nc3xsee "+m+" "+str(t)+"\n");engine.stdin.flush()
+ for _ in range(40):
+  z=engine.stdout.readline().strip()
+  if z.startswith("c3xsee "):
+   v=z.split()
+   if len(v)!=5:raise RuntimeError(z)
+   return bool(int(v[3])),int(v[4])
+ raise RuntimeError("no oracle response")
+rows=[];excluded=[];mismatches=[];labels={}
+for label,fen in fixtures:
+ b=chess.Board(fen)
+ if not b.is_valid():
+  excluded.append({"label":label,"reason":"INVALID_BOARD","status":b.status()});continue
+ legal=list(b.legal_moves)
+ chosen=[m for m in legal if b.is_capture(m) or b.is_en_passant(m) or m.promotion or b.is_castling(m)]
+ chosen+= [m for m in legal if m not in chosen][:4]
+ for m in chosen:
+  for threshold in thresholds:
+   # Native UCI parsing may use nonstandard castle encoding; report it separately.
+   if b.is_castling(m):
+    excluded.append({"label":label,"uci":m.uci(),"reason":"CASTLE_UCI_ORACLE_ENCODING_UNSUPPORTED"});continue
+   native,occ=query(fen,m.uci(),threshold)
+   independent,detail=see(b,m,threshold)
+   item={"label":label,"fen":fen,"uci":m.uci(),"threshold":threshold,"native":native,"independent":independent,"occupied":occ,"independent_terminal":detail.get("terminal",detail.get("first_gate"))}
+   rows.append(item)
+   labels[label]=labels.get(label,0)+1
+   if native!=independent:mismatches.append(item)
+engine.stdin.write("quit\n");engine.stdin.flush();engine.wait(timeout=4)
+report={"schema":"c3x027-see-boundary-differential-v1","fixtures_attempted":len(fixtures),"comparisons":len(rows),"per_fixture_counts":labels,"exclusions":excluded,"mismatch_count":len(mismatches),"mismatches":mismatches[:100],"native_occupied_nonzero":sum(bool(x["occupied"]) for x in rows)}
+Path("C3X_027_SEE_BOUNDARY_DIFFERENTIAL.json").write_text(json.dumps(report,indent=2)+"\n")
+print("C3X027_SEE_BOUNDARY",report["comparisons"],report["mismatch_count"],"occupied",report["native_occupied_nonzero"],"excluded",len(excluded))
+for m in mismatches[:6]:print("C3X027_BOUNDARY_MISMATCH",m["label"],m["uci"],m["threshold"],m["native"],m["independent"])
