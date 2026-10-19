@@ -1,5 +1,16 @@
 # C3X — Counterfactual Contrastive Chess eXplanation
 
+## C3X 0.27 — Counterfactual Consequence Geometry (OPEN, 2026-10-19)
+
+**Official title:** C3X 0.27 — Counterfactual Consequence Geometry: Strategic Distinction, Continuation Fibers, Causal Witnesses & the Persistence of Chess Decisions.
+
+**Opening basis:** C3X 0.26 established a new identification problem rather than proving a causal chess theory. Selected P0-F negative control index99 exhibits a larger one-ply mobility contrast (29 vs35) than development cases 42 (38 vs40) or 43 (36 vs37), and disjoint displayed MultiPV2 replies just like 42; these features cannot by themselves identify persistent search-rank inversion. P0 full-FEN audit distinguished 13/72 FEN4 from 8/72 FEN6 within-root PV intersections. The new research object is a *legally checkable continuation-and-consequence witness* for a chess-specific distinction, including explicit falsifier and abstention conditions. Empirical validation is **HOLD**. Preserve the historical official 0.25 and 0.26 names and their dated findings below.
+
+**[0.27 opening contract and first experimental gates](docs/C3X_027_OPENING_CONSEQUENCE_GEOMETRY_20261019.md)** — consequence fibers, nonmonotone distinction survival as a hypothesis, history-sensitive transposition, competing search-versus-strategy accounts, heldout validation and negative controls. Theory-first development; no obligatory WSL, no bot commits or workflow pushes.
+
+---
+
+
 ## C3X 0.26 — Causal Foundations of Strategic Choice (OPEN, 2026-10-18)
 
 **Canonical name:** C3X 0.26 — Causal Foundations of Strategic Choice: Counterfactual Affordance Geometry, Minimal Distinguishing Reasons, Search–Strategy Disentanglement & Verifiable Human Understanding.
