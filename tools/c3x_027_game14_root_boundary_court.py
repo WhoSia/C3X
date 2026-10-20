@@ -13,7 +13,7 @@ def parse_boundary_lines(lines):
     for line in lines:
         if "event=ROOT_BOUNDARY" not in line:
             continue
-        fields=dict(re.findall(r"([A-Za-z_][A-Za-z0-9_]*)=([^\\s]+)",line))
+        fields=dict(re.findall(r"([A-Za-z_][A-Za-z0-9_]*)=(\S+)",line))
         required=("depth","leader","score","average")
         if any(key not in fields for key in required):
             return {"status":"HOLD_MALFORMED_DEPTH_BOUNDARY","runs":[]}
