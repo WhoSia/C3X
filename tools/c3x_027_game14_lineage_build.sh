@@ -31,6 +31,7 @@ python tools/c3x_023_P1_R2_T1_full_computational_SEE_state_overlay.py --source "
 python tools/c3x_027_sept_capture_prune_exact_outcome_patch.py --source "$root" --out-manifest evidence/C3X027_CAPTURE_DIRECT_ACTION.json
 python tools/c3x_027_sept_capture_counterfactual_patch.py --source "$root" --out-manifest evidence/C3X027_CAPTURE_COUNTERFACTUAL.json
 python tools/c3x_027_game14_passive_lineage_overlay.py --source "$root" --out-manifest evidence/C3X027_GAME14_PASSIVE_LINEAGE.json
+python tools/c3x_027_game14_C3b_passive_ancestor_overlay.py --source "$root" --out-manifest evidence/C3X027_GAME14_C3B_PASSIVE.json
 make -s -C "$root/src" -j2 build ARCH=x86-64
 
 sha256sum "$root/src/stockfish" | awk '{print $1 "  LOCAL_UNDISTRIBUTED_GPLV3_ENGINE"}' > evidence/T3_BINARY_HASH.txt
