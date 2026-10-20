@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 """C3X027 fresh game-disjoint source TT-FIRST arm; exact StageA precommit reverified before any intervention."""
 import argparse,hashlib,json
+from collections import Counter
+from c3x_023_P1_same_descendant_SEE_node_matcher import identity
 from pathlib import Path
 import chess
 from c3x_018_native_TT_lineage_factorial_6_8 import play,need
@@ -11,6 +13,41 @@ from c3x_023_P1_R2_T0_chronological_post_TT_common_SEE_dev import cold,post_sour
 
 SOURCE_SHA="9372e0fdce2c8499e8d12f6bef5d1bfaef40a2d5b7160cc48513085567c9098d"
 def digest(p):return hashlib.sha256(Path(p).read_bytes()).hexdigest()
+def one_sided_after_physical_TT_block(untreated,treated,physical,root_call):
+    """Chronology of treated-only native SEE events relative to actual TT reader block.
+    Exact source identity is retained only in private, not exported."""
+    observed=Counter(identity(e) for e in untreated["native_see_events"] if e.get("kind")=="witness")
+    compared=Counter(identity(e) for e in treated["native_see_events"] if e.get("kind")=="witness")
+    only=compared-observed
+    blocks=[]
+    for ev in treated["ordered_source_operator_trace"]:
+        f=ev["fields"]
+        if ev["source"]=="physical_TT" and f.get("kind")=="reader_block" and
+           f.get("root_call")==root_call and
+           all(f.get(k)==physical[k] for k in ("key64","slot","epoch")):
+            blocks.append(ev["line_ordinal"])
+    if not blocks:
+        return {"status":"HOLD_NO_ORDERED_TT_READER","new_seen_after_TT":None}
+    first=min(blocks)
+    seen=[]
+    for ev in treated["ordered_source_operator_trace"]:
+        f=ev["fields"]
+        if ev["source"]!="native_SEE" or f.get("kind")!="witness":continue
+        key=identity(f)
+        if only[key]<=0:continue
+        only[key]-=1
+        seen.append({"site":f["site"],"boolean":f["delivered"],
+                     "decision":"CONTINUE_PRUNE" if f["delivered"]==0 else "SEE_GUARD_PASSED",
+                     "after_TT_reader_block":ev["line_ordinal"]>first,
+                     "ordinal_delta_from_TT_block":ev["line_ordinal"]-first})
+    if any(only.values()):
+        return {"status":"HOLD_EVENT_ORDINAL_MATCH_INCOMPLETE","new_seen_after_TT":None}
+    return {"status":"BOUNDED_ONE_SIDED_SOURCE_CHRONOLOGY",
+            "new_seen_after_TT":sum(z["after_TT_reader_block"] for z in seen),
+            "new_seen_before_TT":sum(not z["after_TT_reader_block"] for z in seen),
+            "one_sided_guard_events":seen,
+            "root_value_mediation_certified":False}
+
 def main():
  p=argparse.ArgumentParser()
  for k in ("source","stagea","forecast","engine","out","public"):p.add_argument("--"+k,required=True)
@@ -58,6 +95,7 @@ def main():
    need(lineage["all_valid"] and lineage["count"]>=len(blocks),"PHYSICAL_SOURCE_WRITER_LINEAGE_BAD")
    analysis=post_source_match(natural,treated,target)
   else:analysis={"status":"HOLD_NO_SOURCE_CONTACT","strict_post_source_matches":0,"source_prefix_censored":True}
+  asym=one_sided_after_physical_TT_block(natural,treated,target["physical"],target["root_calls"][0]) if confirmed else {"status":"HOLD_NO_CONTACT","new_seen_after_TT":None}
   original_move=natural["UCI"]["bestmove"];treated_move=treated["UCI"]["bestmove"]
   v={"id":r["id"],"source_game_sha256":r["source_game_sha256"],
      "role":role,"TT_FIRST_contact":confirmed,"TT_reader_blocks":len(blocks),
@@ -66,7 +104,7 @@ def main():
      "expected_M0":f["source_roles"]["O"][role]["M0_exact_UCI"],
      "expected_M1":f["source_roles"]["O"][role]["M1_exact_UCI"],
      "native_SEE_original":natural["native_see_events"],"native_SEE_treated":treated["native_see_events"],
-     "source_chronology":analysis,"SEE_bool_interventions":0,
+     "source_chronology":analysis,"source_asymmetric_event_chronology":asym,"SEE_bool_interventions":0,
      "root_before":source_depth_ladder(natural["root_events"]),
      "root_after":source_depth_ladder(treated["root_events"])}
   cases.append(v)
@@ -76,6 +114,9 @@ def main():
       "root_changed":v["root_changed"],
       "original_bestmove":original_move,"treated_bestmove":treated_move,
       "strict_post_TT_common_source_SEE":analysis["strict_post_source_matches"],
+      "treated_only_SEE_after_TT_block":asym.get("new_seen_after_TT"),
+      "treated_only_SEE_before_TT_block":asym.get("new_seen_before_TT"),
+      "treated_only_SEE_guard_sites":[z["site"] for z in asym.get("one_sided_guard_events",[]) if z["after_TT_reader_block"]],
       "first32_SEE_original":len(natural["native_see_events"]),
       "first32_SEE_treated":len(treated["native_see_events"]),
       "SEE_prefix_censored":analysis.get("source_prefix_censored",False)})
