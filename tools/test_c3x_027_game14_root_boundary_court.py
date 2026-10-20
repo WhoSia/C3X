@@ -6,7 +6,7 @@ def fixture(score=4):
    for _ in range(2) for d in (1,2,3))
 class SourceBoundaryCourtTests(unittest.TestCase):
  def test_replay_parity(self):
-  self.assertEqual(parse_boundary_lines(fixture())["status"],
+  self.assertEqual(parse_boundary_lines(fixture().splitlines())["status"],
                    "PASS_TWO_IDENTICAL_COLD_BOUNDARY_RUNS")
  def test_change_across_runs_is_hold(self):
   s=fixture();s=s.replace("score=7 average=6","score=8 average=6",1)
