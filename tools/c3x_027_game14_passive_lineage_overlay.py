@@ -32,7 +32,7 @@ void c3x027_lineage_emit(const char* event,const Position& pos,int ply,
  const char* dest=std::getenv("C3X027_GAME14_LINEAGE_LOG");
  if (!dest || !*dest || c3x027_lineage.seq>=2048) return;
  if (auto* f=std::fopen(dest,"a")) {
-  std::fprintf(f,"event=%s seq=%llu root_call=%lld key64=%llu expected_child64=%llu move=%d ply=%d value=%d alpha=%d beta=%d did_move=%d child_entered=%d\\n",
+  std::fprintf(f,"event=%s seq=%llu root_call=%lld key64=%llu expected_child64=%llu move=%d ply=%d value=%d alpha=%d beta=%d did_move=%d child_entered=%d\n",
     event,++c3x027_lineage.seq,(long long)c3x018_root_context_call,
     (unsigned long long)std::uint64_t(pos.key()),
     (unsigned long long)std::uint64_t(c3x027_lineage.expected_child),
@@ -102,7 +102,7 @@ def patch(s):
     snapshot=r'''
       if (c3x027_lineage_on() && !rootMoves.empty()) {
           if (auto* f=std::fopen(std::getenv("C3X027_GAME14_LINEAGE_LOG"),"a")) {
-              std::fprintf(f,"event=ROOT_BOUNDARY depth=%d leader=%d score=%d average=%d\\n",
+              std::fprintf(f,"event=ROOT_BOUNDARY depth=%d leader=%d score=%d average=%d\n",
                   int(rootDepth),int(rootMoves.front().pv[0]),
                   int(rootMoves.front().score),int(rootMoves.front().averageScore));
               std::fclose(f);
