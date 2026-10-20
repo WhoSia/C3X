@@ -62,7 +62,7 @@ jobs:
             --report public/C3X027_LINEAGE_RIGHTS_SCAN.json
           python tools/c3x_023_rights_preupload_gate.py \
             --tier P2_AGGREGATE_SUMMARY \
-            --file public/C3X027_SEPT_GAME14_DIRECT_CAPTURE_GUARD.json \
+            --file public/C3X027_SEPT_GAME14_ABC_DIRECT_CAPTURE_GUARD.json \
             --report public/C3X027_CAPTURE_GUARD_RIGHTS_SCAN.json
           echo 'Adapted 2026-09 Lichess broadcast CC BY-SA 4.0; source https://database.lichess.org/broadcast/lichess_db_broadcast_2026-09.pgn.zst. No original PGN or modified engine binary distributed.' > public/SOURCE_LICENSE_NOTICE.txt
       - uses: actions/upload-artifact@v4
