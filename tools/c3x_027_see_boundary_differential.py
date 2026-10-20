@@ -1,11 +1,10 @@
 import ast,json,sys,subprocess,chess
 from pathlib import Path
-p=Path("tools/c3x_027_independent_see_algorithm_audit.py")
-tree=ast.parse(p.read_text())
-fun=next(n for n in tree.body if isinstance(n,ast.FunctionDef) and n.name=="see_replay")
-namespace={"chess":chess,"VALUES":{None:0,chess.PAWN:126,chess.KNIGHT:781,chess.BISHOP:825,chess.ROOK:1276,chess.QUEEN:2538,chess.KING:0},"MASK":(1<<64)-1}
-exec(compile(ast.Module(body=[fun],type_ignores=[]),str(p),"exec"),namespace)
-see=namespace["see_replay"]
+p=Path("tools/c3x_027_independent_see_v2_exact_pins.py")
+spec=importlib.util.spec_from_file_location("c3x027_see_v2",p)
+checker=importlib.util.module_from_spec(spec)
+spec.loader.exec_module(checker)
+see=checker.see_replay
 fixtures=[
 ("pinned_knight","4k3/8/8/8/8/4n3/4r3/4K2R w - - 0 1"),
 ("pinned_knight_capture_target","8/6k1/8/8/3n4/5p2/8/B4R1K w - - 0 1"),
