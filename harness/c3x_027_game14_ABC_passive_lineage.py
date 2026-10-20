@@ -113,3 +113,52 @@ public_lineage.write_text(json.dumps({
  "native_descendant_transmission_certified":False,
  "natural_TT_SEE_mediation_certified":False},indent=2,sort_keys=True)+"\\n")
 print("C3X027_GAME14_PASSIVE_LINEAGE_COUNTS",json.dumps(lineage_summary,sort_keys=True))
+
+def native_c_chain(path):
+    import re
+    rows=[]
+    for line in path.read_text().splitlines():
+        m=dict(re.findall(r"(\\w+)=([^ ]+)",line))
+        if "seq" in m and "event" in m: rows.append(m)
+    chunks=[]
+    for row in rows:
+        if row["seq"]=="1":chunks.append([])
+        if not chunks:return {"status":"HOLD_EVENT_SEQUENCE_NO_START"}
+        chunks[-1].append(row)
+    expected=["GUARD_REENABLED","DO_MOVE_EXECUTED","CHILD_ENTERED",
+              "CHILD_VALUE_RETURNED","PARENT_CANDIDATE_VALUE"]
+    results=[]
+    for c in chunks:
+        kinds=[r["event"] for r in c]
+        levels={"guard":len(kinds)>0 and kinds[0]==expected[0],
+                "child_do":kinds[:2]==expected[:2],
+                "child_entry":kinds[:3]==expected[:3],
+                "child_return":kinds[:4]==expected[:4],
+                "parent_candidate":kinds[:5]==expected}
+        if levels["child_entry"]:
+            levels["key_link"]=(c[1]["key64"]==c[0]["expected_child64"]==
+                                c[2]["key64"])
+        else: levels["key_link"]=False
+        if levels["parent_candidate"]:
+            levels["return_value_link"]=(c[3]["value"]==c[4]["value"])
+            levels["root_call_link"]=len({x["root_call"] for x in c})==1
+            levels["sequence_monotonic"]=[int(x["seq"]) for x in c]==list(range(1,len(c)+1))
+        else:
+            levels["return_value_link"]=False
+            levels["root_call_link"]=False
+            levels["sequence_monotonic"]=False
+        results.append({"observed_events":len(c),"levels":levels})
+    return {"status":"PASS_LOCAL_PARENT_SOURCE_PATH" if len(results)==2 and
+            all(all(x["levels"].values()) for x in results)
+            else "HOLD_INCOMPLETE_OR_AMBIGUOUS_SOURCE_CHAIN",
+            "cold_runs_observed":len(results),"cold_source_courts":results,
+            "root_candidate_competition_certified":False,
+            "natural_mediation_certified":False}
+court=native_c_chain(Path(a.private)/"TT_FIRST_REENABLE_ONE_lineage.txt")
+public_court=out_path.with_name("C3X027_GAME14_PASSIVE_SOURCE_CHAIN_COURT.json")
+public_court.write_text(json.dumps({
+ "schema":"c3x027-game14-capture-guard-to-parent-source-court-v1",
+ "source_game_sha256":source["source_game_sha256"],
+ "result":court,
+ "not_same_as_024_ancestor_root_full_proof":True},indent=2,sort_keys=True)+"\\n")
+print("C3X027_GAME14_PASSIVE_SOURCE_CHAIN",json.dumps(court,sort_keys=True))
