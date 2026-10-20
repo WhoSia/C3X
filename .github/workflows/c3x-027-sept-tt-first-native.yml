@@ -4,6 +4,7 @@ on:
     branches: [main]
     paths:
       - 'harness/c3x_027_sept_tt_first_source_see_chronology.py'
+      - 'harness/c3x_027_sept_see_guard_consumer_ledger.py'
       - '.github/workflows/c3x-027-sept-tt-first-native.yml'
   workflow_dispatch:
 permissions:
@@ -100,10 +101,15 @@ jobs:
             --engine /tmp/C3X020_MULTI_STATE/src/stockfish \
             --out private/C3X027_SEPT_TT_FIRST_SOURCE_SEE_RAW.json \
             --public public/C3X027_SEPT_NATIVE_TT_FIRST_SEE_PUBLIC.json
+          PYTHONPATH=harness python harness/c3x_027_sept_see_guard_consumer_ledger.py private/C3X027_SEPT_TT_FIRST_SOURCE_SEE_RAW.json public/C3X027_SEPT_SOURCE_SEE_GUARD_LEDGER.json
           python tools/c3x_023_rights_preupload_gate.py \
             --tier P2_AGGREGATE_SUMMARY \
             --file public/C3X027_SEPT_NATIVE_TT_FIRST_SEE_PUBLIC.json \
             --report public/C3X027_SEPT_CAUSAL_RIGHTS_SCAN.json
+          python tools/c3x_023_rights_preupload_gate.py \
+            --tier P2_AGGREGATE_SUMMARY \
+            --file public/C3X027_SEPT_SOURCE_SEE_GUARD_LEDGER.json \
+            --report public/C3X027_SEPT_GUARD_RIGHTS_SCAN.json
           echo 'Lichess broadcasts September 2026 CC BY-SA 4.0 https://database.lichess.org/broadcast/lichess_db_broadcast_2026-09.pgn.zst; adapted positions and native source summaries; original PGN and player names omitted.' > public/SOURCE_LICENSE_NOTICE.txt
           sha256sum private/C3X027_SEPT_TT_FIRST_SOURCE_SEE_RAW.json | awk '{print $1 "  PRIVATE_NATIVE_SOURCE_EVENTS_UNPUBLISHED"}' > public/PRIVATE_RAW_RESULT_SHA256.txt
       - uses: actions/upload-artifact@v4
