@@ -37,7 +37,7 @@ def replay(name,mode,physical=None,filters=None):
  path=Path(a.private)/(name+".txt")
  path.write_text("")
  os.environ["C3X027_CAPTURE_BRANCH_LOG"]=str(path.resolve())
- try:result=cold(a.engine,world,clock,"O",mode,physical,filters=filters,watch=watch)
+ try:result=cold(a.engine,world,clock,"O",mode,physical,filter=filters,watch=watch)
  finally:os.environ.pop("C3X027_CAPTURE_BRANCH_LOG",None)
  return result,path
 orig,op=replay("original","OBS")
