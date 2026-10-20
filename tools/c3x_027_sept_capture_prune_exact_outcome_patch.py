@@ -4,7 +4,7 @@ import argparse,json
 from pathlib import Path
 p=argparse.ArgumentParser();p.add_argument("--source",required=True);p.add_argument("--out-manifest",required=True);a=p.parse_args()
 f=Path(a.source)/"src/search.cpp";s=f.read_text()
-head='if (!c3x022_r2_see(pos,move,Value(-205)*depth,"capture_prune",&occupied))'
+head='if (!c3x022_r2_see(pos,move,Value(-205)*depth,"capture_prune",ss->ply,int(depth),int(alpha),int(beta),PvNode,&occupied))'
 start=s.find(head)
 assert start>=0 and s.count(head)==1,"EXACT_CAPTURE_SEE_SOURCE_MISSING"
 tail=s.find('          else\n          {\n              int history',start)
