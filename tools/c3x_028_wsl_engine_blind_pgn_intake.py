@@ -26,7 +26,11 @@ def main():
  p.add_argument("--public-output",required=True)
  a=p.parse_args()
  if a.count<1 or a.count>512:raise SystemExit("INVALID_TARGET_COUNT")
- raw=Path(a.pgn).read_bytes()
+ # Stream large PGNs; do not materialize full broadcast dumps in RAM.
+ h=hashlib.sha256()
+ with Path(a.pgn).open("rb") as binary:
+  for block in iter(lambda:binary.read(1024*1024),b""):h.update(block)
+ pgn_sha=h.hexdigest()
  prior_path=Path(a.prior_ids)
  if not prior_path.is_file():raise SystemExit("HOLD_NO_PRIOR_ID_MANIFEST")
  old=set()
@@ -37,8 +41,7 @@ def main():
    raise SystemExit("BAD_PRIOR_GAME_HASH")
   old.add(item)
  if not old:raise SystemExit("HOLD_EMPTY_PRIOR_MANIFEST")
- from io import StringIO
- infile=StringIO(raw.decode("utf-8-sig"))
+ infile=Path(a.pgn).open("r",encoding="utf-8-sig",errors="replace")
  scanned=legal=duplicate=excluded=0
  candidates={}
  while True:
@@ -71,14 +74,14 @@ def main():
  if len(chosen)!=a.count:
   raise SystemExit(f"HOLD_INSUFFICIENT_DISJOINT_COHORT_{len(chosen)}_OF_{a.count}")
  pri={"schema":"c3x028-private-engine-blind-cohort-v1",
-  "input_pgn_sha256":sha(raw),"prior_manifest_sha256":sha(prior_path.read_bytes()),
+  "input_pgn_sha256":pgn_sha,"prior_manifest_sha256":sha(prior_path.read_bytes()),
   "prior_ids_count":len(old),"seed":a.seed,"source":a.source,
   "rights":a.rights,"selection_rule":"one post-ply16 position per game",
   "positions":chosen}
  out=Path(a.private_output);out.parent.mkdir(parents=True,exist_ok=True)
  out.write_text(json.dumps(pri,sort_keys=True,indent=2)+"\n")
  public={"schema":"c3x028-engine-blind-intake-summary-v1",
-  "input_pgn_sha256":sha(raw),"prior_manifest_sha256":sha(prior_path.read_bytes()),
+  "input_pgn_sha256":pgn_sha,"prior_manifest_sha256":sha(prior_path.read_bytes()),
   "source":a.source,"rights":a.rights,"seed":a.seed,
   "target_count":a.count,"scanned_games":scanned,
   "legal_eligible_games":legal,"duplicate_or_historical":duplicate,
