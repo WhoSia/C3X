@@ -141,10 +141,16 @@ def native_c_chain(path):
         else: levels["key_link"]=False
         if levels["parent_candidate"]:
             levels["return_value_link"]=(c[3]["value"]==c[4]["value"])
+            levels["parent_board_restored"]=(c[4].get("key64")==c[0].get("key64"))
+            levels["child_board_confirmed"]=(c[1].get("key64")==c[2].get("key64"))
+            levels["source_move_consistent"]=len({e.get("move") for e in c})==1
             levels["root_call_link"]=len({x["root_call"] for x in c})==1
             levels["sequence_monotonic"]=[int(x["seq"]) for x in c]==list(range(1,len(c)+1))
         else:
             levels["return_value_link"]=False
+            levels["parent_board_restored"]=False
+            levels["child_board_confirmed"]=False
+            levels["source_move_consistent"]=False
             levels["root_call_link"]=False
             levels["sequence_monotonic"]=False
         results.append({"observed_events":len(c),"levels":levels})
