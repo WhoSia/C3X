@@ -1,12 +1,10 @@
 import chess,random,json,sys,subprocess,importlib.util
 from pathlib import Path
-p=Path('tools/c3x_027_independent_see_algorithm_audit.py')
-
-# Import is side-effectful; extract see_replay function by parsing AST.
-import ast
-tree=ast.parse(p.read_text());keep=[n for n in tree.body if isinstance(n,ast.FunctionDef) and n.name=='see_replay']
-code=compile(ast.Module(body=keep,type_ignores=[]),str(p),'exec')
-ns={'chess':chess,'VALUES':{None:0,chess.PAWN:126,chess.KNIGHT:781,chess.BISHOP:825,chess.ROOK:1276,chess.QUEEN:2538,chess.KING:0},'MASK':(1<<64)-1};exec(code,ns)
+p=Path("tools/c3x_027_independent_see_v2_exact_pins.py")
+spec=importlib.util.spec_from_file_location("c3x027_see_v2",p)
+checker=importlib.util.module_from_spec(spec)
+spec.loader.exec_module(checker)
+see=checker.see_replay
 rnd=random.Random(27023);samples=[]
 for g in range(22):
  b=chess.Board()
@@ -34,7 +32,7 @@ for fen,u,t in samples:
  b=chess.Board(fen);m=chess.Move.from_uci(u)
  native,occ,mask=query(fen,u,t)
  for i in range(18):branch_counts[str(i)]+=bool(mask&(1<<i))
- ours,detail=ns['see_replay'](b,m,t)
+ ours,detail=see(b,m,t)
  occupied+=int(occ!=0)
  if native!=ours:
   mismatches.append({'fen':fen,'uci':u,'threshold':t,'native':native,'independent':ours,'detail':detail})
