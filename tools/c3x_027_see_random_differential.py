@@ -26,19 +26,21 @@ def query(fen,move,th):
   line=engine.stdout.readline().strip()
   if line.startswith('c3xsee '):
    z=line.split()
-   if len(z)!=5:raise RuntimeError(line)
-   return bool(int(z[3])),int(z[4])
+   if len(z)!=6:raise RuntimeError(line)
+   return bool(int(z[3])),int(z[4]),int(z[5])
  raise RuntimeError('oracle no reply')
-result=[];mismatches=[];occupied=0
+result=[];mismatches=[];occupied=0;branch_counts={str(i):0 for i in range(18)}
 for fen,u,t in samples:
  b=chess.Board(fen);m=chess.Move.from_uci(u)
- native,occ=query(fen,u,t)
+ native,occ,mask=query(fen,u,t)
+ for i in range(18):branch_counts[str(i)]+=bool(mask&(1<<i))
  ours,detail=ns['see_replay'](b,m,t)
  occupied+=int(occ!=0)
  if native!=ours:
   mismatches.append({'fen':fen,'uci':u,'threshold':t,'native':native,'independent':ours,'detail':detail})
-result={'schema':'c3x027-source-pinned-see-differential-v1','seed':27023,'samples':len(samples),'mismatches':len(mismatches),'native_occupied_nonzero':occupied,'first_mismatches':mismatches[:35],'status':'MISMATCH_HOLD' if mismatches else 'PASS'}
+result={'schema':'c3x027-source-pinned-see-differential-v1','seed':27023,'samples':len(samples),'mismatches':len(mismatches),'native_occupied_nonzero':occupied,'native_branch_counts':branch_counts,'first_mismatches':mismatches[:35],'status':'MISMATCH_HOLD' if mismatches else 'PASS'}
 Path('C3X_027_SEE_DIFFERENTIAL.json').write_text(json.dumps(result,indent=2)+'\n')
 engine.stdin.write('quit\n');engine.stdin.flush();engine.wait(timeout=4)
 print('C3X027_SEE_DIFFERENTIAL',result['samples'],result['mismatches'],'native_occupied_nonzero',occupied)
+print('C3X027_RANDOM_BRANCHES',branch_counts)
 # Differences are scientific findings, not a CI execution error.
