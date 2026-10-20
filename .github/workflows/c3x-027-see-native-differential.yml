@@ -7,6 +7,7 @@ on:
       - 'tools/c3x_027_see_random_differential.py'
       - 'tools/c3x_027_see_boundary_differential.py'
       - 'tools/c3x_027_native_see_branch_trace_patch.py'
+      - 'tools/c3x_027_independent_see_v2_exact_pins.py'
       - '.github/workflows/c3x-027-see-native-differential.yml'
   workflow_dispatch:
 permissions:
