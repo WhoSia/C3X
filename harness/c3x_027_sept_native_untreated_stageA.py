@@ -33,10 +33,12 @@ def run(path,engine):
    discovery=repeat(engine,world,clock,order,True)
    need(untreated["UCI"]==discovery["UCI"],"OBS_DISCOVERY_MUTATED_ROOT")
    events=[e for e in discovery["payload_witnesses"] if e["kind"]=="discovery"]
-   need(len(events)<2048,"SOURCE_TRACE_CENSORED")
+   need(len(events)<=2048,"DISCOVERY_LOG_OVERFLOW")
+   prefix_censored=(len(events)==2048)
    pair=first_pair(events,RULES["STRICT"])
    outcomes[order]={"baseline_uci":untreated["UCI"],
-       "source_contact_candidate":"FIRST_SOURCE_PAIR" if pair else "NO_ELIGIBLE_TT_FIRST_READER",
+       "source_contact_candidate":"FIRST_SOURCE_PAIR_OBSERVED_PREFIX" if pair else ("HOLD_CENSORED_NO_FIRST_PAIR" if prefix_censored else "NO_ELIGIBLE_TT_FIRST_READER"),
+       "source_prefix_censored":prefix_censored,
        "candidate":({"physical":pair["physical"],"root_calls":pair["root_calls"],
                      "root_candidate_native":pair["root_candidate_native"],
                      "source_indices":pair["indices"]} if pair else None),
@@ -51,7 +53,8 @@ def run(path,engine):
          "source_sha256":SOURCE_SHA,"engine_revision":"68e1e9b3811e16cad014b590d7443b9063b3eb52",
          "selected_order_policy":"O and F; first discovered source pair STRICT; no post-treatment choice",
          "source_games":rows,
-         "summary":{"games":16,"worlds":32,"eligible_first_source_pairs":sum(v["candidate"] is not None for x in rows for v in x["worlds"].values()),"actual_TT_FIRST_blocks":0,"actual_SEE_bool_flips":0}}
+         "summary":{"games":16,"worlds":32,"eligible_first_source_pairs":sum(v["candidate"] is not None for x in rows for v in x["worlds"].values()),"actual_TT_FIRST_blocks":0,"actual_SEE_bool_flips":0,
+              "source_prefix_censored_cells":sum(v["source_prefix_censored"] for x in rows for v in x["worlds"].values())}}
 if __name__=="__main__":
  a=argparse.ArgumentParser()
  for k in ("source","engine","out"):a.add_argument("--"+k,required=True)
