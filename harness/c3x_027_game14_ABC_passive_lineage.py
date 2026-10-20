@@ -111,14 +111,14 @@ public_lineage.write_text(json.dumps({
  "world_event_counts":lineage_summary,
  "raw_event_keys_and_child_positions_private":True,
  "native_descendant_transmission_certified":False,
- "natural_TT_SEE_mediation_certified":False},indent=2,sort_keys=True)+"\\n")
+ "natural_TT_SEE_mediation_certified":False},indent=2,sort_keys=True)+"\n")
 print("C3X027_GAME14_PASSIVE_LINEAGE_COUNTS",json.dumps(lineage_summary,sort_keys=True))
 
 def native_c_chain(path):
     import re
     rows=[]
     for line in path.read_text().splitlines():
-        m=dict(re.findall(r"(\\w+)=([^ ]+)",line))
+        m=dict(re.findall(r"(\w+)=([^ ]+)",line))
         if "seq" in m and "event" in m: rows.append(m)
     chunks=[]
     for row in rows:
@@ -160,5 +160,5 @@ public_court.write_text(json.dumps({
  "schema":"c3x027-game14-capture-guard-to-parent-source-court-v1",
  "source_game_sha256":source["source_game_sha256"],
  "result":court,
- "not_same_as_024_ancestor_root_full_proof":True},indent=2,sort_keys=True)+"\\n")
+ "not_same_as_024_ancestor_root_full_proof":True},indent=2,sort_keys=True)+"\n")
 print("C3X027_GAME14_PASSIVE_SOURCE_CHAIN",json.dumps(court,sort_keys=True))
