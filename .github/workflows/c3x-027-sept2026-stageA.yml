@@ -1,0 +1,51 @@
+name: C3X 027 September untreated Stage A native TT source discovery
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'harness/c3x_027_sept_native_untreated_stageA.py'
+      - '.github/workflows/c3x-027-sept2026-stageA.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  stagea:
+    runs-on: ubuntu-latest
+    timeout-minutes: 95
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install chess==1.11.2
+      - name: Retrieve original source-only freeze from separate earlier run
+        uses: actions/download-artifact@v4
+        with:
+          name: c3x027-sept2026-preengine-source-only16
+          path: source/
+          repository: WhoSia/C3X
+          run-id: '39348434657'
+          github-token: ${{ github.token }}
+      - name: Check source-only manifest SHA before any engine is built
+        run: |
+          test "$(sha256sum source/C3X_027_SEPT2026_NEW_SOURCE16.json | cut -d' ' -f1)" = 9372e0fdce2c8499e8d12f6bef5d1bfaef40a2d5b7160cc48513085567c9098d
+      - name: Build exact historical SF16 overlay without activation of actuators
+        run: |
+          set -euo pipefail
+          mkdir -p evidence
+          bash tools/c3x_023_P1_R2_T3_native_repro_build.sh
+      - name: Cold, repeated O/F baseline and source-only TT reader discovery
+        run: |
+          set -euo pipefail
+          PYTHONPATH=harness python -u harness/c3x_027_sept_native_untreated_stageA.py \
+            --source source/C3X_027_SEPT2026_NEW_SOURCE16.json \
+            --engine /tmp/C3X020_MULTI_STATE/src/stockfish \
+            --out C3X_027_SEPT2026_NATIVE_STAGEA.json
+      - name: Publish derived source metadata only (no original PGN or modified binary)
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x027-sept16-native-untreated-stageA
+          path: C3X_027_SEPT2026_NATIVE_STAGEA.json
+          if-no-files-found: warn
+          retention-days: 90
