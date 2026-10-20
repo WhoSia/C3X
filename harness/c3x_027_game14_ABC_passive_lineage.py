@@ -168,3 +168,40 @@ public_court.write_text(json.dumps({
  "result":court,
  "not_same_as_024_ancestor_root_full_proof":True},indent=2,sort_keys=True)+"\n")
 print("C3X027_GAME14_PASSIVE_SOURCE_CHAIN",json.dumps(court,sort_keys=True))
+
+# C3b passive raw C++ ancestor events: do not infer PASS from mere presence.
+def c3b_private_summary(path):
+    import re
+    rows=[]
+    for ln in path.read_text().splitlines():
+        if "sequence=" not in ln or "event=" not in ln: continue
+        row=dict(re.findall(r"(\w+)=([^ ]+)",ln))
+        if row.get("event") in ("ANCESTOR_SNAPSHOT","CHILD_VALUE_RETURNED",
+          "PARENT_CANDIDATE_VALUE","FRAME_RETURN","ROOT_FRAME_RETURN",
+          "ANCESTOR_EDGE_AMBIGUOUS","ANCESTOR_DEPTH_CENSORED"):
+            rows.append(row)
+    groups=[]
+    for row in rows:
+        if row.get("sequence")=="1": groups.append([])
+        if not groups:return {"status":"HOLD_NO_C3B_SNAPSHOT"}
+        groups[-1].append(row)
+    if not groups:return {"status":"HOLD_NO_C3B_SOURCE_EVENTS"}
+    expected_types=("ANCESTOR_SNAPSHOT","CHILD_VALUE_RETURNED","PARENT_CANDIDATE_VALUE")
+    complete=0
+    for g in groups:
+        events=[e["event"] for e in g]
+        if events[:3]==list(expected_types) and events[-1]=="ROOT_FRAME_RETURN" and (
+            [int(e["sequence"]) for e in g]==list(range(1,len(g)+1))):
+            complete+=1
+    return {"status":"SOURCE_ROOT_FRAME_PATH_OBSERVED_REQUIRES_FRAME_ID_AUDIT"
+                   if complete==len(groups)==2 else "HOLD_PARTIAL_OR_CENSORED_C3B",
+            "cold_source_paths":len(groups),"root_frame_paths_observed":complete,
+            "source_frame_id_certified":False,"natural_mediation_certified":False}
+summary_c3b={arm:c3b_private_summary(Path(a.private)/(name+"_lineage.txt"))
+ for arm,name in (("A","original"),("B","TT_FIRST"),("C","TT_FIRST_REENABLE_ONE"))}
+summary_c3b_path=out_path.with_name("C3X027_GAME14_C3B_PASSIVE_AGGREGATE.json")
+summary_c3b_path.write_text(json.dumps({"schema":"c3x027-game14-C3b-source-observer-aggregate-v1",
+ "game_sha256":source["source_game_sha256"],"worlds":summary_c3b,
+ "full_native_ancestor_certificate":False,"root_causation_certified":False},
+ indent=2,sort_keys=True)+"\n")
+print("C3X027_GAME14_C3B_SOURCE_OBSERVATIONS",json.dumps(summary_c3b,sort_keys=True))
