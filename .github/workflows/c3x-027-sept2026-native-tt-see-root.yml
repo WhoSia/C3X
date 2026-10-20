@@ -1,0 +1,73 @@
+name: C3X 027 September native TT-FIRST to SEE root prospective source trial
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'harness/c3x_027_sept2026_native_TT_SEE_root_trial.py'
+      - '.github/workflows/c3x-027-sept2026-native-tt-see-root.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  causal-frontier:
+    runs-on: ubuntu-latest
+    timeout-minutes: 95
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install chess==1.11.2
+      - name: Verify separate pre-intervention human Git freeze
+        run: |
+          set -euo pipefail
+          test -f c3x/forecasts/C3X_027_SEPT2026_FIRST_TT_SEE_ROOT_PRETREATMENT_FREEZE_20261020.md
+          python -m py_compile harness/c3x_027_sept2026_native_TT_SEE_root_trial.py
+      - name: Download source game identities from original source-only run
+        uses: actions/download-artifact@v4
+        with:
+          name: c3x027-sept2026-preengine-source-only16
+          path: source/
+          repository: WhoSia/C3X
+          run-id: '39348434657'
+          github-token: ${{ github.token }}
+      - name: Download untreated native Stage A from separate historic run
+        uses: actions/download-artifact@v4
+        with:
+          name: c3x027-sept16-native-untreated-stageA
+          path: stageA/
+          repository: WhoSia/C3X
+          run-id: '39348943019'
+          github-token: ${{ github.token }}
+      - name: Enforce frozen SHA before native intervention
+        run: |
+          set -euo pipefail
+          test "$(sha256sum source/C3X_027_SEPT2026_NEW_SOURCE16.json | cut -d' ' -f1)" = 9372e0fdce2c8499e8d12f6bef5d1bfaef40a2d5b7160cc48513085567c9098d
+          test "$(sha256sum stageA/C3X_027_SEPT2026_NATIVE_STAGEA.json | cut -d' ' -f1)" = 444a03dc999a544d74587dba69b88b956c5ff827ed577363e54632b110dc6575
+      - name: Rebuild original pinned SF16 research instrumentation
+        run: |
+          set -euo pipefail
+          bash tools/c3x_023_P1_R2_T3_native_repro_build.sh
+      - name: Physical TT-FIRST on all preselected 30 eligible source cells, passive SEE
+        run: |
+          set -euo pipefail
+          PYTHONPATH=harness python -u harness/c3x_027_sept2026_native_TT_SEE_root_trial.py \
+            --source source/C3X_027_SEPT2026_NEW_SOURCE16.json \
+            --stagea stageA/C3X_027_SEPT2026_NATIVE_STAGEA.json \
+            --engine /tmp/C3X020_MULTI_STATE/src/stockfish \
+            --out C3X_027_SEPT2026_TT_SEE_ROOT_TRIAL.json
+      - name: Rights and provenance release boundary
+        if: always()
+        run: |
+          if test -s C3X_027_SEPT2026_TT_SEE_ROOT_TRIAL.json; then
+            python tools/c3x_023_rights_preupload_gate.py --tier P2_AGGREGATE_SUMMARY --file C3X_027_SEPT2026_TT_SEE_ROOT_TRIAL.json --report C3X027_SEPT2026_RELEASE_AUDIT.json
+          fi
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x027-sept-physical-TT-to-SEE-root-evidence
+          path: |
+            C3X_027_SEPT2026_TT_SEE_ROOT_TRIAL.json
+            C3X027_SEPT2026_RELEASE_AUDIT.json
+          if-no-files-found: warn
+          retention-days: 90
