@@ -1,0 +1,73 @@
+name: C3X 027 Game14 A-B-C native passive lineage court
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/c3x-027-game14-ABC-native-lineage.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  capture-branch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 65
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install chess==1.11.2
+      - uses: actions/download-artifact@v4
+        with:
+          name: c3x027-sept2026-preengine-source-only16
+          path: source/
+          repository: WhoSia/C3X
+          run-id: '39348434657'
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: c3x027-sept-stageA-before-native-TT-treatment
+          path: forecast/
+          repository: WhoSia/C3X
+          run-id: '39351313113'
+          github-token: ${{ github.token }}
+      - name: Original Stockfish16 plus read-only actual capture-prune branch source
+        run: |
+          set -euo pipefail
+          mkdir -p evidence private public
+          bash tools/c3x_027_game14_lineage_build.sh
+      - name: Restore immutable untreated original stage A under passive instrumentation
+        run: |
+          set -euo pipefail
+          PYTHONPATH=harness python harness/c3x_027_sept_source_staged_unintervened.py \
+            --source source/C3X_027_SEPT2026_NEW_SOURCE16.json \
+            --engine /tmp/C3X020_MULTI_STATE/src/stockfish \
+            --out private/C3X027_SEPT_STAGEA_FULL_PRIVATE.json \
+            --public private/C3X027_REBUILT_STAGEA_PUBLIC.json
+          test "$(sha256sum private/C3X027_SEPT_STAGEA_FULL_PRIVATE.json | awk '{print $1}')" = b0eb51ab779609db346c75d65a6a65fd31efc9a648111d042cfec5199a4afde1
+          test "$(sha256sum private/C3X027_REBUILT_STAGEA_PUBLIC.json | awk '{print $1}')" = 4572edd4c0761c3875aed421b08880ff142c21f691fe940c7c6d760dbb397be5
+      - name: Actual independent native game14 guard branch observer
+        run: |
+          set -euo pipefail
+          PYTHONPATH=harness python -u harness/c3x_027_game14_ABC_passive_lineage.py \
+            --source source/C3X_027_SEPT2026_NEW_SOURCE16.json \
+            --stagea private/C3X027_SEPT_STAGEA_FULL_PRIVATE.json \
+            --forecast forecast/C3X027_SEPT_PRE_TT_FORECAST.json \
+            --engine /tmp/C3X020_MULTI_STATE/src/stockfish \
+            --private private/guard-events \
+            --out public/C3X027_SEPT_GAME14_ABC_DIRECT_CAPTURE_GUARD.json
+          python tools/c3x_023_rights_preupload_gate.py \
+            --tier P2_AGGREGATE_SUMMARY \
+            --file public/C3X027_GAME14_PASSIVE_LINEAGE_AGGREGATE.json \
+            --report public/C3X027_LINEAGE_RIGHTS_SCAN.json
+          python tools/c3x_023_rights_preupload_gate.py \
+            --tier P2_AGGREGATE_SUMMARY \
+            --file public/C3X027_SEPT_GAME14_DIRECT_CAPTURE_GUARD.json \
+            --report public/C3X027_CAPTURE_GUARD_RIGHTS_SCAN.json
+          echo 'Adapted 2026-09 Lichess broadcast CC BY-SA 4.0; source https://database.lichess.org/broadcast/lichess_db_broadcast_2026-09.pgn.zst. No original PGN or modified engine binary distributed.' > public/SOURCE_LICENSE_NOTICE.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x027-sept-game14-ABC-native-passive-lineage
+          path: public/
+          if-no-files-found: warn
