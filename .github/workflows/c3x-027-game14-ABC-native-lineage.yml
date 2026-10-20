@@ -5,6 +5,7 @@ on:
     paths:
       - '.github/workflows/c3x-027-game14-ABC-native-lineage.yml'
       - 'tools/c3x_027_game14_passive_lineage_overlay.py'
+      - 'tools/c3x_027_game14_C3b_passive_ancestor_overlay.py'
       - 'tools/c3x_027_game14_lineage_build.sh'
       - 'harness/c3x_027_game14_ABC_passive_lineage.py'
   workflow_dispatch:
@@ -21,7 +22,7 @@ jobs:
           python-version: '3.12'
       - run: |
           python -m pip install chess==1.11.2
-          python -m py_compile tools/c3x_027_game14_passive_lineage_overlay.py harness/c3x_027_game14_ABC_passive_lineage.py tools/c3x_027_game14_root_boundary_court.py
+          python -m py_compile tools/c3x_027_game14_C3b_passive_ancestor_overlay.py tools/c3x_027_game14_passive_lineage_overlay.py harness/c3x_027_game14_ABC_passive_lineage.py tools/c3x_027_game14_root_boundary_court.py
           python -m unittest discover -s tools -p 'test_c3x_027_game14_root_boundary_court.py' -v
           python -m unittest discover -s tools -p 'test_c3x_027_game14_transmission_adapter.py' -v
       - uses: actions/download-artifact@v4
@@ -79,6 +80,10 @@ jobs:
             --tier P2_AGGREGATE_SUMMARY \
             --file public/C3X027_GAME14_ROOT_BOUNDARY_COURT.json \
             --report public/C3X027_ROOT_BOUNDARY_RIGHTS_SCAN.json
+          python tools/c3x_023_rights_preupload_gate.py \
+            --tier P2_AGGREGATE_SUMMARY \
+            --file public/C3X027_GAME14_C3B_PASSIVE_AGGREGATE.json \
+            --report public/C3X027_C3B_RIGHTS_SCAN.json
           python tools/c3x_023_rights_preupload_gate.py \
             --tier P2_AGGREGATE_SUMMARY \
             --file public/C3X027_GAME14_PASSIVE_SOURCE_CHAIN_COURT.json \
