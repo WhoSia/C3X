@@ -11,7 +11,7 @@ from c3x_018_independent16_TT_value_transport_native import verified_reader_line
 from c3x_022_P2_two_stage_exact_move_scout import native_world
 from c3x_023_P1_R2_T0_chronological_post_TT_common_SEE_dev import cold,post_source_match
 from c3x_023_P1_R2_T1_exact_computational_SEE_comparator import temporal_common
-from c3x_023_P1_same_descendant_SEE_node_matcher import candidates
+from c3x_023_P1_same_descendant_SEE_node_matcher import candidates,identity
 SOURCE_SHA="9372e0fdce2c8499e8d12f6bef5d1bfaef40a2d5b7160cc48513085567c9098d"
 STAGEA_SHA="677e670b8bab6c48e194054b86d09d115f304c15c2804e1952fbe222284502cf"
 def frozen(p,expected):
@@ -53,6 +53,8 @@ def run(source,stage,engine):
   line_ok=bool(proof["all_valid"]) and proof["count"]>=len(blocks)
   need(correct and line_ok,"ACTUAL_PHYSICAL_TT_FIRST_CONTACT_SOURCE_CONSTRAINT_FAIL")
   match=candidates(obs["native_see_events"],v["native_see_events"],True)
+  obs_ids={identity(e) for e in obs["native_see_events"] if e.get("kind")=="witness"}
+  v_ids={identity(e) for e in v["native_see_events"] if e.get("kind")=="witness"}
   try:
    chronology=post_source_match(obs,v,role)
    temporal=temporal_common(obs,v,role)
@@ -72,8 +74,8 @@ def run(source,stage,engine):
      SEE_baseline_first32=len(obs["native_see_events"]),
      SEE_treated_first32=len(v["native_see_events"]),
      SEE_shared_matched=len(match["matched"]),
-     SEE_original_only=len(match["untreated_only"]),
-     SEE_treated_only=len(match["treated_only"]),
+     SEE_original_only=len(obs_ids-v_ids),
+     SEE_treated_only=len(v_ids-obs_ids),
      SEE_observed_prefix_censored=bool(match["observed_prefix_censored"]),
      SEE_post_TT_chronological_status=chronology["status"],
      SEE_post_TT_common_count=chronology.get("strict_post_source_matches",0),
