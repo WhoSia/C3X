@@ -62,6 +62,23 @@ for e in activated:
  k=(str(e["key64"]),str(e["root_call"]),str(e["move"]),str(e["threshold"]))
  matching=[z for z in t if tuple(z.get(a) for a in ("key64","root_call","move","threshold"))==k]
  matches.append({"target_site":"capture_prune","observed_target_boolean":e["delivered"],"matching_native_guard_actions":dict(Counter(z["action"] for z in matching)),"matches":len(matching)})
-summary={"schema":"c3x027-sept-game14-actual-CPP-capture-guard-v1","exposed_selected_after_outcome":True,"game_id":14,"source_game_sha256":source["source_game_sha256"],"baseline_bestmove":orig["UCI"]["bestmove"],"TT_FIRST_bestmove":tr["UCI"]["bestmove"],"actual_physical_reader_blocks":len(blocks),"original_guard_actions":dict(Counter(x["action"] for x in o)),"treated_guard_actions":dict(Counter(x["action"] for x in t)),"treated_only_capture_source_events":len(activated),"exact_event_branch_actions":matches,"actual_branch_proof":bool(matches) and all(x["matches"]>0 for x in matches),"counterfactual_guard_reenable_not_run":True,"natural_full_mediation_certified":False}
+need(len(activated)==1 and len(matches)==1 and matches[0]["matches"]==2,"EXACT_ONE_CAPTURE_EVENT_NOT_REPRODUCED")
+event=activated[0]
+os.environ["C3X027_FORCE_CAPTURE_KEY64"]=str(event["key64"])
+os.environ["C3X027_FORCE_CAPTURE_ROOT_CALL"]=str(event["root_call"])
+os.environ["C3X027_FORCE_CAPTURE_MOVE"]=str(event["move"])
+os.environ["C3X027_FORCE_CAPTURE_THRESHOLD"]=str(event["threshold"])
+try:
+ cf,cfpath=replay("TT_FIRST_REENABLE_ONE","V",target["physical"],mask_filters(RULES[role],pair,"FIRST"))
+finally:
+ for name in ("C3X027_FORCE_CAPTURE_KEY64","C3X027_FORCE_CAPTURE_ROOT_CALL","C3X027_FORCE_CAPTURE_MOVE","C3X027_FORCE_CAPTURE_THRESHOLD"):
+  os.environ.pop(name,None)
+cf_actions=Counter(x["action"] for x in logs(cfpath))
+need(cf_actions["EXACT_ONE_EVENT_REENABLED"]==2,"COUNTERFACTUAL_GUARD_CONTACT_NOT_TWO_COLD_REPLAYS")
+need(verified_reader_lineage(cf)["all_valid"] and any(x.get("kind")=="reader_block" for x in cf["blocks"]),"COUNTERFACTUAL_TT_SOURCE_CONTACT_HOLD")
+cf_move=cf["UCI"]["bestmove"]
+cf_status=("ORIGINAL_ROOT_RESTORED" if cf_move==orig["UCI"]["bestmove"] else
+           "TREATED_ROOT_UNCHANGED" if cf_move==tr["UCI"]["bestmove"] else "THIRD_ROOT_CHOICE")
+summary={"schema":"c3x027-sept-game14-actual-CPP-capture-guard-v1","exposed_selected_after_outcome":True,"game_id":14,"source_game_sha256":source["source_game_sha256"],"baseline_bestmove":orig["UCI"]["bestmove"],"TT_FIRST_bestmove":tr["UCI"]["bestmove"],"actual_physical_reader_blocks":len(blocks),"original_guard_actions":dict(Counter(x["action"] for x in o)),"treated_guard_actions":dict(Counter(x["action"] for x in t)),"treated_only_capture_source_events":len(activated),"exact_event_branch_actions":matches,"actual_branch_proof":bool(matches) and all(x["matches"]>0 for x in matches),"counterfactual_guard_reenable_not_run":False,"one_event_reenable_status":cf_status,"counterfactual_bestmove":cf_move,"counterfactual_branch_action_counts":dict(cf_actions),"native_guard_one_event_contact":True,"natural_full_mediation_certified":False}
 Path(a.out).write_text(json.dumps(summary,indent=2,sort_keys=True)+"\n")
 print("C3X027_CAPTURE_DIRECT_GAME14",json.dumps(summary,sort_keys=True))
