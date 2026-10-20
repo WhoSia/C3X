@@ -22,9 +22,9 @@ def one_sided_after_physical_TT_block(untreated,treated,physical,root_call):
     blocks=[]
     for ev in treated["ordered_source_operator_trace"]:
         f=ev["fields"]
-        if ev["source"]=="physical_TT" and f.get("kind")=="reader_block" and
-           f.get("root_call")==root_call and
-           all(f.get(k)==physical[k] for k in ("key64","slot","epoch")):
+        if (ev["source"]=="physical_TT" and f.get("kind")=="reader_block" and
+            f.get("root_call")==root_call and
+            all(f.get(k)==physical[k] for k in ("key64","slot","epoch"))):
             blocks.append(ev["line_ordinal"])
     if not blocks:
         return {"status":"HOLD_NO_ORDERED_TT_READER","new_seen_after_TT":None}
