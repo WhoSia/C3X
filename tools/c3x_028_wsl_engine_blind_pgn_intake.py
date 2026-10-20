@@ -18,6 +18,8 @@ def main():
  p.add_argument("--prior-ids",required=True,help="verified list of all historical canonical-game IDs")
  p.add_argument("--prior-complete-attestation",required=True,
                 choices=["ALL_018_THROUGH_027_CHECKED"])
+ p.add_argument("--prior-id-rule-attestation",required=True,
+                choices=["FULL_LEGAL_UCI_HISTORY_AND_INITIAL_FEN_SHA256_V1"])
  p.add_argument("--source",required=True)
  p.add_argument("--rights",required=True)
  p.add_argument("--seed",default="C3X028_ENGINE_BLIND_V1")
@@ -75,13 +77,14 @@ def main():
   raise SystemExit(f"HOLD_INSUFFICIENT_DISJOINT_COHORT_{len(chosen)}_OF_{a.count}")
  pri={"schema":"c3x028-private-engine-blind-cohort-v1",
   "input_pgn_sha256":pgn_sha,"prior_manifest_sha256":sha(prior_path.read_bytes()),
-  "prior_ids_count":len(old),"seed":a.seed,"source":a.source,
+  "prior_ids_count":len(old),"prior_id_rule":"FULL_LEGAL_UCI_HISTORY_AND_INITIAL_FEN_SHA256_V1","seed":a.seed,"source":a.source,
   "rights":a.rights,"selection_rule":"one post-ply16 position per game",
   "positions":chosen}
  out=Path(a.private_output);out.parent.mkdir(parents=True,exist_ok=True)
  out.write_text(json.dumps(pri,sort_keys=True,indent=2)+"\n")
  public={"schema":"c3x028-engine-blind-intake-summary-v1",
   "input_pgn_sha256":pgn_sha,"prior_manifest_sha256":sha(prior_path.read_bytes()),
+  "prior_id_rule":"FULL_LEGAL_UCI_HISTORY_AND_INITIAL_FEN_SHA256_V1",
   "source":a.source,"rights":a.rights,"seed":a.seed,
   "target_count":a.count,"scanned_games":scanned,
   "legal_eligible_games":legal,"duplicate_or_historical":duplicate,
