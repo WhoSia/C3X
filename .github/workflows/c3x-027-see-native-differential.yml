@@ -6,6 +6,7 @@ on:
       - 'tools/c3x_027_native_see_uci_oracle_patch.py'
       - 'tools/c3x_027_see_random_differential.py'
       - 'tools/c3x_027_see_boundary_differential.py'
+      - 'tools/c3x_027_native_see_branch_trace_patch.py'
       - '.github/workflows/c3x-027-see-native-differential.yml'
   workflow_dispatch:
 permissions:
@@ -26,6 +27,7 @@ jobs:
           git clone -q https://github.com/official-stockfish/Stockfish.git /tmp/c3x027_sf
           git -C /tmp/c3x027_sf checkout -q 68e1e9b3811e16cad014b590d7443b9063b3eb52
           python tools/c3x_027_native_see_uci_oracle_patch.py --source /tmp/c3x027_sf --out-manifest C3X027_NATIVE_SEE_ORACLE_MANIFEST.json
+          python tools/c3x_027_native_see_branch_trace_patch.py --source /tmp/c3x027_sf --out-manifest C3X027_NATIVE_SEE_BRANCH_MANIFEST.json
           make -s -C /tmp/c3x027_sf/src -j2 build ARCH=x86-64
       - name: Independent SEE Boolean differential
         run: python tools/c3x_027_see_random_differential.py /tmp/c3x027_sf/src/stockfish
@@ -39,4 +41,5 @@ jobs:
             C3X_027_SEE_DIFFERENTIAL.json
             C3X_027_SEE_BOUNDARY_DIFFERENTIAL.json
             C3X027_NATIVE_SEE_ORACLE_MANIFEST.json
+            C3X027_NATIVE_SEE_BRANCH_MANIFEST.json
           if-no-files-found: warn
