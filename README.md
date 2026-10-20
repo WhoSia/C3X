@@ -1,5 +1,13 @@
 # C3X — Counterfactual Contrastive Chess eXplanation
 
+## C3X 0.28 — Prospective Causal Transport Across Independent Chess Positions: Source-Exact Search Interventions, Guard-Level Mechanisms, Ancestor-State Transmission & Reproducible Cohort Validation
+
+**Officially opened on 2026-10-21 — DESIGN PROMOTION ONLY. Empirical status: HOLD.** C3X 0.28 is a prospective, game-disjoint 64-position causal-transport protocol, not a claim that new data or native verification has succeeded. The source-only WSL intake is implemented but unrun; verified prior-cohort ID manifests and real rights-cleared PGN are still required. 0.27 Game14 original b3a4, TT-FIRST f3f4, and one source-exact guard bypass restoration b3a4 remain postselection-exposed historical findings; full G4–G9 C3b native certification remains unresolved. Keep 0.24 originals and historical earlier-version sections unchanged. Do not treat this header as a superseding empirical result.
+
+[0.28 canonical charter](docs/C3X_028_PROSPECTIVE_SOURCE_GUARD_TRANSMISSION_CHARTER_20261021.md) · [WSL engine-blind intake script](tools/c3x_028_wsl_engine_blind_pgn_intake.py). Main branch only; WhoSia author/committer; GitHub Actions read-only (no bot commits).
+
+---
+
 ## C3X 0.27 — Counterfactual Consequence Geometry (OPEN, 2026-10-19)
 
 **Official title:** C3X 0.27 — Counterfactual Consequence Geometry: Strategic Distinction, Continuation Fibers, Causal Witnesses & the Persistence of Chess Decisions.
