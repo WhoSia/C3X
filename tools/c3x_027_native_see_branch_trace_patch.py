@@ -35,11 +35,13 @@ for piece in ['Knight','Bishop','Rook','Queen']:
 # The three bishop x-ray refresh sites: pawn, bishop, queen
 needle='          attackers |= attacks_bb<BISHOP>(to, occupied) & pieces(BISHOP, QUEEN);'
 assert s.count(needle)==2
-s=s.replace(needle,needle+'\n          c3x027_see_trace_mask |= 1ULL<<13;',2)
+s=s.replace(needle,'          const Bitboard c3x027_before_bxr = attackers;\n'+needle+'\n          if ((attackers & ~c3x027_before_bxr) & occupied) c3x027_see_trace_mask |= 1ULL<<18;\n          c3x027_see_trace_mask |= 1ULL<<13;',2)
 once('          attackers |= attacks_bb<ROOK>(to, occupied) & pieces(ROOK, QUEEN);',
-     '          attackers |= attacks_bb<ROOK>(to, occupied) & pieces(ROOK, QUEEN);\n          c3x027_see_trace_mask |= 1ULL<<14;')
+     '          const Bitboard c3x027_before_rxr = attackers;\n          attackers |= attacks_bb<ROOK>(to, occupied) & pieces(ROOK, QUEEN);\n          if ((attackers & ~c3x027_before_rxr) & occupied) c3x027_see_trace_mask |= 1ULL<<19;\n          c3x027_see_trace_mask |= 1ULL<<14;')
+once('          attackers |=  (attacks_bb<BISHOP>(to, occupied) & pieces(BISHOP, QUEEN))',
+     '          const Bitboard c3x027_before_qxr = attackers;\n          attackers |=  (attacks_bb<BISHOP>(to, occupied) & pieces(BISHOP, QUEEN))')
 once('                      | (attacks_bb<ROOK  >(to, occupied) & pieces(ROOK  , QUEEN));',
-     '                      | (attacks_bb<ROOK  >(to, occupied) & pieces(ROOK  , QUEEN));\n          c3x027_see_trace_mask |= 1ULL<<15;')
+     '                      | (attacks_bb<ROOK  >(to, occupied) & pieces(ROOK  , QUEEN));\n          if ((attackers & ~c3x027_before_qxr) & occupied) c3x027_see_trace_mask |= 1ULL<<20;\n          c3x027_see_trace_mask |= 1ULL<<15;')
 once('else // KING\n           // If we "capture" with the king but opponent still has attackers,\n           // reverse the result.\n          return (attackers & ~pieces(stm)) ? res ^ 1 : res;',
      'else // KING\n      {\n          c3x027_see_trace_mask |= 1ULL<<12;\n          return (attackers & ~pieces(stm)) ? res ^ 1 : res;\n      }')
 sf.write_text(s)
@@ -50,6 +52,6 @@ old='<< " " << (unsigned long long)occupied << sync_endl;'
 assert u.count(old)==1
 u=u.replace(old,'<< " " << (unsigned long long)occupied\n                            << " " << c3x027_see_trace_mask << sync_endl;',1)
 uf.write_text(u)
-names=['special','capture_gate_false','origin_gate_true','exchange_loop','no_opponent_attackers','pin_gate','pinned_attacker_filtered','pawn_attacker','knight_attacker','bishop_attacker','rook_attacker','queen_attacker','king_attacker','bishop_xray_refresh','rook_xray_refresh','queen_xray_refresh','swap_early_break','pin_filtered_all']
+names=['special','capture_gate_false','origin_gate_true','exchange_loop','no_opponent_attackers','pin_gate','pinned_attacker_filtered','pawn_attacker','knight_attacker','bishop_attacker','rook_attacker','queen_attacker','king_attacker','bishop_xray_refresh','rook_xray_refresh','queen_xray_refresh','swap_early_break','pin_filtered_all','bishop_xray_new_attacker','rook_xray_new_attacker','queen_xray_new_attacker']
 Path(a.out_manifest).write_text(json.dumps({'schema':'C3X027_NATIVE_SEE_READ_ONLY_BRANCH_MASK','names':names,'original_see_ge_branch_decisions_unchanged':True},indent=2)+'\n')
 print('C3X027_BRANCH_TRACE_PATCH_PASS',len(names))
