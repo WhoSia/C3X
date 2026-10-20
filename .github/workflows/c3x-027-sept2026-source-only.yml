@@ -29,7 +29,7 @@ jobs:
       - name: Fetch original frozen July64 game hashes and positions
         uses: actions/download-artifact@v4
         with:
-          name: c3x-025-M6-July2026-64-licensed-source-only
+          name: c3x-025-M6-S-july2026-new64-source-only
           path: prior-july/
           repository: WhoSia/C3X
           run-id: '38198224795'
