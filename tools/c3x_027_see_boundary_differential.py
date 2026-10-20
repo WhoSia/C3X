@@ -8,6 +8,7 @@ exec(compile(ast.Module(body=[fun],type_ignores=[]),str(p),"exec"),namespace)
 see=namespace["see_replay"]
 fixtures=[
 ("pinned_knight","4k3/8/8/8/8/4n3/4r3/4K2R w - - 0 1"),
+("pinned_knight_capture_target","8/6k1/8/8/3n4/5p2/8/B4R1K w - - 0 1"),
 ("pin_rook","4k3/4r3/8/8/8/8/4R3/4K3 w - - 0 1"),
 ("xray_rooks","4k3/8/3r4/8/3r4/8/3R4/3RK3 w - - 0 1"),
 ("bishop_xray","4k3/8/8/5b2/4p3/3B4/2B5/4K3 w - - 0 1"),
@@ -48,7 +49,7 @@ for label,fen in fixtures:
    labels[label]=labels.get(label,0)+1
    if native!=independent:mismatches.append(item)
 engine.stdin.write("quit\n");engine.stdin.flush();engine.wait(timeout=4)
-report={"schema":"c3x027-see-boundary-differential-v1","fixtures_attempted":len(fixtures),"comparisons":len(rows),"per_fixture_counts":labels,"exclusions":excluded,"mismatch_count":len(mismatches),"mismatches":mismatches[:100],"native_occupied_nonzero":sum(bool(x["occupied"]) for x in rows),"native_branch_counts":{str(i):sum(bool(r["native_branch_mask"]&(1<<i)) for r in rows) for i in range(18)},"castle_compared":sum(r["label"]=="castling" and r["uci"] in ("e1g1","e1c1") for r in rows)}
+report={"schema":"c3x027-see-boundary-differential-v1","fixtures_attempted":len(fixtures),"comparisons":len(rows),"per_fixture_counts":labels,"exclusions":excluded,"mismatch_count":len(mismatches),"mismatches":mismatches[:100],"native_occupied_nonzero":sum(bool(x["occupied"]) for x in rows),"native_branch_counts":{str(i):sum(bool(r["native_branch_mask"]&(1<<i)) for r in rows) for i in range(18)},"castle_compared":sum(r["label"]=="castling" and r["uci"] in ("e1g1","e1c1") for r in rows),"targeted_pin_tested":sum(r["label"]=="pinned_knight_capture_target" and r["uci"]=="f1f3" for r in rows)}
 Path("C3X_027_SEE_BOUNDARY_DIFFERENTIAL.json").write_text(json.dumps(report,indent=2)+"\n")
 print("C3X027_SEE_BOUNDARY",report["comparisons"],report["mismatch_count"],"occupied",report["native_occupied_nonzero"],"excluded",len(excluded),"castle",report["castle_compared"])
 print("C3X027_NATIVE_BRANCHES",report["native_branch_counts"])
