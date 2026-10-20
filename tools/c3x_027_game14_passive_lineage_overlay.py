@@ -101,11 +101,12 @@ def patch(s):
     anchor='      if (!Threads.stop)\n          completedDepth = rootDepth;\n'
     snapshot=r'''
       if (c3x027_lineage_on() && !rootMoves.empty()) {
-          sync_cout << "info string c3x027_root_boundary depth=" << int(rootDepth)
-                    << " leader=" << int(rootMoves.front().pv[0])
-                    << " score=" << int(rootMoves.front().score)
-                    << " average=" << int(rootMoves.front().averageScore)
-                    << sync_endl;
+          if (auto* f=std::fopen(std::getenv("C3X027_GAME14_LINEAGE_LOG"),"a")) {
+              std::fprintf(f,"event=ROOT_BOUNDARY depth=%d leader=%d score=%d average=%d\\n",
+                  int(rootDepth),int(rootMoves.front().pv[0]),
+                  int(rootMoves.front().score),int(rootMoves.front().averageScore));
+              std::fclose(f);
+          }
       }
 '''
     s=once(s,anchor,anchor+snapshot,"ROOT_BOUNDARY")
