@@ -27,9 +27,9 @@ void c3x027_c3b_event(const char* kind,const Position& pos,int ply,
                       Move move,int value) {
  if (!c3x027_lineage_on()) return;
  if (auto* f=std::fopen(std::getenv("C3X027_GAME14_LINEAGE_LOG"),"a")) {
-  std::fprintf(f,"event=%s sequence=%llu root_call=%lld ply=%d key64=%llu native_move=%d value=%d\n",
+  std::fprintf(f,"event=%s sequence=%llu root_call=%lld ply=%d key64=%llu native_move=%d value=%d frame_id=%llu\n",
     kind,++c3x027_c3b.ordinal,(long long)c3x018_root_context_call,ply,
-    (unsigned long long)std::uint64_t(pos.key()),int(move),value);
+    (unsigned long long)std::uint64_t(pos.key()),int(move),value,\n    (unsigned long long)(ply>=0 && ply<MAX_PLY ? reinterpret_cast<std::uintptr_t>(c3x027_c3b.frame[ply]) : 0));
   std::fclose(f);
  }
 }
