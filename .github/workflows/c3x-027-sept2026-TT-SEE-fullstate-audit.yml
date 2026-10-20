@@ -84,11 +84,11 @@ jobs:
              --stagea stagea/C3X027_SEPT_STAGEA_UNTREATED.json \
              --engine /tmp/C3X020_MULTI_STATE/src/stockfish \
              --out private/C3X027_SEPT_TT_FIRST_SEE_ROOT_T1_FORENSIC.json
-          sha256sum private/C3X027_SEPT_TT_FIRST_SEE_ROOT_FULL.json | cut -d' ' -f1 > public/TREATMENT_RESULT_SHA256.txt
+          sha256sum private/C3X027_SEPT_TT_FIRST_SEE_ROOT_T1_FORENSIC.json | cut -d' ' -f1 > public/TREATMENT_RESULT_SHA256.txt
           python - <<'PY'
           import json
           from pathlib import Path
-          x=json.loads(Path('private/C3X027_SEPT_TT_FIRST_SEE_ROOT_FULL.json').read_text())
+          x=json.loads(Path('private/C3X027_SEPT_TT_FIRST_SEE_ROOT_T1_FORENSIC.json').read_text())
           report={'schema':'c3x027-sept16-source-first-TT-SEE-public-summary-v1',
                   'summary':x['summary'],'source_sha256':x['source_sha256'],
                   'stageA_sha256':x['stageA_sha256'],
@@ -113,6 +113,6 @@ jobs:
         if: success()
         with:
           name: c3x027-sept16-TT-first-fullstate-forensic-evidence
-          path: private/C3X027_SEPT_TT_FIRST_SEE_ROOT_FULL.json
+          path: private/C3X027_SEPT_TT_FIRST_SEE_ROOT_T1_FORENSIC.json
           retention-days: 30
           if-no-files-found: error
