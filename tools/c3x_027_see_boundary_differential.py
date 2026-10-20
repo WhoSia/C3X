@@ -1,4 +1,4 @@
-import ast,json,sys,subprocess,chess
+import ast,json,sys,subprocess,chess,importlib.util
 from pathlib import Path
 p=Path("tools/c3x_027_independent_see_v2_exact_pins.py")
 spec=importlib.util.spec_from_file_location("c3x027_see_v2",p)
