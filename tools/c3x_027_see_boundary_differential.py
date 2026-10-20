@@ -25,8 +25,9 @@ def query(fen,m,t):
   z=engine.stdout.readline().strip()
   if z.startswith("c3xsee "):
    v=z.split()
-   if len(v)!=5:raise RuntimeError(z)
-   return bool(int(v[3])),int(v[4])
+   if v[1]=="invalid":return None,0,0
+   if len(v)!=6:raise RuntimeError(z)
+   return bool(int(v[3])),int(v[4]),int(v[5])
  raise RuntimeError("no oracle response")
 rows=[];excluded=[];mismatches=[];labels={}
 for label,fen in fixtures:
@@ -38,17 +39,17 @@ for label,fen in fixtures:
  chosen+= [m for m in legal if m not in chosen][:4]
  for m in chosen:
   for threshold in thresholds:
-   # Native UCI parsing may use nonstandard castle encoding; report it separately.
-   if b.is_castling(m):
-    excluded.append({"label":label,"uci":m.uci(),"reason":"CASTLE_UCI_ORACLE_ENCODING_UNSUPPORTED"});continue
-   native,occ=query(fen,m.uci(),threshold)
+   native,occ,mask=query(fen,m.uci(),threshold)
+   if native is None:
+    excluded.append({"label":label,"uci":m.uci(),"threshold":threshold,"reason":"NATIVE_UCI_UNRECOGNIZED"});continue
    independent,detail=see(b,m,threshold)
-   item={"label":label,"fen":fen,"uci":m.uci(),"threshold":threshold,"native":native,"independent":independent,"occupied":occ,"independent_terminal":detail.get("terminal",detail.get("first_gate"))}
+   item={"label":label,"fen":fen,"uci":m.uci(),"threshold":threshold,"native":native,"independent":independent,"occupied":occ,"native_branch_mask":mask,"independent_terminal":detail.get("terminal",detail.get("first_gate"))}
    rows.append(item)
    labels[label]=labels.get(label,0)+1
    if native!=independent:mismatches.append(item)
 engine.stdin.write("quit\n");engine.stdin.flush();engine.wait(timeout=4)
-report={"schema":"c3x027-see-boundary-differential-v1","fixtures_attempted":len(fixtures),"comparisons":len(rows),"per_fixture_counts":labels,"exclusions":excluded,"mismatch_count":len(mismatches),"mismatches":mismatches[:100],"native_occupied_nonzero":sum(bool(x["occupied"]) for x in rows)}
+report={"schema":"c3x027-see-boundary-differential-v1","fixtures_attempted":len(fixtures),"comparisons":len(rows),"per_fixture_counts":labels,"exclusions":excluded,"mismatch_count":len(mismatches),"mismatches":mismatches[:100],"native_occupied_nonzero":sum(bool(x["occupied"]) for x in rows),"native_branch_counts":{str(i):sum(bool(r["native_branch_mask"]&(1<<i)) for r in rows) for i in range(18)},"castle_compared":sum(r["label"]=="castling" and r["uci"] in ("e1g1","e1c1") for r in rows)}
 Path("C3X_027_SEE_BOUNDARY_DIFFERENTIAL.json").write_text(json.dumps(report,indent=2)+"\n")
-print("C3X027_SEE_BOUNDARY",report["comparisons"],report["mismatch_count"],"occupied",report["native_occupied_nonzero"],"excluded",len(excluded))
+print("C3X027_SEE_BOUNDARY",report["comparisons"],report["mismatch_count"],"occupied",report["native_occupied_nonzero"],"excluded",len(excluded),"castle",report["castle_compared"])
+print("C3X027_NATIVE_BRANCHES",report["native_branch_counts"])
 for m in mismatches[:6]:print("C3X027_BOUNDARY_MISMATCH",m["label"],m["uci"],m["threshold"],m["native"],m["independent"])
