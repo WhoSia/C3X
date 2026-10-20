@@ -1,5 +1,7 @@
-# C3X 0.28 — Prospective Source-Guard Transmission and Independent Data
-Status: DESIGN CHARTER ONLY, 2026-10-21. No empirical promotion yet.
+# C3X 0.28 — Prospective Causal Transport Across Independent Chess Positions: Source-Exact Search Interventions, Guard-Level Mechanisms, Ancestor-State Transmission & Reproducible Cohort Validation
+**Official canonical title: C3X 0.28 — Prospective Causal Transport Across Independent Chess Positions: Source-Exact Search Interventions, Guard-Level Mechanisms, Ancestor-State Transmission & Reproducible Cohort Validation**
+
+**Status: FORMALLY OPEN — DESIGN PROMOTION ONLY (2026-10-21).** Empirical promotion is HOLD until the independently frozen cohort and original native execution receipts exist. The September Game14 mechanism remains a distinct unresolved 0.27 validation axis.
 
 ## Boundary of 0.27
 September Game14 is post-outcome selected. Historical OBS b3a4, TT-FIRST f3f4, and TT-FIRST with one source-exact capture guard bypass b3a4 in two cold replays support local interventional reversibility, not natural unique TT-to-SEE-to-root mediation.
