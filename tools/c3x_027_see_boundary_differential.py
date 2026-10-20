@@ -48,7 +48,7 @@ for label,fen in fixtures:
    labels[label]=labels.get(label,0)+1
    if native!=independent:mismatches.append(item)
 engine.stdin.write("quit\n");engine.stdin.flush();engine.wait(timeout=4)
-report={"schema":"c3x027-see-boundary-differential-v1","fixtures_attempted":len(fixtures),"comparisons":len(rows),"per_fixture_counts":labels,"exclusions":excluded,"mismatch_count":len(mismatches),"mismatches":mismatches[:100],"native_occupied_nonzero":sum(bool(x["occupied"]) for x in rows),"native_branch_counts":{str(i):sum(bool(r["native_branch_mask"]&(1<<i)) for r in rows) for i in range(18)},"castle_compared":sum(r["label"]=="castling" and r["uci"] in ("e1g1","e1c1") for r in rows),"targeted_pin_tested":sum(r["label"]=="pinned_knight_capture_target" and r["uci"]=="f1f3" for r in rows)}
+report={"schema":"c3x027-see-boundary-differential-v1","fixtures_attempted":len(fixtures),"comparisons":len(rows),"per_fixture_counts":labels,"exclusions":excluded,"mismatch_count":len(mismatches),"mismatches":mismatches[:100],"native_occupied_nonzero":sum(bool(x["occupied"]) for x in rows),"native_branch_counts":{str(i):sum(bool(r["native_branch_mask"]&(1<<i)) for r in rows) for i in range(21)},"castle_compared":sum(r["label"]=="castling" and r["uci"] in ("e1g1","e1c1") for r in rows),"targeted_pin_tested":sum(r["label"]=="pinned_knight_capture_target" and r["uci"]=="f1f3" for r in rows)}
 Path("C3X_027_SEE_BOUNDARY_DIFFERENTIAL.json").write_text(json.dumps(report,indent=2)+"\n")
 print("C3X027_SEE_BOUNDARY",report["comparisons"],report["mismatch_count"],"occupied",report["native_occupied_nonzero"],"excluded",len(excluded),"castle",report["castle_compared"])
 print("C3X027_NATIVE_BRANCHES",report["native_branch_counts"])
