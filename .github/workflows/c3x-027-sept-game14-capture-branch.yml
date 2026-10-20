@@ -5,7 +5,10 @@ on:
     paths:
       - 'tools/c3x_027_sept_capture_prune_exact_outcome_patch.py'
       - 'tools/c3x_027_sept_capture_direct_build.sh'
+      - 'tools/c3x_027_sept_capture_counterfactual_patch.py'
+      - 'tools/c3x_027_sept_capture_counterfactual_build.sh'
       - 'harness/c3x_027_sept_game14_direct_capture_guard.py'
+      - 'c3x/forecasts/C3X_027_SEPT_GAME14_SINGLE_GUARD_COUNTERFACTUAL_PRESEAL_20261020.md'
       - '.github/workflows/c3x-027-sept-game14-capture-branch.yml'
   workflow_dispatch:
 permissions:
@@ -38,7 +41,7 @@ jobs:
         run: |
           set -euo pipefail
           mkdir -p evidence private public
-          bash tools/c3x_027_sept_capture_direct_build.sh
+          bash tools/c3x_027_sept_capture_counterfactual_build.sh
       - name: Restore immutable untreated original stage A under passive instrumentation
         run: |
           set -euo pipefail
