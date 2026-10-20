@@ -4,6 +4,7 @@ on:
     branches: [main]
     paths:
       - 'harness/c3x_027_sept2026_native_TT_SEE_root_trial.py'
+      - 'tools/c3x_027_sept_original_R3_full_state_repro_build.sh'
       - '.github/workflows/c3x-027-sept2026-native-tt-see-root.yml'
   workflow_dispatch:
 permissions:
@@ -47,7 +48,7 @@ jobs:
       - name: Rebuild original pinned SF16 research instrumentation
         run: |
           set -euo pipefail
-          bash tools/c3x_023_P1_R2_T3_native_repro_build.sh
+          bash tools/c3x_027_sept_original_R3_full_state_repro_build.sh
       - name: Physical TT-FIRST on all preselected 30 eligible source cells, passive SEE
         run: |
           set -euo pipefail
