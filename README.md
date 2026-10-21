@@ -6,6 +6,10 @@
 
 [0.28 canonical charter](docs/C3X_028_PROSPECTIVE_SOURCE_GUARD_TRANSMISSION_CHARTER_20261021.md) · [WSL engine-blind intake script](tools/c3x_028_wsl_engine_blind_pgn_intake.py). Main branch only; WhoSia author/committer; GitHub Actions read-only (no bot commits).
 
+**Pre-execution checkpoint (2026-10-21; historical WSL receipt, not a new cohort result):** The isolated 28-patch Stockfish16 chain completed UCI handshake and the historical 0.16 P4 sealed 12-position input contract (12/12). A *single* P4-native depth-1 cold smoke test on historical world ID 1 returned legal move `h3g3` under `C3X016_P4_MODE=O`, exact FEN and selected native move, Threads=1, Hash=16, NNUE off; engine quit normally. This establishes narrowly scoped historical runtime functionality **only**, not 0.27 C3b G4–G9 ancestor/root transport, deep historical replay, or any 0.28 empirical result. Independent 0.28 source intake/rights, historical game-identity exclusions, frozen 64-position cohort and native A/B/C logs remain **HOLD**. WSL/Drive retired-asset canonicalization is being handled separately and must not be conflated with new research certification.
+
+**Next research gate, after storage custody:** Reconcile 0.27 P20–P22 source evidence and independent certification; re-establish the 0.28 intake/preseal contract from the canonical charter; collect rights-cleared novel PGNs and prove disjointness *before* engine scoring. No source-outcome-driven C-target selection or promotion from a smoke test.
+
 ---
 
 ## C3X 0.27 — Counterfactual Consequence Geometry (OPEN, 2026-10-19)
