@@ -1,5 +1,13 @@
 # C3X — Counterfactual Contrastive Chess eXplanation
 
+## C3X 0.29 — Contrastive Explanation Identifiability: Local Legal Proof, Global Generalization and Causal-Strategic Alignment
+
+**2026-10-30 — FORMALLY OPEN, DESIGN/QUESTION PROMOTION ONLY. EMPIRICAL HOLD.** The new research question is whether a locally checked chess-move contrast identifies a transferable strategic reason, rather than one of many observationally equivalent predicates. A restricted KRK response-set example admits exactly **2^61** Boolean predicate extensions to all king squares with the same local contrast; this is a mathematical underidentification count, **not** a discovery of that many meaningful chess explanations or any AGI capability. Local independent finite court and counterexample tests do not replace full chess legality checking, native Stockfish causal tests, or human comprehension validation.
+
+[0.29 opening and falsifiers](docs/C3X_029_OPENING_EXPLANATION_IDENTIFIABILITY_20261030.md) · [finite local/global explanation court](tools/c3x_029_local_global_explanation_court.py). **0.28 E1/E2 and P13 parent-consumption remain open.** The provisional 64 remain unchanged, index20 castling rights and historical source-family completeness HOLD. Preserve all older version titles and receipt conclusions; no GitHub Actions bot commits.
+
+---
+
 ## C3X 0.28 — Prospective Causal Transport Across Independent Chess Positions: Source-Exact Search Interventions, Guard-Level Mechanisms, Ancestor-State Transmission & Reproducible Cohort Validation
 
 **Officially opened on 2026-10-21 — DESIGN PROMOTION ONLY. Empirical status: HOLD.** C3X 0.28 is a prospective, game-disjoint 64-position causal-transport protocol, not a claim that new data or native verification has succeeded. The source-only WSL intake is implemented but unrun; verified prior-cohort ID manifests and real rights-cleared PGN are still required. 0.27 Game14 original b3a4, TT-FIRST f3f4, and one source-exact guard bypass restoration b3a4 remain postselection-exposed historical findings; full G4–G9 C3b native certification remains unresolved. Keep 0.24 originals and historical earlier-version sections unchanged. Do not treat this header as a superseding empirical result.
