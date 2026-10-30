@@ -12,6 +12,7 @@ class LocalGlobalCourt(unittest.TestCase):
         self.assertEqual(result["number_of_global_boolean_extensions"],2**61)
         self.assertTrue(result["pair_equivalent_on_reachable_support"])
         self.assertTrue(result["pair_distinct_outside_reachable_support"])
+        self.assertEqual(result["illustrative_disagreement_square"], "a8")
         self.assertFalse(result["new_native_engine_data"])
 
 if __name__=="__main__":
