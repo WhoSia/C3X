@@ -25,6 +25,7 @@ def court():
     not_g8=frozenset(BOARD)-{"g8"}
     assert rank7 & support == not_g8 & support == A
     assert rank7 != not_g8
+    assert 'a8' not in rank7 and 'a8' in not_g8
     assert acceptable(rank7) and acceptable(not_g8)
     return {
        "reachable_support": sorted(support),
@@ -34,7 +35,7 @@ def court():
        "explanation_pair": ["king stays on rank 7","king is not on g8"],
        "pair_equivalent_on_reachable_support": True,
        "pair_distinct_outside_reachable_support": True,
-       "illustrative_disagreement_square": "a7",
+       "illustrative_disagreement_square": "a8",
        "inference":"ONE_VALID_LOCAL_CONTRAST_DOES_NOT_IDENTIFY_ONE_GLOBAL_STRATEGIC_REASON",
        "full_chess_rules_verification": False,
        "new_native_engine_data": False
