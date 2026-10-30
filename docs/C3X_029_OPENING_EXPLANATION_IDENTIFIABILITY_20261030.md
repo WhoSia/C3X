@@ -14,7 +14,7 @@ Let Omega be the 64 possible king-destination squares and A,B the sets of legal 
 
 Explicit inequivalent explanations: q1(s) = 'black king is on rank 7'; q2(s) = 'black king is not on g8'. They are identical on S={g7,h7,g8} and both satisfy the local contrast; on square a7 both are true, so a7 is NOT a disagreement point. A valid disagreement point is **a8** (q1 false, q2 true); neither is observed in the KRK reply support. This correction must be reflected in code and tests: don't accidentally publish a7 as witness. This is a finite nonidentifiability proof independent of scores and TT logs.
 
-Computational court: tools/c3x_029_local_global_explanation_court.py computes the 8 possible truth assignments on S and finds exactly one satisfying contrast; applies the 64-square combinatorial count 2^61=2305843009213693952 and explicit q1/q2. Locally equivalent checker ran Python unittest PASS; new GitHub implementation and test were committed, but specific GitHub code presently labels illustrative_disagreement_square='a7' and therefore must be corrected to 'a8' before citing this example as a verified witness. First fix that small issue and rerun test.
+Computational court: tools/c3x_029_local_global_explanation_court.py computes the 8 possible truth assignments on S and finds exactly one satisfying contrast; applies the 64-square combinatorial count 2^61=2305843009213693952 and explicit q1/q2. Locally equivalent checker ran Python unittest PASS; new GitHub implementation and test were committed, but the public implementation uses illustrative_disagreement_square='a8', explicitly checked against q1/q2, with regression tests pinning the witness.
 
 ## Distinct epistemic levels
 
