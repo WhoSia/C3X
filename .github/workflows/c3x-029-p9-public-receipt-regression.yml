@@ -36,6 +36,8 @@ on:
       - 'tools/test_c3x_029_p19_paired_method_comparison.py'
       - 'tools/c3x_029_p20_archive_chess_cohort_census.py'
       - 'tools/test_c3x_029_p20_archive_chess_cohort_census.py'
+      - 'tools/c3x_029_p21_source_move_legal_probe.py'
+      - 'tools/test_c3x_029_p21_source_move_legal_probe.py'
   workflow_dispatch:
 permissions:
   contents: read
@@ -82,6 +84,8 @@ jobs:
         run: python -m unittest discover -s tools -p 'test_c3x_029_p19*.py' -v
       - name: P20 actual original chess archive census and scope tests
         run: python -m unittest discover -s tools -p 'test_c3x_029_p20*.py' -v
+      - name: P21 source board-law bounded probe
+        run: python -m unittest discover -s tools -p 'test_c3x_029_p21*.py' -v
       - name: Produce local nonpublic summary and verify expected categorical count
         shell: bash
         run: |
