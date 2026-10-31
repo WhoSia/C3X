@@ -1,0 +1,5 @@
+# P15 — Evidence authority is typed, not conferred by eloquent prose
+Scientific question: when is a chess claim merely a correct description versus a contrastive, source-causal, or transferred explanation?
+Recovered P4's distinct semantic/computational/bridge/human dimensions. They cannot be collapsed into a single total authority score; a native decision-related fact can lack a chess-semantic concept, and vice versa.
+Introduced P15 source-precondition admission. All positive outputs are **declarations only**, not independent source-byte verification. Challenge: existing R15 'CERTIFIED' interval wording, P11 declared reply legality, and P14 verified=true flags could otherwise be mistaken for independent evidence. Negative control: actual 0.27 18/18 all-reply immediate recapture false, never promote capture-only positive into all-reply.
+No new engine experiment. Needs original game history, legal checker, source-bound interventions and game-disjoint prospective replay prior to scientific PASS.
