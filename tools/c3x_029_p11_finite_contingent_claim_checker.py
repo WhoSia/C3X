@@ -33,8 +33,10 @@ def check_claim(reply_legal_actions, satisfying_by_property, declared_domain):
     return {"status":"CERTIFIED_RELATIVE_TO_DECLARED_LEGALITY","witness":witness,
             "scope":"FINITELY_ENUMERATED_REPLY_DOMAIN_NOT_NATIVE_LEGALITY_CERTIFIED"}
 
-def compare_candidates(a,b):
-    """Contrast requires full certificate for a and counterexample to same goal for b."""
+def compare_candidates(a,b,claim_identity_a=None,claim_identity_b=None):
+    """Require externally frozen matching predicate/domain/horizon identity."""
+    if not claim_identity_a or not claim_identity_b or claim_identity_a!=claim_identity_b:
+        return {"status":"ABSTAIN_MISMATCHED_OR_UNFROZEN_CLAIM"}
     if a["status"]=="CERTIFIED_RELATIVE_TO_DECLARED_LEGALITY" and b["status"]=="REFUTED_COMMON_WITNESS":
         return {"status":"CONTRASTIVE_WITNESS_WITH_REFUTER_NOT_CHESS_PREFERENCE"}
     return {"status":"ABSTAIN_NO_CONTRASTIVE_CERTIFICATE"}
