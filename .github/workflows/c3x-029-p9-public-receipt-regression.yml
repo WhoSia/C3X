@@ -12,6 +12,8 @@ on:
       - 'tools/test_c3x_029_p9_r13_replay_metadata_gate.py'
       - 'tools/c3x_029_p9_r14_cross_receipt_type_audit.py'
       - 'tools/test_c3x_029_p9_r14_cross_receipt_type_audit.py'
+      - 'tools/c3x_029_p9_r15_root_bound_comparison.py'
+      - 'tools/test_c3x_029_p9_r15_root_bound_comparison.py'
   workflow_dispatch:
 permissions:
   contents: read
@@ -34,6 +36,8 @@ jobs:
         run: python -m unittest discover -s tools -p 'test_c3x_029_p9_r13*.py' -v
       - name: Run R14 provenance and certificate consistency
         run: python -m unittest discover -s tools -p 'test_c3x_029_p9_r14*.py' -v
+      - name: Run R15 bound-sound candidate ranking contract
+        run: python -m unittest discover -s tools -p 'test_c3x_029_p9_r15*.py' -v
       - name: Produce local nonpublic summary and verify expected categorical count
         shell: bash
         run: |
