@@ -14,6 +14,8 @@ on:
       - 'tools/test_c3x_029_p9_r14_cross_receipt_type_audit.py'
       - 'tools/c3x_029_p9_r15_root_bound_comparison.py'
       - 'tools/test_c3x_029_p9_r15_root_bound_comparison.py'
+      - 'tools/c3x_029_p9_r17_native_candidate_score_semantics.py'
+      - 'tools/test_c3x_029_p9_r17_native_candidate_score_semantics.py'
   workflow_dispatch:
 permissions:
   contents: read
@@ -38,6 +40,8 @@ jobs:
         run: python -m unittest discover -s tools -p 'test_c3x_029_p9_r14*.py' -v
       - name: Run R15 bound-sound candidate ranking contract
         run: python -m unittest discover -s tools -p 'test_c3x_029_p9_r15*.py' -v
+      - name: R17 score semantic provenance contract
+        run: python -m unittest discover -s tools -p 'test_c3x_029_p9_r17*.py' -v
       - name: Produce local nonpublic summary and verify expected categorical count
         shell: bash
         run: |
