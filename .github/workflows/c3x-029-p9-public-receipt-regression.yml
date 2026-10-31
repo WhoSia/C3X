@@ -20,6 +20,8 @@ on:
       - 'tools/test_c3x_029_p11_finite_contingent_claim_checker.py'
       - 'tools/c3x_029_p12_feature_abstraction_refuter.py'
       - 'tools/test_c3x_029_p12_feature_abstraction_refuter.py'
+      - 'tools/c3x_029_p13_nearby_negative_minimax_evaluator.py'
+      - 'tools/test_c3x_029_p13_nearby_negative_minimax_evaluator.py'
   workflow_dispatch:
 permissions:
   contents: read
@@ -50,6 +52,8 @@ jobs:
         run: python -m unittest discover -s tools -p 'test_c3x_029_p11*.py' -v
       - name: P12 feature insufficiency refutation tests
         run: python -m unittest discover -s tools -p 'test_c3x_029_p12*.py' -v
+      - name: P13 nearby-negative worst group measurement contract
+        run: python -m unittest discover -s tools -p 'test_c3x_029_p13*.py' -v
       - name: Produce local nonpublic summary and verify expected categorical count
         shell: bash
         run: |
