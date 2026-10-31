@@ -27,9 +27,13 @@ class ContingentClaimTests(unittest.TestCase):
     def test_competitor_refuter(self):
         a=check_claim({"r":["a"]},{"P":{"r":["a"]}},["r"])
         b=check_claim({"r":["a"]},{"P":{"r":[]}},["r"])
-        self.assertEqual(compare_candidates(a,b)["status"],"CONTRASTIVE_WITNESS_WITH_REFUTER_NOT_CHESS_PREFERENCE")
+        self.assertEqual(compare_candidates(a,b,"P|H2|all","P|H2|all")["status"],"CONTRASTIVE_WITNESS_WITH_REFUTER_NOT_CHESS_PREFERENCE")
+    def test_mismatched_claim_abstains(self):
+        a=check_claim({"r":["a"]},{"P":{"r":["a"]}},["r"])
+        b=check_claim({"r":["a"]},{"Q":{"r":[]}},["r"])
+        self.assertEqual(compare_candidates(a,b,"P|H2|all","Q|H2|all")["status"],"ABSTAIN_MISMATCHED_OR_UNFROZEN_CLAIM")
     def test_both_true_not_contrastive(self):
         a=check_claim({"r":["a"]},{"P":{"r":["a"]}},["r"])
-        self.assertEqual(compare_candidates(a,a)["status"],"ABSTAIN_NO_CONTRASTIVE_CERTIFICATE")
+        self.assertEqual(compare_candidates(a,a,"P|H2|all","P|H2|all")["status"],"ABSTAIN_NO_CONTRASTIVE_CERTIFICATE")
 
 if __name__=="__main__":unittest.main()
