@@ -24,6 +24,16 @@ on:
       - 'tools/test_c3x_029_p13_nearby_negative_minimax_evaluator.py'
       - 'tools/c3x_029_p14_benchmark_source_split_gate.py'
       - 'tools/test_c3x_029_p14_benchmark_source_split_gate.py'
+      - 'tools/c3x_029_p15_claim_authority_gate.py'
+      - 'tools/test_c3x_029_p15_claim_authority_gate.py'
+      - 'tools/c3x_029_p16_claim_identity.py'
+      - 'tools/test_c3x_029_p16_claim_identity.py'
+      - 'tools/c3x_029_p17_risk_coverage.py'
+      - 'tools/test_c3x_029_p17_risk_coverage.py'
+      - 'tools/c3x_029_p18_cluster_uncertainty.py'
+      - 'tools/test_c3x_029_p18_cluster_uncertainty.py'
+      - 'tools/c3x_029_p19_paired_method_comparison.py'
+      - 'tools/test_c3x_029_p19_paired_method_comparison.py'
   workflow_dispatch:
 permissions:
   contents: read
@@ -58,6 +68,16 @@ jobs:
         run: python -m unittest discover -s tools -p 'test_c3x_029_p13*.py' -v
       - name: P14 source-split admission contract
         run: python -m unittest discover -s tools -p 'test_c3x_029_p14*.py' -v
+      - name: P15 scientific contract regression
+        run: python -m unittest discover -s tools -p 'test_c3x_029_p15*.py' -v
+      - name: P16 scientific contract regression
+        run: python -m unittest discover -s tools -p 'test_c3x_029_p16*.py' -v
+      - name: P17 scientific contract regression
+        run: python -m unittest discover -s tools -p 'test_c3x_029_p17*.py' -v
+      - name: P18 scientific contract regression
+        run: python -m unittest discover -s tools -p 'test_c3x_029_p18*.py' -v
+      - name: P19 scientific contract regression
+        run: python -m unittest discover -s tools -p 'test_c3x_029_p19*.py' -v
       - name: Produce local nonpublic summary and verify expected categorical count
         shell: bash
         run: |
