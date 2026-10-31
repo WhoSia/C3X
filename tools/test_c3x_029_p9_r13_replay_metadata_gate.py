@@ -8,10 +8,10 @@ def fixture():
     d={"schema":"c3x029-P9-R13-replay-metadata-v1",
        "case_id":"may2026-broadcast-game2",
        "source_sha256":"0ff43e28dcb3a5e48dea6b61e4450fc8bb9e1f96363871c33c4b73524664db61",
-       "binary_sha256":"checked-placeholder","patch_chain_sha256":"checked-placeholder",
+       "binary_sha256":"a"*64,"patch_chain_sha256":"b"*64,
        "cold_processes_per_arm":2,**PIN}
     d["arms"]={a:{"bestmove":"e1g1","nodes":20062,"score_cp":-8,
-        "tt_contact":True,"see_contact":True,"source_replay_equal":True} for a in ARMS}
+        "tt_reader_block":a.startswith("TT1_"),"see_source_hit":1,"see_actuator_delivered":a.endswith("_FLIP"),"source_replay_equal":True} for a in ARMS}
     return d
 
 class ReplayGate(unittest.TestCase):
@@ -26,7 +26,7 @@ class ReplayGate(unittest.TestCase):
         d=fixture();d["source_sha256"]="wrong"
         with self.assertRaisesRegex(ValueError,"SOURCE_SHA"):classify(d)
     def test_missing_see_contact_fails(self):
-        d=fixture();d["arms"]["TT1_SEE_FLIP"]["see_contact"]=False
+        d=fixture();d["arms"]["TT1_SEE_FLIP"]["see_source_hit"]=0
         self.assertEqual(classify(d)["status"],"FAIL_SOURCE_OR_OBSERVER_PARITY")
     def test_one_cold_repeat_is_hold(self):
         d=fixture();d["cold_processes_per_arm"]=1
