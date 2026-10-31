@@ -1,0 +1,3 @@
+# P18 — Source-game uncertainty is the correct scale
+Research question: are apparent hundreds of nearby-negative examples really independent samples?
+No; one engine root produces 8+8+8 correlated test continuations, often from a single source game. Bootstrap should sample source-game clusters, not continuation rows. P18 demonstrates a deterministic *descriptive* game-macro percentile interval and refuses <5 games or untyped labels; even five is not an adequacy guarantee. Same-event correlated PGNs, tournament rounds and post-selection remain additional dependence risks. Report worst-group and coverage alongside uncertainty, preserve all random seeds and full source. No empirical C3X score or superiority established.
