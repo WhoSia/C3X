@@ -16,6 +16,10 @@ on:
       - 'tools/test_c3x_029_p9_r15_root_bound_comparison.py'
       - 'tools/c3x_029_p9_r17_native_candidate_score_semantics.py'
       - 'tools/test_c3x_029_p9_r17_native_candidate_score_semantics.py'
+      - 'tools/c3x_029_p11_finite_contingent_claim_checker.py'
+      - 'tools/test_c3x_029_p11_finite_contingent_claim_checker.py'
+      - 'tools/c3x_029_p12_feature_abstraction_refuter.py'
+      - 'tools/test_c3x_029_p12_feature_abstraction_refuter.py'
   workflow_dispatch:
 permissions:
   contents: read
@@ -42,6 +46,10 @@ jobs:
         run: python -m unittest discover -s tools -p 'test_c3x_029_p9_r15*.py' -v
       - name: R17 score semantic provenance contract
         run: python -m unittest discover -s tools -p 'test_c3x_029_p9_r17*.py' -v
+      - name: P11 finite contingent falsification tests
+        run: python -m unittest discover -s tools -p 'test_c3x_029_p11*.py' -v
+      - name: P12 feature insufficiency refutation tests
+        run: python -m unittest discover -s tools -p 'test_c3x_029_p12*.py' -v
       - name: Produce local nonpublic summary and verify expected categorical count
         shell: bash
         run: |
