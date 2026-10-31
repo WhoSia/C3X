@@ -1,0 +1,3 @@
+# P17 — Abstention is not automatic superiority
+Question: can C3X produce truthful strategic explanations while covering as many interesting positions as strong baselines?
+Metric risk = errors/actually emitted claims, with coverage=emissions/all eligible cases; no-emission has UNDEFINED risk rather than artificial 0. Macro per-game risk avoids conflating 9 claims from one game with nine independent games. The risk/coverage frontier, game clusters and informativeness/gold atom recall must all be compared. New code tests demonstrate unbalanced game size 9:1 gives item risk 0.1 versus game-macro risk 0.5, meaning the sampling unit matters. Real error labels not yet obtained. This is evaluation semantics, not a demonstrated improvement.
