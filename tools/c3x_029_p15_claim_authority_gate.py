@@ -13,7 +13,7 @@ def assess(row):
         return {"status":"HOLD_NO_MATCHED_COMPETITOR_REFUTER"}
     if row["kind"] in {"decision_relevant","aligned","transferred"} and row.get("matched_intervention") is not True:
         return {"status":"HOLD_NO_MATCHED_NATIVE_INTERVENTION"}
-    if row["kind"]=="aligned" and row.get("same_root_event_join") is not True:
+    if row["kind"] in {"aligned","transferred"} and row.get("same_root_event_join") is not True:
         return {"status":"HOLD_NO_WITHIN_RUN_JOIN"}
     if row["kind"]=="transferred" and row.get("disjoint_prospective") is not True:
         return {"status":"HOLD_NO_PROSPECTIVE_TRANSFER"}
