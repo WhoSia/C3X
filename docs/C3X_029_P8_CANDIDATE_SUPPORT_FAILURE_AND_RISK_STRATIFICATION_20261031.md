@@ -9,7 +9,7 @@
 Sources:
 - [Pre-physical-intervention 128 exact UCI forecasts, committed with sealed StageA](../c3x/forecasts/c3x-022-P2-TWIC-puzzle32-exact-UCI-preregistered-stageA-20261010.json)
 - [Real physical TT reader native StageB verdict, all original negative outcomes preserved](../c3x/receipts/c3x-022-P2-TWIC-puzzle32-stageB-literal-UCI-falsification-and-depth-20261010.json)
-- [The detailed original failure and legal candidate analysis](C3X_022_P2_EXACT_UCI_FORECAST_FAILURE_20261010.md) (if this historical path is unavailable, use the receipt and the earlier original 0.22 named report; do not infer its exact pathname as a source)
+- [The detailed 0.22 original cross-ecology falsification and depth/chess forensics](../c3x/ontology/c3x-022-P2-exact-bestmove-cross-ecology-falsification-and-depth-chess-forensics.md)
 - [Reproduction script](../tools/c3x_029_p8_archived_candidate_support_reanalysis.py) and [tests](../tests/test_c3x_029_p8_archived_candidate_support_reanalysis.py).
 
 ## P8 finding 1: baseline disagreement is a pre-treatment *risk marker*, not a deterministic switch rule
