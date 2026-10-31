@@ -18,6 +18,9 @@ class Admission(unittest.TestCase):
     def test_no_event_join(self):
         x=row("aligned");x["same_root_event_join"]=False
         self.assertEqual(assess(x)["status"],"HOLD_NO_WITHIN_RUN_JOIN")
+    def test_transferred_requires_same_root_join(self):
+        x=row("transferred");x["same_root_event_join"]=False
+        self.assertEqual(assess(x)["status"],"HOLD_NO_WITHIN_RUN_JOIN")
     def test_no_transfer(self):
         x=row("transferred");x["disjoint_prospective"]=False
         self.assertEqual(assess(x)["status"],"HOLD_NO_PROSPECTIVE_TRANSFER")
