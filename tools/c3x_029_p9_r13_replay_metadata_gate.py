@@ -25,12 +25,12 @@ def classify(data):
     if data.get("cold_processes_per_arm",0)<2:
         return {"status":"HOLD_INSUFFICIENT_COLD_REPEATS","pinned":True}
     observed=data["arms"]
-    if any(set(observed[a])<{"bestmove","nodes","score_cp","tt_reader_block","see_source_hit","see_actuator_delivered","source_replay_equal"} for a in ARMS):
+    if any(not {"bestmove","nodes","score_cp","tt_reader_block","see_source_hit","see_actuator_delivered","source_replay_equal"}.issubset(observed[a]) for a in ARMS):
         return {"status":"HOLD_INCOMPLETE_EVENT_PROOF","pinned":True}
     if not all(observed[a]["source_replay_equal"] and observed[a]["see_source_hit"] == 1 and observed[a]["tt_reader_block"] == a.startswith("TT1_") and observed[a]["see_actuator_delivered"] == a.endswith("_FLIP") for a in ARMS):
         return {"status":"FAIL_SOURCE_OR_OBSERVER_PARITY","pinned":True}
-    return {"status":"READY_FOR_EXACT_NUMERIC_REPLAY_COMPARISON","pinned":True,
-            "caution":"DOES_NOT_CERTIFY_CAUSAL_MEDIATION"}
+    return {"status":"METADATA_ELIGIBLE_NOT_VERIFIED_REPLAY","pinned":True,
+            "caution":"HASHES_ARE_DECLARED_NOT_BYTE_VERIFIED; DOES_NOT_CERTIFY_CAUSAL_MEDIATION"}
 
 def main():
     p=argparse.ArgumentParser();p.add_argument("--input",required=True)
