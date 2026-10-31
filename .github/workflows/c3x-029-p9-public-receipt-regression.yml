@@ -1,0 +1,48 @@
+name: C3X P9 R11-R13 Read-only Public Receipt Regression
+on:
+  push:
+    paths:
+      - '.github/workflows/c3x-029-p9-public-receipt-regression.yml'
+      - 'tools/c3x_029_p9_r11_t3_public_factorial_adjudicator.py'
+      - 'tools/test_c3x_029_p9_r11_t3_public_factorial_adjudicator.py'
+      - 'tools/test_c3x_029_p9_r11_original_public_receipt.py'
+      - 'tools/c3x_029_p9_r12_factorial_numeric_contrasts.py'
+      - 'tools/test_c3x_029_p9_r12_factorial_numeric_contrasts.py'
+      - 'tools/c3x_029_p9_r13_replay_metadata_gate.py'
+      - 'tools/test_c3x_029_p9_r13_replay_metadata_gate.py'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  public-receipt-contract:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Compile Python scripts
+        run: python -m py_compile tools/c3x_029_p9_r11_t3_public_factorial_adjudicator.py tools/c3x_029_p9_r12_factorial_numeric_contrasts.py tools/c3x_029_p9_r13_replay_metadata_gate.py
+      - name: Run R11 archived and synthetic contract tests
+        run: python -m unittest discover -s tools -p 'test_c3x_029_p9_r11*.py' -v
+      - name: Run R12 numeric contract tests
+        run: python -m unittest discover -s tools -p 'test_c3x_029_p9_r12*.py' -v
+      - name: Run R13 metadata test gates
+        run: python -m unittest discover -s tools -p 'test_c3x_029_p9_r13*.py' -v
+      - name: Produce local nonpublic summary and verify expected categorical count
+        shell: bash
+        run: |
+          set -euo pipefail
+          python tools/c3x_029_p9_r11_t3_public_factorial_adjudicator.py --receipt c3x/receipts/c3x-023-P1-R2-T3-native-source-exact-SEE-TT-two-by-two-operator-interaction-20261011.json --out /tmp/c3x029-r11.json
+          python tools/c3x_029_p9_r12_factorial_numeric_contrasts.py --receipt c3x/receipts/c3x-023-P1-R2-T3-native-source-exact-SEE-TT-two-by-two-operator-interaction-20261011.json --out /tmp/c3x029-r12.json
+          python - <<'PY'
+          import json
+          a=json.load(open('/tmp/c3x029-r11.json'))
+          b=json.load(open('/tmp/c3x029-r12.json'))
+          assert a['count_joint_only']==1 and a['count_independent_chess_positions']==2
+          d={x['game_id']:x for x in b['cases']}
+          assert d[2]['nodes_four_arm_contrast']==-20843 and d[11]['nodes_four_arm_contrast']==0
+          assert a['candidate_specific_margin']=='NOT_IDENTIFIED'
+          print('PUBLIC_AGGREGATE_TEST_PASS_NO_NEW_NATIVE_RUN')
+          PY
