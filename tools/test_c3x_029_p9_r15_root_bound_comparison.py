@@ -2,11 +2,16 @@
 import sys,unittest
 from pathlib import Path
 sys.path.insert(0,str(Path(__file__).resolve().parent))
-from c3x_029_p9_r15_root_bound_comparison import compare
+from c3x_029_p9_r15_root_bound_comparison import compare as underlying_compare
 
 def row(cp,kind,**kw):
-    return {"cp":cp,"kind":kind,"process_id":"cold-01","root_call":3,
+    return {"cp":cp,"kind":kind,"engine_sha256":"a"*64,"treatment_arm":"TT1_SEE_FLIP","completed":True,"process_id":"cold-01","root_call":3,
             "iteration_depth":12,"aspiration_attempt":2,"score_pov":"side_to_move",**kw}
+
+def compare(a,b):
+    a=dict(a,candidate_uci=a.get("candidate_uci","b1b4"))
+    b=dict(b,candidate_uci=b.get("candidate_uci","e1g1"))
+    return underlying_compare(a,b)
 
 class RootIntervalContract(unittest.TestCase):
     def test_nonoverlapping_bound_proves_a_greater(self):
@@ -25,6 +30,14 @@ class RootIntervalContract(unittest.TestCase):
     def test_cross_aspiration_cannot_join(self):
         b=row(0,"exact");b["aspiration_attempt"]=3
         self.assertEqual(compare(row(10,"exact"),b)["status"],"ABSTAIN_INCOMPARABLE_SOURCE_COORDINATES")
+    def test_cross_arm_cannot_join(self):
+        b=row(0,"exact");b["treatment_arm"]="TT0_SEE_SHAM"
+        self.assertEqual(compare(row(10,"exact"),b)["status"],"ABSTAIN_INCOMPARABLE_SOURCE_COORDINATES")
+    def test_incomplete_search_abstains(self):
+        b=row(0,"exact");b["completed"]=False
+        self.assertEqual(compare(row(10,"exact"),b)["status"],"ABSTAIN_INCOMPLETE_CANDIDATE_SEARCH")
+    def test_duplicate_candidate_abstains(self):
+        self.assertEqual(underlying_compare(row(10,"exact",candidate_uci="b1b4"),row(0,"exact",candidate_uci="b1b4"))["status"],"ABSTAIN_MISSING_OR_DUPLICATE_CANDIDATES")
     def test_untyped_score_rejected(self):
         with self.assertRaises(ValueError):compare(row(10.5,"exact"),row(0,"exact"))
 if __name__=="__main__":unittest.main()
