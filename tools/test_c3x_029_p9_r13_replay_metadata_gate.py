@@ -17,8 +17,8 @@ def fixture():
 class ReplayGate(unittest.TestCase):
     def test_ready_is_not_mechanism_pass(self):
         x=classify(fixture())
-        self.assertEqual(x["status"],"READY_FOR_EXACT_NUMERIC_REPLAY_COMPARISON")
-        self.assertEqual(x["caution"],"DOES_NOT_CERTIFY_CAUSAL_MEDIATION")
+        self.assertEqual(x["status"],"METADATA_ELIGIBLE_NOT_VERIFIED_REPLAY")
+        self.assertEqual(x["caution"],"HASHES_ARE_DECLARED_NOT_BYTE_VERIFIED; DOES_NOT_CERTIFY_CAUSAL_MEDIATION")
     def test_depth_shift_not_original_replay(self):
         d=fixture();d["depth"]=16
         self.assertEqual(classify(d)["status"],"CONFIGURATION_SHIFT_NOT_ORIGINAL_REPLAY")
