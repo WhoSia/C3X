@@ -1,0 +1,11 @@
+# C3X 0.29-P24 — What would 'better explanation' mean?
+
+Date 2026-11-02. Research question: is plan-affordance explanation more effective than static concepts on near-equal candidate pairs? The word 'better' is underspecified. Separate four claims: (1) factual correctness of each chess claim; (2) candidate discrimination conditional on legal opponent replies; (3) transport to heldout games/perturbed replies; (4) prospective human transfer to unseen decisions. Also measure abstention/coverage and computation budget. Do not collapse into single weighted composite post hoc.
+
+Key distinction from source C3X 1.md: plan affordances are future actions enabled/disabled by choosing a candidate. A set difference P(s,a)\\P(s,b) by itself proves neither plan value nor engine causality. For each claim specify plan operationalization, horizon, opponent reply universe, legal witness and refuter, and a negative control that preserves similar static concept labels while altering reachable plan options.
+
+Proposal: conditional discrimination D = Pr[a-plan claim true and b-plan claim false | fixed replies and verified board state]. Paired empirical evaluation only; a model can be highly discriminative but wrong or vacuous. Assess selective risk R(c) at matched explanation coverage c and frozen compute budget; report expert-gold recall separately. If root preference reverses across calibrated equal-budget repetitions, refrain from attributing 'why a is preferred' and test contrastive chess facts only.
+
+Four null hypotheses: H0a no lower source-verified claim error at matched coverage; H0b no improvement in candidate-specific discrimination over BinProp motifs/engine+template; H0c no improved game-disjoint transfer; H0d no human decision-transfer benefit. No blanket superiority unless preregistered primary endpoint and independent test support it. Strong null includes simple direct plan enumeration and JSON strategy; more elaborate proof need not be competitive.
+
+Evidence status: source-grounded methodological proposal, no new Stockfish game or human experiment. Source archives C3X 1/2 and recent P23 reviewed. Negative historical external transfer and 0.17 baseline failure preserved. Need original source PGN and stable candidate score cohort before prospective conclusions.
