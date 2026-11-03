@@ -40,6 +40,12 @@ on:
       - 'tools/test_c3x_029_p21_source_move_legal_probe.py'
       - 'tools/c3x_029_p24_plan_discrimination.py'
       - 'tools/test_c3x_029_p24_plan_discrimination.py'
+      - 'tools/c3x_029_p29_value_probe.py'
+      - 'tools/test_c3x_029_p29_value_probe.py'
+      - 'tools/c3x_029_p29_value_certificate.py'
+      - 'tools/test_c3x_029_p29_value_certificate.py'
+      - 'tools/c3x_029_p29_incremental_information.py'
+      - 'tools/test_c3x_029_p29_incremental_information.py'
   workflow_dispatch:
 permissions:
   contents: read
@@ -90,6 +96,12 @@ jobs:
         run: python -m unittest discover -s tools -p 'test_c3x_029_p21*.py' -v
       - name: P24 plan discrimination adverse cases
         run: python -m unittest discover -s tools -p 'test_c3x_029_p24*.py' -v
+      - name: P29 value probe regression
+        run: python -m unittest discover -s tools -p 'test_c3x_029_p29_value_probe.py' -v
+      - name: P29 value certificate regression
+        run: python -m unittest discover -s tools -p 'test_c3x_029_p29_value_certificate.py' -v
+      - name: P29 incremental information regression
+        run: python -m unittest discover -s tools -p 'test_c3x_029_p29_incremental_information.py' -v
       - name: Produce local nonpublic summary and verify expected categorical count
         shell: bash
         run: |
