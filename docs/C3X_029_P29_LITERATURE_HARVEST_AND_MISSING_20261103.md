@@ -21,7 +21,6 @@
 | Priority | Reference | Search status | Why worth acquiring |
 |---|---|---|---|
 | A | Bratman (1987), *Intention, Plans and Practical Reason* | No matching exact standalone book in search; Rao & Georgeff cites it | intention versus mere possibility and temporal commitment |
-| A | Miller (2019), *Explanation in Artificial Intelligence: Insights from the Social Sciences*, Artificial Intelligence 267 | Exact standalone paper not located | social/contrastive explanation evaluation and human target |
 | A | Lipton (2004), *Inference to the Best Explanation*, 2nd ed. | Exact standalone book not located | contrastive explanatory preference, why this rather than that |
 | B | Halpern (2016), *Actual Causality* | Exact standalone book not located | actual cause and difference between sufficiency and responsibility |
 | B | Pearl (2009), *Causality: Models, Reasoning, and Inference*, 2nd ed | Exact standalone book not located; several Pearl causal papers present | precise formal distinctions counterfactual vs causal effect |
@@ -33,7 +32,17 @@ Publisher/source bibliographies confirmed from Routledge Lipton 2004; University
 1. Sutton/Precup/Singh + Rao/Georgeff: operational meaning of 'plan'.
 2. Russell/Wefald + Tal: stable preference and budget metrology.
 3. Woodward + Geiger: semantic/source causal bridge requirements.
-4. Miller/Lipton when acquired + Buçinca: explanation human meaning/benefit.
+4. Miller (NOW ACQUIRED), Lipton when acquired + Buçinca: explanation human meaning/benefit.
 5. Nersessian + Kirsh/Maglio: strategic thinking, epistemic moves and transfer.
 
 HARVEST doctrine: source says X, our C3X extension says Y; the source does not itself establish Y. No claim of exhaustive text reading or independent C5 reproduction.
+
+
+## 2026-11-03 Update: Miller (2019) verified, normalized, promoted
+- **New source:** Tim Miller (2019), *Explanation in Artificial Intelligence: Insights from the Social Sciences*, *Artificial Intelligence* 267, pp. 1–38, DOI 10.1016/j.artint.2018.07.007.
+- Google Drive file ID `1b0Zqep9G93Mc-u-GFZ78gYXB6Oyhleke`; uploaded to `00_INTAKE — Literature Radar` 2026-11-03 09:34:42 UTC; actual PDF text and page-1 render inspected; 38 pages, 1,502,726 bytes; original raw-file SHA256 `64e43e855beaa3026fba720392685109b9a4a67f115ab1b1c132bd41351eb7a6`.
+- Original machine filename `1-s2.0-S0004370218305988-main.pdf`, renamed to `Miller (2019) — Explanation in Artificial Intelligence - Insights from the Social Sciences — Artificial Intelligence 267 1-38 — DOI 10.1016-j.artint.2018.07.007.pdf` and moved to canonical **10_PAPERS** (`1D2M4LHcejREhlyp6vTd71xxLLx-6ldUP`) with the same file ID. Final Drive metadata readback verified.
+- **Important theoretical correction:** Miller Section 1.2 explicitly synthesizes that explanations are contrastive (fact and foil), selectively chosen, may not be best communicated with raw probabilities, and socially contextualized. Section 2.3 notes that a cited characteristic that explains fact and foil equally is a poor answer to the specific comparison. Hence contrastiveness as such is **NOT a C3X novelty claim**. Potential incremental novelty remains real-chess near-equal fact/foil choice, game-rule-verified conditional plan consequences, root-stability calibration and real comparative learning or predictive evidence.
+- Reader status: first section, §1.2, §2.3 and target passages directly inspected; **not all 38 pages exhaustively reviewed**.
+- The remaining EXACT missing/unconfirmed candidates are **4**, not 5: Bratman 1987, Lipton 2004, Halpern 2016, Pearl 2009. An index search is not a proof of absolute absence. No replacement or re-acquisition for Miller needed.
+- Another earlier 2026-11-03 file in `00_INTAKE`: `03_13_2026.pdf`, a *Science* molecular biology article on evolution of error correction through selection for speed (Ravasio et al., 2026). It is a separate intake object, not the newly uploaded Miller article; untouched by this C3X promotion.
