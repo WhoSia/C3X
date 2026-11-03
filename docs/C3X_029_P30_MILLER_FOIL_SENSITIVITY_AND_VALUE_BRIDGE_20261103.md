@@ -46,3 +46,7 @@ Other earlier 2026-11-03 00_INTAKE object `03_13_2026.pdf` is an unrelated Ravas
 4. Score strong baseline at matched compute (full score/PV and generic concepts, executable BinProp or equivalent when possible); add foil-switch test and matched abstention.
 5. Test factual statement truth, distinctive plan-consequence utility, game-macro paired predictive skill, reply perturbation, and blind human transfer separately.
 Any P30 'better' claim without independent model comparisons remains HOLD.
+
+## 2026-11-03 Remote regression verification
+- GitHub Actions run 41613074762, URL https://github.com/WhoSia/C3X/actions/runs/41613074762, head SHA a324f65cd1b297e9c0a21aaf7b4db8e36bdc77b9, status completed, conclusion **success**. Verified through authenticated GitHub Actions run list and `fetch_workflow_run_jobs`.
+- The four individual jobs/steps `P29 value probe regression`, `P29 value certificate regression`, `P29 incremental information regression`, `P30 foil intervention and value falsifier regression` all had status **success**, along with original public summary check. This closes CI invocation of the synthetic contracts, **not** real Stockfish validation, prospective preregistration proof, independent-game labels or explainability superiority.
