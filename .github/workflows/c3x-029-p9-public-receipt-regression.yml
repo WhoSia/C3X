@@ -46,6 +46,8 @@ on:
       - 'tools/test_c3x_029_p29_value_certificate.py'
       - 'tools/c3x_029_p30_foil_semantics.py'
       - 'tools/test_c3x_029_p30_foil_semantics.py'
+      - 'tools/c3x_029_p31_native_trace_overlap_bounds.py'
+      - 'tools/test_c3x_029_p31_native_trace_overlap_bounds.py'
       - 'tools/c3x_029_p29_incremental_information.py'
       - 'tools/test_c3x_029_p29_incremental_information.py'
   workflow_dispatch:
@@ -106,6 +108,8 @@ jobs:
         run: python -m unittest discover -s tools -p 'test_c3x_029_p29_incremental_information.py' -v
       - name: P30 foil intervention and value falsifier regression
         run: python -m unittest discover -s tools -p 'test_c3x_029_p30_foil_semantics.py' -v
+      - name: P31 original native archive trace-overlap bounds
+        run: python -m unittest discover -s tools -p 'test_c3x_029_p31_native_trace_overlap_bounds.py' -v
       - name: Produce local nonpublic summary and verify expected categorical count
         shell: bash
         run: |
