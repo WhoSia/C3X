@@ -44,3 +44,6 @@ This brings concrete historical Stockfish evidence to the question generated aft
 ## Next action
 
 Recover the full case-level archived root-order logs where available; compute exact paired cross-tabs rather than bounds. Then formulate a source-anchored negative and positive control with genuine Q policy, not automatically transfer LLM IPS concepts to chess engines. For a new performance claim, acquire new complete original game histories and game-independent heldout.
+
+## Authenticated remote CI result (2026-11-04)
+- GitHub Actions run [41767455345](https://github.com/WhoSia/C3X/actions/runs/41767455345), head SHA 5945b023da3b3c878ec72a2b9c10c66ec524b192: status **completed**, conclusion **success**. Authenticated run jobs show specifically `P31 original native archive trace-overlap bounds` step **success**, with P29 and P30 regression steps likewise success. This verifies parsing of the original public 0.17 archived receipt and formal six-case tests, NOT new Stockfish process execution or causal identification.
