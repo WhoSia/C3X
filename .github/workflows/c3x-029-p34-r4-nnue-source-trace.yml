@@ -1,0 +1,82 @@
+name: C3X P34 R4 Original SF16 NNUE Source Trace Audit (No Search)
+on:
+  push:
+    paths:
+      - '.github/workflows/c3x-029-p34-r4-nnue-source-trace.yml'
+      - 'harness/c3x_029_p34_r3_direct_nnue_classical_eval_trace.py'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  p34-r4-eval-only:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Test trace schema, without search
+        run: |
+          set -euo pipefail
+          python -m pip install -q chess==1.11.2
+          python -m unittest discover -s tools -p 'test_c3x_029_p34_r3_direct_eval_trace.py' -v
+      - name: Recover source-only original complete PGN history
+        uses: actions/download-artifact@v4
+        with:
+          name: c3x-018-independent-PGN-blind-source-16
+          repository: WhoSia/C3X
+          run-id: '37981820261'
+          path: source/
+          github-token: ${{ github.token }}
+      - name: Recover already completed symmetric P34 native verdict
+        uses: actions/download-artifact@v4
+        with:
+          name: c3x-029-p34-equal-requested-nodes-classic-nnue-four-original-roots
+          repository: WhoSia/C3X
+          run-id: '41778389205'
+          path: previous/
+          github-token: ${{ github.token }}
+      - name: Verify immutable source and P34 source-result hashes
+        run: |
+          set -euo pipefail
+          test "$(sha256sum source/C3X018_INDEPENDENT_BLIND16_PGN_SOURCE.json | cut -d' ' -f1)" = 6520672aabab7f525872169085f19bdd81e27a4473f0c58ba9c9aa428937104c
+          test "$(sha256sum previous/P34_FOUR_ROOTS_CLASSICAL_NNUE_BUDGET24000.json | cut -d' ' -f1)" = c80704f2f81c4920597fbf6b559ef38dbae60f35458c7a2f665f1cf57d2563dc
+      - name: Compile untouched SF16 to read exact official NNUE trace
+        run: |
+          set -euo pipefail
+          git clone -q --single-branch --branch sf_16 https://github.com/official-stockfish/Stockfish.git /tmp/c3x-p34-r4-sf
+          test "$(git -C /tmp/c3x-p34-r4-sf rev-parse HEAD)" = 68e1e9b3811e16cad014b590d7443b9063b3eb52
+          make -s -C /tmp/c3x-p34-r4-sf/src -j2 build ARCH=x86-64
+          mkdir -p output
+          sha256sum /tmp/c3x-p34-r4-sf/src/stockfish > output/SF16_BINARY_SHA256.txt
+      - name: Preserve 12 direct raw NNUE piece-deletion and layer-bucket readouts
+        run: |
+          set -euo pipefail
+          python -u harness/c3x_029_p34_r3_direct_nnue_classical_eval_trace.py \
+            --source source/C3X018_INDEPENDENT_BLIND16_PGN_SOURCE.json \
+            --p34 previous/P34_FOUR_ROOTS_CLASSICAL_NNUE_BUDGET24000.json \
+            --engine /tmp/c3x-p34-r4-sf/src/stockfish \
+            --out output/P34_R4_RAW_DIRECT_NNUE_CLASSICAL_TRACES.json \
+            | tee output/P34_R4_LOG.txt
+          python - <<'PY'
+          import json
+          j=json.load(open("output/P34_R4_RAW_DIRECT_NNUE_CLASSICAL_TRACES.json"))
+          assert len(j["records"])==12
+          assert all(r["trace"]["status"]=="DIRECT_STATIC_TRACE_OK" for r in j["records"])
+          assert all("NNUE derived piece values" in r["raw_source_eval_trace"] for r in j["records"])
+          assert all("NNUE network contributions" in r["raw_source_eval_trace"] for r in j["records"])
+          print("P34_UNMODIFIED_NNUE_PIECE_DELETION_AND_LAYER_BUCKET_TRACE_PASS")
+          PY
+      - name: Member digests
+        if: always()
+        run: |
+          mkdir -p output
+          find output -maxdepth 1 -type f ! -name MEMBER_SHA256.txt -print0 | sort -z | xargs -0 -r sha256sum > output/MEMBER_SHA256.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x-p34-r4-raw-nnue-piece-deletion-layer-bucket-traces
+          path: output/
+          retention-days: 90
+          if-no-files-found: error
