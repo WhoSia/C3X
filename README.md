@@ -1,5 +1,15 @@
 # C3X — Counterfactual Contrastive Chess eXplanation
 
+## 2026-11-04 — P34 real Stockfish16 NNUE/classical source bridge (development only)
+
+On original full-history source games 10 and 14 (4 adaptively selected candidate roots), original official SF16 compared A/PV, B/one-reply JSON and C/three-branch policies at **equal 24,000 requested search nodes per representation**. All 129 first legal reply branches separately evaluated under **both** NNUE and classical 40,000-node-per-reply references. Four candidate roots exhibit a different argmin reply between evaluator arms, but **NO representation is universally superior**, and neither oracle is independent objective chess truth. [Actual native paired result](docs/C3X_029_P34_R2_EQUAL_BUDGET_NNUE_CLASSICAL_STRATEGY_COMPETITION_20261104.md) · [CI](https://github.com/WhoSia/C3X/actions/runs/41777935223).
+
+**Search-free source-level NNUE finding:** Official unmodified SF16 `Eval::trace` on the *same original game-history boards* gives a static classical vs raw-NNUE **opponent-response ranking reversal** after historical case10 `...Kf7`: White `Re1` vs `e4` values, classical (-0.20,-0.29) pawns, raw NNUE (-0.44,-0.32) pawns. Full original NNUE piece-removal/PSQT/layer readouts were actually generated for 12 histories, [P34 R4 native run](https://github.com/WhoSia/C3X/actions/runs/41778762120) SUCCESS, [raw Drive archive](https://drive.google.com/file/d/1l6RVNZ79XyB_VORm79q-AUIQEwMtqa0_/view). Piece-removal diagnostic may generate chess-illegal hypothetical boards; no named neural concept or search-mediation cause yet identified. [Source reverse engineering results](docs/C3X_029_P34_R4_DIRECT_NNUE_STATIC_REVERSE_ENGINEERING_AND_SEARCH_BRIDGE_20261104.md).
+
+**Evidence ceiling:** 2 pre-exposed source games, finite engine budgets, NNUE/classical search dependent on evaluation/pruning. C3X human explanatory improvement, external game-disjoint transport and specific internal neuron/accumulator mechanism remain unproven. C3X prior 0.14 NNUE fallback and 0.25 NNUE-R1 protocol sensitivity are genealogy, not results of P34.
+
+---
+
 ## 2026-11-04 — P32 full-original-history SF16 chess-value evidence (0.29; development only)
 
 **16/16 real complete source-game UCI histories were independently replayed and newly evaluated with unmodified pinned Stockfish16** (depth12; focal game10 depth18), using original frozen 0.18 Lichess October16 source SHA 6520672a..., not standalone FEN. Original pinned SF16 68e1e9b3..., Threads=1, Hash=16, NNUE off. This is an **archival outcome-exposed developmental reanalysis, NOT a fresh source-independent heldout**. Exact native CI [run 41770432051](https://github.com/WhoSia/C3X/actions/runs/41770432051) SUCCESS.
