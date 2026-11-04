@@ -5,6 +5,8 @@ on:
       - '.github/workflows/c3x-029-p32-full-history-root-value.yml'
       - 'harness/c3x_029_p32_original_history_reply_value_native.py'
       - 'tools/test_c3x_029_p32_history_value_inputs.py'
+      - 'tools/c3x_029_p32_original_game_reply_competition.py'
+      - 'tools/test_c3x_029_p32_original_game_reply_competition.py'
   workflow_dispatch:
 permissions:
   contents: read
@@ -22,6 +24,7 @@ jobs:
           set -euo pipefail
           python -m pip install -q chess==1.11.2
           python -m unittest discover -s tools -p 'test_c3x_029_p32_history_value_inputs.py' -v
+          python -m unittest discover -s tools -p 'test_c3x_029_p32_original_game_reply_competition.py' -v
           python -m py_compile harness/c3x_029_p32_original_history_reply_value_native.py
       - name: Download frozen original source, never commit raw PGN history
         uses: actions/download-artifact@v4
@@ -69,6 +72,21 @@ jobs:
           assert all(len(c['candidates'])>=2 for c in r['cases'])
           assert all(len(c['baseline_stockfish16_top2'])==2 for c in r['cases'])
           print("P32_SOURCE16_ORIGINAL_HISTORY_STOCKFISH16_NATIVE_PASS")
+          PY
+      - name: Compare PV, simple plan JSON and response-conditioned branch coverage
+        run: |
+          set -euo pipefail
+          python tools/c3x_029_p32_original_game_reply_competition.py \
+            --source source/C3X018_INDEPENDENT_BLIND16_PGN_SOURCE.json \
+            --native output/P32_ORIGINAL_HISTORY16_SF16_REPLY_VALUE.json \
+            --out output/P32_THREE_METHOD_ACTUAL_REPLY_COMPARISON.json
+          python - <<'PY'
+          import json
+          j=json.load(open('output/P32_THREE_METHOD_ACTUAL_REPLY_COMPARISON.json'))
+          assert j['aggregate']['n_original_exposed_source_games']==16
+          assert j['aggregate']['C_actual_rank_one']+j['aggregate']['C_actual_rank_two']+j['aggregate']['C_actual_rank_three']==j['aggregate']['C_three_reply_coverage']
+          assert j['aggregate']['A_forced_root_PV_one_reply_exact']<=16
+          print('P32_THREE_COMPETITOR_REAL_GAME_ALIGNMENT_PASS')
           PY
       - name: Evidence member hashes
         if: always()
