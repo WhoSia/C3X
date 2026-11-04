@@ -1,0 +1,80 @@
+name: C3X P35 R5 Actual SF16 Eval Dispatch and Search Parity
+on:
+  push:
+    paths:
+      - '.github/workflows/c3x-029-p35-r5-eval-dispatch.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  native-sf16-dispatch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install original legal chess board replay library
+        run: python -m pip install -q chess==1.11.2
+      - name: Verify source probe unit tests without triggering search
+        run: python -m unittest discover -s tools -p 'test_c3x_029_p35_r5_source_dispatch_probe.py' -v
+      - name: Recover original full source histories
+        uses: actions/download-artifact@v4
+        with:
+          name: c3x-018-independent-PGN-blind-source-16
+          repository: WhoSia/C3X
+          run-id: '37981820261'
+          path: source
+          github-token: ${{ github.token }}
+      - name: Recover original paired four-root references
+        uses: actions/download-artifact@v4
+        with:
+          name: c3x-029-p34-equal-requested-nodes-classic-nnue-four-original-roots
+          repository: WhoSia/C3X
+          run-id: '41778389205'
+          path: previous
+          github-token: ${{ github.token }}
+      - name: Compile unmodified pinned SF16, then create single-source dispatch probe
+        run: |
+          set -euo pipefail
+          test "$(sha256sum source/C3X018_INDEPENDENT_BLIND16_PGN_SOURCE.json | cut -d' ' -f1)" = 6520672aabab7f525872169085f19bdd81e27a4473f0c58ba9c9aa428937104c
+          test "$(sha256sum previous/P34_FOUR_ROOTS_CLASSICAL_NNUE_BUDGET24000.json | cut -d' ' -f1)" = c80704f2f81c4920597fbf6b559ef38dbae60f35458c7a2f665f1cf57d2563dc
+          git clone -q --single-branch --branch sf_16 https://github.com/official-stockfish/Stockfish.git /tmp/c3x-p35-r5-sf
+          test "$(git -C /tmp/c3x-p35-r5-sf rev-parse HEAD)" = 68e1e9b3811e16cad014b590d7443b9063b3eb52
+          make -s -C /tmp/c3x-p35-r5-sf/src -j2 build ARCH=x86-64
+          mkdir -p output
+          cp /tmp/c3x-p35-r5-sf/src/stockfish /tmp/c3x-p35-r5-stockfish-vanilla
+          sha256sum /tmp/c3x-p35-r5-stockfish-vanilla > output/P35_R5_VANILLA_BINARY_SHA.txt
+          python tools/c3x_029_p35_r5_source_dispatch_probe.py \
+            --source /tmp/c3x-p35-r5-sf/src/evaluate.cpp \
+            --out /tmp/c3x-p35-r5-sf/src/evaluate.cpp.probed
+          mv /tmp/c3x-p35-r5-sf/src/evaluate.cpp.probed /tmp/c3x-p35-r5-sf/src/evaluate.cpp
+          make -s -C /tmp/c3x-p35-r5-sf/src -j2 build ARCH=x86-64
+          cp /tmp/c3x-p35-r5-sf/src/stockfish /tmp/c3x-p35-r5-stockfish-probed
+          sha256sum /tmp/c3x-p35-r5-stockfish-probed > output/P35_R5_PROBED_BINARY_SHA.txt
+          git -C /tmp/c3x-p35-r5-sf diff -- src/evaluate.cpp > output/P35_R5_SOURCE_PATCH.diff
+          test "$(grep -c '^+.*C3X_P35_' output/P35_R5_SOURCE_PATCH.diff)" -eq 2
+      - name: Compare actual vanilla and source-probed native search outcomes
+        run: |
+          set -euo pipefail
+          python -u harness/c3x_029_p35_r5_search_route_court.py \
+            --source source/C3X018_INDEPENDENT_BLIND16_PGN_SOURCE.json \
+            --p34 previous/P34_FOUR_ROOTS_CLASSICAL_NNUE_BUDGET24000.json \
+            --vanilla /tmp/c3x-p35-r5-stockfish-vanilla \
+            --instrumented /tmp/c3x-p35-r5-stockfish-probed \
+            --nodes 24000 \
+            --out output/P35_R5_FOUR_ROOTS_ACTUAL_EVAL_DISPATCH.json \
+            | tee output/P35_R5_STDOUT.txt
+      - name: Archive hashes, without repository writeback
+        if: always()
+        run: |
+          mkdir -p output
+          find output -maxdepth 1 -type f ! -name MEMBER_SHA256.txt -print0 | sort -z | xargs -0 -r sha256sum > output/MEMBER_SHA256.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x-p35-r5-native-real-sf16-evaluator-dispatch-source-parity
+          path: output/
+          retention-days: 90
+          if-no-files-found: error
