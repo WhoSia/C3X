@@ -35,8 +35,10 @@ class P32HistoryValueInputs(unittest.TestCase):
         self.assertIn(chess.Move.from_uci("e2e4"), out.legal_moves)
 
     def test_fen_mismatch_fail_closed(self):
+        row = self.example()
+        row["fen4"] = "8/8/8/8/8/8/8/8 w - -"
         with self.assertRaisesRegex(ValueError, "FROZEN_FEN_MISMATCH"):
-            replay_original(self.example())
+            replay_original(row)
 
     def test_material_delta_is_antisymmetric(self):
         b = chess.Board()
