@@ -116,8 +116,21 @@ def root_case(engine, original, depth, reply_depth):
                 after_reply = after_root.copy(stack=True)
                 after_reply.push(response)
                 value, label = perspective(variation, mover)
+                pv_after_reply = list(variation["pv"][1:])
+                after_response_material_cp = material_cp(after_reply, mover) - before_material
+                if pv_after_reply:
+                    next_mover_response = pv_after_reply[0]
+                    need(next_mover_response in after_reply.legal_moves, "ILLEGAL_NEXT_PV_MOVE")
+                    after_mover_next = after_reply.copy(stack=True)
+                    after_mover_next.push(next_mover_response)
+                    material_after_next = material_cp(after_mover_next, mover) - before_material
+                else:
+                    material_after_next = None
                 reply_entries.append({
                     "reply_uci": response.uci(),
+                    "mover_followup_uci": pv_after_reply[0].uci() if pv_after_reply else None,
+                    "material_after_opponent_reply_cp": after_response_material_cp,
+                    "material_after_mover_followup_cp": material_after_next,
                     "root_pov_cp_or_mate_scaled": value,
                     "uci_score": label,
                     "next_pv_uci": clean_pv(variation)[1:],
@@ -161,6 +174,8 @@ def main():
     p.add_argument("--out", required=True)
     p.add_argument("--depth", type=int, default=12)
     p.add_argument("--reply-depth", type=int, default=12)
+    p.add_argument("--focus-case", type=int, default=10)
+    p.add_argument("--focus-depth", type=int, default=18)
     args = p.parse_args()
     need(6 <= args.depth <= 24 and 6 <= args.reply_depth <= 24, "DEPTH_RANGE")
     source_bytes = Path(args.source).read_bytes()
@@ -171,12 +186,19 @@ def main():
     need(len({r["source_game_sha256"] for r in source["selected"]}) == 16,
          "GAME_DISJOINTNESS")
     cases = []
+    focus = None
     engine = chess.engine.SimpleEngine.popen_uci(args.engine, timeout=120)
     try:
         engine.configure({"Threads": 1, "Hash": 16, "Use NNUE": False})
         for row in source["selected"]:
             result = root_case(engine, row, args.depth, args.reply_depth)
             cases.append(result)
+            if row["id"] == args.focus_case:
+                focus = root_case(engine, row, args.focus_depth, args.focus_depth)
+                print("P32_FOCUS_DEEPER_CASE", row["id"], "depth", args.focus_depth,
+                      [(z["root_uci"], z["forced_root_value_cp_or_mate_scaled"],
+                        z["best_opponent_reply_value_cp_or_mate_scaled"])
+                       for z in focus["candidates"]], flush=True)
             print("P32_ORIGINAL_HISTORY_CASE", row["id"],
                   "best", result["baseline_stockfish16_top2"][0]["root_uci"],
                   "played", row["played_legal_move_uci"],
@@ -198,6 +220,8 @@ def main():
         "causal_status": "no search-internal intervention; no causal mediation evidence",
         "evaluation_scope": "engine-forced root and engine-ranked top3 opponent replies; output-score and PV baselines",
         "cases": cases,
+        "focus_case_depth18": focus,
+        "focus_depth": args.focus_depth,
         "complete_original_history_cases": len(cases)
     }
     Path(args.out).parent.mkdir(parents=True, exist_ok=True)
