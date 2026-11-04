@@ -1,0 +1,84 @@
+name: C3X P33 All Legal Opponent Replies Original History SF16
+on:
+  push:
+    paths:
+      - '.github/workflows/c3x-029-p33-all-legal-opponent-replies.yml'
+      - 'harness/c3x_029_p33_all_legal_reply_surface_native.py'
+      - 'tools/test_c3x_029_p33_all_legal_reply_surface.py'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  p33-exhaustive-first-opponent-reply:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Test engine-free all-reply reductions
+        run: |
+          set -euo pipefail
+          python -m pip install -q chess==1.11.2
+          python -m unittest discover -s tools -p 'test_c3x_029_p33_all_legal_reply_surface.py' -v
+          python -m py_compile harness/c3x_029_p33_all_legal_reply_surface_native.py
+      - name: Download original historical full-game source artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: c3x-018-independent-PGN-blind-source-16
+          path: source/
+          repository: WhoSia/C3X
+          run-id: '37981820261'
+          github-token: ${{ github.token }}
+      - name: Download exact already-run P32 native source16 proof
+        uses: actions/download-artifact@v4
+        with:
+          name: c3x-029-p32-original-history16-sf16-depth12-reply-value
+          path: prior/
+          repository: WhoSia/C3X
+          run-id: '41770432051'
+          github-token: ${{ github.token }}
+      - name: Verify fixed P32 and P18 source identity; no outcome-based filtering
+        run: |
+          set -euo pipefail
+          test "$(sha256sum source/C3X018_INDEPENDENT_BLIND16_PGN_SOURCE.json | cut -d' ' -f1)" = 6520672aabab7f525872169085f19bdd81e27a4473f0c58ba9c9aa428937104c
+          test "$(sha256sum prior/P32_ORIGINAL_HISTORY16_SF16_REPLY_VALUE.json | cut -d' ' -f1)" = 8e9ed5104156887221696a79416c69060dc3fa8beb48c02142337591b25efc8b
+      - name: Build same untouched official stockfish16
+        run: |
+          set -euo pipefail
+          git clone -q --single-branch --branch sf_16 https://github.com/official-stockfish/Stockfish.git /tmp/c3x029-p33-sf16
+          test "$(git -C /tmp/c3x029-p33-sf16 rev-parse HEAD)" = 68e1e9b3811e16cad014b590d7443b9063b3eb52
+          make -s -C /tmp/c3x029-p33-sf16/src -j2 build ARCH=x86-64
+          mkdir -p output
+          sha256sum /tmp/c3x029-p33-sf16/src/stockfish > output/SF16_BINARY_SHA256.txt
+      - name: Actually enumerate all legal opponent first moves; separately search every continuation
+        run: |
+          set -euo pipefail
+          python -u harness/c3x_029_p33_all_legal_reply_surface_native.py \
+            --source source/C3X018_INDEPENDENT_BLIND16_PGN_SOURCE.json \
+            --p32-native prior/P32_ORIGINAL_HISTORY16_SF16_REPLY_VALUE.json \
+            --engine /tmp/c3x029-p33-sf16/src/stockfish \
+            --depth 10 \
+            --out output/P33_ALL_LEGAL_REPLIES_CASES_6_10_14.json | tee output/P33_RUN_LOG.txt
+          python - <<'PY'
+          import json
+          j=json.load(open('output/P33_ALL_LEGAL_REPLIES_CASES_6_10_14.json'))
+          assert [x['id'] for x in j['cases']]==[6,10,14]
+          assert all(len(x['candidate_surfaces'])==2 for x in j['cases'])
+          assert all(len(z['all_legal_first_reply_surface'])==z['summary']['entire_legal_reply_count']
+                     for x in j['cases'] for z in x['candidate_surfaces'])
+          print("P33_ALL_FIRST_OPPONENT_LEGAL_REPLY_SF16_REPLAY_PASS")
+          PY
+      - name: Member SHA and permanent artifact
+        if: always()
+        run: |
+          mkdir -p output
+          find output -maxdepth 1 -type f ! -name MEMBER_SHA256.txt -print0 | sort -z | xargs -0 -r sha256sum > output/MEMBER_SHA256.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x-029-p33-exhaustive-legal-first-reply-sf16-source-exposed
+          path: output/
+          retention-days: 90
+          if-no-files-found: error
