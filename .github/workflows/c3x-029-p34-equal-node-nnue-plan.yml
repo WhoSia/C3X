@@ -5,6 +5,8 @@ on:
       - '.github/workflows/c3x-029-p34-equal-node-nnue-plan.yml'
       - 'harness/c3x_029_p34_equal_budget_nnue_plan_court.py'
       - 'tools/test_c3x_029_p34_equal_budget_nnue_plan_court.py'
+      - 'harness/c3x_029_p34_r3_direct_nnue_classical_eval_trace.py'
+      - 'tools/test_c3x_029_p34_r3_direct_eval_trace.py'
   workflow_dispatch:
 permissions:
   contents: read
@@ -23,6 +25,8 @@ jobs:
           python -m pip install -q chess==1.11.2
           python -m unittest discover -s tools -p 'test_c3x_029_p34_equal_budget_nnue_plan_court.py' -v
           python -m py_compile harness/c3x_029_p34_equal_budget_nnue_plan_court.py
+          python -m unittest discover -s tools -p 'test_c3x_029_p34_r3_direct_eval_trace.py' -v
+          python -m py_compile harness/c3x_029_p34_r3_direct_nnue_classical_eval_trace.py
       - name: Read original 16 complete source histories
         uses: actions/download-artifact@v4
         with:
@@ -67,6 +71,22 @@ jobs:
           assert all(len(r["reference_all_legal"])>=20 for r in j["records"])
           assert all(len(t["adjudication"]["representations"])==3 for r in j["records"] for t in r["trials"])
           print("P34_REAL_SF16_EQUAL_REQUESTED_NODES_CLASSIC_NNUE_PASS")
+          PY
+      - name: Directly read identical-board raw NNUE, classical and hybrid evaluations
+        run: |
+          set -euo pipefail
+          python -u harness/c3x_029_p34_r3_direct_nnue_classical_eval_trace.py \
+             --source source/C3X018_INDEPENDENT_BLIND16_PGN_SOURCE.json \
+             --p34 output/P34_FOUR_ROOTS_CLASSICAL_NNUE_BUDGET24000.json \
+             --engine /tmp/c3x-p34-sf16/src/stockfish \
+             --out output/P34_R3_DIRECT_SAME_BOARD_EVAL_TRACE.json \
+             | tee output/P34_R3_EVAL_LOG.txt
+          python - <<'PY'
+          import json
+          j=json.load(open("output/P34_R3_DIRECT_SAME_BOARD_EVAL_TRACE.json"))
+          assert len(j["records"])>=8
+          assert any(r["trace"]["status"]=="DIRECT_STATIC_TRACE_OK" for r in j["records"])
+          print("P34_STATIC_EVAL_ACTUAL_SOURCE_PASS")
           PY
       - name: Member SHA256 receipts
         if: always()
