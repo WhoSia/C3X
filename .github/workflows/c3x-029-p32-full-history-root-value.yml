@@ -1,0 +1,85 @@
+name: C3X P32 Original Full-History Adversarial Reply Values (SF16)
+on:
+  push:
+    paths:
+      - '.github/workflows/c3x-029-p32-full-history-root-value.yml'
+      - 'harness/c3x_029_p32_original_history_reply_value_native.py'
+      - 'tools/test_c3x_029_p32_history_value_inputs.py'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  p32-full-history-stockfish16:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install chess rules and test contracts
+        run: |
+          set -euo pipefail
+          python -m pip install -q chess==1.11.2
+          python -m unittest discover -s tools -p 'test_c3x_029_p32_history_value_inputs.py' -v
+          python -m py_compile harness/c3x_029_p32_original_history_reply_value_native.py
+      - name: Download frozen original source, never commit raw PGN history
+        uses: actions/download-artifact@v4
+        with:
+          name: c3x-018-independent-PGN-blind-source-16
+          path: source/
+          repository: WhoSia/C3X
+          run-id: '37981820261'
+          github-token: ${{ github.token }}
+      - name: Verify exact archived source SHA and full history identity
+        run: |
+          set -euo pipefail
+          test "$(sha256sum source/C3X018_INDEPENDENT_BLIND16_PGN_SOURCE.json | cut -d' ' -f1)" = 6520672aabab7f525872169085f19bdd81e27a4473f0c58ba9c9aa428937104c
+          python - <<'PY'
+          import json
+          j=json.load(open('source/C3X018_INDEPENDENT_BLIND16_PGN_SOURCE.json'))
+          assert len(j['selected'])==16
+          assert len({row['source_game_sha256'] for row in j['selected']})==16
+          assert all(row['full_original_mainline_uci'] for row in j['selected'])
+          print("P32_FROZEN_SOURCE_FULL_GAME_HISTORY_16_PASS")
+          PY
+      - name: Compile pinned unmodified official Stockfish16
+        run: |
+          set -euo pipefail
+          git clone -q --single-branch --branch sf_16 https://github.com/official-stockfish/Stockfish.git /tmp/c3x029-p32-sf16
+          test "$(git -C /tmp/c3x029-p32-sf16 rev-parse HEAD)" = 68e1e9b3811e16cad014b590d7443b9063b3eb52
+          make -s -C /tmp/c3x029-p32-sf16/src -j2 build ARCH=x86-64
+          mkdir -p output
+          sha256sum /tmp/c3x029-p32-sf16/src/stockfish > output/SF16_BINARY_SHA256.txt
+      - name: Execute source16 full-history top2 and top3 reply values
+        run: |
+          set -euo pipefail
+          python -u harness/c3x_029_p32_original_history_reply_value_native.py \
+            --source source/C3X018_INDEPENDENT_BLIND16_PGN_SOURCE.json \
+            --engine /tmp/c3x029-p32-sf16/src/stockfish \
+            --depth 12 --reply-depth 12 \
+            --out output/P32_ORIGINAL_HISTORY16_SF16_REPLY_VALUE.json \
+            | tee output/P32_STDOUT.txt
+          python - <<'PY'
+          import json
+          r=json.load(open('output/P32_ORIGINAL_HISTORY16_SF16_REPLY_VALUE.json'))
+          assert r['complete_original_history_cases']==16
+          assert len(r['cases'])==16
+          assert all(c['history_mode']=='position_startpos_full_original_mainline_prefix' for c in r['cases'])
+          assert all(len(c['candidates'])>=2 for c in r['cases'])
+          assert all(len(c['baseline_stockfish16_top2'])==2 for c in r['cases'])
+          print("P32_SOURCE16_ORIGINAL_HISTORY_STOCKFISH16_NATIVE_PASS")
+          PY
+      - name: Evidence member hashes
+        if: always()
+        run: |
+          mkdir -p output
+          find output -maxdepth 1 -type f ! -name MEMBER_SHA256.txt -print0 | sort -z | xargs -0 -r sha256sum > output/MEMBER_SHA256.txt
+      - name: Upload development-only native engine run receipts
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x-029-p32-original-history16-sf16-depth12-reply-value
+          path: output/
+          retention-days: 90
+          if-no-files-found: error
