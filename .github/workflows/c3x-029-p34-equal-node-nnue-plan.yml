@@ -1,0 +1,82 @@
+name: C3X P34 Equal-Requested-Nodes NNUE Classical Explanation Competition
+on:
+  push:
+    paths:
+      - '.github/workflows/c3x-029-p34-equal-node-nnue-plan.yml'
+      - 'harness/c3x_029_p34_equal_budget_nnue_plan_court.py'
+      - 'tools/test_c3x_029_p34_equal_budget_nnue_plan_court.py'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  p34-original-source-development:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Test value-outcome comparison contracts
+        run: |
+          set -euo pipefail
+          python -m pip install -q chess==1.11.2
+          python -m unittest discover -s tools -p 'test_c3x_029_p34_equal_budget_nnue_plan_court.py' -v
+          python -m py_compile harness/c3x_029_p34_equal_budget_nnue_plan_court.py
+      - name: Read original 16 complete source histories
+        uses: actions/download-artifact@v4
+        with:
+          name: c3x-018-independent-PGN-blind-source-16
+          path: source/
+          repository: WhoSia/C3X
+          run-id: '37981820261'
+          github-token: ${{ github.token }}
+      - name: Verify frozen original source bytes and candidate prior court
+        run: |
+          set -euo pipefail
+          test "$(sha256sum source/C3X018_INDEPENDENT_BLIND16_PGN_SOURCE.json | cut -d' ' -f1)" = 6520672aabab7f525872169085f19bdd81e27a4473f0c58ba9c9aa428937104c
+          python - <<'PY'
+          import json
+          j=json.load(open("source/C3X018_INDEPENDENT_BLIND16_PGN_SOURCE.json"))
+          assert len(j["selected"])==16 and len({x["source_game_sha256"] for x in j["selected"]})==16
+          assert {10,14}<=set(x["id"] for x in j["selected"])
+          PY
+      - name: Build original unmodified Stockfish16 and official NNUE
+        run: |
+          set -euo pipefail
+          git clone -q --single-branch --branch sf_16 https://github.com/official-stockfish/Stockfish.git /tmp/c3x-p34-sf16
+          test "$(git -C /tmp/c3x-p34-sf16 rev-parse HEAD)" = 68e1e9b3811e16cad014b590d7443b9063b3eb52
+          make -s -C /tmp/c3x-p34-sf16/src -j2 build ARCH=x86-64
+          mkdir -p output
+          sha256sum /tmp/c3x-p34-sf16/src/stockfish > output/SF16_BINARY_SHA256.txt
+          ls -lh /tmp/c3x-p34-sf16/src/*.nnue 2>/dev/null || true
+      - name: Run real classical-vs-NNUE matched requested-node three explanation courts
+        run: |
+          set -euo pipefail
+          python -u harness/c3x_029_p34_equal_budget_nnue_plan_court.py \
+             --source source/C3X018_INDEPENDENT_BLIND16_PGN_SOURCE.json \
+             --engine /tmp/c3x-p34-sf16/src/stockfish \
+             --budget 24000 --reference-nodes 40000 \
+             --out output/P34_FOUR_ROOTS_CLASSICAL_NNUE_BUDGET24000.json \
+             | tee output/P34_STDOUT.txt
+          python - <<'PY'
+          import json
+          j=json.load(open("output/P34_FOUR_ROOTS_CLASSICAL_NNUE_BUDGET24000.json"))
+          assert len(j["records"])==4
+          assert all(len(r["trials"])==2 for r in j["records"])
+          assert all(len(r["reference_all_legal"])>=20 for r in j["records"])
+          assert all(len(t["adjudication"]["representations"])==3 for r in j["records"] for t in r["trials"])
+          print("P34_REAL_SF16_EQUAL_REQUESTED_NODES_CLASSIC_NNUE_PASS")
+          PY
+      - name: Member SHA256 receipts
+        if: always()
+        run: |
+          mkdir -p output
+          find output -maxdepth 1 -type f ! -name MEMBER_SHA256.txt -print0 | sort -z | xargs -0 -r sha256sum > output/MEMBER_SHA256.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x-029-p34-equal-requested-nodes-classic-nnue-four-original-roots
+          path: output/
+          retention-days: 90
+          if-no-files-found: error
