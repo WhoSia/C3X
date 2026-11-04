@@ -1,5 +1,18 @@
 # C3X — Counterfactual Contrastive Chess eXplanation
 
+## 2026-11-04 — P32 full-original-history SF16 chess-value evidence (0.29; development only)
+
+**16/16 real complete source-game UCI histories were independently replayed and newly evaluated with unmodified pinned Stockfish16** (depth12; focal game10 depth18), using original frozen 0.18 Lichess October16 source SHA 6520672a..., not standalone FEN. Original pinned SF16 68e1e9b3..., Threads=1, Hash=16, NNUE off. This is an **archival outcome-exposed developmental reanalysis, NOT a fresh source-independent heldout**. Exact native CI [run 41770432051](https://github.com/WhoSia/C3X/actions/runs/41770432051) SUCCESS.
+
+Source game10: immediate \`...Bxf4\` captures a knight (+320 static material) but \`Kxf4\` captures the bishop (two-ply material net -10). Same-root MultiPV at depth18 preferred quiet \`...Kf7\` (+13cp) over \`...Bxf4\` (-13cp); the original game actually continued \`...Kf7, e4, ...Bxf4, Kxf4\`, matching the first four PV moves at depth18. This is a real future-contingent strategic-value *negative* for superficial capture explanations; **not evidence of Stockfish search mediator or cause**.
+
+Three historical-next-reply representations were actually compared: forced-root Stockfish PV one-choice **8/16** exact, simple one-reply material+value plan JSON **9/16** exact, top-three reply-conditioned JSON **13/16** *three-option coverage*. **Different output cardinality and compute; no C3X performance superiority established.** Source cases 3, 9, 14 actual opponent replies are missing even from the top3. The simple baseline remains competitive.
+
+[Full empirical P32 analysis](docs/C3X_029_P32_ORIGINAL_HISTORY16_ADVERSARIAL_VALUE_AND_BASELINE_COMPETITION_20261104.md) · [native source and reply-value harness](harness/c3x_029_p32_original_history_reply_value_native.py) · [three-method actual-game comparison](tools/c3x_029_p32_original_game_reply_competition.py). Original source and original native ZIP evidence preserved in Research OS Google Drive C3X; no bot-authored commits.
+
+---
+
+
 ## C3X 0.29 — Contrastive Explanation Identifiability: Local Legal Proof, Global Generalization and Causal-Strategic Alignment
 
 **2026-10-30 — FORMALLY OPEN, DESIGN/QUESTION PROMOTION ONLY. EMPIRICAL HOLD.** The new research question is whether a locally checked chess-move contrast identifies a transferable strategic reason, rather than one of many observationally equivalent predicates. A restricted KRK response-set example admits exactly **2^61** Boolean predicate extensions to all king squares with the same local contrast; this is a mathematical underidentification count, **not** a discovery of that many meaningful chess explanations or any AGI capability. Local independent finite court and counterexample tests do not replace full chess legality checking, native Stockfish causal tests, or human comprehension validation.
