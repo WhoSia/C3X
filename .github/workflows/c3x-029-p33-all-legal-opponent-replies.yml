@@ -59,11 +59,11 @@ jobs:
             --source source/C3X018_INDEPENDENT_BLIND16_PGN_SOURCE.json \
             --p32-native prior/P32_ORIGINAL_HISTORY16_SF16_REPLY_VALUE.json \
             --engine /tmp/c3x029-p33-sf16/src/stockfish \
-            --depth 10 \
-            --out output/P33_ALL_LEGAL_REPLIES_CASES_6_10_14.json | tee output/P33_RUN_LOG.txt
+            --depth 11 \
+            --out output/P33_ALL_LEGAL_REPLIES_CASES_6_10_14_D11.json | tee output/P33_RUN_LOG.txt
           python - <<'PY'
           import json
-          j=json.load(open('output/P33_ALL_LEGAL_REPLIES_CASES_6_10_14.json'))
+          j=json.load(open('output/P33_ALL_LEGAL_REPLIES_CASES_6_10_14_D11.json'))
           assert [x['id'] for x in j['cases']]==[6,10,14]
           assert all(len(x['candidate_surfaces'])==2 for x in j['cases'])
           assert all(len(z['all_legal_first_reply_surface'])==z['summary']['entire_legal_reply_count']
@@ -78,7 +78,7 @@ jobs:
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: c3x-029-p33-exhaustive-legal-first-reply-sf16-source-exposed
+          name: c3x-029-p33-r2-exhaustive-legal-first-reply-depth11-source-exposed
           path: output/
           retention-days: 90
           if-no-files-found: error
