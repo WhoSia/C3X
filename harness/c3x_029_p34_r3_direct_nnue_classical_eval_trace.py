@@ -80,7 +80,8 @@ def build(source, previous, engine):
                            "mover_root_color":"white" if (not board.turn)==chess.WHITE else "black",
                            "is_in_check":state.is_check(),
                            "trace":numerical,
-                           "raw_trace_sha256":hashlib.sha256(raw.encode()).hexdigest()})
+                           "raw_trace_sha256":hashlib.sha256(raw.encode()).hexdigest(),
+                           "raw_source_eval_trace":raw})
             print("P34_R3",record["case_id"],record["root_uci"],label,reply,
                   numerical,flush=True)
     return {"schema":"c3x029-p34-r3-source-eval-trace-v1",
