@@ -1,5 +1,8 @@
 # C3X 0.29-P33 — Every Legal First Opponent Reply: Original-Game SF16 Surface and Top-Three Shortlist Failure
 
+> **2026-11-04 R2 correction / horizon sensitivity.** The specific claim that case #14 foil `d5d3` has an omitted, independently worst first reply `b5b4` is **depth10-specific and did not survive** the nominally matched after-reply depth11 analysis. At depth11 case #14 `d5d3` worst is `c8e6` (-17cp), which **is** inside the previous P32 top3. However, case #10 `e8f7` worst becomes `f1e1` (+35cp), **outside** the previous top3; case #14 original `c2c3` worst becomes `c8e6` (+35cp), also outside. Original depth10 analysis remains preserved unchanged as a valid run-specific observation, but no depth-independent missed-worst claim is justified. See [P33-R2 horizon sensitivity](C3X_029_P33_R2_HORIZON_SENSITIVITY_EXHAUSTIVE_REPLY_VALUE_20261104.md) and authenticated [depth11 run](https://github.com/WhoSia/C3X/actions/runs/41771745191).
+
+
 2026-11-04 KST. **REAL native Stockfish16 run and exact chess-law first-response census; archival SOURCE-EXPOSED adaptive development only.** NO independent heldout, NO complete game-theoretic minimax guarantee, NO engine internal causal explanation.
 
 ## Motivation and original historical context
