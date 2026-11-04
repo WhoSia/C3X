@@ -1,0 +1,125 @@
+name: C3X P35 R4 Original SF16 Twelve-Board Cold-Replay Gate
+on:
+  push:
+    paths:
+      - '.github/workflows/c3x-029-p35-r4-cold-replay.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  cold-replay-no-writeback:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Dependencies
+        run: |
+          set -euo pipefail
+          python -m pip install -q chess==1.11.2
+      - name: Recover authentic source and P34 reference (read-only)
+        uses: actions/download-artifact@v4
+        with:
+          name: c3x-018-independent-PGN-blind-source-16
+          repository: WhoSia/C3X
+          run-id: '37981820261'
+          path: source
+          github-token: ${{ github.token }}
+      - name: Recover P34 exact chosen roots (read-only)
+        uses: actions/download-artifact@v4
+        with:
+          name: c3x-029-p34-equal-requested-nodes-classic-nnue-four-original-roots
+          repository: WhoSia/C3X
+          run-id: '41778389205'
+          path: previous
+          github-token: ${{ github.token }}
+      - name: Recover P34 original full static traces (read-only)
+        uses: actions/download-artifact@v4
+        with:
+          name: c3x-p34-r4-raw-nnue-piece-deletion-layer-bucket-traces
+          repository: WhoSia/C3X
+          run-id: '41778762120'
+          path: historical
+          github-token: ${{ github.token }}
+      - name: Verify exact source archives
+        run: |
+          set -euo pipefail
+          test "$(sha256sum source/C3X018_INDEPENDENT_BLIND16_PGN_SOURCE.json | cut -d' ' -f1)" = 6520672aabab7f525872169085f19bdd81e27a4473f0c58ba9c9aa428937104c
+          test "$(sha256sum previous/P34_FOUR_ROOTS_CLASSICAL_NNUE_BUDGET24000.json | cut -d' ' -f1)" = c80704f2f81c4920597fbf6b559ef38dbae60f35458c7a2f665f1cf57d2563dc
+          test "$(sha256sum historical/P34_R4_RAW_DIRECT_NNUE_CLASSICAL_TRACES.json | cut -d' ' -f1)" = 07d78a9261dd87d12b900bc3cec715d4d28aa739212ef3c81507b918a6ba14f9
+      - name: Compile untouched pinned official Stockfish16
+        run: |
+          set -euo pipefail
+          git clone -q --single-branch --branch sf_16 https://github.com/official-stockfish/Stockfish.git /tmp/c3x-p35-sf16
+          test "$(git -C /tmp/c3x-p35-sf16 rev-parse HEAD)" = 68e1e9b3811e16cad014b590d7443b9063b3eb52
+          make -s -C /tmp/c3x-p35-sf16/src -j2 build ARCH=x86-64
+          mkdir -p output
+          sha256sum /tmp/c3x-p35-sf16/src/stockfish > output/P35_COLD_BINARY_SHA.txt
+          find /tmp/c3x-p35-sf16/src -maxdepth 1 -type f -name '*.nnue' -exec sha256sum {} \; > output/P35_NNUE_NET_SHA.txt
+      - name: Cold replay 1 (fresh engine process for every board)
+        run: |
+          set -euo pipefail
+          python -u harness/c3x_029_p34_r3_direct_nnue_classical_eval_trace.py \
+            --source source/C3X018_INDEPENDENT_BLIND16_PGN_SOURCE.json \
+            --p34 previous/P34_FOUR_ROOTS_CLASSICAL_NNUE_BUDGET24000.json \
+            --engine /tmp/c3x-p35-sf16/src/stockfish \
+            --out output/P35_COLD_A.json | tee output/P35_COLD_A.log
+      - name: Cold replay 2 (fresh engine process for every board)
+        run: |
+          set -euo pipefail
+          python -u harness/c3x_029_p34_r3_direct_nnue_classical_eval_trace.py \
+            --source source/C3X018_INDEPENDENT_BLIND16_PGN_SOURCE.json \
+            --p34 previous/P34_FOUR_ROOTS_CLASSICAL_NNUE_BUDGET24000.json \
+            --engine /tmp/c3x-p35-sf16/src/stockfish \
+            --out output/P35_COLD_B.json | tee output/P35_COLD_B.log
+      - name: Fail-closed parity gate and original baseline comparison
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import hashlib,json,pathlib,re
+          out=pathlib.Path('output')
+          a=json.load(open(out/'P35_COLD_A.json'))
+          b=json.load(open(out/'P35_COLD_B.json'))
+          old=json.load(open('historical/P34_R4_RAW_DIRECT_NNUE_CLASSICAL_TRACES.json'))
+          assert len(a['records'])==len(b['records'])==len(old['records'])==12,'BOARD_COUNT'
+          fields=('case_id','root','scope','reply','fen','position_history_length','trace','raw_trace_sha256','raw_source_eval_trace')
+          for i,(x,y,z) in enumerate(zip(a['records'],b['records'],old['records'])):
+              for field in fields:
+                  assert x[field]==y[field],f'COLD_REPLAY_DRIFT_{i}_{field}'
+                  assert x[field]==z[field],f'HISTORICAL_DRIFT_{i}_{field}'
+              assert x['trace']['status']=='DIRECT_STATIC_TRACE_OK'
+              assert 'NNUE network contributions' in x['raw_source_eval_trace']
+          def binary_hash(p):
+              s=pathlib.Path(p).read_text()
+              m=re.match(r'^([0-9a-f]{64})\s',s)
+              assert m,'MISSING_BINARY_HASH'
+              return m.group(1)
+          build_new=binary_hash(out/'P35_COLD_BINARY_SHA.txt')
+          build_old=binary_hash('historical/SF16_BINARY_SHA256.txt')
+          (out/'P35_BINARY_VS_ORIGINAL.json').write_text(
+              json.dumps({'new_binary_sha256':build_new,
+                          'historical_binary_sha256':build_old,
+                          'binary_identical':build_new==build_old,
+                          'explanation':'binary difference may reflect build toolchain; semantic raw eval parity separately checked'},indent=2)+'\n')
+          (out/'P35_R4_COLD_REPLAY_VERDICT.json').write_text(
+              json.dumps({'status':'P35_R4_12_BOARD_COLD_REPLAY_PASS',
+                         'cold_repeats':2,'boards':12,
+                         'raw_trace_comparison':'exact on each of 12 boards, including previous original',
+                         'claim_ceiling':'direct static eval cold reproducibility; not actual search evaluator routing or NNUE-to-root causation'},
+                         indent=2)+'\n')
+          print('P35_R4_12_BOARD_COLD_REPLAY_PASS: 12/12 x2 + P34 originals exact')
+          PY
+      - name: Compute member hashes (no repository writes)
+        if: always()
+        run: |
+          mkdir -p output
+          find output -maxdepth 1 -type f ! -name MEMBER_SHA256.txt -print0 | sort -z | xargs -0 -r sha256sum > output/MEMBER_SHA256.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x-p35-r4-original-sf16-12boards-two-cold-replays-no-writeback
+          path: output/
+          retention-days: 90
+          if-no-files-found: error
