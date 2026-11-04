@@ -87,13 +87,13 @@ def mode_trial(engine, case_id, board, own, root_uci, mode, budget=BUDGET):
        "spend_model":"requested total nodes 24000 per representation; actual MultiPV shared cost counted once",
     }
 
-def reference_world(engine, board, root_uci, own, nodes=REFERENCE_NODES):
+def reference_world(engine, board, root_uci, own, nodes=REFERENCE_NODES, mode=True):
     root=chess.Move.from_uci(root_uci)
     after=board.copy(stack=True);after.push(root)
     vals=[]
     for i,reply in enumerate(sorted(after.legal_moves,key=lambda x:x.uci())):
         nxt=after.copy(stack=True);nxt.push(reply)
-        row=run(engine,nxt,nodes,f"p34:oracle:{root_uci}:{reply.uci()}:{i}",True)[0]
+        row=run(engine,nxt,nodes,f"p34:oracle:{mode}:{root_uci}:{reply.uci()}:{i}",mode)[0]
         need(pv_legal(nxt,row.get("pv",[])),"REFERENCE_PV_ILLEGAL")
         vals.append({"reply":reply.uci(),"root_value_cp":perspective(row,own)[0],
                      "nodes":int(row["nodes"])})
@@ -141,17 +141,22 @@ def main():
             # Candidate roots were frozen BEFORE this P34 experiment from P33.
             roots={10:("e8f7","e5f4"),14:("c2c3","d5d3")}[case_id]
             for root in roots:
-                ref=reference_world(engine,board,root,own,args.reference_nodes)
+                reference_by_mode={
+                    "classical": reference_world(engine,board,root,own,args.reference_nodes,False),
+                    "nnue": reference_world(engine,board,root,own,args.reference_nodes,True)}
                 trials=[]
                 for mode in (False,True):
                     trial=mode_trial(engine,case_id,board,own,root,mode,args.budget)
-                    trials.append({"trial":trial,"adjudication":adjudicate(trial,ref)})
-                    j=trials[-1]["adjudication"]["representations"]
-                    print("P34",case_id,root,"NNUE",mode,"N_REF",len(ref),
+                    both={ref_mode:adjudicate(trial,ref) for ref_mode,ref in reference_by_mode.items()}
+                    trials.append({"trial":trial,"adjudication_by_reference_mode":both,
+                                   "adjudication":both["nnue"]})
+                    j=both["classical" if not mode else "nnue"]["representations"]
+                    print("P34",case_id,root,"NNUE",mode,"N_REF",len(reference_by_mode["nnue"]),
                           [(k,round(j[k]["missed_refutation_gap_cp"]),j[k]["actual_nodes"])
                            for k in METHODS],flush=True)
                 records.append({"case_id":case_id,"root_uci":root,
-                                "full_source_history":True,"reference_all_legal":ref,
+                                "full_source_history":True,"reference_all_legal":reference_by_mode["nnue"],
+                                "reference_by_mode":reference_by_mode,
                                 "trials":trials})
     finally:
         engine.quit()
@@ -159,8 +164,8 @@ def main():
       "source_sha256":FROZEN_SOURCE_SHA256,"engine_commit":ORIGINAL_STOCKFISH16_COMMIT,
       "source_exposed_adaptive_development":True,"requested_budget_per_method":args.budget,
       "reference_nodes_per_legal_reply":args.reference_nodes,
-      "separate_reference_uses_nnue_true":True,
-      "reference_independence":"different larger-budget run, SAME engine and same source; not human-independent truth",
+      "reference_modes":["classical","nnue"],
+      "reference_independence":"larger-budget evaluation under BOTH modes, SAME engine and same source; neither is independent chess truth",
       "engine_internals":"unmodified executable; NO NNUE activation, feature, accumulator or search-site instrumentation",
       "conclusion_ceiling":"equal requested nodes only, actual nodes differ; top3 unequal output cardinality",
       "records":records}
