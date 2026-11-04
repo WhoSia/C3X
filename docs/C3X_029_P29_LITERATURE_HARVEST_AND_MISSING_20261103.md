@@ -46,3 +46,22 @@ HARVEST doctrine: source says X, our C3X extension says Y; the source does not i
 - Reader status: first section, §1.2, §2.3 and target passages directly inspected; **not all 38 pages exhaustively reviewed**.
 - The remaining EXACT missing/unconfirmed candidates are **4**, not 5: Bratman 1987, Lipton 2004, Halpern 2016, Pearl 2009. An index search is not a proof of absolute absence. No replacement or re-acquisition for Miller needed.
 - Another earlier 2026-11-03 file in `00_INTAKE`: `03_13_2026.pdf`, a *Science* molecular biology article on evolution of error correction through selection for speed (Ravasio et al., 2026). It is a separate intake object, not the newly uploaded Miller article; untouched by this C3X promotion.
+
+
+## 2026-11-04 P31 library audit: four exact missing editions acquired; one additional monograph
+
+**Status supersession:** The earlier "missing" table above was a point-in-time 2026-11-03 result; it is now OBSOLETE for the four exact editions. As of 2026-11-04, ALL FOUR have been found and checked from original Drive 00_INTAKE PDFs. Do not cite that earlier list as present missing inventory.
+
+| Work | Canonical folder | Original PDF SHA256 | PDF pages | Drive ID | Read status |
+|---|---|---|---:|---|---|
+| Bratman (1987), *Intention, Plans, and Practical Reason* | 11_BOOKS | 55b2d2e549bef06517a44d32412fd7d93d12d02609ea3a303f3ef9dcc99a388f | 224 | 1UbRXai7booxjmeLbUonZlV7jjDqBsVun | cover/copyright, introduction and planning coordination, selected further chapters |
+| Lipton (2004), *Inference to the Best Explanation*, second edition | 11_BOOKS | ac16e7a88e9f31cb3744045acf420a2823ddad407d948b2e476deabaa7b30d1f | 232 | 17pkgXiMnAw9TLEIaUqikEJB3AFM-i7NZ | page-image bibliographic audit and visual table of contents/preface; extracted text corrupt |
+| Halpern (2016), *Actual Causality* | 11_BOOKS | ffdde93613fdda52934e1922b332c8bacff49dea81de363a5a2afcf14c452214 | 240 | 1fbqvXOAZpYGKRJ_NAqBtCxBmqgnixU0r | original ch2 AC1/AC2/AC3, ch4 stability, ch7 explanation |
+| Pearl (2009), *Causality*, second edition | 11_BOOKS | 0c1e7bd1676260feb5ec909839b01f1ff16538febfe23755192e565895202e4c | 487 | 186bJjGkA5vWjFMX9jOZiaNQRDZaHMDwt | introduction/TOC, structural interventions, chapter 7 counterfactuals selected |
+| Sloman (2005), *Causal Models* | 11_BOOKS | 2482418713b5ade77309a6421cb7b3bf30053d0693134c6f128ed94dda0a8f94 | 218 | 1DwXMY6rvopsN4NKhBC63lamP495v860M | original chapters on invariance, interventions and decision-making selected |
+
+All five were independently checked as actual PDFs, named according to the Research OS scholarly author–year–title grammar, moved with the **same file IDs** from 00_INTAKE (1MLtYh0pv8QUZDReYzRqjDrOjRkSJAD16) into 11_BOOKS (1bEG3SrbHqBOV4rPlCJogr--jitha07w0), and verified by post-move Drive metadata. The Lipton image legibility supports custody despite broken text extraction; **full read of all five books is not yet complete**, and it must not be labeled "exhaustive read." Monograph source statements and our C3X extrapolations must remain separate.
+
+**Current C3X missing list for those exact five references: EMPTY (0)**. Other unreviewed sources in 00_INTAKE include quarantined duplicates, unidentified books, and non-C3X papers; this zero is not a claim that the general Research OS has no missing literature. A new 2026-11-03 intake duplicate candidate Qin et al. (2026) remains on BYTE CHECK HOLD, not promoted without SHA comparison.
+
+Further precise reading notes and real Go chess tests are in docs/C3X_029_P31_FIVE_BOOK_CAUSAL_PLAN_READING_AND_CHESS_REBUTTAL_20261104.md.
