@@ -10,6 +10,8 @@ import subprocess
 import tempfile
 from pathlib import Path
 import chess
+import sys
+sys.path.insert(0,str(Path(__file__).resolve().parents[1]/"tools"))
 from c3x_029_p35_r5_source_dispatch_probe import parse_route_log
 from c3x_029_p32_original_history_reply_value_native import (
     replay_original, FROZEN_SOURCE_SHA256
