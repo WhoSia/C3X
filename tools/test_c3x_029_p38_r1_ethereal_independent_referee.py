@@ -3,7 +3,7 @@ import unittest
 from pathlib import Path
 import chess
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]/"harness"))
-from c3x_029_p38_r1_ethereal_independent_referee import stable_label, extract_reply, authentic_cases
+from c3x_029_p38_r1_ethereal_independent_referee import stable_label, extract_child_reply, authentic_cases
 
 class P38EthicalCrossEngineCourt(unittest.TestCase):
     def test_stable_exact_reply(self):
@@ -20,27 +20,41 @@ class P38EthicalCrossEngineCourt(unittest.TestCase):
         self.assertEqual(stable_label({"reply":None},{"reply":"e7e5"})["status"],
                          "REFERENCE_UNDEFINED")
 
-    def test_extract_reply_legal(self):
+    def test_reply_is_first_move_from_post_candidate_child(self):
         board=chess.Board()
-        result=extract_reply(board,"e2e4",{"pv":[chess.Move.from_uci("e2e4"),
-                                                   chess.Move.from_uci("e7e5")],
-                                              "nodes":96012,"depth":10})
+        board.push_uci("e2e4")
+        result=extract_child_reply(board,{"pv":[chess.Move.from_uci("e7e5"),
+                                                    chess.Move.from_uci("g1f3")],
+                                           "nodes":96012,"depth":10},96000)
         self.assertEqual((result["reply"],result["status"]),("e7e5","VALID_NATIVE_REF_REPLY"))
 
-    def test_short_pv_not_automatically_wrong(self):
+    def test_one_move_pv_is_genuine_opponent_reply(self):
         board=chess.Board()
-        result=extract_reply(board,"e2e4",{"pv":[chess.Move.from_uci("e2e4")]})
-        self.assertEqual(result["status"],"UNDEFINED_NO_OPPONENT_REPLY")
-        self.assertIsNone(result["reply"])
+        board.push_uci("e2e4")
+        result=extract_child_reply(board,{"pv":[chess.Move.from_uci("e7e5")],
+                                           "nodes":96010,"depth":9},96000)
+        self.assertEqual(result["reply"],"e7e5")
 
-    def test_changed_root_refused(self):
-        with self.assertRaisesRegex(ValueError,"ENGINE_CHANGED_ROOT"):
-            extract_reply(chess.Board(),"e2e4",{"pv":[chess.Move.from_uci("d2d4")]})
+    def test_actual_two_node_shallow_engine_is_fatal(self):
+        board=chess.Board()
+        board.push_uci("e2e4")
+        with self.assertRaisesRegex(ValueError,"INSUFFICIENT_NATIVE_SEARCH_NODES"):
+            extract_child_reply(board,{"pv":[chess.Move.from_uci("e7e5")],
+                                             "nodes":2,"depth":1},96000)
 
-    def test_illegal_second_reply_refused(self):
+    def test_invalid_opponent_reply_refused(self):
+        board=chess.Board()
+        board.push_uci("e2e4")
         with self.assertRaisesRegex(ValueError,"REF_PV_ILLEGAL"):
-            extract_reply(chess.Board(),"e2e4",{"pv":[chess.Move.from_uci("e2e4"),
-                                                         chess.Move.from_uci("e2e3")]})
+            extract_child_reply(board,{"pv":[chess.Move.from_uci("e2e3")],
+                                             "nodes":96010,"depth":10},96000)
+
+    def test_depth_one_even_with_enough_nodes_is_fatal(self):
+        board=chess.Board()
+        board.push_uci("e2e4")
+        with self.assertRaisesRegex(ValueError,"SHALLOW_NATIVE_REFEREE_DEPTH"):
+            extract_child_reply(board,{"pv":[chess.Move.from_uci("e7e5")],
+                                             "nodes":96001,"depth":1},96000)
 
     def test_changed_manifest_identity_refused(self):
         with self.assertRaisesRegex(ValueError,"EIGHT_SOURCE_EVENTS"):
