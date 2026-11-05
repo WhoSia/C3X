@@ -148,8 +148,9 @@ def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--source-zst", type=Path, required=True)
     parser.add_argument("--out", type=Path, required=True)
+    parser.add_argument("--expected-sha256", default=OFFICIAL_SOURCE_SHA256)
     args = parser.parse_args()
-    manifest = freeze_source(args.source_zst)
+    manifest = freeze_source(args.source_zst, expected_sha256=args.expected_sha256)
     args.out.parent.mkdir(parents=True, exist_ok=True)
     args.out.write_text(json.dumps(manifest, indent=2, ensure_ascii=False) + "\n",
                         encoding="utf-8")
