@@ -21,6 +21,34 @@ def read_original(path: Path, expected: str) -> dict:
     return json.loads(data)
 
 
+def certified_preference_from_search_bounds(first: dict, second: dict):
+    """Use source-recorded alpha-beta score bounds, never point-impute bounds.
+
+    These are finite-search score constraints, not solved chess-value intervals.
+    """
+    def interval(info):
+        value = info["root_side_cp"]
+        if not isinstance(value, int):
+            raise ValueError("HOLD_MISSING_CP")
+        if info.get("root_side_mate") is not None:
+            raise ValueError("HOLD_MATE_SCORE_NOT_COMPARABLE")
+        lo = bool(info.get("lowerbound", False))
+        hi = bool(info.get("upperbound", False))
+        if lo and hi:
+            raise ValueError("HOLD_CONFLICTING_BOUNDS")
+        return (None if hi else value, None if lo else value)
+    a = interval(first)
+    b = interval(second)
+    # None lower = -infinity; None upper = +infinity.
+    if a[0] is not None and b[1] is not None and a[0] > b[1]:
+        winner = 0
+    elif b[0] is not None and a[1] is not None and b[0] > a[1]:
+        winner = 1
+    else:
+        winner = None
+    return winner, [a, b]
+
+
 def compare_originals(mobility: dict, reference: dict) -> dict:
     if len(mobility["cases"]) != 8 or len(reference["cases"]) != 8:
         raise ValueError("HOLD_EIGHT_CASE_COUNT")
@@ -40,31 +68,25 @@ def compare_originals(mobility: dict, reference: dict) -> dict:
             raise ValueError("HOLD_REFERENCE_ROOT1")
         if y["reference_96k"]["reference"]["root_uci"] != y["root_uci"]:
             raise ValueError("HOLD_REFERENCE_ROOT2")
-        if any(z["reference_96k"]["reference"].get("root_side_mate") is not None
-               for z in (x, y)):
-            raise ValueError("HOLD_MATE_SCORE_NOT_COMPARABLE_" + str(i))
-        if any(z["reference_96k"]["reference"].get("lowerbound") or
-               z["reference_96k"]["reference"].get("upperbound") for z in (x, y)):
-            raise ValueError("HOLD_UNCALIBRATED_SCORE_BOUND_" + str(i))
-        score1 = x["reference_96k"]["reference"]["root_side_cp"]
-        score2 = y["reference_96k"]["reference"]["root_side_cp"]
-        if not all(isinstance(v, int) for v in (score1, score2)):
-            raise ValueError("HOLD_MISSING_CP")
-        if score1 == score2:
-            chosen = None
-        else:
-            chosen = 0 if score1 > score2 else 1
+        source1 = x["reference_96k"]["reference"]
+        source2 = y["reference_96k"]["reference"]
+        score1 = source1["root_side_cp"]
+        score2 = source2["root_side_cp"]
+        chosen, score_intervals = certified_preference_from_search_bounds(source1, source2)
         w1, w2 = a["w"], b["w"]
         w_choice = 0 if w1 < w2 else 1 if w2 < w1 else None
         first_correct = chosen == 0 if chosen is not None else None
         w_correct = w_choice == chosen if (w_choice is not None and chosen is not None) else None
         rows.append({"case_id":m["case_id"],"event":m["event_family"],
                      "roots":[a["root_uci"],b["root_uci"]],
-                     "w":[w1,w2],"deeper_96k_cp":[score1,score2],
+                     "w":[w1,w2],"deeper_96k_reported_cp":[score1,score2],
+                     "deeper_96k_score_bounds":score_intervals,
                      "96k_preferred_index":chosen,
+                     "reference_contrast_identified":chosen is not None,
                      "24k_first_root_correct":first_correct,
                      "mobility_preferred_index":w_choice,
                      "mobility_correct_when_decided":w_correct})
+    n_source_identified = sum(v["reference_contrast_identified"] for v in rows)
     n_decided = sum(v["mobility_correct_when_decided"] is not None for v in rows)
     n_correct = sum(v["mobility_correct_when_decided"] is True for v in rows)
     first_comparable = sum(v["24k_first_root_correct"] is not None for v in rows)
@@ -74,7 +96,11 @@ def compare_originals(mobility: dict, reference: dict) -> dict:
     return {
         "status":"POSTHOC_ARCHIVAL_PROXY_AUDIT_NOT_INDEPENDENT_CHESS_TRUTH",
         "original_games":len(rows),
-        "mobility_chose":n_decided,"mobility_abstained":len(rows)-n_decided,
+        "96k_bounds_identified_cases":n_source_identified,
+        "96k_bounds_censored_cases":len(rows)-n_source_identified,
+        "mobility_chose":sum(v["mobility_preferred_index"] is not None for v in rows),
+        "mobility_chose_with_identified_reference":n_decided,
+        "mobility_abstained_or_reference_censored":len(rows)-n_decided,
         "mobility_hits_when_chosen":n_correct,
         "24k_first_root_hits_all":first_hits,
         "24k_first_root_comparable_all":first_comparable,
@@ -97,7 +123,7 @@ def main():
     a.out.parent.mkdir(parents=True,exist_ok=True)
     a.out.write_text(json.dumps(out,ensure_ascii=False,indent=2)+"\n")
     print("P40_R2_EXPLORATORY",out["mobility_hits_when_chosen"],
-          "of",out["mobility_chose"],"first_root",
+          "of",out["mobility_chose_with_identified_reference"],"first_root",
           out["24k_first_root_hits_all"],"of",out["original_games"])
 
 
