@@ -1,0 +1,26 @@
+# C3X 0.29-P41/R4-R5 — Source-Checked Branch-Cost Feasibility and Deliberate Sampling Counterexample
+Date: 2026-11-05 KST. **Actual old archived chess-law original SHA-checked and locally recomputed; two new GitHub Actions CI workflows are QUEUED at time of this record. No independent value-judge native run or chess explanatory success claimed.**
+
+## Original byte-locked source
+Original P39 R2 `P39_R2_ADVERSARIAL_OPTION_VALUE_16_WORLDS.json`, exactly SHA256 `84f037f62b86a7ee34239921f609a9015a6ea8d4cdf351f41563ef78dc6dabcf`; downloaded earlier from verified GitHub Actions 41993256831. Source 8 historical exposed distinct events, 16 fixed candidate worlds, not heldout. The original JSON has complete first-opponent-reply and own legal-option counts verified by prior chess-law replay. It is a mobility proxy branch archive, **NOT an independent chess-value judge**.
+
+## R4 — Real original legal branch cost, hypothetical 96k referee calls
+Local replay via `p41_cost.py` verified **644 complete legal opponent first replies**, **24,894 legal mover continuations**, and **25,554 total logged expansions** (16 roots + 644 replies + 24,894 own moves). To have an external judge J estimate the value of EVERY legal own continuation at 96,000 requested nodes per leaf would naively request `24,894*96,000 = 2,389,824,000` nodes (roughly **2.39 billion**). This is a **hypothetical budget**, not achieved or measured engine nodes.
+
+For fixed 3 replies per root and at most 3 own continuations per reply, the existing source contains 48 first replies and exactly 144 own leaf choices. Corresponding hypothetical requested nodes: `144*96,000=13,824,000` (~13.82 million), a **172.875×** lower count of requested leaf-node budget. Selection for this quick feasibility comparison is **UCI-lexicographic first three**, which is **NOT** Cui et al.'s engine-ranked three and therefore **does NOT benchmark Cui**. Real J may consume different nodes, memory and CPU; a fair comparative experiment must meter these directly for each method and each source family.
+
+## R5 — Actual source proxy shows arbitrary k=3 sampling fails a universal claim
+On the same SHA-verified P39 original, the full `W_all=max_{legal first replies} b` is already provided in the source. Retain the lexicographic first three branches in each of 16 roots and compute `W_lex3=max_{lexical first three} b`. The local original byte-checked result is **14/16 worlds with `W_all>W_lex3`**, 2 ties; total 16 gaps 278 option counts, largest individual gap 51. All eight source games and both original root candidates per game retained. **Lexicographic top three is an intentional weak negative control**, not the actual engine-ranking Cui competitor. No chess-value / near-tie / causal effect claim. A sampled worst-case is **at most** the fully adversarial worst case for this proxy, and a sampled low regret cannot certify global low regret.
+
+## Research director correction after primary-source reading
+Original [Cui, Ling & Ng 2026 PDF in Drive](https://drive.google.com/file/d/19zqCJXM631qasR9uIyg4GuBZxIBO7czw/view): k_strat=3 opponent branches chosen by ENGINE-RANKING to build an actual partial strategy tree; independent tree-expanded puzzle-playing evaluation samples k_eval=3 and picks worst observed continuation, with Stockfish16 scores and 30 university students. This preempts 'first off-PV evaluation' or 'first partial strategy tree' novelty. Our R4/R5 lexical-k3 controls must NEVER be compared as if they empirically beat/defeated that method. The true flagship experiment must implement an engine-ranked and budget-accounted B1, not lexical k=3, plus a real source-faithful C3X and independently verified J.
+
+## Exact reproducibility and stop rules
+- R4 code [here](../tools/c3x_029_p41_r4_full_vs_sampled_value_cost.py), tests [here](../tools/test_c3x_029_p41_r4_full_vs_sampled_value_cost.py), queued CI [here](https://github.com/WhoSia/C3X/actions/runs/42017858180).
+- R5 code [here](../tools/c3x_029_p41_r5_lexical_reply_sample_control.py), tests [here](../tools/test_c3x_029_p41_r5_lexical_reply_sample_control.py), queued CI [here](https://github.com/WhoSia/C3X/actions/runs/42018392237).
+- A local source-byte-checked run of R4 gave above exact counts; R5 source-byte-checked independent branch enumeration gave above gaps. They are **not** reported as new CI PASS until the queued jobs actually complete.
+- Until an independent engine J passes original source/binary/network and *actual consumed work* gates, `HOLD_INDEPENDENT_VALUE_REFEREE`. A k=3 observed result can falsify a universal no-regret hypothesis with a bad response but CANNOT certify low regret over all opponent responses.
+- An opponent response may be represented by a UCI string shared across different root worlds; never equate it as a shared counterfactual without root-state identity. Nontrivial semantic plan predicate must be source-frozen BEFORE J. Plan=all legal own moves forbidden.
+- P38 Ethereal node/depth FAIL and STOP are preserved; no falsified resurrection.
+
+**Science boundary:** Native search value, neural feature mediation, near-equal move advantage, teaching and independent generalization remain HOLD. Do not turn a cheap legal mobility/branching diagnostic into an easy paper in place of the central hard problem.
