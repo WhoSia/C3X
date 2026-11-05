@@ -1,0 +1,132 @@
+name: C3X P42-R6 Game14 original-C3b plus real-child joint native court (read-only)
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/c3x-029-p42-r6-game14-joint-causal-spine.yml'
+      - 'tools/c3x_029_p42_r6_joint_original_c3b_and_real_child_build.py'
+      - 'tools/c3x_029_p42_r5_game14_capture_local_lineage_overlay.py'
+      - 'harness/c3x_029_p42_r5_game14_local_spine_court.py'
+      - 'harness/c3x_029_p42_r6_same_execution_local_ancestor_court.py'
+      - 'harness/test_c3x_029_p42_r6_same_execution_local_ancestor_court.py'
+      - 'tools/test_c3x_029_p42_r6_exact_child_key_source.py'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  capture-branch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 65
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: |
+          python -m pip install chess==1.11.2
+          python -m py_compile tools/c3x_027_game14_C3b_passive_ancestor_overlay.py tools/c3x_027_game14_passive_lineage_overlay.py harness/c3x_027_game14_ABC_passive_lineage.py tools/c3x_027_game14_root_boundary_court.py
+          python -m unittest discover -s tools -p 'test_c3x_027_game14_root_boundary_court.py' -v
+          python -m unittest discover -s tools -p 'test_c3x_027_game14_transmission_adapter.py' -v
+          python -m py_compile tools/c3x_029_p42_r6_joint_original_c3b_and_real_child_build.py harness/c3x_029_p42_r6_same_execution_local_ancestor_court.py
+          PYTHONPATH=harness python -m unittest -v test_c3x_029_p42_r5_game14_local_spine_court test_c3x_029_p42_r6_same_execution_local_ancestor_court
+          PYTHONPATH=tools python -m unittest -v test_c3x_029_p42_r6_exact_child_key_source
+      - uses: actions/download-artifact@v4
+        with:
+          name: c3x027-sept2026-preengine-source-only16
+          path: source/
+          repository: WhoSia/C3X
+          run-id: '39348434657'
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: c3x027-sept-stageA-before-native-TT-treatment
+          path: forecast/
+          repository: WhoSia/C3X
+          run-id: '39351313113'
+          github-token: ${{ github.token }}
+      - name: Original Stockfish16 plus read-only actual capture-prune branch source
+        run: |
+          set -euo pipefail
+          mkdir -p evidence private public
+          python tools/c3x_029_p42_r6_joint_original_c3b_and_real_child_build.py
+      - name: Restore immutable untreated original stage A under passive instrumentation
+        run: |
+          set -euo pipefail
+          PYTHONPATH=harness python harness/c3x_027_sept_source_staged_unintervened.py \
+            --source source/C3X_027_SEPT2026_NEW_SOURCE16.json \
+            --engine /tmp/C3X020_MULTI_STATE/src/stockfish \
+            --out private/C3X027_SEPT_STAGEA_FULL_PRIVATE.json \
+            --public private/C3X027_REBUILT_STAGEA_PUBLIC.json
+          test "$(sha256sum private/C3X027_SEPT_STAGEA_FULL_PRIVATE.json | awk '{print $1}')" = b0eb51ab779609db346c75d65a6a65fd31efc9a648111d042cfec5199a4afde1
+          test "$(sha256sum private/C3X027_REBUILT_STAGEA_PUBLIC.json | awk '{print $1}')" = 4572edd4c0761c3875aed421b08880ff142c21f691fe940c7c6d760dbb397be5
+      - name: Actual independent native game14 guard branch observer
+        run: |
+          set -euo pipefail
+          export C3X042_R5_LOCAL_TRACE="$PWD/private/C3X042_R6_REAL_POSTMOVE_LOCAL.txt"
+          : > "$C3X042_R5_LOCAL_TRACE"
+          PYTHONPATH=harness python -u harness/c3x_027_game14_ABC_passive_lineage.py \
+            --source source/C3X_027_SEPT2026_NEW_SOURCE16.json \
+            --stagea private/C3X027_SEPT_STAGEA_FULL_PRIVATE.json \
+            --forecast forecast/C3X027_SEPT_PRE_TT_FORECAST.json \
+            --engine /tmp/C3X020_MULTI_STATE/src/stockfish \
+            --private private/guard-events \
+            --out public/C3X027_SEPT_GAME14_ABC_DIRECT_CAPTURE_GUARD.json
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path("public/C3X027_SEPT_GAME14_ABC_DIRECT_CAPTURE_GUARD.json").read_text())
+          assert r["baseline_bestmove"]=="b3a4" and r["TT_FIRST_bestmove"]=="f3f4"
+          assert r["counterfactual_bestmove"]=="b3a4"
+          assert r["one_event_reenable_status"]=="ORIGINAL_ROOT_RESTORED"
+          assert r["counterfactual_branch_action_counts"].get("EXACT_ONE_EVENT_REENABLED")==2
+          print("C3X042_R6_HISTORICAL_THREE_ARM_CHOICE_REPRODUCED")
+          PY
+          python harness/c3x_029_p42_r6_same_execution_local_ancestor_court.py \
+            --private-original-c3b private/guard-events/TT_FIRST_REENABLE_ONE_lineage.txt \
+            --private-actual-child private/C3X042_R6_REAL_POSTMOVE_LOCAL.txt \
+            --public-out public/C3X042_R6_JOINT_LOCAL_C3B_ADMISSION.json
+          PYTHONPATH=tools python - <<'PY'
+          import json
+          from pathlib import Path
+          from c3x_027_game14_root_boundary_court import compare_worlds
+          root=Path("private/guard-events")
+          names={"A":"original","B":"TT_FIRST","C":"TT_FIRST_REENABLE_ONE"}
+          data={k:(root/(v+"_lineage.txt")).read_text() for k,v in names.items()}
+          report=compare_worlds(data)
+          (Path("public")/"C3X027_GAME14_ROOT_BOUNDARY_COURT.json").write_text(
+              json.dumps(report,sort_keys=True,indent=2)+"\\n")
+          print("C3X027_ROOT_BOUNDARY",report["status"])
+          PY
+          python tools/c3x_023_rights_preupload_gate.py \
+            --tier P2_AGGREGATE_SUMMARY \
+            --file public/C3X027_GAME14_ROOT_BOUNDARY_COURT.json \
+            --report public/C3X027_ROOT_BOUNDARY_RIGHTS_SCAN.json
+          python tools/c3x_023_rights_preupload_gate.py \
+            --tier P2_AGGREGATE_SUMMARY \
+            --file public/C3X027_GAME14_C3B_PASSIVE_AGGREGATE.json \
+            --report public/C3X027_C3B_RIGHTS_SCAN.json
+          python tools/c3x_023_rights_preupload_gate.py \
+            --tier P2_AGGREGATE_SUMMARY \
+            --file public/C3X027_GAME14_PASSIVE_SOURCE_CHAIN_COURT.json \
+            --report public/C3X027_SOURCE_CHAIN_RIGHTS_SCAN.json
+          python tools/c3x_023_rights_preupload_gate.py \
+            --tier P2_AGGREGATE_SUMMARY \
+            --file public/C3X027_GAME14_PASSIVE_LINEAGE_AGGREGATE.json \
+            --report public/C3X027_LINEAGE_RIGHTS_SCAN.json
+          python tools/c3x_023_rights_preupload_gate.py \
+            --tier P2_AGGREGATE_SUMMARY \
+            --file public/C3X027_SEPT_GAME14_ABC_DIRECT_CAPTURE_GUARD.json \
+            --report public/C3X027_CAPTURE_GUARD_RIGHTS_SCAN.json
+          python tools/c3x_023_rights_preupload_gate.py \
+            --tier P2_AGGREGATE_SUMMARY \
+            --file public/C3X042_R6_JOINT_LOCAL_C3B_ADMISSION.json \
+            --report public/C3X042_R6_RIGHTS_SCAN.json
+          echo 'Adapted 2026-09 Lichess broadcast CC BY-SA 4.0; source https://database.lichess.org/broadcast/lichess_db_broadcast_2026-09.pgn.zst. No original PGN or modified engine binary distributed.' > public/SOURCE_LICENSE_NOTICE.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x042-p42-r6-native-joint-c3b-local-aggregate-only
+          path: public/
+          if-no-files-found: warn
