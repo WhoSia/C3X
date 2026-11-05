@@ -83,9 +83,63 @@ def compute_world(board: chess.Board, root_uci: str, cap: int = MAX_EXPANSIONS) 
 
 
 def verify_world(board: chess.Board, proof: dict, cap: int = MAX_EXPANSIONS) -> bool:
-    """Re-derive every opponent/own branch independently, reject tampered receipts."""
-    computed = compute_world(board, proof["root_uci"], cap)
-    need(computed == proof, "MOBILITY_CERT_MISMATCH")
+    """Second replay path: push/pop all legal moves, independently check every branch."""
+    root = chess.Move.from_uci(proof["root_uci"])
+    need(root in board.legal_moves, "MOBILITY_CERT_MISMATCH")
+    position = board.copy(stack=True)
+    position.push(root)
+    if position.is_game_over(claim_draw=False):
+        expected_kind = "IMMEDIATE_MATE" if position.is_checkmate() else "TERMINAL_NOT_MATE"
+        expected_value = 0 if position.is_checkmate() else DRAW_PENALTY
+        need(proof["kind"] == expected_kind and proof["w"] == expected_value
+             and proof["branches"] == [] and proof["expanded_legal_moves"] == 1
+             and proof["worst_opponent_reply"] is None,
+             "MOBILITY_CERT_MISMATCH")
+        return True
+    replies = {move.uci() for move in position.legal_moves}
+    supplied = proof["branches"]
+    need(len(supplied) == len(replies)
+         and {item["opponent_reply"] for item in supplied} == replies,
+         "MOBILITY_CERT_MISMATCH")
+    expanded = 1
+    worst_values = {}
+    for row in supplied:
+        reply = chess.Move.from_uci(row["opponent_reply"])
+        expanded += 1
+        need(expanded <= cap, "EXPANSION_CAP")
+        position.push(reply)
+        if position.is_game_over(claim_draw=False):
+            expected = (DRAW_PENALTY, None, "TERMINAL_AFTER_OPPONENT", 0)
+        else:
+            own_moves = list(position.legal_moves)
+            need(bool(own_moves), "MOBILITY_CERT_MISMATCH")
+            all_values = []
+            for move in own_moves:
+                expanded += 1
+                need(expanded <= cap, "EXPANSION_CAP")
+                position.push(move)
+                if position.is_checkmate():
+                    options, kind = 0, "CHECKMATE"
+                elif position.is_game_over(claim_draw=False):
+                    options, kind = DRAW_PENALTY, "DRAW_OR_TERMINAL"
+                else:
+                    options, kind = len(list(position.legal_moves)), "CONTINUATION"
+                position.pop()
+                all_values.append((options, move.uci(), kind))
+            optimum = min(all_values, key=lambda item: (item[0], item[1]))
+            expected = (*optimum, len(own_moves))
+        position.pop()
+        observed = (row["b"], row["best_own_reply"], row["best_leaf_kind"],
+                    row["own_legal_reply_count"])
+        need(observed == expected, "MOBILITY_CERT_MISMATCH")
+        worst_values[row["opponent_reply"]] = expected[0]
+    maximum = max(worst_values.values())
+    worst = min(reply for reply, value in worst_values.items() if value == maximum)
+    need(proof["kind"] == "COMPLETE_ADVERSARIAL_MOBILITY"
+         and proof["w"] == maximum
+         and proof["worst_opponent_reply"] == worst
+         and proof["expanded_legal_moves"] == expanded,
+         "MOBILITY_CERT_MISMATCH")
     return True
 
 
