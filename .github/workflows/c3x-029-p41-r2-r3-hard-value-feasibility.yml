@@ -1,0 +1,57 @@
+name: C3X P41 R2-R3 Bounded Regret and Original Branch Cost Gate
+on:
+  push:
+    paths:
+      - '.github/workflows/c3x-029-p41-r2-r3-hard-value-feasibility.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  source-regret-and-provenance-court:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Test mathematical regret boundaries including unknown source scores
+        run: python -m unittest discover -s tools -p 'test_c3x_029_p40_r4_plan_regret_contract.py' -v
+      - name: Retrieve original legal reply ledger
+        uses: actions/download-artifact@v4
+        with:
+          name: c3x-p39-r2-verified-all-replies-mobility-minimax
+          repository: WhoSia/C3X
+          run-id: '41993256831'
+          path: source
+          github-token: ${{ github.token }}
+      - name: Original exact branch-cost and tamper tests
+        env:
+          C3X_P41_BRANCH_SOURCE: source/P39_R2_ADVERSARIAL_OPTION_VALUE_16_WORLDS.json
+        run: python -m unittest discover -s tools -p 'test_c3x_029_p41_r3_original_branch_cost.py' -v
+      - name: Calculate source-native requested budget projections
+        run: |
+          set -euo pipefail
+          mkdir -p output
+          python tools/c3x_029_p41_r3_original_branch_cost.py \
+            --original source/P39_R2_ADVERSARIAL_OPTION_VALUE_16_WORLDS.json \
+            --out output/P41_R3_EXACT_SOURCE_BRANCH_COST_PROJECTION.json
+          python - <<'PY'
+          import json
+          r=json.load(open('output/P41_R3_EXACT_SOURCE_BRANCH_COST_PROJECTION.json'))
+          assert (r['opponent_first_replies'],r['own_reply_candidates'],r['projected_native_nodes'])==(644,24894,2389824000)
+          assert r['forecast_cost_is_observed'] is False
+          print('P41_REAL_SOURCE_COST_GATE_PASS_NO_CHESS_VALUE_JUDGE')
+          PY
+      - name: Archive and SHA, no repository modifications
+        if: always()
+        run: |
+          mkdir -p output
+          find output -type f ! -name MEMBER_SHA256.txt -print0 | sort -z | xargs -0 -r sha256sum > output/MEMBER_SHA256.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x-p41-r2-r3-original-branch-budget-and-regret-falsifiers
+          path: output/
+          retention-days: 90
+          if-no-files-found: error
