@@ -1,0 +1,11 @@
+# C3X P41/R3 — Prioritize Hard-Value Experiments by Auditing Their Real Branch Cost
+
+2026-11-05 KST. COMPUTE FEASIBILITY, not a chess-value result. The original P39/R2 verified full-legal branch archive, SHA256 84f037f62b86a7ee34239921f609a9015a6ea8d4cdf351f41563ef78dc6dabcf, gives **644 legal opponent replies** after 16 roots, **24,894 legal own replies** across those response positions, and **25,554 total source-legal moves considered** counting 16 root actions plus opponent moves plus own moves.
+
+Naively evaluating every own reply with a 96,000-node evaluator requests 24,894*96,000 = **2,389,824,000 native nodes** across these eight exposed games. This excludes independent ref engines, baseline search, process overhead, CPU, target horizon uncertainty, opening history rebuild, and verification reruns. **These are arithmetic projected requests, NOT actual native engine nodes or wall time.**
+
+Strongest direct prior art Cui et al (2026) does not exhaust every full branch to evaluate strategy: their Tree-Expanded Puzzle Playing samples opponent branches and measures worst sampled outcomes, an upper bound on true worst-case player loss. We must not demand a universal LOW-regret result if testing only a few sampled responses, but can use a single independently verified HIGH-regret response as a legitimate falsifier.
+
+Recommended immediate P41 experiment: restrict to ONE frozen source-exposed pilot pair and a precommitted single opponent response for **falsification only**, test the plan's best legal response vs a strong independently verified alternative at matched combined budget. If no failure is found, remain HOLD; do not call it guaranteed robust. Source-honest event-disjoint cohort is still necessary for confirmatory work. No arbitrary posthoc score-dependent branch selection. Incorporate Cui's raw engine-backed JSON branch baseline, BinProp's near-negative counterexample and plan-selectivity audits.
+
+Do not use 96,000 nodes per action by default without profiling actual CPU. A small parity/budget feasibility trial must precede multi-billion-node plans.
