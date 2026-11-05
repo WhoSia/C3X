@@ -49,6 +49,23 @@ The paper-relevant result would be a source-native same-execution full local-to-
 
 As last checked, **[new native R6 run 42053604937](https://github.com/WhoSia/C3X/actions/runs/42053604937) was QUEUED**, as are earlier R5 runs; no claim of successful binary compile, integrated source contact, native score path, or experimental value difference.
 
+## 4A. Critical historical mode separation: Game14 runs with NNUE disabled
+
+Direct original-source inspection of `harness/c3x_018_native_TT_lineage_factorial_6_8.py`, the `play(...)` function used transitively by the frozen Game14 A/B/C runner, confirms the actual UCI commands:
+
+```
+setoption name Threads value 1
+setoption name Hash value 16
+setoption name MultiPV value 1
+setoption name Use NNUE value false
+```
+
+The original Game14 experiment therefore tests Stockfish16 **classical-evaluation search architecture with NNUE disabled**. It can support search-program TT/SEE→value→root causal investigation but provides **no direct NNUE-representation mediation evidence**. Later attempts to connect NNUE's features to independent strategic chess future must use a separately predeclared NNUE-enabled source-native cohort, then establish transfer to the same stable chess consequence. Never misreport the original Game14 causal evidence as neural feature attribution.
+
+## 4B. Mathematical source identity nuance: zero is not 'missing'
+
+The old local court required both physical source Zobrist keys to be nonzero; 64-bit keys have no general semantic guarantee of nonzero. R6 now disambiguates uninitialized child state via explicit `did_move` and `child_entered` flags, not an invalid numeric nonzero predicate. Added **two** synthetic regression cases for valid zero-valued parent/child keys. R5 authored local-court test count is now **14**, not 12, while R6 adds 6 source-surgery tests and 10 joint-ancestry tests. These are source/test-design repairs, not new empirical chess outcomes.
+
 ## 5. Direct reading of primary v4 Sandmann et al. 2026
 
 TinyFish fetched primary `https://arxiv.org/html/2508.21380v4` (exact published web original v4). Its key claim, relevant to the flagship problem: intermediate Leela policy layers can hold causally functioning future move representations while final policy selects a different move; steering against late safety preferences recovers **71.7%** of forgotten puzzles. Study uses **8,648 forgotten** filtered positions (not an equivalent 8,648 fresh stockfish games), and reports **97.0%** of forgotten positions where the policy's own value head favors the correct resulting move. Original v4 additionally reports 87.3% sacrifices in the forgotten filtered subset and quiet alternative in 68.3%. These figures pertain to their Leela transformer network, not Stockfish NNUE+alpha-beta root. They strongly weaken the novelty of saying “algorithmic future representation does not determine action”; C3X must establish a different source-executable and strategically faithful causal correspondence with prospective validation.
