@@ -15,7 +15,7 @@ def fixture():
                 "claim_slots":2}
              for k in ("pv","partial_tree_k3","foil_json","c3x")}
     case={"source":{"full_uci":moves,"original_sha256":sha,
-                    "game_sha256":"unseen","event_family":"new-event"},
+                    "game_sha256":sha,"event_family":"new-event"},
           "freeze":{"source_sha256":sha,"plan_spec":plan,
                     "plan_digest":digest(plan),"phase":"PRE_JUDGE",
                     "candidate_uci":["a2a3","b2b3"]},
@@ -48,8 +48,13 @@ class SourcePlanJudgePreflight(unittest.TestCase):
         self.fails(a,h,"EVENT_LEAK")
 
     def test_game_overlap(self):
-        a,h=fixture();h["game_sha256"].add("unseen")
+        a,h=fixture();h["game_sha256"].add(a["source"]["game_sha256"])
         self.fails(a,h,"GAME_LEAK")
+
+    def test_forged_duplicate_identity_not_derived_from_game_is_rejected(self):
+        a,h=fixture()
+        a["source"]["game_sha256"]="fake-unseen"
+        self.fails(a,h,"GAME_ID_NOT_FULL_UCI_SHA")
 
     def test_plan_after_judge(self):
         a,h=fixture();a["freeze"]["phase"]="AFTER_JUDGE"
