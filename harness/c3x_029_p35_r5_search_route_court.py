@@ -71,9 +71,9 @@ def run_once(engine, history, root, nodes, log_mode, timeout=120):
                 issue(f"go nodes {nodes}")
             elif isinstance(root, (tuple, list)):
                 must(len(root) >= 2 and len(set(root)) == len(root), "INVALID_PAIR_ROOTS")
-                issue(f"go searchmoves {' '.join(root)} nodes {nodes}")
+                issue(f"go nodes {nodes} searchmoves {' '.join(root)}")
             else:
-                issue(f"go searchmoves {root} nodes {nodes}")
+                issue(f"go nodes {nodes} searchmoves {root}")
             best=until("bestmove ")
             issue("quit")
             process.wait(timeout=10)
