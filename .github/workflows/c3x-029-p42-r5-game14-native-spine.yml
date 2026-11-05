@@ -69,6 +69,19 @@ jobs:
             --engine /tmp/C3X020_MULTI_STATE/src/stockfish \
             --private private/guard-events \
             --out public/C3X027_SEPT_GAME14_RESTORATION_CHECK.json
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path("public/C3X027_SEPT_GAME14_RESTORATION_CHECK.json").read_text())
+          assert r["baseline_bestmove"]=="b3a4", "R5_HOLD_ORIGINAL_MOVE_CHANGED"
+          assert r["TT_FIRST_bestmove"]=="f3f4", "R5_HOLD_TT_FIRST_MOVE_CHANGED"
+          assert r["counterfactual_bestmove"]=="b3a4", "R5_HOLD_RESTORED_MOVE_CHANGED"
+          assert r["one_event_reenable_status"]=="ORIGINAL_ROOT_RESTORED", "R5_HOLD_NONRESTORED_COUNTERFACTUAL"
+          assert r["counterfactual_branch_action_counts"].get("EXACT_ONE_EVENT_REENABLED")==2, "R5_HOLD_INSUFFICIENT_SOURCE_CONTACT"
+          assert r["actual_branch_proof"] is True and r["native_guard_one_event_contact"] is True, "R5_HOLD_HISTORICAL_SOURCE_CONTACT_NOT_REPRODUCED"
+          assert r["natural_full_mediation_certified"] is False, "R5_HOLD_OVERCLAIMED_NATURAL_MEDIATION"
+          print("P42_R5_HISTORICAL_THREE_ARM_ROOT_AND_SOURCE_EVENT_REPRODUCED")
+          PY
           python harness/c3x_029_p42_r5_game14_local_spine_court.py \
             --private-trace private/C3X042_R5_GAME14_LOCAL_SOURCE_TRACE.txt \
             --public-out public/C3X042_R5_GAME14_LOCAL_ADMISSION.json \
