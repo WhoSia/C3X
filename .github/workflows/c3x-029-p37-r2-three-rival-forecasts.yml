@@ -1,0 +1,155 @@
+name: C3X P37 R2 Precommitted Three-Rival Reply Prediction vs Independent 96k Referee
+
+on:
+  push:
+    paths:
+      - '.github/workflows/c3x-029-p37-r2-three-rival-forecasts.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  predictor-with-no-reference:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install original chess law parser
+        run: python -m pip install -q chess==1.11.2
+      - name: Contract tests before any engine score
+        run: python -m unittest discover -s tools -p 'test_c3x_029_p37_r2_three_rival_reply_forecast.py' -v
+      - name: Download PRECOMMITTED original eight source families
+        uses: actions/download-artifact@v4
+        with:
+          name: c3x-p37-r1-oct-eight-distinct-events-original-pgn-and-engine-blind-freeze
+          repository: WhoSia/C3X
+          run-id: '41968008046'
+          path: original
+          github-token: ${{ github.token }}
+      - name: Strip future actual game moves BEFORE forecasts
+        run: |
+          set -euo pipefail
+          mkdir -p output
+          printf '%s  %s\n' 77ebaa409e7c2099cc6cce3419c2f55ded295d925ab441dc2d13c16b67c2c361 original/P37_R1_8_EVENT_8_GAME_SOURCE_ONLY_MANIFEST.json | sha256sum -c -
+          python harness/c3x_029_p37_r2_three_rival_reply_forecast.py \
+            --mode sanitize \
+            --source-manifest original/P37_R1_8_EVENT_8_GAME_SOURCE_ONLY_MANIFEST.json \
+            --out output/P37_PREDICTOR_PREFIX_ONLY_INPUT.json
+          rm -rf original
+          python - <<'PY'
+          import json
+          d=json.load(open('output/P37_PREDICTOR_PREFIX_ONLY_INPUT.json'))
+          assert d['reference_oracle_available_in_this_file'] is False
+          assert len(d['cases'])==8
+          for c in d['cases']:
+              assert set(c).isdisjoint({'full_game_uci','future_moves','reference_answer','actual_next_move'})
+          print('P37_NO_FUTURE_OR_REFERENCE_GIVEN_TO_FORECASTER')
+          PY
+      - name: Compile source-identical original Stockfish16
+        run: |
+          set -euo pipefail
+          git clone -q --single-branch --branch sf_16 https://github.com/official-stockfish/Stockfish.git /tmp/p37-sf16
+          test "$(git -C /tmp/p37-sf16 rev-parse HEAD)" = 68e1e9b3811e16cad014b590d7443b9063b3eb52
+          make -s -C /tmp/p37-sf16/src -j2 build ARCH=x86-64
+          test "$(sha256sum /tmp/p37-sf16/src/nn-5af11540bbfe.nnue | cut -d' ' -f1)" = 5af11540bbfefcb54e38c5dd000cab4b469dfa7599a1d55be5d2722c20a8929b
+          sha256sum /tmp/p37-sf16/src/stockfish > output/SF16_PREDICTOR_BINARY_SHA.txt
+      - name: Execute exactly 24k native nodes per eight-game joint root ranking
+        run: |
+          set -euo pipefail
+          python -u harness/c3x_029_p37_r2_three_rival_reply_forecast.py \
+            --mode forecast \
+            --input output/P37_PREDICTOR_PREFIX_ONLY_INPUT.json \
+            --engine /tmp/p37-sf16/src/stockfish \
+            --out output/P37_R2_THREE_RIVAL_PRE_REFERENCE_PREDICTIONS.json \
+            | tee output/P37_R2_PREDICTOR_LOG.txt
+          grep -q 'P37_FORECAST_SUCCESS 8' output/P37_R2_PREDICTOR_LOG.txt
+      - name: Seal before reference, never write to repo
+        if: always()
+        run: |
+          mkdir -p output
+          find output -maxdepth 1 -type f ! -name MEMBER_SHA256.txt -print0 | sort -z | xargs -0 -r sha256sum > output/MEMBER_SHA256.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x-p37-r2-pre-referee-eight-event-three-rival-predictions
+          path: output/
+          retention-days: 90
+          if-no-files-found: error
+
+  referee-no-predictor-rewrite:
+    needs: predictor-with-no-reference
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install chess library
+        run: python -m pip install -q chess==1.11.2
+      - name: Download immutable phase-1 predictions
+        uses: actions/download-artifact@v4
+        with:
+          name: c3x-p37-r2-pre-referee-eight-event-three-rival-predictions
+          path: predictor
+      - name: Re-fetch immutable original source manifest for independent predictor identity check
+        uses: actions/download-artifact@v4
+        with:
+          name: c3x-p37-r1-oct-eight-distinct-events-original-pgn-and-engine-blind-freeze
+          repository: WhoSia/C3X
+          run-id: '41968008046'
+          path: original
+          github-token: ${{ github.token }}
+      - name: Independent source/game prefix hash and sealed prediction binding
+        run: |
+          set -euo pipefail
+          mkdir -p output
+          python harness/c3x_029_p37_r2_three_rival_reply_forecast.py \
+            --mode sanitize \
+            --source-manifest original/P37_R1_8_EVENT_8_GAME_SOURCE_ONLY_MANIFEST.json \
+            --out /tmp/P37_EXPECTED_PREDICTOR_PREFIX.json
+          python - <<'PY'
+          import json,hashlib
+          d=json.load(open('/tmp/P37_EXPECTED_PREDICTOR_PREFIX.json'))
+          x=json.load(open('predictor/P37_R2_THREE_RIVAL_PRE_REFERENCE_PREDICTIONS.json'))
+          assert len(x['cases'])==len(d['cases'])==8
+          for expected,observed in zip(d['cases'],x['cases']):
+              for k,v in expected.items():
+                  assert observed[k]==v, f'SOURCE_PREDICTION_IDENTITY_MISMATCH_{k}'
+              assert len(observed['candidate_pairs'])==2
+          print('P37_PREDICTIONS_SOURCE_AND_GAME_IDENTITY_SEALED')
+          PY
+      - name: Compile same original SF16 for independently forced-root 96k reference
+        run: |
+          set -euo pipefail
+          git clone -q --single-branch --branch sf_16 https://github.com/official-stockfish/Stockfish.git /tmp/p37-ref-sf16
+          test "$(git -C /tmp/p37-ref-sf16 rev-parse HEAD)" = 68e1e9b3811e16cad014b590d7443b9063b3eb52
+          make -s -C /tmp/p37-ref-sf16/src -j2 build ARCH=x86-64
+          test "$(sha256sum /tmp/p37-ref-sf16/src/nn-5af11540bbfe.nnue | cut -d' ' -f1)" = 5af11540bbfefcb54e38c5dd000cab4b469dfa7599a1d55be5d2722c20a8929b
+          sha256sum /tmp/p37-ref-sf16/src/stockfish > output/SF16_REFEREE_BINARY_SHA.txt
+      - name: Open already sealed predictions and independently score 96k reference
+        run: |
+          set -euo pipefail
+          python -u harness/c3x_029_p37_r2_three_rival_reply_forecast.py \
+            --mode judge \
+            --input predictor/P37_R2_THREE_RIVAL_PRE_REFERENCE_PREDICTIONS.json \
+            --engine /tmp/p37-ref-sf16/src/stockfish \
+            --out output/P37_R2_THREE_RIVAL_96K_REPLY_FORECAST_VERDICT.json \
+            | tee output/P37_R2_REFEREE_LOG.txt
+          grep -q 'P37_JUDGE_SUCCESS 8' output/P37_R2_REFEREE_LOG.txt
+      - name: Seal read-only referee artifacts
+        if: always()
+        run: |
+          mkdir -p output
+          find output -maxdepth 1 -type f ! -name MEMBER_SHA256.txt -print0 | sort -z | xargs -0 -r sha256sum > output/MEMBER_SHA256.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x-p37-r2-eight-event-independent-96k-reply-reference-verdict
+          path: output/
+          retention-days: 90
+          if-no-files-found: error
