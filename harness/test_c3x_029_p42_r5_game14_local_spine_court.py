@@ -36,6 +36,20 @@ class P42LocalCourt(unittest.TestCase):
         self.assertFalse(result["full_ancestor_to_unrestricted_root_certified"])
         self.assertFalse(result["source_keys_exposed"])
 
+    def test_bestvalue_adoption_without_alpha_crossing_is_not_a_root_certificate(self):
+        # Synthetic: score improves parent bestValue but does not exceed alpha.
+        # The original Stockfish source updates bestValue before checking alpha.
+        one=trace(score=15).replace("pre_best=20","pre_best=0")
+        one=one.replace("alpha=0","alpha=25")
+        result=adjudicate(one+one)
+        self.assertEqual(result["status"],
+                         "LOCAL_EXACT_GUARD_CHILD_PARENT_WITNESS_ONLY")
+        self.assertEqual(result["counts"]["parent_assignment"],2)
+        self.assertEqual(result["counts"]["bestvalue_only_assignments"],2)
+        self.assertEqual(result["counts"]["parent_alpha_crossings"],0)
+        self.assertTrue(result["window_relation_is_not_a_certified_exact_score_bound"])
+        self.assertFalse(result["full_ancestor_to_unrestricted_root_certified"])
+
     def test_without_real_guard_event_hold(self):
         self.assertIn("HOLD_WRONG_REPLAY_COUNT",adjudicate("")["status"])
 
