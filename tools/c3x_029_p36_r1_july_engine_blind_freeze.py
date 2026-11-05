@@ -93,7 +93,8 @@ def candidate_from_game(game: chess.pgn.Game, index: int) -> tuple[dict | None, 
 
 
 def freeze_source(source: Path, *, max_eligible: int = ELIGIBLE_SCAN_COUNT,
-                  select_n: int = SELECT_COUNT, expected_sha256: str = OFFICIAL_SOURCE_SHA256) -> dict:
+                  select_n: int = SELECT_COUNT, expected_sha256: str = OFFICIAL_SOURCE_SHA256,
+                  source_url: str = SOURCE_URL) -> dict:
     source_sha = verify_archive(source, expected_sha256)
     counts = Counter()
     candidates = []
@@ -125,7 +126,7 @@ def freeze_source(source: Path, *, max_eligible: int = ELIGIBLE_SCAN_COUNT,
         raise ValueError("HOLD_COHORT_SIZE")
     return {
         "status": "SOURCE_FROZEN_ENGINE_BLIND_PENDING_HISTORICAL_OVERLAP_AUDIT",
-        "official_source_url": SOURCE_URL,
+        "official_source_url": source_url,
         "official_source_sha256": source_sha,
         "selection_contract": {
             "eligible_count": max_eligible, "selected_count": select_n,
@@ -149,8 +150,10 @@ def main() -> None:
     parser.add_argument("--source-zst", type=Path, required=True)
     parser.add_argument("--out", type=Path, required=True)
     parser.add_argument("--expected-sha256", default=OFFICIAL_SOURCE_SHA256)
+    parser.add_argument("--source-url", default=SOURCE_URL)
     args = parser.parse_args()
-    manifest = freeze_source(args.source_zst, expected_sha256=args.expected_sha256)
+    manifest = freeze_source(args.source_zst, expected_sha256=args.expected_sha256,
+                             source_url=args.source_url)
     args.out.parent.mkdir(parents=True, exist_ok=True)
     args.out.write_text(json.dumps(manifest, indent=2, ensure_ascii=False) + "\n",
                         encoding="utf-8")
