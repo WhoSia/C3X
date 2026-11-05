@@ -6,6 +6,7 @@ on:
       - 'tools/c3x_029_p42_r5_game14_capture_local_lineage_overlay.py'
       - 'harness/c3x_029_p42_r5_game14_local_spine_court.py'
       - 'harness/test_c3x_029_p42_r5_game14_local_spine_court.py'
+      - 'tools/test_c3x_029_p42_r6_exact_child_key_source.py'
       - '.github/workflows/c3x-029-p42-r5-source-local-spine-regression.yml'
   workflow_dispatch:
 permissions:
@@ -26,9 +27,11 @@ jobs:
           python -m py_compile tools/c3x_029_p42_r5_game14_capture_local_lineage_overlay.py
           python -m py_compile harness/c3x_029_p42_r5_game14_local_spine_court.py
           python -m py_compile harness/test_c3x_029_p42_r5_game14_local_spine_court.py
+          python -m py_compile tools/test_c3x_029_p42_r6_exact_child_key_source.py
       - name: Adversarial synthetic regression
         run: |
-          PYTHONPATH=harness python -m unittest -v             test_c3x_029_p42_r5_game14_local_spine_court
+          PYTHONPATH=harness python -m unittest -v test_c3x_029_p42_r5_game14_local_spine_court
+          PYTHONPATH=tools python -m unittest -v test_c3x_029_p42_r6_exact_child_key_source
       - name: Pinned Stockfish16 original source anchor census (no executable)
         run: |
           set -euo pipefail
