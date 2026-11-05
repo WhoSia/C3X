@@ -1,0 +1,72 @@
+name: C3X P40 R1-R2 Exact PV Counterexample and Archived Baseline Court
+on:
+  push:
+    paths:
+      - '.github/workflows/c3x-029-p40-r1-r2-research-gates.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  mathematical-and-original-archive-audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Unit test logical exact PV nonidentifiability
+        run: python -m unittest discover -s tools -p 'test_c3x_029_p40_r1_pv_nonidentifiability.py' -v
+      - name: Recover authentic original P39 all-reply legal certificate (read only)
+        uses: actions/download-artifact@v4
+        with:
+          name: c3x-p39-r2-verified-all-replies-mobility-minimax
+          repository: WhoSia/C3X
+          run-id: '41993256831'
+          path: historical_w
+          github-token: ${{ github.token }}
+      - name: Recover historically separate P37 96k Stockfish referee (read only)
+        uses: actions/download-artifact@v4
+        with:
+          name: c3x-p37-r2-eight-event-independent-96k-reply-reference-verdict
+          repository: WhoSia/C3X
+          run-id: '41969173637'
+          path: historical_ref
+          github-token: ${{ github.token }}
+      - name: Recheck original member SHAs, original cases and no-relabel tests
+        env:
+          C3X_P40_W: historical_w/P39_R2_ADVERSARIAL_OPTION_VALUE_16_WORLDS.json
+          C3X_P40_REF: historical_ref/P37_R2_THREE_RIVAL_96K_REPLY_FORECAST_VERDICT.json
+        run: |
+          set -euo pipefail
+          python -m unittest discover -s tools -p 'test_c3x_029_p40_r2_original_baseline_court.py' -v
+      - name: Produce two research receipts and preserve all 8 event cases
+        run: |
+          set -euo pipefail
+          mkdir -p output
+          python tools/c3x_029_p40_r1_pv_nonidentifiability.py > output/P40_R1_EXACT_PV_COUNTEREXAMPLE.json
+          python tools/c3x_029_p40_r2_original_baseline_court.py \
+            --mobility historical_w/P39_R2_ADVERSARIAL_OPTION_VALUE_16_WORLDS.json \
+            --reference historical_ref/P37_R2_THREE_RIVAL_96K_REPLY_FORECAST_VERDICT.json \
+            --out output/P40_R2_EIGHT_EVENT_RETROSPECTIVE_BASELINE.json
+          python - <<'PY'
+          import json
+          x=json.load(open('output/P40_R2_EIGHT_EVENT_RETROSPECTIVE_BASELINE.json'))
+          assert (x['original_games'],x['mobility_chose'],x['mobility_hits_when_chosen'],
+                  x['24k_first_root_hits_all']) == (8,5,4,6)
+          y=json.load(open('output/P40_R1_EXACT_PV_COUNTEREXAMPLE.json'))
+          assert y['G0_offpv_A_minus_B']==2 and y['G1_offpv_A_minus_B']==-2
+          print('P40_R1_R2_ARCHIVAL_AND_FORMAL_PASS_NOT_NEW_EXPLANATION_SUPERIORITY')
+          PY
+      - name: Archive hashes without any repository writes
+        if: always()
+        run: |
+          mkdir -p output
+          find output -type f ! -name MEMBER_SHA256.txt -print0 | sort -z | xargs -0 -r sha256sum > output/MEMBER_SHA256.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x-p40-r1-r2-exact-pv-counterexample-and-eight-event-historical-negative
+          path: output/
+          retention-days: 90
+          if-no-files-found: error
