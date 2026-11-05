@@ -31,13 +31,13 @@ def sha(data: bytes) -> str:
     return hashlib.sha256(data).hexdigest()
 
 
-def verify_archive(path: Path) -> str:
+def verify_archive(path: Path, expected_sha256: str = OFFICIAL_SOURCE_SHA256) -> str:
     digest = hashlib.sha256()
     with path.open("rb") as stream:
         for chunk in iter(lambda: stream.read(1 << 20), b""):
             digest.update(chunk)
     actual = digest.hexdigest()
-    if actual != OFFICIAL_SOURCE_SHA256:
+    if actual != expected_sha256:
         raise ValueError("HOLD_OFFICIAL_SOURCE_SHA256_MISMATCH:" + actual)
     return actual
 
@@ -93,8 +93,8 @@ def candidate_from_game(game: chess.pgn.Game, index: int) -> tuple[dict | None, 
 
 
 def freeze_source(source: Path, *, max_eligible: int = ELIGIBLE_SCAN_COUNT,
-                  select_n: int = SELECT_COUNT) -> dict:
-    source_sha = verify_archive(source)
+                  select_n: int = SELECT_COUNT, expected_sha256: str = OFFICIAL_SOURCE_SHA256) -> dict:
+    source_sha = verify_archive(source, expected_sha256)
     counts = Counter()
     candidates = []
     history_hashes = set()
