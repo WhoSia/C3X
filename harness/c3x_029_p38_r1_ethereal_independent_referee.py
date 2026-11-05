@@ -37,11 +37,16 @@ def need(ok: bool, code: str) -> None:
 
 
 def authentic_archive(path: Path, zip_sha: str, member: str, member_sha: str) -> dict:
-    data = path.read_bytes()
-    need(sha(data) == zip_sha, "ARCHIVE_SHA_" + member)
-    with zipfile.ZipFile(path) as z:
-        need(member in z.namelist(), "MEMBER_ABSENT_" + member)
-        raw = z.read(member)
+    if path.is_dir():
+        file = path / member
+        need(file.is_file(), "MEMBER_ABSENT_" + member)
+        raw = file.read_bytes()
+    else:
+        data = path.read_bytes()
+        need(sha(data) == zip_sha, "ARCHIVE_SHA_" + member)
+        with zipfile.ZipFile(path) as z:
+            need(member in z.namelist(), "MEMBER_ABSENT_" + member)
+            raw = z.read(member)
     need(sha(raw) == member_sha, "MEMBER_SHA_" + member)
     return json.loads(raw)
 
