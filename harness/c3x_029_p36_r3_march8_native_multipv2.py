@@ -54,6 +54,17 @@ def stratum(margin: int | None) -> str:
         return "intermediate"
     return "wide"
 
+def reported_gap_verdict(first_cp: int | None, second_cp: int | None) -> dict:
+    """Do not silently reorder native MultiPV; preserve unexpected score ordering."""
+    if first_cp is None or second_cp is None:
+        return {"margin_cp": None, "signed_gap_cp": None,
+                "rank_discordant": False, "stratum": "mate_or_unscored"}
+    signed = first_cp - second_cp
+    return {"margin_cp": abs(signed), "signed_gap_cp": signed,
+            "rank_discordant": signed < 0,
+            "stratum": "rank_unresolved" if signed < 0 else stratum(signed)}
+
+
 
 def run_case(engine_path: str, case: dict) -> dict:
     board = validate_case(case)
@@ -95,14 +106,8 @@ def run_case(engine_path: str, case: dict) -> dict:
             "actual_nodes_shared_analysis": info.get("nodes"),
         })
     fail_unless(len({r["root_uci"] for r in rows}) == 2, "DUPLICATE_MULTIPV_ROOT")
-    if all(row["score_cp_side_to_move"] is not None for row in rows):
-        signed_gap = rows[0]["score_cp_side_to_move"] - rows[1]["score_cp_side_to_move"]
-        margin = abs(signed_gap)
-        rank_discordant = signed_gap < 0
-    else:
-        signed_gap = None
-        margin = None
-        rank_discordant = False
+    gap = reported_gap_verdict(rows[0]["score_cp_side_to_move"],
+                               rows[1]["score_cp_side_to_move"])
     return {
         "case_id": case["case_id"],
         "pgn_index": case["pgn_index"],
@@ -112,10 +117,10 @@ def run_case(engine_path: str, case: dict) -> dict:
         "position_fen": case["fixed_board_fen"],
         "original_prefix_uci": case["full_game_uci"][:FROZEN_PLY],
         "legal_root_count": legal_count,
-        "candidate_margin_cp": margin,
-        "reported_pv1_minus_pv2_signed_cp": signed_gap,
-        "reported_root_order_discordant": rank_discordant,
-        "candidate_margin_stratum": "rank_unresolved" if rank_discordant else stratum(margin),
+        "candidate_margin_cp": gap["margin_cp"],
+        "reported_pv1_minus_pv2_signed_cp": gap["signed_gap_cp"],
+        "reported_root_order_discordant": gap["rank_discordant"],
+        "candidate_margin_stratum": gap["stratum"],
         "two_candidate_search": rows,
         "status": "ORIGINAL_SF16_MULTIPV2_SCREEN_ONLY",
     }
