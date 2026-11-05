@@ -50,6 +50,23 @@ class P42LocalCourt(unittest.TestCase):
         self.assertTrue(result["window_relation_is_not_a_certified_exact_score_bound"])
         self.assertFalse(result["full_ancestor_to_unrestricted_root_certified"])
 
+    def test_valid_zero_zobrist_parent_key_is_not_automatically_rejected(self):
+        # A 64-bit legal chess position hash has no general nonzero invariant.
+        actual=trace().replace("parent64=9876","parent64=0").replace(
+            "key64=9876","key64=0")
+        result=adjudicate(actual+actual)
+        self.assertEqual(result["status"],
+                         "LOCAL_EXACT_GUARD_CHILD_PARENT_WITNESS_ONLY")
+        self.assertFalse(result["full_ancestor_to_unrestricted_root_certified"])
+
+    def test_valid_zero_zobrist_child_key_is_not_automatically_rejected(self):
+        actual=trace().replace("child64=12345","child64=0").replace(
+            "key64=12345","key64=0")
+        result=adjudicate(actual+actual)
+        self.assertEqual(result["status"],
+                         "LOCAL_EXACT_GUARD_CHILD_PARENT_WITNESS_ONLY")
+        self.assertFalse(result["natural_TT_SEE_mediation_certified"])
+
     def test_without_real_guard_event_hold(self):
         self.assertIn("HOLD_WRONG_REPLAY_COUNT",adjudicate("")["status"])
 
