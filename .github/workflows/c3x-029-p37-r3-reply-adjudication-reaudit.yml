@@ -1,0 +1,60 @@
+name: C3X P37 R3 Independent Read-Only Reaudit of Sealed Response Forecasts
+on:
+  push:
+    paths:
+      - '.github/workflows/c3x-029-p37-r3-reply-adjudication-reaudit.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  independent-recompute-no-engine:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Rehydrate EXACT two signed original archived ZIP artifacts from R2
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          mkdir -p originals output
+          gh api repos/WhoSia/C3X/actions/artifacts/13388692308/zip > originals/P37_PREDICTION_ARCHIVE.zip
+          gh api repos/WhoSia/C3X/actions/artifacts/13388397983/zip > originals/P37_REFEREE_ARCHIVE.zip
+          printf '%s  %s\n' 721471da43d0bd973e2b084fc47070f5a5826d0add38cbc39a2ccfbca6a427f6 originals/P37_PREDICTION_ARCHIVE.zip | sha256sum -c -
+          printf '%s  %s\n' 3bd8d76602b51f0bbb8b5892452444c27bad19532bc542e58565c726f2d6f93b originals/P37_REFEREE_ARCHIVE.zip | sha256sum -c -
+      - name: Recompute the 15 evaluable labels and exact model verdicts
+        run: |
+          set -euo pipefail
+          python tools/c3x_029_p37_r3_sealed_reply_forecast_reaudit.py \
+            --predictions-zip originals/P37_PREDICTION_ARCHIVE.zip \
+            --referee-zip originals/P37_REFEREE_ARCHIVE.zip \
+            --out output/P37_R3_INDEPENDENT_SEALED_RESULT_REAUDIT.json
+          python - <<'PY'
+          import json
+          r=json.load(open('output/P37_R3_INDEPENDENT_SEALED_RESULT_REAUDIT.json'))
+          assert r['candidate_trials_all']==16
+          assert r['evaluable_reference_labels']==15
+          assert r['unobserved_reference_labels']==1
+          assert r['per_method']['stockfish_pv']['correct']==11
+          assert r['per_method']['simple_json']['correct']==2
+          assert r['per_method']['c3x_legal_plan']['correct']==4
+          assert r['stockfish_pv_vs_c3x_plan_pairs']['pv_only_correct']==7
+          assert r['stockfish_pv_vs_c3x_plan_pairs']['c3x_only_correct']==0
+          assert r['stable_near_24_48_96k_cases']==1
+          print('P37_R3_SEALED_REAUDIT_15_LABELS_PV_STRONGER_PASS')
+          PY
+      - name: Hash derived output; no writeback to repository
+        if: always()
+        run: |
+          mkdir -p output
+          find output -type f ! -name MEMBER_SHA256.txt -print0 | sort -z | xargs -0 -r sha256sum > output/MEMBER_SHA256.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x-p37-r3-independent-15label-reply-forecast-reaudit
+          path: output/
+          retention-days: 90
+          if-no-files-found: error
