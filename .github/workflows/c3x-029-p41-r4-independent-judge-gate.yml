@@ -1,0 +1,27 @@
+name: C3X P41 R4 External Chess Value Referee Technical Gate
+on:
+  push:
+    paths:
+      - '.github/workflows/c3x-029-p41-r4-independent-judge-gate.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  source-and-history-receipt-gate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 9
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install chess-law replay library
+        run: python -m pip install -q chess==1.11.2
+      - name: Test source identity, 30-ply legality, real node count and bound censoring
+        run: |
+          set -euo pipefail
+          python -m unittest discover -s tools -p 'test_c3x_029_p41_r4_judge_receipt_gate.py' -v
+          echo "P41_R4_SOURCE_NATIVE_RECEIPT_CONTRACT_ONLY_NO_REAL_INDEPENDENT_REFEREE"
+      - name: No artifacts or GitHub repository writes required
+        run: |
+          test "${{ github.event.repository.full_name }}" = "WhoSia/C3X"
