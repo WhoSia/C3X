@@ -40,7 +40,7 @@ The six main/qsearch non-mutated source anchor strings (`MAIN_DO`, `MAIN_UNDO`, 
 Original pinned Stockfish16 `search.cpp` handles a returned candidate by first checking `if (value > bestValue)`, assigning `bestValue=value`, and **only then** checking `if (value > alpha)` to modify `bestMove`, maybe cut off on `value>=beta`, and/or update `alpha`. Therefore:
 
 - Seeing an actual `PARENT_BESTVALUE_ASSIGNED` is **not equivalent** to alpha crossing, parent bestMove replacement, or ultimate root candidate victory. A source child may improve a fail-low node's bestValue while leaving alpha and local bestMove untouched.
-- R5 local court now reports two-replay window-relation classifications of the actually compared numeric value against alpha/beta, and explicitly distinguishes `bestvalue_only_assignments` from `parent_alpha_crossings`.
+- R5 local court now reports two-replay window-relation classifications of the actually compared numeric value against alpha/beta, and explicitly distinguishes `bestvalue_only_assignments` from `parent_value_exceeds_alpha`.
 - These are **local numerical search-window relations**, not verified exact chess values, nor final engine decision explanations. Fail-soft bounds and aspiration re-search require their original provenance, depth, type and entire dynamic execution to make stronger claims.
 - A new 12th synthetic regression intentionally constructs a bestValue improvement **without** an alpha crossing, and verifies that the court does not collapse the two. New tests remain authored/pending actual Actions execution, not a new PASS.
 
