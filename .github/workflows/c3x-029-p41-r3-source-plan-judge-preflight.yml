@@ -1,0 +1,45 @@
+name: C3X P41 R3 Strict Source Plan and Independent Judge Preflight
+on:
+  push:
+    paths:
+      - '.github/workflows/c3x-029-p41-r3-source-plan-judge-preflight.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  structural-only-regression:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Test thirteen fail-closed synthetic source and judge gates
+        run: |
+          set -euo pipefail
+          python -m unittest discover -s tools -p 'test_c3x_029_p41_r3_independent_plan_court_preflight.py' -v
+      - name: Ensure synthetic gate never masquerades as verified chess result
+        run: |
+          set -euo pipefail
+          mkdir -p output
+          python - <<'PY'
+          import json,sys
+          sys.path.insert(0,'tools')
+          from test_c3x_029_p41_r3_independent_plan_court_preflight import fixture
+          from c3x_029_p41_r3_independent_plan_court_preflight import verify_case
+          case,historical=fixture()
+          actual=verify_case(case,historical)
+          assert actual['status']=='PASS_STRUCTURAL_PREFLIGHT_ONLY'
+          assert 'CHESS' not in actual['status']
+          with open('output/P41_R3_SYNTHETIC_ONLY_GATE.json','w') as f:
+              json.dump(actual,f,indent=2)
+          print('P41_R3_SYNTHETIC_GATE_PASS_CHESS_ORACLE_HOLD')
+          PY
+      - name: Seal output hashes without repository edits
+        run: sha256sum output/*.json > output/MEMBER_SHA256.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: c3x-p41-r3-synthetic-only-source-plan-judge-gate
+          path: output/
+          retention-days: 90
