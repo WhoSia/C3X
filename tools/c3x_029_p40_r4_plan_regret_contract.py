@@ -1,11 +1,12 @@
 """P40/R4 algebraic plan opportunity-cost intervals; no real chess oracle."""
-from math import inf,isfinite
+from math import inf,isfinite,isnan
 
 def bounds(record):
     a,b=record["lower"],record["upper"]
     a=-inf if a is None else float(a)
     b=inf if b is None else float(b)
-    if a>b:raise ValueError("BAD_INTERVAL")
+    if isnan(a) or isnan(b) or a==inf or b==-inf or a>b:
+        raise ValueError("BAD_INTERVAL")
     return a,b
 
 def evaluate_plan(branches, total_responses, epsilon=20, verified_judge=False):
@@ -27,8 +28,10 @@ def evaluate_plan(branches, total_responses, epsilon=20, verified_judge=False):
         best_hi=max(x[1] for x in intervals.values())
         plan_lo=max(intervals[u][0] for u in plan)
         plan_hi=max(intervals[u][1] for u in plan)
-        lower=max(0,best_lo-plan_hi)
-        upper=max(0,best_hi-plan_lo)
+        lower=(max(0,best_lo-plan_hi)
+               if isfinite(best_lo) and isfinite(plan_hi) else 0.0)
+        upper=(max(0,best_hi-plan_lo)
+               if isfinite(best_hi) and isfinite(plan_lo) else inf)
         results.append((r,lower,upper,"BOUNDED"))
     if not selective:raise ValueError("TRIVIAL_ALL_LEGAL_PLAN")
     if any(z[3]=="UNAVAILABLE" for z in results):
@@ -42,6 +45,8 @@ def evaluate_plan(branches, total_responses, epsilon=20, verified_judge=False):
     return {"decision":decision,
             "scope":"ALL_LEGAL" if len(branches)==total_responses else "SAMPLED",
             "judge":"VERIFIED" if verified_judge else "HOLD_UNVERIFIED",
+            "scientific_status":("VALIDATED_JUDGE_DEPENDENT"
+                                 if verified_judge else "HOLD_NO_INDEPENDENT_VALUE_JUDGE"),
             "response_count":len(branches),"total_response_count":total_responses,
             "regret_by_response":[{"r":r,"lower":lo,"upper":hi,"state":state}
                                   for r,lo,hi,state in results],
