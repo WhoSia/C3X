@@ -9,3 +9,8 @@ Scope: **bounded Google Drive filename search and direct PDF text extraction thi
 
 Decision: R41 primary paper-value comparator Cui is held; exact missing Sandmann is high-priority because 2026 revision tightens the gap between internal algorithm existence and final policy behavior. Do not infer content from metadata alone. Source matrix: [P41 R1](C3X_029_P41_R1_PRIMARY_PDF_PRIOR_ART_MATRIX_AND_MISSING_REGISTER_20261105.md).
 Research OS: Notion meaning, Drive original bytes, GitHub authenticated WhoSia source commits; no github-actions[bot] writes.
+## 2026-11-05 P42/R6 source-read-status correction (Drive bytes NOT acquired)
+
+TinyFish fetched and directly exposed the **full primary arXiv HTML v4** at https://arxiv.org/html/2508.21380v4. The v4 abstract and Results identify 8,648 filtered forgotten puzzles, 71.7% recovered after late safety-prior steering and a 97.0% comparison in which the policy's own value head preferred the correct future. This settles the **which version / reported headline percentage** ambiguity for primary-web-reading, replacing reliance on conflicting old cached abstract snippets. Source-specific methodological qualifiers are documented in [P42/R6](C3X_029_P42_R6_HISTORICAL_C3B_RECOVERY_ACTUAL_CHILD_KEY_AND_JOINT_NATIVE_20261105.md).
+
+**Do not move P41-M01 out of the missing-Drive-original register.** Original PDF bytes have NOT been downloaded, sealed by SHA256, archived or rechecked in Drive. Web HTML primary text is a weaker custody class than a preserved author PDF. The initial P41 search outcome remains a historical bounded-search result, not a perpetual claim that the work is unreadable anywhere.
