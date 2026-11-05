@@ -65,7 +65,7 @@ class P42LocalCourt(unittest.TestCase):
         result=adjudicate(actual+actual)
         self.assertEqual(result["status"],
                          "LOCAL_EXACT_GUARD_CHILD_PARENT_WITNESS_ONLY")
-        self.assertFalse(result["natural_TT_SEE_mediation_certified"])
+        self.assertFalse(result["unique_natural_TT_mediation_certified"])
 
     def test_without_real_guard_event_hold(self):
         self.assertIn("HOLD_WRONG_REPLAY_COUNT",adjudicate("")["status"])
