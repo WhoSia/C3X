@@ -1,0 +1,66 @@
+name: C3X P36 R3 Native SF16 March8 Blind-Frozen Joint MultiPV Screen
+on:
+  push:
+    paths:
+      - '.github/workflows/c3x-029-p36-r3-march8-native-multipv.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  stockfish16-eight-game-pair-screen:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install pinned legal chess replay package
+        run: python -m pip install -q chess==1.11.2
+      - name: Test original UCI history reconstruction and gap boundaries
+        run: python -m unittest discover -s tools -p 'test_c3x_029_p36_r3_march8_native_multipv2.py' -v
+      - name: Download already-frozen March original and eight-game manifest
+        uses: actions/download-artifact@v4
+        with:
+          name: c3x-p36-r2-original-march-broadcast-and-eight-game-engine-blind-freeze
+          repository: WhoSia/C3X
+          run-id: '41957706609'
+          path: source
+          github-token: ${{ github.token }}
+      - name: Authenticate immutable original source and preoutcome manifest
+        run: |
+          set -euo pipefail
+          mkdir -p output
+          printf '%s  %s\n' 1a5ad83fc9f440dcdadde17b11cc81a953f4895aaf8b8588470b3078209dc7fc source/lichess_db_broadcast_2026-03.pgn.zst | sha256sum -c -
+          printf '%s  %s\n' e9b041d52e2622cb2caf085cdeb21132c06da37c68dde51fb56540d5d06b9ff3 source/P36_R2_MARCH_8_GAME_ENGINE_BLIND_MANIFEST.json | sha256sum -c -
+      - name: Compile exact pristine official Stockfish16 and record net
+        run: |
+          set -euo pipefail
+          git clone -q --single-branch --branch sf_16 https://github.com/official-stockfish/Stockfish.git /tmp/c3x-p36-march-sf16
+          test "$(git -C /tmp/c3x-p36-march-sf16 rev-parse HEAD)" = 68e1e9b3811e16cad014b590d7443b9063b3eb52
+          make -s -C /tmp/c3x-p36-march-sf16/src -j2 build ARCH=x86-64
+          sha256sum /tmp/c3x-p36-march-sf16/src/stockfish > output/P36_NATIVE_ENGINE_BINARY_SHA.txt
+          test "$(sha256sum /tmp/c3x-p36-march-sf16/src/nn-5af11540bbfe.nnue | cut -d' ' -f1)" = 5af11540bbfefcb54e38c5dd000cab4b469dfa7599a1d55be5d2722c20a8929b
+          sha256sum /tmp/c3x-p36-march-sf16/src/nn-5af11540bbfe.nnue > output/P36_NATIVE_NETWORK_SHA.txt
+      - name: Fixed-budget eight-game native joint MultiPV=2 screen
+        run: |
+          set -euo pipefail
+          python -u harness/c3x_029_p36_r3_march8_native_multipv2.py \
+            --manifest source/P36_R2_MARCH_8_GAME_ENGINE_BLIND_MANIFEST.json \
+            --source source/lichess_db_broadcast_2026-03.pgn.zst \
+            --engine /tmp/c3x-p36-march-sf16/src/stockfish \
+            --out output/P36_R3_MARCH8_NATIVE_MULTIPV2_SCORE_SCREEN.json \
+            | tee output/P36_R3_STDOUT.log
+          grep -q 'P36_R3_NATIVE_SOURCE_MULTIPV2_SCREEN_COMPLETE' output/P36_R3_STDOUT.log
+      - name: Seal output integrity (no repository writeback)
+        if: always()
+        run: |
+          mkdir -p output
+          find output -maxdepth 1 -type f ! -name MEMBER_SHA256.txt -print0 | sort -z | xargs -0 -r sha256sum > output/MEMBER_SHA256.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x-p36-r3-march8-original-sf16-multipv2-screen
+          path: output/
+          retention-days: 90
+          if-no-files-found: error
