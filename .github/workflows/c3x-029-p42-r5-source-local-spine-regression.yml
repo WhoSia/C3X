@@ -1,0 +1,54 @@
+name: C3X P42-R5 source-local spine regression (read-only)
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'tools/c3x_029_p42_r5_game14_capture_local_lineage_overlay.py'
+      - 'harness/c3x_029_p42_r5_game14_local_spine_court.py'
+      - 'harness/test_c3x_029_p42_r5_game14_local_spine_court.py'
+      - '.github/workflows/c3x-029-p42-r5-source-local-spine-regression.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  isolated-contract:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Strict Python syntax
+        run: |
+          python -m py_compile tools/c3x_029_p42_r5_game14_capture_local_lineage_overlay.py
+          python -m py_compile harness/c3x_029_p42_r5_game14_local_spine_court.py
+          python -m py_compile harness/test_c3x_029_p42_r5_game14_local_spine_court.py
+      - name: Adversarial synthetic regression
+        run: |
+          PYTHONPATH=harness python -m unittest -v             test_c3x_029_p42_r5_game14_local_spine_court
+      - name: Pinned Stockfish16 original source anchor census (no executable)
+        run: |
+          set -euo pipefail
+          curl --fail --location --silent --show-error \
+            --max-time 45 \
+            https://raw.githubusercontent.com/official-stockfish/Stockfish/68e1e9b3811e16cad014b590d7443b9063b3eb52/src/search.cpp \
+            -o /tmp/c3x042-r5-stockfish16-search.cpp
+          python - <<'PY'
+          from pathlib import Path
+          import sys
+          sys.path.insert(0,"tools")
+          from c3x_029_p42_r5_game14_capture_local_lineage_overlay import (
+              MAIN_DO, MAIN_UNDO, MAIN_STOP, MAIN_ADOPT, MAIN_ENTRY, Q_ENTRY
+          )
+          src=Path("/tmp/c3x042-r5-stockfish16-search.cpp").read_text()
+          for tag,anchor in (
+              ("MAIN_DO",MAIN_DO),("MAIN_UNDO",MAIN_UNDO),
+              ("MAIN_STOP",MAIN_STOP),("MAIN_ADOPT",MAIN_ADOPT),
+              ("MAIN_ENTRY",MAIN_ENTRY),("Q_ENTRY",Q_ENTRY)):
+              n=src.count(anchor)
+              assert n==1,(tag,n)
+          print("P42_R5_PINNED_ORIGINAL_ANCHORS_6_OF_6_STRUCTURAL_ONLY")
+          PY
