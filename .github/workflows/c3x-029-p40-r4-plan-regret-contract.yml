@@ -1,0 +1,42 @@
+name: C3X P40 R4 Chess Plan Value Regret Contract
+on:
+  push:
+    paths:
+      - '.github/workflows/c3x-029-p40-r4-plan-regret-contract.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  bound-aware-plan-math:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Test plan regret against full response set and incomplete sampling
+        run: python -m unittest discover -s tools -p 'test_c3x_029_p40_r4_plan_regret_contract.py' -v
+      - name: Preserve tested semantics (no real chess-value claims)
+        run: |
+          mkdir -p output
+          python - <<'PY'
+          import json,sys
+          sys.path.insert(0,'tools')
+          from c3x_029_p40_r4_plan_regret_contract import evaluate_plan
+          b={'r0':{'legal':{'a':{'lower':30,'upper':30},'b':{'lower':25,'upper':25}},'plan':['a']},
+             'r1':{'legal':{'a':{'lower':10,'upper':10},'b':{'lower':12,'upper':12}},'plan':['a']}}
+          result=evaluate_plan(b,2,5,False)
+          assert result['decision']=='LOW_REGRET_CERTIFIED'
+          assert result['judge']=='HOLD_UNVERIFIED'
+          with open('output/P40_R4_SYNTHETIC_REGRET_CONTRACT.json','w') as f:
+              json.dump(result,f,indent=2)
+          print('P40_R4_INTERVAL_CONTRACT_PASS_NOT_CHESS_EVIDENCE')
+          PY
+      - name: Calculate hashes, no source writes
+        run: sha256sum output/*.json > output/MEMBER_SHA256.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: c3x-p40-r4-plan-value-regret-synthetic-contract-only
+          path: output/
+          retention-days: 90
