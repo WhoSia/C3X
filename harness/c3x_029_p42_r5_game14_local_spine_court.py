@@ -90,7 +90,9 @@ def adjudicate(text: str, expected_processes: int=2) -> dict:
             return _hold("SOURCE_ACTIVITY_FLAG_MISSING",len(runs))
         if run[3]["score"]!=run[4]["score"]:
             return _hold("RETURNED_SCORE_NOT_ADOPTED_IN_PARENT_CANDIDATE",len(runs))
-        # score>alpha is a numeric comparison, NOT evidence alpha was written: \n        # a source fail-high may break before the original alpha assignment.\n        # Window relations are source-search diagnostics, never independently
+        # score>alpha is a numeric comparison, NOT evidence alpha was written:
+        # a source fail-high may break before the original alpha assignment.
+        # Window relations are source-search diagnostics, never independently
         # verified chess value bounds or causal root certificates.
         assessed=run[4]
         if assessed["score"]<=assessed["alpha"]:
@@ -114,7 +116,8 @@ def adjudicate(text: str, expected_processes: int=2) -> dict:
     return {
         "status":"LOCAL_EXACT_GUARD_CHILD_PARENT_WITNESS_ONLY",
         "replays":len(runs),"counts":counts,
-        "window_relation_is_not_a_certified_exact_score_bound":True,\n        "actual_chess_value_verified":False,
+        "window_relation_is_not_a_certified_exact_score_bound":True,
+        "actual_chess_value_verified":False,
         "full_ancestor_to_unrestricted_root_certified":False,
         "unique_natural_TT_mediation_certified":False,
         "source_keys_exposed":False,
