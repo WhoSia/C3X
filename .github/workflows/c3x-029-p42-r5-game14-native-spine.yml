@@ -24,7 +24,7 @@ jobs:
           python-version: '3.12'
       - name: Install orthodox chess legality checker
         run: python -m pip install chess==1.11.2
-      - name: Regression: no local-source path invented
+      - name: 'Regression - no local-source path invented'
         run: |
           PYTHONPATH=harness python -m unittest -v \
             test_c3x_029_p42_r5_game14_local_spine_court
