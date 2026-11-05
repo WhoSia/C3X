@@ -1,0 +1,79 @@
+name: C3X P36 R1 July Broadcast Eight-Game Engine-Blind Freeze
+on:
+  push:
+    paths:
+      - '.github/workflows/c3x-029-p36-r1-july-engine-blind-freeze.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  source-only-preoutcome-freeze:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install parsing dependencies (no chess engine)
+        run: python -m pip install -q chess==1.11.2 zstandard==0.25.0
+      - name: Run legal-game source freeze unit tests
+        run: python -m unittest discover -s tools -p 'test_c3x_029_p36_r1_july_engine_blind_freeze.py' -v
+      - name: Acquire exactly the official 2026 July Lichess broadcast original
+        run: |
+          set -euo pipefail
+          mkdir -p output
+          curl --fail --location --show-error --silent --retry 3 --max-time 150 \
+            -o output/lichess_db_broadcast_2026-07.pgn.zst \
+            https://database.lichess.org/broadcast/lichess_db_broadcast_2026-07.pgn.zst
+          printf '%s  %s\n' e93b3ded55d463ff6839c06b42b740dc1d725145f7f4da460172a3cf84041a8b \
+            output/lichess_db_broadcast_2026-07.pgn.zst | sha256sum -c -
+      - name: Freeze deterministic cohort BEFORE opening any engine output
+        run: |
+          set -euo pipefail
+          python -u tools/c3x_029_p36_r1_july_engine_blind_freeze.py \
+            --source-zst output/lichess_db_broadcast_2026-07.pgn.zst \
+            --out output/P36_R1_JULY_8_GAME_ENGINE_BLIND_MANIFEST.json \
+            | tee output/P36_R1_ENGINE_BLIND_STDOUT.log
+          grep -q 'NO_ENGINE_CALLS' output/P36_R1_ENGINE_BLIND_STDOUT.log
+      - name: Cross-check 16 older original source games (not full historical 0.28 64)
+        uses: actions/download-artifact@v4
+        with:
+          name: c3x-018-independent-PGN-blind-source-16
+          repository: WhoSia/C3X
+          run-id: '37981820261'
+          path: historical
+          github-token: ${{ github.token }}
+      - name: Fail if new full history equals any older original 16
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import hashlib, json, pathlib
+          source=pathlib.Path('historical/C3X018_INDEPENDENT_BLIND16_PGN_SOURCE.json').read_bytes()
+          assert hashlib.sha256(source).hexdigest()=='6520672aabab7f525872169085f19bdd81e27a4473f0c58ba9c9aa428937104c'
+          old=json.loads(source)
+          new=json.loads(pathlib.Path('output/P36_R1_JULY_8_GAME_ENGINE_BLIND_MANIFEST.json').read_text())
+          old_set={hashlib.sha256(' '.join(row['full_original_mainline_uci']).encode('ascii')).hexdigest() for row in old['selected']}
+          selected={row['full_game_uci_sha256'] for row in new['case_selection']}
+          overlap=sorted(old_set & selected)
+          assert len(new['case_selection'])==8
+          assert not overlap, 'HOLD_OVERLAP_ORIGINAL_16'
+          verdict={'status':'DISJOINT_FROM_ORIGINAL_16_ONLY_NOT_0_28_64',
+                   'old_16_count':len(old_set),'new_8_count':len(selected),
+                   'overlap_count':len(overlap),'old_0_28_64':'UNVERIFIED',
+                   'source_month':'2026-07','selected_games_not_replaced':True}
+          pathlib.Path('output/P36_R1_OLD16_OVERLAP_VERDICT.json').write_text(json.dumps(verdict,indent=2)+'\n')
+          print('P36_SOURCE_GAME_HISTORY_DISJOINT_FROM_OLD16_ONLY')
+          PY
+      - name: Archive SHA manifest, no repository writeback
+        if: always()
+        run: |
+          mkdir -p output
+          find output -maxdepth 1 -type f ! -name MEMBER_SHA256.txt -print0 | sort -z | xargs -0 -r sha256sum > output/MEMBER_SHA256.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x-p36-r1-original-july-broadcast-and-eight-game-engine-blind-freeze
+          path: output/
+          retention-days: 90
+          if-no-files-found: error
