@@ -39,7 +39,7 @@ struct C3X042_R5_Local {
 thread_local C3X042_R5_Local c3x042_r5;
 void c3x042_r5_emit(const Position& pos, const char* event,
                    int score=0, int best=0, int alpha=0, int beta=0) {
-  const char* dest=std::getenv("C3X027_CAPTURE_BRANCH_LOG");
+  const char* dest=std::getenv("C3X042_R5_LOCAL_TRACE");
   if (!dest || !*dest) return;
   if (auto* out=std::fopen(dest,"a")) {
     std::fprintf(out,
@@ -167,7 +167,7 @@ def main() -> None:
       "after_sha256":hashlib.sha256(after).hexdigest(),
       "requires_source_anchored_c3x027_bypass":True,
       "observer_only":True,
-      "log_env":"C3X027_CAPTURE_BRANCH_LOG",
+      "log_env":"C3X042_R5_LOCAL_TRACE",
       "required_trace":["GUARD_FALLTHROUGH","ACTUAL_DO_MOVE",
                         "MAIN_CHILD_ENTERED|QSEARCH_CHILD_ENTERED",
                         "CHILD_RETURNED_TO_PARENT","PARENT_VALUE_ASSESSED"],
