@@ -7,6 +7,7 @@ on:
       - 'tools/c3x_029_p42_r5_derived_native_build.py'
       - 'harness/c3x_029_p42_r5_game14_local_spine_court.py'
       - 'harness/test_c3x_029_p42_r5_game14_local_spine_court.py'
+      - 'tools/test_c3x_029_p42_r6_exact_child_key_source.py'
       - '.github/workflows/c3x-029-p42-r5-game14-native-spine.yml'
   workflow_dispatch:
 permissions:
@@ -28,6 +29,7 @@ jobs:
         run: |
           PYTHONPATH=harness python -m unittest -v \
             test_c3x_029_p42_r5_game14_local_spine_court
+          PYTHONPATH=tools python -m unittest -v test_c3x_029_p42_r6_exact_child_key_source
       - uses: actions/download-artifact@v4
         with:
           name: c3x027-sept2026-preengine-source-only16
