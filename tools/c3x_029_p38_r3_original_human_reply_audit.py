@@ -34,10 +34,15 @@ def sha(b: bytes) -> str:
 
 def get_member(source: Path, expected_zip_sha: str,
                name: str, expected_member_sha: str) -> dict:
-    need(sha(source.read_bytes()) == expected_zip_sha, "ZIP_SHA_" + name)
-    with zipfile.ZipFile(source) as z:
-        need(name in z.namelist(), "MEMBER_MISSING_" + name)
-        body = z.read(name)
+    if source.is_dir():
+        member_path = source / name
+        need(member_path.is_file(), "MEMBER_MISSING_" + name)
+        body = member_path.read_bytes()
+    else:
+        need(sha(source.read_bytes()) == expected_zip_sha, "ZIP_SHA_" + name)
+        with zipfile.ZipFile(source) as z:
+            need(name in z.namelist(), "MEMBER_MISSING_" + name)
+            body = z.read(name)
     need(sha(body) == expected_member_sha, "MEMBER_SHA_" + name)
     return json.loads(body)
 
