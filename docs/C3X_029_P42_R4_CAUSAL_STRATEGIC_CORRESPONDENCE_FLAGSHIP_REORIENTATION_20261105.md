@@ -70,6 +70,19 @@ A strategically relevant claim q must instead be selected **independently of the
 
 For the flagship claim, require **interventional alignment**: modifying a chess-relevant contingency predicted to destroy q should alter the identified computation and chosen action *in a direction predicted before the experiment*. Mere conditional association between q and the chosen root is insufficient. This modification must be legal, history-sensitive and control confounds, since board edits can perturb many NNUE features simultaneously.
 
+## 3A. Crucial ontological separation: chess truth is not a mutable search mediator
+
+A further error would be to write "the true future chess property q mediates TT interference." At the **same exact legal chess history h and fixed candidate m**, the external chess-theoretic property q(h,m) is invariant to changing a software TT flag. The software intervention affects the engine's *computed representation / reachable search trace* of those consequences, not the objective legal chess tree itself.
+
+The observed q(h,A(i)) can change as the chosen move A(i) changes. But this q is **downstream of the selection**, not a computational mediator that made the search choose it. In a source-faithful bridge, distinguish three variables:
+- **C_true(h,m):** externally checkable game-theoretic property, invariant under changes only to the algorithmic search configuration, conditional on fixed h,m;
+- **Z_engine(h,i,m):** the engine's actually consumed internal computational information about candidate m (including bounds/relative competitor information), which can change under source intervention i;
+- **A(h,i):** the final unrestricted engine selection resulting from computational state.
+
+The difficult bridge is to show that Z_engine **causally affects A**, and also **tracks the relevant variation of C_true** under independently declared legal chess counterfactuals, rather than merely correlating with A or being fitted post hoc. The bridge generally requires both computational interventions on Z and chess-world perturbations on h/m; it is not a single causal arrow C_true→A.
+
+This creates a sharp falsifier: if changing a predeclared chess contingency changes C_true but the allegedly corresponding source computation Z_engine stays invariant and the selection mechanism remains indifferent, the suggested strategic rationale is not identified as that computation's reason, however true the commentary is. Conversely an engine TT-only path that changes A without changing the predeclared strategic relation can show an **algorithmic causal explanation** but not a **strategic-reason explanation**.
+
 ## 4. Proposed scientific hypotheses (all falsifiable; no result claimed)
 
 **H1: computation-to-value path.** On independently selected near-tied chess decisions, local TT/SEE/NNUE perturbations at predeclared natural source sites change a traceable, bound-correct value comparison and unrestricted root choice. Competitor: root change explained by unrelated aspiration, order, TT state or alternative path. Failure if only root outcome changes with no actual value adoption or if a SHAM changes it similarly.
