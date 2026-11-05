@@ -8,6 +8,8 @@ import tempfile
 import unittest
 from pathlib import Path
 
+import sys
+sys.path.insert(0,str(Path(__file__).resolve().parents[1]/'harness'))
 from c3x_029_p35_r5_search_route_court import run_once
 
 MOCK_ENGINE = r'''#!/usr/bin/env python3
