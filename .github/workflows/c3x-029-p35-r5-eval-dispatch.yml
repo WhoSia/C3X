@@ -3,6 +3,8 @@ on:
   push:
     paths:
       - '.github/workflows/c3x-029-p35-r5-eval-dispatch.yml'
+      - 'harness/c3x_029_p35_r5_search_route_court.py'
+      - 'tools/test_c3x_029_p35_r6_three_arm_uci_contract.py'
   workflow_dispatch:
 permissions:
   contents: read
