@@ -29,11 +29,22 @@ Private raw trace uses **C3X042_R5_LOCAL_TRACE** (not historical `C3X027_CAPTURE
 
 `harness/c3x_029_p42_r5_game14_local_spine_court.py`: fail-closed trace court checks source event identity, expected ordered native events, key/frame transition, child score→parent assessment agreement, optional source bestValue assignment, two separate cold replays and no extra local event. Output is PUBLIC aggregate status only, never raw key or full source history.
 
-`harness/test_c3x_029_p42_r5_game14_local_spine_court.py` authored 11 synthetic negative/positive regressions. **Source authored, test PASS not yet witnessed at record time.**
+`harness/test_c3x_029_p42_r5_game14_local_spine_court.py` authored 12 synthetic negative/positive regressions. **Source authored, test PASS not yet witnessed at record time.**
 
 ## Source anchoring verified separately
 
 The six main/qsearch non-mutated source anchor strings (`MAIN_DO`, `MAIN_UNDO`, `MAIN_STOP`, `MAIN_ADOPT`, `MAIN_ENTRY`, `Q_ENTRY`) were located **once each** in authentic original pinned official Stockfish16 `src/search.cpp` through authenticated GitHub fetch. That check alone does NOT prove the exact fully layered build will compile; older overlays may change an anchor, or a runtime site may not be reached.
+
+## Source-exact nuance discovered on follow-up: bestValue is not root choice
+
+Original pinned Stockfish16 `search.cpp` handles a returned candidate by first checking `if (value > bestValue)`, assigning `bestValue=value`, and **only then** checking `if (value > alpha)` to modify `bestMove`, maybe cut off on `value>=beta`, and/or update `alpha`. Therefore:
+
+- Seeing an actual `PARENT_BESTVALUE_ASSIGNED` is **not equivalent** to alpha crossing, parent bestMove replacement, or ultimate root candidate victory. A source child may improve a fail-low node's bestValue while leaving alpha and local bestMove untouched.
+- R5 local court now reports two-replay window-relation classifications of the actually compared numeric value against alpha/beta, and explicitly distinguishes `bestvalue_only_assignments` from `parent_alpha_crossings`.
+- These are **local numerical search-window relations**, not verified exact chess values, nor final engine decision explanations. Fail-soft bounds and aspiration re-search require their original provenance, depth, type and entire dynamic execution to make stronger claims.
+- A new 12th synthetic regression intentionally constructs a bestValue improvement **without** an alpha crossing, and verifies that the court does not collapse the two. New tests remain authored/pending actual Actions execution, not a new PASS.
+
+**New decisive integration gate:** original A/B/C bestmove identities, one-event source physical contact and cold replay must all be reproduced by native historical harness *before* local spine admission. Earlier R5 workflow classified rather than asserted `ORIGINAL_ROOT_RESTORED`; this was corrected in commit `c2347261` and recorded as a design repair, not a fresh native experiment.
 
 ## Falsification-first outcome interpretation
 
