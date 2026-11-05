@@ -26,6 +26,7 @@ def verify_case(case, historical):
     check(len(history) >= 60, "SHORT_GAME")
     check(source["original_sha256"] == hashlib.sha256(
         " ".join(history).encode()).hexdigest(), "GAME_SHA")
+    check(source["game_sha256"] == source["original_sha256"], "GAME_ID_NOT_FULL_UCI_SHA")
     check(source["game_sha256"] not in historical["game_sha256"], "GAME_LEAK")
     check(source["event_family"] not in historical["event_family"], "EVENT_LEAK")
     check(freeze["source_sha256"] == source["original_sha256"], "FROZEN_SOURCE_MISMATCH")
@@ -67,4 +68,4 @@ def verify_case(case, historical):
     return {"status": ("PASS_STRUCTURAL_PREFLIGHT_ONLY" if not failures else "HOLD"),
             "failures": sorted(set(failures)),
             "claim_ceiling": ("Structural contract only; no actual chess legality,"
-                             " no source-byte verification or chess-value outcome.")}
+                             " no source-byte verification, chronological-seal proof or chess-value outcome.")}
