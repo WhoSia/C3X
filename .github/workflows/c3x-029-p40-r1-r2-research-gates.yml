@@ -3,6 +3,8 @@ on:
   push:
     paths:
       - '.github/workflows/c3x-029-p40-r1-r2-research-gates.yml'
+      - 'tools/c3x_029_p40_r2_original_baseline_court.py'
+      - 'tools/test_c3x_029_p40_r2_original_baseline_court.py'
   workflow_dispatch:
 permissions:
   contents: read
@@ -52,8 +54,9 @@ jobs:
           python - <<'PY'
           import json
           x=json.load(open('output/P40_R2_EIGHT_EVENT_RETROSPECTIVE_BASELINE.json'))
-          assert (x['original_games'],x['mobility_chose'],x['mobility_hits_when_chosen'],
-                  x['24k_first_root_hits_all']) == (8,5,4,6)
+          assert (x['original_games'],x['96k_bounds_identified_cases'],
+                  x['mobility_chose_with_identified_reference'],
+                  x['mobility_hits_when_chosen'],x['24k_first_root_hits_all']) == (8,5,3,2,5)
           y=json.load(open('output/P40_R1_EXACT_PV_COUNTEREXAMPLE.json'))
           assert y['G0_offpv_A_minus_B']==2 and y['G1_offpv_A_minus_B']==-2
           print('P40_R1_R2_ARCHIVAL_AND_FORMAL_PASS_NOT_NEW_EXPLANATION_SUPERIORITY')
