@@ -44,7 +44,7 @@ Total **107129 actual Eval::evaluate dispatch log events** across eight instrume
 
 ## 4. Exact evidence and custody
 
-Original native archive preserved at [Drive 04_SEALED_RESULTS_COURTS](https://drive.google.com/file/d/1iRnnsRu-37go3RZzoIPS88IJbPS1EYCb/view), filename `C3X_0.29_P35_R6_NATIVE_SF16_THREE_ARM_SEARCH_20261105.zip`. Raw Drive bytes not modified after upload. ZIP SHA above is GitHub original zipped artifact; cross-platform file identity should be checked by Drive raw fetch before asserting identical uploaded byte content. Original archived P34 source game raw remains immutable.
+Original native archive preserved at [Drive 04_SEALED_RESULTS_COURTS](https://drive.google.com/file/d/1iRnnsRu-37go3RZzoIPS88IJbPS1EYCb/view), filename `C3X_0.29_P35_R6_NATIVE_SF16_THREE_ARM_SEARCH_20261105.zip`. Raw Drive bytes not modified after upload. The Drive ZIP was separately re-fetched as complete raw bytes, and its SHA256 was independently calculated against the original downloaded GitHub artifact: BOTH = `093ace9b9eabb610cc1a6096bfa1e648c66c7a2257290d710ba670039afdb6dc` (EXACT BYTE EQUALITY VERIFIED). Original archived P34 source game raw remains immutable.
 
 ## 5. Scientific ceiling and stop decision
 
