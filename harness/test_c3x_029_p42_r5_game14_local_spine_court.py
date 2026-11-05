@@ -46,7 +46,7 @@ class P42LocalCourt(unittest.TestCase):
                          "LOCAL_EXACT_GUARD_CHILD_PARENT_WITNESS_ONLY")
         self.assertEqual(result["counts"]["parent_assignment"],2)
         self.assertEqual(result["counts"]["bestvalue_only_assignments"],2)
-        self.assertEqual(result["counts"]["parent_alpha_crossings"],0)
+        self.assertEqual(result["counts"]["parent_value_exceeds_alpha"],0)
         self.assertTrue(result["window_relation_is_not_a_certified_exact_score_bound"])
         self.assertFalse(result["full_ancestor_to_unrestricted_root_certified"])
 
