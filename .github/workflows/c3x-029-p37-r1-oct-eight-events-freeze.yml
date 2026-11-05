@@ -1,0 +1,62 @@
+name: C3X P37 R1 Eight October Event-Family Engine-Blind Source Freeze
+
+on:
+  push:
+    paths:
+      - '.github/workflows/c3x-029-p37-r1-oct-eight-events-freeze.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  source-only-eight-event-family-court:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install chess legality parser (NO engine)
+        run: python -m pip install -q chess==1.11.2
+      - name: Validate deterministic source-only selector
+        run: python -m unittest discover -s tools -p 'test_c3x_029_p37_r1_oct_eight_event_source_freeze.py' -v
+      - name: Acquire eight preregistered official broadcast PGN rounds twice and compare bytes
+        run: |
+          set -euo pipefail
+          mkdir -p output/source-rounds
+          ids=(MR4eFoUH tZQNFMoC ZvY3jr6Q LVWRdrsl lEQStSIp TGKbOvjn 3veI3mSx GcyAs4TL)
+          for id in "${ids[@]}"; do
+            url="https://lichess.org/api/broadcast/round/${id}.pgn"
+            curl --fail --location --show-error --silent --retry 3 --max-time 70 \
+              --header 'Accept: application/x-chess-pgn' \
+              --output "output/source-rounds/${id}.pgn" "$url"
+            curl --fail --location --show-error --silent --retry 3 --max-time 70 \
+              --header 'Accept: application/x-chess-pgn' \
+              --output "/tmp/${id}.round-second.pgn" "$url"
+            cmp --silent "output/source-rounds/${id}.pgn" "/tmp/${id}.round-second.pgn"
+            test "$(wc -c < "output/source-rounds/${id}.pgn")" -gt 70
+            sha256sum "output/source-rounds/${id}.pgn" | tee -a output/ROUND_SOURCE_SHA256.txt
+          done
+          test "$(wc -l < output/ROUND_SOURCE_SHA256.txt)" -eq 8
+      - name: Engine-blind fixed one-per-event game freeze
+        run: |
+          set -euo pipefail
+          python -u tools/c3x_029_p37_r1_oct_eight_event_source_freeze.py \
+            --round-dir output/source-rounds \
+            --out output/P37_R1_8_EVENT_8_GAME_SOURCE_ONLY_MANIFEST.json \
+            | tee output/P37_R1_SOURCE_ONLY_STDOUT.txt
+          grep -q 'P37_SOURCE_FROZEN_NO_ENGINE_OR_FORECAST 8 8' output/P37_R1_SOURCE_ONLY_STDOUT.txt
+      - name: Seal member hashes, original bytes immutable, no repository writeback
+        if: always()
+        run: |
+          mkdir -p output
+          find output -type f ! -name MEMBER_SHA256.txt -print0 | sort -z | xargs -0 -r sha256sum > output/MEMBER_SHA256.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x-p37-r1-oct-eight-distinct-events-original-pgn-and-engine-blind-freeze
+          path: output/
+          retention-days: 90
+          if-no-files-found: error
