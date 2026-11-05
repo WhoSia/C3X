@@ -44,6 +44,24 @@ class FuturePlanCostContract(unittest.TestCase):
         with self.assertRaisesRegex(ValueError,"INVALID_PLAN"):
             evaluate_plan({"r0":entry({"a":(1,1)},["c"])},1)
 
+    def test_all_unknown_scores_must_not_certify_low_regret(self):
+        out=evaluate_plan({"r0":entry({"a":(None,None),"b":(None,None)},["a"])},1,epsilon=10,verified_judge=True)
+        self.assertEqual(out["decision"],"UNRESOLVED")
+        self.assertEqual(out["regret_by_response"][0]["lower"],0)
+        self.assertEqual(out["regret_by_response"][0]["upper"],float("inf"))
+
+    def test_nan_and_inverted_infinite_intervals_rejected(self):
+        for interval in ((float("nan"),12),(1,float("nan")),(float("inf"),None),(None,float("-inf"))):
+            with self.subTest(interval=interval):
+                with self.assertRaisesRegex(ValueError,"BAD_INTERVAL"):
+                    evaluate_plan({"r0":entry({"a":interval,"b":(1,1)},["a"])},1)
+
+    def test_judge_provenance_is_orthogonal_to_logical_result(self):
+        row={"r0":entry({"a":(5,5),"b":(1,1)},["a"])}
+        r=evaluate_plan(row,1,epsilon=1,verified_judge=False)
+        self.assertEqual(r["decision"],"LOW_REGRET_CERTIFIED")
+        self.assertEqual(r["scientific_status"],"HOLD_NO_INDEPENDENT_VALUE_JUDGE")
+
     def test_invalid_score_interval_cannot_pass(self):
         with self.assertRaisesRegex(ValueError,"BAD_INTERVAL"):
             evaluate_plan({"r0":entry({"a":(20,10),"b":(8,8)},["a"])},1)
