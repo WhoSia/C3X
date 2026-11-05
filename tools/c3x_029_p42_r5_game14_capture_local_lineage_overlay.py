@@ -61,7 +61,7 @@ void c3x042_r5_arm(const Position& pos, Search::Stack* ss, Move move) {
   c3x042_r5.armed=true;
   c3x042_r5.frame=ss;
   c3x042_r5.parent_key=pos.key();
-  c3x042_r5.child_key=pos.key_after(move);
+  c3x042_r5.child_key=Key(0); // actual post-do_move key is measured, never predicted
   c3x042_r5.move=move;
   c3x042_r5.root_call=c3x018_root_context_call;
   c3x042_r5_emit(pos,"GUARD_FALLTHROUGH");
@@ -69,8 +69,11 @@ void c3x042_r5_arm(const Position& pos, Search::Stack* ss, Move move) {
 void c3x042_r5_after_do(const Position& pos,Search::Stack* ss,Move move) {
   if (!c3x042_r5.armed || c3x042_r5.did_move
       || ss!=c3x042_r5.frame || move!=c3x042_r5.move
-      || pos.key()!=c3x042_r5.child_key
       || c3x018_root_context_call!=c3x042_r5.root_call) return;
+  // Position::key_after(move) is a speculative TT-prefetch key and need not
+  // equal a fully executed Position::key() for special state transitions.
+  // Obtain actual child identity ONLY after original pos.do_move().
+  c3x042_r5.child_key=pos.key();
   c3x042_r5.did_move=true;
   c3x042_r5_emit(pos,"ACTUAL_DO_MOVE");
 }
