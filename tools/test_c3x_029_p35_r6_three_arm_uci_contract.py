@@ -24,6 +24,11 @@ for raw in sys.stdin:
         print("readyok",flush=True)
     elif command.startswith("go "):
         options=command.split()
+        # Exact SF16 src/uci.cpp requires searchmoves at the END, or nodes is swallowed.
+        if "searchmoves" in options and options.index("nodes") > options.index("searchmoves"):
+            print("info depth 1 score cp 0 nodes 1 pv a7a6",flush=True)
+            print("bestmove 0000",flush=True)
+            continue
         if "searchmoves" in options:
             first=options[options.index("searchmoves")+1]
         else:
