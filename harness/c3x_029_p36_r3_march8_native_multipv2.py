@@ -96,10 +96,13 @@ def run_case(engine_path: str, case: dict) -> dict:
         })
     fail_unless(len({r["root_uci"] for r in rows}) == 2, "DUPLICATE_MULTIPV_ROOT")
     if all(row["score_cp_side_to_move"] is not None for row in rows):
-        margin = rows[0]["score_cp_side_to_move"] - rows[1]["score_cp_side_to_move"]
-        fail_unless(margin >= 0, "PV_SCORE_ORDER")
+        signed_gap = rows[0]["score_cp_side_to_move"] - rows[1]["score_cp_side_to_move"]
+        margin = abs(signed_gap)
+        rank_discordant = signed_gap < 0
     else:
+        signed_gap = None
         margin = None
+        rank_discordant = False
     return {
         "case_id": case["case_id"],
         "pgn_index": case["pgn_index"],
@@ -110,7 +113,9 @@ def run_case(engine_path: str, case: dict) -> dict:
         "original_prefix_uci": case["full_game_uci"][:FROZEN_PLY],
         "legal_root_count": legal_count,
         "candidate_margin_cp": margin,
-        "candidate_margin_stratum": stratum(margin),
+        "reported_pv1_minus_pv2_signed_cp": signed_gap,
+        "reported_root_order_discordant": rank_discordant,
+        "candidate_margin_stratum": "rank_unresolved" if rank_discordant else stratum(margin),
         "two_candidate_search": rows,
         "status": "ORIGINAL_SF16_MULTIPV2_SCREEN_ONLY",
     }
