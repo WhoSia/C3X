@@ -66,7 +66,7 @@ def reported_gap_verdict(first_cp: int | None, second_cp: int | None) -> dict:
 
 
 
-def run_case(engine_path: str, case: dict) -> dict:
+def run_case(engine_path: str, case: dict, nodes: int = ROOT_NODES) -> dict:
     board = validate_case(case)
     legal_count = board.legal_moves.count()
     fail_unless(legal_count >= 2, "INSUFFICIENT_LEGAL_CANDIDATES")
@@ -75,7 +75,7 @@ def run_case(engine_path: str, case: dict) -> dict:
         fail_unless("Use NNUE" in engine.options, "NNUE_OPTION")
         engine.configure({"Threads": 1, "Hash": 16, "Use NNUE": True})
         raw_infos = engine.analyse(
-            board, chess.engine.Limit(nodes=ROOT_NODES),
+            board, chess.engine.Limit(nodes=nodes),
             multipv=2, info=chess.engine.INFO_ALL
         )
     fail_unless(isinstance(raw_infos, list) and len(raw_infos) == 2, "TWO_PV_RESULTS")
@@ -113,6 +113,7 @@ def run_case(engine_path: str, case: dict) -> dict:
         "pgn_index": case["pgn_index"],
         "tags": case["tags"],
         "original_game_uci_sha256": case["full_game_uci_sha256"],
+        "requested_nodes": nodes,
         "fixed_ply": case["fixed_ply"],
         "position_fen": case["fixed_board_fen"],
         "original_prefix_uci": case["full_game_uci"][:FROZEN_PLY],
