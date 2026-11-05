@@ -3,6 +3,8 @@ on:
   push:
     paths:
       - '.github/workflows/c3x-029-p41-r3-source-plan-judge-preflight.yml'
+      - 'tools/c3x_029_p41_r3_independent_plan_court_preflight.py'
+      - 'tools/test_c3x_029_p41_r3_independent_plan_court_preflight.py'
   workflow_dispatch:
 permissions:
   contents: read
