@@ -6,7 +6,7 @@ from pathlib import Path
 import chess
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "harness"))
 from c3x_029_p36_r3_march8_native_multipv2 import (
-    validate_case, stratum, FROZEN_PLY
+    validate_case, stratum, reported_gap_verdict, FROZEN_PLY
 )
 
 UCI_30 = """c2c4 c7c5 g1f3 g8f6 b1c3 b8c6 e2e3 e7e6 d2d4 d7d5
@@ -46,6 +46,17 @@ class NativeScreenContractTest(unittest.TestCase):
     def test_negative_margin_refused(self):
         with self.assertRaisesRegex(ValueError,"NEGATIVE_MULTIPV_MARGIN"):
             stratum(-1)
+
+    def test_native_pv_rank_discordance_retained_not_sorted(self):
+        observed = reported_gap_verdict(9, 17)
+        self.assertEqual(observed["signed_gap_cp"], -8)
+        self.assertEqual(observed["margin_cp"], 8)
+        self.assertTrue(observed["rank_discordant"])
+        self.assertEqual(observed["stratum"], "rank_unresolved")
+
+    def test_positive_and_mate_or_unscored_gaps(self):
+        self.assertEqual(reported_gap_verdict(34, 21)["stratum"], "near")
+        self.assertEqual(reported_gap_verdict(None, 42)["stratum"], "mate_or_unscored")
 
 
 if __name__ == "__main__":
