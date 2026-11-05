@@ -103,11 +103,11 @@ def joint_court(old_raw: str, new_raw: str, replay_count=2) -> dict:
 
 def main():
     p=argparse.ArgumentParser()
-    p.add_argument("--private-original-C3b",required=True)
+    p.add_argument("--private-original-c3b",required=True)
     p.add_argument("--private-actual-child",required=True)
     p.add_argument("--public-out",required=True)
     a=p.parse_args()
-    r=joint_court(Path(getattr(a,"private_original_C3b")).read_text(),
+    r=joint_court(Path(a.private_original_c3b).read_text(),
                   Path(a.private_actual_child).read_text())
     out=Path(a.public_out)
     out.parent.mkdir(parents=True,exist_ok=True)
