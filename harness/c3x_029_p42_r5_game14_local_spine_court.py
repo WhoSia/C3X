@@ -59,7 +59,7 @@ def adjudicate(text: str, expected_processes: int=2) -> dict:
         runs.append(current)
     if len(runs)!=expected_processes:
         return _hold("WRONG_REPLAY_COUNT",len(runs))
-    counts={"full_local_spine":0,"parent_assignment":0}
+    counts={"full_local_spine":0,"parent_assignment":0,"parent_alpha_crossings":0,"bestvalue_only_assignments":0,"window_fail_low_like":0,"window_in_range":0,"window_fail_high_like":0}
     for run in runs:
         e=[x["event"] for x in run]
         if len(run)>7 or any(x["seq"]!=idx+1 for idx,x in enumerate(run)):
@@ -90,10 +90,23 @@ def adjudicate(text: str, expected_processes: int=2) -> dict:
             return _hold("SOURCE_ACTIVITY_FLAG_MISSING",len(runs))
         if run[3]["score"]!=run[4]["score"]:
             return _hold("RETURNED_SCORE_NOT_ADOPTED_IN_PARENT_CANDIDATE",len(runs))
+        # Window relations are source-search diagnostics, never independently
+        # verified chess value bounds or causal root certificates.
+        assessed=run[4]
+        if assessed["score"]<=assessed["alpha"]:
+            counts["window_fail_low_like"]+=1
+        elif assessed["score"]>=assessed["beta"]:
+            counts["window_fail_high_like"]+=1
+        else:
+            counts["window_in_range"]+=1
+        if assessed["score"]>assessed["alpha"]:
+            counts["parent_alpha_crossings"]+=1
         if "PARENT_BESTVALUE_ASSIGNED" in e:
             if run[4]["score"]<=run[4]["pre_best"] or run[5]["score"]!=run[4]["score"]:
                 return _hold("PARENT_ASSIGNMENT_CONTRADICTED",len(runs))
             counts["parent_assignment"]+=1
+            if assessed["score"]<=assessed["alpha"]:
+                counts["bestvalue_only_assignments"]+=1
         else:
             if run[4]["score"]>run[4]["pre_best"]:
                 return _hold("EXPECTED_ADOPTION_EVENT_ABSENT",len(runs))
@@ -101,7 +114,7 @@ def adjudicate(text: str, expected_processes: int=2) -> dict:
     return {
         "status":"LOCAL_EXACT_GUARD_CHILD_PARENT_WITNESS_ONLY",
         "replays":len(runs),"counts":counts,
-        "actual_chess_value_verified":False,
+        "window_relation_is_not_a_certified_exact_score_bound":True,\n        "actual_chess_value_verified":False,
         "full_ancestor_to_unrestricted_root_certified":False,
         "unique_natural_TT_mediation_certified":False,
         "source_keys_exposed":False,
