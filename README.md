@@ -1,5 +1,19 @@
 # C3X — Counterfactual Contrastive Chess eXplanation
 
+## 2026-11-05 — P41 Drive-Original Prior Art, Missing Source Ledger and Adversarial Experiment Gates
+
+**No paper promotion** until authentic novel chess-value forecasts beat equal-resource strong baselines on an independently verified game/event-disjoint set. **Cui, Ling & Ng (Findings EMNLP 2026) already evaluate partial engine strategy trees and off-main-line opponent replies with k_strat=3 and k_eval=3, plus human study (30 students)**; a single-PV or shallow capture heuristic is no longer an adequate flagship baseline. [Source-grounded 10-original-PDF critique](docs/C3X_029_P41_R1_DRIVE_PRIMARY_LITERATURE_NOVELTY_AND_BASELINE_AUDIT_20261105.md) · [Drive literature missing inventory, search-scope qualified](docs/C3X_029_P41_R1_MISSING_SOURCE_PAPERS_LEDGER_20261105.md).
+
+**P41/R2:** Compare source-pinned Stockfish PV, Cui-style k=3 partial engine tree, foil-aware structured concept rule/JSON, actual C3X plan, and abstention. Cost vector must account for native nodes **actually used**, CPU, legal expansions, output slots, model calls. Freeze plan before reference labels; a genuinely independent native judge must pass source+binaries+consumed nodes. [Strong competitor contract](docs/C3X_029_P41_R2_STRONG_CUI_STYLE_PARTIAL_TREE_AND_INDEPENDENT_JUDGE_CONTRACT_20261105.md).
+
+**P41/R3:** Fail-closed structural preflight, 13 synthetic test gates for game/event contamination, plan/forecast sealing, near-candidate identity drift, k3 rival presence, equal caps, plan selectivity, and actual native judge budget. [Code](tools/c3x_029_p41_r3_independent_plan_court_preflight.py) · [read-only CI](https://github.com/WhoSia/C3X/actions/runs/42017443171) PASS, **STRUCTURAL_PREFLIGHT_ONLY**, NOT chess-law or value-model PASS.
+
+**P41/R4:** Existing original P39 eight-event/16-root legal branch ledger contains 644 opponent reply records and 24,894 own followups; a 96k-node hypothetical score per every legal own followup would require ~2.39 billion requested nodes, versus at most 144 leaves (~13.82M requested nodes) for lexical 3 replies × 3 own actions per root. **Both figures are budget projections, not actual J execution**; lexical branches are not Cui's engine-ranked top-k. [Cost code](tools/c3x_029_p41_r4_full_vs_sampled_value_cost.py); its read-only source archive replay workflow is separate. Sampling can refute a universal low-regret statement but cannot certify it.
+
+**Current blockers:** Drive original Sandmann v4 / LLAMIA/Timbers best-response references missing (only targeted filename search, do not assert global absence), independent judge J not admitted, genuinely independent event-heldout and plan quality prediction not achieved. Old P38 Ethereal v12.75 requested 96k/192k but actually ran 2–5 nodes and failed subsequent minimum-work gate: **STOP** remains. Preserve failures. Research OS: Notion meaning, Drive bytes, GitHub authenticated human code; no Actions bot commits.
+
+---
+
 ## 2026-11-05 — P40 research-director paper court: no manuscript promotion, hard problem retained
 
 **Primary research goal:** Explain why close legal chess candidates preserve different *valuable* future options under diverse opponent responses, with independent response-conditioned forecast tests that beat a strong source-pinned Stockfish score+PV baseline. Separate aim: identify a source-executed NNUE feature → search-ancestor → root-choice causal path. **Neither has passed independent proof.** Do not publish smaller validity proxies merely because they are easy to verify.
