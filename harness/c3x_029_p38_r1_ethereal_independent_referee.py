@@ -94,27 +94,31 @@ def authentic_cases(prediction: dict, original_source: dict) -> list[dict]:
     return prediction["cases"]
 
 
-def extract_reply(board: chess.Board, root_uci: str, info: dict) -> dict:
+def extract_child_reply(child: chess.Board, info: dict,
+                        requested_nodes: int) -> dict:
+    """Opponent reply is FIRST move of an unrestricted search AFTER candidate."""
+    if child.is_game_over(claim_draw=False):
+        return {"status": "UNDEFINED_TERMINAL_CHILD", "reply": None, "pv": [],
+                "nodes": info.get("nodes"), "depth": info.get("depth")}
+    observed = info.get("nodes")
+    depth = info.get("depth")
+    need(isinstance(observed, int) and observed >= requested_nodes * 9 // 10,
+         "INSUFFICIENT_NATIVE_SEARCH_NODES")
+    need(isinstance(depth, int) and depth >= 3, "SHALLOW_NATIVE_REFEREE_DEPTH")
     pv = info.get("pv", [])
-    root = chess.Move.from_uci(root_uci)
     if not pv:
         return {"status": "UNDEFINED_NO_PV", "reply": None, "pv": [],
-                "nodes": info.get("nodes"), "depth": info.get("depth")}
-    need(pv[0] == root, "ENGINE_CHANGED_ROOT")
-    chess_board = board.copy(stack=True)
+                "nodes": observed, "depth": depth}
+    board = child.copy(stack=True)
     for move in pv:
-        need(move in chess_board.legal_moves, "REF_PV_ILLEGAL")
-        chess_board.push(move)
-    if len(pv) < 2:
-        return {"status": "UNDEFINED_NO_OPPONENT_REPLY", "reply": None,
-                "pv": [x.uci() for x in pv], "nodes": info.get("nodes"),
-                "depth": info.get("depth")}
+        need(move in board.legal_moves, "REF_PV_ILLEGAL")
+        board.push(move)
     return {
         "status": "VALID_NATIVE_REF_REPLY",
-        "reply": pv[1].uci(),
+        "reply": pv[0].uci(),
         "pv": [x.uci() for x in pv],
-        "nodes": info.get("nodes"),
-        "depth": info.get("depth"),
+        "nodes": observed,
+        "depth": depth,
         "score": str(info.get("score")),
     }
 
@@ -125,14 +129,19 @@ def evaluate_one(engine: str, history: list[str], root_uci: str, nodes: int) -> 
         board.push_uci(u)
     root = chess.Move.from_uci(root_uci)
     need(root in board.legal_moves, "REF_ROOT_ILLEGAL")
+    board.push(root)
+    if board.is_game_over(claim_draw=False):
+        return {"status":"UNDEFINED_TERMINAL_CHILD","reply":None,"pv":[],
+                "nodes":0,"depth":0,"requested_nodes":nodes}
     with chess.engine.SimpleEngine.popen_uci(engine, timeout=120) as process:
         need("Ethereal" in process.id.get("name", ""), "WRONG_ENGINE_FAMILY")
         need("Threads" in process.options and "Hash" in process.options,
              "MISSING_PERFORMANCE_OPTIONS")
         process.configure({"Threads": 1, "Hash": 16})
+        # No searchmoves: the chosen candidate is already part of the board.
         result = process.analyse(board, chess.engine.Limit(nodes=nodes),
-                                 root_moves=[root], info=chess.engine.INFO_ALL)
-    parsed = extract_reply(board, root_uci, result)
+                                 info=chess.engine.INFO_ALL)
+    parsed = extract_child_reply(board, result, nodes)
     parsed["requested_nodes"] = nodes
     return parsed
 
