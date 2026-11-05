@@ -1,8 +1,10 @@
-name: C3X P38 R1 Independent Ethereal 12.75 Frozen Forecast Court
+name: C3X P38 R2 Node-Gated Ethereal Post-Candidate Reply Court
 on:
   push:
     paths:
       - '.github/workflows/c3x-029-p38-r1-ethereal-independent-referee.yml'
+      - 'harness/c3x_029_p38_r1_ethereal_independent_referee.py'
+      - 'tools/test_c3x_029_p38_r1_ethereal_independent_referee.py'
   workflow_dispatch:
 permissions:
   contents: read
@@ -60,7 +62,7 @@ jobs:
             --prediction-zip forecasts \
             --source-zip source \
             --ethereal /tmp/c3x-p38-ethereal/src/Ethereal \
-            --out output/P38_R1_ETHEREAL96K192K_FROZEN_FORECAST_TRANSPORT.json \
+            --out output/P38_R2_ETHEREAL96K192K_NODE_GATED_FROZEN_FORECAST_TRANSPORT.json \
             | tee output/P38_NATIVE_STDOUT.txt
           grep -q 'P38_CROSS_ENGINE_COURT_COMPLETED' output/P38_NATIVE_STDOUT.txt
       - name: Seal all native receipts without modifying repo
@@ -71,7 +73,7 @@ jobs:
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: c3x-p38-r1-ethereal-12p75-independent-two-budget-original-frozen-forecast-court
+          name: c3x-p38-r2-ethereal-12p75-real-node-consumption-frozen-forecast-court
           path: output/
           retention-days: 90
           if-no-files-found: error
