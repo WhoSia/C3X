@@ -1,0 +1,52 @@
+name: C3X P41 R5 Authentic Chess Opponent Lexical-k Branch Control
+on:
+  push:
+    paths:
+      - '.github/workflows/c3x-029-p41-r5-lexical-control.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  archive-branch-control:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Reopen exact original full-branch result for original-source-only test
+        uses: actions/download-artifact@v4
+        with:
+          name: c3x-p39-r2-verified-all-replies-mobility-minimax
+          repository: WhoSia/C3X
+          run-id: '41993256831'
+          path: original
+          github-token: ${{ github.token }}
+      - name: Require original-only and synthetic falsification tests
+        env:
+          C3X_P41_R5_ORIGINAL: original/P39_R2_ADVERSARIAL_OPTION_VALUE_16_WORLDS.json
+        run: |
+          set -euo pipefail
+          python -m unittest discover -s tools -p 'test_c3x_029_p41_r5_lexical_reply_sample_control.py' -v
+      - name: Preserve no-new-engine original lexical coverage ledger
+        run: |
+          set -euo pipefail
+          mkdir -p output
+          python tools/c3x_029_p41_r5_lexical_reply_sample_control.py \
+            --source original/P39_R2_ADVERSARIAL_OPTION_VALUE_16_WORLDS.json \
+            --out output/P41_R5_POSTHOC_LEXICAL_THREE_REPLY_CONTROL.json
+          python - <<'PY'
+          import json
+          d=json.load(open('output/P41_R5_POSTHOC_LEXICAL_THREE_REPLY_CONTROL.json'))
+          assert (d['worlds_missing_worst'],d['sum_missed_w_gap'],
+                  d['max_missed_w_gap'])==(14,278,51)
+          print('P41_R5_ARCHIVAL_CONTROL_PASS_NOT_CUI_ENGINE_RANKED')
+          PY
+      - name: Checksum results, never modify repository
+        run: sha256sum output/*.json > output/MEMBER_SHA256.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: c3x-p41-r5-original-three-reply-coverage-negative-control
+          path: output/
+          retention-days: 90
