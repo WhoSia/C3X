@@ -3,6 +3,8 @@ on:
   push:
     paths:
       - '.github/workflows/c3x-029-p39-r2-adversarial-mobility.yml'
+      - 'tools/c3x_029_p39_r2_adversarial_mobility.py'
+      - 'tools/test_c3x_029_p39_r2_adversarial_mobility.py'
   workflow_dispatch:
 permissions:
   contents: read
