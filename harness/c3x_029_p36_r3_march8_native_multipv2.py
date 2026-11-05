@@ -126,6 +126,9 @@ def court(manifest_path: Path, engine_path: str, source_path: Path) -> dict:
     fail_unless(manifest["status"] == "SOURCE_FROZEN_ENGINE_BLIND_PENDING_HISTORICAL_OVERLAP_AUDIT",
                 "MANIFEST_PREOUTCOME_STATUS")
     cases = manifest["case_selection"]
+    for case in cases:
+        expected = hashlib.sha256(" ".join(case["full_game_uci"]).encode("ascii")).hexdigest()
+        fail_unless(expected == case["full_game_uci_sha256"], "FULL_GAME_HISTORY_SHA")
     fail_unless(tuple(c["case_id"] for c in cases) == EXPECTED_CASES, "CASE_IDS_NOT_PRESEALED")
     fail_unless(len({c["full_game_uci_sha256"] for c in cases}) == 8, "DUPLICATE_GAMES")
     observations = []
