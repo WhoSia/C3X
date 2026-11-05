@@ -1,0 +1,61 @@
+name: C3X P39 R2 Rule-Complete Adversarial Counterplay Mobility
+on:
+  push:
+    paths:
+      - '.github/workflows/c3x-029-p39-r2-adversarial-mobility.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  exact-chess-law-counterplay:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install legal-chess parser only (no engine)
+        run: python -m pip install -q chess==1.11.2
+      - name: Verify exhaustive chess-law minmax and tamper tests
+        run: |
+          set -euo pipefail
+          python -m unittest discover -s tools -p 'test_c3x_029_p39_r2_adversarial_mobility.py' -v
+      - name: Download old original source (full history)
+        uses: actions/download-artifact@v4
+        with:
+          name: c3x-p37-r1-oct-eight-distinct-events-original-pgn-and-engine-blind-freeze
+          repository: WhoSia/C3X
+          run-id: '41968008046'
+          path: source
+          github-token: ${{ github.token }}
+      - name: Download old candidate predictions (pre-referee)
+        uses: actions/download-artifact@v4
+        with:
+          name: c3x-p37-r2-pre-referee-eight-event-three-rival-predictions
+          repository: WhoSia/C3X
+          run-id: '41969173637'
+          path: predictions
+          github-token: ${{ github.token }}
+      - name: Calculate exact reply-universal minmax on all sixteen original worlds
+        run: |
+          set -euo pipefail
+          mkdir -p output
+          python -u tools/c3x_029_p39_r2_adversarial_mobility.py \
+            --source-member source/P37_R1_8_EVENT_8_GAME_SOURCE_ONLY_MANIFEST.json \
+            --prediction-member predictions/P37_R2_THREE_RIVAL_PRE_REFERENCE_PREDICTIONS.json \
+            --out output/P39_R2_ADVERSARIAL_OPTION_VALUE_16_WORLDS.json \
+            | tee output/P39_R2_STDOUT.log
+          grep -q 'P39_R2_COMPLETE' output/P39_R2_STDOUT.log
+      - name: Record output hashes (no repository writeback)
+        if: always()
+        run: |
+          mkdir -p output
+          find output -type f ! -name MEMBER_SHA256.txt -print0 | sort -z | xargs -0 -r sha256sum > output/MEMBER_SHA256.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x-p39-r2-verified-all-replies-mobility-minimax
+          path: output/
+          retention-days: 90
+          if-no-files-found: error
