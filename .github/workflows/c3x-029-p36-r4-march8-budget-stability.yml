@@ -1,0 +1,78 @@
+name: C3X P36 R4 Original SF16 Eight-Game 48k and 96k Stability
+on:
+  push:
+    paths:
+      - '.github/workflows/c3x-029-p36-r4-march8-budget-stability.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  native-budget-stability:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install native chess-law Python interface
+        run: python -m pip install -q chess==1.11.2
+      - name: Adversarial budget-stability and source-history unit tests
+        run: |
+          set -euo pipefail
+          python -m unittest discover -s tools -p 'test_c3x_029_p36_r4_march8_budget_stability.py' -v
+          python -m unittest discover -s tools -p 'test_c3x_029_p36_r3_march8_native_multipv2.py' -v
+      - name: Recover source-frozen March eight originals from immutable source-only run
+        uses: actions/download-artifact@v4
+        with:
+          name: c3x-p36-r2-original-march-broadcast-and-eight-game-engine-blind-freeze
+          repository: WhoSia/C3X
+          run-id: '41957706609'
+          path: source
+          github-token: ${{ github.token }}
+      - name: Recover exact former 24k eight-case result as frozen baseline
+        uses: actions/download-artifact@v4
+        with:
+          name: c3x-p36-r3-march8-original-sf16-multipv2-screen
+          repository: WhoSia/C3X
+          run-id: '41959284647'
+          path: previous
+          github-token: ${{ github.token }}
+      - name: Original source and 24k evidence integrity
+        run: |
+          set -euo pipefail
+          mkdir -p output
+          printf '%s  %s\n' 1a5ad83fc9f440dcdadde17b11cc81a953f4895aaf8b8588470b3078209dc7fc source/lichess_db_broadcast_2026-03.pgn.zst | sha256sum -c -
+          printf '%s  %s\n' e9b041d52e2622cb2caf085cdeb21132c06da37c68dde51fb56540d5d06b9ff3 source/P36_R2_MARCH_8_GAME_ENGINE_BLIND_MANIFEST.json | sha256sum -c -
+          printf '%s  %s\n' 5ce8ec253c95075cbba3a1b273236886756968778259363f1f1214fdb1c12d3f previous/P36_R3_MARCH8_NATIVE_MULTIPV2_SCORE_SCREEN.json | sha256sum -c -
+      - name: Build original, uninstrumented SF16 with identical network
+        run: |
+          set -euo pipefail
+          git clone -q --single-branch --branch sf_16 https://github.com/official-stockfish/Stockfish.git /tmp/c3x-p36-r4-sf16
+          test "$(git -C /tmp/c3x-p36-r4-sf16 rev-parse HEAD)" = 68e1e9b3811e16cad014b590d7443b9063b3eb52
+          make -s -C /tmp/c3x-p36-r4-sf16/src -j2 build ARCH=x86-64
+          test "$(sha256sum /tmp/c3x-p36-r4-sf16/src/nn-5af11540bbfe.nnue | cut -d' ' -f1)" = 5af11540bbfefcb54e38c5dd000cab4b469dfa7599a1d55be5d2722c20a8929b
+          sha256sum /tmp/c3x-p36-r4-sf16/src/stockfish > output/P36_R4_NATIVE_BINARY_SHA.txt
+      - name: Run all eight games at both predeclared native node budgets
+        run: |
+          set -euo pipefail
+          python -u harness/c3x_029_p36_r4_march8_budget_stability.py \
+            --manifest source/P36_R2_MARCH_8_GAME_ENGINE_BLIND_MANIFEST.json \
+            --previous-24k previous/P36_R3_MARCH8_NATIVE_MULTIPV2_SCORE_SCREEN.json \
+            --source source/lichess_db_broadcast_2026-03.pgn.zst \
+            --engine /tmp/c3x-p36-r4-sf16/src/stockfish \
+            --out output/P36_R4_MARCH8_48K_96K_NATIVE_STABILITY.json \
+            | tee output/P36_R4_NATIVE_STDOUT.txt
+          grep -q P36_R4_NATIVE_BUDGET_STABILITY_COURT_COMPLETE output/P36_R4_NATIVE_STDOUT.txt
+      - name: Archive immutable byte hashes without repository modifications
+        if: always()
+        run: |
+          mkdir -p output
+          find output -maxdepth 1 -type f ! -name MEMBER_SHA256.txt -print0 | sort -z | xargs -0 -r sha256sum > output/MEMBER_SHA256.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x-p36-r4-original-sf16-march8-48k-96k-stability
+          path: output/
+          retention-days: 90
+          if-no-files-found: error
