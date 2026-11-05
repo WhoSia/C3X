@@ -3,6 +3,8 @@ on:
   push:
     paths:
       - '.github/workflows/c3x-029-p36-r3-march8-native-multipv.yml'
+      - 'harness/c3x_029_p36_r3_march8_native_multipv2.py'
+      - 'tools/test_c3x_029_p36_r3_march8_native_multipv2.py'
   workflow_dispatch:
 permissions:
   contents: read
