@@ -67,7 +67,13 @@ def run_once(engine, history, root, nodes, log_mode, timeout=120):
             issue("isready")
             until("readyok")
             issue("position startpos moves "+" ".join(history))
-            issue(f"go searchmoves {root} nodes {nodes}")
+            if root is None:
+                issue(f"go nodes {nodes}")
+            elif isinstance(root, (tuple, list)):
+                must(len(root) >= 2 and len(set(root)) == len(root), "INVALID_PAIR_ROOTS")
+                issue(f"go searchmoves {' '.join(root)} nodes {nodes}")
+            else:
+                issue(f"go searchmoves {root} nodes {nodes}")
             best=until("bestmove ")
             issue("quit")
             process.wait(timeout=10)
@@ -101,6 +107,10 @@ def court(source_path,p34_path,vanilla,instrumented,nodes):
     cases={x["id"]:x for x in source["selected"]}
     must(len(prior["records"])==4,"ROOT_COUNT")
     records=[]
+    root_groups={}
+    for candidate in prior["records"]:
+        root_groups.setdefault(candidate["case_id"], []).append(candidate["root_uci"])
+    must(len(root_groups)==2 and all(len(set(roots))==2 for roots in root_groups.values()),"CASE_ROOT_GROUPS")
     for candidate in prior["records"]:
         c=cases[candidate["case_id"]]
         board=replay_original(c)
@@ -111,12 +121,38 @@ def court(source_path,p34_path,vanilla,instrumented,nodes):
         probed=run_once(instrumented,history,candidate["root_uci"],nodes,True)
         parity=normal["bestmove"]==probed["bestmove"] and normal["final_info"]==probed["final_info"]
         records.append({"case_id":candidate["case_id"],"root":candidate["root_uci"],
+                        "arm":"forced_one", "allowed_roots":[candidate["root_uci"]],
+                        "natural_choice_evidence":False,
                         "parity":parity,"vanilla":normal,"probed":probed})
         print("P35_R5_SEARCH",candidate["case_id"],candidate["root_uci"],
               "parity=",parity,"evals=",probed["route_by_arm"],flush=True)
+    for case_id, roots in sorted(root_groups.items()):
+        case=cases[case_id]
+        board=replay_original(case)
+        must(all(chess.Move.from_uci(move) in board.legal_moves for move in roots),
+             "PAIR_ROOT_ILLEGAL")
+        history=case["full_original_mainline_uci"][:case["source_ply_before_original_move"]]
+        for arm, allowed in (("pair",roots),("unrestricted",None)):
+            normal=run_once(vanilla,history,allowed,nodes,False)
+            probed=run_once(instrumented,history,allowed,nodes,True)
+            parity=normal["bestmove"]==probed["bestmove"] and normal["final_info"]==probed["final_info"]
+            if arm=="pair":
+                must(normal["bestmove"] in roots,"PAIR_BESTMOVE_NOT_ALLOWED")
+            else:
+                must(chess.Move.from_uci(normal["bestmove"]) in board.legal_moves,
+                     "UNRESTRICTED_BESTMOVE_ILLEGAL")
+            records.append({"case_id":case_id,"root":None,
+                            "arm":arm,"allowed_roots":allowed,
+                            "natural_choice_evidence":arm=="unrestricted",
+                            "third_candidate":arm=="unrestricted" and normal["bestmove"] not in roots,
+                            "parity":parity,"vanilla":normal,"probed":probed})
+            print("P35_R6_COMPETITION",case_id,arm,"parity=",parity,
+                  "bestmove=",normal["bestmove"],
+                  "evals=",probed["route_by_arm"],flush=True)
+    must(len(records)==8,"EXPECTED_EIGHT_ROOT_ARMS")
     must(all(r["parity"] for r in records),"SOURCE_INSTRUMENTATION_PARITY")
-    return {"status":"P35_R5_SOURCE_EVALUATION_DISPATCH_PASS_NOT_CAUSAL_MEDIATION",
-            "claim_ceiling":"Native actual evaluator dispatch, not parent/root mediated causal effects",
+    return {"status":"P35_R6_THREE_ARM_NATIVE_DISPATCH_PARITY_PASS_NOT_CAUSAL_MEDIATION",
+            "claim_ceiling":"Actual HCE/NNUE dispatch + forced, pair and unrestricted root parity. No causal neural mediator or explanation superiority.",
             "requested_nodes":nodes,"game_disjoint_heldout":False,"records":records}
 
 def main():
