@@ -33,6 +33,8 @@ jobs:
           set -euo pipefail
           python -u tools/c3x_029_p36_r1_july_engine_blind_freeze.py \
             --source-zst output/lichess_db_broadcast_2026-03.pgn.zst \
+            --expected-sha256 1a5ad83fc9f440dcdadde17b11cc81a953f4895aaf8b8588470b3078209dc7fc \
+            --source-url https://database.lichess.org/broadcast/lichess_db_broadcast_2026-03.pgn.zst \
             --out output/P36_R2_MARCH_8_GAME_ENGINE_BLIND_MANIFEST.json \
             | tee output/P36_R2_ENGINE_BLIND_STDOUT.log
           grep -q 'NO_ENGINE_CALLS' output/P36_R2_ENGINE_BLIND_STDOUT.log
