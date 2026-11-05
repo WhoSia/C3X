@@ -69,8 +69,9 @@ def adjudicate(text: str, expected_processes: int=2) -> dict:
         if any(tuple(x[k] for k in ("parent64","child64","root_call",
                                    "root_move","move"))!=identity for x in run):
             return _hold("EVENT_IDENTITY_DRIFT",len(runs))
-        if any(run[0][k]==0 for k in ("parent64","child64")):
-            return _hold("NULL_PARENT_OR_CHILD",len(runs))
+        # Do not confuse Zobrist key 0 with 'not initialized'. The observer's
+        # did_move/child_entered flags, source frame and event ordering provide
+        # the provenance; a 64-bit position hash need not be nonzero.
         expect=["GUARD_FALLTHROUGH","ACTUAL_DO_MOVE"]
         expect.append("MAIN_CHILD_ENTERED" if "MAIN_CHILD_ENTERED" in e
                       else "QSEARCH_CHILD_ENTERED")
