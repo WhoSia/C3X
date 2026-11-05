@@ -11,6 +11,7 @@ import hashlib
 import json
 import zipfile
 from pathlib import Path
+import chess
 
 SOURCE_ZIP = "3f16f69c6cb01029c519aeb24654913303916ce79537c1a86497bb9c84b79191"
 PRED_ZIP = "721471da43d0bd973e2b084fc47070f5a5826d0add38cbc39a2ccfbca6a427f6"
@@ -66,6 +67,19 @@ def inspect_observed_case(pred: dict, game: dict, prefix: dict) -> dict:
     roots = {x["root_uci"]: x for x in pred["candidate_pairs"]}
     need(len(roots) == 2, "ROOT_DUPLICATE")
     played, reply = moves[30], moves[31]
+    # Verify real human response is legally reachable from the same frozen history.
+    board = chess.Board()
+    for move_uci in moves[:30]:
+        move = chess.Move.from_uci(move_uci)
+        need(move in board.legal_moves, "PREFIX_NOT_LEGAL")
+        board.push(move)
+    need(board.fen(en_passant="fen") == game["frozen_fen"],
+         "ORIGINAL_FEN_NOT_REPRODUCIBLE")
+    actual = chess.Move.from_uci(played)
+    need(actual in board.legal_moves, "ACTUAL_PLAYED_MOVE_ILLEGAL")
+    board.push(actual)
+    actual_reply = chess.Move.from_uci(reply)
+    need(actual_reply in board.legal_moves, "ACTUAL_OPPONENT_REPLY_ILLEGAL")
     result = {
         "case_id": pred["case_id"], "event_family": pred["event_family"],
         "source_id": pred["source_id"], "historical_played_root_uci": played,
