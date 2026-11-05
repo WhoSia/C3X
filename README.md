@@ -1,5 +1,11 @@
 # C3X — Counterfactual Contrastive Chess eXplanation
 
+## 2026-11-05 — P42/R2 adversarial trial-admission audit (no native chess PASS)
+
+P41's structural preflight can accept fictitious illegal history (its own tests deliberately do), self-declared PRE_JUDGE chronology, and per-method resource costs that share caps but differ substantially in actual use. These are *claim-boundary limitations*, not proof of fraud or a previously failed P41 test. Independent verification of chess-law/source custody, prediction timestamp before J, actual resource ledger, referee provenance and four-way cost conditioning remains required. New isolated [cost/chronology admission tool](tools/c3x_029_p42_r2_cost_chronology_admission.py), [8 authored regression tests](tools/test_c3x_029_p42_r2_cost_chronology_admission.py) and [scientific scope adjudication](docs/C3X_029_P42_R2_COST_CHRONOLOGY_LEGALITY_ADMISSIBILITY_20261105.md). **No new native Stockfish runs or fresh CI test PASS in R2.** Passing resource ledger means declared cost structure only, not chess explanation validity. Retain P40/P41 negative results and WhoSia author-only rule.
+
+---
+
 ## 2026-11-05 — P42/R1 audit: within-root plan regret does not identify root value or natural choice
 
 **Source-first negative research unit (synthetic only).** For finite response-conditioned leaves, $Q(m)=\min_r\max_u V_J(smru)$ can change under a candidate-specific payoff translation while $R_P(m)=\max_r[\max_u V_J-\max_{u\in P} V_J]$ stays constant. Exact selective regret 0 is compatible with a terrible root candidate; retrospective choice of the judge's best reply-specific action also has regret 0 without predictive information. Do NOT promote regret alone to root preference, novel chess explanation, or NNUE/search causal mediation. [Five authored regression tests](tools/test_c3x_029_p42_regret_nonidentification_court.py) · [synthetic finite-tree refuters](tools/c3x_029_p42_regret_nonidentification_court.py) · [PI judgement](docs/C3X_029_P42_R1_REGRET_NONIDENTIFICATION_AND_FAIRNESS_AUDIT_20261105.md).
