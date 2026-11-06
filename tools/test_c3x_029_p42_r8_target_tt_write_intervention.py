@@ -8,7 +8,7 @@ sys.path.insert(0,str(Path(__file__).resolve().parent))
 import c3x_029_p42_r8_guard_descendant_tt_save_intervention as p
 import c3x_029_p42_r5_game14_capture_local_lineage_overlay as r5
 
-SEARCH="\n".join([
+SEARCH="namespace Stockfish {\n"+"\n".join([
     r5.STATE_ANCHOR,r5.EVENT_ANCHOR,r5.MAIN_ENTRY,r5.Q_ENTRY,
     r5.MAIN_DO,r5.MAIN_UNDO,r5.MAIN_STOP,r5.MAIN_ADOPT])+"\n"
 
@@ -28,6 +28,13 @@ class TTWriteContract(unittest.TestCase):
         return_site=s.index("c3x042_r5.child_returned=true;")
         self.assertLess(return_site,
                         s.index("c3x042_r8_target_descendant=false;",return_site))
+    def test_thread_locals_have_external_stockfish_linkage(self):
+        source=p.patch_search(search_fixture())
+        self.assertLess(source.index("thread_local bool c3x042_r8_target_descendant"),
+                        source.index("thread_local C3X042_R5_Local c3x042_r5"))
+        self.assertEqual(source.count("thread_local bool c3x042_r8_target_descendant=false;"),1)
+        self.assertIn("namespace Stockfish {\n\nthread_local bool",source)
+
     def test_control_is_non_mutating_when_env_unset(self):
         t=p.patch_tt(tt_fixture())
         self.assertIn('drop && drop[0]==\'1\' && drop[1]==\'\\0\'',t)
