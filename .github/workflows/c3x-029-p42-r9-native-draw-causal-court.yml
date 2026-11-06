@@ -88,5 +88,7 @@ jobs:
         if: always()
         with:
           name: c3x042-p42-r9-source-draw-causal-public-aggregate-only
-          path: public/
+          path: |
+            public/C3X042_R9_DRAW_CAUSAL_COURT.json
+            public/SOURCE_LICENSE_NOTICE.txt
           if-no-files-found: warn
