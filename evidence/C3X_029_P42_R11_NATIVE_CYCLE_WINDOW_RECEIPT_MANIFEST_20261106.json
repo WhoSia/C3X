@@ -1,0 +1,51 @@
+{
+  "schema": "c3x042-r11-native-cycle-alpha-window-receipt-v1",
+  "research_version": "C3X 0.29 P42/R11",
+  "run_id": 42177462049,
+  "run_url": "https://github.com/WhoSia/C3X/actions/runs/42177462049",
+  "conclusion": "success",
+  "artifact_id": 13483623242,
+  "artifact_name": "c3x042-p42-r11-native-cycle-windows-aggregate-only",
+  "downloaded_public_zip_sha256": "39b27d086931c41faaf9ed4b0afdd9628d1e0780e9340dbf729b673cc0fc0bd7",
+  "verified_json_member": "C3X042_R11_CYCLE_ALPHA_NATIVE_WINDOW_COURT.json",
+  "verified_json_sha256": "5ca3e30831cccf3efe7f52cb73eaf4fa98eaca481279bb46276fd39a3028642d",
+  "pinned_stockfish16": "68e1e9b3811e16cad014b590d7443b9063b3eb52",
+  "game14_original_source_sha256": "0822ec4ddab0339d51a65f3a9d077a1245b2402b111e78a3aa90d2a4d9a83652",
+  "original_A": {
+    "native_move": "b3a4",
+    "calls_per_cold": 380,
+    "immediate_cutoffs_per_cold": 364
+  },
+  "original_B": {
+    "native_move": "f3f4",
+    "calls_per_cold": 562,
+    "immediate_cutoffs_per_cold": 552
+  },
+  "cycle_neutralized_A": {
+    "native_move": "b3a4",
+    "calls_per_cold": 288,
+    "immediate_cutoffs_per_cold": 288
+  },
+  "cycle_neutralized_B": {
+    "native_move": "b3a4",
+    "calls_per_cold": 288,
+    "immediate_cutoffs_per_cold": 288
+  },
+  "strict_common_source_input_prefix_per_cold": {
+    "A": 27,
+    "B": 33
+  },
+  "within_prefix_return_disagreements_per_cold": {
+    "A": 27,
+    "B": 33
+  },
+  "within_prefix_immediate_cutoff_disagreements_per_cold": {
+    "A": 2,
+    "B": 4
+  },
+  "two_cold_replays_identical": true,
+  "private_keys_publicly_exported": false,
+  "natural_source_event_to_root_mediation_certified": false,
+  "independently_valuable_chess_plan_certified": false,
+  "prospective_transport_certified": false
+}
