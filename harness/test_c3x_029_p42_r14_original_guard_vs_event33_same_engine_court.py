@@ -28,7 +28,7 @@ class R14NativeConvergenceTests(unittest.TestCase):
             parse_three_cold_root_worlds('\n'.join(groups().splitlines()[:10]))
     def test_changed_cold_depth_boundary_holds(self):
         lines=groups().splitlines()
-        lines[7]=lines[7].replace('score=-89','score=-85')
+        lines[9]=lines[9].replace('score=-89','score=-85')
         with self.assertRaisesRegex(ValueError,'C_HOLD_COLD|_C_HOLD_COLD|C_HOLD'):
             parse_three_cold_root_worlds('\n'.join(lines))
     def test_malformed_native_capture_guard_holds(self):
