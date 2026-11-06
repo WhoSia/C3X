@@ -10,6 +10,7 @@ import argparse
 import json
 import os
 import re
+import shutil
 import subprocess
 from pathlib import Path
 from c3x_029_p42_r8_same_engine_tt_save_causal_court import file_sha, STAGEA_SHA, SOURCE_SHA, FORECAST_SHA
@@ -98,6 +99,11 @@ def main():
         resultfile=output/"C3X042_R8_CAUSAL_TT_SIDE_EFFECT_COURT.json"
         result=json.loads(resultfile.read_text()) if resultfile.exists() else {}
         outcomes.append((counts,result,ran.returncode))
+    # Keep original ABC/D public interim reports out of the R9 artifact.
+    # R8 already published those same historical labels in its own rights-gated
+    # receipts; R9 releases only aggregate counts and conditional verdict.
+    shutil.rmtree(out/"original_draw")
+    shutil.rmtree(out/"neutralized_draw")
     result=decide(outcomes[0][0],outcomes[1][0],outcomes[0][1],
                   outcomes[1][1],outcomes[0][2],outcomes[1][2])
     (out/"C3X042_R9_DRAW_CAUSAL_COURT.json").write_text(json.dumps(result,indent=2,sort_keys=True)+"\n")
