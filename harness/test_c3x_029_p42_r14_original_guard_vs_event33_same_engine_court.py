@@ -22,8 +22,8 @@ def groups():
 class R14NativeConvergenceTests(unittest.TestCase):
     def test_strict_six_physical_source_runs_parsed(self):
         g=parse_three_cold_root_worlds(groups())
-        self.assertEqual(g['B'][8]['leader',1373)
-        self.assertEqual(g['C'][8]['score',-89)
+        self.assertEqual(g['B'][8]['leader'],1373)
+        self.assertEqual(g['C'][8]['score'],-89)
     def test_missing_cold_native_run_holds(self):
         with self.assertRaisesRegex(ValueError,'NOT_SIX_NATIVE'):
             parse_three_cold_root_worlds('\n'.join(groups().splitlines()[:10]))
