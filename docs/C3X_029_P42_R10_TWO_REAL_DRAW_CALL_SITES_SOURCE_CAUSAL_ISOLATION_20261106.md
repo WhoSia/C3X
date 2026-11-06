@@ -55,3 +55,29 @@ All `value_draw` source calls are under source-global site intervention, **not**
 ## Original research challenge beyond R10
 
 Even if the precise source-call site is isolated, C3X must establish which site return value propagates (or is overruled) through changing windows/TT ancestry to an unrestricted root choice, and—beyond this program-execution result—whether the consumed representation corresponds to a **predeclared strategically meaningful adversarial chess future**, across independent engine/value adjudication and game/event disjoint prospective testing. None is yet demonstrated by R10; Game14 is historical and NNUE OFF.
+
+
+## 2026-11-06 — Verified new native source-site outcome and actual evidence custody
+
+[Read-only native run #42164306431](https://github.com/WhoSia/C3X/actions/runs/42164306431) **COMPLETED SUCCESS**, pinned Stockfish16 source patch compiled, original 16-game StageA SHA gate, legal Game14 histories, all source surgery and synthetic court tests passed, 16 actual native A/B cold calls executed, original TT_FIRST physical reader evidence verified.
+
+**Physically observed final root decisions in every two-cold repeat:**
+
+| draw return intervention | A untreated | B TT_FIRST |
+|---|---|---|
+| 0 original | b3a4,b3a4 | f3f4,f3f4 |
+| 1 cycle-alpha only | b3a4,b3a4 | **b3a4,b3a4** |
+| 2 terminal draw return only | b3a4,b3a4 | f3f4,f3f4 |
+| 3 both original callers | b3a4,b3a4 | **b3a4,b3a4** |
+
+**Native source-call evidence:** cycle-alpha site 1 original A **380,380** calls and B **562,562** calls. Under cycle-alpha-only neutralization both A and B made **288,288** cycle-alpha calls; the same pattern appeared in both-sites neutralization. Under terminal-only neutralization, cycle-alpha calls remained at original 380 and 562. Site 2 terminal-draw-return had **zero actual calls across all 16 source-native A/B runs**, not just zero selected interventions. The original cycle-alpha caller is the only **physically contacted draw-return source route** in this cohort. Its global selective neutralization is **functionally sufficient to change B final choice back to b3a4** while preserving A. Site 2, not reached, cannot be the path explaining this actual difference.
+
+These are source-native *interventional* findings, more discriminating than any simple correlation, log phrase, 3-ply regret or proximity-based chess feature. **But** changing cycle-alpha return changes downstream visited-search structure (evidenced by source call counts 562→288 for B). Therefore the result does **not** identify a *single* responsible repeated-cycle event or a complete natural `TT_FIRST→capture_prune→cycle_alpha→ancestor→root` mediation sequence. Nor can the result be transferred from classical Stockfish16 search (NNUE OFF) to NNUE features or chess strategy without independent verification.
+
+**Artifact independently downloaded and SHA-sealed:** ID 13478431611, ZIP SHA256 `a33fb3ee05c2f3f3564f7c84b25d7abd24ef003621614b2f5cc0b09da4f111df`; member `C3X042_R10_ACTUAL_DRAW_SITE_CAUSAL_COURT.json` SHA256 `86174c8203d1d5b3602ce0daf7d6e6e0bcce2ef476c5b701d85704bbbd0c92c3`. The original JSON was directly parsed, including each mode/arm/repetition's true source calls; no fact inferred from workflow SUCCESS alone. [Permanent signed-context human-authored receipt manifest](../evidence/C3X_029_P42_R10_TWO_NATIVE_DRAW_SITES_RECEIPT_MANIFEST_20261106.json). Public artifact contains only aggregate status, actual source counts, previously exposed moves and provenance license; no private PGN, TT keys, full source trace, or engine binary.
+
+**Earlier R10 technical failure:** [#42164169618](https://github.com/WhoSia/C3X/actions/runs/42164169618) stopped before native setup on a case-sensitive *comment text* synthetic assertion. Corrected that assertion to count genuine inserted source call sites, and the actual later R10 run succeeded. Preserve both; avoid interpreting the earlier error as a scientific falsification.
+
+### Genuine next hard computational mechanism test
+
+The source-pinned cycle-alpha branch runs under a game-cycle/halfmove condition and can update `alpha` then immediately compare it with `beta`. The new question is **which actually executed cycle-alpha event and which changed alpha/beta pruning or ancestor value state caused the B root restoration under the site-specific intervention?** Neither an aggregate of 562 calls nor a broad site change alone answers this. A useful R11 must capture original legal history and dynamic source identity, alpha/beta before/after, cutoff and actual parent/root propagation, and then selectively challenge a *source-contacted* site with predeclared sham/non-contact controls. In parallel, identify the corresponding objectively meaningful chess future rather than confusing draw-related search bookkeeping with the strategic reason for the move. The 0.27 Game14 postselection boundary persists, prospective independent cohort is still required.
