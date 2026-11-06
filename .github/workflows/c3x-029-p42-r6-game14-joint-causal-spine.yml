@@ -9,6 +9,7 @@ on:
       - 'harness/c3x_029_p42_r5_game14_local_spine_court.py'
       - 'harness/c3x_029_p42_r6_same_execution_local_ancestor_court.py'
       - 'harness/test_c3x_029_p42_r6_same_execution_local_ancestor_court.py'
+      - 'harness/test_c3x_029_p42_r5_game14_local_spine_court.py'
       - 'tools/test_c3x_029_p42_r6_exact_child_key_source.py'
   workflow_dispatch:
 permissions:
