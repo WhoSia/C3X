@@ -34,8 +34,8 @@ def patch(source):
     if source.count(STATE_ANCHOR)!=1:
         raise ValueError('R12_HOLD_SHARED_THREAD_STATE_ANCHOR_COUNT_'+str(source.count(STATE_ANCHOR)))
     source=source.replace(STATE_ANCHOR,
-        '  // R12 shared across Root/PV/NonPV template instantiations, thread-local.\\n'
-        '  thread_local unsigned long long c3x042_r12_ordinal=0;\\n'
+        '  // R12 shared across Root/PV/NonPV template instantiations, thread-local.\n'
+        '  thread_local unsigned long long c3x042_r12_ordinal=0;\n'
         +STATE_ANCHOR,1)
     return source.replace(ANCHOR,REPLACEMENT,1)
 
