@@ -1,7 +1,7 @@
 """R12 synthetic source matching, causal selection and negative verdict tests."""
 import unittest
 from c3x_029_p42_r12_native_single_cycle_event_court import (
- selected_ordinals,match_single_event,summarize_court,PREFIX_LIMIT
+ selected_ordinals,match_single_event,summarize_court,PREFIX_LIMIT,split_two_physical_plays
 )
 
 def ev(i):
@@ -26,6 +26,28 @@ def probed(b,ordinal,move='f3f4'):
     return out
 
 class R12NativeSingleEventTests(unittest.TestCase):
+    def test_two_cold_physical_play_logs_are_separate_and_equal(self):
+        e=[ev(i) for i in range(1,34)]
+        self.assertEqual(split_two_physical_plays(e+e),e)
+    def test_each_physical_play_has_its_own_source_ordinal(self):
+        e=[ev(i) for i in range(1,34)]
+        for half in (e[:],e[:]):
+            half[29]=dict(half[29])
+            half[29]['candidate']=0
+            half[29]['cutoff']=1
+        a,b=e[:],e[:]
+        a[29]=dict(a[29]);a[29]['candidate']=0;a[29]['cutoff']=1
+        b[29]=dict(b[29]);b[29]['candidate']=0;b[29]['cutoff']=1
+        self.assertEqual(split_two_physical_plays(a+b)[29]['candidate'],0)
+    def test_odd_number_of_native_events_must_hold(self):
+        with self.assertRaisesRegex(ValueError,'ODD_NUMBER'):
+            split_two_physical_plays([ev(1)])
+    def test_different_cold_subprocess_traces_hold(self):
+        e=[ev(i) for i in range(1,34)]
+        other=[dict(x) for x in e]
+        other[30]['key']=9999
+        with self.assertRaisesRegex(ValueError,'NOT_IDENTICAL'):
+            split_two_physical_plays(e+other)
     def test_source_selection_is_four_real_cutoff_changers(self):
         self.assertEqual(selected_ordinals(baseline()[0]['events']),[3,8,18,29])
     def test_selected_ordinal_is_true_source_cutoff_change(self):
