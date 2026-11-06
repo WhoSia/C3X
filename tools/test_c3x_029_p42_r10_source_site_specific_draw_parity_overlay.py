@@ -12,7 +12,7 @@ class R10Sites(unittest.TestCase):
         z=patch(source())
         self.assertIn("c3x042_r10_draw_site(pos.this_thread(),1,ss->ply);",z)
         self.assertIn("c3x042_r10_draw_site(pos.this_thread(),2,ss->ply);",z)
-        self.assertIn("site 1=cycle-alpha, site 2=terminal draw",z)
+        self.assertEqual(z.count("c3x042_r10_draw_site(pos.this_thread(),"),2)
     def test_existing_r9_source_preserved(self):
         z=patch(source())
         self.assertEqual(z.count(FUNCTION_TAIL),1)
