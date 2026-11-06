@@ -25,8 +25,9 @@ class TTWriteContract(unittest.TestCase):
         self.assertEqual(s.count("c3x042_r5.child_returned=true;\n  c3x042_r8_target_descendant=false;"),1)
         self.assertLess(s.index("c3x042_r5.did_move=true;"),
                         s.index("c3x042_r8_target_descendant=true;"))
-        self.assertLess(s.index("c3x042_r5.child_returned=true;"),
-                        s.index("c3x042_r8_target_descendant=false;"))
+        return_site=s.index("c3x042_r5.child_returned=true;")
+        self.assertLess(return_site,
+                        s.index("c3x042_r8_target_descendant=false;",return_site))
     def test_control_is_non_mutating_when_env_unset(self):
         t=p.patch_tt(tt_fixture())
         self.assertIn('drop && drop[0]==\'1\' && drop[1]==\'\\0\'',t)
