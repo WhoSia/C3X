@@ -33,6 +33,26 @@ class SourceActualKeyTests(unittest.TestCase):
         self.assertLess(s.index("pos.do_move(move, st, givesCheck);"),
                         s.index("c3x042_r5_after_do(pos,ss,move);"))
         self.assertIn('c3x042_r5_before_undo(pos,ss,move,int(value));',s)
+    def test_parent_assessment_site_not_brittle_across_source_comments(self):
+        source=synthetic_cpp_fixture().replace(
+            overlay.MAIN_STOP,
+            "      if (Threads.stop.load(std::memory_order_relaxed))\n"
+            "          return VALUE_ZERO;\n"
+            "      // actual pinned SF16 explanatory comment before root branch\n"
+            + overlay.MAIN_STOP
+        )
+        result=overlay.patch(source)
+        self.assertEqual(result.count("c3x042_r5_assess(pos,ss,move,"),1)
+        self.assertLess(result.index("if (Threads.stop.load"),
+                        result.index("c3x042_r5_assess(pos,ss,move,"))
+        self.assertLess(result.index("c3x042_r5_assess(pos,ss,move,"),
+                        result.index(overlay.MAIN_STOP))
+
+    def test_source_contract_rejects_duplicate_root_assessment_site(self):
+        source=synthetic_cpp_fixture()+overlay.MAIN_STOP+"\n"
+        with self.assertRaisesRegex(ValueError,"PARENT_ASSESS_ANCHOR_COUNT_2"):
+            overlay.patch(source)
+
     def test_duplicate_application_fails_closed(self):
         with self.assertRaisesRegex(ValueError,"ALREADY_PATCHED"):
             overlay.patch(overlay.patch(synthetic_cpp_fixture()))
