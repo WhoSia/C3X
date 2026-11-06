@@ -9,13 +9,13 @@ are consulted to choose events. Child code remains otherwise unchanged.
 """
 from pathlib import Path
 import argparse,hashlib,json
+STATE_ANCHOR='  // search<>() is the main search function for both PV and non-PV nodes'
 ANCHOR='''        const Value c3x042_r11_candidate =
             c3x042_r10_draw_site(pos.this_thread(),1,ss->ply);'''
 REPLACEMENT=r'''        // R12: passive original value first; perturb at most one physical
         // cycle-alpha source call in this entire cold engine process.
         const Value c3x042_r12_native =
             c3x042_r10_draw_site(pos.this_thread(),1,ss->ply);
-        static thread_local unsigned long long c3x042_r12_ordinal = 0;
         ++c3x042_r12_ordinal;
         const char* c3x042_r12_target = std::getenv("C3X042_R12_TARGET_ORDINAL");
         const unsigned long long c3x042_r12_selected =
@@ -31,6 +31,12 @@ def patch(source):
         raise ValueError('R12_HOLD_ALREADY_PATCHED')
     if source.count(ANCHOR)!=1:
         raise ValueError('R12_HOLD_ORIGINAL_EVENT_ANCHOR_COUNT_'+str(source.count(ANCHOR)))
+    if source.count(STATE_ANCHOR)!=1:
+        raise ValueError('R12_HOLD_SHARED_THREAD_STATE_ANCHOR_COUNT_'+str(source.count(STATE_ANCHOR)))
+    source=source.replace(STATE_ANCHOR,
+        '  // R12 shared across Root/PV/NonPV template instantiations, thread-local.\\n'
+        '  thread_local unsigned long long c3x042_r12_ordinal=0;\\n'
+        +STATE_ANCHOR,1)
     return source.replace(ANCHOR,REPLACEMENT,1)
 
 def main():
