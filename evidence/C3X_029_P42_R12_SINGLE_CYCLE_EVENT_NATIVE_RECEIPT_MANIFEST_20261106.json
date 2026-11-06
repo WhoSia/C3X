@@ -1,0 +1,53 @@
+{
+  "schema": "c3x042-r12-single-original-cycle-event-native-receipt-v1",
+  "research_version": "C3X 0.29 P42/R12",
+  "run_id": 42179676099,
+  "run_url": "https://github.com/WhoSia/C3X/actions/runs/42179676099",
+  "run_conclusion": "success",
+  "artifact_id": 13484737380,
+  "artifact_name": "c3x042-p42-r12-four-single-native-events-public-only",
+  "downloaded_zip_sha256": "e497f08d8260e7e896d688f10d0fa9d8d6eed782f39918360a190792d1617a5e",
+  "member_name": "C3X042_R12_SINGLE_SOURCE_EVENT_CAUSAL_COURT.json",
+  "member_sha256": "635ba63a784af37f8ae7199abaa6457c47208e41b2905984ec50a4aa0505b39c",
+  "original_stockfish16_pinned": "68e1e9b3811e16cad014b590d7443b9063b3eb52",
+  "original_game14_source_sha256": "0822ec4ddab0339d51a65f3a9d077a1245b2402b111e78a3aa90d2a4d9a83652",
+  "use_nnue": false,
+  "game14_postselected": true,
+  "selection_rule": "all original TT_FIRST B first 33 same-input window events where replacing the real draw value by zero flips immediate cutoff",
+  "source_event_ordinals_preselected_without_root_outcome": [
+    30,
+    31,
+    32,
+    33
+  ],
+  "native_cold_invocations_per_selected_source_event": 2,
+  "native_physical_engine_play_subprocesses_per_cold_invocation": 2,
+  "original_B_bestmove": [
+    "f3f4",
+    "f3f4"
+  ],
+  "one_event_native_root_outcomes": {
+    "30": [
+      "f3f4",
+      "f3f4"
+    ],
+    "31": [
+      "f3f4",
+      "f3f4"
+    ],
+    "32": [
+      "f3f4",
+      "f3f4"
+    ],
+    "33": [
+      "b3a4",
+      "b3a4"
+    ]
+  },
+  "status": "PASS_FOUR_ORIGINAL_SINGLE_EVENT_SOURCE_INTERVENTIONS_ONLY",
+  "source_keys_publicly_disclosed": false,
+  "unique_natural_mediation_proven": false,
+  "complete_source_event_to_root_path_proven": false,
+  "chess_strategic_value_proven": false,
+  "prospective_transport_proven": false
+}
