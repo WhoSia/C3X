@@ -85,6 +85,7 @@ class R12NativeSingleEventTests(unittest.TestCase):
                          'HOLD_ORIGINAL_GAME14_B_COLD_BASELINE_DRIFT')
     def test_selection_replay_drift_holds(self):
         b=baseline();b[1]['events'][2]['beta']=-3
+        b[1]['events'][4]['beta']=1
         p={o:probed(b,o) for o in (3,8,18,29)}
         self.assertEqual(summarize_court(b,p,[3,8,18,29],[True]*8,[True]*2)['status'],
                          'HOLD_SOURCE_EVENT_SELECTION_COLD_DRIFT')
