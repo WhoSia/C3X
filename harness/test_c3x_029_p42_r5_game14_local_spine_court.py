@@ -5,14 +5,15 @@ from c3x_029_p42_r5_game14_local_spine_court import adjudicate,parse
 FIELDS={"parent64":9876,"child64":12345,"root_call":7,
         "root_move":344,"move":776,"score":0,
         "pre_best":0,"alpha":0,"beta":100}
-def line(event,seq,key,*,value=0,best=0,did=0,entered=0,move=776):
+def line(event,seq,key,*,value=0,best=0,did=0,entered=0,move=776,child=12345):
     z=dict(FIELDS,event=event,seq=seq,key64=key,score=value,
-           pre_best=best,did_move=did,child_entered=entered,move=move)
+           pre_best=best,did_move=did,child_entered=entered,move=move,
+           child64=child)
     return "c3x042_r5 "+" ".join(f"{a}={b}" for a,b in z.items())
 def trace(*,adopt=True,score=44,break_score=False,wrong_key=False,
           omit_child=False,wrong_move=False):
     k=12345 if not wrong_key else 66
-    a=[line("GUARD_FALLTHROUGH",1,9876)]
+    a=[line("GUARD_FALLTHROUGH",1,9876,child=0)]
     a.append(line("ACTUAL_DO_MOVE",2,12345,did=1))
     if not omit_child:
         a.append(line("MAIN_CHILD_ENTERED",3,k,did=1,entered=1))
@@ -66,6 +67,29 @@ class P42LocalCourt(unittest.TestCase):
         self.assertEqual(result["status"],
                          "LOCAL_EXACT_GUARD_CHILD_PARENT_WITNESS_ONLY")
         self.assertFalse(result["unique_natural_TT_mediation_certified"])
+
+    def test_guards_pre_move_child_key_uninitialized_but_later_physical_key_real(self):
+        raw=trace()
+        guard,after=raw.splitlines()[:2]
+        self.assertIn("child64=0",guard)
+        self.assertIn("child64=12345",after)
+        outcome=adjudicate(raw+raw)
+        self.assertEqual(outcome["status"],
+                         "LOCAL_EXACT_GUARD_CHILD_PARENT_WITNESS_ONLY")
+
+    def test_post_move_child_key_identity_drift_is_rejected(self):
+        one=trace()
+        lines=one.splitlines()
+        lines[2]=lines[2].replace("child64=12345","child64=789")
+        altered="\n".join(lines)+"\n"
+        outcome=adjudicate(altered+one)
+        self.assertEqual(outcome["status"],"HOLD_POST_MOVE_CHILD_IDENTITY_DRIFT")
+
+    def test_guard_cannot_claim_future_child_key(self):
+        one=trace().replace("child64=0","child64=12345",1)
+        outcome=adjudicate(one+one)
+        self.assertEqual(outcome["status"],
+                         "HOLD_GUARD_PRE_MOVE_CHILD_NOT_UNINITIALIZED")
 
     def test_without_real_guard_event_hold(self):
         self.assertIn("HOLD_WRONG_REPLAY_COUNT",adjudicate("")["status"])
