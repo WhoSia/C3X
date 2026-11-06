@@ -84,7 +84,15 @@ class P42LocalCourt(unittest.TestCase):
 
     def test_move_identity_drift_hold(self):
         self.assertEqual(adjudicate(trace(wrong_move=True)*2)["status"],
-                         "HOLD_EVENT_IDENTITY_DRIFT")
+                         "HOLD_EVENT_IDENTITY_DRIFT_MOVE")
+
+    def test_root_context_drift_is_diagnosed_without_private_key(self):
+        one=trace()
+        two=one.replace("root_move=344","root_move=345",1)
+        # Only one event drifts within its own replay. No raw key is exported.
+        result=adjudicate(two+one)
+        self.assertEqual(result["status"],"HOLD_EVENT_IDENTITY_DRIFT_ROOT_MOVE")
+        self.assertFalse(result["source_keys_exposed"])
 
     def test_expected_parent_adoption_missing_hold(self):
         self.assertEqual(adjudicate(trace(adopt=False)*2)["status"],
