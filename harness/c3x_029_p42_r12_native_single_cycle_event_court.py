@@ -87,6 +87,18 @@ def summarize_court(baseline,probe,selected,reader_valid,baseline_reader_valid):
                     d['native_bestmoves']==['b3a4','b3a4'] for d in detail),
                 caveat='Source ordinal is unique within native cold process; a single-site intervention may alter downstream states; root action change alone is not a unique natural mediator.')
 
+def split_two_physical_plays(raw):
+    # The historical cold() helper calls play() TWICE, each a new engine.
+    # One native process-local R12 ordinal resets per play. Never flatten both
+    # processes into one shared ordinal sequence: an event t in each appears
+    # at combined offsets t and n+t.
+    if len(raw)%2:
+        raise ValueError('R12_HOLD_ODD_NUMBER_OF_TWO_PHYSICAL_PLAY_EVENTS')
+    n=len(raw)//2
+    if n==0 or raw[:n]!=raw[n:]:
+        raise ValueError('R12_HOLD_TWO_PHYSICAL_PLAY_TRACES_NOT_IDENTICAL')
+    return raw[:n]
+
 def main():
     p=argparse.ArgumentParser()
     for k in ('source','stagea','forecast','engine','private','public-out'):
@@ -120,24 +132,30 @@ def main():
         matches=RX.findall(window.read_text())
         if len(lines)!=len(matches):
             raise ValueError('R12_HOLD_INVALID_PRIVATE_NATIVE_WINDOW_LINE')
-        events=[]
-        for i,x in enumerate(matches,1):
+        # Each cold() invokes play twice. We must verify the two physical
+        # source traces separately and collapse only AFTER identity equality.
+        # Otherwise one real targeted event per process looks like an invalid
+        # SECOND intervention at ordinal target+number_of_first_play_events.
+        decoded=[]
+        for x in matches:
             key,ply,depth,mod,old,beta,candidate,after,cut,root=map(int,x)
-            expected=(0 if ordinal==i and ordinal>0 else -1+(mod&2))
-            if candidate!=expected or after!=candidate or cut!=int(after>=beta):
-                # Public Actions log may show ordinal and mismatch *category*,
-                # never source key, alpha/beta, candidate, FEN or private PGN.
-                category=('RETURN_SCOPE' if candidate!=expected else
-                          'ASSIGNMENT' if after!=candidate else 'CUTOFF')
-                raise ValueError(
-                    'R12_HOLD_NATIVE_SELECTED_SOURCE_RETURN_INCONSISTENT'
-                    + '_'+category+'_AT_'+str(i)+'_TARGET_'+str(ordinal))
-            events.append({'key':key,'ply':ply,'depth':depth,'mod4':mod,
+            decoded.append({'key':key,'ply':ply,'depth':depth,'mod4':mod,
                 'old_alpha':old,'beta':beta,'candidate':candidate,
-                'cutoff':cut,'root_move':root})
+                'cutoff':cut,'root_move':root,'new_alpha':after})
+        events=split_two_physical_plays(decoded)
+        for i,e in enumerate(events,1):
+            expected=(0 if ordinal==i and ordinal>0 else -1+(e['mod4']&2))
+            if e['candidate']!=expected or e['new_alpha']!=e['candidate'] \
+                    or e['cutoff']!=int(e['new_alpha']>=e['beta']):
+                # Never expose native key, source alpha/beta or game history.
+                category=('RETURN_SCOPE' if e['candidate']!=expected else
+                          'ASSIGNMENT' if e['new_alpha']!=e['candidate'] else 'CUTOFF')
+                raise ValueError('R12_HOLD_NATIVE_SELECTED_SOURCE_RETURN_INCONSISTENT'
+                                 +'_'+category+'_AT_'+str(i)+'_TARGET_'+str(ordinal))
+            del e['new_alpha']
         calls=observed(site.read_text(),0)
-        if len(events)!=calls['1']['calls']:
-            raise ValueError('R12_HOLD_ORIGINAL_R10_R11_SOURCE_CALL_COUNT_DRIFT')
+        if 2*len(events)!=calls['1']['calls']:
+            raise ValueError('R12_HOLD_ORIGINAL_R10_R11_TWO_PLAY_SOURCE_COUNT_DRIFT')
         rv=(bool(verified_reader_lineage(out)['all_valid'])
             and any(x.get('kind')=='reader_block' for x in out['blocks'])) if arm=='B' else True
         return {'move':out['UCI']['bestmove'],'events':events,'reader_valid':rv}
