@@ -53,3 +53,18 @@ Nine [source surgery tests](../tools/test_c3x_029_p42_r11_original_cycle_window_
 If matched event evidence supports a specific cycle-alpha cutoff change, freeze its source context (root, position key privately, original alpha/beta, ply/depth, ordering/ordinal), then run **isolated intervention on only that source-executed event** and report negative/third-root results too. Event selection from postselected Game14 is *development*, not prospective explanation. Independent same-source legal chess continuations and adversarial counterplay must then be judged separately; especially Game14 NNUE OFF cannot claim neural-feature-level mechanistic explanation.
 
 A source state intervention may alter other events, so a convincing complete paper will need planned natural-control/sham interventions, rival algorithms and a new game/event-disjoint cohort. Never repackage the preliminary cutoff census as the flagship result.
+
+## 2026-11-06 — Native outcome verified with exact artifact SHA
+
+[Native run #42177462049](https://github.com/WhoSia/C3X/actions/runs/42177462049) finished **SUCCESS** including actual source compilation, original 16-game Stage A SHA reproduction, two independent A/B cold replays, unchanged historical original B f3f4 and cycle-alpha neutralized B b3a4. Independently downloaded [artifact #13483623242](https://github.com/WhoSia/C3X/actions/runs/42177462049/artifacts/13483623242), enumerated ZIP member and parsed actual JSON. Public ZIP SHA256 `39b27d086931c41faaf9ed4b0afdd9628d1e0780e9340dbf729b673cc0fc0bd7`, member `C3X042_R11_CYCLE_ALPHA_NATIVE_WINDOW_COURT.json` SHA256 `5ca3e30831cccf3efe7f52cb73eaf4fa98eaca481279bb46276fd39a3028642d`; [sealed human-authored receipt](../evidence/C3X_029_P42_R11_NATIVE_CYCLE_WINDOW_RECEIPT_MANIFEST_20261106.json).
+
+| Physical source arm | Actual source cycle-window events per cold | Immediate `alpha>=beta` cutoffs per cold | Natural root move |
+|---|---:|---:|---|
+| Original A | 380 | 364 | b3a4 |
+| TT_FIRST B | **562** | **552** | f3f4 |
+| Cycle-alpha-neutralized A | 288 | 288 | b3a4 |
+| Cycle-alpha-neutralized B | 288 | 288 | **b3a4** |
+
+On the strictly **same pre-return source input** prefix (key, ply, depth, root context, old alpha, beta) the two cold repeats reproduced **A: 27 compared events, 27 candidate-return disagreements, 2 cutoff disagreements; B: 33 compared events, 33 candidate-return disagreements, 4 cutoff disagreements**. This proves that unchanged original source-frame/window inputs can lead to a different physical cutoff under one source value change. The complete dynamic trace after the prefix is *not* the same execution history. The actual original A/B source window counts and intervention-root outcomes do NOT prove that the first cutoff difference caused the root move or that exactly 4 cases are causally sufficient.
+
+**Follow-up R12 frozen before outcome:** exhaustively intervene each of the four original B prefix-33 source events whose native candidate->zero replacement would flip immediate cutoff, one event at a time, with cold-replay identity checks and exact private source chronology. See [R12 preregistration](C3X_029_P42_R12_FOUR_MATCHED_SINGLE_CYCLE_EVENT_CAUSAL_CHALLENGES_20261106.md). No NNUE/independent chess strategy/paper promotion from R11 alone.
