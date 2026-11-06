@@ -13,10 +13,13 @@ BEFORE_UNDO="  c3x042_r5.child_returned=true;"
 TT_ANCHOR="void TTEntry::save(Key k, Value v, bool pv, Bound b, Depth d, Move m, Value ev) {"
 TT_INCLUDE='#include "tt.h"'
 
-EXPORTED='''\nthread_local bool c3x042_r8_target_descendant=false;
+EXPORTED='''
+thread_local bool c3x042_r8_target_descendant=false;
 thread_local unsigned long long c3x042_r8_tt_attempts=0;
 thread_local unsigned long long c3x042_r8_tt_suppressed=0;
-'''\n\nGLOBALS="""
+'''
+
+GLOBALS="""
 // P42/R8: single-thread source intervention restricted to the actually
 // executed descendant of the *already* source-selected Game14 guard.
 void c3x042_r8_end_trace() {
