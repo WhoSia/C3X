@@ -55,11 +55,14 @@ class SourceActualKeyTests(unittest.TestCase):
         self.assertNotIn("pos.key_after(move)",helper.split("// Obtain actual child identity ONLY after original pos.do_move().")[-1])
         self.assertNotIn("pos.key()!=c3x042_r5.child_key",helper)
     def test_no_source_mutation_of_tt_see_or_chess_return_in_helper(self):
-        s=overlay.HELPER
-        self.assertNotIn("pos.do_move(",s)
-        self.assertNotIn("pos.undo_move(",s)
-        self.assertNotIn("TT.save(",s)
-        self.assertNotIn("return VALUE_",s)
+        # Inspect code-only lines: an observer may describe an original source
+        # operation in a C++ // comment without performing that operation.
+        source="\n".join(line.split("//",1)[0]
+                         for line in overlay.HELPER.splitlines())
+        self.assertNotIn("pos.do_move(",source)
+        self.assertNotIn("pos.undo_move(",source)
+        self.assertNotIn("TT.save(",source)
+        self.assertNotIn("return VALUE_",source)
 
 if __name__=="__main__":
     unittest.main()
