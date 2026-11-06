@@ -76,7 +76,7 @@ def compare_temporal_source_root(original,changed):
     def position(trace):
         for idx,line in enumerate(trace['first_trace']):
             if 'event=ROOT_BOUNDARY' in line:
-                fields=dict(re.findall(r'([A-Za-z_][A-Za-z0-9_]*)=([^\\s]+)',line))
+                fields=dict(re.findall(r'([A-Za-z_][A-Za-z0-9_]*)=([^\s]+)',line))
                 if fields.get('depth')==str(depth):
                     return idx
         return None
