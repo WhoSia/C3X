@@ -1,0 +1,48 @@
+{
+  "schema": "c3x042-r13-same-native-event33-first-root-boundary-receipt-v1",
+  "research_version": "C3X 0.29 P42/R13",
+  "run_id": 42180911683,
+  "run_url": "https://github.com/WhoSia/C3X/actions/runs/42180911683",
+  "run_conclusion": "success",
+  "artifact_id": 13485611324,
+  "artifact_name": "c3x042-p42-r13-native-event33-root-aggregate-only",
+  "downloaded_public_zip_sha256": "0819ecc5d2251db6dbdc3c75cf05ec89646a8183994ba8bfb930ea153ec5a8f0",
+  "member_name": "C3X042_R13_EVENT33_ROOT_BOUNDARY_CHRONOLOGY.json",
+  "member_sha256": "cd7fc80c1e75bf5f13e6434353db513934c988e76b96241e1948044ac86b1909",
+  "source_event33_single_intervention_R12_native_confirmed": true,
+  "actual_root_boundary_first_changed_depth": 9,
+  "common_root_depths": 12,
+  "different_root_depth_boundaries": 4,
+  "original_B_depth9": {
+    "native_root_leader": 1373,
+    "score": -74,
+    "average": -70
+  },
+  "single_cycle_event33_B_depth9": {
+    "native_root_leader": 1112,
+    "score": -89,
+    "average": -80
+  },
+  "source_event33_precedes_first_changed_depth9_in_both_source_runs": true,
+  "historical_separate_C_guard_depth9": {
+    "native_root_leader": 1112,
+    "score": -89,
+    "average": -79,
+    "source": "C3X P42 R7 verified R6 old C3b boundaries"
+  },
+  "native_cold_invocations": 2,
+  "physical_plays_per_cold": 2,
+  "original_B_bestmoves": [
+    "f3f4",
+    "f3f4"
+  ],
+  "cycle_event33_B_bestmoves": [
+    "b3a4",
+    "b3a4"
+  ],
+  "source_keys_disclosed": false,
+  "complete_ancestor_value_mediation_proven": false,
+  "natural_guard_TT_SEE_mediation_proven": false,
+  "objective_chess_future_proven": false,
+  "prospective_transport_proven": false
+}
