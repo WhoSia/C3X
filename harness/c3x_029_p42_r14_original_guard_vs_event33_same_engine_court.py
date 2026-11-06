@@ -74,6 +74,8 @@ def compare_native_worlds(root,C_guard_actions,B33_guard_actions):
     if any(tuple(rows[i]['depth'] for rows in (a,b,c,d)) != (i+1,)*4
            for i in range(len(a))):
         return {'status':'HOLD_ROOT_DEPTH_IDENTITY_CHANGED'}
+    if len(a)<9:
+        return {'status':'HOLD_DEPTH9_NATIVE_ROOT_BOUNDARY_ABSENT'}
     firstdiff=lambda x,y:next((i+1 for i,(p,q) in enumerate(zip(x,y))
                                if any(p[k]!=q[k] for k in ('leader','score','average'))),None)
     at9=8
