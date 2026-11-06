@@ -64,14 +64,19 @@ def adjudicate(text: str, expected_processes: int=2) -> dict:
         e=[x["event"] for x in run]
         if len(run)>7 or any(x["seq"]!=idx+1 for idx,x in enumerate(run)):
             return _hold("UNBOUNDED_OR_NONMONOTONE",len(runs))
-        identity=tuple(run[0][k] for k in ("parent64","child64","root_call",
-                                          "root_move","move"))
-        # Report ONLY which identity field drifted, not its private value.
-        # Root context can be an evolving source diagnostic; preserve the
-        # strict HOLD until native evidence clarifies it.
-        for field in ("parent64","child64","root_call","root_move","move"):
+        # The guard event precedes pos.do_move(): its child64 is explicitly
+        # UNINITIALIZED (=0). After ACTUAL_DO_MOVE the child64 is the real
+        # post-move position key and must stay unchanged. Demanding the
+        # same child64 in the guard and later events would ALWAYS reject
+        # a legitimate nonzero child key.
+        if run[0]["child64"]!=0:
+            return _hold("GUARD_PRE_MOVE_CHILD_NOT_UNINITIALIZED",len(runs))
+        for field in ("parent64","root_call","root_move","move"):
             if any(x[field]!=run[0][field] for x in run):
                 return _hold("EVENT_IDENTITY_DRIFT_"+field.upper(),len(runs))
+        child64=run[1]["child64"]
+        if any(x["child64"]!=child64 for x in run[1:]):
+            return _hold("POST_MOVE_CHILD_IDENTITY_DRIFT",len(runs))
         # Do not confuse Zobrist key 0 with 'not initialized'. The observer's
         # did_move/child_entered flags, source frame and event ordering provide
         # the provenance; a 64-bit position hash need not be nonzero.
@@ -85,7 +90,7 @@ def adjudicate(text: str, expected_processes: int=2) -> dict:
             return _hold("LOCAL_PATH_INCOMPLETE_OR_REORDERED",len(runs))
         if run[0]["key64"]!=run[0]["parent64"]:
             return _hold("GUARD_KEY_MISMATCH",len(runs))
-        if any(x["key64"]!=run[0]["child64"] for x in run[1:4]):
+        if any(x["key64"]!=child64 for x in run[1:4]):
             return _hold("CHILD_KEY_MISMATCH",len(runs))
         if any(x["key64"]!=run[0]["parent64"] for x in run[4:]):
             return _hold("RETURNED_PARENT_KEY_MISMATCH",len(runs))
