@@ -15,10 +15,8 @@ STATE_ANCHOR = "thread_local unsigned long long c3x027_counterfactual_match_coun
 EVENT_ANCHOR = 'c3x027_capture_branch_log(pos,move,Value(-205)*depth,"EXACT_ONE_EVENT_REENABLED");'
 MAIN_DO = '      // Step 16. Make the move\n      pos.do_move(move, st, givesCheck);'
 MAIN_UNDO = '      // Step 19. Undo move\n      pos.undo_move(move);'
-MAIN_STOP = '''      if (Threads.stop.load(std::memory_order_relaxed))
-          return VALUE_ZERO;
-
-      if (rootNode)'''
+MAIN_STOP = '''      if (rootNode)
+      {'''
 MAIN_ADOPT = '''      if (value > bestValue)
       {
           bestValue = value;'''
@@ -138,13 +136,14 @@ def patch(src: str) -> str:
     src = once(src, MAIN_UNDO,
                '      c3x042_r5_before_undo(pos,ss,move,int(value));\n' +
                MAIN_UNDO, "CHILD_RETURN")
+    # The original stop check is separated from rootNode by comments in
+    # pinned SF16. Anchor at its unique rootNode arm and insert *before* it.
+    # This still requires source-specific confirmation after the stop gate.
     src = once(src, MAIN_STOP,
-               '''      if (Threads.stop.load(std::memory_order_relaxed))
-          return VALUE_ZERO;
-      c3x042_r5_assess(pos,ss,move,int(value),int(bestValue),
+               '''      c3x042_r5_assess(pos,ss,move,int(value),int(bestValue),
                        int(alpha),int(beta));
 
-      if (rootNode)''', "PARENT_ASSESS")
+''' + MAIN_STOP, "PARENT_ASSESS")
     src = once(src, MAIN_ADOPT,
                '''      if (value > bestValue)
       {
