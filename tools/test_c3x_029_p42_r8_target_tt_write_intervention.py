@@ -22,7 +22,7 @@ class TTWriteContract(unittest.TestCase):
     def test_changes_only_explicit_tagged_descendant(self):
         s=p.patch_search(search_fixture())
         self.assertEqual(s.count("c3x042_r8_target_descendant=true;"),1)
-        self.assertEqual(s.count("c3x042_r8_target_descendant=false;"),1)
+        self.assertEqual(s.count("c3x042_r5.child_returned=true;\n  c3x042_r8_target_descendant=false;"),1)
         self.assertLess(s.index("c3x042_r5.did_move=true;"),
                         s.index("c3x042_r8_target_descendant=true;"))
         self.assertLess(s.index("c3x042_r5.child_returned=true;"),
@@ -32,7 +32,7 @@ class TTWriteContract(unittest.TestCase):
         self.assertIn('drop && drop[0]==\'1\' && drop[1]==\'\\0\'',t)
         self.assertIn('if (c3x042_r8_target_descendant)',t)
     def test_tt_anchor_is_unique(self):
-        self.assertEqual(p.patch_tt(tt_fixture()).count("c3x042_r8_tt_attempts;"),1)
+        self.assertEqual(p.patch_tt(tt_fixture()).count("extern thread_local unsigned long long c3x042_r8_tt_attempts;"),1)
     def test_double_search_patch_refused(self):
         with self.assertRaisesRegex(ValueError,"ALREADY_PATCHED_SEARCH"):
             p.patch_search(p.patch_search(search_fixture()))
