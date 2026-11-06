@@ -6,7 +6,7 @@ interventions; the root-boundary trace is the historical 0.27 observer.
 All exact source keys/windows and combined chronological log remain PRIVATE.
 A temporal order is NOT by itself proof of complete natural mediation.
 """
-import argparse,json,os
+import argparse,json,os,re
 from pathlib import Path
 from c3x_029_p42_r9_original_AB_neutralized_source_probe import verify_original_inputs
 from c3x_023_P1_R2_T0_chronological_post_TT_common_SEE_dev import cold
@@ -75,9 +75,10 @@ def compare_temporal_source_root(original,changed):
     depth=first['depth']
     def position(trace):
         for idx,line in enumerate(trace['first_trace']):
-            if ('event=ROOT_BOUNDARY' in line
-                and ('depth='+str(depth)) in line):
-                return idx
+            if 'event=ROOT_BOUNDARY' in line:
+                fields=dict(re.findall(r'([A-Za-z_][A-Za-z0-9_]*)=([^\\s]+)',line))
+                if fields.get('depth')==str(depth):
+                    return idx
         return None
     old_pos=position(original)
     changed_pos=position(changed)
