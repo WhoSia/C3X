@@ -73,6 +73,8 @@ jobs:
         if: always()
         run: |
           set -euo pipefail
+          mkdir -p public
+          shopt -s nullglob
           for f in public/*.json; do
             python tools/c3x_023_rights_preupload_gate.py \
               --tier P2_AGGREGATE_SUMMARY --file "$f" \
