@@ -1,0 +1,96 @@
+{
+  "schema": "c3x042-r10-native-two-source-sites-receipt-v1",
+  "game_id": 14,
+  "run_id": 42164306431,
+  "run_url": "https://github.com/WhoSia/C3X/actions/runs/42164306431",
+  "run_status": "completed",
+  "run_conclusion": "success",
+  "head_sha": "2f318688358bb9301be6a8547bf54f066acb6332",
+  "artifact_id": 13478431611,
+  "artifact_name": "c3x042-p42-r10-native-draw-sites-public-only",
+  "downloaded_zip_sha256": "a33fb3ee05c2f3f3564f7c84b25d7abd24ef003621614b2f5cc0b09da4f111df",
+  "json_member": "C3X042_R10_ACTUAL_DRAW_SITE_CAUSAL_COURT.json",
+  "json_member_sha256": "86174c8203d1d5b3602ce0daf7d6e6e0bcce2ef476c5b701d85704bbbd0c92c3",
+  "pinned_stockfish16": "68e1e9b3811e16cad014b590d7443b9063b3eb52",
+  "use_nnue": false,
+  "status": "PASS_SOURCE_SITE_INTERVENTIONS_WITH_STABLE_HISTORICAL_CONTROLS",
+  "source_site_1": "cycle_alpha",
+  "source_site_2": "terminal_draw",
+  "cold_repeats": 2,
+  "results": {
+    "original_A": [
+      "b3a4",
+      "b3a4"
+    ],
+    "original_B": [
+      "f3f4",
+      "f3f4"
+    ],
+    "cycle_neutral_A": [
+      "b3a4",
+      "b3a4"
+    ],
+    "cycle_neutral_B": [
+      "b3a4",
+      "b3a4"
+    ],
+    "terminal_neutral_A": [
+      "b3a4",
+      "b3a4"
+    ],
+    "terminal_neutral_B": [
+      "f3f4",
+      "f3f4"
+    ],
+    "both_neutral_A": [
+      "b3a4",
+      "b3a4"
+    ],
+    "both_neutral_B": [
+      "b3a4",
+      "b3a4"
+    ]
+  },
+  "site_1_actual_calls_per_arm": {
+    "normal_A": [
+      380,
+      380
+    ],
+    "normal_B": [
+      562,
+      562
+    ],
+    "cycle_neutral_A": [
+      288,
+      288
+    ],
+    "cycle_neutral_B": [
+      288,
+      288
+    ],
+    "terminal_neutral_A": [
+      380,
+      380
+    ],
+    "terminal_neutral_B": [
+      562,
+      562
+    ],
+    "both_neutral_A": [
+      288,
+      288
+    ],
+    "both_neutral_B": [
+      288,
+      288
+    ]
+  },
+  "site_2_actual_calls_in_all_sixteen_runs": 0,
+  "source_site_1_causal_intervention_changes_B": true,
+  "source_site_2_not_reached": true,
+  "local_value_to_root_lineage_proved": false,
+  "natural_guard_mediation_proved": false,
+  "strategic_chess_value_proved": false,
+  "prospective_transport_proved": false,
+  "rights_scope": "public aggregate only"
+}
