@@ -1,0 +1,44 @@
+{
+  "schema": "c3x042-r9-native-global-value-draw-AB-receipt-v1",
+  "research_version": "C3X 0.29 P42/R9",
+  "run_id": 42163439611,
+  "run_url": "https://github.com/WhoSia/C3X/actions/runs/42163439611",
+  "run_conclusion": "success",
+  "artifact_id": 13478215738,
+  "artifact_name": "c3x042-p42-r9-native-neutralized-AB-public-aggregate-only",
+  "downloaded_zip_sha256": "756e228f0ea134a2d0a22697fbea612303c85ca7c8549db64eaaa777635aabcf",
+  "json_member": "C3X042_R9_NEUTRALIZED_ORIGINAL_AB_COURT.json",
+  "json_member_sha256": "718ccdc234b753863c267956d5cd92df7c15ce33306baf652413c4ff434b2eec",
+  "pinned_stockfish16": "68e1e9b3811e16cad014b590d7443b9063b3eb52",
+  "original_game14_source_sha256": "0822ec4ddab0339d51a65f3a9d077a1245b2402b111e78a3aa90d2a4d9a83652",
+  "engine_use_nnue": false,
+  "original_A_bestmove": "b3a4",
+  "original_B_TT_FIRST_bestmove": "f3f4",
+  "neutralized_A_bestmove_cold": [
+    "b3a4",
+    "b3a4"
+  ],
+  "neutralized_B_TT_FIRST_bestmove_cold": [
+    "b3a4",
+    "b3a4"
+  ],
+  "neutralized_value_draw_call_counts": {
+    "A": [
+      288,
+      288
+    ],
+    "B": [
+      288,
+      288
+    ]
+  },
+  "tt_reader_lineage_valid": [
+    true,
+    true
+  ],
+  "native_status": "PASS_BROAD_VALUE_DRAW_NEUTRALIZATION_CHANGED_ACTUAL_AB_ROOT_CHOICE",
+  "scope": "global source function value_draw parity neutralization, not identified caller or path",
+  "strategic_chess_value_certified": false,
+  "original_guard_to_root_mediation_certified": false,
+  "prospective_generalization_certified": false
+}
