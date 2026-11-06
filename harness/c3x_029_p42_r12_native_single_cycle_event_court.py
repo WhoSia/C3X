@@ -125,7 +125,13 @@ def main():
             key,ply,depth,mod,old,beta,candidate,after,cut,root=map(int,x)
             expected=(0 if ordinal==i and ordinal>0 else -1+(mod&2))
             if candidate!=expected or after!=candidate or cut!=int(after>=beta):
-                raise ValueError('R12_HOLD_NATIVE_SELECTED_SOURCE_RETURN_INCONSISTENT')
+                # Public Actions log may show ordinal and mismatch *category*,
+                # never source key, alpha/beta, candidate, FEN or private PGN.
+                category=('RETURN_SCOPE' if candidate!=expected else
+                          'ASSIGNMENT' if after!=candidate else 'CUTOFF')
+                raise ValueError(
+                    'R12_HOLD_NATIVE_SELECTED_SOURCE_RETURN_INCONSISTENT'
+                    + '_'+category+'_AT_'+str(i)+'_TARGET_'+str(ordinal))
             events.append({'key':key,'ply':ply,'depth':depth,'mod4':mod,
                 'old_alpha':old,'beta':beta,'candidate':candidate,
                 'cutoff':cut,'root_move':root})
@@ -137,6 +143,7 @@ def main():
         return {'move':out['UCI']['bestmove'],'events':events,'reader_valid':rv}
     baseline=[run(0,i) for i in range(2)]
     selected=selected_ordinals(baseline[0]['events'])
+    print('R12_PREDECLARED_PHYSICAL_SOURCE_ORDINALS',selected,flush=True)
     probe={k:[run(k,i) for i in range(2)] for k in selected}
     report=summarize_court(baseline,probe,selected,
         [x['reader_valid'] for k in selected for x in probe[k]],
