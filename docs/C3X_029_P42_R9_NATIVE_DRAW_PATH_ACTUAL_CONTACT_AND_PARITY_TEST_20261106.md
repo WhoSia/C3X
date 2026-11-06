@@ -64,3 +64,20 @@ This is deliberately **HOLD**, not evidence of a proved root preference causal r
 New follow-up [source-verified neutralized A/B probing script](../harness/c3x_029_p42_r9_original_AB_neutralized_source_probe.py) retains immutable game SHA, actual TT reader/physical root, two cold repeats per A and B, and per-arm real source `value_draw` contact; does NOT impose the old choice labels after the active parity intervention. [Eight negative/positive tests](../harness/test_c3x_029_p42_r9_original_AB_neutralized_source_probe.py). [Dedicated read-only native workflow](../.github/workflows/c3x-029-p42-r9-native-original-AB-neutralized.yml) run [#42163439611](https://github.com/WhoSia/C3X/actions/runs/42163439611) started, source regressions and compilation succeeded at initial inspection, StageA underway; results not yet proven. If same-root A/B values change and actual draw calls occur in the affected arms, we can conclude a broad real source-value function intervention influences their choice; still cannot say this specific node-sensitive change mediates Game14's TT_FIRST/SEE bypass effect, or establishes chess strategy.
 
 Artifact safety: R9 Actions now uploads only allowlisted aggregate verdict JSON and license text; nested per-arm / source raw logs excluded even on early failure. No bot pushes, commits, or raw PGN distribution.
+
+## 2026-11-06 — Native original AB outcome successfully reproduced and raw artifact verified
+
+The dedicated actual-source [R9 AB run 42163439611](https://github.com/WhoSia/C3X/actions/runs/42163439611) **completed SUCCESS**. Verified steps: synthetic/source regression, pinned native Stockfish16 compile, original 16-game source StageA SHA, original physical TT_FIRST reader lineage, repeated Game14 A/B with broad `value_draw()` parity neutralization. **Actual measured outcome:**
+
+| source setting | A untreated bestmove | B TT_FIRST bestmove |
+|---|---|---|
+| original no draw perturbation (prior immutable R8) | b3a4 | f3f4 |
+| `value_draw()` returns `VALUE_DRAW` irrespective of node bit | b3a4 / b3a4 cold | **b3a4 / b3a4 cold** |
+
+The actual R9 source instrument recorded **288 value_draw calls per cold A run and 288 per cold B run**, with `verified_reader_lineage=True` in both cold TT_FIRST runs. These are not guessed or a synthetic statistic. The physical operation really changes the move chosen under TT_FIRST and leaves untreated choice stable at this fixed tested source/history.
+
+**Interpretation:** the original source `value_draw` node-dependent return branch is a causal lever for the TT_FIRST **root outcome under broad source-function neutralization**. This is a stronger mechanistic result than observing a correlated feature. **It still does NOT prove that the original TT_FIRST→guard-bypass C-world restoration is mediated by one particular draw call**, because the intervention changes the behavior at every live call, not a source-matched ancestor node. It does not establish independent strategic chess quality or prospective transfer; Game14 is post-selected and NNUE is OFF.
+
+**Download custody verified directly:** GitHub public artifact `13478215738`, ZIP SHA256 `756e228f0ea134a2d0a22697fbea612303c85ca7c8549db64eaaa777635aabcf`. Parsed member `C3X042_R9_NEUTRALIZED_ORIGINAL_AB_COURT.json` SHA256 `718ccdc234b753863c267956d5cd92df7c15ce33306baf652413c4ff434b2eec`. [Immutable human-authored receipt manifest](../evidence/C3X_029_P42_R9_NATIVE_VALUE_DRAW_AB_RECEIPT_MANIFEST_20261106.json). The actual zip was independently read and hashes calculated, not inferred from console status.
+
+**Decisive next falsification** is to disaggregate the two actual original source call sites of `value_draw`: cycle-related alpha assignment versus draw/terminal return, and test source-site-specific parity neutralization for each while preserving original same-game/TT reader provenance. This prevents collapsing broad functional involvement into a false claim of unique site-level mechanism. A future source site → ancestor/root value chain and independently valuable chess contingency remain unsolved.
