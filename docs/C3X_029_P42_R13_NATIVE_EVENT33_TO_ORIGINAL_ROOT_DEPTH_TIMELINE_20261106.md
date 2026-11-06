@@ -29,3 +29,29 @@ The source patch compiled into R13 is unchanged from the fully successful R12: o
 Implemented [same-native-run temporal court](../harness/c3x_029_p42_r13_native_single_cycle_to_root_boundary_court.py), [11 synthetic adversarial tests](../harness/test_c3x_029_p42_r13_native_single_cycle_to_root_boundary_court.py), [read-only native workflow](../.github/workflows/c3x-029-p42-r13-native-event33-root-bridge.yml). Native [run #42180911683](https://github.com/WhoSia/C3X/actions/runs/42180911683) registered and started; final genuine native result not asserted at document creation. Initial [#42180783786](https://github.com/WhoSia/C3X/actions/runs/42180783786) failed synthetic test due to overescaped *regex used to parse exact root depth*, preserved as technical failure and corrected; not a chess causal falsification.
 
 As always, raw chess source histories, source keys, child frames, modified GPL binaries and complete per-event logs stay private; only rights-gated aggregate root boundary results released. GitHub authors human WhoSia, Actions `contents:read`; Notion semantic truth, Drive immutable original bytes when actually verified, no invented mirror.
+
+
+## 2026-11-06 — Native original same-execution event33→root boundary result (verified)
+
+[Read-only pinned SF16 native run #42180911683](https://github.com/WhoSia/C3X/actions/runs/42180911683) **SUCCESS** after strict source regression, full original 16-game StageA verification, physical TT reader certification, original B=f3f4 and target-only event33 B=b3a4 cold controls. Two independent `cold()` runs each contained two actual physically independent engine `play()` processes, and exact interleaved source-cycle/root-depth logs were validated as equal between the two physical subruns.
+
+The **first root iterative-deepening boundary that differs is depth 9**, and the physically selected source cycle-alpha event #33 is observed **before that root boundary** in both original and source-intervened B executions. They completed **12 depths**, with **4 different root depth boundaries**.
+
+| Native root depth 9 | B original TT_FIRST | B with only source event33 changed |
+|---|---:|---:|
+| source leader native move | 1373 | **1112** |
+| source best score | -74 | **-89** |
+| source average score | -70 | **-80** |
+| final unrestricted root UCI action | f3f4 | **b3a4** |
+
+This provides **controlled local functional causation + within-the-same-engine source temporal precedence + original root boundary change**, not simply a value correlation or a reconstructed generic PV.
+
+### Historical C guard intervention has a related but NOT identical root boundary
+
+Previously verified old C3b [R7 report](C3X_029_P42_R7_NATIVE_FAIL_LOW_WITH_ROOT_RESTORATION_CAUSAL_DIAGNOSIS_20261106.md) also places the first B/C root divergence at **depth9**, with original C (one exact `capture_prune` guard bypass) native root leader **1112**, score **-89**, average **-79**. The new independent R13 source event33-only B root at depth9 has the **same leader 1112 and score -89**, but its average -80 differs by 1. Both interventions restore final root b3a4.
+
+**This is a concrete, important convergence candidate**, NOT yet identification of an equal natural causal pathway or identical full search state. Equality of source root leader and score at a particular completed depth does not imply equality of TT tables, alpha-beta ancestry, search tree, aspiration states or eventual strategic future value. The average-score difference demonstrates that even the depth9 source summary vectors are not perfectly identical. A next intervention should compare B, exact old C and B33 **in one compiled source native cohort**, with source state and depth-by-depth boundaries, checking earlier/later divergent source trajectories. The old C candidate score is historical separately-run evidence, not yet matched to the new B33 within one process pair.
+
+**Direct independently downloaded artifacts and SHA:** ZIP #13485611324, SHA256 `0819ecc5d2251db6dbdc3c75cf05ec89646a8183994ba8bfb930ea153ec5a8f0`; contained `C3X042_R13_EVENT33_ROOT_BOUNDARY_CHRONOLOGY.json` member SHA256 `cd7fc80c1e75bf5f13e6434353db513934c988e76b96241e1948044ac86b1909`. [Permanent custody manifest](../evidence/C3X_029_P42_R13_SINGLE_EVENT33_ROOT_BOUNDARY_RECEIPT_MANIFEST_20261106.json). Raw source keys and chronological log private, never transferred to public artifact.
+
+**Early R13 technical CI:** [#42180783786](https://github.com/WhoSia/C3X/actions/runs/42180783786) failed a synthetic test because root-depth regex was overescaped and could consume adjacent whitespace. The exact source parser was repaired without changing any original Stockfish code. Later successful #42180911683 is the valid native experiment; the initial failure is retained.
