@@ -13,12 +13,12 @@ BEFORE_UNDO="  c3x042_r5.child_returned=true;"
 TT_ANCHOR="void TTEntry::save(Key k, Value v, bool pv, Bound b, Depth d, Move m, Value ev) {"
 TT_INCLUDE='#include "tt.h"'
 
-GLOBALS="""
-// P42/R8: single-thread source intervention restricted to the actually
-// executed descendant of the *already* source-selected Game14 guard.
-thread_local bool c3x042_r8_target_descendant=false;
+EXPORTED='''\nthread_local bool c3x042_r8_target_descendant=false;
 thread_local unsigned long long c3x042_r8_tt_attempts=0;
 thread_local unsigned long long c3x042_r8_tt_suppressed=0;
+'''\n\nGLOBALS="""
+// P42/R8: single-thread source intervention restricted to the actually
+// executed descendant of the *already* source-selected Game14 guard.
 void c3x042_r8_end_trace() {
   const char* dest=std::getenv("C3X042_R5_LOCAL_TRACE");
   if (!dest || !*dest) return;
@@ -49,7 +49,11 @@ def once(s,needle,replacement,tag):
 def patch_search(s):
     if "c3x042_r8_target_descendant" in s:
         raise ValueError("P42_R8_HOLD_ALREADY_PATCHED_SEARCH")
-    s=once(s,SEARCH_ANCHOR,GLOBALS+"\n"+SEARCH_ANCHOR,"GLOBALS")
+    # The search helper lives in Stockfish's anonymous namespace, while
+    # tt.cpp requires externally linked Stockfish::thread_local symbols.
+    s=once(s,"namespace Stockfish {\n",
+           "namespace Stockfish {\n"+EXPORTED+"\n","EXPORTED_GLOBALS")
+    s=once(s,SEARCH_ANCHOR,GLOBALS+"\n"+SEARCH_ANCHOR,"LOCAL_HELPER")
     s=once(s,AFTER_DO,AFTER_DO+"\n  c3x042_r8_target_descendant=true;\n  c3x042_r8_tt_attempts=0;\n  c3x042_r8_tt_suppressed=0;","AFTER_DO")
     s=once(s,BEFORE_UNDO,BEFORE_UNDO+"\n  c3x042_r8_target_descendant=false;\n  c3x042_r8_end_trace();","BEFORE_UNDO")
     return s
