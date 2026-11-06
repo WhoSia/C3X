@@ -6,7 +6,7 @@ def fixture():
 
 class R12SourceTests(unittest.TestCase):
     def test_exact_single_source_cycle_site(self):
-        s=patch('A\n'+ANCHOR+'\nB')
+        s=patch('A\n'+fixture()+'\nB')
         self.assertEqual(s.count('++c3x042_r12_ordinal;'),1)
         self.assertIn('const Value c3x042_r12_native',s)
         self.assertIn('const Value c3x042_r11_candidate',s)
