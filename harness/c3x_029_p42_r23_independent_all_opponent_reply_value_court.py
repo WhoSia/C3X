@@ -50,7 +50,6 @@ def source_positions(originals, frozen_ids):
         for candidate in c["candidate_pairs"]:
             root=chess.Move.from_uci(candidate["root_uci"])
             if root not in board.legal_moves:raise ValueError("R23_HOLD_ROOT_ILLEGAL")
-            replies=sorted((m.uci() for m in board.copy(stack=True).variation_san([root]) and []),key=str) if False else []
             child=board.copy(stack=True);child.push(root)
             replies=sorted(m.uci() for m in child.legal_moves)
             if not replies:raise ValueError("R23_HOLD_EMPTY_REPLY_UNIVERSE")
