@@ -1,0 +1,85 @@
+name: C3X P42-R21 breadth D exact same-history source classical NNUE eval (read-only)
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/c3x-029-p42-r21-original-static-NNUE-bridge.yml'
+      - 'harness/c3x_029_p42_r21_original_same_board_nnue_static_bridge.py'
+      - 'harness/test_c3x_029_p42_r21_original_same_board_nnue_static_bridge.py'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  original-static-source-evaluation-not-search-causality:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Legal chess and source evaluator regression tests
+        run: |
+          set -euo pipefail
+          python -m pip install chess==1.11.2
+          python -m py_compile harness/c3x_029_p42_r21_original_same_board_nnue_static_bridge.py
+          PYTHONPATH=harness python -m unittest -v test_c3x_029_p42_r21_original_same_board_nnue_static_bridge
+          python -m unittest discover -s tools -p 'test_c3x_029_p34_r3_direct_eval_trace.py' -v
+      - uses: actions/download-artifact@v4
+        with:
+          name: c3x-018-independent-PGN-blind-source-16
+          path: source/
+          repository: WhoSia/C3X
+          run-id: '37981820261'
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: c3x-029-p34-equal-requested-nodes-classic-nnue-four-original-roots
+          path: prior/
+          repository: WhoSia/C3X
+          run-id: '41777935223'
+          github-token: ${{ github.token }}
+      - name: Original source and past result byte custody
+        run: |
+          set -euo pipefail
+          printf '%s  %s\n' 6520672aabab7f525872169085f19bdd81e27a4473f0c58ba9c9aa428937104c source/C3X018_INDEPENDENT_BLIND16_PGN_SOURCE.json | sha256sum -c -
+          printf '%s  %s\n' c80704f2f81c4920597fbf6b559ef38dbae60f35458c7a2f665f1cf57d2563dc prior/P34_FOUR_ROOTS_CLASSICAL_NNUE_BUDGET24000.json | sha256sum -c -
+      - name: Build exact original Stockfish16 with official neural net
+        run: |
+          set -euo pipefail
+          git clone -q --single-branch --branch sf_16 https://github.com/official-stockfish/Stockfish.git /tmp/c3x-original-static-sf16
+          test "$(git -C /tmp/c3x-original-static-sf16 rev-parse HEAD)" = 68e1e9b3811e16cad014b590d7443b9063b3eb52
+          make -s -C /tmp/c3x-original-static-sf16/src -j2 build ARCH=x86-64
+          test -x /tmp/c3x-original-static-sf16/src/stockfish
+          sha256sum /tmp/c3x-original-static-sf16/src/stockfish
+      - name: Evaluate identical original-history legal boards with direct source eval trace
+        run: |
+          set -euo pipefail
+          mkdir -p public
+          PYTHONPATH=harness python -u harness/c3x_029_p42_r21_original_same_board_nnue_static_bridge.py \
+            --source source/C3X018_INDEPENDENT_BLIND16_PGN_SOURCE.json \
+            --p34 prior/P34_FOUR_ROOTS_CLASSICAL_NNUE_BUDGET24000.json \
+            --engine /tmp/c3x-original-static-sf16/src/stockfish \
+            --out public/C3X042_R21_D_ORIGINAL_SOURCE_STATIC_NNUE_CLASSICAL.json
+      - name: Original corpus CC and fail-safe publication
+        if: always()
+        run: |
+          set -euo pipefail
+          mkdir -p public
+          if test -f public/C3X042_R21_D_ORIGINAL_SOURCE_STATIC_NNUE_CLASSICAL.json; then
+            python tools/c3x_023_rights_preupload_gate.py \
+              --tier P2_AGGREGATE_SUMMARY \
+              --file public/C3X042_R21_D_ORIGINAL_SOURCE_STATIC_NNUE_CLASSICAL.json \
+              --report /tmp/C3X042_R21_D_RIGHTS_PRIVATE.json
+          fi
+          echo 'Derived originally licensed source material. Historical development only; no PGN/FEN/raw UCI trace or modified engine binary published.' > public/SOURCE_LICENSE_NOTICE.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x042-p42-r21-D-original-static-NNUE-versus-classical-public-only
+          path: |
+            public/C3X042_R21_D_ORIGINAL_SOURCE_STATIC_NNUE_CLASSICAL.json
+            public/SOURCE_LICENSE_NOTICE.txt
+          if-no-files-found: warn
