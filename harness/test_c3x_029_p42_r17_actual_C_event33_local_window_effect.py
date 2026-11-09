@@ -28,7 +28,7 @@ class ActualCWindowTests(unittest.TestCase):
         a,b=matched_pair(-1,0)
         z=test_dynamic_effect(a,b)
         self.assertTrue(z["immediate_cutoff_changed"])
-        self.assertFalse(z["unmeasured_search_state_equal"])
+        self.assertFalse(z["unmeasured_search_state_equality_certified"])
     def test_positive_native_draw_return_downward_modification(self):
         a,b=matched_pair(1,2)
         z=test_dynamic_effect(a,b)
