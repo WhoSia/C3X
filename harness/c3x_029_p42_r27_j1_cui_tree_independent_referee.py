@@ -40,7 +40,7 @@ def reconstruct(originals, tree):
         or tree.get("total_engine_queries") != 64):
         raise ValueError("R27_J1_HOLD_SOURCE_TREE_CUSTODY")
     worlds = source_positions(originals, FROZEN_EXPLORATORY_CASES)
-    if len(worlds) != len(tree.get("cases", [])) != 2:
+    if len(worlds) != 2 or len(tree.get("cases", [])) != 2:
         raise ValueError("R27_J1_HOLD_CASE_COUNT")
     reconstructed = []
     for (source, board, pairs), case in zip(worlds, tree["cases"]):
