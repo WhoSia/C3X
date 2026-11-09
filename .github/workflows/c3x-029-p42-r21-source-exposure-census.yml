@@ -1,0 +1,66 @@
+name: C3X P42-R21 breadth C original 16-vs-8 source overlap census (read-only)
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/c3x-029-p42-r21-source-exposure-census.yml'
+      - 'tools/c3x_029_p42_r21_cross_cohort_exposure_census.py'
+      - 'tools/test_c3x_029_p42_r21_cross_cohort_exposure_census.py'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  original-sources-custody-and-exposure:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: |
+          python -m pip install chess==1.11.2
+          PYTHONPATH=tools python -m unittest -v test_c3x_029_p42_r21_cross_cohort_exposure_census
+      - uses: actions/download-artifact@v4
+        with:
+          name: c3x027-sept2026-preengine-source-only16
+          path: sept/
+          repository: WhoSia/C3X
+          run-id: '39348434657'
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: c3x-p37-r1-oct-eight-distinct-events-original-pgn-and-engine-blind-freeze
+          path: oct/
+          repository: WhoSia/C3X
+          run-id: '41968008046'
+          github-token: ${{ github.token }}
+      - name: Original source hashes and conservative cross-cohort census
+        run: |
+          set -euo pipefail
+          mkdir -p public
+          python tools/c3x_029_p42_r21_cross_cohort_exposure_census.py \
+            --sept-source sept/C3X_027_SEPT2026_NEW_SOURCE16.json \
+            --oct-source oct/P37_R1_8_EVENT_8_GAME_SOURCE_ONLY_MANIFEST.json \
+            --out public/C3X042_R21_HISTORICAL_SEPT16_OCT8_EXPOSURE_CENSUS.json
+      - name: Rights and claim ceiling
+        if: always()
+        run: |
+          set -euo pipefail
+          mkdir -p public
+          if test -f public/C3X042_R21_HISTORICAL_SEPT16_OCT8_EXPOSURE_CENSUS.json; then
+            python tools/c3x_023_rights_preupload_gate.py \
+              --tier P2_AGGREGATE_SUMMARY \
+              --file public/C3X042_R21_HISTORICAL_SEPT16_OCT8_EXPOSURE_CENSUS.json \
+              --report /tmp/R21_C_RIGHTS_PRIVATE.json
+          fi
+          echo 'Original Lichess broadcasts, CC BY-SA 4.0; no PGN, FEN, full game history, source keys, chess engine binary or names shared.' > public/SOURCE_LICENSE_NOTICE.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x042-p42-r21-historical-source-collision-aggregate-only
+          path: |
+            public/C3X042_R21_HISTORICAL_SEPT16_OCT8_EXPOSURE_CENSUS.json
+            public/SOURCE_LICENSE_NOTICE.txt
+          if-no-files-found: warn
