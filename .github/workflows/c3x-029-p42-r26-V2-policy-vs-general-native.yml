@@ -109,6 +109,7 @@ jobs:
         if: always()
         run: |
           set -euo pipefail
+          mkdir -p public
           if test -f public/C3X042_R26_V2_POLICY_VS_GENERAL_NATIVE.json; then
             python tools/c3x_023_rights_preupload_gate.py \
               --tier P2_AGGREGATE_SUMMARY \
