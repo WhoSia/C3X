@@ -46,7 +46,7 @@ class R24ProspectiveSourcePolicy(unittest.TestCase):
         self.assertNotIn("selected_source_positions",z)
         self.assertIn("selected_source_positions",p)
     def test_bad_game_syntax_rejected_by_chess_parser(self):
-        bad='[Event "Fake"]\n[Result "1-0"]\n\n1. e4 e5 2. Qh5 Qh4 1-0\n\n'
+        bad='[Event "Deliberately invalid PGN with plenty of UTF-8 bytes for source detector"]\\n[Result "1-0"]\\n\\n1. e4 e5 2. Qh5 e5 1-0\\n\\n'
         _,out=harvest(bad.encode(),minimum=4,target=1)
         self.assertEqual(out["census"]["syntax_illegal"],1)
     def test_eligible_source_selection_does_not_require_prior_referee(self):
