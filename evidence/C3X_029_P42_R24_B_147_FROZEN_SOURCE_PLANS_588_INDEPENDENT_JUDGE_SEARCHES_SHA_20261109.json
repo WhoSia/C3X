@@ -1,0 +1,51 @@
+{
+  "schema": "c3x042-r24-prejudge-source-policy-independent-continuation-receipt-v1",
+  "date": "2026-11-09",
+  "prejudge_run_id": 42565383643,
+  "prejudge_run_url": "https://github.com/WhoSia/C3X/actions/runs/42565383643",
+  "prejudge_success": true,
+  "prejudge_source_artifact_id": 13650858868,
+  "prejudge_source_zip_sha256": "808f1375ed03f843a6f5f6804c3364b1eb561600b7dbed40d08faec68b0d5100",
+  "prejudge_source_json_sha256": "3c8f2a57cefe19fcb7a00925f4434f5008195bce5adeba1e67dc84f18f084f34",
+  "source_stockfish16_commit": "68e1e9b3811e16cad014b590d7443b9063b3eb52",
+  "source_use_nnue": false,
+  "source_engine_depth": 12,
+  "source_plan_actual_nodes": 8563329,
+  "prejudged_legal_reply_conditioned_own_actions": 147,
+  "source_cases": 2,
+  "source_roots": 4,
+  "independent_run_id": 42565712361,
+  "independent_run_url": "https://github.com/WhoSia/C3X/actions/runs/42565712361",
+  "independent_success": true,
+  "independent_artifact_id": 13651426096,
+  "independent_zip_sha256": "bcd78e80c0d5544ebe4ee1821e708ccb6e582bfc800a7c9617b050ab93484df5",
+  "independent_json_sha256": "2fd30e135a1d4f4575b71cd263f01fdd363659fe3f05b6cafc653dc98646e365",
+  "independent_engine_source_commit": "8ae895a6151695be4a50d4fb65b0c131659c513a",
+  "independent_engine_nnue_sha256": "9b84c340af7e45f6e07f0046235ccb327f4ae0840c8ee2c4b97b99121e5c5084",
+  "independent_searches": 588,
+  "independent_depths": [
+    12,
+    16
+  ],
+  "independent_actual_nodes": 76750716,
+  "depth16_policy_minima_root_mover_cp": {
+    "Sahel_e5f4": 64,
+    "Sahel_e5c3": 62,
+    "Cerrado_e5f6": -65,
+    "Cerrado_d1c2": -36
+  },
+  "depth16_unrestricted_minima_root_mover_cp": {
+    "Sahel_e5f4": 73,
+    "Sahel_e5c3": 71,
+    "Cerrado_e5f6": -19,
+    "Cerrado_d1c2": -36
+  },
+  "depth16_own_move_disagreements": 46,
+  "depth16_negative_signed_free_search_minus_forced_count": 55,
+  "claim_scope": "Postselected source-engine reply-conditioned policy judged against separate finite-depth Berserk engine; no objective value or causal root explanation.",
+  "natural_source_mediation_certified": false,
+  "cui_k3_strong_comparison": false,
+  "binprop_baseline_compared": false,
+  "equal_actual_search_budget": false,
+  "prospective_heldout": false
+}
