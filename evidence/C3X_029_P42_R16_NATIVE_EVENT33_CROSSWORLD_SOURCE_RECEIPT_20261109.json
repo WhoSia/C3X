@@ -1,0 +1,37 @@
+{
+  "schema": "c3x042-r16-native-crossworld-event33-support-receipt-v1",
+  "date": "2026-11-09",
+  "run_id": 42551289145,
+  "run_url": "https://github.com/WhoSia/C3X/actions/runs/42551289145",
+  "run_conclusion": "success",
+  "artifact_id": 13645532216,
+  "artifact_name": "c3x042-p42-r16-native-event33-support-aggregate-only",
+  "zip_sha256": "ee42baa48f6b93639aadb96c6090602f08da676e5ef5695406cb0cd85ac88cc4",
+  "member": "C3X042_R16_ORIGINAL_EVENT33_CROSSWORLD_SOURCE_SUPPORT.json",
+  "member_sha256": "daaf6cbec2aa38ad3eaf8cb63dc4bc5fe9e94eaf020d260cd3116fa2e3120d7b",
+  "game14_B_cycle_calls_per_physical_engine": 281,
+  "C_calls_per_physical_engine": 403,
+  "combined_calls_per_physical_engine": 403,
+  "original_B_event33_support": {
+    "B": {
+      "board_context": 1,
+      "board_and_window": 1,
+      "exact_source_computation": 1
+    },
+    "C": {
+      "board_context": 1,
+      "board_and_window": 1,
+      "exact_source_computation": 0
+    },
+    "combined": {
+      "board_context": 1,
+      "board_and_window": 1,
+      "exact_source_computation": 0
+    }
+  },
+  "C_vs_combined_root_summaries_equal_depths_1_through_12": true,
+  "C_vs_combined_pre_score_cycle_source_context_identical_across_403_calls": true,
+  "natural_mediation_certified": false,
+  "strategic_reason_certified": false,
+  "source_key_private": true
+}
