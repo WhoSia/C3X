@@ -1,0 +1,63 @@
+{
+  "schema": "c3x042-r20-native-legal-root-leader-and-semantic-correction-receipt-v1",
+  "date": "2026-11-09",
+  "native_run_id": 42554911743,
+  "native_run_url": "https://github.com/WhoSia/C3X/actions/runs/42554911743",
+  "native_run_conclusion": "success",
+  "native_artifact_id": 13647425447,
+  "native_zip_sha256": "67435f72fc893f02fdd9bb8b97e29b7be8dd44a7df00624fdc9bc427f6478869",
+  "native_json_name": "C3X042_R20_NATIVE_LEGAL_ROOT_CANDIDATES.json",
+  "native_json_sha256": "8d176b66f1fa92bda13c74cc62939fd9b114912c5d02e29091ec13ad4a820054",
+  "semantic_run_id": 42555461192,
+  "semantic_run_url": "https://github.com/WhoSia/C3X/actions/runs/42555461192",
+  "semantic_run_conclusion": "success",
+  "semantic_artifact_id": 13646609767,
+  "semantic_zip_sha256": "f12c396296e9752c97ca35b56d03fb22b19e331e08f76881c1a1a38ba67de605",
+  "semantic_json_name": "C3X042_R20_CORRECTED_ROOT_SUPPORT_SEMANTICS.json",
+  "semantic_json_sha256": "b4541eaa8d6779d737aaedc0d681984b7bec8031bb5a9a03d2caeb95b3f2009b",
+  "pinned_stockfish16": "68e1e9b3811e16cad014b590d7443b9063b3eb52",
+  "game_id": 14,
+  "depth9": {
+    "A": "f3f4",
+    "B": "f3f4",
+    "C": "b3a4",
+    "C_reverse": "f3f4"
+  },
+  "depth10": {
+    "A": "b3a4",
+    "B": "e1e4",
+    "C": "b3a4",
+    "C_reverse": "f3f4"
+  },
+  "depth11": {
+    "A": "b3a4",
+    "B": "f3f4",
+    "C": "f3f4",
+    "C_reverse": "b3a4"
+  },
+  "depth12": {
+    "A": "b3a4",
+    "B": "f3f4",
+    "C": "b3a4",
+    "C_reverse": "b3a4"
+  },
+  "source_intervention_changed_root_leaders": [
+    9,
+    10,
+    11
+  ],
+  "outside_contemporaneous_B_C_depths": [
+    10,
+    11
+  ],
+  "outside_contemporaneous_A_B_C_depths": [
+    10
+  ],
+  "globally_new_legal_move_identity_depths": [],
+  "native_legal_chess_move_provenance": true,
+  "independent_game_value_proved": false,
+  "natural_root_mediation_proved": false,
+  "prospective_generalization_proved": false,
+  "nnue_enabled": false,
+  "game14_postselected": true
+}
