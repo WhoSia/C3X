@@ -61,8 +61,19 @@ jobs:
           git clone -q https://github.com/jhonnold/berserk.git /tmp/c3x-r27-j1-berserk
           git -C /tmp/c3x-r27-j1-berserk checkout -q 8ae895a6151695be4a50d4fb65b0c131659c513a
           test "$(git -C /tmp/c3x-r27-j1-berserk rev-parse HEAD)" = '8ae895a6151695be4a50d4fb65b0c131659c513a'
-          curl --fail --location --retry 2 --max-time 180 -o /tmp/c3x-r27-j1-berserk/src/berserk-9b84c340af7e.nn \
-            https://github.com/jhonnold/berserk/releases/download/14/berserk-9b84c340af7e.nn
+          NNUE_FILE=/tmp/c3x-r27-j1-berserk/src/berserk-9b84c340af7e.nn
+          # First-party release-asset API route and canonical browser route are
+          # alternative delivery URLs for the SAME immutable upstream asset.
+          # The SHA-256 gate below, never the host name, admits the bytes.
+          if ! curl --fail --location --retry 4 --retry-delay 6 --max-time 180 \
+                 -H 'Accept: application/octet-stream' \
+                 -H 'X-GitHub-Api-Version: 2022-11-28' \
+                 -o "$NNUE_FILE" \
+                 https://api.github.com/repos/jhonnold/berserk/releases/assets/428781485; then
+            curl --fail --location --retry 5 --retry-delay 10 --max-time 180 \
+              -o "$NNUE_FILE" \
+              https://github.com/jhonnold/berserk/releases/download/14/berserk-9b84c340af7e.nn
+          fi
           echo '9b84c340af7e45f6e07f0046235ccb327f4ae0840c8ee2c4b97b99121e5c5084  /tmp/c3x-r27-j1-berserk/src/berserk-9b84c340af7e.nn' | sha256sum -c -
           make -s -C /tmp/c3x-r27-j1-berserk/src -j2 all ARCH=x86-64 CC=gcc
           test -x /tmp/c3x-r27-j1-berserk/src/berserk
