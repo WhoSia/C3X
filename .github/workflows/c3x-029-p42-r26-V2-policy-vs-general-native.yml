@@ -1,0 +1,126 @@
+name: C3X P42-R26-V2 policy-vulnerability vs general-k3 independently judged (read-only)
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/c3x-029-p42-r26-V2-policy-vs-general-native.yml'
+      - 'harness/c3x_029_p42_r26_v2_policy_vs_general_judge.py'
+      - 'harness/test_c3x_029_p42_r26_v2_policy_vs_general_judge.py'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  evaluate-source-only-vulnerability-selector-with-independent-referee:
+    runs-on: ubuntu-latest
+    timeout-minutes: 95
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: 'pip'
+          cache-dependency-path: '.github/workflows/c3x-029-p42-r26-V2-policy-vs-general-native.yml'
+      - name: Locked chess library and strictly synthetic contracts
+        run: |
+          set -euo pipefail
+          python -m pip install -q chess==1.11.2
+          python -m py_compile harness/c3x_029_p42_r26_v2_policy_vs_general_judge.py
+          PYTHONPATH=harness python -m unittest -v test_c3x_029_p42_r26_v2_policy_vs_general_judge
+      - uses: actions/download-artifact@v4
+        with:
+          name: c3x-p37-r1-oct-eight-distinct-events-original-pgn-and-engine-blind-freeze
+          repository: WhoSia/C3X
+          run-id: '41968008046'
+          path: source/
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: c3x-p37-r2-pre-referee-eight-event-three-rival-predictions
+          repository: WhoSia/C3X
+          run-id: '41969173637'
+          path: forecasts/
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: c3x042-r24-B-prejudge-sf16-reply-conditioned-own-plan-147
+          repository: WhoSia/C3X
+          run-id: '42565383643'
+          path: pre-judge-source-plan/
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: c3x042-p42-r24-B2-judged-all-reply-conditioned-plans-aggregate-only
+          repository: WhoSia/C3X
+          run-id: '42565712361'
+          path: b2/
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: c3x042-r25-E2-native-48-source-ranked-k3-independent-Berserk
+          repository: WhoSia/C3X
+          run-id: '42570536917'
+          path: r25/
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: c3x042-r26-V1-source-only-policy-stress-all147-top3
+          repository: WhoSia/C3X
+          run-id: '42571598631'
+          path: v1/
+          github-token: ${{ github.token }}
+      - name: Verify predecessor raw bytes before R26 referee accesses source selection
+        run: |
+          set -euo pipefail
+          echo '77ebaa409e7c2099cc6cce3419c2f55ded295d925ab441dc2d13c16b67c2c361  source/P37_R1_8_EVENT_8_GAME_SOURCE_ONLY_MANIFEST.json' | sha256sum -c -
+          echo 'da395f0eb16e7b294af2056dadd92b579770aa8f1ae288d1d358132685807051  forecasts/P37_R2_THREE_RIVAL_PRE_REFERENCE_PREDICTIONS.json' | sha256sum -c -
+          echo '3c8f2a57cefe19fcb7a00925f4434f5008195bce5adeba1e67dc84f18f084f34  pre-judge-source-plan/C3X042_R24_B_PREJUDGE_147_REPLY_CONDITIONED_OWN_CHOICES.json' | sha256sum -c -
+          echo '2fd30e135a1d4f4575b71cd263f01fdd363659fe3f05b6cafc653dc98646e365  b2/C3X042_R24_B_JUDGED_REPLY_CONDITIONED_OWN_PLAN.json' | sha256sum -c -
+          echo 'b18c7488edc66454a9cd79f54e7f072b2bbb9dddb56a0f1a87349bde4ec4440b  r25/C3X042_R25_E2_RANKED_K3_48_NATIVE_SEARCHES.json' | sha256sum -c -
+          echo '32db0d0dd880ba9ea9684ae039679cc610c1a204e0caae5f4ea52f53df18eec8  v1/C3X042_R26_V1_SOURCE_POLICY_STRESS_TOP3.json' | sha256sum -c -
+      - name: Build exact independent Berserk14 and network with SHA check
+        run: |
+          set -euo pipefail
+          git clone -q https://github.com/jhonnold/berserk.git /tmp/c3x042-r26-berserk
+          git -C /tmp/c3x042-r26-berserk checkout -q 8ae895a6151695be4a50d4fb65b0c131659c513a
+          test "$(git -C /tmp/c3x042-r26-berserk rev-parse HEAD)" = '8ae895a6151695be4a50d4fb65b0c131659c513a'
+          curl --fail --location --retry 2 --max-time 180 -o /tmp/c3x042-r26-berserk/src/berserk-9b84c340af7e.nn \
+            https://github.com/jhonnold/berserk/releases/download/14/berserk-9b84c340af7e.nn
+          echo '9b84c340af7e45f6e07f0046235ccb327f4ae0840c8ee2c4b97b99121e5c5084  /tmp/c3x042-r26-berserk/src/berserk-9b84c340af7e.nn' | sha256sum -c -
+          make -s -C /tmp/c3x042-r26-berserk/src -j2 all ARCH=x86-64 CC=gcc
+          test -x /tmp/c3x042-r26-berserk/src/berserk
+      - name: Compare R26 policy-conditioned against R25 general rankings via source-blind Berserk
+        run: |
+          set -euo pipefail
+          mkdir -p public
+          PYTHONPATH=harness python -u harness/c3x_029_p42_r26_v2_policy_vs_general_judge.py \
+            --source source \
+            --predictions forecasts \
+            --frozen-plan pre-judge-source-plan/C3X042_R24_B_PREJUDGE_147_REPLY_CONDITIONED_OWN_CHOICES.json \
+            --v1 v1/C3X042_R26_V1_SOURCE_POLICY_STRESS_TOP3.json \
+            --r25-e2 r25/C3X042_R25_E2_RANKED_K3_48_NATIVE_SEARCHES.json \
+            --r24-b2 b2/C3X042_R24_B_JUDGED_REPLY_CONDITIONED_OWN_PLAN.json \
+            --engine /tmp/c3x042-r26-berserk/src/berserk \
+            --network /tmp/c3x042-r26-berserk/src/berserk-9b84c340af7e.nn \
+            --out public/C3X042_R26_V2_POLICY_VS_GENERAL_NATIVE.json
+          sha256sum public/C3X042_R26_V2_POLICY_VS_GENERAL_NATIVE.json
+      - name: Rights and scientific boundaries
+        if: always()
+        run: |
+          set -euo pipefail
+          if test -f public/C3X042_R26_V2_POLICY_VS_GENERAL_NATIVE.json; then
+            python tools/c3x_023_rights_preupload_gate.py \
+              --tier P2_AGGREGATE_SUMMARY \
+              --file public/C3X042_R26_V2_POLICY_VS_GENERAL_NATIVE.json \
+              --report /tmp/R26_V2_RIGHTS_PRIVATE.json
+          fi
+          echo 'R26-V2 exploratory historical exposure; post-R25 generated policy vulnerability hypothesis, different source cost vs R25, only first opponent layer, reused SHA-locked judge rows and new genuine searches on missing replies; no full Cui or causal strategic proof. Source Lichess CC BY-SA 4.0.' > public/SOURCE_LICENSE_NOTICE.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x042-r26-V2-source-policy-vs-general-native-judge
+          path: |
+            public/C3X042_R26_V2_POLICY_VS_GENERAL_NATIVE.json
+            public/SOURCE_LICENSE_NOTICE.txt
+          if-no-files-found: warn
