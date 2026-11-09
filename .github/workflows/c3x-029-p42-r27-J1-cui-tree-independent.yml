@@ -1,0 +1,100 @@
+name: C3X P42-R27-J1 independent Berserk referee for pre-frozen recursive Cui k3 tree
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/c3x-029-p42-r27-J1-cui-tree-independent.yml'
+      - 'harness/c3x_029_p42_r27_j1_cui_tree_independent_referee.py'
+      - 'harness/test_c3x_029_p42_r27_j1_cui_tree_independent_referee.py'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  independently-adjudicate-cui-source-two-layer-36-leaves:
+    runs-on: ubuntu-latest
+    timeout-minutes: 95
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: 'pip'
+          cache-dependency-path: '.github/workflows/c3x-029-p42-r27-J1-cui-tree-independent.yml'
+      - name: Fixed chess interface and tamper/legality regression
+        run: |
+          set -euo pipefail
+          python -m pip install -q chess==1.11.2
+          python -m py_compile harness/c3x_029_p42_r27_j1_cui_tree_independent_referee.py
+          PYTHONPATH=harness python -m unittest -v test_c3x_029_p42_r27_j1_cui_tree_independent_referee
+      - uses: actions/download-artifact@v4
+        with:
+          name: c3x-p37-r1-oct-eight-distinct-events-original-pgn-and-engine-blind-freeze
+          repository: WhoSia/C3X
+          run-id: '41968008046'
+          path: source/
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: c3x-p37-r2-pre-referee-eight-event-three-rival-predictions
+          repository: WhoSia/C3X
+          run-id: '41969173637'
+          path: forecasts/
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: c3x042-r27-Cui-recursive-k3-two-opponent-layer-source-only
+          repository: WhoSia/C3X
+          run-id: '42580681868'
+          path: tree/
+          github-token: ${{ github.token }}
+      - name: Verify preexisting complete game-source hashes and source-tree SHA
+        run: |
+          set -euo pipefail
+          echo '77ebaa409e7c2099cc6cce3419c2f55ded295d925ab441dc2d13c16b67c2c361  source/P37_R1_8_EVENT_8_GAME_SOURCE_ONLY_MANIFEST.json' | sha256sum -c -
+          echo 'da395f0eb16e7b294af2056dadd92b579770aa8f1ae288d1d358132685807051  forecasts/P37_R2_THREE_RIVAL_PRE_REFERENCE_PREDICTIONS.json' | sha256sum -c -
+          echo 'f41e96bbf598aa824e65467cd1f1c782674aa275460211ce02b68f6eff1d4d5e  tree/C3X042_R27_CUI_SOURCE_NATIVE_TWO_OPPONENT_LAYER_K3.json' | sha256sum -c -
+      - name: Exact distinct-source Berserk14 and NNUE bytes (no source reranking)
+        run: |
+          set -euo pipefail
+          git clone -q https://github.com/jhonnold/berserk.git /tmp/c3x-r27-j1-berserk
+          git -C /tmp/c3x-r27-j1-berserk checkout -q 8ae895a6151695be4a50d4fb65b0c131659c513a
+          test "$(git -C /tmp/c3x-r27-j1-berserk rev-parse HEAD)" = '8ae895a6151695be4a50d4fb65b0c131659c513a'
+          curl --fail --location --retry 2 --max-time 180 -o /tmp/c3x-r27-j1-berserk/src/berserk-9b84c340af7e.nn \
+            https://github.com/jhonnold/berserk/releases/download/14/berserk-9b84c340af7e.nn
+          echo '9b84c340af7e45f6e07f0046235ccb327f4ae0840c8ee2c4b97b99121e5c5084  /tmp/c3x-r27-j1-berserk/src/berserk-9b84c340af7e.nn' | sha256sum -c -
+          make -s -C /tmp/c3x-r27-j1-berserk/src -j2 all ARCH=x86-64 CC=gcc
+          test -x /tmp/c3x-r27-j1-berserk/src/berserk
+      - name: Judge exact 36 leaf paths at depth12 and depth16, no source consultation
+        run: |
+          set -euo pipefail
+          mkdir -p public
+          PYTHONPATH=harness python -u harness/c3x_029_p42_r27_j1_cui_tree_independent_referee.py \
+            --source source \
+            --predictions forecasts \
+            --frozen-tree tree/C3X042_R27_CUI_SOURCE_NATIVE_TWO_OPPONENT_LAYER_K3.json \
+            --engine /tmp/c3x-r27-j1-berserk/src/berserk \
+            --network /tmp/c3x-r27-j1-berserk/src/berserk-9b84c340af7e.nn \
+            --out public/C3X042_R27_J1_CUI_TWO_OPPONENT_LAYERS_72_REFEREE_SEARCHES.json
+          sha256sum public/C3X042_R27_J1_CUI_TWO_OPPONENT_LAYERS_72_REFEREE_SEARCHES.json
+      - name: Source rights and claim ceiling
+        if: always()
+        run: |
+          set -euo pipefail
+          mkdir -p public
+          if test -f public/C3X042_R27_J1_CUI_TWO_OPPONENT_LAYERS_72_REFEREE_SEARCHES.json; then
+            python tools/c3x_023_rights_preupload_gate.py \
+              --tier P2_AGGREGATE_SUMMARY \
+              --file public/C3X042_R27_J1_CUI_TWO_OPPONENT_LAYERS_72_REFEREE_SEARCHES.json \
+              --report /tmp/R27_J1_PRIVATE_RIGHTS.json
+          fi
+          echo 'Only recursive Cui 4.1 strategy-tree-construction source selection; no human/LLM verbalization or TEPP replication. 36 pre-frozen leaf states, 72 real finite-depth searches, historical postselected cases, unequal node costs, no true game-theoretic exploitability or source causal root explanation. Lichess historical source CC BY-SA 4.0.' > public/SOURCE_LICENSE_NOTICE.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x042-r27-J1-Cui-36-leaf-two-layer-Berserk-independent
+          path: |
+            public/C3X042_R27_J1_CUI_TWO_OPPONENT_LAYERS_72_REFEREE_SEARCHES.json
+            public/SOURCE_LICENSE_NOTICE.txt
+          if-no-files-found: warn
