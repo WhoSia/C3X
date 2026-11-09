@@ -47,7 +47,7 @@ def test_dynamic_effect(c,modified):
             "cycle_calls_after_event33":len(c)-33,
             "cycle_source_pre_score_contexts_all_identical":True,
             "only_cycle_return_or_cutoff_difference_at_event33":True,
-            "unmeasured_search_state_equal":False,
+            "unmeasured_search_state_equality_certified":False,
             "natural_B33_source_mediation_identified":False}
 
 def main():
