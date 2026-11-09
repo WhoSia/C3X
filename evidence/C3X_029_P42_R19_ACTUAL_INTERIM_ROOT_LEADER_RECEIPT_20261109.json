@@ -1,0 +1,47 @@
+{
+  "schema": "c3x042-r19-real-native-intermediate-root-propagation-receipt-v1",
+  "date": "2026-11-09",
+  "run_id": 42554337265,
+  "run_url": "https://github.com/WhoSia/C3X/actions/runs/42554337265",
+  "run_status": "completed",
+  "run_conclusion": "success",
+  "artifact_id": 13647101061,
+  "zip_sha256": "30c070a09fd91b7c7e912f1fa864f74d3bdc5692ff54052af39c4bc42c25f272",
+  "member": "C3X042_R19_ROOT_BOUNDARY_PROPAGATION.json",
+  "member_sha256": "c23f914a450866c6550d4a1ea4ab6a4ffeb7810009ffbd3ec62f306958be6954",
+  "pinned_stockfish16": "68e1e9b3811e16cad014b590d7443b9063b3eb52",
+  "game_id": 14,
+  "root_depths": 12,
+  "matched_C_original_B_event_ordinal": 35,
+  "changed_boundary_depths": [
+    9,
+    10,
+    11,
+    12
+  ],
+  "changed_intermediate_leader_depths": [
+    9,
+    10,
+    11
+  ],
+  "depthwise_source_score_change": {
+    "depth9": -15,
+    "depth10": -16,
+    "depth11": 15,
+    "depth12": -15
+  },
+  "depthwise_source_average_change": {
+    "depth9": -19,
+    "depth10": -20,
+    "depth11": 21,
+    "depth12": -9
+  },
+  "final_root_choice_original": "b3a4",
+  "final_root_choice_intervened": "b3a4",
+  "final_leader_recovered": true,
+  "final_depth_numeric_state_recovered": false,
+  "natural_guard_cycle_root_mediation_proved": false,
+  "strategic_chess_future_proved": false,
+  "postselected_game14": true,
+  "nnue_enabled": false
+}
