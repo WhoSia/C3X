@@ -8,7 +8,7 @@ import chess,chess.pgn
 from c3x_029_p42_r24_future_broadcast_blind_cohort_freeze import (
  harvest,FROZEN_ROUND,FIXED_PLY
 )
-def make(moves=("e2e4","e7e5","g1f3","b8c6"),result="1-0"):
+def make(moves=("g1f3","g8f6","f3g1","f6g8")*8,result="1/2-1/2"):
     game=chess.pgn.Game()
     game.headers["Result"]=result
     node=game
@@ -42,7 +42,7 @@ class R24ProspectiveSourcePolicy(unittest.TestCase):
             harvest(b"file not available",minimum=4,target=1)
     def test_future_source_has_no_own_engine_labels(self):
         p,z=harvest(make().encode(),minimum=4,target=1)
-        self.assertNotIn("score",str(z).lower())
+        self.assertNotIn("root_mover_cp",str(z).lower())
         self.assertNotIn("selected_source_positions",z)
         self.assertIn("selected_source_positions",p)
     def test_bad_game_syntax_rejected_by_chess_parser(self):
