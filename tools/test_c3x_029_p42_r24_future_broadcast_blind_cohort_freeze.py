@@ -11,6 +11,7 @@ from c3x_029_p42_r24_future_broadcast_blind_cohort_freeze import (
 def make(moves=("g1f3","g8f6","f3g1","f6g8")*8,result="1/2-1/2"):
     game=chess.pgn.Game()
     game.headers["Result"]=result
+    game.headers["BroadcastURL"]=FROZEN_ROUND
     node=game
     for u in moves:node=node.add_variation(chess.Move.from_uci(u))
     return str(game)+"\n\n"
@@ -50,6 +51,16 @@ class R24ProspectiveSourcePolicy(unittest.TestCase):
         _,out=harvest(bad.encode(),minimum=4,target=1)
         self.assertEqual(out["selected_game_count"],0)
         self.assertTrue(out["status"].startswith("HOLD_"))
+    def test_different_round_game_is_not_falsely_accepted(self):
+        other=make().replace(FROZEN_ROUND,"https://lichess.org/broadcast/another-event/round-3/notourid")
+        _,out=harvest(other.encode(),minimum=4,target=1)
+        self.assertEqual(out["census"]["source_round_mismatch"],1)
+        self.assertEqual(out["selected_game_count"],0)
+    def test_source_round_without_verified_header_holds(self):
+        other=make().replace('[BroadcastURL "'+FROZEN_ROUND+'"]','')
+        _,out=harvest(other.encode(),minimum=4,target=1)
+        self.assertEqual(out["selected_game_count"],0)
+        self.assertEqual(out["census"]["source_round_mismatch"],1)
     def test_eligible_source_selection_does_not_require_prior_referee(self):
         _,out=harvest(make().encode(),minimum=4,target=1)
         self.assertFalse(out["model_scores_known_at_source_freeze"])
