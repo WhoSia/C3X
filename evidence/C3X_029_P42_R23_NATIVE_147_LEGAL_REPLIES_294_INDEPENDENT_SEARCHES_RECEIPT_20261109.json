@@ -1,0 +1,68 @@
+{
+  "schema": "c3x042-r23-independent-full-first-reply-source-native-receipt-v1",
+  "date": "2026-11-09",
+  "run_id": 42558798075,
+  "run_url": "https://github.com/WhoSia/C3X/actions/runs/42558798075",
+  "conclusion": "success",
+  "artifact_id": 13649000299,
+  "artifact_name": "c3x042-p42-r23-exhaustive-reply-value-aggregate-only",
+  "zip_sha256": "94a6db7fa68ee6aaf49e897cc4b3f3382b6c60e08d75ed927c9e354eec8eed73",
+  "original_json_member": "C3X042_R23_BERSERK14_FULL_LEGAL_REPLY_VALUE.json",
+  "original_json_sha256": "03ca8ca863c71e15c0d8bbd42903232a9b32448b27cd5b1fa52dec416d996bae",
+  "reference_source_commit": "8ae895a6151695be4a50d4fb65b0c131659c513a",
+  "reference_network_sha256": "9b84c340af7e45f6e07f0046235ccb327f4ae0840c8ee2c4b97b99121e5c5084",
+  "original_R22_public_json_sha256": "be4de0811ff7d8b29f9b79a0008757dd6c456f3be0cb87e32940bba0ba23ddaa",
+  "source_events": 2,
+  "root_candidates": 4,
+  "all_legal_first_opponent_reply_counts": [
+    40,
+    40,
+    32,
+    35
+  ],
+  "complete_depth12_and_depth16_reply_sweeps": 4,
+  "actual_engine_searches": 294,
+  "actual_native_nodes_depth12": 5577343,
+  "actual_native_nodes_depth16": 36609590,
+  "actual_native_nodes_total": 42186933,
+  "results_depth16": [
+    {
+      "case": "Sahel",
+      "root": "e5f4",
+      "minimizing_reply": "f7f6",
+      "mover_cp": 73
+    },
+    {
+      "case": "Sahel",
+      "root": "e5c3",
+      "minimizing_reply": "c8f5",
+      "mover_cp": 71
+    },
+    {
+      "case": "Cerrado",
+      "root": "e5f6",
+      "minimizing_reply": "g7f6",
+      "mover_cp": -19
+    },
+    {
+      "case": "Cerrado",
+      "root": "d1c2",
+      "minimizing_reply": "f6e8",
+      "mover_cp": -36
+    }
+  ],
+  "historically_frozen_prediction_hit_counts_depth16": {
+    "stockfish_pv": 2,
+    "simple_json": 1,
+    "three_ply_c3x_legal_heuristic": 2,
+    "denominator": 4
+  },
+  "selection_adaptive_after_R22_reference_scores": true,
+  "independent_family_finite_depth_not_chess_truth": true,
+  "equal_actual_nodes": false,
+  "root_wide_candidate_support_not_tested": true,
+  "Cui_k3_and_BinProp_strong_baselines_not_tested": true,
+  "source_engine_native_computation_causality_not_tested": true,
+  "prospective_cohort": false,
+  "valid_conclusion": "Two exploratory exposed chess game root pairs have complete first-opponent-reply finite-depth independent family value landscapes; no claim of C3X explanation superiority or natural source mediation."
+}
