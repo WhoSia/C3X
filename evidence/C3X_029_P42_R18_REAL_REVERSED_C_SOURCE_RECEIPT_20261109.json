@@ -1,0 +1,38 @@
+{
+  "schema": "c3x042-r18-real-source-single-event-reverse-aggregate-receipt-v1",
+  "date": "2026-11-09",
+  "run_id": 42552769246,
+  "run_url": "https://github.com/WhoSia/C3X/actions/runs/42552769246",
+  "run_status": "completed",
+  "conclusion": "success",
+  "artifact_id": 13645714442,
+  "zip_sha256": "b191a3a292647305a5ef81a6df590cd3a9d61095bc3e3d7ebf89f0e527379a32",
+  "member": "C3X042_R18_REVERSE_C_SOURCE_CYCLE_ROOT.json",
+  "member_sha256": "dcb1e80ae010490b80ab06a9a4612c52219714f37e4698f17b5488c32636eb4e",
+  "pinned_stockfish16": "68e1e9b3811e16cad014b590d7443b9063b3eb52",
+  "original_B_event_ordinal": 33,
+  "source_matched_C_event_ordinal": 35,
+  "cold_repeats": 2,
+  "matched_source_contacts_per_cold": [
+    2,
+    2
+  ],
+  "original_C_return": 1,
+  "forced_C_return": -1,
+  "original_C_immediate_cutoff": true,
+  "reversed_C_immediate_cutoff": [
+    false,
+    false
+  ],
+  "original_C_root": "b3a4",
+  "reversed_C_roots": [
+    "b3a4",
+    "b3a4"
+  ],
+  "first_root_boundary_difference_depth": 9,
+  "root_mediation_certified": false,
+  "true_chess_strategy_certified": false,
+  "nnue_enabled": false,
+  "prospective_transport_certified": false,
+  "postselected_game14": true
+}
