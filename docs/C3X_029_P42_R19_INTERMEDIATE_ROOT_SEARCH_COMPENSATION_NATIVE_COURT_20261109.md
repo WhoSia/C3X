@@ -33,3 +33,26 @@ The original code and old artifact SHA remain immutable; R19 adds independent au
 ## Main flagship still unresolved
 
 Game14 is postselected and Stockfish16 has NNUE OFF. A rigorous final paper must identify the causal decision-computation under source-native intervention **and** show the computation is faithful to strategically meaningful adversarial chess futures through independent value judgement and *prospective* held-out cases. No postselected Game14 source-trace-only finding gives that prospective or chess-semantic PASS. Preserve earlier R18 negative result and broaden only when genuine native intervention provides evidence.
+
+
+## 2026-11-09 — Actual R19 original-source native result (after preregistration)
+
+Actual original-source [R19 native #42554337265](https://github.com/WhoSia/C3X/actions/runs/42554337265) **COMPLETED SUCCESS**, all strict source regression tests, original 16-game StageA hash verification, exact unchanged R18 physical reverse and source-native two-cold court, publication rights checks and aggregate-only artifact upload. The original event happened at C ordinal **35**; the source forced draw score **+1→−1** and changed the local alpha>=beta cutoff TRUE→FALSE. Original and reverse C both selected b3a4 in both cold runs.
+
+Independent inspection of native public ZIP #13647101061 confirmed SHA256 `30c070a09fd91b7c7e912f1fa864f74d3bdc5692ff54052af39c4bc42c25f272`, JSON member `C3X042_R19_ROOT_BOUNDARY_PROPAGATION.json` SHA256 `c23f914a450866c6550d4a1ea4ab6a4ffeb7810009ffbd3ec62f306958be6954`. [Permanent human-authored provenance receipt](../evidence/C3X_029_P42_R19_ACTUAL_INTERIM_ROOT_LEADER_RECEIPT_20261109.json).
+
+Crucial **actual original-source root boundary observation**:
+
+| Depth | Leader changed? | Reverse-C minus original C root score | Reverse-C minus original C average |
+|:--|:--|--:|--:|
+| 1–8 | No | 0 | 0 |
+| **9** | **YES** | **−15** | −19 |
+| **10** | **YES** | **−16** | −20 |
+| **11** | **YES** | **+15** | +21 |
+| **12** | **NO** | **−15** | −9 |
+
+Therefore the exact native single-event cycle-alpha branch reversal changes intermediate root *leader identity* at depths 9,10,11, not just score, despite leaving final b3a4 root action intact. At depth 12 original and reversed C leader identity agrees again, **but numeric search boundary does not**. This is evidence of transient downstream *decision-state* intervention sensitivity and later *action-level* convergence, **not** proof that the full source search state converged or that one specific new ancestor score is the unique source mediator.
+
+### Next identity challenge (R20)
+
+[New R20 native runner](../harness/c3x_029_p42_r20_source_native_legal_root_candidate_transport.py), [ten adversarial tests](../harness/test_c3x_029_p42_r20_source_native_legal_root_candidate_transport.py), [read-only workflow](../.github/workflows/c3x-029-p42-r20-native-legal-root-candidate.yml), initial [run #42554911743](https://github.com/WhoSia/C3X/actions/runs/42554911743) triggered. This extends the same original R18→R19 full source custody and **legally decodes every source-native Stockfish root leader** (a normal `Move` source raw integer encoding) against the exact chess position, to identify whether the reverse-C intermediate lead is B=f3f4 or a third legal candidate. Any nonlegal/special/unrecognized move is HOLD, not falsely labeled strategic. Full chess future, TT/SEE guard natural mediation, and prospective generalization remain HOLD.
