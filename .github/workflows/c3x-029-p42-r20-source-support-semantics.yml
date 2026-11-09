@@ -1,0 +1,59 @@
+name: C3X P42-R20 source-native result semantic correction from immutable SHA-verified artifact (read-only)
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/c3x-029-p42-r20-source-support-semantics.yml'
+      - 'tools/c3x_029_p42_r20_reclassify_dynamic_root_support.py'
+      - 'tools/test_c3x_029_p42_r20_reclassify_dynamic_root_support.py'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  reclassify-real-original-native-root-leaders:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Exact source semantic adapter unit tests
+        run: |
+          python -m py_compile tools/c3x_029_p42_r20_reclassify_dynamic_root_support.py tools/test_c3x_029_p42_r20_reclassify_dynamic_root_support.py
+          PYTHONPATH=tools python -m unittest -v test_c3x_029_p42_r20_reclassify_dynamic_root_support
+      - uses: actions/download-artifact@v4
+        with:
+          name: c3x042-p42-r20-native-legal-root-choice-public-only
+          path: previous_native/
+          repository: WhoSia/C3X
+          run-id: '42554911743'
+          github-token: ${{ github.token }}
+      - name: Original public JSON SHA and semantic support classification
+        run: |
+          set -euo pipefail
+          mkdir -p public
+          python tools/c3x_029_p42_r20_reclassify_dynamic_root_support.py \
+            --source-public-json previous_native/C3X042_R20_NATIVE_LEGAL_ROOT_CANDIDATES.json \
+            --public-out public/C3X042_R20_CORRECTED_ROOT_SUPPORT_SEMANTICS.json
+      - name: Source attribution and rights scan
+        if: always()
+        run: |
+          set -euo pipefail
+          mkdir -p public
+          if test -f public/C3X042_R20_CORRECTED_ROOT_SUPPORT_SEMANTICS.json; then
+            python tools/c3x_023_rights_preupload_gate.py \
+              --tier P2_AGGREGATE_SUMMARY \
+              --file public/C3X042_R20_CORRECTED_ROOT_SUPPORT_SEMANTICS.json \
+              --report public/RIGHTS_R20_SUPPORT.json
+          fi
+          echo 'Derived from original 2026-09 Lichess broadcast CC BY-SA 4.0; original Game14 native run https://github.com/WhoSia/C3X/actions/runs/42554911743. No original PGN, FEN, TT keys or engine binaries published.' > public/SOURCE_LICENSE_NOTICE.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x042-p42-r20-native-support-semantic-correction-public-only
+          path: |
+            public/C3X042_R20_CORRECTED_ROOT_SUPPORT_SEMANTICS.json
+            public/SOURCE_LICENSE_NOTICE.txt
+          if-no-files-found: warn
