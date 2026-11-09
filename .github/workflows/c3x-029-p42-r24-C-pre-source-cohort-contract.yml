@@ -1,0 +1,33 @@
+name: C3X P42-R24-C pre-source blind November-2026 cohort legality contracts (read-only)
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/c3x-029-p42-r24-C-pre-source-cohort-contract.yml'
+      - 'tools/c3x_029_p42_r24_future_broadcast_blind_cohort_freeze.py'
+      - 'tools/test_c3x_029_p42_r24_future_broadcast_blind_cohort_freeze.py'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  source-not-yet-acquired-contract-only:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Verify no evidence laundering before scheduled event
+        run: |
+          set -euo pipefail
+          python -m pip install -q chess==1.11.2
+          python -m py_compile tools/c3x_029_p42_r24_future_broadcast_blind_cohort_freeze.py
+          PYTHONPATH=tools python -m unittest -v test_c3x_029_p42_r24_future_broadcast_blind_cohort_freeze
+          python - <<'PY'
+          from tools.c3x_029_p42_r24_future_broadcast_blind_cohort_freeze import FROZEN_ROUND,FIXED_PLY,TARGET_GAMES
+          assert FROZEN_ROUND=='https://lichess.org/broadcast/lag-dm-2026/round-3/sbfCtgNj'
+          assert FIXED_PLY==30 and TARGET_GAMES==8
+          print('R24_C_SOURCE_NOT_YET_ACQUIRED_NO_FRESH_HOLDOUT_CLAIM')
+          PY
