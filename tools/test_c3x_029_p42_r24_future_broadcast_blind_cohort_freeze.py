@@ -22,7 +22,7 @@ class R24ProspectiveSourcePolicy(unittest.TestCase):
     def test_synthetic_complete_sample_selects_by_hash_without_evals(self):
         text=make()
         _,out=harvest(text.encode(),minimum=4,target=1)
-        self.assertEqual(out["selected_game_count"],1)
+        self.assertEqual(out["selected_game_count"],1,msg=repr(out["census"]))
         self.assertFalse(out["reference_judge_seen"])
         self.assertTrue(out["not_a_prospective_validation_result"])
         self.assertFalse(out["excluded_prior_source_archive_complete_audit"])
