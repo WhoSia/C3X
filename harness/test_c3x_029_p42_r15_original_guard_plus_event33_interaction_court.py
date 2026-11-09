@@ -9,8 +9,12 @@ def reference():
             "depth9_source_boundary":{"C_capture_guard_bypass":
               {"depth":9,"leader":1112,"score":-89,"average":-79}}}
 def baseline():
-    return [dict(key=i,ply=2,depth=4,mod4=0,old_alpha=-9,beta=1,
-                 root_move=123,candidate=-1,cutoff=0) for i in range(33)]
+    rows=[dict(key=i,ply=2,depth=4,mod4=0,old_alpha=-9,beta=1,
+               root_move=123,candidate=-1,cutoff=0) for i in range(33)]
+    # The selected native event must be an actual cutoff disagreement:
+    # original -1 < beta=0 but neutralized 0 >= beta=0.
+    rows[32]["beta"]=0
+    return rows
 def probemoves(move="b3a4"):
     return [dict(move=move,root_boundaries=[{"depth":j} for j in range(1,13)])
             for _ in range(2)]
@@ -20,6 +24,7 @@ def cycles(original=True):
         e=[dict(x) for x in baseline()]
         if not original:e[0]["key"]=999
         e[32]["candidate"]=0
+        e[32]["cutoff"]=1
         out.append(e)
     return out
 
