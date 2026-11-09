@@ -12,9 +12,9 @@ def pair(cp1,cp2):
     return {"case_id":"synthetic","event_family":"TEST",
       "candidate_pairs":[{"root_uci":root,
          "budgets":{"48000":dict(status="ELIGIBLE_FINITE_INDEPENDENT_ENGINE_SEARCH",
-                 actual_nodes=48000,depth=5,root_mover_cp=cp),
+                 actual_nodes=48000,depth=5,root_mover_cp=cp,lowerbound=False,upperbound=False),
                  "96000":dict(status="ELIGIBLE_FINITE_INDEPENDENT_ENGINE_SEARCH",
-                 actual_nodes=96000,depth=8,root_mover_cp=cp)}}
+                 actual_nodes=96000,depth=8,root_mover_cp=cp,lowerbound=False,upperbound=False)}}
        for root,cp in (("e2e4",cp1),("d2d4",cp2))]}
 
 class IndependentFamilyGate(unittest.TestCase):
