@@ -64,7 +64,7 @@ jobs:
         run: |
           set -euo pipefail
           mkdir -p public
-          PYTHONPATH=harness python -u harness/c3x_029_p42_r21_independent_berserk_value_feasibility.py \
+          PYTHONPATH=harness python -u harness/c3x_029_p42_r22_berserk_fixed_depth_value_pilot.py \
             --source source \
             --predictions forecasts \
             --engine /tmp/c3x-berserk14/src/berserk \
