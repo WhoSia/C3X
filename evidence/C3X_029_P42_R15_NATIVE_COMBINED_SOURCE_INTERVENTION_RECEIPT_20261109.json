@@ -1,0 +1,41 @@
+{
+  "schema": "c3x042-r15-native-joint-source-interventions-receipt-v1",
+  "date": "2026-11-09",
+  "run_id": 42550661689,
+  "run_url": "https://github.com/WhoSia/C3X/actions/runs/42550661689",
+  "conclusion": "success",
+  "artifact_id": 13645128459,
+  "artifact_name": "c3x042-p42-r15-native-guard-plus-event33-aggregate-only",
+  "artifact_zip_sha256": "53c9c8d74c565c35e4a5d3e4373ce28595836aef5f9fc3b833bf265ee57e6d81",
+  "causal_json_name": "C3X042_R15_GUARD_PLUS_EVENT33_INTERACTION.json",
+  "causal_json_sha256": "b0d14396991c7387dd41a74fb315b470397f8eb30e61d5ee0638a6c369a96f5d",
+  "data_license_member_sha256": "6368423b00317749319b101edaf6c24b2a4b55a4c566a9b756da8fc7475749b2",
+  "normal_B": "f3f4",
+  "single_capture_C": "b3a4",
+  "single_cycle_B33": "b3a4",
+  "combined_cold_moves": [
+    "b3a4",
+    "b3a4"
+  ],
+  "combined_depth9": {
+    "depth": 9,
+    "leader": 1112,
+    "score": -89,
+    "average": -79
+  },
+  "double_intervention_physical_contact": true,
+  "cycle_event33_matches_original_B_source_prefix": [
+    false,
+    false
+  ],
+  "cycle_prefix_verdicts": [
+    "HOLD_PREINTERVENTION_NATIVE_SOURCE_IDENTITY_DRIFT",
+    "HOLD_PREINTERVENTION_NATIVE_SOURCE_IDENTITY_DRIFT"
+  ],
+  "scientific_verdict": "PASS_COMBINED_PHYSICAL_SOURCE_INTERVENTIONS_ONLY",
+  "natural_mediation_identified": false,
+  "shared_event_identified": false,
+  "chess_future_semantics_identified": false,
+  "prospective_transport": false,
+  "original_source_state_private": true
+}
