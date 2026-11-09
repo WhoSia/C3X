@@ -1,0 +1,81 @@
+name: C3X P42-R24-B pre-judge fully reply-conditioned SF16 own-plan freeze (read-only)
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/c3x-029-p42-r24-B-freeze-response-conditioned-own-plan.yml'
+      - 'harness/c3x_029_p42_r24_prejudge_source_reply_conditioned_own_plan.py'
+      - 'harness/test_c3x_029_p42_r24_prejudge_source_reply_conditioned_own_plan.py'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  freeze-original-source-policy-before-independent-referee:
+    runs-on: ubuntu-latest
+    timeout-minutes: 65
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Regression and legally typed original chess
+        run: |
+          set -euo pipefail
+          python -m pip install -q chess==1.11.2
+          python -m py_compile harness/c3x_029_p42_r24_prejudge_source_reply_conditioned_own_plan.py
+          PYTHONPATH=harness python -m unittest -v test_c3x_029_p42_r24_prejudge_source_reply_conditioned_own_plan
+          PYTHONPATH=harness python -m unittest -v test_c3x_029_p42_r23_independent_all_opponent_reply_value_court
+      - uses: actions/download-artifact@v4
+        with:
+          name: c3x-p37-r1-oct-eight-distinct-events-original-pgn-and-engine-blind-freeze
+          path: source/
+          repository: WhoSia/C3X
+          run-id: '41968008046'
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: c3x-p37-r2-pre-referee-eight-event-three-rival-predictions
+          path: forecasts/
+          repository: WhoSia/C3X
+          run-id: '41969173637'
+          github-token: ${{ github.token }}
+      - name: Build unmodified pinned official Stockfish 16 classic-only own-move planner
+        run: |
+          set -euo pipefail
+          git clone -q https://github.com/official-stockfish/Stockfish.git /tmp/c3x042-r24-sf16
+          git -C /tmp/c3x042-r24-sf16 checkout -q 68e1e9b3811e16cad014b590d7443b9063b3eb52
+          test "$(git -C /tmp/c3x042-r24-sf16 rev-parse HEAD)" = 68e1e9b3811e16cad014b590d7443b9063b3eb52
+          make -s -C /tmp/c3x042-r24-sf16/src -j2 build ARCH=x86-64
+          test -x /tmp/c3x042-r24-sf16/src/stockfish
+          sha256sum /tmp/c3x042-r24-sf16/src/stockfish
+      - name: Freeze exact 147 legal reply conditioned OWN choices with NO independent judge call
+        run: |
+          set -euo pipefail
+          mkdir -p public
+          PYTHONPATH=harness python -u harness/c3x_029_p42_r24_prejudge_source_reply_conditioned_own_plan.py \
+            --source source \
+            --predictions forecasts \
+            --engine /tmp/c3x042-r24-sf16/src/stockfish \
+            --out public/C3X042_R24_B_PREJUDGE_147_REPLY_CONDITIONED_OWN_CHOICES.json
+      - name: Rights and claim ceiling
+        if: always()
+        run: |
+          set -euo pipefail
+          mkdir -p public
+          if test -f public/C3X042_R24_B_PREJUDGE_147_REPLY_CONDITIONED_OWN_CHOICES.json; then
+            python tools/c3x_023_rights_preupload_gate.py \
+              --tier P2_AGGREGATE_SUMMARY \
+              --file public/C3X042_R24_B_PREJUDGE_147_REPLY_CONDITIONED_OWN_CHOICES.json \
+              --report /tmp/R24_B_RIGHTS_PRIVATE.json
+          fi
+          echo 'Source original 2026-10 Lichess broadcast CC BY-SA 4.0. No original PGN, raw FEN or private histories, binary, reference engine results or objective strategic value included. This is postselected exploratory source policy frozen BEFORE continuation judge.' > public/SOURCE_LICENSE_NOTICE.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x042-r24-B-prejudge-sf16-reply-conditioned-own-plan-147
+          path: |
+            public/C3X042_R24_B_PREJUDGE_147_REPLY_CONDITIONED_OWN_CHOICES.json
+            public/SOURCE_LICENSE_NOTICE.txt
+          if-no-files-found: warn
