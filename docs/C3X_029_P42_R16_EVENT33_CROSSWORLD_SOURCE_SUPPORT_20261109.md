@@ -41,3 +41,25 @@ Original source keys, score windows, PGNs, FEN and raw search logs remain privat
 [Native same-source crossworld matcher](../harness/c3x_029_p42_r16_original_event33_crossworld_source_support.py), [13 adversarial support and privacy tests](../harness/test_c3x_029_p42_r16_original_event33_crossworld_source_support.py), [strict original native workflow](../.github/workflows/c3x-029-p42-r16-native-event33-crossworld-support.yml). Started [R16 run #42551289145](https://github.com/WhoSia/C3X/actions/runs/42551289145). At this document's creation the source compile/native analysis was still running; no fabricated final R16 verdict.
 
 The ultimate C3X flagship asks which source-consumed computation is *causally related to* a real, prospective, adversarial future quality distinction in chess. A cycle-bound source score might explain software action without being a scientifically satisfying chess strategy explanation. Keep those claims separate.
+
+## 2026-11-09 actual pinned-native result — critical window versus node-parity distinction
+
+[Actual R16 native #42551289145](https://github.com/WhoSia/C3X/actions/runs/42551289145) **COMPLETED SUCCESS**. Original source and 16-game StageA hash reproduced, R14/R15 physical original game14 executions rerun on same compiled source, two R15 cold combined physical interventions verified, 13 source-state tests passed, safe aggregate artifact uploaded.
+
+Actual original **B event33** scanned against **all** true source cycle-alpha callbacks in each world:
+
+| matched physical context criteria | B | C | C+B33 |
+|---|---:|---:|---:|
+| native position key + ply + depth + root candidate | 1 | 1 | 1 |
+| above plus original alpha and beta search window | 1 | 1 | 1 |
+| above plus node count modulo 4 (actual `value_draw` input) | 1 | **0** | **0** |
+
+Per-native-engine cycle-alpha source calls were B=**281**, C=**403**, C+B33=**403**. The complete *measured pre-score source context sequence* (key, ply, depth, root move, alpha, beta and node mod4) for C and C+B33 is identical across 403 calls, and **all 12 native root-boundary summary records are exactly identical**. Yet this does NOT mean the event33 output score, instantaneous cutoff, unmeasured search state, all TT contents or historical chess strategy are identical. It also does not mean that original B's event33 had no analogous cause in C: it has exactly one occurrence with the same position/search window, but a different node-bit-derived score input.
+
+This is the strongest currently observed historical development distinction between *chess board/alpha-beta state identity* and *computational history-dependent draw-score identity*: the first can match exactly while the latter does not. The original B33 source event therefore **cannot simply be equated with** C's event at the same board and window.
+
+ZIP artifact 13645532216, SHA256 `ee42baa48f6b93639aadb96c6090602f08da676e5ef5695406cb0cd85ac88cc4`, actual public JSON member SHA256 `daaf6cbec2aa38ad3eaf8cb63dc4bc5fe9e94eaf020d260cd3116fa2e3120d7b`, downloaded and opened in this session. [Immutable R16 public receipt](../evidence/C3X_029_P42_R16_NATIVE_EVENT33_CROSSWORLD_SOURCE_RECEIPT_20261109.json). No native position keys or chess history published.
+
+### Follow-up source value causation, without concept laundering
+
+[R17 original C event33 native score/cutoff court](../harness/c3x_029_p42_r17_actual_C_event33_local_window_effect.py) and [real source workflow](../.github/workflows/c3x-029-p42-r17-native-C-event33-alpha-cutoff.yml) have been registered to answer a different question: under original C, does neutralizing C's ordinal33 physically alter only the recorded source return at that cycle event, and does this change its immediate `alpha >= beta` cutoff despite C and C+B33 having the same subsequent *observed cycle contexts* and root-depth summaries? Native answer not presumed in this R16 amendment. Still NNUE disabled, postselected Game14, source mechanism does not prove value of future chess strategy.
