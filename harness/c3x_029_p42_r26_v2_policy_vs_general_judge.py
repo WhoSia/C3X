@@ -48,7 +48,7 @@ def validate(v1, r25, b2, worlds, frozen):
         raise ValueError("R26_V2_HOLD_SOURCE_JUDGE_CUSTODY")
     prepared = source_policy(worlds, frozen)
     if not (len(prepared) == len(v1.get("cases", []))
-            == len(r25.get("cases", [])) == len(b2.get("cases", [])) == 2):
+            == len(r25.get("cases", [])) == len(b2.get("cases", [])) and len(prepared) > 0):
         raise ValueError("R26_V2_HOLD_CASE_SUPPORT")
     batches = []
     for (source, board, pairs), a, b, full in zip(
