@@ -135,6 +135,8 @@ def main():
         authentic_archive(Path(a.predictions), PRED_ZIP_SHA, PRED_MEMBER, PRED_JSON_SHA),
         authentic_archive(Path(a.source), SOURCE_ZIP_SHA, SOURCE_MEMBER, SOURCE_JSON_SHA))
     batches = validate(v1, r25, b2, source_positions(original, FROZEN_EXPLORATORY_CASES), frozen)
+    if len(batches) != 2 or sum(len(x[2]) for x in batches) != 4:
+        raise ValueError("R26_V2_HOLD_ACTUAL_TWO_CASE_FOUR_ROOT_SUPPORT")
     cases = []
     new_searches, cached_searches = 0, 0
     with chess.engine.SimpleEngine.popen_uci(a.engine, timeout=180) as eng:
