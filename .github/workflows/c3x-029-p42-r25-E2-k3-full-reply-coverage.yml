@@ -1,4 +1,4 @@
-name: C3X P42-R25-E2 engine-ranked top3 versus all-147 frozen judge coverage (no engine)
+name: C3X P42-R25-E2 source-ranked k3 48 native Berserk rejudgments (read-only)
 on:
   push:
     branches: [main]
@@ -10,9 +10,9 @@ on:
 permissions:
   contents: read
 jobs:
-  compare-retrospective-ranked-k3-with-immutable-all-replies:
+  rejudge-twelve-source-ranked-replies-with-48-berserk-searches:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 90
     steps:
       - uses: actions/checkout@v4
         with:
@@ -20,11 +20,28 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - name: Standard-library tests, no pip install
+          cache: 'pip'
+          cache-dependency-path: '.github/workflows/c3x-029-p42-r25-E2-k3-full-reply-coverage.yml'
+      - name: Fixed chess client and true source-join contract tests
         run: |
           set -euo pipefail
+          python -m pip install -q chess==1.11.2
           python -m py_compile harness/c3x_029_p42_r25_e2_k3_full_reply_coverage.py
           PYTHONPATH=harness python -m unittest -v test_c3x_029_p42_r25_e2_k3_full_reply_coverage
+      - uses: actions/download-artifact@v4
+        with:
+          name: c3x-p37-r1-oct-eight-distinct-events-original-pgn-and-engine-blind-freeze
+          repository: WhoSia/C3X
+          run-id: '41968008046'
+          path: source/
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: c3x-p37-r2-pre-referee-eight-event-three-rival-predictions
+          repository: WhoSia/C3X
+          run-id: '41969173637'
+          path: forecasts/
+          github-token: ${{ github.token }}
       - uses: actions/download-artifact@v4
         with:
           name: c3x042-r25-E1-real-source-ranked-first-layer-k3
@@ -39,58 +56,60 @@ jobs:
           run-id: '42565712361'
           path: b2/
           github-token: ${{ github.token }}
-      - name: SHA-gated existing Berserk judgments and genuinely pre-judge top3
+      - name: Verify original historical source and prior R24 B2 aggregate SHA
         run: |
           set -euo pipefail
+          echo '77ebaa409e7c2099cc6cce3419c2f55ded295d925ab441dc2d13c16b67c2c361  source/P37_R1_8_EVENT_8_GAME_SOURCE_ONLY_MANIFEST.json' | sha256sum -c -
+          echo 'da395f0eb16e7b294af2056dadd92b579770aa8f1ae288d1d358132685807051  forecasts/P37_R2_THREE_RIVAL_PRE_REFERENCE_PREDICTIONS.json' | sha256sum -c -
           echo '2fd30e135a1d4f4575b71cd263f01fdd363659fe3f05b6cafc653dc98646e365  b2/C3X042_R24_B_JUDGED_REPLY_CONDITIONED_OWN_PLAN.json' | sha256sum -c -
           python - <<'PY'
           import json
-          from pathlib import Path
-          p=json.loads(Path('e1/C3X042_R25_E1_SOURCE_RANKED_FIRST_LAYER_K3.json').read_text())
-          assert p['schema']=='c3x042-r25-e1-source-ranked-first-layer-k3-v1'
-          assert p['independent_referee_consulted_for_ranking'] is False
-          assert p['source_commit']=='68e1e9b3811e16cad014b590d7443b9063b3eb52'
-          print('E1_SOURCE_ONLY_PREJUDGE_RANKS_PRESENT')
+          x=json.load(open('e1/C3X042_R25_E1_SOURCE_RANKED_FIRST_LAYER_K3.json'))
+          assert x['source_commit']=='68e1e9b3811e16cad014b590d7443b9063b3eb52'
+          assert x['independent_referee_consulted_for_ranking'] is False
+          assert sum(len(r['ranked_replies']) for c in x['cases'] for r in c['roots'])==12
+          print('E1_FROZEN_IN_SEPARATE_OLDER_SUCCESSFUL_RUN')
           PY
-      - name: Compare k3 restricted worst response against all 147 WITHOUT rerunning chess
+      - name: Build exact independent Berserk14 family and verify neural-network source
+        run: |
+          set -euo pipefail
+          git clone -q https://github.com/jhonnold/berserk.git /tmp/c3x042-r25-berserk
+          git -C /tmp/c3x042-r25-berserk checkout -q 8ae895a6151695be4a50d4fb65b0c131659c513a
+          test "$(git -C /tmp/c3x042-r25-berserk rev-parse HEAD)" = '8ae895a6151695be4a50d4fb65b0c131659c513a'
+          curl --fail --location --retry 2 --max-time 180 -o /tmp/c3x042-r25-berserk/src/berserk-9b84c340af7e.nn \
+            https://github.com/jhonnold/berserk/releases/download/14/berserk-9b84c340af7e.nn
+          echo '9b84c340af7e45f6e07f0046235ccb327f4ae0840c8ee2c4b97b99121e5c5084  /tmp/c3x042-r25-berserk/src/berserk-9b84c340af7e.nn' | sha256sum -c -
+          make -s -C /tmp/c3x042-r25-berserk/src -j2 all ARCH=x86-64 CC=gcc
+          test -x /tmp/c3x042-r25-berserk/src/berserk
+      - name: Perform exactly 48 NEW genuine referee searches on SOURCE-CHOSEN top3
         run: |
           set -euo pipefail
           mkdir -p public
           PYTHONPATH=harness python -u harness/c3x_029_p42_r25_e2_k3_full_reply_coverage.py \
+            --source source \
+            --predictions forecasts \
             --e1 e1/C3X042_R25_E1_SOURCE_RANKED_FIRST_LAYER_K3.json \
             --b2 b2/C3X042_R24_B_JUDGED_REPLY_CONDITIONED_OWN_PLAN.json \
-            --out public/C3X042_R25_E2_RANKED_K3_VS_FULL_147_COVERAGE.json
-          sha256sum public/C3X042_R25_E2_RANKED_K3_VS_FULL_147_COVERAGE.json
-          python - <<'PY'
-          import json
-          p=json.load(open('public/C3X042_R25_E2_RANKED_K3_VS_FULL_147_COVERAGE.json'))
-          for c in p['cases']:
-              for r in c['roots']:
-                  print('R25_E2_CASE',c['event_family'],r['root_uci'],
-                        'legal',r['legal_reply_count'],'top3',r['ranked_k3_reply_uci'])
-                  for d in ('12','16'):
-                      for mode in ('unrestricted','frozen_policy'):
-                          v=r['estimates'][d][mode]
-                          print('R25_E2_SCORE',d,mode,'full',v['full_reply_worst_cp'],
-                                'k3',v['source_ranked_k3_worst_cp'],
-                                'optimism',v['k3_optimism_cp'])
-          PY
-      - name: Rights and epistemic ceiling
+            --engine /tmp/c3x042-r25-berserk/src/berserk \
+            --network /tmp/c3x042-r25-berserk/src/berserk-9b84c340af7e.nn \
+            --out public/C3X042_R25_E2_RANKED_K3_48_NATIVE_SEARCHES.json
+          sha256sum public/C3X042_R25_E2_RANKED_K3_48_NATIVE_SEARCHES.json
+      - name: Rights and evidentiary restrictions
         if: always()
         run: |
           set -euo pipefail
-          if test -f public/C3X042_R25_E2_RANKED_K3_VS_FULL_147_COVERAGE.json; then
+          if test -f public/C3X042_R25_E2_RANKED_K3_48_NATIVE_SEARCHES.json; then
             python tools/c3x_023_rights_preupload_gate.py \
               --tier P2_AGGREGATE_SUMMARY \
-              --file public/C3X042_R25_E2_RANKED_K3_VS_FULL_147_COVERAGE.json \
+              --file public/C3X042_R25_E2_RANKED_K3_48_NATIVE_SEARCHES.json \
               --report /tmp/R25_E2_PRIVATE_RIGHTS.json
           fi
-          echo 'R25-E2 retrospective first-layer only, no full Cui tree, no new Berserk judging, no novel cohort, no objective optimality, no causal action explanation. Source original broadcast CC BY-SA 4.0.' > public/SOURCE_LICENSE_NOTICE.txt
+          echo 'R25 E2 exploratory historical cases, source-ranked FIRST opponent layer only, 48 new finite Berserk searches, not full Cui, not judge-budget matched, not objective minimax or root causal mediation. Broadcast CC BY-SA 4.0.' > public/SOURCE_LICENSE_NOTICE.txt
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: c3x042-r25-E2-engine-ranked-k3-versus-all-replies-retrospective
+          name: c3x042-r25-E2-native-48-source-ranked-k3-independent-Berserk
           path: |
-            public/C3X042_R25_E2_RANKED_K3_VS_FULL_147_COVERAGE.json
+            public/C3X042_R25_E2_RANKED_K3_48_NATIVE_SEARCHES.json
             public/SOURCE_LICENSE_NOTICE.txt
           if-no-files-found: warn
