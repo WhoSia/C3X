@@ -30,12 +30,22 @@ def harvest(raw:bytes,minimum=MIN_FULL_GAME_PLY,target=TARGET_GAMES):
     text=io.StringIO(body)
     eligible=[]
     census={"parsed_games":0,"syntax_illegal":0,"incomplete_result":0,
+            "source_round_mismatch":0,
             "nonstandard_start_or_variant":0,"short_game":0,"duplicate_full_uci":0}
     seen=set()
     while True:
         game=chess.pgn.read_game(text)
         if game is None:break
         census["parsed_games"]+=1
+        # Source URL in each official PGN record is a REQUIRED content gate.
+        # Metadata alone does not authenticate bytes; HTTPS origin + SHA custody
+        # are separate requirements for the actual future-source runner.
+        round_header=game.headers.get("BroadcastURL","")
+        game_header=game.headers.get("GameURL","")
+        if (round_header!=FROZEN_ROUND and
+            not (game_header.startswith(FROZEN_ROUND+"/")
+                 and game_header[len(FROZEN_ROUND)+1:].count("/")==0)):
+            census["source_round_mismatch"]+=1;continue
         if game.errors:
             census["syntax_illegal"]+=1;continue
         if game.headers.get("Result") not in VALID_RESULTS:
