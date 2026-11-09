@@ -1,0 +1,115 @@
+name: C3X P42-R24-B2 judge 147 PRE-FROZEN response-conditioned own moves with independent Berserk (read-only)
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/c3x-029-p42-r24-B2-independent-conditional-plan-court.yml'
+      - 'harness/c3x_029_p42_r24_independent_frozen_own_plan_judge.py'
+      - 'harness/test_c3x_029_p42_r24_independent_frozen_own_plan_judge.py'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  original-two-exposed-events-full-conditional-own-policy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 110
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Chess legality client and fail-closed receipt regression
+        run: |
+          set -euo pipefail
+          python -m pip install -q chess==1.11.2
+          python -m py_compile harness/c3x_029_p42_r22_berserk_fixed_depth_value_pilot.py
+          PYTHONPATH=harness python -m unittest -v test_c3x_029_p42_r21_independent_berserk_value_feasibility
+          python -m py_compile harness/c3x_029_p42_r22_berserk_fixed_depth_value_pilot.py
+          PYTHONPATH=harness python -m unittest -v test_c3x_029_p42_r22_berserk_fixed_depth_value_pilot
+          python -m py_compile harness/c3x_029_p42_r23_independent_all_opponent_reply_value_court.py
+          PYTHONPATH=harness python -m unittest -v test_c3x_029_p42_r23_independent_all_opponent_reply_value_court
+          python -m py_compile harness/c3x_029_p42_r24_independent_frozen_own_plan_judge.py
+          PYTHONPATH=harness python -m unittest -v test_c3x_029_p42_r24_independent_frozen_own_plan_judge
+      - uses: actions/download-artifact@v4
+        with:
+          name: c3x-p37-r1-oct-eight-distinct-events-original-pgn-and-engine-blind-freeze
+          repository: WhoSia/C3X
+          run-id: '41968008046'
+          path: source/
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: c3x-p37-r2-pre-referee-eight-event-three-rival-predictions
+          repository: WhoSia/C3X
+          run-id: '41969173637'
+          path: forecasts/
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: c3x042-p42-r22-independent-berserk-depth-feasibility-aggregate-only
+          repository: WhoSia/C3X
+          run-id: '42558024015'
+          path: prior-r22/
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: c3x042-r24-B-prejudge-sf16-reply-conditioned-own-plan-147
+          repository: WhoSia/C3X
+          run-id: '42565383643'
+          path: pre-judge-source-plan/
+          github-token: ${{ github.token }}
+      - name: Verify pre-judge frozen SF16 147 legal next actions exact SHA and chronology
+        run: |
+          set -euo pipefail
+          printf '%s  %s\n' 3c8f2a57cefe19fcb7a00925f4434f5008195bce5adeba1e67dc84f18f084f34 pre-judge-source-plan/C3X042_R24_B_PREJUDGE_147_REPLY_CONDITIONED_OWN_CHOICES.json | sha256sum -c -
+      - name: Authentic sealed human-free original eight-event SHA
+        run: |
+          set -euo pipefail
+          printf '%s  %s\n' 77ebaa409e7c2099cc6cce3419c2f55ded295d925ab441dc2d13c16b67c2c361 source/P37_R1_8_EVENT_8_GAME_SOURCE_ONLY_MANIFEST.json | sha256sum -c -
+          printf '%s  %s\n' da395f0eb16e7b294af2056dadd92b579770aa8f1ae288d1d358132685807051 forecasts/P37_R2_THREE_RIVAL_PRE_REFERENCE_PREDICTIONS.json | sha256sum -c -
+      - name: Build distinct-source-family pinned Berserk14 and verify NNUE bytes
+        run: |
+          set -euo pipefail
+          git clone -q https://github.com/jhonnold/berserk.git /tmp/c3x-berserk14
+          git -C /tmp/c3x-berserk14 checkout -q 8ae895a6151695be4a50d4fb65b0c131659c513a
+          test "$(git -C /tmp/c3x-berserk14 rev-parse HEAD)" = 8ae895a6151695be4a50d4fb65b0c131659c513a
+          curl --fail --location --retry 2 --max-time 180 -o /tmp/c3x-berserk14/src/berserk-9b84c340af7e.nn \
+            https://github.com/jhonnold/berserk/releases/download/14/berserk-9b84c340af7e.nn
+          printf '%s  %s\n' 9b84c340af7e45f6e07f0046235ccb327f4ae0840c8ee2c4b97b99121e5c5084 /tmp/c3x-berserk14/src/berserk-9b84c340af7e.nn | sha256sum -c -
+          make -s -C /tmp/c3x-berserk14/src -j2 all ARCH=x86-64 CC=gcc
+          test -x /tmp/c3x-berserk14/src/berserk
+          sha256sum /tmp/c3x-berserk14/src/berserk
+          printf 'uci\nisready\nquit\n' | /tmp/c3x-berserk14/src/berserk | grep -i -E 'berserk|uciok'
+      - name: Independently evaluate every PRE-FROZEN legal opponent-conditioned next own action against unrestricted Berserk with actual costs
+        run: |
+          set -euo pipefail
+          mkdir -p public
+          PYTHONPATH=harness python -u harness/c3x_029_p42_r24_independent_frozen_own_plan_judge.py \
+            --source source \
+            --predictions forecasts \
+            --frozen-plan pre-judge-source-plan/C3X042_R24_B_PREJUDGE_147_REPLY_CONDITIONED_OWN_CHOICES.json \
+            --engine /tmp/c3x-berserk14/src/berserk \
+            --network /tmp/c3x-berserk14/src/berserk-9b84c340af7e.nn \
+            --out public/C3X042_R24_B_JUDGED_REPLY_CONDITIONED_OWN_PLAN.json
+      - name: Source rights and report claim ceilings
+        if: always()
+        run: |
+          set -euo pipefail
+          mkdir -p public
+          if test -f public/C3X042_R24_B_JUDGED_REPLY_CONDITIONED_OWN_PLAN.json; then
+            python tools/c3x_023_rights_preupload_gate.py \
+              --tier P2_AGGREGATE_SUMMARY \
+              --file public/C3X042_R24_B_JUDGED_REPLY_CONDITIONED_OWN_PLAN.json \
+              --report /tmp/C3X042_R21_RIGHTS_PRIVATE.json
+          fi
+          echo 'Adapted historical original Lichess broadcasts. CC BY-SA 4.0. Original PGN, private human game history, full engine PV and modified binaries are not distributed. Results are finite-search independent family probes, NOT true chess values.' > public/SOURCE_LICENSE_NOTICE.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x042-p42-r24-B2-judged-all-reply-conditioned-plans-aggregate-only
+          path: |
+            public/C3X042_R24_B_JUDGED_REPLY_CONDITIONED_OWN_PLAN.json
+            public/SOURCE_LICENSE_NOTICE.txt
+          if-no-files-found: warn
