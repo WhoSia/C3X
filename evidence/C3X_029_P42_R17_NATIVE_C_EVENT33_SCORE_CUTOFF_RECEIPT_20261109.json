@@ -1,0 +1,22 @@
+{
+  "schema": "c3x042-r17-native-C33-local-score-cutoff-receipt-v1",
+  "run_id": 42551851784,
+  "run_url": "https://github.com/WhoSia/C3X/actions/runs/42551851784",
+  "status": "completed_success",
+  "artifact_id": 13646065793,
+  "artifact_zip_sha256": "836610e28acee38627620b9e086678268a209286f49a15cef4e6b527503ead3c",
+  "json_member": "C3X042_R17_C_EVENT33_LOCAL_ALPHA_CUTOFF.json",
+  "json_member_sha256": "b54c78767cce6e1331b6cb874b7081ef397b02a69fe4e50a7e143b33c169a095",
+  "original_C_event33_draw_return": 1,
+  "combined_C_event33_draw_return": 0,
+  "cutoff_original_C": true,
+  "cutoff_combined": true,
+  "observed_subsequent_cycle_calls": 370,
+  "C_vs_combined_12_root_depth_summaries_identical": true,
+  "native_cold_repeats": 2,
+  "R16_original_B_event33_full_source_identity_in_C": false,
+  "source_val_change_is_not_root_choice_cause_proven": true,
+  "complete_natural_mediation_certified": false,
+  "objective_chess_future_explanation_certified": false,
+  "prospective_transport_certified": false
+}
