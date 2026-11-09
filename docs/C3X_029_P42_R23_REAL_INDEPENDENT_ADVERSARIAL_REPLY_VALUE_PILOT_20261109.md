@@ -24,3 +24,29 @@ BFS technical experiments concluded:
 ## What actually advances the flagship after R23
 
 Even full first-reply coverage under a separate finite engine is NOT the original hard paper: next require prospectively frozen strong response-conditional *own plans*, their score intervals against the independent judge, root-wide candidate closure, and a causal measurement that the *same* source-engine internal computation representing that plan actually influenced its own root move. Game14 causal dataset and these different 8 frozen P37 event games are separate data; never pretend their outcome labels coincide. Independent held-out episode cohort needs source-level new bytes and leakage gate; NNUE-on mechanism remains separate.
+
+
+## 2026-11-09 — Genuine original independent opponent-reply exhaustive native outcome
+
+[Native R23 run #42558798075](https://github.com/WhoSia/C3X/actions/runs/42558798075) **SUCCESS**. The published artifact was independently downloaded and parsed. The *exact* original ZIP (artifact #13649000299) SHA256 is `94a6db7fa68ee6aaf49e897cc4b3f3382b6c60e08d75ed927c9e354eec8eed73`; member `C3X042_R23_BERSERK14_FULL_LEGAL_REPLY_VALUE.json` SHA256 is `03ca8ca863c71e15c0d8bbd42903232a9b32448b27cd5b1fa52dec416d996bae`. [Human-authored sealed evidence](../evidence/C3X_029_P42_R23_NATIVE_147_LEGAL_REPLIES_294_INDEPENDENT_SEARCHES_RECEIPT_20261109.json).
+
+The actual post-root legal opponent reply counts were **40,40,32,35**: 147 distinct root-conditioned chess legal replies, with separate depth12 and depth16 search for each, **294 actual independent Berserk14 UCI analyses**. Real consumed nodes were 5,577,343 at depth12 and 36,609,590 at depth16: 42,186,933 total, **unequal node counts by root and reply**. All four root candidates had complete legal first-reply coverage with source-validated finite values at both depths.
+
+| Historical source/root | Legal first replies | Worst actual Berserk reply at depth12 | Worst at depth16 | Independent min score at depth16 (root mover cp) |
+|---|---:|---|---|---:|
+| Sahel `e5f4` | 40 | d8d3 | f7f6 | +73 |
+| Sahel `e5c3` | 40 | c8f5 | c8f5 | +71 |
+| Cerrado `e5f6` | 32 | g7f6 | g7f6 | −19 |
+| Cerrado `d1c2` | 35 | f6g4 | f6e8 | −36 |
+
+The independent referee's root-mover value after the *worst legal first reply* differs by only 2cp between the two exposed Sahel candidates, versus 17cp between Cerrado candidates at this finite depth. But root-wide move search support is not closed; other legal *root* actions were not evaluated, and a two-ply finite-engine landscape is not an exact objective full-minimax proof.
+
+**Critical depth-dependent strategic target effect:** Sahel e5f4 and Cerrado d1c2 both change their referee-worst legal opponent reply between depth12 and depth16. This makes any proposed plan 'robust to the opponent's best reply' sensitive to independent judge precision and score uncertainty, not a self-certifying qualitative claim.
+
+**Original frozen prediction negative/limited result at depth16 (only four exposed roots):** Stockfish24k PV predicted 2 of the 4 independent worst replies; shallow three-ply C3X-inspired material heuristic predicted 2 of 4; simple JSON predicted 1 of 4. These methods had **unequal original compute/reply cardinality**; n=4 roots clustered into only two AFTER-R22-selected historical event games. No superiority claim, no statistical independence, no complete C3X agent and no strong Cui/BinProp rivals. At depth12 the PV's observed worst-reply hit was 3/4, demonstrating additional label sensitivity. Preserve original P37 human-PV superiority, not selective favorable R23 anecdote.
+
+The original independent referee source/net/git tag were byte verified and its complete legal board history replayed, no human continuation or raw broadcast PGN was inferred. This is a **real value-bearing pilot, not a valid final strategic explanation paper**: need future plans across *response-conditioned own moves* selected BEFORE reference labels, independent family judge bounds, equal actual-cost or frontier, stronger rivals, global root support, same-position source-level natural-selection mediator and a genuinely new holdout. Retain the endogenous case selection in the receipt (R22 score margins used to choose Sahel and Cerrado); never promote this as prospective replication.
+
+## PI breadth rotation after this DFS
+
+A (mechanism) has genuine historical exact native evidence but local-to-final mechanism remains unproved. B (chess consequence) now has an actual independent judge executable and **full first-opponent reply landscapes** with heterogeneous cost, no valid winning explanation. C (cohort transport) proved only 0 exact FEN4 collisions between two historical samples, and October broadcast official monthly compressed archive remains unavailable as of Nov9. D (neural static) now has authentic original Stockfish16 same-board evaluator traces with 7/12 white-side sign disagreements, not feature causation. The next *balanced* cycle should (i) freeze a truly new event-disjoint source cohort when licensed bytes are available, (ii) complete a **strong** typed reply-conditioned plan/Cui/BinProp experiment with independent J and calibrated abstention, (iii) test neural feature or search mechanism interventions on the **same future-chess property**, not simply add more Game14 ordinal probes.
