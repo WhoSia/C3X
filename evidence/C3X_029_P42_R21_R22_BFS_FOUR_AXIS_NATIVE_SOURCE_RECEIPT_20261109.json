@@ -1,0 +1,88 @@
+{
+  "schema": "c3x042-r21-r22-bfs-four-axis-native-source-custody-20261109-v1",
+  "timestamp_date": "2026-11-09",
+  "A_existing_game14": {
+    "last_original_run_id": 42554911743,
+    "source_type": "Stockfish16 native source exact event reverse",
+    "latest_status": "PASS_TRANSIENT_INTERMEDIATE_ROOT_LEADER_NOT_FINAL_ACTION_CAUSE",
+    "new_trial_this_unit": false,
+    "claim_ceiling": "Historical NNUE-off Game14 single-event result, not prospective strategy or natural mediation."
+  },
+  "B_independent_value": {
+    "original_node_protocol": {
+      "run_id": 42557113910,
+      "conclusion": "failure_held_by_original_resource_gate",
+      "artifact_id": 13648300556,
+      "zip_sha256": "f22879e558a0994d33f459c691f5c651cb2a189bd246ec66955590fea0c6e6e1",
+      "json_sha256": "648a3a654fd0e2df795d1b066f1c4b777959c1239b0544c170671a2d13324c8e",
+      "candidate_roots": 16,
+      "source_event_games": 8,
+      "technically_eligible_pairs": 0,
+      "cause": "Actual search nodes often below predeclared 90% of requested nodes; no scientific result from invalid scores."
+    },
+    "independent_depth_protocol": {
+      "run_id": 42558024015,
+      "conclusion": "success",
+      "artifact_id": 13648266546,
+      "zip_sha256": "fe3ac708fa000e675464a96bf485effee8ef2049175f4d11312e4da4af4c805f",
+      "json_sha256": "be4de0811ff7d8b29f9b79a0008757dd6c456f3be0cb87e32940bba0ba23ddaa",
+      "reference_engine_family": "Berserk14",
+      "source_commit": "8ae895a6151695be4a50d4fb65b0c131659c513a",
+      "nnue_network_sha256": "9b84c340af7e45f6e07f0046235ccb327f4ae0840c8ee2c4b97b99121e5c5084",
+      "depth_requirements": [
+        12,
+        16
+      ],
+      "candidate_roots": 16,
+      "eligible_pairs": 8,
+      "depth16_low_margin_examples": [
+        {
+          "event": "Sahel",
+          "difference_cp": 0
+        },
+        {
+          "event": "Cerrado",
+          "difference_cp": 6
+        }
+      ],
+      "equal_node_budgets": false,
+      "objective_chess_truth": false,
+      "prospective_cohort": false,
+      "claim_ceiling": "Independent-family finite fixed-depth source-candidate score exploration with heterogeneous node effort, not plan/baseline superiority."
+    }
+  },
+  "C_cohort_exposure": {
+    "run_id": 42557490942,
+    "conclusion": "success",
+    "artifact_id": 13647582693,
+    "zip_sha256": "46a1d707105517175b72413186e88498544ec9180aa7c152f2668befc51c2d32",
+    "json_sha256": "ac4b14f66b9344fc5e255dbc384e57d6d1cd45efdb8cb0659a143907bc091d9a",
+    "source_sept_game_count": 16,
+    "source_oct_event_game_count": 8,
+    "exact_fen4_collision": 0,
+    "global_game_source_sha_exclusion_proved": false,
+    "source_month_2026_10_official_broadcast_complete_archive_available": false,
+    "prospective_generalization": false,
+    "claim_ceiling": "Two different historical original frozen source samples have no exact FEN4 collision, cannot guarantee all-game/event global exclusion."
+  },
+  "D_neural_evaluator_static": {
+    "run_id": 42558194487,
+    "conclusion": "success",
+    "artifact_id": 13648063663,
+    "zip_sha256": "4b425b9e256821cb0469081d9cb3efd6df7c64169a56a54fa2007272dcec7660",
+    "json_sha256": "93784bae2323f0a8e889dafc247dfc61e66ec1593fa5d74a45090fa12d59b514",
+    "original_p34_source_sha": "6520672aabab7f525872169085f19bdd81e27a4473f0c58ba9c9aa428937104c",
+    "original_p34_result_sha": "c80704f2f81c4920597fbf6b559ef38dbae60f35458c7a2f665f1cf57d2563dc",
+    "exact_same_board_eval_records": 12,
+    "valid_actual_stockfish16_source_traces": 12,
+    "classical_vs_nnue_white_side_sign_disagreement": 7,
+    "direct_neural_feature_mediation": false,
+    "independent_chess_value_or_true_preference": false,
+    "claim_ceiling": "Real same-board static eval differences, no search causal or neural feature mediation."
+  },
+  "report_status": "BFS_SOURCE_EVIDENCE_SEALED_NO_FLAGSHIP_PAPER_PASS",
+  "all_aritfacts_originally_downloaded_and_sha_checked": true,
+  "github_actor_required": "WhoSia",
+  "github_actions_repo_write_permission": false,
+  "drive_byte_mirroring_verified": false
+}
