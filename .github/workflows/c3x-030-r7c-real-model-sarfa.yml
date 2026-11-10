@@ -1,0 +1,81 @@
+name: C3X 0.30 R7-C SARFA over real Qwen all-legal explanation prompt contrasts
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/c3x-030-r7c-real-model-sarfa.yml'
+      - 'harness/c3x_030_r7c_sarfa_on_real_qwen_explanation_prompt_contrast.py'
+      - 'harness/test_c3x_030_r7c_sarfa_actual_model_prompt_contrast.py'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  original-sarfa-kernel-actual-full-legal-qwen-preference:
+    runs-on: ubuntu-latest
+    timeout-minutes: 18
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Cross-method SARFA mathematics and fail-closed history tests
+        run: |
+          set -euo pipefail
+          python -m py_compile harness/c3x_030_r7c_sarfa_on_real_qwen_explanation_prompt_contrast.py
+          PYTHONPATH=harness python -m unittest -v \
+            test_c3x_030_r1_sarfa_logdomain \
+            test_c3x_030_r7c_sarfa_actual_model_prompt_contrast
+      - uses: actions/download-artifact@v4
+        with:
+          name: c3x030-r7-real-Qwen-ALL-legal-five-arm-token-likelihood
+          repository: WhoSia/C3X
+          run-id: '42779413096'
+          path: r7/
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: c3x030-r5-parfenova-source-history-mask-20-PROTOCOL-packets
+          repository: WhoSia/C3X
+          run-id: '42755543672'
+          path: r5/
+          github-token: ${{ github.token }}
+      - name: Byte-verify all real model score files and historic label audit
+        run: |
+          set -euo pipefail
+          echo '4221f90ed5ab86ef38b05e47d248f5906048c7c5812d0430c2c48fc680760f0b  r5/public/C3X030_R5_PARFENOVA_SYNTHETIC_EXPLANATION_CONTROL_PACKETS.json' | sha256sum -c -
+          echo '01d42dbee00f103dc496b21ded53e8015be6c0b3ec62b94084532a6a83770212  r7/scores/R7_ALL_LEGAL_fen_only.json' | sha256sum -c -
+          echo 'd9eed0b4fe7096893f4d791f455dcf0fca13d2c1146ff75b34063397d3f1f9ed  r7/scores/R7_ALL_LEGAL_explanation_only.json' | sha256sum -c -
+          echo 'da53c2ab45f8bc1ca326163c9b1c822b3d1448d4a196b23c37cba98081867828  r7/scores/R7_ALL_LEGAL_fen_plus_unmasked.json' | sha256sum -c -
+          echo '13fe7b0881436e41dc6d3345d71fddbde3f9e1f63dc8cbf0dfa6af94f1370e6d  r7/scores/R7_ALL_LEGAL_fen_plus_strict_masked.json' | sha256sum -c -
+          echo 'f7d4e2d1b8fbc2b69dd6089ccc763887b997641fc079cf6fa766b1b6693c848e  r7/scores/R7_ALL_LEGAL_fen_plus_unrelated_foil.json' | sha256sum -c -
+      - name: Compute SARFA specific preference effects on all original legal actions
+        run: |
+          set -euo pipefail
+          mkdir -p public
+          python harness/c3x_030_r7c_sarfa_on_real_qwen_explanation_prompt_contrast.py \
+            --audit r5/public/C3X030_R5_PARFENOVA_SYNTHETIC_EXPLANATION_CONTROL_PACKETS.json \
+            --scores-dir r7/scores \
+            --out public/C3X030_R7C_REAL_QWEN_PROMPT_SARFA.json
+          sha256sum public/C3X030_R7C_REAL_QWEN_PROMPT_SARFA.json
+      - name: Source rights scope and causal HOLD
+        if: always()
+        run: |
+          set -euo pipefail
+          mkdir -p public
+          if test -f public/C3X030_R7C_REAL_QWEN_PROMPT_SARFA.json; then
+            python tools/c3x_023_rights_preupload_gate.py \
+              --tier P2_AGGREGATE_SUMMARY \
+              --file public/C3X030_R7C_REAL_QWEN_PROMPT_SARFA.json \
+              --report /tmp/R7C_PRIVATE_RIGHTS.json
+          fi
+          echo 'R7C combines two actually owned primary methods: Parfenova original 2026 explanation masking and Puri SARFA 2020. All log-score vectors came from real pinned Qwen2.5-0.5B R7, not original game-search interventions. Normalized model preferences are over complete legal UCI supports and a fixed chosen spaced-UCI tokenization; prompts are synthetic from previously exposed two boards and four target nominees. No original 200 puzzles, no independently generated LLM explanation or reference solution, no original Stockfish causal mediation. Source-only prior cohorts remain HOLD.' > public/SCIENTIFIC_SCOPE.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x030-r7c-original-SARFA-on-real-Qwen-explanation-contrast
+          path: |
+            public/C3X030_R7C_REAL_QWEN_PROMPT_SARFA.json
+            public/SCIENTIFIC_SCOPE.txt
+          if-no-files-found: warn
