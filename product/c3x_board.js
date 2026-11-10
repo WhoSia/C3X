@@ -74,6 +74,7 @@ function squareClick(sq) {
 function checkReady() {
   $("analyze").disabled=!(selected.a && selected.b && selected.a!==selected.b);
   $("strategy").disabled=$("analyze").disabled;
+  $("mirror").disabled=$("analyze").disabled;
 }
 function selectMenu(id, target) {
   const el=$(id);el.replaceChildren();
@@ -95,6 +96,7 @@ async function loadFen() {
     currentFen=result.fen;$("fen").value=result.fen;legal=result.legal_moves;
     origin=null;selected={a:"",b:""};latest=null;
     $("strategyResult").classList.add("hidden");$("strategyResult").replaceChildren();
+    $("mirrorResult").classList.add("hidden");$("mirrorResult").replaceChildren();
     selectMenu("moveA","a"); selectMenu("moveB","b");
     boardDraw(currentFen);
     $("results").classList.add("hidden");$("empty").classList.remove("hidden");
@@ -213,6 +215,54 @@ $("strategy").addEventListener("click",async()=>{
     renderStrategy(tree);
     status("두 번째 상대 응수까지 실제 전략나무 검색을 완료했습니다.");
   }catch(err){status("전략나무 검색 실패: "+err.message);}
+  finally{checkReady();}
+});
+function renderMirror(data) {
+  if(data.case_id!=="user_selected_fen_local_not_frozen" ||
+     data.original_root_candidates.join(",")!==selected.a+","+selected.b ||
+     !data.same_semantic_root_player_perspective)
+    throw Error("대칭 국면의 후보 수 동일성 검증이 실패했습니다.");
+  const area=$("mirrorResult");area.replaceChildren();
+  appendText(area,"p","측정 기준: 원래 A−B와 색상·수직 대칭 후 A−B · 원본 Stockfish, 각 깊이마다 4번 재검색");
+  const t=document.createElement("table");
+  const head=document.createElement("tr");
+  for(const name of ["깊이","원본 A−B","대칭 A−B","변화량","부호 역전"]) {
+    const th=document.createElement("th");th.textContent=name;head.append(th);
+  }
+  const thead=document.createElement("thead");thead.append(head);t.append(thead);
+  const body=document.createElement("tbody");
+  for(const depth of ["8","10","12"]) {
+    const row=data.per_depth[depth];
+    if(!row || row.four_real_source_queries!==true)
+      throw Error("대칭 검색 실측 근거가 부족합니다.");
+    const tr=document.createElement("tr");
+    const values=[depth,row.original_A_minus_B_cp_or_null,
+                  row.mirrored_A_minus_B_cp_or_null,
+                  row.mirrored_gap_minus_original_gap_cp_or_null,
+                  row.strict_opposite_sign_or_null===null?"메이트":
+                  (row.strict_opposite_sign_or_null?"역전":"없음")];
+    for(const value of values) {
+      const td=document.createElement("td");
+      td.textContent=value===null?"미정":String(value);
+      tr.append(td);
+    }
+    body.append(tr);
+  }
+  t.append(body);area.append(t);
+  appendText(area,"p","주의: 제한된 탐색 깊이에서 대칭 평가 차이가 발생할 수 있으나, 이는 자동으로 엔진 버그나 인과 설명 실패를 입증하지 않습니다.");
+  area.classList.remove("hidden");
+}
+$("mirror").addEventListener("click",async()=>{
+  const button=$("mirror");button.disabled=true;
+  const originalFen=currentFen, a=selected.a,b=selected.b;
+  status("원본과 색상 대칭의 두 후보를 깊이별로 실제 재검색 중입니다.");
+  try {
+    const data=await post("/api/mirror",{fen:originalFen,move_a:a,move_b:b});
+    if(originalFen!==currentFen || a!==selected.a || b!==selected.b)
+      throw Error("분석 중 후보 수가 변경됐습니다.");
+    renderMirror(data);
+    status("원본·대칭 국면의 평가 차이 민감도 검색을 완료했습니다.");
+  }catch(err){status("대칭 민감도 검색 실패: "+err.message);}
   finally{checkReady();}
 });
 function exportMarkdown() {
