@@ -76,6 +76,10 @@ This supports a **research pruning decision**, not proof that temporal informati
 1. **Source C acquisition:** The November 9 preregistered broadcast round yielded only 7 eligible completed standard games vs frozen 8 and therefore HOLD. Recheck only the same official round under the same 8-game rule, **never** silently change sample, preserve its original raw PGN bytes in Drive with identical SHA receipt, and exclude prior exposure before engine scoring. If impossible, select a *new* genuinely preregistered independent event without learning from its future results.
 2. **Source A/D/F physical same-world intervention:** design a source-level experiment at a genuinely new position where perturbation of a measured original search feature changes final root candidate selection *and* a preregistered response-conditioned future plan property. Retain the original R20 Game14 intermediate-root-change as a supported but weak precedent, not an established natural mediation proof.
 
+## 6A. Same official Lichess round strict retry (2026-11-10 KST)
+
+The exact **unchanged** 8-game original registered selection rule was rerun using `rerun_failed_workflow_run_jobs` on the original [R28-C0 official acquisition workflow #42740235638](https://github.com/WhoSia/C3X/actions/runs/42740235638) (new job id `129586979775`). In the rerun, the documented official API returned **the exact same 52,773 bytes** with the exact same SHA256 `e1e2e7cb87055b48e89854c12a40d9dcecfe1a514e678768280ab24c76b5a2ff` as in the previous source-only run. Original legal/source/result gates again returned **`HOLD_TOO_FEW_COMPLETE_STANDARD_LICENSED_GAMES 7 7`**. This is a repeated successful data acquisition but **intentional cohort-gate failure**; never promote to a cohort, silently alter 8→7 or equate two identical retrievals with permanent official closure. Raw PGN still **not archived in Drive**, original source-only future positions **not released for source/independent judging**, full past-exposure exclusion **not completed**.
+
 ## 7. Drive 미보유 원문 — 색인 검색 기준
 
 | Previously referenced literature | Search result | Status |
