@@ -55,6 +55,38 @@ const path = require("path");
     if(!markdown.includes("두 후보 수의 차이는 무엇인가") ||
        !markdown.includes("선행연구에서 가져온"))
       throw Error("P3V_HOLD_DOWNLOADED_REPORT_NOT_REAL");
+    // P4: actual second-opponent-layer product workflow, separate source
+    // search from the simple P3 explanation. The independent Berserk
+    // benchmark is an unrelated SHA-frozen offline adjudication; the local
+    // interactive tree is always honest about using source Stockfish only.
+    if(await page.locator("#strategy").isDisabled())
+      throw Error("P4_HOLD_RECURSIVE_TREE_BUTTON_DISABLED");
+    const strategyResponse=page.waitForResponse(r=>
+      r.url().includes("/api/strategy") && r.request().method()==="POST",
+      {timeout:150000});
+    await page.locator("#strategy").click();
+    const actualResponse=await strategyResponse;
+    if(actualResponse.status()!==200)
+      throw Error("P4_HOLD_REAL_STRATEGY_API_"+actualResponse.status());
+    const tree=await actualResponse.json();
+    if(tree.schema!=="c3x030-p4a-cui-inspired-two-opponent-layer-product-tree-v1"||
+       tree.total_leaf_paths!==8||
+       tree.roots.map(r=>r.root_uci).join(",")!=="e2e4,d2d4")
+      throw Error("P4_HOLD_TWO_ROOT_EIGHT_REAL_LEAVES");
+    if(tree.roots.some(r=>r.leaf_count!==4 ||
+           r.source_work_estimate.opponent_queries!==3 ||
+           r.source_work_estimate.player_queries!==6))
+      throw Error("P4_HOLD_REAL_NATIVE_SEARCH_QUERY_CONTRACT");
+    await page.getByText("두 번째 상대 응수까지 실제 전략나무 검색을 완료했습니다.")
+      .waitFor({timeout:150000});
+    if(await page.locator("#strategyResult").isHidden())
+      throw Error("P4_HOLD_STRATEGY_TREE_HIDDEN");
+    if(await page.locator("#strategyResult > .tile").count()!==2)
+      throw Error("P4_HOLD_TWO_ROOT_PANELS");
+    if(await page.locator("#strategyResult li").count()!==8)
+      throw Error("P4_HOLD_EIGHT_BRANCHES_NOT_VISIBLE");
+    fs.writeFileSync(path.join(dir,"P4_BROWSER_ACTUAL_CUI_TWO_LAYER_TREE.json"),
+                     JSON.stringify(tree,null,2)+"\\n");
     await page.screenshot({path:path.join(dir,"P3_BROWSER_NATIVE_ENGINE_SCREENSHOT.png"),
                            fullPage:true});
     if(errors.length)throw Error("P3V_HOLD_BROWSER_JS_ERRORS: "+errors.join("; "));
@@ -73,7 +105,7 @@ const path = require("path");
       rendered_tactical_and_concept_reports:true,
       downloaded_markdown_real:true,
       desktop_and_mobile_screenshots_saved:true,
-      browser_exceptions:errors.length
+      actual_p4_strategy_two_layer_leaves:8,\n      actual_p4_tree_visible:true,\n      browser_exceptions:errors.length
     }));
   } finally {
     await browser.close();
