@@ -1,0 +1,81 @@
+name: C3X P42-R28-C0 official precommitted Lichess round source-only PGN census
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  acquire-official-source-before-any-engine:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install pinned PGN parser in isolated Action runner and run existing source contracts
+        run: |
+          set -euo pipefail
+          python -m pip install -q chess==1.11.2
+          python -m py_compile tools/c3x_029_p42_r24_future_broadcast_blind_cohort_freeze.py
+          python -m unittest discover -s tools -p 'test_c3x_029_p42_r24_future_broadcast_blind_cohort_freeze.py' -v
+      - name: Acquire exact precommitted round official live PGN bytes (source-only, no model)
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/c3x-r28-c0-private public
+          curl --fail --show-error --silent --location \
+            --retry 5 --retry-delay 8 --max-time 180 \
+            -H 'Accept: application/x-chess-pgn' \
+            -H 'User-Agent: C3X-0.29-P42-R28-source-only-intake' \
+            --dump-header /tmp/c3x-r28-c0-private/http-headers.txt \
+            -o /tmp/c3x-r28-c0-private/precommitted-original.pgn \
+            https://lichess.org/api/broadcast/round/sbfCtgNj.pgn
+          test -s /tmp/c3x-r28-c0-private/precommitted-original.pgn
+          test "$(wc -c </tmp/c3x-r28-c0-private/precommitted-original.pgn)" -ge 64
+          sha256sum /tmp/c3x-r28-c0-private/precommitted-original.pgn
+          python - <<'PY'
+          import hashlib,json,pathlib
+          raw=pathlib.Path('/tmp/c3x-r28-c0-private/precommitted-original.pgn').read_bytes()
+          headers=pathlib.Path('/tmp/c3x-r28-c0-private/http-headers.txt').read_text(errors='replace')
+          print('R28_C0_OFFICIAL_API_BYTES',len(raw),'SHA256',hashlib.sha256(raw).hexdigest())
+          public={'schema':'c3x042-r28-c0-precommitted-lichess-source-request-v1',
+             'official_round':'https://lichess.org/broadcast/lag-dm-2026/round-3/sbfCtgNj',
+             'official_get_endpoint':'https://lichess.org/api/broadcast/round/sbfCtgNj.pgn',
+             'content_length_bytes':len(raw),
+             'raw_pgndata_sha256':hashlib.sha256(raw).hexdigest(),
+             'transport_https':True,'http_headers_digest':hashlib.sha256(headers.encode()).hexdigest(),
+             'no_engine_run':True,'raw_bytes_uploaded_to_public_repo':False,
+             'drive_raw_custody_verified':False,'prior_exposure_archive_complete_audit':False,
+             'not_prospective_validation':True}
+          pathlib.Path('public/R28_C0_OFFICIAL_SOURCE_FETCH_RECEIPT.json').write_text(
+             json.dumps(public,indent=2,sort_keys=True)+'\n')
+          PY
+      - name: Strict previous-round provenance and complete legal game selection gates
+        run: |
+          set -euo pipefail
+          python -u tools/c3x_029_p42_r24_future_broadcast_blind_cohort_freeze.py \
+            --raw-pgn /tmp/c3x-r28-c0-private/precommitted-original.pgn \
+            --private-out /tmp/c3x-r28-c0-private/selected-private.json \
+            --public-out public/R28_C0_OFFICIAL_EIGHT_SOURCE_ONLY_COHORT_PUBLIC.json
+          sha256sum public/R28_C0_OFFICIAL_EIGHT_SOURCE_ONLY_COHORT_PUBLIC.json
+      - name: Public aggregate rights gate and custody ceiling
+        if: always()
+        run: |
+          set -euo pipefail
+          mkdir -p public
+          for f in public/*.json; do
+            test -f "$f" || continue
+            python tools/c3x_023_rights_preupload_gate.py --tier P2_AGGREGATE_SUMMARY \
+              --file "$f" --report /tmp/R28_C0_PUBLIC_RIGHTS.json
+          done
+          echo 'Lichess original broadcasts CC BY-SA 4.0. Source-only official PGN request and fixed precommitted event, no private/raw PGN uploaded to GitHub. Hash receipt does NOT constitute Drive raw-byte custody; prior exposure and actual true prospective validation remain HOLD.' > public/SOURCE_LICENSE_NOTICE.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x042-r28-C0-official-broadcast-source-census-ONLY-no-raw-PGN
+          path: |
+            public/R28_C0_OFFICIAL_SOURCE_FETCH_RECEIPT.json
+            public/R28_C0_OFFICIAL_EIGHT_SOURCE_ONLY_COHORT_PUBLIC.json
+            public/SOURCE_LICENSE_NOTICE.txt
+          if-no-files-found: warn
