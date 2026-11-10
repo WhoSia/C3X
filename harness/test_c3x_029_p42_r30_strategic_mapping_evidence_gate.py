@@ -1,7 +1,7 @@
 """R30-C: evidence matrix admission must not be granted from mere tree metrics."""
 import unittest
 from c3x_029_p42_r30_strategic_mapping_evidence_gate import (
-    audit_experiment, audit_many)
+    audit_experiment, audit_many, STAGES)
 
 
 def sample():
@@ -21,6 +21,12 @@ def sample():
 
 
 class MappingContracts(unittest.TestCase):
+    def test_original_paper_r6_r9_mapping_exact(self):
+        self.assertEqual(STAGES["R6"], "evaluation and trade-off reasoning")
+        self.assertEqual(STAGES["R7"], "decision and action selection")
+        self.assertEqual(STAGES["R8"], "explanation and verbalization")
+        self.assertEqual(STAGES["R9"], "reflection, calibration, and metacognition")
+
     def test_r27_does_not_become_causal(self):
         x = audit_experiment(sample())
         self.assertFalse(x["flagship_same_world_causal_strategic_admission"])
@@ -62,7 +68,7 @@ class MappingContracts(unittest.TestCase):
         a = sample()
         b = sample()
         b["experiment"] = "R29-temporal-negative"
-        b["stages"] = ["R1", "R5", "R7"]
+        b["stages"] = ["R1", "R5", "R8"]
         b["independently_judged_plan"] = False
         z = audit_many([a, b])
         self.assertEqual(z["n_experiments"], 2)
