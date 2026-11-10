@@ -1,0 +1,94 @@
+name: C3X P42-R29-T1 temporal source events vs frozen nearby negatives
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/c3x-029-p42-r29-T1-temporal-events.yml'
+      - 'harness/c3x_029_p42_r29_t1_temporal_source_event_audit.py'
+      - 'harness/test_c3x_029_p42_r29_t1_temporal_source_event_audit.py'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  original-legal-trajectory-events-not-static-leaves:
+    runs-on: ubuntu-latest
+    timeout-minutes: 17
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Pinned chess parser + source temporal event tamper tests
+        run: |
+          set -euo pipefail
+          python -m pip install -q chess==1.11.2
+          python -m py_compile harness/c3x_029_p42_r29_t1_temporal_source_event_audit.py
+          PYTHONPATH=harness python -m unittest -v test_c3x_029_p42_r29_t1_temporal_source_event_audit
+      - uses: actions/download-artifact@v4
+        with:
+          name: c3x-p37-r1-oct-eight-distinct-events-original-pgn-and-engine-blind-freeze
+          repository: WhoSia/C3X
+          run-id: '41968008046'
+          path: source/
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: c3x-p37-r2-pre-referee-eight-event-three-rival-predictions
+          repository: WhoSia/C3X
+          run-id: '41969173637'
+          path: forecasts/
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: c3x042-r27-Cui-recursive-k3-two-opponent-layer-source-only
+          repository: WhoSia/C3X
+          run-id: '42580681868'
+          path: frozen-tree/
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: c3x042-r28-M1-binprop-inspired-36-leaf-nearby-negative-audit
+          repository: WhoSia/C3X
+          run-id: '42739498233'
+          path: frozen-m1/
+          github-token: ${{ github.token }}
+      - name: Verify all original sources and previous method/label commitments
+        run: |
+          set -euo pipefail
+          echo '77ebaa409e7c2099cc6cce3419c2f55ded295d925ab441dc2d13c16b67c2c361  source/P37_R1_8_EVENT_8_GAME_SOURCE_ONLY_MANIFEST.json' | sha256sum -c -
+          echo 'da395f0eb16e7b294af2056dadd92b579770aa8f1ae288d1d358132685807051  forecasts/P37_R2_THREE_RIVAL_PRE_REFERENCE_PREDICTIONS.json' | sha256sum -c -
+          echo 'f41e96bbf598aa824e65467cd1f1c782674aa275460211ce02b68f6eff1d4d5e  frozen-tree/C3X042_R27_CUI_SOURCE_NATIVE_TWO_OPPONENT_LAYER_K3.json' | sha256sum -c -
+          echo 'c8768b6ac02e62548a61e87f18bfa4d9406136316da9ae81ee296867aa2433e4  frozen-m1/C3X042_R28_M1_FIXED_NEARBY_NEGATIVES.json' | sha256sum -c -
+      - name: Replay 36 legal paths, extract 8 intrinsic temporal events, contrast fixed labels
+        run: |
+          set -euo pipefail
+          mkdir -p public
+          PYTHONPATH=harness python -u harness/c3x_029_p42_r29_t1_temporal_source_event_audit.py \
+            --source source \
+            --predictions forecasts \
+            --frozen-tree frozen-tree/C3X042_R27_CUI_SOURCE_NATIVE_TWO_OPPONENT_LAYER_K3.json \
+            --m1 frozen-m1/C3X042_R28_M1_FIXED_NEARBY_NEGATIVES.json \
+            --out public/C3X042_R29_T1_TEMPORAL_EVENTS_MATCHED_NEGATIVES.json
+          sha256sum public/C3X042_R29_T1_TEMPORAL_EVENTS_MATCHED_NEGATIVES.json
+      - name: Rights and anti-novelty inflation
+        if: always()
+        run: |
+          set -euo pipefail
+          mkdir -p public
+          if test -f public/C3X042_R29_T1_TEMPORAL_EVENTS_MATCHED_NEGATIVES.json; then
+            python tools/c3x_023_rights_preupload_gate.py \
+              --tier P2_AGGREGATE_SUMMARY \
+              --file public/C3X042_R29_T1_TEMPORAL_EVENTS_MATCHED_NEGATIVES.json \
+              --report /tmp/R29_T1_PRIVATE_RIGHTS.json
+          fi
+          echo 'Predefined tactical-path events, original R27 frozen Cui two-level source, R28 label-matched nearby negatives. HISTORIC post-selected two games. NO new engine computations; no full BinProp, no new prospectively verified strategy, and NO original root source-mediation proof. Original literature PDF held in Research OS Drive.' > public/SOURCE_LICENSE_NOTICE.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x042-r29-T1-source-temporal-36-leaf-12-nearby-pairs
+          path: |
+            public/C3X042_R29_T1_TEMPORAL_EVENTS_MATCHED_NEGATIVES.json
+            public/SOURCE_LICENSE_NOTICE.txt
+          if-no-files-found: warn
