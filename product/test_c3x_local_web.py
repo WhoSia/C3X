@@ -12,6 +12,8 @@ import chess
 
 from c3x_explain_two_moves import SCHEMA as P1_SCHEMA
 from c3x_concept_contrast import SCHEMA as P2_SCHEMA
+from c3x_recursive_strategy import SCHEMA as P4_SCHEMA, produce as p4_produce
+from test_c3x_recursive_strategy import DeterministicSource
 from c3x_local_web import (
     SCHEMA, DEFAULT_FEN, FRONTEND, MAX_POST_BYTES,
     analyze_payload, create_handler, legal_payload, request_payload
@@ -49,6 +51,21 @@ class DataContracts(unittest.TestCase):
         self.assertFalse(result["evidence"]["independent_referee"])
         self.assertIn("인과",result["learner_markdown"])
         self.assertIn("## 5.",result["learner_markdown"])
+
+    def test_p4_actual_reused_cui_two_layer_product_contract(self):
+        result=p4_produce(DEFAULT_FEN,"e2e4","d2d4",DeterministicSource(),k=2,depth=8)
+        self.assertEqual(result["schema"],P4_SCHEMA)
+        self.assertEqual(result["total_leaf_paths"],8)
+        self.assertFalse(result["complete_opponent_reply_universe"])
+        self.assertTrue(result["same_engine_not_independent_judge"])
+
+    def test_p4_browser_strategy_button_exists(self):
+        html=FRONTEND.read_text(encoding="utf-8")
+        javascript=FRONTEND.with_suffix(".js").read_text(encoding="utf-8")
+        self.assertIn('id="strategy"',html)
+        self.assertIn('id="strategyResult"',html)
+        self.assertIn('post("/api/strategy"',javascript)
+        self.assertIn('root_uci!==selected.a',javascript)
 
     def test_malformed_move_rejected_without_engine(self):
         with self.assertRaisesRegex(ValueError,"TWO_DISTINCT"):
@@ -121,6 +138,13 @@ class LiveLoopbackHttpTests(unittest.TestCase):
                             origin="https://other.example")
         self.assertEqual(code,403)
         self.assertEqual(json.loads(raw)["error"],"P3_FOREIGN_ORIGIN")
+
+    def test_p4_reject_illegal_move_before_opening_any_engine(self):
+        code,_,raw=self.api("POST","/api/strategy",{
+            "fen":DEFAULT_FEN,"move_a":"e2e5","move_b":"d2d4"
+        })
+        self.assertEqual(code,422)
+        self.assertIn("TWO_DISTINCT",raw.decode())
 
     def test_unrecognized_route_not_served(self):
         code,_,raw=self.api("GET","/secret.env")
