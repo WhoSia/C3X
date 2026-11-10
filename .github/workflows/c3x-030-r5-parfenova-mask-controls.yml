@@ -50,12 +50,13 @@ jobs:
       - name: Real source histories; label-blind protocol with 5 test condition packets
         run: |
           set -euo pipefail
-          mkdir -p public
+          mkdir -p public blind-per-arm
           PYTHONPATH=harness python -u harness/c3x_030_r5_parfenova_move_mask_control_protocol.py \
             --source source \
             --predictions forecasts \
+            --decoder-dir blind-per-arm \
             --out public/C3X030_R5_PARFENOVA_SYNTHETIC_EXPLANATION_CONTROL_PACKETS.json
-          sha256sum public/C3X030_R5_PARFENOVA_SYNTHETIC_EXPLANATION_CONTROL_PACKETS.json
+          sha256sum public/C3X030_R5_PARFENOVA_SYNTHETIC_EXPLANATION_CONTROL_PACKETS.json blind-per-arm/*.json
       - name: Validate rights and explicitly bound behavioral claim
         if: always()
         run: |
@@ -73,6 +74,7 @@ jobs:
         with:
           name: c3x030-r5-parfenova-source-history-mask-20-PROTOCOL-packets
           path: |
+            blind-per-arm/*.json
             public/C3X030_R5_PARFENOVA_SYNTHETIC_EXPLANATION_CONTROL_PACKETS.json
             public/SCIENTIFIC_SCOPE.txt
           if-no-files-found: warn
