@@ -1,0 +1,65 @@
+name: C3X P42-R30 owned SARFA math and Sandmann source-stage contracts (stdlib)
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/c3x-029-p42-r30-prior-art-kernels.yml'
+      - 'harness/c3x_029_p42_r30_sarfa_section2_kernel.py'
+      - 'harness/test_c3x_029_p42_r30_sarfa_section2_kernel.py'
+      - 'harness/c3x_029_p42_r30_source_stage_override_diagnostic.py'
+      - 'harness/test_c3x_029_p42_r30_source_stage_override_diagnostic.py'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  original-drive-pdf-technical-kernel-tests:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Pure-stdlib tests for original SARFA formulas and Sandmann diagnostic
+        run: |
+          set -euo pipefail
+          python -m py_compile harness/c3x_029_p42_r30_sarfa_section2_kernel.py harness/c3x_029_p42_r30_source_stage_override_diagnostic.py
+          PYTHONPATH=harness python -m unittest -v \
+            test_c3x_029_p42_r30_sarfa_section2_kernel \
+            test_c3x_029_p42_r30_source_stage_override_diagnostic
+      - name: Run demonstrative synthetic fixture and assert evidence boundaries
+        run: |
+          set -euo pipefail
+          mkdir -p public
+          cat >/tmp/c3x-r30-sarfa-synthetic.json <<'JSON'
+          {"original":{"a":2,"b":1,"c":0},"perturbed":{"a":0,"b":1,"c":0},"selected":"a","temperature":1.0}
+          JSON
+          python harness/c3x_029_p42_r30_sarfa_section2_kernel.py \
+            --input /tmp/c3x-r30-sarfa-synthetic.json \
+            --out public/R30_SYNTHETIC_SARFA_MATH_CONTRACT.json
+          cat >/tmp/c3x-r30-stages-synthetic.json <<'JSON'
+          {"state_key":"synthetic:1","source_engine":"synthetic-only","depth":12,"observed_candidate_support":["a","b","c"],"intermediate_candidate_scores":{"a":100,"b":90,"c":0},"final_candidate_scores":{"a":50,"b":60,"c":0},"final_action":"b"}
+          JSON
+          python harness/c3x_029_p42_r30_source_stage_override_diagnostic.py \
+            --input /tmp/c3x-r30-stages-synthetic.json \
+            --out public/R30_SYNTHETIC_STAGE_OVERRIDE_CONTRACT.json
+          python - <<'PY'
+          import json
+          a=json.load(open('public/R30_SYNTHETIC_SARFA_MATH_CONTRACT.json'))
+          b=json.load(open('public/R30_SYNTHETIC_STAGE_OVERRIDE_CONTRACT.json'))
+          assert a['sarfa_harmonic_saliency']>0
+          assert a['causal_chess_root_mediation'] is False
+          assert b['intermediate_vs_actual_final_action'] is True
+          assert b['not_source_level_causal_intervention'] is True
+          print('R30_TEST_ONLY_NOT_REAL_CHESS_DATA')
+          PY
+          sha256sum public/*.json
+      - name: Hard epistemic warning
+        run: |
+          echo 'R30 tests are synthetic unit tests only. No chess engine binary, chess package, Leela network, human participant, original chess source telemetry, source physical intervention or causal claim. Academic original owned PDFs: SARFA ICLR 2020 and Sandmann v4 in 10_PAPERS. Read-only CI.' > public/SCIENTIFIC_SCOPE.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: c3x042-r30-SYNTHETIC-math-and-stage-contracts-not-chess-results
+          path: public/
