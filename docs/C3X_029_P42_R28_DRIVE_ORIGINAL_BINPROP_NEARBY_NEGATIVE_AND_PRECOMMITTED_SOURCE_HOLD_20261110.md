@@ -66,11 +66,15 @@ Lichess's [official API](https://lichess-org.github.io/api/) documents `GET /api
 2. B/E: Use full Cui-style two-opponent-level source strategy and BinProp-inspired *temporal, counterfactual matched trajectory* concept probes, but only on new positions with heldout concepts, not endless tuning on Sahel/Cerrado.
 3. A/D/F: On that exact original full legal history, link measured source search/NNUE activation and a causally intervened original root choice to the independently judged frozen future-plan property. Sham, non-contact and original alternative root controls are obligatory.
 
-## VI. Drive 미보유 문헌 표 — 색인 검색 기준
+## 00 folder primary-PDF provenance correction — 2026-11-10
 
-| Candidate previously cited | Search terms checked | Verified present original PDF? | Resolution |
-| --- | --- | --- | --- |
-| SARFA (arXiv:1912.12191) | `SARFA`, `1912.12191` | **Not found in Drive index**; search results were *mentions inside other PDFs*, not original SARFA PDF | **Drive 미확보(색인 검색 기준)**; obtain original before substantive academic source claims |
-| Sandmann et al. (arXiv:2508.21380v4) | `Sandmann`, `2508.21380` | **Not found in Drive index**; only research chat mentions / unrelated PDFs | **Drive 미확보(색인 검색 기준)** |
-| Ciancarini & Pareschi (arXiv:2609.18286) | `Ciancarini`, `Pareschi`, `2609.18286` | **Not found in Drive index**; only embedded mentions / unrelated PDFs | **Drive 미확보(색인 검색 기준)**; verify bibliographic identity before citing further |
+**Correction to earlier incorrect 'missing in Drive' statements:** All THREE alleged missing primary PDFs are actually held directly under the same Google Drive `00` folder ID `1MLtYh0pv8QUZDReYzRqjDrOjRkSJAD16`. Their original PDF text, version filename, MIME type and folder parent were independently verified from authenticated Google Drive fetch. Earlier author/title-only index search missed version-number-only filenames; a search hit pointing to a primary PDF should not be mistaken for a reference mention.
+
+| Previously wrongly labeled missing | ACTUALLY OWNED original PDF in `00` | Verified PDF content |
+| --- | --- | --- |
+| Puri et al., SARFA | [1912.12191v4.pdf](https://drive.google.com/file/d/1C_c0AvNkEtzB2z6Nbji_NdRxlRpODgjs/view) | *Explain Your Move: Understanding Agent Actions Using Specific and Relevant Feature Attribution* (ICLR 2020) |
+| Sandmann, Lapuschkin & Samek | [2508.21380v4.pdf](https://drive.google.com/file/d/1dAF7reY9DpwBlZFERxrF54qSNYOLbRi0/view) | *The Algorithm Is Not the Behavior: Learned Priors Override Look-Ahead in a Chess-Playing Neural Network* |
+| Ciancarini & Pareschi | [2609.18286v1.pdf](https://drive.google.com/file/d/1OxYGSk2bmFD4Rdr0tXHJPAWT_w-wkMyF/view) | *What Counts as Strategic Reasoning? A Systematic Mapping of Chess Research on Humans, Engines, and Language Models* |
+
+**Effective missing-literature status for these three: NONE.** Do not carry forward the older failed-search table as current state. Complete Drive verification must search folder `00` and version-number PDF names before inferring a missing source.
 
