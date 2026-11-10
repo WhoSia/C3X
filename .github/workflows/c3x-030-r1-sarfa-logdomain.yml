@@ -1,0 +1,50 @@
+name: C3X 0.30 R1 inherited SARFA log-domain replication contracts (read-only)
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/c3x-030-r1-sarfa-logdomain.yml'
+      - 'harness/c3x_030_r1_sarfa_logdomain.py'
+      - 'harness/test_c3x_030_r1_sarfa_logdomain.py'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  inherited-paper-numerical-regression:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Reproduce SARFA 0.29 math and test log-domain KL
+        run: |
+          set -euo pipefail
+          python -m py_compile harness/c3x_030_r1_sarfa_logdomain.py
+          PYTHONPATH=harness python -m unittest -v test_c3x_030_r1_sarfa_logdomain
+      - name: R1 fixed test fixture, no chess Q-values
+        run: |
+          set -euo pipefail
+          mkdir -p public
+          echo '{"original":{"a":2,"b":0,"c":-1000},"perturbed":{"a":-1,"b":-1000,"c":0},"selected":"a","temperature":1}' > /tmp/c3x030-r1-extreme.json
+          python harness/c3x_030_r1_sarfa_logdomain.py \
+            --input /tmp/c3x030-r1-extreme.json \
+            --out public/C3X030_R1_SYNTHETIC_FINITE_EXTREME_KL.json
+          python - <<'PY'
+          import json
+          x=json.load(open('public/C3X030_R1_SYNTHETIC_FINITE_EXTREME_KL.json'))
+          assert 999 < x['offtarget_kl_perturbed_to_original'] < 1001
+          assert x['no_chess_engine_or_physical_intervention'] is True
+          print('R1_FINITE_KL_NUMERIC_REGRESSION_CONFIRMED_NOT_CHESS_DATA')
+          PY
+          sha256sum public/*.json
+      - name: No-scientific-claim notice
+        run: |
+          echo 'Original Drive Puri et al SARFA ICLR2020 arXiv 1912.12191v4. Synthetic math regression ONLY. No new chess engine or human participants. 0.29 primary source records are inherited intact.' > public/SCIENTIFIC_SCOPE.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: c3x030-r1-sarfa-synthetic-finite-KL-math-reproduction
+          path: public/
