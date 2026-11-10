@@ -1,0 +1,85 @@
+name: C3X P42-R30-D original Stockfish SARFA piece-removal method pilot
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/c3x-029-p42-r30-D-native-sarfa.yml'
+      - 'harness/c3x_029_p42_r30_d_native_sarfa_piece_ablation.py'
+      - 'harness/test_c3x_029_p42_r30_d_native_sarfa_piece_ablation.py'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  native-source-paper-method-reproduction-not-causal:
+    runs-on: ubuntu-latest
+    timeout-minutes: 50
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Isolated chess library and mocked protocol regression
+        run: |
+          set -euo pipefail
+          python -m pip install -q chess==1.11.2
+          python -m py_compile harness/c3x_029_p42_r30_d_native_sarfa_piece_ablation.py
+          PYTHONPATH=harness python -m unittest -v test_c3x_029_p42_r30_d_native_sarfa_piece_ablation
+      - uses: actions/download-artifact@v4
+        with:
+          name: c3x-p37-r1-oct-eight-distinct-events-original-pgn-and-engine-blind-freeze
+          repository: WhoSia/C3X
+          run-id: '41968008046'
+          path: source/
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: c3x-p37-r2-pre-referee-eight-event-three-rival-predictions
+          repository: WhoSia/C3X
+          run-id: '41969173637'
+          path: forecasts/
+          github-token: ${{ github.token }}
+      - name: Original P37 source and pre-referee predictions remain byte-locked
+        run: |
+          set -euo pipefail
+          echo '77ebaa409e7c2099cc6cce3419c2f55ded295d925ab441dc2d13c16b67c2c361  source/P37_R1_8_EVENT_8_GAME_SOURCE_ONLY_MANIFEST.json' | sha256sum -c -
+          echo 'da395f0eb16e7b294af2056dadd92b579770aa8f1ae288d1d358132685807051  forecasts/P37_R2_THREE_RIVAL_PRE_REFERENCE_PREDICTIONS.json' | sha256sum -c -
+      - name: Build unmodified pinned original Stockfish16 source classical
+        run: |
+          set -euo pipefail
+          git clone -q https://github.com/official-stockfish/Stockfish.git /tmp/c3x-r30-d-stockfish
+          git -C /tmp/c3x-r30-d-stockfish checkout -q 68e1e9b3811e16cad014b590d7443b9063b3eb52
+          test "$(git -C /tmp/c3x-r30-d-stockfish rev-parse HEAD)" = '68e1e9b3811e16cad014b590d7443b9063b3eb52'
+          make -s -C /tmp/c3x-r30-d-stockfish/src -j2 build ARCH=x86-64
+          test -x /tmp/c3x-r30-d-stockfish/src/stockfish
+      - name: Actual source forced Q vectors before and after three stable piece removals
+        run: |
+          set -euo pipefail
+          mkdir -p public
+          PYTHONPATH=harness python -u harness/c3x_029_p42_r30_d_native_sarfa_piece_ablation.py \
+            --source source \
+            --predictions forecasts \
+            --engine /tmp/c3x-r30-d-stockfish/src/stockfish \
+            --out public/C3X042_R30_D_SOURCE_NATIVE_SARFA_PAPER_METHOD.json
+          sha256sum public/C3X042_R30_D_SOURCE_NATIVE_SARFA_PAPER_METHOD.json
+      - name: Rights and explicit experiment limitations
+        if: always()
+        run: |
+          set -euo pipefail
+          mkdir -p public
+          if test -f public/C3X042_R30_D_SOURCE_NATIVE_SARFA_PAPER_METHOD.json; then
+            python tools/c3x_023_rights_preupload_gate.py \
+              --tier P2_AGGREGATE_SUMMARY \
+              --file public/C3X042_R30_D_SOURCE_NATIVE_SARFA_PAPER_METHOD.json \
+              --report /tmp/R30_D_RIGHTS_PRIVATE.json
+          fi
+          echo 'Owned original SARFA ICLR2020 PDF in 10_PAPERS. Historical postselected two exposed roots, full chess original game history intentionally cleared, piece deletion is not actual chess transition, source CP softmax 100cp temperature NOT calibrated RL Q, 24 real native forced searches only. Not an NNUE or search calculation physical intervention, root causal mediation, standard SARFA chess dataset, chess truth or prospective transport.' > public/SOURCE_AND_SCIENTIFIC_SCOPE.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x042-r30-D-genuine-source-SARFA-piece-removal-not-causal
+          path: |
+            public/C3X042_R30_D_SOURCE_NATIVE_SARFA_PAPER_METHOD.json
+            public/SOURCE_AND_SCIENTIFIC_SCOPE.txt
+          if-no-files-found: warn
