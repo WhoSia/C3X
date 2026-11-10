@@ -7,11 +7,9 @@ import math
 import unittest
 
 from c3x_030_r7c_sarfa_on_real_qwen_explanation_prompt_contrast import (
-    analyze,vector,R7_MODEL_JSON_SHA,SCHEMA
+    analyze,vector,R7_MODEL_JSON_SHA,SCHEMA,SCORER_SCHEMA,R5_AUDIT_SHA
 )
 from c3x_030_r6a_actual_open_decoder_blind_arm import ARMS,MODEL_ID,MODEL_REVISION
-from c3x_030_r6b_posthoc_decoder_recovery_evaluator import R5_AUDIT_SHA
-from c3x_030_r7a_real_qwen_all_legal_token_scorer import SCHEMA as SCORER_SCHEMA
 
 
 def fixture():
