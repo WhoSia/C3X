@@ -85,6 +85,7 @@ class NativePieceSHAPContracts(unittest.TestCase):
 
     def test_reject_incomplete_engine_depth(self):
         e=fixture_engine()
+        e.analyse.side_effect=None  # return_value must be read, not preset fixture callback
         e.analyse.return_value={
             "depth":9,"nodes":12,
             "score":chess.engine.PovScore(chess.engine.Cp(1),chess.WHITE)}
