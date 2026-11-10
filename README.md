@@ -1,5 +1,17 @@
 # C3X — Counterfactual Contrastive Chess eXplanation
 
+## CURRENT RESEARCH VERSION — C3X 0.30 — Mechanistic Strategy Reconstruction: Prior-Art Replication, Decision Tracing & Counterfactual Plan Evaluation
+
+**Accepted full formal 0.30 title, opened 2026-11-10. This version is continuous with 0.29, not a reset.** [**Notion 0.30 master**](https://app.notion.com/p/414ef561cf92813e8186fa51f780ee55) · [**GitHub 0.30 version/method scientific master**](docs/C3X_030_MECHANISTIC_STRATEGY_RECONSTRUCTION_MASTER_20261110.md). Older 0.29 P42/R24–R30 code, real methods, genuine native CI receipts, SHA-locked artifacts, failures and negative results are **inherited as-is**, not rebranded or falsely replayed. Original cumulative C3X source→final action→response-robust future strategy same-world causal claim is still **HOLD**, and precommitted new-event sample is **7 eligible versus frozen 8**, no promotion.
+
+**0.30/R1 — SARFA original PDF numerical hardening:** [Puri original held Drive PDF](https://drive.google.com/file/d/1C_c0AvNkEtzB2z6Nbji_NdRxlRpODgjs/view) · [stdlib log-domain SARFA](harness/c3x_030_r1_sarfa_logdomain.py) · [read-only CI #42747118216 SUCCESS](https://github.com/WhoSia/C3X/actions/runs/42747118216), ten tests. Fixed actual R30 mathematical implementation underflow: finite off-target KL≈1000 should **not** be labeled infinite merely due to exp(-1000) floating-point underflow. No new chess-science experiment.
+
+**0.30/R2 — Spinnato/SHAP exact finite-coalition core:** [Spinnato original held Drive PDF](https://drive.google.com/file/d/1xDaJ9bBxNYtxVU7YsNOqHvHuLMtQ149o/view) · [exact Shapley kernel](harness/c3x_030_r2_exact_piece_shapley_kernel.py) · [read-only CI #42747317750 SUCCESS](https://github.com/WhoSia/C3X/actions/runs/42747317750), eight tests. Full exact Shapley for <=12 provided features including pair interactions and additive reconstruction. **Not** the original paper's Stockfish17.1 10k-sample chess SHAP benchmark; only synthetic mathematical fixtures so far.
+
+**0.30 methodology:** Physically reproduce prior-art methods before chasing novelty. Keep separate source-only chess evidence, independent judges, language explanations, and physical computational causation. Always cite actual original owned Drive primary PDF first; check `00` then `10_PAPERS` and version-number PDF filenames before listing a truly missing article at the end of research documents. CI read-only, human source author, no Chat-runtime `python-chess` installs.
+
+---
+
 ## 2026-11-10 — P42/R30: genuine 00→10 original-paper curation + FOUR prior-art implementation modules
 
 Three original personally held PDFs [SARFA v4](https://drive.google.com/file/d/1C_c0AvNkEtzB2z6Nbji_NdRxlRpODgjs/view), [Sandmann–Lapuschkin–Samek v4](https://drive.google.com/file/d/1dAF7reY9DpwBlZFERxrF54qSNYOLbRi0/view), [Ciancarini–Pareschi v1](https://drive.google.com/file/d/1OxYGSk2bmFD4Rdr0tXHJPAWT_w-wkMyF/view) were **READ in original, individually documented in Notion, renamed to the canonical `Author (Year) — Title — Venue/arXiv version.pdf` format and MOVED by metadata-only same-ID operation** from [00_INTAKE](https://drive.google.com/drive/folders/1MLtYh0pv8QUZDReYzRqjDrOjRkSJAD16) into [10_PAPERS](https://drive.google.com/drive/folders/1D2M4LHcejREhlyp6vTd71xxLLx-6ldUP). Direct parent readback confirmed all three. No copied/downgraded originals. R28/R29 wrong 'missing' entries superseded.
