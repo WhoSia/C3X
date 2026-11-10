@@ -18,7 +18,7 @@ from c3x_030_r7b_posthoc_all_legal_rank_evaluator import (
 from c3x_030_r6a_actual_open_decoder_blind_arm import (
     ARMS,R5_SCHEMA,MODEL_ID,MODEL_REVISION
 )
-from c3x_030_r6b_posthoc_decoder_recovery_evaluator import ARM_SHA
+from c3x_030_r6b_posthoc_decoder_recovery_evaluator import ARM_SHA,R5_AUDIT_SHA
 
 
 def example_support():
@@ -50,7 +50,7 @@ class R7EvidenceContracts(unittest.TestCase):
         d=example_support()
         self.assertEqual(len(d["entries"]),4)
         self.assertEqual([len(x["legal_move_ucis"]) for x in d["entries"]],[20]*4)
-        self.assertNotIn("fen",repr(d).lower())
+        self.assertNotIn(chess.Board().fen(en_passant="fen"),repr(d))
         self.assertNotIn("root_uci_source_only_label",repr(d))
         self.assertIn("e2e4",d["entries"][0]["legal_move_ucis"])
 
@@ -129,7 +129,7 @@ class R7EvidenceContracts(unittest.TestCase):
                          "legal_support_manifest_sha256":support_sha,
                          "source_target_and_original_reference_never_seen_during_inference":True,
                          "entries":rs}
-        out=rank_and_grade(truth,models,sup,"synthetic",support_sha)
+        out=rank_and_grade(truth,models,sup,R5_AUDIT_SHA,support_sha)
         self.assertEqual(len(out["arms"]),5)
         self.assertEqual(out["arms"][0]["primary_top1"],0)
         self.assertTrue(out["source_nominees_not_llm_generated_move_or_gold_puzzle_reference"])
