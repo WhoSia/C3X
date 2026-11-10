@@ -1,0 +1,66 @@
+name: C3X P42-R28-M2 fixed nearby-feature cross-game transport (stdlib only)
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/c3x-029-p42-r28-M2-game-transfer.yml'
+      - 'harness/c3x_029_p42_r28_m2_nearby_negative_cross_game_transfer.py'
+      - 'harness/test_c3x_029_p42_r28_m2_nearby_negative_cross_game_transfer.py'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  old-exposed-two-game-concept-transport:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Pure stdlib tests and compilation NO CHESS INSTALL
+        run: |
+          set -euo pipefail
+          python -m py_compile harness/c3x_029_p42_r28_m2_nearby_negative_cross_game_transfer.py
+          PYTHONPATH=harness python -m unittest -v test_c3x_029_p42_r28_m2_nearby_negative_cross_game_transfer
+      - uses: actions/download-artifact@v4
+        with:
+          name: c3x042-r28-M1-binprop-inspired-36-leaf-nearby-negative-audit
+          repository: WhoSia/C3X
+          run-id: '42739498233'
+          path: input/
+          github-token: ${{ github.token }}
+      - name: Ensure R28 matched nearby pairs immutable
+        run: |
+          set -euo pipefail
+          echo 'c8768b6ac02e62548a61e87f18bfa4d9406136316da9ae81ee296867aa2433e4  input/C3X042_R28_M1_FIXED_NEARBY_NEGATIVES.json' | sha256sum -c -
+      - name: Tiny two-event diagnostic ONLY, not independent prospective transport
+        run: |
+          set -euo pipefail
+          mkdir -p public
+          PYTHONPATH=harness python -u harness/c3x_029_p42_r28_m2_nearby_negative_cross_game_transfer.py \
+            --input input/C3X042_R28_M1_FIXED_NEARBY_NEGATIVES.json \
+            --out public/C3X042_R28_M2_TWO_EVENT_CONCEPT_TRANSPORT.json
+          sha256sum public/C3X042_R28_M2_TWO_EVENT_CONCEPT_TRANSPORT.json
+      - name: Rights and no-generalization notice
+        if: always()
+        run: |
+          set -euo pipefail
+          mkdir -p public
+          if test -f public/C3X042_R28_M2_TWO_EVENT_CONCEPT_TRANSPORT.json; then
+            python tools/c3x_023_rights_preupload_gate.py \
+              --tier P2_AGGREGATE_SUMMARY \
+              --file public/C3X042_R28_M2_TWO_EVENT_CONCEPT_TRANSPORT.json \
+              --report /tmp/R28_M2_RIGHTS_PRIVATE.json
+          fi
+          echo 'R28-M2 merely posthoc two-event crossed diagnostic over 12 known matched prefixes and 8 predefined motifs, no independent blind holdout, no BinProp full algorithm, no claims about cross-game generalization, no source root causality.' > public/SOURCE_LICENSE_NOTICE.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x042-r28-M2-two-game-nearby-negative-predicate-diagnostic
+          path: |
+            public/C3X042_R28_M2_TWO_EVENT_CONCEPT_TRANSPORT.json
+            public/SOURCE_LICENSE_NOTICE.txt
+          if-no-files-found: warn
