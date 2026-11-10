@@ -94,7 +94,7 @@ class ProductContracts(unittest.TestCase):
         self.assertEqual(out["schema"],SCHEMA)
         self.assertEqual(out["candidate_A_minus_B_cp_by_depth_or_null"],{"8":10,"10":10})
         self.assertEqual(len(out["root_candidates"]),2)
-        self.assertEqual(engine.calls,16) # 4 root calls + 2*(1 multi +3 own)
+        self.assertEqual(engine.calls,12) # 4 root calls + 2*(1 MultiPV + 3 own replies)
         for row in out["root_candidates"]:
             probe=row["opponent_reply_probe"]
             self.assertEqual(probe["sampled_reply_count"],3)
