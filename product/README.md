@@ -45,6 +45,20 @@ The product now has a second optional button: **실제 Stockfish로 2단계 전�
 
 **Research boundaries:** The browser's new tree is same-Stockfish-source-only; no opponent-reply exhaustive minimax, no live independent judge, and no proof why the original engine made its final decision. Those claims need different experiments.
 
+## P5 — Martin mirror invariance audit for actual root-move value gaps
+
+[**Martin et al. (2025) original full PDF held in Drive**](https://drive.google.com/file/d/1bMl15sK_8G0h9GbuJehObn9zj8RoKKX7/view). In the web app, after selecting legal root moves A and B, click **원본·대칭 국면 12회 실제 재검색**. The local server then runs exact original Stockfish forced-root searches at depths **8/10/12**, original FEN and `board.mirror()` with UCI mirror-mapped positions, each candidate separately. The browser displays original gap `V(A)-V(B)`, mirrored gap, signed change and whether signs disagree. Same semantic player's POV is respected, including black/white swap. **Mirror discrepancies in finite-depth chess search are NOT automatic proof of engine bugs or true causal explanation failures.** No chosen confidence cutoff fabricated.
+
+[**Real original source P5 native 24-search CI SUCCESS**](https://github.com/WhoSia/C3X/actions/runs/42922314048), two fixed illustrative positions × 2 candidate moves × 2 mirrors × three depths, 58 product unit tests, SHA-fixed JSON `ab6fec99e3b19e94b2b58e56e6605f4278ff84e74c04e2485326c723c50753b0`. [P5 full original-paper audit](../docs/C3X_030_P5_MARTIN_METAMORPHIC_GAP_STABILITY_AND_WIDER_DRIVE_PRIOR_ART_20261111.md).
+
+## P6 — Eight chess-replay-proven Korean source strategy sentences
+
+Inspired by [**Shivkumar et al. (2026) chess structured-annotation source in Drive**](https://drive.google.com/file/d/1BOP1Qx7kApbNWKCf7KbKbowPrTTTP6IR/view), [**QUEEN chess-language model paper owned Drive**](https://drive.google.com/file/d/1I1HikAacandg5b75R0zymJlgxAQ41gbG/view) and [**Cui original strategy tree Drive**](https://drive.google.com/file/d/19zqCJXM631qasR9uIyg4GuBZxIBO7czw/view). When clicking the **2단계 전략나무 확장** button, the actual server replays all P4 tree moves using the current FEN, validates every SAN and UCI against the source engine's tree, and generates **8 Korean conditional chess plans** (`if opponent X, own best Y; if reply Z, own followup W`). The UI now distinguishes `source-tree-candidate` and `source-annotation-candidate` panels and offers a **수순 재생으로 검증한 한국어 전략 설명 저장** button.
+
+[**P6 frozen original source evidence CI SUCCESS**](https://github.com/WhoSia/C3X/actions/runs/42923308179), 68 regression tests and eight actually source-replay-verified Korean sentences, original JSON SHA `e8f84cab90b1e499e17c6a5746d9264f665741ee8ceb32a4d88bf0f3af5cef03`; Markdown SHA `b55102a0f9ab6abc2be9cc4e9b073cb47637bab6de9a83f72cfe05ed21e8c656`. [**Actual Chromium native P5+P6 browser acceptance SUCCESS**](https://github.com/WhoSia/C3X/actions/runs/42923800891), 40 tests, two candidate chessboard clicks, P4 source tree, **eight displayed real UCI/SAN-grounded Korean annotations**, **browser-downloaded Markdown byte-equal to the original frozen P6 CI file**, new P5 mirror gap table, real desktop/mobile screenshots, zero browser exceptions. [P6 research report](../docs/C3X_030_P6_REPLAY_VERIFIED_KOREAN_STRATEGY_COMMENTARY_AND_PRIOR_ART_20261111.md).
+
+**Honest limitation:** P6 is a **deterministic annotation and rendering stage**, NOT an implementation of original QUEEN neural model, original Shivkumar PPO+LLM annotation engine, or original Cui full TEPP user study; it does not infer original Stockfish source search causality or prove independent quality in a new unknown user position.
+
 ## Developer tests
 
 ```bash
@@ -53,7 +67,9 @@ PYTHONPATH=product python -m unittest -v \
   test_c3x_concept_contrast \
   test_c3x_local_web \\
   test_c3x_recursive_strategy \\
-  test_c3x_independent_strategy_judge
+  test_c3x_independent_strategy_judge \\
+  test_c3x_metamorphic_gap_audit \\
+  test_c3x_evidence_strategy_commentary
 
 node --check product/c3x_board.js
 ```
