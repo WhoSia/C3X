@@ -106,10 +106,18 @@ def score_all_moves(input_ids,uci_actions,tokenizer,model,torch):
     carry-over. Tied to R6's pinned tokenizer and model.
     """
     import copy
+    from transformers.cache_utils import DynamicCache
     if input_ids.ndim!=2 or input_ids.shape[0]!=1:
         raise ValueError("R030_R7_HOLD_SINGLE_PROMPT_SHAPE")
     with torch.inference_mode():
-        prefix=model(input_ids=input_ids,use_cache=True,return_dict=True)
+        # Qwen2 in transformers 4.47 may return a legacy tuple cache if the
+        # prefix is computed without an explicitly supplied DynamicCache.
+        # Start with the native cache interface required by subsequent calls.
+        prefix=model(input_ids=input_ids,past_key_values=DynamicCache(),
+                     use_cache=True,return_dict=True)
+        if (not hasattr(prefix.past_key_values,"get_seq_length")
+            or prefix.past_key_values.get_seq_length()!=input_ids.shape[1]):
+            raise ValueError("R030_R7_HOLD_QWEN_DYNAMIC_PREFIX_CACHE")
         first_logp=torch.log_softmax(prefix.logits[0,-1,:].float(),dim=-1)
         scored=[]
         for u in uci_actions:
