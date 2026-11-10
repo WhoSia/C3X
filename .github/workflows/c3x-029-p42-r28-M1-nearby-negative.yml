@@ -1,0 +1,96 @@
+name: C3X P42-R28-M1 BinProp-inspired nearby-negative contrast (SHA-frozen, no engine)
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/c3x-029-p42-r28-M1-nearby-negative.yml'
+      - 'harness/c3x_029_p42_r28_m1_fixed_binprop_nearby_negative_audit.py'
+      - 'harness/test_c3x_029_p42_r28_m1_fixed_binprop_nearby_negative_audit.py'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  literal-source-history-same-prefix-concept-audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: 'pip'
+          cache-dependency-path: '.github/workflows/c3x-029-p42-r28-M1-nearby-negative.yml'
+      - name: Pin chess interface and test all legal nearby negative gates
+        run: |
+          set -euo pipefail
+          python -m pip install -q chess==1.11.2
+          python -m py_compile harness/c3x_029_p42_r28_m1_fixed_binprop_nearby_negative_audit.py
+          PYTHONPATH=harness python -m unittest -v test_c3x_029_p42_r28_m1_fixed_binprop_nearby_negative_audit
+      - uses: actions/download-artifact@v4
+        with:
+          name: c3x-p37-r1-oct-eight-distinct-events-original-pgn-and-engine-blind-freeze
+          repository: WhoSia/C3X
+          run-id: '41968008046'
+          path: source/
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: c3x-p37-r2-pre-referee-eight-event-three-rival-predictions
+          repository: WhoSia/C3X
+          run-id: '41969173637'
+          path: forecasts/
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: c3x042-r27-Cui-recursive-k3-two-opponent-layer-source-only
+          repository: WhoSia/C3X
+          run-id: '42580681868'
+          path: frozen-tree/
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: c3x042-r27-J1-Cui-36-leaf-two-layer-Berserk-independent
+          repository: WhoSia/C3X
+          run-id: '42581501872'
+          path: frozen-judge/
+          github-token: ${{ github.token }}
+      - name: Prove no source tree or Berserk judgment drift
+        run: |
+          set -euo pipefail
+          echo '77ebaa409e7c2099cc6cce3419c2f55ded295d925ab441dc2d13c16b67c2c361  source/P37_R1_8_EVENT_8_GAME_SOURCE_ONLY_MANIFEST.json' | sha256sum -c -
+          echo 'da395f0eb16e7b294af2056dadd92b579770aa8f1ae288d1d358132685807051  forecasts/P37_R2_THREE_RIVAL_PRE_REFERENCE_PREDICTIONS.json' | sha256sum -c -
+          echo 'f41e96bbf598aa824e65467cd1f1c782674aa275460211ce02b68f6eff1d4d5e  frozen-tree/C3X042_R27_CUI_SOURCE_NATIVE_TWO_OPPONENT_LAYER_K3.json' | sha256sum -c -
+          echo '9844ebb1cae67d1af82c19696c8037ab53ca46b602ea44cdd66fc02d32ee27b7  frozen-judge/C3X042_R27_J1_CUI_TWO_OPPONENT_LAYERS_72_REFEREE_SEARCHES.json' | sha256sum -c -
+      - name: Analyze nearby-negative trajectory pairs (NO new source or judge searches)
+        run: |
+          set -euo pipefail
+          mkdir -p public
+          PYTHONPATH=harness python -u harness/c3x_029_p42_r28_m1_fixed_binprop_nearby_negative_audit.py \
+            --source source \
+            --predictions forecasts \
+            --frozen-tree frozen-tree/C3X042_R27_CUI_SOURCE_NATIVE_TWO_OPPONENT_LAYER_K3.json \
+            --frozen-judge frozen-judge/C3X042_R27_J1_CUI_TWO_OPPONENT_LAYERS_72_REFEREE_SEARCHES.json \
+            --out public/C3X042_R28_M1_FIXED_NEARBY_NEGATIVES.json
+          sha256sum public/C3X042_R28_M1_FIXED_NEARBY_NEGATIVES.json
+      - name: Check publication rights and explicit incomplete BinProp reproduction
+        if: always()
+        run: |
+          set -euo pipefail
+          mkdir -p public
+          if test -f public/C3X042_R28_M1_FIXED_NEARBY_NEGATIVES.json; then
+            python tools/c3x_023_rights_preupload_gate.py \
+              --tier P2_AGGREGATE_SUMMARY \
+              --file public/C3X042_R28_M1_FIXED_NEARBY_NEGATIVES.json \
+              --report /tmp/R28_M1_RIGHTS_PRIVATE.json
+          fi
+          echo 'Source-original BinProp PDF verified in private Google Drive. Fixed human-authored predicates; judge-label-defined nearby pairs on historical exposed R27 paths. NOT LLM-generated motifs, BinProp 200k corpus, independent train/test or causal engine root explanation. No new searches or private PGN. Source Lichess CC BY-SA 4.0.' > public/SOURCE_LICENSE_NOTICE.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x042-r28-M1-binprop-inspired-36-leaf-nearby-negative-audit
+          path: |
+            public/C3X042_R28_M1_FIXED_NEARBY_NEGATIVES.json
+            public/SOURCE_LICENSE_NOTICE.txt
+          if-no-files-found: warn
