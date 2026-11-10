@@ -32,13 +32,28 @@ The interface shows both root-move scores at two engine depths, the A−B centip
 
 The initial starting position's `e2e4` vs `d2d4` is a convenient integration example, not a claim that there is a robust small strategic preference between those moves.
 
+## P4 — Two actual opponent layers and independent judge
+
+The product now has a second optional button: **실제 Stockfish로 2단계 전략나무 확장**. It calls the new native `POST /api/strategy` route for the FEN and two currently selected legal UCI moves, using **k=2 source-ranked opponent replies at each of two layers**, one source engine-best own answer for each. The interface shows each ranked opponent reaction, the response, the next opponent's ranked reaction, another response, and exact legal UCI path. This makes the originally [Cui et al. 2026 partial strategy tree original held in Drive](https://drive.google.com/file/d/19zqCJXM631qasR9uIyg4GuBZxIBO7czw/view) executable for arbitrary valid positions; it is **not** the original paper's LLM verbalizer or human study. Older [C3X 0.29/R27](https://github.com/WhoSia/C3X/blob/main/harness/c3x_029_p42_r27_cui_recursive_k3_tree.py) contains the more expensive original-source k3 two-layer tree previously implemented.
+
+**Verified actual evidence:**
+- [Original source k2 2-layer Stockfish16 8-leaf CI SUCCESS](https://github.com/WhoSia/C3X/actions/runs/42790485394), 42 tests and **18 source engine calls**, exact tree JSON SHA `12889ac4239368b4c687a3ac7f3fb8fdff007bf03f04a31ace801d8ce2959f4e`.
+- [Independent Berserk14 exact SHA-frozen source 16-search CI SUCCESS](https://github.com/WhoSia/C3X/actions/runs/42791282073), 48 tests, original separately compiled Berserk source and original NNUE SHA verified. It judged only **those eight frozen source leaf paths** at two depths. The output is **not** a generic judge API for new user positions.
+- [Real Chromium browser click-to-recursive-tree acceptance SUCCESS](https://github.com/WhoSia/C3X/actions/runs/42791810831), 38 tests, actual P4 button click after e4/d4 selection, **8 actual source paths visible** in UI, desktop/mobile screenshots, Markdown actual download, browser JS exceptions 0.
+
+[Full scientific P4 report](../docs/C3X_030_P4_REAL_CUI_PRODUCT_STRATEGY_TREE_AND_INDEPENDENT_BERSERK_20261110.md).
+
+**Research boundaries:** The browser's new tree is same-Stockfish-source-only; no opponent-reply exhaustive minimax, no live independent judge, and no proof why the original engine made its final decision. Those claims need different experiments.
+
 ## Developer tests
 
 ```bash
 PYTHONPATH=product python -m unittest -v \
   test_c3x_explain_two_moves \
   test_c3x_concept_contrast \
-  test_c3x_local_web
+  test_c3x_local_web \\
+  test_c3x_recursive_strategy \\
+  test_c3x_independent_strategy_judge
 
 node --check product/c3x_board.js
 ```
