@@ -20,6 +20,7 @@ import chess.engine
 
 from c3x_explain_two_moves import generate, make_markdown, verify_board_and_pair
 from c3x_concept_contrast import contrast, markdown_append
+from c3x_recursive_strategy import produce as produce_two_layer_strategy
 
 SCHEMA = "c3x030-p3-local-interactive-product-v1"
 MAX_POST_BYTES = 4096
@@ -152,7 +153,7 @@ def create_handler(engine_path):
 
         def do_POST(self):
             path = urlsplit(self.path)
-            if path.path not in ("/api/legal", "/api/analyze") or path.query:
+            if path.path not in ("/api/legal", "/api/analyze", "/api/strategy") or path.query:
                 self._json(404, {"error": "P3_UNKNOWN_ROUTE"})
                 return
             if not self._is_same_origin():
@@ -192,6 +193,11 @@ def create_handler(engine_path):
                                 or not {"Use NNUE", "Threads", "Hash"}.issubset(engine.options)):
                                 raise RuntimeError("P3_HOLD_WRONG_ENGINE")
                             engine.configure({"Use NNUE": False, "Threads": 1, "Hash": 16})
+                            if path.path == "/api/strategy":
+                            report = produce_two_layer_strategy(
+                                request["fen"], request["move_a"],
+                                request["move_b"], engine, k=2, depth=8)
+                        else:
                             report = analyze_payload(request, engine)
                     self._json(200, report)
             except (ValueError, UnicodeError, KeyError) as exc:
