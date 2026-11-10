@@ -1,0 +1,123 @@
+name: C3X 0.30 P1 genuine original Stockfish learner-facing compare-two-moves reports
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/c3x-030-p1-first-real-learner-explainer.yml'
+      - 'product/c3x_explain_two_moves.py'
+      - 'product/test_c3x_explain_two_moves.py'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  original-engine-contrastive-chess-reports:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: CI-isolated rules dependency, compiled code, learner explanation test
+        run: |
+          set -euo pipefail
+          python -m pip install -q 'chess==1.11.2'
+          python -m py_compile product/c3x_explain_two_moves.py
+          PYTHONPATH=product python -m unittest -v test_c3x_explain_two_moves
+      - uses: actions/download-artifact@v4
+        with:
+          name: c3x-p37-r1-oct-eight-distinct-events-original-pgn-and-engine-blind-freeze
+          repository: WhoSia/C3X
+          run-id: '41968008046'
+          path: source/
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: c3x-p37-r2-pre-referee-eight-event-three-rival-predictions
+          repository: WhoSia/C3X
+          run-id: '41969173637'
+          path: forecasts/
+          github-token: ${{ github.token }}
+      - name: Original P37 chess history exact SHA gates
+        run: |
+          set -euo pipefail
+          echo '77ebaa409e7c2099cc6cce3419c2f55ded295d925ab441dc2d13c16b67c2c361  source/P37_R1_8_EVENT_8_GAME_SOURCE_ONLY_MANIFEST.json' | sha256sum -c -
+          echo 'da395f0eb16e7b294af2056dadd92b579770aa8f1ae288d1d358132685807051  forecasts/P37_R2_THREE_RIVAL_PRE_REFERENCE_PREDICTIONS.json' | sha256sum -c -
+      - name: Build pinned original Stockfish16 from unmodified upstream source
+        run: |
+          set -euo pipefail
+          git clone -q https://github.com/official-stockfish/Stockfish.git /tmp/c3x030-p1-stockfish
+          git -C /tmp/c3x030-p1-stockfish checkout -q 68e1e9b3811e16cad014b590d7443b9063b3eb52
+          test "$(git -C /tmp/c3x030-p1-stockfish rev-parse HEAD)" = '68e1e9b3811e16cad014b590d7443b9063b3eb52'
+          make -s -C /tmp/c3x030-p1-stockfish/src -j2 build ARCH=x86-64
+          test -x /tmp/c3x030-p1-stockfish/src/stockfish
+      - name: Produce ACTUAL Korean instructional reports on two original historical chess worlds
+        run: |
+          set -euo pipefail
+          mkdir -p public
+          PYTHONPATH=product:harness python -u - <<'PY'
+          import hashlib,json
+          from pathlib import Path
+          import chess.engine
+          from c3x_029_p38_r1_ethereal_independent_referee import (
+              authentic_archive, authentic_cases, SOURCE_ZIP_SHA, SOURCE_MEMBER,
+              SOURCE_JSON_SHA, PRED_ZIP_SHA, PRED_MEMBER, PRED_JSON_SHA)
+          from c3x_029_p42_r23_independent_all_opponent_reply_value_court import (
+              FROZEN_EXPLORATORY_CASES,source_positions)
+          from c3x_explain_two_moves import generate,make_markdown,SCHEMA,sha
+          engine_binary="/tmp/c3x030-p1-stockfish/src/stockfish"
+          original=authentic_cases(
+              authentic_archive(Path("forecasts"),PRED_ZIP_SHA,PRED_MEMBER,PRED_JSON_SHA),
+              authentic_archive(Path("source"),SOURCE_ZIP_SHA,SOURCE_MEMBER,SOURCE_JSON_SHA))
+          worlds=source_positions(original,FROZEN_EXPLORATORY_CASES)
+          assert len(worlds)==2
+          meta=[]
+          with chess.engine.SimpleEngine.popen_uci(engine_binary,timeout=120) as eng:
+              assert "stockfish" in eng.id.get("name","").lower()
+              eng.configure({"Use NNUE":False,"Threads":1,"Hash":16})
+              for idx,(source,board,roots) in enumerate(worlds):
+                  assert len(roots)==2
+                  a,b=[r["root"] for r in roots]
+                  out=generate(board,a,b,eng)
+                  assert out["schema"]==SCHEMA
+                  out["actual_engine_binary_sha256"]=sha(engine_binary)
+                  out["source_case_id"]=source["case_id"]
+                  out["source_event_family"]=source["event_family"]
+                  file=Path("public")/f"C3X_P1_WORLD_{idx+1}_EXPLAIN.json"
+                  md=Path("public")/f"C3X_P1_WORLD_{idx+1}_LEARNER.md"
+                  file.write_text(json.dumps(out,indent=2,sort_keys=True,allow_nan=False)+"\n",encoding="utf-8")
+                  md.write_text(make_markdown(out),encoding="utf-8")
+                  meta.append({"source_event":source["event_family"],
+                               "candidates":[a,b],
+                               "root_gap_depth_8_10_cp":out["candidate_A_minus_B_cp_by_depth_or_null"],
+                               "json_sha256":sha(file),"markdown_sha256":sha(md),
+                               "total_reply_lines":sum(len(x["opponent_reply_probe"]["reply_lines"]) for x in out["root_candidates"])})
+                  print("C3X_P1_REAL_LEARNER_REPORT",meta[-1],flush=True)
+          Path("public/SUMMARY.json").write_text(json.dumps({
+              "schema":"c3x030-p1-educational-comparison-two-original-worlds",
+              "provenance":"SHA verified P37 original old game histories",
+              "real_original_stockfish_binary_sha256":sha(engine_binary),
+              "worlds":meta,
+              "two_posthoc_exposed_worlds_not_independent_prospective":True,
+              "source_computation_causality_unproved":True,
+              "no_chesscom_outperformance_claim":True
+          },indent=2,sort_keys=True)+"\n")
+          PY
+          sha256sum public/*
+      - name: Rights and epistemic provenance gate
+        if: always()
+        run: |
+          set -euo pipefail
+          mkdir -p public
+          if test -f public/SUMMARY.json; then
+            python tools/c3x_023_rights_preupload_gate.py --tier P2_AGGREGATE_SUMMARY --file public/SUMMARY.json --report /tmp/P1_RIGHTS_INTERNAL.json
+          fi
+          echo 'C3X 0.30 P1: two fully reconstructed original historical chess boards, source Stockfish 16 fixed commit, root depths 8/10, max three opponent MultiPV depth8 replies, same-engine own followups depth8 and Korean user-facing report. This is a genuine runnable first product vertical, but no independent judge, no proof original engine physical decision causation, no exhaustive reply evaluation, no cross-model or chess.com user comparison, two previously exposed games and no prospective claims.' > public/SCIENTIFIC_SCOPE.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x030-p1-REAL-Stockfish-Korean-two-move-learner-reports
+          path: public/*
+          if-no-files-found: warn
