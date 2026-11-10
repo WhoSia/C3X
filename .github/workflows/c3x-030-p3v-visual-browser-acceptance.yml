@@ -1,0 +1,91 @@
+name: C3X 0.30 P3-V actual Chromium browser click-to-analysis and screenshot acceptance
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/c3x-030-p3v-visual-browser-acceptance.yml'
+      - 'product/test_c3x_browser_playwright.cjs'
+      - 'product/c3x_board.js'
+      - 'product/c3x_board.html'
+      - 'product/c3x_local_web.py'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  genuine-headless-browser-local-real-stockfish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Pin python chess and verify actual P1 P2 P3 tests
+        run: |
+          set -euo pipefail
+          python -m pip install -q 'chess==1.11.2'
+          PYTHONPATH=product python -m unittest -v \
+            test_c3x_explain_two_moves \
+            test_c3x_concept_contrast \
+            test_c3x_local_web
+          node --check product/c3x_board.js
+          node --check product/test_c3x_browser_playwright.cjs
+      - name: Build verified original Stockfish16 source and native binary
+        run: |
+          set -euo pipefail
+          git clone -q https://github.com/official-stockfish/Stockfish.git /tmp/c3x-p3v-stockfish
+          git -C /tmp/c3x-p3v-stockfish checkout -q 68e1e9b3811e16cad014b590d7443b9063b3eb52
+          test "$(git -C /tmp/c3x-p3v-stockfish rev-parse HEAD)" = 68e1e9b3811e16cad014b590d7443b9063b3eb52
+          make -s -C /tmp/c3x-p3v-stockfish/src -j2 build ARCH=x86-64
+          sha256sum /tmp/c3x-p3v-stockfish/src/stockfish
+      - name: Install pinned Playwright and headless Chromium
+        run: |
+          set -euo pipefail
+          npm install --no-save --no-package-lock --ignore-scripts 'playwright@1.56.1'
+          npx playwright install --with-deps chromium
+      - name: REAL desktop/mobile browser tests with live actual source Stockfish backend
+        run: |
+          set -euo pipefail
+          mkdir -p public
+          PYTHONPATH=product python -u product/c3x_local_web.py \
+            --stockfish /tmp/c3x-p3v-stockfish/src/stockfish \
+            --port 8765 > /tmp/c3x_p3v_server.log 2>&1 &
+          SERVER_PID=$!
+          trap 'kill "$SERVER_PID" 2>/dev/null || true' EXIT
+          python - <<'PY'
+          import http.client,time
+          for attempt in range(100):
+              try:
+                  c=http.client.HTTPConnection("127.0.0.1",8765,timeout=1)
+                  c.request("GET","/api/health")
+                  r=c.getresponse()
+                  if r.status==200:
+                      r.read();c.close();break
+              except OSError:time.sleep(.1)
+          else: raise RuntimeError("P3V_HOLD_REAL_WEB_BACKEND_NOT_READY")
+          PY
+          C3X_VISUAL_OUT=public node product/test_c3x_browser_playwright.cjs
+          sha256sum public/*
+      - name: Evidence gate and precise original-paper scope
+        if: always()
+        run: |
+          set -euo pipefail
+          mkdir -p public
+          echo 'P3-V executes real headless Chromium desktop and mobile on localhost with actual upstream Stockfish16 at frozen original commit; tests actual UI square clicks, legal move choices, native engine analysis, real response branches, download as Markdown and browser screenshots. A headless acceptance does not imply human usability improvement, complete chess.com comparison, full Cui tree, learned CCC model, independent referee or original engine search causation.' > public/SCIENTIFIC_SCOPE.txt
+          if test -f public/P3_BROWSER_CLICKED_DOWNLOADED_LEARNER.md; then
+            python tools/c3x_023_rights_preupload_gate.py \
+              --tier P2_AGGREGATE_SUMMARY \
+              --file public/P3_BROWSER_CLICKED_DOWNLOADED_LEARNER.md \
+              --report /tmp/P3V_RIGHTS_INTERNAL.json
+          fi
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x030-p3v-ACTUAL-Chromium-chessboard-Stockfish-browser-screenshots
+          path: |
+            public/SCIENTIFIC_SCOPE.txt
+            public/P3_BROWSER_*.png
+            public/P3_BROWSER_CLICKED_DOWNLOADED_LEARNER.md
+          if-no-files-found: warn
