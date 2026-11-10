@@ -59,6 +59,22 @@ class DataContracts(unittest.TestCase):
         self.assertFalse(result["complete_opponent_reply_universe"])
         self.assertTrue(result["same_engine_not_independent_judge"])
 
+    def test_p5_martin_mirror_browser_and_exact_12_search_contract(self):
+        from c3x_metamorphic_gap_audit import case_analysis
+        from test_c3x_metamorphic_gap_audit import DeterministicCovariantEngine
+        engine=DeterministicCovariantEngine()
+        result=case_analysis(DEFAULT_FEN,"e2e4","d2d4",engine,
+                             case_id="user_selected_fen_local_not_frozen")
+        self.assertEqual(engine.calls,12)
+        self.assertEqual(set(result["per_depth"]),{"8","10","12"})
+        self.assertEqual(result["per_depth"]["12"]["mirrored_gap_minus_original_gap_cp_or_null"],0)
+        html=FRONTEND.read_text(encoding="utf-8")
+        javascript=FRONTEND.with_suffix(".js").read_text(encoding="utf-8")
+        self.assertIn('id="mirror"',html)
+        self.assertIn('id="mirrorResult"',html)
+        self.assertIn('post("/api/mirror"',javascript)
+        self.assertIn("finite_search_not_proof_of_engine_bug",str(result))
+
     def test_p4_browser_strategy_button_exists(self):
         html=FRONTEND.read_text(encoding="utf-8")
         javascript=FRONTEND.with_suffix(".js").read_text(encoding="utf-8")
@@ -138,6 +154,13 @@ class LiveLoopbackHttpTests(unittest.TestCase):
                             origin="https://other.example")
         self.assertEqual(code,403)
         self.assertEqual(json.loads(raw)["error"],"P3_FOREIGN_ORIGIN")
+
+    def test_p5_http_reject_illegal_mirror_before_native_engine(self):
+        code,_,raw=self.api("POST","/api/mirror",{
+            "fen":DEFAULT_FEN,"move_a":"e2e5","move_b":"d2d4"
+        })
+        self.assertEqual(code,422)
+        self.assertIn("TWO_DISTINCT",raw.decode())
 
     def test_p4_reject_illegal_move_before_opening_any_engine(self):
         code,_,raw=self.api("POST","/api/strategy",{
