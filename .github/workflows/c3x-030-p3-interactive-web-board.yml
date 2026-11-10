@@ -1,0 +1,133 @@
+name: C3X 0.30 P3 interactive local chessboard real-Stockfish full-stack integration
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/c3x-030-p3-interactive-web-board.yml'
+      - 'product/c3x_local_web.py'
+      - 'product/c3x_board.html'
+      - 'product/c3x_board.js'
+      - 'product/test_c3x_local_web.py'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  real-local-chess-product-full-stack:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Run all previous P1 P2 and current P3 contracts with native local HTTP
+        run: |
+          set -euo pipefail
+          python -m pip install -q chess==1.11.2
+          python -m py_compile product/c3x_local_web.py product/c3x_concept_contrast.py product/c3x_explain_two_moves.py
+          node --check product/c3x_board.js
+          PYTHONPATH=product python -m unittest -v \
+            test_c3x_explain_two_moves \
+            test_c3x_concept_contrast \
+            test_c3x_local_web
+      - name: Compile original pinned Stockfish16 for ACTUAL web endpoint, not fake chess
+        run: |
+          set -euo pipefail
+          git clone -q https://github.com/official-stockfish/Stockfish.git /tmp/c3x-p3-native-stockfish
+          git -C /tmp/c3x-p3-native-stockfish checkout -q 68e1e9b3811e16cad014b590d7443b9063b3eb52
+          test "$(git -C /tmp/c3x-p3-native-stockfish rev-parse HEAD)" = '68e1e9b3811e16cad014b590d7443b9063b3eb52'
+          make -s -C /tmp/c3x-p3-native-stockfish/src -j2 build ARCH=x86-64
+          sha256sum /tmp/c3x-p3-native-stockfish/src/stockfish
+      - name: Full HTTP end-to-end, actual Stockfish 2 moves and actual P2 concepts, Korean report
+        run: |
+          set -euo pipefail
+          mkdir -p public
+          PYTHONPATH=product python -u product/c3x_local_web.py \
+            --stockfish /tmp/c3x-p3-native-stockfish/src/stockfish \
+            --port 8765 > /tmp/c3x_p3_http.log 2>&1 &
+          SERVER_PID=$!
+          trap 'kill "$SERVER_PID" 2>/dev/null || true' EXIT
+          python - <<'PY'
+          import http.client,json,time,hashlib
+          from pathlib import Path
+          port=8765
+          def request(method,path,payload=None):
+              conn=http.client.HTTPConnection("127.0.0.1",port,timeout=150)
+              data=None if payload is None else json.dumps(payload).encode()
+              headers={} if data is None else {"Content-Type":"application/json",
+                       "Origin":"http://127.0.0.1:8765"}
+              conn.request(method,path,body=data,headers=headers)
+              r=conn.getresponse()
+              response=r.read()
+              result=(r.status,response)
+              conn.close()
+              return result
+          for _ in range(80):
+              try:
+                  if request("GET","/api/health")[0]==200:break
+              except OSError:time.sleep(.1)
+          else:raise RuntimeError("P3_HOLD_REAL_HTTP_NOT_READY")
+          html_status,html=request("GET","/")
+          js_status,js=request("GET","/c3x_board.js")
+          assert html_status==200 and js_status==200 and b'id="board"' in html
+          source="rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"
+          st,raw=request("POST","/api/legal",{"fen":source})
+          legal=json.loads(raw)
+          assert st==200 and len(legal["legal_moves"])==20
+          st,raw=request("POST","/api/analyze",{
+              "fen":source,"move_a":"e2e4","move_b":"d2d4"
+          })
+          if st!=200:raise RuntimeError("P3_HOLD_REAL_ENGINE_HTTP_"+str(st)+":"+raw.decode()[:400])
+          out=json.loads(raw)
+          assert out["schema"]=="c3x030-p3-local-interactive-product-v1"
+          assert out["engine_report"]["root_candidates"][0]["move_uci"]=="e2e4"
+          assert out["engine_report"]["root_candidates"][1]["move_uci"]=="d2d4"
+          assert len(out["concept_report"]["complete_rule_based_concept_facts"])==2
+          assert out["evidence"]["native_stockfish"] is True
+          assert out["evidence"]["source_engine_internal_causality_proven"] is False
+          assert "선행연구에서 가져온" in out["learner_markdown"]
+          assert "최악값" in out["learner_markdown"]
+          Path("public/P3_REAL_HTTP_START_POSITION_E4_VS_D4.json").write_text(
+              json.dumps(out,ensure_ascii=False,sort_keys=True,indent=2)+"\n",
+              encoding="utf-8")
+          Path("public/P3_REAL_HTTP_START_POSITION_E4_VS_D4.md").write_text(
+              out["learner_markdown"],encoding="utf-8")
+          def digest(p):return hashlib.sha256(Path(p).read_bytes()).hexdigest()
+          print("C3X_P3_ACTUAL_BROWSER_ENDPOINT_EXPLAINER_SUCCESS",{
+              "legal_actions":len(legal["legal_moves"]),
+              "root_depths":out["engine_report"]["forced_root_depths"],
+              "all_replies":[x["opponent_reply_probe"]["sampled_reply_count"]
+                             for x in out["engine_report"]["root_candidates"]],
+              "different_concept_count":len(out["concept_report"]["concept_dimensions_different"]),
+              "shared_concept_count":len(out["concept_report"]["concept_dimensions_shared_suppressed"]),
+              "report_sha256":digest("public/P3_REAL_HTTP_START_POSITION_E4_VS_D4.json"),
+              "korean_md_sha256":digest("public/P3_REAL_HTTP_START_POSITION_E4_VS_D4.md")
+          })
+          # Engine rejection for illegal moves is a genuine 422, not 503.
+          st,raw=request("POST","/api/analyze",{
+              "fen":source,"move_a":"e2e5","move_b":"d2d4"
+          })
+          assert st==422 and b"TWO_DISTINCT_LEGAL_CANDIDATES" in raw
+          print("C3X_P3_ILLEGAL_MOVE_FAIL_CLOSED_HTTP_422")
+          PY
+          sha256sum public/*
+      - name: Preserve local-server product limitations
+        if: always()
+        run: |
+          set -euo pipefail
+          mkdir -p public
+          echo 'P3 native-only 127.0.0.1 chessboard UI + actual P1 Stockfish + P2 CCC deterministic rules. E2E proves live local HTTP FEN to forced two root actions and top3 opponent replies, not a rendered-browser visual QA, not production hosted endpoint, no LLM narrative claims. Start position example not near-equal source historical case. Original source root decision causal mechanism unproven, independent judge unexecuted, chess.com learning-quality comparison not performed.' > public/SCIENTIFIC_SCOPE.txt
+          if test -f public/P3_REAL_HTTP_START_POSITION_E4_VS_D4.json; then
+            python tools/c3x_023_rights_preupload_gate.py \
+              --tier P2_AGGREGATE_SUMMARY \
+              --file public/P3_REAL_HTTP_START_POSITION_E4_VS_D4.json \
+              --report /tmp/P3_RIGHTS_INTERNAL.json
+          fi
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x030-p3-REAL-local-HTTP-chessboard-full-stack-native-Stockfish
+          path: public/*
+          if-no-files-found: warn
