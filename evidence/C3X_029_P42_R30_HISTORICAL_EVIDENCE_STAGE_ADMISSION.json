@@ -1,0 +1,52 @@
+[
+  {
+    "experiment": "R20-source-event-intermediate-root-only",
+    "source_receipt": "C3X-P42-R20 historical archive",
+    "stages": [
+      "R4",
+      "R6"
+    ],
+    "same_original_position": true,
+    "actual_physical_source_intervention": true,
+    "actual_final_root_change": false,
+    "independently_judged_plan": false,
+    "same_endpoint_horizon": false,
+    "prospective_before_outcome_source": false,
+    "explanation_move_mask_control": false,
+    "human_utility_evaluated": false
+  },
+  {
+    "experiment": "R27-Cui-two-layer-tree-independent-referee",
+    "source_receipt": "github-actions:42580681868+42581501872",
+    "stages": [
+      "R1",
+      "R4",
+      "R5"
+    ],
+    "same_original_position": true,
+    "actual_physical_source_intervention": false,
+    "actual_final_root_change": false,
+    "independently_judged_plan": true,
+    "same_endpoint_horizon": true,
+    "prospective_before_outcome_source": false,
+    "explanation_move_mask_control": false,
+    "human_utility_evaluated": false
+  },
+  {
+    "experiment": "R29-historical-temporal-nearby-negatives",
+    "source_receipt": "github-actions:42741912979",
+    "stages": [
+      "R1",
+      "R5",
+      "R7"
+    ],
+    "same_original_position": true,
+    "actual_physical_source_intervention": false,
+    "actual_final_root_change": false,
+    "independently_judged_plan": true,
+    "same_endpoint_horizon": true,
+    "prospective_before_outcome_source": false,
+    "explanation_move_mask_control": false,
+    "human_utility_evaluated": false
+  }
+]
