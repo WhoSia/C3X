@@ -232,7 +232,7 @@ def main():
     folder.mkdir(parents=True,exist_ok=True)
     for arm,payload in batches.items():
         (folder / ("R5_BLIND_ONLY_"+arm+".json")).write_text(
-            json.dumps(payload,indent=2,sort_keys=True,allow_nan=False)+"\\n",encoding="utf-8")
+            json.dumps(payload,indent=2,sort_keys=True,allow_nan=False)+chr(10),encoding="utf-8")
     dest=Path(a.out)
     dest.parent.mkdir(parents=True,exist_ok=True)
     dest.write_text(json.dumps(report,indent=2,sort_keys=True,allow_nan=False)+"\n",encoding="utf-8")
