@@ -1,0 +1,87 @@
+name: C3X 0.30 R3 genuine Stockfish conditional piece SHAP complete 3-piece lattice
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/c3x-030-r3-native-conditional-piece-shapley.yml'
+      - 'harness/c3x_030_r3_native_stockfish_conditional_piece_shapley.py'
+      - 'harness/test_c3x_030_r3_native_stockfish_conditional_piece_shapley.py'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  genuine-native-16-coalition-evaluations:
+    runs-on: ubuntu-latest
+    timeout-minutes: 65
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Chess parser only in isolated CI, legal 8-subset and mock UCI tests
+        run: |
+          set -euo pipefail
+          python -m pip install -q chess==1.11.2
+          python -m py_compile harness/c3x_030_r3_native_stockfish_conditional_piece_shapley.py
+          PYTHONPATH=harness python -m unittest -v \
+            test_c3x_030_r2_exact_piece_shapley_kernel \
+            test_c3x_030_r3_native_stockfish_conditional_piece_shapley
+      - uses: actions/download-artifact@v4
+        with:
+          name: c3x-p37-r1-oct-eight-distinct-events-original-pgn-and-engine-blind-freeze
+          repository: WhoSia/C3X
+          run-id: '41968008046'
+          path: source/
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: c3x-p37-r2-pre-referee-eight-event-three-rival-predictions
+          repository: WhoSia/C3X
+          run-id: '41969173637'
+          path: forecasts/
+          github-token: ${{ github.token }}
+      - name: Assert unchanged original legal-history archive SHA gates
+        run: |
+          set -euo pipefail
+          echo '77ebaa409e7c2099cc6cce3419c2f55ded295d925ab441dc2d13c16b67c2c361  source/P37_R1_8_EVENT_8_GAME_SOURCE_ONLY_MANIFEST.json' | sha256sum -c -
+          echo 'da395f0eb16e7b294af2056dadd92b579770aa8f1ae288d1d358132685807051  forecasts/P37_R2_THREE_RIVAL_PRE_REFERENCE_PREDICTIONS.json' | sha256sum -c -
+      - name: Compile pinned Stockfish16 classical from unmodified upstream source
+        run: |
+          set -euo pipefail
+          git clone -q https://github.com/official-stockfish/Stockfish.git /tmp/c3x030-r3-stockfish
+          git -C /tmp/c3x030-r3-stockfish checkout -q 68e1e9b3811e16cad014b590d7443b9063b3eb52
+          test "$(git -C /tmp/c3x030-r3-stockfish rev-parse HEAD)" = '68e1e9b3811e16cad014b590d7443b9063b3eb52'
+          make -s -C /tmp/c3x030-r3-stockfish/src -j2 build ARCH=x86-64
+          test -x /tmp/c3x030-r3-stockfish/src/stockfish
+      - name: Execute original-source evaluation for every legal coalition of three preselected pieces
+        run: |
+          set -euo pipefail
+          mkdir -p public
+          PYTHONPATH=harness python -u harness/c3x_030_r3_native_stockfish_conditional_piece_shapley.py \
+            --source source \
+            --predictions forecasts \
+            --engine /tmp/c3x030-r3-stockfish/src/stockfish \
+            --out public/C3X030_R3_NATIVE_THREE_PIECE_CONDITIONAL_SHAPLEY.json
+          sha256sum public/C3X030_R3_NATIVE_THREE_PIECE_CONDITIONAL_SHAPLEY.json
+      - name: Rights gate and non-equivalence of 3-piece conditional to full original SHAP
+        if: always()
+        run: |
+          set -euo pipefail
+          mkdir -p public
+          if test -f public/C3X030_R3_NATIVE_THREE_PIECE_CONDITIONAL_SHAPLEY.json; then
+            python tools/c3x_023_rights_preupload_gate.py \
+              --tier P2_AGGREGATE_SUMMARY \
+              --file public/C3X030_R3_NATIVE_THREE_PIECE_CONDITIONAL_SHAPLEY.json \
+              --report /tmp/R3_RIGHTS_PRIVATE.json
+          fi
+          echo '0.30 R3: original Spinnato 2025 Drive PDF. Real pinned Stockfish16 depth10, THREE selectively removed nonking pieces, 8 complete coalitions each of two historical exposed games. Remaining nonchosen pieces held fixed; conditional baseline NOT two kings, NOT original full Shap 10000-sample Stockfish17.1 benchmark, not independent cohort, no source-computation intervention, no natural chess trajectory or source root decision claim. Logistic beta 0.00368 is only an approximate white-score map. Native nodes differ across masks. No bot writes.' > public/SCIENTIFIC_SCOPE.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x030-r3-native-16-coalition-conditional-piece-shapley
+          path: |
+            public/C3X030_R3_NATIVE_THREE_PIECE_CONDITIONAL_SHAPLEY.json
+            public/SCIENTIFIC_SCOPE.txt
+          if-no-files-found: warn
