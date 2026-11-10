@@ -194,11 +194,11 @@ def create_handler(engine_path):
                                 raise RuntimeError("P3_HOLD_WRONG_ENGINE")
                             engine.configure({"Use NNUE": False, "Threads": 1, "Hash": 16})
                             if path.path == "/api/strategy":
-                            report = produce_two_layer_strategy(
-                                request["fen"], request["move_a"],
-                                request["move_b"], engine, k=2, depth=8)
-                        else:
-                            report = analyze_payload(request, engine)
+                                report = produce_two_layer_strategy(
+                                    request["fen"], request["move_a"],
+                                    request["move_b"], engine, k=2, depth=8)
+                            else:
+                                report = analyze_payload(request, engine)
                     self._json(200, report)
             except (ValueError, UnicodeError, KeyError) as exc:
                 self._json(422, {"error": str(exc)})
