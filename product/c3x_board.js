@@ -173,7 +173,7 @@ function renderStrategy(data) {
   appendText(panel,"p","실제 원본 Stockfish 재검색 · 전체 "+data.total_leaf_paths+
     "개 말단 수순 · 독립 심판 없이 원본 엔진이 선택한 상대 응수만 검사");
   for(const [idx,root] of data.roots.entries()) {
-    const area=document.createElement("div");area.className="tile";
+    const area=document.createElement("div");area.className="tile source-tree-candidate";
     appendText(area,"h3",(idx===0?"후보 A ":"후보 B ")+root.root_san+
       " — "+root.leaf_count+"개 조건부 미래 계획");
     for(const first of root.tree) {
@@ -213,7 +213,7 @@ function renderStrategy(data) {
   appendText(panel,"h3","실측 수순을 규칙으로 재생해 확인한 조건부 설명");
   appendText(panel,"p","다음 문장은 엔진의 실제 수 선택을 조건부로 설명하며, 사람이 이해한 전략적 원인이나 독립 심판 평가를 주장하지 않습니다.");
   for(const root of comments.roots) {
-    const box=document.createElement("div");box.className="tile";
+    const box=document.createElement("div");box.className="tile source-annotation-candidate";
     appendText(box,"h3","후보 "+root.root_san+" · 실제 수순 기반 설명");
     const ul=document.createElement("ul");
     for(const atom of root.atomic_conditional_annotations) {
