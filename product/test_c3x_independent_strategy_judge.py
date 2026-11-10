@@ -50,7 +50,10 @@ class P4BTests(unittest.TestCase):
 
     def test_tamper_one_leaf_rejected(self):
         import copy
-        src=copy.deepcopy(self.source)
+        # Real SHA-frozen source is JSON: unlike in-memory tree objects,
+        # serialized branch and summary-path arrays do not alias each other.
+        import json
+        src=json.loads(json.dumps(self.source))
         src["roots"][0]["leaf_paths"][0]["trace_uci"][1]="h1h1"
         with self.assertRaisesRegex(ValueError,"TREE_LEAF_FABRICATION"):
             reconstruct(src)
