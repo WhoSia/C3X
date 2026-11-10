@@ -4,7 +4,7 @@ const $ = id => document.getElementById(id);
 const PIECES = {"K":"♔","Q":"♕","R":"♖","B":"♗","N":"♘","P":"♙",
                 "k":"♚","q":"♛","r":"♜","b":"♝","n":"♞","p":"♟"};
 const INITIAL = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
-let legal = [], currentFen = INITIAL, origin = null, selected = {a:"",b:""}, latest = null;
+let legal = [], currentFen = INITIAL, origin = null, selected = {a:"",b:""}, latest = null, latestStrategy = null;
 
 function status(text) { $("status").textContent = text; }
 async function post(path, payload) {
@@ -94,7 +94,8 @@ async function loadFen() {
   try {
     const result=await post("/api/legal",{fen:$("fen").value.trim()});
     currentFen=result.fen;$("fen").value=result.fen;legal=result.legal_moves;
-    origin=null;selected={a:"",b:""};latest=null;
+    origin=null;selected={a:"",b:""};latest=null;latestStrategy=null;
+    $("strategyExport").disabled=true;
     $("strategyResult").classList.add("hidden");$("strategyResult").replaceChildren();
     $("mirrorResult").classList.add("hidden");$("mirrorResult").replaceChildren();
     selectMenu("moveA","a"); selectMenu("moveB","b");
@@ -112,6 +113,8 @@ function appendText(parent,tag,content) {
 }
 function render(r) {
   latest=r;
+  latestStrategy=null;
+  $("strategyExport").disabled=true;
   $("strategyResult").classList.add("hidden");$("strategyResult").replaceChildren();
   $("empty").classList.add("hidden");$("results").classList.remove("hidden");
   const e=r.engine_report, c=r.concept_report, roots=e.root_candidates;
@@ -200,6 +203,32 @@ function renderStrategy(data) {
     }
     panel.append(area);
   }
+  const comments=data.evidence_verified_strategy_explanation;
+  if(!comments || comments.schema!=="c3x030-p6-evidence-linked-conditional-strategy-annotation-v1" ||
+     comments.fully_replay_verified_annotations!==8 ||
+     comments.roots.some((x,i)=>x.root_uci!==data.roots[i].root_uci ||
+       x.atomic_conditional_annotations.length!==4) ||
+     !data.evidence_verified_strategy_markdown)
+    throw Error("실제 전략 수순의 한국어 주석 검증 계약이 맞지 않습니다.");
+  appendText(panel,"h3","실측 수순을 규칙으로 재생해 확인한 조건부 설명");
+  appendText(panel,"p","다음 문장은 엔진의 실제 수 선택을 조건부로 설명하며, 사람이 이해한 전략적 원인이나 독립 심판 평가를 주장하지 않습니다.");
+  for(const root of comments.roots) {
+    const box=document.createElement("div");box.className="tile";
+    appendText(box,"h3","후보 "+root.root_san+" · 실제 수순 기반 설명");
+    const ul=document.createElement("ul");
+    for(const atom of root.atomic_conditional_annotations) {
+      if(atom.proof_kind!=="REPLAYED_CHESS_RULES_PLUS_SOURCE_SELECTED_MOVES" ||
+         atom.physical_original_stockfish_decision_causality_claimed!==false)
+        throw Error("근거가 없는 주석이 발견되었습니다.");
+      const li=document.createElement("li");
+      li.textContent=atom.korean_explanation;
+      li.className="evidence-strategy-clause";
+      ul.append(li);
+    }
+    box.append(ul);panel.append(box);
+  }
+  latestStrategy=data;
+  $("strategyExport").disabled=false;
   panel.classList.remove("hidden");
 }
 $("strategy").addEventListener("click",async()=>{
@@ -252,6 +281,15 @@ function renderMirror(data) {
   appendText(area,"p","주의: 제한된 탐색 깊이에서 대칭 평가 차이가 발생할 수 있으나, 이는 자동으로 엔진 버그나 인과 설명 실패를 입증하지 않습니다.");
   area.classList.remove("hidden");
 }
+$("strategyExport").addEventListener("click",()=>{
+  if(!latestStrategy || !latestStrategy.evidence_verified_strategy_markdown)return;
+  const body=latestStrategy.evidence_verified_strategy_markdown;
+  const blob=new Blob([body],{type:"text/markdown;charset=utf-8"});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement("a");
+  a.href=url;a.download="C3X-verified-conditional-strategy.md";
+  document.body.append(a);a.click();a.remove();URL.revokeObjectURL(url);
+});
 $("mirror").addEventListener("click",async()=>{
   const button=$("mirror");button.disabled=true;
   const originalFen=currentFen, a=selected.a,b=selected.b;
