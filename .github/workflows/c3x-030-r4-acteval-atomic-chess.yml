@@ -1,0 +1,76 @@
+name: C3X 0.30 R4 actual-game ACT-Eval symbolic atom checker
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/c3x-030-r4-acteval-atomic-chess.yml'
+      - 'harness/c3x_030_r4_acteval_symbolic_claim_verifier.py'
+      - 'harness/test_c3x_030_r4_acteval_symbolic_claim_verifier.py'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  deterministic-tool-factual-chess-atoms-original-legal-history:
+    runs-on: ubuntu-latest
+    timeout-minutes: 14
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install pinned chess rules only in CI and test factual claim tool
+        run: |
+          set -euo pipefail
+          python -m pip install -q chess==1.11.2
+          python -m py_compile harness/c3x_030_r4_acteval_symbolic_claim_verifier.py
+          PYTHONPATH=harness python -m unittest -v test_c3x_030_r4_acteval_symbolic_claim_verifier
+      - uses: actions/download-artifact@v4
+        with:
+          name: c3x-p37-r1-oct-eight-distinct-events-original-pgn-and-engine-blind-freeze
+          repository: WhoSia/C3X
+          run-id: '41968008046'
+          path: source/
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: c3x-p37-r2-pre-referee-eight-event-three-rival-predictions
+          repository: WhoSia/C3X
+          run-id: '41969173637'
+          path: forecasts/
+          github-token: ${{ github.token }}
+      - name: Historical original-source complete PGN SHA proof
+        run: |
+          set -euo pipefail
+          echo '77ebaa409e7c2099cc6cce3419c2f55ded295d925ab441dc2d13c16b67c2c361  source/P37_R1_8_EVENT_8_GAME_SOURCE_ONLY_MANIFEST.json' | sha256sum -c -
+          echo 'da395f0eb16e7b294af2056dadd92b579770aa8f1ae288d1d358132685807051  forecasts/P37_R2_THREE_RIVAL_PRE_REFERENCE_PREDICTIONS.json' | sha256sum -c -
+      - name: Verify deliberately opposite claims about actual chess candidate moves
+        run: |
+          set -euo pipefail
+          mkdir -p public
+          PYTHONPATH=harness python -u harness/c3x_030_r4_acteval_symbolic_claim_verifier.py \
+            --source source \
+            --predictions forecasts \
+            --out public/C3X030_R4_ACTEVAL_ATOMIC_RULES_24_CONTROLLED_CLAIMS.json
+          sha256sum public/C3X030_R4_ACTEVAL_ATOMIC_RULES_24_CONTROLLED_CLAIMS.json
+      - name: Scientific and source rights limits
+        if: always()
+        run: |
+          set -euo pipefail
+          mkdir -p public
+          if test -f public/C3X030_R4_ACTEVAL_ATOMIC_RULES_24_CONTROLLED_CLAIMS.json; then
+            python tools/c3x_023_rights_preupload_gate.py \
+              --tier P2_AGGREGATE_SUMMARY \
+              --file public/C3X030_R4_ACTEVAL_ATOMIC_RULES_24_CONTROLLED_CLAIMS.json \
+              --report /tmp/R4_RIGHTS_PRIVATE.json
+          fi
+          echo 'Original ACT-Eval paper owned Drive: Hebbar et al 2026. Only deterministic legal chess atomic-claim checker; true claims directly programmatically generated from board and false foils constructed by flipping boolean, no LLM-generated commentary or 325-position gold dataset, no free-text atom extraction, no human calibration, no new engines or source cause and no claim about actual LLM faithfulness.' > public/SCIENTIFIC_SCOPE.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x030-r4-acteval-original-game-24-controlled-symbolic-claims
+          path: |
+            public/C3X030_R4_ACTEVAL_ATOMIC_RULES_24_CONTROLLED_CLAIMS.json
+            public/SCIENTIFIC_SCOPE.txt
+          if-no-files-found: warn
