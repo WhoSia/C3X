@@ -8,6 +8,9 @@ on:
       - 'harness/test_c3x_029_p42_r30_sarfa_section2_kernel.py'
       - 'harness/c3x_029_p42_r30_source_stage_override_diagnostic.py'
       - 'harness/test_c3x_029_p42_r30_source_stage_override_diagnostic.py'
+      - 'harness/c3x_029_p42_r30_strategic_mapping_evidence_gate.py'
+      - 'harness/test_c3x_029_p42_r30_strategic_mapping_evidence_gate.py'
+      - 'evidence/C3X_029_P42_R30_HISTORICAL_EVIDENCE_STAGE_ADMISSION.json'
   workflow_dispatch:
 permissions:
   contents: read
@@ -25,10 +28,11 @@ jobs:
       - name: Pure-stdlib tests for original SARFA formulas and Sandmann diagnostic
         run: |
           set -euo pipefail
-          python -m py_compile harness/c3x_029_p42_r30_sarfa_section2_kernel.py harness/c3x_029_p42_r30_source_stage_override_diagnostic.py
+          python -m py_compile harness/c3x_029_p42_r30_sarfa_section2_kernel.py harness/c3x_029_p42_r30_source_stage_override_diagnostic.py harness/c3x_029_p42_r30_strategic_mapping_evidence_gate.py
           PYTHONPATH=harness python -m unittest -v \
             test_c3x_029_p42_r30_sarfa_section2_kernel \
-            test_c3x_029_p42_r30_source_stage_override_diagnostic
+            test_c3x_029_p42_r30_source_stage_override_diagnostic \
+            test_c3x_029_p42_r30_strategic_mapping_evidence_gate
       - name: Run demonstrative synthetic fixture and assert evidence boundaries
         run: |
           set -euo pipefail
@@ -54,6 +58,15 @@ jobs:
           assert b['intermediate_vs_actual_final_action'] is True
           assert b['not_source_level_causal_intervention'] is True
           print('R30_TEST_ONLY_NOT_REAL_CHESS_DATA')
+          PY
+          python harness/c3x_029_p42_r30_strategic_mapping_evidence_gate.py \
+            --input evidence/C3X_029_P42_R30_HISTORICAL_EVIDENCE_STAGE_ADMISSION.json \
+            --out public/R30_HISTORICAL_EVIDENCE_MATRIX_GATED.json
+          python - <<'PY'
+          import json
+          x=json.load(open('public/R30_HISTORICAL_EVIDENCE_MATRIX_GATED.json'))
+          assert x['n_experiments']==3 and x['n_admitted_same_world']==0
+          print('R30_HISTORICAL_CAUSAL_SEMANTIC_PROMOTION_HOLD')
           PY
           sha256sum public/*.json
       - name: Hard epistemic warning
