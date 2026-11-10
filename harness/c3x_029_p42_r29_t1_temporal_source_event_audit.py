@@ -55,8 +55,8 @@ def temporal_events(leaf, mover):
     """Eight *path* features, not static leaf-state predicates."""
     if not isinstance(leaf, chess.Board) or len(leaf.move_stack) < 2:
         raise ValueError("R29_HOLD_FULL_LEGAL_PATH_REQUIRED")
-    if leaf.turn != mover:
-        raise ValueError("R29_HOLD_FINAL_TURN_IS_NOT_ORIGINAL_ROOT_MOVER")
+    if leaf.turn != (not mover):
+        raise ValueError("R29_HOLD_FINAL_TURN_MUST_BE_OPPONENT")
     path = leaf.copy(stack=True)
     own = path.pop()
     opponent = path.pop()
