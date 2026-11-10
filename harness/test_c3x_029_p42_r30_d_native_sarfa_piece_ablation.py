@@ -44,9 +44,10 @@ class SourceSARFAContracts(unittest.TestCase):
                             for _, b in ablations for u in self.support))
 
     def test_forced_real_engine_interface_protocol(self):
-        scores, nodes = forced_q(self.board, self.support, fake_engine())
+        scores, nodes, mates = forced_q(self.board, self.support, fake_engine())
         self.assertEqual(len(scores), 3)
         self.assertEqual(nodes, 360)
+        self.assertEqual(mates, 0)
 
     def test_reject_action_support_change(self):
         b = self.board.copy(stack=True)
@@ -65,6 +66,18 @@ class SourceSARFAContracts(unittest.TestCase):
         self.assertTrue(d["piece_removal_is_not_a_reachable_chess_transition"])
         self.assertTrue(d["not_actual_source_internal_computation_intervention"])
         self.assertEqual(d["new_actual_source_nodes"], 24*120)
+        self.assertEqual(d["total_mate_surrogate_occurrences"], 0)
+
+    def test_explicit_mate_surrogate_admitted_and_counted(self):
+        engine = Mock()
+        def analyze(board, _limit, **kwargs):
+            move = kwargs["root_moves"][0]
+            return {"depth": 10, "nodes": 19, "pv": [move],
+                    "score": chess.engine.PovScore(chess.engine.Mate(2), board.turn)}
+        engine.analyse.side_effect = analyze
+        scores, _, mates = forced_q(self.board, self.support, engine)
+        self.assertEqual(mates, 3)
+        self.assertTrue(all(9990 <= value <= 10000 for value in scores.values()))
 
     def test_frozen_candidates_must_be_distinct(self):
         with self.assertRaisesRegex(ValueError, "TWO_SOURCE_ROOTS"):
