@@ -56,6 +56,17 @@ jobs:
             --predictions forecasts \
             --decoder-dir blind-per-arm \
             --out public/C3X030_R5_PARFENOVA_SYNTHETIC_EXPLANATION_CONTROL_PACKETS.json
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          files=sorted(Path("blind-per-arm").glob("R5_BLIND_ONLY_*.json"))
+          assert len(files)==5
+          for f in files:
+              obj=json.loads(f.read_text(encoding="utf-8"))
+              assert obj["no_target_labels_or_cross_arm_case_identifiers"]
+              assert len(obj["entries"])==4
+          print("R5_ALL_FIVE_BLIND_FILES_JSON_ROUNDTRIP_PASS")
+          PY
           sha256sum public/C3X030_R5_PARFENOVA_SYNTHETIC_EXPLANATION_CONTROL_PACKETS.json blind-per-arm/*.json
       - name: Validate rights and explicitly bound behavioral claim
         if: always()
