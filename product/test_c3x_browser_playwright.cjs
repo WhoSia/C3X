@@ -87,6 +87,29 @@ const path = require("path");
       throw Error("P4_HOLD_EIGHT_BRANCHES_NOT_VISIBLE");
     fs.writeFileSync(path.join(dir,"P4_BROWSER_ACTUAL_CUI_TWO_LAYER_TREE.json"),
                      JSON.stringify(tree,null,2)+"\\n");
+    // P5 actual Martin mirror contrastive-gap robustness audit. This is
+    // twelve ADDITIONAL native searches on the selected live original board.
+    if(await page.locator("#mirror").isDisabled())
+      throw Error("P5_HOLD_MIRROR_BUTTON_DISABLED");
+    const mirrorResponse=page.waitForResponse(r=>
+      r.url().includes("/api/mirror") && r.request().method()==="POST",
+      {timeout:150000});
+    await page.locator("#mirror").click();
+    const actualMirrorResponse=await mirrorResponse;
+    if(actualMirrorResponse.status()!==200)
+      throw Error("P5_HOLD_REAL_MIRROR_API_"+actualMirrorResponse.status());
+    const symmetry=await actualMirrorResponse.json();
+    if(symmetry.original_root_candidates.join(",")!=="e2e4,d2d4"||
+       !symmetry.same_semantic_root_player_perspective ||
+       Object.keys(symmetry.per_depth).length!==3)
+      throw Error("P5_HOLD_MIRROR_ROOT_PERSPECTIVE_OR_DEPTHS");
+    await page.getByText("원본·대칭 국면의 평가 차이 민감도 검색을 완료했습니다.")
+      .waitFor({timeout:150000});
+    if(await page.locator("#mirrorResult").isHidden() ||
+       await page.locator("#mirrorResult tbody tr").count()!==3)
+      throw Error("P5_HOLD_MIRROR_THREE_DEPTH_ROWS_NOT_RENDERED");
+    fs.writeFileSync(path.join(dir,"P5_BROWSER_REAL_MARTIN_MIRROR_GAP.json"),
+                     JSON.stringify(symmetry,null,2)+"\\n");
     await page.screenshot({path:path.join(dir,"P3_BROWSER_NATIVE_ENGINE_SCREENSHOT.png"),
                            fullPage:true});
     if(errors.length)throw Error("P3V_HOLD_BROWSER_JS_ERRORS: "+errors.join("; "));
@@ -107,6 +130,8 @@ const path = require("path");
       desktop_and_mobile_screenshots_saved:true,
       actual_p4_strategy_two_layer_leaves:8,
       actual_p4_tree_visible:true,
+      actual_p5_mirror_depths:3,
+      actual_p5_mirror_renderer:true,
       browser_exceptions:errors.length
     }));
   } finally {
