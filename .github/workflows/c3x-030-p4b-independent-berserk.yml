@@ -1,0 +1,91 @@
+name: C3X 0.30 P4-B Berserk independent judge on SHA-frozen 8 Cui leaves
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/c3x-030-p4b-independent-berserk.yml'
+      - 'product/c3x_independent_strategy_judge.py'
+      - 'product/test_c3x_independent_strategy_judge.py'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  real-independent-berserk-16-source-blind-searches:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 65
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Strict referee and source provenance tests
+        run: |
+          set -euo pipefail
+          python -m pip install -q chess==1.11.2
+          PYTHONPATH=product python -m unittest -v \
+            test_c3x_independent_strategy_judge \
+            test_c3x_recursive_strategy \
+            test_c3x_explain_two_moves \
+            test_c3x_concept_contrast \
+            test_c3x_local_web
+      - uses: actions/download-artifact@v4
+        with:
+          name: c3x030-p4-source-only-real-Cui-two-layer-2x2x2-leaves
+          repository: WhoSia/C3X
+          run-id: '42790485394'
+          path: frozen/
+          github-token: ${{ github.token }}
+      - name: EXACT original 8 source-only leaf paths frozen before referee
+        run: |
+          set -euo pipefail
+          echo '12889ac4239368b4c687a3ac7f3fb8fdff007bf03f04a31ace801d8ce2959f4e  frozen/C3X_P4_CUI_SOURCE_TWO_ROOT_TWO_OPPONENT_LAYER.json' | sha256sum -c -
+      - name: Build independent Berserk14 and verify original NNUE network SHA
+        run: |
+          set -euo pipefail
+          git clone -q https://github.com/jhonnold/berserk.git /tmp/c3x-p4b-berserk
+          git -C /tmp/c3x-p4b-berserk checkout -q 8ae895a6151695be4a50d4fb65b0c131659c513a
+          test "$(git -C /tmp/c3x-p4b-berserk rev-parse HEAD)" = 8ae895a6151695be4a50d4fb65b0c131659c513a
+          NET=/tmp/c3x-p4b-berserk/src/berserk-9b84c340af7e.nn
+          if ! curl --fail --location --retry 4 --retry-delay 6 --max-time 180 \
+                -H 'Accept: application/octet-stream' \
+                -H 'X-GitHub-Api-Version: 2022-11-28' \
+                -o "$NET" \
+                https://api.github.com/repos/jhonnold/berserk/releases/assets/428781485; then
+            curl --fail --location --retry 5 --retry-delay 10 --max-time 180 \
+              -o "$NET" \
+              https://github.com/jhonnold/berserk/releases/download/14/berserk-9b84c340af7e.nn
+          fi
+          echo '9b84c340af7e45f6e07f0046235ccb327f4ae0840c8ee2c4b97b99121e5c5084  /tmp/c3x-p4b-berserk/src/berserk-9b84c340af7e.nn' | sha256sum -c -
+          make -s -C /tmp/c3x-p4b-berserk/src -j2 all ARCH=x86-64 CC=gcc
+          test -x /tmp/c3x-p4b-berserk/src/berserk
+      - name: ACTUAL 8 source-selected leaves x Berserk depth10 and depth12
+        run: |
+          set -euo pipefail
+          mkdir -p public
+          PYTHONPATH=product python -u product/c3x_independent_strategy_judge.py \
+            --source-tree frozen/C3X_P4_CUI_SOURCE_TWO_ROOT_TWO_OPPONENT_LAYER.json \
+            --source-sha 12889ac4239368b4c687a3ac7f3fb8fdff007bf03f04a31ace801d8ce2959f4e \
+            --berserk /tmp/c3x-p4b-berserk/src/berserk \
+            --nnue /tmp/c3x-p4b-berserk/src/berserk-9b84c340af7e.nn \
+            --out public/P4_BERSERK_INDEPENDENT_EIGHT_LEAVES_SIXTEEN_SEARCHES.json
+          sha256sum public/P4_BERSERK_INDEPENDENT_EIGHT_LEAVES_SIXTEEN_SEARCHES.json
+      - name: Rights and bounded study scope
+        if: always()
+        run: |
+          set -euo pipefail
+          mkdir -p public
+          if test -f public/P4_BERSERK_INDEPENDENT_EIGHT_LEAVES_SIXTEEN_SEARCHES.json; then
+            python tools/c3x_023_rights_preupload_gate.py \
+              --tier P2_AGGREGATE_SUMMARY \
+              --file public/P4_BERSERK_INDEPENDENT_EIGHT_LEAVES_SIXTEEN_SEARCHES.json \
+              --report /tmp/P4B_RIGHTS_INTERNAL.json
+          fi
+          echo 'Source Stockfish16 selected every node in Cui-inspired two-opponent-layer k2 tree BEFORE any independent referee. Source immutable SHA exact. Berserk14 other engine family independently evaluates only the eight preselected leaves at depths 10/12; sixteen real searches. This is NOT full worst-case opponent universe, original Cui TEPP human evaluation, original Stockfish internal calculation causality or chess.com educational superiority. Original starting FEN e4/d4 not a new held-out game.' > public/SCIENTIFIC_SCOPE.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x030-p4b-actual-independent-Berserk16-searches-frozen-Cui-tree
+          path: public/*
+          if-no-files-found: warn
