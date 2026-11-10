@@ -1,0 +1,66 @@
+name: C3X 0.30 R6-C genuine chess semantic leakage in masked move explanations
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/c3x-030-r6c-semantic-mask-audit.yml'
+      - 'harness/c3x_030_r6c_masked_semantic_information_audit.py'
+      - 'harness/test_c3x_030_r6c_masked_semantic_information_audit.py'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  original-masked-history-all-legal-counterfactual-support:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Verify rule-based semantic leakage and fail-closed tests
+        run: |
+          set -euo pipefail
+          python -m pip install -q chess==1.11.2
+          PYTHONPATH=harness python -m unittest -v test_c3x_030_r6c_masked_semantic_information_audit
+      - uses: actions/download-artifact@v4
+        with:
+          name: c3x030-r5-parfenova-source-history-mask-20-PROTOCOL-packets
+          repository: WhoSia/C3X
+          run-id: '42755543672'
+          path: r5/
+          github-token: ${{ github.token }}
+      - name: Strict old original audit byte seal, no opponent/score re-ranking
+        run: |
+          set -euo pipefail
+          echo '4221f90ed5ab86ef38b05e47d248f5906048c7c5812d0430c2c48fc680760f0b  r5/public/C3X030_R5_PARFENOVA_SYNTHETIC_EXPLANATION_CONTROL_PACKETS.json' | sha256sum -c -
+      - name: Enumerate all actual legal actions under every masked synthetic truth claim
+        run: |
+          set -euo pipefail
+          mkdir -p public
+          PYTHONPATH=harness python -u harness/c3x_030_r6c_masked_semantic_information_audit.py \
+            --audit r5/public/C3X030_R5_PARFENOVA_SYNTHETIC_EXPLANATION_CONTROL_PACKETS.json \
+            --out public/C3X030_R6C_MASKED_SEMANTIC_INFORMATION_AUDIT.json
+          sha256sum public/C3X030_R6C_MASKED_SEMANTIC_INFORMATION_AUDIT.json
+      - name: Rights and epistemic scope
+        if: always()
+        run: |
+          set -euo pipefail
+          mkdir -p public
+          if test -f public/C3X030_R6C_MASKED_SEMANTIC_INFORMATION_AUDIT.json; then
+            python tools/c3x_023_rights_preupload_gate.py \
+              --tier P2_AGGREGATE_SUMMARY \
+              --file public/C3X030_R6C_MASKED_SEMANTIC_INFORMATION_AUDIT.json \
+              --report /tmp/R6C_PRIVATE_RIGHTS.json
+          fi
+          echo 'Parfenova original owned Drive PDF; R5 synthetic masked explanations retain ACT-Eval-grounded capture/check facts. R6C enumerates ALL genuinely legal candidate moves and reports information-theoretic reduction, not an LLM behavioral score, not an original maximal-mask validation, no new source/independent referee calls, no natural C3X mediation.' > public/SCIENTIFIC_SCOPE.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x030-r6c-masked-semantic-legal-action-leak-audit
+          path: |
+            public/C3X030_R6C_MASKED_SEMANTIC_INFORMATION_AUDIT.json
+            public/SCIENTIFIC_SCOPE.txt
+          if-no-files-found: warn
