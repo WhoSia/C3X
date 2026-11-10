@@ -4,7 +4,7 @@ import unittest
 import chess
 
 from c3x_030_r5_parfenova_move_mask_control_protocol import (
-    mask_explicit_hints, packet, demonstrate, MOVE_HINT, CONTROL_NAMES)
+    mask_explicit_hints, packet, demonstrate, blind_decoder_batches, MOVE_HINT, CONTROL_NAMES)
 
 
 class ExplicitMoveLeakageContracts(unittest.TestCase):
@@ -70,6 +70,38 @@ class ExplicitMoveLeakageContracts(unittest.TestCase):
         self.assertEqual(result["n_candidate_moves"],4)
         self.assertTrue(result["no_decoder_or_token_probability_model_called"])
         self.assertTrue(result["strict_mask_is_regex_approximation_not_original_maximal_semantic_mask"])
+
+    def test_blind_export_drops_all_ground_truth_case_identifiers(self):
+        cases=[]
+        for i in range(2):
+            cases.append(({"case_id":f"synthetic-{i}","event_family":f"family-{i}"},
+                          chess.Board(),[{"root":"e2e4"},{"root":"d2d4"}]))
+        audit=demonstrate(cases)
+        batches=blind_decoder_batches(audit)
+        self.assertEqual(set(batches),set(CONTROL_NAMES))
+        for arm,batch in batches.items():
+            self.assertEqual(len(batch["entries"]),4)
+            self.assertTrue(batch["no_target_labels_or_cross_arm_case_identifiers"])
+            self.assertEqual(set(batch),{
+                "schema","condition","entries",
+                "no_target_labels_or_cross_arm_case_identifiers",
+                "requires_isolated_decoder_context_no_cross_arm_visibility",
+                "no_decoder_executed"})
+            for entry in batch["entries"]:
+                self.assertEqual(set(entry),{"fen","explanation"})
+            if arm!="fen_plus_unmasked":
+                self.assertNotIn("e2e4",str(batch))
+                self.assertNotIn("d2d4",str(batch))
+
+    def test_bad_masked_decoder_export_rejected(self):
+        cases=[]
+        for i in range(2):
+            cases.append(({"case_id":f"synthetic-{i}","event_family":f"family-{i}"},
+                          chess.Board(),[{"root":"e2e4"},{"root":"d2d4"}]))
+        audit=demonstrate(cases)
+        audit["cases"][0]["candidate_control_packets"][0]["conditions"]["fen_plus_strict_masked"]["explanation"]="Play e2e4"
+        with self.assertRaisesRegex(ValueError,"MASKED_DECODER_HINT"):
+            blind_decoder_batches(audit)
 
     def test_foils_must_be_distinct_worlds(self):
         b=chess.Board()
