@@ -1,0 +1,78 @@
+name: C3X 0.30 R5 Parfenova move masking and ACT-Eval true-fact packets
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/c3x-030-r5-parfenova-mask-controls.yml'
+      - 'harness/c3x_030_r5_parfenova_move_mask_control_protocol.py'
+      - 'harness/test_c3x_030_r5_parfenova_move_mask_control_protocol.py'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  real-chess-move-exposure-controls-no-decoder:
+    runs-on: ubuntu-latest
+    timeout-minutes: 16
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Chess rules only on CI; masking and independent ACT-Eval fact controls
+        run: |
+          set -euo pipefail
+          python -m pip install -q chess==1.11.2
+          python -m py_compile harness/c3x_030_r5_parfenova_move_mask_control_protocol.py
+          PYTHONPATH=harness python -m unittest -v \
+            test_c3x_030_r5_parfenova_move_mask_control_protocol \
+            test_c3x_030_r4_acteval_symbolic_claim_verifier
+      - uses: actions/download-artifact@v4
+        with:
+          name: c3x-p37-r1-oct-eight-distinct-events-original-pgn-and-engine-blind-freeze
+          repository: WhoSia/C3X
+          run-id: '41968008046'
+          path: source/
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: c3x-p37-r2-pre-referee-eight-event-three-rival-predictions
+          repository: WhoSia/C3X
+          run-id: '41969173637'
+          path: forecasts/
+          github-token: ${{ github.token }}
+      - name: Immutable source provenance before explanation/controls
+        run: |
+          set -euo pipefail
+          echo '77ebaa409e7c2099cc6cce3419c2f55ded295d925ab441dc2d13c16b67c2c361  source/P37_R1_8_EVENT_8_GAME_SOURCE_ONLY_MANIFEST.json' | sha256sum -c -
+          echo 'da395f0eb16e7b294af2056dadd92b579770aa8f1ae288d1d358132685807051  forecasts/P37_R2_THREE_RIVAL_PRE_REFERENCE_PREDICTIONS.json' | sha256sum -c -
+      - name: Real source histories; label-blind protocol with 5 test condition packets
+        run: |
+          set -euo pipefail
+          mkdir -p public
+          PYTHONPATH=harness python -u harness/c3x_030_r5_parfenova_move_mask_control_protocol.py \
+            --source source \
+            --predictions forecasts \
+            --out public/C3X030_R5_PARFENOVA_SYNTHETIC_EXPLANATION_CONTROL_PACKETS.json
+          sha256sum public/C3X030_R5_PARFENOVA_SYNTHETIC_EXPLANATION_CONTROL_PACKETS.json
+      - name: Validate rights and explicitly bound behavioral claim
+        if: always()
+        run: |
+          set -euo pipefail
+          mkdir -p public
+          if test -f public/C3X030_R5_PARFENOVA_SYNTHETIC_EXPLANATION_CONTROL_PACKETS.json; then
+            python tools/c3x_023_rights_preupload_gate.py \
+              --tier P2_AGGREGATE_SUMMARY \
+              --file public/C3X030_R5_PARFENOVA_SYNTHETIC_EXPLANATION_CONTROL_PACKETS.json \
+              --report /tmp/R5_PRIVATE_RIGHTS.json
+          fi
+          echo '0.30 R5: original Parfenova 2026 v1 Drive PDF. Artificial template-generated chess commentary and 5 experimental condition *PACKETS* on real SHA-frozen historic positions: FEN only, explanation only, unmasked, masked and unrelated cross-game foil. Regex lexical masking is NOT a guarantee of complete semantic move-hint removal. NO actual decoder was run, no 200-puzzle original dataset, no all-legal next-token probabilities, no real LLM-generated explanation or experiment on behavioral faithfulness. ACT-Eval factual assertions true by construction. No original source causation. Read-only CI and no bot-authored commits.' > public/SCIENTIFIC_SCOPE.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x030-r5-parfenova-source-history-mask-20-PROTOCOL-packets
+          path: |
+            public/C3X030_R5_PARFENOVA_SYNTHETIC_EXPLANATION_CONTROL_PACKETS.json
+            public/SCIENTIFIC_SCOPE.txt
+          if-no-files-found: warn
