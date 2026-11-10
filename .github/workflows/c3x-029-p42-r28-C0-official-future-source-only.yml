@@ -1,5 +1,9 @@
 name: C3X P42-R28-C0 official precommitted Lichess round source-only PGN census
 on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/c3x-029-p42-r28-C0-official-future-source-only.yml'
   workflow_dispatch:
 permissions:
   contents: read
