@@ -34,6 +34,7 @@ SCHEMA = "c3x042-r30-d-source-native-sarfa-paper-piece-removal-v1"
 DEPTH = 10
 N_REMOVALS = 3
 TEMPERATURE_CP = 100.0
+MATE_SURROGATE_CP = 10000  # explicit arbitrary finite proxy, NOT chess truth
 
 
 def sha(path):
@@ -84,6 +85,7 @@ def forced_q(board, support, eng, depth=DEPTH):
         raise ValueError("R30_D_HOLD_Q_ON_INVALID_STATIC_BOARD")
     scores = {}
     nodes = 0
+    mate_substitutions = 0
     for u in support:
         move = chess.Move.from_uci(u)
         if move not in board.legal_moves:
@@ -95,8 +97,8 @@ def forced_q(board, support, eng, depth=DEPTH):
         if (type(info.get("depth")) is not int or info["depth"] < depth
             or type(info.get("nodes")) is not int or info["nodes"] <= 0
             or not isinstance(pv, list) or not pv or pv[0] != move
-            or value is None or value.pov(board.turn).is_mate()
-            or type(value.pov(board.turn).score()) is not int):
+            or value is None
+            or type(value.pov(board.turn).score(mate_score=MATE_SURROGATE_CP)) is not int):
             raise ValueError("R30_D_HOLD_FINITE_FORCED_SOURCE_Q:" + json.dumps({
                 "forced_root": u,
                 "depth": info.get("depth"),
@@ -105,9 +107,14 @@ def forced_q(board, support, eng, depth=DEPTH):
                 "score_mate": value.pov(board.turn).is_mate() if value else None,
                 "score_cp": value.pov(board.turn).score() if value else None,
             }, sort_keys=True))
-        scores[u] = value.pov(board.turn).score()
+        # SARFA assumes numeric Q. Real chess engines also report mate scores.
+        # For this method-only probe, an explicit bounded numeric SURROGATE
+        # is used and counted, not silently reported as ordinary centipawns.
+        if value.pov(board.turn).is_mate():
+            mate_substitutions += 1
+        scores[u] = value.pov(board.turn).score(mate_score=MATE_SURROGATE_CP)
         nodes += info["nodes"]
-    return scores, nodes
+    return scores, nodes, mate_substitutions
 
 
 def run(worlds, eng):
@@ -115,10 +122,10 @@ def run(worlds, eng):
     for source, board, roots in worlds:
         support = support_three(board, roots)
         static, perturbations = supported_removals(board, support)
-        original, original_nodes = forced_q(static, support, eng)
+        original, original_nodes, original_mates = forced_q(static, support, eng)
         trials = []
         for sq, changed in perturbations:
-            changed_q, changed_nodes = forced_q(changed, support, eng)
+            changed_q, changed_nodes, changed_mates = forced_q(changed, support, eng)
             attrib = {u: sarfa(original, changed_q, u, TEMPERATURE_CP)
                       for u in support[:2]}
             trials.append({
@@ -127,6 +134,7 @@ def run(worlds, eng):
                 "original_support_preserved": True,
                 "changed_q_root_mover_cp": changed_q,
                 "source_forced_nodes": changed_nodes,
+                "source_mate_score_surrogates": changed_mates,
                 "sarfa_for_two_original_frozen_root_alternatives": attrib,
             })
         cases.append({
@@ -136,6 +144,7 @@ def run(worlds, eng):
             "support_count": len(support),
             "original_forced_q_root_mover_cp": original,
             "original_forced_nodes": original_nodes,
+            "original_mate_score_surrogates": original_mates,
             "perturbations": trials,
         })
         print("R30_D_REAL_SARFA_PILOT", source["event_family"],
@@ -144,6 +153,8 @@ def run(worlds, eng):
         "schema": SCHEMA, "status": "REAL_SOURCE_CHESS_PIECE_ABLATION_METHOD_PILOT_ONLY",
         "source_commit": SF_COMMIT, "source_nnue": False,
         "source_forced_depth": DEPTH, "cp_to_softmax_temperature": TEMPERATURE_CP,
+        "mate_surrogate_cp": MATE_SURROGATE_CP,
+        "surrogate_is_arbitrary_and_not_calibrated_chess_value": True,
         "temperature_not_calibrated_to_RL_Q": True,
         "historically_postselected_root_worlds": True,
         "original_full_game_history_erased_for_static_probe": True,
@@ -153,6 +164,10 @@ def run(worlds, eng):
         "not_natural_mediation_or_chess_truth": True,
         "new_actual_engine_calls": sum(
             (1 + len(c["perturbations"])) * c["support_count"] for c in cases),
+        "total_mate_surrogate_occurrences": sum(
+            c["original_mate_score_surrogates"] +
+            sum(x["source_mate_score_surrogates"] for x in c["perturbations"])
+            for c in cases),
         "new_actual_source_nodes": sum(
             c["original_forced_nodes"] +
             sum(x["source_forced_nodes"] for x in c["perturbations"]) for c in cases),
