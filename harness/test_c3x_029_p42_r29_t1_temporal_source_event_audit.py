@@ -11,6 +11,10 @@ from c3x_029_p42_r29_t1_temporal_source_event_audit import (
 
 def fixtures():
     worlds, judged = synthetic_court()
+    # The legacy R27 synthetic fixture deliberately uses one event label for
+    # both cases; actual research input has two distinct source event labels.
+    worlds[1][0]["event_family"] = "synthetic_second_game"
+    judged["cases"][1]["event_family"] = "synthetic_second_game"
     return worlds, old_audit(worlds, judged)
 
 
@@ -48,7 +52,8 @@ class TemporalContracts(unittest.TestCase):
 
     def test_reject_wrong_final_side_to_move(self):
         b = chess.Board()
-        b.push_uci("e2e4")
+        for move in ("e2e4", "e7e5"):
+            b.push_uci(move)
         with self.assertRaisesRegex(ValueError, "FINAL_TURN"):
             temporal_events(b, chess.WHITE)
 
