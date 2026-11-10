@@ -1,0 +1,120 @@
+name: C3X 0.30 R7 actual Qwen all-legal UCI teacher-forced token ranking
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/c3x-030-r7-all-legal-qwen-scores.yml'
+      - 'harness/c3x_030_r7s_blind_all_legal_support_freeze.py'
+      - 'harness/c3x_030_r7a_real_qwen_all_legal_token_scorer.py'
+      - 'harness/c3x_030_r7b_posthoc_all_legal_rank_evaluator.py'
+      - 'harness/test_c3x_030_r7_all_legal_likelihood_contracts.py'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  full-legal-source-blind-real-model-token-likelihood:
+    runs-on: ubuntu-latest
+    timeout-minutes: 95
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Validate source-blind move support, score/rank contracts
+        run: |
+          set -euo pipefail
+          python -m pip install -q chess==1.11.2
+          python -m py_compile \
+            harness/c3x_030_r7s_blind_all_legal_support_freeze.py \
+            harness/c3x_030_r7a_real_qwen_all_legal_token_scorer.py \
+            harness/c3x_030_r7b_posthoc_all_legal_rank_evaluator.py
+          PYTHONPATH=harness python -m unittest -v test_c3x_030_r7_all_legal_likelihood_contracts
+      - uses: actions/download-artifact@v4
+        with:
+          name: c3x030-r5-parfenova-source-history-mask-20-PROTOCOL-packets
+          repository: WhoSia/C3X
+          run-id: '42755543672'
+          path: r5/
+          github-token: ${{ github.token }}
+      - name: SHA lock all original R5 experimental arm bytes and truth
+        run: |
+          set -euo pipefail
+          echo '4221f90ed5ab86ef38b05e47d248f5906048c7c5812d0430c2c48fc680760f0b  r5/public/C3X030_R5_PARFENOVA_SYNTHETIC_EXPLANATION_CONTROL_PACKETS.json' | sha256sum -c -
+          echo '71497e2bdbb7e240eaf1cb6a29e1bf3d8d4e19ce0e0a9fe02e9e9bafece5aea5  r5/blind-per-arm/R5_BLIND_ONLY_explanation_only.json' | sha256sum -c -
+          echo '3709dd687f468170af80446f7ebe853b51328a866161c572597b96abf0504bbc  r5/blind-per-arm/R5_BLIND_ONLY_fen_only.json' | sha256sum -c -
+          echo '178a33cfbe5b722d54aa7fb22de4d440bbc06df5d079465bea7188aab2db4de8  r5/blind-per-arm/R5_BLIND_ONLY_fen_plus_strict_masked.json' | sha256sum -c -
+          echo '9a245d1066fa05f4822d34e0c5208851e09f746d9099375b205198b50191d4f6  r5/blind-per-arm/R5_BLIND_ONLY_fen_plus_unmasked.json' | sha256sum -c -
+          echo '20ab9f46fca00b1f6fdb2f0483b8554f0c6bb7aba6dc37be4484528f4233795e  r5/blind-per-arm/R5_BLIND_ONLY_fen_plus_unrelated_foil.json' | sha256sum -c -
+      - name: Generate legal UCI hypotheses from FEN-only BLIND input, NEVER from truth labels
+        run: |
+          set -euo pipefail
+          mkdir -p support
+          PYTHONPATH=harness python -u harness/c3x_030_r7s_blind_all_legal_support_freeze.py \
+            --fen-only r5/blind-per-arm/R5_BLIND_ONLY_fen_only.json \
+            --out support/R7_ORIGINAL_ALL_LEGAL_BLIND_SUPPORT.json
+          sha256sum support/*.json
+      - name: Load pinned original open Qwen2.5-0.5B CPU model
+        run: |
+          set -euo pipefail
+          python -m pip install -q --index-url https://download.pytorch.org/whl/cpu 'torch==2.5.1'
+          python -m pip install -q 'transformers==4.47.1' 'huggingface-hub==0.27.1' 'accelerate==1.2.1' 'safetensors==0.4.5'
+          python - <<'PY'
+          import torch, transformers
+          assert torch.__version__.startswith('2.5.1')
+          assert transformers.__version__ == '4.47.1'
+          print('SOURCE_MODEL_SHA_7ae557604adf67be50417f59c2c2f167def9a775')
+          PY
+      - name: REAL model teacher-forced log-probability for ALL legal UCI moves under five isolated contexts
+        env:
+          HF_HUB_DISABLE_TELEMETRY: '1'
+          HF_HUB_DISABLE_PROGRESS_BARS: '1'
+          TOKENIZERS_PARALLELISM: 'false'
+          OMP_NUM_THREADS: '2'
+        run: |
+          set -euo pipefail
+          mkdir -p scores
+          for arm in fen_only explanation_only fen_plus_unmasked fen_plus_strict_masked fen_plus_unrelated_foil; do
+            echo "BEGIN_REAL_R7_ALL_LEGAL_MODEL_ARM $arm"
+            PYTHONPATH=harness python -u harness/c3x_030_r7a_real_qwen_all_legal_token_scorer.py \
+              --arm "$arm" \
+              --input "r5/blind-per-arm/R5_BLIND_ONLY_${arm}.json" \
+              --legal-support support/R7_ORIGINAL_ALL_LEGAL_BLIND_SUPPORT.json \
+              --out "scores/R7_ALL_LEGAL_${arm}.json"
+            echo "FINISHED_REAL_R7_ALL_LEGAL_MODEL_ARM $arm"
+          done
+          sha256sum scores/*.json
+      - name: ONLY AFTER all five scored files, compare to original nominated candidate labels
+        run: |
+          set -euo pipefail
+          test "$(find scores -name 'R7_ALL_LEGAL_*.json' | wc -l)" -eq 5
+          mkdir -p public
+          PYTHONPATH=harness python -u harness/c3x_030_r7b_posthoc_all_legal_rank_evaluator.py \
+            --audit r5/public/C3X030_R5_PARFENOVA_SYNTHETIC_EXPLANATION_CONTROL_PACKETS.json \
+            --score-dir scores \
+            --legal-support support/R7_ORIGINAL_ALL_LEGAL_BLIND_SUPPORT.json \
+            --out public/C3X030_R7_ACTUAL_FIVE_ARM_ALL_LEGAL_UCI_TOPK.json
+          sha256sum public/C3X030_R7_ACTUAL_FIVE_ARM_ALL_LEGAL_UCI_TOPK.json
+      - name: Rights and science limits
+        if: always()
+        run: |
+          set -euo pipefail
+          mkdir -p public
+          if test -f public/C3X030_R7_ACTUAL_FIVE_ARM_ALL_LEGAL_UCI_TOPK.json; then
+            python tools/c3x_023_rights_preupload_gate.py \
+              --tier P2_AGGREGATE_SUMMARY \
+              --file public/C3X030_R7_ACTUAL_FIVE_ARM_ALL_LEGAL_UCI_TOPK.json \
+              --report /tmp/R7_PRIVATE_RIGHTS.json
+          fi
+          echo 'R7 original primary Parfenova 2026 Drive PDF. True source-blind Qwen2.5 0.5B token-level UCI rankings of ALL original legal candidates in five contexts, but four old historical source-nominated target moves and two non-independent distinct boards; R5 commentary entirely synthetic. All-legal set for explanation-only arm supplied separately from FEN-only BLIND board and is NOT shown in model prompt. UCI continuation prefixed with a space, no EOS; summed token log probabilities primary, length-normalized secondary. No original 200 endgame puzzles, no independent gold reference moves, no user or human evaluation, no source chess engine mediation. Original 7/8 prospective cohort HOLD.' > public/SCIENTIFIC_SCOPE.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x030-r7-real-Qwen-ALL-legal-five-arm-token-likelihood
+          path: |
+            support/*.json
+            scores/*.json
+            public/C3X030_R7_ACTUAL_FIVE_ARM_ALL_LEGAL_UCI_TOPK.json
+            public/SCIENTIFIC_SCOPE.txt
+          if-no-files-found: warn
