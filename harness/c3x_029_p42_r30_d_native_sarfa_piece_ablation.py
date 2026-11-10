@@ -97,7 +97,14 @@ def forced_q(board, support, eng, depth=DEPTH):
             or not isinstance(pv, list) or not pv or pv[0] != move
             or value is None or value.pov(board.turn).is_mate()
             or type(value.pov(board.turn).score()) is not int):
-            raise ValueError("R30_D_HOLD_FINITE_FORCED_SOURCE_Q")
+            raise ValueError("R30_D_HOLD_FINITE_FORCED_SOURCE_Q:" + json.dumps({
+                "forced_root": u,
+                "depth": info.get("depth"),
+                "nodes": info.get("nodes"),
+                "pv_first": pv[0].uci() if isinstance(pv, list) and pv else None,
+                "score_mate": value.pov(board.turn).is_mate() if value else None,
+                "score_cp": value.pov(board.turn).score() if value else None,
+            }, sort_keys=True))
         scores[u] = value.pov(board.turn).score()
         nodes += info["nodes"]
     return scores, nodes
