@@ -1,5 +1,11 @@
 # C3X — Counterfactual Contrastive Chess eXplanation
 
+## 2026-11-10 — URGENT primary-literature inventory correction: three supposed "missing" PDFs WERE in Drive 00
+
+Directly inspected authentic PDF bytes/text and file parent metadata for ALL THREE primary articles in the SAME Drive [`00` folder](https://drive.google.com/drive/folders/1MLtYh0pv8QUZDReYzRqjDrOjRkSJAD16): [SARFA **1912.12191v4.pdf**](https://drive.google.com/file/d/1C_c0AvNkEtzB2z6Nbji_NdRxlRpODgjs/view), [Sandmann–Lapuschkin–Samek **2508.21380v4.pdf**](https://drive.google.com/file/d/1dAF7reY9DpwBlZFERxrF54qSNYOLbRi0/view), [Ciancarini–Pareschi **2609.18286v1.pdf**](https://drive.google.com/file/d/1OxYGSk2bmFD4Rdr0tXHJPAWT_w-wkMyF/view). **These three are OWNED and readable.** Prior R28/R29 and earlier notes calling them "Drive missing" are WRONG and superseded. Never infer absent original primary PDF until searching BOTH version-numeric filenames and actual `00` folder children. The primary reference identity and version must be checked from first page. Do not mistakenly count mentions in other documents as originals, nor ignore actual version-number-named original PDFs. Existing R28/R29 research reports corrected.
+
+---
+
 ## 2026-11-10 — P42/R29: true path-event predicates fail to rescue nearby-negative explanation (exploratory)
 
 **Method inherits actually held and read originals** [Press & Golubev's BinProp original PDF](https://drive.google.com/file/d/1gfmfug6814iYSEN3CkSF1xcsiG9uGTx6/view), [Cui/Ling/Ng original PDF](https://drive.google.com/file/d/19zqCJXM631qasR9uIyg4GuBZxIBO7czw/view), [Parfenova original PDF](https://drive.google.com/file/d/1pNg13f4_OII1N1GUThSwB8I5ru_3Ns_R/view). Full BinProp/TEPP and source-level causal mediation remain **HOLD**.
