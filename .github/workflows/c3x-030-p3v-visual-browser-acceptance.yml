@@ -89,4 +89,5 @@ jobs:
             public/P3_BROWSER_*.png
             public/P3_BROWSER_CLICKED_DOWNLOADED_LEARNER.md
             public/P4_BROWSER_ACTUAL_CUI_TWO_LAYER_TREE.json
+            public/P5_BROWSER_REAL_MARTIN_MIRROR_GAP.json
           if-no-files-found: warn
