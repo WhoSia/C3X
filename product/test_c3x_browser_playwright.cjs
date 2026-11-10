@@ -81,8 +81,8 @@ const path = require("path");
       .waitFor({timeout:150000});
     if(await page.locator("#strategyResult").isHidden())
       throw Error("P4_HOLD_STRATEGY_TREE_HIDDEN");
-    if(await page.locator("#strategyResult > .tile").count()!==2)
-      throw Error("P4_HOLD_TWO_ROOT_PANELS");
+    if(await page.locator("#strategyResult > .tile").count()!==4)
+      throw Error("P4_P6_HOLD_TWO_STRATEGY_AND_TWO_VERIFIED_COMMENTARY_PANELS");
     if(await page.locator("#strategyResult li").count()!==8)
       throw Error("P4_HOLD_EIGHT_BRANCHES_NOT_VISIBLE");
     // P6: genuine browser rendering of the source-SAN-replayed
