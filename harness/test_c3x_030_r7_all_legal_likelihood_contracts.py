@@ -135,7 +135,7 @@ class R7EvidenceContracts(unittest.TestCase):
         self.assertTrue(out["source_nominees_not_llm_generated_move_or_gold_puzzle_reference"])
         models["fen_only"]["entries"][0]["full_summed_log_probability_ranking"].pop()
         with self.assertRaisesRegex(ValueError,"INCOMPLETE"):
-            rank_and_grade(truth,models,sup,"synthetic",support_sha)
+            rank_and_grade(truth,models,sup,R5_AUDIT_SHA,support_sha)
 
 
 if __name__=="__main__":
