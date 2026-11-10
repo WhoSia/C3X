@@ -22,6 +22,7 @@ from c3x_explain_two_moves import generate, make_markdown, verify_board_and_pair
 from c3x_concept_contrast import contrast, markdown_append
 from c3x_recursive_strategy import produce as produce_two_layer_strategy
 from c3x_metamorphic_gap_audit import case_analysis as analyze_mirror_gap
+from c3x_evidence_strategy_commentary import annotate as source_plan_commentary
 
 SCHEMA = "c3x030-p3-local-interactive-product-v1"
 MAX_POST_BYTES = 4096
@@ -198,6 +199,7 @@ def create_handler(engine_path):
                                 report = produce_two_layer_strategy(
                                     request["fen"], request["move_a"],
                                     request["move_b"], engine, k=2, depth=8)
+                                report["evidence_verified_strategy_explanation"] = source_plan_commentary(report)
                             elif path.path == "/api/mirror":
                                 report = analyze_mirror_gap(
                                     request["fen"], request["move_a"],
