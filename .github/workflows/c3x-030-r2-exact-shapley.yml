@@ -1,0 +1,50 @@
+name: C3X 0.30 R2 owned Spinnato exact Shapley kernel contract
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/c3x-030-r2-exact-shapley.yml'
+      - 'harness/c3x_030_r2_exact_piece_shapley_kernel.py'
+      - 'harness/test_c3x_030_r2_exact_piece_shapley_kernel.py'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  exact-small-coalition-method-reproduction:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Owned Spinnato method tests with stdlib only
+        run: |
+          set -euo pipefail
+          python -m py_compile harness/c3x_030_r2_exact_piece_shapley_kernel.py
+          PYTHONPATH=harness python -m unittest -v test_c3x_030_r2_exact_piece_shapley_kernel
+      - name: Pure synthetic interaction example
+        run: |
+          set -euo pipefail
+          mkdir -p public
+          echo '{"feature_names":["a","b"],"coalition_values":{"0":0,"1":0,"2":0,"3":6}}' > /tmp/c3x030-r2-synthetic.json
+          python harness/c3x_030_r2_exact_piece_shapley_kernel.py \
+            --input /tmp/c3x030-r2-synthetic.json \
+            --out public/C3X030_R2_SYNTHETIC_INTERACTION_SHAPLEY.json
+          python - <<'PY'
+          import json
+          z=json.load(open('public/C3X030_R2_SYNTHETIC_INTERACTION_SHAPLEY.json'))
+          assert z["piece_feature_shapley_values"] == {"a":3.0,"b":3.0}
+          assert z["full_chess_SHAP_reproduction"] is False
+          print("R2_SHAPLEY_INTERACTION_SPLIT_DEMONSTRATED_SYNTHETIC_ONLY")
+          PY
+          sha256sum public/*.json
+      - name: Epistemic and rights scope notice
+        run: |
+          echo 'Original Spinnato 2025 owned Drive PDF. Exact small finite coalition Shapley kernel; not the paper original approximate 10000 perturbation chess benchmark. Numeric fixture only, no original Stockfish 17.1 and no natural source cause.' > public/SCIENTIFIC_SCOPE.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: c3x030-r2-exact-synthetic-piece-shapley-kernel
+          path: public/
