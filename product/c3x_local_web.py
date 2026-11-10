@@ -179,6 +179,10 @@ def create_handler(engine_path):
                     self._json(200, report)
                 else:
                     request = request_payload(raw)
+                    # Reject malformed / illegal requests before opening ANY
+                    # native chess-engine process.
+                    verify_board_and_pair(request["fen"],
+                                          request["move_a"], request["move_b"])
                     # Synchronous request is deliberately serialized by mutex.
                     # Do not return plausible synthetic results when UCI fails.
                     with engine_mutex:
