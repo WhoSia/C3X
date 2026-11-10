@@ -105,7 +105,9 @@ const path = require("path");
       rendered_tactical_and_concept_reports:true,
       downloaded_markdown_real:true,
       desktop_and_mobile_screenshots_saved:true,
-      actual_p4_strategy_two_layer_leaves:8,\n      actual_p4_tree_visible:true,\n      browser_exceptions:errors.length
+      actual_p4_strategy_two_layer_leaves:8,
+      actual_p4_tree_visible:true,
+      browser_exceptions:errors.length
     }));
   } finally {
     await browser.close();
