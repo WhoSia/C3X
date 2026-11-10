@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>C3X — 두 수의 차이를 설명하다</title>
+<style>
+:root{color-scheme:dark;--bg:#0c1220;--surface:#151f32;--border:#2b3951;--text:#edf2f8;--muted:#aebbd0;--accent:#78bdff;--gold:#efbf74;--good:#99dac7}
+*{box-sizing:border-box}body{font:15px/1.52 system-ui,-apple-system,"Malgun Gothic",sans-serif;background:radial-gradient(circle at 0 0,#19304c,var(--bg) 50%);color:var(--text);margin:0}
+main{max-width:1220px;margin:0 auto;padding:30px 24px 60px}header{display:flex;justify-content:space-between;gap:16px;align-items:center;border-bottom:1px solid var(--border);padding-bottom:20px;margin-bottom:24px}
+h1{font-size:30px;margin:0;letter-spacing:-.6px}h2{font-size:19px;margin:4px 0 14px}h3{font-size:16px;margin:12px 0}p{margin:7px 0;color:var(--muted)}
+small,.small{color:var(--muted);font-size:12px}a{color:var(--accent)}.chip{display:inline-block;border:1px solid #436283;padding:5px 10px;border-radius:20px;color:var(--accent);font-size:12px}
+.layout{display:grid;grid-template-columns:minmax(280px,440px) 1fr;gap:24px}.panel{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:20px;margin-bottom:18px}
+textarea,select,input,button{font:inherit}textarea,select{width:100%;border:1px solid #455975;border-radius:9px;background:#0e1828;color:var(--text);padding:10px;outline-offset:2px}
+textarea{resize:vertical;min-height:78px}button{cursor:pointer;border-radius:10px;border:1px solid #547fa8;padding:10px 15px;background:#203b59;color:var(--text)}
+button.primary{width:100%;background:#3579b4;border-color:#65a9e3;font-weight:700}button:disabled{opacity:.5;cursor:wait}
+.row{display:flex;gap:8px;align-items:center;margin:12px 0;flex-wrap:wrap}.row>*{flex:1}.row label{font-weight:650}
+#board{display:grid;grid-template-columns:repeat(8,1fr);aspect-ratio:1;max-width:440px;width:100%;border:4px solid #5d7088;border-radius:7px;overflow:hidden;margin:0 auto}
+.square{display:grid;place-items:center;padding:0;border:0;border-radius:0;font-size:clamp(22px,3vw,39px);line-height:1;color:#121b29;text-shadow:0 1px 2px #fffd;aspect-ratio:1}
+.square.light{background:#e0e6d6}.square.dark{background:#89a59d}.square.origin{outline:3px solid #2672f6;outline-offset:-3px}.square.pick-a{box-shadow:inset 0 0 0 5px #c9782a}.square.pick-b{box-shadow:inset 0 0 0 5px #31a7c4}
+.square:focus-visible{outline:4px solid #f4c95d;outline-offset:-4px}.hidden{display:none!important}.status{padding:10px;border:1px solid #526e83;border-radius:9px;margin:10px 0;color:#dce9fd}
+.note{font-size:13px;color:var(--muted)}.kv{display:grid;grid-template-columns:1fr 1fr;gap:10px}.tile{border:1px solid var(--border);border-radius:11px;padding:12px;background:#0f192b}.tile strong{display:block;font-size:20px}.positive{color:var(--good)}.warning{color:var(--gold)}
+table{border-collapse:collapse;width:100%;font-size:14px}td,th{padding:9px;text-align:left;border-bottom:1px solid var(--border)}.branches{display:grid;grid-template-columns:1fr 1fr;gap:12px}.branches ul{padding-left:19px}
+pre{white-space:pre-wrap;overflow-wrap:anywhere;background:#0b1423;border:1px solid var(--border);border-radius:10px;padding:16px;font-size:12px;max-height:340px;overflow:auto}
+footer{font-size:12px;color:var(--muted)}@media(max-width:790px){.layout{grid-template-columns:1fr}.branches{grid-template-columns:1fr}header{align-items:flex-start;flex-direction:column}}
+</style>
+</head>
+<body>
+<main>
+<header><div><div class="chip">C3X 0.30 · P3 INTERACTIVE</div><h1>왜 이 수인가, 다른 수가 아니라?</h1><p>실제 Stockfish 검색과 검증 가능한 체스 개념으로 두 후보를 비교합니다.</p></div><div class="small">원본 엔진 계산 인과성: 아직 미입증<br>독립 심판: 미실행</div></header>
+<div class="layout">
+<section>
+<div class="panel">
+<h2>1. 체스 국면 입력</h2>
+<label for="fen">FEN</label><textarea id="fen" spellcheck="false" aria-label="체스 FEN"></textarea>
+<div class="row"><button id="load">국면 불러오기</button><button id="reset">초기 국면</button></div>
+<div id="board" role="group" aria-label="체스판, 출발 칸 다음 도착 칸을 선택하세요"></div>
+<p class="note">말을 클릭해 출발 칸을 고른 뒤, 도착 칸을 선택하세요. 선택한 수는 아래 활성화된 후보 칸에 들어갑니다. 승격은 기본적으로 퀸으로 표시하며 다른 승격은 목록에서 선택할 수 있습니다.</p>
+<p id="status" role="status" class="status">체스 엔진을 연결하는 중입니다.</p>
+</div>
+<div class="panel">
+<h2>2. 실제 두 후보 수 선택</h2>
+<div class="row"><label><input type="radio" name="target" value="a" checked> 후보 A</label><label><input type="radio" name="target" value="b"> 후보 B</label></div>
+<div class="row"><label for="moveA">후보 A</label><select id="moveA" aria-label="후보 A 합법 수"></select></div>
+<div class="row"><label for="moveB">후보 B</label><select id="moveB" aria-label="후보 B 합법 수"></select></div>
+<button id="analyze" class="primary" disabled>실제 Stockfish로 두 수 비교하기</button>
+<p class="note">로컬 컴퓨터에서 실행하는 원본 Stockfish16. 재검색 중에는 결과가 곧바로 표시되지 않을 수 있습니다.</p>
+</div>
+</section>
+<section>
+<div id="empty" class="panel"><h2>근소한 차이를 질문하는 해설기</h2><p>왼쪽에서 FEN과 후보 두 개를 지정하고 실제 분석을 실행하세요. 초기 국면에서는 e4와 d4 같은 두 후보를 비교할 수 있습니다.</p><p>해설은 두 수의 평가 차이와 상대의 응수, 공통점을 제외한 개념 차이를 분리해 제시합니다. 알려지지 않은 인과적 전략을 만들어내지 않습니다.</p></div>
+<div id="results" class="hidden" aria-live="polite">
+<div class="panel">
+<h2>실제 엔진 평가</h2><p id="compareTitle"></p><div class="kv"><div class="tile">깊이 8의 A−B<strong id="gap8">—</strong></div><div class="tile">깊이 10의 A−B<strong id="gap10">—</strong></div></div><p id="uncertainty" class="warning"></p><table><thead><tr><th>깊이</th><th>A</th><th>B</th><th>차이 A−B</th></tr></thead><tbody id="scores"></tbody></table>
+</div>
+<div class="panel"><h2>서로 다르게 나타난 검증 가능한 개념</h2><p id="shared"></p><div id="concepts"></div><p class="note">개념 변화는 원본 Stockfish 내부 평가값의 원인 분해가 아닙니다. 공격 그래프와 킹 주변 공격 칸은 정의된 규칙 지표입니다.</p></div>
+<div class="panel"><h2>상대가 다른 수로 응수한다면?</h2><div id="branches" class="branches"></div><p class="note">상대의 모든 합법 응수 중 동일 Stockfish MultiPV 상위 최대 3개만 평가합니다. 최악 상황의 전수 보증은 아닙니다.</p></div>
+<div class="panel"><h2>검증 상태와 원문 근거</h2><p>실제 원본 엔진 검색 <strong class="positive">검증</strong> · 규칙 기반 개념 <strong class="positive">검증</strong> · 독립 엔진 심판 <strong class="warning">미실행</strong> · 엔진 내부 의사결정 인과성 <strong class="warning">미입증</strong></p>
+<button id="export">한국어 해설 Markdown 저장</button><details><summary>계산 결과 JSON 보기</summary><pre id="raw"></pre></details>
+<p class="small">원문: <a href="https://drive.google.com/file/d/19zqCJXM631qasR9uIyg4GuBZxIBO7czw/view" target="_blank" rel="noopener noreferrer">Cui 전략나무</a> · <a href="https://drive.google.com/file/d/1XpI5v0HJe_LNfa3HfKIlnEDVkJ-Fct74/view" target="_blank" rel="noopener noreferrer">Kim CCC</a> · <a href="https://drive.google.com/file/d/1BOHr8mZzY6vp14PBr2MrAiJH9vJDQStA/view" target="_blank" rel="noopener noreferrer">ACT-Eval</a></p></div>
+</div>
+</section>
+</div>
+<footer>C3X 연구용 로컬 프로토타입 · 실제 사용자 학습 향상 및 상용 서비스 대비 우위는 아직 검증되지 않았습니다.</footer>
+</main>
+<script src="/c3x_board.js" defer></script>
+</body>
+</html>
