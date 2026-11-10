@@ -85,6 +85,28 @@ const path = require("path");
       throw Error("P4_HOLD_TWO_ROOT_PANELS");
     if(await page.locator("#strategyResult li").count()!==8)
       throw Error("P4_HOLD_EIGHT_BRANCHES_NOT_VISIBLE");
+    // P6: genuine browser rendering of the source-SAN-replayed
+    // Korean conditional strategy clauses, plus a real user download.
+    const annotation=tree.evidence_verified_strategy_explanation;
+    if(!annotation ||
+       annotation.schema!=="c3x030-p6-evidence-linked-conditional-strategy-annotation-v1" ||
+       annotation.fully_replay_verified_annotations!==8 ||
+       !tree.evidence_verified_strategy_markdown)
+      throw Error("P6_HOLD_MISSING_REPLAY_VERIFIED_STRATEGY_ANNOTATIONS");
+    if(await page.locator("#strategyResult .evidence-strategy-clause").count()!==8)
+      throw Error("P6_HOLD_EIGHT_ANNOTATIONS_NOT_SHOWN");
+    if(await page.locator("#strategyExport").isDisabled())
+      throw Error("P6_HOLD_KOREAN_STRATEGY_EXPORT_DISABLED");
+    const planDownloadPromise=page.waitForEvent("download");
+    await page.locator("#strategyExport").click();
+    const planDownload=await planDownloadPromise;
+    const planFile=path.join(dir,"P6_BROWSER_DOWNLOADED_REPLAY_VERIFIED_STRATEGY.md");
+    await planDownload.saveAs(planFile);
+    const planText=fs.readFileSync(planFile,"utf8");
+    if(planText!==tree.evidence_verified_strategy_markdown ||
+       !planText.includes("상대가") ||
+       !planText.includes("인과성"))
+      throw Error("P6_HOLD_DOWNLOADED_STRATEGY_DIFFERS_FROM_SOURCE_EVIDENCE");
     fs.writeFileSync(path.join(dir,"P4_BROWSER_ACTUAL_CUI_TWO_LAYER_TREE.json"),
                      JSON.stringify(tree,null,2)+"\\n");
     // P5 actual Martin mirror contrastive-gap robustness audit. This is
@@ -130,6 +152,8 @@ const path = require("path");
       desktop_and_mobile_screenshots_saved:true,
       actual_p4_strategy_two_layer_leaves:8,
       actual_p4_tree_visible:true,
+      actual_p6_rule_verified_korean_clauses:8,
+      actual_p6_markdown_downloaded:true,
       actual_p5_mirror_depths:3,
       actual_p5_mirror_renderer:true,
       browser_exceptions:errors.length
