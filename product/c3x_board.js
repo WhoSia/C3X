@@ -73,6 +73,7 @@ function squareClick(sq) {
 }
 function checkReady() {
   $("analyze").disabled=!(selected.a && selected.b && selected.a!==selected.b);
+  $("strategy").disabled=$("analyze").disabled;
 }
 function selectMenu(id, target) {
   const el=$(id);el.replaceChildren();
@@ -93,6 +94,7 @@ async function loadFen() {
     const result=await post("/api/legal",{fen:$("fen").value.trim()});
     currentFen=result.fen;$("fen").value=result.fen;legal=result.legal_moves;
     origin=null;selected={a:"",b:""};latest=null;
+    $("strategyResult").classList.add("hidden");$("strategyResult").replaceChildren();
     selectMenu("moveA","a"); selectMenu("moveB","b");
     boardDraw(currentFen);
     $("results").classList.add("hidden");$("empty").classList.remove("hidden");
@@ -108,6 +110,7 @@ function appendText(parent,tag,content) {
 }
 function render(r) {
   latest=r;
+  $("strategyResult").classList.add("hidden");$("strategyResult").replaceChildren();
   $("empty").classList.add("hidden");$("results").classList.remove("hidden");
   const e=r.engine_report, c=r.concept_report, roots=e.root_candidates;
   $("compareTitle").textContent=roots.map((x,i)=>(i?"B: ":"A: ")+x.facts.san+" ("+x.move_uci+")").join("   /   ");
@@ -155,6 +158,63 @@ function render(r) {
   }
   $("raw").textContent=JSON.stringify(r,null,2);
 }
+function renderStrategy(data) {
+  if(data.schema!=="c3x030-p4a-cui-inspired-two-opponent-layer-product-tree-v1")
+    throw Error("전략나무 응답 스키마가 다릅니다.");
+  if(!Array.isArray(data.roots) || data.roots.length!==2 ||
+     data.roots[0].root_uci!==selected.a || data.roots[1].root_uci!==selected.b)
+    throw Error("후보 수와 실제 전략나무가 일치하지 않습니다.");
+  const panel=$("strategyResult");panel.replaceChildren();
+  appendText(panel,"p","실제 원본 Stockfish 재검색 · 전체 "+data.total_leaf_paths+
+    "개 말단 수순 · 독립 심판 없이 원본 엔진이 선택한 상대 응수만 검사");
+  for(const [idx,root] of data.roots.entries()) {
+    const area=document.createElement("div");area.className="tile";
+    appendText(area,"h3",(idx===0?"후보 A ":"후보 B ")+root.root_san+
+      " — "+root.leaf_count+"개 조건부 미래 계획");
+    for(const first of root.tree) {
+      if(first.terminal) {
+        appendText(area,"p","종료 국면: "+first.terminal_result);
+        continue;
+      }
+      const firstReply=first.opponent_move.action_san;
+      const own=first.own_best_move_or_null?.action_san||"종료";
+      const block=document.createElement("div");
+      appendText(block,"p","상대 "+first.opponent_rank_1based+"순위: "+firstReply+
+        " → 내 최선 대응 "+own);
+      const second=document.createElement("ul");
+      for(const deeper of first.next_opponent_replies) {
+        const li=document.createElement("li");
+        if(deeper.terminal){
+          li.textContent="종료 국면: "+deeper.terminal_result;
+        }else{
+          li.textContent="다음 상대 "+deeper.opponent_rank_1based+"순위: "+
+            deeper.opponent_move.action_san+" → 내 후속 대응 "+
+            (deeper.own_best_move_or_null?.action_san||"종료")+
+            " ("+deeper.trace_uci.join(" ")+")";
+        }
+        second.append(li);
+      }
+      block.append(second);area.append(block);
+    }
+    panel.append(area);
+  }
+  panel.classList.remove("hidden");
+}
+$("strategy").addEventListener("click",async()=>{
+  const btn=$("strategy");btn.disabled=true;
+  status("Cui 방식의 상대 응수 두 계층을 원본 Stockfish에서 실제 검색 중입니다.");
+  try {
+    const beforeA=selected.a,beforeB=selected.b,beforeFen=currentFen;
+    const tree=await post("/api/strategy",{
+      fen:beforeFen,move_a:beforeA,move_b:beforeB
+    });
+    if(currentFen!==beforeFen || selected.a!==beforeA || selected.b!==beforeB)
+      throw Error("분석 도중 후보 수가 변경되었습니다. 다시 실행하세요.");
+    renderStrategy(tree);
+    status("두 번째 상대 응수까지 실제 전략나무 검색을 완료했습니다.");
+  }catch(err){status("전략나무 검색 실패: "+err.message);}
+  finally{checkReady();}
+});
 function exportMarkdown() {
   if(!latest)return;
   const blob=new Blob([latest.learner_markdown],{type:"text/markdown;charset=utf-8"});
