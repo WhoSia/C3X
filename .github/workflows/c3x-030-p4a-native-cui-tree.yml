@@ -31,8 +31,8 @@ jobs:
         run: |
           set -euo pipefail
           git clone -q https://github.com/official-stockfish/Stockfish.git /tmp/c3x-p4-sf
-          git -C /tmp/c3x-p4-sf checkout -q 68e1e9b3811e16cad014b590d7443b9063beb52
-          test "$(git -C /tmp/c3x-p4-sf rev-parse HEAD)" = '68e1e9b3811e16cad014b590d7443b9063beb52'
+          git -C /tmp/c3x-p4-sf checkout -q 68e1e9b3811e16cad014b590d7443b9063b3eb52
+          test "$(git -C /tmp/c3x-p4-sf rev-parse HEAD)" = '68e1e9b3811e16cad014b590d7443b9063b3eb52'
           make -s -C /tmp/c3x-p4-sf/src -j2 build ARCH=x86-64
       - name: Native engine real 2-root 2-opponent-layer k2 source tree
         run: |
