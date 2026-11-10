@@ -1,0 +1,87 @@
+name: C3X 0.30 P6 original chess-paper evidence-first verified conditional commentary
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/c3x-030-p6-evidence-linked-commentary.yml'
+      - 'product/c3x_evidence_strategy_commentary.py'
+      - 'product/test_c3x_evidence_strategy_commentary.py'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  original-source-replay-verified-commentary:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Verify atomic chess source replay and all prior product tests
+        run: |
+          set -euo pipefail
+          python -m pip install -q chess==1.11.2
+          PYTHONPATH=product python -m unittest -v \
+            test_c3x_evidence_strategy_commentary \
+            test_c3x_metamorphic_gap_audit \
+            test_c3x_independent_strategy_judge \
+            test_c3x_recursive_strategy \
+            test_c3x_explain_two_moves \
+            test_c3x_concept_contrast \
+            test_c3x_local_web
+      - uses: actions/download-artifact@v4
+        with:
+          name: c3x030-p4-source-only-real-Cui-two-layer-2x2x2-leaves
+          repository: WhoSia/C3X
+          run-id: '42790485394'
+          path: frozen/
+          github-token: ${{ github.token }}
+      - name: SHA-admit genuine native original Stockfish source tree before text
+        run: |
+          set -euo pipefail
+          echo '12889ac4239368b4c687a3ac7f3fb8fdff007bf03f04a31ace801d8ce2959f4e  frozen/C3X_P4_CUI_SOURCE_TWO_ROOT_TWO_OPPONENT_LAYER.json' | sha256sum -c -
+      - name: Generate all replay-verified Korean source-strategy conditional explanations
+        run: |
+          set -euo pipefail
+          mkdir -p public
+          PYTHONPATH=product python -u product/c3x_evidence_strategy_commentary.py \
+            --source frozen/C3X_P4_CUI_SOURCE_TWO_ROOT_TWO_OPPONENT_LAYER.json \
+            --source-sha 12889ac4239368b4c687a3ac7f3fb8fdff007bf03f04a31ace801d8ce2959f4e \
+            --out public/P6_EVIDENCE_GROUNDED_EIGHT_SOURCE_PLAN_CLAUSES.json \
+            --out-md public/P6_EIGHT_REPLAY_VERIFIED_KOREAN_STRATEGY_CLAUSES.md
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          result=json.loads(Path("public/P6_EVIDENCE_GROUNDED_EIGHT_SOURCE_PLAN_CLAUSES.json").read_text())
+          assert result["fully_replay_verified_annotations"]==8
+          assert len(result["roots"])==2
+          for root in result["roots"]:
+              assert len(root["atomic_conditional_annotations"])==4
+              for claim in root["atomic_conditional_annotations"]:
+                  assert claim["proof_kind"]=="REPLAYED_CHESS_RULES_PLUS_SOURCE_SELECTED_MOVES"
+                  assert claim["physical_original_stockfish_decision_causality_claimed"] is False
+                  assert claim["independent_engine_quality_claimed"] is False
+          print("C3X_P6_EIGHT_ACTUAL_SOURCE_RULE_VERIFIED_KOREAN_BRANCHES_PASS")
+          PY
+          sha256sum public/*
+      - name: Scholarly provenance, rights and limitations
+        if: always()
+        run: |
+          set -euo pipefail
+          mkdir -p public
+          if test -f public/P6_EVIDENCE_GROUNDED_EIGHT_SOURCE_PLAN_CLAUSES.json; then
+            python tools/c3x_023_rights_preupload_gate.py \
+              --tier P2_AGGREGATE_SUMMARY \
+              --file public/P6_EVIDENCE_GROUNDED_EIGHT_SOURCE_PLAN_CLAUSES.json \
+              --report /tmp/P6_RIGHTS.json
+          fi
+          echo 'P6 attribution: Shivkumar et al 2026 annotation-stage and QUEEN Bhaskar et al 2026 future-conditioned description ideas, Cui et al 2026 actual partial strategy tree, Jacovi Goldberg 2020 plausibility vs faithfulness. This is deterministic Korean source-branch rendering, not original neural models, PPO, LM inference, original dataset, human educational study, physical source search causality or independent branch quality. Eight real archived P4 source chess paths are precisely SHA-admitted and legal SAN replayed.' > public/SCIENTIFIC_SCOPE.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x030-p6-original-Cui-sha-verified-Korean-eight-conditional-clauses
+          path: public/*
+          if-no-files-found: warn
