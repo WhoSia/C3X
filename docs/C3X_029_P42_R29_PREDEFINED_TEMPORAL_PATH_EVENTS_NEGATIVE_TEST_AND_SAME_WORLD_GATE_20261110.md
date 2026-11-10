@@ -80,10 +80,15 @@ This supports a **research pruning decision**, not proof that temporal informati
 
 The exact **unchanged** 8-game original registered selection rule was rerun using `rerun_failed_workflow_run_jobs` on the original [R28-C0 official acquisition workflow #42740235638](https://github.com/WhoSia/C3X/actions/runs/42740235638) (new job id `129586979775`). In the rerun, the documented official API returned **the exact same 52,773 bytes** with the exact same SHA256 `e1e2e7cb87055b48e89854c12a40d9dcecfe1a514e678768280ab24c76b5a2ff` as in the previous source-only run. Original legal/source/result gates again returned **`HOLD_TOO_FEW_COMPLETE_STANDARD_LICENSED_GAMES 7 7`**. This is a repeated successful data acquisition but **intentional cohort-gate failure**; never promote to a cohort, silently alter 8→7 or equate two identical retrievals with permanent official closure. Raw PGN still **not archived in Drive**, original source-only future positions **not released for source/independent judging**, full past-exposure exclusion **not completed**.
 
-## 7. Drive 미보유 원문 — 색인 검색 기준
+## 00 folder primary-PDF provenance correction — 2026-11-10
 
-| Previously referenced literature | Search result | Status |
+**Correction to earlier incorrect 'missing in Drive' statements:** All THREE alleged missing primary PDFs are actually held directly under the same Google Drive `00` folder ID `1MLtYh0pv8QUZDReYzRqjDrOjRkSJAD16`. Their original PDF text, version filename, MIME type and folder parent were independently verified from authenticated Google Drive fetch. Earlier author/title-only index search missed version-number-only filenames; a search hit pointing to a primary PDF should not be mistaken for a reference mention.
+
+| Previously wrongly labeled missing | ACTUALLY OWNED original PDF in `00` | Verified PDF content |
 | --- | --- | --- |
-| SARFA arXiv:1912.12191 | No original primary PDF located; indirect references only | Drive 미확보 (색인 검색 기준) |
-| Sandmann et al. arXiv:2508.21380v4 | No original primary PDF located; archive mention only | Drive 미확보 (색인 검색 기준) |
-| Ciancarini & Pareschi arXiv:2609.18286 | No original primary PDF located; bibliographic identity also needs verification | Drive 미확보 (색인 검색 기준) |
+| Puri et al., SARFA | [1912.12191v4.pdf](https://drive.google.com/file/d/1C_c0AvNkEtzB2z6Nbji_NdRxlRpODgjs/view) | *Explain Your Move: Understanding Agent Actions Using Specific and Relevant Feature Attribution* (ICLR 2020) |
+| Sandmann, Lapuschkin & Samek | [2508.21380v4.pdf](https://drive.google.com/file/d/1dAF7reY9DpwBlZFERxrF54qSNYOLbRi0/view) | *The Algorithm Is Not the Behavior: Learned Priors Override Look-Ahead in a Chess-Playing Neural Network* |
+| Ciancarini & Pareschi | [2609.18286v1.pdf](https://drive.google.com/file/d/1OxYGSk2bmFD4Rdr0tXHJPAWT_w-wkMyF/view) | *What Counts as Strategic Reasoning? A Systematic Mapping of Chess Research on Humans, Engines, and Language Models* |
+
+**Effective missing-literature status for these three: NONE.** Do not carry forward the older failed-search table as current state. Complete Drive verification must search folder `00` and version-number PDF names before inferring a missing source.
+
