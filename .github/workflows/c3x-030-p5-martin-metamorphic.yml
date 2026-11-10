@@ -1,0 +1,81 @@
+name: C3X 0.30 P5 Martin metamorphic mirror-gap 24 genuine Stockfish forced searches
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/c3x-030-p5-martin-metamorphic.yml'
+      - 'product/c3x_metamorphic_gap_audit.py'
+      - 'product/test_c3x_metamorphic_gap_audit.py'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  actual-original-mirror-covariance-audit:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Run original P1-P4 + new Martin metamorphic correctness tests
+        run: |
+          set -euo pipefail
+          python -m pip install -q chess==1.11.2
+          PYTHONPATH=product python -m unittest -v \
+            test_c3x_metamorphic_gap_audit \
+            test_c3x_recursive_strategy \
+            test_c3x_independent_strategy_judge \
+            test_c3x_explain_two_moves \
+            test_c3x_concept_contrast \
+            test_c3x_local_web
+      - name: Check out immutable original Stockfish16 and actually compile
+        run: |
+          set -euo pipefail
+          git clone -q https://github.com/official-stockfish/Stockfish.git /tmp/c3x-p5-original-sf
+          git -C /tmp/c3x-p5-original-sf checkout -q 68e1e9b3811e16cad014b590d7443b9063b3eb52
+          test "$(git -C /tmp/c3x-p5-original-sf rev-parse HEAD)" = 68e1e9b3811e16cad014b590d7443b9063b3eb52
+          make -s -C /tmp/c3x-p5-original-sf/src -j2 build ARCH=x86-64
+      - name: Actually test mirror involution and 24 native original-root searches
+        run: |
+          set -euo pipefail
+          mkdir -p public
+          PYTHONPATH=product python -u product/c3x_metamorphic_gap_audit.py \
+            --engine /tmp/c3x-p5-original-sf/src/stockfish \
+            --out public/C3X_P5_REAL_MARTIN_MIRROR_TWO_BOARD_GAPS_24_SEARCHES.json
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          d=json.loads(Path("public/C3X_P5_REAL_MARTIN_MIRROR_TWO_BOARD_GAPS_24_SEARCHES.json").read_text())
+          assert d["number_of_real_engine_forced_root_queries"]==24
+          assert len(d["cases"])==2
+          assert d["no_bug_claim_from_any_finite_depth_disagreement"] is True
+          for c in d["cases"]:
+              assert list(c["per_depth"])==["8","10","12"]
+              for x in c["per_depth"].values():
+                  assert x["four_real_source_queries"] is True
+                  assert x["total_actual_source_nodes"]>0
+                  assert len(x["forced_root_measurements"])==4
+          print("C3X_P5_NATIVE_24_FORCED_METAMORPHIC_SEARCHES_GATE_PASS")
+          PY
+          sha256sum public/*.json
+      - name: Scientific claims and rights validation
+        if: always()
+        run: |
+          set -euo pipefail
+          mkdir -p public
+          if test -f public/C3X_P5_REAL_MARTIN_MIRROR_TWO_BOARD_GAPS_24_SEARCHES.json; then
+            python tools/c3x_023_rights_preupload_gate.py \
+              --tier P2_AGGREGATE_SUMMARY \
+              --file public/C3X_P5_REAL_MARTIN_MIRROR_TWO_BOARD_GAPS_24_SEARCHES.json \
+              --report /tmp/P5_RIGHTS.json
+          fi
+          echo 'Owned Martin et al (2025) original prior-art PDF. Product reproduction of only mirror relation, not original full metamorphic replication. Two fixed illustrative positions and forced candidate moves x mirror x three depths = 24 genuine Stockfish original native searches, not prospectively sampled. Under finite search, violation is NOT a bug and may reflect normal exploration. Jacovi/Goldberg 2020 supports separate faithfulness from plausibility, but not itself a deployed score. No same-world original root physical causal mechanism, no independent referee and no chess.com superiority.' > public/SCIENTIFIC_SCOPE.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x030-p5-actual-Martin-mirror-metamorphic-24-original-searches
+          path: public/*
+          if-no-files-found: warn
