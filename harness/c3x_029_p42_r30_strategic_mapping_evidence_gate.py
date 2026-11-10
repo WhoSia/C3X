@@ -22,10 +22,10 @@ STAGES = {
     "R3": "candidate generation",
     "R4": "search and lookahead",
     "R5": "contingent strategic planning",
-    "R6": "action selection",
-    "R7": "explanation",
-    "R8": "metacognitive self-monitoring",
-    "R9": "human or agent collaboration",
+    "R6": "evaluation and trade-off reasoning",
+    "R7": "decision and action selection",
+    "R8": "explanation and verbalization",
+    "R9": "reflection, calibration, and metacognition",
 }
 REQUIRED_FIELDS = {
     "experiment", "source_receipt", "stages", "same_original_position",
