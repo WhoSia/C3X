@@ -25,8 +25,8 @@ from pathlib import Path
 
 from c3x_030_r1_sarfa_logdomain import sarfa_logdomain
 from c3x_030_r6a_actual_open_decoder_blind_arm import ARMS,MODEL_ID,MODEL_REVISION
-from c3x_030_r6b_posthoc_decoder_recovery_evaluator import R5_AUDIT_SHA
-from c3x_030_r7a_real_qwen_all_legal_token_scorer import SCHEMA as SCORER_SCHEMA
+R5_AUDIT_SHA="4221f90ed5ab86ef38b05e47d248f5906048c7c5812d0430c2c48fc680760f0b"
+SCORER_SCHEMA="c3x030-r7a-real-qwen-complete-legal-uci-loglik-v1"
 
 SCHEMA="c3x030-r7c-actual-qwen-prompt-sarfa-all-legal-v1"
 R7_MODEL_JSON_SHA={
