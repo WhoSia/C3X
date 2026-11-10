@@ -21,6 +21,7 @@ import chess.engine
 from c3x_explain_two_moves import generate, make_markdown, verify_board_and_pair
 from c3x_concept_contrast import contrast, markdown_append
 from c3x_recursive_strategy import produce as produce_two_layer_strategy
+from c3x_metamorphic_gap_audit import case_analysis as analyze_mirror_gap
 
 SCHEMA = "c3x030-p3-local-interactive-product-v1"
 MAX_POST_BYTES = 4096
@@ -153,7 +154,7 @@ def create_handler(engine_path):
 
         def do_POST(self):
             path = urlsplit(self.path)
-            if path.path not in ("/api/legal", "/api/analyze", "/api/strategy") or path.query:
+            if path.path not in ("/api/legal", "/api/analyze", "/api/strategy", "/api/mirror") or path.query:
                 self._json(404, {"error": "P3_UNKNOWN_ROUTE"})
                 return
             if not self._is_same_origin():
@@ -197,6 +198,11 @@ def create_handler(engine_path):
                                 report = produce_two_layer_strategy(
                                     request["fen"], request["move_a"],
                                     request["move_b"], engine, k=2, depth=8)
+                            elif path.path == "/api/mirror":
+                                report = analyze_mirror_gap(
+                                    request["fen"], request["move_a"],
+                                    request["move_b"], engine,
+                                    case_id="user_selected_fen_local_not_frozen")
                             else:
                                 report = analyze_payload(request, engine)
                     self._json(200, report)
