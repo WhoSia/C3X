@@ -1,0 +1,82 @@
+name: C3X 0.30 P2 original CCC concept-based exact chess comparison on real P1 reports
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/c3x-030-p2-ccc-product-concepts.yml'
+      - 'product/c3x_concept_contrast.py'
+      - 'product/test_c3x_concept_contrast.py'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  original-scholarly-concepts-over-real-stockfish-reports:
+    runs-on: ubuntu-latest
+    timeout-minutes: 16
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: CI isolated legal chess rules and actual concept-contract tests
+        run: |
+          set -euo pipefail
+          python -m pip install -q 'chess==1.11.2'
+          PYTHONPATH=product python -m unittest -v test_c3x_explain_two_moves test_c3x_concept_contrast
+      - uses: actions/download-artifact@v4
+        with:
+          name: c3x030-p1-REAL-Stockfish-Korean-two-move-learner-reports
+          repository: WhoSia/C3X
+          run-id: '42783144894'
+          path: p1/
+          github-token: ${{ github.token }}
+      - name: SHA validate both genuine P1 source-engine reports before concept overlay
+        run: |
+          set -euo pipefail
+          echo '970e3ca2229edfc2a890e3a4f056dc47de175536eb61bfbaff54720706bdee04  p1/C3X_P1_WORLD_1_EXPLAIN.json' | sha256sum -c -
+          echo '979a5384395822f750d0cdae85ada7147098441c0c9866c579655621ec7c1085  p1/C3X_P1_WORLD_2_EXPLAIN.json' | sha256sum -c -
+          echo '5e247c026d0f151eb991a7664de38e83ba18eadff8df8f86de0d6b965ca36b80  p1/C3X_P1_WORLD_1_LEARNER.md' | sha256sum -c -
+          echo '2c43ce5c81c2433a0b97b848970056df60ab19e069039441b647dfc854fa9ff2  p1/C3X_P1_WORLD_2_LEARNER.md' | sha256sum -c -
+      - name: Derive all 7 measured concept features in two real P1 worlds
+        run: |
+          set -euo pipefail
+          mkdir -p public
+          for idx in 1 2; do
+            PYTHONPATH=product python -u product/c3x_concept_contrast.py \
+              --base-report-json "p1/C3X_P1_WORLD_${idx}_EXPLAIN.json" \
+              --out-json "public/C3X_P2_WORLD_${idx}_RULE_FACTS.json" \
+              --out-md "public/C3X_P2_WORLD_${idx}_CONCEPT_DIFF.md"
+            cat "p1/C3X_P1_WORLD_${idx}_LEARNER.md" > "public/C3X_PRODUCT_WORLD_${idx}_COMBINED_LEARNER.md"
+            printf '\n' >> "public/C3X_PRODUCT_WORLD_${idx}_COMBINED_LEARNER.md"
+            cat "public/C3X_P2_WORLD_${idx}_CONCEPT_DIFF.md" >> "public/C3X_PRODUCT_WORLD_${idx}_COMBINED_LEARNER.md"
+          done
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          for i in (1,2):
+              p=Path(f"public/C3X_P2_WORLD_{i}_RULE_FACTS.json")
+              data=json.loads(p.read_text())
+              assert data["not_original_2024_CCC_learned_concept_model"] is True
+              assert data["no_automatic_engine_score_attribution"] is True
+              assert len(data["complete_rule_based_concept_facts"])==2
+              assert len(data["concept_dimensions_different"])+len(data["concept_dimensions_shared_suppressed"])==7
+          print("C3X_P2_REAL_TWO_WORLD_SEVEN_CONCEPTS_VERIFIED")
+          PY
+          sha256sum public/*
+      - name: Rights gate and scholarly boundaries
+        if: always()
+        run: |
+          set -euo pipefail
+          mkdir -p public
+          if test -f public/C3X_P2_WORLD_1_RULE_FACTS.json; then
+            python tools/c3x_023_rights_preupload_gate.py --tier P2_AGGREGATE_SUMMARY --file public/C3X_P2_WORLD_1_RULE_FACTS.json --report /tmp/P2_RIGHTS_INTERNAL.json
+          fi
+          echo 'C3X P2 uses owned Kim et al CCC primary original Drive PDF. Implements deterministic verified chess material, passed pawns, pawn islands, attack graph and king-zone exposed squares; suppresses common features. Actual human-facing combined Markdown is fused with previously real SHA pinned original Stockfish P1 reports. NOT original learned CCC concept predictor, NOT original authors model accuracy, no causal source search explanation, no chess.com user study or superior product claim.' > public/SCIENTIFIC_SCOPE.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x030-p2-REAL-Stockfish-plus-CCC-inspired-concepts-Korean-reports
+          path: public/*
+          if-no-files-found: warn
