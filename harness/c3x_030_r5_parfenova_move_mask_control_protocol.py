@@ -178,15 +178,61 @@ def demonstrate(worlds):
     }
 
 
+
+def blind_decoder_batches(report):
+    """Outputs must be passed ONE ARM at a time; no root/case identifiers.
+
+    Important: these five lists are *separate*, with no reusable IDs or
+    output order guarantee. Do not place audit labels in a decoder context.
+    Each entry contains only the precise FEN/explanation fields declared by
+    the experimental condition. An unmasked arm intentionally leaks.
+    """
+    if (report.get("schema") != SCHEMA or len(report.get("cases", [])) != 2
+        or report.get("n_condition_packets") != 20):
+        raise ValueError("R030_R5_HOLD_BLIND_EXPORT_SOURCE_PROVENANCE")
+    arm_inputs={arm:[] for arm in CONTROL_NAMES}
+    for case in report["cases"]:
+        for item in case["candidate_control_packets"]:
+            if tuple(item.get("conditions", {})) != CONTROL_NAMES:
+                raise ValueError("R030_R5_HOLD_BLIND_EXPORT_CONDITION_SCHEMA")
+            for arm in CONTROL_NAMES:
+                example=item["conditions"][arm]
+                if set(example) != {"fen", "explanation"}:
+                    raise ValueError("R030_R5_HOLD_BLIND_EXPORT_UNEXPECTED_FIELD")
+                if arm in ("fen_plus_strict_masked","explanation_only","fen_plus_unrelated_foil"):
+                    exp=example["explanation"]
+                    if type(exp) is not str or MOVE_HINT.search(exp) or PROMOTION_WORD.search(exp):
+                        raise ValueError("R030_R5_HOLD_MASKED_DECODER_HINT")
+                arm_inputs[arm].append(dict(example))
+    if any(len(entries)!=4 for entries in arm_inputs.values()):
+        raise ValueError("R030_R5_HOLD_BLIND_EXPORT_FOUR_EXAMPLES_PER_ARM")
+    return {
+        arm:{
+            "schema":"c3x030-r5-decoder-only-arm-input-v1",
+            "condition":arm,
+            "entries":entries,
+            "no_target_labels_or_cross_arm_case_identifiers":True,
+            "requires_isolated_decoder_context_no_cross_arm_visibility":True,
+            "no_decoder_executed":True,
+        } for arm,entries in arm_inputs.items()
+    }
+
+
 def main():
     p=argparse.ArgumentParser()
-    for name in ("source","predictions","out"):
+    for name in ("source","predictions","out","decoder-dir"):
         p.add_argument("--"+name,required=True)
     a=p.parse_args()
     original=authentic_cases(
         authentic_archive(Path(a.predictions),PRED_ZIP_SHA,PRED_MEMBER,PRED_JSON_SHA),
         authentic_archive(Path(a.source),SOURCE_ZIP_SHA,SOURCE_MEMBER,SOURCE_JSON_SHA))
     report=demonstrate(source_positions(original,FROZEN_EXPLORATORY_CASES))
+    batches=blind_decoder_batches(report)
+    folder=Path(a.decoder_dir)
+    folder.mkdir(parents=True,exist_ok=True)
+    for arm,payload in batches.items():
+        (folder / ("R5_BLIND_ONLY_"+arm+".json")).write_text(
+            json.dumps(payload,indent=2,sort_keys=True,allow_nan=False)+"\\n",encoding="utf-8")
     dest=Path(a.out)
     dest.parent.mkdir(parents=True,exist_ok=True)
     dest.write_text(json.dumps(report,indent=2,sort_keys=True,allow_nan=False)+"\n",encoding="utf-8")
