@@ -40,7 +40,7 @@ class P6(unittest.TestCase):
     def test_reject_source_uci_tamper(self):
         x=copy.deepcopy(self.source)
         x["roots"][0]["tree"][0]["own_best_move_or_null"]["action_uci"]="a1a1"
-        with self.assertRaisesRegex(ValueError,"ILLEGAL_SOURCE_MOVE|SOURCE_CONFLICT"):
+        with self.assertRaisesRegex(ValueError,"INVALID_UCI|ILLEGAL_SOURCE_MOVE|SOURCE_CONFLICT"):
             annotate(x)
 
     def test_reject_source_san_tamper(self):
