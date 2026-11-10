@@ -68,6 +68,21 @@ def input_arm(data,arm):
     return data["entries"]
 
 
+
+def read_legacy_r5_blind(path):
+    """Exact historical R5 artifact had a literal two-byte backslash+n tail.
+
+    This is ONLY for SHA-pinned R5 legacy files. Never normalize arbitrary
+    invalid JSON: the CI must verify known whole-file SHA first. Record
+    normalization in resulting decoder metadata.
+    """
+    raw=Path(path).read_bytes()
+    if not raw.endswith(bytes([92,110])):
+        raise ValueError("R030_R6_HOLD_EXPECTED_PINNED_R5_LITERAL_BACKSLASH_N")
+    clean=raw[:-2]
+    return json.loads(clean.decode("utf-8"))
+
+
 def parse_strict_uci(response):
     if type(response) is not str:
         raise ValueError("R030_R6_HOLD_NONSTRING_MODEL_RESPONSE")
@@ -76,7 +91,7 @@ def parse_strict_uci(response):
 
 
 def run(arm,arm_file,model,tokenizer,torch):
-    data=json.loads(Path(arm_file).read_text(encoding="utf-8"))
+    data=read_legacy_r5_blind(arm_file)
     entries=input_arm(data,arm)
     results=[]
     for index,entry in enumerate(entries):
@@ -100,6 +115,7 @@ def run(arm,arm_file,model,tokenizer,torch):
         "schema":SCHEMA,"arm":arm,
         "model_id":MODEL_ID,"model_revision":MODEL_REVISION,
         "input_blind_arm_sha256":digest(arm_file),
+        "normalized_only_legacy_r5_literal_backslash_n_after_sha_verification":True,
         "greedy_generation_max_new_tokens":12,
         "isolated_chat_context_every_entry":True,
         "no_truth_manifest_access_in_decoder":True,
@@ -117,7 +133,7 @@ def main():
     if a.arm not in ARMS:
         raise ValueError("R030_R6_HOLD_UNKNOWN_ARM")
     # Verify R5 arm completely BEFORE any model download.
-    data=json.loads(Path(a.input).read_text(encoding="utf-8"))
+    data=read_legacy_r5_blind(a.input)
     input_arm(data,a.arm)
     import torch
     from transformers import AutoTokenizer,AutoModelForCausalLM
