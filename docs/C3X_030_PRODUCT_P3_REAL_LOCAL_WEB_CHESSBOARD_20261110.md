@@ -46,7 +46,28 @@ python product/c3x_local_web.py --stockfish /absolute/path/to/stockfish --port 8
 - **학생용 JSON SHA256** `da06c35fe9e2608fc5c2855f78602b8d057a23d1ce925a04f1c01109c089b2c8`; **학생용 한국어 MD SHA256** `c02ef85183be0c6c1d2556b4b7eacfa6fdbeb85a744651a2e9fa86a7d2ed803d`.
 - Native 아티팩트: `c3x030-p3-REAL-local-HTTP-chessboard-full-stack-native-Stockfish`, ID **13749418850**, archive digest `sha256:f03ec99b69278c41a5c310761bcb14a6168c9e10f044dfb35cc997ee72ee0648`.
 
-**이미 실험한 원래 근소 후보 사례는 P1/P2 실제 Sahel/Cerrado, P3 HTTP E2E에 쓴 초기 국면은 UI 시스템 동작만 확인하려는 표준 시작 FEN이다.** 시작 수 e4/d4의 깊이10 점수 차를 원래 연구의 원본 근소 전략 사례로 바꾸어 주장하지 않는다. 또한 실제 브라우저 렌더링을 스크린샷으로 수락·검수하지 않았으므로 **UX 시각 수락 검증 HOLD** (HTML/JS 정적·실제 HTTP는 통과).
+**이미 실험한 원래 근소 후보 사례는 P1/P2 실제 Sahel/Cerrado, P3 HTTP E2E에 쓴 초기 국면은 UI 시스템 동작만 확인하려는 표준 시작 FEN이다.** 시작 수 e4/d4의 깊이10 점수 차를 원래 연구의 원본 근소 전략 사례로 바꾸어 주장하지 않는다. 또한 실제 브라우저 렌더링을 스크린샷으로 수락·검수하지 않았으므로 **실제 Chromium 클릭·데스크톱/모바일 스크린샷 수락은 별도 P3-V에서 SUCCESS** (인간 사용성 비교는 미실시).
+
+## IV-A. P3-V: 실제 Chromium 사용자의 클릭·다운로드·모바일 화면 수락 완료
+
+**[P3-V REAL Chromium browser CI #42788148039 — SUCCESS](https://github.com/WhoSia/C3X/actions/runs/42788148039)**. First [#42787987314 FAILED](https://github.com/WhoSia/C3X/actions/runs/42787987314) exclusively because the default Ubuntu26.04 runner was unsupported by pinned Playwright 1.56.1. Switched **only** the browser workflow runner to explicit supported `ubuntu-24.04`. The final workflow completed all steps successfully, including again **35 P1/P2/P3 tests** and an original pinned upstream Stockfish16 source build.
+
+**Verified by actual Chromium browser, not Python API simulation:**
+
+1. Browser loaded `http://127.0.0.1:8765/`; the screen contained **64 actually interactive board buttons** and **20 legal UCI/SAN choices**.
+2. Playwright clicked **e2** then **e4** on the real chessboard; candidate A select became `e2e4`, selected candidate B `d2d4`.
+3. Clicked actual source-engine analysis button; waited for the real HTTP query to finish. The browser rendered two depth score rows, two candidate-specific opponent reply columns, and the actual rule-derived concepts.
+4. On this pinned live run `A=e2e4` vs `B=d2d4`, the original-mover root centipawn differences were `{"8":-5,"10":-5}` and the two opponent response counts were **[3,3]**. These are **sampled depth8/10 Stockfish classical values in the canonical starting position** rather than universal chess opening quality, nor causal mechanism inference.
+5. The **actual user browser's Download Markdown button** generated a file whose body included the real P1 and P2 Korean reports. Its SHA256 `c02ef85183be0c6c1d2556b4b7eacfa6fdbeb85a744651a2e9fa86a7d2ed803d` exactly matches the earlier native API E2E report, demonstrating same content in browser and HTTP pathways.
+6. Executed a second actual rendering at **390px wide mobile viewport** and saved full-page desktop/mobile screenshots. Browser `pageerror` count **0**.
+
+**Artifact** `c3x030-p3v-ACTUAL-Chromium-chessboard-Stockfish-browser-screenshots`, ID **13750986092**, ZIP SHA256 `a213d7f1d5750fea7050baa35cc3c2671b9f1f85d005dc6cceb4fbbc4bebae66`:
+
+- Real desktop screenshot PNG SHA256 `694702d954c412d91028749feb9b00dbb2e979ac35fb386704d113fbf4e605a9`.
+- Real 390px mobile screenshot PNG SHA256 `76c357ecd518d5f0fc7335c893ad717ea965ac89377667fb7ddf7a2233cacbae`.
+- Browser-downloaded **real** Korean learner Markdown SHA256 `c02ef85183be0c6c1d2556b4b7eacfa6fdbeb85a744651a2e9fa86a7d2ed803d`.
+
+**Scope:** browser render/use acceptance is **SUCCESS**, but we have **not** scored screenshots with blinded human users or separately manually reviewed each pixel; these files preserve actual view states. This is not a public deployment, a chess.com benchmark, an independently sourced chess evaluator, nor original source computational cause.
 
 ## V. 사용자에게 보여줄 '좋은 해설'의 근거 정책
 
@@ -58,7 +79,7 @@ python product/c3x_local_web.py --stockfish /absolute/path/to/stockfish --port 8
 
 ## VI. 다음 개발: P4
 
-먼저 GitHub CI에서 **실제 브라우저 렌더링을 Playwright screenshot과 자동 화면 수락으로 검증**, 그다음 체스판과 수순 화살표를 연결하고 여러 깊이의 PV를 직관적으로 표시하자. P1/P2 JSON을 통한 원본 결과는 변조하지 않는다. 이후 독립 referee 평가, Cui의 recursion k3, Maia-2의 인간의 수 선택 분포를 각기 독립된 source/rights/provenance 계약으로 붙인다.
+P3-V의 **실제 Chromium 클릭·다운로드·데스크톱/모바일 스크린샷 검증 SUCCESS**를 계승하고, 그다음 체스판과 수순 화살표를 연결하고 여러 깊이의 PV를 직관적으로 표시하자. P1/P2 JSON을 통한 원본 결과는 변조하지 않는다. 이후 독립 referee 평가, Cui의 recursion k3, Maia-2의 인간의 수 선택 분포를 각기 독립된 source/rights/provenance 계약으로 붙인다.
 
 ## Drive 미보유 문헌
 
