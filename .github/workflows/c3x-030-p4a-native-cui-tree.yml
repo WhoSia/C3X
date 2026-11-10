@@ -1,0 +1,81 @@
+name: C3X 0.30 P4 original Cui two-opponent-layer real Stockfish tree
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/c3x-030-p4a-native-cui-tree.yml'
+      - 'product/c3x_recursive_strategy.py'
+      - 'product/test_c3x_recursive_strategy.py'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  actually-expand-two-opponent-layer-tree:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Test source-tree contracts and old learner interface
+        run: |
+          set -euo pipefail
+          python -m pip install -q chess==1.11.2
+          PYTHONPATH=product python -m unittest -v \
+            test_c3x_recursive_strategy test_c3x_explain_two_moves \
+            test_c3x_concept_contrast test_c3x_local_web
+      - name: Build SHA-pinned official Stockfish16 classical from source
+        run: |
+          set -euo pipefail
+          git clone -q https://github.com/official-stockfish/Stockfish.git /tmp/c3x-p4-sf
+          git -C /tmp/c3x-p4-sf checkout -q 68e1e9b3811e16cad014b590d7443b9063beb52
+          test "$(git -C /tmp/c3x-p4-sf rev-parse HEAD)" = '68e1e9b3811e16cad014b590d7443b9063beb52'
+          make -s -C /tmp/c3x-p4-sf/src -j2 build ARCH=x86-64
+      - name: Native engine real 2-root 2-opponent-layer k2 source tree
+        run: |
+          set -euo pipefail
+          mkdir -p public
+          PYTHONPATH=product python -u product/c3x_recursive_strategy.py \
+            --fen 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1' \
+            --move-a e2e4 --move-b d2d4 \
+            --k 2 --depth 8 \
+            --stockfish /tmp/c3x-p4-sf/src/stockfish \
+            --out public/C3X_P4_CUI_SOURCE_TWO_ROOT_TWO_OPPONENT_LAYER.json
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p=Path("public/C3X_P4_CUI_SOURCE_TWO_ROOT_TWO_OPPONENT_LAYER.json")
+          d=json.loads(p.read_text())
+          assert d["total_leaf_paths"]==8
+          assert len(d["roots"])==2
+          for r in d["roots"]:
+              assert r["leaf_count"]==4
+              assert r["source_work_estimate"]["opponent_queries"]==3
+              assert r["source_work_estimate"]["player_queries"]==6
+              assert all(len(x["trace_uci"])==5 for x in r["leaf_paths"])
+          assert d["not_original_cui_verbalizer_or_human_eval"] is True
+          assert d["same_engine_not_independent_judge"] is True
+          print("P4_NATIVE_SOURCE_TWO_OPPONENT_LAYERS_FULL_EIGHT_LEAVES_PASS")
+          PY
+          sha256sum public/*.json
+      - name: Limits and rights admission
+        if: always()
+        run: |
+          set -euo pipefail
+          mkdir -p public
+          if test -f public/C3X_P4_CUI_SOURCE_TWO_ROOT_TWO_OPPONENT_LAYER.json; then
+            python tools/c3x_023_rights_preupload_gate.py \
+              --tier P2_AGGREGATE_SUMMARY \
+              --file public/C3X_P4_CUI_SOURCE_TWO_ROOT_TWO_OPPONENT_LAYER.json \
+              --report /tmp/P4_RIGHTS_INTERNAL.json
+          fi
+          echo 'C3X P4 is a PRODUCT ADAPTATION of Cui et al 2026 §4.1 and previously validated C3X0.29/R27, k=2 not original k=3 experiment, two 4-ply-after-root opponent/own branch layers, source-only Stockfish16, no independent judge nor original causal decision or full original-puzzle/verbalization experiment. Eight leaves across two historic source-independent starting-position options; future independent referee must read an immutable SHA of this frozen tree before actual judge calls.' > public/SCOPE.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x030-p4-source-only-real-Cui-two-layer-2x2x2-leaves
+          path: public/*
+          if-no-files-found: warn
