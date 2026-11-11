@@ -1,0 +1,72 @@
+name: C3X 0.30 P11S3 Dual Real Original Read-only Audit
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/c3x-030-p11s3-original-dual-audit.yml'
+      - 'harness/c3x_030_p11s3_dual_original_audit.py'
+      - 'harness/test_c3x_030_p11s3_dual_original_audit.py'
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  verify-two-real-originals:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Four fail-closed synthetic audit tests
+        run: python3 -m unittest discover -s harness -p 'test_c3x_030_p11s3_dual_original_audit.py' -v
+      - name: Download S1 and S2 original immutable GitHub artifacts
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p original-s1 original-s2 audited
+          gh run download 42964938042 -R WhoSia/C3X -n c3x030-p11s1-real-stockfish16-clearhash-newgame-ablation -D original-s1
+          gh run download 42965327961 -R WhoSia/C3X -n c3x030-p11s2-140-real-native-hash-washout-and-rebound -D original-s2
+      - name: Find one raw SHA-exact JSON per original artifact
+        run: |
+          python3 - <<'PY'
+          import hashlib,shutil
+          from pathlib import Path
+          pairs=[
+            ('original-s1','ff12daccfef85fa66ba0c32cf3b2cf00717328b2ef8cdf5a6e389b86e41e521c','audited/original-S1.json'),
+            ('original-s2','582cf020c9fc276690ada7044886cb5726f0093f8ab1644dbdc8560b390afe5b','audited/original-S2.json')]
+          for dirname,sha,target in pairs:
+              matches=[p for p in Path(dirname).rglob('*')
+                       if p.is_file() and hashlib.sha256(p.read_bytes()).hexdigest()==sha]
+              if len(matches)!=1:raise ValueError('P11S3_HOLD_EXACT_RAW_SHA_COUNT_'+dirname)
+              shutil.copyfile(matches[0],target)
+              print('P11S3_ORIGINAL_RAW_BYTES_VERIFIED',dirname,matches[0].name,sha)
+          PY
+      - name: Execute pure Python cross-experiment verification
+        run: |
+          python3 harness/c3x_030_p11s3_dual_original_audit.py \
+            --s1 audited/original-S1.json \
+            --s1-sha ff12daccfef85fa66ba0c32cf3b2cf00717328b2ef8cdf5a6e389b86e41e521c \
+            --s2 audited/original-S2.json \
+            --s2-sha 582cf020c9fc276690ada7044886cb5726f0093f8ab1644dbdc8560b390afe5b \
+            --out audited/C3X_P11S3_ORIGINAL_S1_S2_CROSS_AUDIT.json
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path('audited/C3X_P11S3_ORIGINAL_S1_S2_CROSS_AUDIT.json').read_text())
+          assert r['inherited_S1_real_native_searches']==480
+          assert r['inherited_S2_real_native_searches']==140
+          assert r['new_native_searches_performed']==0
+          assert r['S1']['same_game_retained']['within_arm_switch_positions']==13
+          assert r['S1']['same_game_clear_hash']['within_arm_switch_positions']==0
+          assert r['S2']['clear1_restores']==20 and r['S2']['clear2_restores']==20
+          assert r['S2_baseline_nodes_match_S1_cold_first_trial_count']==20
+          print('C3X_P11S3_REAL_CROSS_EVIDENCE_VERIFIED')
+          PY
+          sha256sum audited/C3X_P11S3_ORIGINAL_S1_S2_CROSS_AUDIT.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: c3x030-p11s3-real-original-dual-sha-audit
+          path: audited/C3X_P11S3_ORIGINAL_S1_S2_CROSS_AUDIT.json
+          if-no-files-found: error
+          retention-days: 90
