@@ -1,0 +1,97 @@
+name: C3X 0.30 P11S4D Read-only Native TT Return and Root Candidate
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/c3x-030-p11s4d-native-ancestry-trace.yml'
+      - 'harness/c3x_030_p11s4d_source_trace_patch.py'
+      - 'harness/test_c3x_030_p11s4d_source_trace_patch.py'
+      - 'harness/c3x_030_p11s4d_native_ancestry_court.py'
+      - 'harness/test_c3x_030_p11s4d_native_ancestry_court.py'
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  source-trace:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Source patch and native event semantic unit contracts
+        run: |
+          set -euo pipefail
+          python -m pip install -q chess==1.11.2
+          PYTHONPATH=harness python -m unittest -v test_c3x_030_p11s4d_source_trace_patch test_c3x_030_p11s4d_native_ancestry_court
+      - name: Download raw original S4B source receipt and confirm byte SHA
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          mkdir -p original-S4B public
+          gh run download 42972990269 -R WhoSia/C3X -n c3x030-p11s4b-native-18-search-exact-TT-key-sham-mask -D original-S4B
+          python3 - <<'PY'
+          import hashlib,shutil
+          from pathlib import Path
+          s='081ee839f883d538081f1d2d15c43db1aa31cb12e4e713e1cda81815d5e59300'
+          matches=[x for x in Path('original-S4B').rglob('*') if x.is_file() and hashlib.sha256(x.read_bytes()).hexdigest()==s]
+          if len(matches)!=1:raise ValueError('S4D_HOLD_S4B_RAW_ORIGINAL_SHA')
+          shutil.copyfile(matches[0],'public/SEALED_S4B_REAL_ORIGINAL.json')
+          print('S4D_PRECOMMITTED_TARGET_KEYS_SOURCE_SHA',s)
+          PY
+      - name: Compile exact pinned original and observation-only Stockfish16 variant
+        run: |
+          set -euo pipefail
+          git clone -q https://github.com/official-stockfish/Stockfish.git /tmp/c3x-s4d-original
+          git -C /tmp/c3x-s4d-original checkout -q 68e1e9b3811e16cad014b590d7443b9063b3eb52
+          test "$(git -C /tmp/c3x-s4d-original rev-parse HEAD)" = 68e1e9b3811e16cad014b590d7443b9063b3eb52
+          make -s -C /tmp/c3x-s4d-original/src -j2 build ARCH=x86-64
+          cp /tmp/c3x-s4d-original/src/stockfish /tmp/c3x-s4d-stockfish-original
+          cp -a /tmp/c3x-s4d-original /tmp/c3x-s4d-logged
+          python3 harness/c3x_030_p11s4d_source_trace_patch.py \
+            --source /tmp/c3x-s4d-original/src/search.cpp \
+            --out /tmp/c3x-s4d-logged/src/search.cpp
+          make -s -C /tmp/c3x-s4d-logged/src -j2 build ARCH=x86-64
+          sha256sum /tmp/c3x-s4d-original/src/search.cpp \
+            /tmp/c3x-s4d-logged/src/search.cpp \
+            /tmp/c3x-s4d-stockfish-original \
+            /tmp/c3x-s4d-logged/src/stockfish > public/S4D_ORIGINAL_AND_LOGGED_SHA256.txt
+      - name: Fail-closed original vs logged output and partial ancestry checks
+        run: |
+          set -euo pipefail
+          PYTHONPATH=harness python -u harness/c3x_030_p11s4d_native_ancestry_court.py \
+            --prior-original public/SEALED_S4B_REAL_ORIGINAL.json \
+            --baseline /tmp/c3x-s4d-stockfish-original \
+            --logger /tmp/c3x-s4d-logged/src/stockfish \
+            --out public/C3X_P11S4D_REAL_PARTIAL_ANCESTRY_TRACE.json
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          d=json.loads(Path('public/C3X_P11S4D_REAL_PARTIAL_ANCESTRY_TRACE.json').read_text())
+          assert d['actual_native_searches']==12
+          assert d['actual_native_nodes']>0
+          assert d['all_noninterference_pass']
+          assert d['all_three_trace_sites_observed']
+          assert not d['native_causal_mediator_proven']
+          for v in d['positions'].values():
+              assert len(v['source_raw_events'])>0
+          print('S4D_NATIVE_PARTIAL_ANCESTRY_OBSERVATION_GATE_PASS')
+          PY
+          sha256sum public/C3X_P11S4D_REAL_PARTIAL_ANCESTRY_TRACE.json
+      - name: Preserve scope
+        if: always()
+        run: |
+          mkdir -p public
+          echo 'S4-D read-only trace captures bounded main TT probe at one frozen ply1 key, normal-return of that exact key, and root candidate value updates, with raw parent move codes. Does NOT log qsearch, TT early returns, all root candidates or full dynamic edge graph; raw parent move equality alone DOES NOT prove value mediation. Three preobserved development chess FENs, actual native source original vs modified same UCI protocol, strict bestmove/depth/nodes/score/PV match required. No source hit manipulation. No bot contribution commits.' > public/SCOPE.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x030-p11s4d-original-native-partial-ancestry-trace
+          path: public/*
+          if-no-files-found: error
+          retention-days: 90
