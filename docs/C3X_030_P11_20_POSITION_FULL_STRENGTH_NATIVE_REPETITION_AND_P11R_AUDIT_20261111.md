@@ -70,7 +70,7 @@ To prevent inflated interpretation, added [P11R pure-stdlib original-record audi
 
 ## 5. Research decision and engineering follow-up
 
-**Approved next P12 focused causal factorial**:
+**Proposed next P11/S1 focused causal factorial (NOT previously completed P12 milestones)**:
 - Split warm arm into (A) same engine+same game+TT, (B) same engine+same game but explicitly `Clear Hash`, (C) same engine+`ucinewgame` separate game objects, (D) fresh process; lock single thread and match actual native search resources. This isolates major memory components better than P11, though may still leave history buffers.
 - Add paired source events `value_draw(node-count parity)` and TT instrumentation, physical intervention with exact original source and compiler commit; causal native root effects separately recorded from general output variability.
 - Use P11 original 20-position cohort for dev debugging only. For publishable results, create another **unseen preregistered** independent balanced cohort and validation criteria to prevent using the same observed outcomes as both discovery and confirmation.
