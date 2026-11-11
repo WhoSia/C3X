@@ -11,7 +11,7 @@ from pathlib import Path
 
 UPSTREAM_SHA="68e1e9b3811e16cad014b590d7443b9063b3eb52"
 INCLUDE='#include <atomic>\n#include <algorithm>'
-PROBE='    excludedMove = ss->excludedMove;\\n    posKey = pos.key();\\n    tte = TT.probe(posKey, ss->ttHit);'
+PROBE='    excludedMove = ss->excludedMove;\n    posKey = pos.key();\n    tte = TT.probe(posKey, ss->ttHit);'
 SAVE='''    // Write gathered information in transposition table
     if (!excludedMove && !(rootNode && thisThread->pvIdx))
         tte->save(posKey, value_to_tt(bestValue, ss->ply), ss->ttPv,
