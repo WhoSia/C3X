@@ -1,0 +1,72 @@
+name: C3X 0.30 S4E R1 SHA-Locked Native Negamax Return Auditor
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/c3x-030-s4e-r1-real-original-return-audit.yml'
+      - 'harness/c3x_030_p11s4e_r1_original_return_audit.py'
+      - 'harness/test_c3x_030_p11s4e_r1_original_return_audit.py'
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  original-event-edges:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Assert event source parent and signed value validity in five synthetic tests
+        run: |
+          set -euo pipefail
+          PYTHONPATH=harness python3 -m unittest -v test_c3x_030_p11s4e_r1_original_return_audit
+      - name: Retrieve original S4E actual native searches and seal raw JSON
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          mkdir -p source audit
+          gh run download 42991754182 -R WhoSia/C3X \
+            -n c3x030-p11s4e-12-real-native-invocation-edges -D source
+          python3 - <<'PY'
+          from pathlib import Path
+          import hashlib,shutil
+          s='36f2087fc522e5f223ce6ea0072815b8501327e9192dcbc3529a1aae6aac2e4d'
+          xs=[p for p in Path('source').rglob('*') if p.is_file() and hashlib.sha256(p.read_bytes()).hexdigest()==s]
+          if len(xs)!=1:raise ValueError('S4ER1_HOLD_ORIGINAL_JSON_NOT_UNIQUE')
+          shutil.copyfile(xs[0],'audit/ORIGINAL_S4E_NATIVE.json')
+          print('C3X_S4ER1_REAL_ORIGINAL_RAW_SHA_VERIFIED',s)
+          PY
+      - name: Verify genuinely observed child-return-to-root negated value events
+        run: |
+          set -euo pipefail
+          python3 harness/c3x_030_p11s4e_r1_original_return_audit.py \
+            --original audit/ORIGINAL_S4E_NATIVE.json \
+            --out audit/C3X_S4E_R1_REAL_NATIVE_OBSERVED_RETURN_EDGES.json
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          p=Path('audit/C3X_S4E_R1_REAL_NATIVE_OBSERVED_RETURN_EDGES.json')
+          z=json.loads(p.read_text())
+          assert z['verified_observed_edges_total']==14
+          assert z['verified_observed_edges_per_position']=={
+              'queens_gambit_ply4':5,'sicilian_najdorf_ply4':4,'english_ply4':5}
+          assert z['new_native_searches']==0
+          assert not z['full_TT_to_root_causal_mediation_proven']
+          print('S4ER1_POSTHOC_ORIGINAL_LOG_INTEGRITY_14_EDGES')
+          PY
+          sha256sum audit/C3X_S4E_R1_REAL_NATIVE_OBSERVED_RETURN_EDGES.json
+      - name: Preserve strict no-new-search scientific scope
+        if: always()
+        run: |
+          mkdir -p audit
+          echo 'Posthoc read-only reanalysis of ORIGINAL S4E 12 native searches; ZERO NEW SEARCHES. 14 bounded in-log events linked by source probe→normal-return invocation ID→root candidate parent ID and negamax sign equality; TT hit CAUSAL influence on returned value is NOT proven. Search output unchanged by S4E logger. Truncated stream means not all events included, root candidate may refer to other calculations. This result is a measured computation relationship, NOT heldout causal mediation, superior original method, or human learning effect.' > audit/SCOPE.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x030-s4e-r1-original-14-negamax-return-edges
+          path: audit/C3X_S4E_R1_REAL_NATIVE_OBSERVED_RETURN_EDGES.json
+          if-no-files-found: error
+          retention-days: 90
