@@ -10,7 +10,7 @@ import hashlib
 from pathlib import Path
 
 ORIG_PROBE='    excludedMove = ss->excludedMove;\n    posKey = pos.key();\n    tte = TT.probe(posKey, ss->ttHit);'
-ORIG_RETURN='    assert(bestValue > -VALUE_INFINITE && bestValue < VALUE_INFINITE);\n\n    return bestValue;'
+ORIG_RETURN='    assert(bestValue > -VALUE_INFINITE && bestValue < VALUE_INFINITE);\n\n    return bestValue;\n  }\n\n\n  // qsearch()'
 ORIG_ROOT='''          RootMove& rm = *std::find(thisThread->rootMoves.begin(),
                                     thisThread->rootMoves.end(), move);'''
 ORIG_NS='namespace Stockfish {\n\nnamespace Search {'
