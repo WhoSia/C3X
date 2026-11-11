@@ -1,0 +1,20 @@
+name: C3X 0.30 P8 Fritz Empty-square SARFA Contract
+on:
+  push:
+    paths:
+      - 'harness/c3x_030_p8_fritz_empty_square_saliency.py'
+      - 'harness/test_c3x_030_p8_fritz_empty_square_saliency.py'
+      - 'harness/c3x_030_r1_sarfa_logdomain.py'
+      - '.github/workflows/c3x-030-p8-fritz-empty-square.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  p8-stdlib:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Ten real Python synthetic contract tests, no model or native chess
+        run: python3 -m unittest discover -s harness -p 'test_c3x_030_p8_fritz_empty_square_saliency.py' -v
