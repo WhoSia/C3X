@@ -1,0 +1,99 @@
+name: C3X 0.30 P11S4B Exact Native TT Hit-Mask vs Sham
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/c3x-030-p11s4b-exact-target-TT-mask.yml'
+      - 'harness/c3x_030_p11s4b_targeted_tt_mask_patch.py'
+      - 'harness/test_c3x_030_p11s4b_targeted_tt_mask_patch.py'
+      - 'harness/c3x_030_p11s4b_exact_key_mask_court.py'
+      - 'harness/test_c3x_030_p11s4b_exact_key_mask_court.py'
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  native-source-mask-pilot:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Isolated chess dependency and 9 fail-closed synthetic tests
+        run: |
+          set -euo pipefail
+          python -m pip install -q chess==1.11.2
+          PYTHONPATH=harness python -m unittest -v test_c3x_030_p11s4b_targeted_tt_mask_patch test_c3x_030_p11s4b_exact_key_mask_court
+      - name: Original SHA-verified P11S4A native read-only TT event manifest
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          mkdir -p original-S4A public
+          gh run download 42972198720 -R WhoSia/C3X \
+            -n c3x030-p11s4a-original-native-TT-trace-noninterference -D original-S4A
+          python - <<'PY'
+          import hashlib,shutil,json
+          from pathlib import Path
+          sha='3daa015325a5bd45cc8e63feb9c70bb7a5efb57e6f6f0d73dc9714c14d020c15'
+          matches=[p for p in Path('original-S4A').rglob('*')
+                   if p.is_file() and hashlib.sha256(p.read_bytes()).hexdigest()==sha]
+          if len(matches)!=1:raise ValueError('S4B_HOLD_ORIGINAL_TRACE_SHA_NOT_UNIQUE')
+          shutil.copyfile(matches[0],'public/S4A_SEALED_REAL_ORIGINAL.json')
+          print('S4B_PRIOR_SOURCE_ORIGINAL_SHA_LOCKED',sha)
+          PY
+      - name: Compile exact original source and distinct restricted TT-hit-mask binary
+        run: |
+          set -euo pipefail
+          git clone -q https://github.com/official-stockfish/Stockfish.git /tmp/c3x-s4b-upstream
+          git -C /tmp/c3x-s4b-upstream checkout -q 68e1e9b3811e16cad014b590d7443b9063b3eb52
+          test "$(git -C /tmp/c3x-s4b-upstream rev-parse HEAD)" = 68e1e9b3811e16cad014b590d7443b9063b3eb52
+          make -s -C /tmp/c3x-s4b-upstream/src -j2 build ARCH=x86-64
+          cp /tmp/c3x-s4b-upstream/src/stockfish /tmp/c3x-s4b-original-binary
+          cp -a /tmp/c3x-s4b-upstream /tmp/c3x-s4b-masked
+          cp /tmp/c3x-s4b-upstream/src/search.cpp /tmp/c3x-s4b-original-search.cpp
+          python harness/c3x_030_p11s4b_targeted_tt_mask_patch.py \
+            --source /tmp/c3x-s4b-original-search.cpp \
+            --out /tmp/c3x-s4b-masked/src/search.cpp
+          make -s -C /tmp/c3x-s4b-masked/src -j2 build ARCH=x86-64
+          sha256sum /tmp/c3x-s4b-original-search.cpp \
+            /tmp/c3x-s4b-masked/src/search.cpp \
+            /tmp/c3x-s4b-original-binary \
+            /tmp/c3x-s4b-masked/src/stockfish > public/S4B_SOURCE_BINARY_SHA256.txt
+      - name: Execute actual original vs sham vs fixed first-hit TT mask native searches
+        run: |
+          set -euo pipefail
+          PYTHONPATH=harness python -u harness/c3x_030_p11s4b_exact_key_mask_court.py \
+            --s4a-original public/S4A_SEALED_REAL_ORIGINAL.json \
+            --baseline /tmp/c3x-s4b-original-binary \
+            --masked /tmp/c3x-s4b-masked/src/stockfish \
+            --out public/C3X_P11S4B_REAL_PREDECLARED_TT_HIT_MASK_VS_SHAM.json
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          x=json.loads(Path('public/C3X_P11S4B_REAL_PREDECLARED_TT_HIT_MASK_VS_SHAM.json').read_text())
+          assert x['native_searches']==18
+          assert x['total_native_nodes']>0
+          assert x['physical_contact_each_target']
+          assert x['negative_sham_contact_zero']
+          assert x['sham_noninterference_all']
+          assert not x['source_child_parent_root_mediation_proven']
+          print('C3X_P11S4B_REAL_NATIVE_TARGET_SHAM_CONTROL_PASS',x['root_bestmove_changes_after_target_mask_trials'])
+          PY
+          sha256sum public/C3X_P11S4B_REAL_PREDECLARED_TT_HIT_MASK_VS_SHAM.json
+      - name: Preserve source evidence scope
+        if: always()
+        run: |
+          mkdir -p public
+          echo 'S4B: one exact predeclared TT hit at ply1 selected from prior 100% original S4A source trace via first-hit deterministic rule. Same masked binary for sham and treatment, original unmodified comparison. At most first 8 physical masks logged. Not single TT entry store deletion, not ancestor-root causal propagation proven, not unseen independent position confirmation. Null root-choice changes remain valid negative findings. GitHub bot read-only and no source auto-commits.' > public/SCOPE.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x030-p11s4b-native-18-search-exact-TT-key-sham-mask
+          path: public/*
+          if-no-files-found: error
+          retention-days: 90
