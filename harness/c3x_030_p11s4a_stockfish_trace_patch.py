@@ -60,7 +60,8 @@ namespace Search {'''
 def sha(data):return hashlib.sha256(data).hexdigest()
 def apply(raw):
     if "C3X_TT_EVENT" in raw:raise ValueError("S4A_HOLD_ALREADY_PATCHED")
-    original_tt_save_count=raw.count("tte->save(posKey, value_to_tt(bestValue")\n    rules=(( "#include <algorithm>", INCLUDE),
+    original_tt_save_count=raw.count("tte->save(posKey, value_to_tt(bestValue")
+    rules=(( "#include <algorithm>", INCLUDE),
            (COUNTER,COUNTER_PATCH),(PROBE,PROBE_PATCH),(SAVE,SAVE_PATCH))
     for old,new in rules:
         if raw.count(old)!=1:
