@@ -94,7 +94,7 @@ def run(binary, repeats, nodes):
             if warm:
                 with chess.engine.SimpleEngine.popen_uci(binary,timeout=120) as eng:
                     eng.configure({"Threads":threads, "Hash":16, "Use NNUE":False,
-                                   "Skill Level":skill, "MultiPV":1,
+                                   "Skill Level":skill,
                                    "UCI_LimitStrength":False})
                     session = object()
                     for _ in range(repeats):
@@ -103,7 +103,7 @@ def run(binary, repeats, nodes):
                 for _ in range(repeats):
                     with chess.engine.SimpleEngine.popen_uci(binary, timeout=120) as eng:
                         eng.configure({"Threads":threads, "Hash":16, "Use NNUE":False,
-                                       "Skill Level":skill, "MultiPV":1,
+                                       "Skill Level":skill,
                                        "UCI_LimitStrength":False})
                         trial_rows.append(execute_trial(eng,board,nodes,object()))
             experiments[arm] = {"threads": threads, "skill_level": skill, 
