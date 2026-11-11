@@ -1,0 +1,69 @@
+name: C3X 0.30 P11R Original 360-Search Read-only Statistical Audit
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/c3x-030-p11r-real-original-reanalysis.yml'
+      - 'harness/c3x_030_p11_original_reanalysis.py'
+      - 'harness/test_c3x_030_p11_original_reanalysis.py'
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  original-360-readonly:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Run synthetic source and summary integrity tests
+        run: python3 -m unittest discover -s harness -p 'test_c3x_030_p11_original_reanalysis.py' -v
+      - name: Download original P11 360-native-search artifact
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p p11-original p11-audit
+          gh run download 42944315234 -R WhoSia/C3X \
+            -n c3x030-p11-predeclared-20-position-360-fullstrength-native \
+            -D p11-original
+      - name: Copy only SHA-verified real primary JSON without running Stockfish
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import hashlib, shutil
+          expected='cd48b29832a4f2fdbb031c55c97f094510e17825c5dfc04592c4eabc135488b7'
+          matches=[p for p in Path('p11-original').rglob('*')
+                   if p.is_file() and hashlib.sha256(p.read_bytes()).hexdigest()==expected]
+          if len(matches)!=1:raise ValueError('P11R_HOLD_EXACTLY_ONE_ORIGINAL_RAW_SHA')
+          shutil.copyfile(matches[0],'p11-audit/original-P11.json')
+          print('P11R_VERIFIED_ORIGINAL_JSON',matches[0].name,expected)
+          PY
+      - name: Analyze actual original P11 recorded moves, costs and four shared opening families
+        run: |
+          python3 harness/c3x_030_p11_original_reanalysis.py \
+            --input p11-audit/original-P11.json \
+            --source-sha256 cd48b29832a4f2fdbb031c55c97f094510e17825c5dfc04592c4eabc135488b7 \
+            --out p11-audit/C3X_P11R_ORIGINAL_STATISTICAL_REANALYSIS.json
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          p=Path('p11-audit/C3X_P11R_ORIGINAL_STATISTICAL_REANALYSIS.json')
+          j=json.loads(p.read_text())
+          assert j['inherited_native_searches']==360
+          assert j['native_searches_performed_during_this_audit']==0
+          assert j['source_opening_family_count']==4
+          assert j['totals']['cold_single']['within_position_switches']==0
+          assert j['totals']['warm_single']['within_position_switches']==13
+          assert j['totals']['cold_parallel4']['within_position_switches']==13
+          assert not j['native_source_causal_intervention_proven']
+          print('P11R_REAL_ORIGINAL_COHORT_METRICS_PASS',json.dumps(j['totals'],sort_keys=True))
+          PY
+          sha256sum p11-audit/C3X_P11R_ORIGINAL_STATISTICAL_REANALYSIS.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: c3x030-p11r-original-360-search-readonly-reanalysis
+          path: p11-audit/C3X_P11R_ORIGINAL_STATISTICAL_REANALYSIS.json
+          if-no-files-found: error
+          retention-days: 90
