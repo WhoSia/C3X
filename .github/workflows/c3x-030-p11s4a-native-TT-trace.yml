@@ -1,0 +1,85 @@
+name: C3X 0.30 P11S4A Stockfish16 TT Trace Noninterference Gate
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/c3x-030-p11s4a-native-TT-trace.yml'
+      - 'harness/c3x_030_p11s4a_stockfish_trace_patch.py'
+      - 'harness/test_c3x_030_p11s4a_stockfish_trace_patch.py'
+      - 'harness/c3x_030_p11s4a_native_trace_court.py'
+      - 'harness/test_c3x_030_p11s4a_native_trace_court.py'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  original-vs-readonly-logger:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Pinned python-chess and fail-closed synthetic trace tests
+        run: |
+          set -euo pipefail
+          python -m pip install -q chess==1.11.2
+          PYTHONPATH=harness python -m unittest -v test_c3x_030_p11s4a_stockfish_trace_patch test_c3x_030_p11s4a_native_trace_court
+      - name: Clone exact Stockfish16 source and compile untouched original engine
+        run: |
+          set -euo pipefail
+          git clone -q https://github.com/official-stockfish/Stockfish.git /tmp/c3x-s4a-baseline
+          git -C /tmp/c3x-s4a-baseline checkout -q 68e1e9b3811e16cad014b590d7443b9063b3eb52
+          test "$(git -C /tmp/c3x-s4a-baseline rev-parse HEAD)" = 68e1e9b3811e16cad014b590d7443b9063b3eb52
+          cp /tmp/c3x-s4a-baseline/src/search.cpp /tmp/c3x-s4a-original-search.cpp
+          make -s -C /tmp/c3x-s4a-baseline/src -j2 build ARCH=x86-64
+      - name: Rebuild separately with strictly bounded read-only main TT probe/save logs
+        run: |
+          set -euo pipefail
+          cp -a /tmp/c3x-s4a-baseline /tmp/c3x-s4a-instrumented
+          cp /tmp/c3x-s4a-instrumented/src/stockfish /tmp/c3x-s4a-original-stockfish
+          python harness/c3x_030_p11s4a_stockfish_trace_patch.py \
+            --source /tmp/c3x-s4a-original-search.cpp \
+            --out /tmp/c3x-s4a-instrumented/src/search.cpp
+          make -s -C /tmp/c3x-s4a-instrumented/src -j2 build ARCH=x86-64
+          mkdir -p public
+          sha256sum /tmp/c3x-s4a-original-search.cpp \
+            /tmp/c3x-s4a-instrumented/src/search.cpp \
+            /tmp/c3x-s4a-original-stockfish \
+            /tmp/c3x-s4a-instrumented/src/stockfish > public/S4A_BINARY_AND_SOURCE_SHA256.txt
+      - name: Run actual original/trace paired native searches, strictly reject drift
+        run: |
+          set -euo pipefail
+          PYTHONPATH=harness python -u harness/c3x_030_p11s4a_native_trace_court.py \
+            --baseline /tmp/c3x-s4a-original-stockfish \
+            --patched /tmp/c3x-s4a-instrumented/src/stockfish \
+            --source /tmp/c3x-s4a-original-search.cpp \
+            --patched-source /tmp/c3x-s4a-instrumented/src/search.cpp \
+            --out public/C3X_S4A_REAL_TT_TRACE_ORIGINAL_VS_LOGGED.json
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          d=json.loads(Path('public/C3X_S4A_REAL_TT_TRACE_ORIGINAL_VS_LOGGED.json').read_text())
+          assert d['status']=='PASS_READONLY_MAIN_TT_TRACE'
+          assert d['real_native_searches']==12
+          assert d['real_nodes_total']>0
+          assert len(d['positions'])==3
+          assert all(a['trace_event_count']>0 for a in d['positions'].values())
+          assert not d['native_source_tt_event_causal_intervention']
+          print('S4A_ORIGINAL_NONINTERFERENCE_REPRODUCED',d['real_native_searches'])
+          PY
+          sha256sum public/C3X_S4A_REAL_TT_TRACE_ORIGINAL_VS_LOGGED.json
+      - name: Freeze interpretation boundary
+        if: always()
+        run: |
+          mkdir -p public
+          echo 'S4-A: This is ONLY capped MAIN search TT.probe and ordinary final TTEntry.save read-only logging at ply<=3, first 64 each. Not complete quiescence/ProbCut/special-save events, not TT-entry-to-parent ancestry, not TT intervention, not root-causal mediation. 3 previously used P11 development positions, original and patched separately compiled, fixed 12,000 requested nodes, 2 searches per binary/position. If logging changes baseline selected move/depth/node/score/PV, gate fails. Source patch SHA and failure history preserved.' > public/SCOPE.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x030-p11s4a-original-native-TT-trace-noninterference
+          path: public/*
+          if-no-files-found: error
+          retention-days: 90
