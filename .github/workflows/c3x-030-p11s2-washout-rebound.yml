@@ -1,0 +1,67 @@
+name: C3X 0.30 P11S2 Real Native ClearHash Washout and Warm Rebound
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/c3x-030-p11s2-washout-rebound.yml'
+      - 'harness/c3x_030_p11s2_reversible_hash_washout.py'
+      - 'harness/test_c3x_030_p11s2_reversible_hash_washout.py'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  p11s2:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install isolated legal chess library and verify four synthetic contracts
+        run: |
+          set -euo pipefail
+          python -m pip install -q chess==1.11.2
+          PYTHONPATH=harness python -m unittest -v test_c3x_030_p11s2_reversible_hash_washout
+      - name: Compile stockfish16 at original pinned source revision
+        run: |
+          set -euo pipefail
+          git clone -q https://github.com/official-stockfish/Stockfish.git /tmp/c3x-p11s2-stockfish
+          git -C /tmp/c3x-p11s2-stockfish checkout -q 68e1e9b3811e16cad014b590d7443b9063b3eb52
+          test "$(git -C /tmp/c3x-p11s2-stockfish rev-parse HEAD)" = 68e1e9b3811e16cad014b590d7443b9063b3eb52
+          make -s -C /tmp/c3x-p11s2-stockfish/src -j2 build ARCH=x86-64
+      - name: Real within-process interventions across 20 source positions
+        run: |
+          set -euo pipefail
+          mkdir -p public
+          PYTHONPATH=harness python -u harness/c3x_030_p11s2_reversible_hash_washout.py \
+            --stockfish /tmp/c3x-p11s2-stockfish/src/stockfish \
+            --out public/C3X_P11S2_140_REAL_NATIVE_WASHOUT_REBOUND.json
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          d=json.loads(Path('public/C3X_P11S2_140_REAL_NATIVE_WASHOUT_REBOUND.json').read_text())
+          assert d['total_native_searches']==140
+          assert d['total_actual_nodes']>0
+          assert len(d['cohort'])==20
+          assert d['physical_uci_button_intervention_executed'] is True
+          assert d['new_holdout_position_cohort'] is False
+          for pos in d['cohort'].values():
+              assert len(pos['phase_rows'])==7
+          print('C3X_P11S2_ACTUAL_NATIVE_WASHOUT_SCOPE_VERIFIED', d['total_native_searches'])
+          PY
+          sha256sum public/*.json
+      - name: Preserve scientific scope
+        if: always()
+        run: |
+          mkdir -p public
+          echo 'P11S2 20 previously observed P11 FENs, single engine per FEN, 7 phases, two physical Clear Hash UCI commands and four warm-phase searches. No independent confirmatory cohort, no TT-entry source instrumentation, no global proof of why move switched. GitHub bot has read-only access.' > public/SCOPE.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x030-p11s2-140-real-native-hash-washout-and-rebound
+          path: public/*
+          if-no-files-found: error
+          retention-days: 90
