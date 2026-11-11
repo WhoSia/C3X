@@ -52,7 +52,7 @@ RETURN='''    assert(bestValue > -VALUE_INFINITE && bestValue < VALUE_INFINITE);
                       << " best_value=" << bestValue
                       << " alpha_final=" << alpha << " beta=" << beta << std::endl;
     }
-    return bestValue;'''
+    return bestValue;\n  }\n\n\n  // qsearch()'''
 ROOT='''          RootMove& rm = *std::find(thisThread->rootMoves.begin(),
                                     thisThread->rootMoves.end(), move);
           // Root candidate value is measured BEFORE stockfish's original update.
