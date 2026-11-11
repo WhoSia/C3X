@@ -1,0 +1,32 @@
+name: C3X 0.30 F1 Matched Evidence Fusion Contract
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/c3x-030-f1-evidence-fusion-contract.yml'
+      - 'harness/c3x_030_p11f1_evidence_fusion_audit.py'
+      - 'harness/test_c3x_030_p11f1_evidence_fusion_audit.py'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  synthetic-only-contract:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 6
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Strict paired benchmark format, independent label and no-leakage tests
+        run: |
+          set -euo pipefail
+          PYTHONPATH=harness python3 -m unittest -v test_c3x_030_p11f1_evidence_fusion_audit
+          mkdir -p public
+          printf '%s\n' 'F1 is a TESTED CONTRACT ONLY, NOT a real head-to-head chess-paper benchmark. Synthetic unit cases are not empirical evidence. Claims of improvement require frozen independent source/judge/human labels, equal budgets and heldout complete chess games. Evidence absence must ABSTAIN. No learned calibration or postselection. GitHub-Actions bot commits nothing.' > public/SCOPE.txt
+          sha256sum harness/c3x_030_p11f1_evidence_fusion_audit.py > public/F1_CONTRACT_SOURCE_SHA256.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: c3x030-f1-claim-fusion-synthetic-contract-only
+          path: public/*
+          if-no-files-found: error
+          retention-days: 90
