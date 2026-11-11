@@ -19,7 +19,7 @@ import chess.engine
 SOURCE_COMMIT = "68e1e9b3811e16cad014b590d7443b9063b3eb52"
 SCHEMA = "c3x030-p11-precommitted-20-position-full-strength-repetition-v1"
 OPENING_HISTORIES = {
-    "ruy_lopez": ("e2e4 e7e5 g1f3 b8c6 f1b5 a7a6 f1a4 g8f6 e1g1 f8e7 f1e1 b7b5").split(),
+    "ruy_lopez": ("e2e4 e7e5 g1f3 b8c6 f1b5 a7a6 b5a4 g8f6 e1g1 f8e7 f1e1 b7b5").split(),
     "queens_gambit": ("d2d4 d7d5 c2c4 e7e6 b1c3 g8f6 c1g5 f8e7 e2e3 e8g8 g1f3 b8d7").split(),
     "sicilian_najdorf": ("e2e4 c7c5 g1f3 d7d6 d2d4 c5d4 f3d4 g8f6 b1c3 a7a6 c1e3 e7e6").split(),
     "english": ("c2c4 e7e5 b1c3 g8f6 g2g3 d7d5 c4d5 f6d5 f1g2 d5b6 g1f3 b8c6").split(),
