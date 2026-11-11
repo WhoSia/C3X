@@ -1,0 +1,98 @@
+name: C3X 0.30 P11S4C2 Same-Binary TT Hit Dose Audit
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/c3x-030-p11s4c2-TT-hit-dose.yml'
+      - 'harness/c3x_030_p11s4c_dose_patch.py'
+      - 'harness/test_c3x_030_p11s4c_dose_patch.py'
+      - 'harness/c3x_030_p11s4c_dose_court.py'
+      - 'harness/test_c3x_030_p11s4c_dose_court.py'
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  dose-pilot:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Chess parser and eight source/dose contract tests
+        run: |
+          set -euo pipefail
+          python -m pip install -q chess==1.11.2
+          PYTHONPATH=harness python -m unittest -v test_c3x_030_p11s4c_dose_patch test_c3x_030_p11s4c_dose_court
+      - name: Retrieve exact frozen original S4B source receipt
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          mkdir -p source-S4B public
+          gh run download 42972990269 -R WhoSia/C3X \
+            -n c3x030-p11s4b-native-18-search-exact-TT-key-sham-mask -D source-S4B
+          python - <<'PY'
+          import hashlib,shutil
+          from pathlib import Path
+          ref='081ee839f883d538081f1d2d15c43db1aa31cb12e4e713e1cda81815d5e59300'
+          xs=[p for p in Path('source-S4B').rglob('*') if p.is_file()
+              and hashlib.sha256(p.read_bytes()).hexdigest()==ref]
+          if len(xs)!=1:raise ValueError('S4C2_HOLD_SOURCE_ORIGINAL_NOT_UNIQUE')
+          shutil.copyfile(xs[0],'public/S4B_FROZEN_ORIGINAL.json')
+          print('S4C2_SOURCE_LOCK',ref)
+          PY
+      - name: Compile exact original and distinct unified TT dose binary
+        run: |
+          set -euo pipefail
+          git clone -q https://github.com/official-stockfish/Stockfish.git /tmp/c3x-s4c2-original
+          git -C /tmp/c3x-s4c2-original checkout -q 68e1e9b3811e16cad014b590d7443b9063b3eb52
+          test "$(git -C /tmp/c3x-s4c2-original rev-parse HEAD)" = 68e1e9b3811e16cad014b590d7443b9063b3eb52
+          make -s -C /tmp/c3x-s4c2-original/src -j2 build ARCH=x86-64
+          cp /tmp/c3x-s4c2-original/src/stockfish /tmp/c3x-s4c2-upstream-binary
+          cp -a /tmp/c3x-s4c2-original /tmp/c3x-s4c2-modified
+          python3 harness/c3x_030_p11s4c_dose_patch.py \
+            --source /tmp/c3x-s4c2-original/src/search.cpp \
+            --out /tmp/c3x-s4c2-modified/src/search.cpp
+          make -s -C /tmp/c3x-s4c2-modified/src -j2 build ARCH=x86-64
+          sha256sum /tmp/c3x-s4c2-original/src/search.cpp \
+            /tmp/c3x-s4c2-modified/src/search.cpp \
+            /tmp/c3x-s4c2-upstream-binary \
+            /tmp/c3x-s4c2-modified/src/stockfish > public/S4C2_BINARY_AND_SOURCE_SHA256.txt
+      - name: Native 36-search dose study with all null root results kept
+        run: |
+          set -euo pipefail
+          PYTHONPATH=harness python -u harness/c3x_030_p11s4c_dose_court.py \
+            --s4b-original public/S4B_FROZEN_ORIGINAL.json \
+            --original-binary /tmp/c3x-s4c2-upstream-binary \
+            --dose-binary /tmp/c3x-s4c2-modified/src/stockfish \
+            --out public/C3X_P11S4C2_REAL_ORIGINAL_TT_DOSE_CURVE.json
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          p=Path('public/C3X_P11S4C2_REAL_ORIGINAL_TT_DOSE_CURVE.json')
+          r=json.loads(p.read_text())
+          assert r['native_searches']==36
+          assert r['actual_nodes_total']>0
+          assert r['negative_controls_pass']
+          assert not r['exact_child_parent_root_mediation_proven']
+          assert set(r['root_bestmove_change_trial_totals'])=={'upstream','sham','zero','one','two','unbounded'}
+          print('S4C2_REAL_NATIVE_NEGATIVE_CONTROL_GATE',r['root_bestmove_change_trial_totals'])
+          PY
+          sha256sum public/C3X_P11S4C2_REAL_ORIGINAL_TT_DOSE_CURVE.json
+      - name: Preserve scope without inventing mediation
+        if: always()
+        run: |
+          mkdir -p public
+          echo 'S4C2 tests a single SAME patched Stockfish binary with 0,1,2,10000 suppressions of a previously observed ply1 TT hit key, and upstream/sham controls. Limits shared across PV templates per OS process. Three reused P11/S4B developer positions, each with two consecutive searches. Actual nodes recorded, do not infer identical search trajectories. No exact TT cell id / parent-root mediation / unseen cohort / future strategic quality. Negative root result preserved; GitHub Actions never commits.' > public/SCOPE.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x030-p11s4c2-36-native-TT-hit-dose-source-verified
+          path: public/*
+          if-no-files-found: error
+          retention-days: 90
