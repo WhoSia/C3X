@@ -97,3 +97,7 @@ While executing P11, nine originally user-uploaded `00_INTAKE` PDFs were first-p
 - Herbeck & Barth (1996) *An Explanation Tool for Chess Endgames Based on Rules*, ICCA 19(2), 75–82 — restricted publisher.
 - Seidel (1994) *Self-Annotating Elementary Endgames*, ICCA 17(2), 51–62 — restricted publisher.
 **Guid et al. 2013 is now owned and deliberately excluded from the missing-only list.** Unreadable, duplicate and unrelated older `00_INTAKE` items remain HOLD rather than being silently deleted or moved.
+
+### Latest 00_INTAKE HOLD observed during final readback
+
+A separate newly arriving PDF [\`Erev Roth AER 1998.pdf\`](https://drive.google.com/file/d/1gec8IHBXLpR3GdRhv_tCYTVMZYouv5CE/view) was observed late in the session; its Drive text extraction yielded **zero characters**. No bibliographic assertions, filename rewrite or relocation were performed based merely on the basename. Requires original PDF rendering/first-page identity inspection before cataloging. This is independent from C3X 0.30/P11 experimental evidence.
