@@ -1,0 +1,72 @@
+name: C3X 0.30 S4G R1 Exact Physical TT Mask Source Receipt Auditor
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/c3x-030-s4g-r1-mask-receipt-audit.yml'
+      - 'harness/c3x_030_p11s4g_r1_physical_mask_receipt_audit.py'
+      - 'harness/test_c3x_030_p11s4g_r1_physical_mask_receipt_audit.py'
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  identify-physical-not-natural-miss:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Four source event identity and misleading miss guard tests
+        run: |
+          set -euo pipefail
+          PYTHONPATH=harness python3 -m unittest -v test_c3x_030_p11s4g_r1_physical_mask_receipt_audit
+      - name: Download actual native S4G artifact and verify exact original JSON bytes
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          mkdir -p previous court
+          gh run download 42994310105 -R WhoSia/C3X -n c3x030-s4g-36-real-native-masked-return-root-pilot -D previous
+          python3 - <<'PY'
+          from pathlib import Path
+          import hashlib,shutil
+          target='71cecc490edad3090263e7695359e21568b8206a53fe213cff633c12c18ccecf'
+          matches=[p for p in Path('previous').rglob('*')
+                   if p.is_file() and hashlib.sha256(p.read_bytes()).hexdigest()==target]
+          if len(matches)!=1:raise ValueError('S4GR1_HOLD_ORIGINAL_PHYSICAL_SOURCE_SHA')
+          shutil.copyfile(matches[0],'court/S4G_FROZEN_ORIGINAL_NATIVE.json')
+          print('S4GR1_EXACT_NATIVE_SOURCE_SHA_MATCH',target)
+          PY
+      - name: Count verified physically masked invocation source-return-root links only
+        run: |
+          set -euo pipefail
+          PYTHONPATH=harness python3 harness/c3x_030_p11s4g_r1_physical_mask_receipt_audit.py \
+            --original court/S4G_FROZEN_ORIGINAL_NATIVE.json \
+            --out court/C3X_S4G_R1_PHYSICAL_MASK_RETURN_ROOT_CORRECTION.json
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path('court/C3X_S4G_R1_PHYSICAL_MASK_RETURN_ROOT_CORRECTION.json').read_text())
+          assert r['new_native_searches']==0
+          assert r['physical_mask_link_totals']['many']==18
+          assert r['old_postprobe_zero_links_totals']['many']==63
+          assert r['physical_mask_link_totals']['one']==0
+          assert r['physical_mask_link_totals']['two']==0
+          assert not r['proves_full_parent_root_counterfactual_mediation']
+          print('S4GR1_ACTUAL_NATIVE_PHYSICAL_18_MASKED_VALUE_LINKS_PASS')
+          PY
+          sha256sum court/C3X_S4G_R1_PHYSICAL_MASK_RETURN_ROOT_CORRECTION.json
+      - name: Explicit audit correction scope
+        if: always()
+        run: |
+          mkdir -p court
+          echo 'This is a SHA-locked correction of the original S4G result, ZERO new engine searches. Postprobe TT hit=false includes natural misses; old 63 is NOT 63 physically masked causal links. Only EXACT IDs in C3X_S4G_MASK receipts count; 18 original observed masked-invocation normal-return/root-value arithmetic matches under 8 source-event log cap per FEN. 0/1/2 doses have no verified physical receipt-to-negamax links in the bounded trace, not proof nothing happened. Root bestmove changes with many masking 3/6 still genuine; do NOT claim 18 uniquely caused those switches or proved parent-root counterfactual mediation.' > court/SCOPE.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x030-s4g-r1-physical-mask-provenance-correction
+          path: court/C3X_S4G_R1_PHYSICAL_MASK_RETURN_ROOT_CORRECTION.json
+          if-no-files-found: error
+          retention-days: 90
