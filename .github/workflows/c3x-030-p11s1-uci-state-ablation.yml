@@ -1,0 +1,70 @@
+name: C3X 0.30 P11S1 Native ClearHash and NewGame Ablation
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/c3x-030-p11s1-uci-state-ablation.yml'
+      - 'harness/c3x_030_p11s1_search_state_ablation.py'
+      - 'harness/test_c3x_030_p11s1_search_state_ablation.py'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  four-uci-regimes:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install pinned python chess and run five contract tests
+        run: |
+          set -euo pipefail
+          python -m pip install -q chess==1.11.2
+          PYTHONPATH=harness python -m unittest -v test_c3x_030_p11s1_search_state_ablation
+      - name: Pin and compile original native Stockfish16
+        run: |
+          set -euo pipefail
+          git clone -q https://github.com/official-stockfish/Stockfish.git /tmp/c3x-p11s1-stockfish
+          git -C /tmp/c3x-p11s1-stockfish checkout -q 68e1e9b3811e16cad014b590d7443b9063b3eb52
+          test "$(git -C /tmp/c3x-p11s1-stockfish rev-parse HEAD)" = 68e1e9b3811e16cad014b590d7443b9063b3eb52
+          make -s -C /tmp/c3x-p11s1-stockfish/src -j2 build ARCH=x86-64
+      - name: Real native searches on inherited 20 development FENs
+        run: |
+          set -euo pipefail
+          mkdir -p public
+          PYTHONPATH=harness python -u harness/c3x_030_p11s1_search_state_ablation.py \
+            --stockfish /tmp/c3x-p11s1-stockfish/src/stockfish \
+            --out public/C3X_P11S1_REAL_STOCKFISH16_UCI_STATE_FACTORIAL.json
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          x=json.loads(Path("public/C3X_P11S1_REAL_STOCKFISH16_UCI_STATE_FACTORIAL.json").read_text())
+          assert x['native_searches']==480
+          assert len(x['cohort'])==20
+          assert x['native_nodes_total']>0
+          assert x['independent_confirmatory_cohort'] is False
+          assert x['no_intentional_strength_prng'] is True
+          assert x['source_event_to_root_causality_proven'] is False
+          for pos in x['cohort'].values():
+              assert len(pos['arms'])==4
+              for arm in pos['arms'].values():
+                  assert len(arm['trials'])==6
+          print('P11S1_REAL_NATIVE_EXPERIMENT_VERIFIED',x['native_searches'])
+          PY
+          sha256sum public/*.json
+      - name: Transparent source scope disclaimer
+        if: always()
+        run: |
+          mkdir -p public
+          echo 'Full-strength Stockfish16, classical evaluation. 20 previously seen P11 FENs are DEVELOPMENT not independent confirmation. Four one-thread UCI reset/cache policies, 6 repeats each, native nodes recorded. Clear Hash is not equivalent to complete engine reset; ucinewgame can reset more than TT. No RL policy sampling or single native source event causal proof. GitHub-Actions bot does not commit.' > public/SCOPE.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x030-p11s1-real-stockfish16-clearhash-newgame-ablation
+          path: public/*
+          if-no-files-found: error
+          retention-days: 90
