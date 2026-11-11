@@ -37,7 +37,7 @@ def apply(src):
         raise ValueError('S4B_HOLD_SOURCE_ANCHOR')
     new=src.replace('#include <iostream>','#include <iostream>\n#include <cstdlib>',1)
     new=new.replace(ANCHOR,PATCH,1)
-    if (new.count('tte = TT.probe(posKey, ss->ttHit);')!=src.count('tte = TT.probe(posKey, ss->ttHit);'):
+    if new.count('tte = TT.probe(posKey, ss->ttHit);') != src.count('tte = TT.probe(posKey, ss->ttHit);'):
         raise ValueError('S4B_HOLD_ORIGINAL_TT_PROBE_REMOVED')
     if new.count('tte->save(')!=src.count('tte->save('):
         raise ValueError('S4B_HOLD_ORIGINAL_TT_SAVE_REMOVED')
