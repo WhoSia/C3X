@@ -71,3 +71,20 @@ Status: 7 new files read+renamed+moved, 4 old papers' titles repaired, legal ret
 - **Gadwal, Greer & McCalla (1993), _Tutoring Bishop-Pawn Endgames_** — [ResearchGate metadata/full-text landing page](https://www.researchgate.net/publication/2556833_Tutoring_Bishop-Pawn_Endgames_An_Experiment_in_Using_Knowledge-Based_Chess_as_a_Domain_for_Intelligent_Tutoring) exposes full-text preview and download claim (account requirements not verified). Prefer author's institutional repository or citation DOI [10.1007/BF00871938](https://doi.org/10.1007/BF00871938); separately held 1991 conference text is not identical.
 
 These works are **NOT inserted into acquired-file list**; their original PDFs were not uploaded to user Drive. Only their public routes were checked. Do not label publisher landing pages as verified free full PDF unless such access actually succeeds.
+## 6. Follow-on 2026-11-11 intake arrivals: seven further non-C3X algorithmic originals
+
+Additional PDFs arrived in `00_INTAKE` **after** the initial seven-file C3X batch; each of the seven fully readable original first pages was fetched and source file moved in place to `10_PAPERS` under canonical title and year. These are computational group theory / query learning originals, not newly demonstrated C3X chess-science outcomes.
+
+| Canonical work read | Original PDF ID | Research significance / source class |
+| --- | --- | --- |
+| Sims (1970), *Computational Methods in the Study of Permutation Groups*, in *Computational Problems in Abstract Algebra*, 169–183 | [Original](https://drive.google.com/file/d/1M4WTjnpXCjcGoXaVD1UZpGss79409eK8/view) | Bases and group representation, 1970 book chapter |
+| Sims (1971), *Computation with Permutation Groups*, Symposium on Symbolic and Algebraic Manipulation, 23–28 | [Original](https://drive.google.com/file/d/12ESPckYd--MAe0_V6-E5wsqsTXiAOd4A/view) | Computational stabilizer chains, membership and intersection |
+| Jerrum (1986), *A Compact Representation for Permutation Groups*, *Journal of Algorithms* 7, 60–78 | [Original](https://drive.google.com/file/d/1iB2SnrHoIlxFlaz3IQGXRuT5cIHyNUvH/view) | Compact data structure and efficient membership checks |
+| Blaha (1992), *Minimum Bases for Permutation Groups: The Greedy Approximation*, *Journal of Algorithms* 13, 297–306 | [Original](https://drive.google.com/file/d/1Z-Oe_mOkUrZAQhgsmpZvHuAwN8JtEGKL/view) | NP-hardness of minimum base, greedy approximation bounds |
+| Bshouty, Goldman, Hancock & Matar (1996), *Asking Questions to Minimize Errors*, *Journal of Computer and System Sciences* 52, 268–286 | [Original](https://drive.google.com/file/d/1DcEyQhPZfYErZaTra9sSqvOo_Kl4W8p4/view) | Exact learning with membership/equivalence queries |
+| Bisht, Bshouty & Khoury (2008; online 2007), *Learning with Errors in Answers to Membership Queries*, *Journal of Computer and System Sciences* 74, 2–15, DOI 10.1016/j.jcss.2007.04.010 | [Original](https://drive.google.com/file/d/1wU_xQt0rwHbaI0y2eXa23zZJJfpSJHxB/view) | Robust query learning under malicious/limited answers |
+| Rivest (1987), *Learning Decision Lists*, *Machine Learning* 2, 229–246 | [Original](https://drive.google.com/file/d/16OTCF7mxJO4ypYvBanEBoN-PkPsH1J8t/view) | Learnable decision-list representation |
+
+**Explicit HOLD:** `bshouty1995.pdf` [original](https://drive.google.com/file/d/1br-s2_yYtMhoIw_r-CZ4OBTNDuLtA2Pa/view) also appeared during this continuing intake, but returned **zero extracted text**. Do not assert author/title/venue or move based solely on ambiguous generic basename. It remains `00_INTAKE` for later PDF visual inspection and actual byte/version identity check. Other earlier duplicate, unreadable, or unrelated intake HOLD records remain untouched.
+
+**Scope correction:** The initial P9 heading and section 1's 'seven newly uploaded files' refer to the first batch. The extended P9 session has **14 first-page-verified new readable originals in total** (seven original and seven additional), with one newly observed unreadable scan held in intake, plus four pre-existing 10_PAPERS metadata repairs. No native engine tests added in either batch.
