@@ -1,0 +1,97 @@
+name: C3X 0.30 P11S4G Real Native Matched TT Mask and Value-Flow
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/c3x-030-p11s4g-samebin-mediator-pilot.yml'
+      - 'harness/c3x_030_p11s4g_masked_invocation_patch.py'
+      - 'harness/test_c3x_030_p11s4g_masked_invocation_patch.py'
+      - 'harness/c3x_030_p11s4g_native_paired_court.py'
+      - 'harness/test_c3x_030_p11s4g_native_paired_court.py'
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  same-binary-tt-value-pilot:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Isolated chess and source-value contract tests
+        run: |
+          set -euo pipefail
+          python -m pip install -q chess==1.11.2
+          PYTHONPATH=harness python -m unittest -v test_c3x_030_p11s4g_masked_invocation_patch test_c3x_030_p11s4g_native_paired_court
+      - name: Lock first-hit source keys to genuine original S4B byte SHA
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          mkdir -p source public
+          gh run download 42972990269 -R WhoSia/C3X -n c3x030-p11s4b-native-18-search-exact-TT-key-sham-mask -D source
+          python3 - <<'PY'
+          from pathlib import Path
+          import hashlib,shutil
+          s='081ee839f883d538081f1d2d15c43db1aa31cb12e4e713e1cda81815d5e59300'
+          xs=[x for x in Path('source').rglob('*') if x.is_file() and hashlib.sha256(x.read_bytes()).hexdigest()==s]
+          if len(xs)!=1:raise ValueError('S4G_HOLD_ORIGINAL_SOURCE_SHA')
+          shutil.copyfile(xs[0],'public/ORIGINAL_S4B_SOURCE.json')
+          print('S4G_TARGET_KEYS_FROZEN_BEFORE_TREATMENT',s)
+          PY
+      - name: Compile pinned Stockfish16 true upstream and same-binary source intervention
+        run: |
+          set -euo pipefail
+          git clone -q https://github.com/official-stockfish/Stockfish.git /tmp/c3x-s4g-original
+          git -C /tmp/c3x-s4g-original checkout -q 68e1e9b3811e16cad014b590d7443b9063b3eb52
+          test "$(git -C /tmp/c3x-s4g-original rev-parse HEAD)" = 68e1e9b3811e16cad014b590d7443b9063b3eb52
+          make -s -C /tmp/c3x-s4g-original/src -j2 build ARCH=x86-64
+          cp /tmp/c3x-s4g-original/src/stockfish /tmp/c3x-s4g-native-original
+          cp -a /tmp/c3x-s4g-original /tmp/c3x-s4g-experimental
+          python3 harness/c3x_030_p11s4g_masked_invocation_patch.py \
+            --source /tmp/c3x-s4g-original/src/search.cpp \
+            --out /tmp/c3x-s4g-experimental/src/search.cpp
+          make -s -C /tmp/c3x-s4g-experimental/src -j2 build ARCH=x86-64
+          sha256sum /tmp/c3x-s4g-original/src/search.cpp \
+            /tmp/c3x-s4g-experimental/src/search.cpp \
+            /tmp/c3x-s4g-native-original \
+            /tmp/c3x-s4g-experimental/src/stockfish > public/S4G_SOURCE_BINARY_SHA256.txt
+      - name: Execute 36 actual same-FEN source mask/return/negamax trace searches
+        run: |
+          set -euo pipefail
+          PYTHONPATH=harness python -u harness/c3x_030_p11s4g_native_paired_court.py \
+            --prior-original public/ORIGINAL_S4B_SOURCE.json \
+            --baseline /tmp/c3x-s4g-native-original \
+            --modified /tmp/c3x-s4g-experimental/src/stockfish \
+            --out public/C3X_P11S4G_36_NATIVE_SAME_BINARY_INTERVENTION_EDGES.json
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path('public/C3X_P11S4G_36_NATIVE_SAME_BINARY_INTERVENTION_EDGES.json').read_text())
+          assert r['native_searches']==36 and r['native_actual_nodes']>0
+          assert r['negative_controls_equal']
+          assert not r['causal_mediation_proven']
+          for p in r['positions'].values():
+              assert len(p['source_mask_receipts']['one'])==1
+              assert len(p['source_mask_receipts']['two'])==2
+              assert len(p['source_mask_receipts']['many'])>=2
+          print('C3X_S4G_REAL_NATIVE_SOURCE_MASK_VALUE_EDGE_SCOPE',r['root_changes_by_arm'])
+          PY
+          sha256sum public/C3X_P11S4G_36_NATIVE_SAME_BINARY_INTERVENTION_EDGES.json
+      - name: Explicit non-overclaim scope and original-byte archive
+        if: always()
+        run: |
+          mkdir -p public
+          echo 'S4G real same modified source binary for sham+zero+one+two+many TT-hit masks with true original baseline, 3 prior examined development FENs, each 2 searches. Raw source invocation ID, TT-hit after mask, normal return and directly matched root candidate negamax sign observed where logs present. No full search tree or TT early cutoff/qsearch coverage, capped logging and no independent new-game cohort; matched arithmetic is NOT proof of counterfactual mediator. Compare root choices and scores honestly, preserve negative results. No GitHub-Actions bot commits.' > public/SCOPE.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x030-s4g-36-real-native-masked-return-root-pilot
+          path: public/*
+          if-no-files-found: error
+          retention-days: 90
