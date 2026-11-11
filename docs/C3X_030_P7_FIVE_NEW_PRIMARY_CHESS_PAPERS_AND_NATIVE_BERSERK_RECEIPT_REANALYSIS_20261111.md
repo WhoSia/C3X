@@ -55,3 +55,14 @@ Notion original-paper reading ledger: [P7 record](https://app.notion.com/p/415ef
 - Demura & Kaneko (2024), *Initial State Diversification for Efficient AlphaZero-style Training*, ICGA Journal 46(2), 40–66, [DOI 10.3233/ICG-240255](https://doi.org/10.3233/ICG-240255).
 
 These four exact paper titles/versions were not found in connected Drive original PDF searches; the corpus-wide absence is not proved. Do not list any of the five newly read/canonicalized articles as missing.
+
+## Further newly located unheld paper references from Björnsson (2024) bibliography
+
+Searches across accessible Drive files did **not** reveal original PDF for the following exact papers (do not conflate mentioning references with owning the full original):
+
+- Baier & Kaisers (2020 workshop, January 2021 proceedings metadata), *Explainable Search*, [CWI original](https://ir.cwi.nl/pub/30849): explanation of large possible-futures search spaces, human-agent interaction and explanation limitations.
+- Baier & Kaisers (2021), *Towards Explainable MCTS*, AAAI Explainable Agency workshop, [CWI full text](https://ir.cwi.nl/pub/30850): planned-branch summaries and interactive explanations; source domain MCTS, **not automatically valid as a Stockfish alpha-beta mediation proof**.
+- Fritz & Fürnkranz (2021), *Some Chess-Specific Improvements for Perturbation-Based Saliency Maps*, IEEE CoG, [publisher-linked original](https://ieee-cog.org/2021/assets/papers/paper_180.pdf): examines SARFA chess-specific blind spots, especially pins/empty squares. Highly relevant to C3X R30 original SARFA implementation and to explaining false saliency.
+- Lee, Wu, Dinan & Lewis (2022), *Improving Chess Commentaries by Combining Language Models with Symbolic Reasoning Engines*, [arXiv 2212.08195](https://arxiv.org/abs/2212.08195): preexisting language model plus symbolic chess evidence baseline; do not claim human efficacy or causal faithfulness from a natural-language preference benchmark.
+
+These are **additional candidate unowned originals**, not newly read or reproduced within this run. Their bibliographic references were checked against the original Björnsson survey and publication pages; absence remains subject to full-Drive exhaustive source identity audit.
