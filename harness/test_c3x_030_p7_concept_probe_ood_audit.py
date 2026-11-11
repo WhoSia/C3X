@@ -24,7 +24,7 @@ class TestP7ConceptProbeCourt(unittest.TestCase):
         r = x["concepts"]["center_control"]
         self.assertEqual(r["train_positive_prevalence"], .5)
         self.assertEqual(r["accuracy_chess960_minus_standard"], -1.)
-        self.assertEqual(r["test"]["standard"]["probe_brier"], .01)
+        self.assertAlmostEqual(r["test"]["standard"]["probe_brier"], .01)
         self.assertEqual(x["actual_model_executions_performed_by_this_tool"], 0)
 
     def test_game_leakage_fail_closed(self):
