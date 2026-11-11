@@ -22,8 +22,8 @@ PROBE_PATCH='''    tte = TT.probe(posKey, ss->ttHit);
     // C3X S4-A observation only: no condition, TT value, or move ordering changed.
     if (ss->ply <= 3)
     {
-        const auto c3x_index = c3x_tt_events.fetch_add(1, std::memory_order_relaxed);
-        if (c3x_index < 128)
+        const auto c3x_index = c3x_tt_probes.fetch_add(1, std::memory_order_relaxed);
+        if (c3x_index < 64)
             std::cerr << "C3X_TT_EVENT kind=probe index=" << c3x_index
                       << " ply=" << ss->ply << " key=" << posKey
                       << " hit=" << int(ss->ttHit) << " depth=" << depth
@@ -35,8 +35,8 @@ SAVE_PATCH='''    // Write gathered information in transposition table
         // C3X S4-A: log *before* calling the original, unchanged TTEntry::save.
         if (ss->ply <= 3)
         {
-            const auto c3x_index = c3x_tt_events.fetch_add(1, std::memory_order_relaxed);
-            if (c3x_index < 128)
+            const auto c3x_index = c3x_tt_saves.fetch_add(1, std::memory_order_relaxed);
+            if (c3x_index < 64)
                 std::cerr << "C3X_TT_EVENT kind=save index=" << c3x_index
                           << " ply=" << ss->ply << " key=" << posKey
                           << " value=" << bestValue << " depth=" << depth
@@ -53,7 +53,7 @@ namespace Search {'''
 COUNTER_PATCH='''namespace Stockfish {
 
 // Bounded diagnostic bookkeeping; NEVER read by engine search decisions.
-static std::atomic<unsigned> c3x_tt_events{0};
+static std::atomic<unsigned> c3x_tt_probes{0};\nstatic std::atomic<unsigned> c3x_tt_saves{0};
 
 namespace Search {'''
 
