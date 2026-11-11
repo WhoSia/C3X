@@ -1,0 +1,21 @@
+name: C3X P7 read-only frozen judge audit
+on:
+  push:
+    paths:
+      - 'product/c3x_p7_independent_judge_audit.py'
+      - 'product/test_c3x_p7_independent_judge_audit.py'
+      - '.github/workflows/c3x-030-p7-frozen-judge-audit.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  p7-stdlib:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Python version
+        run: python3 --version
+      - name: P7 synthetic integrity tests (no chess deps, no native engine)
+        run: python3 -m unittest discover -s product -p 'test_c3x_p7_independent_judge_audit.py' -v
