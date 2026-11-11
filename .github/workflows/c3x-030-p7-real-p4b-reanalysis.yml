@@ -1,0 +1,56 @@
+name: C3X P7 Original Berserk Receipt Reanalysis
+on:
+  push:
+    paths:
+      - '.github/workflows/c3x-030-p7-real-p4b-reanalysis.yml'
+      - 'product/c3x_p7_independent_judge_audit.py'
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  reanalyze:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Download original immutable P4-B artifact without invoking native engines
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p p7-input p7-result
+          gh run download 42791282073 -R WhoSia/C3X -n c3x030-p4b-actual-independent-Berserk16-searches-frozen-Cui-tree -D p7-input
+      - name: Find EXACT SHA-locked P4-B primary result
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import hashlib, shutil
+          SHA='f4543fa3dea84559658f09ce5be2501a81aacf213e119984b0778fcc59fb5a51'
+          files=[p for p in Path('p7-input').rglob('*') if p.is_file() and hashlib.sha256(p.read_bytes()).hexdigest()==SHA]
+          if len(files)!=1: raise ValueError(f'P7_HOLD_EXPECTED_ONE_FROZEN_ORIGINAL_JSON: {len(files)}')
+          shutil.copyfile(files[0],'p7-result/source-original-P4B.json')
+          print('C3X_P7_ORIGINAL_P4B_RAW_BYTES_VERIFIED',files[0].name,SHA)
+          PY
+      - name: Run P7 on actual independently searched frozen P4-B original
+        run: |
+          python3 product/c3x_p7_independent_judge_audit.py \
+            --judge-json p7-result/source-original-P4B.json \
+            --expected-sha256 f4543fa3dea84559658f09ce5be2501a81aacf213e119984b0778fcc59fb5a51 \
+            --out p7-result/C3X_P7_actual_original_P4B_reanalysis.json
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          p=Path('p7-result/C3X_P7_actual_original_P4B_reanalysis.json')
+          j=json.loads(p.read_text())
+          assert j['new_native_engine_searches']==0
+          assert j['source_selected_k']==2
+          assert j['full_opponent_universe_judged'] is False
+          print('C3X_P7_ORIGINAL_REANALYSIS', json.dumps(j, sort_keys=True))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: c3x030-p7-actual-original-p4b-read-only-reanalysis
+          path: p7-result/C3X_P7_actual_original_P4B_reanalysis.json
+          if-no-files-found: error
+          retention-days: 90
