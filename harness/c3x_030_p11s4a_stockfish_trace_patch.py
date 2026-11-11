@@ -11,14 +11,14 @@ from pathlib import Path
 
 UPSTREAM_SHA="68e1e9b3811e16cad014b590d7443b9063b3eb52"
 INCLUDE='#include <atomic>\n#include <algorithm>'
-PROBE='    tte = TT.probe(posKey, ss->ttHit);'
+PROBE='    excludedMove = ss->excludedMove;\\n    posKey = pos.key();\\n    tte = TT.probe(posKey, ss->ttHit);'
 SAVE='''    // Write gathered information in transposition table
     if (!excludedMove && !(rootNode && thisThread->pvIdx))
         tte->save(posKey, value_to_tt(bestValue, ss->ply), ss->ttPv,
                   bestValue >= beta ? BOUND_LOWER :
                   PvNode && bestMove ? BOUND_EXACT : BOUND_UPPER,
                   depth, bestMove, ss->staticEval);'''
-PROBE_PATCH='''    tte = TT.probe(posKey, ss->ttHit);
+PROBE_PATCH='''    excludedMove = ss->excludedMove;\n    posKey = pos.key();\n    tte = TT.probe(posKey, ss->ttHit);
     // C3X S4-A observation only: no condition, TT value, or move ordering changed.
     if (ss->ply <= 3)
     {
