@@ -1,0 +1,70 @@
+name: C3X 0.30 P11 Full-Strength 20-Position Repeatability Cohort
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'harness/c3x_030_p11_repeatability_cohort.py'
+      - 'harness/test_c3x_030_p11_repeatability_cohort.py'
+      - '.github/workflows/c3x-030-p11-predeclared-fullstrength-repeat.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  native-repeatability:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install isolated chess parser and test fixed cohort
+        run: |
+          set -euo pipefail
+          python -m pip install -q chess==1.11.2
+          PYTHONPATH=harness python -m unittest -v test_c3x_030_p11_repeatability_cohort
+      - name: Compile immutable stockfish16 classical engine
+        run: |
+          set -euo pipefail
+          git clone -q https://github.com/official-stockfish/Stockfish.git /tmp/c3x-p11-stockfish
+          git -C /tmp/c3x-p11-stockfish checkout -q 68e1e9b3811e16cad014b590d7443b9063b3eb52
+          test "$(git -C /tmp/c3x-p11-stockfish rev-parse HEAD)" = 68e1e9b3811e16cad014b590d7443b9063b3eb52
+          make -s -C /tmp/c3x-p11-stockfish/src -j2 build ARCH=x86-64
+      - name: Execute 360 full-strength native chess searches and preserve every bestmove
+        run: |
+          set -euo pipefail
+          mkdir -p public
+          PYTHONPATH=harness python -u harness/c3x_030_p11_repeatability_cohort.py \
+            --stockfish /tmp/c3x-p11-stockfish/src/stockfish \
+            --repeats 6 --nodes 12000 \
+            --out public/C3X_030_P11_REAL_20_POSITION_FULL_STRENGTH_REPEATABILITY.json
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          d=json.loads(Path('public/C3X_030_P11_REAL_20_POSITION_FULL_STRENGTH_REPEATABILITY.json').read_text())
+          assert d['total_native_searches']==360
+          assert len(d['cohort'])==20
+          assert d['total_actual_native_nodes']>0
+          assert d['intentional_handicap_rng_enabled'] is False
+          for v in d['cohort'].values():
+              assert len(v['arms'])==3
+              for a in v['arms'].values():
+                  assert a['summary']['count']==6
+                  assert sum(a['summary']['counts'].values())==6
+          print('C3X_P11_ACTUAL_NATIVE_SCOPE_VERIFIED',d['total_native_searches'])
+          PY
+          sha256sum public/*.json
+      - name: Archive interpretation and limitations
+        if: always()
+        run: |
+          mkdir -p public
+          echo 'P11: predeclared 4 legal opening lines with checkpoints at plies 4,6,8,10,12 = 20 source positions. Three full-strength arms fresh 1-thread / warm 1-thread / fresh 4-thread, 6 repeats per arm, 12000 requested nodes. No Skill Level handicap PRNG. Actual nodes differ. This tests repeatability, not source event causal mediation or a general proof of deterministic engines. No source repo writes by Actions.' > public/SCOPE.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x030-p11-predeclared-20-position-360-fullstrength-native
+          path: public/*
+          if-no-files-found: error
+          retention-days: 90
