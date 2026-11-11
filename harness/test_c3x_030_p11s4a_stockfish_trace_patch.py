@@ -7,7 +7,7 @@ class Test(unittest.TestCase):
         s=apply(self.data())
         self.assertIn("C3X_TT_EVENT kind=probe",s)
         self.assertIn("C3X_TT_EVENT kind=save",s)
-        self.assertIn("std::atomic<unsigned> c3x_tt_events",s)
+        self.assertIn("std::atomic<unsigned> c3x_tt_probes",s)
     def test_exactly_once_or_hold(self):
         with self.assertRaisesRegex(ValueError,"UPSTREAM_SOURCE_ANCHOR"):
             apply(self.data()+PROBE)
@@ -17,5 +17,5 @@ class Test(unittest.TestCase):
     def test_original_save_kept(self):
         s=apply(self.data())
         self.assertEqual(s.count("tte->save(posKey, value_to_tt(bestValue"),1)
-        self.assertEqual(s.count("c3x_tt_events.fetch_add"),2)
+        self.assertEqual(s.count("fetch_add(1, std::memory_order_relaxed)"),2)
 if __name__=="__main__":unittest.main()
