@@ -46,8 +46,8 @@ def patch(original):
       "static thread_local unsigned c3x_e_logs = 0;\n"+NS_ADD),
      ("            c3x_e_last_child[ply] = id;",
       "            c3x_e_last_child[ply] = id;\n            c3x_e_last_target[ply] = interested ? id : 0;"),
-     ('    if (c3x_e_target && ss->ply == 1\n',
-      PROBE_MASK+'    if (c3x_e_target && ss->ply == 1\n'),
+     ('    if (c3x_e_target && ss->ply == 1',
+      PROBE_MASK+'    if (c3x_e_target && ss->ply == 1'),
      ('          if (c3x_e_target && c3x_e_logs++ < 240)',
       '          if (c3x_e_target && c3x_e_last_child[ss->ply + 1] != 0\n'
       '              && c3x_e_last_child[ss->ply + 1] == c3x_e_last_target[ss->ply + 1]\n'
