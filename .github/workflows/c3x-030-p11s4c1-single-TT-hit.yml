@@ -1,0 +1,99 @@
+name: C3X 0.30 P11S4C1 Single-Event TT Hit Root Pilot
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/c3x-030-p11s4c1-single-TT-hit.yml'
+      - 'harness/c3x_030_p11s4c_single_hit_patch.py'
+      - 'harness/test_c3x_030_p11s4c_single_hit_patch.py'
+      - 'harness/c3x_030_p11s4c_once_native_court.py'
+      - 'harness/test_c3x_030_p11s4c_once_native_court.py'
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  source_once_native:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Pinned legal board and eight exact-one contracts
+        run: |
+          set -euo pipefail
+          python -m pip install -q chess==1.11.2
+          PYTHONPATH=harness python -m unittest -v test_c3x_030_p11s4c_single_hit_patch test_c3x_030_p11s4c_once_native_court
+      - name: Retrieve exact sealed original S4B receipt before outcomes
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          mkdir -p original-S4B public
+          gh run download 42972990269 -R WhoSia/C3X \
+            -n c3x030-p11s4b-native-18-search-exact-TT-key-sham-mask \
+            -D original-S4B
+          python3 - <<'PY'
+          import hashlib,shutil
+          from pathlib import Path
+          sha='081ee839f883d538081f1d2d15c43db1aa31cb12e4e713e1cda81815d5e59300'
+          paths=[p for p in Path('original-S4B').rglob('*') if p.is_file() and
+                 hashlib.sha256(p.read_bytes()).hexdigest()==sha]
+          if len(paths)!=1:raise ValueError('S4C_HOLD_ORIGINAL_S4B_EXACT_SHA')
+          shutil.copyfile(paths[0],'public/S4B_SEALED_ORIGINAL_SOURCE.json')
+          print('S4C_FROZEN_S4B_SOURCE_SHA',sha)
+          PY
+      - name: Compile original Stockfish16 and globally once-gated TT hit variant
+        run: |
+          set -euo pipefail
+          git clone -q https://github.com/official-stockfish/Stockfish.git /tmp/c3x-s4c-original
+          git -C /tmp/c3x-s4c-original checkout -q 68e1e9b3811e16cad014b590d7443b9063b3eb52
+          test "$(git -C /tmp/c3x-s4c-original rev-parse HEAD)" = 68e1e9b3811e16cad014b590d7443b9063b3eb52
+          make -s -C /tmp/c3x-s4c-original/src -j2 build ARCH=x86-64
+          cp /tmp/c3x-s4c-original/src/stockfish /tmp/c3x-s4c-control-binary
+          cp -a /tmp/c3x-s4c-original /tmp/c3x-s4c-modified
+          python3 harness/c3x_030_p11s4c_single_hit_patch.py \
+            --source /tmp/c3x-s4c-original/src/search.cpp \
+            --out /tmp/c3x-s4c-modified/src/search.cpp
+          make -s -C /tmp/c3x-s4c-modified/src -j2 build ARCH=x86-64
+          sha256sum /tmp/c3x-s4c-original/src/search.cpp \
+            /tmp/c3x-s4c-modified/src/search.cpp \
+            /tmp/c3x-s4c-control-binary \
+            /tmp/c3x-s4c-modified/src/stockfish > public/S4C1_SOURCE_AND_BINARY_SHA256.txt
+      - name: Original vs sham vs once-only physical TT hit intervention
+        run: |
+          set -euo pipefail
+          PYTHONPATH=harness python3 -u harness/c3x_030_p11s4c_once_native_court.py \
+            --s4b-original public/S4B_SEALED_ORIGINAL_SOURCE.json \
+            --baseline /tmp/c3x-s4c-control-binary \
+            --single-hit-binary /tmp/c3x-s4c-modified/src/stockfish \
+            --out public/C3X_P11S4C1_EXACT_ONE_EVENT_NATIVE.json
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          z=json.loads(Path('public/C3X_P11S4C1_EXACT_ONE_EVENT_NATIVE.json').read_text())
+          assert z['native_searches']==18
+          assert z['native_nodes_total']>0
+          assert z['one_and_only_one_hit_each']
+          assert z['all_shams_noninterfering']
+          assert not z['ancestral_return_value_transmission_proven']
+          print('S4C1_NATIVE_ONE_PHYSICAL_EVENT_GATE_PASS',
+                'root_choice_changes',z['number_of_target_root_changes'])
+          PY
+          sha256sum public/C3X_P11S4C1_EXACT_ONE_EVENT_NATIVE.json
+      - name: Archive scope and explicit negative evidence policy
+        if: always()
+        run: |
+          mkdir -p public
+          echo 'S4C1 one process-global first observed matching ply-one TT hit signal per target engine process; exact source key from prior S4B SHA-sealed evidence. Same patched binary for target/sham. Two searches per arm. No full search ancestry/TT-entry parent-value mediation, no independently unseen FEN, no proof of future plan quality. Root move unchanged is valid NEGATIVE observation; CI rejects missing physical contact, NOT null effects. GitHub Actions never commits to repository.' > public/SCOPE.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x030-p11s4c1-real-once-hit-source-intervention
+          path: public/*
+          if-no-files-found: error
+          retention-days: 90
