@@ -1,0 +1,96 @@
+name: C3X 0.30 P11S4E Actual Native Invocation Graph Pilot
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/c3x-030-p11s4e-invocation-pilot.yml'
+      - 'harness/c3x_030_p11s4e_invocation_patch.py'
+      - 'harness/test_c3x_030_p11s4e_invocation_patch.py'
+      - 'harness/c3x_030_p11s4e_invocation_court.py'
+      - 'harness/test_c3x_030_p11s4e_invocation_court.py'
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  native-invocation:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Unit proof of four source instrument sites and actual invocation semantics
+        run: |
+          set -euo pipefail
+          python -m pip install -q chess==1.11.2
+          PYTHONPATH=harness python -m unittest -v test_c3x_030_p11s4e_invocation_patch test_c3x_030_p11s4e_invocation_court
+      - name: SHA-lock original S4B TT preselection before any S4E native outcomes
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          mkdir -p source public
+          gh run download 42972990269 -R WhoSia/C3X \
+            -n c3x030-p11s4b-native-18-search-exact-TT-key-sham-mask -D source
+          python3 - <<'PY'
+          import hashlib,shutil
+          from pathlib import Path
+          target='081ee839f883d538081f1d2d15c43db1aa31cb12e4e713e1cda81815d5e59300'
+          matches=[p for p in Path('source').rglob('*') if p.is_file() and hashlib.sha256(p.read_bytes()).hexdigest()==target]
+          if len(matches)!=1:raise ValueError('S4E_HOLD_FROZEN_SOURCE_MISSING')
+          shutil.copyfile(matches[0],'public/S4B_EXACT_ORIGINAL.json')
+          print('S4E_FROZEN_DEVELOPMENT_SOURCE',target)
+          PY
+      - name: Compile unmodified original Stockfish16 and distinct read-only invocation instrument
+        run: |
+          set -euo pipefail
+          git clone -q https://github.com/official-stockfish/Stockfish.git /tmp/c3x-s4e-original
+          git -C /tmp/c3x-s4e-original checkout -q 68e1e9b3811e16cad014b590d7443b9063b3eb52
+          test "$(git -C /tmp/c3x-s4e-original rev-parse HEAD)" = 68e1e9b3811e16cad014b590d7443b9063b3eb52
+          make -s -C /tmp/c3x-s4e-original/src -j2 build ARCH=x86-64
+          cp /tmp/c3x-s4e-original/src/stockfish /tmp/c3x-s4e-original-binary
+          cp -a /tmp/c3x-s4e-original /tmp/c3x-s4e-logged
+          python3 harness/c3x_030_p11s4e_invocation_patch.py \
+            --source /tmp/c3x-s4e-original/src/search.cpp \
+            --out /tmp/c3x-s4e-logged/src/search.cpp
+          make -s -C /tmp/c3x-s4e-logged/src -j2 build ARCH=x86-64
+          sha256sum /tmp/c3x-s4e-original/src/search.cpp \
+            /tmp/c3x-s4e-logged/src/search.cpp \
+            /tmp/c3x-s4e-original-binary \
+            /tmp/c3x-s4e-logged/src/stockfish > public/S4E_NATIVE_BINARY_SOURCE_SHA256.txt
+      - name: Real native original versus read-only invocation graph
+        run: |
+          set -euo pipefail
+          PYTHONPATH=harness python -u harness/c3x_030_p11s4e_invocation_court.py \
+            --prior-original public/S4B_EXACT_ORIGINAL.json \
+            --baseline /tmp/c3x-s4e-original-binary \
+            --logger /tmp/c3x-s4e-logged/src/stockfish \
+            --out public/C3X_P11S4E_REAL_NATIVE_INVOCATION_TRACE.json
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          d=json.loads(Path('public/C3X_P11S4E_REAL_NATIVE_INVOCATION_TRACE.json').read_text())
+          assert d['native_searches']==12
+          assert d['actual_native_nodes']>0
+          assert d['noninterference_pass']
+          assert d['some_probes_linked_to_same_invocation_returns']
+          assert d['causal_return_to_root_proven'] is False
+          print('S4E_REAL_SOURCE_INVOCATION_LINKS_PASS')
+          PY
+          sha256sum public/C3X_P11S4E_REAL_NATIVE_INVOCATION_TRACE.json
+      - name: Explicit bounded-logger scientific interpretation
+        if: always()
+        run: |
+          mkdir -p public
+          echo 'S4E read-only RAII invocation IDs/parent IDs for main search<>. TT selected key ply1 probe and corresponding normal returns; scope destructor logs exits even on early returns but value_known=0. Root event last finished main child may not be true score-source, qsearch not instrumented, log max 240 process-wide and per-node missing logs possible. No proof of mediation, no physical TT intervention, no unseen cohort. 3 inherited developer FENs and exact upstream original output regression. Nulls preserved, GitHub-Actions bot read-only.' > public/SCOPE.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x030-p11s4e-12-real-native-invocation-edges
+          path: public/*
+          if-no-files-found: error
+          retention-days: 90
