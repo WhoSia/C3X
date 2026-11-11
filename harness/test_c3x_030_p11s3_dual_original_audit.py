@@ -17,8 +17,8 @@ def fixtures():
                                "observed_switch":False}} for arm in ARMS}
             b={phase:{"move_uci":"e2e4","nodes_actual":12000} for phase in PHASES}
             s={"clear1_restores":True,"clear2_restores":True,"warm1_differs":False,
-               "warm2_differs":False,"postclear_warm1_differs":False,
-               "postclear_warm2_differs":False}
+               "warm2_differs":False,"after_clear1_warm_differs":False,
+               "after_clear2_warm_differs":False}
             x["cohort"][id]={"fen":id,"history_uci":[],"arms":a}
             y["cohort"][id]={"fen":id,"history_uci":[],"phase_rows":b,"summary":s}
     x["native_nodes_total"]=480*12000
@@ -26,8 +26,8 @@ def fixtures():
     x["cross_arm_disagreements_with_cold_reference"]={a:0 for a in ARMS}
     y["total_actual_nodes"]=140*12000
     y["position_summary_counts"]={"clear1_restores":20,"clear2_restores":20,
-        "warm1_differs":0,"warm2_differs":0,"postclear_warm1_differs":0,
-        "postclear_warm2_differs":0}
+        "warm1_differs":0,"warm2_differs":0,"after_clear1_warm_differs":0,
+        "after_clear2_warm_differs":0}
     return x,y
 
 class Test(unittest.TestCase):
