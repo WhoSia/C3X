@@ -1,0 +1,19 @@
+name: C3X P7 Chess Concept OOD Probe Audit (stdlib)
+on:
+  push:
+    paths:
+      - 'harness/c3x_030_p7_concept_probe_ood_audit.py'
+      - 'harness/test_c3x_030_p7_concept_probe_ood_audit.py'
+      - '.github/workflows/c3x-030-p7-chess-concept-probe.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  synthetic-contract-only:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Verify standard library contract tests, no model or chess engine
+        run: python3 -m unittest discover -s harness -p 'test_c3x_030_p7_concept_probe_ood_audit.py' -v
