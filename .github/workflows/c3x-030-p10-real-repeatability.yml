@@ -1,0 +1,69 @@
+name: C3X 0.30 P10 Real Stockfish16 Repeatability Factorial
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/c3x-030-p10-real-repeatability.yml'
+      - 'harness/c3x_030_p10_stockfish_stochasticity.py'
+      - 'harness/test_c3x_030_p10_stockfish_stochasticity.py'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  native-repeatability:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Isolated python-chess parser and five contract tests
+        run: |
+          set -euo pipefail
+          python -m pip install -q chess==1.11.2
+          PYTHONPATH=harness python -m unittest -v test_c3x_030_p10_stockfish_stochasticity
+      - name: Build source-pinned Stockfish16 classical engine
+        run: |
+          set -euo pipefail
+          git clone -q https://github.com/official-stockfish/Stockfish.git /tmp/c3x-p10-stockfish
+          git -C /tmp/c3x-p10-stockfish checkout -q 68e1e9b3811e16cad014b590d7443b9063b3eb52
+          test "$(git -C /tmp/c3x-p10-stockfish rev-parse HEAD)" = 68e1e9b3811e16cad014b590d7443b9063b3eb52
+          make -s -C /tmp/c3x-p10-stockfish/src -j2 build ARCH=x86-64
+      - name: Run actual 48 engine searches under four separately scoped arms
+        run: |
+          set -euo pipefail
+          mkdir -p public
+          PYTHONPATH=harness python -u harness/c3x_030_p10_stockfish_stochasticity.py \
+            --stockfish /tmp/c3x-p10-stockfish/src/stockfish \
+            --repeats 6 --nodes 15000 \
+            --out public/C3X_030_P10_REAL_STOCKFISH16_REPETITION_FACTORIAL.json
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          d=json.loads(Path('public/C3X_030_P10_REAL_STOCKFISH16_REPETITION_FACTORIAL.json').read_text())
+          assert d['total_native_searches']==48
+          assert d['total_actual_native_nodes']>0
+          assert d['physical_randomness_outside_handicap_proven'] is False
+          for p in d['positions'].values():
+              assert len(p['arms'])==4
+              for arm in p['arms'].values():
+                  assert arm['summary']['trials']==6
+                  assert sum(arm['summary']['best_move_counts'].values())==6
+          print('C3X_P10_ACTUAL_NATIVE_REPETITION_CONTRACT_PASS',d['total_native_searches'])
+          PY
+          sha256sum public/*.json
+      - name: Hold scientific interpretation
+        if: always()
+        run: |
+          mkdir -p public
+          echo 'C3X P10: fixed-node genuine Stockfish16 classical repeated-play observations; deliberate weak Skill Level 0 RNG documented. One vs four threads and warm hash arms are controlled but not fully independent causal isolation. Two legal prepared positions, 6 repeats per arm. No RL-policy-sampling claim, no true randomness decomposition, no native source event-to-root mediator proof. Never commit with GitHub-Actions bot.' > public/SCOPE.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x030-p10-stockfish16-real-factorial-repeatability-original
+          path: public/*
+          if-no-files-found: error
+          retention-days: 90
