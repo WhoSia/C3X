@@ -1,0 +1,67 @@
+name: C3X 0.30 P8 Real Pinned Stockfish Fritz Pawn-Square Experiment
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/c3x-030-p8-real-fritz-pawn-probes.yml'
+      - 'harness/c3x_030_p8_real_stockfish_empty_square_probe.py'
+      - 'harness/c3x_030_p8_fritz_empty_square_saliency.py'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  real-native-stockfish-pawn-insertion:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install isolated chess parser and run synthetic gate first
+        run: |
+          set -euo pipefail
+          python -m pip install -q chess==1.11.2
+          PYTHONPATH=harness python -m unittest -v test_c3x_030_p8_fritz_empty_square_saliency
+      - name: Compile exact upstream Stockfish16 classical source commit
+        run: |
+          set -euo pipefail
+          git clone -q https://github.com/official-stockfish/Stockfish.git /tmp/c3x-p8-stockfish
+          git -C /tmp/c3x-p8-stockfish checkout -q 68e1e9b3811e16cad014b590d7443b9063b3eb52
+          test "$(git -C /tmp/c3x-p8-stockfish rev-parse HEAD)" = 68e1e9b3811e16cad014b590d7443b9063b3eb52
+          make -s -C /tmp/c3x-p8-stockfish/src -j2 build ARCH=x86-64
+      - name: Execute genuine source/perturbation comparisons and report all measured nodes
+        run: |
+          set -euo pipefail
+          mkdir -p public
+          PYTHONPATH=harness python -u harness/c3x_030_p8_real_stockfish_empty_square_probe.py \
+            --stockfish /tmp/c3x-p8-stockfish/src/stockfish \
+            --out public/C3X030_P8_FRITZ_REAL_STOCKFISH_PAWN_INSERTIONS.json
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          x=json.loads(Path('public/C3X030_P8_FRITZ_REAL_STOCKFISH_PAWN_INSERTIONS.json').read_text())
+          n=x['actual_native_measurement']
+          assert n['source_commit']=='68e1e9b3811e16cad014b590d7443b9063b3eb52'
+          assert n['actual_native_forced_search_count']>=9
+          assert n['actual_native_nodes_total']>0
+          assert x['complete_two_color_count']>=1
+          assert n['published_fritz_benchmark_reproduced'] is False
+          assert x['this_does_not_prove_original_engine_causality'] is True
+          print('C3X_P8_REAL_NATIVE_Q_FROZEN_SCOPE', n['actual_native_forced_search_count'])
+          PY
+          sha256sum public/*.json
+      - name: Scope statement for engine output
+        if: always()
+        run: |
+          mkdir -p public
+          echo 'C3X P8: genuine Stockfish16 classical on a manually constructed 3-piece-plus-pawn legal board and three empty-square pawn insertions. Three forced root moves per world, node cap 3000 per independent query, actual nodes unequal; no claim to reproduce original Fritz F1 chess annotations, no full chess concept inference, no same-world original search event causality, no model NNUE or student educational effect. All native searches stay ephemeral, artifact only; GitHub-Actions[bot] writes prohibited.' > public/SCOPE.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x030-p8-real-source-pinned-stockfish-fritz-3square-pawn-probes
+          path: public/*
+          if-no-files-found: warn
+          retention-days: 90
