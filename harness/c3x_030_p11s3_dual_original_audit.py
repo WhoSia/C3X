@@ -79,12 +79,14 @@ def audit(a,b):
             "postclear_warm1_differs":orig["postclear_warm1"]["move_uci"]!=reference,
             "postclear_warm2_differs":orig["postclear_warm2"]["move_uci"]!=reference,
         }
+        summary=t.get("summary",{})
+        source_key={"postclear_warm1_differs":"after_clear1_warm_differs",
+                    "postclear_warm2_differs":"after_clear2_warm_differs"}
         for target,v in expected.items():
             phases[target]+=int(v)
-        summary=t.get("summary",{})
-        if any(summary.get(p)!=val for p,val in expected.items()):
-            k=next(p for p,val in expected.items() if summary.get(p)!=val)
-            raise ValueError("P11S3_HOLD_S2_SUMMARY_MISMATCH:"+k)
+            raw_name=source_key.get(target,target)
+            if summary.get(raw_name)!=v:
+                raise ValueError("P11S3_HOLD_S2_SUMMARY_MISMATCH:"+raw_name)
     if sum(x["native_nodes"] for x in totals.values())!=a["native_nodes_total"]:
         raise ValueError("P11S3_HOLD_S1_NODE_TOTAL")
     if phase_nodes_total!=b["total_actual_nodes"]:
@@ -92,7 +94,9 @@ def audit(a,b):
     if (any(totals[arm]["within_arm_switch_positions"]!=a["within_arm_switch_position_counts"][arm] for arm in ARMS)
         or any(totals[arm]["trials_differing_from_cold"]!=a["cross_arm_disagreements_with_cold_reference"][arm] for arm in ARMS)):
         raise ValueError("P11S3_HOLD_S1_AGGREGATE")
-    if any(phases[p]!=b["position_summary_counts"][p] for p in phases):
+    phase_raw_key={"postclear_warm1_differs":"after_clear1_warm_differs",
+                   "postclear_warm2_differs":"after_clear2_warm_differs"}
+    if any(phases[p]!=b["position_summary_counts"][phase_raw_key.get(p,p)] for p in phases):
         raise ValueError("P11S3_HOLD_S2_AGGREGATE")
     return {"schema":SCHEMA,"record_type":"cross_verified_original_native_search_reanalysis",
             "inherited_S1_real_native_searches":480,"inherited_S2_real_native_searches":140,
