@@ -10,7 +10,8 @@ from __future__ import annotations
 
 import argparse
 import json
-from collections import Counter, defaultdict
+import re
+from collections import defaultdict
 from pathlib import Path
 
 SCHEMA = "c3x030-p7-concept-probe-ood-audit-v1"
@@ -22,11 +23,12 @@ def _validate(rows):
         raise ValueError("P7_HOLD_EMPTY_ROWS")
     seen = set()
     groups = defaultdict(set)
+    position_splits = defaultdict(set)
     concepts = set()
     for r in rows:
         if not isinstance(r, dict):
             raise ValueError("P7_HOLD_BAD_ROW")
-        for k in ("split", "domain", "concept", "game_id", "position_id", "label"):
+        for k in ("split", "domain", "concept", "game_id", "position_id", "position_sha256", "label"):
             if k not in r:
                 raise ValueError("P7_HOLD_REQUIRED_FIELD_" + k)
         split = r["split"]
@@ -36,6 +38,8 @@ def _validate(rows):
             raise ValueError("P7_HOLD_SPLIT_OR_DOMAIN")
         if not all(isinstance(r[k], str) and r[k] for k in ("concept", "game_id", "position_id")):
             raise ValueError("P7_HOLD_IDENTIFIERS")
+        if not isinstance(r["position_sha256"], str) or not re.fullmatch(r"[0-9a-f]{64}", r["position_sha256"]):
+            raise ValueError("P7_HOLD_POSITION_FINGERPRINT_FORMAT")
         if type(r["label"]) is not int or r["label"] not in (0, 1):
             raise ValueError("P7_HOLD_BINARY_LABEL")
         if split == "train":
@@ -50,9 +54,12 @@ def _validate(rows):
             raise ValueError("P7_HOLD_DUPLICATE_POSITION_CONCEPT")
         seen.add(identity)
         groups[r["game_id"]].add(split)
+        position_splits[r["position_sha256"]].add(split)
         concepts.add(concept)
     if any(len(v) > 1 for v in groups.values()):
         raise ValueError("P7_HOLD_GAME_GROUP_LEAKAGE")
+    if any(len(v) > 1 for v in position_splits.values()):
+        raise ValueError("P7_HOLD_POSITION_FINGERPRINT_LEAKAGE")
     return concepts
 
 
@@ -113,6 +120,7 @@ def audit(rows):
         "actual_chess_engine_searches_performed_by_this_tool": 0,
         "probe_decodability_is_source_choice_causality": False,
         "game_group_disjoint_by_split": True,
+        "position_sha256_disjoint_by_split": True,
         "training_domain": "standard",
         "heldout_domains": ["standard", "chess960"],
     }
