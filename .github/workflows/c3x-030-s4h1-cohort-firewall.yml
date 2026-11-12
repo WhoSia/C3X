@@ -1,0 +1,47 @@
+name: C3X 0.30 S4H1 Game Lineage Firewall
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/c3x-030-s4h1-cohort-firewall.yml'
+      - 'harness/c3x_030_s4h1_cohort_firewall.py'
+      - 'harness/test_c3x_030_s4h1_cohort_firewall.py'
+      - 'harness/c3x_030_f2_blind_game_manifest.py'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  identity-only:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install pinned legal-chess validator
+        run: python -m pip install -q chess==1.11.2
+      - name: Run fail-closed regression tests
+        run: PYTHONPATH=harness python -m unittest -v test_c3x_030_s4h1_cohort_firewall
+      - name: Regenerate S4H0 source manifest and verify history integrity
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p artifacts
+          python harness/c3x_030_f2_blind_game_manifest.py --out artifacts/manifest.json
+          sha256sum artifacts/manifest.json | tee artifacts/sha256.txt
+          digest="$(sha256sum artifacts/manifest.json | cut -d ' ' -f 1)"
+          python harness/c3x_030_s4h1_cohort_firewall.py \
+            --manifest artifacts/manifest.json --expected-sha256 "$digest" \
+            --out artifacts/s4h1_identity.json
+      - name: Declare scope and provenance limitations
+        run: |
+          echo 'This job validates legal history and game-split identity on a fresh re-generation from the checked-out source. It does NOT independently establish the original earlier freeze SHA, chronological precommit, independent real-world sampling, treatment outcomes, or superiority. ZERO engine searches. GitHub Actions never creates commits.' > artifacts/SCOPE.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: c3x030-s4h1-identity-only-audit
+          path: artifacts/*
+          if-no-files-found: error
+          retention-days: 90
