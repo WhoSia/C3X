@@ -1,0 +1,51 @@
+name: C3X 0.30 S4H0 Freeze Untouched Game Histories Before TT Outcomes
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/c3x-030-s4h0-frozen-game-history.yml'
+      - 'harness/c3x_030_f2_blind_game_manifest.py'
+      - 'harness/test_c3x_030_f2_blind_game_manifest.py'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  legal-blind-freeze:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Pin exact chess legal validation
+        run: python -m pip install -q chess==1.11.2
+      - name: Test chess history and prevent label/outcome leakage
+        run: |
+          set -euo pipefail
+          PYTHONPATH=harness python3 -m unittest -v test_c3x_030_f2_blind_game_manifest
+          mkdir -p prereg
+          python3 harness/c3x_030_f2_blind_game_manifest.py --out prereg/C3X_S4H0_FROZEN_BLIND_GAME_HISTORIES.json
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          data=json.loads(Path('prereg/C3X_S4H0_FROZEN_BLIND_GAME_HISTORIES.json').read_text())
+          assert len(data['entries'])==16
+          assert len(data['development_entries'])==8
+          assert data['no_evaluation_or_treatment_outcomes_in_manifest']
+          assert len({e['game_id'] for e in data['entries']})==8
+          print('S4H0_BLIND_LEGAL_GAME_HISTORY_GATE_PASSED')
+          PY
+          sha256sum prereg/C3X_S4H0_FROZEN_BLIND_GAME_HISTORIES.json
+      - name: Declare exact scientific limitations before any engine results
+        run: |
+          echo 'No Stockfish run, no source TT probe, no labels, no claims of random sampling or original paper outperforming. These 12 are researcher-authored opening move histories, 8 holdout games and 4 development games with two related FEN snapshots each. Manifest is constructed and frozen BEFORE future trial outcomes, but Git commit time and independent labels must be verified later. This is not the original prospective 0.29 8-eligible game cohort, which remains 7/8 HOLD. GitHub bot never commits.' > prereg/SCOPE.txt
+          sha256sum harness/c3x_030_f2_blind_game_manifest.py > prereg/GENERATOR_SHA256.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: c3x030-s4h0-preoutcome-legal-game-history-manifest
+          path: prereg/*
+          if-no-files-found: error
+          retention-days: 90
