@@ -223,3 +223,30 @@ Adding features can mechanically split buckets. Collision counts are descriptive
 [CI replay](https://github.com/WhoSia/C3X/actions/runs/43381335802) · [Full Drive JSON](https://drive.google.com/file/d/1DNwNUy3gBASDvJCmIw8cKzh4uzPlHb16/view). Local and Drive readback SHA-256 `72412de28a0ecc89b08a846fb9575b0d1063b3efd4bcc3b7d5d8d707f0161282`.
 
 The current intake listing and targeted C3X title search surfaced the existing one-page 1991 ICCA notice duplicate. Its SHA-256 was checked again. No new C3X original was identified in the reviewed intake results.
+
+
+## XI. S4-M/R6 · Finding a defense under a fixed probe budget
+
+[Audit code](../harness/c3x_030_s4m_r6_defense_budget.py) · [CI](https://github.com/WhoSia/C3X/actions/runs/43382006314) · [Drive evidence JSON, gzip](https://drive.google.com/file/d/1Qw8S8uNRzGw3RP5r4goLrqVRO6ifeQ-K/view)
+
+The R5 archive was SHA-256 checked and its richest feature comparison independently recounted: 0/193 mixed-outcome pairs collide in the first cohort and 52/1151 in the advanced-pawn cohort. A collision establishes a representational counterexample within the tested branches. The absence of collisions is descriptive. Added features mechanically refine the partition, and same-parent pairs are dependent.
+
+R6 generated 1,024 new parent boards in four fixed-seed cohorts, excluding the 512 R5 parents and horizontal reflections and deduplicating across R6. Legal move generation identified 6,721 stipulated White queen-promotion branches. The audit queried all 40,960 legal Black defenses and checked that every ordering was a permutation of the legal move set and that the minimum child WDL matched its parent. Three checkmate terminals in the recheck were verified directly. All 11 loaded WDL tables are SHA-pinned. Labels use the Syzygy WDL convention, and the sampled boards have no reconstructed game history.
+
+A hit is finding at least one Black move with White WDL at most zero. The denominator includes nonterminal promotion branches known by exhaustive oracle to offer such a move. The full lookup is the evaluator. Each budget projects how many targets the first k entries of a WDL-blind ordering would cover. Uniform is an analytical expected count for sampling without replacement. Each move uses one lookup slot. This budget does not measure wall-clock time or the number of words in an explanation.
+
+| Advanced-pawn ordering | Initial cohort, top 1 / top 2 / top 3 (n=599) | New-seed recheck, top 1 / top 2 / top 3 (n=535) |
+| --- | ---: | ---: |
+| Uniform expected | 110.25 / 201.68 / 280.70 | 96.10 / 177.10 / 248.42 |
+| Pawn first, UCI tie-break | 83 / 84 / 580 | 67 / 68 / 526 |
+| King support first | 131 / 140 / 140 | 103 / 109 / 112 |
+| Pawn first, queen promotion first | 579 / 580 / 580 | 524 / 525 / 526 |
+| Pawn or capture priority with queen first, then reserve a king move in slot 2 when slot 1 is a pawn move | 579 / 599 / 599 | 524 / 534 / 535 |
+
+The original pawn-first policy discovered its first defense at budget three on 496 advanced-pawn branches because UCI ordering placed bishop and knight promotions ahead of the queen. Explicit queen priority and reserving a king move were devised after inspecting the initial two cohorts. They were run unchanged on two newly generated cohorts. The recheck is same-generator evidence, not a preregistered independent game trial. The mixed ordering found the sole defense in 457/457 advanced-pawn recheck branches with a unique witness. In the ranks 4–6 cohorts the same ordering had top-two hits of 40/41 and 52/52.
+
+One advanced-pawn recheck miss starts from `8/2P5/8/8/1K6/8/4kp2/8 b - - 0 1`. After Kf1 c8=Q the black king occupies its own promotion square. All legal options are king moves. The first two, Ke1 and Ke2, lose, while Kg1 and Kg2 draw. This suggests checking whether a king move frees the pawn's path and whether the resulting defense is robust to White's next reply. That mechanism beyond the immediate legality is still a hypothesis.
+
+A found witness certifies that White cannot force a win from the stipulated branch under the tablebase convention. A missed witness leaves the claim unresolved. A forced White win needs every legal Black defense covered, or an independently sound upper-bound proof for Black. Future explanation evaluation should keep witness retrieval, human transfer to unseen contrast cases, and native Stockfish mechanism as separate outcomes. R6 measures witness retrieval only.
+
+Raw JSON SHA-256 `38046cf0a73640d897ac935008d7d8842150d076aeeb14f0423fc8a4b6173b38` agrees across local execution, CI and decompressed Drive readback. Compressed archive SHA-256 `6cc29ddcb4f1090980c66369970f50b1c201a9d98f36d8a01697087e328c22c1`. No new C3X full text was identified in the reviewed Intake list and targeted title search.
