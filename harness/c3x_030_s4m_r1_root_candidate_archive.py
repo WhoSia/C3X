@@ -86,6 +86,12 @@ def audit(raw):
       "ambiguous_signatures":0,"changed_candidate_values":0,
       "root_bestmove_changes":0,"censored_epoch_pairs":0}
     report={}
+    descriptive_trial_cross_tab={
+      "root_changed_with_observed_score_contrast":0,
+      "root_changed_without_observed_score_contrast":0,
+      "root_unchanged_with_observed_score_contrast":0,
+      "root_unchanged_without_observed_score_contrast":0
+    }
     for case_id,case in sorted(cases.items()):
         case_result={"game_id":case["game_id"],"trials":{}}
         if case.get("original_sham_noninterference") is not True:
@@ -99,6 +105,10 @@ def audit(raw):
             if changed!=case["per_trial_root_changed"][trial]:
                 raise ValueError("S4M_R1_ROOT_OUTCOME_CHANGED_POSTHOC")
             paired["root_bestmove_changed"]=changed
+            contrast=paired["different_value_candidates"]>0
+            cross_tab_key=("root_changed_" if changed else "root_unchanged_")+(
+                 "with_observed_score_contrast" if contrast else "without_observed_score_contrast")
+            descriptive_trial_cross_tab[cross_tab_key]+=1
             for key,field in (("shared_signatures","shared_state_signatures"),
                               ("unique_candidate_pairs","unique_singleton_candidate_pairs"),
                               ("ambiguous_signatures","ambiguous_state_signatures"),
@@ -117,7 +127,10 @@ def audit(raw):
       "development_games":4,"development_fens":8,
       "holdout_positions_searched":0,
       "candidate_signature_fields":list(FIELDS),
-      "totals":totals,"case_results":report,
+      "totals":totals,
+      "descriptive_trial_cross_tab":descriptive_trial_cross_tab,
+      "trial_cross_tab_is_not_out_of_sample_prediction":True,
+      "case_results":report,
       "source_traces_censored_unknowns_explicit":True,
       "cross_run_causal_invocation_identity_proven":False,
       "full_tt_to_parent_to_root_causal_mediation_proven":False,
