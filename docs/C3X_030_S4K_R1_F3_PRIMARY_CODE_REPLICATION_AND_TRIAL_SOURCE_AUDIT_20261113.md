@@ -87,3 +87,25 @@ IMPLEMENTED/SYNTHETIC ONLY: F3 exact Boolean motif episode and nearby-negative e
 HOLD: full causal root mediation, 8-game S4-H2 unopened holdout, prior 0.29 7/8 missing-game gate, real F3 independent labels, human pedagogical outcomes, any claim of being better than another paper.
 
 All source commits by WhoSia; GitHub Actions never writes repository commits.
+
+
+## 8. Final verified archive custody and still-missing exact originals
+
+- [S4-K/R1 separate source-byte audit ZIP (Drive)](https://drive.google.com/file/d/1jDGqKe9vCiQ-ZqnuFBb1X6aB9T5aUA8Y/view) preserves a successful 0-new-search SHA-pinned re-audit.
+- [F3 Boolean motif contract CI ZIP (Drive)](https://drive.google.com/file/d/1N3MuayynxFz6m-L40EdeSxtm-1FZPJQc/view) preserves synthetic test source SHA and the explicit no-empirical-head-to-head statement. [F3 CI #43358343484](https://github.com/WhoSia/C3X/actions/runs/43358343484) completed SUCCESS with **10/10 tests**.
+- [S4-K 48-search raw ZIP (Drive)](https://drive.google.com/file/d/1xzgc7N3g8bbqlo16m322qdWzdFCd5hcV/view) remains the original immutable evidence, not overwritten by the re-audit.
+
+Targeted live Drive inventory on 2026-11-13 confirmed title-level **owned** originals of Puri 2020 SARFA, Fritz–Fürnkranz 2021, Press–Golubev 2026 BinProp, Spinnato 2025 SHAP and Hammersborg–Strümke 2024. These are NOT missing-literature requests.
+
+The following **exact original works** were not confirmed by targeted Drive title search this round; no inference from related or derivative papers:
+
+| Exact historical original still unconfirmed | Available nearby source and caveat | Next lawful verification route |
+| --- | --- | --- |
+| Björnsson (2024), *Chess and Explainable AI* (exact requested original) | Pálsson & Björnsson 2024 ECAI paper and Pálsson 2024 PhD thesis exist in Drive, **not proof of the separate item** | Confirm bibliographic identifier, proceedings/chapter/abstract before acquisition |
+| Bratko & Kopec (1982) original chapter | Owned 1982-periodical *Updated Bratko–Kopec Test* explicitly labelled **NOT 1982 original chapter**, and Kopec's 1982 doctoral thesis | Original chapter table of contents, ISBN, library holdings |
+| Herbeck & Barth (1996) exact historical original | No exact file verified in targeted search | Author/title/venue bibliographic reconstruction and institutional repository |
+| Demura & Kaneko (2024) exact original | No exact file verified in targeted search | Exact title/DOI/venue first, then publisher or author self-archive |
+
+Do not call these papers “absent from all Drive files”: the statement is **exact original not confirmed by the current targeted inventory**. No new exact PDFs were uploaded or moved in this turn. The separate Gadwal et al. (1993) author manuscript remains a HELD author-original with publisher-version collation pending.
+
+**Reproducibility note:** The SHA-locked original 0.30/S4-H2 holdout and inherited 0.29 7/8 prospective HOLD remain sealed. The new S4-K experiment strictly reuses prior **development** cases only.
