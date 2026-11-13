@@ -1,4 +1,4 @@
-# C3X 0.30 — S4-L/R1 Root Score Source Receipts, Independent Audit, and Exact Missing-Primary Literature
+> **LATER INTAKE UPDATE (2026-11-13 KST, C3X 33):** The exact original Herbeck & Barth (1996) paper is now **HELD and refiled into 10_PAPERS** at [unchanged original Drive ID](https://drive.google.com/file/d/1eNS8H3LVA36bGdlmg5kTin6MtI85MeeJ/view). The prior missing-list entry below is retained as a historical snapshot ONLY. Current full-text reading, proof-carrying WDL prototype, new Barth 1992/1995 source gaps and independently SHA-audited root score contrasts appear in [S4-M/R1 current ledger](C3X_030_S4M_R1_HERBECK_BARTH_PROOF_INTERVAL_AND_SOURCE_ROOT_AUDIT_20261113.md). No other paper is deemed acquired without its exact source bytes.\n\n# C3X 0.30 — S4-L/R1 Root Score Source Receipts, Independent Audit, and Exact Missing-Primary Literature
 
 Date: 2026-11-13 KST. Conversation **C3X 33**, research version **C3X 0.30 unchanged**.
 
