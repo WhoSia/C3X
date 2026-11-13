@@ -95,17 +95,16 @@ All source commits by WhoSia; GitHub Actions never writes repository commits.
 - [F3 Boolean motif contract CI ZIP (Drive)](https://drive.google.com/file/d/1N3MuayynxFz6m-L40EdeSxtm-1FZPJQc/view) preserves synthetic test source SHA and the explicit no-empirical-head-to-head statement. [F3 CI #43358343484](https://github.com/WhoSia/C3X/actions/runs/43358343484) completed SUCCESS with **10/10 tests**.
 - [S4-K 48-search raw ZIP (Drive)](https://drive.google.com/file/d/1xzgc7N3g8bbqlo16m322qdWzdFCd5hcV/view) remains the original immutable evidence, not overwritten by the re-audit.
 
-Targeted live Drive inventory on 2026-11-13 confirmed title-level **owned** originals of Puri 2020 SARFA, Fritz–Fürnkranz 2021, Press–Golubev 2026 BinProp, Spinnato 2025 SHAP and Hammersborg–Strümke 2024. These are NOT missing-literature requests.
+### Research OS literature inventory correction · 2026-11-13 KST
 
-The following **exact original works** were not confirmed by targeted Drive title search this round; no inference from related or derivative papers:
+The section 4 papers are held in `10_PAPERS`, including [Ruoss et al. (2024), Amortized Planning with Large-Scale Transformers](https://drive.google.com/file/d/1UBwx4nKx6i12tiHmqYZpAow644_Ts63x/view), whose stored PDF identifies itself as arXiv v2 and carries the NeurIPS 2024 conference footer. [Herbeck & Barth (1996), An Explanation Tool for Chess Endgames Based on Rules](https://drive.google.com/file/d/1eNS8H3LVA36bGdlmg5kTin6MtI85MeeJ/view) was recovered by searching the first author's surname and verified from the ICCA Journal PDF, pp. 75–82. This corrects the previous negative title search.
 
-| Exact historical original still unconfirmed | Available nearby source and caveat | Next lawful verification route |
+| Exact work | Research OS status | Publisher record |
 | --- | --- | --- |
-| Björnsson (2024), *Chess and Explainable AI* (exact requested original) | Pálsson & Björnsson 2024 ECAI paper and Pálsson 2024 PhD thesis exist in Drive, **not proof of the separate item** | Confirm bibliographic identifier, proceedings/chapter/abstract before acquisition |
-| Bratko & Kopec (1982) original chapter | Owned 1982-periodical *Updated Bratko–Kopec Test* explicitly labelled **NOT 1982 original chapter**, and Kopec's 1982 doctoral thesis | Original chapter table of contents, ISBN, library holdings |
-| Herbeck & Barth (1996) exact historical original | No exact file verified in targeted search | Author/title/venue bibliographic reconstruction and institutional repository |
-| Demura & Kaneko (2024) exact original | No exact file verified in targeted search | Exact title/DOI/venue first, then publisher or author self-archive |
+| Björnsson (2024), *Chess and explainable AI* | Exact full text unconfirmed after title/DOI search | [ICGA Journal 46(2), 67–75](https://doi.org/10.3233/ICG-240256) |
+| Kopec & Bratko (1982), *The Bratko-Kopec Experiment: A Comparison of Human and Computer Performance in Chess* | Exact chapter unconfirmed. The updated periodical article and Kopec dissertation are held. | [Advances in Computer Chess 3, 57–72](https://doi.org/10.1016/B978-0-08-026898-9.50009-7) |
+| Demura & Kaneko (2024), *Initial state diversification for efficient AlphaZero-style training* | Exact full text unconfirmed after author/title/DOI search | [ICGA Journal 46(2), 40–66](https://doi.org/10.3233/ICG-240255) |
 
-Do not call these papers “absent from all Drive files”: the statement is **exact original not confirmed by the current targeted inventory**. No new exact PDFs were uploaded or moved in this turn. The separate Gadwal et al. (1993) author manuscript remains a HELD author-original with publisher-version collation pending.
+[Gadwal, Greer & McCalla (1993)](https://drive.google.com/file/d/1iRfADIUxHmiVD4vOEVsaTAZw2ivYtFcy/view) is held as a manuscript. A separate copy of the [Applied Intelligence publisher version](https://doi.org/10.1007/BF00871938), pp. 207–224, was not confirmed. Inventory scope is the accessible Research OS files returned by targeted searches, with no PDFs acquired or moved.
 
 **Reproducibility note:** The SHA-locked original 0.30/S4-H2 holdout and inherited 0.29 7/8 prospective HOLD remain sealed. The new S4-K experiment strictly reuses prior **development** cases only.
