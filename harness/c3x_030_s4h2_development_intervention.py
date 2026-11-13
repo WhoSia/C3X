@@ -11,6 +11,7 @@ import os
 from pathlib import Path
 from c3x_030_p11s4g_native_paired_court import run_source,native_mask_receipts,inspect_edges,CAPS,ARMS,SHAM_KEY
 from c3x_030_p11s4a_native_trace_court import compare_records
+from c3x_030_s4h2_r2_physical_trace_audit import verify_and_preserve
 
 def digest(raw):return hashlib.sha256(raw).hexdigest()
 
@@ -77,16 +78,14 @@ def execute(protocol,eligibility,baseline,modified):
                                    {"trials":controls["zero"]["trials"],"events":[]})
         changed={arm:sum(a["bestmove"]!=b["bestmove"]
             for a,b in zip(sham["trials"],controls[arm]["trials"])) for arm in ARMS}
-        physical_links={}
-        for arm in ARMS:
-            ids={z["id"] for z in masks[arm]}
-            physical_links[arm]=sum(1 for z in edges[arm]["records"]
-                if z["child_id"] in ids and z["probe_hit_after_mask"]=="0")
+        exact_physical_trace=verify_and_preserve(masks,edges,key)
+        physical_links={arm:exact_physical_trace[arm]["verified_links"] for arm in ARMS}
         out["case_results"][id]={
           "game_id":case["game_id"],"split":"development",
           "frozen_eligibility_key":key,
           "physical_mask_receipt_count":{k:len(v) for k,v in masks.items()},
           "masked_child_root_signed_links":physical_links,
+          "exact_physical_mask_invocation_trace":exact_physical_trace,
           "root_bestmove_changes_versus_sham":changed,
           "sham_matches_original":baseline_match["noninterference_pass"],
           "zero_matches_sham":zero_match["noninterference_pass"],
