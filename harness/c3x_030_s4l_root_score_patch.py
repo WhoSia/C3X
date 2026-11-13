@@ -18,7 +18,8 @@ GO_RESET='''  c3x_i_logged_cutoffs.store(0, std::memory_order_relaxed);'''
 GO_END='''  std::cerr << "C3X_S4K_GO_END epoch=" << c3x_k_current_epoch
             << " source_cutoff_total="'''
 SITE='''          RootMove& rm = *std::find(thisThread->rootMoves.begin(),
-                                    thisThread->rootMoves.end(), move);'''\nTRACE='''          // C3X S4L: completed root-child score, BEFORE the existing
+                                    thisThread->rootMoves.end(), move);'''
+TRACE='''          // C3X S4L: completed root-child score, BEFORE the existing
           // RootMove update. This is not a proven TT/parent mediation edge.
           const unsigned c3x_l_rank = c3x_l_root_score_total.fetch_add(1, std::memory_order_relaxed);
           if (c3x_l_rank < 512)
@@ -34,7 +35,8 @@ SITE='''          RootMove& rm = *std::find(thisThread->rootMoves.begin(),
                         << " will_update_root_pv=" << int(moveCount == 1 || value > alpha)
                         << " depth=" << depth << std::endl;
           RootMove& rm = *std::find(thisThread->rootMoves.begin(),
-                                    thisThread->rootMoves.end(), move);'''\n
+                                    thisThread->rootMoves.end(), move);'''
+
 def patch(original):
     s=previous(original)
     for anchor in (GLOBAL, GO_RESET, GO_END, SITE):
