@@ -180,3 +180,23 @@ The audit replayed all 12 legal root moves and all 12 legal replies after the tw
 The decisive information for the Réti move ranking is a single defensive reply to c7. In position X, the baseline still picks a WDL-optimal move, but it assigns an advantage that cannot guarantee a win. A further comparison can measure the cost of finding a decisive refutation and the number of branches a human must inspect. Local tablebase WDL is a direct oracle for this finite domain. The historical rules still supply candidate concepts and are a useful explanation baseline. C3X can test whether its explanations remain faithful when the strongest opposing reply is substituted for a plausible alternative.
 
 [Successful CI run](https://github.com/WhoSia/C3X/actions/runs/43368644473) reproduced the local JSON SHA-256 `662c633cf1fa9aa300c36ee69c364638f7f24e649d243b1e0417f2e0ee16d00e`. [Archived JSON](https://drive.google.com/file/d/1nBDd1ShL0YZbnxGI_HJ5kD6OeZwXmhub/view?usp=drivesdk).
+
+
+## IX. S4-M/R4 · Contrastive promotion replies
+
+The [audit](../harness/c3x_030_s4m_r4_reply_contrast.py) reuses the two R3 development positions, replaying every legal Black reply to c7 or e7, White's immediate queen promotion, and every legal Black defense after promotion. Four WDL table files are SHA-pinned. All 12 queen promotions preserve the tablebase WDL of their parent position. The minima of all 58 legal defenses, grouped by promotion branch, agree with the promoted positions' WDL from White's perspective.
+
+| Branch | Mechanism supported by the replay | White WDL |
+| --- | --- | --- |
+| Réti, c7 Kb7 c8=Q+ | Kxc8 is legal and leaves a winning king-and-pawn ending for Black. Kb7 alone among the six replies attacks c8 before promotion. | Loss |
+| Réti, c7 h4 c8=Q+ | The promotion also gives check here. No legal immediate queen capture exists and every legal Black defense leaves a White win. | Win |
+| Position X, e7 f4 e8=Q | The queen cannot be captured immediately. Among Black's four legal defenses only f3 preserves the draw. | Draw |
+| Position X, e7 Ke1 e8=Q+ | This promotion gives check and every legal Black defense leaves a White win. | Win |
+
+Across these selected branches the descriptive check-by-win counts are 3 (check/win), 1 (check/nonwin), 7 (no check/win), and 1 (no check/nonwin). Immediate queen capture identifies the losing Réti branch. It misses the drawing position X branch. The pawn advance f4 is relevant in position X because the subsequent advance f3 preserves the draw against the queen. A supplementary local probe after f3 found 22 drawing White moves and two losing ones among 24 legal moves. This probe is additional exploratory work outside the archived 58-reply audit.
+
+The research implication is to evaluate explanations against outcome-changing legal alternatives at the same parent and require the claimed mechanism to survive replay. These fixtures establish counterexamples to check-only and capture-only explanations. They do not estimate human utility, generalization, or Stockfish causal mediation.
+
+[CI](https://github.com/WhoSia/C3X/actions/runs/43380193627) and [Drive JSON](https://drive.google.com/file/d/118iCKtLk1muf0ZCF2DKls5Q7M982a_Z1/view) agree with local SHA-256 `d6d5defac5cb20638b96deb17b6f329dd9a0e1e7ac7b563d44d9f82f9e575ca7`.
+
+The fresh Intake copy of the 1991 file (Drive ID `1OxaMgowTdUFoZklB9QNUfuH9jROYcYuV`) matches the SHA-256 of the previously filed one-page ICCA notice. The original TU Wien report remains unconfirmed.
