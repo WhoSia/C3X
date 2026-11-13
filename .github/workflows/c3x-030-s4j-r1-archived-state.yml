@@ -1,0 +1,60 @@
+name: C3X 0.30 S4J R1 Archived Candidate State Independent Reaudit
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/c3x-030-s4j-r1-archived-state.yml'
+      - 'harness/c3x_030_s4j_r1_archived_alignment_audit.py'
+      - 'harness/test_c3x_030_s4j_r1_archived_alignment_audit.py'
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  archived-source-only:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Run strict independent re-audit contract
+        run: PYTHONPATH=harness python -m unittest -v test_c3x_030_s4j_r1_archived_alignment_audit
+      - name: Recover separate original S4J native artifact
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          mkdir -p original public
+          gh run download 43354844857 -R WhoSia/C3X -n c3x030-s4j-native-cross-arm-state-candidates -D original
+          test -f original/S4J_NATIVE_CANDIDATE_SEARCH_STATES.json
+      - name: Recompute every candidate state and validate original archived raw byte SHA
+        run: |
+          set -euo pipefail
+          python harness/c3x_030_s4j_r1_archived_alignment_audit.py \
+            --original original/S4J_NATIVE_CANDIDATE_SEARCH_STATES.json \
+            --out public/S4J_R1_INDEPENDENT_ARCHIVED_AUDIT.json
+          python - <<'PY'
+          import json
+          r=json.load(open('public/S4J_R1_INDEPENDENT_ARCHIVED_AUDIT.json'))
+          assert r['native_searches_inherited']==48 and r['new_native_searches']==0
+          assert r['totals']==dict(sham=41,two=44,shared=25,unique=21,ambiguous=4,changed_values=0,root_changes=3)
+          assert r['holdout_runs']==0 and r['complete_tt_to_root_mediation_proven'] is False
+          print('S4J_R1_ARCHIVED_CANDIDATE_UNIQUENESS_AND_MISSING_MEDIATOR_VERIFIED')
+          PY
+          sha256sum original/S4J_NATIVE_CANDIDATE_SEARCH_STATES.json public/S4J_R1_INDEPENDENT_ARCHIVED_AUDIT.json > public/SHA256.txt
+      - name: Explicit non-claim boundary
+        if: always()
+        run: |
+          mkdir -p public
+          echo 'R1 independently recalculates all state candidate matches from SHA-pinned earlier archived native JSON; no new engine searches. Candidate tuple matches are NOT causal identity and cannot establish counterfactual mediation. Original logged return traces are capped at 8 per run; two trials share a process. All eight FENs came from four researcher-authored development games, no holdout tested. GitHub Actions never commits.' > public/SCOPE.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x030-s4j-r1-archived-state-reverification
+          path: public/*
+          if-no-files-found: error
+          retention-days: 90
