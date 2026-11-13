@@ -8,7 +8,7 @@ Newly supplied original primary text:
 
 - Heinz M. Herbeck and Wilhelm Barth (1996), **“An Explanation Tool for Chess Endgames Based on Rules,”** *ICCA Journal* **19(2):75–82**, DOI [10.3233/ICG-1996-19202](https://doi.org/10.3233/ICG-1996-19202).
 - Read full 8 pages, sections 1–8, including the printed Figures 1 and 2 and individual example studies. Scanned figures on article pp. 79–80 were visually inspected rather than inferred from messy extraction.
-- Original **2,571,046-byte PDF** moved intact in Google Drive from `00_INTAKE — Literature Radar` to the canonical `10_PAPERS — Canonical Literature Commons` and normalized to `Herbeck & Barth (1996) — An Explanation Tool for Chess Endgames Based on Rules — ICCA Journal 19(2) 75-82.pdf`. **Original Drive ID unchanged:** [original primary full text](https://drive.google.com/file/d/1eNS8H3LVA36bGdlmg5kTin6MtI85MeeJ/view). It is no longer missing.
+- Original **2,571,046-byte PDF**, independently SHA-256 checked as `0605423a1ba4d59836746aaf870b9418ce3f5876d91f3d039c1288287f1079f7`, moved intact in Google Drive from `00_INTAKE — Literature Radar` to the canonical `10_PAPERS — Canonical Literature Commons` and normalized to `Herbeck & Barth (1996) — An Explanation Tool for Chess Endgames Based on Rules — ICCA Journal 19(2) 75-82.pdf`. **Original Drive ID unchanged:** [original primary full text](https://drive.google.com/file/d/1eNS8H3LVA36bGdlmg5kTin6MtI85MeeJ/view). It is no longer missing.
 
 ### Actual argument by section
 
@@ -117,3 +117,10 @@ These are custody statuses for **exact original PDFs**, not statements that no v
 **Next:** S4-N should introduce legal-state/root branch lineage and instrument only the affected branch's main-search and qsearch boundary, and require stronger paired state identity than `(move, depth, moveCount, alpha,beta)`. Separately F3 should compare **different explanation targets** without forcing SARFA saliency or SHAP piece scores into Boolean terminal certificates. Frame outputs in the five-tier evidence taxonomy above.
 
 This turn deliberately opened **no heldout S4-H2 cases** and performed **no new Stockfish searches**; all new native findings are verified reanalyses of existing original source searches.
+
+## VI. Final custody and follow-up status (same-day update)
+
+- [S4-M real legal terminal witness + strict tests CI #43362175794 SUCCESS](https://github.com/WhoSia/C3X/actions/runs/43362175794): original separately archived [Drive ZIP](https://drive.google.com/file/d/130LM_rMeNlC_4r1oE_8iKukeduKQlXRW/view). The explicit Fool's Mate source proof has **30 legal candidate moves**, only one certified `d8h4` terminal witness, 29 unknown alternative moves, and exact WDL win interval without inventing complete branch coverage.
+- [S4-M/R1 latest independent root contrast CI #43362096970 SUCCESS](https://github.com/WhoSia/C3X/actions/runs/43362096970): 9 tests, zero new native searches, and independently reconstructed original roots and the 3/0/3/10 descriptive contingency table; [Drive SHA-audited raw ZIP](https://drive.google.com/file/d/1rPQVqtd-_Qr7AXWrGJYel7lUDY_26x8H/view).
+- Archived original 1996 PDF original bytes SHA `0605423a1ba4d59836746aaf870b9418ce3f5876d91f3d039c1288287f1079f7`. This is the file SHA, distinct from Google Drive ID and any repository document commit SHA.
+- No assertion of native Stockfish root-choice mediation, full KPKP rule correctness, independent F3 method superiority or heldout results. Research version remains 0.30.
