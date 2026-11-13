@@ -6,9 +6,8 @@ on:
       - '.github/workflows/c3x-030-s4j-native-state.yml'
       - 'harness/c3x_030_s4j_state_fingerprint_patch.py'
       - 'harness/c3x_030_s4j_state_alignment.py'
-      - 'harness/test_c3x_030_s4j_state_fingerprint_patch.py'
+      - 'harness/test_c3x_030_s4j_state_alignment.py'
       - 'harness/c3x_030_s4j_native_state_court.py'
-      - 'harness/test_c3x_030_s4j_native_state_court.py'
   workflow_dispatch:
 permissions:
   contents: read
@@ -28,9 +27,7 @@ jobs:
         run: |
           set -euo pipefail
           python -m pip install -q chess==1.11.2
-          PYTHONPATH=harness python -m unittest -v \
-            test_c3x_030_s4j_state_alignment \
-            
+          PYTHONPATH=harness python -m unittest -v test_c3x_030_s4j_state_alignment
       - name: Recover exact S4H2 archived development R2 and original frozen protocol
         env:
           GH_TOKEN: ${{ github.token }}
