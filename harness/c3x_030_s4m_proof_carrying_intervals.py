@@ -31,7 +31,7 @@ class ProofInterval:
     def __post_init__(self):
         if type(self.lower) is not int or type(self.upper) is not int or self.lower not in WDL or self.upper not in WDL or self.lower>self.upper:
             raise ValueError("S4M_BAD_WDL_INTERVAL")
-        if self.verified and self.certificate not in ("legal_terminal","complete_negamax_backup"):
+        if self.verified and self.certificate not in ("legal_terminal","partial_sound_negamax_backup"):
             raise ValueError("S4M_UNTRUSTED_PROOF_KIND")
         if not self.verified and (self.lower,self.upper)!=(-1,1):
             raise ValueError("S4M_UNVERIFIED_SOURCE_CANNOT_TIGHTEN_WDL")
@@ -96,8 +96,15 @@ def backup(board:chess.Board,children:Mapping[str,ProofInterval])->dict:
     legal={move.uci() for move in board.legal_moves}
     if set(children)-legal:
         raise ValueError("S4M_FORGED_OR_ILLEGAL_CHILD_MOVE")
-    if any(not isinstance(c,ProofInterval) or not c.verified for c in children.values()):
-        raise ValueError("S4M_UNVERIFIED_CHILD_PROOF")
+    for uci, claimed in children.items():
+        if not isinstance(claimed,ProofInterval) or not claimed.verified:
+            raise ValueError("S4M_UNVERIFIED_CHILD_PROOF")
+        # NEVER trust a caller-supplied 'verified' flag or an arbitrary
+        # Stockfish numerical score: recompute terminal chess legality AND
+        # the exact certified WDL from the supplied parent and move.
+        independently_verified=terminal_child(board,uci)
+        if claimed != independently_verified:
+            raise ValueError("S4M_FORGED_TERMINAL_CERTIFICATE")
     if not legal:
         raise ValueError("S4M_TERMINAL_NOT_HANDLED")
     evaluated={}
@@ -118,7 +125,7 @@ def backup(board:chess.Board,children:Mapping[str,ProofInterval])->dict:
     # A global WDL maximum <= 1 is a trivial upper bound even with missing moves.
     upper_universal=best_upper==1 or all_upper_proved
     cert=ProofInterval(best_lower,best_upper,lower_tags,upper_tags,
-             "complete_negamax_backup",True)
+             "partial_sound_negamax_backup",True)
     exact=best_lower==best_upper
     return {"schema":SCHEMA,"board_fen":board.fen(),"interval":cert.as_dict(),
       "complete_legal_branch_coverage":all_upper_proved,
