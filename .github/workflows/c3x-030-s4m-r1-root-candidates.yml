@@ -48,6 +48,13 @@ jobs:
             'root_bestmove_changes':3,
             'censored_epoch_pairs':5
           }
+          assert r['descriptive_trial_cross_tab']=={
+            'root_changed_with_observed_score_contrast':3,
+            'root_changed_without_observed_score_contrast':0,
+            'root_unchanged_with_observed_score_contrast':3,
+            'root_unchanged_without_observed_score_contrast':10
+          }
+          assert r['trial_cross_tab_is_not_out_of_sample_prediction'] is True
           assert r['new_engine_searches']==0
           assert r['holdout_positions_searched']==0
           assert not r['full_tt_to_parent_to_root_causal_mediation_proven']
