@@ -1,0 +1,38 @@
+name: C3X 0.30 F3 Paper Faithful Binary Motif Metric Contract
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/c3x-030-f3-paper-motif-contract.yml'
+      - 'harness/c3x_030_f3_binprop_comparator_contract.py'
+      - 'harness/test_c3x_030_f3_binprop_comparator_contract.py'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  synthetic-contract-only:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install pinned legal chess positions validator
+        run: python -m pip install -q chess==1.11.2
+      - name: Compare BinProp paper scoring and fail closed on misleading evaluation
+        run: |
+          set -euo pipefail
+          PYTHONPATH=harness python -m unittest -v test_c3x_030_f3_binprop_comparator_contract
+      - name: Explicit scientific scope
+        run: |
+          mkdir -p artifacts
+          echo 'Tests are synthetic contracts; no user explanations, independent labels, neural models, engine evaluations, human learners, or actual SARFA/SHAP/BinProp competing results were run. Support/heldout episode as in BinProp is not an independent human-game holdout. The Boolean motif metric is not suitable for SHAP evaluation attribution or source TT causal traces without independently validated adapters. NO METHOD SUPERIORITY CLAIM. GitHub Actions bot does not commit.' > artifacts/SCOPE.txt
+          sha256sum harness/c3x_030_f3_binprop_comparator_contract.py harness/test_c3x_030_f3_binprop_comparator_contract.py > artifacts/CONTRACT_SHA256.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: c3x030-f3-binprop-paper-metric-synthetic-contract
+          path: artifacts/*
+          retention-days: 90
