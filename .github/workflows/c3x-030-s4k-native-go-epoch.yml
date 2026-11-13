@@ -1,0 +1,77 @@
+name: C3X 0.30 S4K Exact Go Epoch TT Cutoff Accounting
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/c3x-030-s4k-native-go-epoch.yml'
+      - 'harness/c3x_030_s4k_go_epoch_patch.py'
+      - 'harness/c3x_030_s4k_epoch_court.py'
+      - 'harness/c3x_030_s4k_native_epoch_court.py'
+      - 'harness/c3x_030_p11s4e_invocation_court.py'
+      - 'harness/test_c3x_030_s4k_epoch_court.py'
+      - 'harness/c3x_030_s4k_native_epoch_court.py'
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  native-development-tt-cutoff:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Pin chess validator and run contract tests
+        run: |
+          set -euo pipefail
+          python -m pip install -q chess==1.11.2
+          PYTHONPATH=harness python -m unittest -v test_c3x_030_s4k_epoch_court
+      - name: Recover exact S4H2 archived development R2 and original frozen protocol
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          mkdir -p prior/r2 prior/protocol public
+          gh run download 43349835109 -R WhoSia/C3X -n c3x030-s4h2-development-native-samebin-paired-dose -D prior/r2
+          gh run download 43347740057 -R WhoSia/C3X -n c3x030-s4h2-preoutcome-frozen-design -D prior/protocol
+          sha256sum prior/r2/S4H2_DEVELOPMENT_PAIRED_NATIVE_RESULT.json prior/protocol/S4H2_PREOUTCOME_PROTOCOL.json > public/PRIOR_RAW_SHA256.txt
+      - name: Compile original and read-only TT early cutoff modified source
+        run: |
+          set -euo pipefail
+          git clone -q https://github.com/official-stockfish/Stockfish.git /tmp/c3x-s4k-upstream
+          git -C /tmp/c3x-s4k-upstream checkout -q 68e1e9b3811e16cad014b590d7443b9063b3eb52
+          test "$(git -C /tmp/c3x-s4k-upstream rev-parse HEAD)" = 68e1e9b3811e16cad014b590d7443b9063b3eb52
+          make -s -C /tmp/c3x-s4k-upstream/src -j2 build ARCH=x86-64
+          cp /tmp/c3x-s4k-upstream/src/stockfish /tmp/c3x-s4k-original
+          cp -a /tmp/c3x-s4k-upstream /tmp/c3x-s4k-modified
+          python harness/c3x_030_s4k_go_epoch_patch.py \
+            --source /tmp/c3x-s4k-upstream/src/search.cpp \
+            --out /tmp/c3x-s4k-modified/src/search.cpp
+          make -s -C /tmp/c3x-s4k-modified/src -j2 build ARCH=x86-64
+          sha256sum /tmp/c3x-s4k-upstream/src/search.cpp /tmp/c3x-s4k-modified/src/search.cpp /tmp/c3x-s4k-original /tmp/c3x-s4k-modified/src/stockfish > public/SOURCE_BINARY_SHA256.txt
+      - name: Execute original-sham-two-hit paired source TT cutoff diagnosis on development ONLY
+        run: |
+          set -euo pipefail
+          PYTHONPATH=harness python -u harness/c3x_030_s4k_native_epoch_court.py \
+            --protocol prior/protocol/S4H2_PREOUTCOME_PROTOCOL.json \
+            --r2 prior/r2/S4H2_DEVELOPMENT_PAIRED_NATIVE_RESULT.json \
+            --baseline /tmp/c3x-s4k-original \
+            --modified /tmp/c3x-s4k-modified/src/stockfish \
+            --out public/S4K_NATIVE_GO_EPOCH_CUTOFF_TRACE.json
+          sha256sum public/S4K_NATIVE_GO_EPOCH_CUTOFF_TRACE.json > public/RESULT_SHA256.txt
+      - name: Explicit conservative research scope
+        if: always()
+        run: |
+          mkdir -p public
+          echo 'S4K two actual go epochs per engine process; report exact TT early-cutoff count at only the target ply-one source return site, with eight receipt limit PER GO. Distinguish site-level completeness from all-search return coverage. Native 48 planned development searches, no holdout, no causal mediation or paper superiority. No bot commits.' > public/SCOPE.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x030-s4k-native-go-epoch-censor-audit
+          path: public/*
+          if-no-files-found: error
+          retention-days: 90
