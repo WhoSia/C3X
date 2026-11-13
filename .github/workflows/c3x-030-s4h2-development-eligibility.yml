@@ -1,0 +1,88 @@
+name: C3X 0.30 S4H2 Native Development Eligibility Source-only
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/c3x-030-s4h2-development-eligibility.yml'
+      - 'harness/c3x_030_s4h2_eligibility_patch.py'
+      - 'harness/c3x_030_s4h2_eligibility_court.py'
+      - 'harness/test_c3x_030_s4h2_eligibility_court.py'
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  source-only-development:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Test strict source-only event contract
+        run: |
+          set -euo pipefail
+          PYTHONPATH=harness python -m unittest -v test_c3x_030_s4h2_eligibility_court test_c3x_030_p11s4g_masked_invocation_patch
+      - name: Fetch ORIGINAL S4H2 pre-outcome protocol from separate completed CI artifact
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          mkdir -p prior public
+          gh run download 43347740057 -R WhoSia/C3X -n c3x030-s4h2-preoutcome-frozen-design -D prior
+          test -f prior/S4H2_PREOUTCOME_PROTOCOL.json
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p=json.loads(Path('prior/S4H2_PREOUTCOME_PROTOCOL.json').read_text())
+          assert p['schema']=='c3x030-s4h2-preoutcome-native-execution-protocol-v1'
+          assert not p['holdout_effects_observed']
+          assert p['planned_native_searches']==288
+          print('S4H2_PRIOR_PREOUTCOME_PROTOCOL_ACCEPTED')
+          PY
+      - name: Compile exact original Stockfish 16 plus source-only TT eligibility logger
+        run: |
+          set -euo pipefail
+          git clone -q https://github.com/official-stockfish/Stockfish.git /tmp/c3x-s4h2-dev
+          git -C /tmp/c3x-s4h2-dev checkout -q 68e1e9b3811e16cad014b590d7443b9063b3eb52
+          test "$(git -C /tmp/c3x-s4h2-dev rev-parse HEAD)" = 68e1e9b3811e16cad014b590d7443b9063b3eb52
+          cp /tmp/c3x-s4h2-dev/src/search.cpp public/UNMODIFIED_SEARCH_CPP.txt
+          python harness/c3x_030_s4h2_eligibility_patch.py \
+            --source /tmp/c3x-s4h2-dev/src/search.cpp \
+            --out /tmp/c3x-s4h2-dev/src/search.cpp.modified
+          mv /tmp/c3x-s4h2-dev/src/search.cpp.modified /tmp/c3x-s4h2-dev/src/search.cpp
+          make -s -C /tmp/c3x-s4h2-dev/src -j2 build ARCH=x86-64
+          sha256sum public/UNMODIFIED_SEARCH_CPP.txt /tmp/c3x-s4h2-dev/src/search.cpp /tmp/c3x-s4h2-dev/src/stockfish > public/SOURCE_BINARY_SHA256.txt
+      - name: Run real development-only TT hit discovery without score or root decision access
+        run: |
+          set -euo pipefail
+          python -u harness/c3x_030_s4h2_eligibility_court.py \
+            --binary /tmp/c3x-s4h2-dev/src/stockfish \
+            --protocol prior/S4H2_PREOUTCOME_PROTOCOL.json \
+            --split development \
+            --out public/S4H2_DEVELOPMENT_ELIGIBILITY_ONLY.json
+          python - <<'PY'
+          import json
+          x=json.load(open('public/S4H2_DEVELOPMENT_ELIGIBILITY_ONLY.json'))
+          assert x['split']=='development' and len(x['cases'])==8
+          assert x['new_engine_searches']==16 and x['treatment_searches']==0
+          assert x['engine_scores_read'] is False and x['engine_bestmove_read'] is False and x['engine_pv_read'] is False
+          assert all(c['eligible'] == (c['frozen_key'] is not None) for c in x['cases'])
+          print('S4H2_REAL_DEVELOPMENT_ELIGIBILITY_ONLY',sum(c['eligible'] for c in x['cases']))
+          PY
+          sha256sum public/S4H2_DEVELOPMENT_ELIGIBILITY_ONLY.json
+      - name: Declare negative and limitations
+        if: always()
+        run: |
+          mkdir -p public
+          echo 'The only new native searches in this step are development-position eligibility probes, no TT masking. UCI stdout is consumed only to detect search completion and never stored or inspected for score, PV, bestmove, or labels. C3X S4H2 holdout remains unsearched, no causal effect or superiority is claimed. Logging could affect timing; noninterference needs paired follow-up. Neither this workflow nor GitHub Actions bot creates commits.' > public/SCOPE.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x030-s4h2-development-source-only-eligible-hit-pilot
+          path: public/*
+          if-no-files-found: error
+          retention-days: 90
