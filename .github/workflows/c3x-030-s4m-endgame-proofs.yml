@@ -1,0 +1,39 @@
+name: C3X 0.30 S4M Validated Endgame Proof-carrying Intervals
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/c3x-030-s4m-endgame-proofs.yml'
+      - 'harness/c3x_030_s4m_proof_carrying_intervals.py'
+      - 'harness/test_c3x_030_s4m_proof_carrying_intervals.py'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  interval-proof-contract:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Pin independent legal chess evaluator
+        run: python -m pip install -q chess==1.11.2
+      - name: Run verified endgame certificates and anti-forgery tests
+        run: |
+          set -euo pipefail
+          PYTHONPATH=harness python -m unittest -v test_c3x_030_s4m_proof_carrying_intervals
+      - name: Explicit paper provenance and non-evidence claims
+        run: |
+          set -euo pipefail
+          mkdir -p artifacts
+          echo 'This checks genuinely legal terminal chess states including the forced Fool mate certificate and sound partial-coverage bounds. The idea extends Herbeck & Barth (1996) bound-specific rule tags with a strict observed-source versus formal-outcome proof type barrier. No endgame tablebases, original 1996 code, entire state-space validation, Stockfish causal mediation, independent heldout game trials or empirical superiority tested. CI read-only; no bot commits.' > artifacts/SCOPE.txt
+          sha256sum harness/c3x_030_s4m_proof_carrying_intervals.py harness/test_c3x_030_s4m_proof_carrying_intervals.py > artifacts/CONTRACT_SHA256.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: c3x030-s4m-verified-terminal-interval-proof-contract
+          path: artifacts/*
+          retention-days: 90
