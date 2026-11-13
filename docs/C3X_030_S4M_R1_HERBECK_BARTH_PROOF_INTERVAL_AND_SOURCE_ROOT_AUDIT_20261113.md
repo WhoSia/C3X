@@ -153,3 +153,30 @@ The verifier takes graph edges and terminal labels as inputs. A chess integratio
 ### Current exact-text inventory
 
 The two 1992/1995 rows above are now resolved. The remaining original-text gaps are Björnsson 2024, Kopec & Bratko 1982, and Demura & Kaneko 2024. Two newly identified technical reports are TU Wien Institutsbericht 34 (Barth & Barth 1991) and 36 (Barth 1994). The short ICCA records for those technical reports establish bibliographic leads. The full reports were not found by the Drive title search.
+
+
+## VIII. S4-M/R3 · Notice identity and a local tablebase comparison
+
+### Source custody
+
+| PDF received | What the pages contain | SHA-256 |
+| --- | --- | --- |
+| [Barth & Barth 1991](https://drive.google.com/file/d/12rAcb1dQ1-SQ8V9Ql1TTZZ8dbdFDgc0H/view) | ICCA 14(4), p. 209, one page containing a quotation from the abstract of the 38-page TU Wien Report 34 | `2789c0e57fda6405e2c9ad0e42b64da9874dfd28e42c5a10cd1f25de6b58d39b` |
+| [Barth 1994](https://drive.google.com/file/d/11OnINES2n3fifb_qT6Mvtehk_UbRcT4U/view) | ICCA 17(1), pp. 35–36, two scanned pages containing the editorial paraphrase of Report 36's abstract on p. 35 | `076a01b4d649e011cf56da44c6f93e8f7e26d8401f9c29cfd2c2f956bd497d7a` |
+
+Both are filed in `10_PAPERS` as ICCA notices with the same file IDs. The original TU Wien reports remain unconfirmed. The 1991 notice describes the knowledge–search–lookup tradeoff. The 1994 notice reports KPKP validation and a rule inspired by Réti. The validation procedure and the rule's operational conditions are studied from the held 1992 and 1995 full journal articles.
+
+### Experiment
+
+[Audit code](../harness/c3x_030_s4m_r3_kpkp.py) compares a simple baseline with local Syzygy lookup. The baseline maximizes the difference between the two pawns' remaining single pushes to promotion, ignoring king geometry, attacks, obstruction and checks. These two published positions are deliberately selected development counterexamples. The baseline is a new diagnostic and represents neither the six-rule Barth program nor Mephisto.
+
+| Position | All legal root moves | Pawn-distance choice | Replies to that choice |
+| --- | --- | --- | --- |
+| Réti 1921, Barth 1995 Diagram 1 | Kg7 draws. Kg8, Kh7 and c7 lose. | c7 | Kb7 wins for Black. The five other legal replies win for White. |
+| Barth 1995 Table 1, position X | All eight draw. | e7 | f4 draws. The five other legal replies win for White. |
+
+The audit replayed all 12 legal root moves and all 12 legal replies after the two baseline choices. It checked that the maximum child WDL matches each probed root WDL, and that the minimum reply WDL matches each probed baseline move WDL, always from the root player's perspective. Syzygy WDL uses the stored table convention at a zero halfmove clock. The experiment reports only -2, 0, and +2 and starts from FENs with no preceding history. It uses two SHA-pinned WDL tables from python-chess commit `3516d7c6c0879af724c2855fac5a304a4ef40949` and queries them locally. The comparison does not compute optimal mate distance, rebuild retrograde tables, validate the historical solver, or test Stockfish causality.
+
+The decisive information for the Réti move ranking is a single defensive reply to c7. In position X, the baseline still picks a WDL-optimal move, but it assigns an advantage that cannot guarantee a win. A further comparison can measure the cost of finding a decisive refutation and the number of branches a human must inspect. Local tablebase WDL is a direct oracle for this finite domain. The historical rules still supply candidate concepts and are a useful explanation baseline. C3X can test whether its explanations remain faithful when the strongest opposing reply is substituted for a plausible alternative.
+
+[Successful CI run](https://github.com/WhoSia/C3X/actions/runs/43368644473) reproduced the local JSON SHA-256 `662c633cf1fa9aa300c36ee69c364638f7f24e649d243b1e0417f2e0ee16d00e`. [Archived JSON](https://drive.google.com/file/d/1nBDd1ShL0YZbnxGI_HJ5kD6OeZwXmhub/view?usp=drivesdk).
