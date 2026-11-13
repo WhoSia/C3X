@@ -1,0 +1,39 @@
+name: C3X S4M R5 Explanation Collision Audit
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/c3x-030-s4m-r5-explanation-collisions.yml'
+      - 'harness/c3x_030_s4m_r5_explanation_collisions.py'
+      - 'harness/c3x_030_s4m_r4_reply_contrast.py'
+      - 'harness/c3x_030_s4m_r3_kpkp.py'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  historical-kpkp:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/checkout@v4
+        with:
+          repository: niklasf/python-chess
+          ref: 3516d7c6c0879af724c2855fac5a304a4ef40949
+          path: chess-upstream
+          persist-credentials: false
+          sparse-checkout: |
+            chess
+            data/syzygy/regular
+      - name: Reproduce both cohorts and their matched reply counts
+        run: |
+          PYTHONPATH=chess-upstream python harness/c3x_030_s4m_r5_explanation_collisions.py \
+            --tables chess-upstream/data/syzygy/regular --out evidence/S4M_R5_COLLISIONS.json
+          sha256sum evidence/S4M_R5_COLLISIONS.json | tee evidence/SHA256.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: c3x030-s4m-r5-explanation-collisions
+          path: evidence/
+          if-no-files-found: error
