@@ -1,0 +1,58 @@
+name: C3X 0.30 S4H2 Preregister Native Intervention Protocol Without Outcomes
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/c3x-030-s4h2-preoutcome-protocol.yml'
+      - 'harness/c3x_030_s4h2_preoutcome_protocol.py'
+      - 'harness/test_c3x_030_s4h2_preoutcome_protocol.py'
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  frozen-design-only:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Synthetic protocol regression tests
+        run: PYTHONPATH=harness python -m unittest -v test_c3x_030_s4h2_preoutcome_protocol
+      - name: Recover unmodified pre-outcome S4H0 manifest artifact
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          mkdir -p source out
+          gh run download 43140220882 -R WhoSia/C3X -n c3x030-s4h0-preoutcome-legal-game-history-manifest -D source
+          test "$(find source -type f -name 'C3X_S4H0_FROZEN_BLIND_GAME_HISTORIES.json' | wc -l)" -eq 1
+          cp "$(find source -type f -name 'C3X_S4H0_FROZEN_BLIND_GAME_HISTORIES.json')" source/original.json
+      - name: Freeze complete S4H2 research schedule (no chess engine)
+        run: |
+          set -euo pipefail
+          python harness/c3x_030_s4h2_preoutcome_protocol.py \
+            --manifest source/original.json --out out/S4H2_PREOUTCOME_PROTOCOL.json
+          sha256sum source/original.json out/S4H2_PREOUTCOME_PROTOCOL.json > out/SHA256.txt
+          python - <<'PY'
+          import json
+          p=json.load(open('out/S4H2_PREOUTCOME_PROTOCOL.json'))
+          assert p['planned_native_searches']==288
+          assert p['holdout_effects_observed'] is False
+          assert p['method_superiority']=='HOLD'
+          assert p['key_eligibility_policy']['do_not_reselect_after_treatment']
+          print('S4H2_PREOUTCOME_SCHEDULE_FROZEN_NO_NATIVE_RESULTS')
+          PY
+      - name: Explicit boundaries and independent-sampling caveats
+        run: |
+          echo 'Design-only. NO engine executions, treatments, outcomes, labels, native parent mediation, or paper superiority measured. Eight researcher-authored holdout histories, two dependent snapshots per history. Initial pre-treatment eligibility TT-hit key must be obtained without reading bestmove or evaluation; any subsequent protocol amendment must be versioned and no holdout tuning permitted. Workflow cannot commit or alter GitHub repository.' > out/SCOPE.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: c3x030-s4h2-preoutcome-frozen-design
+          path: out/*
+          if-no-files-found: error
+          retention-days: 90
