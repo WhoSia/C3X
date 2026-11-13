@@ -1,0 +1,90 @@
+name: C3X 0.30 S4H2 Real Development Paired TT Dose
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/c3x-030-s4h2-development-paired-dose.yml'
+      - 'harness/c3x_030_s4h2_development_intervention.py'
+      - 'harness/test_c3x_030_s4h2_development_intervention.py'
+      - 'harness/c3x_030_s4h2_eligibility_patch.py'
+      - 'harness/c3x_030_s4h2_eligibility_court.py'
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  original-plus-samebin-development:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Fail-closed source patch, discovery and arm contract tests
+        run: |
+          set -euo pipefail
+          PYTHONPATH=harness python -m unittest -v \
+            test_c3x_030_s4h2_eligibility_patch \
+            test_c3x_030_s4h2_eligibility_court \
+            test_c3x_030_s4h2_development_intervention \
+            test_c3x_030_p11s4g_masked_invocation_patch
+      - name: Fetch earlier frozen S4H2 protocol without regenerating it
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          mkdir -p prior public
+          gh run download 43347740057 -R WhoSia/C3X -n c3x030-s4h2-preoutcome-frozen-design -D prior
+          test -f prior/S4H2_PREOUTCOME_PROTOCOL.json
+          sha256sum prior/S4H2_PREOUTCOME_PROTOCOL.json > public/PRECOMMITTED_PROTOCOL_SHA256.txt
+      - name: Compile exact upstream original and one shared source intervention binary
+        run: |
+          set -euo pipefail
+          git clone -q https://github.com/official-stockfish/Stockfish.git /tmp/c3x-s4h2-native
+          git -C /tmp/c3x-s4h2-native checkout -q 68e1e9b3811e16cad014b590d7443b9063b3eb52
+          test "$(git -C /tmp/c3x-s4h2-native rev-parse HEAD)" = 68e1e9b3811e16cad014b590d7443b9063b3eb52
+          make -s -C /tmp/c3x-s4h2-native/src -j2 build ARCH=x86-64
+          cp /tmp/c3x-s4h2-native/src/stockfish /tmp/c3x-s4h2-upstream-original
+          cp -a /tmp/c3x-s4h2-native /tmp/c3x-s4h2-patched
+          python harness/c3x_030_s4h2_eligibility_patch.py \
+            --source /tmp/c3x-s4h2-native/src/search.cpp \
+            --out /tmp/c3x-s4h2-patched/src/search.cpp
+          make -s -C /tmp/c3x-s4h2-patched/src -j2 build ARCH=x86-64
+          sha256sum /tmp/c3x-s4h2-native/src/search.cpp \
+            /tmp/c3x-s4h2-patched/src/search.cpp \
+            /tmp/c3x-s4h2-upstream-original \
+            /tmp/c3x-s4h2-patched/src/stockfish > public/SOURCE_BINARY_SHA256.txt
+      - name: Freeze development source-only first TT-hit key eligibility
+        run: |
+          set -euo pipefail
+          python -u harness/c3x_030_s4h2_eligibility_court.py \
+            --binary /tmp/c3x-s4h2-patched/src/stockfish \
+            --protocol prior/S4H2_PREOUTCOME_PROTOCOL.json \
+            --split development \
+            --out public/S4H2_DEVELOPMENT_PRETREATMENT_ELIGIBILITY.json
+          sha256sum public/S4H2_DEVELOPMENT_PRETREATMENT_ELIGIBILITY.json > public/ELIGIBILITY_SHA256.txt
+      - name: Execute same-bin development TT masking paired against actual upstream
+        run: |
+          set -euo pipefail
+          python -u harness/c3x_030_s4h2_development_intervention.py \
+            --protocol prior/S4H2_PREOUTCOME_PROTOCOL.json \
+            --eligibility public/S4H2_DEVELOPMENT_PRETREATMENT_ELIGIBILITY.json \
+            --baseline /tmp/c3x-s4h2-upstream-original \
+            --modified /tmp/c3x-s4h2-patched/src/stockfish \
+            --out public/S4H2_DEVELOPMENT_PAIRED_NATIVE_RESULT.json
+          sha256sum public/S4H2_DEVELOPMENT_PAIRED_NATIVE_RESULT.json > public/RESULT_SHA256.txt
+      - name: Explicit source and scientific limitations
+        if: always()
+        run: |
+          mkdir -p public
+          echo 'All development cases are previously authored legal opening lineages. First eligible TT key selected from source-only actual TT hits before masking. Never reselect after treatment. TT-masked value/sign relations are not proof of full counterfactual mediation. New FEN snapshot dependence is grouped by game. Holdout has not been touched. Any negative native or CI outcome is preserved. Actions never commits; author must be WhoSia.' > public/SCOPE.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x030-s4h2-development-native-samebin-paired-dose
+          path: public/*
+          if-no-files-found: error
+          retention-days: 90
