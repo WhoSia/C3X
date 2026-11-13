@@ -62,8 +62,9 @@ def search(binary,fen,key):
         send("quit");p.wait(timeout=15)
         for t in threads:t.join(timeout=5)
         if p.returncode:raise ValueError("S4E_HOLD_ENGINE_FAILURE")
+        other_limit = 4096 if env.get("C3X_S4K_CAPTURE_FULL_STDERR") == "1" else 20
         return {"trials":results,"events":[x for z in err if (x:=parse_event(z))],
-                "other_stderr":[z for z in err if not z.startswith("C3X_S4E ")][:20]}
+                "other_stderr":[z for z in err if not z.startswith("C3X_S4E ")][:other_limit]}
     finally:
         if p.poll() is None:p.kill()
         try:p.wait(timeout=5)
