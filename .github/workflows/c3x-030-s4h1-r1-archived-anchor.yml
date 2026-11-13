@@ -1,0 +1,54 @@
+name: C3X 0.30 S4H1R1 Archived Pre-outcome Byte Cross-check
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/c3x-030-s4h1-r1-archived-anchor.yml'
+      - 'harness/c3x_030_s4h1_r1_archived_anchor.py'
+      - 'harness/test_c3x_030_s4h1_r1_archived_anchor.py'
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  archived-byte-identity:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Validate contract tests
+        run: PYTHONPATH=harness python -m unittest -v test_c3x_030_s4h1_r1_archived_anchor
+      - name: Download ORIGINAL earlier S4H0 artifact not this run
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          mkdir -p archived reproduced public
+          gh run download 43140220882 -R WhoSia/C3X -n c3x030-s4h0-preoutcome-legal-game-history-manifest -D archived
+          find archived -maxdepth 2 -type f -print
+          test "$(find archived -type f -name 'C3X_S4H0_FROZEN_BLIND_GAME_HISTORIES.json' | wc -l)" -eq 1
+          cp "$(find archived -type f -name 'C3X_S4H0_FROZEN_BLIND_GAME_HISTORIES.json')" archived/original.json
+      - name: Independently regenerate with pinned legal chess package
+        run: |
+          set -euo pipefail
+          python -m pip install -q chess==1.11.2
+          python harness/c3x_030_f2_blind_game_manifest.py --out reproduced/frozen.json
+          python harness/c3x_030_s4h1_r1_archived_anchor.py \
+            --archived-h0 archived/original.json \
+            --regenerated-h1 reproduced/frozen.json \
+            --out public/S4H1_R1_OLD_NEW_BYTE_IDENTITY.json
+          sha256sum archived/original.json reproduced/frozen.json > public/BYTE_HASHES.txt
+      - name: Declare precise scientific scope
+        run: |
+          echo 'S4H1/R1 reads original separately archived 43140220882 pre-outcome CI artifact and requires exact bytes with current re-generation. Original CI timestamp and source commit establish chronology at the provider metadata level, not a cryptographic trusted timestamp. No Stockfish search, no causal mediation, no empirical method benchmark, no random human games. GitHub Actions must not commit.' > public/SCOPE.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: c3x030-s4h1-r1-archived-original-byte-identity
+          path: public/*
+          if-no-files-found: error
+          retention-days: 90
