@@ -65,13 +65,13 @@ def execute(protocol,r2,baseline,modified):
           "native_trials":{"original":orig["trials"],"sham":sham["trials"],"two":two["trials"]},
           "search_tree_incomplete":True}
         print("S4I_NATIVE",id,"masked",len(masks),
-              "TT_early_returns",{k:v["logged_cutoff_events_total"] for k,v in [(k,v["logged_cutoff_events_total"],v["all_cutoff_events_total"]) for k,v in arm_cutoffs.items()]},
+              "TT_early_returns",{k:{"logged":v["logged_cutoff_events_total"],"total":v["all_cutoff_events_total"]} for k,v in arm_cutoffs.items()},
               "root_changes",root_changes,"control",neg["noninterference_pass"],flush=True)
     out["native_searches"]=len(cases)*3*2
     out["native_nodes"]=sum(t["nodes"] for x in out["cases"].values()
         for arm in ("original","sham","two") for t in x["native_trials"][arm])
     out["control_noninterference"]=all(x["original_sham_noninterference"] for x in out["cases"].values())
-    out["total_tt_cutoff_observations"]={arm:sum(x["cutoff_return_trace"][arm]["observed_cutoffs"]
+    out["total_tt_cutoff_observations"]={arm:sum(x["cutoff_return_trace"][arm]["logged_cutoff_events_total"]
         for x in out["cases"].values()) for arm in ("sham","two")}
     out["actual_cutoff_events_by_arm"]={arm:sum(x["cutoff_return_trace"][arm]["all_cutoff_events_total"] for x in out["cases"].values()) for arm in ("sham","two")}
     out["root_change_total"]=sum(x["root_move_changes"] for x in out["cases"].values())
