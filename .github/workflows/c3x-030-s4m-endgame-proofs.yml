@@ -26,6 +26,26 @@ jobs:
         run: |
           set -euo pipefail
           PYTHONPATH=harness python -m unittest -v test_c3x_030_s4m_proof_carrying_intervals
+      - name: Archive real legal checkmate witness and partial-branch certificate
+        run: |
+          set -euo pipefail
+          mkdir -p artifacts
+          PYTHONPATH=harness python - <<'PY'
+          import chess, json, hashlib
+          from pathlib import Path
+          from c3x_030_s4m_proof_carrying_intervals import backup,terminal_child
+          board=chess.Board()
+          for move in ('f2f3','e7e5','g2g4'):board.push_uci(move)
+          certificate=terminal_child(board,'d8h4')
+          report=backup(board,{'d8h4':certificate})
+          assert board.is_valid()
+          assert (report['interval']['lower'],report['interval']['upper'])==(1,1)
+          assert report['complete_legal_branch_coverage'] is False
+          assert report['stockfish_mediation_proven'] is False
+          target=Path('artifacts/S4M_REAL_LEGAL_TERMINAL_WITNESS.json')
+          target.write_text(json.dumps(report,indent=2,sort_keys=True)+'\\n')
+          print('S4M_REAL_LEGAL_TERMINAL_WITNESS',len(report['unknown_legal_moves']),hashlib.sha256(target.read_bytes()).hexdigest())
+          PY
       - name: Explicit paper provenance and non-evidence claims
         run: |
           set -euo pipefail
