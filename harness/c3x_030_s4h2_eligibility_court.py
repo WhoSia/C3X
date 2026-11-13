@@ -5,7 +5,7 @@ All registered FENs stay in the denominator, including ineligible FENs.
 The program does not read any root value from stdout; only detects the
 'bestmove ' protocol terminator to know that a search finished.
 """
-import argparse, hashlib, json, queue, re, subprocess, threading
+import argparse, hashlib, json, os, queue, re, subprocess, threading
 from pathlib import Path
 
 EVENT=re.compile(r"^C3X_S4H2_ELIGIBLE ordinal=(\d+) key=(\d+) ply=1 hit_before=1$")
@@ -30,8 +30,13 @@ def choose(lines):
             "selection_only_uses_pre_mask_source_keys":True}
 
 def probe(binary,fen):
+    env=os.environ.copy()
+    env["C3X_S4H2_ELIGIBILITY_MODE"]="1"
+    env["C3X_S4G_MASK_KEY"]="0"
+    env["C3X_S4G_MASK_LIMIT"]="0"
+    env["C3X_S4E_KEY"]="0"
     p=subprocess.Popen([str(Path(binary).resolve())],stdin=subprocess.PIPE,
-        stdout=subprocess.PIPE,stderr=subprocess.PIPE,text=True,bufsize=1)
+        stdout=subprocess.PIPE,stderr=subprocess.PIPE,text=True,bufsize=1,env=env)
     stdout=queue.Queue()
     stderr=[]
     def pump(out,callback):
