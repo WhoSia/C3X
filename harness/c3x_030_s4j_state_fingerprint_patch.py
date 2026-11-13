@@ -21,7 +21,7 @@ def patch(original: str) -> str:
     if s.count(BEFORE)!=1:
         raise ValueError("S4J_HOLD_CUTOFF_ANCHOR_NOT_UNIQUE")
     s=s.replace(BEFORE,AFTER,1)
-    if s.count('" search_depth=" << depth')!=1 or s.count("return ttValue;")!=1:
+    if s.count('" search_depth=" << depth')!=1 or s.count("C3X_S4I_TT_CUTOFF ordinal=")!=1:
         raise ValueError("S4J_HOLD_SOURCE_PATCH_DRIFT")
     return s
 
