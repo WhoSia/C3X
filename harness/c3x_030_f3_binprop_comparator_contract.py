@@ -50,14 +50,17 @@ def check_episode(e):
         raise ValueError("F3_UNCOMPARABLE_METHOD_FAMILY")
     return pools
 
-def score_candidate(c):
+def score_candidate(c, method):
     if not isinstance(c,dict) or set(c)!={"name","delta","predictions","valid","source_kind"}:
         raise ValueError("F3_MOTIF_CONTRACT")
     if c["valid"] is not True or c["source_kind"] not in ("externally_executed_boolean","paper_released_boolean"):
         raise ValueError("F3_UNVERIFIED_MOTIF_EXECUTION")
     delta=c["delta"]
-    if not isinstance(delta,(float,int)) or isinstance(delta,bool) or not math.isfinite(delta) or delta<=0 or delta>1:
-        raise ValueError("F3_MOTIF_DELTA_MUST_BE_EXTERNAL_POSITIVE")
+    if method=="binprop":
+        if not isinstance(delta,(float,int)) or isinstance(delta,bool) or not math.isfinite(delta) or delta<=0 or delta>1:
+            raise ValueError("F3_BINPROP_DELTA_MUST_BE_EXTERNAL_POSITIVE")
+    elif delta is not None and (not isinstance(delta,(float,int)) or isinstance(delta,bool) or not math.isfinite(delta) or delta < -1 or delta > 1):
+        raise ValueError("F3_OPTIONAL_DELTA_MUST_BE_FINITE")
     preds=c["predictions"]
     if set(preds)!=set(GROUPS):
         raise ValueError("F3_PREDICTION_POOL_SCHEMA")
@@ -73,7 +76,7 @@ def score_candidate(c):
       "negative_false":ratio(preds["holdout_negative"],False),
       "nearby_negative_false":ratio(preds["holdout_nearby_negative"],False)}
     return {"name":c["name"],"delta":delta,"support_fit":fit,
-       "weighted_fit":fit*delta,
+       "weighted_fit":fit*(delta if delta is not None else 0),
        "heldout_rates":heldout_rates,
        "score":min(heldout_rates.values())}
 
@@ -84,7 +87,7 @@ def evaluate_episode(e):
         candidates=e["methods"].get(method,[])
         if not isinstance(candidates,list):
             raise ValueError("F3_METHOD_LIST")
-        scored=[score_candidate(x) for x in candidates]
+        scored=[score_candidate(x,method) for x in candidates]
         if len({x["name"] for x in scored})!=len(scored):
             raise ValueError("F3_DUPLICATE_MOTIF")
         if method=="binprop":
