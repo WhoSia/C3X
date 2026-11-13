@@ -12,7 +12,11 @@ from c3x_030_p11s4g_masked_invocation_patch import patch as s4g_patch
 
 SITE = "    // C3X S4G: same compiled binary, literal source TT hit signal intervention."
 ELIGIBILITY = """    // C3X S4H2: outcome-blind first actual TT hit, before any TT mask.
-    if (ss->ply == 1 && ss->ttHit)
+    static const bool c3x_h2_discovery_mode = []() {
+        const char* v = std::getenv("C3X_S4H2_ELIGIBILITY_MODE");
+        return v && v[0] == '1' && v[1] == 0;
+    }();
+    if (c3x_h2_discovery_mode && ss->ply == 1 && ss->ttHit)
     {
         const unsigned h2_ordinal = c3x_h2_hit_ordinal.fetch_add(1, std::memory_order_relaxed);
         if (h2_ordinal < 4096)
