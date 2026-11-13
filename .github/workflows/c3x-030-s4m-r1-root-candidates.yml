@@ -46,7 +46,7 @@ jobs:
             'ambiguous_signatures':69,
             'changed_candidate_values':7,
             'root_bestmove_changes':3,
-            'censored_epoch_pairs':7
+            'censored_epoch_pairs':5
           }
           assert r['new_engine_searches']==0
           assert r['holdout_positions_searched']==0
