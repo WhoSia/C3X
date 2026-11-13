@@ -200,3 +200,26 @@ The research implication is to evaluate explanations against outcome-changing le
 [CI](https://github.com/WhoSia/C3X/actions/runs/43380193627) and [Drive JSON](https://drive.google.com/file/d/118iCKtLk1muf0ZCF2DKls5Q7M982a_Z1/view) agree with local SHA-256 `d6d5defac5cb20638b96deb17b6f329dd9a0e1e7ac7b563d44d9f82f9e575ca7`.
 
 The fresh Intake copy of the 1991 file (Drive ID `1OxaMgowTdUFoZklB9QNUfuH9jROYcYuV`) matches the SHA-256 of the previously filed one-page ICCA notice. The original TU Wien report remains unconfirmed.
+
+
+## X. S4-M/R5 · Outcome collisions within matched legal replies
+
+The [audit](../harness/c3x_030_s4m_r5_explanation_collisions.py) generates two cohorts of 256 locally legal KPKP board states with Black to move and a White pawn on rank 7. Generation selects boards using geometry and move legality before any table lookup. The analysis covers Black replies that leave the same straight White queen promotion legal. It excludes R3 historical cases and their board symmetries, and deduplicates within and across cohorts by horizontal reflection. The two fixed-seed cohorts cover Black pawn ranks 4–6 and 2–3. The second cohort and additional counterplay features were explored during this round.
+
+Within each parent, compare pairs of eligible Black replies with different Syzygy WDL after White promotes. A collision occurs when the feature vector is identical across such a pair. The first cohort has 1,742 eligible replies, 35 mixed-outcome parents, and 193 outcome-changing pairs. The advanced-pawn cohort has 1,596 eligible replies, 152 mixed-outcome parents, and 1,151 outcome-changing pairs.
+
+| Nested explanation features | Ranks 4–6 collisions | Ranks 2–3 collisions |
+| --- | ---: | ---: |
+| Promotion gives check | 85 / 193 | 498 / 1151 |
+| Add immediate queen capture | 8 / 193 | 437 / 1151 |
+| Add remaining Black pawn pushes | 0 / 193 | 190 / 1151 |
+| Add both king-to-Black-pawn distances | 0 / 193 | 57 / 1151 |
+| Add immediate legal Black promotion and White attack on Black promotion square | 0 / 193 | 52 / 1151 |
+
+For FEN `8/P7/8/8/1k3K2/8/p7/8 b - - 0 1`, the seven features coincide after either Kc3 or Kc4 and White's a8=Q. After Kc3, Black's Kb2 is the sole drawing continuation among 12 legal moves. After Kc4, Kb2 is unavailable and all 11 legal defenses lose. The audit replays these moves and probes all 23 defenses. The case was selected after observing the stress cohort. The result motivates explanations that retain the opponent's concrete resource and a legal contrast in which that resource disappears.
+
+Adding features can mechanically split buckets. Collision counts are descriptive and the pairs share parents. The experiment establishes counterexamples to feature sufficiency on these boards. It neither estimates performance on human games nor identifies a Stockfish internal causal mechanism. The comparison covers the stipulated queen promotion and the stored Syzygy WDL convention. Board legality checks do not reconstruct game histories. The S4-H2 holdout is outside this experiment.
+
+[CI replay](https://github.com/WhoSia/C3X/actions/runs/43381335802) · [Full Drive JSON](https://drive.google.com/file/d/1DNwNUy3gBASDvJCmIw8cKzh4uzPlHb16/view). Local and Drive readback SHA-256 `72412de28a0ecc89b08a846fb9575b0d1063b3efd4bcc3b7d5d8d707f0161282`.
+
+The current intake listing and targeted C3X title search surfaced the existing one-page 1991 ICCA notice duplicate. Its SHA-256 was checked again. No new C3X original was identified in the reviewed intake results.
