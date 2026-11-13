@@ -29,8 +29,8 @@ def pair_epoch(sham,two):
         if len(root)!=min(total,512):
             raise ValueError("S4M_R1_FALSE_SOURCE_LOG_COVERAGE")
         by=defaultdict(list)
-        for row in root:
-            if row["ordinal"]!=sum(len(v) for v in by.values()):
+        for idx,row in enumerate(root):
+            if row["ordinal"]!=idx:
                 raise ValueError("S4M_R1_BROKEN_SOURCE_LOG_ORDINAL")
             if (row["alpha"]>=row["beta"] or
                 row["will_update_best"]!=(row["value"]>row["old_best"]) or
