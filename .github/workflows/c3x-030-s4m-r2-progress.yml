@@ -1,0 +1,25 @@
+name: C3X S4M R2 Progress Certificates
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/c3x-030-s4m-r2-progress.yml'
+      - 'harness/c3x_030_s4m_r2_progress_certificate.py'
+      - 'harness/test_c3x_030_s4m_r2_progress_certificate.py'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  progress-certificate:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Check certificates against bounded reachability
+        working-directory: harness
+        run: python -m unittest -v test_c3x_030_s4m_r2_progress_certificate
