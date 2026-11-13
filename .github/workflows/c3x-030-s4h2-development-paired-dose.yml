@@ -6,6 +6,8 @@ on:
       - '.github/workflows/c3x-030-s4h2-development-paired-dose.yml'
       - 'harness/c3x_030_s4h2_development_intervention.py'
       - 'harness/test_c3x_030_s4h2_development_intervention.py'
+      - 'harness/c3x_030_s4h2_r2_physical_trace_audit.py'
+      - 'harness/test_c3x_030_s4h2_r2_physical_trace_audit.py'
       - 'harness/c3x_030_s4h2_eligibility_patch.py'
       - 'harness/c3x_030_s4h2_eligibility_court.py'
   workflow_dispatch:
@@ -31,6 +33,7 @@ jobs:
             test_c3x_030_s4h2_eligibility_patch \
             test_c3x_030_s4h2_eligibility_court \
             test_c3x_030_s4h2_development_intervention \
+            test_c3x_030_s4h2_r2_physical_trace_audit \
             test_c3x_030_p11s4g_masked_invocation_patch
       - name: Fetch earlier frozen S4H2 protocol without regenerating it
         env:
