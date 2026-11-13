@@ -1,0 +1,63 @@
+name: C3X 0.30 S4K R1 Independent Archived Go Epoch Reaudit
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/c3x-030-s4k-r1-archive-audit.yml'
+      - 'harness/c3x_030_s4k_r1_archived_epoch_audit.py'
+      - 'harness/test_c3x_030_s4k_r1_archived_epoch_audit.py'
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  archive-byte-integrity:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Mutation and contract regression tests
+        run: PYTHONPATH=harness python -m unittest -v test_c3x_030_s4k_r1_archived_epoch_audit
+      - name: Recover original successful S4K native artifact without re-running engine
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          mkdir -p original audit
+          gh run download 43357379268 -R WhoSia/C3X -n c3x030-s4k-native-go-epoch-censor-audit -D original
+          test -f original/S4K_NATIVE_GO_EPOCH_CUTOFF_TRACE.json
+      - name: Check exact previous run source bytes and recompute all go epochs
+        run: |
+          set -euo pipefail
+          PYTHONPATH=harness python harness/c3x_030_s4k_r1_archived_epoch_audit.py \
+            --original original/S4K_NATIVE_GO_EPOCH_CUTOFF_TRACE.json \
+            --out audit/S4K_R1_ORIGINAL_NATIVE_EPOCH_AUDIT.json
+          python - <<'PY'
+          import json
+          r=json.load(open('audit/S4K_R1_ORIGINAL_NATIVE_EPOCH_AUDIT.json'))
+          assert r['source_site_logged_events']['sham']=={'logged':45,'total':45}
+          assert r['source_site_logged_events']['two']=={'logged':48,'total':48}
+          assert (r['common_candidate_states'],r['unique_candidate_states'],r['ambiguous_candidates'])==(27,24,3)
+          assert r['changed_unique_candidate_values']==0 and r['root_changes']==3
+          assert r['new_native_searches']==0 and r['holdout_searches']==0
+          assert r['complete_causal_mediation_proven'] is False
+          print('S4K_R1_ARCHIVED_GO_EPOCH_REAUDIT_EXACT')
+          PY
+          sha256sum original/S4K_NATIVE_GO_EPOCH_CUTOFF_TRACE.json audit/S4K_R1_ORIGINAL_NATIVE_EPOCH_AUDIT.json > audit/SOURCE_AND_AUDIT_SHA256.txt
+      - name: Record scope and custody
+        if: always()
+        run: |
+          mkdir -p audit
+          echo 'Independent re-audit of earlier separate immutable GitHub Actions artifact. New engine searches ZERO. Counts complete only for the targeted ply-one TT early-cutoff return site, not all search functions. Candidate matching is not counterfactual causal identity. The original 8-game holdout remains untouched. GitHub Actions never creates commits.' > audit/SCOPE.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x030-s4k-r1-archived-go-epoch-audit
+          path: audit/*
+          if-no-files-found: error
+          retention-days: 90
