@@ -1,0 +1,62 @@
+name: C3X 0.30 S4L R1 Independent Archived Root Score Audit
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/c3x-030-s4l-r1-archived-root.yml'
+      - 'harness/c3x_030_s4l_r1_archived_root_court.py'
+      - 'harness/test_c3x_030_s4l_r1_archived_root_court.py'
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  archived-raw-integrity:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Execute strict synthetic mutation regression suite
+        run: PYTHONPATH=harness python -m unittest -v test_c3x_030_s4l_r1_archived_root_court
+      - name: Recover original independently sealed successful S4L engine artifact
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          mkdir -p original audit
+          gh run download 43359776211 -R WhoSia/C3X -n c3x030-s4l-native-root-scoring-source-audit -D original
+          test -f original/S4L_NATIVE_ROOT_SCORE_UPDATE_TRACE.json
+      - name: Verify raw prior SHA and recompute all site-level root score and censoring totals
+        run: |
+          set -euo pipefail
+          PYTHONPATH=harness python harness/c3x_030_s4l_r1_archived_root_court.py \
+            --original original/S4L_NATIVE_ROOT_SCORE_UPDATE_TRACE.json \
+            --out audit/S4L_R1_ARCHIVED_ROOT_SCORE_RECEIPT_AUDIT.json
+          python - <<'PY'
+          import json
+          r=json.load(open('audit/S4L_R1_ARCHIVED_ROOT_SCORE_RECEIPT_AUDIT.json'))
+          assert (r['arms']['sham']['logged'],r['arms']['sham']['total'])==(6488,6959)
+          assert (r['arms']['two']['logged'],r['arms']['two']['total'])==(6727,7130)
+          assert (r['arms']['sham']['censored_go_epochs'],r['arms']['two']['censored_go_epochs'])==(5,5)
+          assert r['root_move_changes']==3 and r['new_native_searches']==0
+          assert r['holdout_searches']==0 and not r['particular_tt_mask_to_root_score_causal_mediation_proven']
+          print('S4L_R1_ROOT_SOURCE_COUNTS_RECOMPUTED_EXACT')
+          PY
+          sha256sum original/S4L_NATIVE_ROOT_SCORE_UPDATE_TRACE.json audit/S4L_R1_ARCHIVED_ROOT_SCORE_RECEIPT_AUDIT.json > audit/SHA256.txt
+      - name: Preserve explicit scientific limitations
+        if: always()
+        run: |
+          mkdir -p audit
+          echo 'No new Stockfish engine searches in the independent archive audit. Root score receipts are pre-update site events; cannot identify the TT mask as their causal parent. Five true-go epochs per arm saturated a 512 root receipt cap, and some score events remain unlogged. All holdout games untouched. Prior-art superiority, root mediation and population generalization remain HOLD. GitHub Actions bot never creates commits.' > audit/SCOPE.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x030-s4l-r1-archived-root-score-source-audit
+          path: audit/*
+          if-no-files-found: error
+          retention-days: 90
