@@ -88,7 +88,7 @@ The 7 differing values are observed at **matching signatures, not necessarily ca
 
 **Now owned:** Herbeck & Barth 1996 (entire 8-page ICCA Journal original, bytes kept, canonical Drive `10_PAPERS`). Thus it is **removed** from former missing-list.
 
-**Still NOT CONFIRMED owned** by title-specific Drive original-asset search (related source texts do not count):
+**Historical inventory at S4-M/R1.** See §VII for the two originals filed later that day and the updated list.
 
 | Priority | Exact work | Evidence/availability |
 | --- | --- | --- |
@@ -124,3 +124,32 @@ This turn deliberately opened **no heldout S4-H2 cases** and performed **no new 
 - [S4-M/R1 latest independent root contrast CI #43362096970 SUCCESS](https://github.com/WhoSia/C3X/actions/runs/43362096970): 9 tests, zero new native searches, and independently reconstructed original roots and the 3/0/3/10 descriptive contingency table; [Drive SHA-audited raw ZIP](https://drive.google.com/file/d/1rPQVqtd-_Qr7AXWrGJYel7lUDY_26x8H/view).
 - Archived original 1996 PDF original bytes SHA `0605423a1ba4d59836746aaf870b9418ce3f5876d91f3d039c1288287f1079f7`. This is the file SHA, distinct from Google Drive ID and any repository document commit SHA.
 - No assertion of native Stockfish root-choice mediation, full KPKP rule correctness, independent F3 method superiority or heldout results. Research version remains 0.30.
+
+
+## VII. Barth & Barth 1992 and Barth 1995 intake and S4-M/R2
+
+Both journal originals are now held in `10_PAPERS`. The move kept each Drive ID and used metadata only. Page counts and SHA-256 values below were computed from the downloaded files after filing.
+
+| Original | PDF pages | Bytes | SHA-256 |
+| --- | ---: | ---: | --- |
+| [Barth & Barth 1992, ICCA 15(3), 132–139](https://drive.google.com/file/d/1DlWDHgboXe_t2Z8EstHlh7q5_JuuqQS6/view) | 8 | 1,197,486 | `f6fb1a622faf71358824538cfbb33b82d7143ec2641d3a8cb3687646d2738e8d` |
+| [Barth 1995, ICCA 18(3), 148–159](https://drive.google.com/file/d/1R-nUeOHXyrZ_iHrNJohRQPYfP09ofJDb/view) | 12 | 3,627,582 | `625f94a07026d9b20d80f45eeda9dce933976914915b01931ac98c74b96cbc78` |
+
+### What the two papers establish
+
+- **1992, §§2.3, 3.5 and 4.1–4.4.** For a rule interval R, validation seeks a search interval A contained in R. Disjoint intervals expose an inconsistency. A shared evaluation rule can propagate a false win around a drawn cycle when the scale is plain WDL. On the refined scale, traversal of a reversible cycle makes the returned winning bound strictly weaker. Terminal positions and validated endgame transitions ground the check. The paper also distinguishes a move that guarantees progress from one that reaches the next irreversible event in the fewest plies.
+- **1995, §2 and Figure 1 (p. 150).** Six rules use conservative applicability conditions. The promotion-race rule checks more than the pawn ranks. Check on promotion, skewers, king interference and the geometry of a queen versus a pawn can change the outcome. The Réti rule must account for king moves that simultaneously support the friendly pawn and close in on the enemy pawn.
+- **1995, §3 and Table 1.** In Réti's study, the program initially bounds Kg7 by [loss, draw]. Establishing the draw takes up to 13 plies in the deepest branch. Table 1 compares the historical program with Mephisto Genius 3, using a material-value threshold as a proxy for when the latter has solved a win. Those timings describe the authors' setup and use different criteria for declaring a result.
+- **1996, §§3–4.** Herbeck and Barth add principal-variation and multiple-branch explanations over those bounds. C3X's question is whether an independently verifiable explanation can also be linked to the path actually taken by Stockfish under an intervention.
+
+### Executable progress check
+
+The [verifier](../harness/c3x_030_s4m_r2_progress_certificate.py) checks a finite game graph with a fixed prospective winner. A rank of zero requires a supplied winning terminal. At a winner node at least one successor must have a strictly smaller rank. At an opponent node every successor must have a strictly smaller rank. Induction bounds the plies to a winning terminal by the root rank. This abstracts the cycle issue in the 1992 paper. Ranks here count plies to a supplied winning terminal, while the historical refined scale can also end a segment at a winning irreversible move.
+
+The regression suite demonstrates a two-state cycle satisfying local +1 WDL equations with no winning terminal. It also distinguishes a cycle the winner can avoid from a reply the opponent may force. An independent bounded-reachability calculation agrees on 1,800 starts across 900 enumerated synthetic graphs. Four local tests passed. [CI run](https://github.com/WhoSia/C3X/actions/runs/43367837978).
+
+The verifier takes graph edges and terminal labels as inputs. A chess integration needs independently replayed legal moves, terminal adjudication, and complete opponent reply sets. A pawn move that only changes material or resets a clock cannot be accepted as a winning terminal. Réti (1995 Diagram 1) and the promotion-race counterexample (Table 1, position X) are candidate development cases. Native S4-N lineage and the S4-H2 holdout remain open.
+
+### Current exact-text inventory
+
+The two 1992/1995 rows above are now resolved. The remaining original-text gaps are Björnsson 2024, Kopec & Bratko 1982, and Demura & Kaneko 2024. Two newly identified technical reports are TU Wien Institutsbericht 34 (Barth & Barth 1991) and 36 (Barth 1994). The short ICCA records for those technical reports establish bibliographic leads. The full reports were not found by the Drive title search.
