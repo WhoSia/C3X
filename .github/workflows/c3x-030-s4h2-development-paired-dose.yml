@@ -26,6 +26,7 @@ jobs:
       - name: Fail-closed source patch, discovery and arm contract tests
         run: |
           set -euo pipefail
+          python -m pip install -q chess==1.11.2
           PYTHONPATH=harness python -m unittest -v \
             test_c3x_030_s4h2_eligibility_patch \
             test_c3x_030_s4h2_eligibility_court \
