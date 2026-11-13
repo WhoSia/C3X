@@ -1,0 +1,68 @@
+name: C3X 0.30 S4M R1 Archived Root Candidate State Contrast
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/c3x-030-s4m-r1-root-candidates.yml'
+      - 'harness/c3x_030_s4m_r1_root_candidate_archive.py'
+      - 'harness/test_c3x_030_s4m_r1_root_candidate_archive.py'
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  original-s4l-byte-reaudit:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Strict candidate alignment and source provenance regression tests
+        run: PYTHONPATH=harness python -m unittest -v test_c3x_030_s4m_r1_root_candidate_archive
+      - name: Recover immutable S4L native original instead of new engine runs
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          mkdir -p original audit
+          gh run download 43359776211 -R WhoSia/C3X -n c3x030-s4l-native-root-scoring-source-audit -D original
+          test -f original/S4L_NATIVE_ROOT_SCORE_UPDATE_TRACE.json
+      - name: Independently rederive root candidate signatures and changed values
+        run: |
+          set -euo pipefail
+          PYTHONPATH=harness python harness/c3x_030_s4m_r1_root_candidate_archive.py \
+            --original original/S4L_NATIVE_ROOT_SCORE_UPDATE_TRACE.json \
+            --out audit/S4M_R1_ROOT_CANDIDATE_ALIGNMENT.json
+          python - <<'PY'
+          import json
+          r=json.load(open('audit/S4M_R1_ROOT_CANDIDATE_ALIGNMENT.json'))
+          assert r['totals']=={
+            'shared_signatures':3851,
+            'unique_candidate_pairs':3782,
+            'ambiguous_signatures':69,
+            'changed_candidate_values':7,
+            'root_bestmove_changes':3,
+            'censored_epoch_pairs':7
+          }
+          assert r['new_engine_searches']==0
+          assert r['holdout_positions_searched']==0
+          assert not r['full_tt_to_parent_to_root_causal_mediation_proven']
+          print('S4M_R1_ORIGINAL_ARCHIVED_ROOT_CONTRASTS_REPRODUCED')
+          PY
+          sha256sum original/S4L_NATIVE_ROOT_SCORE_UPDATE_TRACE.json audit/S4M_R1_ROOT_CANDIDATE_ALIGNMENT.json > audit/SOURCE_AND_AUDIT_SHA256.txt
+      - name: Explicit observational claim limits
+        if: always()
+        run: |
+          mkdir -p audit
+          echo 'Matched root candidate value changes occur among equal observed (root move raw, depth, moveCount, alpha, beta) signatures in *separate* Stockfish searches. These are NOT identified cross-world invocation equivalents, source-masked causal mediators, or independent games. Seven candidate score differences do not imply seven independent impacts. Logs are capped at 512 per true go, and missing branches remain unknown. No new engine searches and no holdout observed. GitHub Actions creates no commits.' > audit/SCOPE.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x030-s4m-r1-original-root-state-contrast
+          path: audit/*
+          retention-days: 90
+          if-no-files-found: error
