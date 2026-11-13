@@ -11,6 +11,7 @@ They require separately preregistered adapters and independent label audits.
 """
 from __future__ import annotations
 import argparse,json,math
+import chess
 from pathlib import Path
 
 SCHEMA="c3x030-f3-binary-concept-matched-episode-v1"
@@ -31,6 +32,7 @@ def check_episode(e):
     if set(pools)!=set(GROUPS):
         raise ValueError("F3_PAPER_POOL_SCHEMA")
     seen=set()
+    seen_boards=set()
     for name,count in GROUPS.items():
         members=pools[name]
         if not isinstance(members,list) or len(members)!=count:
@@ -44,6 +46,18 @@ def check_episode(e):
             if ident in seen:
                 raise ValueError("F3_SUPPORT_HELDOUT_POSITION_OVERLAP")
             seen.add(ident)
+            try:
+                board=chess.Board(item["fen"])
+            except (ValueError,TypeError) as exc:
+                raise ValueError("F3_INVALID_CHESS_FEN") from exc
+            if not board.is_valid():
+                raise ValueError("F3_ILLEGAL_CHESS_POSITION")
+            # Same position with different clocks/counters remains the same
+            # chess state for this evaluator; never leak it between pools.
+            key=(board.board_fen(),board.turn,board.castling_rights,board.ep_square)
+            if key in seen_boards:
+                raise ValueError("F3_DUPLICATE_BOARD_ACROSS_EVALUATION_POOLS")
+            seen_boards.add(key)
     if not isinstance(e.get("episode_id"),str) or not e["episode_id"]:
         raise ValueError("F3_EPISODE_ID")
     if set(e.get("methods",{}))-set(METHODS):
