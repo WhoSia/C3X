@@ -12,7 +12,6 @@ from c3x_030_p11s4g_masked_invocation_patch import patch as s4g_patch
 
 SITE = "    // C3X S4G: same compiled binary, literal source TT hit signal intervention."
 ELIGIBILITY = """    // C3X S4H2: outcome-blind first actual TT hit, before any TT mask.
-    static std::atomic<unsigned> c3x_h2_hit_ordinal{0};
     if (ss->ply == 1 && ss->ttHit)
     {
         const unsigned h2_ordinal = c3x_h2_hit_ordinal.fetch_add(1, std::memory_order_relaxed);
@@ -26,6 +25,10 @@ ELIGIBILITY = """    // C3X S4H2: outcome-blind first actual TT hit, before any 
 
 def apply(original: str) -> str:
     s = s4g_patch(original)
+    shared = "static std::atomic<unsigned> c3x_g_matching_hits{0};"
+    if s.count(shared) != 1:
+        raise ValueError("S4H2_SHARED_PROCESS_COUNTER_SOURCE_ANCHOR")
+    s = s.replace(shared, shared + "\nstatic std::atomic<unsigned> c3x_h2_hit_ordinal{0};", 1)
     if s.count(SITE) != 1 or "C3X_S4H2_ELIGIBLE" in original:
         raise ValueError("S4H2_ELIGIBILITY_SOURCE_ANCHOR_MISMATCH")
     s = s.replace(SITE, ELIGIBILITY + SITE, 1)
