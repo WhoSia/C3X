@@ -1,0 +1,64 @@
+name: C3X 0.30 S4H2R3 Independent Archived Native Mask Receipt Audit
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/c3x-030-s4h2-r3-archived-receipts.yml'
+      - 'harness/c3x_030_s4h2_r3_archived_receipt_court.py'
+      - 'harness/test_c3x_030_s4h2_r3_archived_receipt_court.py'
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  independent-archived-original-audit:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Fail-closed independent receipt contract
+        run: PYTHONPATH=harness python -m unittest -v test_c3x_030_s4h2_r3_archived_receipt_court
+      - name: Download original successful R2 artifact (not new or mutable search results)
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          mkdir -p original audit
+          gh run download 43349835109 -R WhoSia/C3X -n c3x030-s4h2-development-native-samebin-paired-dose -D original
+          test -f original/S4H2_DEVELOPMENT_PAIRED_NATIVE_RESULT.json
+          test -f original/S4H2_DEVELOPMENT_PRETREATMENT_ELIGIBILITY.json
+      - name: Audit original physical intervention receipts and parent/root arithmetic independently
+        run: |
+          set -euo pipefail
+          python harness/c3x_030_s4h2_r3_archived_receipt_court.py \
+            --r2-original original/S4H2_DEVELOPMENT_PAIRED_NATIVE_RESULT.json \
+            --eligibility-original original/S4H2_DEVELOPMENT_PRETREATMENT_ELIGIBILITY.json \
+            --out audit/S4H2_R3_ARCHIVED_PHYSICAL_RECEIPT_AUDIT.json
+          sha256sum original/S4H2_DEVELOPMENT_PAIRED_NATIVE_RESULT.json original/S4H2_DEVELOPMENT_PRETREATMENT_ELIGIBILITY.json audit/S4H2_R3_ARCHIVED_PHYSICAL_RECEIPT_AUDIT.json > audit/RAW_SHA256.txt
+          python - <<'PY'
+          import json
+          r=json.load(open('audit/S4H2_R3_ARCHIVED_PHYSICAL_RECEIPT_AUDIT.json'))
+          assert r['new_native_searches']==0 and r['complete_counterfactual_mediator_proven'] is False
+          assert r['arm_counters']['many']['physically_supported_links']==43
+          assert r['arm_counters']['two']['root_changes']==3
+          assert r['arm_counters']['two']['physically_supported_links']==0
+          assert r['holdout_searches']==0
+          print('S4H2_R3_VERIFIED_PARTIAL_CAUSAL_GAP')
+          PY
+      - name: Declare claim limits and no extra searches
+        if: always()
+        run: |
+          mkdir -p audit
+          echo 'No engine searches or new TT interventions. Inherited physical source mask receipts, invocation/parent IDs, child-return negamax arithmetic, and exact archived R2 raw SHA were independently verified. Distinguish full mediation (HOLD) from within-run source event arithmetic (PASS). Two-hit changes remain unmediated in the current bounded trace. No holdout / no paper superiority. Actions never commits.' > audit/SCOPE.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x030-s4h2-r3-independent-original-mask-audit
+          path: audit/*
+          if-no-files-found: error
+          retention-days: 90
