@@ -10,7 +10,7 @@ import subprocess
 
 DONORS = {"sham": (2**64 - 1, 10000, 0), "two": (None, 2, 0), "second": (None, 1, 1)}
 
-def run(binary, work, fen, target, arm, exports=(), imports=()):
+def run(binary, work, fen, target, arm, exports=(), imports=(), second_move=None, second_depth=None):
     work.mkdir(parents=True)
     key, limit, offset = DONORS[arm]
     (work / "c3x_s4l_r2_control.txt").write_text(f"{target} {key or target} {limit} {offset}\n")
@@ -33,9 +33,10 @@ def run(binary, work, fen, target, arm, exports=(), imports=()):
             if read("c3xexchange ")[-1] != "c3xexchange ok":
                 raise RuntimeError(f"{mode} failed for {block}")
 
-        def search():
+        def search(move=None, depth=None):
             send("position fen " + fen)
-            send("go nodes 12000")
+            limit = f"depth {depth}" if depth else "nodes 12000"
+            send(f"go {limit} searchmoves {move}" if move else f"go {limit}")
             lines = read("bestmove ")
             raw.write("\n".join(lines) + "\n")
             info = next(x.split() for x in reversed(lines) if " score " in x and " pv " in x)
@@ -56,7 +57,7 @@ def run(binary, work, fen, target, arm, exports=(), imports=()):
                 exchange("save", block, path)
             for block, path in imports:
                 exchange("load", block, path)
-            second = search()
+            second = search(second_move, second_depth)
         send("quit")
     if proc.returncode:
         raise RuntimeError(f"Engine exited: {proc.returncode}")
