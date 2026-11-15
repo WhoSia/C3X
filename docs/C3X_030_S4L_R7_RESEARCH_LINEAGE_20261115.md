@@ -1,0 +1,12 @@
+# C3X 34 — What the archive changes about the next research unit
+
+2026-11-15 KST. Retrieved the original Drive texts for C3X 1–33, including C3X 27 in a different archive folder. Reviewed the prompt and handoff sequence across the archive, then cross-checked the origin, the R6 handoff and selected methodological transitions with the repository and Notion. This is a targeted historical review, not a line-by-line validation of each historical experiment. [Previous synthesis](C3X_HISTORY_AND_EXPLANATION_TRANSPORT_20261114.md) · [Reconstructed early lineage](https://app.notion.com/p/3c4ef561cf928123888df267f3cf0328) · [C3X 33 archive](https://drive.google.com/file/d/173RQMcufY-utyd-SKZ0mPnj7eahVcOgY/view).
+
+| Archive span | Recurring problem | Consequence for R7 and beyond |
+| --- | --- | --- |
+| 1–4 | Stable small preferences, reply robustness, then structural or external failure despite retrospective predictive fit | Keep measurement stability and rival-response utility as separate outcomes. |
+| 5–16 | Persistent custody, engine-conditional effect families, selective TT interventions and contrasting geometries | Reuse exact native builds and crossed interventions. A locally adequate model needs an independent change of ecology to become a general explanation. |
+| 17–27 | Preference explanation and reverse engineering converge on the actual searched root and its upstream lineage. Censored traces and event-address changes repeatedly break a purported chain | Compare root populations at the same stopping rule. Treat values observed under different windows or depths as contextual evidence. |
+| 28–33 | Source transport, conditional plans and faithfulness. Published architectures and explanation baselines are available as donors | Reuse reply-tree and PV machinery. Test whether a trace-derived diagnosis forecasts a strategically distinct response on the same legal history. |
+
+R7's cross-case unit holds the TT/history donor and stopping rule fixed and varies root eligibility. Its London follow-up changes one candidate at a time from two backgrounds. The comparison therefore tests where a stable scalar ranking breaks at the level of engine behavior, and the source trace tells us which search entries need a sharper intervention. For confirmation, select new full game histories without conditioning on a reversal. Score game-level transport and the ability to improve on a matched-budget reply tree, with candidate-menu stability reported alongside preference size.
