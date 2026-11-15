@@ -26,7 +26,13 @@ def main():
     for name in ("engine", "network", "protocol"):
         parser.add_argument(name, type=Path)
     parser.add_argument("--fixed-depth", action="store_true")
+    parser.add_argument("--depth", type=int, action="append",
+                        help="Repeat to select completed search depths")
     args = parser.parse_args()
+    if args.depth and (not args.fixed_depth or min(args.depth) < 3
+                       or len(set(args.depth)) != len(args.depth)):
+        parser.error("--depth requires --fixed-depth and distinct depths >= 3")
+    budgets = (args.depth or (10, 12)) if args.fixed_depth else (48000, 96000)
     if hashlib.sha256(args.network.read_bytes()).hexdigest() != NET_SHA:
         raise ValueError("Expected pinned Berserk 14 network")
     spec, = [case for case in json.loads(args.protocol.read_text())["cases"]
@@ -44,7 +50,7 @@ def main():
             after = board.copy()
             after.push_uci(move)
             data = result["candidates"][move] = {}
-            for budget in ((10, 12) if args.fixed_depth else (48000, 96000)):
+            for budget in budgets:
                 trial = data[str(budget)] = {"free": evaluate(engine, after, budget, args.fixed_depth), "replies": {}}
                 for reply in sorted(after.legal_moves, key=lambda move: move.uci()):
                     leaf = after.copy()
