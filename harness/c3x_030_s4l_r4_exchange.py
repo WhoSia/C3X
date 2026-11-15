@@ -11,12 +11,15 @@ import subprocess
 DONORS = {"sham": (2**64 - 1, 10000, 0), "two": (None, 2, 0), "second": (None, 1, 1)}
 
 def run(binary, work, fen, target, arm, exports=(), imports=(), second_move=None,
-        second_depth=None, *, second_moves=()):
+        second_depth=None, *, second_moves=(), probe_return=None):
     if second_move and second_moves:
         raise ValueError("Pass either a singleton or a root candidate set")
     if second_move:
         second_moves = (second_move,)
     work.mkdir(parents=True)
+    if probe_return is not None:
+        before, after = probe_return
+        (work / "c3x_s4l_r8_probe.txt").write_text(f"{before} {after}\n")
     key, limit, offset = DONORS[arm]
     (work / "c3x_s4l_r2_control.txt").write_text(f"{target} {key or target} {limit} {offset}\n")
     with (work / "stderr.txt").open("w") as err, subprocess.Popen(
