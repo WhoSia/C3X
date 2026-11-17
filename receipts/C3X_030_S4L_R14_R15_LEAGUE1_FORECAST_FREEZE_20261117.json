@@ -1,0 +1,311 @@
+{
+  "date_kst": "2026-11-17",
+  "fixed_before": [
+    "Berserk depth 16",
+    "Berserk depth 18"
+  ],
+  "hashes": {
+    "confidence.json": "bc387b20f6d5dc896a7ce9bde4eafa05226fb3468829cb6f18f29a9875c3a3f4",
+    "forecast.json": "463859cee6277b45ef4440bb8c15e81203aea2ae92f6e3cc263390d167c6e813",
+    "league1.pgn": "1c06ef681343b833d2b76e7b89d3f7b669d916f8e714a084e2bb01ba84d19899",
+    "questions.json": "59f4a9e2c4de583105a9d4051cb1e0b2d7d73a03bc69871cd3edd96a9c2fa38a"
+  },
+  "rows": {
+    "01d7a0a7d46316a38cf41145b01c3a9547c1d769cebab738ab228cfc2ad02475": {
+      "confidence": {
+        "probabilities": {
+          "constant": [
+            24,
+            4,
+            4
+          ],
+          "public_warning": [
+            20,
+            6,
+            6
+          ],
+          "trace_warning": [
+            20,
+            6,
+            6
+          ]
+        },
+        "public_warning": true,
+        "switches": [
+          false,
+          false
+        ]
+      },
+      "reply": "f7f6",
+      "root_moves": [
+        "c3c2",
+        "g2e4"
+      ],
+      "round": "2.2",
+      "signs": {
+        "public_last": -1,
+        "public_tree": -1,
+        "trace": -1
+      }
+    },
+    "0880f01936ef164a38368d65188bbc0f3b52cabbaec7ad7a9144d606e53b0fbe": {
+      "confidence": {
+        "probabilities": {
+          "constant": [
+            24,
+            4,
+            4
+          ],
+          "public_warning": [
+            24,
+            4,
+            4
+          ],
+          "trace_warning": [
+            24,
+            4,
+            4
+          ]
+        },
+        "public_warning": false,
+        "switches": [
+          false,
+          false
+        ]
+      },
+      "reply": "h6g5",
+      "root_moves": [
+        "e1d2",
+        "g5f3"
+      ],
+      "round": "1.4",
+      "signs": {
+        "public_last": -1,
+        "public_tree": -1,
+        "trace": -1
+      }
+    },
+    "0efda974387909d55c3ad27b2cee7a6128714aca3bf86941d5b0d107e41741b1": {
+      "confidence": {
+        "probabilities": {
+          "constant": [
+            24,
+            4,
+            4
+          ],
+          "public_warning": [
+            24,
+            4,
+            4
+          ],
+          "trace_warning": [
+            20,
+            6,
+            6
+          ]
+        },
+        "public_warning": false,
+        "switches": [
+          true,
+          false
+        ]
+      },
+      "reply": "d7e7",
+      "root_moves": [
+        "b1c3",
+        "e3c5"
+      ],
+      "round": "2.1",
+      "signs": {
+        "public_last": -1,
+        "public_tree": -1,
+        "trace": -1
+      }
+    },
+    "2d09d945d3f04c7f0777fa105533457f7ed2a08d66a395dd507d7c986b48797b": {
+      "confidence": {
+        "probabilities": {
+          "constant": [
+            4,
+            4,
+            24
+          ],
+          "public_warning": [
+            6,
+            6,
+            20
+          ],
+          "trace_warning": [
+            6,
+            6,
+            20
+          ]
+        },
+        "public_warning": true,
+        "switches": [
+          false,
+          false
+        ]
+      },
+      "reply": "e8g6",
+      "root_moves": [
+        "c1f4",
+        "c1g5"
+      ],
+      "round": "1.2",
+      "signs": {
+        "public_last": 1,
+        "public_tree": 1,
+        "trace": 1
+      }
+    },
+    "84b24ed9c001a8576ee2775458f1c4ec77524438d4d0b48d444bbe12c9b574c0": {
+      "confidence": {
+        "probabilities": {
+          "constant": [
+            4,
+            4,
+            24
+          ],
+          "public_warning": [
+            6,
+            6,
+            20
+          ],
+          "trace_warning": [
+            6,
+            6,
+            20
+          ]
+        },
+        "public_warning": true,
+        "switches": [
+          false,
+          false
+        ]
+      },
+      "reply": "g7g6",
+      "root_moves": [
+        "e2d4",
+        "c2c3"
+      ],
+      "round": "1.3",
+      "signs": {
+        "public_last": 1,
+        "public_tree": 1,
+        "trace": 1
+      }
+    },
+    "d3d89da7877257ba17a5b5d56a59a32bbe3b9b8226df18fd4297297ac023baaf": {
+      "confidence": {
+        "probabilities": {
+          "constant": [
+            24,
+            4,
+            4
+          ],
+          "public_warning": [
+            20,
+            6,
+            6
+          ],
+          "trace_warning": [
+            20,
+            6,
+            6
+          ]
+        },
+        "public_warning": true,
+        "switches": [
+          false,
+          false
+        ]
+      },
+      "reply": "e7g6",
+      "root_moves": [
+        "c3d4",
+        "f3g5"
+      ],
+      "round": "2.4",
+      "signs": {
+        "public_last": 1,
+        "public_tree": -1,
+        "trace": -1
+      }
+    },
+    "d640d550d6e2c780c56fc9cc5b1199bdb9e0fdd0b437119e726c729f06f7a8d9": {
+      "confidence": {
+        "probabilities": {
+          "constant": [
+            24,
+            4,
+            4
+          ],
+          "public_warning": [
+            24,
+            4,
+            4
+          ],
+          "trace_warning": [
+            24,
+            4,
+            4
+          ]
+        },
+        "public_warning": false,
+        "switches": [
+          false,
+          false
+        ]
+      },
+      "reply": "c8d7",
+      "root_moves": [
+        "c4d3",
+        "c4e2"
+      ],
+      "round": "1.5",
+      "signs": {
+        "public_last": -1,
+        "public_tree": -1,
+        "trace": -1
+      }
+    },
+    "f9fa317d02de61b9f91a09e43d78e165c0fa096fc6c910c9bcf3a8f35a2306a0": {
+      "confidence": {
+        "probabilities": {
+          "constant": [
+            24,
+            4,
+            4
+          ],
+          "public_warning": [
+            20,
+            6,
+            6
+          ],
+          "trace_warning": [
+            20,
+            6,
+            6
+          ]
+        },
+        "public_warning": true,
+        "switches": [
+          false,
+          false
+        ]
+      },
+      "reply": "e7d8",
+      "root_moves": [
+        "h2h4",
+        "f4d5"
+      ],
+      "round": "1.6",
+      "signs": {
+        "public_last": -1,
+        "public_tree": -1,
+        "trace": -1
+      }
+    }
+  }
+}
