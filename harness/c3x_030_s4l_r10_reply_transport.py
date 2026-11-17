@@ -3,6 +3,7 @@
 import argparse
 import hashlib
 import json
+import logging
 from pathlib import Path
 
 import chess
@@ -27,7 +28,16 @@ def board_at(history):
 
 def analysis(engine, board, perspective, *, nodes=None, depth=None, count=1):
     limit = chess.engine.Limit(nodes=nodes, depth=depth)
-    rows = engine.analyse(board, limit, multipv=count, game=object())
+    latest = None
+    with engine.analysis(board, limit, multipv=count, game=object()) as stream:
+        for info in stream:
+            score = info.get("score")
+            if (count == 1 and nodes and score is not None and not score.is_mate()
+                    and info.get("pv") and info.get("nodes", 0) > 0
+                    and not (info.get("lowerbound") or info.get("upperbound"))):
+                latest = {"cp": score.pov(perspective).score(), "nodes": info["nodes"],
+                          "depth": info["depth"], "pv": [m.uci() for m in info["pv"]]}
+        rows = stream.multipv
     output = []
     for row in rows:
         pv = row.get("pv", [])
@@ -42,6 +52,8 @@ def analysis(engine, board, perspective, *, nodes=None, depth=None, count=1):
                        "bound": bool(row.get("lowerbound") or row.get("upperbound")),
                        "pv": [m.uci() for m in pv], "nodes": row["nodes"],
                        "depth": row["depth"]})
+    if count == 1 and nodes:
+        output[0]["last_unbounded"] = latest
     return output
 
 
@@ -153,6 +165,7 @@ def main():
     parser.add_argument("source", type=Path)
     parser.add_argument("--net", type=Path)
     args = parser.parse_args()
+    logging.getLogger("chess.engine").setLevel(logging.ERROR)
     options = {"Threads": 1, "Hash": 16}
     if args.stage == "judge":
         if not args.net or digest(args.net) != "9b84c340af7e45f6e07f0046235ccb327f4ae0840c8ee2c4b97b99121e5c5084":
