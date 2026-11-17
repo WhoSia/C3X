@@ -20,7 +20,7 @@ def ordinary_cp(value):
     return sign(value) * magnitude
 
 
-def trace_candidate(lines, public_depth):
+def complete_root_events(lines):
     starts = [fields(line) for line in lines if line.startswith(BEGIN + " ")]
     stops = [fields(line) for line in lines if line.startswith(END + " ")]
     root = [fields(line) for line in lines if line.startswith(ROOT + " ")]
@@ -31,6 +31,13 @@ def trace_candidate(lines, public_depth):
             or any(event["epoch"] != epoch or event["ordinal"] != index
                    for index, event in enumerate(root))):
         return None, "incomplete_go_trace"
+    return root, "complete"
+
+
+def trace_candidate(lines, public_depth):
+    root, status = complete_root_events(lines)
+    if root is None:
+        return None, status
     candidates = [
         event for event in root
         if event["iteration"] > public_depth and abs(event["value"]) < ORDINARY_LIMIT
