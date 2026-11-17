@@ -65,9 +65,10 @@ def forced(engine, board, root, budget):
     return {"point": point, "actual_nodes": final_nodes}
 
 
-def pair_screen(engine, board):
+def pair_screen(engine, board, *, allow_bound_nomination=False):
     preview = analysis(engine, board, board.turn, nodes=12000, count=2)
-    if len(preview) != 2 or not all(map(eligible, preview)):
+    nominations_ok = all(type(row["cp"]) is int for row in preview) if allow_bound_nomination else all(map(eligible, preview))
+    if len(preview) != 2 or not nominations_ok:
         return {"status": "missing_preview", "preview": preview}
     roots = [row["pv"][0] for row in preview]
     if len(set(roots)) != 2:
@@ -109,8 +110,9 @@ def replies_for(engine, case):
     return chosen, discovery
 
 
-def select(engine, source, blocked):
-    if digest(source) != SOURCE:
+def select(engine, source, blocked, *, expected_sha=SOURCE, game_cap=GAME_CAP,
+           pair_cap=PAIR_CAP, reply_selector=replies_for, allow_bound_nomination=False):
+    if digest(source) != expected_sha:
         raise ValueError("Unexpected S28 archive digest")
     indexed = {}
     for game in games(source):
@@ -123,7 +125,7 @@ def select(engine, source, blocked):
     roots_seen = set()
     screened_openings = set()
     for number, game in sorted(indexed.items()):
-        if counts["screened_games"] == GAME_CAP or len(selected) == PAIR_CAP:
+        if counts["screened_games"] == game_cap or len(selected) == pair_cap:
             break
         history = moves_of(game)
         prefix = tuple(history[:12])
@@ -145,19 +147,19 @@ def select(engine, source, blocked):
                 counts["blocked_position"] += 1
                 continue
             roots_seen.add(key)
-            screen = pair_screen(engine, board)
+            screen = pair_screen(engine, board, allow_bound_nomination=allow_bound_nomination)
             counts[screen["status"]] += 1
             audit.append({"round": round_id, "ply": ply, **screen})
             if screen["status"] != "admitted":
                 continue
             case = {"round": round_id, "ply": ply, "history": history[:ply],
                     "roots": screen["roots"], "gaps": [abs(gap) for gap in screen["gaps"]]}
-            replies, discovery = replies_for(engine, case)
+            replies, discovery = reply_selector(engine, case)
             selected.append({**case, "replies": replies, "discovery": discovery})
             if len(replies) == 2:
                 requests.extend({"round": round_id, "reply": reply} for reply in replies)
             break
-    cohort = {"source_sha256": SOURCE, "source_engine_sha256": SF, "games_read": len(indexed),
+    cohort = {"source_sha256": expected_sha, "source_engine_sha256": SF, "games_read": len(indexed),
               "excluded_prefix_count": len(blocked), "counts": counts, "selection": selected,
               "audit": audit}
     return {**cohort, "questions": freeze(cohort, requests) if requests else {}}
