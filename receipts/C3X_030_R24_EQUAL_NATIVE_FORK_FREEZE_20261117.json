@@ -1,0 +1,78 @@
+{
+  "case": "s28-l2-1.4",
+  "case_sha256": "9fe892ff296d45117d28f7ee5ea095218b6762bf38cf15775e7dc8b27b478a5c",
+  "match": "native",
+  "pair": {
+    "chooser": "black",
+    "first_divergence_ply": 2,
+    "indices": [
+      11,
+      17
+    ],
+    "kind": "divergent",
+    "moves": [
+      "d6h2",
+      "d6e7"
+    ],
+    "native_equal": true,
+    "same_ply_full_fen": [],
+    "san": [
+      "Bh2+",
+      "Be7"
+    ]
+  },
+  "reports": [
+    {
+      "attempt": "27",
+      "bound": "none",
+      "cp": 89,
+      "depth": 12,
+      "eligible": true,
+      "move": "d1e2",
+      "native": 292,
+      "nodes": 8169,
+      "producer": "540",
+      "producer_iteration": 12,
+      "pv": [
+        "d1e2",
+        "d6h2",
+        "g1h1",
+        "h2f4",
+        "b2b4",
+        "f4c1",
+        "f1c1",
+        "c7f4",
+        "h4f3",
+        "a7a6",
+        "c1c3"
+      ]
+    },
+    {
+      "attempt": "54",
+      "bound": "none",
+      "cp": 89,
+      "depth": 18,
+      "eligible": true,
+      "move": "d1e2",
+      "native": 292,
+      "nodes": 257966,
+      "producer": "999",
+      "producer_iteration": 18,
+      "pv": [
+        "d1e2",
+        "d6e7",
+        "b2b4",
+        "f6f5",
+        "h4f3",
+        "d7f6",
+        "a2a4",
+        "f6e4",
+        "b4b5",
+        "e7f6",
+        "a1a3",
+        "a8b8"
+      ]
+    }
+  ],
+  "sample_sha256": "6bcf334499e83216f4a300454655b44e8e150ea75b48170957f30cfbdac465de"
+}
