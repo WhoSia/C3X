@@ -1,0 +1,160 @@
+diff --git a/src/search.cpp b/src/search.cpp
+index 740ad71..e108949 100644
+--- a/src/search.cpp
++++ b/src/search.cpp
+@@ -19,6 +19,7 @@
+ #include <algorithm>
+ #include <cassert>
+ #include <cmath>
++#include <cstdlib>
+ #include <cstring>   // For std::memset
+ #include <iostream>
+ #include <sstream>
+@@ -59,6 +60,16 @@ using namespace Search;
+
+ namespace {
+
++  // R23 traces are scoped to deterministic, single-threaded, single-PV search.
++  bool c3x_trace() {
++      static const char* enabled = std::getenv("C3X_ROOT_PROVENANCE");
++      return enabled && std::strcmp(enabled, "1") == 0
++             && int(Options["Threads"]) == 1 && int(Options["MultiPV"]) == 1
++             && int(Options["Skill Level"]) == 20 && !int(Options["UCI_LimitStrength"]);
++  }
++
++  thread_local uint64_t c3xAttempt = 0, c3xCandidate = 0;
++
+   // Different node types, used as a template parameter
+   enum NodeType { NonPV, PV, Root };
+
+@@ -197,6 +208,12 @@ void MainThread::search() {
+
+   Eval::NNUE::verify();
+
++  if (c3x_trace())
++  {
++      c3xAttempt = c3xCandidate = 0;
++      std::cerr << "C3X_R23_GO_BEGIN" << std::endl;
++  }
++
+   if (rootMoves.empty())
+   {
+       rootMoves.emplace_back(MOVE_NONE);
+@@ -247,6 +264,15 @@ void MainThread::search() {
+   if (bestThread != this)
+       sync_cout << UCI::pv(bestThread->rootPos, bestThread->completedDepth) << sync_endl;
+
++  if (c3x_trace())
++  {
++      const RootMove& selected = bestThread->rootMoves.front();
++      std::cerr << "C3X_R23_BEST move=" << UCI::move(selected.pv.front(), rootPos.is_chess960())
++                << " producer=" << selected.c3xProducer << " previous_producer=" << selected.c3xPreviousProducer
++                << " completed=" << bestThread->completedDepth << " nodes=" << Threads.nodes_searched()
++                << std::endl;
++  }
++
+   sync_cout << "bestmove " << UCI::move(bestThread->rootMoves[0].pv[0], rootPos.is_chess960());
+
+   if (bestThread->rootMoves[0].pv.size() > 1 || bestThread->rootMoves[0].extract_ponder_from_tt(rootPos))
+@@ -324,7 +350,11 @@ void Thread::search() {
+       // Save the last iteration's scores before first PV line is searched and
+       // all the move scores except the (new) PV are set to -VALUE_INFINITE.
+       for (RootMove& rm : rootMoves)
++      {
+           rm.previousScore = rm.score;
++          if (c3x_trace())
++              rm.c3xPreviousProducer = rm.c3xProducer;
++      }
+
+       size_t pvFirst = 0;
+       pvLast = 0;
+@@ -366,6 +396,14 @@ void Thread::search() {
+               // Adjust the effective depth searched, but ensuring at least one effective increment for every
+               // four searchAgain steps (see issue #2717).
+               Depth adjustedDepth = std::max(1, rootDepth - failedHighCnt - 3 * (searchAgainCounter + 1) / 4);
++              if (c3x_trace())
++              {
++                  ++c3xAttempt;
++                  std::cerr << "C3X_R23_START attempt=" << c3xAttempt << " iteration=" << rootDepth
++                            << " adjusted=" << adjustedDepth << " alpha=" << alpha << " beta=" << beta
++                            << " nodes=" << Threads.nodes_searched() << " roots=" << rootMoves.size()
++                            << std::endl;
++              }
+               bestValue = Stockfish::search<Root>(rootPos, ss, alpha, beta, adjustedDepth, false);
+
+               // Bring the best move to the front. It is critical that sorting
+@@ -376,6 +414,16 @@ void Thread::search() {
+               // search the already searched PV lines are preserved.
+               std::stable_sort(rootMoves.begin() + pvIdx, rootMoves.begin() + pvLast);
+
++              if (c3x_trace())
++              {
++                  const RootMove& leading = rootMoves[pvIdx];
++                  std::cerr << "C3X_R23_END attempt=" << c3xAttempt << " value=" << bestValue
++                            << " stopped=" << int(Threads.stop.load(std::memory_order_relaxed))
++                            << " move=" << UCI::move(leading.pv.front(), rootPos.is_chess960())
++                            << " producer=" << leading.c3xProducer << " nodes=" << Threads.nodes_searched()
++                            << std::endl;
++              }
++
+               // If search has been stopped, we break immediately. Sorting is
+               // safe because RootMoves is still valid, although it refers to
+               // the previous iteration.
+@@ -1260,10 +1308,22 @@ moves_loop: // When in check, search starts here
+
+           rm.averageScore = rm.averageScore != -VALUE_INFINITE ? (2 * value + rm.averageScore) / 3 : value;
+
++          if (c3x_trace())
++          {
++              ++c3xCandidate;
++              std::cerr << "C3X_R23_CANDIDATE attempt=" << c3xAttempt << " id=" << c3xCandidate
++                        << " move=" << UCI::move(move, pos.is_chess960())
++                        << " value=" << value << " alpha=" << alpha << " beta=" << beta
++                        << " depth=" << depth << " count=" << moveCount
++                        << " update=" << int(moveCount == 1 || value > alpha) << std::endl;
++          }
++
+           // PV move or new best move?
+           if (moveCount == 1 || value > alpha)
+           {
+               rm.score =  rm.uciScore = value;
++              if (c3x_trace())
++                  rm.c3xProducer = c3xCandidate;
+               rm.selDepth = thisThread->selDepth;
+               rm.scoreLowerbound = rm.scoreUpperbound = false;
+
+@@ -1886,6 +1946,22 @@ string UCI::pv(const Position& pos, Depth depth) {
+          << " multipv "  << i + 1
+          << " score "    << UCI::value(v);
+
++      if (c3x_trace())
++      {
++          const RootMove& report = rootMoves[i];
++          const std::string score = UCI::value(v);
++          const char* bound = i == pvIdx && !tb && updated && report.scoreLowerbound ? "lower"
++                            : i == pvIdx && !tb && updated && report.scoreUpperbound ? "upper" : "none";
++          std::cerr << "C3X_R23_PUBLIC sink_attempt=" << c3xAttempt
++                    << " producer=" << (updated ? report.c3xProducer : report.c3xPreviousProducer)
++                    << " move=" << UCI::move(report.pv.front(), pos.is_chess960())
++                    << " updated=" << int(updated) << " tb=" << int(tb)
++                    << " depth=" << d << " value=" << v << " bound=" << bound
++                    << " score=" << score.substr(score.find(' ') + 1)
++                    << " kind=" << (score.rfind("cp ", 0) == 0 ? "cp" : "mate")
++                    << " nodes=" << nodesSearched << std::endl;
++      }
++
+       if (Options["UCI_ShowWDL"])
+           ss << UCI::wdl(v, pos.game_ply());
+
+diff --git a/src/search.h b/src/search.h
+index 806e4be..7a0821b 100644
+--- a/src/search.h
++++ b/src/search.h
+@@ -68,6 +68,7 @@ struct RootMove {
+                             : m.previousScore < previousScore;
+   }
+
++  uint64_t c3xProducer = 0, c3xPreviousProducer = 0;
+   Value score = -VALUE_INFINITE;
+   Value previousScore = -VALUE_INFINITE;
+   Value averageScore = -VALUE_INFINITE;
