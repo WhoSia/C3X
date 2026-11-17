@@ -1,0 +1,75 @@
+diff --git a/src/search.cpp b/src/search.cpp
+index 740ad71..569c673 100644
+--- a/src/search.cpp
++++ b/src/search.cpp
+@@ -19,6 +19,7 @@
+ #include <algorithm>
+ #include <cassert>
+ #include <cmath>
++#include <cstdlib>   // For std::getenv
+ #include <cstring>   // For std::memset
+ #include <iostream>
+ #include <sstream>
+@@ -59,6 +60,15 @@ using namespace Search;
+ 
+ namespace {
+ 
++  // C3X experiment modes are fixed before the UCI process starts.
++  bool c3x_flag(const char* name) {
++    const char* value = std::getenv(name);
++    return value && std::strcmp(value, "1") == 0;
++  }
++
++  const bool C3XNoTTPicker = c3x_flag("C3X_NO_TT_PICKER");
++  const bool C3XNoTTValue = c3x_flag("C3X_NO_TT_VALUE");
++
+   // Different node types, used as a template parameter
+   enum NodeType { NonPV, PV, Root };
+ 
+@@ -603,7 +613,8 @@ namespace {
+     excludedMove = ss->excludedMove;
+     posKey = pos.key();
+     tte = TT.probe(posKey, ss->ttHit);
+-    ttValue = ss->ttHit ? value_from_tt(tte->value(), ss->ply, pos.rule50_count()) : VALUE_NONE;
++    ttValue = ss->ttHit && !C3XNoTTValue
++            ? value_from_tt(tte->value(), ss->ply, pos.rule50_count()) : VALUE_NONE;
+     ttMove =  rootNode ? thisThread->rootMoves[thisThread->pvIdx].pv[0]
+             : ss->ttHit    ? tte->move() : MOVE_NONE;
+     ttCapture = ttMove && pos.capture_stage(ttMove);
+@@ -854,7 +865,7 @@ namespace {
+     {
+         assert(probCutBeta < VALUE_INFINITE);
+ 
+-        MovePicker mp(pos, ttMove, probCutBeta - ss->staticEval, &captureHistory);
++        MovePicker mp(pos, C3XNoTTPicker ? MOVE_NONE : ttMove, probCutBeta - ss->staticEval, &captureHistory);
+ 
+         while ((move = mp.next_move()) != MOVE_NONE)
+             if (move != excludedMove && pos.legal(move))
+@@ -909,7 +920,7 @@ moves_loop: // When in check, search starts here
+ 
+     Move countermove = prevSq != SQ_NONE ? thisThread->counterMoves[pos.piece_on(prevSq)][prevSq] : MOVE_NONE;
+ 
+-    MovePicker mp(pos, ttMove, depth, &thisThread->mainHistory,
++    MovePicker mp(pos, C3XNoTTPicker && !rootNode ? MOVE_NONE : ttMove, depth, &thisThread->mainHistory,
+                                       &captureHistory,
+                                       contHist,
+                                       countermove,
+@@ -1449,7 +1460,8 @@ moves_loop: // When in check, search starts here
+     // Step 3. Transposition table lookup
+     posKey = pos.key();
+     tte = TT.probe(posKey, ss->ttHit);
+-    ttValue = ss->ttHit ? value_from_tt(tte->value(), ss->ply, pos.rule50_count()) : VALUE_NONE;
++    ttValue = ss->ttHit && !C3XNoTTValue
++            ? value_from_tt(tte->value(), ss->ply, pos.rule50_count()) : VALUE_NONE;
+     ttMove = ss->ttHit ? tte->move() : MOVE_NONE;
+     pvHit = ss->ttHit && tte->is_pv();
+ 
+@@ -1507,7 +1519,7 @@ moves_loop: // When in check, search starts here
+     // queen promotions, and other checks (only if depth >= DEPTH_QS_CHECKS)
+     // will be generated.
+     Square prevSq = is_ok((ss-1)->currentMove) ? to_sq((ss-1)->currentMove) : SQ_NONE;
+-    MovePicker mp(pos, ttMove, depth, &thisThread->mainHistory,
++    MovePicker mp(pos, C3XNoTTPicker ? MOVE_NONE : ttMove, depth, &thisThread->mainHistory,
+                                       &thisThread->captureHistory,
+                                       contHist,
+                                       prevSq);
