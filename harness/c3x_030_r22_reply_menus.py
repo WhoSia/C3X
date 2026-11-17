@@ -2,6 +2,7 @@
 
 import argparse
 import json
+import logging
 from pathlib import Path
 
 import chess
@@ -151,7 +152,11 @@ def main():
     parser.add_argument("--net", type=Path)
     parser.add_argument("--initial", type=Path)
     parser.add_argument("--initial-sha")
+    parser.add_argument("--round", help="Judge only this committed round as a parallel shard")
     args = parser.parse_args()
+    logging.getLogger("chess.engine").setLevel(logging.ERROR)
+    if args.round is not None and args.stage != "judge":
+        parser.error("--round applies to judge only")
     if args.stage == "judge":
         if (digest(args.engine) != BINARY or not args.net or digest(args.net) != NET
                 or not args.forecast or digest(args.forecast) != args.forecast_sha):
@@ -172,12 +177,21 @@ def main():
             cohort = json.loads(args.input.read_text())
             if cohort["source_sha256"] != SOURCE:
                 raise ValueError("Unrecognized archive")
+            if args.stage == "judge":
+                forecast = json.loads(args.forecast.read_text())
+                if forecast["cohort_sha256"] != args.cohort_sha or forecast["binary_sha256"] != SF:
+                    raise ValueError("Forecast source or cohort differs")
+                if args.round is not None:
+                    matching = [row for row in cohort["selection"] if row["round"] == args.round]
+                    if len(matching) != 1 or args.round not in forecast["rows"]:
+                        raise ValueError("Unknown judged round")
+                    cohort["selection"] = matching
+                    forecast["rows"] = {args.round: forecast["rows"][args.round]}
             rows = (reference(engine, cohort) if args.stage == "judge"
                     else predictions(engine, cohort))
             result = {"cohort_sha256": args.cohort_sha, "binary_sha256": digest(args.engine), "rows": rows}
             if args.stage == "judge":
-                forecast = json.loads(args.forecast.read_text())
-                if forecast["cohort_sha256"] != args.cohort_sha or forecast["rows"].keys() != rows.keys():
+                if forecast["rows"].keys() != rows.keys():
                     raise ValueError("Forecast cohort differs")
                 result.update(forecast_sha256=args.forecast_sha, net_sha256=NET)
     print(json.dumps(result, indent=2, sort_keys=True))
