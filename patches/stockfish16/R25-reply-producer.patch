@@ -94,7 +94,7 @@
        if (value > bestValue)
        {
            bestValue = value;
-@@ -1452,6 +1500,13 @@
+@@ -1452,5 +1500,12 @@
 
      assert(bestValue > -VALUE_INFINITE && bestValue < VALUE_INFINITE);
 
@@ -107,4 +107,3 @@
 +    }
      return bestValue;
    }
-
