@@ -1,0 +1,23 @@
+{
+  "brackets": [
+    {
+      "attempt": "2",
+      "expected_move": "c1d2",
+      "nodes_requested": 77,
+      "nominal_depth": 2,
+      "observed_nodes": 76,
+      "producer": "37"
+    },
+    {
+      "attempt": "4",
+      "expected_move": "h1f1",
+      "nodes_requested": 139,
+      "nominal_depth": 3,
+      "observed_nodes": 138,
+      "producer": "88"
+    }
+  ],
+  "case": "r21",
+  "source": "r21-all-nnue-24000",
+  "suite_sha256": "eda5b27e1e536b43ce47df2b149ab0c7ad6f25691325dca22f6fc652ffa0b184"
+}
