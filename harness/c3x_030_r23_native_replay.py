@@ -89,7 +89,7 @@ def join(stdout, stderr):
             "counts": {"attempts": len(starts), "candidate_returns": len(candidates)}}
 
 
-def run(binary, case, net, directory, *, logging, paired, nnue, nodes=None, depth=None):
+def run(binary, case, net, directory, *, logging, paired, nnue, nodes=None, depth=None, hash_mib=16):
     directory.mkdir(parents=True)
     env = dict(os.environ)
     env.pop("C3X_ROOT_PROVENANCE", None)
@@ -98,7 +98,7 @@ def run(binary, case, net, directory, *, logging, paired, nnue, nodes=None, dept
     board = board_at(case["history"])
     engine = chess.engine.SimpleEngine.popen(RecordedUci, str(binary.resolve()), cwd=directory, env=env)
     try:
-        engine.configure({"Threads": 1, "Hash": 16, "Use NNUE": nnue,
+        engine.configure({"Threads": 1, "Hash": hash_mib, "Use NNUE": nnue,
                           "EvalFile": str(net.resolve()), "Skill Level": 20, "UCI_LimitStrength": False})
         roots = [board.parse_uci(move) for move in case["roots"]] if paired else None
         result = engine.play(board, chess.engine.Limit(nodes=nodes, depth=depth),
