@@ -19,7 +19,7 @@ In Figure 2 after ...Re5, White's Rb8+ gives Black both ...Be8 and ...Re8. Again
 
 Keep the eight R11 game histories and candidates sealed. For each ordered pair \(a,b\), let \(R_a,R_b\) be the legal replies and \(u_x(r)\) be the fixed-depth Berserk value from the original mover's perspective after the forced reply. Measure the sign of the separate minima \(\min_{R_a}u_a-\min_{R_b}u_b\), the gap between minima on the shared reply set and the full distribution of \(u_a(r)-u_b(r)\) on shared UCI replies. Coordinate equality provides the matching key. It does not imply that the tactic or purpose of the move is identical. Drop the corresponding point for missing judge values, stale depths and bound-only reports.
 
-Keeping the original referee binary and network fixed, a fresh depth-16 pass used **508 legal-reply searches and 135,372,152 reported engine nodes**. Depths 12 and 14 reuse R11. At each depth all 508 branch-specific scores were complete and in ordinary cp and there were 240 shared reply coordinates across the eight pairs.
+Keeping the original referee binary and network fixed, a fresh depth-16 pass used **508 legal-reply searches and 135,372,152 reported engine nodes**. Depths 12 and 14 reuse R11. At each depth all 508 branch-specific scores were complete and in ordinary cp and there were 240 shared reply coordinates across the eight pairs. A fresh Berserk process replayed round 3.4 at depth 16, reproducing all 68 branch records and 14,985,601 reported nodes.
 
 | Berserk depth | Pairs with both signs among common replies | Pairs where restricting minima to common replies changed the full gap |
 | ---: | ---: | ---: |
