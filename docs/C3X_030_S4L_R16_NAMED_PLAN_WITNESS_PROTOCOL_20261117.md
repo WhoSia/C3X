@@ -1,0 +1,17 @@
+# C3X 0.30 S4-L/R16 — Same-reply named material-plan witnesses
+
+2026-11-17 KST. R14-R15 held fixed a reply and measured rank. R16 tests a different outcome: after a reply, can the mover force capture of the same named enemy minor or major piece, without worsening the mover's material balance? This is a bounded tactical plan test.
+
+## Source and frozen questions
+
+Use TCEC S29 Entrance League at commit 3dd69a40b3cf6ccc74144df7411ef4e8e2140286; blob 9f1974b0b39f6b36b6c8892bf8ca6b6721eec292; byte SHA-256 60524a292b71ee2b4711e01ce22623a86e58483cc096aaa4f5c6e7584179e853. Exclude exact 12-ply prefixes in the sealed R14 League 1 parent. Select the first 24 Stockfish 16 near pairs by the R10 public rule and use the first eight with an eligible plan. Three excluded directions are prespecified: mates as a goal, pawn victims, and cases with fewer than two common legal replies.
+
+From the first candidate, use 12k requested nodes and MultiPV=3. In output order, select the first common reply whose continuation in the next three plies captures a specified enemy N/B/R/Q by a mover action, and whose victim existed on the same square with the same piece type after both candidate moves just before that reply. Select the first such victim within the line. For this one goal use the nominal reply, other distinct common MultiPV replies, and fill to four with legal common replies in UCI lexicographic order. Empty, terminal or incomplete source leaf reports abstain. Do not select on the exact plan oracle.
+
+## Predicate and equal-slot comparison
+
+After each fixed reply the original mover has two turns, with any legal intervening defense. Preserve the target's piece identity through movement, including castling of a tracked rook. Success at the final ply or earlier game termination requires that original piece to have been taken by the mover, and that material difference from the post-reply starting position has not decreased (P=1, N/B=3, R=5, Q=9). A three-ply exact search returns all first moves guaranteeing the predicate. For each first move, store a rejecting defense when one exists. This is a finite search over legal moves and a fixed material valuation.
+
+Run one fresh, pinned R4 Stockfish 16 process per post-reply leaf at 12k nodes, using the same options and raw recording as R14. Public checks three first moves (or all if fewer), placing immediate legal captures of the target first by UCI, then latest distinct ordinary unbounded public PV leaders, then lexical legal fill. Augmented uses the same checks with a single substitution in the last non-capture slot, when available. The substitute is the latest ordinary-valued PV-update record from a non-first move within its root call, above alpha, whose move is absent from the public menu and all publicly reported PV leaders. Complete per-go trace coverage is required for substitution. Trace nominates a candidate; both policies test candidates by the same exact continuation check. Each panel has the same number of first-move slots. Their exact proof work may vary.
+
+Keep source cohort, goals, replies and both menus sealed before running the exact solver. Compare witness recoveries among exact positive leaves and at the level of paired same-reply plan contrasts. Report switches, gains, losses, label incidence, nominal-to-alternate refutations and stratify by whether the target moved. Use the first 24 screened pairs even if fewer than eight qualify. No proof or human result is inferred about wider horizons or strategic motifs.
