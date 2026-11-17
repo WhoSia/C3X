@@ -1,0 +1,105 @@
+--- a/src/search.cpp
++++ b/src/search.cpp
+@@ -69,6 +69,18 @@
+   }
+
+   thread_local uint64_t c3xAttempt = 0, c3xCandidate = 0;
++  thread_local uint64_t c3xReplySerial = 0, c3xReplyForRoot = 0;
++
++  constexpr Move c3xR25Root = make_move(SQ_D1, SQ_E2);
++
++  Move c3x_order_hint() {
++      static const char* mode = std::getenv("C3X_R25_HINT");
++      if (mode && std::strcmp(mode, "bh2") == 0)
++          return make_move(SQ_D6, SQ_H2);
++      if (mode && std::strcmp(mode, "be7") == 0)
++          return make_move(SQ_D6, SQ_E7);
++      return MOVE_NONE;
++  }
+
+   // Different node types, used as a template parameter
+   enum NodeType { NonPV, PV, Root };
+@@ -210,7 +222,7 @@
+
+   if (c3x_trace())
+   {
+-      c3xAttempt = c3xCandidate = 0;
++      c3xAttempt = c3xCandidate = c3xReplySerial = c3xReplyForRoot = 0;
+       std::cerr << "C3X_R23_GO_BEGIN" << std::endl;
+   }
+
+@@ -957,7 +969,25 @@
+
+     Move countermove = prevSq != SQ_NONE ? thisThread->counterMoves[pos.piece_on(prevSq)][prevSq] : MOVE_NONE;
+
+-    MovePicker mp(pos, ttMove, depth, &thisThread->mainHistory,
++    const bool c3xReplyNode = PvNode && ss->ply == 1 && !excludedMove
++                            && (ss-1)->currentMove == c3xR25Root && c3x_trace();
++    const uint64_t c3xReplyCall = c3xReplyNode ? ++c3xReplySerial : 0;
++    Move c3xPickerMove = ttMove;
++    if (c3xReplyNode)
++    {
++        const Move requested = thisThread->rootDepth == 18 ? c3x_order_hint() : MOVE_NONE;
++        const bool admitted = requested && pos.pseudo_legal(requested) && pos.legal(requested);
++        if (admitted)
++            c3xPickerMove = requested;
++        std::cerr << "C3X_R25_REPLY_BEGIN call=" << c3xReplyCall << " attempt=" << c3xAttempt
++                  << " key=" << pos.key() << " iteration=" << thisThread->rootDepth
++                  << " effective=" << depth << " alpha=" << alpha << " beta=" << beta
++                  << " tt=" << UCI::move(ttMove, pos.is_chess960())
++                  << " picker=" << UCI::move(c3xPickerMove, pos.is_chess960())
++                  << " admitted=" << admitted << std::endl;
++    }
++
++    MovePicker mp(pos, c3xPickerMove, depth, &thisThread->mainHistory,
+                                       &captureHistory,
+                                       contHist,
+                                       countermove,
+@@ -1286,6 +1316,8 @@
+           (ss+1)->pv = pv;
+           (ss+1)->pv[0] = MOVE_NONE;
+
++          if (rootNode && c3x_trace())
++              c3xReplyForRoot = 0;
+           value = -search<PV>(pos, ss+1, -beta, -alpha, newDepth, false);
+       }
+
+@@ -1338,6 +1370,10 @@
+                   rm.uciScore = alpha;
+               }
+
++              if (move == c3xR25Root && c3x_trace())
++                  std::cerr << "C3X_R25_COPY producer=" << c3xCandidate << " attempt=" << c3xAttempt
++                            << " call=" << c3xReplyForRoot << " value=" << value
++                            << " reply=" << UCI::move((ss+1)->pv[0], pos.is_chess960()) << std::endl;
+               rm.pv.resize(1);
+
+               assert((ss+1)->pv);
+@@ -1359,6 +1395,13 @@
+               rm.score = -VALUE_INFINITE;
+       }
+
++      if (c3xReplyNode)
++          std::cerr << "C3X_R25_EVALUATED call=" << c3xReplyCall
++                    << " move=" << UCI::move(move, pos.is_chess960())
++                    << " value=" << value << " alpha=" << alpha << " beta=" << beta
++                    << " depth=" << depth << " count=" << moveCount
++                    << " pv_update=" << int(value > bestValue && value > alpha) << std::endl;
++
+       if (value > bestValue)
+       {
+           bestValue = value;
+@@ -1452,6 +1495,13 @@
+
+     assert(bestValue > -VALUE_INFINITE && bestValue < VALUE_INFINITE);
+
++    if (c3xReplyNode)
++    {
++        c3xReplyForRoot = c3xReplyCall;
++        std::cerr << "C3X_R25_REPLY_END call=" << c3xReplyCall
++                  << " value=" << bestValue << " reply=" << UCI::move(ss->pv[0], pos.is_chess960())
++                  << " best=" << UCI::move(bestMove, pos.is_chess960()) << std::endl;
++    }
+     return bestValue;
+   }
+
