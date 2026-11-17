@@ -1,12 +1,17 @@
 --- a/src/search.cpp
 +++ b/src/search.cpp
-@@ -69,6 +69,18 @@
+@@ -69,6 +69,23 @@
    }
 
    thread_local uint64_t c3xAttempt = 0, c3xCandidate = 0;
 +  thread_local uint64_t c3xReplySerial = 0, c3xReplyForRoot = 0;
 +
 +  constexpr Move c3xR25Root = make_move(SQ_D1, SQ_E2);
++
++  int c3x_hint_iteration() {
++      static const char* depth = std::getenv("C3X_R25_ITERATION");
++      return depth && std::strcmp(depth, "12") == 0 ? 12 : 18;
++  }
 +
 +  Move c3x_order_hint() {
 +      static const char* mode = std::getenv("C3X_R25_HINT");
@@ -19,7 +24,7 @@
 
    // Different node types, used as a template parameter
    enum NodeType { NonPV, PV, Root };
-@@ -210,7 +222,7 @@
+@@ -210,7 +227,7 @@
 
    if (c3x_trace())
    {
@@ -28,7 +33,7 @@
        std::cerr << "C3X_R23_GO_BEGIN" << std::endl;
    }
 
-@@ -957,7 +969,25 @@
+@@ -957,7 +974,25 @@
 
      Move countermove = prevSq != SQ_NONE ? thisThread->counterMoves[pos.piece_on(prevSq)][prevSq] : MOVE_NONE;
 
@@ -39,7 +44,7 @@
 +    Move c3xPickerMove = ttMove;
 +    if (c3xReplyNode)
 +    {
-+        const Move requested = thisThread->rootDepth == 18 ? c3x_order_hint() : MOVE_NONE;
++        const Move requested = thisThread->rootDepth == c3x_hint_iteration() ? c3x_order_hint() : MOVE_NONE;
 +        const bool admitted = requested && pos.pseudo_legal(requested) && pos.legal(requested);
 +        if (admitted)
 +            c3xPickerMove = requested;
@@ -55,7 +60,7 @@
                                        &captureHistory,
                                        contHist,
                                        countermove,
-@@ -1286,6 +1316,8 @@
+@@ -1286,6 +1321,8 @@
            (ss+1)->pv = pv;
            (ss+1)->pv[0] = MOVE_NONE;
 
@@ -64,7 +69,7 @@
            value = -search<PV>(pos, ss+1, -beta, -alpha, newDepth, false);
        }
 
-@@ -1338,6 +1370,10 @@
+@@ -1338,6 +1375,10 @@
                    rm.uciScore = alpha;
                }
 
@@ -75,7 +80,7 @@
                rm.pv.resize(1);
 
                assert((ss+1)->pv);
-@@ -1359,6 +1395,13 @@
+@@ -1359,6 +1400,13 @@
                rm.score = -VALUE_INFINITE;
        }
 
@@ -89,7 +94,7 @@
        if (value > bestValue)
        {
            bestValue = value;
-@@ -1452,6 +1495,13 @@
+@@ -1452,6 +1500,13 @@
 
      assert(bestValue > -VALUE_INFINITE && bestValue < VALUE_INFINITE);
 
