@@ -61,7 +61,9 @@ def eligible(row):
     return type(row["cp"]) is int and not row["bound"]
 
 
-def selection(engine, source, *, excluded_openings=(), expected_sha=PGN_SHA):
+def selection(engine, source, *, excluded_openings=(), expected_sha=PGN_SHA, count=COUNT):
+    if count < 1:
+        raise ValueError("Selection count must be positive")
     selections, audit, seen, openings = [], [], set(), set()
     openings.update(excluded_openings)
     if digest(source) != expected_sha:
@@ -105,7 +107,7 @@ def selection(engine, source, *, excluded_openings=(), expected_sha=PGN_SHA):
             selections.append({"round": round_id, "ply": ply, "history": history,
                                "roots": [r["pv"][0] for r in rows]})
             break
-        if len(selections) == COUNT:
+        if len(selections) == count:
             break
     return {"source_sha256": digest(source), "games_read": len(games),
             "selection": selections, "audit": audit}
