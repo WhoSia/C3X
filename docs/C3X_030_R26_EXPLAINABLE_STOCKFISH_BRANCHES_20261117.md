@@ -11,3 +11,12 @@ Explain the engine's move against a credible alternative. A complete result lets
 For the b4 experiment record the root, exact position and move history, reply, affected White turn, untouched legal alternatives, signed native returns, terminal bound and budget. A legal closer-to-root loss or gain from the constrained future action characterizes that restriction of the search. Describing an NNUE feature as an internal cause requires additional feature-level evidence.
 
 Advance the three arms together until each has an outcome that can change the player-facing explanation. The next integrated example should answer both why the engine preferred one root move and how far the explanation carries across plausible replies.
+
+## Cross-source R26 panel
+
+The [component panel](C3X_030_R26_TT_COMPONENT_PANEL_RESULTS_20261117.md)
+extends these branches across 88 positions and multiple score margins.
+A fixed-depth h5 case connects an exact-score reply fork to an independently
+checked shared resource. A separate Nd7/a4 case tests a named root contrast
+against every legal first reply. Its global read masks provide a target
+for a later local TT intervention, whose result would decide mediation.
