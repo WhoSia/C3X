@@ -1,0 +1,12 @@
+# C3X 0.30 S4-L/R19 — Viable named plans can be expensive
+
+2026-11-17 KST. [Protocol](C3X_030_S4L_R19_BOUNDED_PLAN_VALUE_PROTOCOL_20261117.md) reopens the [0.29 P40 contract](C3X_029_P40_R4_VALUE_BEARING_PLAN_REGRET_CONTRACT_20261105.md) on R17's exposed data. There are 64 original candidate–reply leaves. In 48 the plan is unavailable. The other 16 have positive settled witnesses and enter the value calculation. Material is evaluated after a fixed common reply and for four additional plies. All legal choices are considered on the original legal history. The ruler is the R17 material differential, in pawn units.
+
+- V is unrestricted guaranteed material. F restricts the first move to an R17 witness. G additionally requires every continuation to fulfill the named capture without losing material. These are separate optimization sets and V >= F >= G.
+- V-G is positive on **5/16** viable leaves from four games. The positive differences are 2, 2, 4, 9, 9. The two 9s are paired branches from the same round. The plan and unrestricted value coincide in 11/16, with only 6/16 having every unrestricted optimum compatible with a witness. Therefore five zero-cost leaves still have an unrestricted optimal move that cannot guarantee the plan.
+- F-G is zero throughout this sample. The distinction remains mathematically necessary. A synthetic regression fixture admits V=F=7 and G=4.
+- Round 1.5, Qg5 ...Qxa2, illustrates the opportunity cost. Nxa2 wins the queen and guarantees +9 material under this bound. The named piece is the f6 knight, whose sole feasible initial move is Qxf6, giving 0 net. A literal legal-reply replay of Nxa2 independently reproduces +9 and its failure to guarantee the named knight capture.
+
+The value recursion's feasible first-move set matches the original R17 witness list on every viable leaf. The full result repeats byte-for-byte with the same input. The original unavailable leaves are counted as unavailable rather than assigned zero regret. The calculation does not substitute for independent engine positional judgment or for outer worst-case regret over all first opponent replies.
+
+[Proof inputs and raw value tables](https://drive.google.com/file/d/1FUymd5LcWMhrIKXc8oGtrlXppHtdqbOt/view). Reproduce with `c3x_030_s4l_r19_plan_material_value.py GOALS R17_SETTLED c2671e5c94690cb8b89f10b83ead56e14f2a2d9256c145889fe33ad9159d0dce` using the [R17 archive](https://drive.google.com/file/d/16wRXf7bKyISr-j3r8x55mqcE_34E2qSo/view).
