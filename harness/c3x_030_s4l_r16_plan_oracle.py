@@ -31,7 +31,24 @@ def attained(board, target, mover, initial_balance):
     return target is None and balance(board, mover) >= initial_balance
 
 
-def finishing_move(board, target, mover, baseline):
+def holds_after_last_defense(board, mover, baseline):
+    """A defender can reduce material only by a capture or a promotion."""
+    slack = balance(board, mover) - baseline
+    if board.is_game_over(claim_draw=False):
+        return slack >= 0
+    for move in board.legal_moves:
+        captured = chess.PAWN if board.is_en_passant(move) else board.piece_type_at(move.to_square)
+        if board.is_castling(move):
+            captured = None
+        loss = VALUES.get(captured, 0)
+        if move.promotion:
+            loss += VALUES[move.promotion] - VALUES[chess.PAWN]
+        if loss > slack:
+            return False
+    return True
+
+
+def finishing_move(board, target, mover, baseline, settle_final=False):
     if board.is_game_over(claim_draw=False):
         return attained(board, target, mover, baseline), None
     moves = (board.legal_moves if target is None
@@ -39,14 +56,15 @@ def finishing_move(board, target, mover, baseline):
     for move in sorted(moves, key=chess.Move.uci):
         final_target = target_after(board, move, target)
         board.push(move)
-        success = attained(board, final_target, mover, baseline)
+        success = (attained(board, final_target, mover, baseline)
+                   and (not settle_final or holds_after_last_defense(board, mover, baseline)))
         board.pop()
         if success:
             return True, move.uci()
     return False, None
 
 
-def branch_witness(board, move, target, mover, baseline):
+def branch_witness(board, move, target, mover, baseline, settle_final):
     current_target = target_after(board, move, target)
     board.push(move)
     try:
@@ -57,7 +75,7 @@ def branch_witness(board, move, target, mover, baseline):
         for defense in sorted(board.legal_moves, key=chess.Move.uci):
             next_target = target_after(board, defense, current_target)
             board.push(defense)
-            success, finish = finishing_move(board, next_target, mover, baseline)
+            success, finish = finishing_move(board, next_target, mover, baseline, settle_final)
             board.pop()
             if not success:
                 return {"holds": False, "refuting_defense": defense.uci()}
@@ -67,12 +85,12 @@ def branch_witness(board, move, target, mover, baseline):
         board.pop()
 
 
-def solve(board, victim):
+def solve(board, victim, *, settle_final=False):
     occupant = board.piece_at(victim)
     if (board.chess960 or occupant is None or occupant.color == board.turn
             or occupant.piece_type not in TARGETS or board.is_game_over(claim_draw=False)):
         raise ValueError("The leaf must have a live enemy nonpawn victim in standard chess")
     mover = board.turn
     baseline = balance(board, mover)
-    return {move.uci(): branch_witness(board, move, victim, mover, baseline)
+    return {move.uci(): branch_witness(board, move, victim, mover, baseline, settle_final)
             for move in sorted(board.legal_moves, key=chess.Move.uci)}
