@@ -35,6 +35,20 @@ class ReplyContrastTests(unittest.TestCase):
         self.assertEqual(verdict["arm_coverage"], {"pv": 1, "tree": 1, "trace": 0})
         self.assertIsNone(verdict["paired_correct"])
 
+    def test_uci_null_moves_are_not_game_moves(self):
+        for target in ("history", "root", "reply"):
+            cohort = deepcopy(self.cohort)
+            request = {"round": "1.1", "reply": "g8f6"}
+            case = cohort["selection"][0]
+            if target == "history":
+                case["history"] = ["0000", "0000"]
+            elif target == "root":
+                case["roots"][0] = "0000"
+            else:
+                request["reply"] = "0000"
+            with self.subTest(target=target), self.assertRaisesRegex(ValueError, "Null moves"):
+                freeze(cohort, [request])
+
     def test_bound_or_stale_depth_abstains(self):
         for mutation in ({"bound": True}, {"depth": 11}):
             judge = deepcopy(self.judge)
