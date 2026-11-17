@@ -1,0 +1,5 @@
+# R22 — What survives an aspiration-window failure?
+
+Replay the already exposed R21 full leaf traces. Group by unique root invocation within a complete GO epoch. Use only root records at full nominal effective depth, an ordinary finite window, and MultiPV 1 with the complete legal root menu. A move reaching beta supplies a conservative lower threshold for the attempted root search. An upper threshold from fail-low requires every legal root move to appear once in the same invocation, all completed values at or below the same alpha, and contiguous move counts. Keep the two directions separate and do not convert a child fail-low into a root upper bound when coverage is incomplete.
+
+Compare with same-iteration UCI endpoints. Audit whether a source threshold is new, redundant, weaker, or conflicts with the publicly emitted interval. Engine search is selective and its windows are procedural evidence. Compare resulting paired bounds only as a diagnostic on these archived runs, without treating them as game-theoretic proof.
