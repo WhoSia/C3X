@@ -1,0 +1,13 @@
+# C3X 0.30 S4-L/R11 — Reply discovery versus leaf evaluation under a fixed budget
+
+## Budget allocation
+
+2026-11-17 KST. R10 identified a source-engine leaf-valuation failure even when the correct replies were included. Test whether shifting search from reply discovery to leaves improves candidate ordering on a second event. Compare three fixed 48k requested-node arms per root: PV (48k), R10 tree (24k MultiPV=3 plus three 8k leaves), and leaf-heavier tree (12k MultiPV=3 plus three 12k leaves). Both tree arms use the first three distinct legal replies actually returned by their own discovery search. Candidate count is held fixed while discovery identities may change. This tests allocation policies, not a fixed-list leaf-only intervention.
+
+## Event and candidate selection
+
+Select eight games from the official TCEC S29 League 2 PGN at 3dd69a40b3cf6ccc74144df7411ef4e8e2140286, SHA-256 200e59cec6e5efb5133137c1758b97ab55cf92b4afb532690e80ee39461f539a. R10's screened 48k near-pair procedure remains, with plies 24/32/40, max 30 cp, compound numeric round ordering and one admitted position per game. Reject any exact 12-ply opening prefix also in the eight frozen R10 games (cohort b81c2b31e733d4f151cbe068be3a98e79724a472c34ec14ce7f6f92e0a27983a), duplicate admitted prefixes, and repeatedly reached positions. This is an event-disjoint replication inside one TCEC season. Earlier sealed cohorts stay closed. Use the same R4 Stockfish classical build as R10 and independently judge all legal replies with the same Berserk 14 binary and NNUE at depths 12 and 14. Depth 12 primary, depth 14 sensitivity.
+
+## Outcomes and stopping rule
+
+Age out bound reports by using the last unbounded receipt within the requested search for all forecast leaves and PV. Also retain terminal coverage, terminal nodes and selected endpoint depth. Judge uses fixed-depth unbounded reports and counts terminal draws as zero. Encode forced mates on the engine's ordered mate-score scale with 100000 as the sentinel, so mate losses rank below ordinary scores and mate wins above them, with mate distance breaking ties. Use this scale only for ordering. For margin MAE compare pairs with ordinary cp for all predictors and the judge. Report shared-complete pair signs (ties exact), minimizing-reply intersection, and cp gap MAE. Judge each metric separately, including coverage and total actual report nodes. On each tree audit, distinguish omitted judge minimizers from discovered but not selected minimizers. Freeze predictions before any judge search. A win needs a paired improvement in the measured metric and does not transfer to other metrics. No general claim of superiority or R9 mechanistic transport from this experiment.
