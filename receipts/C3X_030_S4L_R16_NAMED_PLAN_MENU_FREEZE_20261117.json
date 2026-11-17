@@ -1,0 +1,138 @@
+{
+  "frozen_before": "R16 exact named-plan oracle on Entrance League",
+  "goals_sha256": "745645505b89849b54ace84a30491b3f0af0ef632801a436990ca230d6632da0",
+  "menus_sha256": "b3e852ecb347fb3fe290bd76cefad8a40e7987e977507a6ac7eff1d788b75c62",
+  "pgndata_sha256": "60524a292b71ee2b4711e01ce22623a86e58483cc096aaa4f5c6e7584179e853",
+  "pinned_source_sha256": "3766b594a274e83bda1b2b1a8f67747b2f26724e6a64e388e659fb00c1fd12cb",
+  "plans": [
+    {
+      "ply": 40,
+      "replies": [
+        "d7b5",
+        "f6d5",
+        "a8a6",
+        "a8a7"
+      ],
+      "roots": [
+        "c4c5",
+        "f2f4"
+      ],
+      "round": "1.2",
+      "target": "d7",
+      "target_piece": "b"
+    },
+    {
+      "ply": 24,
+      "replies": [
+        "b7b6",
+        "a8b8",
+        "d8b8",
+        "a7a6"
+      ],
+      "roots": [
+        "d1b3",
+        "h2h3"
+      ],
+      "round": "1.3",
+      "target": "a8",
+      "target_piece": "r"
+    },
+    {
+      "ply": 32,
+      "replies": [
+        "h8h6",
+        "e8f7",
+        "d7f8",
+        "a7a5"
+      ],
+      "roots": [
+        "g4h5",
+        "g4e2"
+      ],
+      "round": "1.4",
+      "target": "d7",
+      "target_piece": "n"
+    },
+    {
+      "ply": 40,
+      "replies": [
+        "a8d8",
+        "h7h6",
+        "a8c8",
+        "a5a2"
+      ],
+      "roots": [
+        "e5g5",
+        "e5d6"
+      ],
+      "round": "1.5",
+      "target": "f6",
+      "target_piece": "n"
+    },
+    {
+      "ply": 32,
+      "replies": [
+        "c5c4",
+        "a8b8",
+        "a8a7",
+        "a6a5"
+      ],
+      "roots": [
+        "f1e1",
+        "d1b3"
+      ],
+      "round": "1.6",
+      "target": "e5",
+      "target_piece": "n"
+    },
+    {
+      "ply": 32,
+      "replies": [
+        "a8c8",
+        "e8g8",
+        "c5c4",
+        "a8a6"
+      ],
+      "roots": [
+        "d3b5",
+        "f1c1"
+      ],
+      "round": "2.1",
+      "target": "c6",
+      "target_piece": "n"
+    },
+    {
+      "ply": 32,
+      "replies": [
+        "h8g8",
+        "f6f5",
+        "h7h5",
+        "a8a7"
+      ],
+      "roots": [
+        "h1g1",
+        "e1e2"
+      ],
+      "round": "2.2",
+      "target": "h8",
+      "target_piece": "r"
+    },
+    {
+      "ply": 32,
+      "replies": [
+        "d8e8",
+        "d8d7",
+        "g7f6",
+        "a5a4"
+      ],
+      "roots": [
+        "e3g5",
+        "h2h3"
+      ],
+      "round": "2.4",
+      "target": "g7",
+      "target_piece": "b"
+    }
+  ],
+  "prior_r14_questions_sha256": "59f4a9e2c4de583105a9d4051cb1e0b2d7d73a03bc69871cd3edd96a9c2fa38a"
+}
