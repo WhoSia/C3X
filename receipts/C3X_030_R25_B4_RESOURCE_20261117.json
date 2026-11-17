@@ -1,0 +1,36 @@
+{
+  "d6e7": {
+    "b4_now": true,
+    "black_attackers_h2": [
+      {
+        "piece": "q",
+        "square": "c7"
+      }
+    ],
+    "check": false,
+    "evasions": [],
+    "legal_white_count": 36,
+    "san": "Be7"
+  },
+  "d6h2": {
+    "b4_now": false,
+    "black_attackers_h2": [
+      {
+        "piece": "q",
+        "square": "c7"
+      }
+    ],
+    "check": true,
+    "evasions": [
+      {
+        "b4_available": 37,
+        "black_choices": 37,
+        "move": "g1h1",
+        "refuters": [],
+        "san": "Kh1"
+      }
+    ],
+    "legal_white_count": 1,
+    "san": "Bh2+"
+  }
+}
