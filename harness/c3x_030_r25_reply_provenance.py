@@ -22,7 +22,7 @@ def records(lines, field):
             for line in lines if line.startswith(prefix)]
 
 
-def join_reply(uci, proof, lines):
+def join_reply(uci, proof, lines, target_iteration):
     rows = observations(uci, proof)
     last = rows[-1]
     begins = indexed(records(lines, "REPLY_BEGIN"), "call")
@@ -31,7 +31,7 @@ def join_reply(uci, proof, lines):
     source = proof["best_source"]
     events = records(lines, "EVALUATED")
     admitted = [entry for entry in begins.values() if entry["admitted"] == "1"]
-    if any(entry["iteration"] != "18" for entry in admitted):
+    if any(entry["iteration"] != str(target_iteration) for entry in admitted):
         raise ValueError("Hint escaped the intervention iteration")
     trace = None
     if proof["best"]["move"] == ROOT and last["producer"] == proof["best"]["producer"]:
@@ -55,24 +55,24 @@ def join_reply(uci, proof, lines):
 
 
 def one(binary, case, net, directory, depth, hint):
-    with patch.dict(os.environ, {"C3X_R25_HINT": hint}):
+    with patch.dict(os.environ, {"C3X_R25_HINT": hint, "C3X_R25_ITERATION": str(depth)}):
         uci, proof = run(binary, case, net, directory, logging=True, paired=False, nnue=True, depth=depth)
     return uci, proof
 
 
-def evaluate(base, traced, case, net, freeze, root):
+def evaluate(base, traced, case, net, freeze, root, reciprocal):
     output = {}
     for expected in freeze["reports"]:
         depth = expected["depth"]
         directory = root / f"depth-{depth}"
         prior, _ = one(base, case, net, directory / "r23", depth, "sham")
-        for mode in (("sham", "bh2", "be7") if depth == 18 else ("sham",)):
+        for mode in (("sham", "bh2", "be7") if depth == 18 or reciprocal else ("sham",)):
             attempts = []
             for repeat in (1, 2):
                 path = directory / f"{mode}-{repeat}"
                 uci, proof = one(traced, case, net, path, depth, mode)
                 lines = (path / "stderr.txt").read_text().splitlines()
-                entry = join_reply(uci, proof, lines)
+                entry = join_reply(uci, proof, lines, depth)
                 if mode == "sham":
                     if uci != prior or entry["final"]["pv"] != expected["pv"] or entry["admitted"]:
                         raise ValueError("Sham changed archived expected path or received treatment")
@@ -89,6 +89,7 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     for name in ("cases", "freeze", "base", "traced", "net", "output"):
         parser.add_argument(name, type=Path)
+    parser.add_argument("--reciprocal", action="store_true")
     args = parser.parse_args()
     if tuple(map(digest, (args.cases, args.freeze, args.base, args.net))) != (CASES, FORK, TRACED, NET):
         raise ValueError("Unexpected R24/R23 sources")
@@ -98,7 +99,7 @@ def main():
     board.push_uci(ROOT)
     for hint in HINTS.values():
         board.parse_uci(hint)
-    result = evaluate(args.base, args.traced, case, args.net, freeze, args.output)
+    result = evaluate(args.base, args.traced, case, args.net, freeze, args.output, args.reciprocal)
     print(json.dumps({"case": case["id"], "after_root_fen": board.fen(),
                       "traced_sha256": digest(args.traced), "rows": result}, sort_keys=True, indent=2))
 
