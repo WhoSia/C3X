@@ -4,6 +4,7 @@ import argparse
 from hashlib import sha256
 import json
 import os
+import re
 from pathlib import Path
 
 import chess.engine
@@ -42,12 +43,16 @@ def run(binary, directory, target=0, mask=False):
         "pv": [move.uci() for move in result.info["pv"]],
         "score": result.info["score"].white().score(mate_score=100000),
         "depth": result.info["depth"],
+        "upperbound": bool(result.info.get("upperbound")),
+        "lowerbound": bool(result.info.get("lowerbound")),
         "nodes": result.info["nodes"],
     }
-    return public, stderr
+    uci = [re.sub(r"\b(?:nps|time) \d+ ?", "", line) for line in stdout
+           if line.startswith(("info depth ", "bestmove "))]
+    return public, stderr, uci
 
 
-def summarize(public, stderr, target, mask):
+def summarize(public, stderr, uci, target, mask):
     eligible = fields(stderr, "C3X_S4H2_ELIGIBLE")
     probes = [event for event in fields(stderr, "C3X_S4E") if event["kind"] == "probe"]
     masks = fields(stderr, "C3X_S4G_MASK")
@@ -59,12 +64,22 @@ def summarize(public, stderr, target, mask):
         raise ValueError("Unexpected hit state at the nominated probe")
     lifecycle = [row for row in fields(stderr, "C3X_S4E")
                  if row.get("id") == event["id"] and row["kind"] != "probe"]
+    qreturns = [row for row in fields(stderr, "C3X_R2_QRETURN")
+                if row["id"] == event["id"] and row["parent"] == event["parent"]]
+    returns = [row for row in lifecycle if row["kind"] == "normal_return"] + qreturns
+    edges = [row for row in fields(stderr, "C3X_R2_EDGE")
+             if row["child"] == event["id"] and row["parent"] == event["parent"]]
     roots = [row for row in fields(stderr, "C3X_S4L_ROOT_SCORE")
              if row["child_id"] == event["id"] and row["root_id"] == event["parent"]]
     updates = [row for row in fields(stderr, "C3X_S4E")
-               if row["kind"] == "root_candidate" and row.get("child_id") == event["id"]]
+               if row["kind"] == "root_candidate" and row["child_last"] == event["id"]]
+    linked = (len(returns) == len(edges) == len(roots) == 1
+              and int(returns[0]["value"]) == -int(edges[0]["value"])
+              and edges[0]["value"] == roots[0]["value"])
     return {"public": public, "probe": event, "masks": masks, "lifecycle": lifecycle,
+            "qreturns": qreturns, "direct_edges": edges, "arithmetic_linked": linked,
             "parent_root_scores": roots, "target_root_updates": updates,
+            "normalized_uci_sha256": sha256("\n".join(uci).encode()).hexdigest(),
             "included_events": len(eligible),
             "trace_sha256": sha256("\n".join(stderr).encode()).hexdigest()}
 
@@ -80,7 +95,7 @@ def main():
     if digest(binary) != SF:
         raise ValueError("Unexpected Stockfish binary")
     if args.mode == "discover":
-        _, stderr = run(binary, args.output)
+        _, stderr, _ = run(binary, args.output)
         first = fields(stderr, "C3X_S4H2_ELIGIBLE")[0]
         if first["ordinal"] != "0" or first["ply"] != "1" or first["hit_before"] != "1":
             raise ValueError("Unexpected nomination")
@@ -98,8 +113,8 @@ def main():
     for arm in ("sham", "mask"):
         for repeat in (1, 2):
             mask = arm == "mask"
-            public, raw = run(binary, args.output / f"{arm}-{repeat}", target, mask)
-            rows[f"{arm}-{repeat}"] = summarize(public, raw, target, mask)
+            public, raw, uci = run(binary, args.output / f"{arm}-{repeat}", target, mask)
+            rows[f"{arm}-{repeat}"] = summarize(public, raw, uci, target, mask)
         if rows[f"{arm}-1"] != rows[f"{arm}-2"]:
             raise ValueError(f"Non-repeating {arm} results")
     print(json.dumps(rows, indent=2))
