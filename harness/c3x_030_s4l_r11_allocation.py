@@ -118,7 +118,7 @@ def main():
     parser.add_argument("source", type=Path)
     parser.add_argument("--exclude", type=Path)
     parser.add_argument("--net", type=Path)
-    parser.add_argument("--depth", type=int, choices=(12, 14))
+    parser.add_argument("--depth", type=int, choices=(12, 14, 16))
     args = parser.parse_args()
     logging.getLogger("chess.engine").setLevel(logging.ERROR)
     options = {"Threads": 1, "Hash": 16}
