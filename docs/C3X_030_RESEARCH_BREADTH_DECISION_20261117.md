@@ -1,0 +1,18 @@
+# C3X 0.30 — 2026-11-17 breadth decision after R18 and R19
+
+## Decision
+
+The S4-L chain from R14 through R18 has built useful same-input trace baselines, exact chess witnesses and horizon checks. At the program level it has spent five successive iterations within trace utility for ranking and material capture. This leaves distinct founding questions open. C3X 0.1 asks what future opportunity explains a narrow preference. 0.29 P40 asks whether following the named plan gives up better continuations. 0.30 D1 asks what observed physical engine path changes root choice. The original explanation track asks whether a player can inspect and use the evidence. Recent S4-L answer improvements cannot decide those other questions.
+
+## Reopened fronts and next bounded outputs
+
+| Front | Existing foundation | Next output and decision rule |
+| --- | --- | --- |
+| Native cause and transport | [D1](C3X_030_DECISION_D1_NATIVE_CAUSALITY_FIRST_20261111.md), [S4-H frozen design](C3X_030_S4H1_R1_AND_S4H2_PREOUTCOME_FROZEN_DESIGN_20261113.md), matched TT and ancestry components | Highest priority: a single same-history, actual targeted hit versus sham development execution, following the invocation and signed value through ancestor and root update. Target selection uses pre-treatment hit evidence. If any identity, hit manipulation or matched control is missing, keep the causal claim open. Existing sealed cohort restrictions remain in force. |
+| Future strategic value | [0.29 P40](C3X_029_P40_R4_VALUE_BEARING_PLAN_REGRET_CONTRACT_20261105.md), R19 now measures feasibility and bounded opportunity cost separately | Next independent referee cell: freeze the disclosed candidate set, matched responses and named goal. Compare optimum and plan-constrained alternatives at matched budget, with score intervals and explicit disagreement. Material scores and external positional scores retain their scopes. |
+| Human use and explanation | [C3X product](../product/README.md), evidence-aware explanation track and published simulation-test controls | Build one small paired learning instrument from verified traces. Use R17's Rg1 versus Ke2 after ...Rg8 and ...Ra7 as demonstration only. The participant labels a fresh position after seeing the same public response tree under each explanation condition, and predicts both whether the plan survives and what breaks it. Use rule-checked keys, blind scoring, and no learner-improvement claim before a real test. |
+| Preparatory witnesses and benchmark support | R18 Swiss 9 has 0/64 settled positives under its fixed screen | Park further trace heuristics on this cohort. Reopen via a separate reply-sensitive puzzle or plan benchmark with nontrivial positive support and held-out controls, using Cui-style recursive reply surfaces where applicable. Retain source and selection differences. |
+
+The next work cycle takes one small step on the native and strategic-value fronts, plus one instrument step on human use, before doubling the depth of any one chain. This is a choice of work allocation, with the D1 causal test still first in scientific priority. The original 0.29 prospective cohort remains 7/8 HOLD per its existing charter. R18 closes a particular support audit and R19 supplies a new material-model computation; neither changes the original cohort count.
+
+[R18 evidence](C3X_030_S4L_R18_PREPARATORY_CAPTURE_RESULTS_20261117.md) · [R19 evidence](C3X_030_S4L_R19_BOUNDED_PLAN_VALUE_RESULTS_20261117.md) · [Origin audit](https://app.notion.com/p/3c8ef561cf928165a4cfcc2211d258ae) · [0.30 charter](https://app.notion.com/p/414ef561cf92813e8186fa51f780ee55).
