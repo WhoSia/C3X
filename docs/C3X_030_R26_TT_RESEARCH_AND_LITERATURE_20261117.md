@@ -48,6 +48,18 @@ The paper's path-dependent reuse problem motivates preserving full PGN history
 for Stockfish replays. The tested algorithm is df-pn under Go's situational
 superko.
 
+## 2026-11-17 verified Drive intake
+
+Three user-supplied PDFs were opened from `00_INTAKE`. Two are image scans,
+verified by OCR and journal pagination. File names below are the observed
+intake names.
+
+| Publication | Verified copy | Scope relevant to C3X |
+| --- | --- | --- |
+| Breuker, Uiterwijk & van den Herik (1994), *Replacement Schemes for Transposition Tables*, 17(4), 183–193 | [REPLACEM.pdf](https://drive.google.com/file/d/18cL-ECAavR4ZDw3rfwB2VOR7_GQCFEUg/view), 11 pages, SHA-256 `4a0195d37664210cdef47cb16b9dea7e780f920ab2f136d7ef4f1c4b18242d19` | Seven chess middlegame replacement schemes. The two-level scheme using subtree node count is a precedent for varying retention policy at fixed capacity. |
+| Schaeffer & Plaat (1996), *New Advances in Alpha-Beta Searching*, ACM CSC, 124–130 | [acm-final.pdf](https://drive.google.com/file/d/1hOKgvI6s3ZlWApX8zamOoJEABXJuslun/view), 7 pages, author-hosted layout, [DOI](https://doi.org/10.1145/228329.228344), SHA-256 `7d278288d67831e9258e015d7a30bfa4324e7a67637673646333c796d9ea2dfe` | Describes cached score cutoffs, stored-first-move ordering, and reusing the search table to find an alternative after excluding a move. Direct prior art for the proposed comparison. |
+| Hyatt & Cozzie (2005), *The Effect of Hash Signature Collisions in a Chess Program*, 28(3), 131–139 | [hyatt2005.pdf](https://drive.google.com/file/d/1ZqyIeTTKlZpSzIb6UEoEwEXgN7DjiS17/view), 9 pages, SHA-256 `dad07ebb122741f8b0ab088a444bf7b1092b3dc196e1975c737185fb1fdc8378` | Injected false signature matches in Crafty and Zappa. Provides a precedent for a collision-specific arm, while the R26 1 MiB arm changes capacity and replacement pressure. |
+
 ## Missing-original literature census
 
 Title, author, DOI and known filename variants were searched in connected
@@ -56,8 +68,5 @@ limits of search indexing, even when an external full text is available.
 
 | Work | Drive status | Acquisition and immediate use |
 | --- | --- | --- |
-| Breuker, Uiterwijk & van den Herik (1994), *Replacement Schemes for Transposition Tables* | Unconfirmed | [Repository PDF](https://pure.uvt.nl/ws/portalfiles/portal/1217028/REPLACEM.PDF). Compares seven replacement policies across table sizes. Provides the direct precedent for a capacity-held-fixed replacement experiment. |
-| Schaeffer & Plaat, *New Advances in Alpha-Beta Searching* | Unconfirmed | [Author PDF](https://liacs.leidenuniv.nl/~plaata1/papers/acm-final.pdf). Separately discusses score-triggered cutoff and first-move reuse; tests enhanced transposition cutoff for search effort. |
-| Hyatt & Cozzie (2005), *The Effect of Hash Signature Collisions in a Chess Program* | Unconfirmed | [Journal record](https://doi.org/10.3233/ICG-2005-28302). The target is aliasing of different positions under the hash signature. Keep distinct from entry eviction caused by capacity. |
 | Björnsson (2024), *Chess and explainable AI* | Unconfirmed, carried forward | [Journal record](https://doi.org/10.3233/ICG-240256). Obtain the journal article for its wider framing of explanatory systems. |
 | Demura & Kaneko (2024), *Initial state diversification for efficient AlphaZero-style training* | Unconfirmed, carried forward | [Journal record](https://doi.org/10.3233/ICG-240255). [IPSJ precursor, Shogi816K (2023)](https://ipsj.ixsq.nii.ac.jp/records/229354) is separately identified and has its own full-text listing. Relevant to diversity design after the TT-specific works. |
