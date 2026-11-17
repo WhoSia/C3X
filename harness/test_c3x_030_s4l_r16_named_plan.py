@@ -4,7 +4,7 @@ import unittest
 
 import chess
 
-from c3x_030_s4l_r16_plan_oracle import solve, target_after
+from c3x_030_s4l_r16_plan_oracle import balance, finishing_move, holds_after_last_defense, solve, target_after
 from c3x_030_s4l_r16_plan_source import decode, named_victim
 
 
@@ -26,6 +26,16 @@ class NamedPlanTests(unittest.TestCase):
     def test_named_victim_moves_in_the_reply(self):
         first = chess.Board("7k/8/5n2/8/8/8/4R3/K7 b - - 0 1")
         self.assertEqual(named_victim(first, first, ["f6e4", "e2e4"]), chess.F6)
+
+    def test_final_defender_can_recapture(self):
+        board = chess.Board("4q2k/8/8/8/4n3/8/8/K3R3 w - - 0 1")
+        initial = balance(board, chess.WHITE)
+        self.assertEqual(finishing_move(board, chess.E4, chess.WHITE, initial), (True, "e1e4"))
+        self.assertEqual(finishing_move(board, chess.E4, chess.WHITE, initial, True), (False, None))
+
+    def test_final_noncapture_promotion_can_change_material_balance(self):
+        board = chess.Board("7k/8/8/8/8/K7/1p6/4R3 b - - 0 1")
+        self.assertFalse(holds_after_last_defense(board, chess.WHITE, balance(board, chess.WHITE)))
 
     def test_castling_preserves_the_enemy_rook_identity(self):
         board = chess.Board("4k2r/8/8/8/8/8/8/4K3 b k - 0 1")
