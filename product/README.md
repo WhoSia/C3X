@@ -99,3 +99,10 @@ python product/c3x_stockfish_explanation.py EVIDENCE/cases.json r21 EVIDENCE/sui
 ```
 
 The two supported cards use default NNUE, all legal roots, one thread, and fixed nodes. [Experiment, limitations, and next gate](../docs/C3X_030_R23_EXPLAINABLE_STOCKFISH_REPLAY_20261117.md).
+
+## R24 — Compare principal variations at the same displayed score
+
+- [Spanish O-O, +39 cp, followed by d4 or Re1 after the same Black reply](../docs/learner/C3X_R24_SPANISH_PV_FORK_KO.md).
+- [Qxe2, +89 cp and equal native value, followed by either a check or a quiet bishop move](../docs/learner/C3X_R24_SAME_NATIVE_PV_FORK_KO.md).
+
+The renderer joins the recorded fork to the exact starting history, the independently judged branch position and the precommitted reruns. [Research results and reproduction](../docs/C3X_030_R24_PV_EVIDENCE_AND_REPLAY_20261117.md).
