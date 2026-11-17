@@ -1,0 +1,3 @@
+# R25 — Reciprocal ordering at depth 12
+
+After the depth-18 experiment, the first-response move survives all three ordering arms, while forcing Bh2+ first changes the reported root value. Extend the code with an explicitly selected nominal iteration of 12 or 18, defaulting to 18. At fixed depth 12, run the same full-legal Stockfish configuration and the same three arms, with the two hints applied only at iteration 12. Repeat every arm and reconstruct native reply, producer, and score. Report whether the forced-first reply became the emitted, validated reply, and preserve root-value changes. Check that the default nominal-18 test reproduces the earlier output. The depth-12 endpoint was fixed by the already documented R24 fork, not by examining its intervention outcomes.
