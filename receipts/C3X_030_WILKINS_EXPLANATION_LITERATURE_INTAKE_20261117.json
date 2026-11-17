@@ -1,0 +1,82 @@
+{
+  "date_kst": "2026-11-17",
+  "intake_parent": "1MLtYh0pv8QUZDReYzRqjDrOjRkSJAD16",
+  "papers_parent": "1D2M4LHcejREhlyp6vTd71xxLLx-6ldUP",
+  "proceedings_parent": "1Zj340-3rxurizWemBEoR__AzkKY9op9H",
+  "objects": [
+    {
+      "drive_id": "1wUE1LRKvzRHmMobMbSNtsZPygNKmJ_E9",
+      "original_name": "1702.08608v2.pdf",
+      "name": "Doshi-Velez & Kim (2017) — Towards a Rigorous Science of Interpretable Machine Learning — preprint arXiv 1702.08608v2.pdf",
+      "role": "preprint arXiv 1702.08608v2",
+      "pdf_pages": 13,
+      "sha256": "c7b34800ab4bf2964c0f46fc1cae3939c6d1e7fc6e8863180698a3f2fe40de28",
+      "verified_post_move_or_upload": true
+    },
+    {
+      "drive_id": "1REWt7ZM5q4e6coHQxz_ylttG-ji9xa6G",
+      "original_name": "2006.14779v3.pdf",
+      "name": "Bansal et al. (2021) — Does the Whole Exceed its Parts - The Effect of AI Explanations on Complementary Team Performance — preprint arXiv 2006.14779v3.pdf",
+      "role": "preprint arXiv 2006.14779v3",
+      "pdf_pages": 16,
+      "sha256": "9a00f4566bf0b4a84b4134afcac2eedc6dfdee638c8b79304bee71eec07b0c17",
+      "verified_post_move_or_upload": true
+    },
+    {
+      "drive_id": "1GCMNqOUGX7FnF9vYQ5dNotEGS03NJNZ-",
+      "original_name": "wilkins1980.pdf",
+      "name": "Wilkins (1980) — Using Patterns and Plans in Chess.pdf",
+      "role": "journal article; printed 165–203",
+      "pdf_pages": 39,
+      "sha256": "5faf3cbb2e8ffb775d0862365c253d34bf4d144b442b15051aec23286cd33871",
+      "verified_post_move_or_upload": true
+    },
+    {
+      "drive_id": "1Sx4PE-HHuatot-rRwPhTAeqQBrLSsKG7",
+      "original_name": "1811.07901v4.pdf",
+      "name": "Lai & Tan (2019) — On Human Predictions with Explanations and Predictions of Machine Learning Models - A Case Study on Deception Detection — preprint arXiv 1811.07901v4.pdf",
+      "role": "preprint arXiv 1811.07901v4",
+      "pdf_pages": 17,
+      "sha256": "c02f7ea31d8b743760a3adc17015c785833072e34270352cf5ca5560a6011c1d",
+      "verified_post_move_or_upload": true
+    },
+    {
+      "drive_id": "1LiZJCgKmq87ot4-5yAkVGkwy8LUe__RX",
+      "original_name": "1980_CSCSI_Proceedings-opt.pdf",
+      "name": "CSCSI (1980) — Proceedings of the Third Biennial Conference — Victoria.pdf",
+      "role": "proceedings volume",
+      "pdf_pages": 360,
+      "sha256": "bf0d865f1cd474b1bb56992b8ff3edc48bf050bef3d0e7bbc0c0075217b7bbe4",
+      "verified_post_move_or_upload": true
+    },
+    {
+      "drive_id": "1GXj08LYZjYGKY6QiYlyo4JFnc0HBGQ0M",
+      "original_name": "2020.acl-main.491.pdf",
+      "name": "Hase & Bansal (2020) — Evaluating Explainable AI - Which Algorithmic Explanations Help Users Predict Model Behavior.pdf",
+      "role": "ACL proceedings article; printed 5544–5556",
+      "pdf_pages": 13,
+      "sha256": "fdad45a5f0c6fdc1f44c63bd0bee61e2ea87faebd9b64b19e46281d927319158",
+      "verified_post_move_or_upload": true
+    },
+    {
+      "drive_id": "14s1jr9jb4_RaC59vLlxwylVzFG9_29gf",
+      "original_name": "001.pdf",
+      "name": "IJCAI (1979) — Proceedings of the Sixth International Joint Conference on Artificial Intelligence — Volume 2 Scan.pdf",
+      "role": "proceedings scan; Wilkins printed 960–967 (PDF 351–358)",
+      "pdf_pages": 407,
+      "sha256": "73f8303328261ba5cf27ab57f63acf7ba13c6961fc5612d92c4a724cdd1da2f4",
+      "verified_post_move_or_upload": true
+    },
+    {
+      "drive_id": "1f1WsplBoN99OjD03kw6mqjQUZhvIKPzl",
+      "original_name": null,
+      "name": "Wilkins (1980) — Causality Analysis in Chess.pdf",
+      "role": "article extraction; printed 212–216 (parent PDF 221–225)",
+      "pdf_pages": 5,
+      "sha256": "2ecea02164087d89439f8626de32afd8e88e6771fd7e9277617d5fabc1a4dd23",
+      "verified_post_move_or_upload": true,
+      "extracted_from": "1LiZJCgKmq87ot4-5yAkVGkwy8LUe__RX",
+      "page_raster_and_text_equal": true
+    }
+  ]
+}
