@@ -1,0 +1,5 @@
+# R24 — Extend the strict native-value test
+
+The committed four-position screen produced a displayed-score continuation fork in the Spanish position. It produced no counterexample matching raw score. Preserve those original outcomes. Freeze and replay the first near-root displayed-score conflict as the GUI phenomenon before opening its reruns or independent valuations.
+
+For a separate raw-value extension, commit to the first 24 distinct 12-ply opening prefixes in numeric game-round order in the previously pinned TCEC Season 28 League 2 PGN, after excluding openings in the earlier R21/R22 selected suites. Take each position after exactly 24 plies, and use the same default NNUE, full legal candidate list and 16 MiB hash. Run one fresh 300,000-node trajectory per position on both the clean and traced builds. Use the same pair classification. If a fork at the same native value occurs within the first four half-moves after the recommendation, validate the first eligible case and report the full denominator. If exact-value forks appear later, preserve their actual ply without reclassifying them as early cases.
