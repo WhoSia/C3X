@@ -1,0 +1,18 @@
+{
+  "source_sha256": "200e59cec6e5efb5133137c1758b97ab55cf92b4afb532690e80ee39461f539a",
+  "forecast_seal": "05a0c3a6e11b0a00ec2e1d87796fdaf58abdcf02",
+  "judge_sha256": {
+    "12": "d17e6b5095d0bda1dc8468ee86031d909158d732a64a5db335e88b9f4e5cfa39",
+    "14": "b23ebfbaa8feb064442af94d3661f69f1a8fae1caac3abc4a315b6408d91235d"
+  },
+  "score_sha256": {
+    "12": "008415cb58f4653b407c9794aff5d223730190223c333a169f4da4842325bedd",
+    "14": "8c7e809a1c026cd28e2cd00996ba33a099175ea140b84ec8ea3d0cf62371202f"
+  },
+  "summary_sha256": "942c0fb720a2b14532d0d2d9d582efccc5371e0ecbca20a27e3f67c2634165d2",
+  "byte_identical_replays": [
+    "cohort",
+    "source_forecast",
+    "judge_depth_12"
+  ]
+}
