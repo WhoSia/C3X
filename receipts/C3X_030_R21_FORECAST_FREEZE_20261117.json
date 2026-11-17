@@ -1,0 +1,161 @@
+{
+  "binary_sha256": "3766b594a274e83bda1b2b1a8f67747b2f26724e6a64e388e659fb00c1fd12cb",
+  "cohort_sha256": "f89dbccdfafccf0a8a4e43b8fc2842c8bdfdb66301ca43f4a7802804653a2eec",
+  "forecast_sha256": "6e7a9441a9ac4120c30e0ccc0cb3f4129f6a1e80a46322866ade2cf316e332e6",
+  "rows": {
+    "1ddc4fa1a8d081408c473100444dab0125a0b9b3bf3c5e5c69d0404585f27d62": {
+      "reply": "h6d2",
+      "round": "4.3",
+      "signs": {
+        "pv": 1,
+        "pv_strict": null,
+        "trace": -1,
+        "trace_r14": -1,
+        "tree": -1
+      }
+    },
+    "3c48c7863ba630ff1d8cf7d045026bd7064e3404f8f50b5df021ebd1a80eb98a": {
+      "reply": "c7c6",
+      "round": "7.2",
+      "signs": {
+        "pv": 1,
+        "pv_strict": null,
+        "trace": -1,
+        "trace_r14": -1,
+        "tree": -1
+      }
+    },
+    "4a06ccd5d54b8d33ffb8cd83ccab6679b7872e1fc9177119cccb0cd5c80bfe43": {
+      "reply": "c8a6",
+      "round": "2.2",
+      "signs": {
+        "pv": 0,
+        "pv_strict": null,
+        "trace": 1,
+        "trace_r14": 1,
+        "tree": 1
+      }
+    },
+    "608c5a9832aeffd06832e737cfa01f1af76149e99fcbb89b047207a662bb2d6f": {
+      "reply": "a7a6",
+      "round": "14.2",
+      "signs": {
+        "pv": 1,
+        "pv_strict": null,
+        "trace": 1,
+        "trace_r14": 1,
+        "tree": 1
+      }
+    },
+    "722af0b65b811c814e00625847db5edd08a72b02abd1f2c799ecb115c004bf5d": {
+      "reply": "b6b5",
+      "round": "6.1",
+      "signs": {
+        "pv": -1,
+        "pv_strict": null,
+        "trace": 1,
+        "trace_r14": 1,
+        "tree": 1
+      }
+    },
+    "74fa34a9b6851d53682d0b5b25900be3430e44b1b4bba727516693340cda5159": {
+      "reply": "a7a5",
+      "round": "14.2",
+      "signs": {
+        "pv": 1,
+        "pv_strict": null,
+        "trace": 1,
+        "trace_r14": 1,
+        "tree": 1
+      }
+    },
+    "961f98dbf92d3471ad1f27bd2e28d11097cb0ff12c34e4c18c41e0a76896100f": {
+      "reply": "f8g8",
+      "round": "4.3",
+      "signs": {
+        "pv": 1,
+        "pv_strict": null,
+        "trace": 1,
+        "trace_r14": 1,
+        "tree": 1
+      }
+    },
+    "9e2d5033960809cfbcb7f81caddf85573892394180942a283471f058320839fe": {
+      "reply": "a6c8",
+      "round": "6.1",
+      "signs": {
+        "pv": -1,
+        "pv_strict": null,
+        "trace": 1,
+        "trace_r14": 1,
+        "tree": 1
+      }
+    },
+    "a48ff9540d250877540511f53d06030ec91ae3984f0d3ab5796c2f3f9e43eb1e": {
+      "reply": "g6e7",
+      "round": "1.2",
+      "signs": {
+        "pv": 1,
+        "pv_strict": null,
+        "trace": -1,
+        "trace_r14": -1,
+        "tree": -1
+      }
+    },
+    "b32c464361b04233de4e53e2bd8d53688d7386caf8082f74e7a085b595d3d6b5": {
+      "reply": "a5c7",
+      "round": "1.2",
+      "signs": {
+        "pv": 1,
+        "pv_strict": null,
+        "trace": 1,
+        "trace_r14": 1,
+        "tree": 1
+      }
+    },
+    "ba99b249a4d05d88f8c98c5ef1a88511d6e1b1ecdb9025f78886748d38ab25a0": {
+      "reply": "e8f6",
+      "round": "2.2",
+      "signs": {
+        "pv": 0,
+        "pv_strict": 0,
+        "trace": -1,
+        "trace_r14": -1,
+        "tree": -1
+      }
+    },
+    "c36a940fbfbe5244c27c2fcc8e4f7fbad52d4b778c2f8ea41bd24dd966b4bd41": {
+      "reply": "c8d7",
+      "round": "6.3",
+      "signs": {
+        "pv": -1,
+        "pv_strict": null,
+        "trace": 1,
+        "trace_r14": 1,
+        "tree": 1
+      }
+    },
+    "db15eca97f5a11a5d4ff48c6b7c0c2a3ba144f864beca8016e01377d87425408": {
+      "reply": "e6d5",
+      "round": "7.2",
+      "signs": {
+        "pv": 1,
+        "pv_strict": null,
+        "trace": -1,
+        "trace_r14": -1,
+        "tree": -1
+      }
+    },
+    "fde5662d75f25a0094fcad4e6fa0484a00d9c8e80d05fca618f733f9ff6d87d3": {
+      "reply": "d8c7",
+      "round": "6.3",
+      "signs": {
+        "pv": -1,
+        "pv_strict": null,
+        "trace": 1,
+        "trace_r14": 1,
+        "tree": 1
+      }
+    }
+  }
+}
