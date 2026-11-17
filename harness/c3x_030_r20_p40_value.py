@@ -69,12 +69,27 @@ def evaluate(engine, goals, receipt):
     return output
 
 
+
+def root_screen(engine, goals):
+    plans = {row["round"]: row for row in json.loads(goals.read_text())["plans"]}
+    result = {}
+    for round_id in ("2.2", "1.5"):
+        plan = plans[round_id]
+        pair = {}
+        for move, board in zip(plan["roots"], root_boards(plan), strict=True):
+            pair[move] = {str(depth): single(engine, board, not board.turn, depth=depth)
+                          for depth in (10, 12)}
+        result[round_id] = pair
+    return result
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("goals", type=Path)
     parser.add_argument("--binary", type=Path)
     parser.add_argument("--net", type=Path)
     parser.add_argument("--receipt", type=Path)
+    parser.add_argument("--root-screen", action="store_true")
     args = parser.parse_args()
     receipt = freeze(args.goals)
     if args.binary is None:
@@ -86,7 +101,8 @@ def main():
         raise ValueError("Unexpected judge binary or network")
     with chess.engine.SimpleEngine.popen_uci(str(args.binary.resolve())) as engine:
         engine.configure({"Threads": 1, "Hash": 16})
-        values = evaluate(engine, args.goals, receipt)
+        values = (root_screen(engine, args.goals) if args.root_screen
+                  else evaluate(engine, args.goals, receipt))
     print(json.dumps(values, indent=2))
 
 
