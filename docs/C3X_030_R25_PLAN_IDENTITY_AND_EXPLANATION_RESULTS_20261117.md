@@ -52,3 +52,25 @@ Do not promote a plan just because its line is legal, its score ties, or one ind
 This is 0.30/D1 continuation. No version promotion; the earlier sealed 7/8 HOLD cohort and the original R24 cases retain their authority limits.
 
 [Previous R24 replay](C3X_030_R24_PV_FORK_REPLAY_RESULTS_20261117.md) · [R25 claim gates](C3X_030_R25_EXPLAINABLE_STOCKFISH_CLAIM_GATES_20261117.md) · [Two-Track Constitution](C3X_TWO_TRACK_CONSTITUTION.md).
+
+
+## Reconciliation with native R25 reply-producer experiment
+
+The [independently recorded R25 source experiment](C3X_030_R25_REPLY_PRODUCER_RESULTS_20261117.md) reaches further than the evidence-only ledger above. It joined the first reply after Qxe2 to an actual child search, incoming alpha/beta, MovePicker hint, root-PV copy and public score producer. The following are **new native search observations** from the same exposed development case; they must not be conflated with a new independent game cohort.
+
+| Fixed root depth | Local ordering choice | Published first reply | Public score | Native root value | Actual nodes |
+| --- | --- | --- | ---: | ---: | ---: |
+| 12 | default/sham | …Bh2+ | +89 cp | 292 | 8,169 |
+| 12 | ask MovePicker for …Be7 first | …Bh2+ | +89 cp | 294 | 9,831 |
+| 18 | default/sham | …Be7 | +89 cp | 292 | 257,966 |
+| 18 | ask MovePicker for …Bh2+ first | …Be7 | +73 cp | 241 | 232,640 |
+
+The raw [six-arm receipt](../receipts/C3X_030_R25_REPLY_REPLAY_20261117.json) agrees with these tabulated final reports. Root move Qxe2 remained unchanged in all six conditions. At depth 12, forcing …Be7 first changed a later white recapture from Rfxc1 to Raxc1 despite the same displayed root score and first reply. At depth 18, forcing …Bh2+ first changed the score and another later black continuation (…Nf6 to …a6), but **the first reply stayed …Be7**.
+
+The default search had switched to …Be7 by nominal depth 14: one observed child call moved the PV from …Bh2+ to …Be7 and the following call used a …Be7 TT hint. The source experiment measures causal sensitivity **to this targeted order hint**. It has not yet identified the exact TT write that supplied the later hint or proved that the order hint alone caused the original **cross-depth** fork.
+
+Board-side [Qxe2 resource audit](C3X_030_R25_QXE2_EXPLANATION_20261117.md): after …Be7, White can play b4 immediately. After …Bh2+, Kh1 is forced, and in the next White turn b4 remains legal after all 37 enumerated legal black replies. This is evidence about the **timing and legal availability** of one shared resource, not its positional value or its contribution to choosing Qxe2 over an alternative.
+
+### Next mainline synthesis gate
+
+The causal-search and board-resource tracks now name **the same Qxe2 pair**, but the critical missing bridge remains: establish a source intervention that changes the relevant causal event, then predeclare whether it should change (a) immediate reply, (b) b4 availability or opportunity cost against matched defenses, and (c) the root contrast against a named legal alternative. If it changes only a later PV or raw value, report exactly that. Human comprehension and new-game transport remain separate HOLDs.
