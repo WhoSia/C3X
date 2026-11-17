@@ -1,0 +1,65 @@
+{
+  "case": "spanish-after-Nf6",
+  "case_sha256": "a00e96af939cc0679c2dfe2f5b05c6c2c0b549774c715cc7bbb34cb5c7a94942",
+  "match": "displayed",
+  "pair": {
+    "chooser": "white",
+    "first_divergence_ply": 3,
+    "indices": [
+      7,
+      9
+    ],
+    "kind": "divergent",
+    "moves": [
+      "d2d4",
+      "f1e1"
+    ],
+    "native_equal": false,
+    "same_ply_full_fen": [],
+    "san": [
+      "d4",
+      "Re1"
+    ]
+  },
+  "reports": [
+    {
+      "attempt": "16",
+      "bound": "none",
+      "cp": 39,
+      "depth": 8,
+      "eligible": true,
+      "move": "e1g1",
+      "native": 128,
+      "nodes": 1531,
+      "producer": "202",
+      "producer_iteration": 8,
+      "pv": [
+        "e1g1",
+        "f6e4",
+        "d2d4"
+      ]
+    },
+    {
+      "attempt": "27",
+      "bound": "none",
+      "cp": 39,
+      "depth": 10,
+      "eligible": true,
+      "move": "e1g1",
+      "native": 131,
+      "nodes": 15608,
+      "producer": "372",
+      "producer_iteration": 10,
+      "pv": [
+        "e1g1",
+        "f6e4",
+        "f1e1",
+        "e4c5",
+        "a4c6",
+        "d7c6",
+        "f3e5"
+      ]
+    }
+  ],
+  "sample_sha256": "be9f30947ced87e372d8e04be2ecb69f639fedfb4ba18bebcef232890bc377fb"
+}
