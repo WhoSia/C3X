@@ -1,0 +1,9 @@
+# R24 — Explain the recommendation and the observed continuation
+
+[Stockfish comparison](C3X_030_R24_PV_STABILITY_RESULTS_20261117.md) · [isolated replay and independent evaluation](C3X_030_R24_PV_FORK_REPLAY_RESULTS_20261117.md).
+
+A single root move and value can summarize different principal variations, including different immediate replies. In an explanation, present the recommended root and score with their verified producer. Record observed continuations with the setting that generated each line, identifying exactly whose move changes. A line can be a strict extension of an earlier line, genuinely fork, or rejoin at an observed later position. A GUI that replaces the line can conceal that history, so retain the receipts across successive searches.
+
+A later validation can ask which concrete goal survives both observed branches and which resource exists in one branch only. It can use legal propositions such as attacks, checks, or specific recoveries to define falsifiers. The causal question about why Stockfish changes the principal reply at equal backed-up value is still open. Run a same-board, fixed-root, equal-budget intervention on a named source event or state before interpreting that change as a learned plan change.
+
+[Raw observations and repeat runs](https://drive.google.com/file/d/1Y-76xY5ndlgVMeBqP3UFpjjbVfd47m1S/view), SHA-256 `d8b5a054b6c26bc7606217fce5e59da3b284ab7bc8bfc6813bc4202827967e26`. The downloaded archive and every manifest entry verified. Use the [R23 engine identities](../receipts/C3X_030_R23_NATIVE_BUILD_20261117.json) and the R24 source runners `c3x_030_r24_pv_stability.py`, `c3x_030_r24_pv_extension.py`, and `c3x_030_r24_pv_rerun.py`. For the Korean explanations run `python product/c3x_pv_fork.py CASES FREEZE RERUN_RESULT`. The archive supplies both examples and their checkable position histories.
