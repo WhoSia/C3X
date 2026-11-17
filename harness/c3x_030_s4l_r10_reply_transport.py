@@ -61,9 +61,10 @@ def eligible(row):
     return type(row["cp"]) is int and not row["bound"]
 
 
-def selection(engine, source):
+def selection(engine, source, *, excluded_openings=(), expected_sha=PGN_SHA):
     selections, audit, seen, openings = [], [], set(), set()
-    if digest(source) != PGN_SHA:
+    openings.update(excluded_openings)
+    if digest(source) != expected_sha:
         raise ValueError("Expected the pinned Division P PGN bytes")
     games = {}
     with source.open(encoding="utf-8-sig") as f:
