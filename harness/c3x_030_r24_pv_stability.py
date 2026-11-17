@@ -74,16 +74,21 @@ def validated_search(clean, trace, net, case, directory, **spec):
     }
 
 
+def trajectory(clean, trace, net, case, path):
+    continuous = validated_search(clean, trace, net, case, path / "trajectory", nodes=300000)
+    pairs = []
+    for (i, earlier), (j, later) in combinations(enumerate(continuous["reports"]), 2):
+        paired = compare(earlier, later, case["history"])
+        if paired:
+            pairs.append({"indices": [i, j], **paired})
+    return {"continuous": continuous, "trajectory_pairs": pairs}
+
+
 def suite(clean, trace, net, cases, output):
     result = {}
     for case in cases:
         path = output / case["id"]
-        continuous = validated_search(clean, trace, net, case, path / "trajectory", nodes=300000)
-        pairs = []
-        for (i, earlier), (j, later) in combinations(enumerate(continuous["reports"]), 2):
-            paired = compare(earlier, later, case["history"])
-            if paired:
-                pairs.append({"indices": [i, j], **paired})
+        row = trajectory(clean, trace, net, case, path)
         contrasts = {}
         for depth in (10, 12, 14):
             arms = [validated_search(clean, trace, net, case, path / f"depth-{depth}-hash-{h}",
@@ -94,12 +99,12 @@ def suite(clean, trace, net, cases, output):
                              for x, row in zip(arms, last, strict=True))
                       else None)
             contrasts[str(depth)] = {"arms": arms, "match": paired}
-        result[case["id"]] = {"continuous": continuous, "trajectory_pairs": pairs, "hash": contrasts}
+        result[case["id"]] = {**row, "hash": contrasts}
     return result
 
 
-def check_inputs(cases, clean, trace, net):
-    if tuple(map(digest, (cases, clean, trace, net))) != (CASES, CLEAN, TRACED, NET):
+def check_inputs(cases, clean, trace, net, *, case_sha=CASES):
+    if tuple(map(digest, (cases, clean, trace, net))) != (case_sha, CLEAN, TRACED, NET):
         raise ValueError("Unexpected R24 positions or engine")
 
 
