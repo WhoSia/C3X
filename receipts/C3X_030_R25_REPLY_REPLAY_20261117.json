@@ -1,0 +1,2581 @@
+{
+  "after_root_fen": "r3k2r/ppqn1p2/2pbpp2/2P4p/3P3N/7P/PP2QPP1/R1B2RK1 b kq - 0 13",
+  "case": "s28-l2-1.4",
+  "rows": {
+    "12-be7": {
+      "admitted": [
+        {
+          "admitted": "1",
+          "alpha": "-267",
+          "attempt": "25",
+          "beta": "-239",
+          "call": "21",
+          "effective": "11",
+          "iteration": "12",
+          "key": "2131274405270561187",
+          "picker": "d6e7",
+          "tt": "d6h2"
+        },
+        {
+          "admitted": "1",
+          "alpha": "-281",
+          "attempt": "26",
+          "beta": "-239",
+          "call": "22",
+          "effective": "10",
+          "iteration": "12",
+          "key": "2131274405270561187",
+          "picker": "d6e7",
+          "tt": "d6h2"
+        },
+        {
+          "admitted": "1",
+          "alpha": "-299",
+          "attempt": "27",
+          "beta": "-239",
+          "call": "23",
+          "effective": "9",
+          "iteration": "12",
+          "key": "2131274405270561187",
+          "picker": "d6e7",
+          "tt": "d6h2"
+        }
+      ],
+      "best": {
+        "completed": "12",
+        "move": "d1e2",
+        "nodes": "9831",
+        "previous_producer": "510",
+        "producer": "540"
+      },
+      "final": {
+        "attempt": "27",
+        "bound": "none",
+        "cp": 89,
+        "depth": 12,
+        "eligible": true,
+        "move": "d1e2",
+        "native": 294,
+        "nodes": 9831,
+        "producer": "540",
+        "producer_iteration": 12,
+        "pv": [
+          "d1e2",
+          "d6h2",
+          "g1h1",
+          "h2f4",
+          "b2b4",
+          "f4c1",
+          "a1c1",
+          "c7f4",
+          "h4f3",
+          "a7a6",
+          "a2a4",
+          "d7f8"
+        ]
+      },
+      "reply_calls": 23,
+      "reply_trace": {
+        "begin": {
+          "admitted": "1",
+          "alpha": "-299",
+          "attempt": "27",
+          "beta": "-239",
+          "call": "23",
+          "effective": "9",
+          "iteration": "12",
+          "key": "2131274405270561187",
+          "picker": "d6e7",
+          "tt": "d6h2"
+        },
+        "copy": {
+          "attempt": "27",
+          "call": "23",
+          "producer": "540",
+          "reply": "d6h2",
+          "value": "294"
+        },
+        "end": {
+          "best": "d6h2",
+          "call": "23",
+          "reply": "d6h2",
+          "value": "-294"
+        },
+        "ordered_returns": [
+          {
+            "alpha": "-299",
+            "beta": "-239",
+            "call": "23",
+            "count": "1",
+            "depth": "9",
+            "move": "d6e7",
+            "pv_update": "0",
+            "value": "-1750"
+          },
+          {
+            "alpha": "-299",
+            "beta": "-239",
+            "call": "23",
+            "count": "2",
+            "depth": "9",
+            "move": "d6h2",
+            "pv_update": "1",
+            "value": "-294"
+          },
+          {
+            "alpha": "-294",
+            "beta": "-239",
+            "call": "23",
+            "count": "3",
+            "depth": "7",
+            "move": "d6f4",
+            "pv_update": "0",
+            "value": "-326"
+          },
+          {
+            "alpha": "-294",
+            "beta": "-239",
+            "call": "23",
+            "count": "10",
+            "depth": "7",
+            "move": "e8f8",
+            "pv_update": "0",
+            "value": "-1939"
+          },
+          {
+            "alpha": "-294",
+            "beta": "-239",
+            "call": "23",
+            "count": "11",
+            "depth": "7",
+            "move": "d6f8",
+            "pv_update": "0",
+            "value": "-447"
+          },
+          {
+            "alpha": "-294",
+            "beta": "-239",
+            "call": "23",
+            "count": "12",
+            "depth": "7",
+            "move": "d7f8",
+            "pv_update": "0",
+            "value": "-705"
+          },
+          {
+            "alpha": "-294",
+            "beta": "-239",
+            "call": "23",
+            "count": "13",
+            "depth": "7",
+            "move": "f6f5",
+            "pv_update": "0",
+            "value": "-593"
+          },
+          {
+            "alpha": "-294",
+            "beta": "-239",
+            "call": "23",
+            "count": "14",
+            "depth": "7",
+            "move": "a7a6",
+            "pv_update": "0",
+            "value": "-334"
+          },
+          {
+            "alpha": "-294",
+            "beta": "-239",
+            "call": "23",
+            "count": "15",
+            "depth": "7",
+            "move": "d7b8",
+            "pv_update": "0",
+            "value": "-821"
+          },
+          {
+            "alpha": "-294",
+            "beta": "-239",
+            "call": "23",
+            "count": "16",
+            "depth": "7",
+            "move": "e8g8",
+            "pv_update": "0",
+            "value": "-1092"
+          },
+          {
+            "alpha": "-294",
+            "beta": "-239",
+            "call": "23",
+            "count": "17",
+            "depth": "7",
+            "move": "e6e5",
+            "pv_update": "0",
+            "value": "-1185"
+          },
+          {
+            "alpha": "-294",
+            "beta": "-239",
+            "call": "23",
+            "count": "18",
+            "depth": "7",
+            "move": "b7b6",
+            "pv_update": "0",
+            "value": "-1897"
+          },
+          {
+            "alpha": "-294",
+            "beta": "-239",
+            "call": "23",
+            "count": "19",
+            "depth": "7",
+            "move": "a7a5",
+            "pv_update": "0",
+            "value": "-388"
+          },
+          {
+            "alpha": "-294",
+            "beta": "-239",
+            "call": "23",
+            "count": "20",
+            "depth": "7",
+            "move": "b7b5",
+            "pv_update": "0",
+            "value": "-893"
+          },
+          {
+            "alpha": "-294",
+            "beta": "-239",
+            "call": "23",
+            "count": "21",
+            "depth": "7",
+            "move": "a8b8",
+            "pv_update": "0",
+            "value": "-459"
+          },
+          {
+            "alpha": "-294",
+            "beta": "-239",
+            "call": "23",
+            "count": "22",
+            "depth": "7",
+            "move": "a8c8",
+            "pv_update": "0",
+            "value": "-475"
+          },
+          {
+            "alpha": "-294",
+            "beta": "-239",
+            "call": "23",
+            "count": "23",
+            "depth": "7",
+            "move": "a8d8",
+            "pv_update": "0",
+            "value": "-372"
+          },
+          {
+            "alpha": "-294",
+            "beta": "-239",
+            "call": "23",
+            "count": "24",
+            "depth": "7",
+            "move": "h8h7",
+            "pv_update": "0",
+            "value": "-449"
+          },
+          {
+            "alpha": "-294",
+            "beta": "-239",
+            "call": "23",
+            "count": "25",
+            "depth": "7",
+            "move": "h8f8",
+            "pv_update": "0",
+            "value": "-921"
+          },
+          {
+            "alpha": "-294",
+            "beta": "-239",
+            "call": "23",
+            "count": "26",
+            "depth": "7",
+            "move": "h8g8",
+            "pv_update": "0",
+            "value": "-497"
+          },
+          {
+            "alpha": "-294",
+            "beta": "-239",
+            "call": "23",
+            "count": "27",
+            "depth": "7",
+            "move": "c7a5",
+            "pv_update": "0",
+            "value": "-1276"
+          },
+          {
+            "alpha": "-294",
+            "beta": "-239",
+            "call": "23",
+            "count": "28",
+            "depth": "7",
+            "move": "c7b8",
+            "pv_update": "0",
+            "value": "-684"
+          },
+          {
+            "alpha": "-294",
+            "beta": "-239",
+            "call": "23",
+            "count": "29",
+            "depth": "7",
+            "move": "c7c8",
+            "pv_update": "0",
+            "value": "-666"
+          },
+          {
+            "alpha": "-294",
+            "beta": "-239",
+            "call": "23",
+            "count": "30",
+            "depth": "7",
+            "move": "c7d8",
+            "pv_update": "0",
+            "value": "-680"
+          },
+          {
+            "alpha": "-294",
+            "beta": "-239",
+            "call": "23",
+            "count": "31",
+            "depth": "7",
+            "move": "e8e7",
+            "pv_update": "0",
+            "value": "-905"
+          },
+          {
+            "alpha": "-294",
+            "beta": "-239",
+            "call": "23",
+            "count": "32",
+            "depth": "7",
+            "move": "e8d8",
+            "pv_update": "0",
+            "value": "-910"
+          },
+          {
+            "alpha": "-294",
+            "beta": "-239",
+            "call": "23",
+            "count": "33",
+            "depth": "7",
+            "move": "e8c8",
+            "pv_update": "0",
+            "value": "-1713"
+          },
+          {
+            "alpha": "-294",
+            "beta": "-239",
+            "call": "23",
+            "count": "34",
+            "depth": "7",
+            "move": "d6c5",
+            "pv_update": "0",
+            "value": "-2559"
+          },
+          {
+            "alpha": "-294",
+            "beta": "-239",
+            "call": "23",
+            "count": "35",
+            "depth": "7",
+            "move": "d7c5",
+            "pv_update": "0",
+            "value": "-1997"
+          }
+        ],
+        "root_producer": {
+          "alpha": "239",
+          "attempt": "27",
+          "beta": "299",
+          "count": "1",
+          "depth": "10",
+          "id": "540",
+          "move": "d1e2",
+          "update": "1",
+          "value": "294"
+        },
+        "updates": [
+          {
+            "alpha": "-299",
+            "beta": "-239",
+            "call": "23",
+            "count": "2",
+            "depth": "9",
+            "move": "d6h2",
+            "pv_update": "1",
+            "value": "-294"
+          }
+        ]
+      }
+    },
+    "12-bh2": {
+      "admitted": [
+        {
+          "admitted": "1",
+          "alpha": "-267",
+          "attempt": "25",
+          "beta": "-239",
+          "call": "21",
+          "effective": "11",
+          "iteration": "12",
+          "key": "2131274405270561187",
+          "picker": "d6h2",
+          "tt": "d6h2"
+        },
+        {
+          "admitted": "1",
+          "alpha": "-282",
+          "attempt": "26",
+          "beta": "-239",
+          "call": "22",
+          "effective": "10",
+          "iteration": "12",
+          "key": "2131274405270561187",
+          "picker": "d6h2",
+          "tt": "d6h2"
+        },
+        {
+          "admitted": "1",
+          "alpha": "-300",
+          "attempt": "27",
+          "beta": "-239",
+          "call": "23",
+          "effective": "9",
+          "iteration": "12",
+          "key": "2131274405270561187",
+          "picker": "d6h2",
+          "tt": "d6h2"
+        }
+      ],
+      "best": {
+        "completed": "12",
+        "move": "d1e2",
+        "nodes": "8169",
+        "previous_producer": "510",
+        "producer": "540"
+      },
+      "final": {
+        "attempt": "27",
+        "bound": "none",
+        "cp": 89,
+        "depth": 12,
+        "eligible": true,
+        "move": "d1e2",
+        "native": 292,
+        "nodes": 8169,
+        "producer": "540",
+        "producer_iteration": 12,
+        "pv": [
+          "d1e2",
+          "d6h2",
+          "g1h1",
+          "h2f4",
+          "b2b4",
+          "f4c1",
+          "f1c1",
+          "c7f4",
+          "h4f3",
+          "a7a6",
+          "c1c3"
+        ]
+      },
+      "reply_calls": 23,
+      "reply_trace": {
+        "begin": {
+          "admitted": "1",
+          "alpha": "-300",
+          "attempt": "27",
+          "beta": "-239",
+          "call": "23",
+          "effective": "9",
+          "iteration": "12",
+          "key": "2131274405270561187",
+          "picker": "d6h2",
+          "tt": "d6h2"
+        },
+        "copy": {
+          "attempt": "27",
+          "call": "23",
+          "producer": "540",
+          "reply": "d6h2",
+          "value": "292"
+        },
+        "end": {
+          "best": "d6h2",
+          "call": "23",
+          "reply": "d6h2",
+          "value": "-292"
+        },
+        "ordered_returns": [
+          {
+            "alpha": "-300",
+            "beta": "-239",
+            "call": "23",
+            "count": "1",
+            "depth": "9",
+            "move": "d6h2",
+            "pv_update": "1",
+            "value": "-292"
+          },
+          {
+            "alpha": "-292",
+            "beta": "-239",
+            "call": "23",
+            "count": "2",
+            "depth": "7",
+            "move": "d6f4",
+            "pv_update": "0",
+            "value": "-300"
+          },
+          {
+            "alpha": "-292",
+            "beta": "-239",
+            "call": "23",
+            "count": "4",
+            "depth": "7",
+            "move": "d6e7",
+            "pv_update": "0",
+            "value": "-1760"
+          },
+          {
+            "alpha": "-292",
+            "beta": "-239",
+            "call": "23",
+            "count": "10",
+            "depth": "7",
+            "move": "e8f8",
+            "pv_update": "0",
+            "value": "-1939"
+          },
+          {
+            "alpha": "-292",
+            "beta": "-239",
+            "call": "23",
+            "count": "11",
+            "depth": "7",
+            "move": "d6f8",
+            "pv_update": "0",
+            "value": "-447"
+          },
+          {
+            "alpha": "-292",
+            "beta": "-239",
+            "call": "23",
+            "count": "12",
+            "depth": "7",
+            "move": "f6f5",
+            "pv_update": "0",
+            "value": "-593"
+          },
+          {
+            "alpha": "-292",
+            "beta": "-239",
+            "call": "23",
+            "count": "13",
+            "depth": "7",
+            "move": "h8g8",
+            "pv_update": "0",
+            "value": "-497"
+          },
+          {
+            "alpha": "-292",
+            "beta": "-239",
+            "call": "23",
+            "count": "14",
+            "depth": "7",
+            "move": "e6e5",
+            "pv_update": "0",
+            "value": "-1185"
+          },
+          {
+            "alpha": "-292",
+            "beta": "-239",
+            "call": "23",
+            "count": "15",
+            "depth": "7",
+            "move": "b7b6",
+            "pv_update": "0",
+            "value": "-1897"
+          },
+          {
+            "alpha": "-292",
+            "beta": "-239",
+            "call": "23",
+            "count": "16",
+            "depth": "7",
+            "move": "a7a5",
+            "pv_update": "0",
+            "value": "-388"
+          },
+          {
+            "alpha": "-292",
+            "beta": "-239",
+            "call": "23",
+            "count": "17",
+            "depth": "7",
+            "move": "b7b5",
+            "pv_update": "0",
+            "value": "-893"
+          },
+          {
+            "alpha": "-292",
+            "beta": "-239",
+            "call": "23",
+            "count": "18",
+            "depth": "7",
+            "move": "d7b8",
+            "pv_update": "0",
+            "value": "-821"
+          },
+          {
+            "alpha": "-292",
+            "beta": "-239",
+            "call": "23",
+            "count": "19",
+            "depth": "7",
+            "move": "c7a5",
+            "pv_update": "0",
+            "value": "-1276"
+          },
+          {
+            "alpha": "-292",
+            "beta": "-239",
+            "call": "23",
+            "count": "20",
+            "depth": "7",
+            "move": "d7f8",
+            "pv_update": "0",
+            "value": "-705"
+          },
+          {
+            "alpha": "-292",
+            "beta": "-239",
+            "call": "23",
+            "count": "21",
+            "depth": "7",
+            "move": "a8b8",
+            "pv_update": "0",
+            "value": "-459"
+          },
+          {
+            "alpha": "-292",
+            "beta": "-239",
+            "call": "23",
+            "count": "22",
+            "depth": "7",
+            "move": "a8c8",
+            "pv_update": "0",
+            "value": "-475"
+          },
+          {
+            "alpha": "-292",
+            "beta": "-239",
+            "call": "23",
+            "count": "23",
+            "depth": "7",
+            "move": "a8d8",
+            "pv_update": "0",
+            "value": "-372"
+          },
+          {
+            "alpha": "-292",
+            "beta": "-239",
+            "call": "23",
+            "count": "24",
+            "depth": "7",
+            "move": "h8h7",
+            "pv_update": "0",
+            "value": "-449"
+          },
+          {
+            "alpha": "-292",
+            "beta": "-239",
+            "call": "23",
+            "count": "25",
+            "depth": "7",
+            "move": "h8f8",
+            "pv_update": "0",
+            "value": "-921"
+          },
+          {
+            "alpha": "-292",
+            "beta": "-239",
+            "call": "23",
+            "count": "26",
+            "depth": "7",
+            "move": "c7b8",
+            "pv_update": "0",
+            "value": "-684"
+          },
+          {
+            "alpha": "-292",
+            "beta": "-239",
+            "call": "23",
+            "count": "27",
+            "depth": "7",
+            "move": "c7c8",
+            "pv_update": "0",
+            "value": "-666"
+          },
+          {
+            "alpha": "-292",
+            "beta": "-239",
+            "call": "23",
+            "count": "28",
+            "depth": "7",
+            "move": "c7d8",
+            "pv_update": "0",
+            "value": "-680"
+          },
+          {
+            "alpha": "-292",
+            "beta": "-239",
+            "call": "23",
+            "count": "29",
+            "depth": "7",
+            "move": "e8e7",
+            "pv_update": "0",
+            "value": "-905"
+          },
+          {
+            "alpha": "-292",
+            "beta": "-239",
+            "call": "23",
+            "count": "30",
+            "depth": "7",
+            "move": "e8d8",
+            "pv_update": "0",
+            "value": "-910"
+          },
+          {
+            "alpha": "-292",
+            "beta": "-239",
+            "call": "23",
+            "count": "31",
+            "depth": "7",
+            "move": "a7a6",
+            "pv_update": "0",
+            "value": "-334"
+          },
+          {
+            "alpha": "-292",
+            "beta": "-239",
+            "call": "23",
+            "count": "32",
+            "depth": "7",
+            "move": "e8g8",
+            "pv_update": "0",
+            "value": "-1092"
+          },
+          {
+            "alpha": "-292",
+            "beta": "-239",
+            "call": "23",
+            "count": "33",
+            "depth": "7",
+            "move": "e8c8",
+            "pv_update": "0",
+            "value": "-1713"
+          },
+          {
+            "alpha": "-292",
+            "beta": "-239",
+            "call": "23",
+            "count": "34",
+            "depth": "7",
+            "move": "d6c5",
+            "pv_update": "0",
+            "value": "-2616"
+          },
+          {
+            "alpha": "-292",
+            "beta": "-239",
+            "call": "23",
+            "count": "35",
+            "depth": "7",
+            "move": "d7c5",
+            "pv_update": "0",
+            "value": "-1997"
+          }
+        ],
+        "root_producer": {
+          "alpha": "239",
+          "attempt": "27",
+          "beta": "300",
+          "count": "1",
+          "depth": "10",
+          "id": "540",
+          "move": "d1e2",
+          "update": "1",
+          "value": "292"
+        },
+        "updates": [
+          {
+            "alpha": "-300",
+            "beta": "-239",
+            "call": "23",
+            "count": "1",
+            "depth": "9",
+            "move": "d6h2",
+            "pv_update": "1",
+            "value": "-292"
+          }
+        ]
+      }
+    },
+    "12-sham": {
+      "admitted": [],
+      "best": {
+        "completed": "12",
+        "move": "d1e2",
+        "nodes": "8169",
+        "previous_producer": "510",
+        "producer": "540"
+      },
+      "final": {
+        "attempt": "27",
+        "bound": "none",
+        "cp": 89,
+        "depth": 12,
+        "eligible": true,
+        "move": "d1e2",
+        "native": 292,
+        "nodes": 8169,
+        "producer": "540",
+        "producer_iteration": 12,
+        "pv": [
+          "d1e2",
+          "d6h2",
+          "g1h1",
+          "h2f4",
+          "b2b4",
+          "f4c1",
+          "f1c1",
+          "c7f4",
+          "h4f3",
+          "a7a6",
+          "c1c3"
+        ]
+      },
+      "reply_calls": 23,
+      "reply_trace": {
+        "begin": {
+          "admitted": "0",
+          "alpha": "-300",
+          "attempt": "27",
+          "beta": "-239",
+          "call": "23",
+          "effective": "9",
+          "iteration": "12",
+          "key": "2131274405270561187",
+          "picker": "d6h2",
+          "tt": "d6h2"
+        },
+        "copy": {
+          "attempt": "27",
+          "call": "23",
+          "producer": "540",
+          "reply": "d6h2",
+          "value": "292"
+        },
+        "end": {
+          "best": "d6h2",
+          "call": "23",
+          "reply": "d6h2",
+          "value": "-292"
+        },
+        "ordered_returns": [
+          {
+            "alpha": "-300",
+            "beta": "-239",
+            "call": "23",
+            "count": "1",
+            "depth": "9",
+            "move": "d6h2",
+            "pv_update": "1",
+            "value": "-292"
+          },
+          {
+            "alpha": "-292",
+            "beta": "-239",
+            "call": "23",
+            "count": "2",
+            "depth": "7",
+            "move": "d6f4",
+            "pv_update": "0",
+            "value": "-300"
+          },
+          {
+            "alpha": "-292",
+            "beta": "-239",
+            "call": "23",
+            "count": "4",
+            "depth": "7",
+            "move": "d6e7",
+            "pv_update": "0",
+            "value": "-1760"
+          },
+          {
+            "alpha": "-292",
+            "beta": "-239",
+            "call": "23",
+            "count": "10",
+            "depth": "7",
+            "move": "e8f8",
+            "pv_update": "0",
+            "value": "-1939"
+          },
+          {
+            "alpha": "-292",
+            "beta": "-239",
+            "call": "23",
+            "count": "11",
+            "depth": "7",
+            "move": "d6f8",
+            "pv_update": "0",
+            "value": "-447"
+          },
+          {
+            "alpha": "-292",
+            "beta": "-239",
+            "call": "23",
+            "count": "12",
+            "depth": "7",
+            "move": "f6f5",
+            "pv_update": "0",
+            "value": "-593"
+          },
+          {
+            "alpha": "-292",
+            "beta": "-239",
+            "call": "23",
+            "count": "13",
+            "depth": "7",
+            "move": "h8g8",
+            "pv_update": "0",
+            "value": "-497"
+          },
+          {
+            "alpha": "-292",
+            "beta": "-239",
+            "call": "23",
+            "count": "14",
+            "depth": "7",
+            "move": "e6e5",
+            "pv_update": "0",
+            "value": "-1185"
+          },
+          {
+            "alpha": "-292",
+            "beta": "-239",
+            "call": "23",
+            "count": "15",
+            "depth": "7",
+            "move": "b7b6",
+            "pv_update": "0",
+            "value": "-1897"
+          },
+          {
+            "alpha": "-292",
+            "beta": "-239",
+            "call": "23",
+            "count": "16",
+            "depth": "7",
+            "move": "a7a5",
+            "pv_update": "0",
+            "value": "-388"
+          },
+          {
+            "alpha": "-292",
+            "beta": "-239",
+            "call": "23",
+            "count": "17",
+            "depth": "7",
+            "move": "b7b5",
+            "pv_update": "0",
+            "value": "-893"
+          },
+          {
+            "alpha": "-292",
+            "beta": "-239",
+            "call": "23",
+            "count": "18",
+            "depth": "7",
+            "move": "d7b8",
+            "pv_update": "0",
+            "value": "-821"
+          },
+          {
+            "alpha": "-292",
+            "beta": "-239",
+            "call": "23",
+            "count": "19",
+            "depth": "7",
+            "move": "c7a5",
+            "pv_update": "0",
+            "value": "-1276"
+          },
+          {
+            "alpha": "-292",
+            "beta": "-239",
+            "call": "23",
+            "count": "20",
+            "depth": "7",
+            "move": "d7f8",
+            "pv_update": "0",
+            "value": "-705"
+          },
+          {
+            "alpha": "-292",
+            "beta": "-239",
+            "call": "23",
+            "count": "21",
+            "depth": "7",
+            "move": "a8b8",
+            "pv_update": "0",
+            "value": "-459"
+          },
+          {
+            "alpha": "-292",
+            "beta": "-239",
+            "call": "23",
+            "count": "22",
+            "depth": "7",
+            "move": "a8c8",
+            "pv_update": "0",
+            "value": "-475"
+          },
+          {
+            "alpha": "-292",
+            "beta": "-239",
+            "call": "23",
+            "count": "23",
+            "depth": "7",
+            "move": "a8d8",
+            "pv_update": "0",
+            "value": "-372"
+          },
+          {
+            "alpha": "-292",
+            "beta": "-239",
+            "call": "23",
+            "count": "24",
+            "depth": "7",
+            "move": "h8h7",
+            "pv_update": "0",
+            "value": "-449"
+          },
+          {
+            "alpha": "-292",
+            "beta": "-239",
+            "call": "23",
+            "count": "25",
+            "depth": "7",
+            "move": "h8f8",
+            "pv_update": "0",
+            "value": "-921"
+          },
+          {
+            "alpha": "-292",
+            "beta": "-239",
+            "call": "23",
+            "count": "26",
+            "depth": "7",
+            "move": "c7b8",
+            "pv_update": "0",
+            "value": "-684"
+          },
+          {
+            "alpha": "-292",
+            "beta": "-239",
+            "call": "23",
+            "count": "27",
+            "depth": "7",
+            "move": "c7c8",
+            "pv_update": "0",
+            "value": "-666"
+          },
+          {
+            "alpha": "-292",
+            "beta": "-239",
+            "call": "23",
+            "count": "28",
+            "depth": "7",
+            "move": "c7d8",
+            "pv_update": "0",
+            "value": "-680"
+          },
+          {
+            "alpha": "-292",
+            "beta": "-239",
+            "call": "23",
+            "count": "29",
+            "depth": "7",
+            "move": "e8e7",
+            "pv_update": "0",
+            "value": "-905"
+          },
+          {
+            "alpha": "-292",
+            "beta": "-239",
+            "call": "23",
+            "count": "30",
+            "depth": "7",
+            "move": "e8d8",
+            "pv_update": "0",
+            "value": "-910"
+          },
+          {
+            "alpha": "-292",
+            "beta": "-239",
+            "call": "23",
+            "count": "31",
+            "depth": "7",
+            "move": "a7a6",
+            "pv_update": "0",
+            "value": "-334"
+          },
+          {
+            "alpha": "-292",
+            "beta": "-239",
+            "call": "23",
+            "count": "32",
+            "depth": "7",
+            "move": "e8g8",
+            "pv_update": "0",
+            "value": "-1092"
+          },
+          {
+            "alpha": "-292",
+            "beta": "-239",
+            "call": "23",
+            "count": "33",
+            "depth": "7",
+            "move": "e8c8",
+            "pv_update": "0",
+            "value": "-1713"
+          },
+          {
+            "alpha": "-292",
+            "beta": "-239",
+            "call": "23",
+            "count": "34",
+            "depth": "7",
+            "move": "d6c5",
+            "pv_update": "0",
+            "value": "-2616"
+          },
+          {
+            "alpha": "-292",
+            "beta": "-239",
+            "call": "23",
+            "count": "35",
+            "depth": "7",
+            "move": "d7c5",
+            "pv_update": "0",
+            "value": "-1997"
+          }
+        ],
+        "root_producer": {
+          "alpha": "239",
+          "attempt": "27",
+          "beta": "300",
+          "count": "1",
+          "depth": "10",
+          "id": "540",
+          "move": "d1e2",
+          "update": "1",
+          "value": "292"
+        },
+        "updates": [
+          {
+            "alpha": "-300",
+            "beta": "-239",
+            "call": "23",
+            "count": "1",
+            "depth": "9",
+            "move": "d6h2",
+            "pv_update": "1",
+            "value": "-292"
+          }
+        ]
+      }
+    },
+    "18-be7": {
+      "admitted": [
+        {
+          "admitted": "1",
+          "alpha": "-264",
+          "attempt": "51",
+          "beta": "-238",
+          "call": "47",
+          "effective": "17",
+          "iteration": "18",
+          "key": "2131274405270561187",
+          "picker": "d6e7",
+          "tt": "d6e7"
+        },
+        {
+          "admitted": "1",
+          "alpha": "-277",
+          "attempt": "52",
+          "beta": "-238",
+          "call": "48",
+          "effective": "16",
+          "iteration": "18",
+          "key": "2131274405270561187",
+          "picker": "d6e7",
+          "tt": "d6e7"
+        },
+        {
+          "admitted": "1",
+          "alpha": "-294",
+          "attempt": "53",
+          "beta": "-238",
+          "call": "49",
+          "effective": "15",
+          "iteration": "18",
+          "key": "2131274405270561187",
+          "picker": "d6e7",
+          "tt": "d6e7"
+        },
+        {
+          "admitted": "1",
+          "alpha": "-316",
+          "attempt": "54",
+          "beta": "-238",
+          "call": "50",
+          "effective": "14",
+          "iteration": "18",
+          "key": "2131274405270561187",
+          "picker": "d6e7",
+          "tt": "d6e7"
+        }
+      ],
+      "best": {
+        "completed": "18",
+        "move": "d1e2",
+        "nodes": "257966",
+        "previous_producer": "968",
+        "producer": "999"
+      },
+      "final": {
+        "attempt": "54",
+        "bound": "none",
+        "cp": 89,
+        "depth": 18,
+        "eligible": true,
+        "move": "d1e2",
+        "native": 292,
+        "nodes": 257966,
+        "producer": "999",
+        "producer_iteration": 18,
+        "pv": [
+          "d1e2",
+          "d6e7",
+          "b2b4",
+          "f6f5",
+          "h4f3",
+          "d7f6",
+          "a2a4",
+          "f6e4",
+          "b4b5",
+          "e7f6",
+          "a1a3",
+          "a8b8"
+        ]
+      },
+      "reply_calls": 50,
+      "reply_trace": {
+        "begin": {
+          "admitted": "1",
+          "alpha": "-316",
+          "attempt": "54",
+          "beta": "-238",
+          "call": "50",
+          "effective": "14",
+          "iteration": "18",
+          "key": "2131274405270561187",
+          "picker": "d6e7",
+          "tt": "d6e7"
+        },
+        "copy": {
+          "attempt": "54",
+          "call": "50",
+          "producer": "999",
+          "reply": "d6e7",
+          "value": "292"
+        },
+        "end": {
+          "best": "d6e7",
+          "call": "50",
+          "reply": "d6e7",
+          "value": "-292"
+        },
+        "ordered_returns": [
+          {
+            "alpha": "-316",
+            "beta": "-238",
+            "call": "50",
+            "count": "1",
+            "depth": "14",
+            "move": "d6e7",
+            "pv_update": "1",
+            "value": "-292"
+          },
+          {
+            "alpha": "-292",
+            "beta": "-238",
+            "call": "50",
+            "count": "2",
+            "depth": "13",
+            "move": "d6h2",
+            "pv_update": "0",
+            "value": "-303"
+          },
+          {
+            "alpha": "-292",
+            "beta": "-238",
+            "call": "50",
+            "count": "3",
+            "depth": "13",
+            "move": "f6f5",
+            "pv_update": "0",
+            "value": "-1799"
+          },
+          {
+            "alpha": "-292",
+            "beta": "-238",
+            "call": "50",
+            "count": "4",
+            "depth": "13",
+            "move": "d7f8",
+            "pv_update": "0",
+            "value": "-1480"
+          },
+          {
+            "alpha": "-292",
+            "beta": "-238",
+            "call": "50",
+            "count": "6",
+            "depth": "13",
+            "move": "h8g8",
+            "pv_update": "0",
+            "value": "-497"
+          },
+          {
+            "alpha": "-292",
+            "beta": "-238",
+            "call": "50",
+            "count": "7",
+            "depth": "13",
+            "move": "d6f4",
+            "pv_update": "0",
+            "value": "-301"
+          },
+          {
+            "alpha": "-292",
+            "beta": "-238",
+            "call": "50",
+            "count": "8",
+            "depth": "13",
+            "move": "d6g3",
+            "pv_update": "0",
+            "value": "-1306"
+          },
+          {
+            "alpha": "-292",
+            "beta": "-238",
+            "call": "50",
+            "count": "9",
+            "depth": "13",
+            "move": "d7e5",
+            "pv_update": "0",
+            "value": "-1063"
+          },
+          {
+            "alpha": "-292",
+            "beta": "-238",
+            "call": "50",
+            "count": "10",
+            "depth": "13",
+            "move": "d7b6",
+            "pv_update": "0",
+            "value": "-955"
+          },
+          {
+            "alpha": "-292",
+            "beta": "-238",
+            "call": "50",
+            "count": "11",
+            "depth": "13",
+            "move": "h8h6",
+            "pv_update": "0",
+            "value": "-922"
+          },
+          {
+            "alpha": "-292",
+            "beta": "-238",
+            "call": "50",
+            "count": "12",
+            "depth": "13",
+            "move": "d6e5",
+            "pv_update": "0",
+            "value": "-1436"
+          },
+          {
+            "alpha": "-292",
+            "beta": "-238",
+            "call": "50",
+            "count": "13",
+            "depth": "13",
+            "move": "b7b5",
+            "pv_update": "0",
+            "value": "-571"
+          },
+          {
+            "alpha": "-292",
+            "beta": "-238",
+            "call": "50",
+            "count": "14",
+            "depth": "13",
+            "move": "e8c8",
+            "pv_update": "0",
+            "value": "-402"
+          },
+          {
+            "alpha": "-292",
+            "beta": "-238",
+            "call": "50",
+            "count": "15",
+            "depth": "13",
+            "move": "d6f8",
+            "pv_update": "0",
+            "value": "-411"
+          },
+          {
+            "alpha": "-292",
+            "beta": "-238",
+            "call": "50",
+            "count": "16",
+            "depth": "13",
+            "move": "a8d8",
+            "pv_update": "0",
+            "value": "-1872"
+          },
+          {
+            "alpha": "-292",
+            "beta": "-238",
+            "call": "50",
+            "count": "17",
+            "depth": "13",
+            "move": "a7a6",
+            "pv_update": "0",
+            "value": "-1431"
+          },
+          {
+            "alpha": "-292",
+            "beta": "-238",
+            "call": "50",
+            "count": "18",
+            "depth": "13",
+            "move": "c7d8",
+            "pv_update": "0",
+            "value": "-346"
+          },
+          {
+            "alpha": "-292",
+            "beta": "-238",
+            "call": "50",
+            "count": "19",
+            "depth": "13",
+            "move": "e8d8",
+            "pv_update": "0",
+            "value": "-548"
+          },
+          {
+            "alpha": "-292",
+            "beta": "-238",
+            "call": "50",
+            "count": "20",
+            "depth": "13",
+            "move": "e8f8",
+            "pv_update": "0",
+            "value": "-517"
+          },
+          {
+            "alpha": "-292",
+            "beta": "-238",
+            "call": "50",
+            "count": "21",
+            "depth": "13",
+            "move": "e8e7",
+            "pv_update": "0",
+            "value": "-569"
+          },
+          {
+            "alpha": "-292",
+            "beta": "-238",
+            "call": "50",
+            "count": "22",
+            "depth": "13",
+            "move": "c7a5",
+            "pv_update": "0",
+            "value": "-1405"
+          },
+          {
+            "alpha": "-292",
+            "beta": "-238",
+            "call": "50",
+            "count": "23",
+            "depth": "13",
+            "move": "e6e5",
+            "pv_update": "0",
+            "value": "-777"
+          },
+          {
+            "alpha": "-292",
+            "beta": "-238",
+            "call": "50",
+            "count": "24",
+            "depth": "13",
+            "move": "e8g8",
+            "pv_update": "0",
+            "value": "-856"
+          },
+          {
+            "alpha": "-292",
+            "beta": "-238",
+            "call": "50",
+            "count": "25",
+            "depth": "13",
+            "move": "b7b6",
+            "pv_update": "0",
+            "value": "-1489"
+          },
+          {
+            "alpha": "-292",
+            "beta": "-238",
+            "call": "50",
+            "count": "26",
+            "depth": "13",
+            "move": "a7a5",
+            "pv_update": "0",
+            "value": "-1866"
+          },
+          {
+            "alpha": "-292",
+            "beta": "-238",
+            "call": "50",
+            "count": "27",
+            "depth": "13",
+            "move": "d7b8",
+            "pv_update": "0",
+            "value": "-649"
+          },
+          {
+            "alpha": "-292",
+            "beta": "-238",
+            "call": "50",
+            "count": "28",
+            "depth": "13",
+            "move": "a8b8",
+            "pv_update": "0",
+            "value": "-297"
+          },
+          {
+            "alpha": "-292",
+            "beta": "-238",
+            "call": "50",
+            "count": "29",
+            "depth": "13",
+            "move": "a8c8",
+            "pv_update": "0",
+            "value": "-424"
+          },
+          {
+            "alpha": "-292",
+            "beta": "-238",
+            "call": "50",
+            "count": "30",
+            "depth": "13",
+            "move": "h8h7",
+            "pv_update": "0",
+            "value": "-738"
+          },
+          {
+            "alpha": "-292",
+            "beta": "-238",
+            "call": "50",
+            "count": "31",
+            "depth": "13",
+            "move": "h8f8",
+            "pv_update": "0",
+            "value": "-417"
+          },
+          {
+            "alpha": "-292",
+            "beta": "-238",
+            "call": "50",
+            "count": "32",
+            "depth": "13",
+            "move": "c7b8",
+            "pv_update": "0",
+            "value": "-1845"
+          },
+          {
+            "alpha": "-292",
+            "beta": "-238",
+            "call": "50",
+            "count": "33",
+            "depth": "13",
+            "move": "c7c8",
+            "pv_update": "0",
+            "value": "-2251"
+          },
+          {
+            "alpha": "-292",
+            "beta": "-238",
+            "call": "50",
+            "count": "34",
+            "depth": "13",
+            "move": "d6c5",
+            "pv_update": "0",
+            "value": "-1245"
+          },
+          {
+            "alpha": "-292",
+            "beta": "-238",
+            "call": "50",
+            "count": "35",
+            "depth": "13",
+            "move": "d7c5",
+            "pv_update": "0",
+            "value": "-1149"
+          }
+        ],
+        "root_producer": {
+          "alpha": "238",
+          "attempt": "54",
+          "beta": "316",
+          "count": "1",
+          "depth": "15",
+          "id": "999",
+          "move": "d1e2",
+          "update": "1",
+          "value": "292"
+        },
+        "updates": [
+          {
+            "alpha": "-316",
+            "beta": "-238",
+            "call": "50",
+            "count": "1",
+            "depth": "14",
+            "move": "d6e7",
+            "pv_update": "1",
+            "value": "-292"
+          }
+        ]
+      }
+    },
+    "18-bh2": {
+      "admitted": [
+        {
+          "admitted": "1",
+          "alpha": "-264",
+          "attempt": "51",
+          "beta": "-238",
+          "call": "47",
+          "effective": "17",
+          "iteration": "18",
+          "key": "2131274405270561187",
+          "picker": "d6h2",
+          "tt": "d6e7"
+        }
+      ],
+      "best": {
+        "completed": "18",
+        "move": "d1e2",
+        "nodes": "232640",
+        "previous_producer": "968",
+        "producer": "996"
+      },
+      "final": {
+        "attempt": "51",
+        "bound": "none",
+        "cp": 73,
+        "depth": 18,
+        "eligible": true,
+        "move": "d1e2",
+        "native": 241,
+        "nodes": 232640,
+        "producer": "996",
+        "producer_iteration": 18,
+        "pv": [
+          "d1e2",
+          "d6e7",
+          "b2b4",
+          "f6f5",
+          "h4f3",
+          "a7a6",
+          "a2a4",
+          "d7f6",
+          "c1g5",
+          "f6d5",
+          "g5d2",
+          "d5f4",
+          "d2f4",
+          "c7f4",
+          "b4b5",
+          "f4e4",
+          "e2b2",
+          "h8g8"
+        ]
+      },
+      "reply_calls": 47,
+      "reply_trace": {
+        "begin": {
+          "admitted": "1",
+          "alpha": "-264",
+          "attempt": "51",
+          "beta": "-238",
+          "call": "47",
+          "effective": "17",
+          "iteration": "18",
+          "key": "2131274405270561187",
+          "picker": "d6h2",
+          "tt": "d6e7"
+        },
+        "copy": {
+          "attempt": "51",
+          "call": "47",
+          "producer": "996",
+          "reply": "d6e7",
+          "value": "241"
+        },
+        "end": {
+          "best": "d6e7",
+          "call": "47",
+          "reply": "d6e7",
+          "value": "-241"
+        },
+        "ordered_returns": [
+          {
+            "alpha": "-264",
+            "beta": "-238",
+            "call": "47",
+            "count": "1",
+            "depth": "17",
+            "move": "d6h2",
+            "pv_update": "0",
+            "value": "-268"
+          },
+          {
+            "alpha": "-264",
+            "beta": "-238",
+            "call": "47",
+            "count": "2",
+            "depth": "17",
+            "move": "d6e7",
+            "pv_update": "1",
+            "value": "-241"
+          },
+          {
+            "alpha": "-241",
+            "beta": "-238",
+            "call": "47",
+            "count": "3",
+            "depth": "16",
+            "move": "f6f5",
+            "pv_update": "0",
+            "value": "-528"
+          },
+          {
+            "alpha": "-241",
+            "beta": "-238",
+            "call": "47",
+            "count": "4",
+            "depth": "16",
+            "move": "d6f4",
+            "pv_update": "0",
+            "value": "-242"
+          },
+          {
+            "alpha": "-241",
+            "beta": "-238",
+            "call": "47",
+            "count": "5",
+            "depth": "16",
+            "move": "c7b6",
+            "pv_update": "0",
+            "value": "-1197"
+          },
+          {
+            "alpha": "-241",
+            "beta": "-238",
+            "call": "47",
+            "count": "6",
+            "depth": "16",
+            "move": "d6e5",
+            "pv_update": "0",
+            "value": "-1651"
+          },
+          {
+            "alpha": "-241",
+            "beta": "-238",
+            "call": "47",
+            "count": "7",
+            "depth": "16",
+            "move": "h8g8",
+            "pv_update": "0",
+            "value": "-497"
+          },
+          {
+            "alpha": "-241",
+            "beta": "-238",
+            "call": "47",
+            "count": "8",
+            "depth": "16",
+            "move": "d7f8",
+            "pv_update": "0",
+            "value": "-1480"
+          },
+          {
+            "alpha": "-241",
+            "beta": "-238",
+            "call": "47",
+            "count": "9",
+            "depth": "16",
+            "move": "d6g3",
+            "pv_update": "0",
+            "value": "-1306"
+          },
+          {
+            "alpha": "-241",
+            "beta": "-238",
+            "call": "47",
+            "count": "10",
+            "depth": "16",
+            "move": "d7e5",
+            "pv_update": "0",
+            "value": "-453"
+          },
+          {
+            "alpha": "-241",
+            "beta": "-238",
+            "call": "47",
+            "count": "11",
+            "depth": "16",
+            "move": "d7b6",
+            "pv_update": "0",
+            "value": "-652"
+          },
+          {
+            "alpha": "-241",
+            "beta": "-238",
+            "call": "47",
+            "count": "12",
+            "depth": "16",
+            "move": "h8h6",
+            "pv_update": "0",
+            "value": "-922"
+          },
+          {
+            "alpha": "-241",
+            "beta": "-238",
+            "call": "47",
+            "count": "13",
+            "depth": "16",
+            "move": "a7a6",
+            "pv_update": "0",
+            "value": "-1431"
+          },
+          {
+            "alpha": "-241",
+            "beta": "-238",
+            "call": "47",
+            "count": "14",
+            "depth": "16",
+            "move": "d6f8",
+            "pv_update": "0",
+            "value": "-258"
+          },
+          {
+            "alpha": "-241",
+            "beta": "-238",
+            "call": "47",
+            "count": "15",
+            "depth": "16",
+            "move": "b7b6",
+            "pv_update": "0",
+            "value": "-1489"
+          },
+          {
+            "alpha": "-241",
+            "beta": "-238",
+            "call": "47",
+            "count": "16",
+            "depth": "16",
+            "move": "a7a5",
+            "pv_update": "0",
+            "value": "-595"
+          },
+          {
+            "alpha": "-241",
+            "beta": "-238",
+            "call": "47",
+            "count": "17",
+            "depth": "16",
+            "move": "e8f8",
+            "pv_update": "0",
+            "value": "-581"
+          },
+          {
+            "alpha": "-241",
+            "beta": "-238",
+            "call": "47",
+            "count": "18",
+            "depth": "16",
+            "move": "e8e7",
+            "pv_update": "0",
+            "value": "-569"
+          },
+          {
+            "alpha": "-241",
+            "beta": "-238",
+            "call": "47",
+            "count": "19",
+            "depth": "16",
+            "move": "e8d8",
+            "pv_update": "0",
+            "value": "-760"
+          },
+          {
+            "alpha": "-241",
+            "beta": "-238",
+            "call": "47",
+            "count": "20",
+            "depth": "16",
+            "move": "e8g8",
+            "pv_update": "0",
+            "value": "-859"
+          },
+          {
+            "alpha": "-241",
+            "beta": "-238",
+            "call": "47",
+            "count": "21",
+            "depth": "16",
+            "move": "a8b8",
+            "pv_update": "0",
+            "value": "-329"
+          },
+          {
+            "alpha": "-241",
+            "beta": "-238",
+            "call": "47",
+            "count": "22",
+            "depth": "16",
+            "move": "e8c8",
+            "pv_update": "0",
+            "value": "-402"
+          },
+          {
+            "alpha": "-241",
+            "beta": "-238",
+            "call": "47",
+            "count": "23",
+            "depth": "16",
+            "move": "b7b5",
+            "pv_update": "0",
+            "value": "-631"
+          },
+          {
+            "alpha": "-241",
+            "beta": "-238",
+            "call": "47",
+            "count": "24",
+            "depth": "16",
+            "move": "d7b8",
+            "pv_update": "0",
+            "value": "-628"
+          },
+          {
+            "alpha": "-241",
+            "beta": "-238",
+            "call": "47",
+            "count": "25",
+            "depth": "16",
+            "move": "e6e5",
+            "pv_update": "0",
+            "value": "-777"
+          },
+          {
+            "alpha": "-241",
+            "beta": "-238",
+            "call": "47",
+            "count": "26",
+            "depth": "16",
+            "move": "a8d8",
+            "pv_update": "0",
+            "value": "-384"
+          },
+          {
+            "alpha": "-241",
+            "beta": "-238",
+            "call": "47",
+            "count": "27",
+            "depth": "16",
+            "move": "a8c8",
+            "pv_update": "0",
+            "value": "-519"
+          },
+          {
+            "alpha": "-241",
+            "beta": "-238",
+            "call": "47",
+            "count": "28",
+            "depth": "16",
+            "move": "h8h7",
+            "pv_update": "0",
+            "value": "-580"
+          },
+          {
+            "alpha": "-241",
+            "beta": "-238",
+            "call": "47",
+            "count": "29",
+            "depth": "16",
+            "move": "h8f8",
+            "pv_update": "0",
+            "value": "-583"
+          },
+          {
+            "alpha": "-241",
+            "beta": "-238",
+            "call": "47",
+            "count": "30",
+            "depth": "16",
+            "move": "c7a5",
+            "pv_update": "0",
+            "value": "-2087"
+          },
+          {
+            "alpha": "-241",
+            "beta": "-238",
+            "call": "47",
+            "count": "31",
+            "depth": "16",
+            "move": "c7b8",
+            "pv_update": "0",
+            "value": "-324"
+          },
+          {
+            "alpha": "-241",
+            "beta": "-238",
+            "call": "47",
+            "count": "32",
+            "depth": "16",
+            "move": "c7c8",
+            "pv_update": "0",
+            "value": "-343"
+          },
+          {
+            "alpha": "-241",
+            "beta": "-238",
+            "call": "47",
+            "count": "33",
+            "depth": "16",
+            "move": "c7d8",
+            "pv_update": "0",
+            "value": "-255"
+          },
+          {
+            "alpha": "-241",
+            "beta": "-238",
+            "call": "47",
+            "count": "34",
+            "depth": "16",
+            "move": "d7c5",
+            "pv_update": "0",
+            "value": "-1042"
+          },
+          {
+            "alpha": "-241",
+            "beta": "-238",
+            "call": "47",
+            "count": "35",
+            "depth": "16",
+            "move": "d6c5",
+            "pv_update": "0",
+            "value": "-1407"
+          }
+        ],
+        "root_producer": {
+          "alpha": "238",
+          "attempt": "51",
+          "beta": "264",
+          "count": "1",
+          "depth": "18",
+          "id": "996",
+          "move": "d1e2",
+          "update": "1",
+          "value": "241"
+        },
+        "updates": [
+          {
+            "alpha": "-264",
+            "beta": "-238",
+            "call": "47",
+            "count": "2",
+            "depth": "17",
+            "move": "d6e7",
+            "pv_update": "1",
+            "value": "-241"
+          }
+        ]
+      }
+    },
+    "18-sham": {
+      "admitted": [],
+      "best": {
+        "completed": "18",
+        "move": "d1e2",
+        "nodes": "257966",
+        "previous_producer": "968",
+        "producer": "999"
+      },
+      "final": {
+        "attempt": "54",
+        "bound": "none",
+        "cp": 89,
+        "depth": 18,
+        "eligible": true,
+        "move": "d1e2",
+        "native": 292,
+        "nodes": 257966,
+        "producer": "999",
+        "producer_iteration": 18,
+        "pv": [
+          "d1e2",
+          "d6e7",
+          "b2b4",
+          "f6f5",
+          "h4f3",
+          "d7f6",
+          "a2a4",
+          "f6e4",
+          "b4b5",
+          "e7f6",
+          "a1a3",
+          "a8b8"
+        ]
+      },
+      "reply_calls": 50,
+      "reply_trace": {
+        "begin": {
+          "admitted": "0",
+          "alpha": "-316",
+          "attempt": "54",
+          "beta": "-238",
+          "call": "50",
+          "effective": "14",
+          "iteration": "18",
+          "key": "2131274405270561187",
+          "picker": "d6e7",
+          "tt": "d6e7"
+        },
+        "copy": {
+          "attempt": "54",
+          "call": "50",
+          "producer": "999",
+          "reply": "d6e7",
+          "value": "292"
+        },
+        "end": {
+          "best": "d6e7",
+          "call": "50",
+          "reply": "d6e7",
+          "value": "-292"
+        },
+        "ordered_returns": [
+          {
+            "alpha": "-316",
+            "beta": "-238",
+            "call": "50",
+            "count": "1",
+            "depth": "14",
+            "move": "d6e7",
+            "pv_update": "1",
+            "value": "-292"
+          },
+          {
+            "alpha": "-292",
+            "beta": "-238",
+            "call": "50",
+            "count": "2",
+            "depth": "13",
+            "move": "d6h2",
+            "pv_update": "0",
+            "value": "-303"
+          },
+          {
+            "alpha": "-292",
+            "beta": "-238",
+            "call": "50",
+            "count": "3",
+            "depth": "13",
+            "move": "f6f5",
+            "pv_update": "0",
+            "value": "-1799"
+          },
+          {
+            "alpha": "-292",
+            "beta": "-238",
+            "call": "50",
+            "count": "4",
+            "depth": "13",
+            "move": "d7f8",
+            "pv_update": "0",
+            "value": "-1480"
+          },
+          {
+            "alpha": "-292",
+            "beta": "-238",
+            "call": "50",
+            "count": "6",
+            "depth": "13",
+            "move": "h8g8",
+            "pv_update": "0",
+            "value": "-497"
+          },
+          {
+            "alpha": "-292",
+            "beta": "-238",
+            "call": "50",
+            "count": "7",
+            "depth": "13",
+            "move": "d6f4",
+            "pv_update": "0",
+            "value": "-301"
+          },
+          {
+            "alpha": "-292",
+            "beta": "-238",
+            "call": "50",
+            "count": "8",
+            "depth": "13",
+            "move": "d6g3",
+            "pv_update": "0",
+            "value": "-1306"
+          },
+          {
+            "alpha": "-292",
+            "beta": "-238",
+            "call": "50",
+            "count": "9",
+            "depth": "13",
+            "move": "d7e5",
+            "pv_update": "0",
+            "value": "-1063"
+          },
+          {
+            "alpha": "-292",
+            "beta": "-238",
+            "call": "50",
+            "count": "10",
+            "depth": "13",
+            "move": "d7b6",
+            "pv_update": "0",
+            "value": "-955"
+          },
+          {
+            "alpha": "-292",
+            "beta": "-238",
+            "call": "50",
+            "count": "11",
+            "depth": "13",
+            "move": "h8h6",
+            "pv_update": "0",
+            "value": "-922"
+          },
+          {
+            "alpha": "-292",
+            "beta": "-238",
+            "call": "50",
+            "count": "12",
+            "depth": "13",
+            "move": "d6e5",
+            "pv_update": "0",
+            "value": "-1436"
+          },
+          {
+            "alpha": "-292",
+            "beta": "-238",
+            "call": "50",
+            "count": "13",
+            "depth": "13",
+            "move": "b7b5",
+            "pv_update": "0",
+            "value": "-571"
+          },
+          {
+            "alpha": "-292",
+            "beta": "-238",
+            "call": "50",
+            "count": "14",
+            "depth": "13",
+            "move": "e8c8",
+            "pv_update": "0",
+            "value": "-402"
+          },
+          {
+            "alpha": "-292",
+            "beta": "-238",
+            "call": "50",
+            "count": "15",
+            "depth": "13",
+            "move": "d6f8",
+            "pv_update": "0",
+            "value": "-411"
+          },
+          {
+            "alpha": "-292",
+            "beta": "-238",
+            "call": "50",
+            "count": "16",
+            "depth": "13",
+            "move": "a8d8",
+            "pv_update": "0",
+            "value": "-1872"
+          },
+          {
+            "alpha": "-292",
+            "beta": "-238",
+            "call": "50",
+            "count": "17",
+            "depth": "13",
+            "move": "a7a6",
+            "pv_update": "0",
+            "value": "-1431"
+          },
+          {
+            "alpha": "-292",
+            "beta": "-238",
+            "call": "50",
+            "count": "18",
+            "depth": "13",
+            "move": "c7d8",
+            "pv_update": "0",
+            "value": "-346"
+          },
+          {
+            "alpha": "-292",
+            "beta": "-238",
+            "call": "50",
+            "count": "19",
+            "depth": "13",
+            "move": "e8d8",
+            "pv_update": "0",
+            "value": "-548"
+          },
+          {
+            "alpha": "-292",
+            "beta": "-238",
+            "call": "50",
+            "count": "20",
+            "depth": "13",
+            "move": "e8f8",
+            "pv_update": "0",
+            "value": "-517"
+          },
+          {
+            "alpha": "-292",
+            "beta": "-238",
+            "call": "50",
+            "count": "21",
+            "depth": "13",
+            "move": "e8e7",
+            "pv_update": "0",
+            "value": "-569"
+          },
+          {
+            "alpha": "-292",
+            "beta": "-238",
+            "call": "50",
+            "count": "22",
+            "depth": "13",
+            "move": "c7a5",
+            "pv_update": "0",
+            "value": "-1405"
+          },
+          {
+            "alpha": "-292",
+            "beta": "-238",
+            "call": "50",
+            "count": "23",
+            "depth": "13",
+            "move": "e6e5",
+            "pv_update": "0",
+            "value": "-777"
+          },
+          {
+            "alpha": "-292",
+            "beta": "-238",
+            "call": "50",
+            "count": "24",
+            "depth": "13",
+            "move": "e8g8",
+            "pv_update": "0",
+            "value": "-856"
+          },
+          {
+            "alpha": "-292",
+            "beta": "-238",
+            "call": "50",
+            "count": "25",
+            "depth": "13",
+            "move": "b7b6",
+            "pv_update": "0",
+            "value": "-1489"
+          },
+          {
+            "alpha": "-292",
+            "beta": "-238",
+            "call": "50",
+            "count": "26",
+            "depth": "13",
+            "move": "a7a5",
+            "pv_update": "0",
+            "value": "-1866"
+          },
+          {
+            "alpha": "-292",
+            "beta": "-238",
+            "call": "50",
+            "count": "27",
+            "depth": "13",
+            "move": "d7b8",
+            "pv_update": "0",
+            "value": "-649"
+          },
+          {
+            "alpha": "-292",
+            "beta": "-238",
+            "call": "50",
+            "count": "28",
+            "depth": "13",
+            "move": "a8b8",
+            "pv_update": "0",
+            "value": "-297"
+          },
+          {
+            "alpha": "-292",
+            "beta": "-238",
+            "call": "50",
+            "count": "29",
+            "depth": "13",
+            "move": "a8c8",
+            "pv_update": "0",
+            "value": "-424"
+          },
+          {
+            "alpha": "-292",
+            "beta": "-238",
+            "call": "50",
+            "count": "30",
+            "depth": "13",
+            "move": "h8h7",
+            "pv_update": "0",
+            "value": "-738"
+          },
+          {
+            "alpha": "-292",
+            "beta": "-238",
+            "call": "50",
+            "count": "31",
+            "depth": "13",
+            "move": "h8f8",
+            "pv_update": "0",
+            "value": "-417"
+          },
+          {
+            "alpha": "-292",
+            "beta": "-238",
+            "call": "50",
+            "count": "32",
+            "depth": "13",
+            "move": "c7b8",
+            "pv_update": "0",
+            "value": "-1845"
+          },
+          {
+            "alpha": "-292",
+            "beta": "-238",
+            "call": "50",
+            "count": "33",
+            "depth": "13",
+            "move": "c7c8",
+            "pv_update": "0",
+            "value": "-2251"
+          },
+          {
+            "alpha": "-292",
+            "beta": "-238",
+            "call": "50",
+            "count": "34",
+            "depth": "13",
+            "move": "d6c5",
+            "pv_update": "0",
+            "value": "-1245"
+          },
+          {
+            "alpha": "-292",
+            "beta": "-238",
+            "call": "50",
+            "count": "35",
+            "depth": "13",
+            "move": "d7c5",
+            "pv_update": "0",
+            "value": "-1149"
+          }
+        ],
+        "root_producer": {
+          "alpha": "238",
+          "attempt": "54",
+          "beta": "316",
+          "count": "1",
+          "depth": "15",
+          "id": "999",
+          "move": "d1e2",
+          "update": "1",
+          "value": "292"
+        },
+        "updates": [
+          {
+            "alpha": "-316",
+            "beta": "-238",
+            "call": "50",
+            "count": "1",
+            "depth": "14",
+            "move": "d6e7",
+            "pv_update": "1",
+            "value": "-292"
+          }
+        ]
+      }
+    }
+  },
+  "traced_sha256": "b36e053eff82d8c7ba3d89ccb355083d34f90f64ab8c864bbab5d5aad922fe2f"
+}
