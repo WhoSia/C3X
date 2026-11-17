@@ -106,3 +106,20 @@ The two supported cards use default NNUE, all legal roots, one thread, and fixed
 - [Qxe2, +89 cp and equal native value, followed by either a check or a quiet bishop move](../docs/learner/C3X_R24_SAME_NATIVE_PV_FORK_KO.md).
 
 The renderer joins the recorded fork to the exact starting history, the independently judged branch position and the precommitted reruns. [Research results and reproduction](../docs/C3X_030_R24_PV_EVIDENCE_AND_REPLAY_20261117.md).
+
+
+## R25 — Explainable Stockfish: root value is not a plan identity
+
+R24 showed that the same root recommendation and even the exact native score can lead to a changed future PV. The new [R25 evidence gate](../docs/C3X_030_R25_EXPLAINABLE_STOCKFISH_CLAIM_GATES_20261117.md) **does not label every PV change as a changed strategy**. It separates (1) an observed root decision, (2) a verified legal continuation and first fork, (3) a conditional independent judge, (4) native causal intervention, (5) a tested plan surviving alternatives, and (6) measured human benefit.
+
+Run the R25 evidence-only pipeline on the **previously exposed** Spanish and TCEC cases:
+
+```bash
+python product/c3x_plan_evidence_report.py \
+  receipts/C3X_030_R25_EXPOSED_FORK_EVIDENCE_20261117.json
+python product/c3x_plan_evidence_report.py \
+  receipts/C3X_030_R25_EXPOSED_FORK_EVIDENCE_20261117.json --format json
+python -m unittest discover -s harness -p 'test_c3x_030_r25*.py' -v
+```
+
+This ledger uses **previous** R24 Stockfish/Berserk receipts; it is not an additional engine run or a fresh chess-legality verifier. In the Spanish case *White's own follow-up* changes after …Nxe4. In the equal-native TCEC case *Black's expected reply* changes, which is not evidence that White formed a different plan. [Results and next breadth-first gates](../docs/C3X_030_R25_PLAN_IDENTITY_AND_EXPLANATION_RESULTS_20261117.md).
