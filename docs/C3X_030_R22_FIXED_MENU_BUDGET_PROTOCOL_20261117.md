@@ -1,0 +1,3 @@
+# R22 — Fixed-menu leaf budget diagnostic
+
+The original R22 menu and referee results have been observed. Reuse the exact committed cohorts, menus, Stockfish build, legal histories and two referee runs. Increase each forced-reply leaf request from 12,000 to 48,000 nodes. Keep both candidates and all reply menus identical. Pair each policy's new forecast rank with the original low-budget rank. Compare them with the full common-reply minima at each Berserk depth, and with the ranks from the same menus under Berserk on the agreement subset. This retrospective run addresses budget sensitivity and cannot independently confirm the original forecast advantage. Report improvements and regressions per game. No reselection or move replacement is permitted.
