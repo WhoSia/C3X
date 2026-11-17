@@ -106,7 +106,7 @@ def nominate(engine, source, old_pgn, old_screen, prior, initial, initial_sha):
     return {**result, "cohort": "expansion" if initial is not None else "pilot"}
 
 
-def predictions(engine, cohort):
+def predictions(engine, cohort, nodes=12000):
     result = {}
     for case in cohort["selection"]:
         details = case["discovery"]
@@ -116,7 +116,7 @@ def predictions(engine, cohort):
         union = sorted({m for menu in details["menus"].values() for m in menu})
         result[case["round"]] = {}
         for move in union:
-            result[case["round"]][move] = [single(engine, board, board.turn, nodes=12000)
+            result[case["round"]][move] = [single(engine, board, board.turn, nodes=nodes)
                                           for board in leaves[move]]
     return result
 
@@ -152,9 +152,12 @@ def main():
     parser.add_argument("--net", type=Path)
     parser.add_argument("--initial", type=Path)
     parser.add_argument("--initial-sha")
+    parser.add_argument("--leaf-nodes", type=int, choices=(12000, 48000), default=12000)
     parser.add_argument("--round", help="Judge only this committed round as a parallel shard")
     args = parser.parse_args()
     logging.getLogger("chess.engine").setLevel(logging.ERROR)
+    if args.leaf_nodes != 12000 and args.stage != "predict":
+        parser.error("--leaf-nodes applies to predict only")
     if args.round is not None and args.stage != "judge":
         parser.error("--round applies to judge only")
     if args.stage == "judge":
@@ -188,12 +191,14 @@ def main():
                     cohort["selection"] = matching
                     forecast["rows"] = {args.round: forecast["rows"][args.round]}
             rows = (reference(engine, cohort) if args.stage == "judge"
-                    else predictions(engine, cohort))
+                    else predictions(engine, cohort, args.leaf_nodes))
             result = {"cohort_sha256": args.cohort_sha, "binary_sha256": digest(args.engine), "rows": rows}
             if args.stage == "judge":
                 if forecast["rows"].keys() != rows.keys():
                     raise ValueError("Forecast cohort differs")
                 result.update(forecast_sha256=args.forecast_sha, net_sha256=NET)
+            elif args.leaf_nodes != 12000:
+                result["leaf_nodes"] = args.leaf_nodes
     print(json.dumps(result, indent=2, sort_keys=True))
 
 
