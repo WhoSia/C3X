@@ -34,6 +34,20 @@ reply, and a divergent plan under an identical reply as distinct outcomes.
 Use only the first two actions to drive case selection for native tracing.
 Where the computational and chess evidence disagree, show both results.
 
+## Recovered journal PDF
+
+Kishimoto & Müller (2005), *A solution to the GHI problem for depth-first
+proof-number search*, Information Sciences 175(4), 296–314,
+[DOI 10.1016/j.ins.2004.04.012](https://doi.org/10.1016/j.ins.2004.04.012).
+The former Alberta host redirects to a 404. The [Wayback PDF](https://web.archive.org/web/20250828223058id_/http://webdocs.cs.ualberta.ca/~mmueller/ps/kishimoto-mueller-infsci-ghi.pdf) returns
+the 19-page journal article. The [Drive intake copy](https://drive.google.com/file/d/1Q_T8JQT2Wa0aqWEJeLQAUq_c09fBSgOV/view) was downloaded
+back and byte-compared. SHA-256
+`fff0001fc71f36bb462412b859064f06c10e8004c41869bec3e179b542cf27aa`.
+
+The paper's path-dependent reuse problem motivates preserving full PGN history
+for Stockfish replays. The tested algorithm is df-pn under Go's situational
+superko.
+
 ## Missing-original literature census
 
 Title, author, DOI and known filename variants were searched in connected
@@ -44,7 +58,6 @@ limits of search indexing, even when an external full text is available.
 | --- | --- | --- |
 | Breuker, Uiterwijk & van den Herik (1994), *Replacement Schemes for Transposition Tables* | Unconfirmed | [Repository PDF](https://pure.uvt.nl/ws/portalfiles/portal/1217028/REPLACEM.PDF). Compares seven replacement policies across table sizes. Provides the direct precedent for a capacity-held-fixed replacement experiment. |
 | Schaeffer & Plaat, *New Advances in Alpha-Beta Searching* | Unconfirmed | [Author PDF](https://liacs.leidenuniv.nl/~plaata1/papers/acm-final.pdf). Separately discusses score-triggered cutoff and first-move reuse; tests enhanced transposition cutoff for search effort. |
-| Kishimoto & Müller (2005), *A solution to the GHI problem for depth-first proof-number search* | Unconfirmed | [Author PDF](https://webdocs.cs.ualberta.ca/~mmueller/ps/kishimoto-mueller-infsci-ghi.pdf). The formal issue of path-dependent repeated positions grounds the full-PGN control; its df-pn remedy is tested in Go. |
 | Hyatt & Cozzie (2005), *The Effect of Hash Signature Collisions in a Chess Program* | Unconfirmed | [Journal record](https://doi.org/10.3233/ICG-2005-28302). The target is aliasing of different positions under the hash signature. Keep distinct from entry eviction caused by capacity. |
 | Björnsson (2024), *Chess and explainable AI* | Unconfirmed, carried forward | [Journal record](https://doi.org/10.3233/ICG-240256). Obtain the journal article for its wider framing of explanatory systems. |
 | Demura & Kaneko (2024), *Initial state diversification for efficient AlphaZero-style training* | Unconfirmed, carried forward | [Journal record](https://doi.org/10.3233/ICG-240255). [IPSJ precursor, Shogi816K (2023)](https://ipsj.ixsq.nii.ac.jp/records/229354) is separately identified and has its own full-text listing. Relevant to diversity design after the TT-specific works. |
