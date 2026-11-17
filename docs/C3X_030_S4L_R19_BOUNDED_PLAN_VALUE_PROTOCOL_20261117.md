@@ -1,0 +1,7 @@
+# C3X 0.30 S4-L/R19 — Bounded plan cost and first-move proxy
+
+2026-11-17 KST. Reopen the P40 plan-regret question on the already exposed R17 sample. Evaluate every settled positive leaf from the original 64 and retain the 48 unavailable leaves in the denominator. This separates feasibility and modeled opportunity cost.
+
+The board starts after a specified common reply. Fixed material differential as in R17, exact four plies, normal early termination. Let V be the best guaranteed terminal material gain. Let F constrain only the initial move to R17's certified initial moves, and optimize freely thereafter. Let G require that every policy branch finish with the target removed, without material loss. This constraints both the initial move and the response-contingent continuation. For every positive leaf V >= F >= G. Report V-F, V-G and F-G. For the all-legal positions inspect best initial move ties and the strong condition that all first moves maximizing V admit a guaranteed plan. Verify the original R17 first-move witness set with the new value recursion's support. This is exact bounded material-model regret, not an independent chess-strength or broadly strategic verdict.
+
+This is a retrospective method-transfer on an exposed cohort. Cold event transport and separately pinned engine evaluation remain distinct tests. Do not multiply independent games by counting replies or branches as replicates.
