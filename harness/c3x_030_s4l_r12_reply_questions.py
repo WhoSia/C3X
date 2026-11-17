@@ -24,8 +24,10 @@ def freeze(cohort, requests):
         roots = case["roots"]
         if len(roots) != 2 or len(set(roots)) != 2:
             raise ValueError("Expected two distinct competitors")
-        board = board_at(case["history"])
         reply = request["reply"]
+        if "0000" in (*case["history"], *roots, reply):
+            raise ValueError("Null moves are not legal game moves")
+        board = board_at(case["history"])
         for root in roots:
             after = board.copy()
             after.push_uci(root)
