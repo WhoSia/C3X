@@ -16,14 +16,14 @@ from c3x_030_s4l_r16_plan_source import SLOTS, post_reply, root_boards
 POLICIES = ("public", "augmented")
 
 
-def assess_leaf(branch, reply, origin, receipt):
+def assess_leaf(branch, reply, origin, receipt, settle_final):
     board, target = post_reply(branch, reply, origin)
     if receipt["status"] != "ready":
         return {"status": receipt["status"]}
     if (chess.square_name(target) != receipt["target_after_reply"]
             or board.fen() != receipt["source"]["leaf_fen"]):
         raise ValueError("Frozen leaf does not match target and game replay")
-    proof = solve(board, target)
+    proof = solve(board, target, settle_final=settle_final)
     menus = receipt["menus"]
     hits = {}
     for policy in POLICIES:
@@ -36,7 +36,7 @@ def assess_leaf(branch, reply, origin, receipt):
             "target_moved": target != origin}
 
 
-def assess(goals, menus):
+def assess(goals, menus, *, settle_final=False):
     leaves = Counter()
     pairs = Counter()
     material = Counter()
@@ -51,7 +51,7 @@ def assess(goals, menus):
         if menus[round_id].keys() != set(case["replies"]):
             raise ValueError("Frozen replies differ")
         for reply in case["replies"]:
-            results = [assess_leaf(branch, reply, target, receipt)
+            results = [assess_leaf(branch, reply, target, receipt, settle_final)
                        for branch, receipt in zip(branches, menus[round_id][reply], strict=True)]
             outputs[reply] = results
             for row in results:
@@ -93,6 +93,7 @@ def main():
     parser.add_argument("goals", type=Path)
     parser.add_argument("menus", type=Path)
     parser.add_argument("menus_sha256")
+    parser.add_argument("--settle-final-defense", action="store_true")
     args = parser.parse_args()
     if digest(args.menus) != args.menus_sha256:
         raise ValueError("Menus differ from their before-judgment seal")
@@ -100,7 +101,8 @@ def main():
     menus = json.loads(args.menus.read_text())
     if menus["goals_sha256"] != digest(args.goals) or menus["engine_sha256"] != SF:
         raise ValueError("Goals or source engine differ")
-    print(json.dumps(assess(goals["plans"], menus["rows"]), indent=2, sort_keys=True))
+    result = assess(goals["plans"], menus["rows"], settle_final=args.settle_final_defense)
+    print(json.dumps(result, indent=2, sort_keys=True))
 
 
 if __name__ == "__main__":
