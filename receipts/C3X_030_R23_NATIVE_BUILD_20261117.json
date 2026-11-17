@@ -1,0 +1,27 @@
+{
+  "build": [
+    "make",
+    "build",
+    "ARCH=x86-64"
+  ],
+  "compiler": "g++ (Debian 14.2.0-19) 14.2.0",
+  "engine_options": {
+    "Hash": 16,
+    "MultiPV": 1,
+    "Skill Level": 20,
+    "SyzygyPath": "<empty>",
+    "Threads": 1,
+    "UCI_LimitStrength": false
+  },
+  "normalized_output_removes": [
+    "time",
+    "nps"
+  ],
+  "sha256": {
+    "clean": "fc2f6b069a775a463c6d17cce30f0bd24339ec446ab621e29c4933719026e8b5",
+    "network": "5af11540bbfefcb54e38c5dd000cab4b469dfa7599a1d55be5d2722c20a8929b",
+    "patch": "b1e5954322d4d289c96af8d1f83cdb1c6d36af6d31e412228e8c26d840e1ff75",
+    "traced": "8c4ef2aef9e3fd4613389c9063a4fcdb7030b8689e4c78fd4cdfeb173d89adef"
+  },
+  "upstream": "68e1e9b3811e16cad014b590d7443b9063b3eb52"
+}
