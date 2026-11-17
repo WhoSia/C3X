@@ -1,0 +1,15 @@
+{
+  "upstream": "https://github.com/official-stockfish/Stockfish",
+  "upstream_commit": "68e1e9b3811e16cad014b590d7443b9063b3eb52",
+  "compiler": "g++ 14.2.0",
+  "build": "make build ARCH=x86-64",
+  "net_sha256": "5af11540bbfefcb54e38c5dd000cab4b469dfa7599a1d55be5d2722c20a8929b",
+  "ordered_patch_sha256": [
+    {"file": "R23-root-producer.patch", "sha256": "b1e5954322d4d289c96af8d1f83cdb1c6d36af6d31e412228e8c26d840e1ff75"},
+    {"file": "R25-reply-producer.patch", "sha256": "282e63a1f460f68bf423ed3fa0a528e84e7fb5f1486034a77671652d3c4a0edd"}
+  ],
+  "r23_sha256": "8c4ef2aef9e3fd4613389c9063a4fcdb7030b8689e4c78fd4cdfeb173d89adef",
+  "r25_sha256": "b36e053eff82d8c7ba3d89ccb355083d34f90f64ab8c864bbab5d5aad922fe2f",
+  "r25_initial_sha256": "92684ba61c94aae3a4334d55a38d97f14ae251581c23b461d58a4302856b0e51",
+  "relative_logs": {"initial": "native", "reciprocal": "reciprocal"}
+}
