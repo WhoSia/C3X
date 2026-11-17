@@ -22,7 +22,7 @@ def fields(lines, prefix):
             for line in lines if line.startswith(prefix + " ")]
 
 
-def run(binary, directory, target=0, mask=False):
+def run(binary, directory, target=0, mask=False, *, history=HISTORY, roots=(), budget=12000):
     directory.mkdir()
     if target:
         control = directory / "c3x_s4l_r2_control.txt"
@@ -31,7 +31,9 @@ def run(binary, directory, target=0, mask=False):
     engine = chess.engine.SimpleEngine.popen(RecordedUci, str(binary), cwd=directory, env=env)
     try:
         engine.configure(OPTIONS)
-        result = engine.play(board_at(HISTORY), chess.engine.Limit(nodes=12000),
+        board = board_at(history)
+        allowed = [board.parse_uci(move) for move in roots] if roots else None
+        result = engine.play(board, chess.engine.Limit(nodes=budget), root_moves=allowed,
                              info=chess.engine.INFO_ALL, game=object())
     finally:
         engine.quit()
