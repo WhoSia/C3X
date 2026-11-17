@@ -1,0 +1,132 @@
+{
+  "schema": "C3X_030_R25_FORK_EVIDENCE_V1",
+  "authority": "EXPOSED_DEVELOPMENT_CASES_ONLY",
+  "original_source": "https://github.com/WhoSia/C3X/blob/af53130ba7aebfe79d789d75995d3fec66026bce/docs/C3X_030_R24_PV_FORK_REPLAY_RESULTS_20261117.md",
+  "raw_archive": "https://drive.google.com/file/d/1Y-76xY5ndlgVMeBqP3UFpjjbVfd47m1S/view",
+  "archive_sha256": "d8b5a054b6c26bc7606217fce5e59da3b284ab7bc8bfc6813bc4202827967e26",
+  "cases": [
+    {
+      "case_id": "spanish-after-Nf6",
+      "root_fen": "r1bqkb1r/1ppp1ppp/p1n2n2/4p3/B3P3/5N2/PPPP1PPP/RNBQK2R w KQkq - 2 5",
+      "candidate_label": "O-O",
+      "verification": "R24 replay 4/4; no new Stockfish calls",
+      "reports": [
+        {
+          "depth": 8,
+          "native": 128,
+          "cp": 39,
+          "eligible": true,
+          "bound": "none",
+          "fork_chooser": "white",
+          "move": "e1g1",
+          "pv": [
+            "e1g1",
+            "f6e4",
+            "d2d4"
+          ]
+        },
+        {
+          "depth": 10,
+          "native": 131,
+          "cp": 39,
+          "eligible": true,
+          "bound": "none",
+          "fork_chooser": "white",
+          "move": "e1g1",
+          "pv": [
+            "e1g1",
+            "f6e4",
+            "f1e1",
+            "e4c5",
+            "a4c6",
+            "d7c6",
+            "f3e5"
+          ]
+        }
+      ],
+      "judge": {
+        "d2d4": {
+          "12": 56,
+          "14": 49
+        },
+        "f1e1": {
+          "12": 68,
+          "14": -12
+        }
+      },
+      "local_chess_claims": [
+        "After O-O Nxe4, d4 attacks e5; Re1 attacks the e4 knight."
+      ],
+      "independent_judge": "Berserk 14, same pivot, fixed reply, depth 12/14",
+      "hidden_plan_claims": []
+    },
+    {
+      "case_id": "s28-l2-1.4",
+      "root_fen": "r3k2r/ppqn1p2/2pbpp2/2P4p/3P3N/7P/PP2bPP1/R1BQ1RK1 w kq - 0 13",
+      "candidate_label": "Qxe2",
+      "verification": "R24 replay 4/4; no new Stockfish calls",
+      "reports": [
+        {
+          "depth": 12,
+          "native": 292,
+          "cp": 89,
+          "eligible": true,
+          "bound": "none",
+          "fork_chooser": "black",
+          "move": "d1e2",
+          "pv": [
+            "d1e2",
+            "d6h2",
+            "g1h1",
+            "h2f4",
+            "b2b4",
+            "f4c1",
+            "f1c1",
+            "c7f4",
+            "h4f3",
+            "a7a6",
+            "c1c3"
+          ]
+        },
+        {
+          "depth": 18,
+          "native": 292,
+          "cp": 89,
+          "eligible": true,
+          "bound": "none",
+          "fork_chooser": "black",
+          "move": "d1e2",
+          "pv": [
+            "d1e2",
+            "d6e7",
+            "b2b4",
+            "f6f5",
+            "h4f3",
+            "d7f6",
+            "a2a4",
+            "f6e4",
+            "b4b5",
+            "e7f6",
+            "a1a3",
+            "a8b8"
+          ]
+        }
+      ],
+      "judge": {
+        "d6h2": {
+          "12": -111,
+          "14": -109
+        },
+        "d6e7": {
+          "12": -95,
+          "14": -98
+        }
+      },
+      "local_chess_claims": [
+        "Bh2+ gives check; Be7 does not give check at the same pivot."
+      ],
+      "independent_judge": "Berserk 14, same pivot, fixed reply, depth 12/14",
+      "hidden_plan_claims": []
+    }
+  ]
+}
