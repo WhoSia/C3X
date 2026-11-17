@@ -13,7 +13,7 @@ def synthesize(payload):
     results = []
     for case in payload["cases"]:
         result = audit(case["case_id"], case["reports"], judge=case.get("judge"),
-                       replay_verified=case.get("verification", "").startswith("R24 replay 4/4"))
+                       replay_verified=False)
         results.append({"audit": result.as_dict(), "next_trial": required_plan_trial(result)})
     return {"schema": "C3X_030_R25_PLAN_AUDIT_V1", "source_archive": payload["raw_archive"],
             "source_sha256": payload["archive_sha256"], "results": results}
@@ -21,16 +21,18 @@ def synthesize(payload):
 
 def korean_markdown(data):
     lines = ["# Explainable Stockfish · 같은 수의 여러 미래", "",
-             "이미 공개된 R24 개발 국면을 다시 분류했어. 새로운 엔진 실험이나 사람 대상 검증은 아직 하지 않았어.", ""]
+             "이미 공개된 R24 개발 국면을 다시 분류했어. 이번 실행은 과거 재현 기록을 참조하며 원시 엔진을 새로 재실행하거나 사람 대상 검증을 하지 않았어.", ""]
     for entry in data["results"]:
         result = entry["audit"]
         values = result["native_values"]
         equality = "내부값도 동일" if values[0] == values[1] else f"표시값만 동일 (내부값 {values[0]} / {values[1]})"
         side = "백" if result["chooser"] == "white" else "흑"
         lines.extend([f"## {result['case_id']}", "",
-                      f"추천 UCI {result['recommendation']}, 표시 평가 +{result['displayed_cp']}cp, {equality}.",
+                      f"추천 UCI {result['recommendation']}, 표시 평가 {result['displayed_cp']:+d}cp, {equality}.",
                       f"공통 수순 뒤 {result['first_divergence_ply']}번째 반수에서 {side}의 "
                       f"{result['first_moves'][0]} / {result['first_moves'][1]}가 갈렸어.", "",
+                      ("백의 후속 선택이 달라진 사례야." if result["chooser"] == "white" else
+                       "백의 계획이 달라졌다는 뜻이 아니라, 엔진이 예측한 흑의 응수가 달라진 사례야."), " ",
                       "| 독립 심판 깊이 | 상대적으로 높은 평가를 받은 수 | 격차 |",
                       "| ---: | --- | ---: |"])
         for row in result["judge_order"]:
