@@ -1,0 +1,5 @@
+# R20 — Named-plan learner pilot
+
+Use exposed R17 case 2.2 as a worked example and case 2.1 as a transfer item. Show two White roots and two Black replies in each case. The participant marks each root–reply cell and supplies one plan-entry move for each positive answer or abstains. A capture counts if White can force removal of the original named piece in two White turns and keep the pre-plan material balance after the last Black reply. Fix weights at 1, 3, 3, 5, and 9.
+
+Both formats show the same positions, candidate moves, transfer prompt, time limit, and definition. The comparison format gives the worked example's verdicts. The explanation format also shows the target path, a working entry, and why a legal Black defense defeats a tempting entry. Neither format includes the transfer key. Verify all verdicts and example first moves through the exact final-reply oracle. Score correctness and move validity independently, and distinguish abstention from incorrect answers. This round produces an instrument and verifies its answer key.
