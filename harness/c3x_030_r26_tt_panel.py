@@ -52,18 +52,16 @@ def info_row(board, info, bestmove):
     }
 
 
-def compare(case, arm, nodes, baseline, patched):
-    board = board_from_case(case)
+def search(board, arm, limit, baseline, patched, root_moves=None):
     env = dict(os.environ)
     env["C3X_NO_TT_PICKER"] = "1" if arm in ("picker_off", "both_off") else "0"
     env["C3X_NO_TT_VALUE"] = "1" if arm in ("value_off", "both_off") else "0"
     path = baseline if arm in ("upstream", "reference") else patched
-    limit = chess.engine.Limit(nodes=nodes)
     with chess.engine.SimpleEngine.popen_uci(str(path), env=env, timeout=30) as engine:
         engine.configure({"Threads": 1, "Hash": 1 if arm == "hash_1m" else 16})
         ranks = {}
         multipv = 3 if arm == "reference" else 1
-        with engine.analysis(board, limit, multipv=multipv, info=chess.engine.INFO_ALL) as analysis:
+        with engine.analysis(board, limit, multipv=multipv, root_moves=root_moves, info=chess.engine.INFO_ALL) as analysis:
             for update in analysis:
                 if "pv" in update and "score" in update:
                     ranks[update.get("multipv", 1)] = update
@@ -71,6 +69,11 @@ def compare(case, arm, nodes, baseline, patched):
         if arm == "reference":
             return [info_row(board, row, row["pv"][0]) for _, row in sorted(ranks.items())]
         return info_row(board, ranks[1], best.move)
+
+
+def compare(case, arm, nodes, baseline, patched):
+    limit = chess.engine.Limit(nodes=nodes)
+    return search(board_from_case(case), arm, limit, baseline, patched)
 
 
 def one_job(job):
