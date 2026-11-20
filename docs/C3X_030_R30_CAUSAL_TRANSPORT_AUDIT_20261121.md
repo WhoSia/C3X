@@ -64,3 +64,7 @@ The original …Nd7/…a4 case is still a separate negative mediation witness: m
 3. In the learner study retain A/PV, B/board counterfactual, C/B plus actual native evidence, but add a **length-matched B control**. Otherwise C−B mixes the information effect with extra reading. Measure first-choice and post-explanation judgments on new games, and track rejection of independently weak advice; no participant data exist.
 
 This R30 record is a reproducible **evidence-quality repair** and does not advance 0.30 to a new version, replace the previously sealed 0.29 HOLD, or claim higher accuracy than Cui/Ling/Ng or Press/Golubev.
+
+## Archived derived receipt
+
+[Independent R30 retrospective audit package (JSON, analysis scripts, ten unit-test cases)](https://drive.google.com/file/d/1kgBthD6dNpsdLsEaP3LlZUNkEG1b5DUu/view), stored alongside the original R29 raw evidence. ZIP SHA-256 `3be613be88dcc5cdafa3e11e2b3916c8058d489475bdb259e2b7b6fe8fe4a8df`. Source inputs and their SHA seals remain recorded above; the package is a **derived retrospective audit**, not another engine test.
