@@ -44,6 +44,10 @@ def summarize(discovery, result, source):
                   (folder / "stdout.txt").read_text().splitlines()
                   if line.startswith(("info depth ", "bestmove "))]
         original_public = public_view("\n".join(public))
+        old_best, = fields((folder / "stderr.txt").read_text().splitlines(), "C3X_R23_BEST")
+        attempt_start, = (row for row in fields((folder / "stderr.txt").read_text().splitlines(),
+                                                "C3X_R23_START")
+                          if row["attempt"] == target["target"]["attempt"])
         rows = {}
         for arm, repeated in item["arms"].items():
             first = repeated[0]
@@ -61,6 +65,9 @@ def summarize(discovery, result, source):
             rows[arm] = {
                 "best": first["best"]["move"],
                 "final_changed": first["best"]["move"] != original,
+                "completed_depth_changed": first["best"]["completed"] != old_best["completed"],
+                "final_changed_same_depth": first["best"]["move"] != original
+                                            and first["best"]["completed"] == old_best["completed"],
                 "public_changed": changed_public["iterations"] != original_public["iterations"],
                 "final_card_changed": changed_public["final"] != original_public["final"],
                 "metadata_only": first["uci"] != public and changed_public == original_public,
@@ -84,14 +91,16 @@ def summarize(discovery, result, source):
                 raise ValueError("Null-ineligible negative control diverged")
         report.append({"position": target["position"], "stratum": target["group"],
                        "target": target["target"], "original_event": original_event,
-                       "original_best": original, "arms": rows})
+                       "original_best": old_best, "target_iteration": attempt_start["iteration"],
+                       "arms": rows})
     by_group={}
     for group in ("0", "1"):
         subgroup=[r for r in report if r["stratum"] == group]
         counts={"positions":len(subgroup)}
         for arm in ("futility_off", "both_off"):
             trials=[row["arms"][arm] for row in subgroup]
-            for key in ("final_changed", "public_changed", "final_card_changed", "metadata_only",
+            for key in ("final_changed", "final_changed_same_depth", "completed_depth_changed",
+                        "public_changed", "final_card_changed", "metadata_only",
                         "event_return_changed", "event_stopped",
                         "null_tried", "null_cut", "root_completed", "root_comparable",
                         "root_value_changed", "root_update_changed"):
