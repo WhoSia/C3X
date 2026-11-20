@@ -10,6 +10,7 @@ from c3x_030_r31_tt_pv import COHORT, SEAL, Entry, extracted
 
 R31 = "ef182a418b5522a400a713788d90f8846e8b5d204c182e41729648a19e066a50"
 REPLY = "b5c6"
+SINGULAR_RESULTS = "b34c113ce4b35093aa176553f0e0ea39cef8e835a3b8dbf5de8acb97e0ee9c45"
 FIELD_CROSS = "2796317d74c59835e50d5c2ae8cc5af60c6fa38097764355df3d8464a386a5b1"
 PASSIVE = "6b99c9b5f603318e7022310c8886064241f36980ce5d6e1641c4265be946569b"
 
@@ -189,16 +190,53 @@ def singular_controls(args):
                         "patch": digest(args.patch)}, "arms": arms}
 
 
+def nested_window(args):
+    if digest(args.singular) != SINGULAR_RESULTS:
+        raise ValueError("Prior singular-stage experiment changed")
+    base = json.loads(args.singular.read_text())["arms"]["whole_hint"]
+    target, history, _ = load_case(args)
+    configs = {"control": {}, "singular_window": {"window": -1961},
+               "g5_only": {"g5": 1962}, "g5_repair": {"window": -1961, "g5": 1909}}
+    arms = {}
+    for arm, swaps in configs.items():
+        env = {"C3X_R32_" + channel.upper(): str(value) for channel, value in swaps.items()}
+        out, lines = replay(args, args.patch, arm, history, target, masked=True, trace=True, extra=env)
+        bc6 = intervention(lines, base["control"]["bc6"], swaps)
+        focal_g5, = fields(lines, "C3X_R32_G5")
+        initial = 1962 if "window" in swaps else 1909
+        if (focal_g5["before"], focal_g5["used"], focal_g5["depth"], focal_g5["key"]) != (
+            str(initial), str(swaps.get("g5", initial)), "3", "15895136417853702231"
+        ):
+            raise ValueError("Nested g5 changed its call identity")
+        nulls = fields(lines, "C3X_R32_G5_NULL")
+        roots = [row for row in fields(lines, "C3X_R23_CANDIDATE") if row["attempt"] == "14"]
+        if arm in ("control", "singular_window"):
+            prior = base["control" if arm == "control" else "window"]
+            if (out, bc6, roots) != (prior["r31"], prior["bc6"], prior["roots"]):
+                raise ValueError("Nested instrumentation disturbed an inherited run")
+        arms[arm] = {"r31": out, "bc6": bc6, "roots": roots, "g5": focal_g5, "nulls": nulls,
+                     "root_difference": same_alpha_changes(arms["control"]["roots"] if arms else roots, roots)}
+    return {"sources": {"r31": R31, "singular": SINGULAR_RESULTS, "patch": digest(args.patch)}, "arms": arms}
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     for key in ("cohort", "seal", "r31", "old", "patch", "net", "out"):
         parser.add_argument(key, type=Path)
     parser.add_argument("--passive", type=Path)
     parser.add_argument("--cross", type=Path)
+    parser.add_argument("--singular", type=Path)
     args = parser.parse_args()
     if args.cross and not args.passive:
         parser.error("--cross requires --passive")
-    result = singular_controls(args) if args.cross else field_cross(args) if args.passive else execute(args)
+    if args.singular:
+        result = nested_window(args)
+    elif args.cross:
+        result = singular_controls(args)
+    elif args.passive:
+        result = field_cross(args)
+    else:
+        result = execute(args)
     write(args.out / "result.json", result)
 
 
