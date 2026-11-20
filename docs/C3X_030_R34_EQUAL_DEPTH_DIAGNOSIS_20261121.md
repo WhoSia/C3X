@@ -45,7 +45,7 @@ alternative move seen under a node cap.
 R33-003 changed to Bc7 under 32,000 nodes partly because the
 intervention allowed a depth-12 completion, while the original run
 ended at depth 11. At a fixed depth 11 both recommended h3. At a
-fixed depth 12 the original chose Ra1 and the intervention Bc7.
+fixed depth 12 the original chose Rea1 and the intervention Bc7.
 The effect is conditional on reaching that later search depth.
 
 R33-010 had the reverse sensitivity. At depth 12, Nh2 versus g3
