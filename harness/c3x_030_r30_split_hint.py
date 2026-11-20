@@ -13,6 +13,7 @@ ARMS = {
     "whole_hint": (True, False, False),
     "picker_only": (False, True, False),
     "singular_only": (False, False, True),
+    "picker_and_singular": (False, True, True),
     "restore": (False, False, False),
 }
 
