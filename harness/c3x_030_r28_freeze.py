@@ -29,7 +29,9 @@ def family(event):
                   flags=re.IGNORECASE).strip()
 
 
-def freeze(archive, r26, r27, *, excluded_game_digests=(), excluded_board_keys=()):
+def freeze(archive, r26, r27, *, excluded_game_digests=(), excluded_board_keys=(), cap=CAP):
+    if cap <= 0:
+        raise ValueError("Expected a positive sample cap")
     excluded = {family(game["event"]) for game in r26["games"]}
     excluded.update(family(item["source"]["event"]) for item in r27["transfer"].values())
     pools = defaultdict(list)
@@ -77,12 +79,12 @@ def freeze(archive, r26, r27, *, excluded_game_digests=(), excluded_board_keys=(
             seen_games.add(row["game_sha256"])
             seen_boards.add(board_key)
             sample.append({"id": f"R28-{len(sample) + 1:03}", **row})
-            if len(sample) == CAP:
+            if len(sample) == cap:
                 break
-        if len(sample) == CAP:
+        if len(sample) == cap:
             break
-    if len(sample) != CAP:
-        raise ValueError(f"Expected {CAP} unique positions, found {len(sample)}")
+    if len(sample) != cap:
+        raise ValueError(f"Expected {cap} unique positions, found {len(sample)}")
     return {"seed": SEED, "source_archive_sha256": digest(archive.read_bytes()),
             "source_member": member, "excluded_families": sorted(excluded),
             "eligible_event_families": len(groups), "positions": sample}
