@@ -17,6 +17,7 @@ LESSON = (
 )
 CHECKPOINTS = (40, 41, 50, 51, 60, 61, 70, 71, 80, 81)
 GAME_LIMIT = 384
+TWIC_SHA256 = "84ef391278c0dcf1b95a9d7732882d1e34377ad807608306812450b3b7aa62b8"
 # One positive and one negative per color, with distinct events and games.
 QUOTAS = {(turn, label) for turn in (chess.WHITE, chess.BLACK) for label in (True, False)}
 
@@ -32,6 +33,8 @@ def legal_witnesses(board, pawn, bishop, knight):
     capture = chess.Move(knight, bishop)
     witnesses = {}
     for advance in board.generate_legal_moves(from_mask=chess.BB_SQUARES[pawn]):
+        if advance.promotion is not None:
+            continue
         if chess.square_file(advance.to_square) != chess.square_file(pawn):
             continue
         child = board.copy(stack=False)
@@ -116,6 +119,8 @@ def new_game_items(pgn, banned_prefixes, banned_events):
 
 
 def build(cohort, archive):
+    if digest(archive) != TWIC_SHA256:
+        raise ValueError("Expected the byte-frozen TWIC 1671 ZIP")
     data = json.loads(cohort.read_bytes())
     root, = (row for row in data["positions"] if row["id"] == CASE_ID)
     banned_events = {row["event"] for row in data["games"]}
