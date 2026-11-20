@@ -230,7 +230,7 @@ diff --git a/src/search.cpp b/src/search.cpp
                    r29Return("research", value);
                }
 
-@@ -1438,7 +1517,7 @@
+@@ -1438,6 +1517,6 @@
            if (!ttMove && cutNode)
                r += 2;
 
@@ -238,4 +238,3 @@ diff --git a/src/search.cpp b/src/search.cpp
 +          value = -searchExcludedChild(newDepth - (r > 3), !cutNode, "scout");
            r29Return("scout", value);
        }
-
