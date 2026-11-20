@@ -6,10 +6,11 @@ from pathlib import Path
 from c3x_030_r20_d1_pair import fields
 from c3x_030_r23_native_replay import NET, digest, run
 from c3x_030_r29_local_tt_move import write
-from c3x_030_r31_tt_pv import COHORT, SEAL, extracted
+from c3x_030_r31_tt_pv import COHORT, SEAL, Entry, extracted
 
 R31 = "ef182a418b5522a400a713788d90f8846e8b5d204c182e41729648a19e066a50"
 REPLY = "b5c6"
+PASSIVE = "6b99c9b5f603318e7022310c8886064241f36980ce5d6e1641c4265be946569b"
 
 
 def replay(args, binary, name, history, target, *, masked, trace, extra=None):
@@ -18,10 +19,7 @@ def replay(args, binary, name, history, target, *, masked, trace, extra=None):
            "C3X_R29_MASK_MOVE": str(int(masked)), "C3X_R29_MASK_VALUE": "0",
            "C3X_R30_PICKER_ONLY": "0", "C3X_R30_SKIP_SINGULAR": "0",
            "C3X_NO_TT_PICKER": "0", "C3X_NO_TT_VALUE": "0",
-           "C3X_R31_OBSERVE": "1", "C3X_R31_OVERRIDE": "",
-           "C3X_R32_OBSERVE": str(int(trace))}
-    # R31_OVERRIDE is optional, and an empty value is not a valid override.
-    env.pop("C3X_R31_OVERRIDE")
+           "C3X_R31_OBSERVE": "1", "C3X_R32_OBSERVE": str(int(trace))}
     if extra:
         env.update(extra)
     uci, proof = run(binary, {"history": history}, args.net, folder, logging=True, paired=False,
@@ -79,12 +77,66 @@ def execute(args):
     return {"sources": {"r31": R31, "old": digest(args.old), "patch": digest(args.patch)}, "arms": arms}
 
 
+def intervention(lines, passive, swaps):
+    observed = focal(lines)
+    physical = observed["bc6_pv_read"]
+    if physical != passive["bc6_pv_read"] or observed["enters"] != passive["enters"]:
+        raise ValueError("Treatment contaminated the prefix or used a different entry")
+    effective, = fields(lines, "C3X_R32_EFFECTIVE")
+    natural = Entry.parse(physical["tuple"])
+    expected = {channel: swaps.get(channel, getattr(natural, channel)) for channel in ("depth", "value")}
+    if {channel: int(effective[channel]) for channel in expected} != expected:
+        raise ValueError("The focal read did not consume the assigned fields")
+    singular, = fields(lines, "C3X_R32_SINGULAR")
+    extension, = fields(lines, "C3X_R32_EXTENSION")
+    verifies, = (row for row in observed["reads"] if row["mode"] == "p"
+                 and row["ply"] == "2" and row["excluded"] != "0")
+    rc1_read = next(row for row in observed["reads"] if row["mode"] == "p" and row["ply"] == "3"
+                    and row["pv"] == "1" and row["parent"] == "b1c1")
+    if (singular["threshold"], singular["depth"], physical["tuple"]) != (
+        verifies["beta"], verifies["depth"], verifies["tuple"]
+    ) or extension["child_depth"] != rc1_read["depth"]:
+        raise ValueError("Singular or Rc1 call did not match the log")
+    return dict(observed, effective=effective, singular=singular, extension=extension, rc1_read=rc1_read)
+
+
+def field_cross(args):
+    if digest(args.passive) != PASSIVE:
+        raise ValueError("The R32 discovery result has changed")
+    baseline = json.loads(args.passive.read_text())["arms"]
+    target, history, _ = load_case(args)
+    arms = {}
+    for world, donor in (("sham", "whole_hint"), ("whole_hint", "sham")):
+        expected = baseline[world]
+        resident = Entry.parse(expected["bc6"]["bc6_pv_read"]["tuple"])
+        opposite = Entry.parse(baseline[donor]["bc6"]["bc6_pv_read"]["tuple"])
+        probes = {"control": {}, "identity": {"value": resident.value, "depth": resident.depth},
+                  "value": {"value": opposite.value}, "depth": {"depth": opposite.depth},
+                  "both": {"value": opposite.value, "depth": opposite.depth}}
+        world_results = {}
+        for arm, swaps in probes.items():
+            extra = {"C3X_R32_" + channel.upper(): str(value) for channel, value in swaps.items()}
+            out, lines = replay(args, args.patch, world + "-" + arm, history, target,
+                                masked=world == "whole_hint", trace=True, extra=extra)
+            bc6 = intervention(lines, expected["bc6"], swaps)
+            world_results[arm] = {"r31": out, "bc6": bc6}
+            if arm in ("control", "identity") and (out != expected["r31"] or any(
+                bc6[key] != val for key, val in expected["bc6"].items()
+            )):
+                raise ValueError("R32 control or identity mismatched the passive result")
+        if world_results["identity"] != world_results["control"]:
+            raise ValueError("Assigning the current values changed the result")
+        arms[world] = world_results
+    return {"sources": {"r31": R31, "passive": PASSIVE, "patch": digest(args.patch)}, "arms": arms}
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     for key in ("cohort", "seal", "r31", "old", "patch", "net", "out"):
         parser.add_argument(key, type=Path)
+    parser.add_argument("--passive", type=Path)
     args = parser.parse_args()
-    write(args.out / "result.json", execute(args))
+    write(args.out / "result.json", field_cross(args) if args.passive else execute(args))
 
 
 if __name__ == "__main__":
