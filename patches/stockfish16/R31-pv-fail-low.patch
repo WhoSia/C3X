@@ -22,23 +22,27 @@ diff --git a/src/search.cpp b/src/search.cpp
      {
          C3XR31WatchCluster = TT.first_entry(posKey);
          std::cerr << "C3X_R31_SCOUT key=" << posKey << " slot=" << (tte - C3XR31WatchCluster)
-@@ -988,9 +991,12 @@
+@@ -988,10 +991,15 @@
      if (depth <= 0)
          return qsearch<PV>(pos, ss, alpha, beta);
  
 -    if (    cutNode
 -        &&  depth >= 8
 -        && !ttMove)
-+    const bool reduceCutWithoutHint = cutNode && depth >= 8 && !ttMove;
-+    if (r31Scout)
-+        std::cerr << "C3X_R31_SCOUT_REDUCTION before=" << depth
-+                  << " applied=" << reduceCutWithoutHint
-+                  << " after=" << depth - 2 * reduceCutWithoutHint << std::endl;
-+    if (reduceCutWithoutHint)
-         depth -= 2;
+-        depth -= 2;
++    {
++        const bool reduceCutWithoutHint = cutNode && depth >= 8 && !ttMove;
++        if (r31Scout)
++            std::cerr << "C3X_R31_SCOUT_REDUCTION before=" << depth
++                      << " applied=" << reduceCutWithoutHint
++                      << " after=" << depth - 2 * reduceCutWithoutHint << std::endl;
++        if (reduceCutWithoutHint)
++            depth -= 2;
++    }
  
      probCutBeta = beta + 168 - 61 * improving;
-@@ -1087,8 +1093,12 @@
+ 
+@@ -1087,8 +1095,12 @@
                           && (r31Bound() & BOUND_UPPER)
                           && r31Depth() >= depth;
  
