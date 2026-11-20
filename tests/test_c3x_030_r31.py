@@ -44,7 +44,7 @@ class WriterLineageTests(unittest.TestCase):
 class LearnerPanelTests(unittest.TestCase):
     def public_log(self):
         moves = ("a5a4", "a5a4", "f6d7", "f6d7", "f6d7", "f6d7", "f6d7")
-        return [f"info depth {d} seldepth {d} score cp -200 nodes 200 pv {m}"
+        return [f"info depth {d} seldepth {d} multipv 1 score cp -200 nodes 200 pv {m}"
                 for d, m in enumerate(moves, 9)] + ["bestmove f6d7"]
 
     def test_matched_panels_and_frozen_public_story(self):
