@@ -5,7 +5,7 @@ import json
 from pathlib import Path
 
 
-def score(items, responses):
+def score(items, responses, all_replies=None):
     items_by_id = {item["id"]: item for item in items}
     if len(items_by_id) != len(items):
         raise ValueError("Duplicate item identifier")
@@ -20,6 +20,11 @@ def score(items, responses):
         recommendation = item["judge"]["label"]
         if recommendation not in ("agree", "reverse", "unresolved"):
             raise ValueError(f"Unknown reference outcome for {item_id}")
+        if all_replies is not None:
+            stress = all_replies.get(item_id)
+            counts["audited" if stress is not None else "unaudited"] += 1
+            if stress is None or stress["label"] != recommendation:
+                recommendation = "unresolved"
         counts[recommendation] += 1
         record = responses.get(item_id, {})
         pre, post = record.get("pre"), record.get("post")
@@ -62,10 +67,15 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("items", type=Path)
     parser.add_argument("responses", type=Path)
+    parser.add_argument("--descriptive", action="store_true",
+                        help="Use preliminary child-search labels without the all-reply check")
     args = parser.parse_args()
-    items = json.loads(args.items.read_text())["positions"]
+    results = json.loads(args.items.read_text())
     responses = json.loads(args.responses.read_text())
-    print(json.dumps(score(items, responses), indent=2, sort_keys=True))
+    audit = None if args.descriptive else results["all_replies"]
+    report = score(results["positions"], responses, all_replies=audit)
+    report["label_mode"] = "preliminary" if args.descriptive else "all_reply_checked"
+    print(json.dumps(report, indent=2, sort_keys=True))
 
 
 if __name__ == "__main__":
