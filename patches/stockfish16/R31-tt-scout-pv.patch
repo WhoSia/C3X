@@ -339,11 +339,10 @@ diff --git a/src/tt.h b/src/tt.h
 
  private:
    friend class TranspositionTable;
-@@ -101,6 +106,7 @@
+@@ -101,5 +106,6 @@
  };
 
  extern TranspositionTable TT;
 +extern thread_local const TTEntry* C3XR31WatchCluster;
 
  } // namespace Stockfish
-
