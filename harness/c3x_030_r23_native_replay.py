@@ -89,9 +89,12 @@ def join(stdout, stderr):
             "counts": {"attempts": len(starts), "candidate_returns": len(candidates)}}
 
 
-def run(binary, case, net, directory, *, logging, paired, nnue, nodes=None, depth=None, hash_mib=16):
+def run(binary, case, net, directory, *, logging, paired, nnue, nodes=None, depth=None, hash_mib=16,
+        environment=None):
     directory.mkdir(parents=True)
     env = dict(os.environ)
+    if environment is not None:
+        env.update(environment)
     env.pop("C3X_ROOT_PROVENANCE", None)
     if logging:
         env["C3X_ROOT_PROVENANCE"] = "1"
