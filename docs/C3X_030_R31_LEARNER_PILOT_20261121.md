@@ -54,3 +54,8 @@ and the former inform different parts of this study. Neither serves as
 a control group for it.
 [Strategy verbalization](https://aclanthology.org/2026.findings-emnlp.1560/).
 [Engine-based contrastive metric](https://arxiv.org/abs/2610.23166).
+
+[Download the four condition folders](https://drive.google.com/file/d/1V9H12apBfOY6BF8UKMNk-LvVAGcWPdF1/view).
+Each contains the assigned lesson and the same assessment. The ZIP has
+no organizer answer key. Drive readback matched SHA-256
+`6cd2bc9c589d02051dd3a362bf1bed3676a9246feed222e2fdfcbda000cb886d`.
