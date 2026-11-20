@@ -20,14 +20,15 @@ def events(lines):
     return [{"open": row, "close": closed[row["event"]]} for row in opened]
 
 
-def trial(args, case, name, *, binary, observer, target=0, skip_f=False, skip_n=False):
+def trial(args, case, name, *, binary, observer, target=0, skip_f=False, skip_n=False,
+          nodes=32000, depth=None):
     folder = args.out / name
     env = {"C3X_R33_OBSERVE": str(int(observer)), "C3X_R33_TARGET": str(target),
            "C3X_R33_SKIP_FUTILITY": str(int(skip_f)), "C3X_R33_SKIP_NULL": str(int(skip_n)),
            "C3X_R29_PROBES": "0", "C3X_R31_OBSERVE": "0", "C3X_NO_TT_PICKER": "0",
            "C3X_NO_TT_VALUE": "0", "C3X_R29_MASK_MOVE": "0", "C3X_R29_MASK_VALUE": "0"}
     uci, proof = run(binary, {"history": case["moves"]}, args.net, folder, logging=True,
-                     paired=False, nnue=True, nodes=32000, environment=env)
+                     paired=False, nnue=True, nodes=nodes, depth=depth, environment=env)
     stderr = (folder / "stderr.txt").read_text().splitlines()
     return {"uci": uci, "events": events(stderr) if observer else [],
             "proof": proof, "trace": digest(folder / "stderr.txt")}
