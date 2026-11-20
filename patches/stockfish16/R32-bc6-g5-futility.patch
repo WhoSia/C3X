@@ -1,0 +1,68 @@
+diff --git a/src/search.cpp b/src/search.cpp
+--- a/src/search.cpp
++++ b/src/search.cpp
+@@ -135,6 +135,8 @@
+   const Value C3XR32G5 = Value(r32Field("C3X_R32_G5", "1909", "1962", VALUE_NONE));
+   constexpr Move R32G5 = make_move(SQ_G6, SQ_G5);
+   constexpr Key R32G5Key = 15895136417853702231ULL;
++  constexpr Move R32B5 = make_move(SQ_B4, SQ_B5);
++  const int C3XR32Futility = r32Field("C3X_R32_FUTILITY", "0", "1", -1);
+
+   // Different node types, used as a template parameter
+   enum NodeType { NonPV, PV, Root };
+@@ -756,6 +758,9 @@
+                         && depth == 11 && alpha == -1951 && beta == -1706
+                         && ss->ttHit && tte->move() == R32Rook && c3xAttempt == 14;
+     const TTEntry r32Arrival = r32Reader ? *tte : TTEntry{};
++    const bool r32G5Node = r32Mode == 'p' && posKey == R32G5Key && ss->ply == 3
++                       && !PvNode && cutNode && !excludedMove && depth == 3
++                       && (ss-1)->currentMove == R32G5 && (beta == 1909 || beta == 1962);
+     // Preserve live slot reads if recursive search changes the observed entry.
+     const auto r31Depth = [&] {
+         if (r32Reader && C3XR32Depth != DEPTH_NONE && tte->c3x_same_entry(r32Arrival))
+@@ -986,12 +991,19 @@
+
+     // Step 8. Futility pruning: child node (~40 Elo).
+     // The depth condition is important for mate finding.
+-    if (   !ss->ttPv
+-        &&  depth < 9
+-        &&  eval - futility_margin(depth, improving) - (ss-1)->statScore / 306 >= beta
+-        &&  eval >= beta
+-        &&  eval < 24923) // larger than VALUE_KNOWN_WIN, but smaller than TB wins
+-        return eval;
++    {
++        const Value futilityFloor = eval - futility_margin(depth, improving) - (ss-1)->statScore / 306;
++        const bool naturalFutility = !ss->ttPv && depth < 9 && futilityFloor >= beta
++                                  && eval >= beta && eval < 24923;
++        const bool futility = r32G5Node && C3XR32Futility >= 0 ? C3XR32Futility == 1 : naturalFutility;
++        if (r32G5Node)
++            std::cerr << "C3X_R32_G5_FUTILITY beta=" << beta << " eval=" << eval
++                      << " floor=" << futilityFloor << " native=" << naturalFutility
++                      << " used=" << futility << " history=" << int(thisThread->mainHistory[us][from_to(R32B5)])
++                      << std::endl;
++        if (futility)
++            return eval;
++    }
+
+     // Step 9. Null move search with verification search (~35 Elo)
+     if (   !PvNode
+@@ -1411,6 +1423,9 @@
+                     << " nodes=" << thisThread->nodes << std::endl;
+       }
+
++      if (r32G5Node)
++          std::cerr << "C3X_R32_G5_REPLY move=" << UCI::move(move, pos.is_chess960())
++                    << " index=" << moveCount << " key=" << pos.key() << std::endl;
+       const bool r29Root = rootNode && C3XR29Probes && c3x_trace();
+       uint64_t r29Before = c3xR29Probe;
+       const auto r29Return = [&](const char* stage, Value returned) {
+@@ -1719,6 +1734,9 @@
+     if (bestValue <= alpha)
+         ss->ttPv = ss->ttPv || ((ss-1)->ttPv && depth > 3);
+
++    if (r32G5Node)
++        std::cerr << "C3X_R32_G5_HISTORY history=" << int(thisThread->mainHistory[us][from_to(R32B5)])
++                  << " best=" << UCI::move(bestMove, pos.is_chess960()) << " value=" << bestValue << std::endl;
+     // Write gathered information in transposition table
+     if (!excludedMove && !(rootNode && thisThread->pvIdx))
+         tte->save(posKey, value_to_tt(bestValue, ss->ply), ss->ttPv,
