@@ -29,7 +29,7 @@ def family(event):
                   flags=re.IGNORECASE).strip()
 
 
-def freeze(archive, r26, r27):
+def freeze(archive, r26, r27, *, excluded_game_digests=(), excluded_board_keys=()):
     excluded = {family(game["event"]) for game in r26["games"]}
     excluded.update(family(item["source"]["event"]) for item in r27["transfer"].values())
     pools = defaultdict(list)
@@ -65,7 +65,7 @@ def freeze(archive, r26, r27):
     groups = sorted(pools, key=keyed)
     for group in groups:
         pools[group].sort(key=lambda row: keyed(row["game_sha256"]))
-    seen_games, seen_boards, sample = set(), set(), []
+    seen_games, seen_boards, sample = set(excluded_game_digests), set(excluded_board_keys), []
     for offset in range(max(map(len, pools.values()), default=0)):
         for group in groups:
             if offset >= len(pools[group]):
