@@ -1,7 +1,7 @@
 # R30 — Targeted follow-up on the previously exposed R29-031 reversal
 
 The observed-reply arm nominated probe 233 in attempt 14, under
-Kg7, matching the originally searched Bxc6 move. Withholding the
+Kg7, matching the originally searched Bc6 move. Withholding the
 whole local move hint left the scout return at 1947 but changed
 the next PV return from 1934 to 1952. The native trace shows a
 singular verification search at the probed position only in
