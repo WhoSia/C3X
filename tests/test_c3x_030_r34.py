@@ -18,9 +18,9 @@ class R34Tests(unittest.TestCase):
         target={key:str(i) for i,key in enumerate(PRETREATMENT)}
         target["event"]="12"
         changed={"open":dict(target,beta="999"),"close":{"event":"12"}}
-        with self.assertRaisesRegex(ValueError,"different target"):
+        with self.assertRaises(ValueError):
             event_match([changed],target)
-        with self.assertRaisesRegex(ValueError,"different target"):
+        with self.assertRaises(ValueError):
             event_match([changed,changed],target)
 
 

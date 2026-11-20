@@ -14,8 +14,10 @@ REPLAY = "367f7bf4e3993312f41bdccaeb59caf77f97f28c0609d18144513d55e55cad9b"
 
 def event_match(rows, target):
     matches = [row for row in rows if row["open"]["event"] == target["event"]]
-    if len(matches) != 1:
+    if not matches:
         return None
+    if len(matches) != 1:
+        raise ValueError("Reached a duplicate target event")
     event=matches[0]
     if any(event["open"][key] != target[key] for key in PRETREATMENT):
         raise ValueError("Reached a different target read")
