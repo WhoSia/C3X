@@ -1,7 +1,7 @@
 """Summarize frozen fresh-position early-return trials with explicit denominators."""
 import argparse
-from collections import Counter
 import json
+import re
 from pathlib import Path
 
 from c3x_030_r20_d1_pair import fields
@@ -37,7 +37,11 @@ def summarize(discovery, result, source):
                                   "C3X_R33_CLOSE")
             if row["event"] == target["target"]["event"]
         )
-        old_candidate = candidate(source / target["position"] / "observed" / "stderr.txt", target["target"])
+        folder = source / target["position"] / "observed"
+        old_candidate = candidate(folder / "stderr.txt", target["target"])
+        public = [re.sub(r"\b(?:nps|time) \d+ ?", "", line) for line in
+                  (folder / "stdout.txt").read_text().splitlines()
+                  if line.startswith(("info depth ", "bestmove "))]
         rows = {}
         for arm, repeated in item["arms"].items():
             first = repeated[0]
@@ -54,7 +58,7 @@ def summarize(discovery, result, source):
             rows[arm] = {
                 "best": first["best"]["move"],
                 "final_changed": first["best"]["move"] != original,
-                "public_changed": first["uci"] != discovery["public"][target["position"]] if "public" in discovery else None,
+                "public_changed": first["uci"] != public,
                 "event_return_changed": direct["value"] != original_event["value"],
                 "event_stopped": direct["stopped"] == "1",
                 "null_tried": direct["null_tried"] == "1",
@@ -82,7 +86,7 @@ def summarize(discovery, result, source):
         counts={"positions":len(subgroup)}
         for arm in ("futility_off", "both_off"):
             trials=[row["arms"][arm] for row in subgroup]
-            for key in ("final_changed", "event_return_changed", "event_stopped",
+            for key in ("final_changed", "public_changed", "event_return_changed", "event_stopped",
                         "null_tried", "null_cut", "root_completed", "root_comparable",
                         "root_value_changed", "root_update_changed"):
                 counts[f"{arm}_{key}"]=sum(int(row[key]) for row in trials)
@@ -91,7 +95,7 @@ def summarize(discovery, result, source):
     changed=[{"position":row["position"],"group":row["stratum"],"original":row["original_best"],
               **{arm:row["arms"][arm]["best"] for arm in row["arms"]}}
              for row in report if any(a["final_changed"] for a in row["arms"].values())]
-    return {"source":digest(source.parent / "cohort.json") if False else discovery["source_sha256"],
+    return {"source":discovery["source_sha256"],
             "counts":by_group,"changed":changed,"per_target":report}
 
 
