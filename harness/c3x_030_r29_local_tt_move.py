@@ -22,8 +22,19 @@ def nominate(probes, producer_attempt):
     return next(entry for entry in eligible if int(entry["attempt"]) == attempt)
 
 
+def nominate_cutoff(probes, cutoffs, producer_attempt):
+    cutoff_ids = {row["seq"] for row in cutoffs}
+    candidates = [row for row in probes if row["root"] == REFERENCE[1]
+                  and int(row["attempt"]) == producer_attempt and row["seq"] in cutoff_ids
+                  and row["excluded"] == "0"]
+    if not candidates:
+        raise ValueError("Alternative has no ply-one TT cutoff in the producing attempt")
+    return candidates[0]
+
+
 def probe_signature(entry):
-    return {key: value for key, value in entry.items() if key not in ("mask", "effective")}
+    changed = {"mask", "effective", "effective_value", "mask_move", "mask_value"}
+    return {key: value for key, value in entry.items() if key not in changed}
 
 
 def trace_at(directory, proof, target):
@@ -47,6 +58,7 @@ def trace_at(directory, proof, target):
     return {
         "read": entry,
         "masked": [row for row in probes if row["mask"] == "1"],
+        "cutoffs": [row for row in fields(log, "C3X_R29_CUTOFF") if row["seq"] == entry["seq"]],
         "replies": [row["move"] for row in replies if row["seq"] == entry["seq"]],
         "direct_child": direct[0],
         "target_candidate": target_row,
@@ -59,9 +71,11 @@ def trace_at(directory, proof, target):
     }
 
 
-def replay(binary, case, net, directory, *, logging=True, probe=True, target=0, mask=False):
+def replay(binary, case, net, directory, *, logging=True, probe=True, target=0, mask=False, policy="move"):
     env = {"C3X_R29_PROBES": str(int(probe)), "C3X_R29_TARGET": str(target),
-           "C3X_R29_MASK_MOVE": str(int(mask)), "C3X_NO_TT_PICKER": "0", "C3X_NO_TT_VALUE": "0"}
+           "C3X_R29_MASK_MOVE": str(int(mask and policy == "move")),
+           "C3X_R29_MASK_VALUE": str(int(mask and policy == "value")),
+           "C3X_NO_TT_PICKER": "0", "C3X_NO_TT_VALUE": "0"}
     return run(binary, case, net, directory, logging=logging, paired=False, nnue=True,
                nodes=NODES, environment=env)
 
@@ -77,6 +91,7 @@ def main():
     parser.add_argument("mode", choices=("discover", "replay"))
     for path in ("cohort", "clean", "patched", "net", "output", "freeze"):
         parser.add_argument(path, type=Path)
+    parser.add_argument("--policy", choices=("move", "value"), default="move")
     args = parser.parse_args()
     assets = {name: digest(getattr(args, name)) for name in ("cohort", "clean", "patched", "net")}
     if assets["net"] != NET:
@@ -92,14 +107,18 @@ def main():
         baseline = proof["best_source"]
         log = (args.output / "discovery" / "stderr.txt").read_text().splitlines()
         probes = fields(log, "C3X_R29_PLY1")
-        nomination = nominate(probes, int(baseline["attempt"]))
+        attempt = int(baseline["attempt"])
+        nomination = (nominate(probes, attempt) if args.policy == "move" else
+                      nominate_cutoff(probes, fields(log, "C3X_R29_CUTOFF"), attempt))
         write(args.freeze, {"assets": assets, "case": CASE, "node_budget": NODES,
+                            "policy": args.policy,
                             "original_producer": baseline, "target": nomination,
                             "discovery_trace": digest(args.output / "discovery" / "stderr.txt")})
         return
 
     frozen = json.loads(args.freeze.read_text())
-    if frozen["assets"] != assets or frozen["case"] != CASE or frozen["node_budget"] != NODES:
+    if (frozen["assets"] != assets or frozen["case"] != CASE or frozen["node_budget"] != NODES
+            or frozen.get("policy", "move") != args.policy):
         raise ValueError("Frozen experiment identity mismatch")
     target = frozen["target"]
     outputs, uci = {}, {}
@@ -107,13 +126,18 @@ def main():
         masked = name.startswith("mask")
         folder = args.output / name
         uci[name], proof = replay(args.patched, case, args.net, folder,
-                                  target=int(target["seq"]), mask=masked)
+                                  target=int(target["seq"]), mask=masked, policy=args.policy)
         outputs[name] = trace_at(folder, proof, target)
         receipt = outputs[name]
         if len(receipt["masked"]) != int(masked) or receipt["read"]["mask"] != str(int(masked)):
             raise ValueError("Unexpected mask count or event")
-        if receipt["read"]["effective"] != ("(none)" if masked else target["hint"]):
+        if receipt["read"]["effective"] != ("(none)" if masked and args.policy == "move" else target["hint"]):
             raise ValueError("Unexpected effective hint")
+        if args.policy == "value":
+            if receipt["read"]["mask_value"] != str(int(masked)) or receipt["read"]["mask_move"] != "0":
+                raise ValueError("The intervention touched an unintended channel")
+            if bool(receipt["cutoffs"]) == masked:
+                raise ValueError("Expected cutoff in control and fresh search when withheld")
     for left, right in (("sham", "restore"), ("mask", "mask-repeat")):
         raw_left = (args.output / left / "stderr.txt").read_bytes()
         raw_right = (args.output / right / "stderr.txt").read_bytes()
