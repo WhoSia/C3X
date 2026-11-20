@@ -63,9 +63,11 @@ The **explanandum** is *why this actual engine execution recommended this move o
 
 A successful explanation need not always reach level five, but it must *not silently claim it has*. When public PV stays fixed, a native panel can give an additional mechanistic observation; whether this improves a learner's choice under novel replies remains unmeasured. These are R33's *model requirements*, not human results.
 
-## R34 proposed experimental gates (not performed here)
+## Future held-out gates (separate R33/R34 native work already completed)
 
-**Selection and abstention first.** Acquire a previously unused PGN issue/event outside the R29/R30 TWIC issues and R32 exposed fixture. Freeze the archive hash, FEN+history, 32k budget, engine/NNUE checksums, and full denominator. Select cases without peeking at mask effects, including close, large, rank-reversing and unavailable-score strata, and record every event-selection miss.
+The independently executed [R33 TWIC1671 native panel](https://github.com/WhoSia/C3X/blob/7787590a595fbb225fde7d80e8a60b98b8a798d2/docs/C3X_030_R33_FRESH_TWIC1671_GATE_PANEL_RESULTS_20261121.md) contains 128 selected early-return events on 64 frozen new positions. Its [R34 equal-depth follow-up](https://github.com/WhoSia/C3X/blob/abe5c039a57fc173fe75430ce50345bd99776f37/docs/C3X_030_R34_EQUAL_DEPTH_DIAGNOSIS_20261121.md) tested 11 changed-choice events, with eight persisting at the originally completed fixed depth. Those are **separate experimental findings and were not created or counted by this R29/R30 cross-cohort audit**. The present gates apply to a future held-out cohort, not to the already completed R34.
+
+**Selection and abstention first.** Acquire a previously unused PGN issue/event outside TWIC1663 (R29), TWIC1664 (R30), TWIC1671 (the independently completed native R33), the exposed R32 fixture, and R34's retrospective diagnostic cases. Freeze the archive hash, FEN+history, 32k budget, engine/NNUE checksums, and full denominator. Select cases without peeking at mask effects, including close, large, rank-reversing and unavailable-score strata, and record every event-selection miss.
 
 **Mechanism and negative controls.** Within exact source attempts, test source-observed TT reads, stored score/bound/depth, singular threshold, nested futile/null gates, and any subsequent state update *only when a physical target is present*. Require untouched native runs, sham, one-read mask, restored read, logging-only parity and repeated stdout/stderr. Include a group where direct children change and the final choice stays constant. Test a **same-child-value, different-future-choice** witness like R32, but regard historical discovery as developmental.
 
