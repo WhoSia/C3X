@@ -1,0 +1,241 @@
+diff --git a/src/search.cpp b/src/search.cpp
+--- a/src/search.cpp
++++ b/src/search.cpp
+@@ -113,6 +113,25 @@
+       return R31Override{raw[0], int(value)};
+   }();
+
++  const bool C3XR33Observe = c3x_flag("C3X_R33_OBSERVE");
++  const unsigned long C3XR33Target = [] {
++      const char* raw = std::getenv("C3X_R33_TARGET");
++      return raw ? std::strtoul(raw, nullptr, 10) : 0UL;
++  }();
++  const bool C3XR33SkipFutility = c3x_flag("C3X_R33_SKIP_FUTILITY");
++  const bool C3XR33SkipNull = c3x_flag("C3X_R33_SKIP_NULL");
++  thread_local unsigned long r33Event = 0;
++
++  struct R33Call {
++      Stack* child;
++      Move root, excluded, tested;
++      const char* stage;
++      unsigned long event = 0;
++      int replies = 0;
++      bool nullTried = false, nullCut = false, pruned = false, treated = false;
++  };
++  thread_local R33Call* r33Active = nullptr;
++
+   // Different node types, used as a template parameter
+   enum NodeType { NonPV, PV, Root };
+
+@@ -254,6 +273,7 @@
+   if (c3x_trace())
+   {
+       c3xAttempt = c3xCandidate = 0;
++      r33Event = 0;
+       std::cerr << "C3X_R23_GO_BEGIN" << std::endl;
+   }
+
+@@ -694,6 +714,8 @@
+     excludedMove = ss->excludedMove;
+     posKey = pos.key();
+     tte = TT.probe(posKey, ss->ttHit);
++    auto* const r33Call = !PvNode && cutNode && !excludedMove && r33Active && r33Active->child == ss
++                       ? r33Active : nullptr;
+     const bool r31Matched = C3XR31Observe && C3XR29Probes && ss->ply == 1
+                          && c3xAttempt == 14 && c3xCandidate == 235 && posKey == R31Key
+                          && (ss-1)->currentMove == R31Root && !excludedMove && depth == 12
+@@ -924,60 +946,94 @@
+             return value;
+     }
+
+-    // Step 8. Futility pruning: child node (~40 Elo).
+-    // The depth condition is important for mate finding.
+-    if (   !ss->ttPv
+-        &&  depth < 9
+-        &&  eval - futility_margin(depth, improving) - (ss-1)->statScore / 306 >= beta
+-        &&  eval >= beta
+-        &&  eval < 24923) // larger than VALUE_KNOWN_WIN, but smaller than TB wins
+-        return eval;
+-
+-    // Step 9. Null move search with verification search (~35 Elo)
+-    if (   !PvNode
+-        && (ss-1)->currentMove != MOVE_NULL
+-        && (ss-1)->statScore < 17329
+-        &&  eval >= beta
+-        &&  eval >= ss->staticEval
+-        &&  ss->staticEval >= beta - 21 * depth - improvement / 13 + 258
+-        && !excludedMove
+-        &&  pos.non_pawn_material(us)
+-        && (ss->ply >= thisThread->nmpMinPly))
+     {
+-        assert(eval - beta >= 0);
++        const auto canTryNull = [&] {
++            return !PvNode
++                && (ss-1)->currentMove != MOVE_NULL
++                && (ss-1)->statScore < 17329
++                && eval >= beta
++                && eval >= ss->staticEval
++                && ss->staticEval >= beta - 21 * depth - improvement / 13 + 258
++                && !excludedMove
++                && pos.non_pawn_material(us)
++                && (ss->ply >= thisThread->nmpMinPly);
++        };
+
+-        // Null move dynamic reduction based on depth and eval
+-        Depth R = std::min(int(eval - beta) / 173, 6) + depth / 3 + 4;
++        // Step 8. Futility pruning: child node.
++        if (!ss->ttPv && depth < 9 && eval >= beta && eval < 24923)
++        {
++            const Value floor = eval - futility_margin(depth, improving) - (ss-1)->statScore / 306;
++            if (floor >= beta)
++            {
++                if (r33Call && !r33Call->event)
++                {
++                    r33Call->event = ++r33Event;
++                    r33Call->treated = r33Event == C3XR33Target;
++                    std::cerr << "C3X_R33_OPEN event=" << r33Event << " attempt=" << c3xAttempt
++                              << " candidate=" << c3xCandidate + 1
++                              << " root=" << UCI::move(r33Call->root, pos.is_chess960())
++                              << " excluded=" << UCI::move(r33Call->excluded, pos.is_chess960())
++                              << " tested=" << UCI::move(r33Call->tested, pos.is_chess960())
++                              << " parent_stage=" << r33Call->stage
++                              << " key=" << posKey << " ply=" << ss->ply << " depth=" << depth
++                              << " alpha=" << alpha << " beta=" << beta << " floor=" << floor
++                              << " eval=" << eval << " static=" << ss->staticEval
++                              << " null_eligible=" << canTryNull()
++                              << " nodes=" << thisThread->nodes << std::endl;
++                }
++                if (!(r33Call && r33Call->treated && C3XR33SkipFutility))
++                {
++                    if (r33Call && r33Call->event)
++                        r33Call->pruned = true;
++                    return eval;
++                }
++            }
++        }
+
+-        ss->currentMove = MOVE_NULL;
+-        ss->continuationHistory = &thisThread->continuationHistory[0][0][NO_PIECE][0];
++        // Step 9. Null move search with verification search.
++        if (!(r33Call && r33Call->treated && C3XR33SkipNull) && canTryNull())
++        {
++            assert(eval - beta >= 0);
+
+-        pos.do_null_move(st);
++            // Null move dynamic reduction based on depth and eval
++            Depth R = std::min(int(eval - beta) / 173, 6) + depth / 3 + 4;
+
+-        Value nullValue = -search<NonPV>(pos, ss+1, -beta, -beta+1, depth-R, !cutNode);
++            ss->currentMove = MOVE_NULL;
++            ss->continuationHistory = &thisThread->continuationHistory[0][0][NO_PIECE][0];
+
+-        pos.undo_null_move();
++            if (r33Call && r33Call->event)
++                r33Call->nullTried = true;
++            pos.do_null_move(st);
+
+-        if (nullValue >= beta)
+-        {
+-            // Do not return unproven mate or TB scores
+-            nullValue = std::min(nullValue, VALUE_TB_WIN_IN_MAX_PLY-1);
++            Value nullValue = -search<NonPV>(pos, ss+1, -beta, -beta+1, depth-R, !cutNode);
++
++            pos.undo_null_move();
++
++            if (nullValue >= beta)
++            {
++                // Do not return unproven mate or TB scores
++                nullValue = std::min(nullValue, VALUE_TB_WIN_IN_MAX_PLY-1);
+
+-            if (thisThread->nmpMinPly || depth < 14)
+-                return nullValue;
++                if (thisThread->nmpMinPly || depth < 14)
++                {
++                    if (r33Call && r33Call->event)
++                        r33Call->nullCut = true;
++                    return nullValue;
++                }
+
+-            assert(!thisThread->nmpMinPly); // Recursive verification is not allowed
++                assert(!thisThread->nmpMinPly); // Recursive verification is not allowed
+
+-            // Do verification search at high depths, with null move pruning disabled
+-            // until ply exceeds nmpMinPly.
+-            thisThread->nmpMinPly = ss->ply + 3 * (depth-R) / 4;
++                // Do verification search at high depths, with null move pruning disabled
++                // until ply exceeds nmpMinPly.
++                thisThread->nmpMinPly = ss->ply + 3 * (depth-R) / 4;
+
+-            Value v = search<NonPV>(pos, ss, beta-1, beta, depth-R, false);
++                Value v = search<NonPV>(pos, ss, beta-1, beta, depth-R, false);
+
+-            thisThread->nmpMinPly = 0;
++                thisThread->nmpMinPly = 0;
+
+-            if (v >= beta)
+-                return nullValue;
++                if (v >= beta)
++                    return nullValue;
++            }
+         }
+     }
+
+@@ -1322,8 +1378,31 @@
+           std::cerr << "C3X_R29_REPLY seq=" << r29NodeProbe
+                     << " move=" << UCI::move(move, pos.is_chess960())
+                     << " index=" << moveCount << std::endl;
++      if (r33Call && r33Call->event)
++          ++r33Call->replies;
+       pos.do_move(move, st, givesCheck);
+
++      const auto searchExcludedChild = [&](Depth childDepth, bool childCut, const char* stage) {
++          if (!C3XR33Observe || !excludedMove || ss->ply < 1 || ss->ply > 4
++              || childDepth < 1 || childDepth > 5 || !childCut || !c3x_trace())
++              return search<NonPV>(pos, ss+1, -(alpha+1), -alpha, childDepth, childCut);
++
++          R33Call observed{ss+1, (ss-ss->ply)->currentMove, excludedMove, move, stage};
++          auto* outer = r33Active;
++          r33Active = &observed;
++          const Value childValue = search<NonPV>(pos, ss+1, -(alpha+1), -alpha, childDepth, childCut);
++          r33Active = outer;
++          if (observed.event)
++              std::cerr << "C3X_R33_CLOSE event=" << observed.event << " value=" << childValue
++                        << " stopped=" << Threads.stop.load(std::memory_order_relaxed)
++                        << " futility=" << observed.pruned << " null_tried=" << observed.nullTried
++                        << " null_cut=" << observed.nullCut << " replies=" << observed.replies
++                        << " skip_f=" << (observed.treated && C3XR33SkipFutility)
++                        << " skip_n=" << (observed.treated && C3XR33SkipNull)
++                        << " nodes=" << thisThread->nodes << std::endl;
++          return childValue;
++      };
++
+       const bool r29Root = rootNode && C3XR29Probes && c3x_trace();
+       uint64_t r29Before = c3xR29Probe;
+       const auto r29Return = [&](const char* stage, Value returned) {
+@@ -1401,7 +1480,7 @@
+                         << " index=" << moveCount << " depth=" << d << " new_depth=" << newDepth
+                         << " reduction=" << r << std::endl;
+
+-          value = -search<NonPV>(pos, ss+1, -(alpha+1), -alpha, d, true);
++          value = -searchExcludedChild(d, true, "reduced");
+           r29Return("reduced", value);
+
+           // Do full depth search when reduced LMR search fails high
+@@ -1419,7 +1498,7 @@
+
+               if (newDepth > d)
+               {
+-                  value = -search<NonPV>(pos, ss+1, -(alpha+1), -alpha, newDepth, !cutNode);
++                  value = -searchExcludedChild(newDepth, !cutNode, "research");
+                   r29Return("research", value);
+               }
+
+@@ -1438,7 +1517,7 @@
+           if (!ttMove && cutNode)
+               r += 2;
+
+-          value = -search<NonPV>(pos, ss+1, -(alpha+1), -alpha, newDepth - (r > 3), !cutNode);
++          value = -searchExcludedChild(newDepth - (r > 3), !cutNode, "scout");
+           r29Return("scout", value);
+       }
+
