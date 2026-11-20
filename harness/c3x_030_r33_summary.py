@@ -6,6 +6,7 @@ from pathlib import Path
 
 from c3x_030_r20_d1_pair import fields
 from c3x_030_r29_local_tt_move import write
+from c3x_030_r30_public_iteration import public_view
 from c3x_030_r33_gate_panel import digest
 
 PRETREATMENT = ("attempt", "candidate", "root", "key", "depth", "beta")
@@ -42,6 +43,7 @@ def summarize(discovery, result, source):
         public = [re.sub(r"\b(?:nps|time) \d+ ?", "", line) for line in
                   (folder / "stdout.txt").read_text().splitlines()
                   if line.startswith(("info depth ", "bestmove "))]
+        original_public = public_view("\n".join(public))
         rows = {}
         for arm, repeated in item["arms"].items():
             first = repeated[0]
@@ -55,10 +57,13 @@ def summarize(discovery, result, source):
                 raise ValueError("Unexpected root candidate")
             comparable = bool(old_candidate and new_candidate and new_candidate["alpha"] == old_candidate["alpha"]
                               and new_candidate["beta"] == old_candidate["beta"])
+            changed_public = public_view("\n".join(first["uci"]))
             rows[arm] = {
                 "best": first["best"]["move"],
                 "final_changed": first["best"]["move"] != original,
-                "public_changed": first["uci"] != public,
+                "public_changed": changed_public["iterations"] != original_public["iterations"],
+                "final_card_changed": changed_public["final"] != original_public["final"],
+                "metadata_only": first["uci"] != public and changed_public == original_public,
                 "event_return_changed": direct["value"] != original_event["value"],
                 "event_stopped": direct["stopped"] == "1",
                 "null_tried": direct["null_tried"] == "1",
@@ -74,8 +79,8 @@ def summarize(discovery, result, source):
         if target["group"] == "0":
             a, b = rows["futility_off"], rows["both_off"]
             if any(a[key] != b[key] for key in
-                   ("best", "event_return_changed", "null_tried", "null_cut",
-                    "board_replies", "new_root")):
+                   ("best", "public_changed", "final_card_changed", "event_return_changed",
+                    "null_tried", "null_cut", "board_replies", "new_root")):
                 raise ValueError("Null-ineligible negative control diverged")
         report.append({"position": target["position"], "stratum": target["group"],
                        "target": target["target"], "original_event": original_event,
@@ -86,7 +91,8 @@ def summarize(discovery, result, source):
         counts={"positions":len(subgroup)}
         for arm in ("futility_off", "both_off"):
             trials=[row["arms"][arm] for row in subgroup]
-            for key in ("final_changed", "public_changed", "event_return_changed", "event_stopped",
+            for key in ("final_changed", "public_changed", "final_card_changed", "metadata_only",
+                        "event_return_changed", "event_stopped",
                         "null_tried", "null_cut", "root_completed", "root_comparable",
                         "root_value_changed", "root_update_changed"):
                 counts[f"{arm}_{key}"]=sum(int(row[key]) for row in trials)
