@@ -9,7 +9,7 @@ diff --git a/src/search.cpp b/src/search.cpp
 
    // Different node types, used as a template parameter
    enum NodeType { NonPV, PV, Root };
-@@ -1006,52 +1007,60 @@
+@@ -1006,51 +1007,59 @@
      }
 
      // Step 9. Null move search with verification search (~35 Elo)
@@ -102,4 +102,3 @@ diff --git a/src/search.cpp b/src/search.cpp
 +            }
          }
      }
-

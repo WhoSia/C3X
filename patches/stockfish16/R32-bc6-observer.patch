@@ -136,7 +136,7 @@ diff --git a/src/tt.cpp b/src/tt.cpp
 +  }
  }
 
- 
+
 @@ -162,7 +178,19 @@
                std::cerr << "C3X_R31_REFRESH key=" << key << " slot=" << i << " before=";
                tte[i].c3x_write_tuple(std::cerr);
@@ -160,11 +160,10 @@ diff --git a/src/tt.cpp b/src/tt.cpp
 diff --git a/src/tt.h b/src/tt.h
 --- a/src/tt.h
 +++ b/src/tt.h
-@@ -107,6 +107,7 @@
+@@ -107,5 +107,6 @@
 
  extern TranspositionTable TT;
  extern thread_local const TTEntry* C3XR31WatchCluster;
 +extern thread_local const TTEntry* C3XR32WatchCluster;
 
  } // namespace Stockfish
-
