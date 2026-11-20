@@ -89,3 +89,27 @@ opponent replies.
 The original human trial remains R31's four-arm comparison of
 board reasoning, public PV history and native causal trace.
 No participant outcomes were collected here.
+
+## Reproduction
+
+Use the existing R33 binary on the frozen TWIC 1671 source. Run
+`harness/c3x_030_r34_depth.py` with the SHA-locked R33 cohort,
+R33 summary and R33 replay, followed by the binary, NNUE and new
+output directory. For the observer check, run
+`harness/c3x_030_r34_parity.py` with cohort, the new depth result,
+R31 binary, R33 binary, NNUE and a separate output directory.
+The same Stockfish 16 source and 16 MiB hash were used.
+
+The depth result SHA-256 was
+`9b9d5a0a80a3d3389e5bd08749c52f22d397e657ea80739c613a2d9d62a14e82`.
+The parity result SHA-256 was
+`7872d9f281613afa50541fb560b13bd1397d99bbb0d8ff71576eecc1a1c3d246`.
+The 16 diagnosis combinations required 64 repeated intervention
+searches. The 13 distinct board/depth pairs required 26 additional
+R31 and R33-off searches, totaling 90 new executions.
+All 32 same-arm stderr pairs matched byte-for-byte.
+The full [raw archive](https://drive.google.com/file/d/1P9wTTfrFpVxslSH3gDl9KuWG0XZt6JB4/view)
+includes the three inherited R33 identity inputs, both search
+campaigns, result JSON and per-file checksums. Its Drive readback
+matched SHA-256
+`c4f01a19665e7bb8781316e4f1a13d9a91c2cf4b0bf35eea5d962851c53f697a`.
