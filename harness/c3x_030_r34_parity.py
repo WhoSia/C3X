@@ -25,9 +25,11 @@ def execute(args):
                   if row["position"]==position and row["depth"]==depth]
         for row in original:
             control=row["arms"]["control"]
-            if (control["best"]!=off["proof"]["best"] or
-                    control["public"]!=public_view("\n".join(off["uci"]))):
-                raise ValueError("Observed fixed-depth baseline differs")
+            public = json.loads(json.dumps(public_view("\n".join(off["uci"]))))
+            if control["best"] != off["proof"]["best"] or control["public"] != public:
+                raise ValueError(f"Observed fixed-depth baseline differs at {position} depth={depth} "
+                                 f"group={row['stratum']} best={control['best']} vs {off['proof']['best']} "
+                                 f"public={control['public']==public_view(chr(10).join(off['uci']))}")
         records.append({"position":position,"depth":depth,"best":old["proof"]["best"],
                         "old_binary":digest(args.old),"patch_binary":digest(args.patch)})
     return records
