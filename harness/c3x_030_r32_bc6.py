@@ -10,6 +10,7 @@ from c3x_030_r31_tt_pv import COHORT, SEAL, Entry, extracted
 
 R31 = "ef182a418b5522a400a713788d90f8846e8b5d204c182e41729648a19e066a50"
 REPLY = "b5c6"
+FUTILITY_RESULTS = "40c4d440836806c259c48566fc6af578c9ad3aa4236a3660ccaa5074f16f34a1"
 NESTED_RESULTS = "9db0da4b57ee9adb7ba47c350bc8ed7e0ec1ec9ebcb84f95653c60e1fbf6419b"
 SINGULAR_RESULTS = "b34c113ce4b35093aa176553f0e0ea39cef8e835a3b8dbf5de8acb97e0ee9c45"
 FIELD_CROSS = "2796317d74c59835e50d5c2ae8cc5af60c6fa38097764355df3d8464a386a5b1"
@@ -203,6 +204,11 @@ def nested_window(args):
             raise ValueError("Nested-window fixture changed")
         frozen = json.loads(args.futility.read_text())["arms"]
         configs.update({"g5_force_search": {"futility": 0}, "g5_force_prune": {"g5": 1962, "futility": 1}})
+    if args.null:
+        if digest(args.null) != FUTILITY_RESULTS:
+            raise ValueError("Futility fixture changed")
+        frozen_futility = json.loads(args.null.read_text())["arms"]
+        configs.update({"g5_skip_both": {"futility": 0, "null": 0}, "g5_admit_null": {"g5": 1962, "null": 1}})
     arms = {}
     for arm, swaps in configs.items():
         env = {"C3X_R32_" + channel.upper(): str(value) for channel, value in swaps.items()}
@@ -231,6 +237,17 @@ def nested_window(args):
             row["gate"] = gate
             row["replies"] = fields(lines, "C3X_R32_G5_REPLY")
             row["history"] = fields(lines, "C3X_R32_G5_HISTORY")
+        if args.null:
+            if arm in frozen_futility and row != frozen_futility[arm]:
+                raise ValueError("Null observer disturbed a frozen run")
+            null_gate = fields(lines, "C3X_R32_G5_NULL_GATE")
+            if len(null_gate) != (row["gate"]["used"] == "0"):
+                raise ValueError("Unexpected null gate")
+            if null_gate:
+                checked = null_gate[0]
+                if checked["beta"] != focal_g5["used"] or int(checked["used"]) != swaps.get("null", int(checked["native"])):
+                    raise ValueError("Wrong null-move admission")
+            row["null_gate"] = null_gate
         arms[arm] = row
     return {"sources": {"r31": R31, "singular": SINGULAR_RESULTS, "patch": digest(args.patch)}, "arms": arms}
 
@@ -243,7 +260,10 @@ def main():
     parser.add_argument("--cross", type=Path)
     parser.add_argument("--singular", type=Path)
     parser.add_argument("--futility", type=Path)
+    parser.add_argument("--null", type=Path)
     args = parser.parse_args()
+    if args.null and not args.futility:
+        parser.error("--null requires --futility")
     if args.futility and not args.singular:
         parser.error("--futility requires --singular")
     if args.cross and not args.passive:
