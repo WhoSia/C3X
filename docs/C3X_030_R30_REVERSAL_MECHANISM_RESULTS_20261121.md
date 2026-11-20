@@ -3,7 +3,7 @@
 The new rule nominated a move hint for both exposed R29 depth-reversal
 fixtures. In R29-020, the first reply changed but the child returned
 −107 in both arms. In R29-031, probe 233 was within the scout of Kg7
-in attempt 14. The full hint mask leaves the first reply Bxc6 and
+in attempt 14. The full hint mask leaves the first reply Bc6 and
 the scout return 1947 intact. The next cast of the search is the
 full-window PV re-search. The verified child-to-root links are:
 
