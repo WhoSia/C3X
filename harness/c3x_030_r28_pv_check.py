@@ -40,7 +40,11 @@ def main():
     for name in ("cohort", "stockfish", "output"):
         parser.add_argument(name, type=Path)
     parser.add_argument("--cohort-sha256", required=True)
+    parser.add_argument("--depths", type=int, nargs="+", default=DEPTHS)
     args = parser.parse_args()
+    depths = tuple(sorted(set(args.depths)))
+    if len(depths) < 2 or depths[0] < 1:
+        parser.error("Provide at least two distinct positive depths")
     raw = args.cohort.read_bytes()
     engine = args.stockfish.resolve()
     if digest(raw) != args.cohort_sha256 or digest(engine.read_bytes()) != STOCKFISH_SHA:
@@ -50,8 +54,8 @@ def main():
     def measure(case):
         board = board_from_case(case)
         rows = [search(board, "upstream", chess.engine.Limit(depth=depth), engine, engine)
-                for depth in DEPTHS]
-        if tuple(row["depth"] for row in rows) != DEPTHS:
+                for depth in depths]
+        if tuple(row["depth"] for row in rows) != depths:
             raise ValueError(f"Missing completed depth for {case['id']}")
         return {"id": case["id"], "fen": case["fen"], "searches": rows, "forks": fork_pairs(rows)}
 
@@ -59,7 +63,7 @@ def main():
         positions = list(pool.map(measure, cases))
     with args.output.open("x") as stream:
         json.dump({"cohort_sha256": digest(raw), "stockfish_sha256": STOCKFISH_SHA,
-                   "positions": positions}, stream, indent=2)
+                   "depths": depths, "positions": positions}, stream, indent=2)
         stream.write("\n")
 
 
