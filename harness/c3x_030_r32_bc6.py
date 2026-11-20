@@ -10,6 +10,7 @@ from c3x_030_r31_tt_pv import COHORT, SEAL, Entry, extracted
 
 R31 = "ef182a418b5522a400a713788d90f8846e8b5d204c182e41729648a19e066a50"
 REPLY = "b5c6"
+NESTED_RESULTS = "9db0da4b57ee9adb7ba47c350bc8ed7e0ec1ec9ebcb84f95653c60e1fbf6419b"
 SINGULAR_RESULTS = "b34c113ce4b35093aa176553f0e0ea39cef8e835a3b8dbf5de8acb97e0ee9c45"
 FIELD_CROSS = "2796317d74c59835e50d5c2ae8cc5af60c6fa38097764355df3d8464a386a5b1"
 PASSIVE = "6b99c9b5f603318e7022310c8886064241f36980ce5d6e1641c4265be946569b"
@@ -135,7 +136,7 @@ def field_cross(args):
 def same_alpha_changes(control, treatment):
     """Find the first changed score and leader at a common root threshold."""
     candidates = {row["move"]: row for row in control}
-    comparables = [(candidates[row["move"]], row) for row in treatment if row["move"] in candidates
+    comparables = [[candidates[row["move"]], row] for row in treatment if row["move"] in candidates
                    and row["alpha"] == candidates[row["move"]]["alpha"]]
     first_value = next((pair for pair in comparables if pair[0]["value"] != pair[1]["value"]), None)
     first_update = next((pair for pair in comparables if pair[0]["update"] != pair[1]["update"]), None)
@@ -197,6 +198,11 @@ def nested_window(args):
     target, history, _ = load_case(args)
     configs = {"control": {}, "singular_window": {"window": -1961},
                "g5_only": {"g5": 1962}, "g5_repair": {"window": -1961, "g5": 1909}}
+    if args.futility:
+        if digest(args.futility) != NESTED_RESULTS:
+            raise ValueError("Nested-window fixture changed")
+        frozen = json.loads(args.futility.read_text())["arms"]
+        configs.update({"g5_force_search": {"futility": 0}, "g5_force_prune": {"g5": 1962, "futility": 1}})
     arms = {}
     for arm, swaps in configs.items():
         env = {"C3X_R32_" + channel.upper(): str(value) for channel, value in swaps.items()}
@@ -214,8 +220,18 @@ def nested_window(args):
             prior = base["control" if arm == "control" else "window"]
             if (out, bc6, roots) != (prior["r31"], prior["bc6"], prior["roots"]):
                 raise ValueError("Nested instrumentation disturbed an inherited run")
-        arms[arm] = {"r31": out, "bc6": bc6, "roots": roots, "g5": focal_g5, "nulls": nulls,
-                     "root_difference": same_alpha_changes(arms["control"]["roots"] if arms else roots, roots)}
+        row = {"r31": out, "bc6": bc6, "roots": roots, "g5": focal_g5, "nulls": nulls,
+               "root_difference": same_alpha_changes(arms["control"]["roots"] if arms else roots, roots)}
+        if args.futility:
+            if arm in frozen and row != frozen[arm]:
+                raise ValueError("Futility observer disturbed a frozen run")
+            gate, = fields(lines, "C3X_R32_G5_FUTILITY")
+            if gate["beta"] != focal_g5["used"] or int(gate["used"]) != swaps.get("futility", int(gate["native"])):
+                raise ValueError("Wrong futility decision")
+            row["gate"] = gate
+            row["replies"] = fields(lines, "C3X_R32_G5_REPLY")
+            row["history"] = fields(lines, "C3X_R32_G5_HISTORY")
+        arms[arm] = row
     return {"sources": {"r31": R31, "singular": SINGULAR_RESULTS, "patch": digest(args.patch)}, "arms": arms}
 
 
@@ -226,7 +242,10 @@ def main():
     parser.add_argument("--passive", type=Path)
     parser.add_argument("--cross", type=Path)
     parser.add_argument("--singular", type=Path)
+    parser.add_argument("--futility", type=Path)
     args = parser.parse_args()
+    if args.futility and not args.singular:
+        parser.error("--futility requires --singular")
     if args.cross and not args.passive:
         parser.error("--cross requires --passive")
     if args.singular:
