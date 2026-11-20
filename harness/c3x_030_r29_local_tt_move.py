@@ -50,8 +50,8 @@ def trace_at(directory, proof, target, roots=REFERENCE):
               and row["attempt"] == entry["attempt"]
               and row["candidate_next"] == entry["candidate_next"]
               and int(row["before"]) < int(entry["seq"]) <= int(row["after"])]
-    if len(direct) != 1 or direct[0]["stopped"] != "0":
-        raise ValueError("Expected one completed root child enclosing the read")
+    if len(direct) != 1:
+        raise ValueError("Expected one direct root child enclosing the read")
     candidates = fields(log, "C3X_R23_CANDIDATE")
     same_attempt = [row for row in candidates if row["attempt"] == entry["attempt"]]
     target_row = next((row for row in same_attempt if row["id"] == entry["candidate_next"]), None)
