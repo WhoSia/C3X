@@ -1,8 +1,8 @@
-# R34 experimental registration draft — native explanation transport, not just TT sensitivity
+# Post-R34 held-out cohort proposal — native explanation transport, not just TT sensitivity
 
-**Status: planned, not executed, not an independent result.** The R29/R30/R32 positions have been exposed in development. Do not use them to assess generalization.
+**Status: proposal only; NOT the completed R34 protocol or an independent result.** The original R33 TWIC1671 native gate panel and its R34 equal-depth follow-up were completed separately. All R29/R30/R32, TWIC1671 R33 and R34 diagnosis positions are now development data. This note proposes a *future* held-out cohort beyond them.
 
-## The falsifiable R34 question
+## The falsifiable next-cohort question
 
 Does a signed, causal Stockfish search-state explanation (native trace + interventions) identify failures and conditions of move recommendations in previously unseen PGNs better than the same-budget publicly visible depth/score/PV, *without increasing unjustified certainty about chess merit*? A separate controlled human comparison asks whether adding that evidence to a held-fixed board reply explanation improves responses to novel legal opponent moves.
 
