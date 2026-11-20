@@ -37,7 +37,7 @@ def probe_signature(entry):
     return {key: value for key, value in entry.items() if key not in changed}
 
 
-def trace_at(directory, proof, target):
+def trace_at(directory, proof, target, roots=REFERENCE):
     log = (directory / "stderr.txt").read_text().splitlines()
     probes = fields(log, "C3X_R29_PLY1")
     matches = [row for row in probes if row["seq"] == target["seq"]]
@@ -62,7 +62,7 @@ def trace_at(directory, proof, target):
         "replies": [row["move"] for row in replies if row["seq"] == entry["seq"]],
         "direct_child": direct[0],
         "target_candidate": target_row,
-        "contrast_candidates": [row for row in same_attempt if row["move"] in REFERENCE],
+        "contrast_candidates": [row for row in same_attempt if row["move"] in roots],
         "target_attempt_end": next((row for row in fields(log, "C3X_R23_END")
                                     if row["attempt"] == entry["attempt"]), None),
         "best": proof["best"],
