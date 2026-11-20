@@ -10,6 +10,7 @@ from c3x_030_r31_tt_pv import COHORT, SEAL, Entry, extracted
 
 R31 = "ef182a418b5522a400a713788d90f8846e8b5d204c182e41729648a19e066a50"
 REPLY = "b5c6"
+FIELD_CROSS = "2796317d74c59835e50d5c2ae8cc5af60c6fa38097764355df3d8464a386a5b1"
 PASSIVE = "6b99c9b5f603318e7022310c8886064241f36980ce5d6e1641c4265be946569b"
 
 
@@ -130,13 +131,75 @@ def field_cross(args):
     return {"sources": {"r31": R31, "passive": PASSIVE, "patch": digest(args.patch)}, "arms": arms}
 
 
+def same_alpha_changes(control, treatment):
+    """Find the first changed score and leader at a common root threshold."""
+    candidates = {row["move"]: row for row in control}
+    comparables = [(candidates[row["move"]], row) for row in treatment if row["move"] in candidates
+                   and row["alpha"] == candidates[row["move"]]["alpha"]]
+    first_value = next((pair for pair in comparables if pair[0]["value"] != pair[1]["value"]), None)
+    first_update = next((pair for pair in comparables if pair[0]["update"] != pair[1]["update"]), None)
+    return {"first_value": first_value, "first_update": first_update}
+
+
+def singular_controls(args):
+    if digest(args.cross) != FIELD_CROSS or digest(args.passive) != PASSIVE:
+        raise ValueError("Prior field-cross or discovery result changed")
+    baseline = json.loads(args.cross.read_text())["arms"]
+    target, history, _ = load_case(args)
+    arms = {}
+    for world, donor in (("sham", "whole_hint"), ("whole_hint", "sham")):
+        prior = baseline[world]
+        other = baseline[donor]["control"]["bc6"]
+        own = prior["control"]["bc6"]
+        assigned = {"control": {},
+                    "value": {"value": int(other["effective"]["value"])},
+                    "identity": {"window": int(own["singular"]["threshold"]),
+                                 "extension": int(own["extension"]["extension"])},
+                    "window": {"window": int(other["singular"]["threshold"])},
+                    "extension": {"extension": int(other["extension"]["extension"])}}
+        rows = {}
+        for arm, swaps in assigned.items():
+            env = {"C3X_R32_" + channel.upper(): str(value) for channel, value in swaps.items()}
+            out, lines = replay(args, args.patch, world + "-" + arm, history, target,
+                                masked=world == "whole_hint", trace=True, extra=env)
+            bc6 = intervention(lines, own, swaps)
+            for assigned_field, name, native_name, field in (
+                ("window", "singular", "native_threshold", "threshold"),
+                ("extension", "extension", "native_extension", "extension"),
+            ):
+                row = bc6[name]
+                if int(row[field]) != swaps.get(assigned_field, int(row[native_name])):
+                    raise ValueError("Inactive or unexpected " + assigned_field)
+            if arm in ("control", "value"):
+                prior_arm = prior[arm]
+                equivalent = all({k: bc6[key][k] for k in val} == val if key in ("singular", "extension")
+                                 else bc6[key] == val for key, val in prior_arm["bc6"].items())
+                if out != prior_arm["r31"] or not equivalent:
+                    raise ValueError("Singular overlay disturbed an inherited run")
+            roots = [row for row in fields(lines, "C3X_R23_CANDIDATE") if row["attempt"] == "14"]
+            if len(roots) != len({row["move"] for row in roots}):
+                raise ValueError("Ambiguous focal root order")
+            rows[arm] = {"r31": out, "bc6": bc6, "roots": roots, "cutoffs": fields(lines, "C3X_R32_CUTOFF")}
+        if rows["identity"] != rows["control"]:
+            raise ValueError("Identity intervention changed the search")
+        for arm, row in rows.items():
+            row["root_difference"] = same_alpha_changes(rows["control"]["roots"], row["roots"])
+        arms[world] = rows
+    return {"sources": {"r31": R31, "passive": PASSIVE, "cross": FIELD_CROSS,
+                        "patch": digest(args.patch)}, "arms": arms}
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     for key in ("cohort", "seal", "r31", "old", "patch", "net", "out"):
         parser.add_argument(key, type=Path)
     parser.add_argument("--passive", type=Path)
+    parser.add_argument("--cross", type=Path)
     args = parser.parse_args()
-    write(args.out / "result.json", field_cross(args) if args.passive else execute(args))
+    if args.cross and not args.passive:
+        parser.error("--cross requires --passive")
+    result = singular_controls(args) if args.cross else field_cross(args) if args.passive else execute(args)
+    write(args.out / "result.json", result)
 
 
 if __name__ == "__main__":
