@@ -93,7 +93,13 @@ def extracted(folder, proof, target, override, masked):
         flag = {"effective_depth": "d", "effective_bound": "b", "tt_value": "v"}[key]
         if int(gate[key]) != (value if field == ord(flag) else stored):
             raise ValueError(f"Consumer field mismatch at {key}")
-    return {"scout": scout, "consumer": consumer, "events": slots(lines, scout, consumer), "gate": gate,
+    if field == ord("f") and int(gate["likely_fail_low"]) != value:
+        raise ValueError("PV fail-low override was not consumed")
+    reductions = fields(lines, "C3X_R31_SCOUT_REDUCTION")
+    if len(reductions) > 1:
+        raise ValueError("Ambiguous scout reduction")
+    return {"scout": scout, "scout_reduction": reductions, "consumer": consumer,
+            "events": slots(lines, scout, consumer), "gate": gate,
             "lmr": fields(lines, "C3X_R31_LMR"), "chain": paths, "target_attempt_end": data["target_attempt_end"],
             "producer": data["producer"], "last_report": data["last_report"]}
 
@@ -144,7 +150,7 @@ def execute(args):
     restored = invoke(args, history, "restore", args.patch, target)
     if restored != arms["sham"]:
         raise ValueError("Restore failed")
-    if args.phase == "swap":
+    if args.phase in ("swap", "gate"):
         for name, masked, donor in (("sham", False, "whole_hint"), ("whole_hint", True, "sham")):
             base = arms[name]
             arrival = Entry.parse(base["consumer"]["tuple"])
@@ -161,6 +167,25 @@ def execute(args):
                                                             for k in base.keys() - {"consumer"}):
                     raise ValueError(f"Identity swap changed {key}")
                 arms[key] = treatment
+    if args.phase == "gate":
+        for name, masked, donor, value in (("sham", False, "whole_hint", 0), ("whole_hint", True, "sham", 1)):
+            treatment = invoke(args, history, f"{name}-force-fail-low-{value}", args.patch, target,
+                               masked=masked, override=f"f{value}")
+            base = arms[name]
+            expected = {"before": "12", "applied": str(int(masked)), "after": "10" if masked else "12"}
+            if (
+                any(base[k] != treatment[k] for k in ("scout", "scout_reduction", "events"))
+                or base["scout_reduction"] != [expected]
+                or base["consumer"]["tuple"] != treatment["consumer"]["tuple"]
+                or treatment["gate"]["native_likely_fail_low"] != str(1 - value)
+            ):
+                raise ValueError("Unexpected sender/consumer state before fail-low intervention")
+            arms[f"{name}-force-fail-low-{value}"] = treatment
+            depth_arm = arms[f"{name}-depth-from-{donor}"]
+            treatment["matches_depth_swap"] = {
+                key: treatment[key] == depth_arm[key] for key in
+                ("lmr", "chain", "target_attempt_end", "producer", "last_report", "uci")
+            }
     return {"sources": {"cohort": COHORT, "seal": SEAL, "r30": R30, "nnue": NET,
                         "old_binary": digest(args.old), "patched_binary": digest(args.patch)},
             "arms": arms, "restore": restored}
@@ -168,7 +193,7 @@ def execute(args):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("phase", choices=("observe", "swap"))
+    parser.add_argument("phase", choices=("observe", "swap", "gate"))
     for key in ("cohort", "seal", "r30", "old", "patch", "net", "out"):
         parser.add_argument(key, type=Path)
     args = parser.parse_args()
