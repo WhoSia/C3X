@@ -103,7 +103,7 @@ This campaign executed 192 baseline/observation and 512
 intervention searches, totaling 704 fresh Stockfish runs. The full
 panel result SHA-256 is
 `367f7bf4e3993312f41bdccaeb59caf77f97f28c0609d18144513d55e55cad9b`.
-The signed summary SHA-256 is
+The summary SHA-256 is
 `b5f03e9e773467d4ef8e46c9a637626e5a7b691f21116d7a115236eacf31bf67`.
 
 The source issue contains additional games outside the 64 selected
