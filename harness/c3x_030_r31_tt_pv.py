@@ -101,10 +101,10 @@ def extracted(folder, proof, target, override, masked):
     return {"scout": scout, "scout_reduction": reductions, "consumer": consumer,
             "events": slots(lines, scout, consumer), "gate": gate,
             "lmr": fields(lines, "C3X_R31_LMR"), "chain": paths, "target_attempt_end": data["target_attempt_end"],
-            "producer": data["producer"], "last_report": data["last_report"]}
+            "producer": data["producer"], "last_report": data["last_report"], "best": data["best"]}
 
 
-def invoke(args, history, name, binary, target, *, masked=False, observe=True, override=""):
+def invoke(args, history, name, binary, target, *, masked=False, observe=True, override="", nodes=32000):
     folder = args.out / name
     env = {"C3X_R29_PROBES": "1", "C3X_R29_TARGET": target["seq"],
            "C3X_R29_MASK_MOVE": str(int(masked)), "C3X_R29_MASK_VALUE": "0",
@@ -114,7 +114,7 @@ def invoke(args, history, name, binary, target, *, masked=False, observe=True, o
     if override:
         env["C3X_R31_OVERRIDE"] = override
     uci, proof = run(binary, {"history": history}, args.net, folder, logging=True, paired=False,
-                     nnue=True, nodes=32000, environment=env)
+                     nnue=True, nodes=nodes, environment=env)
     if observe:
         result = extracted(folder, proof, target, override, masked)
     else:
@@ -150,7 +150,7 @@ def execute(args):
     restored = invoke(args, history, "restore", args.patch, target)
     if restored != arms["sham"]:
         raise ValueError("Restore failed")
-    if args.phase in ("swap", "gate"):
+    if args.phase in ("swap", "gate", "budget"):
         for name, masked, donor in (("sham", False, "whole_hint"), ("whole_hint", True, "sham")):
             base = arms[name]
             arrival = Entry.parse(base["consumer"]["tuple"])
@@ -167,7 +167,7 @@ def execute(args):
                                                             for k in base.keys() - {"consumer"}):
                     raise ValueError(f"Identity swap changed {key}")
                 arms[key] = treatment
-    if args.phase == "gate":
+    if args.phase in ("gate", "budget"):
         for name, masked, donor, value in (("sham", False, "whole_hint", 0), ("whole_hint", True, "sham", 1)):
             treatment = invoke(args, history, f"{name}-force-fail-low-{value}", args.patch, target,
                                masked=masked, override=f"f{value}")
@@ -186,14 +186,31 @@ def execute(args):
                 key: treatment[key] == depth_arm[key] for key in
                 ("lmr", "chain", "target_attempt_end", "producer", "last_report", "uci")
             }
+    budgets = {}
+    if args.phase == "budget":
+        treatments = (("sham", False, ""), ("sham-force-fail-low-0", False, "f0"),
+                      ("whole_hint", True, ""), ("whole_hint-force-fail-low-1", True, "f1"))
+        for nodes in (24000, 48000, 64000):
+            compared = {}
+            for name, masked, override in treatments:
+                arm = invoke(args, history, f"{nodes}-{name}", args.patch, target,
+                             masked=masked, override=override, nodes=nodes)
+                reference = arms[name]
+                if any(arm[k] != reference[k] for k in
+                       ("scout", "scout_reduction", "consumer", "events", "gate", "lmr")) or any(
+                    arm["chain"][k] != reference["chain"][k] for k in ("children", "candidate")
+                ):
+                    raise ValueError(f"Target prefix differed at {nodes}, {name}")
+                compared[name] = arm
+            budgets[nodes] = compared
     return {"sources": {"cohort": COHORT, "seal": SEAL, "r30": R30, "nnue": NET,
                         "old_binary": digest(args.old), "patched_binary": digest(args.patch)},
-            "arms": arms, "restore": restored}
+            "arms": arms, "restore": restored, "budgets": budgets}
 
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("phase", choices=("observe", "swap", "gate"))
+    parser.add_argument("phase", choices=("observe", "swap", "gate", "budget"))
     for key in ("cohort", "seal", "r30", "old", "patch", "net", "out"):
         parser.add_argument(key, type=Path)
     args = parser.parse_args()
