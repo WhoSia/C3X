@@ -1,0 +1,91 @@
+name: C3X 0.31 P2-L2 predeclared macro-family vs later alias audit
+
+on:
+  pull_request:
+    paths:
+      - ".github/workflows/c3x-031-p2-l2-macrofamilies.yml"
+      - "harness/c3x_031_p2_l2_umbrella_exposure.py"
+      - "tests/test_c3x_031_p2_l2_umbrella_exposure.py"
+      - "harness/c3x_031_p2_independent_court.py"
+      - "harness/c3x_031_p2_l1_historical_family_audit.py"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  original-macro-lineage-sensitivity:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Retrieve original TWIC1670 raw publisher file used in R26 and P2
+        uses: actions/download-artifact@v4
+        with:
+          name: c3x031-p2-publisher-twic1670-raw-private-custody
+          repository: WhoSia/C3X
+          run-id: "44871735875"
+          path: /tmp/c3x-p2-l1/source
+          github-token: ${{ github.token }}
+      - name: Retrieve P2 original legally frozen 64 games
+        uses: actions/download-artifact@v4
+        with:
+          name: c3x031-p2-64game-private-history-freeze
+          repository: WhoSia/C3X
+          run-id: "44872034069"
+          path: /tmp/c3x-p2-l1/games
+          github-token: ${{ github.token }}
+      - name: Retrieve original P2 128 physically signed intervention results
+        uses: actions/download-artifact@v4
+        with:
+          name: c3x031-p2-native-treatment-private-all-events
+          repository: WhoSia/C3X
+          run-id: "44872920835"
+          path: /tmp/c3x-p2-l1/treatment
+          github-token: ${{ github.token }}
+      - name: Check all source bytes unchanged and neither new native treatments nor modified P2
+        run: |
+          set -euo pipefail
+          echo '6e6866cfe57ea0db7849f9b686fded1c1fe9d1fcab783359030b97ace377eccf  /tmp/c3x-p2-l1/source/twic1670g.zip' | sha256sum -c -
+          echo '2a174dcf56a333408693785eb0a844a419f7f8ba090c0a00187f3dab483d57e4  /tmp/c3x-p2-l1/games/C3X_031_P2_TWIC1670_GAME_FREEZE_FULL_HISTORIES.json' | sha256sum -c -
+          echo '69904f920c21844f2a2f278f6332b7c8fdc9857a821c33fdc0f29dfa56aaf09f  /tmp/c3x-p2-l1/treatment/C3X_031_P2_TWIC1670_TREATED_NATIVE_ALL_EVENTS.json' | sha256sum -c -
+          python -m py_compile harness/c3x_031_p2_l2_umbrella_exposure.py
+      - name: Independent original source/macro taxonomy and deliberate tamper tests
+        env:
+          PYTHONPATH: harness
+        run: python -m unittest -v tests.test_c3x_031_p2_l2_umbrella_exposure
+      - name: Recompute all exact, originally preregistered macro and later hypothetical alias scenarios
+        run: |
+          set -euo pipefail
+          mkdir -p public
+          python harness/c3x_031_p2_l2_umbrella_exposure.py \
+            /tmp/c3x-p2-l1/source/twic1670g.zip \
+            receipts/C3X_030_R26_TT_PREOUTCOME_20261117.json \
+            /tmp/c3x-p2-l1/games/C3X_031_P2_TWIC1670_GAME_FREEZE_FULL_HISTORIES.json \
+            /tmp/c3x-p2-l1/treatment/C3X_031_P2_TWIC1670_TREATED_NATIVE_ALL_EVENTS.json \
+            harness/c3x_031_p2_independent_court.py \
+            public/C3X_031_P2_L2_UMBRELLA_EXPOSURE_SENSITIVITY.json
+          sha256sum public/*.json | tee public/SHA256SUMS
+      - name: Preserve strict non-confirmatory result scope
+        run: |
+          cat > public/LIMITS.txt <<'TEXT'
+          Original P2 primary: 64 games, 128 physically contacted native targets, seven root flips.
+          R26 used TWIC1670 before P2. R26 and P2 shared literal and macro event families.
+          Literal overlap, previously preregistered macro equivalence, and later conservative
+          alias scenarios are distinct postoutcome analyses, not new heldout experiments.
+          Macro-family exclusion may reverse a tiny Brier difference sign but no prespecified
+          +0.01 Brier gain plus positive uncertainty lower bound is supported.
+          No new Stockfish searches, no TT/history mediator or human learning certification.
+          Previously frozen original P2 selection, probabilities and outcomes are UNCHANGED.
+          Original licensed publisher PGN and full private move histories are not redistributed.
+          TEXT
+      - uses: actions/upload-artifact@v4
+        with:
+          name: c3x031-p2-l2-predeclared-macro-historical-exposure
+          path: public/
+          if-no-files-found: error

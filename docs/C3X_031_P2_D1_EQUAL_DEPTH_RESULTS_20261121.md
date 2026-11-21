@@ -58,3 +58,11 @@ The original eight M2-risk-based high/low P3 diagnostic cases were separately pi
 - [Original P2 64-game native prospective result and negative forecast court](C3X_031_P2_TWIC1670_TRUE_NATIVE_TRANSPORT_RESULTS_20261121.md) remains authoritative for original `32k nodes` endpoint; this D1 follow-up **does not rewrite its rates, treatments, labels or model score**.
 
 **Claim ceiling:** native fixed-depth causal total-effect diagnostics are established for physically matched cases, but the correct minimal decision-state abstraction, TT/history mediation, opponent-robust chess planning and learner value all remain **HOLD**.
+
+## Later historical macro-family limitation on the P2-028 mechanism candidate (P2-L2)
+
+[The later P2-L2 source ancestry audit](C3X_031_P2_L2_MACRO_EVENT_EXPOSURE_SENSITIVITY_20261121.md) found that **R26 previously sampled FIDE World Open U20 Rapid from the exact same TWIC1670 original publisher**. P2-028 is a distinct full-game history from **FIDE World Open U20 Blitz**; these are distinct literal PGN Event headers, but they belong to the **same macro-event family in the original, pre-existing P2 independent court mapping**. Thus P2-028's real same-depth exact original root-move pair is an important **exploratory source-mechanism** observation, but **not evidence of transport to a macro-event family absent from all earlier C3X work**. This correction does not invalidate the native intervention, its source contact, or its separate search stopping conditions.
+
+When those two pre-existing R26-exposed rapid/blitz macro groups are excluded from the original P2 *post hoc*, the analysis retains **48 games, 96 physical target events, six final-root flips**. M2 Brier improves over M1 by only **+0.0014220**, with macro-group bootstrap 95% interval **[-0.0047731,+0.0064239]**, still not passing the P1/P2 predeclared gain threshold of +0.01. No original source target or treatment result was removed from the primary P2 file.
+
+**P3 mechanism direction:** use P2-028 only for checkpoint-mediator development and falsification. For any novel cross-game family claim, select and freeze an independently sourced previously untouched broader event family **before** native treatment outcomes. The TT/history/exact remaining-budget mediator remains HOLD.
