@@ -1,0 +1,65 @@
+name: C3X 0.31 P2-D1 Independent 156 Native Log and Exact Pair Audit
+
+on:
+  pull_request:
+    paths:
+      - ".github/workflows/c3x-031-p2-d1-independent.yml"
+      - "harness/c3x_031_p2_d1_independent_court.py"
+      - "tests/test_c3x_031_p2_d1_independent_court.py"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  independent-depth-contrast-audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Retrieve exact untouched 78 original source search result
+        uses: actions/download-artifact@v4
+        with:
+          name: c3x031-p2-d1-private-frozen-seven-result
+          repository: WhoSia/C3X
+          run-id: "44874168539"
+          path: /tmp/p2-d1-source
+          github-token: ${{ github.token }}
+      - name: Retrieve separately preserved 156 actual native stderr and UCI logs
+        uses: actions/download-artifact@v4
+        with:
+          name: c3x031-p2-d1-full-native-original-logs
+          repository: WhoSia/C3X
+          run-id: "44874168539"
+          path: /tmp/p2-d1-logs
+          github-token: ${{ github.token }}
+      - name: Verify true original SHA and syntax
+        run: |
+          set -euo pipefail
+          echo 'e2a56d69342fbe60a522f62b69ca01c08446008c482a571b8dc0a47e5ba95f90  /tmp/p2-d1-source/C3X_031_P2_D1_ALL_NATIVE_EQUAL_DEPTH_EVENTS.json' | sha256sum -c -
+          python -m py_compile harness/c3x_031_p2_d1_independent_court.py
+      - name: Rehash 156 source logs and assert exact root-pair witness plus negative controls
+        env:
+          PYTHONPATH: harness
+          C3X_P2_D1_RESULT: /tmp/p2-d1-source/C3X_031_P2_D1_ALL_NATIVE_EQUAL_DEPTH_EVENTS.json
+          C3X_P2_D1_LOGS: /tmp/p2-d1-logs
+        run: python -m unittest -v tests.test_c3x_031_p2_d1_independent_court
+      - name: Emit independent complete-vs-original-pair transport court, no native source search
+        run: |
+          set -euo pipefail
+          mkdir -p public
+          python harness/c3x_031_p2_d1_independent_court.py \
+            /tmp/p2-d1-source/C3X_031_P2_D1_ALL_NATIVE_EQUAL_DEPTH_EVENTS.json \
+            /tmp/p2-d1-logs \
+            public/C3X_031_P2_D1_INDEPENDENT_RAW_COURT.json
+          sha256sum public/C3X_031_P2_D1_INDEPENDENT_RAW_COURT.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: c3x031-p2-d1-independent-156-source-log-court
+          path: public/
+          if-no-files-found: error
