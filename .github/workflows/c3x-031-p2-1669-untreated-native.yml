@@ -1,0 +1,106 @@
+name: C3X 0.31 P2 TWIC1669 Native Untreated Search and Pre-Outcome Forecast
+on:
+  pull_request:
+    paths:
+      - ".github/workflows/c3x-031-p2-1669-untreated-native.yml"
+      - "harness/c3x_031_p2_1669_native_discovery.py"
+      - "tests/test_c3x_031_p2_1669_native_discovery.py"
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  native-untreated:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Pinned chess and negative-control regressions
+        run: |
+          python -m pip install -q chess==1.11.2
+          PYTHONPATH=harness python -m unittest -v tests.test_c3x_031_p2_1669_native_discovery
+      - uses: actions/download-artifact@v4
+        with:
+          name: c3x031-p2-source1669-original-pre-native-and-full-p1-model-lock
+          repository: WhoSia/C3X
+          run-id: "44882633743"
+          path: /tmp/source/
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: c3x031-p2-pinned-SF16-native-source-build-no-treatments
+          repository: WhoSia/C3X
+          run-id: "44872473600"
+          path: /tmp/native/
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: c3x031-p2-pinned-SF16-source-build-receipt
+          repository: WhoSia/C3X
+          run-id: "44872473600"
+          path: /tmp/buildreceipt/
+          github-token: ${{ github.token }}
+      - name: Native and history SHA identities
+        run: |
+          set -euo pipefail
+          echo '8b7f5da799cc9610c7e4cb8347baa8b3b8bd74eb383939eac9fa91b527a8116d  /tmp/source/C3X_031_P2_TWIC1669_PRE_NATIVE_COHORT.json' | sha256sum -c -
+          echo 'ae6f7add6838dc3b4cbe679bd728625593c4e3f9817ea1101e4a7fb550da8c53  /tmp/source/C3X_031_P2_PREOUTCOME_M0_M1_M2_MODEL_LOCK.json' | sha256sum -c -
+          echo '78cae269c73eb080c8a508e839dcde15ce48888b3fc4317fa3311de49e5ee7bb  /tmp/native/c3x031-p2-SF16-pre-R33-reference' | sha256sum -c -
+          echo 'ce13b5899ab6862a621ee6033ac661f7ded0abf3f2b4ea073a163b0c3154afa1  /tmp/native/c3x031-p2-SF16-patched' | sha256sum -c -
+          echo '5af11540bbfefcb54e38c5dd000cab4b469dfa7599a1d55be5d2722c20a8929b  /tmp/native/nn-5af11540bbfe.nnue' | sha256sum -c -
+          chmod +x /tmp/native/c3x031-p2-SF16-pre-R33-reference /tmp/native/c3x031-p2-SF16-patched
+      - name: Original untouched 64 x 3 native Stockfish16 searches
+        env:
+          PYTHONPATH: harness
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/p2logs /tmp/p2private /tmp/p2public
+          python -u harness/c3x_031_p2_1669_native_discovery.py \
+            /tmp/source/C3X_031_P2_TWIC1669_PRE_NATIVE_COHORT.json \
+            /tmp/source/C3X_031_P2_PREOUTCOME_M0_M1_M2_MODEL_LOCK.json \
+            /tmp/native/c3x031-p2-SF16-pre-R33-reference \
+            /tmp/native/c3x031-p2-SF16-patched \
+            /tmp/native/nn-5af11540bbfe.nnue \
+            /tmp/buildreceipt/P2_NATIVE_BUILD_RECEIPT.json \
+            /tmp/p2logs /tmp/p2private/C3X_031_P2_1669_PREOUTCOME_TARGETS.json \
+            /tmp/p2public/C3X_031_P2_1669_PUBLIC_CONTACT.json
+          sha256sum /tmp/p2private/*.json /tmp/p2public/*.json
+          python - <<'PY'
+          import json
+          a=json.load(open('/tmp/p2private/C3X_031_P2_1669_PREOUTCOME_TARGETS.json'))
+          assert a['source_game_count']==64 and a['source_event_family_count']==25
+          assert a['actual_untreated_stockfish_searches']==192
+          assert a['actual_source_treatment_searches']==0
+          assert sum(a['target_contact_and_prediction_status'].values())==128
+          PY
+      - name: Preserve explicit no-treatment limits
+        if: always()
+        run: |
+          mkdir -p /tmp/p2public
+          printf '%s\n' 'Original Stockfish16 pristine/pre-R33 vs patched observation-only vs patched disabled: genuine native searches.' 'No physical futility/null treatments or new bestmove-change labels observed.' 'All event signatures and P1-only model forecasts frozen before P2 treatments.' '25 canonical tournament families from 64 historical legal game positions; complete 0.29/0.30 alias independence not proved.' 'No bot-authored commits. Original TWIC PGN rights reserved.' > /tmp/p2public/LIMITS.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x031-p2-1669-original-192-untreated-native-logs
+          path: /tmp/p2logs/
+          retention-days: 3
+          if-no-files-found: warn
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x031-p2-1669-original-source-events-preoutcome-forecasts
+          path: /tmp/p2private/
+          retention-days: 3
+          if-no-files-found: warn
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x031-p2-1669-public-contact-scope
+          path: /tmp/p2public/
+          retention-days: 3
+          if-no-files-found: error
