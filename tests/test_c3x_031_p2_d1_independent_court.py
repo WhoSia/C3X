@@ -9,13 +9,17 @@ from c3x_031_p2_d1_independent_court import verify
 SOURCE=Path(os.environ.get("C3X_P2_D1_RESULT",
              "/tmp/p2-d1-source/C3X_031_P2_D1_ALL_NATIVE_EQUAL_DEPTH_EVENTS.json"))
 LOGS=Path(os.environ.get("C3X_P2_D1_LOGS","/tmp/p2-d1-logs"))
+ORIGINAL_SOURCE=Path(os.environ.get("C3X_P2_SOURCE","/tmp/p2-precontact/C3X_031_P2_PHYSICAL_EVENT_AND_FORECAST_PRETREATMENT.json"))
+ORIGINAL_TREATMENT=Path(os.environ.get("C3X_P2_TREATED","/tmp/p2-treated/C3X_031_P2_TWIC1670_TREATED_NATIVE_ALL_EVENTS.json"))
 
 
 class OriginalD1Court(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         cls.data=json.loads(SOURCE.read_text())
-        cls.court=verify(cls.data,LOGS)
+        cls.source=json.loads(ORIGINAL_SOURCE.read_text())
+        cls.treated=json.loads(ORIGINAL_TREATMENT.read_text())
+        cls.court=verify(cls.data,LOGS,cls.source,cls.treated)
 
     def test_actual_source_logs_and_replays(self):
         self.assertEqual(self.court["original_native_searches"],78)
@@ -46,7 +50,7 @@ class OriginalD1Court(unittest.TestCase):
         changed=deepcopy(self.data)
         changed["results"][0]["original_32k_bestmove"]="a1a8"
         with self.assertRaises(ValueError):
-            verify(changed,LOGS)
+            verify(changed,LOGS,self.source,self.treated)
 
     def test_mutated_source_open_signature_rejected(self):
         changed=deepcopy(self.data)
