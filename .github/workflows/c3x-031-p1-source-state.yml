@@ -1,0 +1,70 @@
+name: C3X 0.31 P1 Event-Family-Heldout Source-State Benchmark
+
+on:
+  pull_request:
+    paths:
+      - ".github/workflows/c3x-031-p1-source-state.yml"
+      - "harness/c3x_031_p1_extract.py"
+      - "harness/c3x_031_p1_forecast.py"
+      - "tests/test_c3x_031_p1_forecast.py"
+      - "frozen/C3X_031_P1_R33_128_PRETREATMENT_ROWS_20261121.tsv"
+      - "docs/C3X_031_P1_PREOUTCOME_STATE_FORECAST_PROTOCOL_20261121.md"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  retrospective-source-state-court:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Verify original-derived frozen TSV byte identity
+        run: |
+          set -euo pipefail
+          echo '6e5cd1215ab13ac3dba3c93447b577f305c06fad1fd00c2b4a5338c71e7a63ba  frozen/C3X_031_P1_R33_128_PRETREATMENT_ROWS_20261121.tsv' | sha256sum -c -
+          python -m py_compile harness/c3x_031_p1_extract.py harness/c3x_031_p1_forecast.py
+      - name: Actual original-data and synthetic integrity-negative tests
+        env:
+          PYTHONPATH: harness
+        run: python -m unittest -v tests.test_c3x_031_p1_forecast
+      - name: Reconstruct all 128 untouched-pre-treatment predictions
+        run: |
+          set -euo pipefail
+          mkdir -p public
+          python harness/c3x_031_p1_forecast.py \
+            frozen/C3X_031_P1_R33_128_PRETREATMENT_ROWS_20261121.tsv \
+            public/C3X_031_P1_R33_FAMILY_HELDOUT_RESULTS_20261121.json
+          sha256sum public/C3X_031_P1_R33_FAMILY_HELDOUT_RESULTS_20261121.json | tee public/SHA256SUMS
+          python - <<'PY'
+          import json
+          p='public/C3X_031_P1_R33_FAMILY_HELDOUT_RESULTS_20261121.json'
+          x=json.load(open(p))
+          assert x['evidence_class']=='RETROSPECTIVE_DEVELOPMENT_NOT_PROSPECTIVE'
+          assert x['verdict']=='HOLD_NO_PRETREATMENT_SOURCE_STATE_GAIN'
+          assert x['new_native_searches']==0
+          assert len(x['out_of_family_predictions'])==128
+          assert x['identified_mediator'] is False
+          PY
+      - name: Preserve actual negative benchmark and fully abstaining caveat
+        run: |
+          cat > public/LIMITS.txt <<'TEXT'
+          0.31 P1 is retrospective evaluation on already published R33 cases.
+          The original source R33 13MB ZIP was rehashed locally, not in this CI.
+          This CI validates the exact SHA-locked derived feature table and fixed model.
+          Same tournament game targets share a heldout event-family fold.
+          Public scores preserve upper/lower bound flags; numeric thresholds are not exact values.
+          Model predictive association is not causal state sufficiency, chess strength or pedagogy.
+          GitHub Actions reads source and uploads results, never authors commits.
+          TEXT
+      - uses: actions/upload-artifact@v4
+        with:
+          name: c3x031-p1-r33-family-heldout-retrospective-negative-benchmark
+          path: public/
+          if-no-files-found: error

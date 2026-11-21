@@ -1,0 +1,88 @@
+{
+  "schema": "c3x-031-p1-scientific-verdict-v1",
+  "version": "0.31",
+  "title": "Intervention-Stable Decision-State Abstraction: Minimal Search-Memory Causality, Robust Chess-Plan Transport & Human Explanation Validity",
+  "study": "P1_PRETREATMENT_SOURCE_STATE_PREDICTION",
+  "status": "CLOSED_RETROSPECTIVE_DEVELOPMENT_HOLD",
+  "verdict": "HOLD_NO_PRETREATMENT_SOURCE_STATE_GAIN",
+  "source_original_zip_sha256": "e72ba91c0ffdbbb075642f044706d356fca84b4fa257a3ebcb7755db5837d8bd",
+  "source_original_manifest_members_verified_locally": 1414,
+  "original_game_histories": 64,
+  "original_event_families": 16,
+  "interventions": 128,
+  "final_move_change_positives": 11,
+  "source_stratum_positives": {
+    "null_ineligible": 4,
+    "null_eligible": 7
+  },
+  "source_public_terminal_game_types": {
+    "cp_unbounded": 34,
+    "cp_upper_bound": 23,
+    "cp_lower_bound": 7
+  },
+  "full_features_derived_sha256": "e96aff554f6cc90c4e7426df2ad8c2237737c2016115ea8608485ba9a1449e95",
+  "frozen_numeric_tsv_sha256": "6e5cd1215ab13ac3dba3c93447b577f305c06fad1fd00c2b4a5338c71e7a63ba",
+  "CI": {
+    "run_id": 44868739681,
+    "conclusion": "success",
+    "tests": 11,
+    "original_zip_rehashed_in_ci": false,
+    "native_new_searches": 0,
+    "model_json_sha256": "42496c17e858f4b3074640b04f4d3a123631fcb9e146e25d376ef2fc2b322db7"
+  },
+  "models": {
+    "M0": {
+      "brier": 0.07982292876169661,
+      "AP": 0.06872814685314685,
+      "log_loss": 0.3010109823185982
+    },
+    "M1": {
+      "brier": 0.08086903909274809,
+      "AP": 0.14430749369189863,
+      "log_loss": 0.3096984906270944
+    },
+    "M2": {
+      "brier": 0.07758871404803157,
+      "AP": 0.21258255633255632,
+      "log_loss": 0.26963844842039975,
+      "true_positive_at_threshold_0_5": 0,
+      "false_positive_at_threshold_0_5": 1
+    }
+  },
+  "brier_gain_vs_M1": {
+    "value": 0.0032803250447165228,
+    "family_cluster_bootstrap_95": [
+      -0.006790556625731206,
+      0.010873492214665798
+    ]
+  },
+  "brier_gain_vs_M0": {
+    "value": 0.002234214713665042,
+    "family_cluster_bootstrap_95": [
+      -0.009419393741214227,
+      0.013888296987236828
+    ]
+  },
+  "required_improvement_threshold": 0.01,
+  "precommitted_gain_gate_pass": false,
+  "example_false_positive": {
+    "event": "R33-061-1",
+    "predicted_probability": 0.5983106688769905,
+    "actually_flip": false
+  },
+  "example_false_negative_low_risk": {
+    "event": "R33-036-0",
+    "predicted_probability": 0.0107,
+    "actually_flip": true
+  },
+  "not_claimed": [
+    "identified_TT_history_mediation",
+    "minimal_state_sufficiency",
+    "blind_prospective_generalization",
+    "chess_strategy_superiority",
+    "human_learning_effect"
+  ],
+  "GitHub_PR": 5,
+  "Drive_result_id": "1K8ITS3QswfaCypY1ZPcPTDao4TLdOLMx",
+  "Next": "P2 blind source-event family-disjoint new source experiment; P3 same-prefix source mediator rescue only after P2."
+}
