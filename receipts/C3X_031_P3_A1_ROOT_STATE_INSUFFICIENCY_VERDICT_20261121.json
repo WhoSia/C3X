@@ -1,0 +1,83 @@
+{
+  "id": "C3X_031_P3_A1_ROOT_ONLY_STATE_SUFFICIENCY_FALSIFIER_20261121",
+  "scientific_verdict": "FINITE_COUNTEREXAMPLE_TO_ROOT_ONLY_MARKOV_SUFFICIENCY",
+  "development_game": "P2-028-0",
+  "historical_R26_macro_family_exposed": true,
+  "full_game_native_history": true,
+  "experiment_provenance": "P2-D1 authentic 78 old native Stockfish16 source runs; no new engine searches",
+  "original_D1_zip_sha256": "e45dca037f748a06e5043194de397ca26659af726c174a9505f097a5566202bc",
+  "original_D1_science_zip_sha256": "c9a060afea6d0fc93cd20f08eb12699fe4aca2763eb0e78d536e43bff19840c5",
+  "physical_event19_source_return": [
+    -2429,
+    -2500
+  ],
+  "same_root_attempt": 16,
+  "iteration_depth": 13,
+  "complete_same_45_root_candidate_lines": true,
+  "same_root_start_record": true,
+  "same_root_end_record_excluding_node_count": true,
+  "same_public_depth13_score_bound_pv_projection": true,
+  "exact_root_projection_sha256": "1aba3cac8ee75cad17c5bd7601f148116cf0fc45c455aa0d63dec99dafcf3b4d",
+  "exact_public_projection_sha256": "b2014465dbdfc060cafd2b7725a67eafa17dfb2189c2d232a9f6b4d89a19eb8c",
+  "end_attempt16_actual_nodes": [
+    7699,
+    7717
+  ],
+  "later_bestmove_by_fixed_depth": {
+    "15": [
+      "d4e5",
+      "f4e5"
+    ],
+    "16": [
+      "d4e5",
+      "f4e5"
+    ]
+  },
+  "latency_until_first_value_difference": {
+    "attempt": 17,
+    "depth": 14,
+    "move": "f4e5",
+    "values": [
+      2265,
+      2280
+    ]
+  },
+  "latency_until_first_leader_difference": {
+    "attempt": 18,
+    "depth": 15,
+    "move": "f4e5",
+    "values": [
+      2238,
+      2256
+    ],
+    "update": [
+      0,
+      1
+    ]
+  },
+  "excluded_from_abstraction": [
+    "cumulative_nodes",
+    "time",
+    "nps",
+    "TT_bytes",
+    "history",
+    "stack",
+    "budget_state",
+    "treatment_provenance"
+  ],
+  "root_only_projection_not_sufficient": true,
+  "full_state_sufficiency_not_falsified": true,
+  "named_mediator_not_identified": true,
+  "independent_new_game_validation": false,
+  "human_learning_measured": false,
+  "original_engine_searches_new_this_unit": 0,
+  "verification": {
+    "read_only_CI_run": 44880727661,
+    "tests_passed": 11,
+    "success": true
+  },
+  "derived_json_sha256": "48aca69626fca7683ab5184244e437b1e795858d8f5d127db1553213aa3230ef",
+  "derived_original_zip_sha256": "5e0b5f8cb547ae163bc8bad670f4d79bc7ca70bdbaba1d4b9d19f7b09cd29d57",
+  "drive_id": "1zVvNz0W5Bdm9zqm5wQSuPt7bNi0zl7Ca",
+  "drive_readback_sha_crc_equal": true
+}
