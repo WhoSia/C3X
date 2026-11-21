@@ -71,7 +71,10 @@ jobs:
           python - <<'PY'
           import json
           c=json.load(open('custody/C3X_031_P2_TWIC1669_PRE_NATIVE_COHORT.json'))
-          assert c['parsed_games']==8091
+          assert c['publisher_listed_games']==8091
+          assert c['original_pgn_header_records']==8165
+          assert c['publisher_listing_shortfall']==74
+          assert c['parsed_games']==8165
           assert c['source_native_discovery_seen']==0
           assert c['source_native_treatments_seen']==0
           assert 0 < c['preselected_games'] <= 64
