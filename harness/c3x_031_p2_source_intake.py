@@ -52,8 +52,39 @@ def check_blocklist(path):
     return set(vals)
 
 
+def tournament_series(label):
+    """Conservative outcome-blind family aliases, audited on source titles.
+
+    This compresses recurring dated event series and split-event sections.
+    An arbitrary fuzzy similarity threshold would also merge unrelated
+    tournaments; every rule below is interpretable and explicitly frozen.
+    """
+    n=family(label)
+    if "3-0 thu" in n:
+        return "3-0-thursday-series"
+    if n.startswith("titled tue"):
+        return "titled-tuesday-series"
+    if "ch-sudamericano" in n:
+        return "sudamericano-series"
+    if n.startswith("tch-cze"):
+        return "czech-leagues"
+    if n.startswith("capexpress"):
+        return "capexpress-all-sections"
+    if "stockholm" in n and ("htl" in n or "hotel" in n):
+        return "stockholm-hotel-norms"
+    if n.startswith("ch-mgl "):
+        return "mongolia-championship"
+    if n.startswith("english open") or n.startswith("english over ") or n.startswith("english women"):
+        return "english-championship-series"
+    if n.startswith("sixdays"):
+        return "sixdays-series"
+    return n
+
+
 def make_p2_cohort(archive,blocklist):
     excluded=check_blocklist(blocklist)
+    excluded_series={tournament_series(fam) for fam in excluded}
+    require(len(excluded_series) <= 94, "source series blocklist failed")
     raw=Path(archive).read_bytes()
     archive_sha=digest(raw)
     require(archive_sha == SOURCE_ORIGINAL_ZIP_SHA, "publisher original ZIP changed since initial source prefreeze")
@@ -83,7 +114,8 @@ def make_p2_cohort(archive,blocklist):
     while game:=chess.pgn.read_game(stream):
         seen_all+=1
         event=game.headers.get("Event","?")
-        group=family(event)
+        raw_group=family(event)
+        group=tournament_series(raw_group)
         all_families.add(group)
         counts["parsed_games"]+=1
         if event=="?" or not group or game.errors:
@@ -102,8 +134,11 @@ def make_p2_cohort(archive,blocklist):
             counts["same_issue_duplicate_full_move_history"]+=1
             continue
         all_games.add(game_hash)
-        if group in excluded:
+        if raw_group in excluded:
             counts["historical_family_excluded"]+=1
+            continue
+        if group in excluded_series:
+            counts["historical_series_alias_excluded"]+=1
             continue
         ply=CHECKPOINTS[int(ordered_hash(game_hash),16)%len(CHECKPOINTS)]
         if len(moves)<ply:
@@ -117,7 +152,8 @@ def make_p2_cohort(archive,blocklist):
         counts["eligible_candidate_game"]+=1
         pools[group].append({
             "game_sha256":game_hash,"source_ordinal":seen_all,
-            "event":event,"family":group,"ply":ply,"fen":board.fen(),
+            "event":event,"published_event_family":raw_group,
+            "family":group,"ply":ply,"fen":board.fen(),
             "moves":moves[:ply],"legal_moves":board.legal_moves.count(),
         })
 
@@ -146,8 +182,8 @@ def make_p2_cohort(archive,blocklist):
     require(len(chosen)>0,"no P2 candidate games after exclusions")
     require(len({case["family"] for case in chosen})>=min(CAP,len(groups)),
             "failed event-family round-robin")
-    require(not ({case["family"] for case in chosen} & excluded),
-            "historical event family leakage")
+    require(not ({case["family"] for case in chosen} & excluded_series),
+            "historical tournament series alias leakage")
 
     return {
         "schema":"c3x-031-p2-original-source-candidate-cohort-v1",
@@ -164,6 +200,8 @@ def make_p2_cohort(archive,blocklist):
         "all_source_distinct_game_hashes":len(all_games),
         "all_source_event_families":len(all_families),
         "prior_event_families_excluded":len(excluded),
+        "prior_canonical_event_series_excluded":len(excluded_series),
+        "tournament_group_policy":"explicit nine-case recurring series normalization, before source-engine intervention",
         "excluded_families_sha256":BLOCKLIST_SHA,
         "counts":dict(counts),"reported_parse_errors":first_errors,
         "frozen_seed":SEED,"frozen_checkpoints":list(CHECKPOINTS),
