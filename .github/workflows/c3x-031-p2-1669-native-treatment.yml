@@ -1,0 +1,120 @@
+name: C3X 0.31 P2 TWIC1669 Native Source Gate B2 Predeclared Treatment
+on:
+  pull_request:
+    paths:
+      - ".github/workflows/c3x-031-p2-1669-native-treatment.yml"
+      - "harness/c3x_031_p2_1669_native_treatment.py"
+      - "harness/c3x_031_p2_1669_outcome_court.py"
+      - "tests/test_c3x_031_p2_1669_treatment_and_court.py"
+      - "docs/C3X_031_P2_B2_TREATMENT_PRIOR_TO_NATIVE_OUTCOMES_20261121.md"
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  original-native-source-physical-gate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Original signed source and family-court regression tests
+        run: |
+          set -euo pipefail
+          python -m pip install -q chess==1.11.2
+          PYTHONPATH=harness python -m unittest -v tests.test_c3x_031_p2_1669_treatment_and_court
+      - uses: actions/download-artifact@v4
+        with:
+          name: c3x031-p2-source1669-original-pre-native-and-full-p1-model-lock
+          repository: WhoSia/C3X
+          run-id: "44882633743"
+          path: /tmp/source/
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: c3x031-p2-1669-original-source-events-preoutcome-forecasts
+          repository: WhoSia/C3X
+          run-id: "44883170384"
+          path: /tmp/b1/
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: c3x031-p2-pinned-SF16-native-source-build-no-treatments
+          repository: WhoSia/C3X
+          run-id: "44872473600"
+          path: /tmp/native/
+          github-token: ${{ github.token }}
+      - name: Exact original-source / B1 forecast / binary / P1 model SHA confirmation
+        run: |
+          set -euo pipefail
+          echo '8b7f5da799cc9610c7e4cb8347baa8b3b8bd74eb383939eac9fa91b527a8116d  /tmp/source/C3X_031_P2_TWIC1669_PRE_NATIVE_COHORT.json' | sha256sum -c -
+          echo 'd364e6ca24599110fa19ac41e19164069a164c15aa396aac6b2833482e3818b1  /tmp/b1/C3X_031_P2_1669_PREOUTCOME_TARGETS.json' | sha256sum -c -
+          echo 'ae6f7add6838dc3b4cbe679bd728625593c4e3f9817ea1101e4a7fb550da8c53  /tmp/source/C3X_031_P2_PREOUTCOME_M0_M1_M2_MODEL_LOCK.json' | sha256sum -c -
+          echo 'ce13b5899ab6862a621ee6033ac661f7ded0abf3f2b4ea073a163b0c3154afa1  /tmp/native/c3x031-p2-SF16-patched' | sha256sum -c -
+          echo '5af11540bbfefcb54e38c5dd000cab4b469dfa7599a1d55be5d2722c20a8929b  /tmp/native/nn-5af11540bbfe.nnue' | sha256sum -c -
+          chmod +x /tmp/native/c3x031-p2-SF16-patched
+      - name: ACTUAL original physical intervention after source and model prefreeze
+        env:
+          PYTHONPATH: harness
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/p2-b2-native /tmp/p2-b2-private /tmp/p2-b2-public
+          python -u harness/c3x_031_p2_1669_native_treatment.py \
+            /tmp/source/C3X_031_P2_TWIC1669_PRE_NATIVE_COHORT.json \
+            /tmp/b1/C3X_031_P2_1669_PREOUTCOME_TARGETS.json \
+            /tmp/source/C3X_031_P2_PREOUTCOME_M0_M1_M2_MODEL_LOCK.json \
+            /tmp/native/c3x031-p2-SF16-patched \
+            /tmp/native/nn-5af11540bbfe.nnue \
+            /tmp/p2-b2-native \
+            /tmp/p2-b2-private/C3X_031_P2_B2_1669_NATIVE_PHYSICAL_RESULT.json \
+            /tmp/p2-b2-public/C3X_031_P2_B2_1669_PUBLIC_CAUSAL_COURT.json
+          sha256sum /tmp/p2-b2-private/*.json /tmp/p2-b2-public/*.json
+      - name: Independently score only previously frozen M0-M1-M2 predictions
+        env:
+          PYTHONPATH: harness
+        run: |
+          set -euo pipefail
+          python -u harness/c3x_031_p2_1669_outcome_court.py \
+            /tmp/p2-b2-private/C3X_031_P2_B2_1669_NATIVE_PHYSICAL_RESULT.json \
+            /tmp/p2-b2-public/C3X_031_P2_B2_1669_FAMILY_CLUSTERED_SCORE.json
+          sha256sum /tmp/p2-b2-public/*.json
+      - name: Authority and original publisher rights (mandatory on failure)
+        if: always()
+        run: |
+          mkdir -p /tmp/p2-b2-public
+          printf '%s\n' \
+            'New Stockfish16 source branch interventions, source-signed 128 potential target slots.' \
+            'sham x2, both-off x2, futility-only x1 per pre-selected event, 640 native arms.' \
+            'Pre-treatment target freeze B1 SHA d364e6ca24599110fa19ac41e19164069a164c15aa396aac6b2833482e3818b1.' \
+            'No source-target reselection or P2 model refit after inspecting outcomes.' \
+            'All no-contacts, interrupted arms and sham failures must remain named and counted.' \
+            '25 canonical source event clusters; two P2 non-cp predictions were predeclared abstentions.' \
+            'Bestmove sensitivity is NOT proof of superior chess plan, mediator restoration or human transfer.' \
+            'TWIC source games original Copyright Mark Crowther / The Week in Chess, archived in private user Drive.' \
+            'GitHub Actions may read and report but must never author commits.' \
+            > /tmp/p2-b2-public/RESEARCH_SCOPE_AND_LIMITS.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x031-p2-b2-1669-original-640-native-source-event-logs
+          path: /tmp/p2-b2-native/
+          retention-days: 3
+          if-no-files-found: warn
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x031-p2-b2-1669-private-source-physical-outcomes
+          path: /tmp/p2-b2-private/
+          retention-days: 3
+          if-no-files-found: warn
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x031-p2-b2-1669-public-family-25-stats-and-limitations
+          path: /tmp/p2-b2-public/
+          retention-days: 3
+          if-no-files-found: error
