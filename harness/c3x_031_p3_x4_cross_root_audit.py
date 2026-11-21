@@ -64,6 +64,39 @@ def original_p2(row):
             "class":classify(old,t["root"],new)}
 
 
+def first_public_root_divergence(sham,treated):
+    """First public completed-depth root recommendation difference.
+
+    The original R23 source-produced UCI reports are full physical history;
+    comparing their paths is descriptive, not a swapped mediator.
+    """
+    def rows(arm):
+        reports=arm["native_proof"]["reports"]
+        by_depth={}
+        for r in reports:
+            p=r["public"]
+            d=int(p["depth"])
+            require(d not in by_depth,"duplicate original public depth")
+            by_depth[d]={"depth":d,"move":p["move"],"score":p["score"],
+                         "nodes":int(p["nodes"]),
+                         "source_producer":p["producer"]}
+        require(by_depth,"empty public root reports")
+        return by_depth
+    a,b=rows(sham),rows(treated)
+    require(set(a)==set(b),"public horizon completed depth sets differ")
+    differences=[{"depth":depth,"sham":a[depth],"treatment":b[depth]}
+                 for depth in sorted(a) if a[depth]["move"]!=b[depth]["move"]]
+    return {
+        "first_public_choice_divergence":differences[0] if differences else None,
+        "number_of_public_depths_choice_diverged":len(differences),
+        "last_depth_choice_converged_after_earlier_divergence":(
+            bool(differences) and
+            a[max(a)]["move"]==b[max(b)]["move"]),
+        "latest_sham_public_root":a[max(a)],
+        "latest_treatment_public_root":b[max(b)],
+    }
+
+
 def original_x2(row,prior):
     require(row["valid"] and row["error"] is None,
             "original depth/node source cell invalid")
@@ -97,6 +130,7 @@ def original_x2(row,prior):
     require(row["same_depthcap_root_flip"]==int(old!=new),
             "original root switch verdict disagrees with UCI")
     target=prior["original_target"]["root"]
+    trajectory=first_public_root_divergence(base,treated)
     return {"source_event":prior["id"],"game":prior["case_id"],
             "family":prior["family"],
             "target_root":target,"original_root":old,"new_root":new,
@@ -106,7 +140,8 @@ def original_x2(row,prior):
             "actual_treated_depth":treated["last_reported_uci_depth"],
             "actual_original_nodes":base["last_reported_uci_nodes"],
             "actual_treated_nodes":treated["last_reported_uci_nodes"],
-            "class":classify(old,target,new)}
+            "class":classify(old,target,new),
+        "public_choice_trajectory":trajectory}
 
 
 def audit(p2,x2):
@@ -131,6 +166,16 @@ def audit(p2,x2):
     require(counts=={"NO_FINAL_CHANGE":1,"TARGET_DISPLACED":7,
                      "TARGET_PROMOTED":2,"OFF_TARGET_SWITCH":2},
             "physical third-root spillover not reconstructed")
+    require(sum(r["public_choice_trajectory"]["first_public_choice_divergence"] is not None
+                for r in horizons)==12,
+            "original 12 horizon cells missing a within-search public root change")
+    reconverged=[r for r in horizons if
+                 r["public_choice_trajectory"]["last_depth_choice_converged_after_earlier_divergence"]]
+    require(len(reconverged)==1 and
+            reconverged[0]["source_event"]=="P2-052-1" and
+            reconverged[0]["node_cap"]==64000 and
+            reconverged[0]["depth_cap"]==12,
+            "physical interim root difference followed by terminal reconvergence lost")
     off=[x for x in horizons if x["class"]=="OFF_TARGET_SWITCH"]
     require(len(off)==2 and {x["source_event"] for x in off}=={"P2-056-1"}
             and {x["node_cap"] for x in off}=={32000,64000}
@@ -149,6 +194,13 @@ def audit(p2,x2):
         "original_X2_horizon_cells":12,
         "original_P2_root_classification":dict(sorted(p2count.items())),
         "original_X2_root_classification":dict(sorted(counts.items())),
+        "all_12_horizons_with_interim_public_root_choice_divergence":12,
+        "horizons_with_final_reconvergence_after_interim_divergence":[
+            {"source_event":r["source_event"],"node_cap":r["node_cap"],
+             "depth_cap":r["depth_cap"],
+             "first_public_choice_divergence":
+                r["public_choice_trajectory"]["first_public_choice_divergence"]}
+            for r in reconverged],
         "off_target_source_unique_games":len({x["game"] for x in off}),
         "off_target_real_two_node_cap_reproductions":off,
         "new_stockfish_searches":0,
