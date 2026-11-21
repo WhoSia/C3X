@@ -1,0 +1,102 @@
+name: C3X 0.31 P2 blind source intake and pre-outcome learner seal
+
+on:
+  pull_request:
+    paths:
+      - ".github/workflows/c3x-031-p2-source-acquire-and-model-lock.yml"
+      - "harness/c3x_031_p2_lock.py"
+      - "harness/c3x_031_p2_source_intake.py"
+      - "tests/test_c3x_031_p2_lock.py"
+      - "tests/test_c3x_031_p2_source_intake.py"
+      - "frozen/C3X_031_P2_PRIOR_USED_EVENT_FAMILIES_20261121.txt"
+      - "docs/C3X_031_P2_NEW_GAME_TRANSPORT_PREFREEZE_PROTOCOL_20261121.md"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  source-intake-and-model-freeze:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Pin original-derived development and prior-source exclusion data
+        run: |
+          set -euo pipefail
+          echo '6e5cd1215ab13ac3dba3c93447b577f305c06fad1fd00c2b4a5338c71e7a63ba  frozen/C3X_031_P1_R33_128_PRETREATMENT_ROWS_20261121.tsv' | sha256sum -c -
+          echo '7b93f5c4539c4da5f6e6d3775a670dba0bc05aaf7588cf8bd0ccaa300a13366a  frozen/C3X_031_P2_PRIOR_USED_EVENT_FAMILIES_20261121.txt' | sha256sum -c -
+          python -m pip install -q chess==1.11.2
+          PYTHONPATH=harness python -m unittest -v \
+            tests.test_c3x_031_p2_lock tests.test_c3x_031_p2_source_intake
+      - name: Commit-free learner lock before source or intervention outcomes
+        run: |
+          set -euo pipefail
+          mkdir -p custody
+          PYTHONPATH=harness python harness/c3x_031_p2_lock.py \
+            frozen/C3X_031_P1_R33_128_PRETREATMENT_ROWS_20261121.tsv \
+            custody/C3X_031_P2_PREOUTCOME_M0_M1_M2_MODEL_LOCK.json
+          sha256sum custody/C3X_031_P2_PREOUTCOME_M0_M1_M2_MODEL_LOCK.json | tee custody/TRAINED_MODEL_SHA256.txt
+          python - <<'PY'
+          import json
+          d=json.load(open('custody/C3X_031_P2_PREOUTCOME_M0_M1_M2_MODEL_LOCK.json'))
+          assert d['training_new_p2_outcomes_seen'] is False
+          assert d['source_native_p2_searches_seen'] == 0
+          assert d['training_games']==64 and d['training_physical_events']==128
+          assert len(d['m2']['features'])==12
+          PY
+      - name: Obtain original issue 1669 from The Week in Chess publisher
+        run: |
+          set -euo pipefail
+          curl --fail --show-error --location \
+            --retry 3 --retry-delay 4 --connect-timeout 25 --max-time 180 \
+            -o custody/twic1669g.zip \
+            https://theweekinchess.com/zips/twic1669g.zip
+          test -s custody/twic1669g.zip
+          python -m zipfile -t custody/twic1669g.zip
+          sha256sum custody/twic1669g.zip | tee custody/PUBLISHER_RAW_SHA256.txt
+      - name: Census complete original PGN and freeze legal source games without native search
+        run: |
+          set -euo pipefail
+          PYTHONPATH=harness python -u harness/c3x_031_p2_source_intake.py \
+            custody/twic1669g.zip \
+            frozen/C3X_031_P2_PRIOR_USED_EVENT_FAMILIES_20261121.txt \
+            custody/C3X_031_P2_TWIC1669_PRE_NATIVE_COHORT.json
+          sha256sum custody/C3X_031_P2_TWIC1669_PRE_NATIVE_COHORT.json | tee custody/PRE_NATIVE_COHORT_SHA256.txt
+          python - <<'PY'
+          import json
+          c=json.load(open('custody/C3X_031_P2_TWIC1669_PRE_NATIVE_COHORT.json'))
+          assert c['parsed_games']==8091
+          assert c['source_native_discovery_seen']==0
+          assert c['source_native_treatments_seen']==0
+          assert 0 < c['preselected_games'] <= 64
+          assert 0 < c['preselected_unique_families'] <= 64
+          PY
+      - name: Rights, source authority and exact experimental HOLD
+        if: always()
+        run: |
+          mkdir -p custody
+          cat > custody/RESEARCH_AUTHORITY_AND_RIGHTS.txt <<'TXT'
+          Original TWIC issue is copyrighted by Mark Crowther / The Week in Chess.
+          Source archive is held only for original research custody, not committed.
+          Any original ZIP returned here should be moved to user's own Drive and not publicly rehosted.
+          The P2 model is fitted exclusively on exposed R33 P1 training data.
+          This workflow DOES NOT compile or run Stockfish, observe any new native
+          intervention targets, or assess generalization or causal state sufficiency.
+          Source admission includes 94 prior known event family exclusions but
+          tournament aliases and complete older R26-R30 game digests still need audit.
+          All failures, overlaps, absent contacts and null changes remain scientific data.
+          No Actions bot writes repository commits.
+          TXT
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x031-p2-source1669-original-pre-native-and-full-p1-model-lock
+          path: custody/
+          retention-days: 3
+          if-no-files-found: error
