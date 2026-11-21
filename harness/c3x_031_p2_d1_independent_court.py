@@ -14,6 +14,8 @@ import re
 
 FULL_JSON_SHA = "e2a56d69342fbe60a522f62b69ca01c08446008c482a571b8dc0a47e5ba95f90"
 FULL_LOGS_ZIP_SHA = "e45dca037f748a06e5043194de397ca26659af726c174a9505f097a5566202bc"
+P2_PRECONTACT_JSON_SHA = "17915c7d9ae56dd950cd026d07a4917a414213415ea3b28af256b305eb8ad146"
+P2_TREATED_JSON_SHA = "69904f920c21844f2a2f278f6332b7c8fdc9857a821c33fdc0f29dfa56aaf09f"
 
 
 def sha(raw):
@@ -27,7 +29,7 @@ def normalize(raw):
     return [re.sub(r"\b(?:time|nps) \d+ ?", "",s)
             for s in raw.decode().splitlines() if s.startswith(("info depth ","bestmove "))]
 
-def verify(data,log_dir):
+def verify(data,log_dir,p2_precontact,p2_treated):
     require(data["id"]=="C3X_031_P2_D1_EQUAL_DEPTH_DIAGNOSIS"
             and data["classification"]=="POST_OUTCOME_SELECTED_EXPLORATORY_NATIVE_DEPTH_RESEARCH"
             and data["seven_postselected_cases"]==7
@@ -36,12 +38,22 @@ def verify(data,log_dir):
     files={p.relative_to(log_dir).as_posix():p
            for p in Path(log_dir).rglob("*.txt")}
     require(len(files)==156, "original 78 native searches should have 156 text logs")
+    by_source={x["id"]:x for x in p2_precontact["source_events"]}
+    by_treat={x["id"]:x for x in p2_treated["cases"]}
+    require(len(by_source)==len(by_treat)==64,"original P2 native context missing")
     counts=Counter()
     comparisons=[]
     frozen_events=set(data["frozen_seven_source_events"])
     require(len(frozen_events)==7,"duplicate source event")
     for case in data["results"]:
         ident=case["source_event_id"]
+        game,group=ident.rsplit("-",1)
+        require(game in by_source and game in by_treat
+                and case["original_32k_bestmove"]==by_source[game]["baseline_bestmove"]
+                and case["treated_32k_bestmove"]==
+                    by_treat[game]["targets"][group]["arms"]["both_off"]["final_move"]
+                and case["target"]==by_source[game]["targets"][group]["target"],
+                "original P2 32k move pair or event was rewritten")
         require(ident in frozen_events and
                 len(case["fixed_depth_cells"])==len(
                     set([case["original_32k_depth"],case["treatment_32k_depth"]])),
@@ -162,11 +174,19 @@ def main():
     ap=argparse.ArgumentParser()
     ap.add_argument("source_json",type=Path)
     ap.add_argument("original_log_folder",type=Path)
+    ap.add_argument("p2_precontact",type=Path)
+    ap.add_argument("p2_original_treated",type=Path)
     ap.add_argument("out",type=Path)
     args=ap.parse_args()
     raw=args.source_json.read_bytes()
     require(sha(raw)==FULL_JSON_SHA,"original D1 JSON SHA mismatch")
-    result=verify(json.loads(raw),args.original_log_folder)
+    pre_bytes=args.p2_precontact.read_bytes()
+    treated_bytes=args.p2_original_treated.read_bytes()
+    require(sha(pre_bytes)==P2_PRECONTACT_JSON_SHA
+            and sha(treated_bytes)==P2_TREATED_JSON_SHA,
+            "original precontact or treated P2 source changed")
+    result=verify(json.loads(raw),args.original_log_folder,
+                  json.loads(pre_bytes),json.loads(treated_bytes))
     args.out.parent.mkdir(parents=True,exist_ok=True)
     args.out.write_text(json.dumps(result,indent=2,sort_keys=True)+"\n")
     print("P2_D1_INDEPENDENT",result["all_cell_statuses"],
