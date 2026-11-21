@@ -1,0 +1,46 @@
+name: C3X 0.31 P2 Pre-Outcome P1 Model Lock
+on:
+  pull_request:
+    paths:
+      - ".github/workflows/c3x-031-p2-model-lock.yml"
+      - "harness/c3x_031_p2_lockcheck.py"
+      - "tests/test_c3x_031_p2_lockcheck.py"
+      - "frozen/C3X_031_P2_FINAL_MODELS_PREOUTCOME_20261121.json"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  source-model-freeze:
+    runs-on: ubuntu-latest
+    timeout-minutes: 7
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Verify model and source SHA before any P2 treatment
+        run: |
+          set -euo pipefail
+          echo 'f27a89fd15efa3f35738ba8cf2a6d1243c8336268e4661c653bbd1e6c0bfee23  frozen/C3X_031_P2_FINAL_MODELS_PREOUTCOME_20261121.json' | sha256sum -c -
+          echo '6e5cd1215ab13ac3dba3c93447b577f305c06fad1fd00c2b4a5338c71e7a63ba  frozen/C3X_031_P1_R33_128_PRETREATMENT_ROWS_20261121.tsv' | sha256sum -c -
+      - name: Refit exact P1 training weights and negative controls
+        env:
+          PYTHONPATH: harness
+        run: python -m unittest -v tests.test_c3x_031_p2_lockcheck
+      - name: Emit deterministic sealed-model verification
+        env:
+          PYTHONPATH: harness
+        run: |
+          mkdir -p public
+          python harness/c3x_031_p2_lockcheck.py \
+            frozen/C3X_031_P2_FINAL_MODELS_PREOUTCOME_20261121.json \
+            frozen/C3X_031_P1_R33_128_PRETREATMENT_ROWS_20261121.tsv \
+            public/C3X_031_P2_MODEL_FREEZE_COURT.json
+          sha256sum public/*.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: c3x031-p2-before-outcomes-p1-final-model-lock
+          path: public/
+          if-no-files-found: error
