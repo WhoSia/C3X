@@ -98,7 +98,7 @@ jobs:
           echo 'd364e6ca24599110fa19ac41e19164069a164c15aa396aac6b2833482e3818b1  /tmp/r39b1/C3X_031_P2_1669_PREOUTCOME_TARGETS.json' | sha256sum -c -
           echo 'be66a985016b4ceaae1379c64ee0f6347c3a2e8c4fd3660ceb394227ac237df1  /tmp/r39b2/C3X_031_P2_B2_1669_NATIVE_PHYSICAL_RESULT.json' | sha256sum -c -
           printf 'uci\nquit\n' | /tmp/r39build/c3x031-p3-R39-SF16 | grep 'uciok'
-      - name: Genuine source R39 OFF/ON cold controls: 7 original sites x 3 arms x 3
+      - name: "Genuine source R39 OFF/ON cold controls: 7 original sites x 3 arms x 3"
         env:
           PYTHONPATH: harness
         run: |
