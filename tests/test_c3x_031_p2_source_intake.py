@@ -10,6 +10,7 @@ import chess.pgn
 
 from c3x_031_p2_source_intake import (
     BLOCKLIST_SHA, CAP, check_blocklist, digest, make_p2_cohort,
+    tournament_series,
 )
 
 ROOT=Path(__file__).resolve().parents[1]
@@ -53,21 +54,38 @@ class SourceIntakeTests(unittest.TestCase):
             path=Path(tmp)/"twic1669g.zip"
             data=(pgn_case("17th China Danzhou","e2e4")+
                   pgn_case("UNSEEN SYNTHETIC P2 EVENT","d2d4")+
-                  pgn_case("SECOND NOVEL EVENT","c2c4")).encode("latin-1")
+                  pgn_case("SECOND NOVEL EVENT","c2c4")+
+                  pgn_case("III ch-Sudamericano","g1f3")+
+                  pgn_case("Titled Tue 27th Oct 2026","b1c3")).encode("latin-1")
             with ZipFile(path,"w") as zip:
                 zip.writestr("twic1669.pgn",data)
-            with patch("c3x_031_p2_source_intake.PUBLISHER_RAW_GAMES",3), \
+            with patch("c3x_031_p2_source_intake.PUBLISHER_RAW_GAMES",5), \
                  patch("c3x_031_p2_source_intake.SOURCE_ORIGINAL_ZIP_SHA",digest(path.read_bytes())), \
                  patch("c3x_031_p2_source_intake.SOURCE_ORIGINAL_PGN_SHA",digest(data)), \
                  patch("c3x_031_p2_source_intake.CHECKPOINTS",(1,)):
                 result=make_p2_cohort(path,EXCLUDED)
-            self.assertEqual(result["parsed_games"],3)
+            self.assertEqual(result["parsed_games"],5)
             self.assertEqual(result["source_native_treatments_seen"],0)
             self.assertEqual(result["counts"]["historical_family_excluded"],1)
+            self.assertEqual(result["counts"]["historical_series_alias_excluded"],2)
             self.assertEqual(result["preselected_games"],2)
             self.assertEqual(result["preselected_unique_families"],2)
             self.assertEqual(len({r["game_sha256"] for r in result["positions"]}),2)
             self.assertTrue(all(len(r["moves"])==1 for r in result["positions"]))
+
+    def test_alias_grouping_conservatively_blocks_reused_series(self):
+        self.assertEqual(tournament_series("III ch-Sudamericano"),
+                         tournament_series("III ch-Sudamericano 2026"))
+        self.assertEqual(tournament_series("Titled Tue 27th Oct 2026"),
+                         tournament_series("Titled Tue 3rd Nov 2026"))
+        self.assertEqual(tournament_series("1st 3-0 Thu 29th Oct 2026"),
+                         tournament_series("1st 3-0 Thu 5th Nov 2026"))
+        self.assertEqual(tournament_series("Capexpress Final Group A"),
+                         tournament_series("Capexpress Pool 3"))
+        self.assertEqual(tournament_series("11th Htl Stockholm N GM2"),
+                         tournament_series("11th Hotel Stockholm Nth"))
+        self.assertNotEqual(tournament_series("ch-mgl 2026"),
+                            tournament_series("tch-nor elite 2026-27"))
 
     def test_wrong_issue_member_fails_closed(self):
         with tempfile.TemporaryDirectory() as tmp:
