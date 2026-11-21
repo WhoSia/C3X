@@ -76,3 +76,12 @@ New primitive object: **a smallest possible context-scoped, intervention-stable 
 **Do not activate 0.31 automatically:** the version line is at the 0.30 bounded-stage handoff. The 0.31 name is a proposal subject to formal acceptance, not a retrospective rewrite of 0.30 experiments or a claim that C3X's founding problem is fully solved.
 
 **Scientific verdict:** `C3X_030_RESEARCH_STAGE_CLOSED_WITH_UNRESOLVED_CLAIMS_TRANSFERRED / PHYSICAL_SOURCE_TOTAL_EFFECT_SUPPORTED_IN_SCOPE / INTERMEDIATE_MECHANISM_HOLD / ROBUST_STRATEGY_GENERALIZATION_HOLD / HUMAN_TRANSFER_HOLD / C3X_031_NAME_PROPOSED_NOT_ACTIVE`.
+
+
+## 6. Canonical scientific-authority and R38 readback
+
+The completed scientific **phase closure / successor proposal** is recorded and re-fetched in the [Research OS C3X Notion court (2026-11-21)](https://app.notion.com/p/41fef561cf9281e692cbd75994dff74f). This Notion record explicitly preserves all six transferred HOLD families and does not activate 0.31.
+
+[R38 actually succeeded in read-only GitHub CI #44866755312](https://github.com/WhoSia/C3X/actions/runs/44866755312): original R37 native JSON rehashed, all 540 search outputs and all 45 shared legal reply supports recomputed, all 11 data-and-mutant tests passed. [Derived R38 result report](C3X_030_R38_FULL_REPLY_VERIFICATION_20261121.md); original [Drive R38 derived ZIP](https://drive.google.com/file/d/1gHq_AQ3SEJ_GJ7_7iBFwq8Z1KwOP3PfH/view) was uploaded and re-downloaded with exact ZIP SHA256 `2172e8ea40ec184e6bbf18f94ab42960ff1cc8ecf4da628a659a360fbe61899f`.
+
+**0.31 remains a formal-name proposal**; every closed-stage science claim retains its exact scope and each unresolved hypothesis remains explicitly OPEN/HOLD.
