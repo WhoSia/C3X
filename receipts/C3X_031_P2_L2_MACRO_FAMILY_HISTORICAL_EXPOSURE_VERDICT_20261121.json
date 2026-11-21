@@ -1,0 +1,99 @@
+{
+  "id": "C3X_031_P2_L2_R26_MACRO_EVENT_LINEAGE_SENSITIVITY_20261121",
+  "scientific_classification": "POST_OUTCOME_HISTORICAL_MACRO_FAMILY_SENSITIVITY",
+  "primary_P2_verdict": "NEGATIVE_PROSPECTIVE_TRANSPORT_UNCHANGED",
+  "new_native_searches": 0,
+  "historical_source": "R26 C3X already selected TWIC1670 games from the same original publisher ZIP",
+  "original_twic1670_sha256": "6e6866cfe57ea0db7849f9b686fded1c1fe9d1fcab783359030b97ace377eccf",
+  "p2_private_games_sha256": "2a174dcf56a333408693785eb0a844a419f7f8ba090c0a00187f3dab483d57e4",
+  "p2_original_treatment_sha256": "69904f920c21844f2a2f278f6332b7c8fdc9857a821c33fdc0f29dfa56aaf09f",
+  "source_original_predeclared_macro_map": "harness/c3x_031_p2_independent_court.py:PREDECLARED_MACRO",
+  "primary_P2_original": {
+    "games": 64,
+    "events": 128,
+    "flips": 7,
+    "analysis_unchanged": true
+  },
+  "tiers": {
+    "exact_header_posthoc": {
+      "remaining_games": 56,
+      "remaining_events": 112,
+      "remaining_flips": 7,
+      "macro_groups": 15,
+      "brier": {
+        "m0": 0.059303827894958236,
+        "m1": 0.05891931995816267,
+        "m2": 0.06015073308975114
+      },
+      "gain_m1_minus_m2": -0.00123141313158847,
+      "CI95_m1_minus_m2": [
+        -0.01206165269874837,
+        0.008728257411434695
+      ]
+    },
+    "original_predeclared_macro_posthoc": {
+      "remaining_games": 48,
+      "remaining_events": 96,
+      "remaining_flips": 6,
+      "macro_groups": 10,
+      "excluded_real_flip_event_ids": [
+        "P2-028-0"
+      ],
+      "brier": {
+        "m0": 0.05930382789495823,
+        "m1": 0.0564604730983758,
+        "m2": 0.05503847464733883
+      },
+      "gain_m1_minus_m2": 0.0014219984510369654,
+      "CI95_m1_minus_m2": [
+        -0.004773114122785652,
+        0.006423944618635102
+      ],
+      "gain_m0_minus_m2": 0.004265353247619397,
+      "CI95_m0_minus_m2": [
+        -0.008579295359959882,
+        0.01681093621275548
+      ]
+    },
+    "hypothetical_extra_aliases_posthoc": {
+      "remaining_games": 38,
+      "remaining_events": 76,
+      "remaining_flips": 5,
+      "macro_groups": 8,
+      "excluded_real_flip_event_ids": [
+        "P2-028-0",
+        "P2-055-0"
+      ],
+      "confirmed_same_umbrella_tournament": false,
+      "brier": {
+        "m0": 0.0620068063,
+        "m1": 0.05610504650831603,
+        "m2": 0.05591022137183164
+      },
+      "gain_m1_minus_m2": 0.00019482513648438893,
+      "CI95_m1_minus_m2": [
+        -0.007651076353404,
+        0.006564842168096455
+      ]
+    }
+  },
+  "fixed_gain_requirement": 0.01,
+  "credible_positive_gain_certified": false,
+  "point_gain_sign_invariant_under_exposure_granularity": false,
+  "P2_028_scientific_scope": "Same original root pair at equal depth, but a previously R26-exposed macro-event family; valid exploratory mechanism target, not family-blind validation.",
+  "original_64_game_128_event_experiment_not_relabelled": true,
+  "exact_history_duplicate_R26_P2": 0,
+  "broader_every_prior_game_exclusion_completed": false,
+  "TT_history_mediator_identified": false,
+  "chess_strategy_validated": false,
+  "human_learning_measured": false,
+  "read_only_CI": {
+    "run_id": 44879488680,
+    "tests_passed": 10,
+    "conclusion": "success"
+  },
+  "source_json_sha256": "2c97e60ed677dd0936434abd9bfd64505e441a541118bfe9685ea68c56798192",
+  "result_zip_sha256": "74024402cb3be34a92c1ecd534c56705f2bc15bb938599fa16c280675cf0983b",
+  "drive_file_id": "1TYzgiI4s1_c8Vfz7ZKtxM1BBApaIn9bJ",
+  "drive_readback_SHA_and_crc_verified": true
+}
