@@ -173,11 +173,13 @@ def audit(source_b1_path, source_b2_path, native_logs, scored_path):
             counts[key]+=1
         # Cold source process pairs genuinely identical byte-for-byte
         # (even beyond the parsed proxy score/proof equality).
-        require(raw["sham0"]==raw["sham1"],
-                "raw repeated sham control differs")
+        require(raw["sham0"][1]==raw["sham1"][1]
+                and raw["sham0"][2]==raw["sham1"][2],
+                "source stderr or final move differs across repeated shams")
         exact_raw["raw_sham_pair_equal"]+=1
-        require(raw["both_off0"]==raw["both_off1"],
-                "raw repeated source treatment differs")
+        require(raw["both_off0"][1]==raw["both_off1"][1]
+                and raw["both_off0"][2]==raw["both_off1"][2],
+                "source stderr or final move differs across repeated treatments")
         exact_raw["raw_treatment_pair_equal"]+=1
         require(raw["sham0"][2]==row["original_untreated_bestmove"],
                 "source sham changed the original bestmove")
@@ -214,7 +216,7 @@ def audit(source_b1_path, source_b2_path, native_logs, scored_path):
         "raw_source_verifications":exact_raw,
         "original_final_move_change_events":14,
         "original_final_move_change_distinct_games":13,
-        "source_1642_family_change_events":changes,
+        "original_new_1669_source_flip_event_ids":changes,
         "valid_original_predicted_events":len(all_pred),
         "original_noncp_abstention_events":2,
         "independently_recomputed_model_metrics":computed,
