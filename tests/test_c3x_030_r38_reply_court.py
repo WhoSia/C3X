@@ -62,8 +62,8 @@ class R38Tests(unittest.TestCase):
 
     def test_illegal_pv_is_rejected(self):
         z = deepcopy(self.data)
-        z["unfiltered_results"][0]["results"]["a7a5"]["10"][0]["pv"] = ["a2a3"]
-        z["unfiltered_results"][0]["results"]["a7a5"]["10"][1]["pv"] = ["a2a3"]
+        z["unfiltered_results"][0]["results"]["a7a5"]["10"][0]["pv"] = ["e7e5"]
+        z["unfiltered_results"][0]["results"]["a7a5"]["10"][1]["pv"] = ["e7e5"]
         with self.assertRaisesRegex(ValueError,"illegal reported PV"):
             verify(z)
 
