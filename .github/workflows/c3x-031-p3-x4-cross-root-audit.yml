@@ -1,0 +1,99 @@
+name: C3X 0.31 P3-X4 Original 128+12 Cross-Root Counterexample
+on:
+  pull_request:
+    paths:
+      - ".github/workflows/c3x-031-p3-x4-cross-root-audit.yml"
+      - "harness/c3x_031_p3_x4_cross_root_audit.py"
+      - "tests/test_c3x_031_p3_x4_cross_root_audit.py"
+      - "docs/C3X_031_P3_X4_TWO_HISTORIES_THIRD_WINNER_CAUSAL_SPILLOVER_20261121.md"
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  original-source-court-only-no-engine-search:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - uses: actions/download-artifact@v4
+        with:
+          name: c3x031-p2-b2-1669-private-source-physical-outcomes
+          repository: WhoSia/C3X
+          run-id: "44883690849"
+          path: /tmp/p2original/
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: c3x031-p3-x2-12-depth-node-horizon-physical-court
+          repository: WhoSia/C3X
+          run-id: "44895972292"
+          path: /tmp/x2original/
+          github-token: ${{ github.token }}
+      - name: Verify ORIGINAL immutable native research JSON bytes and reproduce ZIP member names
+        run: |
+          set -euo pipefail
+          echo 'be66a985016b4ceaae1379c64ee0f6347c3a2e8c4fd3660ceb394227ac237df1  /tmp/p2original/C3X_031_P2_B2_1669_NATIVE_PHYSICAL_RESULT.json' | sha256sum -c -
+          echo '3c90be5bd0803937a6c9aaf8e55e6b15443c0a5c4f9a71605e13af28cc4da085  /tmp/x2original/C3X_031_P3_X2_12_DEPTH_HORIZONS.json' | sha256sum -c -
+          python - <<'PY'
+          from pathlib import Path
+          from zipfile import ZipFile, ZIP_DEFLATED
+          for folder,name,output in (
+              ("/tmp/p2original","C3X_031_P2_B2_1669_NATIVE_PHYSICAL_RESULT.json","/tmp/p2-source.zip"),
+              ("/tmp/x2original","C3X_031_P3_X2_12_DEPTH_HORIZONS.json","/tmp/x2-source.zip")):
+              with ZipFile(output,"w",ZIP_DEFLATED) as z:
+                  z.writestr(name,(Path(folder)/name).read_bytes())
+          PY
+      - name: Original plus adversarial source tests (no physical search)
+        env:
+          PYTHONPATH: harness
+          C3X_P2_B2_ZIP: /tmp/p2-source.zip
+          C3X_P3_X2_ZIP: /tmp/x2-source.zip
+        run: |
+          set -euo pipefail
+          python -m unittest -v tests.test_c3x_031_p3_x4_cross_root_audit
+      - name: Original 128 and 12 root alignment / third winner derived court
+        env:
+          PYTHONPATH: harness
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/derived
+          python -u harness/c3x_031_p3_x4_cross_root_audit.py \
+            /tmp/p2-source.zip /tmp/x2-source.zip \
+            /tmp/derived/C3X_031_P3_X4_ORIGINAL_128_PLUS_12_CROSS_ROOT_COURT.json
+          sha256sum /tmp/derived/*.json
+          python - <<'PY'
+          import json
+          p='/tmp/derived/C3X_031_P3_X4_ORIGINAL_128_PLUS_12_CROSS_ROOT_COURT.json'
+          x=json.load(open(p))
+          assert x['original_P2_root_classification']=={
+              'NO_FINAL_CHANGE':114,'TARGET_DISPLACED':8,'TARGET_PROMOTED':6}
+          assert x['original_X2_root_classification']=={
+              'NO_FINAL_CHANGE':1,'OFF_TARGET_SWITCH':2,
+              'TARGET_DISPLACED':7,'TARGET_PROMOTED':2}
+          assert x['off_target_source_unique_games']==1
+          assert x['new_stockfish_searches']==0
+          PY
+      - name: Explicit scientific limitation and original source identification
+        if: always()
+        run: |
+          mkdir -p /tmp/derived
+          printf '%s\n' \
+            'This is a derived reanalysis of ORIGINAL physical source results only; zero additional Stockfish runs.' \
+            'P2-056-1 is ONE source event, reobserved under 2 distinct node limits at depth cap13.' \
+            'Source target root h5e2, old winner b8d8, new third winner f5h3 in two horizon conditions.' \
+            'Counterexample refutes fixed-other-root-score isolated root decision model; TT/history/budget pathway not identified.' \
+            'No source-reselection, no model fitting, no chess-value claim, no Actions authored GitHub commits.' \
+            > /tmp/derived/SCIENCE_HOLDS_AND_SCOPE.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x031-p3-x4-original-128x12-root-decision-spillover
+          path: /tmp/derived/
+          retention-days: 3
+          if-no-files-found: error
