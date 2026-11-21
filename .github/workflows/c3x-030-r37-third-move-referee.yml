@@ -1,0 +1,69 @@
+name: C3X 0.30 R37 R30-017 all-reply independent referee
+
+on:
+  pull_request:
+    paths:
+      - ".github/workflows/c3x-030-r37-third-move-referee.yml"
+      - "harness/c3x_030_r37_third_move_referee.py"
+      - "tests/test_c3x_030_r37_third_move_referee.py"
+      - "docs/C3X_030_R37_THIRD_MOVE_REFEREE_PREREG_20261121.md"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  r37-native-referee:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Source board legal-move checks and replay fail-closed controls
+        run: |
+          set -euo pipefail
+          python -m pip install -q chess==1.11.2
+          PYTHONPATH=harness python -m unittest -v tests.test_c3x_030_r37_third_move_referee
+      - name: Build pinned independent Berserk 14 and verify original network
+        run: |
+          set -euo pipefail
+          git clone -q https://github.com/jhonnold/berserk.git /tmp/c3x-r37-berserk
+          git -C /tmp/c3x-r37-berserk checkout -q 8ae895a6151695be4a50d4fb65b0c131659c513a
+          test "$(git -C /tmp/c3x-r37-berserk rev-parse HEAD)" = "8ae895a6151695be4a50d4fb65b0c131659c513a"
+          curl --fail --location --retry 2 --max-time 180 \
+            -o /tmp/c3x-r37-berserk/src/berserk-9b84c340af7e.nn \
+            https://github.com/jhonnold/berserk/releases/download/14/berserk-9b84c340af7e.nn
+          echo '9b84c340af7e45f6e07f0046235ccb327f4ae0840c8ee2c4b97b99121e5c5084  /tmp/c3x-r37-berserk/src/berserk-9b84c340af7e.nn' | sha256sum -c -
+          make -s -C /tmp/c3x-r37-berserk/src -j2 all ARCH=x86-64 CC=gcc
+          test -x /tmp/c3x-r37-berserk/src/berserk
+          sha256sum /tmp/c3x-r37-berserk/src/berserk
+      - name: Two-depth two-repeat exhaustive immediate reply board-only referee
+        run: |
+          set -euo pipefail
+          mkdir -p public
+          PYTHONPATH=harness python -u harness/c3x_030_r37_third_move_referee.py \
+            --engine /tmp/c3x-r37-berserk/src/berserk \
+            --network /tmp/c3x-r37-berserk/src/berserk-9b84c340af7e.nn \
+            --out public/C3X_030_R37_R30_017_EXHAUSTIVE_BOARD_ONLY_BERSERK.json
+          sha256sum public/C3X_030_R37_R30_017_EXHAUSTIVE_BOARD_ONLY_BERSERK.json
+      - name: Preserve rights and strict limited authority
+        if: always()
+        run: |
+          mkdir -p public
+          printf '%s\n' \
+            'R30-017 is previously exposed and post-selected.' \
+            'The original full PGN history was not available; this is FEN-only referee measurement.' \
+            'Two finite Berserk depths cannot prove objectively best chess play.' \
+            'Berserk14 original source https://github.com/jhonnold/berserk' \
+            'No source-native Stockfish mediator or human-learning result is certified here.' \
+            > public/R37_LIMITS_AND_SOURCE_LICENSE.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x030-r37-third-winner-exhaustive-berserk-board-only
+          path: public/
+          if-no-files-found: warn
