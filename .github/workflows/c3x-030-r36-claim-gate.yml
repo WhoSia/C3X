@@ -1,0 +1,44 @@
+name: C3X 0.30 R36 receipt claim gate
+
+on:
+  pull_request:
+    paths:
+      - "harness/c3x_030_r36_claim_gate.py"
+      - "tests/test_c3x_030_r36_claim_gate.py"
+      - "receipts/C3X_030_R33_cross_cohort_summary_20261121.json"
+      - "receipts/C3X_030_R35_root_lineage_20261121.json"
+      - ".github/workflows/c3x-030-r36-claim-gate.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  derived-receipt-court:
+    name: Verify inherited R33/R35 and claim boundaries
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Signed real derived receipt + synthetic tamper tests
+        env:
+          PYTHONPATH: harness
+        run: python -m unittest -v tests.test_c3x_030_r36_claim_gate
+      - name: Emit deterministic receipt court (no source ZIP download)
+        run: |
+          python harness/c3x_030_r36_claim_gate.py \
+            receipts/C3X_030_R33_cross_cohort_summary_20261121.json \
+            receipts/C3X_030_R35_root_lineage_20261121.json \
+            /tmp/c3x-r36-court.json
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          data=json.loads(Path('/tmp/c3x-r36-court.json').read_text())
+          assert data['authority']=='DERIVED_RECEIPT_CONSISTENCY_ONLY'
+          assert data['raw_zip_rehash_this_run'] is False
+          assert data['new_native_searches_this_run']==0
+          assert len(data['claim_court'])==6
+          PY
