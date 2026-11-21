@@ -1,0 +1,46 @@
+--- a/src/search.cpp
++++ b/src/search.cpp
+@@ -86,6 +86,8 @@
+   const bool C3XR29Probes = c3x_flag("C3X_R29_PROBES");
+   const bool C3XR29MaskMove = c3x_flag("C3X_R29_MASK_MOVE");
+   const bool C3XR29MaskValue = c3x_flag("C3X_R29_MASK_VALUE");
++  const bool C3XR30PickerOnly = c3x_flag("C3X_R30_PICKER_ONLY");
++  const bool C3XR30SkipSingular = c3x_flag("C3X_R30_SKIP_SINGULAR");
+ 
+   // Different node types, used as a template parameter
+   enum NodeType { NonPV, PV, Root };
+@@ -1005,7 +1007,12 @@
+ 
+     Move countermove = prevSq != SQ_NONE ? thisThread->counterMoves[pos.piece_on(prevSq)][prevSq] : MOVE_NONE;
+ 
+-    MovePicker mp(pos, C3XNoTTPicker && !rootNode ? MOVE_NONE : ttMove, depth, &thisThread->mainHistory,
++    const bool r30Target = r29NodeProbe && r29NodeProbe == C3XR29Target;
++    const bool r30MaskPicker = r30Target && C3XR30PickerOnly;
++    if (r30Target)
++        std::cerr << "C3X_R30_PICKER seq=" << r29NodeProbe << " skip=" << r30MaskPicker << std::endl;
++    MovePicker mp(pos, (r30MaskPicker || (C3XNoTTPicker && !rootNode)) ? MOVE_NONE : ttMove,
++                  depth, &thisThread->mainHistory,
+                                       &captureHistory,
+                                       contHist,
+                                       countermove,
+@@ -1150,14 +1157,18 @@
+           // Depth margin and singularBeta margin are known for having non-linear scaling.
+           // Their values are optimized to time controls of 180+1.8 and longer
+           // so changing them requires tests at this type of time controls.
+-          if (   !rootNode
++          const bool singularEligible = !rootNode
+               &&  depth >= 4 - (thisThread->completedDepth > 22) + 2 * (PvNode && tte->is_pv())
+               &&  move == ttMove
+               && !excludedMove // Avoid recursive singular search
+            /* &&  ttValue != VALUE_NONE Already implicit in the next condition */
+               &&  abs(ttValue) < VALUE_KNOWN_WIN
+               && (tte->bound() & BOUND_LOWER)
+-              &&  tte->depth() >= depth - 3)
++              &&  tte->depth() >= depth - 3;
++          const bool r30Skip = r30Target && C3XR30SkipSingular;
++          if (singularEligible && r30Target)
++              std::cerr << "C3X_R30_SINGULAR seq=" << r29NodeProbe << " skip=" << r30Skip << std::endl;
++          if (singularEligible && !r30Skip)
+           {
+               Value singularBeta = ttValue - (82 + 65 * (ss->ttPv && !PvNode)) * depth / 64;
+               Depth singularDepth = (depth - 1) / 2;

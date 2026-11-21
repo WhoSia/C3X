@@ -1,0 +1,40 @@
+{
+  "assets": {
+    "cohort": "77b391e579db1056374a3d75c3c28f166233ad765afb9efc8fa30633fd0dd5ec",
+    "clean": "fc2f6b069a775a463c6d17cce30f0bd24339ec446ab621e29c4933719026e8b5",
+    "patched": "790c47147670347b7ac106a63ce3dde5760cbfef2052e9185c76a3c92e1efdc1",
+    "net": "5af11540bbfefcb54e38c5dd000cab4b469dfa7599a1d55be5d2722c20a8929b"
+  },
+  "case": "twic1670-08-61",
+  "node_budget": 32000,
+  "original_producer": {
+    "attempt": "37",
+    "id": "910",
+    "move": "f6d7",
+    "value": "-845",
+    "alpha": "-937",
+    "beta": "-821",
+    "depth": "14",
+    "count": "1",
+    "update": "1"
+  },
+  "target": {
+    "seq": "557",
+    "attempt": "26",
+    "root": "a5a4",
+    "key": "6281317071037820182",
+    "hit": "1",
+    "hint": "b3b4",
+    "effective": "b3b4",
+    "tt_value": "672",
+    "tt_depth": "7",
+    "pv": "1",
+    "depth": "6",
+    "excluded": "0",
+    "alpha": "564",
+    "beta": "963",
+    "candidate_next": "600",
+    "mask": "0"
+  },
+  "discovery_trace": "808cd9e421326836f33c6be2f0e4ec81a2ed21466edcd6b39e6065c0c81af892"
+}

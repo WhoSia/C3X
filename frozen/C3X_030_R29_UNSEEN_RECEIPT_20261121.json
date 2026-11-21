@@ -1,0 +1,204 @@
+{
+  "cohort_sha256": "3b97a3090233106cf7796ccfb82537bb4723cb5c881f9d1be1f70d2e75444145",
+  "source_archive_sha256": "36ac4a1324a21674649f7b5eb12e0ef21167b18288917cce6aba3d8120669dd9",
+  "eligible_event_families": 21,
+  "exclusion_inputs_sha256": {
+    "r26": "77b391e579db1056374a3d75c3c28f166233ad765afb9efc8fa30633fd0dd5ec",
+    "r27": "9e93483bb5067ad8f59e713bea974079399f9d901d48c185c285c82ae89647a2",
+    "r28": "1cfb47753f18ea060e6ac7de6752e5ac80c8fe3d7f0e69e97678fae623de96cd"
+  },
+  "positions": [
+    {
+      "id": "R29-001",
+      "family": "2nd 3-0 thu 17th sep 2026",
+      "ply": 50,
+      "game_sha256": "19b4539e4bb59bb58bf42caa05754eedbdd059885d4a3c456695dd4a3f9e7c6b"
+    },
+    {
+      "id": "R29-002",
+      "family": "1st 3-0 thu 17th sep 2026",
+      "ply": 81,
+      "game_sha256": "3d8b8f5db3104c2a08746e64866382752c8728b499828dd0fe489ab656bc80e6"
+    },
+    {
+      "id": "R29-003",
+      "family": "24th premier league bih",
+      "ply": 30,
+      "game_sha256": "42f2ba779848557dc51221b3fe3880ad273d62b62bfc15523a909a49387f2653"
+    },
+    {
+      "id": "R29-004",
+      "family": "ch-den 2026",
+      "ply": 41,
+      "game_sha256": "3719042ddb7ea853e67d8534f145558a71c392908e8c7156787c4fa66048f1b2"
+    },
+    {
+      "id": "R29-005",
+      "family": "sixdays budapest sept gmb",
+      "ply": 70,
+      "game_sha256": "86a5260d6e6b03d2fefb07e5ea6c5332b47d50af8ba0d633666cf216f3f150d4"
+    },
+    {
+      "id": "R29-006",
+      "family": "8th krunoslav hulak mem",
+      "ply": 61,
+      "game_sha256": "8811553a267273ab92d6c707f03eb9927f8cab4220fd558835d1653bdc570be3"
+    },
+    {
+      "id": "R29-007",
+      "family": "1st medugorje open 2026",
+      "ply": 30,
+      "game_sha256": "b1ddb8df95e21bed95c9a1165cc24ca5c21207307abb35864105d093a8e2601f"
+    },
+    {
+      "id": "R29-008",
+      "family": "fide disabilities olym",
+      "ply": 70,
+      "game_sha256": "c7d8782c654941e21ab610bfdd76e0838d4c20007673519e6d824584374f6e97"
+    },
+    {
+      "id": "R29-009",
+      "family": "46th olympiad women 2026",
+      "ply": 70,
+      "game_sha256": "1bd3f7b4555ec5fbcf63f1b822377350e1b43323e1c4bb12fcc0f7efb25e113f"
+    },
+    {
+      "id": "R29-010",
+      "family": "titled tue 15th sep 2026",
+      "ply": 50,
+      "game_sha256": "de9f0dc6f1a80f0b1df2b2135194863853910b557b08603a0f57e395d583cc85"
+    },
+    {
+      "id": "R29-011",
+      "family": "8th oldrich kycla mem a",
+      "ply": 41,
+      "game_sha256": "1750b471a4403db3e398491dd5025bd54a37853fe8a5026577b3bec4c5b2f4c7"
+    },
+    {
+      "id": "R29-012",
+      "family": "tch-bih premier women",
+      "ply": 30,
+      "game_sha256": "8cd12bca8bd4c61264c90a3f014c755724842a4a916cbc0a754ca80b7117a632"
+    },
+    {
+      "id": "R29-013",
+      "family": "reykjavik cc autumn 2026",
+      "ply": 30,
+      "game_sha256": "95b7c43d97a0e8c8ac7bfcd95488d5b9edb7a0d02a5897e8582814e2109f0dd0"
+    },
+    {
+      "id": "R29-014",
+      "family": "ii tesoro di san gennaro",
+      "ply": 41,
+      "game_sha256": "d03126d1485abf28fbb89daf8571d160e696aa49897885d67a167deb96bf0aa8"
+    },
+    {
+      "id": "R29-015",
+      "family": "dutch league 2026-27",
+      "ply": 41,
+      "game_sha256": "c05e6f366914a7457a4b87b113397661292028e6d08a26f7e2a46c2e95f6e07d"
+    },
+    {
+      "id": "R29-016",
+      "family": "sixdays budapest sept gma",
+      "ply": 50,
+      "game_sha256": "28318013f3d3e7be56366755e2f6636f9f0117b8c47cbda37e751cf596df2aaf"
+    },
+    {
+      "id": "R29-017",
+      "family": "46th olympiad 2026",
+      "ply": 50,
+      "game_sha256": "b182509e17d43c342d01649229030f6e668d6443a131b12fcb638e52be9dd19a"
+    },
+    {
+      "id": "R29-018",
+      "family": "sixdays budapest sept imb",
+      "ply": 41,
+      "game_sha256": "14e263a43bf318c15e33fcab0358c5638ce06392570d002cd942bce4e8bb1d16"
+    },
+    {
+      "id": "R29-019",
+      "family": "sixdays budapest sept ima",
+      "ply": 41,
+      "game_sha256": "51dd2adc90233d58f1ecca21443373de122196adac5b7734de99653ac8aa7c18"
+    },
+    {
+      "id": "R29-020",
+      "family": "3rd 3-0 thu 17th sep 2026",
+      "ply": 61,
+      "game_sha256": "576a0ee0933cdcc4ab00d36f82e56fc70a77c17e0a298e2fd4f86b81dfa7dcd0"
+    },
+    {
+      "id": "R29-021",
+      "family": "polsca baltic chess open",
+      "ply": 30,
+      "game_sha256": "087d50acf830a66d5977545c33b879eb13ad36e929b11f16ecc02d9cbb4a8737"
+    },
+    {
+      "id": "R29-022",
+      "family": "2nd 3-0 thu 17th sep 2026",
+      "ply": 30,
+      "game_sha256": "1c523c7f4814ac3ca4ea3478b628cabfc34c266b38e6320ba3140efbf5dcf83a"
+    },
+    {
+      "id": "R29-023",
+      "family": "1st 3-0 thu 17th sep 2026",
+      "ply": 81,
+      "game_sha256": "0848600b8775054d00f27e690f37b5772af314b04f0c9ec1514e956d8cd984e2"
+    },
+    {
+      "id": "R29-024",
+      "family": "24th premier league bih",
+      "ply": 70,
+      "game_sha256": "ab5a4a3d43a4e747ae2da39c301a45bc0ac73598b68824d86d20c18562f8887b"
+    },
+    {
+      "id": "R29-025",
+      "family": "ch-den 2026",
+      "ply": 81,
+      "game_sha256": "b935ef21ed91ee737e8c711cf6df440cac67a058a936d77af4910edd7ccbb8bb"
+    },
+    {
+      "id": "R29-026",
+      "family": "sixdays budapest sept gmb",
+      "ply": 81,
+      "game_sha256": "045864b93eb9e4bbd9921b0fedbf46f2ab30a2493f4fa8db010e51f6ac3246dd"
+    },
+    {
+      "id": "R29-027",
+      "family": "8th krunoslav hulak mem",
+      "ply": 61,
+      "game_sha256": "0b5c6396c89c5ce0f2e948fc4dd53642676687eca2c6dee5f075980a468982ff"
+    },
+    {
+      "id": "R29-028",
+      "family": "1st medugorje open 2026",
+      "ply": 81,
+      "game_sha256": "701f80147432d248e38348fbf87bcbe8bfb345622e8b96093331e0ac40af3efb"
+    },
+    {
+      "id": "R29-029",
+      "family": "fide disabilities olym",
+      "ply": 61,
+      "game_sha256": "ad99707f63056c2e8ad9043d52ffa67f21476f3a13a9e02cfd7c2b1888c7ed05"
+    },
+    {
+      "id": "R29-030",
+      "family": "46th olympiad women 2026",
+      "ply": 50,
+      "game_sha256": "42e919971e6367ec9d34aee8d619e9accd4fe4fb5b4c0a3a8c1bea5507dae7bd"
+    },
+    {
+      "id": "R29-031",
+      "family": "titled tue 15th sep 2026",
+      "ply": 81,
+      "game_sha256": "6d74182c1f4cd3dfaf8b9dada9a5c7442bad9ddc2498f9ee8f4436f409125134"
+    },
+    {
+      "id": "R29-032",
+      "family": "8th oldrich kycla mem a",
+      "ply": 61,
+      "game_sha256": "c1d65113124b761a24878bc686bb5a7ba2cca54800038a0dd0f594047f328e9b"
+    }
+  ]
+}

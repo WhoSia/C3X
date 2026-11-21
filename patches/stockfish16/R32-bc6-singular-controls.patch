@@ -1,0 +1,61 @@
+diff --git a/src/search.cpp b/src/search.cpp
+--- a/src/search.cpp
++++ b/src/search.cpp
+@@ -130,6 +130,8 @@
+
+   const Depth C3XR32Depth = Depth(r32Field("C3X_R32_DEPTH", "12", "9", DEPTH_NONE));
+   const Value C3XR32Value = Value(r32Field("C3X_R32_VALUE", "-1947", "-1894", VALUE_NONE));
++  const Value C3XR32Window = Value(r32Field("C3X_R32_WINDOW", "-1961", "-1908", VALUE_NONE));
++  const Depth C3XR32Extension = Depth(r32Field("C3X_R32_EXTENSION", "-1", "1", DEPTH_NONE));
+
+   // Different node types, used as a template parameter
+   enum NodeType { NonPV, PV, Root };
+@@ -853,6 +855,10 @@
+         // For high rule50 counts don't produce transposition table cutoffs.
+         if (pos.rule50_count() < 90)
+         {
++            if (r32Mode && ss->ply <= 4)
++                std::cerr << "C3X_R32_CUTOFF mode=" << r32Mode << " ply=" << ss->ply
++                          << " key=" << posKey << " value=" << ttValue
++                          << " alpha=" << alpha << " beta=" << beta << std::endl;
+             if (r29NodeProbe)
+                 std::cerr << "C3X_R29_CUTOFF seq=" << r29NodeProbe << " value=" << ttValue << std::endl;
+             return ttValue;
+@@ -1298,7 +1304,9 @@
+               std::cerr << "C3X_R30_SINGULAR seq=" << r29NodeProbe << " skip=" << r30Skip << std::endl;
+           if (singularEligible && !r30Skip)
+           {
+-              Value singularBeta = ttValue - (82 + 65 * (ss->ttPv && !PvNode)) * depth / 64;
++              const Value nativeSingularBeta = ttValue - (82 + 65 * (ss->ttPv && !PvNode)) * depth / 64;
++              const Value singularBeta = r32Reader && C3XR32Window != VALUE_NONE
++                                       ? C3XR32Window : nativeSingularBeta;
+               Depth singularDepth = (depth - 1) / 2;
+
+               ss->excludedMove = move;
+@@ -1306,6 +1314,7 @@
+               ss->excludedMove = MOVE_NONE;
+               if (r32Reader)
+                   std::cerr << "C3X_R32_SINGULAR threshold=" << singularBeta
++                            << " native_threshold=" << nativeSingularBeta
+                             << " depth=" << singularDepth << " value=" << value << std::endl;
+
+               if (value < singularBeta)
+@@ -1358,9 +1367,16 @@
+       }
+
+       // Add extension to new depth
+-      newDepth += extension;
+       if (r32Reader && move == R32Rook)
+-          std::cerr << "C3X_R32_EXTENSION extension=" << extension << " child_depth=" << newDepth << std::endl;
++      {
++          const Depth nativeExtension = extension;
++          if (C3XR32Extension != DEPTH_NONE)
++              extension = C3XR32Extension;
++          std::cerr << "C3X_R32_EXTENSION extension=" << extension
++                    << " native_extension=" << nativeExtension
++                    << " child_depth=" << newDepth + extension << std::endl;
++      }
++      newDepth += extension;
+       ss->doubleExtensions = (ss-1)->doubleExtensions + (extension == 2);
+
+       // Speculative prefetch as early as possible

@@ -1,0 +1,348 @@
+diff --git a/src/search.cpp b/src/search.cpp
+--- a/src/search.cpp
++++ b/src/search.cpp
+@@ -89,6 +89,29 @@
+   const bool C3XR30PickerOnly = c3x_flag("C3X_R30_PICKER_ONLY");
+   const bool C3XR30SkipSingular = c3x_flag("C3X_R30_SKIP_SINGULAR");
+
++  const bool C3XR31Observe = c3x_flag("C3X_R31_OBSERVE");
++  constexpr Key R31Key = 17109324142970305696ULL;
++  constexpr Move R31Root = make_move(SQ_F6, SQ_G7);
++
++  struct R31Override {
++      char field = 0;
++      int value = 0;
++  };
++
++  const R31Override C3XR31Override = [] {
++      const char* raw = std::getenv("C3X_R31_OVERRIDE");
++      if (!raw)
++          return R31Override{};
++      char* end = nullptr;
++      const long value = std::strtol(raw + (raw[0] != 0), &end, 10);
++      if (!raw[0] || end == raw + 1 || *end
++          || !((raw[0] == 'd' && value > DEPTH_OFFSET && value < DEPTH_OFFSET + 256)
++            || (raw[0] == 'b' && value >= BOUND_NONE && value <= BOUND_EXACT)
++            || (raw[0] == 'v' && value >= -32768 && value <= 32767)))
++          std::abort();
++      return R31Override{raw[0], int(value)};
++  }();
++
+   // Different node types, used as a template parameter
+   enum NodeType { NonPV, PV, Root };
+
+@@ -670,8 +693,44 @@
+     excludedMove = ss->excludedMove;
+     posKey = pos.key();
+     tte = TT.probe(posKey, ss->ttHit);
++    const bool r31Matched = C3XR31Observe && C3XR29Probes && ss->ply == 1
++                         && c3xAttempt == 14 && c3xCandidate == 235 && posKey == R31Key
++                         && (ss-1)->currentMove == R31Root && !excludedMove && depth == 12
++                         && ss->ttHit && c3x_trace();
++    if (r31Matched && !PvNode && alpha == 1950 && beta == 1951 && c3xR29Probe + 1 == 233)
++    {
++        C3XR31WatchCluster = TT.first_entry(posKey);
++        std::cerr << "C3X_R31_SCOUT key=" << posKey << " slot=" << (tte - C3XR31WatchCluster)
++                  << " tuple=";
++        tte->c3x_write_tuple(std::cerr);
++        std::cerr << std::endl;
++    }
++    const bool r31Consumer = r31Matched && PvNode && alpha == 1706 && beta == 1951
++                          && C3XR31WatchCluster == TT.first_entry(posKey);
++    TTEntry r31Arrival{};
++    const R31Override r31Override = r31Consumer ? C3XR31Override : R31Override{};
++    if (r31Consumer)
++    {
++        r31Arrival = *tte;
++        std::cerr << "C3X_R31_PV key=" << posKey << " slot=" << (tte - C3XR31WatchCluster)
++                  << " field=" << int(r31Override.field) << " replacement=" << r31Override.value
++                  << " tuple=";
++        tte->c3x_write_tuple(std::cerr);
++        std::cerr << std::endl;
++        C3XR31WatchCluster = nullptr;
++    }
++    // Preserve live slot reads if recursive search changes the observed entry.
++    const auto r31Depth = [&] {
++        return r31Override.field == 'd' && tte->c3x_same_entry(r31Arrival)
++             ? Depth(r31Override.value) : tte->depth();
++    };
++    const auto r31Bound = [&] {
++        return r31Override.field == 'b' && tte->c3x_same_entry(r31Arrival)
++             ? Bound(r31Override.value) : tte->bound();
++    };
+     ttValue = ss->ttHit && !C3XNoTTValue
+-            ? value_from_tt(tte->value(), ss->ply, pos.rule50_count()) : VALUE_NONE;
++            ? value_from_tt(r31Override.field == 'v' ? Value(r31Override.value) : tte->value(),
++                            ss->ply, pos.rule50_count()) : VALUE_NONE;
+     ttMove =  rootNode ? thisThread->rootMoves[thisThread->pvIdx].pv[0]
+             : ss->ttHit    ? tte->move() : MOVE_NONE;
+     uint64_t r29NodeProbe = 0;
+@@ -710,9 +769,9 @@
+     // At non-PV nodes we check for an early TT cutoff
+     if (  !PvNode
+         && !excludedMove
+-        && tte->depth() > depth - (tte->bound() == BOUND_EXACT)
++        && r31Depth() > depth - (r31Bound() == BOUND_EXACT)
+         && ttValue != VALUE_NONE // Possible in case of TT access race or if !ttHit
+-        && (tte->bound() & (ttValue >= beta ? BOUND_LOWER : BOUND_UPPER)))
++        && (r31Bound() & (ttValue >= beta ? BOUND_LOWER : BOUND_UPPER)))
+     {
+         // If ttMove is quiet, update move sorting heuristics on TT hit (~2 Elo)
+         if (ttMove)
+@@ -782,7 +841,7 @@
+                 {
+                     tte->save(posKey, value_to_tt(value, ss->ply), ss->ttPv, b,
+                               std::min(MAX_PLY - 1, depth + 6),
+-                              MOVE_NONE, VALUE_NONE);
++                              MOVE_NONE, VALUE_NONE, "tablebase", ss->ply);
+
+                     return value;
+                 }
+@@ -826,14 +885,14 @@
+
+         // ttValue can be used as a better position evaluation (~7 Elo)
+         if (    ttValue != VALUE_NONE
+-            && (tte->bound() & (ttValue > eval ? BOUND_LOWER : BOUND_UPPER)))
++            && (r31Bound() & (ttValue > eval ? BOUND_LOWER : BOUND_UPPER)))
+             eval = ttValue;
+     }
+     else
+     {
+         ss->staticEval = eval = evaluate(pos);
+         // Save static evaluation into transposition table
+-        tte->save(posKey, VALUE_NONE, ss->ttPv, BOUND_NONE, DEPTH_NONE, MOVE_NONE, eval);
++        tte->save(posKey, VALUE_NONE, ss->ttPv, BOUND_NONE, DEPTH_NONE, MOVE_NONE, eval, "static", ss->ply);
+     }
+
+     // Use static evaluation difference to improve quiet move ordering (~4 Elo)
+@@ -924,7 +983,7 @@
+     // Use qsearch if depth is equal or below zero (~9 Elo)
+     if (    PvNode
+         && !ttMove)
+-        depth -= 2 + 2 * (ss->ttHit && tte->depth() >= depth);
++        depth -= 2 + 2 * (ss->ttHit && r31Depth() >= depth);
+
+     if (depth <= 0)
+         return qsearch<PV>(pos, ss, alpha, beta);
+@@ -946,7 +1005,7 @@
+         // there and in further interactions with transposition table cutoff depth is set to depth - 3
+         // because probCut search has depth set to depth - 4 but we also do a move before it
+         // so effective depth is equal to depth - 3
+-        && !(   tte->depth() >= depth - 3
++        && !(   r31Depth() >= depth - 3
+              && ttValue != VALUE_NONE
+              && ttValue < probCutBeta))
+     {
+@@ -979,7 +1038,7 @@
+                 if (value >= probCutBeta)
+                 {
+                     // Save ProbCut data into transposition table
+-                    tte->save(posKey, value_to_tt(value, ss->ply), ss->ttPv, BOUND_LOWER, depth - 3, move, ss->staticEval);
++                    tte->save(posKey, value_to_tt(value, ss->ply), ss->ttPv, BOUND_LOWER, depth - 3, move, ss->staticEval, "probcut", ss->ply);
+                     return value;
+                 }
+             }
+@@ -994,8 +1053,8 @@
+     if (   ss->inCheck
+         && !PvNode
+         && ttCapture
+-        && (tte->bound() & BOUND_LOWER)
+-        && tte->depth() >= depth - 4
++        && (r31Bound() & BOUND_LOWER)
++        && r31Depth() >= depth - 4
+         && ttValue >= probCutBeta
+         && abs(ttValue) <= VALUE_KNOWN_WIN
+         && abs(beta) <= VALUE_KNOWN_WIN)
+@@ -1025,8 +1084,14 @@
+     // at a depth equal or greater than the current depth, and the result of this search was a fail low.
+     bool likelyFailLow =    PvNode
+                          && ttMove
+-                         && (tte->bound() & BOUND_UPPER)
+-                         && tte->depth() >= depth;
++                         && (r31Bound() & BOUND_UPPER)
++                         && r31Depth() >= depth;
++
++    if (r31Consumer)
++        std::cerr << "C3X_R31_GATE likely_fail_low=" << likelyFailLow << " depth=" << depth
++                  << " effective_depth=" << r31Depth() << " effective_bound=" << int(r31Bound())
++                  << " tt_value=" << ttValue << " cut_node=" << cutNode << " in_check=" << ss->inCheck
++                  << std::endl;
+
+     // Step 13. Loop through all pseudo-legal moves until no moves remain
+     // or a beta cutoff occurs.
+@@ -1163,8 +1228,8 @@
+               && !excludedMove // Avoid recursive singular search
+            /* &&  ttValue != VALUE_NONE Already implicit in the next condition */
+               &&  abs(ttValue) < VALUE_KNOWN_WIN
+-              && (tte->bound() & BOUND_LOWER)
+-              &&  tte->depth() >= depth - 3;
++              && (r31Bound() & BOUND_LOWER)
++              &&  r31Depth() >= depth - 3;
+           const bool r30Skip = r30Target && C3XR30SkipSingular;
+           if (singularEligible && r30Target)
+               std::cerr << "C3X_R30_SINGULAR seq=" << r29NodeProbe << " skip=" << r30Skip << std::endl;
+@@ -1267,7 +1332,7 @@
+       // Decrease further on cutNodes. (~1 Elo)
+       if (   ss->ttPv
+           && !likelyFailLow)
+-          r -= cutNode && tte->depth() >= depth + 3 ? 3 : 2;
++          r -= cutNode && r31Depth() >= depth + 3 ? 3 : 2;
+
+       // Decrease reduction if opponent's move count is high (~1 Elo)
+       if ((ss-1)->moveCount > 8)
+@@ -1319,6 +1384,10 @@
+           // reduction is negative, we allow this move a limited search extension
+           // beyond the first move depth. This may lead to hidden double extensions.
+           Depth d = std::clamp(newDepth - r, 1, newDepth + 1);
++          if (r31Consumer)
++              std::cerr << "C3X_R31_LMR move=" << UCI::move(move, pos.is_chess960())
++                        << " index=" << moveCount << " depth=" << d << " new_depth=" << newDepth
++                        << " reduction=" << r << std::endl;
+
+           value = -search<NonPV>(pos, ss+1, -(alpha+1), -alpha, d, true);
+           r29Return("reduced", value);
+@@ -1532,7 +1601,7 @@
+         tte->save(posKey, value_to_tt(bestValue, ss->ply), ss->ttPv,
+                   bestValue >= beta ? BOUND_LOWER :
+                   PvNode && bestMove ? BOUND_EXACT : BOUND_UPPER,
+-                  depth, bestMove, ss->staticEval);
++                  depth, bestMove, ss->staticEval, "main_exit", ss->ply);
+
+     assert(bestValue > -VALUE_INFINITE && bestValue < VALUE_INFINITE);
+
+@@ -1632,7 +1701,7 @@
+             // Save gathered info in transposition table
+             if (!ss->ttHit)
+                 tte->save(posKey, value_to_tt(bestValue, ss->ply), false, BOUND_LOWER,
+-                          DEPTH_NONE, MOVE_NONE, ss->staticEval);
++                          DEPTH_NONE, MOVE_NONE, ss->staticEval, "qstand", ss->ply);
+
+             return bestValue;
+         }
+@@ -1770,7 +1839,7 @@
+     // Save gathered info in transposition table
+     tte->save(posKey, value_to_tt(bestValue, ss->ply), pvHit,
+               bestValue >= beta ? BOUND_LOWER : BOUND_UPPER,
+-              ttDepth, bestMove, ss->staticEval);
++              ttDepth, bestMove, ss->staticEval, "qexit", ss->ply);
+
+     assert(bestValue > -VALUE_INFINITE && bestValue < VALUE_INFINITE);
+
+diff --git a/src/tt.cpp b/src/tt.cpp
+--- a/src/tt.cpp
++++ b/src/tt.cpp
+@@ -29,20 +29,44 @@
+ namespace Stockfish {
+
+ TranspositionTable TT; // Our global transposition table
++thread_local const TTEntry* C3XR31WatchCluster = nullptr;
++
++bool TTEntry::c3x_same_entry(const TTEntry& other) const {
++  return key16 == other.key16 && depth8 == other.depth8 && genBound8 == other.genBound8
++      && move16 == other.move16 && value16 == other.value16 && eval16 == other.eval16;
++}
++
++void TTEntry::c3x_write_tuple(std::ostream& out) const {
++  out << key16 << ',' << depth() << ',' << int(bound()) << ',' << int(is_pv())
++      << ',' << int(genBound8 >> 3) << ',' << move16 << ',' << value16 << ',' << eval16;
++}
+
+ /// TTEntry::save() populates the TTEntry with a new node's data, possibly
+ /// overwriting an old position. Update is not atomic and can be racy.
+
+-void TTEntry::save(Key k, Value v, bool pv, Bound b, Depth d, Move m, Value ev) {
++void TTEntry::save(Key k, Value v, bool pv, Bound b, Depth d, Move m, Value ev,
++                   const char* site, int ply) {
++
++  const bool watched = C3XR31WatchCluster && TT.first_entry(k) == C3XR31WatchCluster;
++  if (watched)
++  {
++      std::cerr << "C3X_R31_WRITE key=" << k << " slot=" << (this - C3XR31WatchCluster)
++                << " site=" << site << " ply=" << ply
++                << " incoming=" << (uint16_t)k << ',' << d << ',' << int(b) << ',' << pv
++                << ',' << int(TT.generation8 >> 3) << ',' << m << ',' << v << ',' << ev
++                << " before=";
++      c3x_write_tuple(std::cerr);
++  }
+
+   // Preserve any existing move for the same position
+   if (m || (uint16_t)k != key16)
+       move16 = (uint16_t)m;
+
+   // Overwrite less valuable entries (cheapest checks first)
+-  if (   b == BOUND_EXACT
+-      || (uint16_t)k != key16
+-      || d - DEPTH_OFFSET + 2 * pv > depth8 - 4)
++  const bool replace = b == BOUND_EXACT
++                    || (uint16_t)k != key16
++                    || d - DEPTH_OFFSET + 2 * pv > depth8 - 4;
++  if (replace)
+   {
+       assert(d > DEPTH_OFFSET);
+       assert(d < 256 + DEPTH_OFFSET);
+@@ -53,6 +77,12 @@
+       value16   = (int16_t)v;
+       eval16    = (int16_t)ev;
+   }
++  if (watched)
++  {
++      std::cerr << " replaced=" << replace << " after=";
++      c3x_write_tuple(std::cerr);
++      std::cerr << std::endl;
++  }
+ }
+
+
+@@ -125,7 +155,20 @@
+   for (int i = 0; i < ClusterSize; ++i)
+       if (tte[i].key16 == key16 || !tte[i].depth8)
+       {
+-          tte[i].genBound8 = uint8_t(generation8 | (tte[i].genBound8 & (GENERATION_DELTA - 1))); // Refresh
++          const auto refreshed = uint8_t(generation8 | (tte[i].genBound8 & (GENERATION_DELTA - 1)));
++          const bool watched = tte == C3XR31WatchCluster && tte[i].genBound8 != refreshed;
++          if (watched)
++          {
++              std::cerr << "C3X_R31_REFRESH key=" << key << " slot=" << i << " before=";
++              tte[i].c3x_write_tuple(std::cerr);
++          }
++          tte[i].genBound8 = refreshed;
++          if (watched)
++          {
++              std::cerr << " after=";
++              tte[i].c3x_write_tuple(std::cerr);
++              std::cerr << std::endl;
++          }
+
+           return found = (bool)tte[i].depth8, &tte[i];
+       }
+diff --git a/src/tt.h b/src/tt.h
+--- a/src/tt.h
++++ b/src/tt.h
+@@ -19,6 +19,8 @@
+ #ifndef TT_H_INCLUDED
+ #define TT_H_INCLUDED
+
++#include <iosfwd>
++
+ #include "misc.h"
+ #include "types.h"
+
+@@ -43,7 +45,10 @@
+   Depth depth() const { return (Depth)depth8 + DEPTH_OFFSET; }
+   bool is_pv()  const { return (bool)(genBound8 & 0x4); }
+   Bound bound() const { return (Bound)(genBound8 & 0x3); }
+-  void save(Key k, Value v, bool pv, Bound b, Depth d, Move m, Value ev);
++  void save(Key k, Value v, bool pv, Bound b, Depth d, Move m, Value ev,
++            const char* site, int ply);
++  bool c3x_same_entry(const TTEntry& other) const;
++  void c3x_write_tuple(std::ostream& out) const;
+
+ private:
+   friend class TranspositionTable;
+@@ -101,5 +106,6 @@
+ };
+
+ extern TranspositionTable TT;
++extern thread_local const TTEntry* C3XR31WatchCluster;
+
+ } // namespace Stockfish

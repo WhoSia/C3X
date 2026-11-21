@@ -1,0 +1,53 @@
+--- a/src/search.cpp
++++ b/src/search.cpp
+@@ -85,6 +85,7 @@
+   }();
+   const bool C3XR29Probes = c3x_flag("C3X_R29_PROBES");
+   const bool C3XR29MaskMove = c3x_flag("C3X_R29_MASK_MOVE");
++  const bool C3XR29MaskValue = c3x_flag("C3X_R29_MASK_VALUE");
+ 
+   // Different node types, used as a template parameter
+   enum NodeType { NonPV, PV, Root };
+@@ -676,18 +677,26 @@
+     {
+         r29NodeProbe = ++c3xR29Probe;
+         const Move before = ttMove;
+-        const bool mask = C3XR29MaskMove && c3xR29Probe == C3XR29Target && ss->ttHit && ttMove;
+-        if (mask)
++        const Value beforeValue = ttValue;
++        const bool target = c3xR29Probe == C3XR29Target && ss->ttHit;
++        const bool maskMove = target && C3XR29MaskMove && ttMove;
++        const bool maskValue = target && C3XR29MaskValue && ttValue != VALUE_NONE;
++        if (maskMove)
+             ttMove = MOVE_NONE;
++        if (maskValue)
++            ttValue = VALUE_NONE;
+         std::cerr << "C3X_R29_PLY1 seq=" << c3xR29Probe << " attempt=" << c3xAttempt
+                   << " root=" << UCI::move((ss-1)->currentMove, pos.is_chess960())
+                   << " key=" << posKey << " hit=" << ss->ttHit
+                   << " hint=" << UCI::move(before, pos.is_chess960())
+                   << " effective=" << UCI::move(ttMove, pos.is_chess960())
+-                  << " tt_value=" << ttValue << " tt_depth=" << (ss->ttHit ? tte->depth() : 0)
++                  << " tt_value=" << beforeValue << " effective_value=" << ttValue
++                  << " tt_depth=" << (ss->ttHit ? tte->depth() : 0)
++                  << " bound=" << (ss->ttHit ? int(tte->bound()) : 0)
+                   << " pv=" << int(PvNode) << " depth=" << depth << " excluded=" << int(excludedMove)
+                   << " alpha=" << alpha << " beta=" << beta
+-                  << " candidate_next=" << c3xCandidate + 1 << " mask=" << mask << std::endl;
++                  << " candidate_next=" << c3xCandidate + 1 << " mask=" << (maskMove || maskValue)
++                  << " mask_move=" << maskMove << " mask_value=" << maskValue << std::endl;
+     }
+     ttCapture = ttMove && pos.capture_stage(ttMove);
+ 
+@@ -728,7 +737,11 @@
+         // Partial workaround for the graph history interaction problem
+         // For high rule50 counts don't produce transposition table cutoffs.
+         if (pos.rule50_count() < 90)
++        {
++            if (r29NodeProbe)
++                std::cerr << "C3X_R29_CUTOFF seq=" << r29NodeProbe << " value=" << ttValue << std::endl;
+             return ttValue;
++        }
+     }
+ 
+     // Step 5. Tablebases probe

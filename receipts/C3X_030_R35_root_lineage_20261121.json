@@ -1,0 +1,155 @@
+{
+  "category": "RETROSPECTIVE_R34_R33_040_SOURCE_TRANSPORT",
+  "manifest_files_verified": 185,
+  "observation": "Two different upstream mechanisms converge on lost h3 update in attempt 24 and Qxc7 in the new attempt 25",
+  "results": [
+    {
+      "base_attempt24_end": {
+        "attempt": "24",
+        "move": "h2h3",
+        "nodes": "21870",
+        "producer": "759",
+        "stopped": "0",
+        "value": "392"
+      },
+      "comparison_limit": "Physical upstream event -> shared-window candidate flip observed; intervening TT/history/write events not yet mapped",
+      "event_after": "952",
+      "event_attempt": 20,
+      "event_before": "401",
+      "event_candidate": "586",
+      "event_root": "a5c7",
+      "final_moves": [
+        "h2h3",
+        "a5c7"
+      ],
+      "first_same_window_score_change": {
+        "alpha": "367",
+        "base_update": "1",
+        "base_value": 367,
+        "index": 1,
+        "move": "d4b3",
+        "treated_update": "1",
+        "treated_value": 365
+      },
+      "matched_root_window": {
+        "alpha": 367,
+        "attempt": 24,
+        "beta": 407,
+        "iteration": 12
+      },
+      "physical_read_key": "7338377272942446594",
+      "repeat": 0,
+      "same_window_h3_competition": {
+        "alpha": "367",
+        "base_update": "1",
+        "base_value": 392,
+        "index": 3,
+        "move": "h2h3",
+        "treated_update": "0",
+        "treated_value": 363
+      },
+      "stratum": "0",
+      "target_event": 32,
+      "treated_aspiration_retry_end": {
+        "attempt": "25",
+        "move": "a5c7",
+        "nodes": "27741",
+        "producer": "801",
+        "stopped": "0",
+        "value": "375"
+      },
+      "treated_aspiration_retry_start": {
+        "adjusted": "12",
+        "alpha": "341",
+        "attempt": "25",
+        "beta": "387",
+        "iteration": "12",
+        "nodes": "21821",
+        "roots": "43"
+      },
+      "treated_attempt24_end": {
+        "attempt": "24",
+        "move": "d4b3",
+        "nodes": "21821",
+        "producer": "757",
+        "stopped": "0",
+        "value": "367"
+      }
+    },
+    {
+      "base_attempt24_end": {
+        "attempt": "24",
+        "move": "h2h3",
+        "nodes": "21870",
+        "producer": "759",
+        "stopped": "0",
+        "value": "392"
+      },
+      "comparison_limit": "Physical upstream event -> shared-window candidate flip observed; intervening TT/history/write events not yet mapped",
+      "event_after": "454",
+      "event_attempt": 24,
+      "event_before": "528",
+      "event_candidate": "757",
+      "event_root": "d4b3",
+      "final_moves": [
+        "h2h3",
+        "a5c7"
+      ],
+      "first_same_window_score_change": {
+        "alpha": "367",
+        "base_update": "1",
+        "base_value": 367,
+        "index": 1,
+        "move": "d4b3",
+        "treated_update": "1",
+        "treated_value": 362
+      },
+      "matched_root_window": {
+        "alpha": 367,
+        "attempt": 24,
+        "beta": 407,
+        "iteration": 12
+      },
+      "physical_read_key": "8836045980267209116",
+      "repeat": 0,
+      "same_window_h3_competition": {
+        "alpha": "367",
+        "base_update": "1",
+        "base_value": 392,
+        "index": 3,
+        "move": "h2h3",
+        "treated_update": "0",
+        "treated_value": 367
+      },
+      "stratum": "1",
+      "target_event": 102,
+      "treated_aspiration_retry_end": {
+        "attempt": "25",
+        "move": "a5c7",
+        "nodes": "28547",
+        "producer": "801",
+        "stopped": "0",
+        "value": "371"
+      },
+      "treated_aspiration_retry_start": {
+        "adjusted": "12",
+        "alpha": "341",
+        "attempt": "25",
+        "beta": "387",
+        "iteration": "12",
+        "nodes": "23233",
+        "roots": "43"
+      },
+      "treated_attempt24_end": {
+        "attempt": "24",
+        "move": "d4b3",
+        "nodes": "23233",
+        "producer": "757",
+        "stopped": "0",
+        "value": "367"
+      }
+    }
+  ],
+  "sha256_zip": "c4f01a19665e7bb8781316e4f1a13d9a91c2cf4b0bf35eea5d962851c53f697a",
+  "unproven": "Exact intermediate state mediation between selected source event and h3 candidate; independent board superiority; human value"
+}

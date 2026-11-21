@@ -1,0 +1,205 @@
+{
+  "cohort_sha256": "f1ada087e09a53caa539a226e1d5b7e3c5d4c9dabe8682b5fed849872070b26f",
+  "source_archive_sha256": "87bcd88e628c85b6e7e5b36894738fc9e6ef4012345740e57ff05795a908940f",
+  "eligible_event_families": 10,
+  "exclusion_inputs_sha256": {
+    "r26": "77b391e579db1056374a3d75c3c28f166233ad765afb9efc8fa30633fd0dd5ec",
+    "r27": "9e93483bb5067ad8f59e713bea974079399f9d901d48c185c285c82ae89647a2",
+    "r28": "1cfb47753f18ea060e6ac7de6752e5ac80c8fe3d7f0e69e97678fae623de96cd",
+    "r29": "3b97a3090233106cf7796ccfb82537bb4723cb5c881f9d1be1f70d2e75444145"
+  },
+  "positions": [
+    {
+      "id": "R30-001",
+      "family": "hull 4ncl congress 2026",
+      "ply": 50,
+      "game_sha256": "d70712a55c4e48ee2442e2ae0022a90a0f8ee05d4961f325b77666fd46a35924"
+    },
+    {
+      "id": "R30-002",
+      "family": "6th gambit gm closed 2026",
+      "ply": 50,
+      "game_sha256": "de95c03abbf7d915efd844d2edbb1a2b490f78e3141790ca7d11999fc412864b"
+    },
+    {
+      "id": "R30-003",
+      "family": "3rd 3-0 thu 24th sep 2026",
+      "ply": 30,
+      "game_sha256": "ece1877e286a09d7a8a50b44314537c5dc5c216ac430ba49ae8d94ee4530f527"
+    },
+    {
+      "id": "R30-004",
+      "family": "tch-fin 2026-27",
+      "ply": 50,
+      "game_sha256": "6ed8da887bd7e9d68e40b2c487c88ff00f4d8dec8055338337dad8cb1526fa8d"
+    },
+    {
+      "id": "R30-005",
+      "family": "2nd 3-0 thu 24th sep 2026",
+      "ply": 81,
+      "game_sha256": "b5f9cf02ad8005011b5b4254662056a8ec4f2c6faa29a393336c3ba288f07a5f"
+    },
+    {
+      "id": "R30-006",
+      "family": "tch-bel 2026-27",
+      "ply": 41,
+      "game_sha256": "834a366575c75651a2e228f54f0d9666bc856f1b878379956a8cf3844a297283"
+    },
+    {
+      "id": "R30-007",
+      "family": "volyn championship 2026",
+      "ply": 30,
+      "game_sha256": "cdacc10ed5c35cf966b79b6b4f80f56b336c4bf3eba18c34e1efbebd9f15e6c4"
+    },
+    {
+      "id": "R30-008",
+      "family": "sixdays sept open 2026",
+      "ply": 61,
+      "game_sha256": "b24ed313b9203a48a8054730b2b5531e86cfbeabe22b896c9c50454a0aabc6d1"
+    },
+    {
+      "id": "R30-009",
+      "family": "1st 3-0 thu 24th sep 2026",
+      "ply": 70,
+      "game_sha256": "829e6c9d83b18a07584d8dc1658478bd98a24e340ca5c4126595c9f483fe8573"
+    },
+    {
+      "id": "R30-010",
+      "family": "titled tue 22nd sep 2026",
+      "ply": 30,
+      "game_sha256": "a22db9932d9a8def862bd586c52bac842188814c53b6f73acac28f98636a7b77"
+    },
+    {
+      "id": "R30-011",
+      "family": "hull 4ncl congress 2026",
+      "ply": 50,
+      "game_sha256": "095441918d311f4ebe478312697c929af8aa59371673dd60c9a7d91c709c7be7"
+    },
+    {
+      "id": "R30-012",
+      "family": "6th gambit gm closed 2026",
+      "ply": 70,
+      "game_sha256": "5287f18fd13e33804391b8173702e61d868b619381a1c404781d83d3299d70cc"
+    },
+    {
+      "id": "R30-013",
+      "family": "3rd 3-0 thu 24th sep 2026",
+      "ply": 50,
+      "game_sha256": "247b68370c2b5278969a38ded54e6f14f3d3a61bc4da6ecd4d3940a5892b7f39"
+    },
+    {
+      "id": "R30-014",
+      "family": "tch-fin 2026-27",
+      "ply": 70,
+      "game_sha256": "8ea58e78d3797517ebdc50936f254e307e3b28b7fbe4a241e13d80cc909b0c7b"
+    },
+    {
+      "id": "R30-015",
+      "family": "2nd 3-0 thu 24th sep 2026",
+      "ply": 41,
+      "game_sha256": "bac4ff33173a9624f1f254dff5a2f73e289a7b05efbd49bdec390dd386cea4f2"
+    },
+    {
+      "id": "R30-016",
+      "family": "tch-bel 2026-27",
+      "ply": 50,
+      "game_sha256": "2b52d27bd595481ff18fc04d7d1925e66a7d32dd7de66590b0959c472b886095"
+    },
+    {
+      "id": "R30-017",
+      "family": "volyn championship 2026",
+      "ply": 70,
+      "game_sha256": "b56fc48d4b14ba6d15f11987ae8b54c4ac30cb0e9957503f8cbbb7ad7cb97db3"
+    },
+    {
+      "id": "R30-018",
+      "family": "sixdays sept open 2026",
+      "ply": 70,
+      "game_sha256": "7cafffedfe5d02afdddfb2690b753d22f1f905a3e61da2236e9763d860c2c1eb"
+    },
+    {
+      "id": "R30-019",
+      "family": "1st 3-0 thu 24th sep 2026",
+      "ply": 70,
+      "game_sha256": "e1ee606c5766627f639bb2b3ffd28670f8f6f0139d895ed88f649512250ac194"
+    },
+    {
+      "id": "R30-020",
+      "family": "titled tue 22nd sep 2026",
+      "ply": 70,
+      "game_sha256": "3c37e6c5fa13f10f8951d9ba502eb4874c2433266d45fe43ef63ce358c42ea5e"
+    },
+    {
+      "id": "R30-021",
+      "family": "hull 4ncl congress 2026",
+      "ply": 61,
+      "game_sha256": "93688b33b23befbd53c8f64e84ae88ceb463290e285cd9c2e55b410d950bbc67"
+    },
+    {
+      "id": "R30-022",
+      "family": "6th gambit gm closed 2026",
+      "ply": 81,
+      "game_sha256": "fc7ef1f08fcce573f45b7ac75bcd44ac448fd4954efcc1cff045e654616252f9"
+    },
+    {
+      "id": "R30-023",
+      "family": "3rd 3-0 thu 24th sep 2026",
+      "ply": 61,
+      "game_sha256": "88377cf04bfd2552ab928b9bb315990d667daeb320a72d7eff119773989c4151"
+    },
+    {
+      "id": "R30-024",
+      "family": "tch-fin 2026-27",
+      "ply": 41,
+      "game_sha256": "fb3388be8ac6a408c760793dde7f4f213a70ded9c0a70abc6e31ab7e1c9879a3"
+    },
+    {
+      "id": "R30-025",
+      "family": "2nd 3-0 thu 24th sep 2026",
+      "ply": 30,
+      "game_sha256": "3f4cc86dcaa3412c1b10213f6e0a7464812287c38d145f288d04f5723fe4a5eb"
+    },
+    {
+      "id": "R30-026",
+      "family": "tch-bel 2026-27",
+      "ply": 30,
+      "game_sha256": "70614f5fed57a8e081b38c6f7dd2648443b174bbf0404bf7afabce350b8d1225"
+    },
+    {
+      "id": "R30-027",
+      "family": "volyn championship 2026",
+      "ply": 70,
+      "game_sha256": "a9f9297802d0de41bc28f7890a2b74764bb0eb9d6bb6e22350d24c7dcd1bb68a"
+    },
+    {
+      "id": "R30-028",
+      "family": "sixdays sept open 2026",
+      "ply": 41,
+      "game_sha256": "7da5bc5386cb2935cc5de4a2d8ca8b36152b5c4a2cd2ae0f57782324974338c4"
+    },
+    {
+      "id": "R30-029",
+      "family": "1st 3-0 thu 24th sep 2026",
+      "ply": 50,
+      "game_sha256": "9e837762dee40502280e0418ceac2733dc95e806d0ab106ffb7e8ccd3d7176cc"
+    },
+    {
+      "id": "R30-030",
+      "family": "titled tue 22nd sep 2026",
+      "ply": 50,
+      "game_sha256": "6180f15f52739dee14c36f542c665d99175a73dd4a39b0c389a1523355111bfc"
+    },
+    {
+      "id": "R30-031",
+      "family": "hull 4ncl congress 2026",
+      "ply": 61,
+      "game_sha256": "665a4765b4f8aa32b8eb628e7485792c8b8e93cc1886c67892683b3d7f36386c"
+    },
+    {
+      "id": "R30-032",
+      "family": "6th gambit gm closed 2026",
+      "ply": 30,
+      "game_sha256": "f2ca17b9f6f1cd27403c977b4b269be767518ffccfdc5951a10f38eaec1a4490"
+    }
+  ]
+}

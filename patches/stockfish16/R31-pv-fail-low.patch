@@ -1,0 +1,58 @@
+diff --git a/src/search.cpp b/src/search.cpp
+--- a/src/search.cpp
++++ b/src/search.cpp
+@@ -107,7 +107,8 @@
+       if (!raw[0] || end == raw + 1 || *end
+           || !((raw[0] == 'd' && value > DEPTH_OFFSET && value < DEPTH_OFFSET + 256)
+             || (raw[0] == 'b' && value >= BOUND_NONE && value <= BOUND_EXACT)
+-            || (raw[0] == 'v' && value >= -32768 && value <= 32767)))
++            || (raw[0] == 'v' && value >= -32768 && value <= 32767)
++            || (raw[0] == 'f' && (value == 0 || value == 1))))
+           std::abort();
+       return R31Override{raw[0], int(value)};
+   }();
+@@ -697,7 +698,9 @@
+                          && c3xAttempt == 14 && c3xCandidate == 235 && posKey == R31Key
+                          && (ss-1)->currentMove == R31Root && !excludedMove && depth == 12
+                          && ss->ttHit && c3x_trace();
+-    if (r31Matched && !PvNode && alpha == 1950 && beta == 1951 && c3xR29Probe + 1 == 233)
++    const bool r31Scout = r31Matched && !PvNode && alpha == 1950 && beta == 1951
++                       && c3xR29Probe + 1 == 233;
++    if (r31Scout)
+     {
+         C3XR31WatchCluster = TT.first_entry(posKey);
+         std::cerr << "C3X_R31_SCOUT key=" << posKey << " slot=" << (tte - C3XR31WatchCluster)
+@@ -988,10 +991,15 @@
+     if (depth <= 0)
+         return qsearch<PV>(pos, ss, alpha, beta);
+
+-    if (    cutNode
+-        &&  depth >= 8
+-        && !ttMove)
+-        depth -= 2;
++    {
++        const bool reduceCutWithoutHint = cutNode && depth >= 8 && !ttMove;
++        if (r31Scout)
++            std::cerr << "C3X_R31_SCOUT_REDUCTION before=" << depth
++                      << " applied=" << reduceCutWithoutHint
++                      << " after=" << depth - 2 * reduceCutWithoutHint << std::endl;
++        if (reduceCutWithoutHint)
++            depth -= 2;
++    }
+
+     probCutBeta = beta + 168 - 61 * improving;
+
+@@ -1087,8 +1095,12 @@
+                          && (r31Bound() & BOUND_UPPER)
+                          && r31Depth() >= depth;
+
++    const bool nativeLikelyFailLow = likelyFailLow;
++    if (r31Override.field == 'f')
++        likelyFailLow = r31Override.value != 0;
+     if (r31Consumer)
+-        std::cerr << "C3X_R31_GATE likely_fail_low=" << likelyFailLow << " depth=" << depth
++        std::cerr << "C3X_R31_GATE native_likely_fail_low=" << nativeLikelyFailLow
++                  << " likely_fail_low=" << likelyFailLow << " depth=" << depth
+                   << " effective_depth=" << r31Depth() << " effective_bound=" << int(r31Bound())
+                   << " tt_value=" << ttValue << " cut_node=" << cutNode << " in_check=" << ss->inCheck
+                   << std::endl;

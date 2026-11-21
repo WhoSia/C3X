@@ -1,0 +1,104 @@
+--- a/src/search.cpp
++++ b/src/search.cpp
+@@ -78,6 +78,13 @@
+   }
+ 
+   thread_local uint64_t c3xAttempt = 0, c3xCandidate = 0;
++  thread_local uint64_t c3xR29Probe = 0;
++  const uint64_t C3XR29Target = []() -> uint64_t {
++      const char* value = std::getenv("C3X_R29_TARGET");
++      return value ? std::strtoull(value, nullptr, 10) : 0;
++  }();
++  const bool C3XR29Probes = c3x_flag("C3X_R29_PROBES");
++  const bool C3XR29MaskMove = c3x_flag("C3X_R29_MASK_MOVE");
+ 
+   // Different node types, used as a template parameter
+   enum NodeType { NonPV, PV, Root };
+@@ -664,6 +671,24 @@
+             ? value_from_tt(tte->value(), ss->ply, pos.rule50_count()) : VALUE_NONE;
+     ttMove =  rootNode ? thisThread->rootMoves[thisThread->pvIdx].pv[0]
+             : ss->ttHit    ? tte->move() : MOVE_NONE;
++    uint64_t r29NodeProbe = 0;
++    if (ss->ply == 1 && C3XR29Probes && c3x_trace())
++    {
++        r29NodeProbe = ++c3xR29Probe;
++        const Move before = ttMove;
++        const bool mask = C3XR29MaskMove && c3xR29Probe == C3XR29Target && ss->ttHit && ttMove;
++        if (mask)
++            ttMove = MOVE_NONE;
++        std::cerr << "C3X_R29_PLY1 seq=" << c3xR29Probe << " attempt=" << c3xAttempt
++                  << " root=" << UCI::move((ss-1)->currentMove, pos.is_chess960())
++                  << " key=" << posKey << " hit=" << ss->ttHit
++                  << " hint=" << UCI::move(before, pos.is_chess960())
++                  << " effective=" << UCI::move(ttMove, pos.is_chess960())
++                  << " tt_value=" << ttValue << " tt_depth=" << (ss->ttHit ? tte->depth() : 0)
++                  << " pv=" << int(PvNode) << " depth=" << depth << " excluded=" << int(excludedMove)
++                  << " alpha=" << alpha << " beta=" << beta
++                  << " candidate_next=" << c3xCandidate + 1 << " mask=" << mask << std::endl;
++    }
+     ttCapture = ttMove && pos.capture_stage(ttMove);
+ 
+     // At this point, if excluded, skip straight to step 6, static eval. However,
+@@ -1192,8 +1217,27 @@
+                                                                 [to_sq(move)];
+ 
+       // Step 16. Make the move
++      if (r29NodeProbe)
++          std::cerr << "C3X_R29_REPLY seq=" << r29NodeProbe
++                    << " move=" << UCI::move(move, pos.is_chess960())
++                    << " index=" << moveCount << std::endl;
+       pos.do_move(move, st, givesCheck);
+ 
++      const bool r29Root = rootNode && C3XR29Probes && c3x_trace();
++      uint64_t r29Before = c3xR29Probe;
++      const auto r29Return = [&](const char* stage, Value returned) {
++          if (r29Root)
++              std::cerr << "C3X_R29_CHILD attempt=" << c3xAttempt
++                        << " candidate_next=" << c3xCandidate + 1
++                        << " root=" << UCI::move(move, pos.is_chess960())
++                        << " stage=" << stage << " before=" << r29Before
++                        << " after=" << c3xR29Probe << " child_value=" << -returned
++                        << " root_value=" << returned
++                        << " stopped=" << Threads.stop.load(std::memory_order_relaxed)
++                        << std::endl;
++          r29Before = c3xR29Probe;
++      };
++
+       // Decrease reduction if position is or has been on the PV
+       // and node is not likely to fail low. (~3 Elo)
+       // Decrease further on cutNodes. (~1 Elo)
+@@ -1253,6 +1297,7 @@
+           Depth d = std::clamp(newDepth - r, 1, newDepth + 1);
+ 
+           value = -search<NonPV>(pos, ss+1, -(alpha+1), -alpha, d, true);
++          r29Return("reduced", value);
+ 
+           // Do full depth search when reduced LMR search fails high
+           if (value > alpha && d < newDepth)
+@@ -1268,7 +1313,10 @@
+               newDepth += doDeeperSearch - doShallowerSearch + doEvenDeeperSearch;
+ 
+               if (newDepth > d)
++              {
+                   value = -search<NonPV>(pos, ss+1, -(alpha+1), -alpha, newDepth, !cutNode);
++                  r29Return("research", value);
++              }
+ 
+               int bonus = value <= alpha ? -stat_bonus(newDepth)
+                         : value >= beta  ?  stat_bonus(newDepth)
+@@ -1286,6 +1334,7 @@
+               r += 2;
+ 
+           value = -search<NonPV>(pos, ss+1, -(alpha+1), -alpha, newDepth - (r > 3), !cutNode);
++          r29Return("scout", value);
+       }
+ 
+       // For PV nodes only, do a full PV search on the first move or after a fail
+@@ -1297,6 +1346,7 @@
+           (ss+1)->pv[0] = MOVE_NONE;
+ 
+           value = -search<PV>(pos, ss+1, -beta, -alpha, newDepth, false);
++          r29Return("pv", value);
+       }
+ 
+       // Step 19. Undo move

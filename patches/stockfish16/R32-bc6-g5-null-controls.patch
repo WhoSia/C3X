@@ -1,0 +1,104 @@
+diff --git a/src/search.cpp b/src/search.cpp
+--- a/src/search.cpp
++++ b/src/search.cpp
+@@ -137,6 +137,7 @@
+   constexpr Key R32G5Key = 15895136417853702231ULL;
+   constexpr Move R32B5 = make_move(SQ_B4, SQ_B5);
+   const int C3XR32Futility = r32Field("C3X_R32_FUTILITY", "0", "1", -1);
++  const int C3XR32Null = r32Field("C3X_R32_NULL", "0", "1", -1);
+
+   // Different node types, used as a template parameter
+   enum NodeType { NonPV, PV, Root };
+@@ -1006,51 +1007,59 @@
+     }
+
+     // Step 9. Null move search with verification search (~35 Elo)
+-    if (   !PvNode
+-        && (ss-1)->currentMove != MOVE_NULL
+-        && (ss-1)->statScore < 17329
+-        &&  eval >= beta
+-        &&  eval >= ss->staticEval
+-        &&  ss->staticEval >= beta - 21 * depth - improvement / 13 + 258
+-        && !excludedMove
+-        &&  pos.non_pawn_material(us)
+-        && (ss->ply >= thisThread->nmpMinPly))
+     {
+-        assert(eval - beta >= 0);
++        const bool naturalNull = !PvNode
++            && (ss-1)->currentMove != MOVE_NULL
++            && (ss-1)->statScore < 17329
++            && eval >= beta
++            && eval >= ss->staticEval
++            && ss->staticEval >= beta - 21 * depth - improvement / 13 + 258
++            && !excludedMove
++            && pos.non_pawn_material(us)
++            && ss->ply >= thisThread->nmpMinPly;
++        const bool allowNull = r32G5Node && C3XR32Null >= 0 ? C3XR32Null == 1 : naturalNull;
++        if (r32G5Node)
++            std::cerr << "C3X_R32_G5_NULL_GATE beta=" << beta << " native=" << naturalNull
++                      << " used=" << allowNull << " threshold="
++                      << beta - 21 * depth - improvement / 13 + 258 << std::endl;
++        if (allowNull)
++        {
++            assert(eval - beta >= 0);
+
+-        // Null move dynamic reduction based on depth and eval
+-        Depth R = std::min(int(eval - beta) / 173, 6) + depth / 3 + 4;
++            // Null move dynamic reduction based on depth and eval
++            Depth R = std::min(int(eval - beta) / 173, 6) + depth / 3 + 4;
+
+-        ss->currentMove = MOVE_NULL;
+-        ss->continuationHistory = &thisThread->continuationHistory[0][0][NO_PIECE][0];
++            ss->currentMove = MOVE_NULL;
++            ss->continuationHistory = &thisThread->continuationHistory[0][0][NO_PIECE][0];
+
+-        pos.do_null_move(st);
++            pos.do_null_move(st);
+
+-        Value nullValue = -search<NonPV>(pos, ss+1, -beta, -beta+1, depth-R, !cutNode);
++            Value nullValue = -search<NonPV>(pos, ss+1, -beta, -beta+1, depth-R, !cutNode);
+
+-        pos.undo_null_move();
+-        if (r32Mode == 'p' && posKey == R32G5Key && ss->ply == 3 && depth == 3)
+-            std::cerr << "C3X_R32_G5_NULL beta=" << beta << " value=" << nullValue << std::endl;
++            pos.undo_null_move();
++            if (r32Mode == 'p' && posKey == R32G5Key && ss->ply == 3 && depth == 3)
++                std::cerr << "C3X_R32_G5_NULL beta=" << beta << " value=" << nullValue << std::endl;
+
+-        if (nullValue >= beta)
+-        {
+-            // Do not return unproven mate or TB scores
+-            nullValue = std::min(nullValue, VALUE_TB_WIN_IN_MAX_PLY-1);
++            if (nullValue >= beta)
++            {
++                // Do not return unproven mate or TB scores
++                nullValue = std::min(nullValue, VALUE_TB_WIN_IN_MAX_PLY-1);
+
+-            if (thisThread->nmpMinPly || depth < 14)
+-                return nullValue;
++                if (thisThread->nmpMinPly || depth < 14)
++                    return nullValue;
+
+-            assert(!thisThread->nmpMinPly); // Recursive verification is not allowed
++                assert(!thisThread->nmpMinPly); // Recursive verification is not allowed
+
+-            // Do verification search at high depths, with null move pruning disabled
+-            // until ply exceeds nmpMinPly.
+-            thisThread->nmpMinPly = ss->ply + 3 * (depth-R) / 4;
++                // Do verification search at high depths, with null move pruning disabled
++                // until ply exceeds nmpMinPly.
++                thisThread->nmpMinPly = ss->ply + 3 * (depth-R) / 4;
+
+-            Value v = search<NonPV>(pos, ss, beta-1, beta, depth-R, false);
++                Value v = search<NonPV>(pos, ss, beta-1, beta, depth-R, false);
+
+-            thisThread->nmpMinPly = 0;
++                thisThread->nmpMinPly = 0;
+
+-            if (v >= beta)
+-                return nullValue;
++                if (v >= beta)
++                    return nullValue;
++            }
+         }
+     }

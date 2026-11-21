@@ -1,0 +1,40 @@
+{
+  "schema": "c3x-030-r26-tt-component-panel-v1",
+  "stockfish_upstream_commit": "68e1e9b3811e16cad014b590d7443b9063b3eb52",
+  "stockfish_build": "g++ 14.2.0 Debian 14.2.0-19; make build ARCH=x86-64 COMP=gcc",
+  "stockfish_upstream_sha256": "fc2f6b069a775a463c6d17cce30f0bd24339ec446ab621e29c4933719026e8b5",
+  "stockfish_patched_sha256": "9480145fb5f497a9c3e3fbe91c1b3bfb7985e38240bf46b3a8e55f0268785321",
+  "stockfish_nnue_sha256": "5af11540bbfefcb54e38c5dd000cab4b469dfa7599a1d55be5d2722c20a8929b",
+  "stockfish_patch_sha256": "bf8ce863223580a005029b3cf11ee667a4c54bc969e5119d9dfcc4c812c36019",
+  "python_chess_version": "1.11.2",
+  "berserk_upstream_commit": "8ae895a6151695be4a50d4fb65b0c131659c513a",
+  "berserk_build": "gcc 14.2.0 Debian 14.2.0-19; make all ARCH=x86-64 CC=gcc",
+  "berserk_sha256": "05a38dea25c5d1662f51e6645e203498bb1f1d775f95bf0061bd84e643e5045f",
+  "berserk_nnue_sha256": "9b84c340af7e45f6e07f0046235ccb327f4ae0840c8ee2c4b97b99121e5c5084",
+  "files_sha256": {
+    "frozen-cohort.json": "77b391e579db1056374a3d75c3c28f166233ad765afb9efc8fa30633fd0dd5ec",
+    "panel-frames.jsonl": "99b9a55666d9719198c5330d98a744d39ffd0311e2e3b71bb48ba2a8b371a33d",
+    "panel-audit.json": "5b63f7cfee108e527449aaed1308aeb823f3218d24a9bc3a97b3faa4d32ea990",
+    "followup.json": "917f361e8239cd59dd4c68dd6624eab350e281f2c5f72ee7fc367e08d2cf214f",
+    "berserk-judge.json": "d05d7a44fe21967d05daa5a84c6774775a82a6ede96139ff0011fba7834fd0cd",
+    "board-checks.json": "270ca7b8b41082cf066bb37ffeda157aad98f50d6695e264b47012690aa9083d",
+    "SHA256SUMS": "aa8d22206d372d3e8755ee8ccf1d2105320ad75d539388c51038709938856111"
+  },
+  "archive": {
+    "drive_id": "1Y72FCNlQONIYj7RpnB3dAxOVGSKkvRBV",
+    "sha256": "1aba4131ce181b89c9681d5dd535bac6f3aed953f13568d3b8160a90c072dbbb",
+    "downloaded_and_byte_compared": true
+  },
+  "counts": {
+    "games": 32,
+    "positions": 88,
+    "stockfish_node_panel": 1144,
+    "stockfish_depth_panel": 528,
+    "stockfish_named_replays": 18,
+    "berserk_searches": 186,
+    "passive_whole_report_matches": 264,
+    "reported_nodes": 87150518,
+    "additional_byte_identical_node_panel_replay": 1144
+  },
+  "scope": "Exploratory cross-source component intervention; local entry mediation and population prevalence open"
+}

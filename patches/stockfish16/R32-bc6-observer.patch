@@ -1,0 +1,169 @@
+diff --git a/src/search.cpp b/src/search.cpp
+--- a/src/search.cpp
++++ b/src/search.cpp
+@@ -113,6 +113,11 @@
+       return R31Override{raw[0], int(value)};
+   }();
+
++  const bool C3XR32Observe = c3x_flag("C3X_R32_OBSERVE");
++  constexpr Move R32Reply = make_move(SQ_B5, SQ_C6);
++  thread_local char r32Mode = 0;
++  thread_local Key r32Key = 0;
++
+   // Different node types, used as a template parameter
+   enum NodeType { NonPV, PV, Root };
+
+@@ -703,6 +708,12 @@
+     if (r31Scout)
+     {
+         C3XR31WatchCluster = TT.first_entry(posKey);
++        if (C3XR32Observe)
++        {
++            r32Key = pos.key_after(R32Reply);
++            C3XR32WatchCluster = TT.first_entry(r32Key);
++            std::cerr << "C3X_R32_WATCH key=" << r32Key << std::endl;
++        }
+         std::cerr << "C3X_R31_SCOUT key=" << posKey << " slot=" << (tte - C3XR31WatchCluster)
+                   << " tuple=";
+         tte->c3x_write_tuple(std::cerr);
+@@ -736,6 +747,23 @@
+                             ss->ply, pos.rule50_count()) : VALUE_NONE;
+     ttMove =  rootNode ? thisThread->rootMoves[thisThread->pvIdx].pv[0]
+             : ss->ttHit    ? tte->move() : MOVE_NONE;
++    if (r32Mode && ss->ply <= 4)
++    {
++        std::cerr << "C3X_R32_READ mode=" << r32Mode << " ply=" << ss->ply
++                  << " pv=" << PvNode << " cut=" << cutNode << " depth=" << depth
++                  << " alpha=" << alpha << " beta=" << beta << " excluded=" << excludedMove
++                  << " key=" << posKey << " hit=" << ss->ttHit
++                  << " slot=" << (tte - TT.first_entry(posKey))
++                  << " rule50=" << pos.rule50_count()
++                  << " parent=" << UCI::move((ss-1)->currentMove, pos.is_chess960())
++                  << " killer=" << UCI::move(ss->killers[0], pos.is_chess960())
++                  << " killer2=" << UCI::move(ss->killers[1], pos.is_chess960())
++                  << " counter=" << (is_ok((ss-1)->currentMove)
++                      ? thisThread->counterMoves[pos.piece_on(prevSq)][prevSq] : MOVE_NONE)
++                  << " ttmove=" << UCI::move(ttMove, pos.is_chess960()) << " tuple=";
++        tte->c3x_write_tuple(std::cerr);
++        std::cerr << std::endl;
++    }
+     uint64_t r29NodeProbe = 0;
+     if (ss->ply == 1 && C3XR29Probes && c3x_trace())
+     {
+@@ -1324,6 +1352,16 @@
+                     << " index=" << moveCount << std::endl;
+       pos.do_move(move, st, givesCheck);
+
++      const bool r32Focal = C3XR32Observe && (r31Scout || r31Consumer) && move == R32Reply;
++      if (r32Focal)
++      {
++          r32Mode = r31Scout ? 's' : 'p';
++          std::cerr << "C3X_R32_ENTER mode=" << r32Mode << " index=" << moveCount
++                    << " depth=" << newDepth << " key=" << pos.key()
++                    << " alpha=" << alpha << " beta=" << beta
++                    << " nodes=" << thisThread->nodes << std::endl;
++      }
++
+       const bool r29Root = rootNode && C3XR29Probes && c3x_trace();
+       uint64_t r29Before = c3xR29Probe;
+       const auto r29Return = [&](const char* stage, Value returned) {
+@@ -1337,6 +1375,13 @@
+                         << " stopped=" << Threads.stop.load(std::memory_order_relaxed)
+                         << std::endl;
+           r29Before = c3xR29Probe;
++          if (r32Mode && ss->ply <= 3)
++              std::cerr << "C3X_R32_RETURN mode=" << r32Mode << " ply=" << ss->ply
++                        << " key=" << pos.key() << " stage=" << stage
++                        << " index=" << moveCount << " value=" << returned
++                        << " move=" << UCI::move(move, pos.is_chess960())
++                        << " alpha=" << alpha << " beta=" << beta
++                        << " nodes=" << thisThread->nodes << std::endl;
+       };
+
+       // Decrease reduction if position is or has been on the PV
+@@ -1454,6 +1499,15 @@
+           r29Return("pv", value);
+       }
+
++      if (r32Focal)
++      {
++          std::cerr << "C3X_R32_EXIT mode=" << r32Mode << " index=" << moveCount
++                    << " value=" << value << " nodes=" << thisThread->nodes << std::endl;
++          r32Mode = 0;
++          if (r31Consumer)
++              C3XR32WatchCluster = nullptr;
++      }
++
+       // Step 19. Undo move
+       pos.undo_move(move);
+
+diff --git a/src/tt.cpp b/src/tt.cpp
+--- a/src/tt.cpp
++++ b/src/tt.cpp
+@@ -30,6 +30,7 @@
+
+ TranspositionTable TT; // Our global transposition table
+ thread_local const TTEntry* C3XR31WatchCluster = nullptr;
++thread_local const TTEntry* C3XR32WatchCluster = nullptr;
+
+ bool TTEntry::c3x_same_entry(const TTEntry& other) const {
+   return key16 == other.key16 && depth8 == other.depth8 && genBound8 == other.genBound8
+@@ -58,6 +59,11 @@
+       c3x_write_tuple(std::cerr);
+   }
+
++  const bool watched32 = C3XR32WatchCluster && TT.first_entry(k) == C3XR32WatchCluster;
++  TTEntry before32;
++  if (watched32)
++      before32 = *this;
++
+   // Preserve any existing move for the same position
+   if (m || (uint16_t)k != key16)
+       move16 = (uint16_t)m;
+@@ -83,6 +89,16 @@
+       c3x_write_tuple(std::cerr);
+       std::cerr << std::endl;
+   }
++  if (watched32)
++  {
++      std::cerr << "C3X_R32_WRITE key=" << k << " slot=" << (this - C3XR32WatchCluster)
++                << " site=" << site << " ply=" << ply << " replaced=" << replace
++                << " before=";
++      before32.c3x_write_tuple(std::cerr);
++      std::cerr << " after=";
++      c3x_write_tuple(std::cerr);
++      std::cerr << std::endl;
++  }
+ }
+
+
+@@ -162,7 +178,19 @@
+               std::cerr << "C3X_R31_REFRESH key=" << key << " slot=" << i << " before=";
+               tte[i].c3x_write_tuple(std::cerr);
+           }
++          const bool watched32 = tte == C3XR32WatchCluster && tte[i].genBound8 != refreshed;
++          if (watched32)
++          {
++              std::cerr << "C3X_R32_REFRESH key=" << key << " slot=" << i << " before=";
++              tte[i].c3x_write_tuple(std::cerr);
++          }
+           tte[i].genBound8 = refreshed;
++          if (watched32)
++          {
++              std::cerr << " after=";
++              tte[i].c3x_write_tuple(std::cerr);
++              std::cerr << std::endl;
++          }
+           if (watched)
+           {
+               std::cerr << " after=";
+diff --git a/src/tt.h b/src/tt.h
+--- a/src/tt.h
++++ b/src/tt.h
+@@ -107,5 +107,6 @@
+
+ extern TranspositionTable TT;
+ extern thread_local const TTEntry* C3XR31WatchCluster;
++extern thread_local const TTEntry* C3XR32WatchCluster;
+
+ } // namespace Stockfish
