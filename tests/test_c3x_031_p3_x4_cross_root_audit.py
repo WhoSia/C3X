@@ -8,7 +8,7 @@ import os
 import unittest
 
 from c3x_031_p3_x4_cross_root_audit import (
-    classify,source_zip,audit,P2_MEMBER,X2_MEMBER,P2_SHA,X2_SHA
+    classify,source_zip,audit,first_public_root_divergence,P2_MEMBER,X2_MEMBER,P2_SHA,X2_SHA
 )
 
 
@@ -47,6 +47,34 @@ class CrossRootDecisionTests(unittest.TestCase):
             "TARGET_DISPLACED":7,"TARGET_PROMOTED":2})
         self.assertEqual(result["off_target_source_unique_games"],1)
         self.assertEqual(result["new_stockfish_searches"],0)
+        self.assertEqual(result["all_12_horizons_with_interim_public_root_choice_divergence"],12)
+        self.assertEqual(len(result["horizons_with_final_reconvergence_after_interim_divergence"]),1)
+
+    def test_public_choice_trajectory_then_final_reconvergence(self):
+        p2,x2=originals()
+        obj=next(r for r in x2["horizon_cells"]
+                 if r["original_target"]=="P2-052-1"
+                 and r["horizon_node_cap"]==64000
+                 and r["horizon_depth_cap"]==12)
+        ans=first_public_root_divergence(obj["arms"]["sham0"],
+                                         obj["arms"]["both_off0"])
+        self.assertEqual(ans["first_public_choice_divergence"]["depth"],11)
+        self.assertTrue(ans["last_depth_choice_converged_after_earlier_divergence"])
+        self.assertEqual(ans["latest_sham_public_root"]["move"],"a7c7")
+        self.assertEqual(ans["latest_treatment_public_root"]["move"],"a7c7")
+
+    def test_third_root_first_public_divergence_precedes_final(self):
+        p2,x2=originals()
+        obj=next(r for r in x2["horizon_cells"]
+                 if r["original_target"]=="P2-056-1"
+                 and r["horizon_node_cap"]==32000
+                 and r["horizon_depth_cap"]==13)
+        ans=first_public_root_divergence(obj["arms"]["sham0"],
+                                         obj["arms"]["both_off0"])
+        self.assertEqual(ans["first_public_choice_divergence"]["depth"],12)
+        self.assertEqual(ans["first_public_choice_divergence"]["sham"]["move"],"f5e6")
+        self.assertEqual(ans["first_public_choice_divergence"]["treatment"]["move"],"f5h3")
+        self.assertFalse(ans["last_depth_choice_converged_after_earlier_divergence"])
 
     def test_actual_tampered_native_source_open_rejected(self):
         p2,x2=originals()
