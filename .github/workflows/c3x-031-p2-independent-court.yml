@@ -1,0 +1,77 @@
+name: C3X 0.31 P2 Independent Source-Log and Prospective Prediction Court
+
+on:
+  pull_request:
+    paths:
+      - ".github/workflows/c3x-031-p2-independent-court.yml"
+      - "harness/c3x_031_p2_independent_court.py"
+      - "tests/test_c3x_031_p2_independent_court.py"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  independent-original-raw-native-court:
+    runs-on: ubuntu-latest
+    timeout-minutes: 16
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Fetch exact original pre-treatment event and predictions artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: c3x031-p2-private-untreated-contact-prediction-seal
+          repository: WhoSia/C3X
+          run-id: "44872579316"
+          path: /tmp/p2-precontact
+          github-token: ${{ github.token }}
+      - name: Fetch original P2 576 native search output summary
+        uses: actions/download-artifact@v4
+        with:
+          name: c3x031-p2-native-treatment-private-all-events
+          repository: WhoSia/C3X
+          run-id: "44872920835"
+          path: /tmp/p2-treated
+          github-token: ${{ github.token }}
+      - name: Fetch all 1152 original source logs as a separate evidence stream
+        uses: actions/download-artifact@v4
+        with:
+          name: c3x031-p2-native-treatment-private-full-logs
+          repository: WhoSia/C3X
+          run-id: "44872920835"
+          path: /tmp/p2-native-logs
+          github-token: ${{ github.token }}
+      - name: Recheck original frozen bytes and source binary provenance before auditing
+        run: |
+          set -euo pipefail
+          echo '17915c7d9ae56dd950cd026d07a4917a414213415ea3b28af256b305eb8ad146  /tmp/p2-precontact/C3X_031_P2_PHYSICAL_EVENT_AND_FORECAST_PRETREATMENT.json' | sha256sum -c -
+          echo '69904f920c21844f2a2f278f6332b7c8fdc9857a821c33fdc0f29dfa56aaf09f  /tmp/p2-treated/C3X_031_P2_TWIC1670_TREATED_NATIVE_ALL_EVENTS.json' | sha256sum -c -
+          python -m py_compile harness/c3x_031_p2_independent_court.py
+      - name: Recompute entire source result independently and test falsifiers
+        env:
+          PYTHONPATH: harness
+          C3X_P2_SOURCE: /tmp/p2-precontact/C3X_031_P2_PHYSICAL_EVENT_AND_FORECAST_PRETREATMENT.json
+          C3X_P2_TREATED: /tmp/p2-treated/C3X_031_P2_TWIC1670_TREATED_NATIVE_ALL_EVENTS.json
+          C3X_P2_LOGS: /tmp/p2-native-logs
+        run: python -m unittest -v tests.test_c3x_031_p2_independent_court
+      - name: Generate independent derived court with predeclared 12-macrofamily sensitivity
+        run: |
+          set -euo pipefail
+          mkdir -p public
+          python harness/c3x_031_p2_independent_court.py \
+            /tmp/p2-precontact/C3X_031_P2_PHYSICAL_EVENT_AND_FORECAST_PRETREATMENT.json \
+            /tmp/p2-treated/C3X_031_P2_TWIC1670_TREATED_NATIVE_ALL_EVENTS.json \
+            /tmp/p2-native-logs \
+            public/C3X_031_P2_INDEPENDENT_NATIVE_COURT.json
+          sha256sum public/C3X_031_P2_INDEPENDENT_NATIVE_COURT.json
+      - name: Preserve original-source-derived independent result only
+        uses: actions/upload-artifact@v4
+        with:
+          name: c3x031-p2-independent-1152-raw-native-log-court
+          path: public/
+          if-no-files-found: error

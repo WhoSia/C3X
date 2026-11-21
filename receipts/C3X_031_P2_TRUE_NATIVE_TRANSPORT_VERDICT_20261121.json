@@ -1,0 +1,109 @@
+{
+  "id": "C3X_031_P2_TWIC1670_NATIVE_TRANSPORT_ADJUDICATION_20261121",
+  "version": "C3X 0.31 — Intervention-Stable Decision-State Abstraction: Minimal Search-Memory Causality, Robust Chess-Plan Transport & Human Explanation Validity",
+  "stage": "P2_COMPLETED_INDEPENDENT_GAME_NATIVE_INTERVENTIONS",
+  "science_verdict": "NEGATIVE_PROSPECTIVE_TRANSPORT",
+  "original_twic_issue": 1670,
+  "original_publisher_zip_sha256": "6e6866cfe57ea0db7849f9b686fded1c1fe9d1fcab783359030b97ace377eccf",
+  "game_freeze_sha256": "2a174dcf56a333408693785eb0a844a419f7f8ba090c0a00187f3dab483d57e4",
+  "pre_treatment_full_event_and_forecast_sha256": "17915c7d9ae56dd950cd026d07a4917a414213415ea3b28af256b305eb8ad146",
+  "model_frozen_from_only_R33_P1_sha256": "f27a89fd15efa3f35738ba8cf2a6d1243c8336268e4661c653bbd1e6c0bfee23",
+  "pinned_SF16_binary_sha256": "ce13b5899ab6862a621ee6033ac661f7ded0abf3f2b4ea073a163b0c3154afa1",
+  "source_control_native_searches": 192,
+  "source_treatment_and_sham_native_searches": 576,
+  "total_new_native_P2_searches": 768,
+  "source_original_game_histories": 64,
+  "source_event_family_groups": 17,
+  "predeclared_macro_family_groups": 12,
+  "physical_event_slots": 128,
+  "physical_contacts": 128,
+  "unobservable_or_interrupted": 0,
+  "futility_only_treatment_repeats": 256,
+  "both_off_treatment_repeats": 256,
+  "untargeted_sham_runs": 64,
+  "sham_fully_equal_untreated_public_UCI": 64,
+  "actual_bestmove_flips": {
+    "null_ineligible_futility_only": 3,
+    "null_ineligible_both_off": 3,
+    "null_eligible_futility_only": 0,
+    "null_eligible_both_off": 4,
+    "distinct_flip_events": 7,
+    "distinct_flip_games": 7
+  },
+  "actual_original_completed_depth_retained_flip_events": 1,
+  "actual_original_completed_depth_changed_flip_events": 6,
+  "treated_child_returns_changed": {
+    "null_ineligible_both_off": 46,
+    "null_eligible_both_off": 60
+  },
+  "predeclared_P2_forecasts": {
+    "M0": {
+      "brier": 0.05288425425154738,
+      "log_loss": 0.22047281364859184,
+      "average_precision": 0.0546875,
+      "pred_positive_at_half": 0,
+      "true_positive_at_half": 0
+    },
+    "M1": {
+      "brier": 0.05493915369453629,
+      "log_loss": 0.23849835344336004,
+      "average_precision": 0.1336846437292866,
+      "pred_positive_at_half": 0,
+      "true_positive_at_half": 0
+    },
+    "M2": {
+      "brier": 0.06216502489971843,
+      "log_loss": 0.24380260042001506,
+      "average_precision": 0.15117813157680265,
+      "pred_positive_at_half": 4,
+      "true_positive_at_half": 0
+    },
+    "P2_positive_actual": 7,
+    "Brier_M1_minus_M2": -0.007225871205182144,
+    "Brier_M0_minus_M2": -0.009280770648171052,
+    "family17_95_M1_minus_M2": [
+      -0.023044169595412,
+      0.005335558547308383
+    ],
+    "family17_95_M0_minus_M2": [
+      -0.03090825780176252,
+      0.008806504123332212
+    ],
+    "macro12_sensitivity_95_M1_minus_M2": [
+      -0.026028188312915368,
+      0.004662681507297574
+    ],
+    "macro12_sensitivity_95_M0_minus_M2": [
+      -0.03514782348451488,
+      0.0106506863685253
+    ],
+    "registered_minimum_gain": 0.01,
+    "criteria_met": false
+  },
+  "exact_original_treated_json_sha256": "69904f920c21844f2a2f278f6332b7c8fdc9857a821c33fdc0f29dfa56aaf09f",
+  "original_treated_zip_sha256": "8edbe62265eed343683adf0ae6cb982a02f25d8db3e6ea7e586e4ab5e1581e5a",
+  "original_full_native_log_zip_sha256": "53343092d93be11dd0bdba6dca53d669fb202749f94a5b5073d884bf77dccaaf",
+  "independent_derived_court_json_sha256": "cb1292fefd4b1b7df88a859ed784704395392de9f7dc2a36f5bebec5608ed7e7",
+  "independent_derived_court_zip_sha256": "12f05f1d79527c09896ae363665ccce1df5789ee885bbaa2ba5444509c5fd02e",
+  "native_observation_run": 44872579316,
+  "native_treatment_run": 44872920835,
+  "independent_original_raw_log_audit_run": 44873709342,
+  "independent_raw_log_integrity_tests_passed": 8,
+  "custody_drive": {
+    "publisher_source": "1aYTJF5WYCP-GkWndWrdot20xeA5eVf3H",
+    "sample": "1Aj02UgRoHYw6sKqPjwOmtDETfTnESpe8",
+    "untreated_source_events": "1xAoyKx1vqYASkf5wviz5SINWmfMylLal",
+    "treated_all_events": "1G7zGJTP2PMiNqx-6cjNc3s6QBqLhV5mq",
+    "all_1152_raw_logs": "18h5eLTe89lQJY7_fwePwIau9jUNiGedw",
+    "independent_court": "15XpAxFydkOdjunnVjiSoU_LFf114D4jt"
+  },
+  "limits": [
+    "Cohort disjointness proved for R33 64 game histories and candidate event families, not every historical game or tournament family in every prior C3X version.",
+    "Mean difference across event names is not necessarily independent event organizers: 17 header families include rapid/blitz correlation.",
+    "Source branch relative to original baseline is pre-intervention, but root==untreated-final-bestmove is not online-known at source event time.",
+    "Six of seven final bestmove changes also change completed search depth under 32k nodes.",
+    "No exact intermediate TT/history node-budget mediator proved; no independent chess strength/human learning data.",
+    "No posthoc retraining or case switching allowed to promote M2 after adverse held-out test."
+  ],
+  "next": "P2-D1 equal-depth follow-up on all seven selected original endpoint flips, explicitly postoutcome exploratory; P3 source checkpoint same-prefix state mediation; later P4 independent legal reply chess and randomized learner transfer."
+}
