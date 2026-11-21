@@ -1,0 +1,265 @@
+{
+  "classification": "RETROSPECTIVE_CROSS_COHORT_AUDIT",
+  "counts": {
+    "R29": {
+      "changed_child_invisible_in_score_pv": 2,
+      "changed_child_invisible_in_score_pv_unobserved": 0,
+      "child_changed_but_final_move_stable": 7,
+      "child_changed_but_final_move_stable_unobserved": 0,
+      "direct_child_return_changed": 9,
+      "direct_child_return_changed_unobserved": 2,
+      "event_in_producer": 17,
+      "final_recommendation_changed": 2,
+      "final_recommendation_changed_unobserved": 0,
+      "first_reply_changed": 8,
+      "first_reply_changed_unobserved": 0,
+      "interventions": 25,
+      "local_leader_changed_but_final_move_stable": 1,
+      "local_leader_changed_but_final_move_stable_unobserved": 0,
+      "positions": 22,
+      "post_intervention_third_move": 0,
+      "post_intervention_third_move_unobserved": 0,
+      "producer_attempt_changed": 6,
+      "producer_attempt_changed_unobserved": 0,
+      "producer_changed": 7,
+      "producer_changed_unobserved": 0,
+      "public_last_card_changed": 9,
+      "public_last_card_changed_unobserved": 0,
+      "public_pv_score_trajectory_changed": 9,
+      "public_pv_score_trajectory_changed_unobserved": 0,
+      "public_score_pv_same": 16,
+      "public_score_pv_same_unobserved": 0,
+      "root_candidate_leader_update_changed": 1,
+      "root_candidate_leader_update_changed_unobserved": 2,
+      "root_candidate_return_changed": 9,
+      "root_candidate_return_changed_unobserved": 2,
+      "same_alpha_candidate_pairs": 23
+    },
+    "R30": {
+      "changed_child_invisible_in_score_pv": 13,
+      "changed_child_invisible_in_score_pv_unobserved": 0,
+      "child_changed_but_final_move_stable": 18,
+      "child_changed_but_final_move_stable_unobserved": 0,
+      "direct_child_return_changed": 19,
+      "direct_child_return_changed_unobserved": 0,
+      "event_in_producer": 25,
+      "final_recommendation_changed": 1,
+      "final_recommendation_changed_unobserved": 0,
+      "first_reply_changed": 19,
+      "first_reply_changed_unobserved": 0,
+      "interventions": 32,
+      "local_leader_changed_but_final_move_stable": 1,
+      "local_leader_changed_but_final_move_stable_unobserved": 0,
+      "positions": 29,
+      "post_intervention_third_move": 1,
+      "post_intervention_third_move_unobserved": 0,
+      "producer_attempt_changed": 5,
+      "producer_attempt_changed_unobserved": 0,
+      "producer_changed": 6,
+      "producer_changed_unobserved": 0,
+      "public_last_card_changed": 7,
+      "public_last_card_changed_unobserved": 0,
+      "public_pv_score_trajectory_changed": 7,
+      "public_pv_score_trajectory_changed_unobserved": 0,
+      "public_score_pv_same": 25,
+      "public_score_pv_same_unobserved": 0,
+      "root_candidate_leader_update_changed": 1,
+      "root_candidate_leader_update_changed_unobserved": 0,
+      "root_candidate_return_changed": 19,
+      "root_candidate_return_changed_unobserved": 0,
+      "same_alpha_candidate_pairs": 32
+    },
+    "all": {
+      "changed_child_invisible_in_score_pv": 15,
+      "changed_child_invisible_in_score_pv_unobserved": 0,
+      "child_changed_but_final_move_stable": 25,
+      "child_changed_but_final_move_stable_unobserved": 0,
+      "direct_child_return_changed": 28,
+      "direct_child_return_changed_unobserved": 2,
+      "event_in_producer": 42,
+      "final_recommendation_changed": 3,
+      "final_recommendation_changed_unobserved": 0,
+      "first_reply_changed": 27,
+      "first_reply_changed_unobserved": 0,
+      "interventions": 57,
+      "local_leader_changed_but_final_move_stable": 2,
+      "local_leader_changed_but_final_move_stable_unobserved": 0,
+      "positions": 51,
+      "post_intervention_third_move": 1,
+      "post_intervention_third_move_unobserved": 0,
+      "producer_attempt_changed": 11,
+      "producer_attempt_changed_unobserved": 0,
+      "producer_changed": 13,
+      "producer_changed_unobserved": 0,
+      "public_last_card_changed": 16,
+      "public_last_card_changed_unobserved": 0,
+      "public_pv_score_trajectory_changed": 16,
+      "public_pv_score_trajectory_changed_unobserved": 0,
+      "public_score_pv_same": 41,
+      "public_score_pv_same_unobserved": 0,
+      "root_candidate_leader_update_changed": 2,
+      "root_candidate_leader_update_changed_unobserved": 2,
+      "root_candidate_return_changed": 28,
+      "root_candidate_return_changed_unobserved": 2,
+      "same_alpha_candidate_pairs": 55
+    }
+  },
+  "frozen_cohorts": {
+    "R29": {
+      "file": "unseen-logs/result.json",
+      "manifest": "SHA256SUMS",
+      "manifest_files_verified": 300,
+      "no_selected_event": 10,
+      "positions": 32,
+      "sha256": "e094e8706b90fc04dc2a1cec79e8baffd7c17ea330ad54952e29514b3e5b1828",
+      "tested_positions": 22,
+      "zip_sha256": "f6ed3cfc7755cee49f6f13a4bc86ac116bd947dd963cc3465a7658ee5c5ff6e3"
+    },
+    "R30": {
+      "file": "masks/result.json",
+      "manifest": "COHORT-SHA256SUMS",
+      "manifest_files_verified": 262,
+      "no_selected_event": 3,
+      "positions": 32,
+      "sha256": "e3e7ad66c86f50e75a6f783af68942914ebd7fb7c6f2011576701f36ebee2d26",
+      "tested_positions": 29,
+      "zip_sha256": "b42d19601f98fb00ff00e03fb7881bff3bd93114dc9c7b3bcd5876263727449e"
+    }
+  },
+  "human_results": null,
+  "id": "C3X_030_R33_SOURCE_PUBLIC_GAP_20261121",
+  "new_engine_experiment": false,
+  "notes": [
+    "Only score, bound and PV trajectory compared; full UCI metadata not compared",
+    "Physical events are sampled nonrandomly and are not independent games",
+    "No difference in Stockfish final recommendation is a statement of superiority",
+    "Unscored third candidate R30-017 requires independent evaluation"
+  ],
+  "witnesses": [
+    {
+      "cohort": "R29",
+      "explanation_permission": "local_search_effect_only",
+      "final_bestmove": {
+        "after": "c7e7",
+        "before": "c7e7"
+      },
+      "final_recommendation_changed": false,
+      "id": "R29-018",
+      "independent_reference_judge_label": "unresolved",
+      "policy": "move",
+      "position_fen": "2r3k1/p1q2p1p/1rn1pnpQ/1p1p4/3P4/P1PB1NP1/1P2RP1P/4R1K1 b - - 6 21",
+      "post_intervention_independent_judge_coverage": true,
+      "post_intervention_third_move": false,
+      "reference_pair": {
+        "alternative": "c7d6",
+        "recommendation": "c7e7"
+      },
+      "reference_pair_independent_margins_cp": [
+        6,
+        10
+      ],
+      "root_candidate_leader_update_changed": true,
+      "stratum": "close"
+    },
+    {
+      "cohort": "R29",
+      "explanation_permission": "causal_final_choice_effect; mediation not established",
+      "final_bestmove": {
+        "after": "d8e6",
+        "before": "a5b4"
+      },
+      "final_recommendation_changed": true,
+      "id": "R29-029",
+      "independent_reference_judge_label": "unresolved",
+      "policy": "move",
+      "position_fen": "1r1n4/4k1p1/1p1n1p1p/p2Rp3/PP2P3/2P1BPP1/5K1P/5B2 b - - 0 31",
+      "post_intervention_independent_judge_coverage": true,
+      "post_intervention_third_move": false,
+      "reference_pair": {
+        "alternative": "d8e6",
+        "recommendation": "a5b4"
+      },
+      "reference_pair_independent_margins_cp": [
+        -5,
+        12
+      ],
+      "root_candidate_leader_update_changed": false,
+      "stratum": "close"
+    },
+    {
+      "cohort": "R29",
+      "explanation_permission": "causal_final_choice_effect; mediation not established",
+      "final_bestmove": {
+        "after": "a2a3",
+        "before": "f1e2"
+      },
+      "final_recommendation_changed": true,
+      "id": "R29-030",
+      "independent_reference_judge_label": "unresolved",
+      "policy": "move",
+      "position_fen": "1r2r1k1/7p/1p1p2p1/p1nP1p2/2P1pP2/1P4P1/PR5P/3R1BK1 w - - 0 26",
+      "post_intervention_independent_judge_coverage": true,
+      "post_intervention_third_move": false,
+      "reference_pair": {
+        "alternative": "a2a3",
+        "recommendation": "f1e2"
+      },
+      "reference_pair_independent_margins_cp": [
+        6,
+        16
+      ],
+      "root_candidate_leader_update_changed": false,
+      "stratum": "close"
+    },
+    {
+      "cohort": "R30",
+      "explanation_permission": "causal_final_choice_effect; mediation not established",
+      "final_bestmove": {
+        "after": "e2d3",
+        "before": "e2f3"
+      },
+      "final_recommendation_changed": true,
+      "id": "R30-017",
+      "independent_reference_judge_label": "unresolved",
+      "policy": "move",
+      "position_fen": "5rk1/pp1bqppp/6r1/3pP3/3N4/2P1R3/PP2QRPP/6K1 w - - 25 36",
+      "post_intervention_independent_judge_coverage": false,
+      "post_intervention_third_move": true,
+      "reference_pair": {
+        "alternative": "a2a3",
+        "recommendation": "e2f3"
+      },
+      "reference_pair_independent_margins_cp": [
+        7,
+        -1
+      ],
+      "root_candidate_leader_update_changed": false,
+      "stratum": "close"
+    },
+    {
+      "cohort": "R30",
+      "explanation_permission": "local_search_effect_only",
+      "final_bestmove": {
+        "after": "d7f6",
+        "before": "d7f6"
+      },
+      "final_recommendation_changed": false,
+      "id": "R30-028",
+      "independent_reference_judge_label": "unresolved",
+      "policy": "move",
+      "position_fen": "r2q2k1/p2n1ppb/3B3p/7Q/8/1P4P1/P1P2P1P/5RK1 b - - 0 21",
+      "post_intervention_independent_judge_coverage": true,
+      "post_intervention_third_move": false,
+      "reference_pair": {
+        "alternative": "h7g6",
+        "recommendation": "d7f6"
+      },
+      "reference_pair_independent_margins_cp": [
+        3,
+        7
+      ],
+      "root_candidate_leader_update_changed": true,
+      "stratum": "close"
+    }
+  ]
+}
