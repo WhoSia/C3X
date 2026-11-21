@@ -127,7 +127,9 @@ def verify(data):
                 declared["bounded_referee_ranking"] == expected_order,
                 "derived candidate ranking mismatch")
         require(expected_order == list(CANDIDATES), "R37 two-depth ranking changed")
-    require(data["referee_summary"]["not_strategic_oracle"] is True,\n            "unlicensed strategic-oracle promotion")\n    require(data["referee_summary"]["depth_order_status"] ==
+    require(data["referee_summary"]["not_strategic_oracle"] is True,
+            "unlicensed strategic-oracle promotion")
+    require(data["referee_summary"]["depth_order_status"] ==
             "FINITE_TWO_DEPTH_ORDER_STABLE", "finite-depth status incorrectly promoted")
     return {
         "authority": "R37_FROZEN_JSON_ALL_LEAF_RECOMPUTATION",
