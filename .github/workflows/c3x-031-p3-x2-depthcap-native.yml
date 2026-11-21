@@ -1,0 +1,105 @@
+name: C3X 0.31 P3-X2 Three Original Depth-Capped Source Transport
+on:
+  pull_request:
+    paths:
+      - ".github/workflows/c3x-031-p3-x2-depthcap-native.yml"
+      - "harness/c3x_031_p3_x2_depthcap_transport.py"
+      - "tests/test_c3x_031_p3_x2_depthcap_transport.py"
+      - "docs/C3X_031_P3_X1_FACTORIAL_X2_DEPTHCAP_PREREG_20261121.md"
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  new-60-depth-horizon-source-searches:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Frozen depth-grid and native source regressions
+        run: |
+          set -euo pipefail
+          python -m pip install -q chess==1.11.2
+          PYTHONPATH=harness python -m unittest -v tests.test_c3x_031_p3_x2_depthcap_transport
+      - uses: actions/download-artifact@v4
+        with:
+          name: c3x031-p2-source1669-original-pre-native-and-full-p1-model-lock
+          repository: WhoSia/C3X
+          run-id: "44882633743"
+          path: /tmp/p3sample/
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: c3x031-p2-1669-original-source-events-preoutcome-forecasts
+          repository: WhoSia/C3X
+          run-id: "44883170384"
+          path: /tmp/p3b1/
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: c3x031-p2-b2-1669-private-source-physical-outcomes
+          repository: WhoSia/C3X
+          run-id: "44883690849"
+          path: /tmp/p3b2/
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: c3x031-p2-pinned-SF16-native-source-build-no-treatments
+          repository: WhoSia/C3X
+          run-id: "44872473600"
+          path: /tmp/p3bin/
+          github-token: ${{ github.token }}
+      - name: Fail closed if signed original event or SF16 binary drifted
+        run: |
+          set -euo pipefail
+          echo '8b7f5da799cc9610c7e4cb8347baa8b3b8bd74eb383939eac9fa91b527a8116d  /tmp/p3sample/C3X_031_P2_TWIC1669_PRE_NATIVE_COHORT.json' | sha256sum -c -
+          echo 'd364e6ca24599110fa19ac41e19164069a164c15aa396aac6b2833482e3818b1  /tmp/p3b1/C3X_031_P2_1669_PREOUTCOME_TARGETS.json' | sha256sum -c -
+          echo 'be66a985016b4ceaae1379c64ee0f6347c3a2e8c4fd3660ceb394227ac237df1  /tmp/p3b2/C3X_031_P2_B2_1669_NATIVE_PHYSICAL_RESULT.json' | sha256sum -c -
+          echo 'ce13b5899ab6862a621ee6033ac661f7ded0abf3f2b4ea073a163b0c3154afa1  /tmp/p3bin/c3x031-p2-SF16-patched' | sha256sum -c -
+          echo '5af11540bbfefcb54e38c5dd000cab4b469dfa7599a1d55be5d2722c20a8929b  /tmp/p3bin/nn-5af11540bbfe.nnue' | sha256sum -c -
+          chmod +x /tmp/p3bin/c3x031-p2-SF16-patched
+      - name: Actual exposed 3-case 2 depth caps x 2 node limits x 5 native arms
+        env:
+          PYTHONPATH: harness
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/p3-x2-native /tmp/p3-x2-verified
+          python -u harness/c3x_031_p3_x2_depthcap_transport.py \
+            /tmp/p3sample/C3X_031_P2_TWIC1669_PRE_NATIVE_COHORT.json \
+            /tmp/p3b1/C3X_031_P2_1669_PREOUTCOME_TARGETS.json \
+            /tmp/p3b2/C3X_031_P2_B2_1669_NATIVE_PHYSICAL_RESULT.json \
+            /tmp/p3bin/c3x031-p2-SF16-patched \
+            /tmp/p3bin/nn-5af11540bbfe.nnue \
+            /tmp/p3-x2-native /tmp/p3-x2-verified/C3X_031_P3_X2_12_DEPTH_HORIZONS.json
+          sha256sum /tmp/p3-x2-verified/*.json
+          python - <<'PY'
+          import json
+          d=json.load(open('/tmp/p3-x2-verified/C3X_031_P3_X2_12_DEPTH_HORIZONS.json'))
+          assert d['actual_new_native_searches']==60
+          assert d['fixed_12_horizon_cells']==12
+          assert d['physically_contacted_valid_cells']+d['invalid_or_missed_original_event_cells']==12
+          PY
+      - name: Preserve depth/stop/TT-history claim limits
+        if: always()
+        run: |
+          mkdir -p /tmp/p3-x2-verified
+          printf '%s\n' 'Original P2 3 same-completed-depth game cases were POST-OUTCOME selected, NOT a new unseen source.' 'Fixed 2 node limits and 2 depth caps; all 12 cells retained including missing event contacts.' 'Same depth cap does not imply equal visited node budget or exact TT/history state.' 'No bot-authored commits; preserve raw original search stdout/stderr.' > /tmp/p3-x2-verified/RESEARCH_SCOPE_AND_LIMITS.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x031-p3-x2-60-original-source-depth-horizon-native-logs
+          path: /tmp/p3-x2-native/
+          retention-days: 3
+          if-no-files-found: warn
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x031-p3-x2-12-depth-node-horizon-physical-court
+          path: /tmp/p3-x2-verified/
+          retention-days: 3
+          if-no-files-found: error
