@@ -114,5 +114,12 @@
     "derived_zip_drive_id": "1gHq_AQ3SEJ_GJ7_7iBFwq8Z1KwOP3PfH",
     "drive_readback_zip_sha256_confirmed": true,
     "scope": "frozen JSON all leaf values; no new chess experiment, full history or human outcome"
+  },
+  "notion_scientific_court": {
+    "url": "https://app.notion.com/p/41fef561cf9281e692cbd75994dff74f",
+    "fetched_and_verified": true,
+    "stage_closed_in_notion": true,
+    "scientific_claims_promoted": false,
+    "version_031_activated": false
   }
 }
