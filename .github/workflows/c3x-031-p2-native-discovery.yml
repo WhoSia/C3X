@@ -1,0 +1,104 @@
+name: C3X 0.31 P2 Native Untreated Discovery and Model Forecast Seal
+on:
+  pull_request:
+    paths:
+      - ".github/workflows/c3x-031-p2-native-discovery.yml"
+      - "harness/c3x_031_p2_native_discovery.py"
+      - "harness/c3x_031_p2_lockcheck.py"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  physical-source-contact-only:
+    runs-on: ubuntu-latest
+    timeout-minutes: 38
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install pinned chess PGN/UCI interface
+        run: python -m pip install -q chess==1.11.2
+      - name: Retrieve exactly frozen pre-treatment 64 game histories
+        uses: actions/download-artifact@v4
+        with:
+          name: c3x031-p2-64game-private-history-freeze
+          repository: WhoSia/C3X
+          run-id: "44872034069"
+          path: /tmp/p2-source/
+          github-token: ${{ github.token }}
+      - name: Retrieve source-pinned R31/R33 paired binaries and NNUE
+        uses: actions/download-artifact@v4
+        with:
+          name: c3x031-p2-pinned-SF16-native-source-build-no-treatments
+          repository: WhoSia/C3X
+          run-id: "44872473600"
+          path: /tmp/p2-build/
+          github-token: ${{ github.token }}
+      - name: Retrieve independent binary provenance and exact patch SHA receipt
+        uses: actions/download-artifact@v4
+        with:
+          name: c3x031-p2-pinned-SF16-source-build-receipt
+          repository: WhoSia/C3X
+          run-id: "44872473600"
+          path: /tmp/p2-receipt/
+          github-token: ${{ github.token }}
+      - name: Verify pre-outcome bytes and native executable access
+        run: |
+          set -euo pipefail
+          echo '2a174dcf56a333408693785eb0a844a419f7f8ba090c0a00187f3dab483d57e4  /tmp/p2-source/C3X_031_P2_TWIC1670_GAME_FREEZE_FULL_HISTORIES.json' | sha256sum -c -
+          echo 'f27a89fd15efa3f35738ba8cf2a6d1243c8336268e4661c653bbd1e6c0bfee23  frozen/C3X_031_P2_FINAL_MODELS_PREOUTCOME_20261121.json' | sha256sum -c -
+          echo '78cae269c73eb080c8a508e839dcde15ce48888b3fc4317fa3311de49e5ee7bb  /tmp/p2-build/c3x031-p2-SF16-pre-R33-reference' | sha256sum -c -
+          echo 'ce13b5899ab6862a621ee6033ac661f7ded0abf3f2b4ea073a163b0c3154afa1  /tmp/p2-build/c3x031-p2-SF16-patched' | sha256sum -c -
+          echo '5af11540bbfefcb54e38c5dd000cab4b469dfa7599a1d55be5d2722c20a8929b  /tmp/p2-build/nn-5af11540bbfe.nnue' | sha256sum -c -
+          chmod +x /tmp/p2-build/c3x031-p2-SF16-pre-R33-reference /tmp/p2-build/c3x031-p2-SF16-patched
+      - name: Source-only 64 game x 3 parity, select events and predict before treatment
+        env:
+          PYTHONPATH: harness
+        run: |
+          set -euo pipefail
+          mkdir -p private public /tmp/p2-discovery/logs
+          python -u harness/c3x_031_p2_native_discovery.py \
+            /tmp/p2-source/C3X_031_P2_TWIC1670_GAME_FREEZE_FULL_HISTORIES.json \
+            /tmp/p2-build/c3x031-p2-SF16-pre-R33-reference \
+            /tmp/p2-build/c3x031-p2-SF16-patched \
+            /tmp/p2-build/nn-5af11540bbfe.nnue \
+            /tmp/p2-receipt/P2_NATIVE_BUILD_RECEIPT.json \
+            frozen/C3X_031_P2_FINAL_MODELS_PREOUTCOME_20261121.json \
+            frozen/C3X_031_P1_R33_128_PRETREATMENT_ROWS_20261121.tsv \
+            /tmp/p2-discovery/logs \
+            private/C3X_031_P2_PHYSICAL_EVENT_AND_FORECAST_PRETREATMENT.json \
+            public/C3X_031_P2_PUBLIC_CONTACT_AND_FORECAST_AUDIT.json
+          sha256sum private/*.json public/*.json
+          python - <<'PY'
+          import json
+          x=json.load(open('private/C3X_031_P2_PHYSICAL_EVENT_AND_FORECAST_PRETREATMENT.json'))
+          assert x['source_game_count']==64
+          assert x['source_control_searches']==192
+          assert x['real_treatment_searches']==0
+          assert x['source_event_statuses']
+          assert x['stage']=='P2_PHYSICAL_EVENT_SELECTED_WITHOUT_TREATMENT'
+          PY
+      - name: Preserve private P2 source event identities and predicted probabilities
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: c3x031-p2-private-untreated-contact-prediction-seal
+          path: private/
+          if-no-files-found: warn
+      - name: Preserve source observer and reference UCI/native logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: c3x031-p2-private-native-untreated-log-evidence
+          path: /tmp/p2-discovery/logs/
+          if-no-files-found: warn
+      - name: Preserve small public no-outcome source contact audit
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: c3x031-p2-untreated-contact-public-court
+          path: public/
+          if-no-files-found: warn

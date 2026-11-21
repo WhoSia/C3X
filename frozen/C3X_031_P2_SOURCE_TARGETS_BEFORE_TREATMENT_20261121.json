@@ -1,0 +1,23 @@
+{
+  "schema": "C3X_031_P2_UNTREATED_NATIVE_PHYSICAL_EVENTS_SEALED_BEFORE_INTERVENTION",
+  "source_issue": 1670,
+  "science_status": "PHYSICAL_TARGETS_FROZEN_NO_P2_TREATMENT_OBSERVED",
+  "original_game_sample_sha256": "2a174dcf56a333408693785eb0a844a419f7f8ba090c0a00187f3dab483d57e4",
+  "original_model_sha256": "f27a89fd15efa3f35738ba8cf2a6d1243c8336268e4661c653bbd1e6c0bfee23",
+  "pinned_source_binary_sha256": "ce13b5899ab6862a621ee6033ac661f7ded0abf3f2b4ea073a163b0c3154afa1",
+  "untargeted_reference_binary_sha256": "78cae269c73eb080c8a508e839dcde15ce48888b3fc4317fa3311de49e5ee7bb",
+  "nnue_sha256": "5af11540bbfefcb54e38c5dd000cab4b469dfa7599a1d55be5d2722c20a8929b",
+  "exact_pre_treatment_private_json_sha256": "17915c7d9ae56dd950cd026d07a4917a414213415ea3b28af256b305eb8ad146",
+  "exact_pre_treatment_public_json_sha256": "4bd1929435ecdbf6c75fbeae200928913da08a3a1423167b1db5e874a811d974",
+  "original_github_readonly_native_observation_run": 44872579316,
+  "observed_native_searches": 192,
+  "actual_native_treatment_searches": 0,
+  "observed_exact_full_game_histories": 64,
+  "observed_distinct_tournament_families": 17,
+  "frozen_physically_contacted_null_ineligible_targets": 64,
+  "frozen_physically_contacted_null_eligible_targets": 64,
+  "ineligible_target_slots": 0,
+  "all_R31_vs_R33_off_vs_R33_observer_root_parity": true,
+  "exact_treated_outcome_labels_known": false,
+  "prescription": "P2 treatment may only use this SHA and the previously frozen P1 models, no post-outcome candidate selection, count all shams and physical contacts."
+}

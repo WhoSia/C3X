@@ -1,0 +1,70 @@
+name: C3X 0.31 P2 Freeze full legal TWIC1670 game histories (no treatment)
+on:
+  pull_request:
+    paths:
+      - ".github/workflows/c3x-031-p2-game-freeze.yml"
+      - "harness/c3x_031_p2_freeze.py"
+      - "frozen/C3X_031_P2_TWIC1670_EVENT_ADMISSION_20261121.json"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  outcome-blind-native-sampling-preparation:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install pinned chess legality library
+        run: python -m pip install -q chess==1.11.2
+      - name: Fetch EXACT already-published original TWIC1670 source artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: c3x031-p2-publisher-twic1670-raw-private-custody
+          repository: WhoSia/C3X
+          run-id: "44871735875"
+          path: /tmp/c3x-p2-original/
+          github-token: ${{ github.token }}
+      - name: Pre-engine 64-game freeze and overlap-restricted event family sampling
+        run: |
+          set -euo pipefail
+          echo '6e6866cfe57ea0db7849f9b686fded1c1fe9d1fcab783359030b97ace377eccf  /tmp/c3x-p2-original/twic1670g.zip' | sha256sum -c -
+          mkdir -p private public
+          python harness/c3x_031_p2_freeze.py \
+            /tmp/c3x-p2-original/twic1670g.zip \
+            frozen/C3X_031_P2_TWIC1670_EVENT_ADMISSION_20261121.json \
+            private/C3X_031_P2_TWIC1670_GAME_FREEZE_FULL_HISTORIES.json \
+            public/C3X_031_P2_TWIC1670_GAME_FREEZE_MANIFEST.json
+          sha256sum private/*.json public/*.json
+          python - <<'PY'
+          import json, hashlib, chess
+          p='private/C3X_031_P2_TWIC1670_GAME_FREEZE_FULL_HISTORIES.json'
+          x=json.load(open(p))
+          assert x['stage']=='GAME_HISTORY_SAMPLE_FROZEN_NO_NATIVE_TREATMENTS'
+          assert x['source_treatments_observed']==0
+          assert len(x['sample'])==64
+          assert len({row['game_sha256'] for row in x['sample']})==64
+          for row in x['sample']:
+              b=chess.Board()
+              for move in row['moves']:
+                  b.push_uci(move)
+              assert b.fen()==row['fen'], row['id']
+              assert len(row['moves'])==row['ply']
+              assert row['legal_moves']>1
+          PY
+      - name: Preserve private exact legal game histories WITHOUT source treatments
+        uses: actions/upload-artifact@v4
+        with:
+          name: c3x031-p2-64game-private-history-freeze
+          path: private/
+          if-no-files-found: error
+      - name: Publish non-PGN inspection manifest
+        uses: actions/upload-artifact@v4
+        with:
+          name: c3x031-p2-64game-public-manifest
+          path: public/
+          if-no-files-found: error

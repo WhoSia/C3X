@@ -1,0 +1,98 @@
+name: C3X 0.31 P2 Pinned Stockfish16 Source-Stack Build (no treatments)
+on:
+  pull_request:
+    paths:
+      - ".github/workflows/c3x-031-p2-native-build.yml"
+      - "patches/stockfish16/R27-tt-choice-producers.patch"
+      - "patches/stockfish16/R29-local-tt-move.patch"
+      - "patches/stockfish16/R29-producer-tt-value.patch"
+      - "patches/stockfish16/R30-separate-picker-singular.patch"
+      - "patches/stockfish16/R31-tt-scout-pv.patch"
+      - "patches/stockfish16/R31-pv-fail-low.patch"
+      - "patches/stockfish16/R33-prospective-gates.patch"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  source-build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Retrieve exact original SF16 commit and materialize read-only source tree
+        run: |
+          set -euo pipefail
+          git clone -q --single-branch --branch sf_16 https://github.com/official-stockfish/Stockfish.git /tmp/p2-native
+          test "$(git -C /tmp/p2-native rev-parse HEAD)" = "68e1e9b3811e16cad014b590d7443b9063b3eb52"
+          mkdir -p public build
+      - name: Apply exact source-derived C3X observational and intervention patch stack
+        run: |
+          set -euo pipefail
+          : > build/P2_PATCH_SEQUENCE_SHA256SUMS
+          for p in \
+              R27-tt-choice-producers.patch \
+              R29-local-tt-move.patch \
+              R29-producer-tt-value.patch \
+              R30-separate-picker-singular.patch \
+              R31-tt-scout-pv.patch \
+              R31-pv-fail-low.patch; do
+            f="$GITHUB_WORKSPACE/patches/stockfish16/$p"
+            sha256sum "$f" >> build/P2_PATCH_SEQUENCE_SHA256SUMS
+            git -C /tmp/p2-native apply --check "$f"
+            git -C /tmp/p2-native apply "$f"
+            printf 'APPLIED %s\n' "$p"
+          done
+          sha256sum /tmp/p2-native/src/search.cpp
+      - name: Build R31 non-observer reference source binary before R33 patch
+        run: |
+          set -euo pipefail
+          make -C /tmp/p2-native/src -j2 build ARCH=x86-64 COMP=gcc > build/OLD_BUILD_LOG.txt 2>&1
+          cp /tmp/p2-native/src/stockfish build/c3x031-p2-SF16-pre-R33-reference
+          sha256sum build/c3x031-p2-SF16-pre-R33-reference
+      - name: Apply physical R33 gate overlay without rebuilding historical baseline
+        run: |
+          set -euo pipefail
+          f="$GITHUB_WORKSPACE/patches/stockfish16/R33-prospective-gates.patch"
+          sha256sum "$f" >> build/P2_PATCH_SEQUENCE_SHA256SUMS
+          git -C /tmp/p2-native apply --check "$f"
+          git -C /tmp/p2-native apply "$f"
+          printf 'APPLIED R33-prospective-gates.patch\n'
+      - name: Build single-thread reproducibility binaries and verify network
+        run: |
+          set -euo pipefail
+          make -C /tmp/p2-native/src -j2 build ARCH=x86-64 COMP=gcc > build/BUILD_LOG.txt 2>&1
+          cp /tmp/p2-native/src/stockfish build/c3x031-p2-SF16-patched
+          sha256sum build/c3x031-p2-SF16-patched
+          test -f /tmp/p2-native/src/nn-5af11540bbfe.nnue
+          echo '5af11540bbfefcb54e38c5dd000cab4b469dfa7599a1d55be5d2722c20a8929b  /tmp/p2-native/src/nn-5af11540bbfe.nnue' | sha256sum -c -
+          cp /tmp/p2-native/src/nn-5af11540bbfe.nnue build/nn-5af11540bbfe.nnue
+          printf 'uci\nquit\n' | build/c3x031-p2-SF16-patched | tee build/UCI_SMOKE.txt
+          python - <<'PY'
+          from pathlib import Path
+          import hashlib,json
+          base=Path('build')
+          h=lambda name:hashlib.sha256((base/name).read_bytes()).hexdigest()
+          x={'stage':'P2_NATIVE_BUILD_SOURCE_ONLY_NO_TREATMENTS',
+             'original_stockfish_commit':'68e1e9b3811e16cad014b590d7443b9063b3eb52',
+             'binary_sha256':h('c3x031-p2-SF16-patched'),
+             'pre_R33_reference_binary_sha256':h('c3x031-p2-SF16-pre-R33-reference'),
+             'nnue_sha256':h('nn-5af11540bbfe.nnue'),
+             'patch_sha256sum_source':(base/'P2_PATCH_SEQUENCE_SHA256SUMS').read_text(),
+             'source_event_treatments_executed':0}
+          Path('public/P2_NATIVE_BUILD_RECEIPT.json').write_text(json.dumps(x,indent=2,sort_keys=True)+'\n')
+          print(json.dumps(x,sort_keys=True))
+          PY
+      - name: Preserve binary and exact neural network for subsequent no-outcome source discovery
+        uses: actions/upload-artifact@v4
+        with:
+          name: c3x031-p2-pinned-SF16-native-source-build-no-treatments
+          path: build/
+          if-no-files-found: error
+      - name: Preserve small proof-only build receipt
+        uses: actions/upload-artifact@v4
+        with:
+          name: c3x031-p2-pinned-SF16-source-build-receipt
+          path: public/
+          if-no-files-found: error
