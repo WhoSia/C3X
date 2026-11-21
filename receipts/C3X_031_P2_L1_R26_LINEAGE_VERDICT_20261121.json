@@ -1,0 +1,72 @@
+{
+  "id": "C3X_031_P2_L1_R26_HISTORICAL_SOURCE_FAMILY_OVERLAP_20261121",
+  "classification": "POSTOUTCOME_HISTORICAL_LINEAGE_AUDIT",
+  "corrected_claim": "Previously R26-exposed exact event-header family overlap: 2 of P2's 17 families; all 64 P2 selected games still distinct from 16 old R26 selected histories.",
+  "original_p2_primary_unchanged": true,
+  "actual_native_searches_this_analysis": 0,
+  "upstream_exact_shas": {
+    "raw_publisher_twic1670": "6e6866cfe57ea0db7849f9b686fded1c1fe9d1fcab783359030b97ace377eccf",
+    "pgn": "bb166b4813aca824d4455ee51d0bbe3be75405586b310639c3eedfe02a32b77d",
+    "p2_frozen_game_histories": "2a174dcf56a333408693785eb0a844a419f7f8ba090c0a00187f3dab483d57e4",
+    "p2_treated_native": "69904f920c21844f2a2f278f6332b7c8fdc9857a821c33fdc0f29dfa56aaf09f"
+  },
+  "original_experiment": {
+    "games": 64,
+    "physically_treated_events": 128,
+    "normalized_event_families": 17,
+    "final_root_flips": 7
+  },
+  "prior_R26": {
+    "selected_source_game_histories": 16,
+    "distinct_selected_header_event_families": 12,
+    "identical_selected_P2_full_game_hashes": 0
+  },
+  "shared_header_families": [
+    "fide world open u20 rapid",
+    "world girls u20 blitz"
+  ],
+  "historical_shared_subset": {
+    "P2_games": 8,
+    "P2_events": 16,
+    "final_root_flips": 0,
+    "model_M2_false_positive_over_threshold_0_5": 2
+  },
+  "posthoc_exact_family_exclusion": {
+    "retained_games": 56,
+    "retained_events": 112,
+    "retained_event_families": 15,
+    "root_flips": 7,
+    "brier": {
+      "M0": 0.059303827894958236,
+      "M1": 0.05891931995816267,
+      "M2": 0.06015073308975114
+    },
+    "gain_M1_minus_M2": -0.00123141313158847,
+    "CI95_M1_minus_M2": [
+      -0.01206165269874837,
+      0.008728257411434695
+    ],
+    "gain_M0_minus_M2": -0.000846905194792906,
+    "CI95_M0_minus_M2": [
+      -0.01536297753175593,
+      0.013868367924198474
+    ],
+    "predicted_positive_M2": 2,
+    "confirmed_positive_M2": 0,
+    "verdict": "NO_VALIDATED_IMPROVEMENT_POSTHOC_SENSITIVITY"
+  },
+  "primary_scientific_verdict": "NEGATIVE_PROSPECTIVE_TRANSPORT_UNCHANGED",
+  "whole_historical_full_game_exhaustive_exclusion_completed": false,
+  "umbrella_event_family_exclusion_completed": false,
+  "code": "harness/c3x_031_p2_l1_historical_family_audit.py",
+  "tests": "tests/test_c3x_031_p2_l1_historical_family_audit.py",
+  "actual_CI_run_id": 44878967544,
+  "regression_tests_passed": 11,
+  "result_JSON_sha256": "174adfe4963c27f6c55ad35f403a59249cb3356eb21dbfea41b4372b7a8d7e7e",
+  "result_ZIP_sha256": "2c05b36d6ee1e4c716c6f4390d971cd2866f82235eca624f1af0a723ba38244a",
+  "result_drive_id": "1Iz_ZKRDFn3p-oF9PPE29JHvTf_AJvT_2",
+  "drive_retrieval_byte_equivalence_verified": true,
+  "no_mediator_claim": true,
+  "no_chess_superiority_claim": true,
+  "no_human_effect_claim": true
+}
