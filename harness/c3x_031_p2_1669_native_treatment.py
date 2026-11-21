@@ -78,6 +78,7 @@ def validate_inputs(args):
 def validate_arm(original, target, receipt, f, n, log_path):
     """Fully contacted physical source event, not just a reported move."""
     match=focus(receipt["events"],target)
+    require(match is not None, "source target event not reached")
     require(match["open"]==target,
             "native target pre-treatment OPEN differs")
     close=match["close"]
