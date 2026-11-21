@@ -1,0 +1,79 @@
+name: C3X 0.31 P2-B3 Independent 1280 Raw Native Source Receipts
+on:
+  pull_request:
+    paths:
+      - ".github/workflows/c3x-031-p2-b3-original-raw-court.yml"
+      - "harness/c3x_031_p2_b3_raw_source_court.py"
+      - "tests/test_c3x_031_p2_b3_raw_source_court.py"
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  original-raw-source-court:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Independently verify raw court parser and tied metrics
+        run: |
+          PYTHONPATH=harness python -m unittest -v tests.test_c3x_031_p2_b3_raw_source_court
+      - uses: actions/download-artifact@v4
+        with:
+          name: c3x031-p2-1669-original-source-events-preoutcome-forecasts
+          repository: WhoSia/C3X
+          run-id: "44883170384"
+          path: /tmp/b1/
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: c3x031-p2-b2-1669-private-source-physical-outcomes
+          repository: WhoSia/C3X
+          run-id: "44883690849"
+          path: /tmp/b2/
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: c3x031-p2-b2-1669-original-640-native-source-event-logs
+          repository: WhoSia/C3X
+          run-id: "44883690849"
+          path: /tmp/logs/
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: c3x031-p2-b2-1669-public-family-25-stats-and-limitations
+          repository: WhoSia/C3X
+          run-id: "44883690849"
+          path: /tmp/score/
+          github-token: ${{ github.token }}
+      - name: Verify original B1 and 640 native treatment source SHA and full 1280 raw transcripts
+        run: |
+          set -euo pipefail
+          echo 'd364e6ca24599110fa19ac41e19164069a164c15aa396aac6b2833482e3818b1  /tmp/b1/C3X_031_P2_1669_PREOUTCOME_TARGETS.json' | sha256sum -c -
+          echo 'be66a985016b4ceaae1379c64ee0f6347c3a2e8c4fd3660ceb394227ac237df1  /tmp/b2/C3X_031_P2_B2_1669_NATIVE_PHYSICAL_RESULT.json' | sha256sum -c -
+          echo '2fd97e80e04aaae039fe9ee5cf5e1c75d75406803af40c4d8c0a6ab7d1448420  /tmp/score/C3X_031_P2_B2_1669_FAMILY_CLUSTERED_SCORE.json' | sha256sum -c -
+          mkdir -p /tmp/derived
+          PYTHONPATH=harness python -u harness/c3x_031_p2_b3_raw_source_court.py \
+            /tmp/b1/C3X_031_P2_1669_PREOUTCOME_TARGETS.json \
+            /tmp/b2/C3X_031_P2_B2_1669_NATIVE_PHYSICAL_RESULT.json \
+            /tmp/logs \
+            /tmp/score/C3X_031_P2_B2_1669_FAMILY_CLUSTERED_SCORE.json \
+            /tmp/derived/C3X_031_P2_B3_ORIGINAL_1280_RAW_SOURCE_COURT.json
+          sha256sum /tmp/derived/*.json
+      - name: Explicit source evidence limits
+        if: always()
+        run: |
+          mkdir -p /tmp/derived
+          printf '%s\n' 'B3 audits original 1280 raw native stdout/stderr members for 640 actual P2-B2 source processes.' 'Uses no new Stockfish searches, P2 re-selection or retraining.' 'Historical game/series alias uncertainty retained.' 'Same source root changes do not imply objective chess value or TT/history mediation.' > /tmp/derived/RESEARCH_LIMITS.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x031-p2-b3-independent-1280-original-source-verification
+          path: /tmp/derived/
+          retention-days: 3
+          if-no-files-found: error
