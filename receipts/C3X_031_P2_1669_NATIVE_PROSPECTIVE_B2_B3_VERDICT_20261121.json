@@ -1,0 +1,118 @@
+{
+  "schema": "C3X_031_P2_B2_B3_PROSPECTIVE_NATIVE_SOURCE_VERDICT_20261121",
+  "version": "0.31",
+  "stage": "P2_TWIC1669_SOURCE_SELECTION_INTERVENTION_TEST_CLOSED",
+  "actual_new_native_stockfish_searches": 832,
+  "original_source_control_searches_B1": 192,
+  "original_source_intervention_searches_B2": 640,
+  "derived_only_B3_new_native_searches": 0,
+  "evidence_state": "NATIVE_SOURCE_EFFECT_REPRODUCED_PREDICTIVE_STATE_GAIN_NOT_CONFIRMED",
+  "scientific_verdict": "NO_CONFIRMED_PROSPECTIVE_SOURCE_STATE_GAIN",
+  "publisher_source": "The Week in Chess TWIC1669 (original issue 2026-11-02)",
+  "original_publisher_1669_zip_sha256": "0d5e76cff28bc18faea0f03987586cceee419471fd7bee963c43b1f7cf6569c1",
+  "actual_source_pgn_games": 8165,
+  "source_publisher_listed_games": 8091,
+  "full_game_history_sample_sha256": "8b7f5da799cc9610c7e4cb8347baa8b3b8bd74eb383939eac9fa91b527a8116d",
+  "n_original_sampled_games": 64,
+  "n_conservative_canonical_tournament_families": 25,
+  "n_preselected_physical_intervention_targets": 128,
+  "n_physical_source_gate_targets_contacted": 128,
+  "n_physically_valid_matched_sham_repeat_controls": 128,
+  "n_physically_valid_both_off_repeat_controls": 128,
+  "n_physical_source_bestmove_flips": 14,
+  "n_distinct_games_with_physical_flips": 13,
+  "n_distinct_event_families_with_physical_flips": 11,
+  "n_null_ineligible_futility_only_vs_both_off_noop": 64,
+  "n_same_completed_depth_source_flips": 3,
+  "n_different_completed_depth_source_flips": 11,
+  "original_B1_signed_preoutcome_source_sha256": "d364e6ca24599110fa19ac41e19164069a164c15aa396aac6b2833482e3818b1",
+  "original_P1_only_trained_P2_model_sha256": "ae6f7add6838dc3b4cbe679bd728625593c4e3f9817ea1101e4a7fb550da8c53",
+  "n_valid_source_forecasts": 126,
+  "n_predeclared_noncpscore_prediction_abstentions": 2,
+  "actual_P2_prediction_metrics": {
+    "m0": {
+      "brier": 0.09924784167618131,
+      "average_precision": 0.1111111111111111,
+      "log_loss": 0.3516064372457929
+    },
+    "m1": {
+      "brier": 0.09747741559307563,
+      "average_precision": 0.21776340814869105,
+      "log_loss": 0.3402320791585251
+    },
+    "m2": {
+      "brier": 0.09356035484296188,
+      "average_precision": 0.35240126629106433,
+      "log_loss": 0.3322411597798782,
+      "true_positive_at_p_0_5": 2,
+      "positive_predictions_at_p_0_5": 3
+    }
+  },
+  "brier_m2_improvement_over_m1": 0.003917060750113749,
+  "gain_m1_minus_m2_25family_bootstrap_95": [
+    -0.012929389083700726,
+    0.02141431996604358
+  ],
+  "brier_m2_improvement_over_m0": 0.0056874868332194295,
+  "gain_m0_minus_m2_25family_bootstrap_95": [
+    -0.010536396421185298,
+    0.022806083425505982
+  ],
+  "predetermined_required_brier_gain": 0.01,
+  "predetermined_gain_gate_passed": false,
+  "physical_final_flip_event_ids": [
+    "P2-002-1",
+    "P2-003-0",
+    "P2-005-0",
+    "P2-013-1",
+    "P2-014-0",
+    "P2-021-1",
+    "P2-023-0",
+    "P2-024-0",
+    "P2-037-0",
+    "P2-041-0",
+    "P2-041-1",
+    "P2-052-1",
+    "P2-056-1",
+    "P2-058-1"
+  ],
+  "same_completed_depth_flip_event_ids": [
+    "P2-005-0",
+    "P2-052-1",
+    "P2-056-1"
+  ],
+  "original_B2_native_source_private_json_sha256": "be66a985016b4ceaae1379c64ee0f6347c3a2e8c4fd3660ceb394227ac237df1",
+  "original_B2_family_metrics_json_sha256": "2fd97e80e04aaae039fe9ee5cf5e1c75d75406803af40c4d8c0a6ab7d1448420",
+  "derived_B3_independent_original_1280_transcript_court_sha256": "5814b3dd667a624b09f3da85ba1f58aedf74c9245f9d846a00ae65506496a77b",
+  "B3_original_raw_source_rechecks": {
+    "stderr_SHA": 640,
+    "exact_source_OPEN_CLOSE": 640,
+    "raw_final_UCI_bestmove": 640,
+    "sham_raw_stderr_repeats": 128,
+    "both_off_raw_stderr_repeats": 128,
+    "raw_transcript_count": 1280
+  },
+  "GitHub": {
+    "native_B1_run": 44883170384,
+    "treatment_B2_run": 44883690849,
+    "original_raw_B3_run": 44884531249,
+    "PR": 14
+  },
+  "original_Drive_artifacts": {
+    "publisher_TWIC1669_source": "https://drive.google.com/file/d/1pdHyuZJAzyhtXp9tmEFqxeAN1vn6LwgJ/view",
+    "original_sample_and_model": "https://drive.google.com/file/d/1gp4VtTTzoBbAc8bOcEiHy13M9zd0uFqf/view",
+    "original_B1_predictive_event_signatures": "https://drive.google.com/file/d/1oGnINF5rPtjjmaRZimlOodUnFEZpHkh-/view",
+    "original_B2_native_640_source_logs": "https://drive.google.com/file/d/1wvWAb7CsZkpbjQTknM4Xfil8AmvC4E7B/view",
+    "original_B2_signed_physical_outcomes": "https://drive.google.com/file/d/1e4kBfW_-HYbMF5a3imX2ab9XKfmmmyXw/view",
+    "original_B2_public_model_court": "https://drive.google.com/file/d/1tNNUcZBmz77ARoEDN0oB5ae6qipyrSTt/view",
+    "independent_B3_derived_raw_validation": "https://drive.google.com/file/d/1SJvm_KQnCzL4cV6YsurUCW1jAbI_i9qn/view"
+  },
+  "scientific_HOLD": {
+    "exact_TT_history_budget_mediation": "not demonstrated",
+    "intervention_stable_state_sufficiency": "not demonstrated",
+    "prospectively_validated_minimal_state": "not demonstrated",
+    "original_full_game_alias_disjointness": "not exhaustively demonstrated",
+    "independent_legal_opponent_reply_value": "not demonstrated",
+    "human_learning_value": "not demonstrated"
+  }
+}
