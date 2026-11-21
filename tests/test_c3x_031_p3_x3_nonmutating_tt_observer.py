@@ -59,6 +59,7 @@ class P3SafeTTObserverTests(unittest.TestCase):
 
     def test_original_native_move_disagreement_rejected(self):
         x,p,r=signed()
+        r["proof"]["best"]=copy.deepcopy(r["proof"]["best"])
         r["proof"]["best"]["move"]="b2b3"
         with self.assertRaises(ValueError):
             verified_source_arm(x,r,p,True)
