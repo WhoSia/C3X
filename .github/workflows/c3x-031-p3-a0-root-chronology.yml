@@ -1,0 +1,82 @@
+name: C3X 0.31 P3-A0 physical source event to iterative root chronology
+
+on:
+  pull_request:
+    paths:
+      - ".github/workflows/c3x-031-p3-a0-root-chronology.yml"
+      - "harness/c3x_031_p3_a0_interiteration_root.py"
+      - "tests/test_c3x_031_p3_a0_interiteration_root.py"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  original-p2-d1-root-lineage:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Fetch unmodified original D1 GitHub artifacts as exact raw ZIP bytes
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/c3x-p3-a0 public
+          curl --fail --show-error --location --retry 2 \
+            --header "Authorization: Bearer ${GH_TOKEN}" \
+            --header 'Accept: application/vnd.github+json' \
+            'https://api.github.com/repos/WhoSia/C3X/actions/artifacts/14695660303/zip' \
+            --output /tmp/c3x-p3-a0/native-original.zip
+          curl --fail --show-error --location --retry 2 \
+            --header "Authorization: Bearer ${GH_TOKEN}" \
+            --header 'Accept: application/vnd.github+json' \
+            'https://api.github.com/repos/WhoSia/C3X/actions/artifacts/14694913825/zip' \
+            --output /tmp/c3x-p3-a0/science-original.zip
+          echo 'e45dca037f748a06e5043194de397ca26659af726c174a9505f097a5566202bc  /tmp/c3x-p3-a0/native-original.zip' | sha256sum -c -
+          echo 'c9a060afea6d0fc93cd20f08eb12699fe4aca2763eb0e78d536e43bff19840c5  /tmp/c3x-p3-a0/science-original.zip' | sha256sum -c -
+          unzip -t /tmp/c3x-p3-a0/native-original.zip >/dev/null
+          unzip -t /tmp/c3x-p3-a0/science-original.zip >/dev/null
+      - name: Validate all authentic source receipts, replay and 11 adversarial tests
+        env:
+          PYTHONPATH: harness
+          C3X_P3_A0_NATIVE_ZIP: /tmp/c3x-p3-a0/native-original.zip
+          C3X_P3_A0_SCIENCE_ZIP: /tmp/c3x-p3-a0/science-original.zip
+        run: |
+          set -euo pipefail
+          python -m py_compile harness/c3x_031_p3_a0_interiteration_root.py
+          python -m unittest -v tests.test_c3x_031_p3_a0_interiteration_root
+      - name: Recompute real native P2-028 fixed depth15 and16 root chronology
+        run: |
+          set -euo pipefail
+          python harness/c3x_031_p3_a0_interiteration_root.py \
+            /tmp/c3x-p3-a0/native-original.zip \
+            /tmp/c3x-p3-a0/science-original.zip \
+            public/C3X_031_P3_A0_P2_028_ROOT_CHRONOLOGY_20261121.json
+          sha256sum public/*.json | tee public/SHA256SUMS
+      - name: Preserve non-mediator research authority
+        run: |
+          cat > public/LIMITS.txt <<'TEXT'
+          P3-A0 = RETROSPECTIVE SOURCE-LOG CHRONOLOGY from 78 original D1 native runs.
+          The physical event first changed its own return at root attempt 16.
+          Root candidate scores did NOT change in same enclosing attempt 16.
+          First same move root score divergence: attempt 17, depth14.
+          First leader update divergence: attempt 18, depth15.
+          First initial alpha-beta search window difference: attempt 19, depth16.
+          Single R26-macrofamily-exposed P2-028 development game. NO unseen-family result.
+          No TT write/read, history, root-order or node-budget mediator sufficiency proved.
+          Different node counts prohibit same-budget inference.
+          NO new source chess searches, chess objective merit or human-learning evidence.
+          Original private native logs, PGN and move histories are not re-distributed.
+          TEXT
+      - uses: actions/upload-artifact@v4
+        with:
+          name: c3x031-p3-a0-p2-028-authentic-interiteration-root-ledger
+          path: public/
+          if-no-files-found: error
