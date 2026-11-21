@@ -1,0 +1,122 @@
+name: C3X 0.31 P2-D1 Seven-Case Equal-Depth Native Search Diagnosis
+
+on:
+  pull_request:
+    paths:
+      - ".github/workflows/c3x-031-p2-d1-equal-depth.yml"
+      - "harness/c3x_031_p2_d1_equal_depth.py"
+      - "tests/test_c3x_031_p2_d1_equal_depth.py"
+      - "docs/C3X_031_P2_D1_EQUAL_DEPTH_PREREG_20261121.md"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  registered-seven-native-depth-contrasts:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install pinned original chess legality parser
+        run: python -m pip install -q chess==1.11.2
+      - name: Retrieve full legal pre-treatment selected original 64-game sample
+        uses: actions/download-artifact@v4
+        with:
+          name: c3x031-p2-64game-private-history-freeze
+          repository: WhoSia/C3X
+          run-id: "44872034069"
+          path: /tmp/p2-source
+          github-token: ${{ github.token }}
+      - name: Retrieve exact original physical source event identities
+        uses: actions/download-artifact@v4
+        with:
+          name: c3x031-p2-private-untreated-contact-prediction-seal
+          repository: WhoSia/C3X
+          run-id: "44872579316"
+          path: /tmp/p2-precontact
+          github-token: ${{ github.token }}
+      - name: Retrieve unaltered original P2 bestmove source intervention results
+        uses: actions/download-artifact@v4
+        with:
+          name: c3x031-p2-native-treatment-private-all-events
+          repository: WhoSia/C3X
+          run-id: "44872920835"
+          path: /tmp/p2-treated
+          github-token: ${{ github.token }}
+      - name: Reuse exact source-pinned R31 reference, R33 instrument and NNUE
+        uses: actions/download-artifact@v4
+        with:
+          name: c3x031-p2-pinned-SF16-native-source-build-no-treatments
+          repository: WhoSia/C3X
+          run-id: "44872473600"
+          path: /tmp/p2-build
+          github-token: ${{ github.token }}
+      - name: Pre-experiment source sealing and original 7-case selection unit tests
+        env:
+          PYTHONPATH: harness
+          C3X_P2_SOURCE: /tmp/p2-precontact/C3X_031_P2_PHYSICAL_EVENT_AND_FORECAST_PRETREATMENT.json
+          C3X_P2_TREATED: /tmp/p2-treated/C3X_031_P2_TWIC1670_TREATED_NATIVE_ALL_EVENTS.json
+        run: |
+          set -euo pipefail
+          echo '2a174dcf56a333408693785eb0a844a419f7f8ba090c0a00187f3dab483d57e4  /tmp/p2-source/C3X_031_P2_TWIC1670_GAME_FREEZE_FULL_HISTORIES.json' | sha256sum -c -
+          echo '17915c7d9ae56dd950cd026d07a4917a414213415ea3b28af256b305eb8ad146  /tmp/p2-precontact/C3X_031_P2_PHYSICAL_EVENT_AND_FORECAST_PRETREATMENT.json' | sha256sum -c -
+          echo '69904f920c21844f2a2f278f6332b7c8fdc9857a821c33fdc0f29dfa56aaf09f  /tmp/p2-treated/C3X_031_P2_TWIC1670_TREATED_NATIVE_ALL_EVENTS.json' | sha256sum -c -
+          echo '78cae269c73eb080c8a508e839dcde15ce48888b3fc4317fa3311de49e5ee7bb  /tmp/p2-build/c3x031-p2-SF16-pre-R33-reference' | sha256sum -c -
+          echo 'ce13b5899ab6862a621ee6033ac661f7ded0abf3f2b4ea073a163b0c3154afa1  /tmp/p2-build/c3x031-p2-SF16-patched' | sha256sum -c -
+          echo '5af11540bbfefcb54e38c5dd000cab4b469dfa7599a1d55be5d2722c20a8929b  /tmp/p2-build/nn-5af11540bbfe.nnue' | sha256sum -c -
+          chmod +x /tmp/p2-build/c3x031-p2-SF16-pre-R33-reference /tmp/p2-build/c3x031-p2-SF16-patched
+          python -m py_compile harness/c3x_031_p2_d1_equal_depth.py
+          python -m unittest -v tests.test_c3x_031_p2_d1_equal_depth
+      - name: Native 7 events x 13 fixed-depth cells, original and treatment cold repetitions
+        env:
+          PYTHONPATH: harness
+        run: |
+          set -euo pipefail
+          mkdir -p private public /tmp/p2-d1/logs
+          python -u harness/c3x_031_p2_d1_equal_depth.py \
+            /tmp/p2-source/C3X_031_P2_TWIC1670_GAME_FREEZE_FULL_HISTORIES.json \
+            /tmp/p2-precontact/C3X_031_P2_PHYSICAL_EVENT_AND_FORECAST_PRETREATMENT.json \
+            /tmp/p2-treated/C3X_031_P2_TWIC1670_TREATED_NATIVE_ALL_EVENTS.json \
+            /tmp/p2-build/c3x031-p2-SF16-pre-R33-reference \
+            /tmp/p2-build/c3x031-p2-SF16-patched \
+            /tmp/p2-build/nn-5af11540bbfe.nnue \
+            /tmp/p2-d1/logs \
+            private/C3X_031_P2_D1_ALL_NATIVE_EQUAL_DEPTH_EVENTS.json \
+            public/C3X_031_P2_D1_EQUAL_DEPTH_COURT.json
+          sha256sum private/*.json public/*.json
+          python - <<'PY'
+          import json
+          p='public/C3X_031_P2_D1_EQUAL_DEPTH_COURT.json'
+          x=json.load(open(p))
+          assert x['seven_postselected_cases']==7
+          assert x['frozen_depth_cells']==13
+          assert x['actual_new_source_native_searches']==78
+          assert x['intermediate_TT_history_mediator_proved'] is False
+          PY
+      - name: Archive complete unchanged actual source logs even on failure
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x031-p2-d1-full-native-original-logs
+          path: /tmp/p2-d1/logs/
+          if-no-files-found: warn
+      - name: Preserve native full adjudication and fixed-depth cell observations
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x031-p2-d1-private-frozen-seven-result
+          path: private/
+          if-no-files-found: warn
+      - name: Preserve small inspection court for the public evidence chain
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x031-p2-d1-public-equal-depth-court
+          path: public/
+          if-no-files-found: warn
