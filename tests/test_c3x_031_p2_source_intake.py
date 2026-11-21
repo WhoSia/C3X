@@ -56,8 +56,9 @@ class SourceIntakeTests(unittest.TestCase):
                   pgn_case("SECOND NOVEL EVENT","c2c4")).encode("latin-1")
             with ZipFile(path,"w") as zip:
                 zip.writestr("twic1669.pgn",data)
-            from c3x_031_p2_source_intake import PUBLISHER_GAMES
-            with patch("c3x_031_p2_source_intake.PUBLISHER_GAMES",3), \
+            with patch("c3x_031_p2_source_intake.PUBLISHER_RAW_GAMES",3), \
+                 patch("c3x_031_p2_source_intake.SOURCE_ORIGINAL_ZIP_SHA",digest(path.read_bytes())), \
+                 patch("c3x_031_p2_source_intake.SOURCE_ORIGINAL_PGN_SHA",digest(data)), \
                  patch("c3x_031_p2_source_intake.CHECKPOINTS",(1,)):
                 result=make_p2_cohort(path,EXCLUDED)
             self.assertEqual(result["parsed_games"],3)
