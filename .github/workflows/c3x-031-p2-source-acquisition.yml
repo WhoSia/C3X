@@ -1,0 +1,42 @@
+name: C3X 0.31 P2 TWIC1670 Publisher Byte Acquisition (no treatment)
+on:
+  pull_request:
+    paths:
+      - ".github/workflows/c3x-031-p2-source-acquisition.yml"
+      - "harness/c3x_031_p2_source_audit.py"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  publisher-pgn-acquisition:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Retrieve original TWIC 1670 publisher archive without search outcomes
+        run: |
+          set -euo pipefail
+          mkdir -p private-source public
+          curl --fail --show-error --location --retry 3 --max-time 180 \
+             --output private-source/twic1670g.zip \
+             https://theweekinchess.com/zips/twic1670g.zip
+          unzip -t private-source/twic1670g.zip
+          sha256sum private-source/twic1670g.zip
+          python harness/c3x_031_p2_source_audit.py private-source/twic1670g.zip public/twic1670-source-census.json
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x031-p2-publisher-twic1670-raw-private-custody
+          path: private-source/twic1670g.zip
+          if-no-files-found: ignore
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x031-p2-publisher-twic1670-census
+          path: public/
+          if-no-files-found: ignore
