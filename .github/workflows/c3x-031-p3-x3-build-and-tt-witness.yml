@@ -1,0 +1,161 @@
+name: C3X 0.31 P3-X3 Source-Truth Non-Mutating TT Entry Witness
+on:
+  pull_request:
+    paths:
+      - ".github/workflows/c3x-031-p3-x3-build-and-tt-witness.yml"
+      - "patches/stockfish16/R39-source-gate-tt-snapshot-readonly.patch"
+      - "harness/c3x_031_p3_x3_nonmutating_tt_observer.py"
+      - "tests/test_c3x_031_p3_x3_nonmutating_tt_observer.py"
+      - "docs/C3X_031_P3_X3_NONMUTATING_TT_PRE_GATE_PREREG_20261121.md"
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  stockfish16-physical-pre-gate-TT-snapshot:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Source sensor tests
+        run: |
+          set -euo pipefail
+          python -m pip install -q chess==1.11.2
+          PYTHONPATH=harness python -m unittest -v tests.test_c3x_031_p3_x3_nonmutating_tt_observer
+      - name: Prove no second TT.probe is inserted by R39 snapshot
+        run: |
+          set -euo pipefail
+          if grep -E '^\+[^+].*TT\.probe\(' patches/stockfish16/R39-source-gate-tt-snapshot-readonly.patch ; then
+            echo 'FAILED: observer source added a TT.probe that mutates genBound8'; exit 1
+          fi
+          grep 'C3X_R39_PRE' patches/stockfish16/R39-source-gate-tt-snapshot-readonly.patch
+          sha256sum patches/stockfish16/R39-source-gate-tt-snapshot-readonly.patch
+      - uses: actions/download-artifact@v4
+        with:
+          name: c3x031-p2-source1669-original-pre-native-and-full-p1-model-lock
+          repository: WhoSia/C3X
+          run-id: "44882633743"
+          path: /tmp/r39sample/
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: c3x031-p2-1669-original-source-events-preoutcome-forecasts
+          repository: WhoSia/C3X
+          run-id: "44883170384"
+          path: /tmp/r39b1/
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: c3x031-p2-b2-1669-private-source-physical-outcomes
+          repository: WhoSia/C3X
+          run-id: "44883690849"
+          path: /tmp/r39b2/
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: c3x031-p2-pinned-SF16-native-source-build-no-treatments
+          repository: WhoSia/C3X
+          run-id: "44872473600"
+          path: /tmp/r39p2bin/
+          github-token: ${{ github.token }}
+      - name: Exact original source base (no commit writes)
+        run: |
+          set -euo pipefail
+          git clone -q --single-branch --branch sf_16 https://github.com/official-stockfish/Stockfish.git /tmp/r39-sf16
+          test "$(git -C /tmp/r39-sf16 rev-parse HEAD)" = "68e1e9b3811e16cad014b590d7443b9063b3eb52"
+          mkdir -p /tmp/r39build /tmp/r39native /tmp/r39court
+      - name: Rebuild physically identical R31/R33 gate stack then append strictly read-only R39
+        run: |
+          set -euo pipefail
+          : > /tmp/r39build/EXACT_PATCH_ORDER_SHA256SUMS
+          for name in \
+              R27-tt-choice-producers.patch \
+              R29-local-tt-move.patch \
+              R29-producer-tt-value.patch \
+              R30-separate-picker-singular.patch \
+              R31-tt-scout-pv.patch \
+              R31-pv-fail-low.patch \
+              R33-prospective-gates.patch \
+              R39-source-gate-tt-snapshot-readonly.patch; do
+            patch="$GITHUB_WORKSPACE/patches/stockfish16/$name"
+            sha256sum "$patch" >> /tmp/r39build/EXACT_PATCH_ORDER_SHA256SUMS
+            git -C /tmp/r39-sf16 apply --check "$patch"
+            git -C /tmp/r39-sf16 apply "$patch"
+            echo "SOURCE_PATCH_APPLIED $name"
+          done
+          sha256sum /tmp/r39-sf16/src/search.cpp | tee /tmp/r39build/SOURCE_SEARCH_CPP_SHA256.txt
+          make -C /tmp/r39-sf16/src -j2 build ARCH=x86-64 COMP=gcc > /tmp/r39build/BUILD_LOG.txt 2>&1
+          cp /tmp/r39-sf16/src/stockfish /tmp/r39build/c3x031-p3-R39-SF16
+          sha256sum /tmp/r39build/c3x031-p3-R39-SF16 | tee /tmp/r39build/BINARY_SHA256.txt
+          echo '5af11540bbfefcb54e38c5dd000cab4b469dfa7599a1d55be5d2722c20a8929b  /tmp/r39-sf16/src/nn-5af11540bbfe.nnue' | sha256sum -c -
+          echo 'ce13b5899ab6862a621ee6033ac661f7ded0abf3f2b4ea073a163b0c3154afa1  /tmp/r39p2bin/c3x031-p2-SF16-patched' | sha256sum -c -
+          echo '8b7f5da799cc9610c7e4cb8347baa8b3b8bd74eb383939eac9fa91b527a8116d  /tmp/r39sample/C3X_031_P2_TWIC1669_PRE_NATIVE_COHORT.json' | sha256sum -c -
+          echo 'd364e6ca24599110fa19ac41e19164069a164c15aa396aac6b2833482e3818b1  /tmp/r39b1/C3X_031_P2_1669_PREOUTCOME_TARGETS.json' | sha256sum -c -
+          echo 'be66a985016b4ceaae1379c64ee0f6347c3a2e8c4fd3660ceb394227ac237df1  /tmp/r39b2/C3X_031_P2_B2_1669_NATIVE_PHYSICAL_RESULT.json' | sha256sum -c -
+          printf 'uci\nquit\n' | /tmp/r39build/c3x031-p3-R39-SF16 | grep 'uciok'
+      - name: "Genuine source R39 OFF/ON cold controls: 7 original sites x 3 arms x 3"
+        env:
+          PYTHONPATH: harness
+        run: |
+          set -euo pipefail
+          python -u harness/c3x_031_p3_x3_nonmutating_tt_observer.py \
+            /tmp/r39sample/C3X_031_P2_TWIC1669_PRE_NATIVE_COHORT.json \
+            /tmp/r39b1/C3X_031_P2_1669_PREOUTCOME_TARGETS.json \
+            /tmp/r39b2/C3X_031_P2_B2_1669_NATIVE_PHYSICAL_RESULT.json \
+            /tmp/r39p2bin/c3x031-p2-SF16-patched \
+            /tmp/r39build/c3x031-p3-R39-SF16 \
+            /tmp/r39-sf16/src/nn-5af11540bbfe.nnue \
+            /tmp/r39native \
+            /tmp/r39court/C3X_031_P3_X3_TT_SOURCE_63_REAL_SEARCHES.json
+          sha256sum /tmp/r39court/*.json
+          python - <<'PY'
+          import json
+          x=json.load(open('/tmp/r39court/C3X_031_P3_X3_TT_SOURCE_63_REAL_SEARCHES.json'))
+          assert x['new_native_stockfish_source_searches']==63
+          assert x['fully_passive_ttsnapshot_sites']==7
+          assert x['failed_sites']==0
+          PY
+      - name: Preserve exact causal limits on every outcome
+        if: always()
+        run: |
+          mkdir -p /tmp/r39court
+          printf '%s\n' \
+            'R39 original Stockfish16 source logger reuses ALREADY probed tte; no additional TT.probe.' \
+            'Official sf16 TT.probe refreshes genBound8; extra probe would mutate TT and fail observer neutrality.' \
+            'All seven cases selected AFTER P2 outcome, not a new unseen test.' \
+            '63 true original 32k-node searches; observer OFF once, observer ON twice, per source arm.' \
+            'R39 only observes TT before gate. Does NOT identify a post-event mediator or prove TT-state sufficiency.' \
+            'TT missing-key or stale replacement slots are not logically equivalent to full posKey identity.' \
+            'No GitHub Actions commits, source engine original SHA and all source logs preserved.' \
+            > /tmp/r39court/RESEARCH_SCOPE_AND_HOLDS.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x031-p3-x3-new-r39-binary-and-exact-source-patch-custody
+          path: |
+            /tmp/r39build/c3x031-p3-R39-SF16
+            /tmp/r39build/SOURCE_SEARCH_CPP_SHA256.txt
+            /tmp/r39build/EXACT_PATCH_ORDER_SHA256SUMS
+            /tmp/r39build/BINARY_SHA256.txt
+            /tmp/r39build/BUILD_LOG.txt
+          retention-days: 3
+          if-no-files-found: warn
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x031-p3-x3-63-original-tt-source-observer-logs
+          path: /tmp/r39native/
+          retention-days: 3
+          if-no-files-found: warn
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x031-p3-x3-7-source-TT-pre-gate-observer-court
+          path: /tmp/r39court/
+          retention-days: 3
+          if-no-files-found: error

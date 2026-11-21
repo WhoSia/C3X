@@ -1,0 +1,23 @@
+diff --git a/src/search.cpp b/src/search.cpp
+--- a/src/search.cpp
++++ b/src/search.cpp
+@@ -969,5 +969,19 @@
+                               << " null_eligible=" << canTryNull()
+                               << " nodes=" << thisThread->nodes << std::endl;
+                 }
++                if (r33Call && r33Call->treated && c3x_flag("C3X_R39_TT_SNAPSHOT") && c3x_trace())
++                    std::cerr << "C3X_R39_PRE event=" << r33Call->event
++                              << " key=" << posKey
++                              << " tt_hit=" << ss->ttHit
++                              << " tt_move=" << UCI::move(ttMove, pos.is_chess960())
++                              << " tt_depth=" << (ss->ttHit ? int(tte->depth()) : -99)
++                              << " tt_bound=" << (ss->ttHit ? int(tte->bound()) : 0)
++                              << " tt_raw_value=" << (ss->ttHit ? int(tte->value()) : int(VALUE_NONE))
++                              << " tt_value=" << int(ttValue)
++                              << " tt_eval=" << (ss->ttHit ? int(tte->eval()) : int(VALUE_NONE))
++                              << " tt_pv=" << ss->ttPv
++                              << " parent_stat=" << (ss-1)->statScore
++                              << " rule50=" << pos.rule50_count()
++                              << " source_nodes=" << thisThread->nodes << std::endl;
+                 if (!(r33Call && r33Call->treated && C3XR33SkipFutility))
+                 {
