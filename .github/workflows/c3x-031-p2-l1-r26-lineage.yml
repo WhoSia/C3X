@@ -1,0 +1,88 @@
+name: C3X 0.31 P2-L1 R26 shared-family leakage and negative transfer audit
+
+on:
+  pull_request:
+    paths:
+      - ".github/workflows/c3x-031-p2-l1-r26-lineage.yml"
+      - "harness/c3x_031_p2_l1_historical_family_audit.py"
+      - "tests/test_c3x_031_p2_l1_historical_family_audit.py"
+      - "receipts/C3X_030_R26_TT_PREOUTCOME_20261117.json"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  real-original-prior-lineage-check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 14
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Rehydrate original R26 source from published P2 acquisition (NO new native runs)
+        uses: actions/download-artifact@v4
+        with:
+          name: c3x031-p2-publisher-twic1670-raw-private-custody
+          repository: WhoSia/C3X
+          run-id: "44871735875"
+          path: /tmp/c3x-p2-l1/source
+          github-token: ${{ github.token }}
+      - name: Rehydrate P2 pre-outcome 64 game histories
+        uses: actions/download-artifact@v4
+        with:
+          name: c3x031-p2-64game-private-history-freeze
+          repository: WhoSia/C3X
+          run-id: "44872034069"
+          path: /tmp/c3x-p2-l1/games
+          github-token: ${{ github.token }}
+      - name: Rehydrate all 128 actual P2 source treatment outcomes
+        uses: actions/download-artifact@v4
+        with:
+          name: c3x031-p2-native-treatment-private-all-events
+          repository: WhoSia/C3X
+          run-id: "44872920835"
+          path: /tmp/c3x-p2-l1/treatment
+          github-token: ${{ github.token }}
+      - name: Verify unmodified original source and signed P2 experiment byte identities
+        run: |
+          set -euo pipefail
+          echo '6e6866cfe57ea0db7849f9b686fded1c1fe9d1fcab783359030b97ace377eccf  /tmp/c3x-p2-l1/source/twic1670g.zip' | sha256sum -c -
+          echo '2a174dcf56a333408693785eb0a844a419f7f8ba090c0a00187f3dab483d57e4  /tmp/c3x-p2-l1/games/C3X_031_P2_TWIC1670_GAME_FREEZE_FULL_HISTORIES.json' | sha256sum -c -
+          echo '69904f920c21844f2a2f278f6332b7c8fdc9857a821c33fdc0f29dfa56aaf09f  /tmp/c3x-p2-l1/treatment/C3X_031_P2_TWIC1670_TREATED_NATIVE_ALL_EVENTS.json' | sha256sum -c -
+          python -m py_compile harness/c3x_031_p2_l1_historical_family_audit.py
+      - name: Original R26 event ordinal and P2 native all-target checks
+        env:
+          PYTHONPATH: harness
+        run: python -m unittest -v tests.test_c3x_031_p2_l1_historical_family_audit
+      - name: Recompute primary and post-hoc historical-family-excluded sensitivity
+        run: |
+          set -euo pipefail
+          mkdir -p public
+          python harness/c3x_031_p2_l1_historical_family_audit.py \
+            /tmp/c3x-p2-l1/source/twic1670g.zip \
+            receipts/C3X_030_R26_TT_PREOUTCOME_20261117.json \
+            /tmp/c3x-p2-l1/games/C3X_031_P2_TWIC1670_GAME_FREEZE_FULL_HISTORIES.json \
+            /tmp/c3x-p2-l1/treatment/C3X_031_P2_TWIC1670_TREATED_NATIVE_ALL_EVENTS.json \
+            public/C3X_031_P2_L1_R26_FAMILY_OVERLAP_AND_SENSITIVITY.json
+          sha256sum public/*.json | tee public/SHA256SUMS
+      - name: Record strict scope of corrected historical exposure
+        run: |
+          cat > public/LIMITS.txt <<'TEXT'
+          P2-L1 audits the historically exposed R26 TWIC1670 source.
+          Two P2 tournament families were previously represented by R26 games.
+          NO original P2 sample or model has been changed; 112-event analysis is post hoc.
+          R26 and P2 selected 16/64 game histories had zero full-game hash overlap.
+          A zero game hash overlap does not imply a fully new source or fully unseen event family.
+          Source-native intervention effects and negative M2 Brier transfer still hold in scope.
+          Nothing here identifies TT/history mediation or proves chess learning.
+          Original PGN and exact full histories are NOT included in this output.
+          TEXT
+      - uses: actions/upload-artifact@v4
+        with:
+          name: c3x031-p2-l1-r26-historical-family-audit
+          path: public/
+          if-no-files-found: error
