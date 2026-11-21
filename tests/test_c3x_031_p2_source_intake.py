@@ -51,7 +51,7 @@ class SourceIntakeTests(unittest.TestCase):
     def test_synthetic_legal_pgn_freezes_unseen_case_and_excludes_old(self):
         with tempfile.TemporaryDirectory() as tmp:
             path=Path(tmp)/"twic1669g.zip"
-            data=(pgn_case("17th China Danzou","e2e4")+
+            data=(pgn_case("17th China Danzhou","e2e4")+
                   pgn_case("UNSEEN SYNTHETIC P2 EVENT","d2d4")+
                   pgn_case("SECOND NOVEL EVENT","c2c4")).encode("latin-1")
             with ZipFile(path,"w") as zip:
