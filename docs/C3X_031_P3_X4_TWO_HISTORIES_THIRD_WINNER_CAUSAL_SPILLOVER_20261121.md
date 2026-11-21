@@ -88,6 +88,38 @@ This is a **candidate graph**, not a verified causal graph for the individual me
 
 This two-history distinction also prevents an invalid "chess position is non-Markovian" claim: when **complete chess-rule history** is retained, the rules/game can be described with an appropriate Markov state. It is the **bounded searcher's board-only projection** that is insufficient to specify its computational decision.
 
+## 2-A. Join with the existing P3-A0/P3-A1/P3-B main research thread — two orthogonal insufficiency witnesses
+
+C3X already has an independent research **development line** in the same active repository, not a missing theoretical prerequisite:
+
+- [P3-A0, original TWIC1670 game \`P2-028-0\`](C3X_031_P3_A0_INTERITERATION_ROOT_TRANSPORT_RESULTS_20261121.md): the physically intervened child return changes, but all enclosing 45 original root candidate records in source attempt16/iteration13 remain identical. The first later candidate \`f4e5\` source-value drift occurs in attempt17/iteration14; a leader update first diverges in attempt18, the final winner differs at iterations15 and16. The +18 source nodes at the earlier checkpoint already means **full runtime states are not equal**. This is evidence of *inter-iteration information transmission*, not proof of a TT or history reader.
+- [P3-A1, exact root-ledger projection falsifier](C3X_031_P3_A1_ROOT_ONLY_STATE_SUFFICIENCY_COUNTEREXAMPLE_20261121.md): save the entire same-iteration ordered 45-candidate source ledger and same public PV/score, but **deliberately exclude actual nodes and hidden TT/history**. On the same one original source case the projection is byte-identical while later root choices differ. Thus **this explicit limited root-ledger-only state fails a finite forward-sufficiency counterexample**. It does **not** say all low-dimensional, hidden-state or full-game-history models fail.
+- **New P3-X4, original TWIC1669 \`P2-056-1\`:** the violated hypothesis is different: a source gate tied to target root \`h5e2\` is assumed to change only the final score of \`h5e2\`; actual depth13 winner moves \`b8d8→f5h3\` with neither equal to target. Hence a **candidate-local scalar decision abstraction** is insufficient. This outcome still leaves the hidden causal path **unidentified**.
+
+These are **two axes of inadequacy**, not duplicate demonstrations or two new statistically independent game samples:
+
+| Candidate abstraction assumption | P3-A1 falsifier | P3-X4 falsifier | What a future state representation needs to handle |
+| --- | --- | --- | --- |
+| Same currently printed root candidates imply same later final choice | **Fails** for a finite checkpoint pair (nodes differ) | Not directly tested | Memory/persistent information between iterative-deepening attempts |
+| Altering source under one target only affects that root's final scalar score | Not directly tested | **Fails** in two bounded horizon variants of one original event | Cross-root computation, shared memory/ordering or genuine budget-dependent search scheduling |
+| Entire original program state is identical across treated and untreated | **NOT claimed** | **NOT claimed** | Full-state identity must be physically instrumented; do not infer from equal current PV |
+| TT/history or remaining computation budget is the uniquely necessary mediator | **NOT identified** | **NOT identified** | Physical matched boundary restoration and reciprocal swaps |
+
+A causal decision-state candidate therefore faces **two necessary evaluation constraints**: (i) distinguish otherwise identical root-output prefixes that later diverge, and (ii) account for counterfactual root changes *not involving the targeted root*. Satisfying those on retrospective development cases still does not validate causal sufficiency on independent tournaments.
+
+### Avoid a parallel duplicate of the preregistered P3-B source experiment
+
+The authoritative [P3-B state-family transplant preregistration](C3X_031_P3_B_STATE_FAMILY_TRANSPLANT_PREREG_20261121.md) already specifies a physical synchronization boundary after full attempt16/iteration13 and before attempt17/iteration14 for the original exposed \`P2-028-0\`, with **exact TT writer/readers**, history/order and budget arms, cold shams and reciprocal restore.
+
+**Keep its original preregistration unchanged.** The new \`P2-056-1\` third-root case should instead be a **distinctly preregistered source-frozen cross-root validation/control** for a shared noninterfering logging library:
+
+1. Implement P3-B0 original physical full-key TT writer→reader source integrity and noninterference for the already-preregistered \`P2-028-0\` boundary. The R39 P3-X3 observer gives a tested initial *pre-gate* TT snapshot but is **not** a post-iteration checkpoint transplant. Reuse original C3X 0.14/0.15 source-lineage methods only after validating compatibility with exact Stockfish16 overlays.
+2. Independently use \`P2-056-1\` original depth13/14 horizon to check whether an authenticated TT/history source delta crosses the **root candidate boundary**; first trace original candidate producer sequence and root updates, no added age-refreshing \`TT.probe\`. This is an **observational source reader trace**, not a TT-mediated rescue experiment.
+3. If a concrete reader/writer chain is actually found, preregister the exact \`P2-056-1\` checkpoint restoration *before performing any new mediator intervention*. Negative/no-contact outcomes must remain; never retrofit new arms to P3-B's existing sample after results.
+4. Only after the mechanism and complexity constraint are fixed should it be tested on a **genuinely newly sourced/alias-checked tournament family**, and chess-plan future quality assessed separately by independent engine/legal replies.
+
+**Source-family honesty:** the earlier \`P2-028-0\` TWIC1670 game shares a previously exposed **FIDE World Open U20** macro event ancestry with R26 even though its complete game history is distinct. See [P2-L2 original registered macro-family correction](C3X_031_P2_L2_MACRO_EVENT_EXPOSURE_SENSITIVITY_20261121.md). The \`P2-056-1\` TWIC1669 follow-up is also post-outcome selected, and historical event alias completeness is uncertain. Neither case is an independently validated cross-family state mechanism.
+
 ## 3. Three kinds of transport must be evaluated separately
 
 | Transport | Scientific input/intervention | Observable question | Existing C3X evidence | Valid claim level |
