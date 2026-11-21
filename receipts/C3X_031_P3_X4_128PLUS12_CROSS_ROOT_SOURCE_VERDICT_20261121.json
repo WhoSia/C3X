@@ -1,0 +1,100 @@
+{
+  "schema": "C3X_031_P3_X4_ORIGINAL_NATIVE_DECISION_NONLOCALITY_AND_TRAJECTORY_VERDICT_20261121",
+  "research_version": "0.31",
+  "phase": "P3_X4_DERIVED_ORIGINAL_SOURCE_COUNTEREXAMPLE_COMPLETED",
+  "study_kind": "AFTER_OUTCOME_INTERVENTION_TRACE_REANALYSIS_NO_NEW_STOCKFISH_SEARCH",
+  "native_searches_new_in_this_derived_analysis": 0,
+  "source_original_stockfish16_B2_run_id": 44883690849,
+  "source_original_stockfish16_X2_run_id": 44895972292,
+  "source_original_B2_json_sha256": "be66a985016b4ceaae1379c64ee0f6347c3a2e8c4fd3660ceb394227ac237df1",
+  "source_original_X2_json_sha256": "3c90be5bd0803937a6c9aaf8e55e6b15443c0a5c4f9a71605e13af28cc4da085",
+  "exact_b2_original_frozen_events": 128,
+  "exact_b2_original_full_history_games": 64,
+  "exact_b2_canonical_event_families": 25,
+  "b2_final_root_transition_classes": {
+    "NO_FINAL_CHANGE": 114,
+    "TARGET_DISPLACED": 8,
+    "TARGET_PROMOTED": 6,
+    "OFF_TARGET_SWITCH": 0
+  },
+  "p3x2_original_scheduled_horizons": 12,
+  "p3x2_actual_phyically_contacted_horizons": 12,
+  "x2_final_root_transition_classes": {
+    "NO_FINAL_CHANGE": 1,
+    "TARGET_DISPLACED": 7,
+    "TARGET_PROMOTED": 2,
+    "OFF_TARGET_SWITCH": 2
+  },
+  "off_target_event": {
+    "signed_source_event": "P2-056-1",
+    "n_unique_original_source_games": 1,
+    "root_candidate_associated_with_physical_target": "h5e2",
+    "prior_sham_bestmove": "b8d8",
+    "treated_both_gates_off_bestmove": "f5h3",
+    "valid_horizon_conditions": [
+      {
+        "nodes_cap": 32000,
+        "depth_cap": 13,
+        "actual_original_nodes": 24504,
+        "actual_treated_nodes": 24287,
+        "original_completed_depth": 13,
+        "treated_completed_depth": 13
+      },
+      {
+        "nodes_cap": 64000,
+        "depth_cap": 13,
+        "actual_original_nodes": 24504,
+        "actual_treated_nodes": 24287,
+        "original_completed_depth": 13,
+        "treated_completed_depth": 13
+      }
+    ],
+    "first_public_bestmove_disagreement_completed_depth": 12,
+    "at_depth_11": "h5e2 vs h5e2",
+    "at_depth_12": "f5e6 vs f5h3",
+    "at_depth_13": "b8d8 vs f5h3",
+    "at_depth_14": "b8d8 vs h5e2",
+    "first_public_divergence_depth12_nodes_sham": 10656,
+    "first_public_divergence_depth12_nodes_treated": 17921,
+    "scientific_interpretation": "Decision-level root off-target switch disproves isolated target-only scalar score change with fixed other scores and fixed tie-break. Does not identify mediator TT/history/budget."
+  },
+  "all_12_horizons_with_any_interim_public_root_disagreement": 12,
+  "x2_reconvergence": {
+    "source_event": "P2-052-1",
+    "node_cap": 64000,
+    "depth_cap": 12,
+    "terminal_sham": "a7c7",
+    "terminal_treated": "a7c7",
+    "first_public_root_disagreement_depth": 11,
+    "scientific_interpretation": "Terminal no-effect label conceals physically changed intermediate public decision trajectory."
+  },
+  "original_SHA_bound_readonly_CI": {
+    "run_id": 44898364990,
+    "url": "https://github.com/WhoSia/C3X/actions/runs/44898364990",
+    "passed_adversarial_regression_tests": 12,
+    "original_derived_result_json_sha256": "a521f1c165e78c461e316acd0cc22c02083bd7326af02e3697f62b4689c7b2fd",
+    "github_action_artifact_zip_sha256": "8b660f99b35cef316e485f04e281d7d7a22a41ebde713734d2efc307a8f6d951"
+  },
+  "original_derived_drive_source": {
+    "id": "1fp8m0vnX2eGCJlQUbrPuyHI8u9Yh7qSj",
+    "url": "https://drive.google.com/file/d/1fp8m0vnX2eGCJlQUbrPuyHI8u9Yh7qSj/view",
+    "uploaded_and_downloaded_sha256_exact_match": true,
+    "zip_crc_checked": true
+  },
+  "scientific_status": "PASS_SOURCE_LEVEL_THIRD_ROOT_COUNTEREXAMPLE_NO_MEDIATOR_IDENTIFICATION",
+  "historic_sample_independence_claim": false,
+  "local_treatment_score_only_model_falsified_for_observed_horizon": true,
+  "post_gate_transposition_table_mediator_identified": false,
+  "post_gate_history_order_mediator_identified": false,
+  "computational_budget_mediator_identified": false,
+  "independent_chess_plan_value_identified": false,
+  "original_computational_value_of_information_calculated": false,
+  "no_github_actions_bot_commits": true,
+  "sources": {
+    "theoretical_prior_metareasoning": "Russell and Wefald (1991), https://doi.org/10.1016/0004-3702(91)90015-C",
+    "theoretical_prior_causal_abstraction": "Geiger et al. (2025), https://www.jmlr.org/papers/v26/23-0058.html",
+    "stockfish16_original_src_search": "https://github.com/official-stockfish/Stockfish/blob/68e1e9b3811e16cad014b590d7443b9063b3eb52/src/search.cpp",
+    "source_original_B2_physical": "https://drive.google.com/file/d/1e4kBfW_-HYbMF5a3imX2ab9XKfmmmyXw/view",
+    "source_original_X2_physical": "https://drive.google.com/file/d/1gmWlaw6xG-SzrBp0LSY33YqX0owSXLbZ/view"
+  }
+}
