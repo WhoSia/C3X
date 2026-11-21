@@ -38,16 +38,36 @@ jobs:
           run-id: "44874168539"
           path: /tmp/p2-d1-logs
           github-token: ${{ github.token }}
+      - name: Retrieve original P2 precontact source and untreated bestmove
+        uses: actions/download-artifact@v4
+        with:
+          name: c3x031-p2-private-untreated-contact-prediction-seal
+          repository: WhoSia/C3X
+          run-id: "44872579316"
+          path: /tmp/p2-precontact
+          github-token: ${{ github.token }}
+      - name: Retrieve original 32k node-limited P2 treatment candidate pair
+        uses: actions/download-artifact@v4
+        with:
+          name: c3x031-p2-native-treatment-private-all-events
+          repository: WhoSia/C3X
+          run-id: "44872920835"
+          path: /tmp/p2-treated
+          github-token: ${{ github.token }}
       - name: Verify true original SHA and syntax
         run: |
           set -euo pipefail
           echo 'e2a56d69342fbe60a522f62b69ca01c08446008c482a571b8dc0a47e5ba95f90  /tmp/p2-d1-source/C3X_031_P2_D1_ALL_NATIVE_EQUAL_DEPTH_EVENTS.json' | sha256sum -c -
+          echo '17915c7d9ae56dd950cd026d07a4917a414213415ea3b28af256b305eb8ad146  /tmp/p2-precontact/C3X_031_P2_PHYSICAL_EVENT_AND_FORECAST_PRETREATMENT.json' | sha256sum -c -
+          echo '69904f920c21844f2a2f278f6332b7c8fdc9857a821c33fdc0f29dfa56aaf09f  /tmp/p2-treated/C3X_031_P2_TWIC1670_TREATED_NATIVE_ALL_EVENTS.json' | sha256sum -c -
           python -m py_compile harness/c3x_031_p2_d1_independent_court.py
       - name: Rehash 156 source logs and assert exact root-pair witness plus negative controls
         env:
           PYTHONPATH: harness
           C3X_P2_D1_RESULT: /tmp/p2-d1-source/C3X_031_P2_D1_ALL_NATIVE_EQUAL_DEPTH_EVENTS.json
           C3X_P2_D1_LOGS: /tmp/p2-d1-logs
+          C3X_P2_SOURCE: /tmp/p2-precontact/C3X_031_P2_PHYSICAL_EVENT_AND_FORECAST_PRETREATMENT.json
+          C3X_P2_TREATED: /tmp/p2-treated/C3X_031_P2_TWIC1670_TREATED_NATIVE_ALL_EVENTS.json
         run: python -m unittest -v tests.test_c3x_031_p2_d1_independent_court
       - name: Emit independent complete-vs-original-pair transport court, no native source search
         run: |
@@ -56,6 +76,8 @@ jobs:
           python harness/c3x_031_p2_d1_independent_court.py \
             /tmp/p2-d1-source/C3X_031_P2_D1_ALL_NATIVE_EQUAL_DEPTH_EVENTS.json \
             /tmp/p2-d1-logs \
+            /tmp/p2-precontact/C3X_031_P2_PHYSICAL_EVENT_AND_FORECAST_PRETREATMENT.json \
+            /tmp/p2-treated/C3X_031_P2_TWIC1670_TREATED_NATIVE_ALL_EVENTS.json \
             public/C3X_031_P2_D1_INDEPENDENT_RAW_COURT.json
           sha256sum public/C3X_031_P2_D1_INDEPENDENT_RAW_COURT.json
       - uses: actions/upload-artifact@v4
