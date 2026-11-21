@@ -38,3 +38,11 @@ The later prospective P2 needs a new issue (outside R33 TWIC1671, R29 TWIC1663, 
 ## Custody and owner
 
 Original R33 ZIP resides in Research OS Drive `C3X/04_SEALED_RESULTS_COURTS`, with source publisher The Week in Chess credited. Only small non-game-reconstructing aggregate/feature receipts and executable code should enter GitHub, and no CI action may write commits. Notion contains the governing scientific verdict, including nulls and version migration. Cite R33 native published cohort correctly, not as newly acquired 0.31 evidence.
+
+## P1-A1 Amendment — retain score bounds as bounds (before model training)
+
+The immutable R33 **untouched** native public logs have terminal `score cp` lines with three different semantic types: **34 exact/unbounded, 23 upper bounds, 7 lower bounds** among 64 source games. No intervention outcome labels or fitted models were consulted to discover this encoding issue. The original P1 text requiring an exact terminal cp value would lose 30 entire games (60 events) and violate its promised 128-event denominator.
+
+**Decision:** retain all 64 game histories and all 128 selected targets, add two M1 public indicator features `public_upper_bound`, `public_lower_bound` (both false means no bound), and keep `public_score_cp` as a *numeric published threshold with an explicit bound label*, **never** an exact centipawn estimate for those 30 games. Do not claim two bound scores are intrinsically comparable. The same bound indicators must be included unchanged in M2. Public score type remains cp in all 64 source logs; mate results still require HOLD or a separately locked protocol.
+
+**This is an outcome-blind data-schema correction, not a changed success threshold.** The original score calibration, source event features, family folds, fixed model hyperparameters, error reporting and scientific promotion restrictions are unchanged. A preprocessing refusal because of the initial exact-only restriction is preserved as an engineering finding, and the revised extractor explicitly checks 34/23/7 from genuine original stdout.
