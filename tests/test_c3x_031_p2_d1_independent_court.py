@@ -56,7 +56,7 @@ class OriginalD1Court(unittest.TestCase):
         changed=deepcopy(self.data)
         changed["results"][0]["fixed_depth_cells"][0]["control"]["target_event"]["open"]["root"]="a1a8"
         with self.assertRaises(ValueError):
-            verify(changed,LOGS)
+            verify(changed,LOGS,self.source,self.treated)
 
 
 if __name__=="__main__":
