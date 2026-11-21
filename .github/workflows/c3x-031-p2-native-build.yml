@@ -37,8 +37,7 @@ jobs:
               R29-producer-tt-value.patch \
               R30-separate-picker-singular.patch \
               R31-tt-scout-pv.patch \
-              R31-pv-fail-low.patch \
-              R33-prospective-gates.patch; do
+              R31-pv-fail-low.patch; do
             f="$GITHUB_WORKSPACE/patches/stockfish16/$p"
             sha256sum "$f" >> build/P2_PATCH_SEQUENCE_SHA256SUMS
             git -C /tmp/p2-native apply --check "$f"
@@ -46,6 +45,20 @@ jobs:
             printf 'APPLIED %s\n' "$p"
           done
           sha256sum /tmp/p2-native/src/search.cpp
+      - name: Build R31 non-observer reference source binary before R33 patch
+        run: |
+          set -euo pipefail
+          make -C /tmp/p2-native/src -j2 build ARCH=x86-64 COMP=gcc > build/OLD_BUILD_LOG.txt 2>&1
+          cp /tmp/p2-native/src/stockfish build/c3x031-p2-SF16-pre-R33-reference
+          sha256sum build/c3x031-p2-SF16-pre-R33-reference
+      - name: Apply physical R33 gate overlay without rebuilding historical baseline
+        run: |
+          set -euo pipefail
+          f="$GITHUB_WORKSPACE/patches/stockfish16/R33-prospective-gates.patch"
+          sha256sum "$f" >> build/P2_PATCH_SEQUENCE_SHA256SUMS
+          git -C /tmp/p2-native apply --check "$f"
+          git -C /tmp/p2-native apply "$f"
+          printf 'APPLIED R33-prospective-gates.patch\n'
       - name: Build single-thread reproducibility binaries and verify network
         run: |
           set -euo pipefail
@@ -64,6 +77,7 @@ jobs:
           x={'stage':'P2_NATIVE_BUILD_SOURCE_ONLY_NO_TREATMENTS',
              'original_stockfish_commit':'68e1e9b3811e16cad014b590d7443b9063b3eb52',
              'binary_sha256':h('c3x031-p2-SF16-patched'),
+             'pre_R33_reference_binary_sha256':h('c3x031-p2-SF16-pre-R33-reference'),
              'nnue_sha256':h('nn-5af11540bbfe.nnue'),
              'patch_sha256sum_source':(base/'P2_PATCH_SEQUENCE_SHA256SUMS').read_text(),
              'source_event_treatments_executed':0}
