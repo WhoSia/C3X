@@ -1,0 +1,104 @@
+{
+  "id": "C3X_030_STAGE_CLOSURE_AND_031_QUESTION_MIGRATION_20261121",
+  "date": "2026-11-21",
+  "canonical_source_of_truth": "Research OS / Notion C3X Lab",
+  "verdict": "RESEARCH_PHASE_CLOSED_WITH_SCIENTIFIC_HOLDS_TRANSFERRED",
+  "scientific_problem_solved": false,
+  "independent_generalization_certified": false,
+  "successor_active": false,
+  "successor_proposed_name": "C3X 0.31 — Intervention-Stable Decision-State Abstraction: Minimal Search-Memory Causality, Robust Chess-Plan Transport & Human Explanation Validity",
+  "original_explanandum": "Why this near-equal legal move rather than that alternative, both in the executed source computation and independently valid future chess?",
+  "governance": {
+    "two_track": "docs/C3X_TWO_TRACK_CONSTITUTION.md",
+    "repository": "GOVERNANCE.md",
+    "custodian_drive_folder_id": "1edVUOsnelnHQEmBmB5HOXraJ6ojHGNkx",
+    "preserve_past_negative_evidence": true,
+    "no_github_actions_bot_commits": true
+  },
+  "mainline_integrations": {
+    "r26_r35": {
+      "pull_request": 2,
+      "integrated_source_commits": 148,
+      "merge_commit": "224f927382c2be86632c546203eaca338810aa9a"
+    },
+    "r33_public_gap": {
+      "pull_request": 3,
+      "integrated_source_commits": 5,
+      "merge_commit": "030abf5641b79b2ce3f6b65782a3b7003970da4b"
+    }
+  },
+  "r36_derived_claim_gate": {
+    "actual_workflow_run": 44865953135,
+    "status": "TECHNICAL_PASS_ONLY",
+    "regression_tests": 13,
+    "new_native_searches": 0,
+    "original_drive_zips_rehashed_by_r36": false,
+    "observed_selected_event_count": 57,
+    "public_score_pv_invisible_direct_child_changes": 15,
+    "local_leader_changed_without_final_bestmove": 2,
+    "observed_final_bestmove_changes": 3,
+    "exact_mediation_claimed": false
+  },
+  "r37_native_referee": {
+    "actual_workflow_run": 44866204367,
+    "source_engine": "Berserk 14",
+    "engine_source_commit": "8ae895a6151695be4a50d4fb65b0c131659c513a",
+    "engine_binary_sha256": "3e592d5d67a5cd5a0afefdcc25ac6d15f2bff8fb4c1ee0bcd58115ab88a7949e",
+    "neural_network_sha256": "9b84c340af7e45f6e07f0046235ccb327f4ae0840c8ee2c4b97b99121e5c5084",
+    "original_PGN_history_used": false,
+    "single_exposed_position": true,
+    "frozen_candidate_moves": [
+      "e2f3",
+      "e2d3",
+      "a2a3"
+    ],
+    "legal_opponent_replies_per_candidate": 45,
+    "shared_reply_id_set": true,
+    "search_depths": [
+      10,
+      12
+    ],
+    "cold_repeats_per_leaf": 2,
+    "actual_new_searches": 540,
+    "actual_nodes": 14596738,
+    "all_270_replay_pairs_identical": true,
+    "original_json_sha256": "0fa5eadedbdff69b692f1d5d713a4a7649f90f57bfb480eb5f738eccb4bd4fcd",
+    "original_zip_sha256": "5c3ed07315986fe2336f9ee4481c6a2de825285de343169a78d8a403d4eb61e6",
+    "drive_id": "1axG3y0LQnFNP9AQSutYfDcGhj4suviUa",
+    "drive_readback_zip_sha256_confirmed": true,
+    "depth10_minima_white_cp": {
+      "e2f3": 74,
+      "e2d3": 62,
+      "a2a3": 53
+    },
+    "depth12_minima_white_cp": {
+      "e2f3": 72,
+      "e2d3": 60,
+      "a2a3": 49
+    },
+    "same_reply_qf3_vs_qd3": {
+      "depth10": {
+        "qf3_higher": 33,
+        "tie": 1,
+        "qd3_higher": 11
+      },
+      "depth12": {
+        "qf3_higher": 34,
+        "tie": 1,
+        "qd3_higher": 10
+      }
+    },
+    "asserted_strategy_or_human_superiority": false
+  },
+  "transferred_holds": [
+    "R35 exact TT/history/remaining-budget state mediator not identified",
+    "Blind game-disjoint state abstraction transport not established",
+    "R37 FEN-only finite depth cannot certify original full-history chess-robustness",
+    "NNUE latent representation to root decision mediation not established",
+    "Human learning outcome and pedagogical benefit not measured",
+    "Original paper-accurate state-of-the-art algorithmic superiority unestablished"
+  ],
+  "closure_document": "docs/C3X_030_FORMAL_STAGE_CLOSURE_AND_031_HANDOFF_20261121.md",
+  "successor_proposal_document": "docs/C3X_031_FORMAL_NAME_PROPOSAL_AND_PRIMITIVE_20261121.md",
+  "scientific_authority_note": "GitHub tests/engine runs are evidence within their scope, not scientific PASS; Notion decision ledger controls promotion."
+}
