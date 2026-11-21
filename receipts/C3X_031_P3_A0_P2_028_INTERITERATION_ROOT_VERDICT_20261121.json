@@ -1,0 +1,125 @@
+{
+  "id": "C3X_031_P3_A0_P2_028_INTERITERATION_ROOT_TRANSPORT_20261121",
+  "version": "0.31",
+  "stage": "P3-A0",
+  "scientific_classification": "RETROSPECTIVE_REAL_ORIGINAL_NATIVE_LOG_SINGLE_GAME",
+  "source_event": {
+    "game": "P2-028-0",
+    "event_family": "fide world open u20 blitz",
+    "R26_prior_macrofam_exposed": true,
+    "full_game_history_native": true,
+    "original_root_pair": [
+      "d4e5",
+      "f4e5"
+    ],
+    "physically_reached_event": 19,
+    "source_root_attempt": 16,
+    "source_iteration": 13,
+    "source_root_move": "d4e5",
+    "source_tested_move": "g7b7",
+    "source_excluded_move": "e5f6",
+    "control_child_return": -2429,
+    "treated_child_return": -2500,
+    "treated_real_child_replies": 2
+  },
+  "temporal_ledger": [
+    {
+      "attempt": 16,
+      "depth": 13,
+      "root_candidate_value_drift": false,
+      "root_leader_update_drift": false,
+      "nodes": [
+        7699,
+        7717
+      ],
+      "bestmoves": [
+        "d4e5",
+        "d4e5"
+      ]
+    },
+    {
+      "attempt": 17,
+      "depth": 14,
+      "first_root_score_difference": true,
+      "candidate": "f4e5",
+      "scores": [
+        2265,
+        2280
+      ],
+      "alpha_both": 2289,
+      "root_leader_changed": false,
+      "bestmoves": [
+        "d4e5",
+        "d4e5"
+      ]
+    },
+    {
+      "attempt": 18,
+      "depth": 15,
+      "first_root_leader_update_difference": true,
+      "candidate": "f4e5",
+      "scores": [
+        2238,
+        2256
+      ],
+      "leader_updates": [
+        0,
+        1
+      ],
+      "initial_window_both": [
+        1973,
+        2677
+      ],
+      "bestmoves": [
+        "d4e5",
+        "f4e5"
+      ]
+    },
+    {
+      "attempt": 19,
+      "depth": 16,
+      "first_initial_window_difference": true,
+      "initial_windows": [
+        [
+          1932,
+          2602
+        ],
+        [
+          1911,
+          2563
+        ]
+      ],
+      "nodes": [
+        35662,
+        36217
+      ],
+      "bestmoves": [
+        "d4e5",
+        "f4e5"
+      ]
+    }
+  ],
+  "fixed_depth15_16_same_first_root_score_and_leader_drift": true,
+  "source_TT_history_node_budget_mediator_identified": false,
+  "original_D1_native_searches": 78,
+  "original_D1_stdout_stderr_logs": 156,
+  "original_D1_logs_zip_sha256": "e45dca037f748a06e5043194de397ca26659af726c174a9505f097a5566202bc",
+  "original_D1_science_zip_sha256": "c9a060afea6d0fc93cd20f08eb12699fe4aca2763eb0e78d536e43bff19840c5",
+  "original_D1_science_inner_json_sha256": "e2a56d69342fbe60a522f62b69ca01c08446008c482a571b8dc0a47e5ba95f90",
+  "actual_native_searches_this_unit": 0,
+  "real_new_heldout_game_count": 0,
+  "original_R26_exposed_macro_family_not_independent": true,
+  "independent_chess_strategy_judge_this_unit": false,
+  "human_learning_results_this_unit": false,
+  "technical_CI": {
+    "run_id": 44880216729,
+    "conclusion": "success",
+    "source_historical_checks": 11
+  },
+  "derived_JSON_sha256": "f3075dc7bd5ca5d2341c34feacca871540812fe6277f0c081393f7ab0a73af64",
+  "derived_ZIP_sha256": "ce90fd121a3ec2642a62411683c1906a4aae968c6ee9365a82e01f8f819ea850",
+  "derived_drive_id": "11Hi_MEje8QWXe-HhacZGjiQO79fEoPZF",
+  "google_drive_readback_verified": true,
+  "science_verdict": "ROOT_CANDIDATE_INTERITERATION_TRANSPORT_OBSERVED_MEDIATOR_UNIDENTIFIED",
+  "next_protocol": "docs/C3X_031_P3_B_STATE_FAMILY_TRANSPLANT_PREREG_20261121.md"
+}
