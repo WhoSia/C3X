@@ -20,7 +20,10 @@ from c3x_030_r28_freeze import family
 
 SOURCE_ISSUE=1669
 SOURCE_DATE="2026-11-02"
-PUBLISHER_GAMES=8091
+PUBLISHER_LISTED_GAMES=8091
+PUBLISHER_RAW_GAMES=8165
+SOURCE_ORIGINAL_ZIP_SHA="0d5e76cff28bc18faea0f03987586cceee419471fd7bee963c43b1f7cf6569c1"
+SOURCE_ORIGINAL_PGN_SHA="25fe81d76ab9fe53394b2fa59fd313014cfe27ac854b44f95b2e438b07208efb"
 SOURCE_LINK="https://theweekinchess.com/zips/twic1669g.zip"
 BLOCKLIST_SHA="7b93f5c4539c4da5f6e6d3775a670dba0bc05aaf7588cf8bd0ccaa300a13366a"
 SEED="C3X-031-P2-TWIC1669-BLIND-v1"
@@ -53,6 +56,7 @@ def make_p2_cohort(archive,blocklist):
     excluded=check_blocklist(blocklist)
     raw=Path(archive).read_bytes()
     archive_sha=digest(raw)
+    require(archive_sha == SOURCE_ORIGINAL_ZIP_SHA, "publisher original ZIP changed since initial source prefreeze")
     with ZipFile(io.BytesIO(raw)) as z:
         require(z.testzip() is None, "published ZIP CRC failure")
         members=z.namelist()
@@ -62,6 +66,9 @@ def make_p2_cohort(archive,blocklist):
         require("1669" in member.lower(), "wrong source issue inside ZIP")
         pgn_raw=z.read(member)
         pgn_sha=digest(pgn_raw)
+        require(pgn_sha == SOURCE_ORIGINAL_PGN_SHA, "publisher PGN member changed")
+        require(pgn_raw.count(b'[Event "') == PUBLISHER_RAW_GAMES,
+                "publisher source tag census differs from original raw 8165")
 
     # Latin-1 preserves the bytes used by the original R28 parser; all
     # transformations, including UCI moves and family exclusions, are fixed.
@@ -114,8 +121,8 @@ def make_p2_cohort(archive,blocklist):
             "moves":moves[:ply],"legal_moves":board.legal_moves.count(),
         })
 
-    require(seen_all==PUBLISHER_GAMES,
-            "actual publisher PGN game census does not match displayed 8091")
+    require(seen_all==PUBLISHER_RAW_GAMES,
+            f"PGN parser read {seen_all}, but source has {PUBLISHER_RAW_GAMES} event records")
     groups=sorted(pools,key=ordered_hash)
     for group in groups:
         pools[group].sort(key=lambda r:ordered_hash(r["game_sha256"]))
@@ -150,7 +157,9 @@ def make_p2_cohort(archive,blocklist):
         "publisher_date":SOURCE_DATE,
         "source_zip_sha256":archive_sha,"source_member":member,
         "source_pgn_sha256":pgn_sha,
-        "publisher_listed_games":PUBLISHER_GAMES,
+        "publisher_listed_games":PUBLISHER_LISTED_GAMES,
+        "original_pgn_header_records":PUBLISHER_RAW_GAMES,
+        "publisher_listing_shortfall":PUBLISHER_RAW_GAMES-PUBLISHER_LISTED_GAMES,
         "parsed_games":seen_all,
         "all_source_distinct_game_hashes":len(all_games),
         "all_source_event_families":len(all_families),
