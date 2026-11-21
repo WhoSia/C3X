@@ -126,8 +126,9 @@ def execute(args):
         require(reference["events"] == disabled["events"] == [],
                 "untouched source logged an event in a disabled channel " + stem)
         best = enabled["proof"]["best"]["move"]
-        require(best in pos["fen"] or best != "",
-                "missing native final chosen move")
+        require(isinstance(best,str) and len(best) in (4,5)
+                and best[:2][0] in "abcdefgh" and best[2:4][0] in "abcdefgh",
+                "missing/invalid original native final chosen move")
         pub = None
         public_reason = None
         try:
