@@ -26,6 +26,31 @@ At depth cap **14**, the same source event under both node-limit conditions inst
 
 **Evidence:** [P2 original 640 genuine searches and 128 physical outcomes](C3X_031_P2_1669_B2_B3_PROSPECTIVE_SOURCE_TEST_RESULTS_20261121.md), [P3-X2 new 60 actual depth/node-horizon searches](C3X_031_P3_X2_DEPTH_NODE_HORIZON_RESULTS_20261121.md); source original outcome archives [P2-B2 Drive](https://drive.google.com/file/d/1e4kBfW_-HYbMF5a3imX2ab9XKfmmmyXw/view), [P3-X2 Drive](https://drive.google.com/file/d/1gmWlaw6xG-SzrBp0LSY33YqX0owSXLbZ/view). Original P2/B2 native result SHA256 \`be66a985016b4ceaae1379c64ee0f6347c3a2e8c4fd3660ceb394227ac237df1\`; original X2 JSON SHA256 \`3c90be5bd0803937a6c9aaf8e55e6b15443c0a5c4f9a71605e13af28cc4da085\`.
 
+## 0-A. Original search trajectory exposes a stronger nonterminal effect
+
+An independent source-linked audit of the original **R23 root producer** records for every P3-X2 depth/node cell reconstructs the **first completed-depth public bestmove divergence**, not only the terminal \`bestmove\`. All **12 of 12** original physical horizon cells show at least one **intermediate public bestmove divergence**, but only **11 of 12** finish with a changed choice.
+
+For \`P2-056-1\`, all four horizon cells share the following *actual* UCI bestmove sequence (32k/64k at depth cap 13/14):
+
+| Completed source iteration depth | Original sham | F+N gate suppression | Interpretation |
+| ---: | --- | --- | --- |
+| 11 | \`h5e2\` | \`h5e2\` | No publicly visible recommendation difference |
+| **12** | **\`f5e6\`** | **\`f5h3\`** | First public recommendation disagreement; original reported nodes 10,656 versus 17,921 |
+| **13** | **\`b8d8\`** | **\`f5h3\`** | Genuine *third-root* intervention effect (original nodes 24,504 vs 24,287) |
+| **14** (only when admitted by cap) | \`b8d8\` | \`h5e2\` | The treated winner **returns to the source-targeted root**, no invariant one-move plan |
+
+The fact that the first root-path divergence occurs at depth 12 does **not** imply that the intervention was first physically executed only at depth 12; the root \`PUBLIC\` trace is a lossy observable downstream of original native OPEN/CLOSE. A more exact **first causal computation divergence** requires an R23 candidate/attempt ledger, not merely a public PV table.
+
+**More revealing negative final-label case:** at \`P2-052-1\`, node limit 64k and depth cap 12, the real treated and sham searches **first choose different roots at publicly completed depth 11** (\`a7c7\` vs \`e5d6\`), yet **both finish depth 12 choosing \`a7c7\`**. Consequently the usual terminal binary label \(Y=1[\text{final roots differ}]\) is **0**, even though the original source computation demonstrably changed the *intermediate* public decision trajectory. This is not a "no computational effect" case; it is **causal divergence followed by terminal reconvergence**.
+
+Two distinct observables must therefore be tracked:
+\[
+Y_{\text{terminal}}=1[\pi_{\text{final}}^{a=1}\ne\pi_{\text{final}}^{a=0}],
+\qquad
+D_{\text{path}}=\{d:\pi_d^{a=1}\ne\pi_d^{a=0}\}.
+\]
+The first detects changed final UCI decision, while the second records changed completed-depth choices. They must not be equated, and \(|D_{\text{path}}|\) is not a count of independent interventions. This directly connects P3 to **anytime metareasoning**: a computation may transiently change a tentative decision yet have no effect on the later final choice after more work is performed. No positive value-of-computation or superior chess plan has been measured.
+
 ## 1. Minimal theorem — an isolated candidate cannot produce a third-root winner
 
 For a finite set of legal root actions \(M\), a fixed target \(t\in M\), deterministic scores \(q_m^a\), a fixed total tie-break order, and action \(Y^a=\arg\max_{m\in M}(q_m^a,\text{tie priority})\), assume only the targeted score may depend on intervention \(a\):
