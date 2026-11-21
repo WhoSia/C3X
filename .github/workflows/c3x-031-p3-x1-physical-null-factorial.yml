@@ -1,0 +1,106 @@
+name: C3X 0.31 P3-X1 Original 128-Event Physical Null-Only Factorial
+on:
+  pull_request:
+    paths:
+      - ".github/workflows/c3x-031-p3-x1-physical-null-factorial.yml"
+      - "harness/c3x_031_p3_x1_gate_factorial.py"
+      - "tests/test_c3x_031_p3_x1_gate_factorial.py"
+      - "docs/C3X_031_P3_X1_FACTORIAL_X2_DEPTHCAP_PREREG_20261121.md"
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  new-null-only-native-256-searches:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Source gated negative tests
+        run: |
+          set -euo pipefail
+          python -m pip install -q chess==1.11.2
+          PYTHONPATH=harness python -m unittest -v tests.test_c3x_031_p3_x1_gate_factorial
+      - uses: actions/download-artifact@v4
+        with:
+          name: c3x031-p2-source1669-original-pre-native-and-full-p1-model-lock
+          repository: WhoSia/C3X
+          run-id: "44882633743"
+          path: /tmp/p3sample/
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: c3x031-p2-1669-original-source-events-preoutcome-forecasts
+          repository: WhoSia/C3X
+          run-id: "44883170384"
+          path: /tmp/p3b1/
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: c3x031-p2-b2-1669-private-source-physical-outcomes
+          repository: WhoSia/C3X
+          run-id: "44883690849"
+          path: /tmp/p3b2/
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: c3x031-p2-pinned-SF16-native-source-build-no-treatments
+          repository: WhoSia/C3X
+          run-id: "44872473600"
+          path: /tmp/p3bin/
+          github-token: ${{ github.token }}
+      - name: Physical original SHA witness before new native interventions
+        run: |
+          set -euo pipefail
+          echo '8b7f5da799cc9610c7e4cb8347baa8b3b8bd74eb383939eac9fa91b527a8116d  /tmp/p3sample/C3X_031_P2_TWIC1669_PRE_NATIVE_COHORT.json' | sha256sum -c -
+          echo 'd364e6ca24599110fa19ac41e19164069a164c15aa396aac6b2833482e3818b1  /tmp/p3b1/C3X_031_P2_1669_PREOUTCOME_TARGETS.json' | sha256sum -c -
+          echo 'be66a985016b4ceaae1379c64ee0f6347c3a2e8c4fd3660ceb394227ac237df1  /tmp/p3b2/C3X_031_P2_B2_1669_NATIVE_PHYSICAL_RESULT.json' | sha256sum -c -
+          echo 'ce13b5899ab6862a621ee6033ac661f7ded0abf3f2b4ea073a163b0c3154afa1  /tmp/p3bin/c3x031-p2-SF16-patched' | sha256sum -c -
+          echo '5af11540bbfefcb54e38c5dd000cab4b469dfa7599a1d55be5d2722c20a8929b  /tmp/p3bin/nn-5af11540bbfe.nnue' | sha256sum -c -
+          chmod +x /tmp/p3bin/c3x031-p2-SF16-patched
+      - name: ACTUAL original 128 x 2 physical null-only source control searches
+        env:
+          PYTHONPATH: harness
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/p3-native /tmp/p3-verified
+          python -u harness/c3x_031_p3_x1_gate_factorial.py \
+            /tmp/p3sample/C3X_031_P2_TWIC1669_PRE_NATIVE_COHORT.json \
+            /tmp/p3b1/C3X_031_P2_1669_PREOUTCOME_TARGETS.json \
+            /tmp/p3b2/C3X_031_P2_B2_1669_NATIVE_PHYSICAL_RESULT.json \
+            /tmp/p3bin/c3x031-p2-SF16-patched \
+            /tmp/p3bin/nn-5af11540bbfe.nnue \
+            /tmp/p3-native /tmp/p3-verified/C3X_031_P3_X1_128_NULLONLY_PHYSICAL.json
+          sha256sum /tmp/p3-verified/C3X_031_P3_X1_128_NULLONLY_PHYSICAL.json
+          python - <<'PY'
+          import json
+          d=json.load(open('/tmp/p3-verified/C3X_031_P3_X1_128_NULLONLY_PHYSICAL.json'))
+          assert d['new_native_null_only_searches']==256
+          assert d['new_physical_null_only_pass']==128
+          assert d['full_physical_2x2_factorial_pass'] is True
+          assert d['previously_observed_original_source_factorial']['conditional_null_flip_given_F_off']==6
+          PY
+      - name: Preserve scientific scope even on failures
+        if: always()
+        run: |
+          mkdir -p /tmp/p3-verified
+          printf '%s\n' '256 new SF16 real null-only searches; previous P2 three factorial cells exposed.' 'Actual source event and original game history frozen, no fitted model/uncertainty test.' 'Null-only flag is intentionally downstream of an unchanged futility early return.' 'Six conditional null interactions are not TT/history mediation.' 'Read-only GitHub Actions, no bot-authored commits.' > /tmp/p3-verified/RESEARCH_SCOPE_AND_LIMITS.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x031-p3-x1-256-original-native-null-only-source-logs
+          path: /tmp/p3-native/
+          retention-days: 3
+          if-no-files-found: warn
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x031-p3-x1-128-event-actual-physical-2x2-gate-factorial
+          path: /tmp/p3-verified/
+          retention-days: 3
+          if-no-files-found: error
