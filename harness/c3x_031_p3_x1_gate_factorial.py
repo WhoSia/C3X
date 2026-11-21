@@ -111,10 +111,9 @@ def evaluate_negative_cell(b2_row,run):
     for key in ("value","nodes","futility","null_tried","null_cut","replies"):
         require(close[key]==old["target_event"]["close"][key],
                 "source child return changed despite futility kept: "+key)
-    require(run["proof"]==b2_row["arms"]["sham0"]["proof"] if
-            "proof" in b2_row["arms"]["sham0"] else
-            run["proof"]["best"]==b2_row["arms"]["sham0"]["proof"],
-            "original root producer changed in unreachable downstream null-only intervention")
+    require(run["proof"]["best"]==old["proof"]
+            and run["proof"]["best_source"]==old["root_producer"],
+            "original root winner or producer changed in unreachable downstream null-only intervention")
     require(run["uci"]==old["source_uci"],
             "normalized UCI differs despite no reachable null-only intervention")
     require(run["proof"]["best"]["move"]==old["bestmove"],
