@@ -100,5 +100,19 @@
   ],
   "closure_document": "docs/C3X_030_FORMAL_STAGE_CLOSURE_AND_031_HANDOFF_20261121.md",
   "successor_proposal_document": "docs/C3X_031_FORMAL_NAME_PROPOSAL_AND_PRIMITIVE_20261121.md",
-  "scientific_authority_note": "GitHub tests/engine runs are evidence within their scope, not scientific PASS; Notion decision ledger controls promotion."
+  "scientific_authority_note": "GitHub tests/engine runs are evidence within their scope, not scientific PASS; Notion decision ledger controls promotion.",
+  "r38_readonly_frozen_native_recomputation": {
+    "actual_workflow_run": 44866755312,
+    "technical_status": "SUCCESS",
+    "actual_data_integrity_and_tamper_tests": 11,
+    "new_native_searches": 0,
+    "originated_native_searches": 540,
+    "originated_native_nodes": 14596738,
+    "original_native_json_sha256": "0fa5eadedbdff69b692f1d5d713a4a7649f90f57bfb480eb5f738eccb4bd4fcd",
+    "recomputed_json_sha256": "2d22cbb1052154700c63e30533f4a197096f8ed4d3a29d2b5ed1991fca418d73",
+    "derived_zip_sha256": "2172e8ea40ec184e6bbf18f94ab42960ff1cc8ecf4da628a659a360fbe61899f",
+    "derived_zip_drive_id": "1gHq_AQ3SEJ_GJ7_7iBFwq8Z1KwOP3PfH",
+    "drive_readback_zip_sha256_confirmed": true,
+    "scope": "frozen JSON all leaf values; no new chess experiment, full history or human outcome"
+  }
 }
