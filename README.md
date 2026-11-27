@@ -40,7 +40,7 @@ Track B includes PGN replay, typed evidence, tactical/positional proxies and pro
 - [R40 native negative TT contact, history-aware product and verified Drive receipts](docs/C3X_031_R40_CHECKPOINT_NATIVE_NEGATIVE_CONTACT_AND_HISTORY_PRODUCT_20261127.md)
 - [R41 scalar history contact, browser regression, R42 frozen rescue](docs/C3X_031_R41_HISTORY_CONTACT_AND_R42_RESCUE_20261127.md)
 - [Repository retirement and archive custody audit](docs/C3X_031_R36_REPOSITORY_RETIREMENT_AUDIT_20261127.md)
-- P3-B: R40 passive native parity PASS; 19 differing TT clusters unqueried before Y1 in the exposed P2-028 prefix. R41 identifies seven actually read changed scalar history cells and divergent node-dependent draw calls; R42 reciprocal H7 restoration pending. Named mediator sufficiency still HOLD.
+- P3-B: R40 passive native parity PASS; 19 differing TT clusters unqueried before Y1 in the exposed P2-028 prefix. R41 identifies seven actually read changed scalar history cells and divergent node-dependent draw calls; R42 reciprocal H7 restoration transfers Y1/Y2 and final move in both exposed worlds with exact-image, self and placebo controls (24 native searches). Bounded conditional rescue PASS; universal/minimal mediator and independent transport remain HOLD.
 - Track B: matched outputs against direct contrastive competitors; blinded correctness, robustness and pedagogical evaluation.
 - Literature: [single missing-literature ledger](https://drive.google.com/open?id=1NtFbOpy9Mcv_f-f_iIr6adDuZQTyWoy1). Drive first; no parallel lists.
 
