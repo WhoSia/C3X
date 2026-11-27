@@ -103,7 +103,7 @@ RULES = {
     return entry;
   }""","read"),
     ("    entry += bonus - entry * abs(bonus) / D;",
-     """    if (c3x_r41_active) c3x_r41_access(&entry,'R',int(entry));
+     """    if (c3x_r41_active) c3x_r41_access(&entry,'U',int(entry));
     entry += bonus - entry * abs(bonus) / D;
     if (c3x_r41_active) c3x_r41_access(&entry,'W',int(entry));""","update")
 ],
@@ -116,6 +116,10 @@ RULES = {
         r41_events << ++r41_serial << " draw " << thisThread->nodes.load(std::memory_order_relaxed)
                    << " D " << int(v) << '\\n';
     return v;""","draw"),
+    ("              ++c3xCandidate;",
+     """              if (c3x_r41_active && UCI::move(move,pos.is_chess960())=="f4e5")
+                  r41_events << ++r41_serial << " endpoint 0 E " << int(value) << '\\n';
+              ++c3xCandidate;""","y1_marker"),
     ("              bestValue = Stockfish::search<Root>(rootPos, ss, alpha, beta, adjustedDepth, false);",
      """              const char* r41 = std::getenv("C3X_R41_HISTORY");
               const bool r41_here = r41 && std::strcmp(r41,"1")==0 && c3x_trace() && c3xAttempt==17;
