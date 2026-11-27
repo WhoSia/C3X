@@ -115,8 +115,8 @@
       "G": 0.15,
       "X": 0.4,
       "Q": 0.9,
-      "gate": "CORE_CI_PASS_API_PENDING",
-      "evidence": "synthetic native rank reversal at depth10; 16 exposed positions negative at two budgets; core CI 46018899890"
+      "gate": "CORE_AND_HTTP_REGRESSION_PASS",
+      "evidence": "synthetic native rank reversal at depth10; 16 exposed positions negative at two budgets; core CI 46018899890; extended HTTP CI 46020002659 PASS"
     }
   ],
   "tasks": [
@@ -299,7 +299,7 @@
       "F": 0.78,
       "B": 0.32,
       "Q": 0.85,
-      "gate": "API_VALIDATION_AND_UI_NEXT",
+      "gate": "BROWSER_UI_AND_MATCHED_BENCHMARK_NEXT",
       "reason": "core and CLI code updated; browser remains FEN-only"
     }
   ],
@@ -377,6 +377,14 @@
       "to": "READY_ARCHIVE_TRANSFER_SOLVED_DEPENDENCY_PENDING",
       "evidence": "Drive two exact verified ZIPs, report e232efe",
       "limit": "zero old code retired"
+    },
+    {
+      "iteration": 4,
+      "task": "R36-T13",
+      "from": "API_VALIDATION_AND_UI_NEXT",
+      "to": "BROWSER_UI_AND_MATCHED_BENCHMARK_NEXT",
+      "evidence": "46020002659 PASS on 79a47ec",
+      "limit": "browser remains FEN-only; no competitor study"
     }
   ],
   "next": "T12 history source mapping and reciprocal H rescue; T13 actual browser and benchmark; T09 archive dependency closure; Claude handoff remains available"
