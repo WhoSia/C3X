@@ -5,6 +5,8 @@ on:
     paths:
       - 'product/c3x_explain_two_moves.py'
       - 'product/test_c3x_explain_two_moves.py'
+      - 'product/c3x_local_web.py'
+      - 'product/test_c3x_local_web.py'
       - '.github/workflows/c3x-031-r36-history-explainer-regression.yml'
   workflow_dispatch:
 permissions:
@@ -22,4 +24,4 @@ jobs:
           python-version: '3.12'
       - run: python -m pip install 'chess==1.11.2'
       - name: History and adjacent product contracts
-        run: PYTHONPATH=product python -m unittest -v test_c3x_explain_two_moves test_c3x_concept_contrast
+        run: PYTHONPATH=product python -m unittest -v test_c3x_explain_two_moves test_c3x_concept_contrast test_c3x_local_web
