@@ -95,6 +95,28 @@
       "Q": 0.85,
       "gate": "UNMEASURED",
       "evidence": "No matched explanation outputs or blinded learner outcomes"
+    },
+    {
+      "id": "A-R40-NEGATIVE",
+      "scope": "19 differing native TT clusters unqueried between exact START17 checkpoint and Y1 in exposed P2-028 pair",
+      "E": 0.94,
+      "C": 0.96,
+      "G": 0.1,
+      "X": 0.73,
+      "Q": 0.93,
+      "gate": "NATIVE_NEGATIVE_CONTACT",
+      "evidence": "CI 46019356752; independent local cluster replay; 5355/5290 queries, zero changed-cluster access; two dependent depth prefixes"
+    },
+    {
+      "id": "B-R36-HISTORY",
+      "scope": "preserving supplied board history fixes demonstrated FEN reconstruction failure",
+      "E": 0.9,
+      "C": 0.95,
+      "G": 0.15,
+      "X": 0.4,
+      "Q": 0.9,
+      "gate": "CORE_CI_PASS_API_PENDING",
+      "evidence": "synthetic native rank reversal at depth10; 16 exposed positions negative at two budgets; core CI 46018899890"
     }
   ],
   "tasks": [
@@ -137,8 +159,8 @@
       "F": 0.45,
       "B": 0.85,
       "Q": 0.8,
-      "gate": "DEPENDENCY_T02",
-      "reason": "Pre-registration unchanged"
+      "gate": "DEPENDENCY_HISTORY_SOURCE_MAPPING",
+      "reason": "prioritize history source mapping before reciprocal H; TT transplant as negative control"
     },
     {
       "id": "R36-T04",
@@ -218,39 +240,67 @@
       "N": 0.08,
       "X": 0,
       "U": 0.55,
-      "F": 0.35,
+      "F": 0.76,
       "B": 0.6,
       "Q": 0.9,
-      "gate": "HOLD_RAW_UPLOAD_AND_DEPENDENCY",
-      "reason": "3301 blobs; 602 workflows; one exact archived code still referenced by three workflows"
+      "gate": "READY_ARCHIVE_TRANSFER_SOLVED_DEPENDENCY_PENDING",
+      "reason": "actual Drive raw ZIP upload and SHA readback verified via exact file references; dependencies not closed"
     },
     {
       "id": "R36-T10",
       "track": "A",
       "action": "Exact field observer and checkpoint guard prototype then native parity",
-      "V": 0.96,
+      "V": 0.45,
       "N": 0.67,
       "X": 0.96,
       "U": 0.7,
       "F": 0.6,
       "B": 0.65,
       "Q": 0.85,
-      "gate": "READY_IMPLEMENTATION",
-      "reason": "P8 reuse; source audit ce2c703; no claim promotion"
+      "gate": "DONE_PASSIVE_NATIVE_TT_CONTACT_PARTIAL",
+      "reason": "16 actual native searches and exact full-slot replay; zero differing cluster queries before Y1; actual consumption not certified"
     },
     {
       "id": "R36-T11",
       "track": "B",
       "action": "Run minimal same-position reply-contrast and explanation audit",
-      "V": 0.94,
+      "V": 0.64,
       "N": 0.56,
       "X": 0.45,
       "U": 0.98,
       "F": 0.72,
       "B": 0.35,
       "Q": 0.78,
-      "gate": "READY_DEVELOPMENT_CASE_ONLY",
-      "reason": "Use exposed case to refine output contract, not learner study"
+      "gate": "DEVELOPMENT_NATIVE_RUNS_DONE",
+      "reason": "root ranking flips at three depths; known-history bug repaired; no matched service output"
+    },
+    {
+      "id": "R36-T12",
+      "track": "A",
+      "action": "Map native history/continuation-history and root/stack field reads then reciprocal H rescue",
+      "V": 0.98,
+      "N": 0.78,
+      "X": 0.97,
+      "U": 0.68,
+      "F": 0.65,
+      "B": 0.68,
+      "Q": 0.91,
+      "gate": "READY_SOURCE_MAPPING",
+      "reason": "R40 negative changed-cluster contact narrows first post-checkpoint search divergence"
+    },
+    {
+      "id": "R36-T13",
+      "track": "B",
+      "action": "Expose verified full legal history in browser and run matched explanation case studies",
+      "V": 0.91,
+      "N": 0.38,
+      "X": 0.35,
+      "U": 0.95,
+      "F": 0.78,
+      "B": 0.32,
+      "Q": 0.85,
+      "gate": "API_VALIDATION_AND_UI_NEXT",
+      "reason": "core and CLI code updated; browser remains FEN-only"
     }
   ],
   "selected": "R36-T01; R36-T05; next A T02 in parallel when available",
@@ -303,7 +353,31 @@
       "to": "HOLD_RAW_UPLOAD_AND_DEPENDENCY",
       "evidence": "7fbe954; two ZIP downloads; one exact blob with three workflow dependencies",
       "limit": "zero retired files"
+    },
+    {
+      "iteration": 4,
+      "task": "R36-T10",
+      "from": "READY_IMPLEMENTATION",
+      "to": "DONE_PASSIVE_NATIVE_TT_CONTACT_PARTIAL",
+      "evidence": "R40 CI 46019356752 and report e232efe",
+      "limit": "No TT/H physical transplant; zero queries to 19 distinct clusters only on exposed case prefix"
+    },
+    {
+      "iteration": 4,
+      "task": "R36-T11",
+      "from": "READY_DEVELOPMENT_CASE_ONLY",
+      "to": "DEVELOPMENT_NATIVE_RUNS_DONE",
+      "evidence": "98 local searches; history preservation core CI success; report e232efe",
+      "limit": "No independent evaluation or learner efficacy"
+    },
+    {
+      "iteration": 4,
+      "task": "R36-T09",
+      "from": "HOLD_RAW_UPLOAD_AND_DEPENDENCY",
+      "to": "READY_ARCHIVE_TRANSFER_SOLVED_DEPENDENCY_PENDING",
+      "evidence": "Drive two exact verified ZIPs, report e232efe",
+      "limit": "zero old code retired"
     }
   ],
-  "next": "R36-T10 native observer exact anchor and parity; R36-T11 development explanation; R36-T09 archive closure when safe; Claude after 02:00"
+  "next": "T12 history source mapping and reciprocal H rescue; T13 actual browser and benchmark; T09 archive dependency closure; Claude handoff remains available"
 }
