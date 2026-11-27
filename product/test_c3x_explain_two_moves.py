@@ -6,7 +6,7 @@ import chess
 import chess.engine
 
 from c3x_explain_two_moves import (
-    verify_board_and_pair,measured_features,difference_facts,
+    board_from_history,verify_board_and_pair,measured_features,difference_facts,
     root_analysis,ranked_replies_and_own_responses,generate,make_markdown,
     ROOT_DEPTHS,REPLY_DEPTH,SCHEMA
 )
@@ -108,6 +108,18 @@ class ProductContracts(unittest.TestCase):
         self.assertIn("최악값",md)
         self.assertIn("인과",md)
         self.assertIn("| 8 |",md)
+
+    def test_history_replay_validation_and_fen_equivalence(self):
+        b=board_from_history("rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq - 0 1",["e2e4"])
+        self.assertEqual(len(b.move_stack),1)
+        self.assertEqual(b.peek().uci(),"e2e4")
+        with self.assertRaisesRegex(ValueError,"HISTORY_FEN_MISMATCH"):
+            board_from_history(chess.STARTING_FEN,["e2e4"])
+        for bad in (["e2e5"],["0000"],["g1f3","f3g1"]):
+            with self.assertRaisesRegex(ValueError,"ILLEGAL_HISTORY_MOVE"):
+                board_from_history(chess.STARTING_FEN,bad)
+        with self.assertRaisesRegex(ValueError,"BAD_HISTORY_LENGTH"):
+            board_from_history(chess.STARTING_FEN,"e2e4")
 
     def test_preserve_repetition_history_and_input_board(self):
         board=chess.Board()
