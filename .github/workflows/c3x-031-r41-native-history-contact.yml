@@ -5,7 +5,7 @@ on:
     paths:
       - 'tools/c3x_031_r41_history_contact_overlay.py'
       - 'harness/c3x_031_r41_history_contact_court.py'
-      - '.github/workflows/c3x-031-r41-native-checkpoint-tt.yml'
+      - '.github/workflows/c3x-031-r41-native-history-contact.yml'
   workflow_dispatch:
 permissions:
   contents: read
