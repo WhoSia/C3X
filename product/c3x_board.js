@@ -5,6 +5,7 @@ const PIECES = {"K":"♔","Q":"♕","R":"♖","B":"♗","N":"♘","P":"♙",
                 "k":"♚","q":"♛","r":"♜","b":"♝","n":"♞","p":"♟"};
 const INITIAL = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
 let legal = [], currentFen = INITIAL, origin = null, selected = {a:"",b:""}, latest = null, latestStrategy = null;
+let currentHistory=null, ready=false, revision=0, busy=false;
 
 function status(text) { $("status").textContent = text; }
 async function post(path, payload) {
@@ -54,6 +55,7 @@ function activeTarget() {
   return document.querySelector('input[name="target"]:checked')?.value || "a";
 }
 function squareClick(sq) {
+  if(!ready||busy)return;
   if(!origin) {
     if(!legal.some(x=>x.uci.startsWith(sq))) {
       status("이 칸에서 둘 수 있는 합법 수가 없습니다."); return;
@@ -72,9 +74,10 @@ function squareClick(sq) {
   origin=null;boardDraw(currentFen);checkReady();
 }
 function checkReady() {
-  $("analyze").disabled=!(selected.a && selected.b && selected.a!==selected.b);
-  $("strategy").disabled=$("analyze").disabled;
-  $("mirror").disabled=$("analyze").disabled;
+  $("analyze").disabled=!(ready && !busy && selected.a && selected.b && selected.a!==selected.b);
+  $("strategy").disabled=$("analyze").disabled||currentHistory!==null;
+  $("mirror").disabled=$("analyze").disabled||currentHistory!==null;
+  $("moveA").disabled=$("moveB").disabled=!ready||busy;
 }
 function selectMenu(id, target) {
   const el=$(id);el.replaceChildren();
@@ -84,16 +87,31 @@ function selectMenu(id, target) {
     const opt=document.createElement("option");opt.value=uci;opt.textContent=san+" · "+uci;el.append(opt);
   }
   el.value="";
-  el.addEventListener("change",()=>{
+  el.onchange=()=>{
     selected[target]=el.value; origin=null;boardDraw(currentFen);checkReady();
-  });
+  };
+}
+function invalidatePosition(){
+  revision++;ready=false;latest=null;latestStrategy=null;legal=[];origin=null;
+  $("results").classList.add("hidden");$("empty").classList.remove("hidden");
+  $("strategyExport").disabled=true;$("historyScope").textContent="입력 확인 필요";
+  checkReady();
 }
 async function loadFen() {
+  invalidatePosition();
+  const token=revision;
   status("FEN과 합법 수를 확인하는 중입니다.");
-  $("analyze").disabled=true;
+  const raw=$("history").value.trim();
+  const history=raw?raw.split(/\s+/):null;
   try {
-    const result=await post("/api/legal",{fen:$("fen").value.trim()});
+    const payload={fen:$("fen").value.trim()};
+    if(history!==null)payload.history=history;
+    const result=await post("/api/legal",payload);
+    if(token!==revision)return;
+    if(result.history_ply_count!==(history?.length||0))throw Error("대국 이력 검증 불일치");
     currentFen=result.fen;$("fen").value=result.fen;legal=result.legal_moves;
+    currentHistory=history;ready=true;
+    $("historyScope").textContent=history===null?"대국 이력 미제공 — 이전 반복은 확인할 수 없음":history.length+"개 반수 이력 검증 완료";
     origin=null;selected={a:"",b:""};latest=null;latestStrategy=null;
     $("strategyExport").disabled=true;
     $("strategyResult").classList.add("hidden");$("strategyResult").replaceChildren();
@@ -102,7 +120,8 @@ async function loadFen() {
     boardDraw(currentFen);
     $("results").classList.add("hidden");$("empty").classList.remove("hidden");
     status(legal.length+"개 합법 수 · "+(result.turn==="white"?"백":"흑")+" 차례");
-  } catch(err) { status("국면 오류: "+err.message); }
+  } catch(err) { if(token===revision)status("국면 오류: "+err.message); }
+  finally{if(token===revision)checkReady();}
 }
 function makeCell(text) {
   const td=document.createElement("td");td.textContent=String(text);return td;
@@ -118,6 +137,9 @@ function render(r) {
   $("strategyResult").classList.add("hidden");$("strategyResult").replaceChildren();
   $("empty").classList.add("hidden");$("results").classList.remove("hidden");
   const e=r.engine_report, c=r.concept_report, roots=e.root_candidates;
+  $("historyResult").textContent=e.input_history_scope==="PROVIDED_MOVE_STACK"?
+    e.input_history_ply_count+"개 반수 이력 사용. "+roots.filter(x=>x.facts.threefold_position_after_move).map(x=>x.facts.san+" 이후 동일 국면 세 번째 도달 (무승부 청구 관련, 자동 종료 아님).").join(" "):
+    "대국 이력 미제공: 과거 반복에 의한 무승부 권리는 확인할 수 없습니다.";
   $("compareTitle").textContent=roots.map((x,i)=>(i?"B: ":"A: ")+x.facts.san+" ("+x.move_uci+")").join("   /   ");
   const gaps=e.candidate_A_minus_B_cp_by_depth_or_null;
   $("gap8").textContent=vstr(gaps["8"])+(gaps["8"]==null?"":" cp");
@@ -232,19 +254,20 @@ function renderStrategy(data) {
   panel.classList.remove("hidden");
 }
 $("strategy").addEventListener("click",async()=>{
-  const btn=$("strategy");btn.disabled=true;
+  if(!ready||busy||currentHistory!==null)return;
+  const btn=$("strategy");busy=true;const token=revision;checkReady();
   status("Cui 방식의 상대 응수 두 계층을 원본 Stockfish에서 실제 검색 중입니다.");
   try {
     const beforeA=selected.a,beforeB=selected.b,beforeFen=currentFen;
     const tree=await post("/api/strategy",{
       fen:beforeFen,move_a:beforeA,move_b:beforeB
     });
-    if(currentFen!==beforeFen || selected.a!==beforeA || selected.b!==beforeB)
+    if(token!==revision || currentFen!==beforeFen || selected.a!==beforeA || selected.b!==beforeB)
       throw Error("분석 도중 후보 수가 변경되었습니다. 다시 실행하세요.");
     renderStrategy(tree);
     status("두 번째 상대 응수까지 실제 전략나무 검색을 완료했습니다.");
-  }catch(err){status("전략나무 검색 실패: "+err.message);}
-  finally{checkReady();}
+  }catch(err){if(token===revision)status("전략나무 검색 실패: "+err.message);}
+  finally{busy=false;checkReady();}
 });
 function renderMirror(data) {
   if(data.case_id!=="user_selected_fen_local_not_frozen" ||
@@ -291,17 +314,18 @@ $("strategyExport").addEventListener("click",()=>{
   document.body.append(a);a.click();a.remove();URL.revokeObjectURL(url);
 });
 $("mirror").addEventListener("click",async()=>{
-  const button=$("mirror");button.disabled=true;
+  if(!ready||busy||currentHistory!==null)return;
+  const button=$("mirror");busy=true;const token=revision;checkReady();
   const originalFen=currentFen, a=selected.a,b=selected.b;
   status("원본과 색상 대칭의 두 후보를 깊이별로 실제 재검색 중입니다.");
   try {
     const data=await post("/api/mirror",{fen:originalFen,move_a:a,move_b:b});
-    if(originalFen!==currentFen || a!==selected.a || b!==selected.b)
+    if(token!==revision || originalFen!==currentFen || a!==selected.a || b!==selected.b)
       throw Error("분석 중 후보 수가 변경됐습니다.");
     renderMirror(data);
     status("원본·대칭 국면의 평가 차이 민감도 검색을 완료했습니다.");
-  }catch(err){status("대칭 민감도 검색 실패: "+err.message);}
-  finally{checkReady();}
+  }catch(err){if(token===revision)status("대칭 민감도 검색 실패: "+err.message);}
+  finally{busy=false;checkReady();}
 });
 function exportMarkdown() {
   if(!latest)return;
@@ -311,16 +335,23 @@ function exportMarkdown() {
   document.body.append(a);a.click();a.remove();URL.revokeObjectURL(url);
 }
 $("load").addEventListener("click",loadFen);
-$("reset").addEventListener("click",()=>{$("fen").value=INITIAL;loadFen();});
+$("fen").addEventListener("input",invalidatePosition);
+$("history").addEventListener("input",invalidatePosition);
+$("reset").addEventListener("click",()=>{$("fen").value=INITIAL;$("history").value="";loadFen();});
 $("analyze").addEventListener("click",async()=>{
-  const btn=$("analyze");btn.disabled=true;status("원본 Stockfish가 두 후보와 상대 응수를 실제 분석 중입니다.");
+  if(!ready||busy)return;
+  busy=true;const token=revision;checkReady();status("원본 Stockfish가 두 후보와 상대 응수를 실제 분석 중입니다.");
   try{
-    const data=await post("/api/analyze",{fen:currentFen,move_a:selected.a,move_b:selected.b});
+    const payload={fen:currentFen,move_a:selected.a,move_b:selected.b};
+    if(currentHistory!==null)payload.history=currentHistory.slice();
+    const data=await post("/api/analyze",payload);
+    if(token!==revision)return;
+    if(data.engine_report?.input_history_ply_count!==(currentHistory?.length||0))throw Error("분석 이력 불일치");
     if(data.schema!=="c3x030-p3-local-interactive-product-v1")
       throw Error("예상과 다른 분석 프로토콜 응답입니다.");
     render(data);status("실제 Stockfish와 체스 규칙 분석이 완료되었습니다.");
-  }catch(err){status("분석 실패: "+err.message);}
-  finally{checkReady();}
+  }catch(err){if(token===revision)status("분석 실패: "+err.message);}
+  finally{busy=false;checkReady();}
 });
 $("export").addEventListener("click",exportMarkdown);
 $("fen").value=INITIAL;loadFen();
