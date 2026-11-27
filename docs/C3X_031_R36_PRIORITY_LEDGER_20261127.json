@@ -69,15 +69,15 @@
       "id": "R36-T01",
       "track": "B",
       "action": "Document competitor feature scan and freeze matched benchmark rubric",
-      "V": 0.92,
+      "V": 0.35,
       "N": 0.46,
       "X": 0.28,
       "U": 0.96,
       "F": 0.95,
       "B": 0.2,
       "Q": 0.85,
-      "gate": "READY",
-      "reason": "User requests benchmark; reveals explanation gaps without claiming efficacy"
+      "gate": "DONE_SCOPE_LIMITED",
+      "reason": "User requests benchmark; reveals explanation gaps without claiming efficacy; scan and rubric committed, no efficacy measured"
     },
     {
       "id": "R36-T02",
@@ -89,9 +89,9 @@
       "U": 0.68,
       "F": 0.65,
       "B": 0.65,
-      "Q": 0.85,
-      "gate": "READY_FOR_SOURCE_REVIEW",
-      "reason": "Critical mediator bottleneck; native run requires verified runtime"
+      "Q": 0.9,
+      "gate": "READY_NATIVE_MAPPING",
+      "reason": "Critical mediator bottleneck; native run requires verified runtime; prereg exact checkpoint and endpoints reread"
     },
     {
       "id": "R36-T03",
@@ -118,22 +118,22 @@
       "F": 0.6,
       "B": 0.55,
       "Q": 0.7,
-      "gate": "DEPENDENCY_T01",
+      "gate": "READY_FOR_COHORT_FREEZE",
       "reason": "No site quality ranking without actual output"
     },
     {
       "id": "R36-T05",
       "track": "OPS",
       "action": "Notion Claude evidence handoff",
-      "V": 0.8,
+      "V": 0.45,
       "N": 0.15,
       "X": 0.4,
       "U": 0.7,
       "F": 0.95,
       "B": 0.15,
       "Q": 0.85,
-      "gate": "READY",
-      "reason": "User requests collaboration, not simulated Claude execution"
+      "gate": "WAIT_CLAUDE",
+      "reason": "User requests collaboration, not simulated Claude execution; Notion handoff readback confirmed"
     },
     {
       "id": "R36-T06",
@@ -165,5 +165,32 @@
     }
   ],
   "selected": "R36-T01; R36-T05; next A T02 in parallel when available",
-  "selection_reason": "Small reversible benchmark and collaboration unblock current user direction; retain A research bottleneck; no physical claim promotion."
+  "selection_reason": "Small reversible benchmark and collaboration unblock current user direction; retain A research bottleneck; no physical claim promotion.",
+  "transitions": [
+    {
+      "iteration": 1,
+      "task": "R36-T01",
+      "from": "READY",
+      "to": "FEATURE_SCAN_AND_PROTOCOL_DONE",
+      "evidence": "68a65fdf070c94eea0e24d8aede73b6d51b1b7bd",
+      "limit": "No matched output or learner test; T04 requires frozen actual cohort"
+    },
+    {
+      "iteration": 1,
+      "task": "R36-T05",
+      "from": "READY",
+      "to": "HANDOFF_PUBLISHED_AWAITING_CLAUDE",
+      "evidence": "https://app.notion.com/p/425ef561cf928191be10d1f82d7e322a",
+      "limit": "No direct Claude execution"
+    },
+    {
+      "iteration": 2,
+      "task": "R36-T02",
+      "from": "READY_FOR_SOURCE_REVIEW",
+      "to": "PREREG_READ_NATIVE_MAPPING_PENDING",
+      "evidence": "P3-B prereg: END16/START17 checkpoint, Y1/Y2, full-key sidecar vs 16-bit tag, unchanged exact node counters",
+      "limit": "No source patch or physical run"
+    }
+  ],
+  "next": "R36-T02 native source mapping; R36-T04 actual sample acquisition via Claude or available browser; R36-T06 literature custody"
 }
