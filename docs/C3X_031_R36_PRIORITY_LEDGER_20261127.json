@@ -117,6 +117,39 @@
       "Q": 0.9,
       "gate": "CORE_AND_HTTP_REGRESSION_PASS",
       "evidence": "synthetic native rank reversal at depth10; 16 exposed positions negative at two budgets; core CI 46018899890; extended HTTP CI 46020002659 PASS"
+    },
+    {
+      "id": "A-R41-H-CONTACT",
+      "scope": "seven changed scalar history cells are read before first overwrite and Y1 on both exposed paths",
+      "E": 0.96,
+      "C": 0.98,
+      "G": 0.1,
+      "X": 0.72,
+      "Q": 0.94,
+      "gate": "NATIVE_CONTACT_NOT_MEDIATION",
+      "evidence": "CI 46020749192, exact checkpoint snapshots, 9 changed cells/7 contacted; dependent depth prefixes"
+    },
+    {
+      "id": "A-R41-DRAW",
+      "scope": "node-dependent draw values occur before Y1 with divergent returned signs",
+      "E": 0.96,
+      "C": 0.98,
+      "G": 0.1,
+      "X": 0.35,
+      "Q": 0.94,
+      "gate": "NATIVE_ALTERNATIVE_CONTACT",
+      "evidence": "12/17 calls; first two opposite signs; causal direction not known"
+    },
+    {
+      "id": "B-R36-BROWSER",
+      "scope": "history reaches actual browser analysis and invalid history cannot reuse stale result",
+      "E": 0.94,
+      "C": 0.96,
+      "G": 0.2,
+      "X": 0.3,
+      "Q": 0.92,
+      "gate": "NATIVE_CHROMIUM_PASS",
+      "evidence": "46020775700 at 625858b; 7-ply repetition case, invalid history, reset; not full PGN or comparative effectiveness"
     }
   ],
   "tasks": [
@@ -159,8 +192,8 @@
       "F": 0.45,
       "B": 0.85,
       "Q": 0.8,
-      "gate": "DEPENDENCY_HISTORY_SOURCE_MAPPING",
-      "reason": "prioritize history source mapping before reciprocal H; TT transplant as negative control"
+      "gate": "R42_SPARSE_H7_STARTED",
+      "reason": "Frozen exact receiver/donor snapshots and seven contacted cells; first run CLI error before searches, corrected run 46021455971"
     },
     {
       "id": "R36-T04",
@@ -278,29 +311,43 @@
       "id": "R36-T12",
       "track": "A",
       "action": "Map native history/continuation-history and root/stack field reads then reciprocal H rescue",
-      "V": 0.98,
-      "N": 0.78,
+      "V": 0.96,
+      "N": 0.72,
       "X": 0.97,
       "U": 0.68,
       "F": 0.65,
       "B": 0.68,
       "Q": 0.91,
-      "gate": "READY_SOURCE_MAPPING",
-      "reason": "R40 negative changed-cluster contact narrows first post-checkpoint search divergence"
+      "gate": "SCALAR_CONTACT_PASS_RESCUE_IN_PROGRESS",
+      "reason": "7 changed cells read before write and Y1; R42 sparse conditional restore; node-dependent draw alternative remains"
     },
     {
       "id": "R36-T13",
       "track": "B",
       "action": "Expose verified full legal history in browser and run matched explanation case studies",
-      "V": 0.91,
+      "V": 0.86,
       "N": 0.38,
       "X": 0.35,
       "U": 0.95,
       "F": 0.78,
       "B": 0.32,
       "Q": 0.85,
-      "gate": "BROWSER_UI_AND_MATCHED_BENCHMARK_NEXT",
-      "reason": "core and CLI code updated; browser remains FEN-only"
+      "gate": "BROWSER_PASS_MATCHED_BENCHMARK_NEXT",
+      "reason": "Actual browser and Stockfish regression PASS; full PGN and competitive comparison not tested"
+    },
+    {
+      "id": "R36-T14",
+      "track": "A",
+      "action": "Test node-dependent draw evaluation as rival mechanism without falsifying native node counts",
+      "V": 0.95,
+      "N": 0.72,
+      "X": 0.93,
+      "U": 0.46,
+      "F": 0.72,
+      "B": 0.48,
+      "Q": 0.88,
+      "gate": "DEPENDENCY_R42_AND_SOURCE_MAPPING",
+      "reason": "R41 actual calls and sign difference; compare draw-rule intervention without changing counted work; avoid posthoc outcome matching"
     }
   ],
   "selected": "R36-T01; R36-T05; next A T02 in parallel when available",
@@ -385,7 +432,31 @@
       "to": "BROWSER_UI_AND_MATCHED_BENCHMARK_NEXT",
       "evidence": "46020002659 PASS on 79a47ec",
       "limit": "browser remains FEN-only; no competitor study"
+    },
+    {
+      "iteration": 5,
+      "task": "R36-T12",
+      "from": "READY_SOURCE_MAPPING",
+      "to": "SCALAR_CONTACT_PASS_RESCUE_IN_PROGRESS",
+      "evidence": "R41 16 actual searches; d7c1637; seven actual read contacts; draw calls recorded",
+      "limit": "no intervention result yet; stack/root and other state not mapped"
+    },
+    {
+      "iteration": 5,
+      "task": "R36-T13",
+      "from": "BROWSER_UI_AND_MATCHED_BENCHMARK_NEXT",
+      "to": "BROWSER_PASS_MATCHED_BENCHMARK_NEXT",
+      "evidence": "46020775700 PASS",
+      "limit": "no comparison with external competitors or users"
+    },
+    {
+      "iteration": 5,
+      "task": "R36-T03",
+      "from": "DEPENDENCY_HISTORY_SOURCE_MAPPING",
+      "to": "R42_SPARSE_H7_STARTED",
+      "evidence": "46021292891 failed argument list before search; 1da3021 corrected; 46021455971 pending",
+      "limit": "no rescue finding yet"
     }
   ],
-  "next": "T12 history source mapping and reciprocal H rescue; T13 actual browser and benchmark; T09 archive dependency closure; Claude handoff remains available"
+  "next": "R42 adjudicate reciprocal H7/self/P2; then test node-dependent draw alternative and remaining stack/root state; competitor benchmark; archive dependency closure"
 }
