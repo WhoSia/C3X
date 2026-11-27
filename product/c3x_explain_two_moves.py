@@ -44,7 +44,8 @@ def sha(path):
 
 def verify_board_and_pair(fen, first, second):
     try:
-        board=chess.Board(fen)
+        # A Board carries repetition history that FEN alone cannot encode.
+        board=fen.copy(stack=True) if isinstance(fen,chess.Board) else chess.Board(fen)
         aa=chess.Move.from_uci(first)
         bb=chess.Move.from_uci(second)
     except (TypeError,ValueError) as err:
@@ -81,6 +82,7 @@ def measured_features(board, move):
         "is_promotion":move.promotion is not None,
         "opponent_immediate_legal_replies":replies,
         "opponent_in_check_after_move":after.is_check(),
+        "threefold_position_after_move":after.is_repetition(3),
         "opponent_turn_after_move": "white" if after.turn else "black",
         "original_mover":"white" if original_mover else "black"
     }
@@ -169,7 +171,7 @@ def difference_facts(a,b):
     if a["original_mover"]!=b["original_mover"]:
         raise ValueError("C3X_PRODUCT_HOLD_PERSPECTIVE_MISMATCH")
     keys=("moving_piece","is_capture","gives_check","is_promotion",
-          "opponent_immediate_legal_replies")
+          "opponent_immediate_legal_replies","threefold_position_after_move")
     different={}
     shared={}
     for key in keys:
@@ -183,7 +185,7 @@ def difference_facts(a,b):
 
 
 def generate(board,uci_a,uci_b,engine):
-    original,aa,bb=verify_board_and_pair(board.fen(en_passant="fen"),uci_a,uci_b)
+    original,aa,bb=verify_board_and_pair(board,uci_a,uci_b)
     rows=[]
     for move in (aa,bb):
         features=measured_features(original,move)
@@ -202,6 +204,9 @@ def generate(board,uci_a,uci_b,engine):
     could_be_tie=(any(v is None for v in cp) or min(abs(v) for v in cp)<=20 or flip)
     return {
         "schema":SCHEMA,"input_fen":original.fen(en_passant="fen"),
+        "input_history_scope":("PROVIDED_MOVE_STACK" if original.move_stack else
+                               "FEN_ONLY_OR_INITIAL_POSITION"),
+        "input_history_ply_count":len(original.move_stack),
         "native_source_stockfish_commit":ENGINE_GIT_COMMIT,
         "score_perspective":"ORIGINAL_ROOT_MOVER",
         "forced_root_depths":list(ROOT_DEPTHS),
@@ -253,6 +258,13 @@ def make_markdown(report):
         "## 2. 공통 특징을 제외한 실제 차이",
         "",
     ]
+    history_scope=report.get("input_history_scope","LEGACY_HISTORY_UNSPECIFIED")
+    if history_scope=="PROVIDED_MOVE_STACK":
+        lines.append(f"제공된 {report['input_history_ply_count']}개 반수 이력을 보존했다. "
+                     "이 범위 밖의 과거 국면은 확인할 수 없다.")
+    else:
+        lines.append("대국 이력이 없거나 명시되지 않아 과거 반복에 의한 무승부 권리를 확정할 수 없다.")
+    lines += ["", "동일 국면 세 번째 도달은 무승부 청구와 관련된 사실이며 자동 종료를 뜻하지 않는다.", ""]
     different=report["contrastive_measured_facts"]["different_measured_facts"]
     if different:
         name={
@@ -260,7 +272,8 @@ def make_markdown(report):
             "is_capture":"즉각 포획 여부",
             "gives_check":"즉각 체크 여부",
             "is_promotion":"승격 여부",
-            "opponent_immediate_legal_replies":"상대의 즉시 합법 대응 수"
+            "opponent_immediate_legal_replies":"상대의 즉시 합법 대응 수",
+            "threefold_position_after_move":"제공된 이력에서 동일 국면 세 번째 도달"
         }
         for k,v in different.items():
             lines.append(f"- **{name[k]}:** A={v['candidate_a']}, B={v['candidate_b']} "
