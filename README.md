@@ -36,6 +36,8 @@ Track B includes PGN replay, typed evidence, tactical/positional proxies and pro
 
 - [R36 operating loop and Claude handoff](docs/C3X_031_R36_RESEARCH_LOOP_AND_COLLABORATION_20261127.md)
 - [Machine-readable priority ledger](docs/C3X_031_R36_PRIORITY_LEDGER_20261127.json)
+- [P3-B field and exact checkpoint audit](docs/C3X_031_R36_P3B_FIELD_AND_CHECKPOINT_AUDIT_20261127.md)
+- [Repository retirement and archive custody audit](docs/C3X_031_R36_REPOSITORY_RETIREMENT_AUDIT_20261127.md)
 - P3-B: original SF16 field-specific writer/reader observation, noninterference and reciprocal restoration at the preregistered boundary.
 - Track B: matched outputs against direct contrastive competitors; blinded correctness, robustness and pedagogical evaluation.
 - Literature: [single missing-literature ledger](https://drive.google.com/open?id=1NtFbOpy9Mcv_f-f_iIr6adDuZQTyWoy1). Drive first; no parallel lists.
