@@ -38,6 +38,27 @@ class DataContracts(unittest.TestCase):
         with self.assertRaisesRegex(ValueError,"UNEXPECTED_REQUEST_FIELDS"):
             request_payload(raw)
 
+    def test_history_route_is_explicit_and_validated(self):
+        history="g1f3 g8f6 f3g1 f6g8 g1f3 g8f6 f3g1".split()
+        fen="rnbqkb1r/pppppppp/5n2/8/8/8/PPPPPPPP/RNBQKBNR b KQkq - 7 4"
+        payload={"fen":fen,"move_a":"f6g8","move_b":"f6h5","history":history}
+        raw=json.dumps(payload).encode()
+        with self.assertRaisesRegex(ValueError,"UNEXPECTED_REQUEST_FIELDS"):
+            request_payload(raw)
+        self.assertEqual(request_payload(raw,allow_history=True),payload)
+        self.assertEqual(legal_payload(fen,history)["history_ply_count"],7)
+        report=analyze_payload(payload,SimulatedEngine())
+        self.assertTrue(report["engine_report"]["root_candidates"][0]["facts"]["threefold_position_after_move"])
+        with self.assertRaises(ValueError):
+            legal_payload(DEFAULT_FEN,history)
+        for bad in (None,"g1f3",[123],["0000"]):
+            malformed=dict(payload,history=bad)
+            with self.assertRaises(ValueError):
+                if bad==["0000"]:
+                    analyze_payload(malformed,SimulatedEngine())
+                else:
+                    request_payload(json.dumps(malformed).encode(),allow_history=True)
+
     def test_limits_reject_oversized_request(self):
         with self.assertRaisesRegex(ValueError,"TOO_LARGE"):
             request_payload(b"x"*(MAX_POST_BYTES+1))
