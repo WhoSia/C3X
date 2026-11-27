@@ -1,0 +1,169 @@
+{
+  "schema": "c3x-r36-priority-v1",
+  "date": "2026-11-27",
+  "scale": "ordinal anchored estimates; not probabilities; null=unknown",
+  "base": "c4efc97438f31763dc63b93e33969da96d88dd95",
+  "policy": "gate then Pareto, explicit bottleneck tie-break; no weighted sum",
+  "claim_axes": {
+    "E": "evidence fidelity",
+    "C": "bounded claim support",
+    "G": "confirmed generalization",
+    "X": "causal identification",
+    "Q": "rating confidence"
+  },
+  "task_axes": {
+    "V": "information value",
+    "N": "novelty potential",
+    "X": "causal leverage",
+    "U": "explanation utility",
+    "F": "feasibility",
+    "B": "burden (minimize)",
+    "Q": "rating confidence"
+  },
+  "claims": [
+    {
+      "id": "A-P2",
+      "scope": "frozen M2 prospective positive transport",
+      "E": 0.9,
+      "C": 0.1,
+      "G": 0,
+      "X": 0.2,
+      "Q": 0.9,
+      "gate": "NEGATIVE; no posthoc retune",
+      "evidence": "README P2: 7/128 flips, M2 Brier .06217 vs M0 .05288"
+    },
+    {
+      "id": "A-P3-X4",
+      "scope": "single-target score-only model fails on one exposed event",
+      "E": 0.9,
+      "C": 0.95,
+      "G": 0.1,
+      "X": 0.65,
+      "Q": 0.9,
+      "gate": "finite falsifier",
+      "evidence": "P2-056-1 third root f5h3 at two dependent horizons"
+    },
+    {
+      "id": "A-P3-B",
+      "scope": "named TT/history mediator sufficient for root contrast",
+      "E": 0.2,
+      "C": 0.1,
+      "G": 0,
+      "X": 0.1,
+      "Q": 0.85,
+      "gate": "HOLD; physical transplant not yet run"
+    },
+    {
+      "id": "B-EXPLAIN",
+      "scope": "C3X explanations improve learner understanding over strong competing sites",
+      "E": 0.1,
+      "C": 0.1,
+      "G": 0,
+      "X": 0,
+      "Q": 0.7,
+      "gate": "HOLD; no matched learner trial"
+    }
+  ],
+  "tasks": [
+    {
+      "id": "R36-T01",
+      "track": "B",
+      "action": "Document competitor feature scan and freeze matched benchmark rubric",
+      "V": 0.92,
+      "N": 0.46,
+      "X": 0.28,
+      "U": 0.96,
+      "F": 0.95,
+      "B": 0.2,
+      "Q": 0.85,
+      "gate": "READY",
+      "reason": "User requests benchmark; reveals explanation gaps without claiming efficacy"
+    },
+    {
+      "id": "R36-T02",
+      "track": "A",
+      "action": "P3-B exact source writer-reader and checkpoint contract review",
+      "V": 0.95,
+      "N": 0.82,
+      "X": 0.95,
+      "U": 0.68,
+      "F": 0.65,
+      "B": 0.65,
+      "Q": 0.85,
+      "gate": "READY_FOR_SOURCE_REVIEW",
+      "reason": "Critical mediator bottleneck; native run requires verified runtime"
+    },
+    {
+      "id": "R36-T03",
+      "track": "A",
+      "action": "Physical checkpoint TT/history transplant and negative controls",
+      "V": 0.98,
+      "N": 0.85,
+      "X": 0.98,
+      "U": 0.75,
+      "F": 0.45,
+      "B": 0.85,
+      "Q": 0.8,
+      "gate": "DEPENDENCY_T02",
+      "reason": "Pre-registration unchanged"
+    },
+    {
+      "id": "R36-T04",
+      "track": "B",
+      "action": "Matched FEN explanation comparisons and blinded judging",
+      "V": 0.9,
+      "N": 0.65,
+      "X": 0.4,
+      "U": 0.98,
+      "F": 0.6,
+      "B": 0.55,
+      "Q": 0.7,
+      "gate": "DEPENDENCY_T01",
+      "reason": "No site quality ranking without actual output"
+    },
+    {
+      "id": "R36-T05",
+      "track": "OPS",
+      "action": "Notion Claude evidence handoff",
+      "V": 0.8,
+      "N": 0.15,
+      "X": 0.4,
+      "U": 0.7,
+      "F": 0.95,
+      "B": 0.15,
+      "Q": 0.85,
+      "gate": "READY",
+      "reason": "User requests collaboration, not simulated Claude execution"
+    },
+    {
+      "id": "R36-T06",
+      "track": "LIT",
+      "action": "Reconcile canonical missing literature via Drive and legal intake",
+      "V": 0.8,
+      "N": 0.3,
+      "X": 0.55,
+      "U": 0.6,
+      "F": 0.55,
+      "B": 0.4,
+      "Q": 0.8,
+      "gate": "READ_FIRST",
+      "reason": "Never maintain parallel missing ledger; check possession and write access"
+    },
+    {
+      "id": "R36-T07",
+      "track": "A",
+      "action": "Retune failed retrospective predictor on exposed P2",
+      "V": 0.25,
+      "N": 0.2,
+      "X": 0.15,
+      "U": 0.2,
+      "F": 0.85,
+      "B": 0.5,
+      "Q": 0.9,
+      "gate": "STOP",
+      "reason": "Would not establish prospective transport"
+    }
+  ],
+  "selected": "R36-T01; R36-T05; next A T02 in parallel when available",
+  "selection_reason": "Small reversible benchmark and collaboration unblock current user direction; retain A research bottleneck; no physical claim promotion."
+}
