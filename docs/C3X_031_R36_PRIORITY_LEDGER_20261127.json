@@ -150,6 +150,17 @@
       "Q": 0.92,
       "gate": "NATIVE_CHROMIUM_PASS",
       "evidence": "46020775700 at 625858b; 7-ply repetition case, invalid history, reset; not full PGN or comparative effectiveness"
+    },
+    {
+      "id": "A-R42-H7-RESCUE",
+      "scope": "reciprocal sparse H7 intervention transfers Y1/Y2/final root in both observed worlds at two dependent depth settings",
+      "E": 0.98,
+      "C": 0.99,
+      "G": 0.15,
+      "X": 0.96,
+      "Q": 0.96,
+      "gate": "BOUNDED_NATIVE_CONDITIONAL_RESCUE",
+      "evidence": "46021455971 24 native searches; exact receiver/post-image; self/P2 controls; both directions exact; one exposed game; no universal sufficiency or minimality"
     }
   ],
   "tasks": [
@@ -185,15 +196,15 @@
       "id": "R36-T03",
       "track": "A",
       "action": "Physical checkpoint TT/history transplant and negative controls",
-      "V": 0.98,
+      "V": 0.65,
       "N": 0.85,
       "X": 0.98,
       "U": 0.75,
       "F": 0.45,
       "B": 0.85,
       "Q": 0.8,
-      "gate": "R42_SPARSE_H7_STARTED",
-      "reason": "Frozen exact receiver/donor snapshots and seven contacted cells; first run CLI error before searches, corrected run 46021455971"
+      "gate": "SPARSE_H7_RECIPROCAL_PASS_GENERAL_HOLD",
+      "reason": "R42 exact transfer, 24 native searches, self/P2 preserve endpoints; further subset and independent cohort needed"
     },
     {
       "id": "R36-T04",
@@ -311,15 +322,15 @@
       "id": "R36-T12",
       "track": "A",
       "action": "Map native history/continuation-history and root/stack field reads then reciprocal H rescue",
-      "V": 0.96,
+      "V": 0.7,
       "N": 0.72,
       "X": 0.97,
       "U": 0.68,
       "F": 0.65,
       "B": 0.68,
       "Q": 0.91,
-      "gate": "SCALAR_CONTACT_PASS_RESCUE_IN_PROGRESS",
-      "reason": "7 changed cells read before write and Y1; R42 sparse conditional restore; node-dependent draw alternative remains"
+      "gate": "H7_CONTACT_AND_RECIPROCAL_RESCUE_PASS",
+      "reason": "R41/R42 verified; no complete H/stack mapping"
     },
     {
       "id": "R36-T13",
@@ -339,15 +350,29 @@
       "id": "R36-T14",
       "track": "A",
       "action": "Test node-dependent draw evaluation as rival mechanism without falsifying native node counts",
-      "V": 0.95,
+      "V": 0.86,
       "N": 0.72,
       "X": 0.93,
       "U": 0.46,
       "F": 0.72,
       "B": 0.48,
       "Q": 0.88,
-      "gate": "DEPENDENCY_R42_AND_SOURCE_MAPPING",
-      "reason": "R41 actual calls and sign difference; compare draw-rule intervention without changing counted work; avoid posthoc outcome matching"
+      "gate": "READY_RIVAL_DRAW_INTERVENTION",
+      "reason": "R42 transfers endpoints while first two draw returns retain receiver signs; later draw interactions not excluded"
+    },
+    {
+      "id": "R36-T15",
+      "track": "A",
+      "action": "Freeze H7 family ablation and leave-one-out minimality test; validate on new pre-frozen tournament family",
+      "V": 0.98,
+      "N": 0.87,
+      "X": 0.97,
+      "U": 0.72,
+      "F": 0.76,
+      "B": 0.6,
+      "Q": 0.91,
+      "gate": "READY_PREREG",
+      "reason": "7-cell conditional rescue proven, minimality and transport unknown"
     }
   ],
   "selected": "R36-T01; R36-T05; next A T02 in parallel when available",
@@ -456,7 +481,15 @@
       "to": "R42_SPARSE_H7_STARTED",
       "evidence": "46021292891 failed argument list before search; 1da3021 corrected; 46021455971 pending",
       "limit": "no rescue finding yet"
+    },
+    {
+      "iteration": 5,
+      "task": "R36-T03",
+      "from": "R42_SPARSE_H7_STARTED",
+      "to": "SPARSE_H7_RECIPROCAL_PASS_GENERAL_HOLD",
+      "evidence": "R42 24 native searches, CI 46021455971, report 405b9a4",
+      "limit": "one exposed game, two dependent depths, no unique/minimal mediator or strategic/learner inference"
     }
   ],
-  "next": "R42 adjudicate reciprocal H7/self/P2; then test node-dependent draw alternative and remaining stack/root state; competitor benchmark; archive dependency closure"
+  "next": "T15 preregister H7 ablation/minimality and new-family validation; T14 draw rule rival intervention; T04 matched external explanation benchmark; T09 archive dependency closure"
 }
