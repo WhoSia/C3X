@@ -62,6 +62,39 @@
       "X": 0,
       "Q": 0.7,
       "gate": "HOLD; no matched learner trial"
+    },
+    {
+      "id": "A-R36-REF",
+      "scope": "single-slot SF16 field provenance counterexample under source-derived transition model",
+      "E": 0.91,
+      "C": 0.96,
+      "G": 0.18,
+      "X": 0.4,
+      "Q": 0.88,
+      "gate": "REFERENCE_MODEL_ONLY",
+      "evidence": "7e9d31d: 10/10 JS assertions; prior P8 already distinguishes score/move; no native engine result"
+    },
+    {
+      "id": "A-R36-HOOK",
+      "scope": "R23 END log precedes completedDepth assignment and next-iteration context",
+      "E": 0.9,
+      "C": 0.95,
+      "G": 0.2,
+      "X": 0.55,
+      "Q": 0.9,
+      "gate": "SOURCE_AUDIT_ONLY",
+      "evidence": "ce2c703: pinned SF16 search.cpp plus R23 patch"
+    },
+    {
+      "id": "B-R36-UTILITY",
+      "scope": "competitor superiority and human-learning benefit",
+      "E": 0.1,
+      "C": null,
+      "G": 0,
+      "X": 0,
+      "Q": 0.85,
+      "gate": "UNMEASURED",
+      "evidence": "No matched explanation outputs or blinded learner outcomes"
     }
   ],
   "tasks": [
@@ -83,15 +116,15 @@
       "id": "R36-T02",
       "track": "A",
       "action": "P3-B exact source writer-reader and checkpoint contract review",
-      "V": 0.95,
-      "N": 0.82,
+      "V": 0.93,
+      "N": 0.65,
       "X": 0.95,
       "U": 0.68,
-      "F": 0.65,
+      "F": 0.6,
       "B": 0.65,
       "Q": 0.9,
-      "gate": "READY_NATIVE_MAPPING",
-      "reason": "Critical mediator bottleneck; native run requires verified runtime; prereg exact checkpoint and endpoints reread"
+      "gate": "SOURCE_MAP_PARTIAL_NATIVE_OBSERVER_NEXT",
+      "reason": "Reuse 0.25/P8 field writer; generation refresh and exact checkpoint need real observer parity"
     },
     {
       "id": "R36-T03",
@@ -118,8 +151,8 @@
       "F": 0.6,
       "B": 0.55,
       "Q": 0.7,
-      "gate": "READY_FOR_COHORT_FREEZE",
-      "reason": "No site quality ranking without actual output"
+      "gate": "READY_AWAITING_CLAUDE_AFTER_0200_KST",
+      "reason": "No Claude result; user reports availability after 02:00 KST; can prepare locally"
     },
     {
       "id": "R36-T05",
@@ -162,6 +195,62 @@
       "Q": 0.9,
       "gate": "STOP",
       "reason": "Would not establish prospective transport"
+    },
+    {
+      "id": "R36-T08",
+      "track": "OPS",
+      "action": "Compact README and preserve immutable old text",
+      "V": 0.4,
+      "N": 0.05,
+      "X": 0,
+      "U": 0.85,
+      "F": 1,
+      "B": 0.1,
+      "Q": 0.98,
+      "gate": "DONE",
+      "reason": "367102→5552 chars; historical exact blob readback"
+    },
+    {
+      "id": "R36-T09",
+      "track": "OPS",
+      "action": "Group old workflow closures and certify Drive code archive",
+      "V": 0.65,
+      "N": 0.08,
+      "X": 0,
+      "U": 0.55,
+      "F": 0.35,
+      "B": 0.6,
+      "Q": 0.9,
+      "gate": "HOLD_RAW_UPLOAD_AND_DEPENDENCY",
+      "reason": "3301 blobs; 602 workflows; one exact archived code still referenced by three workflows"
+    },
+    {
+      "id": "R36-T10",
+      "track": "A",
+      "action": "Exact field observer and checkpoint guard prototype then native parity",
+      "V": 0.96,
+      "N": 0.67,
+      "X": 0.96,
+      "U": 0.7,
+      "F": 0.6,
+      "B": 0.65,
+      "Q": 0.85,
+      "gate": "READY_IMPLEMENTATION",
+      "reason": "P8 reuse; source audit ce2c703; no claim promotion"
+    },
+    {
+      "id": "R36-T11",
+      "track": "B",
+      "action": "Run minimal same-position reply-contrast and explanation audit",
+      "V": 0.94,
+      "N": 0.56,
+      "X": 0.45,
+      "U": 0.98,
+      "F": 0.72,
+      "B": 0.35,
+      "Q": 0.78,
+      "gate": "READY_DEVELOPMENT_CASE_ONLY",
+      "reason": "Use exposed case to refine output contract, not learner study"
     }
   ],
   "selected": "R36-T01; R36-T05; next A T02 in parallel when available",
@@ -190,7 +279,31 @@
       "to": "PREREG_READ_NATIVE_MAPPING_PENDING",
       "evidence": "P3-B prereg: END16/START17 checkpoint, Y1/Y2, full-key sidecar vs 16-bit tag, unchanged exact node counters",
       "limit": "No source patch or physical run"
+    },
+    {
+      "iteration": 3,
+      "task": "R36-T08",
+      "from": "READY",
+      "to": "DONE",
+      "evidence": "7a6f8e0; prior blob verified",
+      "limit": "navigation only"
+    },
+    {
+      "iteration": 3,
+      "task": "R36-T02",
+      "from": "READY_NATIVE_MAPPING",
+      "to": "SOURCE_MAP_PARTIAL_NATIVE_OBSERVER_NEXT",
+      "evidence": "7e9d31d reference tests; ce2c703 source audit",
+      "limit": "P8 prior field distinction; no native result"
+    },
+    {
+      "iteration": 3,
+      "task": "R36-T09",
+      "from": "AUDIT",
+      "to": "HOLD_RAW_UPLOAD_AND_DEPENDENCY",
+      "evidence": "7fbe954; two ZIP downloads; one exact blob with three workflow dependencies",
+      "limit": "zero retired files"
     }
   ],
-  "next": "R36-T02 native source mapping; R36-T04 actual sample acquisition via Claude or available browser; R36-T06 literature custody"
+  "next": "R36-T10 native observer exact anchor and parity; R36-T11 development explanation; R36-T09 archive closure when safe; Claude after 02:00"
 }
