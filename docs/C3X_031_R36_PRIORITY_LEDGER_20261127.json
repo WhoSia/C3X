@@ -46,12 +46,13 @@
     {
       "id": "A-P3-B",
       "scope": "named TT/history mediator sufficient for root contrast",
-      "E": 0.2,
-      "C": 0.1,
+      "E": 0.8,
+      "C": 0.35,
       "G": 0,
-      "X": 0.1,
+      "X": 0.45,
       "Q": 0.85,
-      "gate": "HOLD; physical transplant not yet run"
+      "gate": "GENERAL_SUFFICIENCY_HOLD_LOCAL_RESCUE_VERIFIED",
+      "evidence": "R42/R43/R44 conditional local intervention verified; broader TT/history state-family sufficiency and independent transport unknown"
     },
     {
       "id": "B-EXPLAIN",
@@ -161,6 +162,39 @@
       "Q": 0.96,
       "gate": "BOUNDED_NATIVE_CONDITIONAL_RESCUE",
       "evidence": "46021455971 24 native searches; exact receiver/post-image; self/P2 controls; both directions exact; one exposed game; no universal sufficiency or minimality"
+    },
+    {
+      "id": "A-R43-R44-SINGLETON",
+      "scope": "minimum cardinality one within H7 for exact reciprocal Y1/Y2/root signature in two exposed receiving worlds",
+      "E": 0.98,
+      "C": 0.99,
+      "G": 0.12,
+      "X": 0.97,
+      "Q": 0.96,
+      "gate": "BOUNDED_CARDINALITY_ONE_PASS",
+      "evidence": "R43 64 searches, 16 masks; only singleton2 transfers; empty and mask125 retain. R44 16 new searches at depth16, four masks, same exposed prefix; no exhaustive 128-mask necessity claim"
+    },
+    {
+      "id": "A-R44-PREFIX",
+      "scope": "first changed scalar read event351 and first scalar operation identity difference event60176 in empty-vs-singleton prefix",
+      "E": 0.96,
+      "C": 0.98,
+      "G": 0.1,
+      "X": 0.48,
+      "Q": 0.92,
+      "gate": "OBSERVED_PREFIX_NOT_BRANCH",
+      "evidence": "raw prefix audit in verified R44 ZIP; no native branch predicate witness"
+    },
+    {
+      "id": "B-R43-REFERENCE",
+      "scope": "NNUE vs classical finite-depth agreement on supplied GMBench reference top-two pairs",
+      "E": 0.93,
+      "C": 0.96,
+      "G": 0.15,
+      "X": 0.3,
+      "Q": 0.91,
+      "gate": "PUBLIC_REFERENCE_DIAGNOSTIC_ONLY",
+      "evidence": "25 paired reports, 22 finite positive reference gaps; depth10 classical18/22 NNUE22/22; zero near-equal pairs; no official explanation score"
     }
   ],
   "tasks": [
@@ -343,22 +377,22 @@
       "F": 0.78,
       "B": 0.32,
       "Q": 0.85,
-      "gate": "BROWSER_PASS_MATCHED_BENCHMARK_NEXT",
-      "reason": "Actual browser and Stockfish regression PASS; full PGN and competitive comparison not tested"
+      "gate": "PUBLIC_REFERENCE_AUDIT_PASS_PROFILE_AND_MATCHED_STUDY_NEXT",
+      "reason": "25 paired reports, NNUE better reference agreement; no near-equal pairs or explanation grades"
     },
     {
       "id": "R36-T14",
       "track": "A",
       "action": "Test node-dependent draw evaluation as rival mechanism without falsifying native node counts",
-      "V": 0.86,
+      "V": 0.72,
       "N": 0.72,
       "X": 0.93,
       "U": 0.46,
       "F": 0.72,
       "B": 0.48,
       "Q": 0.88,
-      "gate": "READY_RIVAL_DRAW_INTERVENTION",
-      "reason": "R42 transfers endpoints while first two draw returns retain receiver signs; later draw interactions not excluded"
+      "gate": "RIVAL_PATH_LOWER_PRIORITY",
+      "reason": "Single main-history scalar intervention is sufficient conditional witness; independent draw mechanism not ruled out"
     },
     {
       "id": "R36-T15",
@@ -366,13 +400,41 @@
       "action": "Freeze H7 family ablation and leave-one-out minimality test; validate on new pre-frozen tournament family",
       "V": 0.98,
       "N": 0.87,
-      "X": 0.97,
+      "X": 0.94,
       "U": 0.72,
       "F": 0.76,
       "B": 0.6,
       "Q": 0.91,
-      "gate": "READY_PREREG",
-      "reason": "7-cell conditional rescue proven, minimality and transport unknown"
+      "gate": "LOCAL_MINIMUM_PASS_INDEPENDENT_TRANSPORT_NEXT",
+      "reason": "Local singleton and complement tested at depths15/16; new family prefreeze, no same-case count inflation"
+    },
+    {
+      "id": "R36-T16",
+      "track": "A",
+      "action": "Find actual downstream search predicate for mainHistory[7738] effect with source-local native witness",
+      "V": 0.92,
+      "N": 0.78,
+      "X": 0.91,
+      "U": 0.61,
+      "F": 0.72,
+      "B": 0.48,
+      "Q": 0.87,
+      "gate": "READY",
+      "reason": "R44 prefix identifies read351 and access identity divergence60176, not exact branch"
+    },
+    {
+      "id": "R36-T17",
+      "track": "B",
+      "action": "Expose explicit evaluation mode and provenance, then evaluate on independent near-equal positions",
+      "V": 0.94,
+      "N": 0.4,
+      "X": 0.4,
+      "U": 0.96,
+      "F": 0.83,
+      "B": 0.38,
+      "Q": 0.9,
+      "gate": "READY",
+      "reason": "GMBench zero near-equal pairs; avoid silent default change; evaluate mode, depth and latency"
     }
   ],
   "selected": "R36-T01; R36-T05; next A T02 in parallel when available",
@@ -489,7 +551,23 @@
       "to": "SPARSE_H7_RECIPROCAL_PASS_GENERAL_HOLD",
       "evidence": "R42 24 native searches, CI 46021455971, report 405b9a4",
       "limit": "one exposed game, two dependent depths, no unique/minimal mediator or strategic/learner inference"
+    },
+    {
+      "iteration": 6,
+      "task": "R36-T15",
+      "from": "READY_PREREG",
+      "to": "LOCAL_MINIMUM_PASS_INDEPENDENT_TRANSPORT_NEXT",
+      "evidence": "R43 64 + R44 16 native searches, ccc1625; minimum cardinality one in H7; 2 dependent depth settings",
+      "limit": "no independent cohort; necessity outside screen unknown"
+    },
+    {
+      "iteration": 6,
+      "task": "R36-T13",
+      "from": "BROWSER_PASS_MATCHED_BENCHMARK_NEXT",
+      "to": "PUBLIC_REFERENCE_AUDIT_PASS_PROFILE_AND_MATCHED_STUDY_NEXT",
+      "evidence": "GMBench CI46023467344 50 generated reports",
+      "limit": "reference-pair diagnostic not grade; no near-equal reference pairs"
     }
   ],
-  "next": "T15 preregister H7 ablation/minimality and new-family validation; T14 draw rule rival intervention; T04 matched external explanation benchmark; T09 archive dependency closure"
+  "next": "T15 independently prefreeze a new family and a transport rule before outcomes; T16 branch witness; T17 evaluation profile and matched near-equal study; T04 competitor actual outputs; T09 dependency retirement"
 }
