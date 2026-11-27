@@ -109,6 +109,46 @@ class ProductContracts(unittest.TestCase):
         self.assertIn("인과",md)
         self.assertIn("| 8 |",md)
 
+    def test_preserve_repetition_history_and_input_board(self):
+        board=chess.Board()
+        history="g1f3 g8f6 f3g1 f6g8 g1f3 g8f6 f3g1".split()
+        for move in history:
+            board.push_uci(move)
+        self.assertEqual(board.fen(),"rnbqkb1r/pppppppp/5n2/8/8/8/PPPPPPPP/RNBQKBNR b KQkq - 7 4")
+        original_fen=board.fen()
+        original_stack=tuple(board.move_stack)
+
+        class HistoryEngine(SimulatedEngine):
+            def __init__(self):
+                super().__init__()
+                self.seen=[]
+            def analyse(self,board,limit,**kwargs):
+                self.seen.append(tuple(board.move_stack))
+                return super().analyse(board,limit,**kwargs)
+
+        engine=HistoryEngine()
+        result=generate(board,"f6g8","f6h5",engine)
+        self.assertEqual(result["input_history_scope"],"PROVIDED_MOVE_STACK")
+        self.assertEqual(result["input_history_ply_count"],7)
+        self.assertTrue(result["root_candidates"][0]["facts"]["threefold_position_after_move"])
+        self.assertFalse(result["root_candidates"][1]["facts"]["threefold_position_after_move"])
+        self.assertTrue(all(stack[:7]==original_stack for stack in engine.seen))
+        self.assertEqual(board.fen(),original_fen)
+        self.assertEqual(tuple(board.move_stack),original_stack)
+
+    def test_fen_only_history_scope_does_not_claim_repetition(self):
+        board=chess.Board("rnbqkb1r/pppppppp/5n2/8/8/8/PPPPPPPP/RNBQKBNR b KQkq - 7 4")
+        result=generate(board,"f6g8","f6h5",SimulatedEngine())
+        self.assertEqual(result["input_history_scope"],"FEN_ONLY_OR_INITIAL_POSITION")
+        self.assertFalse(result["root_candidates"][0]["facts"]["threefold_position_after_move"])
+        self.assertIn("과거 반복에 의한 무승부 권리를 확정할 수 없다",make_markdown(result))
+
+    def test_legacy_report_history_scope_remains_readable(self):
+        result=generate(self.board,"e2e4","d2d4",SimulatedEngine())
+        result.pop("input_history_scope")
+        result.pop("input_history_ply_count")
+        self.assertIn("과거 반복에 의한 무승부 권리를 확정할 수 없다",make_markdown(result))
+
     def test_terminal_rule_state_refused(self):
         b=chess.Board("8/8/8/8/8/8/4K3/7k w - - 0 1")
         with self.assertRaisesRegex(ValueError,"TERMINAL"):
