@@ -28,3 +28,6 @@ Drive search confirms already-owned Press & Golubev (2026), *Explaining Chess an
 
 ## Raw custody
 [Native R41 ZIP](https://drive.google.com/file/d/1TSryjwrW1gmlY5AR-OUyxMjBnb0UksiG/view), 40550810 bytes, SHA256 dc42f92f1a32d2f6a1fc82ffda5a8c72e03a650225bb6af8005ae1044a6b534f; downloaded CI artifact and remote Drive readback agree, ZIP CRC verified. 60 members. Aggregate receipt e4c634c3269e8ba9d801314a82ffe092c517595d8271f4b1052d619ee85b6928. Observer SHA256 2901ec40567a8f83c7fcb25a9ce5e587064c28bc35d08e2c7a345a8aa60537fb. R42 source frozen prior to outcomes; no outcome claim until actual logs. No legacy code deletion in this iteration.
+
+## R42 execution audit
+First run 46021292891 successfully built R42 but stopped before any native search because the workflow passed an extra baseline positional argument. Corrected only the invocation in 1da30218d7bd16c0a4959a209cdc3aa70b7f786b. [Corrected run 46021455971](https://github.com/WhoSia/C3X/actions/runs/46021455971) was observed to pass the source build and enter native execution; final results pending at this checkpoint. Preserve the failed run; do not include it in a native search denominator.
