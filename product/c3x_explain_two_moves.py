@@ -42,6 +42,36 @@ def sha(path):
     return hashlib.sha256(Path(path).read_bytes()).hexdigest()
 
 
+def board_from_history(fen, history=None):
+    """Replay supplied standard-start UCI history; fail closed on FEN drift.
+
+    Missing history remains explicitly unknown, never reconstructed from FEN.
+    No null moves or moves after automatic game termination are accepted.
+    """
+    try:
+        expected=chess.Board(fen)
+    except (TypeError,ValueError) as err:
+        raise ValueError("C3X_PRODUCT_HOLD_BAD_FEN_OR_UCI") from err
+    if history is None:
+        return expected
+    if not isinstance(history,(list,tuple)) or len(history)>400:
+        raise ValueError("C3X_PRODUCT_HOLD_BAD_HISTORY_LENGTH")
+    board=chess.Board()
+    for token in history:
+        try:
+            move=chess.Move.from_uci(token)
+        except (TypeError,ValueError) as err:
+            raise ValueError("C3X_PRODUCT_HOLD_BAD_HISTORY_MOVE") from err
+        if board.is_game_over(claim_draw=False) or move not in board.legal_moves:
+            raise ValueError("C3X_PRODUCT_HOLD_ILLEGAL_HISTORY_MOVE")
+        board.push(move)
+    # Normalize equivalent en-passant representations; all other FEN fields
+    # including halfmove/fullmove counters must match.
+    if board.fen(en_passant="legal")!=expected.fen(en_passant="legal"):
+        raise ValueError("C3X_PRODUCT_HOLD_HISTORY_FEN_MISMATCH")
+    return board
+
+
 def verify_board_and_pair(fen, first, second):
     try:
         # A Board carries repetition history that FEN alone cannot encode.
@@ -335,8 +365,10 @@ def main():
     p=argparse.ArgumentParser()
     for name in ("fen","move-a","move-b","engine","out-json","out-md"):
         p.add_argument("--"+name,required=True)
+    p.add_argument("--history",help="Optional space-separated UCI moves from the standard start; must match --fen")
     a=p.parse_args()
-    board,m1,m2=verify_board_and_pair(a.fen,a.move_a,a.move_b)
+    supplied_history=None if a.history is None else a.history.split()
+    board,m1,m2=verify_board_and_pair(board_from_history(a.fen,supplied_history),a.move_a,a.move_b)
     with chess.engine.SimpleEngine.popen_uci(a.engine,timeout=120) as e:
         if ("stockfish" not in e.id.get("name","").lower()
             or not {"Use NNUE","Threads","Hash"}.issubset(e.options)):
