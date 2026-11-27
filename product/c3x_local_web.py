@@ -18,7 +18,7 @@ from urllib.parse import urlsplit
 import chess
 import chess.engine
 
-from c3x_explain_two_moves import generate, make_markdown, verify_board_and_pair
+from c3x_explain_two_moves import board_from_history, generate, make_markdown, verify_board_and_pair
 from c3x_concept_contrast import contrast, markdown_append
 from c3x_recursive_strategy import produce as produce_two_layer_strategy
 from c3x_metamorphic_gap_audit import case_analysis as analyze_mirror_gap
@@ -31,12 +31,12 @@ FRONTEND = Path(__file__).with_name("c3x_board.html")
 ORIGIN_POLICY = "same-origin-localhost-only"
 
 
-def legal_payload(fen):
+def legal_payload(fen, history=None):
     """Fresh legal move list with SAN from the exact current board."""
     if not isinstance(fen, str) or len(fen) > 160:
         raise ValueError("P3_BAD_FEN_LENGTH")
     try:
-        board = chess.Board(fen)
+        board = board_from_history(fen, history)
     except (ValueError, TypeError) as exc:
         raise ValueError("P3_INVALID_FEN") from exc
     if not board.is_valid() or board.is_game_over(claim_draw=False):
@@ -49,27 +49,33 @@ def legal_payload(fen):
     if not entries:
         raise ValueError("P3_EMPTY_LEGAL_MOVE_SET")
     return {"schema": SCHEMA, "fen": board.fen(en_passant="fen"),
-            "turn": "white" if board.turn else "black", "legal_moves": entries}
+            "turn": "white" if board.turn else "black", "legal_moves": entries,
+            "history_ply_count": len(board.move_stack)}
 
 
-def request_payload(raw):
+def request_payload(raw, *, allow_history=False):
     if not isinstance(raw, bytes) or len(raw) > MAX_POST_BYTES:
         raise ValueError("P3_REQUEST_TOO_LARGE")
     try:
         data = json.loads(raw.decode("utf-8"))
     except (UnicodeError, ValueError) as exc:
         raise ValueError("P3_MALFORMED_JSON") from exc
-    if not isinstance(data, dict) or set(data) != {"fen", "move_a", "move_b"}:
+    required={"fen", "move_a", "move_b"}
+    if not isinstance(data,dict) or not required.issubset(data) or set(data)-required-({"history"} if allow_history else set()):
         raise ValueError("P3_UNEXPECTED_REQUEST_FIELDS")
-    if not all(isinstance(data[k], str) for k in data):
+    if not all(isinstance(data[k], str) for k in required):
         raise ValueError("P3_NONSTRING_INPUT")
     if len(data["fen"]) > 160 or any(len(data[k]) > 5 for k in ("move_a", "move_b")):
         raise ValueError("P3_INPUT_LENGTH_LIMIT")
+    if "history" in data and (not isinstance(data["history"],list) or
+                              len(data["history"])>400 or
+                              any(not isinstance(x,str) or len(x) not in (4,5) for x in data["history"])):
+        raise ValueError("P3_BAD_HISTORY")
     return data
 
 
 def analyze_payload(payload, engine):
-    original, a, b = verify_board_and_pair(payload["fen"],
+    original, a, b = verify_board_and_pair(board_from_history(payload["fen"],payload.get("history")),
                                             payload["move_a"], payload["move_b"])
     original_report = generate(original, a.uci(), b.uci(), engine)
     concept_report = contrast(original, a.uci(), b.uci())
@@ -176,15 +182,17 @@ def create_handler(engine_path):
             try:
                 if path.path == "/api/legal":
                     request = json.loads(raw.decode("utf-8"))
-                    if not isinstance(request, dict) or set(request) != {"fen"}:
+                    if not isinstance(request,dict) or "fen" not in request or set(request)-{"fen","history"}:
                         raise ValueError("P3_BAD_LEGAL_REQUEST")
-                    report = legal_payload(request["fen"])
+                    if "history" in request and not isinstance(request["history"],list):
+                        raise ValueError("P3_BAD_HISTORY")
+                    report = legal_payload(request["fen"],request.get("history"))
                     self._json(200, report)
                 else:
-                    request = request_payload(raw)
+                    request = request_payload(raw,allow_history=path.path=="/api/analyze")
                     # Reject malformed / illegal requests before opening ANY
                     # native chess-engine process.
-                    verify_board_and_pair(request["fen"],
+                    verify_board_and_pair(board_from_history(request["fen"],request.get("history")),
                                           request["move_a"], request["move_b"])
                     # Synchronous request is deliberately serialized by mutex.
                     # Do not return plausible synthetic results when UCI fails.
