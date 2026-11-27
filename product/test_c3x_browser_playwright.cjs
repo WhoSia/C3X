@@ -135,6 +135,34 @@ const path = require("path");
                      JSON.stringify(symmetry,null,2)+"\\n");
     await page.screenshot({path:path.join(dir,"P3_BROWSER_NATIVE_ENGINE_SCREENSHOT.png"),
                            fullPage:true});
+    // R36: real native repetition-sensitive analysis through the browser.
+    await page.locator("#fen").fill("rnbqkb1r/pppppppp/5n2/8/8/8/PPPPPPPP/RNBQKBNR b KQkq - 7 4");
+    await page.locator("summary").filter({hasText:"대국 이력 추가"}).click();
+    await page.locator("#history").fill("g1f3 g8f6 f3g1 f6g8 g1f3 g8f6 f3g1");
+    if(!await page.locator("#analyze").isDisabled())throw Error("R36_DIRTY_POSITION_ENABLED");
+    await page.locator("#load").click();
+    await page.getByText("7개 반수 이력 검증 완료").waitFor();
+    await page.locator("#moveA").selectOption("f6g8");
+    await page.locator("#moveB").selectOption("f6h5");
+    if(!await page.locator("#strategy").isDisabled()||!await page.locator("#mirror").isDisabled())
+      throw Error("R36_HISTORY_UNSUPPORTED_ANALYSIS_ENABLED");
+    const historyResponse=page.waitForResponse(r=>r.url().endsWith("/api/analyze")&&r.request().method()==="POST");
+    await page.locator("#analyze").click();
+    const hr=await historyResponse;
+    if(hr.status()!==200)throw Error("R36_HISTORY_API_"+hr.status());
+    const hp=await hr.json();
+    if(hp.engine_report.input_history_ply_count!==7||!hp.engine_report.root_candidates[0].facts.threefold_position_after_move
+       ||hp.engine_report.root_candidates[1].facts.threefold_position_after_move)throw Error("R36_HISTORY_LOST");
+    await page.getByText(/동일 국면 세 번째 도달/).first().waitFor();
+    await page.screenshot({path:path.join(dir,"R36_HISTORY_BROWSER.png"),fullPage:true});
+    await page.locator("#history").fill("g1f3");
+    await page.locator("#load").click();
+    await page.getByText(/국면 오류:/).waitFor();
+    if(!await page.locator("#analyze").isDisabled()||!await page.locator("#results").isHidden())
+      throw Error("R36_INVALID_HISTORY_STALE_RESULT");
+    await page.locator("#reset").click();
+    await page.getByText(/20개 합법 수/).waitFor();
+    if(await page.locator("#history").inputValue()!=="")throw Error("R36_RESET_HISTORY");
     if(errors.length)throw Error("P3V_HOLD_BROWSER_JS_ERRORS: "+errors.join("; "));
 
     // Also verify the narrow-screen board is still 64-clickable square UI.
