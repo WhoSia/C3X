@@ -1,0 +1,55 @@
+name: C3X public GMBench reference audit
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'product/c3x_gmbench_reference_audit.py'
+      - '.github/workflows/c3x-031-r43-gmbench-reference-audit.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  reference:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install 'chess==1.11.2'
+      - uses: actions/download-artifact@v4
+        with:
+          repository: WhoSia/C3X
+          run-id: '44872473600'
+          name: c3x031-p2-pinned-SF16-native-source-build-no-treatments
+          github-token: ${{ github.token }}
+          path: /tmp/r43-reference
+      - name: Verify public reference dataset and build original SF16
+        run: |
+          set -euo pipefail
+          git init -q /tmp/gmbench
+          git -C /tmp/gmbench remote add origin https://github.com/chessifyme/gmbench.git
+          git -C /tmp/gmbench fetch -q --depth=1 origin 3f594cc736f85bb3c812b2203a684fb7f0eb9dce
+          git -C /tmp/gmbench checkout -q --detach FETCH_HEAD
+          test "$(git -C /tmp/gmbench rev-parse HEAD)" = 3f594cc736f85bb3c812b2203a684fb7f0eb9dce
+          git clone -q --single-branch --branch sf_16 https://github.com/official-stockfish/Stockfish.git /tmp/r43-sf16
+          test "$(git -C /tmp/r43-sf16 rev-parse HEAD)" = 68e1e9b3811e16cad014b590d7443b9063b3eb52
+          echo '5af11540bbfefcb54e38c5dd000cab4b469dfa7599a1d55be5d2722c20a8929b  /tmp/r43-reference/nn-5af11540bbfe.nnue' | sha256sum -c
+          cp /tmp/r43-reference/nn-5af11540bbfe.nnue /tmp/r43-sf16/src/
+          mkdir -p /tmp/gmbench-results
+          make -C /tmp/r43-sf16/src -j2 build ARCH=x86-64 COMP=gcc > /tmp/gmbench-results/build.log 2>&1
+          sha256sum /tmp/r43-sf16/src/stockfish /tmp/gmbench/data/public/gmbench_v0_2.jsonl
+      - name: Compare actual product outputs under two evaluation modes
+        run: |
+          PYTHONPATH=product python -u product/c3x_gmbench_reference_audit.py /tmp/gmbench/data/public/gmbench_v0_2.jsonl /tmp/r43-sf16/src/stockfish /tmp/r43-reference/nn-5af11540bbfe.nnue /tmp/gmbench-results
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x-r43-gmbench-reference-product-audit
+          path: /tmp/gmbench-results/
+          retention-days: 30
+          if-no-files-found: warn
