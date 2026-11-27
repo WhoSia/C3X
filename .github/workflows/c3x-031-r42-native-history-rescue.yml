@@ -75,7 +75,7 @@ jobs:
           PYTHONPATH: harness
         run: |
           set -euo pipefail
-          python -u harness/c3x_031_r42_history_rescue_court.py /tmp/r42-history/C3X_031_P2_TWIC1670_GAME_FREEZE_FULL_HISTORIES.json /tmp/r42-reference/nn-5af11540bbfe.nnue /tmp/r42-reference/c3x031-p2-SF16-patched build/R42-SF16 /tmp/r42-donors /tmp/r42-native
+          python -u harness/c3x_031_r42_history_rescue_court.py /tmp/r42-history/C3X_031_P2_TWIC1670_GAME_FREEZE_FULL_HISTORIES.json /tmp/r42-reference/nn-5af11540bbfe.nnue build/R42-SF16 /tmp/r42-donors /tmp/r42-native
           sha256sum /tmp/r42-native/R42_AGGREGATE.json
       - uses: actions/upload-artifact@v4
         if: always()
