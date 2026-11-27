@@ -1,0 +1,94 @@
+name: C3X R42 reciprocal sparse H7 history rescue court
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'tools/c3x_031_r42_sparse_history_restore.py'
+      - 'harness/c3x_031_r42_history_rescue_court.py'
+      - '.github/workflows/c3x-031-r42-native-history-rescue.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  native-observer:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install 'chess==1.11.2'
+      - uses: actions/download-artifact@v4
+        with:
+          repository: WhoSia/C3X
+          run-id: '44872034069'
+          name: c3x031-p2-64game-private-history-freeze
+          github-token: ${{ github.token }}
+          path: /tmp/r42-history
+      - uses: actions/download-artifact@v4
+        with:
+          repository: WhoSia/C3X
+          run-id: '44872473600'
+          name: c3x031-p2-pinned-SF16-native-source-build-no-treatments
+          github-token: ${{ github.token }}
+          path: /tmp/r42-reference
+      - uses: actions/download-artifact@v4
+        with:
+          repository: WhoSia/C3X
+          run-id: '46020749192'
+          name: c3x-r41-native-source-and-private-history-event-traces
+          github-token: ${{ github.token }}
+          path: /tmp/r42-donors
+      - name: Build exact original patch stack plus reversible observer
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/r42-native build
+          git clone -q --single-branch --branch sf_16 https://github.com/official-stockfish/Stockfish.git /tmp/r42-sf16
+          test "$(git -C /tmp/r42-sf16 rev-parse HEAD)" = "68e1e9b3811e16cad014b590d7443b9063b3eb52"
+          python - <<'PY'
+          import hashlib
+          from pathlib import Path
+          p=Path('/tmp/r42-reference/P2_PATCH_SEQUENCE_SHA256SUMS')
+          expected={Path(line.split(maxsplit=1)[1]).name:line.split()[0] for line in p.read_text().splitlines() if line.strip()}
+          names=['R27-tt-choice-producers.patch','R29-local-tt-move.patch','R29-producer-tt-value.patch','R30-separate-picker-singular.patch','R31-tt-scout-pv.patch','R31-pv-fail-low.patch','R33-prospective-gates.patch']
+          assert set(expected)==set(names)
+          for name in names:
+              assert hashlib.sha256((Path('patches/stockfish16')/name).read_bytes()).hexdigest()==expected[name],name
+          PY
+          for patch in R27-tt-choice-producers.patch R29-local-tt-move.patch R29-producer-tt-value.patch R30-separate-picker-singular.patch R31-tt-scout-pv.patch R31-pv-fail-low.patch R33-prospective-gates.patch; do
+            git -C /tmp/r42-sf16 apply --check "$GITHUB_WORKSPACE/patches/stockfish16/$patch"
+            git -C /tmp/r42-sf16 apply "$GITHUB_WORKSPACE/patches/stockfish16/$patch"
+          done
+          python -m py_compile tools/c3x_031_r42_sparse_history_restore.py harness/c3x_031_r42_history_rescue_court.py
+          python tools/c3x_031_r42_sparse_history_restore.py /tmp/r42-sf16 build/R42_SOURCE_MANIFEST.json
+          cp /tmp/r42-reference/nn-5af11540bbfe.nnue /tmp/r42-sf16/src/
+          make -C /tmp/r42-sf16/src -j2 build ARCH=x86-64 COMP=gcc > build/R42_BUILD_LOG.txt 2>&1
+          cp /tmp/r42-sf16/src/stockfish build/R42-SF16
+          chmod +x /tmp/r42-reference/c3x031-p2-SF16-patched
+          sha256sum build/R42-SF16
+      - name: Native cold parity and reciprocal H7 and placebo restoration
+        env:
+          PYTHONPATH: harness
+        run: |
+          set -euo pipefail
+          python -u harness/c3x_031_r42_history_rescue_court.py /tmp/r42-history/C3X_031_P2_TWIC1670_GAME_FREEZE_FULL_HISTORIES.json /tmp/r42-reference/nn-5af11540bbfe.nnue /tmp/r42-reference/c3x031-p2-SF16-patched build/R42-SF16 /tmp/r42-donors /tmp/r42-native
+          sha256sum /tmp/r42-native/R42_AGGREGATE.json
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c3x-r42-native-source-and-private-history-event-traces
+          path: |
+            build/
+            /tmp/r42-native/
+          retention-days: 30
+          if-no-files-found: warn
+      - uses: actions/upload-artifact@v4
+        if: success()
+        with:
+          name: c3x-r42-aggregate-history-receipt
+          path: /tmp/r42-native/R42_AGGREGATE.json
+          if-no-files-found: error
