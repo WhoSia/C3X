@@ -54,7 +54,7 @@ footer{font-size:12px;color:var(--muted)}@media(max-width:790px){.layout{grid-te
 <div id="empty" class="panel"><h2>근소한 차이를 질문하는 해설기</h2><p>왼쪽에서 FEN과 후보 두 개를 지정하고 실제 분석을 실행하세요. 초기 국면에서는 e4와 d4 같은 두 후보를 비교할 수 있습니다.</p><p>해설은 두 수의 평가 차이와 상대의 응수, 공통점을 제외한 개념 차이를 분리해 제시합니다. 알려지지 않은 인과적 전략을 만들어내지 않습니다.</p></div>
 <div id="results" class="hidden" aria-live="polite">
 <div class="panel">
-<h2>실제 엔진 평가</h2><p id="compareTitle"></p><div class="kv"><div class="tile">깊이 8의 A−B<strong id="gap8">—</strong></div><div class="tile">깊이 10의 A−B<strong id="gap10">—</strong></div></div><p id="uncertainty" class="warning"></p><p id="historyResult" class="note"></p><table><thead><tr><th>깊이</th><th>A</th><th>B</th><th>차이 A−B</th></tr></thead><tbody id="scores"></tbody></table>
+<h2>실제 엔진 평가</h2><p id="compareTitle"></p><p id="evaluationProvenance" class="note" aria-live="polite"></p><div class="kv"><div class="tile">깊이 8의 A−B<strong id="gap8">—</strong></div><div class="tile">깊이 10의 A−B<strong id="gap10">—</strong></div></div><p id="uncertainty" class="warning"></p><p id="historyResult" class="note"></p><table><thead><tr><th>깊이</th><th>A</th><th>B</th><th>차이 A−B</th></tr></thead><tbody id="scores"></tbody></table>
 </div>
 <div class="panel"><h2>서로 다르게 나타난 검증 가능한 개념</h2><p id="shared"></p><div id="concepts"></div><p class="note">개념 변화는 원본 Stockfish 내부 평가값의 원인 분해가 아닙니다. 공격 그래프와 킹 주변 공격 칸은 정의된 규칙 지표입니다.</p></div>
 <div class="panel"><h2>상대가 다른 수로 응수한다면?</h2><div id="branches" class="branches"></div><p class="note">상대의 모든 합법 응수 중 동일 Stockfish MultiPV 상위 최대 3개만 평가합니다. 최악 상황의 전수 보증은 아닙니다.</p></div>
