@@ -18,7 +18,8 @@ from urllib.parse import urlsplit
 import chess
 import chess.engine
 
-from c3x_explain_two_moves import board_from_history, generate, make_markdown, verify_board_and_pair
+from c3x_explain_two_moves import (board_from_history, generate, make_markdown,
+    verify_board_and_pair, evaluation_profile, configure_engine)
 from c3x_concept_contrast import contrast, markdown_append
 from c3x_recursive_strategy import produce as produce_two_layer_strategy
 from c3x_metamorphic_gap_audit import case_analysis as analyze_mirror_gap
@@ -74,10 +75,12 @@ def request_payload(raw, *, allow_history=False):
     return data
 
 
-def analyze_payload(payload, engine):
+def analyze_payload(payload, engine, provenance=None):
     original, a, b = verify_board_and_pair(board_from_history(payload["fen"],payload.get("history")),
                                             payload["move_a"], payload["move_b"])
     original_report = generate(original, a.uci(), b.uci(), engine)
+    if provenance is not None:
+        original_report["engine_provenance"] = provenance
     concept_report = contrast(original, a.uci(), b.uci())
     if (original_report["input_fen"] != concept_report["source_original_fen"]
         or [r["move_uci"] for r in original_report["root_candidates"]]
@@ -101,7 +104,8 @@ def analyze_payload(payload, engine):
     }
 
 
-def create_handler(engine_path):
+def create_handler(engine_path, evaluation_mode="classical", nnue_file=None):
+    profile = evaluation_profile(evaluation_mode, nnue_file)
     engine_path = str(Path(engine_path).expanduser().resolve())
     if not Path(engine_path).is_file():
         raise ValueError("P3_STOCKFISH_BINARY_MISSING")
@@ -147,7 +151,9 @@ def create_handler(engine_path):
                 self._response(200, FRONTEND.read_bytes(), "text/html; charset=utf-8")
             elif path.path == "/api/health" and not path.query:
                 self._json(200, {"schema": SCHEMA, "ready": True,
-                                 "network_binding": "127.0.0.1"})
+                                 "network_binding": "127.0.0.1",
+                                 "evaluation_mode": profile["mode"],
+                                 "nnue_sha256": profile["nnue_sha256"]})
             elif path.path == "/api/legal" and not path.query:
                 try:
                     self._json(200, legal_payload(DEFAULT_FEN))
@@ -199,10 +205,10 @@ def create_handler(engine_path):
                     with engine_mutex:
                         with chess.engine.SimpleEngine.popen_uci(engine_path,
                                                                 timeout=120) as engine:
-                            if ("stockfish" not in engine.id.get("name", "").lower()
-                                or not {"Use NNUE", "Threads", "Hash"}.issubset(engine.options)):
-                                raise RuntimeError("P3_HOLD_WRONG_ENGINE")
-                            engine.configure({"Use NNUE": False, "Threads": 1, "Hash": 16})
+                            try:
+                                provenance = configure_engine(engine, engine_path, profile)
+                            except ValueError as exc:
+                                raise RuntimeError("P3_HOLD_WRONG_ENGINE_OR_PROFILE") from exc
                             if path.path == "/api/strategy":
                                 report = produce_two_layer_strategy(
                                     request["fen"], request["move_a"],
@@ -215,7 +221,8 @@ def create_handler(engine_path):
                                     request["move_b"], engine,
                                     case_id="user_selected_fen_local_not_frozen")
                             else:
-                                report = analyze_payload(request, engine)
+                                report = analyze_payload(request, engine, provenance)
+                            report["engine_provenance"] = provenance
                     self._json(200, report)
             except (ValueError, UnicodeError, KeyError) as exc:
                 self._json(422, {"error": str(exc)})
@@ -232,11 +239,13 @@ def main():
     parser.add_argument("--stockfish", required=True,
                         help="Local original Stockfish binary path")
     parser.add_argument("--port", type=int, default=8765)
+    parser.add_argument("--evaluation-mode",choices=("classical","nnue"),default="classical")
+    parser.add_argument("--nnue-file",help="Exact pinned SF16 NNUE, required for nnue mode")
     args = parser.parse_args()
     if not 1024 <= args.port <= 65535:
         raise ValueError("P3_INVALID_LOCAL_PORT")
     with ThreadingHTTPServer(("127.0.0.1", args.port),
-                             create_handler(args.stockfish)) as server:
+                             create_handler(args.stockfish,args.evaluation_mode,args.nnue_file)) as server:
         print("C3X_P3_LOCAL_WEB_READY http://127.0.0.1:" + str(args.port),
               flush=True)
         server.serve_forever(poll_interval=0.2)
