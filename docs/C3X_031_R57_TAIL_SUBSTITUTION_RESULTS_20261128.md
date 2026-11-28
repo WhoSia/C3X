@@ -1,0 +1,14 @@
+# R57 — Archived PV tail-substitution factual stress audit
+2026-11-28. Pre-outcome rule freeze 9de63c91e3c3ae7cca15997635c6870a7b895afc. All six exposed R54 public cases, five depths, two fixed roots: 60 selected exact-cp PV records matched by root, score and node count. Actual pinned Stockfish position parser replayed 270/300 available prefixes (no new search); fullmove/side checks detect truncation. FEN-only history boundary. Python-chess not installed locally; used the declared SF16 debug FEN parser, not an independent legality checker. 
+| horizon plies | available / 60 |
+|---|---:|
+|1|60|
+|3|60|
+|5|56|
+|7|50|
+|9|44|
+42/90 case-horizon-feature cells have complete five-by-five support; 48 partial. Of complete 42, only 2 have nonzero d22 contrasts, both strict (TAC-1 simple material at h1 +100 and h3 +200, stress intervals [100,100] and [100,200]); no complete-supported opposite sign witness. Only one nonzero complete cell beyond immediate move, so this is NOT evidence of general robustness. The other 40 complete cells are not strictly separated. Partial rows include nonzero d22 material and pawn-island differences, no complete-envelope inference. No four-field FEN intersection among observed cross-root prefixes at registered odd horizons; not proof of no transpositions, and full histories unavailable. Material, passed-pawn and island counts are literal board measurements, not utilities.
+## Methodology and historical priority
+0.26 P0-D already proposed finite separating sets; 0.29 P25/P40 already falsified literal reply identity as semantic alignment; 0.29 R25 already measured k3/full reply vulnerability; 0.30 R38 independently verified 540 Berserk searches and shared-reply context-dependent reversal; 0.31 R50 already formalized robust reachability. Do not reimplement or claim novelty for those. R57 stress-tests nuisance variation within each fixed root's existing tails; a more useful next task is an executable target predicate that predicts failure on unshown replies/own continuations, evaluated on a fresh cohort, and measured against equal-budget old BRPP/Cui/CCC-style baselines. This audit's extremely low support for nonzero contrasts identifies a representation bottleneck, not a new successful strategy explanation. 
+## Custody
+Runner Git blob 2f19cc5f2d756d046c477ed7a233e8f267fb28bb matches executed bytes SHA256 df2deb16584842fa51f478674559585630d7ecda4ab6e29e84f1d32adee3c456. R54 recovered runner Git blob 87b2d81f02b80afb8ae06d523716f58a41b9fe2f matches archived bytes SHA256 d5f83ac96332b912c9ab610a6a1b19234716b7c1f19f0dfbce1543e47403d074. R57 result SHA256 d38c78bec08d9a864ed7c6e436d90675030186b365dd82253c45a7446a4d15ec; local ZIP 4129 bytes SHA256 1e7087c5050ea98c8637e31785ece9240332b8da0a78447a3ebc1372b2b088f5 CRC PASS, both runner and result included. Remote raw Drive custody unverified. 0.31 remains active, 0.32 candidate refined by prior art and new asymmetric R56 evidence.
