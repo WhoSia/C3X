@@ -19,7 +19,7 @@ from c3x_031_p2_source_intake import tournament_series,check_blocklist
 PRIOR=(1663,1664,1669,1670,1671)
 NEW=1672
 CHECKPOINTS=(40,41,50,51,60,61,70,71,80,81)
-SEED="C3X-R46-TWIC1672-PREFREEZE-v1"\n
+SEED="C3X-R46-TWIC1672-PREFREEZE-v1"
 CAP=64
 
 def sha(b):return hashlib.sha256(b).hexdigest()
