@@ -1,5 +1,7 @@
 """C3X 0.30 P1 product explanation contracts. Fake engine only in unit tests."""
 import unittest
+import tempfile
+from pathlib import Path
 from unittest.mock import Mock
 
 import chess
@@ -8,7 +10,7 @@ import chess.engine
 from c3x_explain_two_moves import (
     board_from_history,verify_board_and_pair,measured_features,difference_facts,
     root_analysis,ranked_replies_and_own_responses,generate,make_markdown,
-    ROOT_DEPTHS,REPLY_DEPTH,SCHEMA
+    ROOT_DEPTHS,REPLY_DEPTH,SCHEMA,evaluation_profile,configure_engine
 )
 
 
@@ -38,6 +40,27 @@ class SimulatedEngine:
 class ProductContracts(unittest.TestCase):
     def setUp(self):
         self.board=chess.Board()
+
+    def test_explicit_profile_no_silent_fallback(self):
+        self.assertEqual(evaluation_profile()["mode"],"classical")
+        for mode,net in (("wrong",None),("nnue",None),("classical","unused")):
+            with self.assertRaises(ValueError): evaluation_profile(mode,net)
+        with tempfile.TemporaryDirectory() as td:
+            binary=Path(td)/"sf"
+            binary.write_bytes(b"test binary")
+            net=Path(td)/"net"
+            net.write_bytes(b"wrong net")
+            with self.assertRaisesRegex(ValueError,"NNUE_IDENTITY"):
+                evaluation_profile("nnue",net)
+            engine=Mock()
+            engine.id={"name":"Stockfish 16"}
+            engine.options={"Use NNUE":None,"Threads":None,"Hash":None}
+            proof=configure_engine(engine,binary,evaluation_profile())
+            engine.configure.assert_called_once_with({"Use NNUE":False,"Threads":1,"Hash":16})
+            self.assertEqual(proof["evaluation_mode"],"classical")
+            self.assertFalse(proof["source_build_verified_by_this_call"])
+            engine.id={"name":"another engine"}
+            with self.assertRaises(ValueError): configure_engine(engine,binary,evaluation_profile())
 
     def test_legal_pair(self):
         b,a,c=verify_board_and_pair(self.board.fen(),"e2e4","d2d4")
