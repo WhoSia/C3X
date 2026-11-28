@@ -1,0 +1,106 @@
+name: C3X R56 reciprocal history transfer
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'tools/c3x_031_r56_history_transfer_overlay.py'
+      - 'harness/c3x_031_r56_history_transfer_court.py'
+      - '.github/workflows/c3x-031-r56-history-transfer.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  native:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install 'chess==1.11.2'
+      - uses: actions/download-artifact@v4
+        with:
+          repository: WhoSia/C3X
+          run-id: '46118818827'
+          name: c3x-r46-source-aggregate-only
+          github-token: ${{ github.token }}
+          path: /tmp/r56-census
+      - uses: actions/download-artifact@v4
+        with:
+          repository: WhoSia/C3X
+          run-id: '44872473600'
+          name: c3x031-p2-pinned-SF16-native-source-build-no-treatments
+          github-token: ${{ github.token }}
+          path: /tmp/r56-build
+      - uses: actions/download-artifact@v4
+        with:
+          repository: WhoSia/C3X
+          run-id: '46121777407'
+          name: c3x-r47-untreated-discovery-receipt
+          github-token: ${{ github.token }}
+          path: /tmp/r56-discovery
+      - uses: actions/download-artifact@v4
+        with:
+          repository: WhoSia/C3X
+          run-id: '46122232838'
+          name: c3x-r48-source-intervention-receipt
+          github-token: ${{ github.token }}
+          path: /tmp/r56-prior
+      - uses: actions/download-artifact@v4
+        with:
+          repository: WhoSia/C3X
+          run-id: '46125189061'
+          name: c3x-r53-history-contact-receipt
+          github-token: ${{ github.token }}
+          path: /tmp/r56-contact
+      - name: Restore publisher bytes in ephemeral directory
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/r56-source public
+          curl --fail --location --retry 2 --max-time 90 --silent --show-error https://theweekinchess.com/zips/twic1672g.zip -o /tmp/r56-source/twic1672g.zip
+          echo 'd1c90cb7fe483e428446fc699c9f67daad742234c5badfe0df393d341ac11862  /tmp/r56-source/twic1672g.zip' | sha256sum -c -
+          chmod +x /tmp/r56-build/c3x031-p2-SF16-patched /tmp/r56-build/c3x031-p2-SF16-pre-R33-reference
+      - name: Build exact original patch stack plus reversible observer
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/r56-native build
+          git clone -q --single-branch --branch sf_16 https://github.com/official-stockfish/Stockfish.git /tmp/r56-sf16
+          test "$(git -C /tmp/r56-sf16 rev-parse HEAD)" = "68e1e9b3811e16cad014b590d7443b9063b3eb52"
+          python - <<'PY'
+          import hashlib
+          from pathlib import Path
+          p=Path('/tmp/r56-build/P2_PATCH_SEQUENCE_SHA256SUMS')
+          expected={Path(line.split(maxsplit=1)[1]).name:line.split()[0] for line in p.read_text().splitlines() if line.strip()}
+          names=['R27-tt-choice-producers.patch','R29-local-tt-move.patch','R29-producer-tt-value.patch','R30-separate-picker-singular.patch','R31-tt-scout-pv.patch','R31-pv-fail-low.patch','R33-prospective-gates.patch']
+          assert set(expected)==set(names)
+          for name in names:
+              assert hashlib.sha256((Path('patches/stockfish16')/name).read_bytes()).hexdigest()==expected[name],name
+          PY
+          for patch in R27-tt-choice-producers.patch R29-local-tt-move.patch R29-producer-tt-value.patch R30-separate-picker-singular.patch R31-tt-scout-pv.patch R31-pv-fail-low.patch R33-prospective-gates.patch; do
+            git -C /tmp/r56-sf16 apply --check "$GITHUB_WORKSPACE/patches/stockfish16/$patch"
+            git -C /tmp/r56-sf16 apply "$GITHUB_WORKSPACE/patches/stockfish16/$patch"
+          done
+          python -m py_compile tools/c3x_031_r56_history_transfer_overlay.py harness/c3x_031_r56_history_transfer_court.py
+          python tools/c3x_031_r56_history_transfer_overlay.py /tmp/r56-sf16 build/R56_SOURCE_MANIFEST.json
+          cp /tmp/r56-build/nn-5af11540bbfe.nnue /tmp/r56-sf16/src/
+          make -C /tmp/r56-sf16/src -j2 build ARCH=x86-64 COMP=gcc > build/R56_BUILD_LOG.txt 2>&1
+          cp /tmp/r56-sf16/src/stockfish build/R56-SF16
+          chmod +x /tmp/r56-build/c3x031-p2-SF16-patched
+          sha256sum build/R56-SF16
+      - name: Exact R48/R53 parity and reciprocal history transplant
+        run: |
+          PYTHONPATH=harness python -u harness/c3x_031_r56_history_transfer_court.py /tmp/r56-census/R46_CENSUS.json /tmp/r56-discovery/R47_DISCOVERY.json /tmp/r56-prior/R48_INTERVENTION.json /tmp/r56-contact/R53_CONTACT.json /tmp/r56-source /tmp/r56-build/c3x031-p2-SF16-patched build/R56-SF16 /tmp/r56-build/nn-5af11540bbfe.nnue /tmp/r56-native public/R56_TRANSFER.json
+      - uses: actions/upload-artifact@v4
+        if: success()
+        with:
+          name: c3x-r56-history-transfer-receipt
+          path: public/R56_TRANSFER.json
+          retention-days: 30
+          if-no-files-found: error
+      - name: Remove publisher bytes and search traces from runner
+        if: always()
+        run: rm -rf /tmp/r56-source /tmp/r56-native
