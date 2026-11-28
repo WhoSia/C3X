@@ -202,10 +202,10 @@
       "E": 0.98,
       "C": 0.98,
       "G": 0.1,
-      "X": 0.96,
+      "X": 0.83,
       "Q": 0.96,
-      "gate": "LOCAL_DOSE_RESPONSE_PASS",
-      "evidence": "36 native searches, 18/18 repeat pairs; 95bbbfe; all alignments; exact threshold and unsampled monotonicity unknown"
+      "gate": "LOCAL_THRESHOLD_BRACKET",
+      "evidence": "36 native searches, 18/18 repeat pairs; 95bbbfe; all alignments; exact threshold and unsampled monotonicity unknown; R37 auditor clarification: only a tested transition bracket; no general dose-response"
     },
     {
       "id": "A-R48-SOURCE",
@@ -242,14 +242,14 @@
     },
     {
       "id": "B-T04-CLAUDE",
-      "scope": "collaborator reported 24 public development cases and limited ETM outputs; not independently verified",
-      "E": 0.78,
+      "scope": "collaborator report and recovered original cohort/summary blobs, partial Git tree",
+      "E": 0.9,
       "C": 0.7,
       "G": 0.2,
       "X": 0.2,
       "Q": 0.65,
-      "gate": "COLLABORATOR_REPORT_BUNDLE_HOLD",
-      "evidence": "Notion Claude R36-T04; 17/24 stable, QUI d22 3/6, PRO-1 old warning miss; bundle unavailable"
+      "gate": "BUNDLE_PARTIAL_OBJECTS_VERIFIED_SERVICE_HOLD",
+      "evidence": "Notion Claude R36-T04; 17/24 stable, QUI d22 3/6, PRO-1 old warning miss; bundle unavailable; superseding bundle 89b0767 verified, full tree unavailable"
     },
     {
       "id": "B-R52-DEPTH",
@@ -261,6 +261,50 @@
       "Q": 0.92,
       "gate": "NATIVE_CONTRACT_PASS_NOT_CALIBRATION",
       "evidence": "46124670045; 42 tests; quick [-29,0], audit [-648,0], unresolved both; no statistical CI or draw claim"
+    },
+    {
+      "id": "A-R53-CONTACT",
+      "scope": "two selected development cases; passive scalar checkpoint contact",
+      "E": 0.97,
+      "C": 0.92,
+      "G": 0.2,
+      "X": 0.43,
+      "Q": 0.92,
+      "gate": "CONTACT_PASS_MEDIATION_HOLD",
+      "evidence": "CI 46125189061 4/4 prior trace parity; R47-024 34 differing cells and 31/32 read before overwrite; R47-049 1 differing unread cell; node-dependent draw rival"
+    },
+    {
+      "id": "A-R55-SAMPLE",
+      "scope": "paired outcome-free checkpoint policy on same 64 frozen R47 games",
+      "E": 0.98,
+      "C": 0.97,
+      "G": 0.15,
+      "X": 0.15,
+      "Q": 0.94,
+      "gate": "SOURCE_DIAGNOSTIC_PASS_NOT_ADMISSION",
+      "evidence": "CI 46127361226; old 64 ply40/W; new 10 plies, W29/B35; 52 changed; 12 frozen board overlaps; no full historical admission"
+    },
+    {
+      "id": "B-R54-PREFIX",
+      "scope": "six exposed public fixed-pair development cases; d22 finite reference",
+      "E": 0.96,
+      "C": 0.93,
+      "G": 0.08,
+      "X": 0.15,
+      "Q": 0.91,
+      "gate": "NATIVE_DEVELOPMENT_PASS_CALIBRATION_HOLD",
+      "evidence": "12/12 roots, 60 exact cp; d22 resolves 2/6, shallow selects 2 with one unresolved reference, deep policies 1 each; 48.39x d18/d10 nodes"
+    },
+    {
+      "id": "B-T04-D-RECHECK",
+      "scope": "Claude exact recovered 24-row simulation; no correctness or generalization claim",
+      "E": 0.96,
+      "C": 0.88,
+      "G": 0.12,
+      "X": 0.2,
+      "Q": 0.88,
+      "gate": "PAIRED_FLAG_DIAGNOSTIC",
+      "evidence": "latest bundle 89b0767; old/new unstable flags 6/7 vs 7/7, both 11/17 stable; only PRO-1 differs; no moderate quiet stratum"
     }
   ],
   "tasks": [
@@ -471,8 +515,8 @@
       "F": 0.76,
       "B": 0.6,
       "Q": 0.91,
-      "gate": "NEW_COHORT_SOURCE_PASS_MEDIATOR_HOLD",
-      "reason": "R48 126 observed, 4 flips across four families; R51 three matched root trace contrasts, no H/TT transplant generalization"
+      "gate": "R53_READ_CONTACT_PASS_TRANSPLANT_HOLD",
+      "reason": "R48 126 observed, 4 flips across four families; R51 three matched root trace contrasts, no H/TT transplant generalization; R53 4 matched searches and no causal transplant; R55 source bias exposed"
     },
     {
       "id": "R36-T16",
@@ -506,19 +550,61 @@
       "id": "R36-T04-d",
       "track": "B",
       "action": "Finite-depth fixed-pair uncertainty and conditional explanation policy; validate selective coverage versus risk",
-      "V": 0.98,
+      "V": 0.62,
       "N": 0.55,
       "X": 0.35,
       "U": 0.97,
       "F": 0.91,
       "B": 0.25,
       "Q": 0.88,
-      "gate": "IMPLEMENTED_NATIVE_CI_PASS_COHORT_VALIDATION_HOLD",
-      "reason": "R52 CI 46124670045 42 unit tests and two native profiles; shallow always unresolved, audit all-five agreement; held-out precision/coverage unknown"
+      "gate": "DEVELOPMENT_EXECUTED_CONFIRMATION_HOLD",
+      "reason": "R54 actual 12 searches and Claude T04-d only one marginal flag gain; cost high, moderate quiet absent"
+    },
+    {
+      "id": "R36-T18",
+      "track": "A",
+      "action": "R53 reciprocal physical history checkpoint transplantation with fixed receiver nodes, self/placebo controls",
+      "V": 0.99,
+      "N": 0.93,
+      "X": 0.98,
+      "U": 0.7,
+      "F": 0.75,
+      "B": 0.55,
+      "Q": 0.9,
+      "gate": "READY_DESIGN_NATIVE_PENDING",
+      "reason": "Different history read-before-write and node-dependent draw rival observed"
+    },
+    {
+      "id": "R36-T19",
+      "track": "B",
+      "action": "Reopen founding plan-affordance trajectory question with common reply tree, transposition and action contrast; compare published methods and earlier failures",
+      "V": 0.98,
+      "N": 0.93,
+      "X": 0.88,
+      "U": 0.97,
+      "F": 0.72,
+      "B": 0.5,
+      "Q": 0.85,
+      "gate": "DESIGN_READY_VERSION_CANDIDATE",
+      "reason": "Early BRPP/LDF/event transport negative and current prefix/label reversal findings motivate new target rather than repeat"
+    },
+    {
+      "id": "R36-T20",
+      "track": "A",
+      "action": "Apply R55 hash-ranked checkpoint selection to fresh source with full historical disjoint audit and prespecified family/ply support",
+      "V": 0.96,
+      "N": 0.45,
+      "X": 0.87,
+      "U": 0.72,
+      "F": 0.8,
+      "B": 0.45,
+      "Q": 0.93,
+      "gate": "POLICY_DIAGNOSTIC_PASS_NEW_SOURCE_HOLD",
+      "reason": "R55 64 same games paired, no new independent source"
     }
   ],
-  "selected": "R36-T01; R36-T05; next A T02 in parallel when available",
-  "selection_reason": "Small reversible benchmark and collaboration unblock current user direction; retain A research bottleneck; no physical claim promotion.",
+  "selected": "R36-T18 and R36-T19; R36-T20 as source admission prerequisite",
+  "selection_reason": "R53 passive contact requires physical causality; original C3X 0.1-0.2.4 affordance problem requires a genuinely new scientific question, not deeper repetition. Pareto candidates independent; no weighted sum.",
   "transitions": [
     {
       "iteration": 1,
@@ -671,7 +757,31 @@
       "to": "CLAUDE_FIRST_RESULTS_REPORTED_BUNDLE_HOLD",
       "evidence": "Claude Notion readback; R52 depth profile CI",
       "limit": "bundle and service denominator not independently verified"
+    },
+    {
+      "iteration": 10,
+      "task": "R36-T16",
+      "from": "LOCAL_DOSE_RESPONSE_PASS",
+      "to": "LOCAL_THRESHOLD_BRACKET",
+      "evidence": "Claude F3 audit; R45 sampled endpoints only",
+      "limit": "Previous X .96 retained in historical commit; current .83 is local bracket scope"
+    },
+    {
+      "iteration": 10,
+      "task": "R36-T04-d",
+      "from": "IMPLEMENTED_NATIVE_CI_PASS_COHORT_VALIDATION_HOLD",
+      "to": "DEVELOPMENT_EXECUTED_CONFIRMATION_HOLD",
+      "evidence": "f565971ef1b345ccc6d177e395e0dc709820b04e",
+      "limit": "6 exposed positions, fixed finite reference; no generalization"
+    },
+    {
+      "iteration": 10,
+      "task": "R36-T20",
+      "from": "READY",
+      "to": "POLICY_DIAGNOSTIC_PASS_NEW_SOURCE_HOLD",
+      "evidence": "CI 46127361226 and 22032ab",
+      "limit": "No independent admission"
     }
   ],
-  "next": "Track A T15/T16 actual first internal divergence at R47-024 vs negative cases; Track B T04-d selective risk/coverage and T17 plan bounds, Claude T04-a remaining matched public outputs and bundle custody; no needless repeats or version promotion."
+  "next": "R53 reciprocal H transplant (A); freeze strategy-plan conditional reply test against historical BRPP/LDF and modern contrastive baselines (B); fresh source R55 policy; 0.32 proposed, activation pending; Claude critique via Notion."
 }
