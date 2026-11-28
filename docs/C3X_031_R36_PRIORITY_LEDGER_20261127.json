@@ -206,6 +206,39 @@
       "Q": 0.96,
       "gate": "LOCAL_DOSE_RESPONSE_PASS",
       "evidence": "36 native searches, 18/18 repeat pairs; 95bbbfe; all alignments; exact threshold and unsampled monotonicity unknown"
+    },
+    {
+      "id": "A-R48-SOURCE",
+      "scope": "new development cohort source intervention, not H transport",
+      "E": 0.96,
+      "C": 0.94,
+      "G": 0.35,
+      "X": 0.83,
+      "Q": 0.95,
+      "gate": "NEW_COHORT_SOURCE_PASS",
+      "evidence": "568 searches, 126 observed/128 slots, 4 flips, one same depth; 252 same-arm trace digest pairs identical"
+    },
+    {
+      "id": "A-R51-ROOT",
+      "scope": "three post-outcome cases: delayed, absorbed and score-only root response",
+      "E": 0.95,
+      "C": 0.9,
+      "G": 0.14,
+      "X": 0.84,
+      "Q": 0.85,
+      "gate": "MATCHED_ROOT_TRACE_PASS_MEDIATOR_HOLD",
+      "evidence": "six exact trace replays and two component interventions, native step PASS, artifact upload failed; recovered log receipt"
+    },
+    {
+      "id": "A-R49-SCALAR",
+      "scope": "local exact integer switch in exposed P2-028",
+      "E": 0.98,
+      "C": 0.98,
+      "G": 0.1,
+      "X": 0.96,
+      "Q": 0.95,
+      "gate": "LOCAL_INTEGER_SWITCH_PASS",
+      "evidence": "100 accepted searches, -4898/-4897, no source guard identified"
     }
   ],
   "tasks": [
@@ -283,15 +316,15 @@
       "id": "R36-T06",
       "track": "LIT",
       "action": "Reconcile canonical missing literature via Drive and legal intake",
-      "V": 0.8,
+      "V": 0.87,
       "N": 0.3,
       "X": 0.55,
       "U": 0.6,
       "F": 0.55,
       "B": 0.4,
       "Q": 0.8,
-      "gate": "READ_FIRST",
-      "reason": "Never maintain parallel missing ledger; check possession and write access"
+      "gate": "POSSESSION_AUDIT_UPDATE_BLOCKED",
+      "reason": "Ferns held; prior three and game refinement public text, raw custody unverified; canonical overwrite refused"
     },
     {
       "id": "R36-T07",
@@ -416,36 +449,36 @@
       "F": 0.76,
       "B": 0.6,
       "Q": 0.91,
-      "gate": "LOCAL_PASS_INDEPENDENT_SOURCE_ADMISSION_HOLD",
-      "reason": "TWIC1672 candidate verified publisher metadata; raw archive DNS blocked, family/board audit and freeze not executed"
+      "gate": "NEW_COHORT_SOURCE_PASS_MEDIATOR_HOLD",
+      "reason": "R48 126 observed, 4 flips across four families; R51 three matched root trace contrasts, no H/TT transplant generalization"
     },
     {
       "id": "R36-T16",
       "track": "A",
       "action": "Find actual downstream search predicate for mainHistory[7738] effect with source-local native witness",
-      "V": 0.9,
+      "V": 0.96,
       "N": 0.78,
       "X": 0.91,
       "U": 0.61,
       "F": 0.72,
       "B": 0.48,
       "Q": 0.87,
-      "gate": "LOCAL_DOSE_PASS_BRANCH_WITNESS_NEXT",
-      "reason": "R45 shows switch between -4914 and -4890 in both receiving worlds; no exact native branch predicate"
+      "gate": "ROOT_CONTRAST_PASS_INTERNAL_GUARD_HOLD",
+      "reason": "R51 delayed, absorbed and score-only response; source-local checkpoint before attempt27 next"
     },
     {
       "id": "R36-T17",
       "track": "B",
       "action": "Expose explicit evaluation mode and provenance, then evaluate on independent near-equal positions",
-      "V": 0.94,
+      "V": 0.95,
       "N": 0.4,
       "X": 0.4,
       "U": 0.96,
       "F": 0.83,
       "B": 0.38,
       "Q": 0.9,
-      "gate": "READY",
-      "reason": "GMBench zero near-equal pairs; avoid silent default change; evaluate mode, depth and latency"
+      "gate": "NATIVE_PROFILE_PASS_STRATEGY_BOUNDS_NEXT",
+      "reason": "R47 profiles PASS; real near-equal plan bounds still missing"
     }
   ],
   "selected": "R36-T01; R36-T05; next A T02 in parallel when available",
@@ -586,7 +619,15 @@
       "to": "LOCAL_DOSE_PASS_BRANCH_WITNESS_NEXT",
       "evidence": "R45 36 searches, 95bbbfe",
       "limit": "same exposed source; no exact threshold or branch predicate"
+    },
+    {
+      "iteration": 8,
+      "task": "R36-T15",
+      "from": "LOCAL_PASS_INDEPENDENT_SOURCE_ADMISSION_HOLD",
+      "to": "NEW_COHORT_SOURCE_PASS_MEDIATOR_HOLD",
+      "evidence": "R46b/R47/R48/R51",
+      "limit": "new development cohort, no H transplant generalization"
     }
   ],
-  "next": "T15 acquire and freeze new family; T17 explicit evaluation profile and near-equal product study; T16 native branch witness; T04 matched competitor outputs; Claude result not verified"
+  "next": "T15/T16 source-local first divergence and actual checkpoint at R47-024; compare R47-049; T17 real legal-reply strategy bounds; T06 canonical literature custody; T04 competing explanations. No repeated runs absent changed evidence need."
 }
