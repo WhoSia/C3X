@@ -153,16 +153,30 @@ function render(r) {
   const gaps=e.candidate_A_minus_B_cp_by_depth_or_null;
   $("gap8").textContent=vstr(gaps["8"])+(gaps["8"]==null?"":" cp");
   $("gap10").textContent=vstr(gaps["10"])+(gaps["10"]==null?"":" cp");
-  $("uncertainty").textContent=e.small_gap_or_mate_caution?
-    "이 결과에는 근소한 점수 차이, 깊이 간 역전 또는 메이트 평가가 포함됩니다. 우열을 단정하지 않습니다.":
-    "두 깊이에서의 우열이 유지되더라도 더 깊은 분석이나 독립 심판을 통한 확증은 없습니다.";
+  const stable=e.depth_stability;
+  const reasonLabels={INCOMPLETE:"깊이 미완료",BOUND_ONLY:"상·하한 점수만 확인",MATE_OR_NONFINITE:"메이트 또는 비유한 점수",DEPTH_SIGN_REVERSAL:"깊이 간 우열 전환",SMALL_GAP:"20cp 이하 차이",SHALLOW_ONLY:"얕은 탐색만 수행",INSUFFICIENT_EVIDENCE:"증거 부족"};
+  if(!stable || stable.status==="UNRESOLVED"){
+    const detail=stable?stable.reasons.map(x=>reasonLabels[x]||x).join(" · "):"이전 형식의 결과";
+    $("uncertainty").textContent="우열 미확정 — "+detail+". 무승부 증명이 아니며 조건별 계획을 비교합니다.";
+  }else{
+    const side=stable.status==="SAMPLED_A_PREFERENCE"?"A":"B";
+    $("uncertainty").textContent="측정 깊이에서만 후보 "+side+" 우세. 독립 심판이나 전체 최적성의 보증은 없습니다.";
+  }
+  if(stable?.finite_observed_range_cp){
+    const [lo,hi]=stable.finite_observed_range_cp;
+    $("uncertainty").textContent+=" 관측 범위 ["+lo+", "+hi+"] cp (신뢰구간 아님).";
+  }
   const tbody=$("scores");tbody.replaceChildren();
-  for(const depth of [8,10]) {
-    const tr=document.createElement("tr");
-    const k=String(depth);
-    const vals=[depth,roots[0].forced_root_evaluations[k].mover_cp_or_null_if_mate,
-      roots[1].forced_root_evaluations[k].mover_cp_or_null_if_mate,gaps[k]];
-    vals.forEach(v=>tr.append(makeCell(vstr(v))));tbody.append(tr);
+  function scoreLabel(row,k){
+    const s=row.forced_root_evaluations[k];
+    if(!s)return "미측정";
+    const value=vstr(s.mover_cp_or_null_if_mate);
+    return s.bound && s.bound!=="none"?value+" ("+s.bound+" bound)":value;
+  }
+  for(const depth of e.forced_root_depths) {
+    const tr=document.createElement("tr"),k=String(depth);
+    [depth,scoreLabel(roots[0],k),scoreLabel(roots[1],k),vstr(gaps[k])].forEach(v=>tr.append(makeCell(vstr(v))));
+    tbody.append(tr);
   }
   $("shared").textContent=Object.keys(c.concept_dimensions_shared_suppressed).length+
     "개 공통 지표는 차별 원인에서 제외했습니다.";
