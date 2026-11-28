@@ -19,7 +19,7 @@ from c3x_031_p2_source_intake import tournament_series,check_blocklist
 PRIOR=(1663,1664,1669,1670,1671)
 NEW=1672
 CHECKPOINTS=(40,41,50,51,60,61,70,71,80,81)
-SEED="C3X-R46-TWIC1672-PREFREEZE-v1"
+SEED="C3X-R46-TWIC1672-PREFREEZE-v1"\n
 CAP=64
 
 def sha(b):return hashlib.sha256(b).hexdigest()
@@ -27,6 +27,15 @@ def order(s):return sha((SEED+"/"+s).encode())
 def name(s):return unicodedata.normalize("NFC",s).casefold().strip()
 def group(s):
     n=name(s)
+    # R46b: pre-outcome title audit; deliberately conservative macro grouping.
+    if "total chess pilot" in n:return "total-chess-pilot-series"
+    if n.startswith("na youth"):return "north-american-youth-series"
+    if "charlotte fall" in n:return "charlotte-fall-series"
+    if "tch-cro" in n:return "croatian-team-series"
+    if "bundesliga" in n:return "bundesliga-series"
+    if "world cadet" in n:return "world-cadet-series"
+    if "turkic nations" in n:return "turkic-nations-series"
+    if "jerusalem" in n:return "jerusalem-series"
     if "danzhou" in n:return "danzhou-series"
     if ("u20" in n or "world junior" in n) and ("world" in n or "fide" in n):return "world-junior-series"
     if "asean plus" in n:return "asean-plus-series"
@@ -121,6 +130,9 @@ def scan(folder,blocklist,admission,out):
             sample.append({"game_sha256":game,"board_sha256":bk,"ply":ply,"ordinal":ordinal,"event":title,"macro_family":key})
             if len(sample)>=CAP:break
         if len(sample)>=CAP:break
+    assert receipt["zip_sha256"]=="d1c90cb7fe483e428446fc699c9f67daad742234c5badfe0df393d341ac11862", "new archive drift"
+    assert receipt["pgn_sha256"]=="613d2d90c008f015529e19432b32142eb643f4113c4cf285dd631f3b0b35a8d7", "new PGN drift"
+    assert counts["parsed"]==8117, "publisher census drift"
     receipt.update(counts=dict(counts),raw_family_count=len(families),publisher_listed_games=8117)
     result={"gate":"PROVISIONAL_SOURCE_AUDIT_NOT_ADMISSION","old_issues":receipts,"new_issue":receipt,
         "old_distinct_complete_histories":len(old_hashes),"old_checkpoint_board_keys":len(old_board_keys),
