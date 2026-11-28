@@ -239,6 +239,28 @@
       "Q": 0.95,
       "gate": "LOCAL_INTEGER_SWITCH_PASS",
       "evidence": "100 accepted searches, -4898/-4897, no source guard identified"
+    },
+    {
+      "id": "B-T04-CLAUDE",
+      "scope": "collaborator reported 24 public development cases and limited ETM outputs; not independently verified",
+      "E": 0.78,
+      "C": 0.7,
+      "G": 0.2,
+      "X": 0.2,
+      "Q": 0.65,
+      "gate": "COLLABORATOR_REPORT_BUNDLE_HOLD",
+      "evidence": "Notion Claude R36-T04; 17/24 stable, QUI d22 3/6, PRO-1 old warning miss; bundle unavailable"
+    },
+    {
+      "id": "B-R52-DEPTH",
+      "scope": "conservative quick/audit uncertainty contract implemented and exercised on one actual public low-material position",
+      "E": 0.96,
+      "C": 0.96,
+      "G": 0.12,
+      "X": 0.25,
+      "Q": 0.92,
+      "gate": "NATIVE_CONTRACT_PASS_NOT_CALIBRATION",
+      "evidence": "46124670045; 42 tests; quick [-29,0], audit [-648,0], unresolved both; no statistical CI or draw claim"
     }
   ],
   "tasks": [
@@ -288,15 +310,15 @@
       "id": "R36-T04",
       "track": "B",
       "action": "Matched FEN explanation comparisons and blinded judging",
-      "V": 0.9,
+      "V": 0.93,
       "N": 0.65,
       "X": 0.4,
       "U": 0.98,
       "F": 0.6,
       "B": 0.55,
       "Q": 0.7,
-      "gate": "READY_AWAITING_CLAUDE_AFTER_0200_KST",
-      "reason": "No Claude result; user reports availability after 02:00 KST; can prepare locally"
+      "gate": "CLAUDE_FIRST_RESULTS_REPORTED_BUNDLE_HOLD",
+      "reason": "Joint Notion report read; 24 public cases, 17 stable, ETM D1 and QUI-1, 11/11 facts; 23 holdout outputs pending per body, heading says 22, denominator reconciliation and bundle verification pending"
     },
     {
       "id": "R36-T05",
@@ -478,7 +500,21 @@
       "B": 0.38,
       "Q": 0.9,
       "gate": "NATIVE_PROFILE_PASS_STRATEGY_BOUNDS_NEXT",
-      "reason": "R47 profiles PASS; real near-equal plan bounds still missing"
+      "reason": "NNUE default change not prioritized; R52 depth evidence gate implemented; actual near-equal plan bounds next"
+    },
+    {
+      "id": "R36-T04-d",
+      "track": "B",
+      "action": "Finite-depth fixed-pair uncertainty and conditional explanation policy; validate selective coverage versus risk",
+      "V": 0.98,
+      "N": 0.55,
+      "X": 0.35,
+      "U": 0.97,
+      "F": 0.91,
+      "B": 0.25,
+      "Q": 0.88,
+      "gate": "IMPLEMENTED_NATIVE_CI_PASS_COHORT_VALIDATION_HOLD",
+      "reason": "R52 CI 46124670045 42 unit tests and two native profiles; shallow always unresolved, audit all-five agreement; held-out precision/coverage unknown"
     }
   ],
   "selected": "R36-T01; R36-T05; next A T02 in parallel when available",
@@ -627,7 +663,15 @@
       "to": "NEW_COHORT_SOURCE_PASS_MEDIATOR_HOLD",
       "evidence": "R46b/R47/R48/R51",
       "limit": "new development cohort, no H transplant generalization"
+    },
+    {
+      "iteration": 9,
+      "task": "R36-T04",
+      "from": "READY_AWAITING_CLAUDE_AFTER_0200_KST",
+      "to": "CLAUDE_FIRST_RESULTS_REPORTED_BUNDLE_HOLD",
+      "evidence": "Claude Notion readback; R52 depth profile CI",
+      "limit": "bundle and service denominator not independently verified"
     }
   ],
-  "next": "T15/T16 source-local first divergence and actual checkpoint at R47-024; compare R47-049; T17 real legal-reply strategy bounds; T06 canonical literature custody; T04 competing explanations. No repeated runs absent changed evidence need."
+  "next": "Track A T15/T16 actual first internal divergence at R47-024 vs negative cases; Track B T04-d selective risk/coverage and T17 plan bounds, Claude T04-a remaining matched public outputs and bundle custody; no needless repeats or version promotion."
 }
