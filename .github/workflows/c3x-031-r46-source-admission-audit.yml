@@ -1,0 +1,45 @@
+name: C3X R46 pre-outcome source admission audit
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'harness/c3x_031_r46_source_admission_audit.py'
+      - '.github/workflows/c3x-031-r46-source-admission-audit.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  source-only:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install 'chess==1.11.2'
+      - name: Fetch publisher archives into ephemeral directory
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/r46-sources public
+          for issue in 1663 1664 1669 1670 1671 1672; do
+            curl --fail --location --retry 2 --max-time 90 --silent --show-error "https://theweekinchess.com/zips/twic${issue}g.zip" -o "/tmp/r46-sources/twic${issue}g.zip"
+            sha256sum "/tmp/r46-sources/twic${issue}g.zip"
+          done
+      - name: Census and preliminary historical overlap audit without engine
+        run: |
+          set -euo pipefail
+          PYTHONPATH=harness python -u harness/c3x_031_r46_source_admission_audit.py /tmp/r46-sources frozen/C3X_031_P2_PRIOR_USED_EVENT_FAMILIES_20261121.txt frozen/C3X_031_P2_TWIC1670_EVENT_ADMISSION_20261121.json public/R46_CENSUS.json
+          sha256sum public/R46_CENSUS.json
+      - uses: actions/upload-artifact@v4
+        if: success()
+        with:
+          name: c3x-r46-source-aggregate-only
+          path: public/R46_CENSUS.json
+          if-no-files-found: error
+          retention-days: 14
+      - name: Remove publisher bytes
+        if: always()
+        run: rm -rf /tmp/r46-sources
