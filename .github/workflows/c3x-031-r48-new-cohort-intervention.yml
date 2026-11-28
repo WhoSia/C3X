@@ -1,0 +1,64 @@
+name: C3X R48 frozen new-cohort source intervention
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'harness/c3x_031_r48_new_cohort_intervention.py'
+      - '.github/workflows/c3x-031-r48-new-cohort-intervention.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  native:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install 'chess==1.11.2'
+      - uses: actions/download-artifact@v4
+        with:
+          repository: WhoSia/C3X
+          run-id: '46118818827'
+          name: c3x-r46-source-aggregate-only
+          github-token: ${{ github.token }}
+          path: /tmp/r48-census
+      - uses: actions/download-artifact@v4
+        with:
+          repository: WhoSia/C3X
+          run-id: '44872473600'
+          name: c3x031-p2-pinned-SF16-native-source-build-no-treatments
+          github-token: ${{ github.token }}
+          path: /tmp/r48-build
+      - uses: actions/download-artifact@v4
+        with:
+          repository: WhoSia/C3X
+          run-id: '46121777407'
+          name: c3x-r47-untreated-discovery-receipt
+          github-token: ${{ github.token }}
+          path: /tmp/r48-discovery
+      - name: Restore publisher bytes in ephemeral directory
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/r48-source public
+          curl --fail --location --retry 2 --max-time 90 --silent --show-error https://theweekinchess.com/zips/twic1672g.zip -o /tmp/r48-source/twic1672g.zip
+          echo 'd1c90cb7fe483e428446fc699c9f67daad742234c5badfe0df393d341ac11862  /tmp/r48-source/twic1672g.zip' | sha256sum -c -
+          chmod +x /tmp/r48-build/c3x031-p2-SF16-patched /tmp/r48-build/c3x031-p2-SF16-pre-R33-reference
+      - name: Frozen source intervention with matched sham and cold repeats
+        run: |
+          PYTHONPATH=harness python -u harness/c3x_031_r48_new_cohort_intervention.py /tmp/r48-census/R46_CENSUS.json /tmp/r48-discovery/R47_DISCOVERY.json /tmp/r48-source /tmp/r48-build/c3x031-p2-SF16-patched /tmp/r48-build/nn-5af11540bbfe.nnue /tmp/r48-native public/R48_INTERVENTION.json
+      - uses: actions/upload-artifact@v4
+        if: success()
+        with:
+          name: c3x-r48-source-intervention-receipt
+          path: public/R48_INTERVENTION.json
+          retention-days: 30
+          if-no-files-found: error
+      - name: Remove publisher bytes and search traces from runner
+        if: always()
+        run: rm -rf /tmp/r48-source /tmp/r48-native
