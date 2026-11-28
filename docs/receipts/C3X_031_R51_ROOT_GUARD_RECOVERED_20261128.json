@@ -1,0 +1,500 @@
+{
+  "cases": [
+    {
+      "arms": {
+        "both": {
+          "best": {
+            "completed": "13",
+            "move": "f1e1",
+            "nodes": "32035",
+            "previous_producer": "728",
+            "producer": "728"
+          },
+          "target_close": {
+            "event": "59",
+            "futility": "0",
+            "nodes": "6147",
+            "null_cut": "0",
+            "null_tried": "0",
+            "replies": "1",
+            "skip_f": "1",
+            "skip_n": "1",
+            "stopped": "0",
+            "value": "1401"
+          },
+          "trace_sha256": "1f1c692f8d5d9f884d5d314e4d03539809189fe75aa6dff5b1c56382a6c52693"
+        },
+        "futility_only": {
+          "best": {
+            "completed": "13",
+            "move": "a4a5",
+            "nodes": "32043",
+            "previous_producer": "726",
+            "producer": "726"
+          },
+          "target_close": {
+            "event": "59",
+            "futility": "0",
+            "nodes": "6145",
+            "null_cut": "1",
+            "null_tried": "1",
+            "replies": "0",
+            "skip_f": "1",
+            "skip_n": "0",
+            "stopped": "0",
+            "value": "-539"
+          },
+          "trace_sha256": "bac78bf678ce066b3dbe3bb1d031439c323b5a867d1be8841a54ca81321c737c"
+        },
+        "null_only": {
+          "best": {
+            "completed": "13",
+            "move": "a4a5",
+            "nodes": "32043",
+            "previous_producer": "726",
+            "producer": "726"
+          },
+          "target_close": {
+            "event": "59",
+            "futility": "1",
+            "nodes": "6145",
+            "null_cut": "0",
+            "null_tried": "0",
+            "replies": "0",
+            "skip_f": "0",
+            "skip_n": "1",
+            "stopped": "0",
+            "value": "-339"
+          },
+          "trace_sha256": "a74252ce649dcf0c86c14fbc602eeaa4f69c113735ab8b36c30a9706dac7a52d"
+        },
+        "sham": {
+          "best": {
+            "completed": "13",
+            "move": "a4a5",
+            "nodes": "32043",
+            "previous_producer": "726",
+            "producer": "726"
+          },
+          "target_close": {
+            "event": "59",
+            "futility": "1",
+            "nodes": "6145",
+            "null_cut": "0",
+            "null_tried": "0",
+            "replies": "0",
+            "skip_f": "0",
+            "skip_n": "0",
+            "stopped": "0",
+            "value": "-339"
+          },
+          "trace_sha256": "26a6891bfdb6377e1ee9286b1fe336ac2b532b02c0b0201e941491c5a73a7a05"
+        }
+      },
+      "group": "1",
+      "id": "R47-024",
+      "root_comparisons": {
+        "both": {
+          "first_context_or_order_difference": {
+            "a": {
+              "alpha": "-588",
+              "attempt": "27",
+              "beta": "-561",
+              "count": "2",
+              "depth": "11",
+              "id": "727",
+              "move": "g1g2",
+              "update": "0",
+              "value": "-628"
+            },
+            "b": {
+              "alpha": "-608",
+              "attempt": "27",
+              "beta": "-561",
+              "count": "2",
+              "depth": "11",
+              "id": "727",
+              "move": "g1g2",
+              "update": "0",
+              "value": "-628"
+            },
+            "type": "candidate"
+          },
+          "first_update_difference": null,
+          "first_value_difference": {
+            "a": {
+              "alpha": "-666",
+              "attempt": "27",
+              "beta": "-561",
+              "count": "1",
+              "depth": "12",
+              "id": "726",
+              "move": "a4a5",
+              "update": "1",
+              "value": "-588"
+            },
+            "b": {
+              "alpha": "-666",
+              "attempt": "27",
+              "beta": "-561",
+              "count": "1",
+              "depth": "12",
+              "id": "726",
+              "move": "a4a5",
+              "update": "1",
+              "value": "-608"
+            },
+            "margin_a": 78,
+            "margin_b": 58
+          },
+          "matched_attempts": 27,
+          "matched_candidates": 726,
+          "note": "same observed root context only; internal state and branch identity not certified",
+          "target_root_returns": [
+            {
+              "alpha": "-683",
+              "attempt": "19",
+              "beta": "-598",
+              "count": "2",
+              "depth": "9",
+              "id": "560",
+              "move": "a1b1",
+              "update": "0",
+              "value": "-690"
+            },
+            {
+              "alpha": "-683",
+              "attempt": "19",
+              "beta": "-598",
+              "count": "2",
+              "depth": "9",
+              "id": "560",
+              "move": "a1b1",
+              "update": "0",
+              "value": "-690"
+            }
+          ]
+        },
+        "futility_only": {
+          "first_context_or_order_difference": null,
+          "first_update_difference": null,
+          "first_value_difference": null,
+          "matched_attempts": 28,
+          "matched_candidates": 762,
+          "note": "same observed root context only; internal state and branch identity not certified",
+          "target_root_returns": [
+            {
+              "alpha": "-683",
+              "attempt": "19",
+              "beta": "-598",
+              "count": "2",
+              "depth": "9",
+              "id": "560",
+              "move": "a1b1",
+              "update": "0",
+              "value": "-690"
+            },
+            {
+              "alpha": "-683",
+              "attempt": "19",
+              "beta": "-598",
+              "count": "2",
+              "depth": "9",
+              "id": "560",
+              "move": "a1b1",
+              "update": "0",
+              "value": "-690"
+            }
+          ]
+        },
+        "null_only": {
+          "first_context_or_order_difference": null,
+          "first_update_difference": null,
+          "first_value_difference": null,
+          "matched_attempts": 28,
+          "matched_candidates": 762,
+          "note": "same observed root context only; internal state and branch identity not certified",
+          "target_root_returns": [
+            {
+              "alpha": "-683",
+              "attempt": "19",
+              "beta": "-598",
+              "count": "2",
+              "depth": "9",
+              "id": "560",
+              "move": "a1b1",
+              "update": "0",
+              "value": "-690"
+            },
+            {
+              "alpha": "-683",
+              "attempt": "19",
+              "beta": "-598",
+              "count": "2",
+              "depth": "9",
+              "id": "560",
+              "move": "a1b1",
+              "update": "0",
+              "value": "-690"
+            }
+          ]
+        }
+      },
+      "target": {
+        "alpha": "-644",
+        "attempt": "19",
+        "beta": "-643",
+        "candidate": "560",
+        "depth": "3",
+        "eval": "-339",
+        "event": "59",
+        "excluded": "a4e8",
+        "floor": "-632",
+        "key": "5712235599784304692",
+        "nodes": "6145",
+        "null_eligible": "1",
+        "parent_stage": "reduced",
+        "ply": "4",
+        "root": "a1b1",
+        "static": "-339",
+        "tested": "d8d7"
+      }
+    },
+    {
+      "arms": {
+        "both": {
+          "best": {
+            "completed": "11",
+            "move": "d1a1",
+            "nodes": "32007",
+            "previous_producer": "957",
+            "producer": "989"
+          },
+          "target_close": {
+            "event": "31",
+            "futility": "0",
+            "nodes": "3887",
+            "null_cut": "0",
+            "null_tried": "0",
+            "replies": "1",
+            "skip_f": "1",
+            "skip_n": "1",
+            "stopped": "0",
+            "value": "1834"
+          },
+          "trace_sha256": "2353581424418fef03df4373882fc3f4c18db7d07723647a106641653a2d555e"
+        },
+        "sham": {
+          "best": {
+            "completed": "11",
+            "move": "d1a1",
+            "nodes": "32005",
+            "previous_producer": "957",
+            "producer": "989"
+          },
+          "target_close": {
+            "event": "31",
+            "futility": "1",
+            "nodes": "3885",
+            "null_cut": "0",
+            "null_tried": "0",
+            "replies": "0",
+            "skip_f": "0",
+            "skip_n": "0",
+            "stopped": "0",
+            "value": "-244"
+          },
+          "trace_sha256": "d9df332dfc9a5759ecf6232b9b048e2430c0795a73b387c258c36f002c665e3f"
+        }
+      },
+      "group": "0",
+      "id": "R47-049",
+      "root_comparisons": {
+        "both": {
+          "first_context_or_order_difference": null,
+          "first_update_difference": null,
+          "first_value_difference": null,
+          "matched_attempts": 39,
+          "matched_candidates": 1020,
+          "note": "same observed root context only; internal state and branch identity not certified",
+          "target_root_returns": [
+            {
+              "alpha": "-103",
+              "attempt": "26",
+              "beta": "-76",
+              "count": "1",
+              "depth": "10",
+              "id": "605",
+              "move": "d1a1",
+              "update": "1",
+              "value": "-104"
+            },
+            {
+              "alpha": "-103",
+              "attempt": "26",
+              "beta": "-76",
+              "count": "1",
+              "depth": "10",
+              "id": "605",
+              "move": "d1a1",
+              "update": "1",
+              "value": "-104"
+            }
+          ]
+        }
+      },
+      "target": {
+        "alpha": "-380",
+        "attempt": "26",
+        "beta": "-379",
+        "candidate": "605",
+        "depth": "1",
+        "eval": "-244",
+        "event": "31",
+        "excluded": "a5a7",
+        "floor": "-376",
+        "key": "10671335218485646550",
+        "nodes": "3885",
+        "null_eligible": "0",
+        "parent_stage": "reduced",
+        "ply": "4",
+        "root": "d1a1",
+        "static": "-244",
+        "tested": "a4a3"
+      }
+    },
+    {
+      "arms": {
+        "both": {
+          "best": {
+            "completed": "12",
+            "move": "c1e3",
+            "nodes": "32003",
+            "previous_producer": "1185",
+            "producer": "1234"
+          },
+          "target_close": {
+            "event": "193",
+            "futility": "0",
+            "nodes": "31003",
+            "null_cut": "0",
+            "null_tried": "0",
+            "replies": "1",
+            "skip_f": "1",
+            "skip_n": "1",
+            "stopped": "0",
+            "value": "-1849"
+          },
+          "trace_sha256": "cf413d1cd22cd660d502715f49d793abcf7c6132492468f33cd9e1785220b304"
+        },
+        "sham": {
+          "best": {
+            "completed": "12",
+            "move": "c1e3",
+            "nodes": "32031",
+            "previous_producer": "1185",
+            "producer": "1234"
+          },
+          "target_close": {
+            "event": "193",
+            "futility": "1",
+            "nodes": "31001",
+            "null_cut": "0",
+            "null_tried": "0",
+            "replies": "0",
+            "skip_f": "0",
+            "skip_n": "0",
+            "stopped": "0",
+            "value": "-25"
+          },
+          "trace_sha256": "32d2095af1a1ee1c5ec7b6edd03072f06c802edad0f9e4467d218439e6e1833c"
+        }
+      },
+      "group": "0",
+      "id": "R47-029",
+      "root_comparisons": {
+        "both": {
+          "first_context_or_order_difference": null,
+          "first_update_difference": null,
+          "first_value_difference": {
+            "a": {
+              "alpha": "-111",
+              "attempt": "30",
+              "beta": "-91",
+              "count": "28",
+              "depth": "13",
+              "id": "1261",
+              "move": "a1a3",
+              "update": "0",
+              "value": "-111"
+            },
+            "b": {
+              "alpha": "-111",
+              "attempt": "30",
+              "beta": "-91",
+              "count": "28",
+              "depth": "13",
+              "id": "1261",
+              "move": "a1a3",
+              "update": "0",
+              "value": "-149"
+            },
+            "margin_a": 0,
+            "margin_b": -38
+          },
+          "matched_attempts": 31,
+          "matched_candidates": 1282,
+          "note": "same observed root context only; internal state and branch identity not certified",
+          "target_root_returns": [
+            {
+              "alpha": "-111",
+              "attempt": "30",
+              "beta": "-91",
+              "count": "28",
+              "depth": "13",
+              "id": "1261",
+              "move": "a1a3",
+              "update": "0",
+              "value": "-111"
+            },
+            {
+              "alpha": "-111",
+              "attempt": "30",
+              "beta": "-91",
+              "count": "28",
+              "depth": "13",
+              "id": "1261",
+              "move": "a1a3",
+              "update": "0",
+              "value": "-149"
+            }
+          ]
+        }
+      },
+      "target": {
+        "alpha": "-149",
+        "attempt": "30",
+        "beta": "-148",
+        "candidate": "1261",
+        "depth": "1",
+        "eval": "-25",
+        "event": "193",
+        "excluded": "d5d3",
+        "floor": "-148",
+        "key": "4752020073799035599",
+        "nodes": "31001",
+        "null_eligible": "0",
+        "parent_stage": "reduced",
+        "ply": "2",
+        "root": "a1a3",
+        "static": "-25",
+        "tested": "d5d7"
+      }
+    }
+  ],
+  "native_searches": 8,
+  "new_component_searches": 2,
+  "prior_sha256": "96d45e1ebe57bfc46f7e0bc5bfeb5fb1eb48c69e9b9df396e22a56c5c1812005",
+  "replayed_searches": 6,
+  "scope": "post-outcome mechanistic case studies, six hash-bound trace replays and two new component arms; no H transport"
+}
