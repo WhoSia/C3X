@@ -27,6 +27,7 @@ from pathlib import Path
 
 import chess
 import chess.engine
+from c3x_depth_stability import assess, depth_profile
 
 ENGINE_GIT_COMMIT="68e1e9b3811e16cad014b590d7443b9063b3eb52"
 SOURCE_PRIMARY_DRIVE="https://drive.google.com/file/d/1zbNnM9shiG-IU-oFCbgB3Z5oMeKlZyNf/view"
@@ -167,6 +168,8 @@ def engine_score(info,board,origin_turn,requested_depth):
     return {
         "mover_cp_or_null_if_mate":pov.score(),
         "mover_mate_plies_or_null":pov.mate() if pov.is_mate() else None,
+        "bound":("both" if info.get("lowerbound") and info.get("upperbound") else
+                 "lower" if info.get("lowerbound") else "upper" if info.get("upperbound") else "none"),
         "depth":info["depth"],
         "nodes":info["nodes"],
         "pv_uci":[m.uci() for m in info.get("pv",[])[:8]],
@@ -251,24 +254,22 @@ def difference_facts(a,b):
             "shared_features_not_proposed_as_differentiating_reasons":True}
 
 
-def generate(board,uci_a,uci_b,engine):
+def generate(board,uci_a,uci_b,engine,*,analysis_profile="quick"):
+    depths=depth_profile(analysis_profile)
     original,aa,bb=verify_board_and_pair(board,uci_a,uci_b)
     rows=[]
     for move in (aa,bb):
         features=measured_features(original,move)
-        root_depths={str(d):root_analysis(original,move,engine,d) for d in ROOT_DEPTHS}
+        root_depths={str(d):root_analysis(original,move,engine,d) for d in depths}
         alternatives=ranked_replies_and_own_responses(original,move,engine)
         rows.append({"move_uci":move.uci(),"facts":features,
                      "forced_root_evaluations":root_depths,
                      "opponent_reply_probe":alternatives})
     d=difference_facts(rows[0]["facts"],rows[1]["facts"])
-    cp=[]
-    for depth in ROOT_DEPTHS:
-        left=rows[0]["forced_root_evaluations"][str(depth)]["mover_cp_or_null_if_mate"]
-        right=rows[1]["forced_root_evaluations"][str(depth)]["mover_cp_or_null_if_mate"]
-        cp.append(left-right if left is not None and right is not None else None)
-    flip=(cp[0] is not None and cp[1] is not None and cp[0]*cp[1]<0)
-    could_be_tie=(any(v is None for v in cp) or min(abs(v) for v in cp)<=20 or flip)
+    stability=assess(rows,analysis_profile)
+    gaps=stability["gaps_cp"]
+    flip="DEPTH_SIGN_REVERSAL" in stability["reasons"]
+    could_be_tie=stability["status"]=="UNRESOLVED"
     return {
         "schema":SCHEMA,"input_fen":original.fen(en_passant="fen"),
         "input_history_scope":("PROVIDED_MOVE_STACK" if original.move_stack else
@@ -276,12 +277,13 @@ def generate(board,uci_a,uci_b,engine):
         "input_history_ply_count":len(original.move_stack),
         "native_source_stockfish_commit":ENGINE_GIT_COMMIT,
         "score_perspective":"ORIGINAL_ROOT_MOVER",
-        "forced_root_depths":list(ROOT_DEPTHS),
+        "forced_root_depths":list(depths),
+        "depth_stability":stability,
         "reply_selection_depth":REPLY_DEPTH,
         "reply_top_k":REPLIES_K,
         "root_candidates":rows,
         "contrastive_measured_facts":d,
-        "candidate_A_minus_B_cp_by_depth_or_null":dict(zip(map(str,ROOT_DEPTHS),cp)),
+        "candidate_A_minus_B_cp_by_depth_or_null":gaps,
         "candidate_preference_sign_flipped_across_depths":flip,
         "small_gap_or_mate_caution":could_be_tie,
         "no_full_reply_worst_case_claim":True,
@@ -311,15 +313,21 @@ def make_markdown(report):
         "| 탐색 깊이 | 후보 A (cp) | 후보 B (cp) | A−B (cp) |",
         "|---|---:|---:|---:|",
     ]
-    for depth in ROOT_DEPTHS:
-        av=a["forced_root_evaluations"][str(depth)]["mover_cp_or_null_if_mate"]
-        bv=b["forced_root_evaluations"][str(depth)]["mover_cp_or_null_if_mate"]
+    def display_score(root,depth):
+        score=root["forced_root_evaluations"][str(depth)]
+        cp=score["mover_cp_or_null_if_mate"]
+        val=str(cp) if cp is not None else "mate"
+        bound=score.get("bound","none")
+        return val if bound=="none" else val+" ("+bound+" bound)"
+    for depth in report["forced_root_depths"]:
+        av=display_score(a,depth)
+        bv=display_score(b,depth)
         diff=report["candidate_A_minus_B_cp_by_depth_or_null"][str(depth)]
         lines.append(f"| {depth} | {av if av is not None else 'mate'} | "
                      f"{bv if bv is not None else 'mate'} | "
                      f"{diff if diff is not None else '미정'} |")
     lines += ["",
-        "깊이 8과 10은 같은 Stockfish의 유한 깊이 탐색 결과다. "
+        "표의 깊이는 같은 Stockfish의 유한 깊이 탐색 결과다. "
         "두 깊이의 점수 차이를 통계적 신뢰구간으로 해석하지 않는다.",
         "",
         "## 2. 공통 특징을 제외한 실제 차이",
@@ -384,12 +392,19 @@ def make_markdown(report):
                          f"재검색한 가치: **{val}**")
         lines.append("")
     lines += ["## 4. 이 해설을 어디까지 믿을까?", ""]
-    if report["small_gap_or_mate_caution"]:
-        lines.append("**주의:** 작은 점수차, 깊이 간 부호 전환 또는 메이트 점수 때문에 "
-                     "두 수의 미세한 우열을 확정하지 않는다.")
+    stability=report.get("depth_stability")
+    if not stability:
+        lines.append("**우열 미확정:** 이전 형식의 보고서에는 다깊이 검증 정보가 없다.")
+    elif stability["status"]=="UNRESOLVED":
+        lines.append("**우열 미확정:** "+", ".join(stability["reasons"])+
+                     ". 조건별 계획을 비교하되 승자 이유나 무승부를 확정하지 않는다.")
     else:
-        lines.append("두 깊이에서 후보 간 점수 차가 유지됐더라도 "
-                     "보다 깊은 검색이나 독립 엔진 평가 전에는 최종 확정하지 않는다.")
+        side="A" if stability["status"]=="SAMPLED_A_PREFERENCE" else "B"
+        lines.append(f"**측정 깊이 내 후보 {side} 우세:** 모든 측정 깊이에서 같은 방향의 "
+                     "20cp 초과 차이가 관측됐다. 독립 심판·전체 수 최적성·미래 깊이의 우위를 보증하지 않는다.")
+    if stability and stability["finite_observed_range_cp"] is not None:
+        lo,hi=stability["finite_observed_range_cp"]
+        lines.append(f"측정한 A−B 범위: [{lo}, {hi}] cp (통계적 신뢰구간 아님).")
     lines += [
         "실험한 상대 응수는 전수조사가 아니며, 따라서 가능한 모든 응수에 대한 "
         "최악값이나 최적 전략의 존재를 입증하지 않는다.",
@@ -414,13 +429,14 @@ def main():
     p.add_argument("--history",help="Optional space-separated UCI moves from the standard start; must match --fen")
     p.add_argument("--evaluation-mode",choices=("classical","nnue"),default="classical")
     p.add_argument("--nnue-file",help="Exact pinned SF16 NNUE file; required only in nnue mode")
+    p.add_argument("--analysis-profile",choices=("quick","audit"),default="quick")
     a=p.parse_args()
     profile=evaluation_profile(a.evaluation_mode,a.nnue_file)
     supplied_history=None if a.history is None else a.history.split()
     board,m1,m2=verify_board_and_pair(board_from_history(a.fen,supplied_history),a.move_a,a.move_b)
     with chess.engine.SimpleEngine.popen_uci(a.engine,timeout=120) as e:
         provenance=configure_engine(e,a.engine,profile)
-        data=generate(board,m1.uci(),m2.uci(),e)
+        data=generate(board,m1.uci(),m2.uci(),e,analysis_profile=a.analysis_profile)
     data["engine_provenance"]=provenance
     data["actual_engine_binary_sha256"]=provenance["engine_binary_sha256"]
     dest=Path(a.out_json)
