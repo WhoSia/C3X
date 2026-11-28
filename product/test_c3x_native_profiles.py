@@ -31,7 +31,7 @@ def check(prov,mode):
         and prov["threads"]==1 and prov["hash_mib"]==16
         and not prov["source_build_verified_by_this_call"],"wrong profile receipt")
 
-def http(server,method,path,payload=None):
+def request_http(server,method,path,payload=None):
     conn=http.client.HTTPConnection("127.0.0.1",server.server_port,timeout=120)
     try:
         conn.request(method,path,body=None if payload is None else json.dumps(payload),
@@ -52,12 +52,12 @@ def main():
         server=ThreadingHTTPServer(("127.0.0.1",0),create_handler(a.binary,mode,net))
         thread=threading.Thread(target=server.serve_forever,daemon=True);thread.start()
         try:
-            status,health=http(server,"GET","/api/health")
+            status,health=request_http(server,"GET","/api/health")
             require(status==200 and health["evaluation_mode"]==mode,"health profile")
-            status,_=http(server,"POST","/api/analyze",dict(CASES["start"],evaluation_mode="other"))
+            status,_=request_http(server,"POST","/api/analyze",dict(CASES["start"],evaluation_mode="other"))
             require(status==422,"request override accepted")
             for label,payload in CASES.items():
-                status,data=http(server,"POST","/api/analyze",payload)
+                status,data=request_http(server,"POST","/api/analyze",payload)
                 require(status==200,"actual HTTP analysis "+str(data)[:200])
                 report=data["engine_report"]
                 check(data["engine_provenance"],mode);check(report["engine_provenance"],mode)
@@ -79,7 +79,7 @@ def main():
                 Path(str(prefix)+"-http.json").write_text(json.dumps(data,ensure_ascii=False,indent=2)+"\n")
                 rows[f"{mode}/{label}"]={"gaps":report[key],"history_ply":report["input_history_ply_count"]}
             for path in ("/api/strategy","/api/mirror"):
-                status,data=http(server,"POST",path,CASES["start"])
+                status,data=request_http(server,"POST",path,CASES["start"])
                 require(status==200,"adjacent real route "+path)
                 check(data["engine_provenance"],mode)
             print("R47_PROFILE_PASS",mode,flush=True)
