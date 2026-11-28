@@ -20,6 +20,7 @@ import chess.engine
 
 from c3x_explain_two_moves import (board_from_history, generate, make_markdown,
     verify_board_and_pair, evaluation_profile, configure_engine)
+from c3x_depth_stability import depth_profile
 from c3x_concept_contrast import contrast, markdown_append
 from c3x_recursive_strategy import produce as produce_two_layer_strategy
 from c3x_metamorphic_gap_audit import case_analysis as analyze_mirror_gap
@@ -75,10 +76,10 @@ def request_payload(raw, *, allow_history=False):
     return data
 
 
-def analyze_payload(payload, engine, provenance=None):
+def analyze_payload(payload, engine, provenance=None, analysis_profile="quick"):
     original, a, b = verify_board_and_pair(board_from_history(payload["fen"],payload.get("history")),
                                             payload["move_a"], payload["move_b"])
-    original_report = generate(original, a.uci(), b.uci(), engine)
+    original_report = generate(original, a.uci(), b.uci(), engine, analysis_profile=analysis_profile)
     if provenance is not None:
         original_report["engine_provenance"] = provenance
     concept_report = contrast(original, a.uci(), b.uci())
@@ -104,7 +105,8 @@ def analyze_payload(payload, engine, provenance=None):
     }
 
 
-def create_handler(engine_path, evaluation_mode="classical", nnue_file=None):
+def create_handler(engine_path, evaluation_mode="classical", nnue_file=None, analysis_profile="quick"):
+    depth_profile(analysis_profile)
     profile = evaluation_profile(evaluation_mode, nnue_file)
     engine_path = str(Path(engine_path).expanduser().resolve())
     if not Path(engine_path).is_file():
@@ -153,6 +155,7 @@ def create_handler(engine_path, evaluation_mode="classical", nnue_file=None):
                 self._json(200, {"schema": SCHEMA, "ready": True,
                                  "network_binding": "127.0.0.1",
                                  "evaluation_mode": profile["mode"],
+                                 "analysis_profile": analysis_profile,
                                  "nnue_sha256": profile["nnue_sha256"]})
             elif path.path == "/api/legal" and not path.query:
                 try:
@@ -221,7 +224,7 @@ def create_handler(engine_path, evaluation_mode="classical", nnue_file=None):
                                     request["move_b"], engine,
                                     case_id="user_selected_fen_local_not_frozen")
                             else:
-                                report = analyze_payload(request, engine, provenance)
+                                report = analyze_payload(request, engine, provenance, analysis_profile)
                             report["engine_provenance"] = provenance
                     self._json(200, report)
             except (ValueError, UnicodeError, KeyError) as exc:
@@ -241,11 +244,12 @@ def main():
     parser.add_argument("--port", type=int, default=8765)
     parser.add_argument("--evaluation-mode",choices=("classical","nnue"),default="classical")
     parser.add_argument("--nnue-file",help="Exact pinned SF16 NNUE, required for nnue mode")
+    parser.add_argument("--analysis-profile",choices=("quick","audit"),default="quick")
     args = parser.parse_args()
     if not 1024 <= args.port <= 65535:
         raise ValueError("P3_INVALID_LOCAL_PORT")
     with ThreadingHTTPServer(("127.0.0.1", args.port),
-                             create_handler(args.stockfish,args.evaluation_mode,args.nnue_file)) as server:
+                             create_handler(args.stockfish,args.evaluation_mode,args.nnue_file,args.analysis_profile)) as server:
         print("C3X_P3_LOCAL_WEB_READY http://127.0.0.1:" + str(args.port),
               flush=True)
         server.serve_forever(poll_interval=0.2)
