@@ -305,6 +305,28 @@
       "Q": 0.88,
       "gate": "PAIRED_FLAG_DIAGNOSTIC",
       "evidence": "latest bundle 89b0767; old/new unstable flags 6/7 vs 7/7, both 11/17 stable; only PRO-1 differs; no moderate quiet stratum"
+    },
+    {
+      "id": "A-R56-ASYMMETRIC",
+      "scope": "R47-024 exposed receiving pair, fixed node budget; R47-049 control",
+      "E": 0.97,
+      "C": 0.95,
+      "G": 0.18,
+      "X": 0.84,
+      "Q": 0.92,
+      "gate": "ONE_WAY_MOVE_TRANSFER_PASS_RECIPROCAL_RESCUE_FAIL",
+      "evidence": "CI 46139929182, 20 actual searches, contact32/full34 sham a4a5→f1e1, Y1 -588→-602 not donor -608; reverse no move rescue depth13→12; complement and R47-049 preserve own results"
+    },
+    {
+      "id": "B-R57-TAIL",
+      "scope": "three symbolic facts on 60 archived R54 PVs and 270 actual position-parser replays; exposed FEN-only",
+      "E": 0.95,
+      "C": 0.91,
+      "G": 0.08,
+      "X": 0.12,
+      "Q": 0.85,
+      "gate": "FACT_STRESS_DIAGNOSTIC_REPRESENTATION_HOLD",
+      "evidence": "42/90 complete-supported cells, two strict nonzero both TAC-1 material, only one beyond immediate root; 48 partial, no independent legality judge or new search"
     }
   ],
   "tasks": [
@@ -571,8 +593,8 @@
       "F": 0.75,
       "B": 0.55,
       "Q": 0.9,
-      "gate": "READY_DESIGN_NATIVE_PENDING",
-      "reason": "Different history read-before-write and node-dependent draw rival observed"
+      "gate": "ASYMMETRIC_TRANSFER_PASS_RECIPROCAL_FAIL",
+      "reason": "R56 full/contact forward changes recommendation at same completed depth; reverse retains original move and changes completed depth; no exact endpoint rescue"
     },
     {
       "id": "R36-T19",
@@ -585,8 +607,8 @@
       "F": 0.72,
       "B": 0.5,
       "Q": 0.85,
-      "gate": "DESIGN_READY_VERSION_CANDIDATE",
-      "reason": "Early BRPP/LDF/event transport negative and current prefix/label reversal findings motivate new target rather than repeat"
+      "gate": "TAIL_DIAGNOSTIC_PASS_PREDICATE_HOLD",
+      "reason": "R57 only two nonzero complete contrasts, both tactical material; R50/R38/R25 already cover robust reply research; focus falsifiable plan predicate"
     },
     {
       "id": "R36-T20",
@@ -601,10 +623,38 @@
       "Q": 0.93,
       "gate": "POLICY_DIAGNOSTIC_PASS_NEW_SOURCE_HOLD",
       "reason": "R55 64 same games paired, no new independent source"
+    },
+    {
+      "id": "R36-T21",
+      "track": "A",
+      "action": "Test receiver-conditioned history transfer under matched completed depth and distinguish TT/root/stack and draw interaction",
+      "V": 0.99,
+      "N": 0.91,
+      "X": 0.95,
+      "U": 0.72,
+      "F": 0.74,
+      "B": 0.56,
+      "Q": 0.9,
+      "gate": "DESIGN_NEXT",
+      "reason": "R56 exact reciprocal H rescue falsified; no subset-repeat inflation"
+    },
+    {
+      "id": "R36-T22",
+      "track": "B",
+      "action": "Freeze useful plan predicates with identifiable predicted failure on unseen opponent replies, compare historical BRPP/Cui/CCC baselines",
+      "V": 0.98,
+      "N": 0.86,
+      "X": 0.88,
+      "U": 0.98,
+      "F": 0.7,
+      "B": 0.52,
+      "Q": 0.84,
+      "gate": "READY_DESIGN",
+      "reason": "R57 low support of coarse facts and earlier full-reply research; no universal motif claim"
     }
   ],
-  "selected": "R36-T18 and R36-T19; R36-T20 as source admission prerequisite",
-  "selection_reason": "R53 passive contact requires physical causality; original C3X 0.1-0.2.4 affordance problem requires a genuinely new scientific question, not deeper repetition. Pareto candidates independent; no weighted sum.",
+  "selected": "R36-T21 and R36-T22; R36-T20 fresh admission prerequisite",
+  "selection_reason": "New asymmetric causal result and sparse strategic contrast support require a different estimand; no weighted sum, keep prior negative evidence.",
   "transitions": [
     {
       "iteration": 1,
@@ -781,7 +831,23 @@
       "to": "POLICY_DIAGNOSTIC_PASS_NEW_SOURCE_HOLD",
       "evidence": "CI 46127361226 and 22032ab",
       "limit": "No independent admission"
+    },
+    {
+      "iteration": 11,
+      "task": "R36-T18",
+      "from": "READY_DESIGN_NATIVE_PENDING",
+      "to": "ASYMMETRIC_TRANSFER_PASS_RECIPROCAL_FAIL",
+      "evidence": "f78b81df1bafa7c4431514216ce65d04555d7d67",
+      "limit": "Two exposed cases, fixed node budget, no exact Y2 or reciprocal rescue"
+    },
+    {
+      "iteration": 11,
+      "task": "R36-T19",
+      "from": "DESIGN_READY_VERSION_CANDIDATE",
+      "to": "TAIL_DIAGNOSTIC_PASS_PREDICATE_HOLD",
+      "evidence": "408cfbf35857badd1a2136443ccf5bc560ea451b",
+      "limit": "No independent validation, only three literal features"
     }
   ],
-  "next": "R53 reciprocal H transplant (A); freeze strategy-plan conditional reply test against historical BRPP/LDF and modern contrastive baselines (B); fresh source R55 policy; 0.32 proposed, activation pending; Claude critique via Notion."
+  "next": "R56 common-depth/receiver-interaction study; new falsifiable plan predicate and equal-budget historical comparator; fresh R55 source; 0.32 candidate, no activation yet."
 }
