@@ -8,7 +8,7 @@ def rows(gaps,profile="audit",*,bound=None,missing=None):
         if d==missing:continue
         for i,v in enumerate((g,0)):
             out[i]["forced_root_evaluations"][str(d)]={"depth":d,"mover_cp_or_null_if_mate":v,
-                "bound":bound if i==0 and d==14 else "none"}
+                "bound":(bound or "none") if i==0 and d==14 else "none"}
     return out
 class Stability(unittest.TestCase):
     def test_shallow_large_gap_still_unresolved(self):
