@@ -137,6 +137,15 @@ function render(r) {
   $("strategyResult").classList.add("hidden");$("strategyResult").replaceChildren();
   $("empty").classList.add("hidden");$("results").classList.remove("hidden");
   const e=r.engine_report, c=r.concept_report, roots=e.root_candidates;
+  const provenance=e.engine_provenance;
+  const scope=$("evaluationProvenance");
+  scope.textContent=provenance?
+    "평가 방식: "+provenance.evaluation_mode+" · "+provenance.engine_name+
+    " · "+provenance.threads+" thread · "+provenance.hash_mib+" MiB · 실행 파일 SHA-256: "+provenance.engine_binary_sha256+
+    (provenance.nnue_sha256?" · NNUE SHA-256: "+provenance.nnue_sha256:"")+
+    " · 파일 식별 정보이며 소스 빌드 인증은 아님":
+    "평가 방식과 실행 파일 출처를 확인할 수 없습니다.";
+
   $("historyResult").textContent=e.input_history_scope==="PROVIDED_MOVE_STACK"?
     e.input_history_ply_count+"개 반수 이력 사용. "+roots.filter(x=>x.facts.threefold_position_after_move).map(x=>x.facts.san+" 이후 동일 국면 세 번째 도달 (무승부 청구 관련, 자동 종료 아님).").join(" "):
     "대국 이력 미제공: 과거 반복에 의한 무승부 권리는 확인할 수 없습니다.";
