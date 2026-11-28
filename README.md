@@ -1,7 +1,7 @@
 # C3X — Counterfactual Contrastive Chess eXplanation
 
 **Research version 0.31 · ACTIVE · scientific claims gated**  
-Updated 2026-11-27. [Canonical Notion lab](https://app.notion.com/p/3c4ef561cf92817ab76bcab15e7d1faf) · [R36 GPT-6.2 × Claude collaboration](https://app.notion.com/p/425ef561cf928191be10d1f82d7e322a)
+Updated 2026-11-28. [Canonical Notion lab](https://app.notion.com/p/3c4ef561cf92817ab76bcab15e7d1faf) · [R36 GPT-6.2 × Claude collaboration](https://app.notion.com/p/425ef561cf928191be10d1f82d7e322a)
 
 ## Research question
 
@@ -40,6 +40,8 @@ Track B includes PGN replay, typed evidence, tactical/positional proxies and pro
 - [R40 native negative TT contact, history-aware product and verified Drive receipts](docs/C3X_031_R40_CHECKPOINT_NATIVE_NEGATIVE_CONTACT_AND_HISTORY_PRODUCT_20261127.md)
 - [R41 scalar history contact, browser regression, R42 frozen rescue](docs/C3X_031_R41_HISTORY_CONTACT_AND_R42_RESCUE_20261127.md)
 - [R43–R44 singleton minimum and public reference audit](docs/C3X_031_R43_R44_SINGLE_CELL_MINIMALITY_AND_REFERENCE_AUDIT_20261128.md) · [Evidence map](docs/figures/C3X_R43_R44_EVIDENCE_MAP_20261128.svg)
+- [R54–R55 native depth-prefix diagnostic and paired checkpoint selection audit](docs/C3X_031_R54_R55_DEPTH_PREFIX_CHECKPOINT_POLICY_20261128.md): 12 native searches; 64 actual frozen-game replays; development evidence only.
+- [0.32 candidate: Conditional Plan-Affordance & Decision-Contrast Identifiability](docs/C3X_032_CONDITIONAL_PLAN_AFFORDANCE_PROPOSAL_20261128.md) — proposal, not activated; preserve 0.31 pending gates.
 - [Repository retirement and archive custody audit](docs/C3X_031_R36_REPOSITORY_RETIREMENT_AUDIT_20261127.md)
 - P3-B: R40 passive native parity PASS; 19 differing TT clusters unqueried before Y1 in the exposed P2-028 prefix. R41 identifies seven actually read changed scalar history cells and divergent node-dependent draw calls; R42 reciprocal H7 restoration transfers Y1/Y2 and final move in both exposed worlds with exact-image, self and placebo controls (24 native searches). R43/R44 show minimum cardinality one within the exposed H7 comparison; broader necessity and independent transport remain HOLD.
 - Track B: matched outputs against direct contrastive competitors; blinded correctness, robustness and pedagogical evaluation.
