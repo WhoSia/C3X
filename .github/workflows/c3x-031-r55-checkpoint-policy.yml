@@ -1,0 +1,48 @@
+name: C3X R55 paired checkpoint policy diagnostic
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'harness/c3x_031_r55_checkpoint*.py'
+      - 'tests/test_c3x_r55_checkpoint_policy.py'
+      - '.github/workflows/c3x-031-r55-checkpoint-policy.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  diagnostic:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install 'chess==1.11.2'
+      - run: PYTHONPATH=harness python -m unittest discover -s tests -p test_c3x_r55_checkpoint_policy.py -v
+      - uses: actions/download-artifact@v4
+        with:
+          repository: WhoSia/C3X
+          run-id: '46118818827'
+          name: c3x-r46-source-aggregate-only
+          github-token: ${{ github.token }}
+          path: /tmp/r55-census
+      - name: Verify source and run paired outcome-free diagnostic
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/r55-source public
+          curl --fail --location --retry 2 --max-time 90 --silent --show-error https://theweekinchess.com/zips/twic1672g.zip -o /tmp/r55-source/twic1672g.zip
+          echo 'd1c90cb7fe483e428446fc699c9f67daad742234c5badfe0df393d341ac11862  /tmp/r55-source/twic1672g.zip' | sha256sum -c -
+          PYTHONPATH=harness python -u harness/c3x_031_r55_checkpoint_audit.py /tmp/r55-census/R46_CENSUS.json /tmp/r55-source public/R55_CHECKPOINT.json
+          sha256sum public/R55_CHECKPOINT.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: c3x-r55-checkpoint-diagnostic
+          path: public/R55_CHECKPOINT.json
+          if-no-files-found: error
+          retention-days: 30
+      - if: always()
+        run: rm -rf /tmp/r55-source
