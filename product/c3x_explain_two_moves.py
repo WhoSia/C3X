@@ -42,6 +42,43 @@ def sha(path):
     return hashlib.sha256(Path(path).read_bytes()).hexdigest()
 
 
+NNUE_SHA256="5af11540bbfefcb54e38c5dd000cab4b469dfa7599a1d55be5d2722c20a8929b"
+
+def evaluation_profile(mode="classical", nnue_file=None):
+    """Explicit local profile. Never fall back to another evaluation mode."""
+    if mode not in ("classical","nnue"):
+        raise ValueError("C3X_BAD_EVALUATION_MODE")
+    if mode=="classical":
+        if nnue_file is not None:
+            raise ValueError("C3X_NNUE_FILE_WITH_CLASSICAL")
+        return {"mode":mode,"nnue_path":None,"nnue_sha256":None}
+    if nnue_file is None:
+        raise ValueError("C3X_NNUE_FILE_REQUIRED")
+    net=Path(nnue_file).expanduser().resolve()
+    if not net.is_file() or sha(net)!=NNUE_SHA256:
+        raise ValueError("C3X_NNUE_IDENTITY_MISMATCH")
+    return {"mode":mode,"nnue_path":str(net),"nnue_sha256":NNUE_SHA256}
+
+
+def configure_engine(engine, binary, profile):
+    required={"Use NNUE","Threads","Hash"}
+    if profile["mode"]=="nnue":
+        required.add("EvalFile")
+    if "stockfish" not in engine.id.get("name","").lower() or not required.issubset(engine.options):
+        raise ValueError("C3X_PRODUCT_HOLD_WRONG_ENGINE")
+    opts={"Use NNUE":profile["mode"]=="nnue","Threads":1,"Hash":16}
+    if opts["Use NNUE"]:
+        if sha(profile["nnue_path"])!=NNUE_SHA256:
+            raise ValueError("C3X_NNUE_IDENTITY_MISMATCH")
+        opts["EvalFile"]=profile["nnue_path"]
+    engine.configure(opts)
+    return {"evaluation_mode":profile["mode"],"engine_name":engine.id.get("name"),
+            "engine_binary_sha256":sha(binary),"nnue_sha256":profile["nnue_sha256"],
+            "threads":1,"hash_mib":16,"source_commit_reference":ENGINE_GIT_COMMIT,
+            "source_build_verified_by_this_call":False,
+            "scope":"requested UCI options and local file identity; not an attestation of arbitrary binary source"}
+
+
 def board_from_history(fen, history=None):
     """Replay supplied standard-start UCI history; fail closed on FEN drift.
 
@@ -288,6 +325,15 @@ def make_markdown(report):
         "## 2. 공통 특징을 제외한 실제 차이",
         "",
     ]
+    provenance=report.get("engine_provenance")
+    if provenance:
+        lines.append(f"평가 방식: **{provenance['evaluation_mode']}** · Threads={provenance['threads']} · Hash={provenance['hash_mib']} MiB.")
+        lines.append(f"실행 파일 SHA-256: `{provenance['engine_binary_sha256']}`.")
+        if provenance["nnue_sha256"]:
+            lines.append(f"NNUE SHA-256: `{provenance['nnue_sha256']}`.")
+        lines.append("실행 파일 해시는 기록했지만 이 호출에서 소스 빌드의 진위까지 증명하지는 않는다.")
+    else:
+        lines.append("평가 방식과 실행 파일 출처가 이 보고서에 별도로 확인되지 않았다.")
     history_scope=report.get("input_history_scope","LEGACY_HISTORY_UNSPECIFIED")
     if history_scope=="PROVIDED_MOVE_STACK":
         lines.append(f"제공된 {report['input_history_ply_count']}개 반수 이력을 보존했다. "
@@ -366,16 +412,17 @@ def main():
     for name in ("fen","move-a","move-b","engine","out-json","out-md"):
         p.add_argument("--"+name,required=True)
     p.add_argument("--history",help="Optional space-separated UCI moves from the standard start; must match --fen")
+    p.add_argument("--evaluation-mode",choices=("classical","nnue"),default="classical")
+    p.add_argument("--nnue-file",help="Exact pinned SF16 NNUE file; required only in nnue mode")
     a=p.parse_args()
+    profile=evaluation_profile(a.evaluation_mode,a.nnue_file)
     supplied_history=None if a.history is None else a.history.split()
     board,m1,m2=verify_board_and_pair(board_from_history(a.fen,supplied_history),a.move_a,a.move_b)
     with chess.engine.SimpleEngine.popen_uci(a.engine,timeout=120) as e:
-        if ("stockfish" not in e.id.get("name","").lower()
-            or not {"Use NNUE","Threads","Hash"}.issubset(e.options)):
-            raise ValueError("C3X_PRODUCT_HOLD_NOT_STOCKFISH_OR_UNPINNED_OPTIONS")
-        e.configure({"Use NNUE":False,"Threads":1,"Hash":16})
+        provenance=configure_engine(e,a.engine,profile)
         data=generate(board,m1.uci(),m2.uci(),e)
-    data["actual_engine_binary_sha256"]=sha(a.engine)
+    data["engine_provenance"]=provenance
+    data["actual_engine_binary_sha256"]=provenance["engine_binary_sha256"]
     dest=Path(a.out_json)
     dest.parent.mkdir(parents=True,exist_ok=True)
     dest.write_text(json.dumps(data,sort_keys=True,indent=2,allow_nan=False)+"\n",encoding="utf-8")
